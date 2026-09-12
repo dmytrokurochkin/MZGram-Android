@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MZGram strings, kept apart from upstream strings.xml to avoid merge conflicts. -->
+<resources>
+    <string name="MZGram">MZGram</string>
+    <string name="MZGramSettingsInfo">Features of this client</string>
+    <string name="MZGramGeneral">General</string>
+    <string name="MZGramTestToggle">Test switch</string>
+    <string name="MZGramTestToggleInfo">Checks that MZGram settings survive a restart. It changes nothing else.</string>
+</resources>

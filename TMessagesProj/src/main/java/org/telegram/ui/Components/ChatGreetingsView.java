@@ -63,6 +63,8 @@ public class ChatGreetingsView extends LinearLayout {
     public BackupImageView nextStickerToSendView;
     private final Theme.ResourcesProvider resourcesProvider;
     boolean wasDraw;
+    // MZGram: ported from Nekogram (NekoConfig.disableGreetingSticker).
+    boolean showGreetings = !org.telegram.messenger.mzgram.MZGramConfig.disableGreetingSticker;
 
     public ChatGreetingsView(Context context, TLRPC.User user, int currentAccount, TLRPC.Document sticker, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -234,7 +236,7 @@ public class ChatGreetingsView extends LinearLayout {
                 }
             }
         } else {
-            addView(titleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, 6, 20, 6));
+            addView(titleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, showGreetings || preview ? 6 : -2, 20, 6));
             addView(descriptionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, 6, 20, 6));
             addView(stickerContainer, LayoutHelper.createLinear(112, 112, Gravity.CENTER_HORIZONTAL, 16, 10, 16, 16));
         }
@@ -426,7 +428,7 @@ public class ChatGreetingsView extends LinearLayout {
         }
         stickerToSendView.setVisibility(View.VISIBLE);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (getMeasuredHeight() > MeasureSpec.getSize(heightMeasureSpec) && !preview) {
+        if ((!showGreetings || getMeasuredHeight() > MeasureSpec.getSize(heightMeasureSpec)) && !preview) {
             descriptionView.setVisibility(View.GONE);
             stickerToSendView.setVisibility(View.GONE);
         } else {

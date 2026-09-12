@@ -30,6 +30,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FORMAT_TIME_WITH_SECONDS = 3;
     private static final int BUTTON_ASK_BEFORE_CALL = 4;
     private static final int BUTTON_HIDE_STORIES = 5;
+    private static final int BUTTON_DISABLE_GREETING_STICKER = 6;
 
     @Override
     protected CharSequence getTitle() {
@@ -51,6 +52,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramFormatTimeWithSecondsInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
         items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramChat)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_GREETING_STICKER, getString(R.string.MZGramDisableGreetingSticker)).setChecked(MZGramConfig.disableGreetingSticker));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableGreetingStickerInfo)));
     }
 
     @Override
@@ -70,6 +75,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_STORIES) {
             MZGramConfig.toggleHideStories();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideStories);
+        } else if (item.id == BUTTON_DISABLE_GREETING_STICKER) {
+            MZGramConfig.toggleDisableGreetingSticker();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableGreetingSticker);
         }
     }
 

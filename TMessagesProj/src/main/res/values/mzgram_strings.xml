@@ -10,6 +10,9 @@
     <string name="MZGramDisableNumberRounding">Disable number rounding</string>
     <string name="MZGramDisableNumberRoundingInfo">Show exact counts of views, reactions and members: 4777 instead of 4.8K.</string>
     <string name="MZGramFormatTimeWithSeconds">Format time with seconds</string>
+    <string name="MZGramChat">Chat</string>
+    <string name="MZGramDisableGreetingSticker">Disable greeting sticker</string>
+    <string name="MZGramDisableGreetingStickerInfo">An empty chat shows only its title, without the suggested sticker to send.</string>
     <string name="MZGramHideStories">Hide Stories</string>
     <string name="MZGramHideStoriesInfo">Removes the stories row from the chat list. Stories in profiles stay. Takes effect after a restart.</string>
     <string name="MZGramAskBeforeCall">Ask before calling</string>

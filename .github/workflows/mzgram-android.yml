@@ -48,8 +48,15 @@ jobs:
             echo "::warning::No API credentials set. The APK will build but cannot sign in."
           fi
 
+      # The module has no 'release' buildType: signing and minification live on
+      # 'standalone'. assembleAfatRelease produces an unsigned APK that will not install.
       - name: Build.
-        run: ./gradlew :TMessagesProj_AppStandalone:assembleAfatRelease --console=plain
+        run: ./gradlew :TMessagesProj_AppStandalone:assembleAfatStandalone --console=plain
+
+      - name: Verify the APK is signed.
+        run: |
+          APK=$(find TMessagesProj_AppStandalone/build -name '*.apk' | head -1)
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$APK"
 
       - name: Collect artifact.
         run: |

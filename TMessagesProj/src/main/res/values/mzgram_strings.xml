@@ -4,6 +4,9 @@
     <string name="MZGram">MZGram</string>
     <string name="MZGramSettingsInfo">Features of this client</string>
     <string name="MZGramGeneral">General</string>
+    <string name="MZGramAppearance">Appearance</string>
     <string name="MZGramTestToggle">Test switch</string>
     <string name="MZGramTestToggleInfo">Checks that MZGram settings survive a restart. It changes nothing else.</string>
+    <string name="MZGramDisableNumberRounding">Disable number rounding</string>
+    <string name="MZGramDisableNumberRoundingInfo">Show exact counts of views, reactions and members: 4777 instead of 4.8K.</string>
 </resources>

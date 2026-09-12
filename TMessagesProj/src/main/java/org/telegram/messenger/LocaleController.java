@@ -2940,6 +2940,13 @@ public class LocaleController {
     }
 
     public static String formatShortNumber(int number, int[] rounded) {
+        // MZGram: ported from Nekogram (NekoConfig.disableNumberRounding).
+        if (org.telegram.messenger.mzgram.MZGramConfig.disableNumberRounding) {
+            if (rounded != null) {
+                rounded[0] = number;
+            }
+            return String.valueOf(number);
+        }
         StringBuilder K = new StringBuilder();
         int lastDec = 0;
         int KCount = 0;

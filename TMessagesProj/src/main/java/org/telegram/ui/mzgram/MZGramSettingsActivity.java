@@ -26,6 +26,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     public static final int SETTINGS_ROW_ID = 1000;
 
     private static final int BUTTON_TEST_TOGGLE = 1;
+    private static final int BUTTON_DISABLE_NUMBER_ROUNDING = 2;
 
     @Override
     protected CharSequence getTitle() {
@@ -37,6 +38,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramGeneral)));
         items.add(UItem.asCheck(BUTTON_TEST_TOGGLE, getString(R.string.MZGramTestToggle)).setChecked(MZGramConfig.testToggle));
         items.add(UItem.asShadow(getString(R.string.MZGramTestToggleInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableNumberRoundingInfo)));
     }
 
     @Override
@@ -44,6 +49,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         if (item.id == BUTTON_TEST_TOGGLE) {
             MZGramConfig.toggleTestToggle();
             ((TextCheckCell) view).setChecked(MZGramConfig.testToggle);
+        } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
+            MZGramConfig.toggleDisableNumberRounding();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);
         }
     }
 

@@ -24,6 +24,8 @@ public class MZGramConfig {
     // first real feature flag lands.
     public static boolean testToggle = false;
 
+    public static boolean disableNumberRounding = false;
+
     static {
         loadConfig(false);
     }
@@ -39,6 +41,7 @@ public class MZGramConfig {
             }
             final SharedPreferences preferences = preferences();
             testToggle = preferences.getBoolean("testToggle", false);
+            disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
             configLoaded = true;
         }
     }
@@ -50,5 +53,10 @@ public class MZGramConfig {
     public static void toggleTestToggle() {
         testToggle = !testToggle;
         putBoolean("testToggle", testToggle);
+    }
+
+    public static void toggleDisableNumberRounding() {
+        disableNumberRounding = !disableNumberRounding;
+        putBoolean("disableNumberRounding", disableNumberRounding);
     }
 }

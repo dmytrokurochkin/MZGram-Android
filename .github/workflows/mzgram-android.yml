@@ -1,0 +1,65 @@
+name: MZGram Android
+
+# Builds one APK carrying all four ABIs: arm64-v8a, armeabi-v7a, x86, x86_64.
+
+on:
+  push:
+    branches:
+      - mzgram
+      - 'mzgram/**'
+  workflow_dispatch:
+
+jobs:
+  android:
+    name: Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone.
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Set up JDK.
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK.
+        uses: android-actions/setup-android@v3
+
+      - name: Install NDK and CMake.
+        run: |
+          # Versions are pinned in TMessagesProj/build.gradle; anything else fails the build.
+          sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1" "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Apply API credentials.
+        env:
+          API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        run: |
+          BUILD_VARS=TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
+          if [ -n "$API_ID" ] && [ -n "$API_HASH" ]; then
+            sed -i "s/public static int APP_ID = [0-9]*;/public static int APP_ID = $API_ID;/" $BUILD_VARS
+            sed -i "s/public static String APP_HASH = \"[0-9a-fA-F]*\";/public static String APP_HASH = \"$API_HASH\";/" $BUILD_VARS
+            echo "Credentials applied."
+          else
+            echo "::warning::No API credentials set. The APK will build but cannot sign in."
+          fi
+
+      - name: Build.
+        run: ./gradlew :TMessagesProj_AppStandalone:assembleAfatRelease --console=plain
+
+      - name: Collect artifact.
+        run: |
+          mkdir -p artifact
+          # The module overrides outputFileName, so the APK lands under intermediates.
+          find TMessagesProj_AppStandalone/build -name '*.apk' -exec cp {} artifact/MZGram.apk \;
+          ls -lh artifact/
+
+      - name: Upload artifact.
+        uses: actions/upload-artifact@v7
+        with:
+          name: MZGram-Android
+          path: artifact/

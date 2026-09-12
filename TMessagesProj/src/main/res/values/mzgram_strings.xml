@@ -9,4 +9,6 @@
     <string name="MZGramTestToggleInfo">Checks that MZGram settings survive a restart. It changes nothing else.</string>
     <string name="MZGramDisableNumberRounding">Disable number rounding</string>
     <string name="MZGramDisableNumberRoundingInfo">Show exact counts of views, reactions and members: 4777 instead of 4.8K.</string>
+    <string name="MZGramFormatTimeWithSeconds">Format time with seconds</string>
+    <string name="MZGramFormatTimeWithSecondsInfo">Message times show seconds, such as 12:34:56. Applies to screens opened after the change.</string>
 </resources>

@@ -73,6 +73,10 @@ public class LocaleController {
 
     private volatile FastDateFormat formatterDay;
     public FastDateFormat getFormatterDay() {
+        // MZGram: ported from Nekogram (NekoConfig.formatTimeWithSeconds).
+        if (org.telegram.messenger.mzgram.MZGramConfig.formatTimeWithSeconds) {
+            return getFormatterDayWithSeconds();
+        }
         if (formatterDay == null) {
             synchronized (this) {
                 if (formatterDay == null) {

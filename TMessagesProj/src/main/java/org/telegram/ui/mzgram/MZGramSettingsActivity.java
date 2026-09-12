@@ -27,6 +27,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private static final int BUTTON_TEST_TOGGLE = 1;
     private static final int BUTTON_DISABLE_NUMBER_ROUNDING = 2;
+    private static final int BUTTON_FORMAT_TIME_WITH_SECONDS = 3;
 
     @Override
     protected CharSequence getTitle() {
@@ -42,6 +43,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableNumberRoundingInfo)));
+        items.add(UItem.asCheck(BUTTON_FORMAT_TIME_WITH_SECONDS, getString(R.string.MZGramFormatTimeWithSeconds)).setChecked(MZGramConfig.formatTimeWithSeconds));
+        items.add(UItem.asShadow(getString(R.string.MZGramFormatTimeWithSecondsInfo)));
     }
 
     @Override
@@ -52,6 +55,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);
+        } else if (item.id == BUTTON_FORMAT_TIME_WITH_SECONDS) {
+            MZGramConfig.toggleFormatTimeWithSeconds();
+            ((TextCheckCell) view).setChecked(MZGramConfig.formatTimeWithSeconds);
         }
     }
 

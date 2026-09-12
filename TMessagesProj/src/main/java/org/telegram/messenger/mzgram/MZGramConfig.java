@@ -25,6 +25,7 @@ public class MZGramConfig {
     public static boolean testToggle = false;
 
     public static boolean disableNumberRounding = false;
+    public static boolean formatTimeWithSeconds = false;
 
     static {
         loadConfig(false);
@@ -42,6 +43,7 @@ public class MZGramConfig {
             final SharedPreferences preferences = preferences();
             testToggle = preferences.getBoolean("testToggle", false);
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
+            formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             configLoaded = true;
         }
     }
@@ -58,5 +60,10 @@ public class MZGramConfig {
     public static void toggleDisableNumberRounding() {
         disableNumberRounding = !disableNumberRounding;
         putBoolean("disableNumberRounding", disableNumberRounding);
+    }
+
+    public static void toggleFormatTimeWithSeconds() {
+        formatTimeWithSeconds = !formatTimeWithSeconds;
+        putBoolean("formatTimeWithSeconds", formatTimeWithSeconds);
     }
 }

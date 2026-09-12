@@ -74,6 +74,11 @@ public class VoIPHelper {
 	private static final int VOIP_SUPPORT_ID = 4244000;
 
 	public static void startCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, final Activity activity, TLRPC.UserFull userFull, AccountInstance accountInstance) {
+		startCall(user, videoCall, canVideoCall, activity, userFull, accountInstance, false);
+	}
+
+	// MZGram: confirmed is true when the call dialog already asked the user.
+	public static void startCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, final Activity activity, TLRPC.UserFull userFull, AccountInstance accountInstance, boolean confirmed) {
 		if (accountInstance == null ? MessagesController.getInstance(UserConfig.selectedAccount).isFrozen() : accountInstance.getMessagesController().isFrozen()) {
 			AccountFrozenAlert.show(accountInstance == null ? UserConfig.selectedAccount : accountInstance.getCurrentAccount());
 			return;
@@ -98,6 +103,16 @@ public class VoIPHelper {
 				bldr.show();
 			} catch (Exception e) {
 				FileLog.e(e);
+			}
+			return;
+		}
+
+		// MZGram: ported from Nekogram (NekoConfig.askBeforeCall).
+		// VoIPPendingCall passes a null user; the dialog needs one.
+		if (org.telegram.messenger.mzgram.MZGramConfig.askBeforeCall && !confirmed && user != null && activity instanceof org.telegram.ui.LaunchActivity) {
+			final org.telegram.ui.ActionBar.BaseFragment lastFragment = ((org.telegram.ui.LaunchActivity) activity).getActionBarLayout().getLastFragment();
+			if (lastFragment != null) {
+				org.telegram.ui.Components.AlertsCreator.createCallDialogAlert(lastFragment, lastFragment.getMessagesController().getUser(user.id), videoCall);
 			}
 			return;
 		}

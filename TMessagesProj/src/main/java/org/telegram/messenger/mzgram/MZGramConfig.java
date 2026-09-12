@@ -26,6 +26,7 @@ public class MZGramConfig {
 
     public static boolean disableNumberRounding = false;
     public static boolean formatTimeWithSeconds = false;
+    public static boolean askBeforeCall = false;
 
     static {
         loadConfig(false);
@@ -44,6 +45,7 @@ public class MZGramConfig {
             testToggle = preferences.getBoolean("testToggle", false);
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
+            askBeforeCall = preferences.getBoolean("askBeforeCall", false);
             configLoaded = true;
         }
     }
@@ -65,5 +67,10 @@ public class MZGramConfig {
     public static void toggleFormatTimeWithSeconds() {
         formatTimeWithSeconds = !formatTimeWithSeconds;
         putBoolean("formatTimeWithSeconds", formatTimeWithSeconds);
+    }
+
+    public static void toggleAskBeforeCall() {
+        askBeforeCall = !askBeforeCall;
+        putBoolean("askBeforeCall", askBeforeCall);
     }
 }

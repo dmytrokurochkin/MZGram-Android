@@ -28,6 +28,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_TEST_TOGGLE = 1;
     private static final int BUTTON_DISABLE_NUMBER_ROUNDING = 2;
     private static final int BUTTON_FORMAT_TIME_WITH_SECONDS = 3;
+    private static final int BUTTON_ASK_BEFORE_CALL = 4;
 
     @Override
     protected CharSequence getTitle() {
@@ -39,6 +40,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramGeneral)));
         items.add(UItem.asCheck(BUTTON_TEST_TOGGLE, getString(R.string.MZGramTestToggle)).setChecked(MZGramConfig.testToggle));
         items.add(UItem.asShadow(getString(R.string.MZGramTestToggleInfo)));
+        items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
+        items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
@@ -58,6 +61,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_FORMAT_TIME_WITH_SECONDS) {
             MZGramConfig.toggleFormatTimeWithSeconds();
             ((TextCheckCell) view).setChecked(MZGramConfig.formatTimeWithSeconds);
+        } else if (item.id == BUTTON_ASK_BEFORE_CALL) {
+            MZGramConfig.toggleAskBeforeCall();
+            ((TextCheckCell) view).setChecked(MZGramConfig.askBeforeCall);
         }
     }
 

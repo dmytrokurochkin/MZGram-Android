@@ -282,6 +282,10 @@ public class StoriesController {
     }
 
     public boolean hasStories() {
+        // MZGram: ported from Nekogram (NekoConfig.hideStories).
+        if (org.telegram.messenger.mzgram.MZGramConfig.hideStories) {
+            return false;
+        }
         return (dialogListStories != null && dialogListStories.size() > 0) || hasSelfStories();
     }
 

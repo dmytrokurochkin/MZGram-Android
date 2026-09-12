@@ -29,6 +29,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DISABLE_NUMBER_ROUNDING = 2;
     private static final int BUTTON_FORMAT_TIME_WITH_SECONDS = 3;
     private static final int BUTTON_ASK_BEFORE_CALL = 4;
+    private static final int BUTTON_HIDE_STORIES = 5;
 
     @Override
     protected CharSequence getTitle() {
@@ -48,6 +49,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramDisableNumberRoundingInfo)));
         items.add(UItem.asCheck(BUTTON_FORMAT_TIME_WITH_SECONDS, getString(R.string.MZGramFormatTimeWithSeconds)).setChecked(MZGramConfig.formatTimeWithSeconds));
         items.add(UItem.asShadow(getString(R.string.MZGramFormatTimeWithSecondsInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
     }
 
     @Override
@@ -64,6 +67,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_ASK_BEFORE_CALL) {
             MZGramConfig.toggleAskBeforeCall();
             ((TextCheckCell) view).setChecked(MZGramConfig.askBeforeCall);
+        } else if (item.id == BUTTON_HIDE_STORIES) {
+            MZGramConfig.toggleHideStories();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideStories);
         }
     }
 

@@ -29,6 +29,7 @@ public class MZGramConfig {
     public static boolean askBeforeCall = false;
     public static boolean hideStories = false;
     public static boolean disableGreetingSticker = false;
+    public static boolean hideChannelBottomButtons = false;
 
     static {
         loadConfig(false);
@@ -50,6 +51,7 @@ public class MZGramConfig {
             askBeforeCall = preferences.getBoolean("askBeforeCall", false);
             hideStories = preferences.getBoolean("hideStories", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
+            hideChannelBottomButtons = preferences.getBoolean("hideChannelBottomButtons", false);
             configLoaded = true;
         }
     }
@@ -86,5 +88,10 @@ public class MZGramConfig {
     public static void toggleDisableGreetingSticker() {
         disableGreetingSticker = !disableGreetingSticker;
         putBoolean("disableGreetingSticker", disableGreetingSticker);
+    }
+
+    public static void toggleHideChannelBottomButtons() {
+        hideChannelBottomButtons = !hideChannelBottomButtons;
+        putBoolean("hideChannelBottomButtons", hideChannelBottomButtons);
     }
 }

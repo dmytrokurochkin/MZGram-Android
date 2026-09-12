@@ -17,6 +17,8 @@
     <string name="MZGramHideChannelBottomButtonsInfo">In channels where you cannot post, hides the bottom bar with the mute button.</string>
     <string name="MZGramHideStories">Hide Stories</string>
     <string name="MZGramHideStoriesInfo">Removes the stories row from the chat list. Stories in profiles stay. Takes effect after a restart.</string>
+    <string name="MZGramOpenArchiveOnPull">Open Archive on pull down</string>
+    <string name="MZGramOpenArchiveOnPullInfo">Pulling the chat list down past the archive row opens the archive.</string>
     <string name="MZGramAskBeforeCall">Ask before calling</string>
     <string name="MZGramAskBeforeCallInfo">Show a confirmation before a voice or video call starts.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Message times show seconds, such as 12:34:56. Applies to screens opened after the change.</string>

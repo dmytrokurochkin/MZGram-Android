@@ -32,6 +32,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_STORIES = 5;
     private static final int BUTTON_DISABLE_GREETING_STICKER = 6;
     private static final int BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS = 7;
+    private static final int BUTTON_OPEN_ARCHIVE_ON_PULL = 8;
 
     @Override
     protected CharSequence getTitle() {
@@ -45,6 +46,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramTestToggleInfo)));
         items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
         items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
+        items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramOpenArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
+        items.add(UItem.asShadow(getString(R.string.MZGramOpenArchiveOnPullInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
@@ -84,6 +87,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS) {
             MZGramConfig.toggleHideChannelBottomButtons();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideChannelBottomButtons);
+        } else if (item.id == BUTTON_OPEN_ARCHIVE_ON_PULL) {
+            MZGramConfig.toggleOpenArchiveOnPull();
+            ((TextCheckCell) view).setChecked(MZGramConfig.openArchiveOnPull);
         }
     }
 

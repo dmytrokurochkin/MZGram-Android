@@ -30,6 +30,7 @@ public class MZGramConfig {
     public static boolean hideStories = false;
     public static boolean disableGreetingSticker = false;
     public static boolean hideChannelBottomButtons = false;
+    public static boolean openArchiveOnPull = false;
 
     static {
         loadConfig(false);
@@ -52,6 +53,7 @@ public class MZGramConfig {
             hideStories = preferences.getBoolean("hideStories", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
             hideChannelBottomButtons = preferences.getBoolean("hideChannelBottomButtons", false);
+            openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             configLoaded = true;
         }
     }
@@ -93,5 +95,10 @@ public class MZGramConfig {
     public static void toggleHideChannelBottomButtons() {
         hideChannelBottomButtons = !hideChannelBottomButtons;
         putBoolean("hideChannelBottomButtons", hideChannelBottomButtons);
+    }
+
+    public static void toggleOpenArchiveOnPull() {
+        openArchiveOnPull = !openArchiveOnPull;
+        putBoolean("openArchiveOnPull", openArchiveOnPull);
     }
 }

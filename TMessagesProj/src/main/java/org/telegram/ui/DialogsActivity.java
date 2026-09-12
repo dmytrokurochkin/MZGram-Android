@@ -2271,7 +2271,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 ((DialogCell) view).startOutAnimation();
                                 parentPage.archivePullViewState = ARCHIVE_ITEM_STATE_SHOWED;
-                                if (AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
+                                // MZGram: ported from Nekogram (NekoConfig.openArchiveOnPull).
+                                if (org.telegram.messenger.mzgram.MZGramConfig.openArchiveOnPull) {
+                                    AndroidUtilities.runOnUIThread(() -> {
+                                        // Delay taken from PullForegroundDrawable.startOutAnimation().
+                                        Bundle args = new Bundle();
+                                        args.putInt("folderId", 1); // 1 is the archive folder.
+                                        args.putBoolean("onlySelect", onlySelect);
+                                        DialogsActivity dialogsActivity = new DialogsActivity(args);
+                                        dialogsActivity.setDelegate(delegate);
+                                        presentFragment(dialogsActivity, onlySelect);
+                                    }, 200);
+                                } else if (AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
                                     AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.getString(R.string.AccDescrArchivedChatsShown));
                                 }
                             }

@@ -43,6 +43,8 @@ public class MZGramConfig {
     public static boolean showMessageDetails = false;
     public static boolean showQrCode = false;
     public static boolean showNoQuoteForward = false;
+    // On by default: upstream always has this animation, the switch only turns it off.
+    public static boolean predictiveBackAnimation = true;
 
     static {
         loadConfig(false);
@@ -78,6 +80,7 @@ public class MZGramConfig {
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
             showQrCode = preferences.getBoolean("showQrCode", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
+            predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             configLoaded = true;
         }
     }
@@ -184,5 +187,10 @@ public class MZGramConfig {
     public static void toggleShowNoQuoteForward() {
         showNoQuoteForward = !showNoQuoteForward;
         putBoolean("showNoQuoteForward", showNoQuoteForward);
+    }
+
+    public static void togglePredictiveBackAnimation() {
+        predictiveBackAnimation = !predictiveBackAnimation;
+        putBoolean("predictiveBackAnimation", predictiveBackAnimation);
     }
 }

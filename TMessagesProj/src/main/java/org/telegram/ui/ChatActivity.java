@@ -1260,6 +1260,7 @@ public class ChatActivity extends BaseFragment implements
 
     // MZGram message menu items, kept clear of upstream option ids.
     public final static int OPTION_MZGRAM_COPY_PHOTO = 1001;
+    public final static int OPTION_MZGRAM_DELETE_DOWNLOADED_FILE = 1002;
 
     private final static int[] allowedNotificationsDuringChatListAnimations = new int[]{
             NotificationCenter.messagesRead,
@@ -33541,6 +33542,25 @@ public class ChatActivity extends BaseFragment implements
                 }
                 break;
             }
+            case OPTION_MZGRAM_DELETE_DOWNLOADED_FILE: {
+                if (Build.VERSION.SDK_INT >= 23 && (Build.VERSION.SDK_INT <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    getParentActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
+                    selectedObject = null;
+                    selectedObjectGroup = null;
+                    selectedObjectToEditCaption = null;
+                    return;
+                }
+                final MessageObject object = selectedObject;
+                org.telegram.messenger.mzgram.MZGramMessageHelper.clearMessageFiles(object, () -> {
+                    if (object != null) {
+                        final BaseCell cell = findMessageCell(object.getId(), false);
+                        if (cell instanceof ChatMessageCell) {
+                            ((ChatMessageCell) cell).updateButtonState(false, true, false);
+                        }
+                    }
+                });
+                break;
+            }
             case OPTION_MZGRAM_COPY_PHOTO: {
                 org.telegram.messenger.mzgram.MZGramMessageHelper.addMessageToClipboard(selectedObject, () -> {
                     if (BulletinFactory.canShowBulletin(ChatActivity.this)) {
@@ -46012,6 +46032,12 @@ public class ChatActivity extends BaseFragment implements
                         icons.add(R.drawable.msg_gif);
                     }
                 } else if (type == 4) {
+                    // MZGram: ported from Nekogram (NekoConfig.showDeleteDownloadedFile).
+                    if (org.telegram.messenger.mzgram.MZGramConfig.showDeleteDownloadedFile && !selectedObject.needDrawBluredPreview() && selectedObject.getDocument() != null) {
+                        items.add(LocaleController.getString(R.string.MZGramDeleteDownloadedFile));
+                        options.add(OPTION_MZGRAM_DELETE_DOWNLOADED_FILE);
+                        icons.add(R.drawable.msg_clear);
+                    }
                     if (!noforwardsOrPaidMedia && !selectedObject.hasRevealedExtendedMedia()) {
                         if (selectedObject.isVideo()) {
                             if (!selectedObject.needDrawBluredPreview()) {
@@ -46080,6 +46106,11 @@ public class ChatActivity extends BaseFragment implements
                         icons.add(R.drawable.msg_shareout);
                     }
                 } else if (type == 6 && !noforwardsOrPaidMedia && !selectedObject.hasRevealedExtendedMedia()) {
+                    if (org.telegram.messenger.mzgram.MZGramConfig.showDeleteDownloadedFile) {
+                        items.add(LocaleController.getString(R.string.MZGramDeleteDownloadedFile));
+                        options.add(OPTION_MZGRAM_DELETE_DOWNLOADED_FILE);
+                        icons.add(R.drawable.msg_clear);
+                    }
                     if (!selectedObject.needDrawBluredPreview() && !selectedObject.isVoiceOnce() && !selectedObject.isRoundOnce()) {
                         items.add(LocaleController.getString(R.string.SaveToGallery));
                         options.add(OPTION_SAVE_TO_GALLERY2);

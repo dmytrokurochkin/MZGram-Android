@@ -35,6 +35,7 @@ public class MZGramConfig {
     public static boolean preferOriginalQuality = false;
     public static boolean autoPauseVideo = false;
     public static boolean showCopyPhoto = false;
+    public static boolean showDeleteDownloadedFile = false;
 
     static {
         loadConfig(false);
@@ -62,6 +63,7 @@ public class MZGramConfig {
             preferOriginalQuality = preferences.getBoolean("preferOriginalQuality", false);
             autoPauseVideo = preferences.getBoolean("autoPauseVideo", false);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
+            showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", false);
             configLoaded = true;
         }
     }
@@ -128,5 +130,10 @@ public class MZGramConfig {
     public static void toggleShowCopyPhoto() {
         showCopyPhoto = !showCopyPhoto;
         putBoolean("showCopyPhoto", showCopyPhoto);
+    }
+
+    public static void toggleShowDeleteDownloadedFile() {
+        showDeleteDownloadedFile = !showDeleteDownloadedFile;
+        putBoolean("showDeleteDownloadedFile", showDeleteDownloadedFile);
     }
 }

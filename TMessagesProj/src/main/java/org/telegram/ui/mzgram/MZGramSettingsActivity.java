@@ -37,6 +37,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_PREFER_ORIGINAL_QUALITY = 10;
     private static final int BUTTON_AUTO_PAUSE_VIDEO = 11;
     private static final int BUTTON_SHOW_COPY_PHOTO = 12;
+    private static final int BUTTON_SHOW_DELETE_DOWNLOADED_FILE = 13;
 
     @Override
     protected CharSequence getTitle() {
@@ -76,6 +77,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramMessageMenu)));
         items.add(UItem.asCheck(BUTTON_SHOW_COPY_PHOTO, getString(R.string.MZGramCopyPhoto)).setChecked(MZGramConfig.showCopyPhoto));
         items.add(UItem.asShadow(getString(R.string.MZGramShowCopyPhotoInfo)));
+        items.add(UItem.asCheck(BUTTON_SHOW_DELETE_DOWNLOADED_FILE, getString(R.string.MZGramDeleteDownloadedFile)).setChecked(MZGramConfig.showDeleteDownloadedFile));
+        items.add(UItem.asShadow(getString(R.string.MZGramShowDeleteDownloadedFileInfo)));
     }
 
     @Override
@@ -116,6 +119,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SHOW_COPY_PHOTO) {
             MZGramConfig.toggleShowCopyPhoto();
             ((TextCheckCell) view).setChecked(MZGramConfig.showCopyPhoto);
+        } else if (item.id == BUTTON_SHOW_DELETE_DOWNLOADED_FILE) {
+            MZGramConfig.toggleShowDeleteDownloadedFile();
+            ((TextCheckCell) view).setChecked(MZGramConfig.showDeleteDownloadedFile);
         }
     }
 

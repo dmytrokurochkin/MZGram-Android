@@ -47,6 +47,7 @@ public class MZGramConfig {
     public static boolean predictiveBackAnimation = true;
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean gooeyAvatarAnimation = true;
+    public static boolean hideBottomNavigationBar = false;
 
     static {
         loadConfig(false);
@@ -84,6 +85,7 @@ public class MZGramConfig {
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
+            hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             configLoaded = true;
         }
     }
@@ -200,5 +202,10 @@ public class MZGramConfig {
     public static void toggleGooeyAvatarAnimation() {
         gooeyAvatarAnimation = !gooeyAvatarAnimation;
         putBoolean("gooeyAvatarAnimation", gooeyAvatarAnimation);
+    }
+
+    public static void toggleHideBottomNavigationBar() {
+        hideBottomNavigationBar = !hideBottomNavigationBar;
+        putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
     }
 }

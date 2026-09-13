@@ -180,7 +180,8 @@ public abstract class ViewPagerActivity extends BaseFragment {
     @Override
     public void clearViews() {
         if (viewPager != null) {
-            initialFragmentPosition = viewPager.getCurrentPosition();
+            // MZGram: with the tab bar hidden there is no way back from another tab.
+            initialFragmentPosition = org.telegram.messenger.mzgram.MZGramConfig.hideBottomNavigationBar ? 0 : viewPager.getCurrentPosition();
         }
         for (int a = 0, N = fragmentsArr.size(); a < N; a++) {
             final FragmentState state = fragmentsArr.valueAt(a);

@@ -47,6 +47,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SHOW_NO_QUOTE_FORWARD = 20;
     private static final int BUTTON_PREDICTIVE_BACK_ANIMATION = 21;
     private static final int BUTTON_GOOEY_AVATAR_ANIMATION = 22;
+    private static final int BUTTON_HIDE_BOTTOM_NAVIGATION_BAR = 23;
 
     @Override
     protected CharSequence getTitle() {
@@ -76,6 +77,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackAnimationInfo)));
         items.add(UItem.asCheck(BUTTON_GOOEY_AVATAR_ANIMATION, getString(R.string.MZGramGooeyAvatarAnimation)).setChecked(MZGramConfig.gooeyAvatarAnimation));
         items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideBottomNavigationBarInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramChat)));
         items.add(UItem.asCheck(BUTTON_DISABLE_GREETING_STICKER, getString(R.string.MZGramDisableGreetingSticker)).setChecked(MZGramConfig.disableGreetingSticker));
@@ -176,6 +179,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_GOOEY_AVATAR_ANIMATION) {
             MZGramConfig.toggleGooeyAvatarAnimation();
             ((TextCheckCell) view).setChecked(MZGramConfig.gooeyAvatarAnimation);
+        } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
+            MZGramConfig.toggleHideBottomNavigationBar();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
         }
     }
 

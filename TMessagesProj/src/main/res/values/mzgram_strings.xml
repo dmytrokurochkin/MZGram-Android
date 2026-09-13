@@ -20,6 +20,7 @@
     <string name="MZGramPhotoCopied">Photo copied to clipboard</string>
     <string name="MZGramShowCopyPhotoInfo">Adds Copy Photo to the menu of a downloaded photo, so it can be pasted into other apps.</string>
     <string name="MZGramShowSetReminderInfo">Adds Set a reminder to the menu of a message you can forward. It forwards the message to Saved Messages as a scheduled message at the time you pick, which then notifies you.</string>
+    <string name="MZGramShowQrCodeInfo">Scans the photo on the device when you open its menu; if it holds a QR code, QR Code appears and shows the link or text.</string>
     <string name="MZGramMessageDetails">Details</string>
     <string name="MZGramShowMessageDetailsInfo">Adds Details to the message menu: ids, sender, dates, forward source, file, media and data center of a message. Long press a value to copy it.</string>
     <string name="MZGramShowOpenInInfo">Adds Open in... to the menu of a video (Android 8 and newer). It opens the video in another app, streaming it if it is not downloaded yet.</string>

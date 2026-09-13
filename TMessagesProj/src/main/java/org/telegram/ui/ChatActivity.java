@@ -1266,6 +1266,10 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_REPEAT = 1005;
     public final static int OPTION_MZGRAM_OPEN_IN = 1006;
     public final static int OPTION_MZGRAM_DETAILS = 1007;
+    public final static int OPTION_MZGRAM_QR = 1008;
+
+    // MZGram: QR codes found in the photo of the message the menu is open for.
+    private ArrayList<String> mzgramQrResults;
 
     private final static int[] allowedNotificationsDuringChatListAnimations = new int[]{
             NotificationCenter.messagesRead,
@@ -31020,6 +31024,8 @@ public class ChatActivity extends BaseFragment implements
 
             final AtomicBoolean waitForLangDetection = new AtomicBoolean(false);
             final AtomicReference<Runnable> onLangDetectionDone = new AtomicReference(null);
+            final AtomicBoolean waitForQr = new AtomicBoolean(false);
+            final AtomicReference<Runnable> onQrDetectionDone = new AtomicReference(null);
 
             Rect rect = new Rect();
 
@@ -31878,6 +31884,28 @@ public class ChatActivity extends BaseFragment implements
                         }
                         processSelectedOption(options.get(i));
                     });
+                    if (option == OPTION_MZGRAM_QR) {
+                        cell.setVisibility(View.GONE);
+                        mzgramQrResults = null;
+                        org.telegram.ui.mzgram.MZGramQrHelper.readQrFromMessage(cell, selectedObject, selectedObjectGroup, chatListView, results -> {
+                            mzgramQrResults = results;
+                            if (results.size() == 1) {
+                                final String text = results.get(0);
+                                final String username = org.telegram.messenger.browser.Browser.extractUsername(text);
+                                if (username != null) {
+                                    cell.setSubtext("@" + username);
+                                } else if (text.startsWith("http://") || text.startsWith("https://")) {
+                                    cell.setSubtext(android.net.Uri.parse(text).getHost());
+                                } else {
+                                    cell.setSubtext(null);
+                                }
+                                cell.setVisibility(View.VISIBLE);
+                            } else if (!results.isEmpty()) {
+                                cell.setSubtext(null);
+                                cell.setVisibility(View.VISIBLE);
+                            }
+                        }, waitForQr, onQrDetectionDone);
+                    }
                     if (option == OPTION_TRANSLATE) {
                         final boolean translateEnabled = getMessagesController().getTranslateController().isContextTranslateEnabled();
                         String toLangDefault = LocaleController.getInstance().getCurrentLocale().getLanguage();
@@ -32441,8 +32469,13 @@ public class ChatActivity extends BaseFragment implements
                     }
                 }, 420);
             };
-            if (waitForLangDetection.get()) {
-                onLangDetectionDone.set(showMenu);
+            if (waitForLangDetection.get() || waitForQr.get()) {
+                if (waitForLangDetection.get()) {
+                    onLangDetectionDone.set(showMenu);
+                }
+                if (waitForQr.get()) {
+                    onQrDetectionDone.set(showMenu);
+                }
             } else {
                 showMenu.run();
             }
@@ -33555,6 +33588,10 @@ public class ChatActivity extends BaseFragment implements
                 } catch (Throwable ignore) {
 
                 }
+                break;
+            }
+            case OPTION_MZGRAM_QR: {
+                org.telegram.ui.mzgram.MZGramQrHelper.showQrDialog(this, themeDelegate, mzgramQrResults);
                 break;
             }
             case OPTION_MZGRAM_DETAILS: {
@@ -46357,6 +46394,13 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.MZGramMessageDetails));
                     options.add(OPTION_MZGRAM_DETAILS);
                     icons.add(R.drawable.msg_info);
+                }
+                // MZGram: ported from Nekogram (NekoConfig.showQrCode). The item
+                // stays hidden until a QR code is found in the photo.
+                if (org.telegram.messenger.mzgram.MZGramConfig.showQrCode && chatMode != MODE_SCHEDULED && selectedObject.isPhoto()) {
+                    items.add(LocaleController.getString(R.string.QrCode));
+                    options.add(OPTION_MZGRAM_QR);
+                    icons.add(R.drawable.msg_qrcode);
                 }
                 if (allowUnpin) {
                     items.add(LocaleController.getString(R.string.UnpinMessage));

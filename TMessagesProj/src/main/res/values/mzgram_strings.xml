@@ -15,6 +15,10 @@
     <string name="MZGramDisableGreetingStickerInfo">An empty chat shows only its title, without the suggested sticker to send.</string>
     <string name="MZGramHideChannelBottomButtons">Hide channel bottom button</string>
     <string name="MZGramHideChannelBottomButtonsInfo">In channels where you cannot post, hides the bottom bar with the mute button.</string>
+    <string name="MZGramMessageMenu">Message menu</string>
+    <string name="MZGramCopyPhoto">Copy Photo</string>
+    <string name="MZGramPhotoCopied">Photo copied to clipboard</string>
+    <string name="MZGramShowCopyPhotoInfo">Adds Copy Photo to the menu of a downloaded photo, so it can be pasted into other apps.</string>
     <string name="MZGramAutoPauseVideo">Auto pause video</string>
     <string name="MZGramAutoPauseVideoInfo">A video in the media viewer pauses when the app goes to the background or the screen turns off, and resumes when you return.</string>
     <string name="MZGramPreferOriginalQuality">Prefer original video quality</string>

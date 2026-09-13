@@ -34,6 +34,7 @@ public class MZGramConfig {
     public static boolean disableInstantCamera = false;
     public static boolean preferOriginalQuality = false;
     public static boolean autoPauseVideo = false;
+    public static boolean showCopyPhoto = false;
 
     static {
         loadConfig(false);
@@ -60,6 +61,7 @@ public class MZGramConfig {
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
             preferOriginalQuality = preferences.getBoolean("preferOriginalQuality", false);
             autoPauseVideo = preferences.getBoolean("autoPauseVideo", false);
+            showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             configLoaded = true;
         }
     }
@@ -121,5 +123,10 @@ public class MZGramConfig {
     public static void toggleAutoPauseVideo() {
         autoPauseVideo = !autoPauseVideo;
         putBoolean("autoPauseVideo", autoPauseVideo);
+    }
+
+    public static void toggleShowCopyPhoto() {
+        showCopyPhoto = !showCopyPhoto;
+        putBoolean("showCopyPhoto", showCopyPhoto);
     }
 }

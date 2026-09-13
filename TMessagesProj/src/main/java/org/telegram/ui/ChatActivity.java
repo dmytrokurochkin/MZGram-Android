@@ -1258,6 +1258,9 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_VIEW_STATISTICS = 115;
     public final static int OPTION_WELCOME_REVERT = 116;
 
+    // MZGram message menu items, kept clear of upstream option ids.
+    public final static int OPTION_MZGRAM_COPY_PHOTO = 1001;
+
     private final static int[] allowedNotificationsDuringChatListAnimations = new int[]{
             NotificationCenter.messagesRead,
             NotificationCenter.threadMessagesRead,
@@ -33538,6 +33541,14 @@ public class ChatActivity extends BaseFragment implements
                 }
                 break;
             }
+            case OPTION_MZGRAM_COPY_PHOTO: {
+                org.telegram.messenger.mzgram.MZGramMessageHelper.addMessageToClipboard(selectedObject, () -> {
+                    if (BulletinFactory.canShowBulletin(ChatActivity.this)) {
+                        BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.MZGramPhotoCopied)).show();
+                    }
+                });
+                break;
+            }
             case OPTION_SAVE_TO_GALLERY2: {
                 String path = selectedObject.messageOwner.attachPath;
                 if (path != null && path.length() > 0) {
@@ -46035,6 +46046,12 @@ public class ChatActivity extends BaseFragment implements
                                 items.add(LocaleController.getString(R.string.SaveToGallery));
                                 options.add(OPTION_SAVE_TO_GALLERY);
                                 icons.add(R.drawable.msg_gallery);
+                                // MZGram: ported from Nekogram (NekoConfig.showCopyPhoto).
+                                if (org.telegram.messenger.mzgram.MZGramConfig.showCopyPhoto) {
+                                    items.add(LocaleController.getString(R.string.MZGramCopyPhoto));
+                                    options.add(OPTION_MZGRAM_COPY_PHOTO);
+                                    icons.add(R.drawable.msg_copy);
+                                }
                             }
                         }
                     }

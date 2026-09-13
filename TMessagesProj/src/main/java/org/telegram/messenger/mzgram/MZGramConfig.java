@@ -40,6 +40,7 @@ public class MZGramConfig {
     public static boolean showSetReminder = false;
     public static boolean showRepeat = false;
     public static boolean showOpenIn = false;
+    public static boolean showMessageDetails = false;
 
     static {
         loadConfig(false);
@@ -72,6 +73,7 @@ public class MZGramConfig {
             showSetReminder = preferences.getBoolean("showSetReminder", false);
             showRepeat = preferences.getBoolean("showRepeat", false);
             showOpenIn = preferences.getBoolean("showOpenIn", false);
+            showMessageDetails = preferences.getBoolean("showMessageDetails", false);
             configLoaded = true;
         }
     }
@@ -163,5 +165,10 @@ public class MZGramConfig {
     public static void toggleShowOpenIn() {
         showOpenIn = !showOpenIn;
         putBoolean("showOpenIn", showOpenIn);
+    }
+
+    public static void toggleShowMessageDetails() {
+        showMessageDetails = !showMessageDetails;
+        putBoolean("showMessageDetails", showMessageDetails);
     }
 }

@@ -1265,6 +1265,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_SET_REMINDER = 1004;
     public final static int OPTION_MZGRAM_REPEAT = 1005;
     public final static int OPTION_MZGRAM_OPEN_IN = 1006;
+    public final static int OPTION_MZGRAM_DETAILS = 1007;
 
     private final static int[] allowedNotificationsDuringChatListAnimations = new int[]{
             NotificationCenter.messagesRead,
@@ -33556,6 +33557,10 @@ public class ChatActivity extends BaseFragment implements
                 }
                 break;
             }
+            case OPTION_MZGRAM_DETAILS: {
+                presentFragment(new org.telegram.ui.mzgram.MZGramMessageDetailsActivity(selectedObject));
+                break;
+            }
             case OPTION_MZGRAM_OPEN_IN: {
                 // Open the downloaded file directly; otherwise stream it to the
                 // chosen app through MediaStreamingProvider.
@@ -46346,6 +46351,12 @@ public class ChatActivity extends BaseFragment implements
                             icons.add(R.drawable.msg_repeat);
                         }
                     }
+                }
+                // MZGram: ported from Nekogram (NekoConfig.showMessageDetails).
+                if (org.telegram.messenger.mzgram.MZGramConfig.showMessageDetails && !selectedObject.isSponsored()) {
+                    items.add(LocaleController.getString(R.string.MZGramMessageDetails));
+                    options.add(OPTION_MZGRAM_DETAILS);
+                    icons.add(R.drawable.msg_info);
                 }
                 if (allowUnpin) {
                     items.add(LocaleController.getString(R.string.UnpinMessage));

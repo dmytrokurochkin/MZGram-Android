@@ -292,6 +292,16 @@ public class Browser {
         if (context == null || uri == null) {
             return;
         }
+        // MZGram: every way of opening a link ends here, so tracking parameters
+        // are stripped once, on the device. The cleaned link goes through this
+        // same method again; clean() returns the same Uri when nothing changes.
+        if (org.telegram.messenger.mzgram.MZGramConfig.cleanLinkTracking) {
+            final Uri cleaned = org.telegram.messenger.mzgram.MZGramLinkCleaner.clean(uri);
+            if (cleaned != uri) {
+                openUrl(context, cleaned, _allowCustom, tryTelegraph, forceNotInternalForApps, inCaseLoading, browser, allowIntent, allowInAppBrowser, forceRequest);
+                return;
+            }
+        }
         final int currentAccount = UserConfig.selectedAccount;
         boolean[] forceBrowser = new boolean[]{false};
         boolean internalUri = isInternalUri(uri, forceBrowser);

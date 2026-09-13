@@ -48,6 +48,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_PREDICTIVE_BACK_ANIMATION = 21;
     private static final int BUTTON_GOOEY_AVATAR_ANIMATION = 22;
     private static final int BUTTON_HIDE_BOTTOM_NAVIGATION_BAR = 23;
+    private static final int BUTTON_CLEAN_LINK_TRACKING = 24;
 
     @Override
     protected CharSequence getTitle() {
@@ -65,6 +66,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramOpenArchiveOnPullInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableInstantCameraInfo)));
+        items.add(UItem.asCheck(BUTTON_CLEAN_LINK_TRACKING, getString(R.string.MZGramCleanLinkTracking)).setChecked(MZGramConfig.cleanLinkTracking));
+        items.add(UItem.asShadow(getString(R.string.MZGramCleanLinkTrackingInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
@@ -182,6 +185,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
             MZGramConfig.toggleHideBottomNavigationBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
+        } else if (item.id == BUTTON_CLEAN_LINK_TRACKING) {
+            MZGramConfig.toggleCleanLinkTracking();
+            ((TextCheckCell) view).setChecked(MZGramConfig.cleanLinkTracking);
         }
     }
 

@@ -44,6 +44,8 @@
     <string name="MZGramPredictiveBackAnimationInfo">On Android 14 and newer, the back gesture previews the previous screen before you release it. Takes effect after a restart.</string>
     <string name="MZGramHideStories">Hide Stories</string>
     <string name="MZGramHideStoriesInfo">Removes the stories row from the chat list. Stories in profiles stay. Takes effect after a restart.</string>
+    <string name="MZGramCleanLinkTracking">Remove tracking from links</string>
+    <string name="MZGramCleanLinkTrackingInfo">Before a web link opens, drops tracking parameters such as utm_source, fbclid and gclid. Done on the device, without any request; Telegram links are left as they are.</string>
     <string name="MZGramDisableInstantCamera">Disable instant camera</string>
     <string name="MZGramDisableInstantCameraInfo">The attach menu no longer starts a live camera preview; a camera button opens the camera when needed.</string>
     <string name="MZGramOpenArchiveOnPull">Open Archive on pull down</string>

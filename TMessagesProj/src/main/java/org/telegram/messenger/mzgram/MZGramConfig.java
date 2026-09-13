@@ -45,6 +45,8 @@ public class MZGramConfig {
     public static boolean showNoQuoteForward = false;
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean predictiveBackAnimation = true;
+    // On by default: upstream always has this animation, the switch only turns it off.
+    public static boolean gooeyAvatarAnimation = true;
 
     static {
         loadConfig(false);
@@ -81,6 +83,7 @@ public class MZGramConfig {
             showQrCode = preferences.getBoolean("showQrCode", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
+            gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             configLoaded = true;
         }
     }
@@ -192,5 +195,10 @@ public class MZGramConfig {
     public static void togglePredictiveBackAnimation() {
         predictiveBackAnimation = !predictiveBackAnimation;
         putBoolean("predictiveBackAnimation", predictiveBackAnimation);
+    }
+
+    public static void toggleGooeyAvatarAnimation() {
+        gooeyAvatarAnimation = !gooeyAvatarAnimation;
+        putBoolean("gooeyAvatarAnimation", gooeyAvatarAnimation);
     }
 }

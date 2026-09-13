@@ -36,6 +36,8 @@
     <string name="MZGramAutoPauseVideoInfo">A video in the media viewer pauses when the app goes to the background or the screen turns off, and resumes when you return.</string>
     <string name="MZGramPreferOriginalQuality">Prefer original video quality</string>
     <string name="MZGramPreferOriginalQualityInfo">Videos that come in several qualities play in the original one, which uses more data.</string>
+    <string name="MZGramGooeyAvatarAnimation">"Gooey" avatar animation</string>
+    <string name="MZGramGooeyAvatarAnimationInfo">When you scroll a profile up, the avatar melts into the top of the screen. When off, it simply fades out.</string>
     <string name="MZGramPredictiveBackAnimation">Predictive back animation</string>
     <string name="MZGramPredictiveBackAnimationInfo">On Android 14 and newer, the back gesture previews the previous screen before you release it. Takes effect after a restart.</string>
     <string name="MZGramHideStories">Hide Stories</string>

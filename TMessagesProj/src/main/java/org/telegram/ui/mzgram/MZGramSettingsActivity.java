@@ -46,6 +46,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SHOW_QR_CODE = 19;
     private static final int BUTTON_SHOW_NO_QUOTE_FORWARD = 20;
     private static final int BUTTON_PREDICTIVE_BACK_ANIMATION = 21;
+    private static final int BUTTON_GOOEY_AVATAR_ANIMATION = 22;
 
     @Override
     protected CharSequence getTitle() {
@@ -73,6 +74,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
         items.add(UItem.asCheck(BUTTON_PREDICTIVE_BACK_ANIMATION, getString(R.string.MZGramPredictiveBackAnimation)).setChecked(MZGramConfig.predictiveBackAnimation));
         items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackAnimationInfo)));
+        items.add(UItem.asCheck(BUTTON_GOOEY_AVATAR_ANIMATION, getString(R.string.MZGramGooeyAvatarAnimation)).setChecked(MZGramConfig.gooeyAvatarAnimation));
+        items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramChat)));
         items.add(UItem.asCheck(BUTTON_DISABLE_GREETING_STICKER, getString(R.string.MZGramDisableGreetingSticker)).setChecked(MZGramConfig.disableGreetingSticker));
@@ -170,6 +173,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_PREDICTIVE_BACK_ANIMATION) {
             MZGramConfig.togglePredictiveBackAnimation();
             ((TextCheckCell) view).setChecked(MZGramConfig.predictiveBackAnimation);
+        } else if (item.id == BUTTON_GOOEY_AVATAR_ANIMATION) {
+            MZGramConfig.toggleGooeyAvatarAnimation();
+            ((TextCheckCell) view).setChecked(MZGramConfig.gooeyAvatarAnimation);
         }
     }
 

@@ -36,6 +36,7 @@ public class MZGramConfig {
     public static boolean autoPauseVideo = false;
     public static boolean showCopyPhoto = false;
     public static boolean showDeleteDownloadedFile = false;
+    public static boolean showAddToSavedMessages = false;
 
     static {
         loadConfig(false);
@@ -64,6 +65,7 @@ public class MZGramConfig {
             autoPauseVideo = preferences.getBoolean("autoPauseVideo", false);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", false);
+            showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", false);
             configLoaded = true;
         }
     }
@@ -135,5 +137,10 @@ public class MZGramConfig {
     public static void toggleShowDeleteDownloadedFile() {
         showDeleteDownloadedFile = !showDeleteDownloadedFile;
         putBoolean("showDeleteDownloadedFile", showDeleteDownloadedFile);
+    }
+
+    public static void toggleShowAddToSavedMessages() {
+        showAddToSavedMessages = !showAddToSavedMessages;
+        putBoolean("showAddToSavedMessages", showAddToSavedMessages);
     }
 }

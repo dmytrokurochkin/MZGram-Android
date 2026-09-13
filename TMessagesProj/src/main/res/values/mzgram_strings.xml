@@ -19,6 +19,8 @@
     <string name="MZGramCopyPhoto">Copy Photo</string>
     <string name="MZGramPhotoCopied">Photo copied to clipboard</string>
     <string name="MZGramShowCopyPhotoInfo">Adds Copy Photo to the menu of a downloaded photo, so it can be pasted into other apps.</string>
+    <string name="MZGramSaveMessage">Save Message</string>
+    <string name="MZGramShowSaveMessageInfo">Adds Save Message to the menu of a message you can forward. It forwards the message to Saved Messages in one tap.</string>
     <string name="MZGramDeleteDownloadedFile">Delete Downloaded File</string>
     <string name="MZGramShowDeleteDownloadedFileInfo">Adds Delete Downloaded File to the menu of a downloaded file or video. The file stays in the chat and can be downloaded again.</string>
     <string name="MZGramAutoPauseVideo">Auto pause video</string>

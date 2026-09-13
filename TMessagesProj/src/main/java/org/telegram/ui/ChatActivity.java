@@ -1261,6 +1261,7 @@ public class ChatActivity extends BaseFragment implements
     // MZGram message menu items, kept clear of upstream option ids.
     public final static int OPTION_MZGRAM_COPY_PHOTO = 1001;
     public final static int OPTION_MZGRAM_DELETE_DOWNLOADED_FILE = 1002;
+    public final static int OPTION_MZGRAM_SAVE_MESSAGE = 1003;
 
     private final static int[] allowedNotificationsDuringChatListAnimations = new int[]{
             NotificationCenter.messagesRead,
@@ -14378,21 +14379,31 @@ public class ChatActivity extends BaseFragment implements
     }
 
     private void forwardMessages(ArrayList<MessageObject> arrayList, boolean fromMyName, boolean hideCaption, boolean notify, int scheduleDate, long payStars) {
+        forwardMessages(arrayList, fromMyName, hideCaption, notify, scheduleDate, payStars, 0);
+    }
+
+    // MZGram: ported from Nekogram. A nonzero did forwards to that dialog (such
+    // as Saved Messages) instead of the open chat, without this chat's thread,
+    // slow mode or suggestion state.
+    private void forwardMessages(ArrayList<MessageObject> arrayList, boolean fromMyName, boolean hideCaption, boolean notify, int scheduleDate, long payStars, long did) {
         if (arrayList == null || arrayList.isEmpty()) {
             return;
         }
-        if (!checkSlowModeAlert()) {
+        final boolean toOtherDialog = did != 0;
+        if (!toOtherDialog && !checkSlowModeAlert()) {
             return;
         }
-        if ((scheduleDate != 0) == (chatMode == MODE_SCHEDULED)) {
+        if (!toOtherDialog && (scheduleDate != 0) == (chatMode == MODE_SCHEDULED)) {
             waitingForSendingMessageLoad = true;
             if (chatAdapter != null) {
                 chatAdapter.checkRemoveBotForumRowsStartThreadRow(true);
             }
         }
-        int result = getSendMessagesHelper().sendMessage(arrayList, dialog_id, fromMyName, hideCaption, notify, scheduleDate, 0, getThreadMessage(), -1, payStars, getSendMonoForumPeerId(), getSendMessageSuggestionParams());
+        int result = toOtherDialog
+            ? getSendMessagesHelper().sendMessage(arrayList, did, fromMyName, hideCaption, notify, scheduleDate, 0, null, -1, payStars, 0, null)
+            : getSendMessagesHelper().sendMessage(arrayList, dialog_id, fromMyName, hideCaption, notify, scheduleDate, 0, getThreadMessage(), -1, payStars, getSendMonoForumPeerId(), getSendMessageSuggestionParams());
         AlertsCreator.showSendMediaAlert(result, this, themeDelegate);
-        if (result != 0) {
+        if (result != 0 && !toOtherDialog) {
             AndroidUtilities.runOnUIThread(() -> {
                 waitingForSendingMessageLoad = false;
                 hideFieldPanel(true);
@@ -33542,6 +33553,24 @@ public class ChatActivity extends BaseFragment implements
                 }
                 break;
             }
+            case OPTION_MZGRAM_SAVE_MESSAGE: {
+                final ArrayList<MessageObject> messages = new ArrayList<>();
+                if (selectedObjectGroup != null) {
+                    messages.addAll(selectedObjectGroup.messages);
+                } else {
+                    messages.add(selectedObject);
+                }
+                final long selfId = getUserConfig().getClientUserId();
+                forwardMessages(messages, false, false, true, 0, 0, selfId);
+                createUndoView();
+                if (undoView == null) {
+                    return;
+                }
+                if (!BulletinFactory.of(ChatActivity.this).showForwardedBulletinWithTag(selfId, messages.size())) {
+                    undoView.showWithAction(selfId, UndoView.ACTION_FWD_MESSAGES, messages.size());
+                }
+                break;
+            }
             case OPTION_MZGRAM_DELETE_DOWNLOADED_FILE: {
                 if (Build.VERSION.SDK_INT >= 23 && (Build.VERSION.SDK_INT <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     getParentActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
@@ -46201,6 +46230,12 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.Forward));
                     options.add(OPTION_FORWARD);
                     icons.add(R.drawable.msg_forward);
+                    // MZGram: ported from Nekogram (NekoConfig.showAddToSavedMessages).
+                    if (org.telegram.messenger.mzgram.MZGramConfig.showAddToSavedMessages && !UserObject.isUserSelf(currentUser)) {
+                        items.add(LocaleController.getString(R.string.MZGramSaveMessage));
+                        options.add(OPTION_MZGRAM_SAVE_MESSAGE);
+                        icons.add(R.drawable.msg_saved);
+                    }
                 }
                 if (allowUnpin) {
                     items.add(LocaleController.getString(R.string.UnpinMessage));

@@ -112,4 +112,29 @@ public class MZGramMessageHelper {
         }
         return files;
     }
+
+    // The message whose content Repeat sends again when forwarding is not
+    // possible: the only captioned message of an album, or a message with text
+    // or a sticker. Null when there is nothing to resend.
+    public static MessageObject getMessageForRepeat(MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup) {
+        if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
+            return getTargetMessageObjectFromGroup(selectedObjectGroup);
+        } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.isAnyKindOfSticker()) {
+            return selectedObject;
+        }
+        return null;
+    }
+
+    private static MessageObject getTargetMessageObjectFromGroup(MessageObject.GroupedMessages selectedObjectGroup) {
+        MessageObject messageObject = null;
+        for (MessageObject object : selectedObjectGroup.messages) {
+            if (!TextUtils.isEmpty(object.messageOwner.message)) {
+                if (messageObject != null) {
+                    return null;
+                }
+                messageObject = object;
+            }
+        }
+        return messageObject;
+    }
 }

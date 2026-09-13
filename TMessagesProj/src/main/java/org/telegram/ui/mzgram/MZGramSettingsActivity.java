@@ -40,6 +40,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SHOW_DELETE_DOWNLOADED_FILE = 13;
     private static final int BUTTON_SHOW_ADD_TO_SAVED_MESSAGES = 14;
     private static final int BUTTON_SHOW_SET_REMINDER = 15;
+    private static final int BUTTON_SHOW_REPEAT = 16;
 
     @Override
     protected CharSequence getTitle() {
@@ -85,6 +86,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramShowSaveMessageInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_SET_REMINDER, getString(R.string.SetReminder)).setChecked(MZGramConfig.showSetReminder));
         items.add(UItem.asShadow(getString(R.string.MZGramShowSetReminderInfo)));
+        items.add(UItem.asCheck(BUTTON_SHOW_REPEAT, getString(R.string.MZGramRepeat)).setChecked(MZGramConfig.showRepeat));
+        items.add(UItem.asShadow(getString(R.string.MZGramShowRepeatInfo)));
     }
 
     @Override
@@ -134,6 +137,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SHOW_SET_REMINDER) {
             MZGramConfig.toggleShowSetReminder();
             ((TextCheckCell) view).setChecked(MZGramConfig.showSetReminder);
+        } else if (item.id == BUTTON_SHOW_REPEAT) {
+            MZGramConfig.toggleShowRepeat();
+            ((TextCheckCell) view).setChecked(MZGramConfig.showRepeat);
         }
     }
 

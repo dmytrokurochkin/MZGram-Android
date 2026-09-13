@@ -38,6 +38,7 @@ public class MZGramConfig {
     public static boolean showDeleteDownloadedFile = false;
     public static boolean showAddToSavedMessages = false;
     public static boolean showSetReminder = false;
+    public static boolean showRepeat = false;
 
     static {
         loadConfig(false);
@@ -68,6 +69,7 @@ public class MZGramConfig {
             showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", false);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", false);
             showSetReminder = preferences.getBoolean("showSetReminder", false);
+            showRepeat = preferences.getBoolean("showRepeat", false);
             configLoaded = true;
         }
     }
@@ -149,5 +151,10 @@ public class MZGramConfig {
     public static void toggleShowSetReminder() {
         showSetReminder = !showSetReminder;
         putBoolean("showSetReminder", showSetReminder);
+    }
+
+    public static void toggleShowRepeat() {
+        showRepeat = !showRepeat;
+        putBoolean("showRepeat", showRepeat);
     }
 }

@@ -1263,6 +1263,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_DELETE_DOWNLOADED_FILE = 1002;
     public final static int OPTION_MZGRAM_SAVE_MESSAGE = 1003;
     public final static int OPTION_MZGRAM_SET_REMINDER = 1004;
+    public final static int OPTION_MZGRAM_REPEAT = 1005;
 
     private final static int[] allowedNotificationsDuringChatListAnimations = new int[]{
             NotificationCenter.messagesRead,
@@ -33554,6 +33555,51 @@ public class ChatActivity extends BaseFragment implements
                 }
                 break;
             }
+            case OPTION_MZGRAM_REPEAT: {
+                if (checkSlowMode(chatActivityEnterView.getSendButton())) {
+                    return;
+                }
+                // Forward a copy into this chat; where forwarding is not
+                // possible, send the text or sticker again instead.
+                if ((isThreadChat() && !isTopic) || isPeerNoForwards() || selectedObject.messageOwner.noforwards) {
+                    final MessageObject messageObject = org.telegram.messenger.mzgram.MZGramMessageHelper.getMessageForRepeat(selectedObject, selectedObjectGroup);
+                    if (messageObject != null) {
+                        if (messageObject.isAnyKindOfSticker() && !messageObject.isAnimatedEmojiStickers() && !messageObject.isAnimatedEmoji() && !messageObject.isDice()) {
+                            final Object parent = getMediaDataController().getStickerSetById(MediaDataController.getStickerSetId(selectedObject.getDocument()));
+                            getSendMessagesHelper().sendSticker(selectedObject.getDocument(), null, dialog_id, threadMessageObject, threadMessageObject, null, replyingQuote, null, true, 0, 0, false, parent, getMessageChatSendParams(), 0, getSendMonoForumPeerId(), getSendMessageSuggestionParams());
+                        } else if (!TextUtils.isEmpty(messageObject.messageOwner.message)) {
+                            ArrayList<TLRPC.MessageEntity> entities = null;
+                            if (messageObject.messageOwner.entities != null && !messageObject.messageOwner.entities.isEmpty()) {
+                                entities = new ArrayList<>();
+                                for (TLRPC.MessageEntity entity : messageObject.messageOwner.entities) {
+                                    if (entity instanceof TLRPC.TL_messageEntityMentionName) {
+                                        final TLRPC.TL_inputMessageEntityMentionName mention = new TLRPC.TL_inputMessageEntityMentionName();
+                                        mention.length = entity.length;
+                                        mention.offset = entity.offset;
+                                        mention.user_id = getMessagesController().getInputUser(((TLRPC.TL_messageEntityMentionName) entity).user_id);
+                                        entities.add(mention);
+                                    } else {
+                                        entities.add(entity);
+                                    }
+                                }
+                            }
+                            getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(
+                                    messageObject.messageOwner.message, dialog_id, threadMessageObject,
+                                    threadMessageObject, null, false, entities,
+                                    null, null, true, 0, 0, null, false));
+                        }
+                    }
+                } else {
+                    final ArrayList<MessageObject> messages = new ArrayList<>();
+                    if (selectedObjectGroup != null) {
+                        messages.addAll(selectedObjectGroup.messages);
+                    } else {
+                        messages.add(selectedObject);
+                    }
+                    forwardMessages(messages, false, false, true, 0, 0);
+                }
+                break;
+            }
             case OPTION_MZGRAM_SET_REMINDER: {
                 final ArrayList<MessageObject> messages = new ArrayList<>();
                 if (selectedObjectGroup != null) {
@@ -46260,6 +46306,21 @@ public class ChatActivity extends BaseFragment implements
                         items.add(LocaleController.getString(R.string.SetReminder));
                         options.add(OPTION_MZGRAM_SET_REMINDER);
                         icons.add(R.drawable.msg_calendar2);
+                    }
+                }
+                // MZGram: ported from Nekogram (NekoConfig.showRepeat).
+                if (org.telegram.messenger.mzgram.MZGramConfig.showRepeat) {
+                    if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && (!selectedObject.needDrawBluredPreview() || selectedObject.hasExtendedMediaPreview()) &&
+                            !selectedObject.isLiveLocation() && selectedObject.type != MessageObject.TYPE_PHONE_CALL &&
+                            selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM && selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM_CHANNEL && selectedObject.type != MessageObject.TYPE_SUGGEST_PHOTO && !selectedObject.isWallpaperAction()
+                            && !message.isExpiredStory() && message.type != MessageObject.TYPE_STORY_MENTION) {
+                        final boolean allowRepeat = !UserObject.isUserSelf(currentUser) && !ChatObject.isMonoForum(currentChat) && allowChatActions
+                                && (!(isThreadChat() && !isTopic) && !noforwards || org.telegram.messenger.mzgram.MZGramMessageHelper.getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
+                        if (allowRepeat) {
+                            items.add(LocaleController.getString(R.string.MZGramRepeat));
+                            options.add(OPTION_MZGRAM_REPEAT);
+                            icons.add(R.drawable.msg_repeat);
+                        }
                     }
                 }
                 if (allowUnpin) {

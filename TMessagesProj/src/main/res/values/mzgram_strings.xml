@@ -15,6 +15,8 @@
     <string name="MZGramDisableGreetingStickerInfo">An empty chat shows only its title, without the suggested sticker to send.</string>
     <string name="MZGramHideChannelBottomButtons">Hide channel bottom button</string>
     <string name="MZGramHideChannelBottomButtonsInfo">In channels where you cannot post, hides the bottom bar with the mute button.</string>
+    <string name="MZGramPreferOriginalQuality">Prefer original video quality</string>
+    <string name="MZGramPreferOriginalQualityInfo">Videos that come in several qualities play in the original one, which uses more data.</string>
     <string name="MZGramHideStories">Hide Stories</string>
     <string name="MZGramHideStoriesInfo">Removes the stories row from the chat list. Stories in profiles stay. Takes effect after a restart.</string>
     <string name="MZGramDisableInstantCamera">Disable instant camera</string>

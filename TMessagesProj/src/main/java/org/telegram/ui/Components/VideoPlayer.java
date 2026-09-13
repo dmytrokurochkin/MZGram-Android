@@ -431,6 +431,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     public static Quality getSavedQuality(ArrayList<Quality> qualities, MessageObject messageObject) {
+        // MZGram: ported from Nekogram (NekoConfig.preferOriginalQuality).
+        if (org.telegram.messenger.mzgram.MZGramConfig.preferOriginalQuality) {
+            for (Quality q : qualities) {
+                if (q.original) return q;
+            }
+        }
         if (messageObject == null) return null;
         return getSavedQuality(qualities, messageObject.getDialogId(), messageObject.getId());
     }
@@ -948,7 +954,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     public static VideoUri getQualityForPlayer(ArrayList<Quality> qualities) {
         for (final Quality q : qualities) {
             for (final VideoUri v : q.uris) {
-                if (v.original && v.isCached())
+                if (v.original && (v.isCached() || org.telegram.messenger.mzgram.MZGramConfig.preferOriginalQuality))
                     return v;
             }
         }

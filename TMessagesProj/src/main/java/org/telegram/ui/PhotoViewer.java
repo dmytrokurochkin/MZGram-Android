@@ -1022,6 +1022,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     boolean keyboardAnimationEnabled;
     private Theme.ResourcesProvider resourcesProvider;
 
+    // MZGram: set when onPause stopped the video, so onResume can restart it.
+    private boolean pausedOnPause = false;
+
     private Runnable setLoadingRunnable = new Runnable() {
         @Override
         public void run() {
@@ -18762,6 +18765,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (photoPaintView != null) {
             photoPaintView.onResume();
         }
+        // MZGram: ported from Nekogram (NekoConfig.autoPauseVideo).
+        if (pausedOnPause && org.telegram.messenger.mzgram.MZGramConfig.autoPauseVideo && videoPlayer != null && !videoPlayer.isPlaying()) {
+            pausedOnPause = false;
+            videoPlayer.play();
+        }
     }
 
     public void onConfigurationChanged(Configuration newConfig) {}
@@ -18776,6 +18784,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         if (videoPlayer != null && playerLooping) {
             videoPlayer.setLooping(allowLoopingOnPause());
+        }
+        if (org.telegram.messenger.mzgram.MZGramConfig.autoPauseVideo && videoPlayer != null && videoPlayer.isPlaying()) {
+            pausedOnPause = true;
+            videoPlayer.pause();
         }
     }
 

@@ -35,6 +35,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_OPEN_ARCHIVE_ON_PULL = 8;
     private static final int BUTTON_DISABLE_INSTANT_CAMERA = 9;
     private static final int BUTTON_PREFER_ORIGINAL_QUALITY = 10;
+    private static final int BUTTON_AUTO_PAUSE_VIDEO = 11;
 
     @Override
     protected CharSequence getTitle() {
@@ -68,6 +69,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramHideChannelBottomButtonsInfo)));
         items.add(UItem.asCheck(BUTTON_PREFER_ORIGINAL_QUALITY, getString(R.string.MZGramPreferOriginalQuality)).setChecked(MZGramConfig.preferOriginalQuality));
         items.add(UItem.asShadow(getString(R.string.MZGramPreferOriginalQualityInfo)));
+        items.add(UItem.asCheck(BUTTON_AUTO_PAUSE_VIDEO, getString(R.string.MZGramAutoPauseVideo)).setChecked(MZGramConfig.autoPauseVideo));
+        items.add(UItem.asShadow(getString(R.string.MZGramAutoPauseVideoInfo)));
     }
 
     @Override
@@ -102,6 +105,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_PREFER_ORIGINAL_QUALITY) {
             MZGramConfig.togglePreferOriginalQuality();
             ((TextCheckCell) view).setChecked(MZGramConfig.preferOriginalQuality);
+        } else if (item.id == BUTTON_AUTO_PAUSE_VIDEO) {
+            MZGramConfig.toggleAutoPauseVideo();
+            ((TextCheckCell) view).setChecked(MZGramConfig.autoPauseVideo);
         }
     }
 

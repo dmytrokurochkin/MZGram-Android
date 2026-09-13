@@ -72,4 +72,6 @@
     <string name="MZGramChatArchiveDeleted">Deleted</string>
     <string name="MZGramChatArchiveEdited">Edited</string>
     <string name="MZGramChatArchiveInfo">Deleted messages and edit revisions saved for this chat, most recent first.</string>
+    <string name="MZGramChatArchiveViewOnce">Viewed once</string>
+    <string name="MZGramChatArchiveMedia">(media)</string>
 </resources>

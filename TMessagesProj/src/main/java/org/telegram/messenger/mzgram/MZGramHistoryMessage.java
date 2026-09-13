@@ -17,6 +17,7 @@ public class MZGramHistoryMessage {
 
     public static final int KIND_DELETED = 0;
     public static final int KIND_EDITED = 1;
+    public static final int KIND_VIEW_ONCE = 2; // one-time-view media, archived right after viewing
 
     public static final int MEDIA_NONE = 0;
     public static final int MEDIA_PHOTO = 1;

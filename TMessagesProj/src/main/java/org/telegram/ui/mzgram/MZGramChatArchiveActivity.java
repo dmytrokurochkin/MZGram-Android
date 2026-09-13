@@ -70,10 +70,17 @@ public class MZGramChatArchiveActivity extends UniversalFragment {
             MZGramHistoryMessage entry = entries.get(i);
             String time = LocaleController.getInstance().getFormatterDayMonth().format((long) entry.entityCreateDate * 1000L)
                     + ", " + LocaleController.getInstance().getFormatterDay().format((long) entry.entityCreateDate * 1000L);
-            String kind = entry.kind == MZGramHistoryMessage.KIND_DELETED
-                    ? getString(R.string.MZGramChatArchiveDeleted)
-                    : getString(R.string.MZGramChatArchiveEdited);
-            String preview = entry.text != null && !entry.text.isEmpty() ? entry.text : getString(R.string.MZGramMessageHistoryNoText);
+            String kind;
+            if (entry.kind == MZGramHistoryMessage.KIND_DELETED) {
+                kind = getString(R.string.MZGramChatArchiveDeleted);
+            } else if (entry.kind == MZGramHistoryMessage.KIND_VIEW_ONCE) {
+                kind = getString(R.string.MZGramChatArchiveViewOnce);
+            } else {
+                kind = getString(R.string.MZGramChatArchiveEdited);
+            }
+            String preview = entry.text != null && !entry.text.isEmpty() ? entry.text
+                    : entry.mediaPath != null ? getString(R.string.MZGramChatArchiveMedia)
+                    : getString(R.string.MZGramMessageHistoryNoText);
             items.add(UItem.asButton(i + 1, kind + " · " + time, preview));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramChatArchiveInfo)));

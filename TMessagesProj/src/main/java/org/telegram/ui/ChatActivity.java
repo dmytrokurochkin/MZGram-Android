@@ -15622,6 +15622,12 @@ public class ChatActivity extends BaseFragment implements
         if (messageObject == null || messageObject.isOut() || !messageObject.isSecretMedia() || messageObject.messageOwner.ttl != 0x7FFFFFFF) {
             return null;
         }
+        // MZGram: own hook (Desktop MZGram already archives one-time media the
+        // same way). Copy the media into the local archive before it is
+        // emptied below, for tracked chats only.
+        if (org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(dialog_id)) {
+            org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onOneTimeMediaViewed(currentAccount, dialog_id, messageObject.messageOwner);
+        }
         final long taskId = getMessagesController().createDeleteShowOnceTask(dialog_id, messageObject.getId());
         messageObject.forceExpired = true;
         if (messageObject.isOutOwner() || !messageObject.isRoundOnce() && !messageObject.isVoiceOnce()) {

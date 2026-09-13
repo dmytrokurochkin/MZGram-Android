@@ -118,6 +118,33 @@ public class MZGramHistoryController {
         return a.media.getClass() == b.media.getClass();
     }
 
+    // ---- one-time-view media ----
+
+    // MZGram: own hook, no AyuGram4A equivalent -- Desktop MZGram already
+    // copies one-time media into its archive the same way (mzgram_archive).
+    // Called right before the media is emptied locally (see ChatActivity's
+    // sendSecretMediaDelete / doDeleteShowOnceTask), so the file is still on
+    // disk.
+    public void onOneTimeMediaViewed(int accountId, long dialogId, TLRPC.Message message) {
+        if (message == null || !isTracked(dialogId)) {
+            return;
+        }
+        try {
+            onOneTimeMediaViewedInner(accountId, dialogId, message);
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.onOneTimeMediaViewed", e);
+        }
+    }
+
+    private void onOneTimeMediaViewedInner(int accountId, long dialogId, TLRPC.Message message) {
+        long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+        if (db.hasHistory(accountUserId, dialogId, message.id)) {
+            return; // already archived
+        }
+        db.insert(buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_VIEW_ONCE));
+    }
+
     // ---- shared row building / media capture ----
 
     private MZGramHistoryMessage buildRow(int accountId, long accountUserId, long dialogId, TLRPC.Message message, int kind) {

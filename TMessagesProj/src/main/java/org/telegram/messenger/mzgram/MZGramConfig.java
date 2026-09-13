@@ -37,6 +37,7 @@ public class MZGramConfig {
     public static boolean showCopyPhoto = false;
     public static boolean showDeleteDownloadedFile = false;
     public static boolean showAddToSavedMessages = false;
+    public static boolean showSetReminder = false;
 
     static {
         loadConfig(false);
@@ -66,6 +67,7 @@ public class MZGramConfig {
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", false);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", false);
+            showSetReminder = preferences.getBoolean("showSetReminder", false);
             configLoaded = true;
         }
     }
@@ -142,5 +144,10 @@ public class MZGramConfig {
     public static void toggleShowAddToSavedMessages() {
         showAddToSavedMessages = !showAddToSavedMessages;
         putBoolean("showAddToSavedMessages", showAddToSavedMessages);
+    }
+
+    public static void toggleShowSetReminder() {
+        showSetReminder = !showSetReminder;
+        putBoolean("showSetReminder", showSetReminder);
     }
 }

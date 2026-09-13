@@ -1262,6 +1262,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_COPY_PHOTO = 1001;
     public final static int OPTION_MZGRAM_DELETE_DOWNLOADED_FILE = 1002;
     public final static int OPTION_MZGRAM_SAVE_MESSAGE = 1003;
+    public final static int OPTION_MZGRAM_SET_REMINDER = 1004;
 
     private final static int[] allowedNotificationsDuringChatListAnimations = new int[]{
             NotificationCenter.messagesRead,
@@ -33553,6 +33554,24 @@ public class ChatActivity extends BaseFragment implements
                 }
                 break;
             }
+            case OPTION_MZGRAM_SET_REMINDER: {
+                final ArrayList<MessageObject> messages = new ArrayList<>();
+                if (selectedObjectGroup != null) {
+                    messages.addAll(selectedObjectGroup.messages);
+                } else {
+                    messages.add(selectedObject);
+                }
+                final long selfId = getUserConfig().getClientUserId();
+                AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), selfId, (notify, scheduleDate, scheduleRepeatPeriod) -> {
+                    forwardMessages(messages, false, false, notify, scheduleDate, 0, selfId);
+                    createUndoView();
+                    if (undoView == null) {
+                        return;
+                    }
+                    undoView.showWithAction(selfId, UndoView.ACTION_FWD_MESSAGES, messages.size());
+                }, themeDelegate);
+                break;
+            }
             case OPTION_MZGRAM_SAVE_MESSAGE: {
                 final ArrayList<MessageObject> messages = new ArrayList<>();
                 if (selectedObjectGroup != null) {
@@ -46235,6 +46254,12 @@ public class ChatActivity extends BaseFragment implements
                         items.add(LocaleController.getString(R.string.MZGramSaveMessage));
                         options.add(OPTION_MZGRAM_SAVE_MESSAGE);
                         icons.add(R.drawable.msg_saved);
+                    }
+                    // MZGram: ported from Nekogram (NekoConfig.showSetReminder).
+                    if (org.telegram.messenger.mzgram.MZGramConfig.showSetReminder) {
+                        items.add(LocaleController.getString(R.string.SetReminder));
+                        options.add(OPTION_MZGRAM_SET_REMINDER);
+                        icons.add(R.drawable.msg_calendar2);
                     }
                 }
                 if (allowUnpin) {

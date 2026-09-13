@@ -44,6 +44,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SHOW_OPEN_IN = 17;
     private static final int BUTTON_SHOW_MESSAGE_DETAILS = 18;
     private static final int BUTTON_SHOW_QR_CODE = 19;
+    private static final int BUTTON_SHOW_NO_QUOTE_FORWARD = 20;
 
     @Override
     protected CharSequence getTitle() {
@@ -97,6 +98,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramShowMessageDetailsInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_QR_CODE, getString(R.string.QrCode)).setChecked(MZGramConfig.showQrCode));
         items.add(UItem.asShadow(getString(R.string.MZGramShowQrCodeInfo)));
+        items.add(UItem.asCheck(BUTTON_SHOW_NO_QUOTE_FORWARD, getString(R.string.MZGramForwardNoQuote)).setChecked(MZGramConfig.showNoQuoteForward));
+        items.add(UItem.asShadow(getString(R.string.MZGramShowForwardNoQuoteInfo)));
     }
 
     @Override
@@ -158,6 +161,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SHOW_QR_CODE) {
             MZGramConfig.toggleShowQrCode();
             ((TextCheckCell) view).setChecked(MZGramConfig.showQrCode);
+        } else if (item.id == BUTTON_SHOW_NO_QUOTE_FORWARD) {
+            MZGramConfig.toggleShowNoQuoteForward();
+            ((TextCheckCell) view).setChecked(MZGramConfig.showNoQuoteForward);
         }
     }
 

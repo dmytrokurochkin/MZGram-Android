@@ -42,6 +42,7 @@ public class MZGramConfig {
     public static boolean showOpenIn = false;
     public static boolean showMessageDetails = false;
     public static boolean showQrCode = false;
+    public static boolean showNoQuoteForward = false;
 
     static {
         loadConfig(false);
@@ -76,6 +77,7 @@ public class MZGramConfig {
             showOpenIn = preferences.getBoolean("showOpenIn", false);
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
             showQrCode = preferences.getBoolean("showQrCode", false);
+            showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
             configLoaded = true;
         }
     }
@@ -177,5 +179,10 @@ public class MZGramConfig {
     public static void toggleShowQrCode() {
         showQrCode = !showQrCode;
         putBoolean("showQrCode", showQrCode);
+    }
+
+    public static void toggleShowNoQuoteForward() {
+        showNoQuoteForward = !showNoQuoteForward;
+        putBoolean("showNoQuoteForward", showNoQuoteForward);
     }
 }

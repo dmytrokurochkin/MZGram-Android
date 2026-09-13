@@ -1267,6 +1267,11 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_OPEN_IN = 1006;
     public final static int OPTION_MZGRAM_DETAILS = 1007;
     public final static int OPTION_MZGRAM_QR = 1008;
+    public final static int OPTION_MZGRAM_FORWARD_NOQUOTE = 1009;
+
+    // MZGram: set by Forward without sender so the next forward panel starts
+    // with sender names hidden; passed on when the target is another chat.
+    private boolean mzgramForwardNoQuote;
 
     // MZGram: QR codes found in the photo of the message the menu is open for.
     private ArrayList<String> mzgramQrResults;
@@ -2733,6 +2738,7 @@ public class ChatActivity extends BaseFragment implements
         }
         migrated_to = arguments.getInt("migrated_to", 0);
         scrollToTopOnResume = arguments.getBoolean("scrollToTopOnResume", false);
+        mzgramForwardNoQuote = arguments.getBoolean("mzgram_forward_noquote", false);
         needRemovePreviousSameChatActivity = arguments.getBoolean("need_remove_previous_same_chat_activity", true);
         justCreatedChat = arguments.getBoolean("just_created_chat", false);
         wallpaperRandomSeed = Utilities.random.nextLong();
@@ -15151,6 +15157,12 @@ public class ChatActivity extends BaseFragment implements
                 messagePreviewParams.updateForward(messageObjectsToForward, dialog_id);
                 if (messagePreviewParams.isEmpty() && editingMessageObject == null) {
                     messagePreviewParams = null;
+                }
+                if (mzgramForwardNoQuote) {
+                    if (messagePreviewParams != null) {
+                        messagePreviewParams.hideForwardSendersName = true;
+                    }
+                    mzgramForwardNoQuote = false;
                 }
                 editingMessageObject = null;
                 chatActivityEnterView.setEditingMessageObject(null, null, false);
@@ -33403,6 +33415,7 @@ public class ChatActivity extends BaseFragment implements
                     selectedObjectGroup = null;
                     return;
                 }
+                mzgramForwardNoQuote = false;
                 forwardingMessage = selectedObject;
                 forwardingMessageGroup = selectedObjectGroup;
                 Bundle args = new Bundle();
@@ -33588,6 +33601,13 @@ public class ChatActivity extends BaseFragment implements
                 } catch (Throwable ignore) {
 
                 }
+                break;
+            }
+            case OPTION_MZGRAM_FORWARD_NOQUOTE: {
+                // Upstream's forward flow, with sender names hidden once the
+                // forward panel opens.
+                processSelectedOption(OPTION_FORWARD);
+                mzgramForwardNoQuote = true;
                 break;
             }
             case OPTION_MZGRAM_QR: {
@@ -34648,6 +34668,8 @@ public class ChatActivity extends BaseFragment implements
             if (did != dialog_id || getTopicId() != topicKey.topicId || chatMode == MODE_PINNED) {
                 Bundle args = new Bundle();
                 args.putBoolean("scrollToTopOnResume", scrollToTopOnResume);
+                args.putBoolean("mzgram_forward_noquote", mzgramForwardNoQuote);
+                mzgramForwardNoQuote = false;
                 if (DialogObject.isEncryptedDialog(did)) {
                     args.putInt("enc_id", DialogObject.getEncryptedChatId(did));
                 } else {
@@ -46361,6 +46383,12 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.Forward));
                     options.add(OPTION_FORWARD);
                     icons.add(R.drawable.msg_forward);
+                    // MZGram: ported from Nekogram (NekoConfig.showNoQuoteForward).
+                    if (org.telegram.messenger.mzgram.MZGramConfig.showNoQuoteForward) {
+                        items.add(LocaleController.getString(R.string.MZGramForwardNoQuote));
+                        options.add(OPTION_MZGRAM_FORWARD_NOQUOTE);
+                        icons.add(R.drawable.msg_forward);
+                    }
                     // MZGram: ported from Nekogram (NekoConfig.showAddToSavedMessages).
                     if (org.telegram.messenger.mzgram.MZGramConfig.showAddToSavedMessages && !UserObject.isUserSelf(currentUser)) {
                         items.add(LocaleController.getString(R.string.MZGramSaveMessage));

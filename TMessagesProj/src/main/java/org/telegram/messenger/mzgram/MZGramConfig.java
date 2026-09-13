@@ -49,6 +49,7 @@ public class MZGramConfig {
     public static boolean gooeyAvatarAnimation = true;
     public static boolean hideBottomNavigationBar = false;
     public static boolean cleanLinkTracking = false;
+    public static boolean ghostMode = false;
 
     static {
         loadConfig(false);
@@ -88,6 +89,7 @@ public class MZGramConfig {
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             cleanLinkTracking = preferences.getBoolean("cleanLinkTracking", false);
+            ghostMode = preferences.getBoolean("ghostMode", false);
             configLoaded = true;
         }
     }
@@ -214,5 +216,10 @@ public class MZGramConfig {
     public static void toggleCleanLinkTracking() {
         cleanLinkTracking = !cleanLinkTracking;
         putBoolean("cleanLinkTracking", cleanLinkTracking);
+    }
+
+    public static void toggleGhostMode() {
+        ghostMode = !ghostMode;
+        putBoolean("ghostMode", ghostMode);
     }
 }

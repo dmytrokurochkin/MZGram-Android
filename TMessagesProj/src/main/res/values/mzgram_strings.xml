@@ -53,4 +53,7 @@
     <string name="MZGramAskBeforeCall">Ask before calling</string>
     <string name="MZGramAskBeforeCallInfo">Show a confirmation before a voice or video call starts.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Message times show seconds, such as 12:34:56. Applies to screens opened after the change.</string>
+    <string name="MZGramPrivacy">Privacy</string>
+    <string name="MZGramGhostMode">Ghost mode</string>
+    <string name="MZGramGhostModeInfo">Other users no longer see that you read their message or that you are typing. Your own unread counters still work as usual.</string>
 </resources>

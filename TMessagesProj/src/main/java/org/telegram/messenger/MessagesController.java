@@ -11386,6 +11386,11 @@ public class MessagesController extends BaseController implements NotificationCe
         if (action < 0 || action >= sendingTypings.length || dialogId == 0) {
             return false;
         }
+        // MZGram: ported from AyuGram4A (utils/AyuGhostUtils.java concept). Ghost
+        // mode never announces a typing status to the other side.
+        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()) {
+            return false;
+        }
         final long selfId = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
         if (dialogId == selfId) {
             return false;
@@ -14557,6 +14562,13 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     private void completeReadTask(ReadTask task) {
+        // MZGram: ported from AyuGram4A (utils/AyuGhostUtils.markReadOnServer).
+        // Ghost mode drops the outgoing read-history request; the local read
+        // state (unread counters, badges) was already applied in
+        // markDialogAsRead and is not affected by this.
+        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()) {
+            return;
+        }
         if (task.replyId != 0 && task.monoForumPeerId == 0) {
             TLRPC.TL_messages_readDiscussion req = new TLRPC.TL_messages_readDiscussion();
             req.msg_id = (int) task.replyId;

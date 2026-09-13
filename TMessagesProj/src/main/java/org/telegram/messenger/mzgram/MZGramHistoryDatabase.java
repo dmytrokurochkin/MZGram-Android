@@ -162,6 +162,18 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return result;
     }
 
+    public List<MZGramHistoryMessage> getAllForDialog(long accountUserId, long dialogId, int limit) {
+        List<MZGramHistoryMessage> result = new ArrayList<>();
+        try (Cursor cursor = getReadableDatabase().rawQuery(
+                "SELECT * FROM " + TABLE + " WHERE accountUserId = ? AND dialogId = ? ORDER BY entityCreateDate DESC LIMIT ?",
+                new String[]{String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(limit)})) {
+            while (cursor.moveToNext()) {
+                result.add(fromCursor(cursor));
+            }
+        }
+        return result;
+    }
+
     public List<MZGramHistoryMessage> getRevisions(long accountUserId, long dialogId, int messageId) {
         List<MZGramHistoryMessage> result = new ArrayList<>();
         try (Cursor cursor = getReadableDatabase().rawQuery(

@@ -81,16 +81,24 @@ public class MZGramTrackedChatsActivity extends BaseFragment {
             if (items.get(position).viewType == VIEW_TYPE_ADD) {
                 openChatPicker();
             } else if (items.get(position).viewType == VIEW_TYPE_CHAT) {
-                long dialogId = items.get(position).dialogId;
-                AlertsCreator.createSimpleAlert(getContext(),
-                        getString(R.string.MZGramTrackedChats),
-                        LocaleController.formatString("MZGramStopTrackingConfirm", R.string.MZGramStopTrackingConfirm, titleFor(dialogId)),
-                        getString(R.string.Remove),
-                        () -> {
-                            MZGramConfig.setDialogTracked(dialogId, false);
-                            updateRows();
-                        }, null).create().show();
+                // Tap opens the archive; long-press removes the chat from tracking.
+                presentFragment(new MZGramChatArchiveActivity(getCurrentAccount(), items.get(position).dialogId));
             }
+        });
+        recyclerListView.setOnItemLongClickListener((view, position) -> {
+            if (items.get(position).viewType != VIEW_TYPE_CHAT) {
+                return false;
+            }
+            long dialogId = items.get(position).dialogId;
+            AlertsCreator.createSimpleAlert(getContext(),
+                    getString(R.string.MZGramTrackedChats),
+                    LocaleController.formatString("MZGramStopTrackingConfirm", R.string.MZGramStopTrackingConfirm, titleFor(dialogId)),
+                    getString(R.string.Remove),
+                    () -> {
+                        MZGramConfig.setDialogTracked(dialogId, false);
+                        updateRows();
+                    }, null).create().show();
+            return true;
         });
         frameLayout.addView(recyclerListView);
         frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));

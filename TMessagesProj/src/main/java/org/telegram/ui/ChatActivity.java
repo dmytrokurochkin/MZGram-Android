@@ -1268,6 +1268,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_DETAILS = 1007;
     public final static int OPTION_MZGRAM_QR = 1008;
     public final static int OPTION_MZGRAM_FORWARD_NOQUOTE = 1009;
+    public final static int OPTION_MZGRAM_HISTORY = 1010;
 
     // MZGram: set by Forward without sender so the next forward panel starts
     // with sender names hidden; passed on when the target is another chat.
@@ -33618,6 +33619,10 @@ public class ChatActivity extends BaseFragment implements
                 presentFragment(new org.telegram.ui.mzgram.MZGramMessageDetailsActivity(selectedObject));
                 break;
             }
+            case OPTION_MZGRAM_HISTORY: {
+                presentFragment(new org.telegram.ui.mzgram.MZGramMessageHistoryActivity(currentAccount, selectedObject));
+                break;
+            }
             case OPTION_MZGRAM_OPEN_IN: {
                 // Open the downloaded file directly; otherwise stream it to the
                 // chosen app through MediaStreamingProvider.
@@ -46429,6 +46434,14 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.QrCode));
                     options.add(OPTION_MZGRAM_QR);
                     icons.add(R.drawable.msg_qrcode);
+                }
+                // MZGram: own item (no Nekogram/AyuGram4A equivalent to port for
+                // the menu entry itself). Stays hidden until MZGramHistoryController
+                // actually has a saved deleted/edited revision for this message.
+                if (chatMode != MODE_SCHEDULED && org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().hasHistory(currentAccount, dialog_id, selectedObject.getId())) {
+                    items.add(LocaleController.getString(R.string.MZGramMessageHistory));
+                    options.add(OPTION_MZGRAM_HISTORY);
+                    icons.add(R.drawable.msg_edit);
                 }
                 if (allowUnpin) {
                     items.add(LocaleController.getString(R.string.UnpinMessage));

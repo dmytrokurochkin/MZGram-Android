@@ -238,4 +238,9 @@ public class MZGramHistoryController {
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
         return MZGramHistoryDatabase.getInstance().getRevisions(accountUserId, dialogId, messageId);
     }
+
+    public List<MZGramHistoryMessage> getArchive(int accountId, long dialogId, int limit) {
+        long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+        return MZGramHistoryDatabase.getInstance().getAllForDialog(accountUserId, dialogId, limit);
+    }
 }

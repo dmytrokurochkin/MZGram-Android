@@ -62,4 +62,14 @@
     <string name="MZGramTrackedChatsInfo">Only chats on this list are archived. Add a chat here, or remove one to stop keeping its history from this point on (messages already saved stay until removed).</string>
     <string name="MZGramAddTrackedChat">Add a tracked chat</string>
     <string name="MZGramStopTrackingConfirm">Stop saving message history for %1$s? Messages already saved are kept; nothing new will be added.</string>
+    <string name="MZGramMessageHistory">Message history</string>
+    <string name="MZGramMessageHistoryInfo">Tap a revision to copy its text.</string>
+    <string name="MZGramMessageHistoryEmpty">No saved revisions for this message.</string>
+    <string name="MZGramMessageHistoryNoText">(no text)</string>
+    <string name="MZGramMessageHistoryCopied">Text copied</string>
+    <string name="MZGramChatArchive">Saved messages</string>
+    <string name="MZGramChatArchiveEmpty">Nothing saved for this chat yet.</string>
+    <string name="MZGramChatArchiveDeleted">Deleted</string>
+    <string name="MZGramChatArchiveEdited">Edited</string>
+    <string name="MZGramChatArchiveInfo">Deleted messages and edit revisions saved for this chat, most recent first.</string>
 </resources>

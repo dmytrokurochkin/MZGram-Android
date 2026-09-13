@@ -1264,6 +1264,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_SAVE_MESSAGE = 1003;
     public final static int OPTION_MZGRAM_SET_REMINDER = 1004;
     public final static int OPTION_MZGRAM_REPEAT = 1005;
+    public final static int OPTION_MZGRAM_OPEN_IN = 1006;
 
     private final static int[] allowedNotificationsDuringChatListAnimations = new int[]{
             NotificationCenter.messagesRead,
@@ -33555,6 +33556,14 @@ public class ChatActivity extends BaseFragment implements
                 }
                 break;
             }
+            case OPTION_MZGRAM_OPEN_IN: {
+                // Open the downloaded file directly; otherwise stream it to the
+                // chosen app through MediaStreamingProvider.
+                if (!AndroidUtilities.openForView(selectedObject, getParentActivity(), themeDelegate, true)) {
+                    org.telegram.messenger.mzgram.MediaStreamingProvider.openForStreaming(getParentActivity(), currentAccount, selectedObject.getDocument(), selectedObject);
+                }
+                break;
+            }
             case OPTION_MZGRAM_REPEAT: {
                 if (checkSlowMode(chatActivityEnterView.getSendButton())) {
                     return;
@@ -46109,6 +46118,11 @@ public class ChatActivity extends BaseFragment implements
                                     icons.add(R.drawable.msg_addbot);
                                 }
                             }
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && org.telegram.messenger.mzgram.MZGramConfig.showOpenIn && selectedObject.isVideo() && !noforwardsOrPaidMedia && !selectedObject.hasRevealedExtendedMedia() && !selectedObject.needDrawBluredPreview()) {
+                            // MZGram: ported from Nekogram (NekoConfig.showOpenIn).
+                            items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                            options.add(OPTION_MZGRAM_OPEN_IN);
+                            icons.add(R.drawable.msg_openin);
                         } else if (selectedObject.isMusic() && !noforwardsOrPaidMedia && !selectedObject.isVoiceOnce() && !selectedObject.isRoundOnce()) {
                             items.add(LocaleController.getString(R.string.SaveToMusic));
                             options.add(OPTION_SAVE_TO_DOWNLOADS_OR_MUSIC);
@@ -46141,6 +46155,11 @@ public class ChatActivity extends BaseFragment implements
                                 items.add(LocaleController.getString(R.string.ShareFile));
                                 options.add(OPTION_SHARE);
                                 icons.add(R.drawable.msg_shareout);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && org.telegram.messenger.mzgram.MZGramConfig.showOpenIn) {
+                                    items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                                    options.add(OPTION_MZGRAM_OPEN_IN);
+                                    icons.add(R.drawable.msg_openin);
+                                }
                             }
                         } else if (selectedObject.isMusic() && !selectedObject.isVoiceOnce() && !selectedObject.isRoundOnce()) {
                             items.add(LocaleController.getString(R.string.SaveToMusic));
@@ -46215,6 +46234,11 @@ public class ChatActivity extends BaseFragment implements
                         items.add(LocaleController.getString(R.string.ShareFile));
                         options.add(OPTION_SHARE);
                         icons.add(R.drawable.msg_shareout);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && org.telegram.messenger.mzgram.MZGramConfig.showOpenIn && selectedObject.isVideo()) {
+                            items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                            options.add(OPTION_MZGRAM_OPEN_IN);
+                            icons.add(R.drawable.msg_openin);
+                        }
                     }
                 } else if (type == 7) {
                     if (selectedObject.isMask()) {

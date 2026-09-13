@@ -1,0 +1,238 @@
+/*
+ * This is the source code of MZGram for Android,
+ * a fork of Telegram for Android.
+ *
+ * Ported from Nekogram (tw.nekomimi.nekogram.streaming.MediaStreamingProvider,
+ * commit d769499). Lets an external app play a Telegram video through a
+ * content URI that streams the file as the app reads it, so Open in... works
+ * before the whole file is downloaded. Everything stays on the device: the
+ * data comes from Telegram's own servers through FileStreamLoadOperation.
+ */
+
+package org.telegram.messenger.mzgram;
+
+import android.app.Activity;
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.ParcelFileDescriptor;
+import android.os.ProxyFileDescriptorCallback;
+import android.os.storage.StorageManager;
+import android.provider.OpenableColumns;
+import android.system.ErrnoException;
+import android.system.OsConstants;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DataSpec;
+
+import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.FileStreamLoadOperation;
+import org.telegram.tgnet.TLRPC;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class MediaStreamingProvider extends ContentProvider {
+
+    private HandlerThread callbackThread;
+    private Handler callbackHandler;
+    private StorageManager storageManager;
+
+    @Override
+    public boolean onCreate() {
+        final android.content.Context context = getContext();
+        if (context == null) {
+            return false;
+        }
+        storageManager = context.getSystemService(StorageManager.class);
+        callbackThread = new HandlerThread("MediaStreamingProvider");
+        callbackThread.start();
+        callbackHandler = new Handler(callbackThread.getLooper());
+        return true;
+    }
+
+    @Override
+    public void shutdown() {
+        callbackThread.quit();
+    }
+
+    @Nullable
+    @Override
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        final String[] columns;
+        if (projection == null || projection.length == 0) {
+            columns = new String[]{
+                    OpenableColumns.DISPLAY_NAME,
+                    OpenableColumns.SIZE,
+            };
+        } else {
+            columns = projection;
+        }
+
+        final Object[] row = new Object[columns.length];
+        for (int i = 0; i < columns.length; i++) {
+            switch (columns[i]) {
+                case OpenableColumns.DISPLAY_NAME:
+                    row[i] = uri.getQueryParameter("name");
+                    break;
+                case OpenableColumns.SIZE:
+                    final String size = uri.getQueryParameter("size");
+                    row[i] = size == null ? null : Long.parseLong(size);
+                    break;
+                default:
+                    row[i] = null;
+            }
+        }
+
+        final MatrixCursor cursor = new MatrixCursor(columns, 1);
+        cursor.addRow(row);
+        return cursor;
+    }
+
+    @Nullable
+    @Override
+    public String getType(@NonNull Uri uri) {
+        return getMimeFromUri(uri);
+    }
+
+    @Nullable
+    @Override
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        return null;
+    }
+
+    @Override
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return 0;
+    }
+
+    @Override
+    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return 0;
+    }
+
+    @Nullable
+    @Override
+    public String[] getStreamTypes(@NonNull Uri uri, @NonNull String mimeTypeFilter) {
+        if (mimeTypeFilter.startsWith("*/") || mimeTypeFilter.startsWith("video/")) {
+            return new String[]{getMimeFromUri(uri)};
+        }
+        return null;
+    }
+
+    private static String getMimeFromUri(Uri uri) {
+        final String mime = uri.getQueryParameter("mime");
+        return mime == null ? "video/mp4" : mime;
+    }
+
+    @Nullable
+    @Override
+    public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode) throws FileNotFoundException {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return null;
+        }
+        if (!"r".equals(mode)) {
+            throw new SecurityException("Can only open files for read");
+        }
+        final StreamingProxyFileDescriptorCallback callback = new StreamingProxyFileDescriptorCallback(uri);
+        try {
+            return storageManager.openProxyFileDescriptor(ParcelFileDescriptor.MODE_READ_ONLY, callback, callbackHandler);
+        } catch (IOException e) {
+            throw new FileNotFoundException("Failed to open file");
+        }
+    }
+
+    @Nullable
+    private static Uri getStreamingUri(int currentAccount, TLRPC.Document document, Object parent) {
+        final Uri uri = FileStreamLoadOperation.prepareUri(currentAccount, document, parent);
+        if (uri == null || !"tg".equals(uri.getScheme())) {
+            return null;
+        }
+        return uri.buildUpon()
+                .scheme("content")
+                .authority(ApplicationLoader.getApplicationId() + ".streaming")
+                .path(FileLoader.getDocumentFileName(document))
+                .build();
+    }
+
+    public static boolean openForStreaming(Activity activity, int currentAccount, TLRPC.Document document, Object parent) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return false;
+        }
+        final Uri uri = getStreamingUri(currentAccount, document, parent);
+        if (uri == null) {
+            return false;
+        }
+        final Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, document.mime_type);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        activity.startActivityForResult(intent, 500);
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static class StreamingProxyFileDescriptorCallback extends ProxyFileDescriptorCallback {
+        private long size;
+        private final DataSource dataSource;
+        private final DataSpec.Builder dataSpecBuilder;
+
+        StreamingProxyFileDescriptorCallback(Uri uri) {
+            final Uri tgUri = uri.buildUpon().scheme("tg").build();
+            dataSource = new FileStreamLoadOperation();
+            dataSpecBuilder = new DataSpec.Builder().setUri(tgUri);
+            try {
+                size = dataSource.open(dataSpecBuilder.build());
+                dataSource.close();
+            } catch (IOException e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override
+        public int onRead(long offset, int size, byte[] data) throws ErrnoException {
+            try {
+                dataSpecBuilder.setPosition(offset);
+                dataSpecBuilder.setLength(size);
+
+                dataSource.open(dataSpecBuilder.build());
+                final int bytesRead = dataSource.read(data, 0, size);
+                dataSource.close();
+
+                return bytesRead;
+            } catch (IOException e) {
+                FileLog.e(e);
+                throw new ErrnoException("onRead", OsConstants.EBADF);
+            }
+        }
+
+        @Override
+        public int onWrite(long offset, int size, byte[] data) throws ErrnoException {
+            throw new ErrnoException("onWrite", OsConstants.EOPNOTSUPP);
+        }
+
+        @Override
+        public void onFsync() {
+        }
+
+        @Override
+        public long onGetSize() {
+            return size;
+        }
+
+        @Override
+        public void onRelease() {
+        }
+    }
+}

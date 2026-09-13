@@ -605,6 +605,13 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
+        <!-- MZGram: streams a video to the app picked in Open in..., ported from Nekogram. -->
+        <provider
+            android:authorities="${applicationId}.streaming"
+            android:name="org.telegram.messenger.mzgram.MediaStreamingProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"/>
+
         <provider
             android:authorities="${applicationId}.notification_image_provider"
             android:name=".NotificationImageProvider"

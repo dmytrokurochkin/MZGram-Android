@@ -14630,7 +14630,12 @@ public class MessagesStorage extends BaseController {
                                 }
                             }
                         }
-                        if (!DialogObject.isEncryptedDialog(did) && !deleteFiles && did != currentUser) {
+                        // MZGram: ported from AyuGram4A (messages/AyuMessagesController).
+                        // Also deserialize the message when MZGram tracks this dialog, so
+                        // it can be archived below, even if nothing else in this method
+                        // needs the file deleted.
+                        boolean mzgramTracked = org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did);
+                        if (!DialogObject.isEncryptedDialog(did) && !deleteFiles && did != currentUser && !mzgramTracked) {
                             continue;
                         }
                         NativeByteBuffer data = cursor.byteBufferValue(1);
@@ -14641,6 +14646,9 @@ public class MessagesStorage extends BaseController {
                                 deletedMessages.add(message);
                             }
                             data.reuse();
+                            if (mzgramTracked) {
+                                org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageDeleted(currentAccount, did, message);
+                            }
                             if (DialogObject.isEncryptedDialog(did) || deleteFiles) {
                                 addFilesToDelete(message, filesToDelete, idsToDelete, namesToDelete, false);
                             }
@@ -16279,6 +16287,12 @@ public class MessagesStorage extends BaseController {
                                     TLRPC.Message oldMessage = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
                                     oldMessage.readAttachPath(data, getUserConfig().clientUserId);
                                     data.reuse();
+                                    // MZGram: ported from AyuGram4A (messages/AyuMessagesController.onMessageEdited).
+                                    // The previous revision is still the one on disk here, right
+                                    // before this method overwrites it below.
+                                    if (org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(dialogId)) {
+                                        org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageEdited(currentAccount, dialogId, oldMessage, message);
+                                    }
                                     if (reactionUpdates != null) {
                                         reactionUpdates.add(new SavedReactionsUpdate(selfId, oldMessage, message));
                                     }

@@ -10,8 +10,12 @@ package org.telegram.messenger.mzgram;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import org.telegram.messenger.ApplicationLoader;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class MZGramConfig {
 
@@ -50,6 +54,14 @@ public class MZGramConfig {
     public static boolean hideBottomNavigationBar = false;
     public static boolean cleanLinkTracking = false;
     public static boolean ghostMode = false;
+
+    // Local message history archive (deleted/edited messages, ported concept
+    // from AyuGram4A). Allowlist-only, like the Desktop anti-recall feature:
+    // a dialog is archived only when it is in trackedDialogs, never by
+    // default for every chat.
+    public static boolean saveMessageHistory = false;
+    public static int historyMediaSizeLimitMb = 50; // videos/files only; 0 = no limit
+    private static final Set<Long> trackedDialogs = new HashSet<>();
 
     static {
         loadConfig(false);
@@ -90,6 +102,10 @@ public class MZGramConfig {
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             cleanLinkTracking = preferences.getBoolean("cleanLinkTracking", false);
             ghostMode = preferences.getBoolean("ghostMode", false);
+            saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
+            historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
+            trackedDialogs.clear();
+            trackedDialogs.addAll(parseDialogSet(preferences.getString("historyTrackedDialogs", "")));
             configLoaded = true;
         }
     }
@@ -221,5 +237,62 @@ public class MZGramConfig {
     public static void toggleGhostMode() {
         ghostMode = !ghostMode;
         putBoolean("ghostMode", ghostMode);
+    }
+
+    public static void toggleSaveMessageHistory() {
+        saveMessageHistory = !saveMessageHistory;
+        putBoolean("saveMessageHistory", saveMessageHistory);
+    }
+
+    public static void setHistoryMediaSizeLimitMb(int mb) {
+        historyMediaSizeLimitMb = Math.max(0, mb);
+        preferences().edit().putInt("historyMediaSizeLimitMb", historyMediaSizeLimitMb).apply();
+    }
+
+    public static boolean isDialogTracked(long dialogId) {
+        synchronized (trackedDialogs) {
+            return trackedDialogs.contains(dialogId);
+        }
+    }
+
+    public static void setDialogTracked(long dialogId, boolean tracked) {
+        synchronized (trackedDialogs) {
+            if (tracked) {
+                trackedDialogs.add(dialogId);
+            } else {
+                trackedDialogs.remove(dialogId);
+            }
+            saveTrackedDialogs();
+        }
+    }
+
+    public static Set<Long> getTrackedDialogs() {
+        synchronized (trackedDialogs) {
+            return new HashSet<>(trackedDialogs);
+        }
+    }
+
+    private static void saveTrackedDialogs() {
+        StringBuilder sb = new StringBuilder();
+        for (Long id : trackedDialogs) {
+            if (sb.length() > 0) {
+                sb.append(',');
+            }
+            sb.append(id);
+        }
+        preferences().edit().putString("historyTrackedDialogs", sb.toString()).apply();
+    }
+
+    private static Set<Long> parseDialogSet(String raw) {
+        Set<Long> set = new HashSet<>();
+        if (!TextUtils.isEmpty(raw)) {
+            for (String part : raw.split(",")) {
+                try {
+                    set.add(Long.parseLong(part.trim()));
+                } catch (NumberFormatException ignored) {
+                }
+            }
+        }
+        return set;
     }
 }

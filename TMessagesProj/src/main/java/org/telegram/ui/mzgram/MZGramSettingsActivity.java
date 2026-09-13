@@ -50,6 +50,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_BOTTOM_NAVIGATION_BAR = 23;
     private static final int BUTTON_CLEAN_LINK_TRACKING = 24;
     private static final int BUTTON_GHOST_MODE = 25;
+    private static final int BUTTON_SAVE_MESSAGE_HISTORY = 26;
+    private static final int BUTTON_TRACKED_CHATS = 27;
 
     @Override
     protected CharSequence getTitle() {
@@ -73,6 +75,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramPrivacy)));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE, getString(R.string.MZGramGhostMode)).setChecked(MZGramConfig.ghostMode));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostModeInfo)));
+        items.add(UItem.asCheck(BUTTON_SAVE_MESSAGE_HISTORY, getString(R.string.MZGramSaveMessageHistory)).setChecked(MZGramConfig.saveMessageHistory));
+        items.add(UItem.asShadow(getString(R.string.MZGramSaveMessageHistoryInfo)));
+        items.add(UItem.asButton(BUTTON_TRACKED_CHATS, getString(R.string.MZGramTrackedChats), String.valueOf(MZGramConfig.getTrackedDialogs().size())));
+        items.add(UItem.asShadow(getString(R.string.MZGramTrackedChatsInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
@@ -196,11 +202,25 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_GHOST_MODE) {
             MZGramConfig.toggleGhostMode();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostMode);
+        } else if (item.id == BUTTON_SAVE_MESSAGE_HISTORY) {
+            MZGramConfig.toggleSaveMessageHistory();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveMessageHistory);
+        } else if (item.id == BUTTON_TRACKED_CHATS) {
+            presentFragment(new MZGramTrackedChatsActivity());
         }
     }
 
     @Override
     protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
         return false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refreshes the tracked-chats count after returning from that screen.
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
+        }
     }
 }

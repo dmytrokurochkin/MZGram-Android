@@ -56,4 +56,10 @@
     <string name="MZGramPrivacy">Privacy</string>
     <string name="MZGramGhostMode">Ghost mode</string>
     <string name="MZGramGhostModeInfo">Other users no longer see that you read their message or that you are typing. Your own unread counters still work as usual.</string>
+    <string name="MZGramSaveMessageHistory">Save deleted &amp; edited messages</string>
+    <string name="MZGramSaveMessageHistoryInfo">For chats added below, keeps a local copy of a message before it is deleted, and every earlier revision of an edited message. Nothing is saved for chats not on the list.</string>
+    <string name="MZGramTrackedChats">Tracked chats</string>
+    <string name="MZGramTrackedChatsInfo">Only chats on this list are archived. Add a chat here, or remove one to stop keeping its history from this point on (messages already saved stay until removed).</string>
+    <string name="MZGramAddTrackedChat">Add a tracked chat</string>
+    <string name="MZGramStopTrackingConfirm">Stop saving message history for %1$s? Messages already saved are kept; nothing new will be added.</string>
 </resources>

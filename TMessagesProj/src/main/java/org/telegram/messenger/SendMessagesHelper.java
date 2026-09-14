@@ -3062,6 +3062,31 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             }
 
             if (!retry) {
+                // MZGram: ported concept from AyuGram4A (messages/AyuMessagesController.onMessageEdited),
+                // adapted for a bug this client doesn't share with AyuGram4A. Snapshot the
+                // message here, before any field below is overwritten with the new text/media --
+                // MZGramHistoryController.onMessageEdited (hooked into the server's edit-update
+                // echo) always sees the already-locally-overwritten "old" row by the time that
+                // echo arrives, since the block just below writes the new content into
+                // messages_v2 immediately for the instant UI update, well before the network
+                // request is even sent.
+                if (org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(peer)) {
+                    TLRPC.Message snapshot = new TLRPC.TL_message();
+                    snapshot.id = newMsg.id;
+                    snapshot.dialog_id = newMsg.dialog_id;
+                    snapshot.peer_id = newMsg.peer_id;
+                    snapshot.reply_to = newMsg.reply_to;
+                    snapshot.flags = newMsg.flags;
+                    snapshot.grouped_id = newMsg.grouped_id;
+                    snapshot.from_id = newMsg.from_id;
+                    snapshot.date = newMsg.date;
+                    snapshot.edit_date = newMsg.edit_date;
+                    snapshot.message = newMsg.message;
+                    snapshot.entities = newMsg.entities;
+                    snapshot.media = newMsg.media;
+                    snapshot.attachPath = newMsg.attachPath;
+                    org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageEditedLocally(currentAccount, peer, snapshot);
+                }
                 if (messageObject.editingMessage != null) {
                     String oldMessge = newMsg.message;
                     newMsg.message = messageObject.editingMessage.toString();

@@ -74,4 +74,8 @@
     <string name="MZGramChatArchiveInfo">Deleted messages and edit revisions saved for this chat, most recent first.</string>
     <string name="MZGramChatArchiveViewOnce">Viewed once</string>
     <string name="MZGramChatArchiveMedia">(media)</string>
+    <string name="MZGramStartSavingMessages">Save messages in this chat</string>
+    <string name="MZGramStopSavingMessages">Stop saving messages in this chat</string>
+    <string name="MZGramStartedSavingMessagesToast">Deleted messages and edits in this chat will now be saved.</string>
+    <string name="MZGramStoppedSavingMessagesToast">This chat is no longer being saved. Messages already saved are kept.</string>
 </resources>

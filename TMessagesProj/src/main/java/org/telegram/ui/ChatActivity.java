@@ -452,6 +452,10 @@ public class ChatActivity extends BaseFragment implements
     private RadialProgressView progressBar;
     private ActionBarMenuItem.Item addContactItem;
     private ActionBarMenuItem.Item clearHistoryItem;
+    // MZGram: own code, mirrors Desktop's addMZGramKeepMessages (window_peer_menu.cpp) --
+    // an in-chat shortcut for the same Tracked chats allowlist as
+    // MZGramTrackedChatsActivity, so tracking a chat doesn't require leaving it.
+    private ActionBarMenuItem.Item mzgramSaveMessagesItem;
     private ActionBarMenuItem.Item viewAsTopics;
     private ActionBarMenuItem.Item closeTopicItem;
     private ActionBarMenuItem.Item openForumItem;
@@ -1715,6 +1719,7 @@ public class ChatActivity extends BaseFragment implements
     private final static int charge_fee = 72;
 
     private final static int chat_menu_topic_create = 73;
+    private final static int mzgram_save_messages = 75;
 
     private final static int id_chat_compose_panel = 1000;
 
@@ -3851,6 +3856,14 @@ public class ChatActivity extends BaseFragment implements
                             BulletinFactory.of(ChatActivity.this).createDownloadBulletin(isMusic ? BulletinFactory.FileType.AUDIOS : BulletinFactory.FileType.UNKNOWNS, count, themeDelegate).show();
                         }
                     });
+                } else if (id == mzgram_save_messages) {
+                    boolean tracked = org.telegram.messenger.mzgram.MZGramConfig.isDialogTracked(getDialogId());
+                    org.telegram.messenger.mzgram.MZGramConfig.setDialogTracked(getDialogId(), !tracked);
+                    updateMZGramSaveMessagesItem();
+                    if (getParentActivity() != null) {
+                        BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.contact_check,
+                            LocaleController.getString(tracked ? R.string.MZGramStoppedSavingMessagesToast : R.string.MZGramStartedSavingMessagesToast)).show();
+                    }
                 } else if (id == chat_enc_timer) {
                     if (getParentActivity() == null) {
                         return;
@@ -4471,6 +4484,10 @@ public class ChatActivity extends BaseFragment implements
             }
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {
                 headerItem.lazilyAddSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));
+            }
+            if (!isTopic && !ChatObject.isMonoForum(currentChat) && org.telegram.messenger.mzgram.MZGramConfig.saveMessageHistory) {
+                mzgramSaveMessagesItem = headerItem.lazilyAddSubItem(mzgram_save_messages, R.drawable.msg_saved, "");
+                updateMZGramSaveMessagesItem();
             }
             if (!isTopic && !ChatObject.isMonoForum(currentChat)) {
                 clearHistoryItem = headerItem.lazilyAddSubItem(clear_history, R.drawable.msg_clear,
@@ -11275,6 +11292,16 @@ public class ChatActivity extends BaseFragment implements
             return;
         }
         translateItem.setVisibility(getMessagesController().getTranslateController().isTranslateDialogHidden(getDialogId()) && getMessagesController().getTranslateController().isDialogTranslatable(getDialogId()) ? View.VISIBLE : View.GONE);
+    }
+
+    // MZGram: own code, mirrors Desktop's addMZGramKeepMessages label toggle
+    // (window_peer_menu.cpp: "Save deleted messages" / "Stop saving deleted messages").
+    private void updateMZGramSaveMessagesItem() {
+        if (mzgramSaveMessagesItem == null) {
+            return;
+        }
+        boolean tracked = org.telegram.messenger.mzgram.MZGramConfig.isDialogTracked(getDialogId());
+        mzgramSaveMessagesItem.setText(LocaleController.getString(tracked ? R.string.MZGramStopSavingMessages : R.string.MZGramStartSavingMessages));
     }
 
     private Animator infoTopViewAnimator;

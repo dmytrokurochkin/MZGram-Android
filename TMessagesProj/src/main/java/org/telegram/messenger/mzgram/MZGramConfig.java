@@ -56,6 +56,11 @@ public class MZGramConfig {
     // record gesture into the existing "recorded, not yet sent" preview
     // panel instead of sending immediately, for both voice and round video.
     public static boolean confirmAVMessage = false;
+    // MZGram's own code: long-press on a chat list row's avatar normally
+    // opens the native Chat Preview peek. When the last message is a photo
+    // or video, this shows that media instead; otherwise Chat Preview opens
+    // as usual.
+    public static boolean mediaPreviewOnLongPress = false;
     public static boolean ghostMode = false;
 
     // Local message history archive (deleted/edited messages, ported concept
@@ -104,6 +109,7 @@ public class MZGramConfig {
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
+            mediaPreviewOnLongPress = preferences.getBoolean("mediaPreviewOnLongPress", false);
             ghostMode = preferences.getBoolean("ghostMode", false);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
@@ -235,6 +241,11 @@ public class MZGramConfig {
     public static void toggleConfirmAVMessage() {
         confirmAVMessage = !confirmAVMessage;
         putBoolean("confirmAVMessage", confirmAVMessage);
+    }
+
+    public static void toggleMediaPreviewOnLongPress() {
+        mediaPreviewOnLongPress = !mediaPreviewOnLongPress;
+        putBoolean("mediaPreviewOnLongPress", mediaPreviewOnLongPress);
     }
 
     public static void toggleGhostMode() {

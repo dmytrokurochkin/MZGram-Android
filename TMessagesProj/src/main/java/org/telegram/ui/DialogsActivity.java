@@ -8481,6 +8481,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             return false;
         }
+        // MZGram: own code. Long-pressing the avatar normally opens the
+        // native Chat Preview peek; when the row's last message is a photo
+        // or video, show that media directly instead, without navigating
+        // into the chat. Falls through to the normal Chat Preview for any
+        // other message type.
+        if (org.telegram.messenger.mzgram.MZGramConfig.mediaPreviewOnLongPress) {
+            MessageObject lastMessage = cell.getMessage();
+            if (lastMessage != null && !lastMessage.isRoundVideo() && (lastMessage.isPhoto() || lastMessage.isVideo())) {
+                return PhotoViewer.getInstance().openPhoto(lastMessage, null, cell.getDialogId(), 0, 0, new PhotoViewer.EmptyPhotoViewerProvider());
+            }
+        }
         long dialogId = cell.getDialogId();
         Bundle args = new Bundle();
         int message_id = cell.getMessageId();

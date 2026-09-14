@@ -52,6 +52,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SAVE_MESSAGE_HISTORY = 26;
     private static final int BUTTON_TRACKED_CHATS = 27;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
+    private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
 
     @Override
     protected CharSequence getTitle() {
@@ -103,6 +104,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramAutoPauseVideoInfo)));
         items.add(UItem.asCheck(BUTTON_CONFIRM_AV_MESSAGE, getString(R.string.MZGramConfirmAVMessage)).setChecked(MZGramConfig.confirmAVMessage));
         items.add(UItem.asShadow(getString(R.string.MZGramConfirmAVMessageInfo)));
+        items.add(UItem.asCheck(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, getString(R.string.MZGramMediaPreviewOnLongPress)).setChecked(MZGramConfig.mediaPreviewOnLongPress));
+        items.add(UItem.asShadow(getString(R.string.MZGramMediaPreviewOnLongPressInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramMessageMenu)));
         items.add(UItem.asCheck(BUTTON_SHOW_COPY_PHOTO, getString(R.string.MZGramCopyPhoto)).setChecked(MZGramConfig.showCopyPhoto));
@@ -163,6 +166,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CONFIRM_AV_MESSAGE) {
             MZGramConfig.toggleConfirmAVMessage();
             ((TextCheckCell) view).setChecked(MZGramConfig.confirmAVMessage);
+        } else if (item.id == BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS) {
+            MZGramConfig.toggleMediaPreviewOnLongPress();
+            ((TextCheckCell) view).setChecked(MZGramConfig.mediaPreviewOnLongPress);
         } else if (item.id == BUTTON_SHOW_COPY_PHOTO) {
             MZGramConfig.toggleShowCopyPhoto();
             ((TextCheckCell) view).setChecked(MZGramConfig.showCopyPhoto);

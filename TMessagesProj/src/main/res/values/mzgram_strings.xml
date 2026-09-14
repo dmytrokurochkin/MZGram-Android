@@ -34,6 +34,8 @@
     <string name="MZGramShowDeleteDownloadedFileInfo">Adds Delete Downloaded File to the menu of a downloaded file or video. The file stays in the chat and can be downloaded again.</string>
     <string name="MZGramAutoPauseVideo">Auto pause video</string>
     <string name="MZGramAutoPauseVideoInfo">A video in the media viewer pauses when the app goes to the background or the screen turns off, and resumes when you return.</string>
+    <string name="MZGramConfirmAVMessage">Confirm voice and round video messages</string>
+    <string name="MZGramConfirmAVMessageInfo">Releasing the record button shows the recorded voice or round video for review, with an explicit Send, instead of sending it right away.</string>
     <string name="MZGramPreferOriginalQuality">Prefer original video quality</string>
     <string name="MZGramPreferOriginalQualityInfo">Videos that come in several qualities play in the original one, which uses more data.</string>
     <string name="MZGramHideBottomNavigationBar">Hide bottom navigation bar</string>

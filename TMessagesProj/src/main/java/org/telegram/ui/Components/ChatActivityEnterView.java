@@ -2974,7 +2974,11 @@ public class ChatActivityEnterView extends FrameLayout implements
                                     });
                                     return true;
                                 }
-                                delegate.needStartRecordVideo(1, true, 0, 0, voiceOnce ? 0x7FFFFFFF : 0, effectId, 0);
+                                // MZGram: ported concept from Nekogram (NekoConfig.confirmAVMessage).
+                                // State 3 is the existing "stop but keep as a reviewable
+                                // draft" path (same one a ringing phone call already
+                                // triggers), not a new UI.
+                                delegate.needStartRecordVideo(org.telegram.messenger.mzgram.MZGramConfig.confirmAVMessage ? 3 : 1, true, 0, 0, voiceOnce ? 0x7FFFFFFF : 0, effectId, 0);
                                 sendButton.setEffect(effectId = 0);
                             } else {
                                 if (recordingAudioVideo && isInScheduleMode()) {
@@ -3001,7 +3005,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                                     });
                                     return true;
                                 }
-                                MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0, voiceOnce, 0);
+                                // MZGram: ported concept from Nekogram (NekoConfig.confirmAVMessage).
+                                // Send state 2 is the same "stop but keep as a reviewable
+                                // draft" path a ringing phone call already triggers.
+                                MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : (org.telegram.messenger.mzgram.MZGramConfig.confirmAVMessage ? 2 : 1), true, 0, voiceOnce, 0);
                                 delegate.needStartRecordAudio(0);
                             }
                             recordingAudioVideo = false;
@@ -3097,7 +3104,8 @@ public class ChatActivityEnterView extends FrameLayout implements
                                     return true;
                                 }
                                 CameraController.getInstance().cancelOnInitRunnable(onFinishInitCameraRunnable);
-                                delegate.needStartRecordVideo(1, true, 0, 0, voiceOnce ? 0x7FFFFFFF : 0, effectId, 0);
+                                // MZGram: ported concept from Nekogram (NekoConfig.confirmAVMessage).
+                                delegate.needStartRecordVideo(org.telegram.messenger.mzgram.MZGramConfig.confirmAVMessage ? 3 : 1, true, 0, 0, voiceOnce ? 0x7FFFFFFF : 0, effectId, 0);
                                 sendButton.setEffect(effectId = 0);
                             } else if (!sendVoiceEnabled) {
                                 delegate.needShowMediaBanHint();
@@ -3120,7 +3128,8 @@ public class ChatActivityEnterView extends FrameLayout implements
                                     AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate, scheduleRepeatPeriod) -> MediaController.getInstance().stopRecording(1, notify, scheduleDate, false, 0), () -> MediaController.getInstance().stopRecording(0, false, 0, false, 0), resourcesProvider);
                                 }
                                 delegate.needStartRecordAudio(0);
-                                MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0, voiceOnce, 0);
+                                // MZGram: ported concept from Nekogram (NekoConfig.confirmAVMessage).
+                                MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : (org.telegram.messenger.mzgram.MZGramConfig.confirmAVMessage ? 2 : 1), true, 0, voiceOnce, 0);
                             }
                             recordingAudioVideo = false;
                             messageTransitionIsRunning = false;

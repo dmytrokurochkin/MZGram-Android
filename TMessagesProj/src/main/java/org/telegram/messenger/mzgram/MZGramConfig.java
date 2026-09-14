@@ -52,6 +52,10 @@ public class MZGramConfig {
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean gooeyAvatarAnimation = true;
     public static boolean hideBottomNavigationBar = false;
+    // Ported concept from Nekogram (confirmAVMessage). Routes a released
+    // record gesture into the existing "recorded, not yet sent" preview
+    // panel instead of sending immediately, for both voice and round video.
+    public static boolean confirmAVMessage = false;
     public static boolean ghostMode = false;
 
     // Local message history archive (deleted/edited messages, ported concept
@@ -99,6 +103,7 @@ public class MZGramConfig {
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
+            confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             ghostMode = preferences.getBoolean("ghostMode", false);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
@@ -225,6 +230,11 @@ public class MZGramConfig {
     public static void toggleHideBottomNavigationBar() {
         hideBottomNavigationBar = !hideBottomNavigationBar;
         putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
+    }
+
+    public static void toggleConfirmAVMessage() {
+        confirmAVMessage = !confirmAVMessage;
+        putBoolean("confirmAVMessage", confirmAVMessage);
     }
 
     public static void toggleGhostMode() {

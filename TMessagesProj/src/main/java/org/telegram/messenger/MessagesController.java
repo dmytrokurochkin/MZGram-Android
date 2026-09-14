@@ -14561,6 +14561,43 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
+    // MZGram: own code. Ghost mode (completeReadTask below) suppresses the
+    // outgoing read-history request entirely. When the user explicitly
+    // replies to or reacts to a specific message, that action already
+    // reveals engagement, so this marks just that one message read on the
+    // server regardless of ghost mode -- independent of the ReadTask queue,
+    // so the general suppression above is untouched.
+    public void mzgramMarkMessageReadDueToInteraction(long dialogId, int messageId) {
+        if (!org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled() || messageId <= 0 || dialogId == 0) {
+            return;
+        }
+        if (DialogObject.isEncryptedDialog(dialogId)) {
+            return;
+        }
+        TLRPC.InputPeer inputPeer = getInputPeer(dialogId);
+        if (inputPeer == null) {
+            return;
+        }
+        TLObject req;
+        if (inputPeer instanceof TLRPC.TL_inputPeerChannel) {
+            TLRPC.TL_channels_readHistory request = new TLRPC.TL_channels_readHistory();
+            request.channel = getInputChannel(-dialogId);
+            request.max_id = messageId;
+            req = request;
+        } else {
+            TLRPC.TL_messages_readHistory request = new TLRPC.TL_messages_readHistory();
+            request.peer = inputPeer;
+            request.max_id = messageId;
+            req = request;
+        }
+        getConnectionsManager().sendRequest(req, (response, error) -> {
+            if (error == null && response instanceof TLRPC.TL_messages_affectedMessages) {
+                TLRPC.TL_messages_affectedMessages res = (TLRPC.TL_messages_affectedMessages) response;
+                processNewDifferenceParams(-1, res.pts, -1, res.pts_count);
+            }
+        });
+    }
+
     private void completeReadTask(ReadTask task) {
         // MZGram: ported from AyuGram4A (utils/AyuGhostUtils.markReadOnServer).
         // Ghost mode drops the outgoing read-history request; the local read

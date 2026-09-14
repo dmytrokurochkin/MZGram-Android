@@ -3845,6 +3845,12 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (messageObject == null || parentFragment == null) {
             return;
         }
+        // MZGram: own code. Reacting is an explicit interaction with this
+        // message; mark it read even under ghost mode's general
+        // read-receipt suppression.
+        if (addedReaction != null) {
+            getMessagesController().mzgramMarkMessageReadDueToInteraction(messageObject.getDialogId(), messageObject.getId());
+        }
         TLRPC.TL_messages_sendReaction req = new TLRPC.TL_messages_sendReaction();
         if (messageObject.messageOwner.isThreadMessage && messageObject.messageOwner.fwd_from != null) {
             req.peer = getMessagesController().getInputPeer(messageObject.getFromChatId());
@@ -4334,6 +4340,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (sendMessageChatArguments.welcomeMessageChatId != 0) {
             peer = -sendMessageChatArguments.welcomeMessageChatId;
             user = null;
+        }
+
+        // MZGram: own code. A reply is an explicit interaction with the
+        // replied-to message; mark it read even under ghost mode's general
+        // read-receipt suppression.
+        if (replyToMsg != null) {
+            getMessagesController().mzgramMarkMessageReadDueToInteraction(peer, replyToMsg.getId());
         }
 
         if (user != null && user.phone == null) {

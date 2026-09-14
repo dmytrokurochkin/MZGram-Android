@@ -4,5 +4,5 @@
     android:accountType="org.telegram.messenger"
     android:icon="@drawable/ic_launcher_dr"
     android:smallIcon="@drawable/ic_launcher_dr"
-    android:label="@string/AppName"
+    android:label="@string/MZGram"
     android:accountPreferences="@xml/auth_menu"/>

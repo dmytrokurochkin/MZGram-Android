@@ -205,6 +205,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SAVE_MESSAGE_HISTORY) {
             MZGramConfig.toggleSaveMessageHistory();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveMessageHistory);
+            // This switch is a no-op by itself: nothing is archived until at
+            // least one chat is on the Tracked chats allowlist (see
+            // MZGramHistoryController.isTracked). Turning the switch on with
+            // an empty list silently does nothing and looks like a bug from
+            // the outside, so walk the user straight to the picker.
+            if (MZGramConfig.saveMessageHistory && MZGramConfig.getTrackedDialogs().isEmpty()) {
+                presentFragment(new MZGramTrackedChatsActivity());
+            }
         } else if (item.id == BUTTON_TRACKED_CHATS) {
             presentFragment(new MZGramTrackedChatsActivity());
         }

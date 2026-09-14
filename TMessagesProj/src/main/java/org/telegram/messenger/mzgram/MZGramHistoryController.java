@@ -21,6 +21,7 @@ package org.telegram.messenger.mzgram;
 import android.text.TextUtils;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
@@ -74,7 +75,10 @@ public class MZGramHistoryController {
             return;
         }
 
-        db.insert(buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_DELETED));
+        long rowId = db.insert(buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_DELETED));
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("MZGramHistoryController: archived deleted message " + message.id + " in dialog " + dialogId + ", rowId=" + rowId);
+        }
     }
 
     // ---- edited messages ----
@@ -97,7 +101,10 @@ public class MZGramHistoryController {
         }
 
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
-        MZGramHistoryDatabase.getInstance().insert(buildRow(accountId, accountUserId, dialogId, oldMessage, MZGramHistoryMessage.KIND_EDITED));
+        long rowId = MZGramHistoryDatabase.getInstance().insert(buildRow(accountId, accountUserId, dialogId, oldMessage, MZGramHistoryMessage.KIND_EDITED));
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("MZGramHistoryController: archived edited message " + oldMessage.id + " in dialog " + dialogId + ", rowId=" + rowId);
+        }
     }
 
     private boolean sameMedia(TLRPC.Message a, TLRPC.Message b) {

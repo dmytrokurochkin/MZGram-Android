@@ -52,7 +52,6 @@ public class MZGramConfig {
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean gooeyAvatarAnimation = true;
     public static boolean hideBottomNavigationBar = false;
-    public static boolean cleanLinkTracking = false;
     public static boolean ghostMode = false;
 
     // Local message history archive (deleted/edited messages, ported concept
@@ -100,7 +99,6 @@ public class MZGramConfig {
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
-            cleanLinkTracking = preferences.getBoolean("cleanLinkTracking", false);
             ghostMode = preferences.getBoolean("ghostMode", false);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
@@ -227,11 +225,6 @@ public class MZGramConfig {
     public static void toggleHideBottomNavigationBar() {
         hideBottomNavigationBar = !hideBottomNavigationBar;
         putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
-    }
-
-    public static void toggleCleanLinkTracking() {
-        cleanLinkTracking = !cleanLinkTracking;
-        putBoolean("cleanLinkTracking", cleanLinkTracking);
     }
 
     public static void toggleGhostMode() {

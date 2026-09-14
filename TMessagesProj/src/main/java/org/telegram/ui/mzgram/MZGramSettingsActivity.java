@@ -48,7 +48,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_PREDICTIVE_BACK_ANIMATION = 21;
     private static final int BUTTON_GOOEY_AVATAR_ANIMATION = 22;
     private static final int BUTTON_HIDE_BOTTOM_NAVIGATION_BAR = 23;
-    private static final int BUTTON_CLEAN_LINK_TRACKING = 24;
     private static final int BUTTON_GHOST_MODE = 25;
     private static final int BUTTON_SAVE_MESSAGE_HISTORY = 26;
     private static final int BUTTON_TRACKED_CHATS = 27;
@@ -69,8 +68,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramOpenArchiveOnPullInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableInstantCameraInfo)));
-        items.add(UItem.asCheck(BUTTON_CLEAN_LINK_TRACKING, getString(R.string.MZGramCleanLinkTracking)).setChecked(MZGramConfig.cleanLinkTracking));
-        items.add(UItem.asShadow(getString(R.string.MZGramCleanLinkTrackingInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramPrivacy)));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE, getString(R.string.MZGramGhostMode)).setChecked(MZGramConfig.ghostMode));
@@ -196,9 +193,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
             MZGramConfig.toggleHideBottomNavigationBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
-        } else if (item.id == BUTTON_CLEAN_LINK_TRACKING) {
-            MZGramConfig.toggleCleanLinkTracking();
-            ((TextCheckCell) view).setChecked(MZGramConfig.cleanLinkTracking);
         } else if (item.id == BUTTON_GHOST_MODE) {
             MZGramConfig.toggleGhostMode();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostMode);

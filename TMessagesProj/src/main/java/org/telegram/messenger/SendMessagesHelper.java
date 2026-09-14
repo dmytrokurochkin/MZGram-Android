@@ -4288,6 +4288,24 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public void sendMessage(SendMessageParams sendMessageParams) {
+        // MZGram: own code, ghost mode auto-delay send. Holds off the whole
+        // send (local bubble included) for a few seconds, so composing and
+        // sending right away does not create a burst of activity that can
+        // make you look online. Not applied to already-scheduled messages,
+        // which have their own explicit timing.
+        if (!sendMessageParams.mzgramDelaySent
+                && sendMessageParams.scheduleDate == 0
+                && org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()
+                && org.telegram.messenger.mzgram.MZGramConfig.ghostAutoDelaySend) {
+            sendMessageParams.mzgramDelaySent = true;
+            boolean hasMedia = sendMessageParams.photo != null || sendMessageParams.document != null
+                    || sendMessageParams.videoEditedInfo != null || sendMessageParams.location != null
+                    || sendMessageParams.game != null || sendMessageParams.poll != null
+                    || sendMessageParams.todo != null || sendMessageParams.invoice != null;
+            long delayMs = hasMedia ? 20000 : 12000;
+            AndroidUtilities.runOnUIThread(() -> sendMessage(sendMessageParams), delayMs);
+            return;
+        }
         final SendMessageChatArguments sendMessageChatArguments = sendMessageParams.sendMessageChatArguments != null ?
                 sendMessageParams.sendMessageChatArguments : SendMessageChatArguments.EMPTY;
         String message = sendMessageParams.message;
@@ -12163,6 +12181,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         public ChatActivity.ReplyQuote replyQuote;
         public SendMessageChatArguments sendMessageChatArguments;
         public boolean invert_media;
+        // MZGram: own code, ghost mode auto-delay send. Set once the delayed
+        // re-invocation of sendMessage() has already been scheduled, so the
+        // check at the top of sendMessage() does not delay it a second time.
+        public boolean mzgramDelaySent;
         @Deprecated // use SendMessageChatArguments
         public String quick_reply_shortcut;
         @Deprecated // use SendMessageChatArguments

@@ -58,6 +58,8 @@
     <string name="MZGramPrivacy">Privacy</string>
     <string name="MZGramGhostMode">Ghost mode</string>
     <string name="MZGramGhostModeInfo">Other users no longer see that you read their message or that you are typing. Your own unread counters still work as usual.</string>
+    <string name="MZGramGhostAutoDelaySend">Delay sending messages</string>
+    <string name="MZGramGhostAutoDelaySendInfo">Holds an outgoing message (12 seconds, longer for photos/videos/files) before actually sending it, so composing and sending right away does not make you look online. Not recommended on an unreliable connection: a delayed message can still be waiting to send if the app closes or the network drops in the meantime.</string>
     <string name="MZGramSaveMessageHistory">Save deleted &amp; edited messages</string>
     <string name="MZGramSaveMessageHistoryInfo">For chats added below, keeps a local copy of a message before it is deleted, and every earlier revision of an edited message. Nothing is saved for chats not on the list.</string>
     <string name="MZGramTrackedChats">Tracked chats</string>

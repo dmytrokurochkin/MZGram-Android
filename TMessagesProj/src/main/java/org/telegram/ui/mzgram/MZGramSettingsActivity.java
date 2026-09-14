@@ -53,6 +53,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_TRACKED_CHATS = 27;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
+    private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
 
     @Override
     protected CharSequence getTitle() {
@@ -74,6 +75,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramPrivacy)));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE, getString(R.string.MZGramGhostMode)).setChecked(MZGramConfig.ghostMode));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostModeInfo)));
+        items.add(UItem.asCheck(BUTTON_GHOST_AUTO_DELAY_SEND, getString(R.string.MZGramGhostAutoDelaySend)).setChecked(MZGramConfig.ghostAutoDelaySend));
+        items.add(UItem.asShadow(getString(R.string.MZGramGhostAutoDelaySendInfo)));
         items.add(UItem.asCheck(BUTTON_SAVE_MESSAGE_HISTORY, getString(R.string.MZGramSaveMessageHistory)).setChecked(MZGramConfig.saveMessageHistory));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveMessageHistoryInfo)));
         items.add(UItem.asButton(BUTTON_TRACKED_CHATS, getString(R.string.MZGramTrackedChats), String.valueOf(MZGramConfig.getTrackedDialogs().size())));
@@ -205,6 +208,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
             MZGramConfig.toggleHideBottomNavigationBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
+        } else if (item.id == BUTTON_GHOST_AUTO_DELAY_SEND) {
+            MZGramConfig.toggleGhostAutoDelaySend();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostAutoDelaySend);
         } else if (item.id == BUTTON_GHOST_MODE) {
             MZGramConfig.toggleGhostMode();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostMode);

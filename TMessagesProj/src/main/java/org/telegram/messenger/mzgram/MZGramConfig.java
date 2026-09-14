@@ -62,6 +62,12 @@ public class MZGramConfig {
     // as usual.
     public static boolean mediaPreviewOnLongPress = false;
     public static boolean ghostMode = false;
+    // Ghost mode: delay the actual network send of an outgoing message by a
+    // few seconds, so composing and sending does not create the burst of
+    // activity that can make you look online. Off by default; the settings
+    // screen warns this is not recommended on unreliable networks (a delayed
+    // send can still be in flight if the app is killed or the network drops).
+    public static boolean ghostAutoDelaySend = false;
 
     // Local message history archive (deleted/edited messages, ported concept
     // from AyuGram4A). Allowlist-only, like the Desktop anti-recall feature:
@@ -111,6 +117,7 @@ public class MZGramConfig {
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             mediaPreviewOnLongPress = preferences.getBoolean("mediaPreviewOnLongPress", false);
             ghostMode = preferences.getBoolean("ghostMode", false);
+            ghostAutoDelaySend = preferences.getBoolean("ghostAutoDelaySend", false);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
             trackedDialogs.clear();
@@ -246,6 +253,11 @@ public class MZGramConfig {
     public static void toggleMediaPreviewOnLongPress() {
         mediaPreviewOnLongPress = !mediaPreviewOnLongPress;
         putBoolean("mediaPreviewOnLongPress", mediaPreviewOnLongPress);
+    }
+
+    public static void toggleGhostAutoDelaySend() {
+        ghostAutoDelaySend = !ghostAutoDelaySend;
+        putBoolean("ghostAutoDelaySend", ghostAutoDelaySend);
     }
 
     public static void toggleGhostMode() {

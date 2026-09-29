@@ -167,6 +167,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     boolean inSeekingMode;
     boolean allowSwipeToReply;
     boolean isShowing;
+    // MZGram: own code. Set right before an open(...) overload re-invokes
+    // itself after the ghost-mode prompt below is answered, so that second
+    // call does not show the prompt again.
+    private boolean mzgramSkipGhostModePrompt;
     public StoriesViewPager storiesViewPager;
     float pointPosition[] = new float[2];
 
@@ -387,6 +391,31 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
         if (isShowing) {
             doOnAnimationReadyRunnables.clear();
+            return;
+        }
+        // MZGram: own code. This overload is the single choke point every
+        // other open(...) overload and every external call site funnels
+        // through, and isShowing above guarantees it only runs on a genuine
+        // first entry (not on internal swipe navigation between stories),
+        // so this is the one place to offer enabling ghost mode.
+        if (mzgramSkipGhostModePrompt) {
+            mzgramSkipGhostModePrompt = false;
+        } else if (org.telegram.messenger.mzgram.MZGramConfig.offerGhostModeBeforeStories
+                && !org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()) {
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(context)
+                    .setTitle(org.telegram.messenger.LocaleController.getString(R.string.MZGramGhostMode))
+                    .setMessage(org.telegram.messenger.LocaleController.getString(R.string.MZGramOfferGhostModeBeforeStories))
+                    .setPositiveButton(org.telegram.messenger.LocaleController.getString(R.string.MZGramEnableAndView), (dialog, which) -> {
+                        org.telegram.messenger.mzgram.MZGramConfig.toggleGhostMode();
+                        mzgramSkipGhostModePrompt = true;
+                        open(account, context, storyItem, peerIds, position, storiesList, userStories, placeProvider, reversed);
+                    })
+                    .setNeutralButton(org.telegram.messenger.LocaleController.getString(R.string.MZGramViewAnyway), (dialog, which) -> {
+                        mzgramSkipGhostModePrompt = true;
+                        open(account, context, storyItem, peerIds, position, storiesList, userStories, placeProvider, reversed);
+                    })
+                    .setNegativeButton(org.telegram.messenger.LocaleController.getString(R.string.Cancel), null)
+                    .show();
             return;
         }
         setSpeed(1f);

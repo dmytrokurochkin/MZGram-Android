@@ -73,6 +73,10 @@ public class MZGramConfig {
     // per-message "send without sound" option the user can already pick by
     // hand from the send button's long-press menu.
     public static boolean ghostSilentSend = false;
+    // Ghost mode: before opening the story viewer for the first time (not on
+    // swiping between already-open stories), offer to turn ghost mode on so
+    // viewing does not mark the story as seen for the other side.
+    public static boolean offerGhostModeBeforeStories = false;
 
     // Local message history archive (deleted/edited messages, ported concept
     // from AyuGram4A). Allowlist-only, like the Desktop anti-recall feature:
@@ -124,6 +128,7 @@ public class MZGramConfig {
             ghostMode = preferences.getBoolean("ghostMode", false);
             ghostAutoDelaySend = preferences.getBoolean("ghostAutoDelaySend", false);
             ghostSilentSend = preferences.getBoolean("ghostSilentSend", false);
+            offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
             trackedDialogs.clear();
@@ -269,6 +274,11 @@ public class MZGramConfig {
     public static void toggleGhostSilentSend() {
         ghostSilentSend = !ghostSilentSend;
         putBoolean("ghostSilentSend", ghostSilentSend);
+    }
+
+    public static void toggleOfferGhostModeBeforeStories() {
+        offerGhostModeBeforeStories = !offerGhostModeBeforeStories;
+        putBoolean("offerGhostModeBeforeStories", offerGhostModeBeforeStories);
     }
 
     public static void toggleGhostMode() {

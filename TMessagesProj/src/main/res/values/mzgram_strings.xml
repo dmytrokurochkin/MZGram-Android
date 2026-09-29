@@ -62,6 +62,11 @@
     <string name="MZGramGhostAutoDelaySendInfo">Holds an outgoing message (12 seconds, longer for photos/videos/files) before actually sending it, so composing and sending right away does not make you look online. Not recommended on an unreliable connection: a delayed message can still be waiting to send if the app closes or the network drops in the meantime.</string>
     <string name="MZGramGhostSilentSend">Send without sound</string>
     <string name="MZGramGhostSilentSendInfo">Sends every outgoing message without a notification sound for the recipient while ghost mode is on, regardless of the per-message \"send without sound\" option.</string>
+    <string name="MZGramOfferGhostModeBeforeStoriesToggle">Offer ghost mode before Stories</string>
+    <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Before opening a story for the first time (not when swiping to the next one), asks whether to turn ghost mode on first, so viewing it does not mark it as seen.</string>
+    <string name="MZGramOfferGhostModeBeforeStories">Ghost mode is off. Viewing this story will mark it as seen. Turn ghost mode on first?</string>
+    <string name="MZGramEnableAndView">Enable and view</string>
+    <string name="MZGramViewAnyway">View anyway</string>
     <string name="MZGramSaveMessageHistory">Save deleted &amp; edited messages</string>
     <string name="MZGramSaveMessageHistoryInfo">For chats added below, keeps a local copy of a message before it is deleted, and every earlier revision of an edited message. Nothing is saved for chats not on the list.</string>
     <string name="MZGramTrackedChats">Tracked chats</string>

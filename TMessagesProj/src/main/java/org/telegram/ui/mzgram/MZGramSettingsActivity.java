@@ -55,6 +55,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
     private static final int BUTTON_GHOST_SILENT_SEND = 31;
+    private static final int BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES = 32;
 
     @Override
     protected CharSequence getTitle() {
@@ -80,6 +81,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramGhostAutoDelaySendInfo)));
         items.add(UItem.asCheck(BUTTON_GHOST_SILENT_SEND, getString(R.string.MZGramGhostSilentSend)).setChecked(MZGramConfig.ghostSilentSend));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostSilentSendInfo)));
+        items.add(UItem.asCheck(BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES, getString(R.string.MZGramOfferGhostModeBeforeStoriesToggle)).setChecked(MZGramConfig.offerGhostModeBeforeStories));
+        items.add(UItem.asShadow(getString(R.string.MZGramOfferGhostModeBeforeStoriesToggleInfo)));
         items.add(UItem.asCheck(BUTTON_SAVE_MESSAGE_HISTORY, getString(R.string.MZGramSaveMessageHistory)).setChecked(MZGramConfig.saveMessageHistory));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveMessageHistoryInfo)));
         items.add(UItem.asButton(BUTTON_TRACKED_CHATS, getString(R.string.MZGramTrackedChats), String.valueOf(MZGramConfig.getTrackedDialogs().size())));
@@ -217,6 +220,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_GHOST_SILENT_SEND) {
             MZGramConfig.toggleGhostSilentSend();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostSilentSend);
+        } else if (item.id == BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES) {
+            MZGramConfig.toggleOfferGhostModeBeforeStories();
+            ((TextCheckCell) view).setChecked(MZGramConfig.offerGhostModeBeforeStories);
         } else if (item.id == BUTTON_GHOST_MODE) {
             MZGramConfig.toggleGhostMode();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostMode);

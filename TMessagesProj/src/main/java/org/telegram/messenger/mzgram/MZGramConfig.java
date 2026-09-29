@@ -68,6 +68,11 @@ public class MZGramConfig {
     // screen warns this is not recommended on unreliable networks (a delayed
     // send can still be in flight if the app is killed or the network drops).
     public static boolean ghostAutoDelaySend = false;
+    // Ghost mode: send outgoing messages silently (no sound/notification for
+    // the recipient) for as long as ghost mode is on, without touching the
+    // per-message "send without sound" option the user can already pick by
+    // hand from the send button's long-press menu.
+    public static boolean ghostSilentSend = false;
 
     // Local message history archive (deleted/edited messages, ported concept
     // from AyuGram4A). Allowlist-only, like the Desktop anti-recall feature:
@@ -118,6 +123,7 @@ public class MZGramConfig {
             mediaPreviewOnLongPress = preferences.getBoolean("mediaPreviewOnLongPress", false);
             ghostMode = preferences.getBoolean("ghostMode", false);
             ghostAutoDelaySend = preferences.getBoolean("ghostAutoDelaySend", false);
+            ghostSilentSend = preferences.getBoolean("ghostSilentSend", false);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
             trackedDialogs.clear();
@@ -258,6 +264,11 @@ public class MZGramConfig {
     public static void toggleGhostAutoDelaySend() {
         ghostAutoDelaySend = !ghostAutoDelaySend;
         putBoolean("ghostAutoDelaySend", ghostAutoDelaySend);
+    }
+
+    public static void toggleGhostSilentSend() {
+        ghostSilentSend = !ghostSilentSend;
+        putBoolean("ghostSilentSend", ghostSilentSend);
     }
 
     public static void toggleGhostMode() {

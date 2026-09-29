@@ -4306,6 +4306,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             AndroidUtilities.runOnUIThread(() -> sendMessage(sendMessageParams), delayMs);
             return;
         }
+        // Ghost mode: send without sound/notification for as long as ghost
+        // mode and this toggle are on, regardless of what the per-message
+        // "send without sound" long-press option was set to.
+        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()
+                && org.telegram.messenger.mzgram.MZGramConfig.ghostSilentSend) {
+            sendMessageParams.notify = false;
+        }
         final SendMessageChatArguments sendMessageChatArguments = sendMessageParams.sendMessageChatArguments != null ?
                 sendMessageParams.sendMessageChatArguments : SendMessageChatArguments.EMPTY;
         String message = sendMessageParams.message;

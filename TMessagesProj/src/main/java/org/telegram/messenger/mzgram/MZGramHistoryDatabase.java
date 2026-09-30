@@ -76,6 +76,10 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return new File(dbFilePath);
     }
 
+    public static File mediaRoot() {
+        return new File(new File(ApplicationLoader.applicationContext.getFilesDir(), "mzgram"), "media");
+    }
+
     public static File mediaDir(long accountUserId, long dialogId) {
         File dir = new File(new File(new File(ApplicationLoader.applicationContext.getFilesDir(), "mzgram"), "media"),
                 accountUserId + File.separator + dialogId);
@@ -212,7 +216,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     // removed from the allowlist earlier still has old rows/files).
     public void wipeAll() {
         clean();
-        deleteRecursively(new File(new File(ApplicationLoader.applicationContext.getFilesDir(), "mzgram"), "media"));
+        deleteRecursively(mediaRoot());
     }
 
     private static void deleteRecursively(File file) {

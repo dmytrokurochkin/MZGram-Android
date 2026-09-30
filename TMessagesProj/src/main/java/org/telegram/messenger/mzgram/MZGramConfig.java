@@ -89,6 +89,10 @@ public class MZGramConfig {
     // users can see.
     public static boolean hideOwnPhoneNumber = false;
     public static int historyMediaSizeLimitMb = 50; // videos/files only; 0 = no limit
+    // Total cap for everything saved under the archive's media folder,
+    // across all tracked chats; 0 = unlimited. When exceeded, the oldest
+    // saved files are deleted first until back under the cap.
+    public static int historyTotalMediaCapMb = 300;
     private static final Set<Long> trackedDialogs = new HashSet<>();
 
     static {
@@ -137,6 +141,7 @@ public class MZGramConfig {
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             hideOwnPhoneNumber = preferences.getBoolean("hideOwnPhoneNumber", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
+            historyTotalMediaCapMb = preferences.getInt("historyTotalMediaCapMb", 300);
             trackedDialogs.clear();
             trackedDialogs.addAll(parseDialogSet(preferences.getString("historyTrackedDialogs", "")));
             configLoaded = true;
@@ -305,6 +310,11 @@ public class MZGramConfig {
     public static void setHistoryMediaSizeLimitMb(int mb) {
         historyMediaSizeLimitMb = Math.max(0, mb);
         preferences().edit().putInt("historyMediaSizeLimitMb", historyMediaSizeLimitMb).apply();
+    }
+
+    public static void setHistoryTotalMediaCapMb(int mb) {
+        historyTotalMediaCapMb = Math.max(0, mb);
+        preferences().edit().putInt("historyTotalMediaCapMb", historyTotalMediaCapMb).apply();
     }
 
     public static boolean isDialogTracked(long dialogId) {

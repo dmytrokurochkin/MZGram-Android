@@ -36,6 +36,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MZGramHistoryController {
@@ -288,9 +290,58 @@ public class MZGramHistoryController {
             if (message.media.document != null) {
                 row.mimeType = message.media.document.mime_type;
             }
+            enforceMediaCap();
         } catch (Exception e) {
             FileLog.e("MZGramHistoryController.copyMediaIfNeeded", e);
         }
+    }
+
+    // ---- total media size cap ----
+
+    // Oldest-first eviction across the whole media folder (every account,
+    // every tracked chat combined), so the archive's disk usage stays under
+    // MZGramConfig.historyTotalMediaCapMb regardless of which chat is
+    // currently growing. Text/entity rows are left alone -- only the media
+    // file on disk is removed, the same way the per-file size limit above
+    // already results in a text-only row.
+    private void enforceMediaCap() {
+        int capMb = MZGramConfig.historyTotalMediaCapMb;
+        if (capMb <= 0) {
+            return;
+        }
+        long capBytes = (long) capMb * 1024 * 1024;
+        List<File> files = new ArrayList<>();
+        long total = collectFiles(MZGramHistoryDatabase.mediaRoot(), files);
+        if (total <= capBytes) {
+            return;
+        }
+        Collections.sort(files, (a, b) -> Long.compare(a.lastModified(), b.lastModified()));
+        for (File f : files) {
+            if (total <= capBytes) {
+                break;
+            }
+            long len = f.length();
+            if (f.delete()) {
+                total -= len;
+            }
+        }
+    }
+
+    private long collectFiles(File dir, List<File> out) {
+        File[] children = dir.listFiles();
+        if (children == null) {
+            return 0;
+        }
+        long total = 0;
+        for (File child : children) {
+            if (child.isDirectory()) {
+                total += collectFiles(child, out);
+            } else {
+                out.add(child);
+                total += child.length();
+            }
+        }
+        return total;
     }
 
     // ---- retrieval for the UI ----

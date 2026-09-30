@@ -21659,6 +21659,12 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public SponsoredMessagesInfo getSponsoredMessages(long dialogId) {
+        // MZGram: own code, ported concept from AyuGram4A (AyuConfig.disableAds).
+        // Stops sponsored messages at the single place every caller fetches
+        // them from, so the request is never even sent.
+        if (org.telegram.messenger.mzgram.MZGramConfig.disableSponsoredMessages) {
+            return null;
+        }
         SponsoredMessagesInfo info = sponsoredMessages.get(dialogId);
         if (info != null && (info.loading || Math.abs(SystemClock.elapsedRealtime() - info.loadTime) <= 5 * 60 * 1000)) {
             return info;

@@ -61,6 +61,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_EXPORT_ARCHIVE = 35;
     private static final int BUTTON_IMPORT_ARCHIVE = 36;
     private static final int REQUEST_CODE_IMPORT_ARCHIVE = 8842;
+    private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
+    private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
 
     @Override
     protected CharSequence getTitle() {
@@ -78,6 +80,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramOpenArchiveOnPullInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableInstantCameraInfo)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_SPONSORED_MESSAGES, getString(R.string.MZGramDisableSponsoredMessages)).setChecked(MZGramConfig.disableSponsoredMessages));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableSponsoredMessagesInfo)));
+        items.add(UItem.asCheck(BUTTON_STRIP_ZALGO_TEXT, getString(R.string.MZGramStripZalgoText)).setChecked(MZGramConfig.stripZalgoText));
+        items.add(UItem.asShadow(getString(R.string.MZGramStripZalgoTextInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramPrivacy)));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE, getString(R.string.MZGramGhostMode)).setChecked(MZGramConfig.ghostMode));
@@ -264,6 +270,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_OWN_PHONE_NUMBER) {
             MZGramConfig.toggleHideOwnPhoneNumber();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideOwnPhoneNumber);
+        } else if (item.id == BUTTON_DISABLE_SPONSORED_MESSAGES) {
+            MZGramConfig.toggleDisableSponsoredMessages();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableSponsoredMessages);
+        } else if (item.id == BUTTON_STRIP_ZALGO_TEXT) {
+            MZGramConfig.toggleStripZalgoText();
+            ((TextCheckCell) view).setChecked(MZGramConfig.stripZalgoText);
         } else if (item.id == BUTTON_EXPORT_ARCHIVE) {
             org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
                 try {

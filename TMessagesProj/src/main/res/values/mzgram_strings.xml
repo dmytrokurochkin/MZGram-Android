@@ -76,6 +76,10 @@
     <string name="MZGramImportArchive">Import archive</string>
     <string name="MZGramExportImportArchiveInfo">Export saves the archive database as a file you choose where to put. Import replaces the current archive with a previously exported file (media files are not included).</string>
     <string name="MZGramImportArchiveConfirm">This replaces the current local archive with the picked file. This cannot be undone. Continue?</string>
+    <string name="MZGramDisableSponsoredMessages">Disable sponsored messages</string>
+    <string name="MZGramDisableSponsoredMessagesInfo">Stops sponsored (ad) messages in channels from being requested or shown.</string>
+    <string name="MZGramStripZalgoText">Zalgo filter</string>
+    <string name="MZGramStripZalgoTextInfo">Removes stacked Unicode combining marks (Zalgo-style corrupted text) from names and chat titles shown to you.</string>
     <string name="MZGramSaveMessageHistory">Save deleted &amp; edited messages</string>
     <string name="MZGramSaveMessageHistoryInfo">For chats added below, keeps a local copy of a message before it is deleted, and every earlier revision of an edited message. Nothing is saved for chats not on the list.</string>
     <string name="MZGramTrackedChats">Tracked chats</string>

@@ -88,6 +88,12 @@ public class MZGramConfig {
     // device -- unrelated to the server-side privacy setting for what other
     // users can see.
     public static boolean hideOwnPhoneNumber = false;
+    // Ported concept from AyuGram4A (AyuConfig.disableAds). Stops sponsored
+    // (ad) messages in channels from ever being requested.
+    public static boolean disableSponsoredMessages = false;
+    // Strips Zalgo-style combining-mark text corruption from display names.
+    // See MZGramZalgoFilter.
+    public static boolean stripZalgoText = false;
     public static int historyMediaSizeLimitMb = 50; // videos/files only; 0 = no limit
     // Total cap for everything saved under the archive's media folder,
     // across all tracked chats; 0 = unlimited. When exceeded, the oldest
@@ -140,6 +146,8 @@ public class MZGramConfig {
             offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             hideOwnPhoneNumber = preferences.getBoolean("hideOwnPhoneNumber", false);
+            disableSponsoredMessages = preferences.getBoolean("disableSponsoredMessages", false);
+            stripZalgoText = preferences.getBoolean("stripZalgoText", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
             historyTotalMediaCapMb = preferences.getInt("historyTotalMediaCapMb", 300);
             trackedDialogs.clear();
@@ -305,6 +313,16 @@ public class MZGramConfig {
     public static void toggleHideOwnPhoneNumber() {
         hideOwnPhoneNumber = !hideOwnPhoneNumber;
         putBoolean("hideOwnPhoneNumber", hideOwnPhoneNumber);
+    }
+
+    public static void toggleDisableSponsoredMessages() {
+        disableSponsoredMessages = !disableSponsoredMessages;
+        putBoolean("disableSponsoredMessages", disableSponsoredMessages);
+    }
+
+    public static void toggleStripZalgoText() {
+        stripZalgoText = !stripZalgoText;
+        putBoolean("stripZalgoText", stripZalgoText);
     }
 
     public static void setHistoryMediaSizeLimitMb(int mb) {

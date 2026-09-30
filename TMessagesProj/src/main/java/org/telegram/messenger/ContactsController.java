@@ -3027,7 +3027,7 @@ public class ContactsController extends BaseController {
             return formatName((TLRPC.User) object);
         } else if (object instanceof TLRPC.Chat) {
             TLRPC.Chat chat = (TLRPC.Chat) object;
-            return chat.title;
+            return org.telegram.messenger.mzgram.MZGramZalgoFilter.strip(chat.title);
         } else {
             return LocaleController.getString(R.string.HiddenName);
         }
@@ -3051,6 +3051,11 @@ public class ContactsController extends BaseController {
         /*if ((firstName == null || firstName.length() == 0) && (lastName == null || lastName.length() == 0)) {
             return LocaleController.getString(R.string.HiddenName);
         }*/
+        // MZGram: own code, Zalgo filter. Stripped here, before any of the
+        // truncation logic below, so every return path (full name or
+        // truncated) is already clean.
+        firstName = org.telegram.messenger.mzgram.MZGramZalgoFilter.strip(firstName);
+        lastName = org.telegram.messenger.mzgram.MZGramZalgoFilter.strip(lastName);
         if (firstName != null) {
             firstName = firstName.trim();
         }

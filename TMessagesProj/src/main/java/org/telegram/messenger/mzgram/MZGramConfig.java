@@ -78,6 +78,15 @@ public class MZGramConfig {
     // viewing does not mark the story as seen for the other side.
     public static boolean offerGhostModeBeforeStories = false;
 
+    // Spy mode: hide own online/last-seen status via the native privacy
+    // rule (see MZGramSpyMode -- different mechanism from Ghost Mode's
+    // online-status suppression, which is not safely reachable on
+    // Android). savedLastSeenPrivacyState caches the rule that was active
+    // before hiding, so it can be restored exactly; Integer.MIN_VALUE
+    // means nothing is currently saved.
+    public static boolean hideOwnOnlineStatus = false;
+    public static int savedLastSeenPrivacyState = Integer.MIN_VALUE;
+
     // Local message history archive (deleted/edited messages, ported concept
     // from AyuGram4A). Allowlist-only, like the Desktop anti-recall feature:
     // a dialog is archived only when it is in trackedDialogs, never by
@@ -144,6 +153,8 @@ public class MZGramConfig {
             ghostAutoDelaySend = preferences.getBoolean("ghostAutoDelaySend", false);
             ghostSilentSend = preferences.getBoolean("ghostSilentSend", false);
             offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
+            hideOwnOnlineStatus = preferences.getBoolean("hideOwnOnlineStatus", false);
+            savedLastSeenPrivacyState = preferences.getInt("savedLastSeenPrivacyState", Integer.MIN_VALUE);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             hideOwnPhoneNumber = preferences.getBoolean("hideOwnPhoneNumber", false);
             disableSponsoredMessages = preferences.getBoolean("disableSponsoredMessages", false);
@@ -298,6 +309,19 @@ public class MZGramConfig {
     public static void toggleOfferGhostModeBeforeStories() {
         offerGhostModeBeforeStories = !offerGhostModeBeforeStories;
         putBoolean("offerGhostModeBeforeStories", offerGhostModeBeforeStories);
+    }
+
+    // The boolean below is set directly by MZGramSpyMode once the server
+    // confirms the privacy rule change (not eagerly on click), since the
+    // toggle should not show "on" if the request failed or was refused.
+    public static void setHideOwnOnlineStatus(boolean hide) {
+        hideOwnOnlineStatus = hide;
+        putBoolean("hideOwnOnlineStatus", hideOwnOnlineStatus);
+    }
+
+    public static void setSavedLastSeenPrivacyState(int state) {
+        savedLastSeenPrivacyState = state;
+        preferences().edit().putInt("savedLastSeenPrivacyState", state).apply();
     }
 
     public static void toggleGhostMode() {

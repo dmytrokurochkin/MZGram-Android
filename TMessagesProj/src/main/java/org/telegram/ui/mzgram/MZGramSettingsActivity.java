@@ -11,8 +11,10 @@ import static org.telegram.messenger.LocaleController.getString;
 
 import android.view.View;
 
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.messenger.mzgram.MZGramConfig;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
@@ -63,6 +65,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int REQUEST_CODE_IMPORT_ARCHIVE = 8842;
     private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
+    private static final int BUTTON_HIDE_OWN_ONLINE_STATUS = 39;
 
     @Override
     protected CharSequence getTitle() {
@@ -102,6 +105,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramWipeArchiveInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_OWN_PHONE_NUMBER, getString(R.string.MZGramHideOwnPhoneNumber)).setChecked(MZGramConfig.hideOwnPhoneNumber));
         items.add(UItem.asShadow(getString(R.string.MZGramHideOwnPhoneNumberInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_OWN_ONLINE_STATUS, getString(R.string.MZGramHideOwnOnlineStatus)).setChecked(MZGramConfig.hideOwnOnlineStatus));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideOwnOnlineStatusInfo)));
         items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
         items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
         items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
@@ -273,9 +278,26 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DISABLE_SPONSORED_MESSAGES) {
             MZGramConfig.toggleDisableSponsoredMessages();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableSponsoredMessages);
+            if (MZGramConfig.disableSponsoredMessages) {
+                // Clears an already-showing chat-list promo/proxy banner
+                // immediately, not just future ones.
+                getMessagesController().hidePromoDialog();
+            }
         } else if (item.id == BUTTON_STRIP_ZALGO_TEXT) {
             MZGramConfig.toggleStripZalgoText();
             ((TextCheckCell) view).setChecked(MZGramConfig.stripZalgoText);
+        } else if (item.id == BUTTON_HIDE_OWN_ONLINE_STATUS) {
+            boolean target = !MZGramConfig.hideOwnOnlineStatus;
+            org.telegram.messenger.mzgram.MZGramSpyMode.setHideOwnOnlineStatus(getCurrentAccount(), target, (success, hadCustomExceptions) -> AndroidUtilities.runOnUIThread(() -> {
+                if (success) {
+                    MZGramConfig.setHideOwnOnlineStatus(target);
+                    ((TextCheckCell) view).setChecked(MZGramConfig.hideOwnOnlineStatus);
+                } else if (hadCustomExceptions) {
+                    BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramHideOwnOnlineStatusCustomRules)).show();
+                } else {
+                    BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramHideOwnOnlineStatusNotLoaded)).show();
+                }
+            }));
         } else if (item.id == BUTTON_EXPORT_ARCHIVE) {
             org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
                 try {

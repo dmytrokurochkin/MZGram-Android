@@ -65,6 +65,16 @@ public class MZGramHistoryController {
     // ---- deleted messages ----
 
     public void onMessageDeleted(int accountId, long dialogId, TLRPC.Message message) {
+        // MZGram: unconditional entry log -- isTracked()/message==null below used
+        // to fail completely silently, so a misconfigured allowlist and "this
+        // hook was never even reached" were indistinguishable from logcat.
+        // Diagnostic-only, no behavior change.
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("MZGramHistoryController.onMessageDeleted: called for dialog " + dialogId
+                    + ", messageId=" + (message != null ? message.id : "null")
+                    + ", saveMessageHistory=" + MZGramConfig.saveMessageHistory
+                    + ", isDialogTracked=" + MZGramConfig.isDialogTracked(dialogId));
+        }
         if (message == null || !isTracked(dialogId)) {
             return;
         }
@@ -80,6 +90,9 @@ public class MZGramHistoryController {
 
         MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
         if (db.existsDeleted(accountUserId, dialogId, message.id)) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("MZGramHistoryController: message " + message.id + " in dialog " + dialogId + " already archived, skipping");
+            }
             return;
         }
 

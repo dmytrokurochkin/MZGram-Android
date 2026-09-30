@@ -6059,15 +6059,26 @@ public class MessageObject {
                     }
                 }
             } else {
-                if (messageOwner.message != null) {
+                // MZGram: own code, Zalgo filter. Stripped on the raw
+                // plain String here, before AndroidUtilities' own bad-char
+                // sanitizing pattern. Skipped when the message has entities
+                // (formatting spans, mentions, etc.): those carry fixed
+                // offsets computed server-side against the unmodified
+                // text, and applyEntities()/addEntitiesToText() apply them
+                // later directly onto this same messageText string, so
+                // shortening it here first would misalign every entity
+                // that starts after a stripped character.
+                boolean hasEntities = getEntities() != null && !getEntities().isEmpty();
+                String source = (messageOwner.message != null && !hasEntities) ? org.telegram.messenger.mzgram.MZGramZalgoFilter.strip(messageOwner.message) : messageOwner.message;
+                if (source != null) {
                     try {
-                        if (messageOwner.message.length() > 200) {
-                            messageText = AndroidUtilities.BAD_CHARS_MESSAGE_LONG_PATTERN.matcher(messageOwner.message).replaceAll("\u200C");
+                        if (source.length() > 200) {
+                            messageText = AndroidUtilities.BAD_CHARS_MESSAGE_LONG_PATTERN.matcher(source).replaceAll("\u200C");
                         } else {
-                            messageText = AndroidUtilities.BAD_CHARS_MESSAGE_PATTERN.matcher(messageOwner.message).replaceAll("\u200C");
+                            messageText = AndroidUtilities.BAD_CHARS_MESSAGE_PATTERN.matcher(source).replaceAll("\u200C");
                         }
                     } catch (Throwable e) {
-                        messageText = messageOwner.message;
+                        messageText = source;
                     }
                 } else {
                     messageText = messageOwner.message;

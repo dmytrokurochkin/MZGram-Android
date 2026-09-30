@@ -31,7 +31,7 @@ import java.util.List;
 public class MZGramHistoryDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "mzgram_history.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     private static final String TABLE = "history_message";
 
@@ -110,6 +110,17 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
                 "mimeType TEXT" +
                 ")");
         db.execSQL("CREATE INDEX idx_history_message_lookup ON " + TABLE + " (accountUserId, dialogId, messageId, kind)");
+        // MZGram: own fix. A deleted message can only ever be archived once, so
+        // this is a real UNIQUE constraint -- unlike KIND_EDITED, which needs
+        // many rows per (accountUserId, dialogId, messageId), one per revision,
+        // so the index is scoped to kind = KIND_DELETED only (a SQLite partial
+        // index). insert() below relies on this via INSERT OR IGNORE instead of
+        // a separate existsDeleted() pre-check in Java: a Java-side
+        // check-then-insert can only ever be as reliable as that one extra
+        // query, while a UNIQUE constraint enforced by SQLite itself at insert
+        // time cannot silently drift from what is actually in the table.
+        db.execSQL("CREATE UNIQUE INDEX idx_history_message_unique_deleted ON " + TABLE
+                + " (accountUserId, dialogId, messageId) WHERE kind = " + MZGramHistoryMessage.KIND_DELETED);
     }
 
     @Override
@@ -118,6 +129,17 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // MZGram: own fix. insertWithOnConflict(..., CONFLICT_IGNORE) instead of
+    // plain insert(): for KIND_DELETED rows the partial unique index above
+    // makes a genuine duplicate simply a no-op (returns -1), enforced
+    // atomically by SQLite itself. This replaced a separate Java-side
+    // existsDeleted() check-then-insert in MZGramHistoryController, which was
+    // the prime suspect for deleted messages silently never being archived
+    // (a stale/mismatched existsDeleted() read could short-circuit before
+    // insert ever ran, with no way to tell from outside this class) -- see
+    // docs/07-nekogram-features-plan.md for the investigation. For
+    // KIND_EDITED/KIND_VIEW_ONCE rows, which are never covered by that index,
+    // this behaves exactly like the plain insert() did before.
     public long insert(MZGramHistoryMessage msg) {
         ContentValues values = new ContentValues();
         values.put("kind", msg.kind);
@@ -135,7 +157,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         values.put("mediaPath", msg.mediaPath);
         values.put("mediaType", msg.mediaType);
         values.put("mimeType", msg.mimeType);
-        return getWritableDatabase().insert(TABLE, null, values);
+        return getWritableDatabase().insertWithOnConflict(TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
     public boolean existsDeleted(long accountUserId, long dialogId, int messageId) {

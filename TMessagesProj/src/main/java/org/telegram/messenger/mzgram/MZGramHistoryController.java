@@ -85,20 +85,26 @@ public class MZGramHistoryController {
         }
     }
 
+    // MZGram: own fix. Used to pre-check MZGramHistoryDatabase.existsDeleted()
+    // in Java and return early before ever calling insert() -- a separate
+    // read that could only ever be as reliable as that one extra query, with
+    // no way to tell from outside this class whether a "not archived" report
+    // was ever wrong. insert() itself now uses INSERT OR IGNORE against a
+    // partial UNIQUE index (MZGramHistoryDatabase.onCreate), so a genuine
+    // duplicate is a no-op enforced atomically by SQLite (rowId == -1)
+    // instead of trusted to a prior Java-side check. See
+    // docs/07-nekogram-features-plan.md for the investigation this replaced.
     private void onMessageDeletedInner(int accountId, long dialogId, TLRPC.Message message) {
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
 
         MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
-        if (db.existsDeleted(accountUserId, dialogId, message.id)) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("MZGramHistoryController: message " + message.id + " in dialog " + dialogId + " already archived, skipping");
-            }
-            return;
-        }
-
         long rowId = db.insert(buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_DELETED));
         if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("MZGramHistoryController: archived deleted message " + message.id + " in dialog " + dialogId + ", rowId=" + rowId);
+            if (rowId == -1) {
+                FileLog.d("MZGramHistoryController: message " + message.id + " in dialog " + dialogId + " already archived (INSERT OR IGNORE no-op)");
+            } else {
+                FileLog.d("MZGramHistoryController: archived deleted message " + message.id + " in dialog " + dialogId + ", rowId=" + rowId);
+            }
         }
     }
 

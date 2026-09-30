@@ -48,8 +48,11 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return instance;
     }
 
+    private final String dbFilePath;
+
     private MZGramHistoryDatabase(Context context) {
         super(context, dbPath(context), null, DB_VERSION);
+        dbFilePath = dbPath(context);
     }
 
     // Next to Telegram's own private data directory, not in public storage
@@ -63,6 +66,14 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
             dir.mkdirs();
         }
         return new File(dir, DB_NAME).getAbsolutePath();
+    }
+
+    // For export/import: the raw SQLite file backing this database. Callers
+    // must close() this helper first so every write is flushed to disk
+    // before the file is copied or replaced -- this reads the path stored
+    // at construction time rather than opening the database.
+    public File getDatabaseFile() {
+        return new File(dbFilePath);
     }
 
     public static File mediaDir(long accountUserId, long dialogId) {

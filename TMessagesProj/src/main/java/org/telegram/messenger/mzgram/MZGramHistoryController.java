@@ -21,6 +21,7 @@ package org.telegram.messenger.mzgram;
 import android.text.TextUtils;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
@@ -31,6 +32,10 @@ import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLRPC;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 public class MZGramHistoryController {
@@ -314,5 +319,39 @@ public class MZGramHistoryController {
 
     public void wipeArchive() {
         MZGramHistoryDatabase.getInstance().wipeAll();
+    }
+
+    // ---- export / import ----
+
+    // Copies the raw SQLite file to a fresh location the caller can hand to
+    // AndroidUtilities.openForView (native "open with"/share chooser). The
+    // export is the database file itself, not a separate format -- import
+    // is the exact reverse (see importArchive below).
+    public File exportArchive() throws IOException {
+        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+        db.close(); // flush every pending write before copying the file
+        File exportDir = new File(ApplicationLoader.applicationContext.getCacheDir(), "mzgram_export");
+        if (!exportDir.exists()) {
+            exportDir.mkdirs();
+        }
+        File dest = new File(exportDir, "mzgram_archive_export.db");
+        AndroidUtilities.copyFile(db.getDatabaseFile(), dest);
+        return dest;
+    }
+
+    // Fully replaces the current archive database with the picked file's
+    // contents. Does not touch already-copied media files on disk (those
+    // are referenced by path from rows in the imported database, and export
+    // does not currently bundle them -- only the row/text/entity data).
+    public void importArchive(InputStream input) throws IOException {
+        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+        db.close();
+        try (OutputStream out = new FileOutputStream(db.getDatabaseFile())) {
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = input.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+        }
     }
 }

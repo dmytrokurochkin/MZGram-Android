@@ -72,6 +72,10 @@
     <string name="MZGramWipeArchiveConfirm">This permanently deletes the whole local archive of deleted and edited messages, including saved media. This cannot be undone. Continue?</string>
     <string name="MZGramHideOwnPhoneNumber">Hide own phone number</string>
     <string name="MZGramHideOwnPhoneNumberInfo">Masks your own phone number on your own profile screen, e.g. before sharing your screen. Only changes what this device shows you; does not change who else can see your number.</string>
+    <string name="MZGramExportArchive">Export archive</string>
+    <string name="MZGramImportArchive">Import archive</string>
+    <string name="MZGramExportImportArchiveInfo">Export saves the archive database as a file you choose where to put. Import replaces the current archive with a previously exported file (media files are not included).</string>
+    <string name="MZGramImportArchiveConfirm">This replaces the current local archive with the picked file. This cannot be undone. Continue?</string>
     <string name="MZGramSaveMessageHistory">Save deleted &amp; edited messages</string>
     <string name="MZGramSaveMessageHistoryInfo">For chats added below, keeps a local copy of a message before it is deleted, and every earlier revision of an edited message. Nothing is saved for chats not on the list.</string>
     <string name="MZGramTrackedChats">Tracked chats</string>

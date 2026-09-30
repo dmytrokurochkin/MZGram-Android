@@ -58,6 +58,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES = 32;
     private static final int BUTTON_WIPE_ARCHIVE = 33;
     private static final int BUTTON_HIDE_OWN_PHONE_NUMBER = 34;
+    private static final int BUTTON_EXPORT_ARCHIVE = 35;
+    private static final int BUTTON_IMPORT_ARCHIVE = 36;
+    private static final int REQUEST_CODE_IMPORT_ARCHIVE = 8842;
 
     @Override
     protected CharSequence getTitle() {
@@ -93,6 +96,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramWipeArchiveInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_OWN_PHONE_NUMBER, getString(R.string.MZGramHideOwnPhoneNumber)).setChecked(MZGramConfig.hideOwnPhoneNumber));
         items.add(UItem.asShadow(getString(R.string.MZGramHideOwnPhoneNumberInfo)));
+        items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
+        items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
+        items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
@@ -258,6 +264,51 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_OWN_PHONE_NUMBER) {
             MZGramConfig.toggleHideOwnPhoneNumber();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideOwnPhoneNumber);
+        } else if (item.id == BUTTON_EXPORT_ARCHIVE) {
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                try {
+                    java.io.File file = org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().exportArchive();
+                    android.app.Activity activity = getParentActivity();
+                    org.telegram.messenger.AndroidUtilities.runOnUIThread(() -> {
+                        if (activity != null) {
+                            org.telegram.messenger.AndroidUtilities.openForView(file, file.getName(), "application/octet-stream", activity, getResourceProvider(), false);
+                        }
+                    });
+                } catch (java.io.IOException e) {
+                    org.telegram.messenger.FileLog.e("MZGramSettingsActivity.exportArchive", e);
+                }
+            });
+        } else if (item.id == BUTTON_IMPORT_ARCHIVE) {
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
+                    .setTitle(getString(R.string.MZGramImportArchive))
+                    .setMessage(getString(R.string.MZGramImportArchiveConfirm))
+                    .setPositiveButton(getString(R.string.Continue), (dialog, which) -> {
+                        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");
+                        try {
+                            startActivityForResult(intent, REQUEST_CODE_IMPORT_ARCHIVE);
+                        } catch (Exception e) {
+                            org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importArchive", e);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .show();
+        }
+    }
+
+    @Override
+    public void onActivityResultFragment(int requestCode, int resultCode, android.content.Intent data) {
+        if (requestCode == REQUEST_CODE_IMPORT_ARCHIVE && resultCode == android.app.Activity.RESULT_OK && data != null && data.getData() != null) {
+            android.net.Uri uri = data.getData();
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                try (java.io.InputStream input = org.telegram.messenger.ApplicationLoader.applicationContext.getContentResolver().openInputStream(uri)) {
+                    if (input != null) {
+                        org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().importArchive(input);
+                    }
+                } catch (Exception e) {
+                    org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importArchive", e);
+                }
+            });
         }
     }
 

@@ -10860,6 +10860,16 @@ public class MessagesController extends BaseController implements NotificationCe
     private long lastCheckPromoInfoTime;
 
     private void checkPromoInfoInternal(boolean reset) {
+        // MZGram: own code. Stops the chat-list promo/proxy-ad banner at
+        // the single place it is periodically (re-)fetched from, rather
+        // than touching the many promoDialogId comparisons scattered
+        // through the dialog sync code -- those all become no-ops on
+        // their own once promoDialogId never gets set again. An already
+        // showing banner is cleared separately, see
+        // MZGramConfig.toggleDisablePromoDialog.
+        if (org.telegram.messenger.mzgram.MZGramConfig.disableSponsoredMessages) {
+            return;
+        }
         if (reset && checkingPromoInfo) {
             checkingPromoInfo = false;
         }

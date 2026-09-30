@@ -56,6 +56,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
     private static final int BUTTON_GHOST_SILENT_SEND = 31;
     private static final int BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES = 32;
+    private static final int BUTTON_WIPE_ARCHIVE = 33;
 
     @Override
     protected CharSequence getTitle() {
@@ -87,6 +88,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramSaveMessageHistoryInfo)));
         items.add(UItem.asButton(BUTTON_TRACKED_CHATS, getString(R.string.MZGramTrackedChats), String.valueOf(MZGramConfig.getTrackedDialogs().size())));
         items.add(UItem.asShadow(getString(R.string.MZGramTrackedChatsInfo)));
+        items.add(UItem.asButton(BUTTON_WIPE_ARCHIVE, getString(R.string.MZGramWipeArchive)));
+        items.add(UItem.asShadow(getString(R.string.MZGramWipeArchiveInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
@@ -239,6 +242,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
             }
         } else if (item.id == BUTTON_TRACKED_CHATS) {
             presentFragment(new MZGramTrackedChatsActivity());
+        } else if (item.id == BUTTON_WIPE_ARCHIVE) {
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
+                    .setTitle(getString(R.string.MZGramWipeArchive))
+                    .setMessage(getString(R.string.MZGramWipeArchiveConfirm))
+                    .setPositiveButton(getString(R.string.Delete), (dialog, which) -> {
+                        org.telegram.messenger.Utilities.globalQueue.postRunnable(() ->
+                                org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().wipeArchive());
+                    })
+                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .show();
         }
     }
 

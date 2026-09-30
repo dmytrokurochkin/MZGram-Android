@@ -195,6 +195,28 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         getWritableDatabase().execSQL("DELETE FROM " + TABLE);
     }
 
+    // Full wipe for the settings screen's "clear archive" action: every
+    // archived row plus every copied media file on disk, for every account
+    // and every dialog (not just the currently tracked ones -- a chat
+    // removed from the allowlist earlier still has old rows/files).
+    public void wipeAll() {
+        clean();
+        deleteRecursively(new File(new File(ApplicationLoader.applicationContext.getFilesDir(), "mzgram"), "media"));
+    }
+
+    private static void deleteRecursively(File file) {
+        if (file == null || !file.exists()) {
+            return;
+        }
+        File[] children = file.listFiles();
+        if (children != null) {
+            for (File child : children) {
+                deleteRecursively(child);
+            }
+        }
+        file.delete();
+    }
+
     private static MZGramHistoryMessage fromCursor(Cursor cursor) {
         MZGramHistoryMessage m = new MZGramHistoryMessage();
         m.rowId = cursor.getLong(cursor.getColumnIndexOrThrow("rowId"));

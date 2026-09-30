@@ -67,6 +67,9 @@
     <string name="MZGramOfferGhostModeBeforeStories">Ghost mode is off. Viewing this story will mark it as seen. Turn ghost mode on first?</string>
     <string name="MZGramEnableAndView">Enable and view</string>
     <string name="MZGramViewAnyway">View anyway</string>
+    <string name="MZGramWipeArchive">Clear archive</string>
+    <string name="MZGramWipeArchiveInfo">Permanently deletes every deleted/edited message archived so far, and all its saved media, for every tracked chat.</string>
+    <string name="MZGramWipeArchiveConfirm">This permanently deletes the whole local archive of deleted and edited messages, including saved media. This cannot be undone. Continue?</string>
     <string name="MZGramSaveMessageHistory">Save deleted &amp; edited messages</string>
     <string name="MZGramSaveMessageHistoryInfo">For chats added below, keeps a local copy of a message before it is deleted, and every earlier revision of an edited message. Nothing is saved for chats not on the list.</string>
     <string name="MZGramTrackedChats">Tracked chats</string>

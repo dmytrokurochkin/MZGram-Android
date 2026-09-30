@@ -309,4 +309,10 @@ public class MZGramHistoryController {
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
         return MZGramHistoryDatabase.getInstance().getAllForDialog(accountUserId, dialogId, limit);
     }
+
+    // ---- full wipe ----
+
+    public void wipeArchive() {
+        MZGramHistoryDatabase.getInstance().wipeAll();
+    }
 }

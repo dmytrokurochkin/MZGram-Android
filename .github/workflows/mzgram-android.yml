@@ -26,8 +26,17 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      # v3 always tries to install the 'tools' package, which Google removed
+      # from the SDK repository ("Failed to find package 'tools'", failing
+      # the whole step); v4 dropped that from its default package list.
       - name: Set up Android SDK.
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4.0.4
+
+      # Defensive: v4's own license pass already covers this, but accept
+      # explicitly so a future package bump here can't fail on an
+      # unaccepted license again.
+      - name: Accept Android SDK licenses.
+        run: yes | sdkmanager --licenses > /dev/null || true
 
       - name: Install NDK and CMake.
         run: |

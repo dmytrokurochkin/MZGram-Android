@@ -83,6 +83,11 @@ public class MZGramConfig {
     // a dialog is archived only when it is in trackedDialogs, never by
     // default for every chat.
     public static boolean saveMessageHistory = false;
+    // Spy mode: masks your own phone number on your own profile/settings
+    // screen (e.g. before screen sharing). Purely a display change on this
+    // device -- unrelated to the server-side privacy setting for what other
+    // users can see.
+    public static boolean hideOwnPhoneNumber = false;
     public static int historyMediaSizeLimitMb = 50; // videos/files only; 0 = no limit
     private static final Set<Long> trackedDialogs = new HashSet<>();
 
@@ -130,6 +135,7 @@ public class MZGramConfig {
             ghostSilentSend = preferences.getBoolean("ghostSilentSend", false);
             offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
+            hideOwnPhoneNumber = preferences.getBoolean("hideOwnPhoneNumber", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
             trackedDialogs.clear();
             trackedDialogs.addAll(parseDialogSet(preferences.getString("historyTrackedDialogs", "")));
@@ -289,6 +295,11 @@ public class MZGramConfig {
     public static void toggleSaveMessageHistory() {
         saveMessageHistory = !saveMessageHistory;
         putBoolean("saveMessageHistory", saveMessageHistory);
+    }
+
+    public static void toggleHideOwnPhoneNumber() {
+        hideOwnPhoneNumber = !hideOwnPhoneNumber;
+        putBoolean("hideOwnPhoneNumber", hideOwnPhoneNumber);
     }
 
     public static void setHistoryMediaSizeLimitMb(int mb) {

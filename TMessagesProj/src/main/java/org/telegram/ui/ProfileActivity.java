@@ -13493,6 +13493,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         String text;
                         TLRPC.User user = getMessagesController().getUser(userId);
                         String phoneNumber;
+                        // MZGram: own code, spy mode. Hides your own number's
+                        // digits from your own client's screen (e.g. before
+                        // screen sharing), independent of any server-side
+                        // privacy setting for what OTHER users can see.
+                        if (org.telegram.messenger.mzgram.MZGramConfig.hideOwnPhoneNumber && userId == getUserConfig().getClientUserId()) {
+                            detailCell.setTextAndValue(LocaleController.getString(R.string.PhoneHidden), LocaleController.getString(R.string.PhoneMobile), false);
+                            return;
+                        }
                         if (user != null && !TextUtils.isEmpty(vcardPhone)) {
                             text = PhoneFormat.getInstance().format("+" + vcardPhone);
                             phoneNumber = vcardPhone;

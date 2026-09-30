@@ -57,6 +57,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_GHOST_SILENT_SEND = 31;
     private static final int BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES = 32;
     private static final int BUTTON_WIPE_ARCHIVE = 33;
+    private static final int BUTTON_HIDE_OWN_PHONE_NUMBER = 34;
 
     @Override
     protected CharSequence getTitle() {
@@ -90,6 +91,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramTrackedChatsInfo)));
         items.add(UItem.asButton(BUTTON_WIPE_ARCHIVE, getString(R.string.MZGramWipeArchive)));
         items.add(UItem.asShadow(getString(R.string.MZGramWipeArchiveInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_OWN_PHONE_NUMBER, getString(R.string.MZGramHideOwnPhoneNumber)).setChecked(MZGramConfig.hideOwnPhoneNumber));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideOwnPhoneNumberInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
@@ -252,6 +255,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     })
                     .setNegativeButton(getString(R.string.Cancel), null)
                     .show();
+        } else if (item.id == BUTTON_HIDE_OWN_PHONE_NUMBER) {
+            MZGramConfig.toggleHideOwnPhoneNumber();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideOwnPhoneNumber);
         }
     }
 

@@ -2132,7 +2132,7 @@ public class MessagesStorage extends BaseController {
                 cursor.dispose();
                 cursor = null;
                 if (!mids.isEmpty()) {
-                    markMessagesAsDeletedInternal(selfId, mids, true, 0, 0);
+                    markMessagesAsDeletedInternal(selfId, mids, true, 0, 0, false);
                     updateDialogsWithDeletedMessages(selfId, -selfId, mids, null);
                     AndroidUtilities.runOnUIThread(() -> {
                         getMessagesController().markDialogMessageAsDeleted(selfId, mids);
@@ -4304,7 +4304,7 @@ public class MessagesStorage extends BaseController {
                     getFileLoader().cancelLoadFiles(namesToDelete);
                     getMessagesController().markDialogMessageAsDeleted(dialogId, mids);
                 });
-                markMessagesAsDeletedInternal(dialogId, mids, false, 0, 0);
+                markMessagesAsDeletedInternal(dialogId, mids, false, 0, 0, false);
                 updateDialogsWithDeletedMessagesInternal(dialogId, DialogObject.isChatDialog(dialogId) ? -dialogId : 0, mids, null);
                 getFileLoader().deleteFiles(filesToDelete, 0);
                 if (!mids.isEmpty()) {
@@ -14465,7 +14465,10 @@ public class MessagesStorage extends BaseController {
                         ArrayList<Integer> mids = dialogs.valueAt(a);
                         AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.messagesDeleted, mids, 0L, false));
                         updateDialogsWithReadMessagesInternal(mids, null, null, null, null);
-                        markMessagesAsDeletedInternal(dialogId, mids, true, 0, 0);
+                        // MZGram: this resolves a secret-chat peer's own delete notice
+                        // (by random_id) -- a server-confirmed deletion like the
+                        // ordinary update echo, so archiving is allowed here too.
+                        markMessagesAsDeletedInternal(dialogId, mids, true, 0, 0, true);
                         updateDialogsWithDeletedMessagesInternal(dialogId, 0, mids, null);
                     }
                 }
@@ -14513,7 +14516,7 @@ public class MessagesStorage extends BaseController {
         AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.quickRepliesUpdated));
     }
 
-    private ArrayList<Long> markMessagesAsDeletedInternal(long dialogId, ArrayList<Integer> messages, boolean deleteFiles, int mode, int threadMessageId) {
+    private ArrayList<Long> markMessagesAsDeletedInternal(long dialogId, ArrayList<Integer> messages, boolean deleteFiles, int mode, int threadMessageId, boolean allowMzgramArchive) {
         SQLiteCursor cursor = null;
         SQLitePreparedStatement state = null;
         try {
@@ -14633,9 +14636,14 @@ public class MessagesStorage extends BaseController {
                         // MZGram: ported from AyuGram4A (messages/AyuMessagesController).
                         // Also deserialize the message when MZGram tracks this dialog, so
                         // it can be archived below, even if nothing else in this method
-                        // needs the file deleted.
+                        // needs the file deleted. allowMzgramArchive restricts the actual
+                        // archive call to callers that represent a server-confirmed deletion
+                        // (the deferred update echo, a push delete notice, or a secret-chat
+                        // peer's delete notice) -- never the local synchronous path fired by
+                        // the user's own "Delete" tap, matching AyuGram, which has no such
+                        // synchronous archiving opportunity and relies solely on the echo.
                         boolean mzgramTracked = org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did);
-                        if (!DialogObject.isEncryptedDialog(did) && !deleteFiles && did != currentUser && !mzgramTracked) {
+                        if (!DialogObject.isEncryptedDialog(did) && !deleteFiles && did != currentUser && !(mzgramTracked && allowMzgramArchive)) {
                             continue;
                         }
                         NativeByteBuffer data = cursor.byteBufferValue(1);
@@ -14646,7 +14654,7 @@ public class MessagesStorage extends BaseController {
                                 deletedMessages.add(message);
                             }
                             data.reuse();
-                            if (mzgramTracked) {
+                            if (mzgramTracked && allowMzgramArchive) {
                                 org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageDeleted(currentAccount, did, message);
                             }
                             if (DialogObject.isEncryptedDialog(did) || deleteFiles) {
@@ -15345,13 +15353,20 @@ public class MessagesStorage extends BaseController {
     }
 
     public ArrayList<Long> markMessagesAsDeleted(long dialogId, ArrayList<Integer> messages, boolean useQueue, boolean deleteFiles, int mode, int topicId) {
+        return markMessagesAsDeleted(dialogId, messages, useQueue, deleteFiles, mode, topicId, false);
+    }
+
+    // MZGram: allowMzgramArchive is true only for callers that represent a
+    // server-confirmed deletion (update echo, push notice, secret-chat peer
+    // notice) -- see markMessagesAsDeletedInternal for why.
+    public ArrayList<Long> markMessagesAsDeleted(long dialogId, ArrayList<Integer> messages, boolean useQueue, boolean deleteFiles, int mode, int topicId, boolean allowMzgramArchive) {
         if (messages.isEmpty()) {
             return null;
         }
         if (useQueue) {
-            storageQueue.postRunnable(() -> markMessagesAsDeletedInternal(dialogId, messages, deleteFiles, mode, topicId));
+            storageQueue.postRunnable(() -> markMessagesAsDeletedInternal(dialogId, messages, deleteFiles, mode, topicId, allowMzgramArchive));
         } else {
-            return markMessagesAsDeletedInternal(dialogId, messages, deleteFiles, mode, topicId);
+            return markMessagesAsDeletedInternal(dialogId, messages, deleteFiles, mode, topicId, allowMzgramArchive);
         }
         return null;
     }

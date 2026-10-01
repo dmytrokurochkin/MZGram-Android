@@ -9362,6 +9362,12 @@ public class MessagesController extends BaseController implements NotificationCe
                 } else {
                     markDialogMessageAsDeleted(dialogId, messages);
                 }
+                // MZGram: this fires synchronously the moment the LOCAL user taps
+                // "Delete" -- no server confirmation yet. Deliberately does NOT
+                // archive (allowMzgramArchive defaults to false): AyuGram has no
+                // archiving opportunity here either, only via the later update
+                // echo (see the deletedMessages block below in processUpdateArray),
+                // which fires uniformly for own and others' deletions alike.
                 getMessagesStorage().markMessagesAsDeleted(dialogId, messages, true, forAll, 0, topicId);
                 getMessagesStorage().updateDialogsWithDeletedMessages(dialogId, channelId, messages, null);
             }
@@ -17682,7 +17688,9 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             });
             getMessagesStorage().deletePushMessages(dialogId, ids);
-            ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsDeleted(dialogId, ids, false, true, 0, 0);
+            // MZGram: a push delete notice is a server-confirmed deletion, same as
+            // the update echo below -- archiving is allowed here.
+            ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsDeleted(dialogId, ids, false, true, 0, 0, true);
             getMessagesStorage().updateDialogsWithDeletedMessages(dialogId, channelId, ids, dialogIds);
         });
     }
@@ -21283,7 +21291,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 long key = deletedMessages.keyAt(a);
                 ArrayList<Integer> arrayList = deletedMessages.valueAt(a);
                 getMessagesStorage().getStorageQueue().postRunnable(() -> {
-                    ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsDeleted(key, arrayList, false, true, 0, 0);
+                    // MZGram: this is the TL_updateDeleteMessages/TL_updateDeleteChannelMessages
+                    // echo -- the single shared archiving path for own AND others' ordinary
+                    // deletions (AyuGram-aligned), so archiving is allowed here.
+                    ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsDeleted(key, arrayList, false, true, 0, 0, true);
                     getMessagesStorage().updateDialogsWithDeletedMessages(key, -key, arrayList, dialogIds);
                 });
             }

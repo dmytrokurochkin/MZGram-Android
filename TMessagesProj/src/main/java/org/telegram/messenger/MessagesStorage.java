@@ -14672,6 +14672,31 @@ public class MessagesStorage extends BaseController {
                 cursor.dispose();
                 cursor = null;
 
+                // MZGram: diagnostic logging for the archive-not-saving-others'-
+                // messages investigation. unknownMessages is whatever is left
+                // of the requested ids after the loop above removed every one
+                // it found a messages_v2 row for -- a non-empty list here means
+                // this device had NO local record of that message at all by
+                // the time the delete update arrived, so there was nothing to
+                // archive regardless of tracking/dedup logic. messagesByDialogs
+                // shows which dialog(s) were actually found and resolved.
+                if (BuildVars.LOGS_ENABLED) {
+                    StringBuilder sb = new StringBuilder("MZGram: markMessagesAsDeletedInternal dialogId=" + dialogId
+                            + ", requested=" + messages
+                            + ", notFoundLocally=" + unknownMessages
+                            + ", foundInDialogs={");
+                    for (int a = 0, n = messagesByDialogs.size(); a < n; a++) {
+                        long did = messagesByDialogs.keyAt(a);
+                        if (a > 0) {
+                            sb.append(", ");
+                        }
+                        sb.append(did).append("=").append(messagesByDialogs.valueAt(a))
+                                .append(" tracked=").append(org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did));
+                    }
+                    sb.append("}");
+                    FileLog.d(sb.toString());
+                }
+
                 ArrayList<TopicKey> topicsToDelete = null;
 
                 if (dialogId != 0) {

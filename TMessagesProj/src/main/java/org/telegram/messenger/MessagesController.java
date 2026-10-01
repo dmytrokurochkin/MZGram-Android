@@ -18873,6 +18873,15 @@ public class MessagesController extends BaseController implements NotificationCe
                 dialogs_read_outbox_max.put(dialogId, Math.max(value, update.max_id));
             } else if (baseUpdate instanceof TL_update.TL_updateDeleteMessages) {
                 TL_update.TL_updateDeleteMessages update = (TL_update.TL_updateDeleteMessages) baseUpdate;
+                // MZGram: diagnostic logging for the archive-not-saving-others'-
+                // messages investigation. This update carries no dialogId --
+                // the server does not tell us which chat these message ids
+                // belonged to, so key 0 below gets resolved by matching mid
+                // against local storage later (MessagesStorage.getMessage,
+                // markMessagesAsDeletedInternal's "is_channel = 0" branch).
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("MZGram: TL_updateDeleteMessages received, ids=" + update.messages);
+                }
                 if (deletedMessages == null) {
                     deletedMessages = new LongSparseArray<>();
                 }
@@ -19397,6 +19406,9 @@ public class MessagesController extends BaseController implements NotificationCe
                 TL_update.TL_updateDeleteChannelMessages update = (TL_update.TL_updateDeleteChannelMessages) baseUpdate;
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d(baseUpdate + " channelId = " + update.channel_id);
+                    // MZGram: diagnostic logging for the archive-not-saving-
+                    // others'-messages investigation.
+                    FileLog.d("MZGram: TL_updateDeleteChannelMessages received, dialogId=" + (-update.channel_id) + ", ids=" + update.messages);
                 }
                 if (deletedMessages == null) {
                     deletedMessages = new LongSparseArray<>();

@@ -14643,6 +14643,14 @@ public class MessagesStorage extends BaseController {
                         // the user's own "Delete" tap, matching AyuGram, which has no such
                         // synchronous archiving opportunity and relies solely on the echo.
                         boolean mzgramTracked = org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did);
+                        // MZGram: diagnostic logging -- confirms whether this row was
+                        // skipped specifically because allowMzgramArchive is false (the
+                        // new flag from the AyuGram-alignment commit), as opposed to any
+                        // other reason (not tracked, row never found at all).
+                        if (BuildVars.LOGS_ENABLED && mzgramTracked && !allowMzgramArchive) {
+                            FileLog.d("MZGram: markMessagesAsDeletedInternal dialogId=" + did + " mid=" + mid
+                                    + " tracked but allowMzgramArchive=false (caller did not permit archiving) -- NOT archived here");
+                        }
                         if (!DialogObject.isEncryptedDialog(did) && !deleteFiles && did != currentUser && !(mzgramTracked && allowMzgramArchive)) {
                             continue;
                         }
@@ -14655,6 +14663,9 @@ public class MessagesStorage extends BaseController {
                             }
                             data.reuse();
                             if (mzgramTracked && allowMzgramArchive) {
+                                if (BuildVars.LOGS_ENABLED) {
+                                    FileLog.d("MZGram: markMessagesAsDeletedInternal dialogId=" + did + " mid=" + mid + " calling onMessageDeleted");
+                                }
                                 org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageDeleted(currentAccount, did, message);
                             }
                             if (DialogObject.isEncryptedDialog(did) || deleteFiles) {

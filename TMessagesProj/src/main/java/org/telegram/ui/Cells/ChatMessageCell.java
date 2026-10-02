@@ -1834,8 +1834,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     private final boolean ALPHA_PROPERTY_WORKAROUND = Build.VERSION.SDK_INT == 28;
     private float alphaInternal = 1f;
-    // MZGram: 0.5 for a deleted message kept in the chat (as in MZGram
-    // Desktop), 1 otherwise. Multiplies the cell's own alpha when drawing.
+    // MZGram: 0.75 for a deleted message kept in the chat, 1 otherwise.
+    // Multiplies the cell's own alpha when drawing.
     private float mzgramDimAlpha = 1f;
 
     public final TransitionParams transitionParams = new TransitionParams();
@@ -6767,7 +6767,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     public MultiLayoutTypingAnimator botDraftTypingAnimator;
 
     private void setMessageContent(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, boolean bottomNear, boolean topNear, boolean firstInChat, boolean lastInChatList) {
-        mzgramDimAlpha = messageObject.messageOwner != null && messageObject.messageOwner.mzgramDeleted ? 0.5f : 1f;
+        mzgramDimAlpha = messageObject.messageOwner != null && messageObject.messageOwner.mzgramDeleted ? 0.75f : 1f;
         if (messageObject.checkLayout() || currentPosition != null && lastHeight != AndroidUtilities.displaySize.y) {
             currentMessageObject = null;
         }

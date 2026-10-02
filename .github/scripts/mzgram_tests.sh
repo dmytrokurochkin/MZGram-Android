@@ -4,7 +4,8 @@
 #
 # 1. Every test in org.telegram.messenger.mzgram.test except the live one.
 # 2. MZGramDeletedArchiveLiveTest, with mzgram_e2e_peer.py driving the
-#    second Telegram test-server account from this host.
+#    second Telegram test-server account from this host -- only when the
+#    preflight step managed to sign in (e2e-preflight-ok exists).
 #
 # Exit code is non-zero if either run fails. logcat goes to logcat-full.txt.
 set -u
@@ -19,7 +20,9 @@ adb logcat -c
     -Pandroid.testInstrumentationRunnerArguments.package=$PKG \
     -Pandroid.testInstrumentationRunnerArguments.notClass=$LIVE || status=1
 
-if [ -n "${API_ID:-}" ] && [ -n "${API_HASH:-}" ]; then
+if [ ! -f e2e-preflight-ok ]; then
+    echo "::warning::Live E2E test skipped: the test-server login preflight did not pass."
+elif [ -n "${API_ID:-}" ] && [ -n "${API_HASH:-}" ]; then
     rm -f e2e-phones.txt
     python3 .github/scripts/mzgram_e2e_peer.py e2e-phones.txt > e2e-peer.log 2>&1 &
     peer=$!

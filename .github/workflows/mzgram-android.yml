@@ -133,13 +133,20 @@ jobs:
       - name: Install E2E peer dependencies.
         run: pip install telethon==1.45.0
 
-      # Fails fast, before the long build, if the test-server login used by
-      # the live E2E test does not work.
+      # Checks, before the long build, whether the test-server login used by
+      # the live E2E test works. Non-blocking: when it does not, the live
+      # test is skipped with a warning and every other test still runs and
+      # still fails the job on a real failure.
       - name: E2E peer preflight.
         env:
           API_ID: ${{ secrets.TELEGRAM_API_ID }}
           API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
-        run: python3 .github/scripts/mzgram_e2e_peer.py --preflight
+        run: |
+          if python3 .github/scripts/mzgram_e2e_peer.py --preflight; then
+            touch e2e-preflight-ok
+          else
+            echo "::warning::Telegram test-server login failed (see log above); the live E2E test will be skipped."
+          fi
 
       - name: Build test APKs.
         run: ./gradlew :TMessagesProj_AppTests:assembleAfatDebug :TMessagesProj_AppTests:assembleAfatDebugAndroidTest --console=plain

@@ -15656,11 +15656,15 @@ public class ChatActivity extends BaseFragment implements
             org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onOneTimeMediaViewed(currentAccount, dialog_id, messageObject.messageOwner);
         }
         final long taskId = getMessagesController().createDeleteShowOnceTask(dialog_id, messageObject.getId());
-        messageObject.forceExpired = true;
-        if (messageObject.isOutOwner() || !messageObject.isRoundOnce() && !messageObject.isVoiceOnce()) {
-            ArrayList<MessageObject> msgs = new ArrayList<>();
-            msgs.add(messageObject);
-            updateMessages(msgs, true);
+        // MZGram: another person's one-time media in a tracked chat is not
+        // shown as expired; emptyMessagesMedia sends it back from the archive.
+        if (!org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().keepsOneTimeMediaInChat(currentAccount, dialog_id, messageObject.messageOwner)) {
+            messageObject.forceExpired = true;
+            if (messageObject.isOutOwner() || !messageObject.isRoundOnce() && !messageObject.isVoiceOnce()) {
+                ArrayList<MessageObject> msgs = new ArrayList<>();
+                msgs.add(messageObject);
+                updateMessages(msgs, true);
+            }
         }
         return () -> getMessagesController().doDeleteShowOnceTask(taskId, dialog_id, messageObject.getId());
     }
@@ -23268,7 +23272,14 @@ public class ChatActivity extends BaseFragment implements
         } else if (id == NotificationCenter.updateMessageMedia) {
             TLRPC.Message message = (TLRPC.Message) args[0];
             MessageObject existMessageObject = messagesDict[0].get(message.id);
-            if (existMessageObject != null) {
+            if (existMessageObject != null && message.mzgramRestoredMedia) {
+                // MZGram: one-time media of another person in a tracked chat
+                // comes back from the archive; show it as ordinary media.
+                org.telegram.messenger.mzgram.MZGramHistoryController.applyRestoredMedia(existMessageObject, message);
+                if (chatAdapter != null) {
+                    chatAdapter.updateRowWithMessageObject(existMessageObject, false, false);
+                }
+            } else if (existMessageObject != null) {
                 existMessageObject.messageOwner.media = message.media;
                 existMessageObject.messageOwner.attachPath = message.attachPath;
                 existMessageObject.generateThumbs(false);
@@ -26385,8 +26396,7 @@ public class ChatActivity extends BaseFragment implements
             // instead of being removed.
             if (obj != null && chatMode == MODE_DEFAULT && obj.messageOwner != null
                     && org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().keepsDeletedInChat(currentAccount, dialog_id, obj.messageOwner)) {
-                obj.messageOwner.mzgramDeleted = true;
-                obj.forceUpdate = true;
+                org.telegram.messenger.mzgram.MZGramHistoryController.markKeptDeleted(obj);
                 if (chatAdapter != null) {
                     chatAdapter.updateRowWithMessageObject(obj, false, false);
                 }

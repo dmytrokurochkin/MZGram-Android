@@ -4900,9 +4900,16 @@ public class MessagesStorage extends BaseController {
                         state.dispose();
                         state = null;
                     }
+                    // MZGram: an open tracked chat gets other people's media back from
+                    // the archive instead of an expired placeholder.
+                    ArrayList<TLRPC.Message> shownMessages = new ArrayList<>(messages.size());
+                    for (int a = 0; a < messages.size(); a++) {
+                        TLRPC.Message restored = org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().mediaForOpenChat(currentAccount, dialogId, messages.get(a));
+                        shownMessages.add(restored != null ? restored : messages.get(a));
+                    }
                     AndroidUtilities.runOnUIThread(() -> {
-                        for (int a = 0; a < messages.size(); a++) {
-                            getNotificationCenter().postNotificationName(NotificationCenter.updateMessageMedia, messages.get(a));
+                        for (int a = 0; a < shownMessages.size(); a++) {
+                            getNotificationCenter().postNotificationName(NotificationCenter.updateMessageMedia, shownMessages.get(a));
                         }
                     });
                 }

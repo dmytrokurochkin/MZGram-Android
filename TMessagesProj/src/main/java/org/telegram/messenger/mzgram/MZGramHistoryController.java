@@ -619,10 +619,75 @@ public class MZGramHistoryController {
         copy.media = old.media;
         copy.media.ttl_seconds = 0;
         copy.media.flags &= ~4;
+        copy.ttl = 0;
         copy.dialog_id = dialogId;
         copy.media_unread = false;
+        copy.mzgramRestoredMedia = true;
         putFileBack(accountId, copy, row.mediaPath);
         return copy;
+    }
+
+    // ---- one-time media in an open chat ----
+
+    // MessagesStorage.emptyMessagesMedia, right after it removed the media of
+    // a message (and archived it): what an open chat is told the message now
+    // looks like. For another person's message in a tracked chat that is the
+    // media back from the archive, as ordinary media; otherwise null (the
+    // chat shows it expired, as usual).
+    public TLRPC.Message mediaForOpenChat(int accountId, long dialogId, TLRPC.Message emptied) {
+        if (emptied == null || !isTracked(dialogId) || isOwnMessage(accountId, emptied)) {
+            return null;
+        }
+        try {
+            long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+            return withRestoredMedia(accountId, accountUserId, dialogId, emptied);
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.mediaForOpenChat", e);
+            return null;
+        }
+    }
+
+    // ChatActivity, on updateMessageMedia with media put back
+    // (mzgramRestoredMedia): turns the shown one-time message into an
+    // ordinary one with that media, no longer expired.
+    public static void applyRestoredMedia(MessageObject shown, TLRPC.Message restored) {
+        shown.messageOwner.media = restored.media;
+        shown.messageOwner.attachPath = restored.attachPath;
+        shown.messageOwner.ttl = 0;
+        shown.messageOwner.media_unread = false;
+        shown.messageOwner.destroyTime = 0;
+        shown.messageOwner.destroyTimeMillis = 0;
+        shown.forceExpired = false;
+        shown.generateThumbs(false);
+        shown.setType();
+        shown.forceUpdate = true;
+    }
+
+    // ChatActivity, when the user has viewed one-time media: false means
+    // do not show it as expired. Kept: another person's message in a tracked
+    // chat -- the media comes back from the archive (see mediaForOpenChat).
+    public boolean keepsOneTimeMediaInChat(int accountId, long dialogId, TLRPC.Message message) {
+        return message != null && isTracked(dialogId) && !isOwnMessage(accountId, message);
+    }
+
+    // ChatActivity, for a deleted message it keeps in the open chat: marked
+    // deleted, and one-time media in it shown as ordinary media, since the
+    // server will never let it be opened again.
+    public static void markKeptDeleted(MessageObject shown) {
+        shown.messageOwner.mzgramDeleted = true;
+        TLRPC.MessageMedia media = MessageObject.getMedia(shown.messageOwner);
+        if (shown.messageOwner.ttl != 0 || media != null && media.ttl_seconds != 0) {
+            shown.messageOwner.ttl = 0;
+            if (media != null) {
+                media.ttl_seconds = 0;
+                media.flags &= ~4;
+            }
+            shown.messageOwner.destroyTime = 0;
+            shown.messageOwner.destroyTimeMillis = 0;
+            shown.forceExpired = false;
+            shown.setType();
+        }
+        shown.forceUpdate = true;
     }
 
     // Puts the archived copy of the file where the chat looks for this

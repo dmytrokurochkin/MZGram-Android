@@ -108,14 +108,17 @@ class MZGramOneTimeMediaRealPathTest {
         it.flags = it.flags or 256 or 512
     }
 
-    private fun photoSize(type: String, w: Int, mid: Int, local: Int) = TLRPC.TL_photoSize().also {
+    // The location a photo size gets when the message is read from the
+    // network or the cache (TLRPC.PhotoSize.TLdeserialize): -photo id and
+    // the size type. The app names the file after it, "-<photo id>_<type>.jpg".
+    private fun photoSize(type: String, w: Int, photoId: Long) = TLRPC.TL_photoSize().also {
         it.type = type
         it.w = w
         it.h = w * 3 / 4
         it.size = 1000
         it.location = TLRPC.TL_fileLocationToBeDeprecated().also { l ->
-            l.volume_id = 500_000_000L + mid
-            l.local_id = local
+            l.volume_id = -photoId
+            l.local_id = type[0].code
         }
     }
 
@@ -127,9 +130,9 @@ class MZGramOneTimeMediaRealPathTest {
                 p.dc_id = 2
                 p.date = now()
                 p.file_reference = ByteArray(0)
-                p.sizes.add(photoSize("x", 800, mid, 1))
-                p.sizes.add(photoSize("y", 1280, mid, 2))
-                p.sizes.add(photoSize("w", 2560, mid, 3))
+                p.sizes.add(photoSize("x", 800, p.id))
+                p.sizes.add(photoSize("y", 1280, p.id))
+                p.sizes.add(photoSize("w", 2560, p.id))
             }
             m.ttl_seconds = ttl
             m.flags = m.flags or 1 or 4

@@ -390,8 +390,13 @@ class MZGramDeletedInChatTest {
             c.layout(0, 0, c.measuredWidth, c.measuredHeight)
             cell = c
         }
-        // Emoji images (the pencil) load in the background.
-        Thread.sleep(2000)
+        // Emoji images (the pencil) start loading on the first draw and load
+        // in the background; in a chat the cell is redrawn when they are in.
+        instrumentation.runOnMainSync {
+            val c = cell!!
+            c.draw(Canvas(Bitmap.createBitmap(c.measuredWidth, maxOf(1, c.measuredHeight), Bitmap.Config.ARGB_8888)))
+        }
+        Thread.sleep(3000)
         instrumentation.runOnMainSync {
             val c = cell!!
             val bitmap = Bitmap.createBitmap(c.measuredWidth, maxOf(1, c.measuredHeight), Bitmap.Config.ARGB_8888)

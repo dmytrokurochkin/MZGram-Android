@@ -111,6 +111,28 @@ jobs:
         run: |
           sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1" "platforms;android-36" "build-tools;36.0.0"
 
+      - name: Apply API credentials.
+        env:
+          API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        run: |
+          BUILD_VARS=TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
+          if [ -n "$API_ID" ] && [ -n "$API_HASH" ]; then
+            sed -i "s/public static int APP_ID = [0-9]*;/public static int APP_ID = $API_ID;/" $BUILD_VARS
+            sed -i "s/public static String APP_HASH = \"[0-9a-fA-F]*\";/public static String APP_HASH = \"$API_HASH\";/" $BUILD_VARS
+            echo "Credentials applied."
+          else
+            echo "::warning::No API credentials set. The live E2E test will be skipped."
+          fi
+
+      - name: Set up Python.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install E2E peer dependencies.
+        run: pip install telethon==1.36.0
+
       - name: Build test APKs.
         run: ./gradlew :TMessagesProj_AppTests:assembleAfatDebug :TMessagesProj_AppTests:assembleAfatDebugAndroidTest --console=plain
 
@@ -120,19 +142,21 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      # Also runs MZGramDeletedArchiveLiveTest: a real deletion by a second
+      # account on Telegram's TEST servers (never production), see
+      # .github/scripts/mzgram_e2e_peer.py.
       - name: Run MZGram tests on emulator.
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+          API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
         with:
           api-level: 34
           arch: x86_64
           target: google_apis
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
-          script: |
-            adb logcat -c
-            ./gradlew :TMessagesProj_AppTests:connectedAfatDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=org.telegram.messenger.mzgram.test --console=plain || (adb logcat -d > logcat-full.txt; grep -E "MZGram|AndroidRuntime|TestRunner" logcat-full.txt | tail -300; exit 1)
-            adb logcat -d > logcat-full.txt
-            grep -E "MZGramArchiveTest|MZGram|TestRunner" logcat-full.txt | tail -300
+          script: bash .github/scripts/mzgram_tests.sh
 
       - name: Upload test reports and logcat.
         if: always()
@@ -143,3 +167,4 @@ jobs:
             TMessagesProj_AppTests/build/reports/androidTests/
             TMessagesProj_AppTests/build/outputs/androidTest-results/
             logcat-full.txt
+            e2e-peer.log

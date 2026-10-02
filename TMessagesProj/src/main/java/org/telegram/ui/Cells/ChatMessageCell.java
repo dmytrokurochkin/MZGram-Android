@@ -1834,6 +1834,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     private final boolean ALPHA_PROPERTY_WORKAROUND = Build.VERSION.SDK_INT == 28;
     private float alphaInternal = 1f;
+    // MZGram: 0.5 for a deleted message kept in the chat (as in MZGram
+    // Desktop), 1 otherwise. Multiplies the cell's own alpha when drawing.
+    private float mzgramDimAlpha = 1f;
 
     public final TransitionParams transitionParams = new TransitionParams();
     private boolean edited;
@@ -6764,6 +6767,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     public MultiLayoutTypingAnimator botDraftTypingAnimator;
 
     private void setMessageContent(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, boolean bottomNear, boolean topNear, boolean firstInChat, boolean lastInChatList) {
+        mzgramDimAlpha = messageObject.messageOwner != null && messageObject.messageOwner.mzgramDeleted ? 0.5f : 1f;
         if (messageObject.checkLayout() || currentPosition != null && lastHeight != AndroidUtilities.displaySize.y) {
             currentMessageObject = null;
         }
@@ -18474,6 +18478,16 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         } else {
             timeString = LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000);
         }
+        // MZGram: as in MZGram Desktop, an edited message gets a pencil before
+        // the time and a deleted message kept in the chat reads "deleted".
+        if (!timeString.isEmpty()) {
+            if (edited) {
+                timeString = "\u270F\uFE0F " + timeString;
+            }
+            if (messageObject.messageOwner.mzgramDeleted) {
+                timeString = getString(R.string.MZGramDeletedMark) + " " + timeString;
+            }
+        }
         if (currentMessageObject.messageOwner.video_processing_pending) {
             timeString = formatString(R.string.ScheduledTimeApprox, timeString);
         }
@@ -18516,6 +18530,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             } else {
                 currentTimeString = TextUtils.concat(formatString(R.string.MessageScheduledRepeatSeconds, period), ", ", currentTimeString);
             }
+        }
+        if (edited && currentTimeString != null) {
+            currentTimeString = Emoji.replaceEmoji(currentTimeString, Theme.chat_timePaint.getFontMetricsInt(), false);
         }
         timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString, 0, currentTimeString == null ? 0 : currentTimeString.length()));
         if (currentMessageObject.scheduled && currentMessageObject.messageOwner.date == 0x7FFFFFFE || currentMessageObject.notime) {
@@ -20186,7 +20203,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         }
 
-        if (alphaInternal != 1.0f) {
+        final float layerAlpha = alphaInternal * mzgramDimAlpha;
+        if (layerAlpha != 1.0f) {
             int top = 0;
             int left = 0;
             int bottom = getMeasuredHeight();
@@ -20213,7 +20231,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 bottom = (int) (parentHeight - getY());
             }
             rect.set(left, top, right, bottom);
-            canvas.saveLayerAlpha(rect, (int) (255 * alphaInternal), Canvas.ALL_SAVE_FLAG);
+            canvas.saveLayerAlpha(rect, (int) (255 * layerAlpha), Canvas.ALL_SAVE_FLAG);
         }
         boolean clipContent = false;
         if (transitionParams.animateBackgroundBoundsInner && currentBackgroundDrawable != null && !isRoundVideo && (currentMessageObject == null || !currentMessageObject.sendPreview)) {
@@ -20717,7 +20735,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
 
         if ((drawBackground || transitionParams.animateDrawBackground) && currentBackgroundDrawable != null && (currentPosition == null || isDrawSelectionBackground() && (currentMessageObject.isMusic() || currentMessageObject.isDocument())) && !(enterTransitionInProgress && !currentMessageObject.isVoice())) {
-            float alphaInternal = this.alphaInternal;
+            float alphaInternal = this.alphaInternal * mzgramDimAlpha;
             if (fromParent) {
                 alphaInternal *= getAlpha();
             }
@@ -28012,6 +28030,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             buttonY = (int) (photoImage.getImageY() + (photoImage.getImageHeight() - dp(48)) / 2);
             radialProgress.setProgressRect(buttonX, buttonY, buttonX + dp(48), buttonY + dp(48));
         }
+    }
+
+    public float getMZGramDimAlpha() {
+        return mzgramDimAlpha;
     }
 
     @Override

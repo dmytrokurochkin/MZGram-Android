@@ -23,12 +23,14 @@ import android.text.TextUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.NativeByteBuffer;
+import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC;
 
 import java.io.File;
@@ -38,7 +40,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MZGramHistoryController {
 
@@ -235,8 +241,37 @@ public class MZGramHistoryController {
         row.entityCreateDate = (int) (System.currentTimeMillis() / 1000);
         row.text = message.message;
         row.entities = serializeEntities(message);
+        row.messageData = serializeMessage(message);
         copyMediaIfNeeded(accountId, accountUserId, dialogId, message, row, oneTimeMedia);
         return row;
+    }
+
+    private static byte[] serializeMessage(TLRPC.Message message) {
+        try {
+            SerializedData data = new SerializedData(message.getObjectSize());
+            message.serializeToStream(data);
+            byte[] bytes = data.toByteArray();
+            data.cleanup();
+            return bytes;
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.serializeMessage", e);
+            return null;
+        }
+    }
+
+    private static TLRPC.Message deserializeMessage(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+        try {
+            SerializedData data = new SerializedData(bytes);
+            TLRPC.Message message = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
+            data.cleanup();
+            return message;
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.deserializeMessage", e);
+            return null;
+        }
     }
 
     private byte[] serializeEntities(TLRPC.Message message) {
@@ -390,6 +425,230 @@ public class MZGramHistoryController {
             }
         }
         return total;
+    }
+
+    // ---- keeping deleted messages in the chat ----
+
+    // Messages the user removed themself in the last minute, by dialog and
+    // id ("dialogId:messageId" -> when). The messagesDeleted notification
+    // that follows the user's own Delete reaches an open chat right away;
+    // keepsDeletedInChat must not keep those.
+    private static final long LOCAL_DELETION_TTL_MS = 60_000;
+    private final ConcurrentHashMap<String, Long> localDeletions = new ConcurrentHashMap<>();
+
+    // MessagesController.deleteMessages: the user (or the client itself)
+    // removes these messages locally. When the user asked the server to
+    // delete them (not cacheOnly), any archived copy goes too, so a kept
+    // deleted message the user deletes does not come back.
+    public void onLocalDeletion(int accountId, long dialogId, ArrayList<Integer> mids, boolean removeArchived) {
+        if (mids == null || mids.isEmpty()) {
+            return;
+        }
+        long now = System.currentTimeMillis();
+        for (Iterator<Map.Entry<String, Long>> it = localDeletions.entrySet().iterator(); it.hasNext(); ) {
+            if (now - it.next().getValue() > LOCAL_DELETION_TTL_MS) {
+                it.remove();
+            }
+        }
+        for (int a = 0, N = mids.size(); a < N; a++) {
+            localDeletions.put(dialogId + ":" + mids.get(a), now);
+        }
+        if (removeArchived && isTracked(dialogId)) {
+            ArrayList<Integer> ids = new ArrayList<>(mids);
+            long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+            MessagesStorage.getInstance(accountId).getStorageQueue().postRunnable(() -> {
+                try {
+                    MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+                    for (int a = 0, N = ids.size(); a < N; a++) {
+                        db.delete(accountUserId, dialogId, ids.get(a));
+                    }
+                } catch (Exception e) {
+                    FileLog.e("MZGramHistoryController.onLocalDeletion", e);
+                }
+            });
+        }
+    }
+
+    // ChatActivity, when a message shown in an open chat is deleted: true
+    // means keep it in the chat, marked as deleted, instead of removing it.
+    // Kept: another person's message in a tracked chat that the user did
+    // not remove themself.
+    public boolean keepsDeletedInChat(int accountId, long dialogId, TLRPC.Message message) {
+        if (message == null || message instanceof TLRPC.TL_messageService || !isTracked(dialogId) || isOwnMessage(accountId, message)) {
+            return false;
+        }
+        Long when = localDeletions.get(dialogId + ":" + message.id);
+        return when == null || System.currentTimeMillis() - when > LOCAL_DELETION_TTL_MS;
+    }
+
+    // MessagesController.processLoadedMessages, for a tracked chat: the list
+    // of messages the chat gets back, with
+    //   - other people's archived deleted messages that belong in the loaded
+    //     range put back in their place, marked as deleted;
+    //   - media removed from a message (self-destructing, view once) put
+    //     back from the archived file, as ordinary media.
+    // Returns the loaded list itself when there is nothing to add, otherwise
+    // a new list; the loaded one and its messages are never changed (they
+    // may still be on their way into messages_v2).
+    //
+    // An archived message is added only where it certainly belongs: between
+    // the oldest and the newest loaded message, below them when the server
+    // says the history starts there, above them when this is the newest
+    // part of the chat. Anything else would make the chat think it has
+    // loaded a range it has not.
+    public ArrayList<TLRPC.Message> messagesForChat(int accountId, long dialogId, ArrayList<TLRPC.Message> loaded, int count, int maxId, int loadType, boolean isCache) {
+        if (loaded == null || DialogObject.isEncryptedDialog(dialogId) || !isTracked(dialogId)) {
+            return loaded;
+        }
+        try {
+            return messagesForChatInner(accountId, dialogId, loaded, count, maxId, loadType, isCache);
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.messagesForChat", e);
+            return loaded;
+        }
+    }
+
+    private static final int CHAT_HISTORY_LIMIT = 200;
+
+    private ArrayList<TLRPC.Message> messagesForChatInner(int accountId, long dialogId, ArrayList<TLRPC.Message> loaded, int count, int maxId, int loadType, boolean isCache) {
+        long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+        ArrayList<TLRPC.Message> result = null;
+
+        HashSet<Integer> ids = new HashSet<>();
+        int minLoaded = Integer.MAX_VALUE;
+        int maxLoaded = 0;
+        for (int a = 0, N = loaded.size(); a < N; a++) {
+            TLRPC.Message message = loaded.get(a);
+            if (message == null || message.id <= 0) {
+                continue;
+            }
+            ids.add(message.id);
+            minLoaded = Math.min(minLoaded, message.id);
+            maxLoaded = Math.max(maxLoaded, message.id);
+            if (hasRemovedMedia(message)) {
+                TLRPC.Message restored = withRestoredMedia(accountId, accountUserId, dialogId, message);
+                if (restored != null) {
+                    if (result == null) {
+                        result = new ArrayList<>(loaded);
+                    }
+                    result.set(a, restored);
+                }
+            }
+        }
+
+        boolean fromNewest = loadType == 2 && maxId == 0;
+        int lower;
+        int upper;
+        if (ids.isEmpty()) {
+            if (isCache || !fromNewest && loadType != 0) {
+                return result != null ? result : loaded;
+            }
+            // The server has nothing here: the chat is empty (from the newest
+            // message), or nothing is older than max_id.
+            lower = 1;
+            upper = loadType == 0 && maxId > 0 ? maxId - 1 : Integer.MAX_VALUE;
+        } else {
+            boolean reachedOldest = !isCache && loaded.size() < count && (loadType == 0 || loadType == 2);
+            lower = reachedOldest ? 1 : minLoaded;
+            upper = fromNewest ? Integer.MAX_VALUE : maxLoaded;
+        }
+
+        List<MZGramHistoryMessage> rows = db.getDeletedInRange(accountUserId, dialogId, lower, upper, CHAT_HISTORY_LIMIT);
+        for (int r = 0, N = rows.size(); r < N; r++) {
+            MZGramHistoryMessage row = rows.get(r);
+            if (ids.contains(row.messageId)) {
+                continue;
+            }
+            TLRPC.Message message = deserializeMessage(row.messageData);
+            if (message == null || message instanceof TLRPC.TL_messageService || message.id != row.messageId) {
+                continue;
+            }
+            message.dialog_id = dialogId;
+            message.unread = false;
+            message.media_unread = false;
+            message.mzgramDeleted = true;
+            putFileBack(accountId, message, row.mediaPath);
+            if (result == null) {
+                result = new ArrayList<>(loaded);
+            }
+            insertByIdDescending(result, message);
+            ids.add(message.id);
+        }
+        if (BuildVars.LOGS_ENABLED && result != null) {
+            FileLog.d("MZGramHistoryController.messagesForChat dialog=" + dialogId + " range=[" + lower + ", " + upper + "] loaded=" + loaded.size() + " shown=" + result.size());
+        }
+        return result != null ? result : loaded;
+    }
+
+    // Loaded lists are newest first; ids <= 0 (local, ephemeral) are left
+    // where they are.
+    private static void insertByIdDescending(ArrayList<TLRPC.Message> list, TLRPC.Message message) {
+        for (int a = 0, N = list.size(); a < N; a++) {
+            TLRPC.Message m = list.get(a);
+            if (m != null && m.id > 0 && m.id < message.id) {
+                list.add(a, message);
+                return;
+            }
+        }
+        list.add(message);
+    }
+
+    // emptyMessagesMedia leaves the media without its photo/document (the
+    // field is not even serialized any more).
+    private static boolean hasRemovedMedia(TLRPC.Message message) {
+        if (message.media instanceof TLRPC.TL_messageMediaDocument) {
+            return message.media.document == null || message.media.document instanceof TLRPC.TL_documentEmpty;
+        }
+        if (message.media instanceof TLRPC.TL_messageMediaPhoto) {
+            return message.media.photo == null || message.media.photo instanceof TLRPC.TL_photoEmpty;
+        }
+        return false;
+    }
+
+    private TLRPC.Message withRestoredMedia(int accountId, long accountUserId, long dialogId, TLRPC.Message message) {
+        MZGramHistoryMessage row = MZGramHistoryDatabase.getInstance().getLatest(accountUserId, dialogId, message.id, MZGramHistoryMessage.KIND_VIEW_ONCE);
+        if (row == null) {
+            return null;
+        }
+        TLRPC.Message old = deserializeMessage(row.messageData);
+        TLRPC.Message copy = deserializeMessage(serializeMessage(message));
+        if (old == null || old.media == null || copy == null) {
+            return null;
+        }
+        copy.media = old.media;
+        copy.media.ttl_seconds = 0;
+        copy.media.flags &= ~4;
+        copy.dialog_id = dialogId;
+        copy.media_unread = false;
+        putFileBack(accountId, copy, row.mediaPath);
+        return copy;
+    }
+
+    // Puts the archived copy of the file where the chat looks for this
+    // message's media, if nothing is there (Telegram's cache may have been
+    // cleared, and self-destructing media deletes its file).
+    private static void putFileBack(int accountId, TLRPC.Message message, String mediaPath) {
+        if (TextUtils.isEmpty(mediaPath) || message.media == null) {
+            return;
+        }
+        try {
+            File archived = new File(mediaPath);
+            if (!archived.exists()) {
+                return;
+            }
+            File target = FileLoader.getInstance(accountId).getPathToMessage(message);
+            if (target == null || target.getPath().isEmpty() || target.exists()) {
+                return;
+            }
+            File dir = target.getParentFile();
+            if (dir != null && !dir.exists()) {
+                dir.mkdirs();
+            }
+            AndroidUtilities.copyFile(archived, target);
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.putFileBack", e);
+        }
     }
 
     // ---- retrieval for the UI ----

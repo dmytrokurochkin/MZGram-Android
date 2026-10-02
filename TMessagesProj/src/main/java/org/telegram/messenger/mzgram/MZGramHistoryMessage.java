@@ -44,4 +44,6 @@ public class MZGramHistoryMessage {
     public String mediaPath; // copy kept in the MZGram media archive, or null
     public int mediaType; // MEDIA_* constant
     public String mimeType;
+
+    public byte[] messageData; // the whole TL-serialized message as it was, may be null for old rows
 }

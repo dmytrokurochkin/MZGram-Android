@@ -8277,6 +8277,10 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
+    // MZGram: set while checkDeletingTask removes expired messages, so
+    // deleteMessages does not count them as removed by the user.
+    private boolean mzgramExpiryDeletion;
+
     private boolean checkDeletingTask(boolean runnable) {
         int currentServerTime = getConnectionsManager().getCurrentTime();
 
@@ -8299,7 +8303,12 @@ public class MessagesController extends BaseController implements NotificationCe
                         // archived. Queued before deleteMessages below, so it runs
                         // on the storage queue while the rows are still there.
                         getMessagesStorage().archiveExpiredMessagesForMZGram(task.keyAt(a), mids);
-                        deleteMessages(mids, null, null, task.keyAt(a), 0, true, 0, !mids.isEmpty() && mids.get(0) > 0);
+                        mzgramExpiryDeletion = true;
+                        try {
+                            deleteMessages(mids, null, null, task.keyAt(a), 0, true, 0, !mids.isEmpty() && mids.get(0) > 0);
+                        } finally {
+                            mzgramExpiryDeletion = false;
+                        }
                     }
                 }
                 if (taskMedia != null) {
@@ -9338,6 +9347,12 @@ public class MessagesController extends BaseController implements NotificationCe
                 channelId = ChatObject.isChannel(chat) ? chat.id : 0;
             } else {
                 channelId = 0;
+            }
+            // MZGram: removed here, by the user or the client itself -- an open
+            // chat must not keep these as "deleted by someone else". When the
+            // user asked the server to delete them, archived copies go too.
+            if (!scheduled && !quickReplies && !welcomeMessages && !mzgramExpiryDeletion) {
+                org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onLocalDeletion(currentAccount, dialogId, messages, !cacheOnly);
             }
             if (!cacheOnly) {
                 toSend = new ArrayList<>();
@@ -12122,8 +12137,16 @@ public class MessagesController extends BaseController implements NotificationCe
         final ArrayList<MessageObject> objects = new ArrayList<>();
         final ArrayList<Integer> messagesToReload = new ArrayList<>();
         final HashMap<String, ArrayList<MessageObject>> webpagesToReload = new HashMap<>();
-        for (int a = 0; a < size; a++) {
-            final TLRPC.Message message = messagesRes.messages.get(a);
+        // MZGram: in a tracked chat, other people's deleted messages that
+        // belong in this range come back from the archive, and removed media
+        // is put back. A separate list: messagesRes.messages has already been
+        // handed to putMessages above, and kept messages must never go back
+        // into messages_v2.
+        final ArrayList<TLRPC.Message> shownMessages = mode == 0 && threadMessageId == 0
+                ? org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().messagesForChat(currentAccount, dialogId, messagesRes.messages, count, max_id, load_type, isCache)
+                : messagesRes.messages;
+        for (int a = 0, shownCount = shownMessages.size(); a < shownCount; a++) {
+            final TLRPC.Message message = shownMessages.get(a);
             message.dialog_id = dialogId;
             final MessageObject messageObject = new MessageObject(currentAccount, message, usersDict, chatsDict, true, false, mode == ChatActivity.MODE_SAVED);
             messageObject.scheduled = mode == 1;

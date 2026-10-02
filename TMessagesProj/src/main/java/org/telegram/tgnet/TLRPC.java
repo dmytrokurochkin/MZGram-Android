@@ -57476,6 +57476,7 @@ public class TLRPC {
         public SparseArray<String> pollMediaAttachPaths; //custom
         public long random_id; //custom
         public int local_id = 0; //custom
+        public boolean mzgramDeleted; //custom, MZGram: another user deleted it, kept in the chat from the archive
         public long dialog_id; //custom
         public int ttl; //custom
         public int destroyTime; //custom

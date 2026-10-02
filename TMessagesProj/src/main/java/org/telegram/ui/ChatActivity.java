@@ -26380,6 +26380,18 @@ public class ChatActivity extends BaseFragment implements
         for (int a = 0; a < size; a++) {
             Integer mid = markAsDeletedMessages.get(a);
             MessageObject obj = chatAdapter != null && chatAdapter.isFiltered ? filteredMessagesDict.get(mid) :  messagesDict[loadIndex].get(mid);
+            // MZGram: another person's message in a tracked chat stays in the
+            // chat, marked as deleted (drawn dimmed by ChatMessageCell),
+            // instead of being removed.
+            if (obj != null && chatMode == MODE_DEFAULT && obj.messageOwner != null
+                    && org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().keepsDeletedInChat(currentAccount, dialog_id, obj.messageOwner)) {
+                obj.messageOwner.mzgramDeleted = true;
+                obj.forceUpdate = true;
+                if (chatAdapter != null) {
+                    chatAdapter.updateRowWithMessageObject(obj, false, false);
+                }
+                continue;
+            }
             if (selectedObject != null && obj == selectedObject || obj != null && selectedObjectGroup != null && selectedObjectGroup == groupedMessagesMap.get(obj.getGroupId())) {
                 closeMenu();
             }

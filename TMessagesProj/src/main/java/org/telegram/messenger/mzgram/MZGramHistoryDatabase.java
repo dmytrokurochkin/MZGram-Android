@@ -31,7 +31,9 @@ import java.util.List;
 public class MZGramHistoryDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "mzgram_history.db";
-    private static final int DB_VERSION = 2;
+    // 3: messageData, the whole serialized message, so a deleted message can
+    // be shown in the chat again.
+    private static final int DB_VERSION = 3;
 
     private static final String TABLE = "history_message";
 
@@ -107,7 +109,8 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
                 "entities BLOB, " +
                 "mediaPath TEXT, " +
                 "mediaType INTEGER NOT NULL DEFAULT 0, " +
-                "mimeType TEXT" +
+                "mimeType TEXT, " +
+                "messageData BLOB" +
                 ")");
         db.execSQL("CREATE INDEX idx_history_message_lookup ON " + TABLE + " (accountUserId, dialogId, messageId, kind)");
         // MZGram: own fix. A deleted message can only ever be archived once, so
@@ -125,8 +128,16 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+            onCreate(db);
+            return;
+        }
+        if (oldVersion < 3) {
+            // Keeps every row archived so far; old rows simply have no
+            // messageData and are shown only in the archive screen.
+            db.execSQL("ALTER TABLE " + TABLE + " ADD COLUMN messageData BLOB");
+        }
     }
 
     // MZGram: own fix. insertWithOnConflict(..., CONFLICT_IGNORE) instead of
@@ -157,6 +168,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         values.put("mediaPath", msg.mediaPath);
         values.put("mediaType", msg.mediaType);
         values.put("mimeType", msg.mimeType);
+        values.put("messageData", msg.messageData);
         return getWritableDatabase().insertWithOnConflict(TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
@@ -205,6 +217,33 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
             }
         }
         return result;
+    }
+
+    // Deleted messages of a dialog with messageId in [minId, maxId] that can be
+    // shown in the chat (messageData kept), newest first.
+    public List<MZGramHistoryMessage> getDeletedInRange(long accountUserId, long dialogId, int minId, int maxId, int limit) {
+        List<MZGramHistoryMessage> result = new ArrayList<>();
+        try (Cursor cursor = getReadableDatabase().rawQuery(
+                "SELECT * FROM " + TABLE + " WHERE kind = ? AND accountUserId = ? AND dialogId = ? AND messageId >= ? AND messageId <= ? AND messageData IS NOT NULL ORDER BY messageId DESC LIMIT ?",
+                new String[]{String.valueOf(MZGramHistoryMessage.KIND_DELETED), String.valueOf(accountUserId), String.valueOf(dialogId),
+                        String.valueOf(minId), String.valueOf(maxId), String.valueOf(limit)})) {
+            while (cursor.moveToNext()) {
+                result.add(fromCursor(cursor));
+            }
+        }
+        return result;
+    }
+
+    // The latest row of the given kind for one message, or null.
+    public MZGramHistoryMessage getLatest(long accountUserId, long dialogId, int messageId, int kind) {
+        try (Cursor cursor = getReadableDatabase().rawQuery(
+                "SELECT * FROM " + TABLE + " WHERE kind = ? AND accountUserId = ? AND dialogId = ? AND messageId = ? ORDER BY rowId DESC LIMIT 1",
+                new String[]{String.valueOf(kind), String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(messageId)})) {
+            if (cursor.moveToFirst()) {
+                return fromCursor(cursor);
+            }
+        }
+        return null;
     }
 
     public List<MZGramHistoryMessage> getAllForDialog(long accountUserId, long dialogId, int limit) {
@@ -280,6 +319,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         m.mediaPath = cursor.getString(cursor.getColumnIndexOrThrow("mediaPath"));
         m.mediaType = cursor.getInt(cursor.getColumnIndexOrThrow("mediaType"));
         m.mimeType = cursor.getString(cursor.getColumnIndexOrThrow("mimeType"));
+        m.messageData = cursor.getBlob(cursor.getColumnIndexOrThrow("messageData"));
         return m;
     }
 }

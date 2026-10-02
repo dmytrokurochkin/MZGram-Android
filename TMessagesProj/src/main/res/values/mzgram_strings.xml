@@ -93,6 +93,7 @@
     <string name="MZGramAddTrackedChat">Add a tracked chat</string>
     <string name="MZGramStopTrackingConfirm">Stop saving message history for %1$s? Messages already saved are kept; nothing new will be added.</string>
     <string name="MZGramMessageHistory">Message history</string>
+    <string name="MZGramDeletedMark">deleted</string>
     <string name="MZGramMessageHistoryInfo">Tap a revision to copy its text.</string>
     <string name="MZGramMessageHistoryEmpty">No saved revisions for this message.</string>
     <string name="MZGramMessageHistoryNoText">(no text)</string>

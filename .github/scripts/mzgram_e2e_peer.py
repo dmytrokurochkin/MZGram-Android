@@ -27,7 +27,7 @@ import subprocess
 import sys
 
 from telethon import TelegramClient, functions, types
-from telethon.errors import SessionPasswordNeededError, PhoneNumberUnoccupiedError, PhoneCodeInvalidError
+from telethon.errors import SessionPasswordNeededError, PhoneNumberUnoccupiedError
 from telethon.sessions import StringSession
 
 # Telegram's published test-server addresses, by DC number.
@@ -41,52 +41,47 @@ def log(msg):
     print(f"[peer] {msg}", flush=True)
 
 
-def new_client(dc):
+def new_client(dc, port):
     client = TelegramClient(StringSession(), API_ID, API_HASH)
-    client.session.set_dc(dc, TEST_DCS[dc], 443)
+    client.session.set_dc(dc, TEST_DCS[dc], port)
     return client
 
 
-def candidate_codes(dc, sent):
-    # Test-server codes are the DC number repeated; the length the server
-    # reports for this code wins, 5 and 6 digits are tried as fallbacks.
-    length = getattr(sent.type, "length", None)
-    lengths = [n for n in (length, 5, 6) if n]
-    return list(dict.fromkeys(str(dc) * n for n in lengths))
+# (dc, port, code length). One code attempt per fresh number: after a wrong
+# code the server may expire the code, so a second guess on the same number
+# proves nothing. Port 80 and 6-digit codes are the fallbacks Telethon's
+# test-server docs suggest.
+VARIANTS = [(dc, port, length) for length in (5, 6) for port in (443, 80) for dc in (2, 1, 3)]
 
 
-async def sign_in(client, dc, phone, first_name):
+async def sign_in(client, dc, length, phone, first_name):
     await client.connect()
     config = await client(functions.help.GetConfigRequest())
     log(f"{phone}: connected dc={client.session.dc_id} test_mode={config.test_mode} this_dc={config.this_dc}")
     if not config.test_mode:
         raise SystemExit("refusing to continue: not connected to Telegram test servers")
     sent = await client.send_code_request(phone)
-    log(f"{phone}: code type {type(sent.type).__name__} length={getattr(sent.type, 'length', None)}")
-    last_error = None
-    for code in candidate_codes(dc, sent):
-        try:
-            try:
-                await client.sign_in(phone, code, phone_code_hash=sent.phone_code_hash)
-            except PhoneNumberUnoccupiedError:
-                await client.sign_up(code, first_name, phone_code_hash=sent.phone_code_hash)
-            return await client.get_me(), code
-        except PhoneCodeInvalidError as e:
-            log(f"{phone}: code of length {len(code)} rejected")
-            last_error = e
-    raise last_error
+    log(f"{phone}: code type {type(sent.type).__name__} length={getattr(sent.type, 'length', None)} "
+        f"next_type={type(sent.next_type).__name__ if sent.next_type else None} timeout={sent.timeout}")
+    code = str(dc) * length
+    try:
+        await client.sign_in(phone, code, phone_code_hash=sent.phone_code_hash)
+    except PhoneNumberUnoccupiedError:
+        await client.sign_up(code, first_name, phone_code_hash=sent.phone_code_hash)
+    return await client.get_me(), code
 
 
 async def usable_account(first_name, exclude):
-    for attempt in range(24):
-        dc = (1, 2, 3)[attempt % 3]
+    for attempt in range(len(VARIANTS) * 2):
+        dc, port, length = VARIANTS[attempt % len(VARIANTS)]
         phone = f"99966{dc}" + "".join(random.choice("0123456789") for _ in range(4))
         if phone in exclude:
             continue
-        client = new_client(dc)
+        log(f"{first_name}: trying {phone} dc={dc} port={port} code length={length}")
+        client = new_client(dc, port)
         try:
-            me, code = await sign_in(client, dc, phone, first_name)
-            log(f"{first_name}: signed in as {phone} id={me.id}")
+            me, code = await sign_in(client, dc, length, phone, first_name)
+            log(f"{first_name}: signed in as {phone} id={me.id} (dc={dc} port={port} code length={length})")
             return client, phone, me, code
         except SessionPasswordNeededError:
             log(f"{first_name}: {phone} has a 2FA password set by someone else, retrying")

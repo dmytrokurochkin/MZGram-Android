@@ -11436,6 +11436,67 @@ public class MessagesStorage extends BaseController {
         });
     }
 
+    // MZGram: channelDifferenceTooLong carries the channel's latest messages
+    // but no list of what was deleted during the gap, and overwriteChannel
+    // then drops the whole channel from messages_v2. Message ids only grow,
+    // so a cached message whose id lies inside the returned range (from the
+    // oldest returned message up to the dialog's top message) but which the
+    // server did not return no longer exists on the server: those are
+    // archived. Messages older than the returned range are unknown -- they
+    // may well still exist -- so they are left alone, as is everything when
+    // the server returned no messages at all. Runs on the storage queue.
+    private void archiveMissingAfterTooLongForMZGram(long channelId, TLRPC.TL_updates_channelDifferenceTooLong difference) {
+        long did = -channelId;
+        if (difference == null || difference.messages == null || difference.messages.isEmpty() || !org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did)) {
+            return;
+        }
+        HashSet<Integer> returned = new HashSet<>();
+        int minId = Integer.MAX_VALUE;
+        int maxId = 0;
+        for (int a = 0, N = difference.messages.size(); a < N; a++) {
+            TLRPC.Message message = difference.messages.get(a);
+            if (message == null || message.id <= 0 || message.peer_id == null || message.peer_id.channel_id != channelId) {
+                continue;
+            }
+            returned.add(message.id);
+            minId = Math.min(minId, message.id);
+            maxId = Math.max(maxId, message.id);
+        }
+        if (returned.isEmpty()) {
+            return;
+        }
+        if (difference.dialog != null) {
+            maxId = Math.max(maxId, difference.dialog.top_message);
+        }
+        SQLiteCursor cursor = null;
+        try {
+            cursor = database.queryFinalized(String.format(Locale.US, "SELECT mid, data FROM messages_v2 WHERE uid = %d AND mid >= %d AND mid <= %d", did, minId, maxId));
+            while (cursor.next()) {
+                int mid = cursor.intValue(0);
+                if (returned.contains(mid)) {
+                    continue;
+                }
+                NativeByteBuffer data = cursor.byteBufferValue(1);
+                if (data == null) {
+                    continue;
+                }
+                TLRPC.Message message = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
+                message.readAttachPath(data, getUserConfig().clientUserId);
+                data.reuse();
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("MZGram: channelDifferenceTooLong dialogId=" + did + " mid=" + mid + " is inside the returned range [" + minId + ", " + maxId + "] but was not returned -- archiving");
+                }
+                org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageDeleted(currentAccount, did, message);
+            }
+        } catch (Exception e) {
+            checkSQLException(e);
+        } finally {
+            if (cursor != null) {
+                cursor.dispose();
+            }
+        }
+    }
+
     public void overwriteChannel(long channelId, TLRPC.TL_updates_channelDifferenceTooLong difference, int newDialogType, Runnable onDone) {
         storageQueue.postRunnable(() -> {
             SQLiteCursor cursor = null;
@@ -11454,6 +11515,8 @@ public class MessagesStorage extends BaseController {
                 }
                 cursor.dispose();
                 cursor = null;
+
+                archiveMissingAfterTooLongForMZGram(channelId, difference);
 
                 database.executeFast("DELETE FROM chat_pinned_count WHERE uid = " + did).stepThis().dispose();
                 database.executeFast("DELETE FROM chat_pinned_v2 WHERE uid = " + did).stepThis().dispose();

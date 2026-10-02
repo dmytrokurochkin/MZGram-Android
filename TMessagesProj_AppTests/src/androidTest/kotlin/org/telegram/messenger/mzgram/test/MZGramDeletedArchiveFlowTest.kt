@@ -197,8 +197,10 @@ class MZGramDeletedArchiveFlowTest {
         assertNull("allowlist gate: untracked chat is never archived", row)
     }
 
+    // The owner's own messages are never archived: neither on the local
+    // "Delete for everyone" tap nor when the server's echo arrives.
     @Test
-    fun ownDeleteForEveryoneInTrackedChat_isArchived() {
+    fun ownDeleteForEveryoneInTrackedChat_isNotArchived() {
         val mid = newMessageId()
         putInCache(outgoingPrivate(mid, otherUserId, "own message $mid"))
 
@@ -214,7 +216,7 @@ class MZGramDeletedArchiveFlowTest {
         val row = archived(otherUserId, mid)
         log("own delete: dialog=$otherUserId mid=$mid archivedRow=" +
             (row?.let { "rowId=${it.rowId} fromId=${it.fromId} text='${it.text}'" } ?: "NONE"))
-        assertNotNull("own deleted message archived", row)
-        assertEquals("own message $mid", row!!.text)
+        assertNull("deleted from messages_v2", storage.getMessage(otherUserId, mid.toLong()))
+        assertNull("own deleted message is not archived", row)
     }
 }

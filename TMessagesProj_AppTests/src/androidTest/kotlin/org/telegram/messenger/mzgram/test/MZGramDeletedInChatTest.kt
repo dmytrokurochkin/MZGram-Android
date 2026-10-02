@@ -367,6 +367,10 @@ class MZGramDeletedInChatTest {
 
     // ---- look ----
 
+    // Darkest pixel drawn by the cell, 0 (black) .. 255 (white): message
+    // text is near black when drawn normally, mid grey at 50% opacity.
+    private var lastDarkest = 255
+
     private fun renderCell(name: String, message: TLRPC.Message): ChatMessageCell {
         val context = instrumentation.targetContext
         var cell: ChatMessageCell? = null
@@ -378,18 +382,34 @@ class MZGramDeletedInChatTest {
             val c = ChatMessageCell(context, account)
             // Not in a window here; let setMessageObject lay out right away.
             ChatMessageCell::class.java.getDeclaredField("attachedToWindow").also { it.isAccessible = true }.setBoolean(c, true)
+            // In a chat the list tells every cell its size; the cell clips
+            // what it draws to it.
+            c.setParentViewSize(1080, 2000)
             c.setMessageObject(obj, null, false, false, false)
             c.measure(View.MeasureSpec.makeMeasureSpec(1080, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
             c.layout(0, 0, c.measuredWidth, c.measuredHeight)
+            cell = c
+        }
+        // Emoji images (the pencil) load in the background.
+        Thread.sleep(2000)
+        instrumentation.runOnMainSync {
+            val c = cell!!
             val bitmap = Bitmap.createBitmap(c.measuredWidth, maxOf(1, c.measuredHeight), Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             canvas.drawColor(Color.WHITE)
             c.draw(canvas)
+            var darkest = 255
+            for (y in 0 until bitmap.height) {
+                for (x in 0 until bitmap.width) {
+                    val px = bitmap.getPixel(x, y)
+                    darkest = minOf(darkest, (Color.red(px) * 299 + Color.green(px) * 587 + Color.blue(px) * 114) / 1000)
+                }
+            }
+            lastDarkest = darkest
             val dir = File(context.getExternalFilesDir(null), "mzgram-screens").also { it.mkdirs() }
             val out = File(dir, "mzgram-$name.png")
             FileOutputStream(out).use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
-            log("screenshot $name: ${out.absolutePath}")
-            cell = c
+            log("screenshot $name: ${out.absolutePath} darkest=$darkest")
         }
         // The test run uninstalls the app, and its files dir with it; keep a
         // copy where the CI script can pull it from afterwards.
@@ -419,6 +439,7 @@ class MZGramDeletedInChatTest {
         log("deleted cell: time='${timeText(cell)}' alpha=${dimAlpha(cell)}")
         assertEquals(0.5f, dimAlpha(cell), 0.001f)
         assertTrue("time reads 'deleted ...': ${timeText(cell)}", timeText(cell).startsWith("deleted "))
+        assertTrue("text is drawn, at half opacity (darkest pixel $lastDarkest)", lastDarkest in 90..210)
     }
 
     @Test
@@ -430,6 +451,7 @@ class MZGramDeletedInChatTest {
         log("edited cell: time='${timeText(cell)}' alpha=${dimAlpha(cell)}")
         assertEquals(1f, dimAlpha(cell), 0.001f)
         assertTrue("pencil next to the time: ${timeText(cell)}", timeText(cell).contains("✏"))
+        assertTrue("text is drawn at full opacity (darkest pixel $lastDarkest)", lastDarkest < 80)
     }
 
     @Test
@@ -440,5 +462,6 @@ class MZGramDeletedInChatTest {
         assertEquals(1f, dimAlpha(cell), 0.001f)
         assertFalse(timeText(cell).contains("✏"))
         assertFalse(timeText(cell).contains("deleted"))
+        assertTrue("text is drawn at full opacity (darkest pixel $lastDarkest)", lastDarkest < 80)
     }
 }

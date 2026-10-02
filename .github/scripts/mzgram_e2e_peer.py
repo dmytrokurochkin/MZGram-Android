@@ -1,7 +1,7 @@
 """Second account (B) for MZGramDeletedArchiveLiveTest, run on the CI host.
 
 Works only against Telegram's public TEST servers (test DC 2, throwaway
-99966 2 XXXX numbers whose login code is the DC number repeated), never
+99966 X YYYY numbers whose login code is the DC number repeated), never
 production.
 The API credentials come from the environment and are never printed.
 
@@ -30,7 +30,8 @@ from telethon import TelegramClient, functions, types
 from telethon.errors import SessionPasswordNeededError, PhoneNumberUnoccupiedError, PhoneCodeInvalidError
 from telethon.sessions import StringSession
 
-TEST_DC = (2, "149.154.167.40", 443)
+# Telegram's published test-server addresses, by DC number.
+TEST_DCS = {1: "149.154.175.10", 2: "149.154.167.40", 3: "149.154.175.117"}
 
 API_ID = int(os.environ["API_ID"])
 API_HASH = os.environ["API_HASH"]
@@ -40,26 +41,30 @@ def log(msg):
     print(f"[peer] {msg}", flush=True)
 
 
-def new_client():
+def new_client(dc):
     client = TelegramClient(StringSession(), API_ID, API_HASH)
-    client.session.set_dc(*TEST_DC)
+    client.session.set_dc(dc, TEST_DCS[dc], 443)
     return client
 
 
-def candidate_codes(sent):
+def candidate_codes(dc, sent):
     # Test-server codes are the DC number repeated; the length the server
     # reports for this code wins, 5 and 6 digits are tried as fallbacks.
     length = getattr(sent.type, "length", None)
     lengths = [n for n in (length, 5, 6) if n]
-    return list(dict.fromkeys(str(TEST_DC[0]) * n for n in lengths))
+    return list(dict.fromkeys(str(dc) * n for n in lengths))
 
 
-async def sign_in(client, phone, first_name):
+async def sign_in(client, dc, phone, first_name):
     await client.connect()
+    config = await client(functions.help.GetConfigRequest())
+    log(f"{phone}: connected dc={client.session.dc_id} test_mode={config.test_mode} this_dc={config.this_dc}")
+    if not config.test_mode:
+        raise SystemExit("refusing to continue: not connected to Telegram test servers")
     sent = await client.send_code_request(phone)
     log(f"{phone}: code type {type(sent.type).__name__} length={getattr(sent.type, 'length', None)}")
     last_error = None
-    for code in candidate_codes(sent):
+    for code in candidate_codes(dc, sent):
         try:
             try:
                 await client.sign_in(phone, code, phone_code_hash=sent.phone_code_hash)
@@ -73,13 +78,14 @@ async def sign_in(client, phone, first_name):
 
 
 async def usable_account(first_name, exclude):
-    for _ in range(25):
-        phone = "999662" + "".join(random.choice("0123456789") for _ in range(4))
+    for attempt in range(24):
+        dc = (1, 2, 3)[attempt % 3]
+        phone = f"99966{dc}" + "".join(random.choice("0123456789") for _ in range(4))
         if phone in exclude:
             continue
-        client = new_client()
+        client = new_client(dc)
         try:
-            me, code = await sign_in(client, phone, first_name)
+            me, code = await sign_in(client, dc, phone, first_name)
             log(f"{first_name}: signed in as {phone} id={me.id}")
             return client, phone, me, code
         except SessionPasswordNeededError:

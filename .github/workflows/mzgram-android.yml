@@ -131,7 +131,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install E2E peer dependencies.
-        run: pip install telethon==1.36.0
+        run: pip install telethon==1.45.0
 
       # Fails fast, before the long build, if the test-server login used by
       # the live E2E test does not work.

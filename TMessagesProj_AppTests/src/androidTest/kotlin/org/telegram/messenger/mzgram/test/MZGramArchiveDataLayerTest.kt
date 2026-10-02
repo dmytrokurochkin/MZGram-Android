@@ -362,7 +362,10 @@ class MZGramArchiveDataLayerTest {
 
         val after = cached(otherUserId, mid)
         log("media removed: dialog=$otherUserId mid=$mid mediaAfter=${after?.media?.document?.javaClass?.simpleName} ${describe(otherUserId, mid)}")
-        assertTrue("media emptied in messages_v2", after!!.media.document is TLRPC.TL_documentEmpty)
+        // emptyMessagesMedia clears the media's "has document" flag, so the
+        // stored message comes back without any document at all.
+        val emptied = after!!.media.document
+        assertTrue("media emptied in messages_v2", emptied == null || emptied is TLRPC.TL_documentEmpty)
         val withFile = rows(otherUserId, mid).firstOrNull { it.mediaPath != null }
         assertNotNull("archive row with the media file", withFile)
         val kept = File(withFile!!.mediaPath)

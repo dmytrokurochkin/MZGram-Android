@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit
 //   - a deletion arriving while the chat is open: ChatActivity asks
 //     MZGramHistoryController.keepsDeletedInChat whether to keep the
 //     message instead of removing it.
-// The look (deleted: 50% opacity and a "deleted" mark; edited: a pencil
+// The look (deleted: 75% opacity and a "deleted" mark; edited: a pencil
 // next to the time) is checked on a real ChatMessageCell, and each case is
 // saved as a PNG under the app's external files dir (mzgram-screens/).
 class MZGramDeletedInChatTest {
@@ -437,14 +437,15 @@ class MZGramDeletedInChatTest {
         ChatMessageCell::class.java.getMethod("getMZGramDimAlpha").invoke(cell) as Float
 
     @Test
-    fun look_deletedMessage_isHalfTransparentAndMarked() {
+    fun look_deletedMessage_isDimmedTo75AndMarked() {
         val message = incoming(otherUserId, newMessageId(), "This message was deleted by its sender")
         markDeleted(message)
         val cell = renderCell("deleted", message)
         log("deleted cell: time='${timeText(cell)}' alpha=${dimAlpha(cell)}")
-        assertEquals(0.5f, dimAlpha(cell), 0.001f)
+        assertEquals(0.75f, dimAlpha(cell), 0.001f)
         assertTrue("time reads 'deleted ...': ${timeText(cell)}", timeText(cell).startsWith("deleted "))
-        assertTrue("text is drawn, at half opacity (darkest pixel $lastDarkest)", lastDarkest in 90..210)
+        // Black text at 75% opacity over white: about 64.
+        assertTrue("text is drawn, at 75% opacity (darkest pixel $lastDarkest)", lastDarkest in 40..90)
     }
 
     @Test
@@ -456,7 +457,7 @@ class MZGramDeletedInChatTest {
         log("edited cell: time='${timeText(cell)}' alpha=${dimAlpha(cell)}")
         assertEquals(1f, dimAlpha(cell), 0.001f)
         assertTrue("pencil next to the time: ${timeText(cell)}", timeText(cell).contains("✏"))
-        assertTrue("text is drawn at full opacity (darkest pixel $lastDarkest)", lastDarkest < 80)
+        assertTrue("text is drawn at full opacity (darkest pixel $lastDarkest)", lastDarkest < 30)
     }
 
     // As in MZGram Desktop: the pencil marks other people's edits in tracked
@@ -491,6 +492,6 @@ class MZGramDeletedInChatTest {
         assertEquals(1f, dimAlpha(cell), 0.001f)
         assertFalse(timeText(cell).contains("✏"))
         assertFalse(timeText(cell).contains("deleted"))
-        assertTrue("text is drawn at full opacity (darkest pixel $lastDarkest)", lastDarkest < 80)
+        assertTrue("text is drawn at full opacity (darkest pixel $lastDarkest)", lastDarkest < 30)
     }
 }

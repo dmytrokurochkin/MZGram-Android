@@ -459,6 +459,30 @@ class MZGramDeletedInChatTest {
         assertTrue("text is drawn at full opacity (darkest pixel $lastDarkest)", lastDarkest < 80)
     }
 
+    // As in MZGram Desktop: the pencil marks other people's edits in tracked
+    // chats only.
+    @Test
+    fun look_ownEditedMessage_hasNoPencil() {
+        val message = outgoing(otherUserId, newMessageId(), "My own edited message")
+        message.edit_date = now()
+        message.flags = message.flags or 32768
+        val cell = renderCell("own-edited", message)
+        log("own edited cell: time='${timeText(cell)}'")
+        assertTrue("still marked edited: ${timeText(cell)}", timeText(cell).contains("edited"))
+        assertFalse("no pencil on own messages: ${timeText(cell)}", timeText(cell).contains("✏"))
+    }
+
+    @Test
+    fun look_editedMessageInUntrackedChat_hasNoPencil() {
+        val message = incoming(untrackedUserId, newMessageId(), "Edited, chat not tracked")
+        message.edit_date = now()
+        message.flags = message.flags or 32768
+        val cell = renderCell("untracked-edited", message)
+        log("untracked edited cell: time='${timeText(cell)}'")
+        assertTrue("still marked edited: ${timeText(cell)}", timeText(cell).contains("edited"))
+        assertFalse("no pencil outside tracked chats: ${timeText(cell)}", timeText(cell).contains("✏"))
+    }
+
     @Test
     fun look_ordinaryMessage_isUnchanged() {
         val message = incoming(otherUserId, newMessageId(), "An ordinary message")

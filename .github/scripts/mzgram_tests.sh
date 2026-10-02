@@ -52,10 +52,10 @@ else
 fi
 
 # Screenshots MZGramDeletedInChatTest saves of the rendered message cells.
+# The test copies them to /data/local/tmp, since the app (and its files)
+# is uninstalled when the test run ends.
 mkdir -p mzgram-screens
-for png in $(adb shell "find /sdcard/Android/data -name 'mzgram-*.png' 2>/dev/null" | tr -d '\r'); do
-    adb pull "$png" mzgram-screens/ > /dev/null
-done
+adb pull /data/local/tmp/mzgram-screens/. mzgram-screens/ > /dev/null 2>&1
 ls -l mzgram-screens
 
 adb logcat -d > logcat-full.txt

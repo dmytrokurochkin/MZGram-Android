@@ -391,7 +391,18 @@ class MZGramDeletedInChatTest {
             log("screenshot $name: ${out.absolutePath}")
             cell = c
         }
+        // The test run uninstalls the app, and its files dir with it; keep a
+        // copy where the CI script can pull it from afterwards.
+        val src = File(File(instrumentation.targetContext.getExternalFilesDir(null), "mzgram-screens"), "mzgram-$name.png")
+        shell("mkdir -p /data/local/tmp/mzgram-screens")
+        shell("cp ${src.absolutePath} /data/local/tmp/mzgram-screens/")
         return cell!!
+    }
+
+    private fun shell(command: String) {
+        instrumentation.uiAutomation.executeShellCommand(command).use { pfd ->
+            android.os.ParcelFileDescriptor.AutoCloseInputStream(pfd).use { it.readBytes() }
+        }
     }
 
     private fun timeText(cell: ChatMessageCell): String =

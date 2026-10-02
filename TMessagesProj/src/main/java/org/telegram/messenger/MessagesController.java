@@ -9362,13 +9362,15 @@ public class MessagesController extends BaseController implements NotificationCe
                 } else {
                     markDialogMessageAsDeleted(dialogId, messages);
                 }
-                // MZGram: this fires synchronously the moment the LOCAL user taps
-                // "Delete" -- no server confirmation yet. Deliberately does NOT
-                // archive (allowMzgramArchive defaults to false): AyuGram has no
-                // archiving opportunity here either, only via the later update
-                // echo (see the deletedMessages block below in processUpdateArray),
-                // which fires uniformly for own and others' deletions alike.
-                getMessagesStorage().markMessagesAsDeleted(dialogId, messages, true, forAll, 0, topicId);
+                // MZGram: the local user's own "Delete" tap. This call removes the
+                // rows from messages_v2 right away, so by the time the server's
+                // update echo arrives there is nothing left to archive -- this is
+                // the only point where an own deletion can be archived. Not
+                // allowed for cacheOnly calls, which only drop local copies of
+                // messages that still exist on the server.
+                // MZGramDeletedArchiveFlowTest.ownDeleteForEveryoneInTrackedChat_isArchived
+                // covers this.
+                getMessagesStorage().markMessagesAsDeleted(dialogId, messages, true, forAll, 0, topicId, !cacheOnly);
                 getMessagesStorage().updateDialogsWithDeletedMessages(dialogId, channelId, messages, null);
             }
             getNotificationCenter().postNotificationName(NotificationCenter.messagesDeleted, messages, channelId, scheduled, false, movedToScheduled, movedToScheduledMessageId);

@@ -190,15 +190,38 @@ public class MZGramHistoryController {
     private void onOneTimeMediaViewedInner(int accountId, long dialogId, TLRPC.Message message) {
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
         MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
-        if (db.hasHistory(accountUserId, dialogId, message.id)) {
+        if (db.hasKind(accountUserId, dialogId, message.id, MZGramHistoryMessage.KIND_VIEW_ONCE)) {
             return; // already archived
         }
-        db.insert(buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_VIEW_ONCE));
+        long rowId = db.insert(buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_VIEW_ONCE, true));
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("MZGramHistoryController: archived removed media of message " + message.id + " in dialog " + dialogId + ", rowId=" + rowId);
+        }
+    }
+
+    // Called by MessagesStorage.emptyMessagesMedia right before it replaces a
+    // message's media with an empty one and deletes the file: self-destructing
+    // media whose timer ran out, and view-once media after viewing. The file
+    // is still on disk here, so a copy goes into the archive. Kept even over
+    // the size limit, like any one-time media.
+    public void onMessageMediaRemoved(int accountId, long dialogId, TLRPC.Message message) {
+        if (message == null || message.media == null || !isTracked(dialogId) || isOwnMessage(accountId, message)) {
+            return;
+        }
+        try {
+            onOneTimeMediaViewedInner(accountId, dialogId, message);
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.onMessageMediaRemoved", e);
+        }
     }
 
     // ---- shared row building / media capture ----
 
     private MZGramHistoryMessage buildRow(int accountId, long accountUserId, long dialogId, TLRPC.Message message, int kind) {
+        return buildRow(accountId, accountUserId, dialogId, message, kind, false);
+    }
+
+    private MZGramHistoryMessage buildRow(int accountId, long accountUserId, long dialogId, TLRPC.Message message, int kind, boolean oneTimeMedia) {
         MZGramHistoryMessage row = new MZGramHistoryMessage();
         row.kind = kind;
         row.accountUserId = accountUserId;
@@ -212,7 +235,7 @@ public class MZGramHistoryController {
         row.entityCreateDate = (int) (System.currentTimeMillis() / 1000);
         row.text = message.message;
         row.entities = serializeEntities(message);
-        copyMediaIfNeeded(accountId, accountUserId, dialogId, message, row);
+        copyMediaIfNeeded(accountId, accountUserId, dialogId, message, row, oneTimeMedia);
         return row;
     }
 
@@ -245,19 +268,13 @@ public class MZGramHistoryController {
         }
     }
 
-    private void copyMediaIfNeeded(int accountId, long accountUserId, long dialogId, TLRPC.Message message, MZGramHistoryMessage row) {
+    private void copyMediaIfNeeded(int accountId, long accountUserId, long dialogId, TLRPC.Message message, MZGramHistoryMessage row, boolean oneTimeMedia) {
         if (message.media == null) {
             return;
         }
 
-        File source;
-        try {
-            source = FileLoader.getInstance(accountId).getPathToMessage(message);
-        } catch (Exception e) {
-            FileLog.e("MZGramHistoryController.copyMediaIfNeeded", e);
-            return;
-        }
-        if (source == null || !source.exists()) {
+        File source = findLocalFile(accountId, message);
+        if (source == null) {
             return; // not downloaded on this device -- nothing local to archive
         }
 
@@ -277,7 +294,7 @@ public class MZGramHistoryController {
             alwaysSave = false;
         }
 
-        if (!alwaysSave) {
+        if (!alwaysSave && !oneTimeMedia) {
             int limitMb = MZGramConfig.historyMediaSizeLimitMb;
             if (limitMb > 0 && source.length() > (long) limitMb * 1024 * 1024) {
                 return; // over the user's size limit -- keep the text row without media
@@ -299,6 +316,32 @@ public class MZGramHistoryController {
         } catch (Exception e) {
             FileLog.e("MZGramHistoryController.copyMediaIfNeeded", e);
         }
+    }
+
+    // Where the downloaded file of this message is on disk: the path the
+    // message was sent from (attachPath), the regular download location, or
+    // the cache directory (self-destructing media always lives there).
+    private File findLocalFile(int accountId, TLRPC.Message message) {
+        try {
+            if (!TextUtils.isEmpty(message.attachPath)) {
+                File f = new File(message.attachPath);
+                if (f.exists()) {
+                    return f;
+                }
+            }
+            FileLoader loader = FileLoader.getInstance(accountId);
+            File f = loader.getPathToMessage(message);
+            if (f != null && f.exists()) {
+                return f;
+            }
+            f = loader.getPathToMessage(message, true, true);
+            if (f != null && f.exists()) {
+                return f;
+            }
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.findLocalFile", e);
+        }
+        return null;
     }
 
     // ---- total media size cap ----

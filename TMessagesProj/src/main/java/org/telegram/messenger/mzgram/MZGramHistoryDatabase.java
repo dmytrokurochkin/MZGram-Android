@@ -168,6 +168,14 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         }
     }
 
+    public boolean hasKind(long accountUserId, long dialogId, int messageId, int kind) {
+        try (Cursor cursor = getReadableDatabase().rawQuery(
+                "SELECT 1 FROM " + TABLE + " WHERE kind = ? AND accountUserId = ? AND dialogId = ? AND messageId = ? LIMIT 1",
+                new String[]{String.valueOf(kind), String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(messageId)})) {
+            return cursor.moveToFirst();
+        }
+    }
+
     public boolean hasHistory(long accountUserId, long dialogId, int messageId) {
         try (Cursor cursor = getReadableDatabase().rawQuery(
                 "SELECT 1 FROM " + TABLE + " WHERE accountUserId = ? AND dialogId = ? AND messageId = ? LIMIT 1",

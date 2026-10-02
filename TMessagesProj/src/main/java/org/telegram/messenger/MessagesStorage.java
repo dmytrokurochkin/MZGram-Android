@@ -4786,6 +4786,9 @@ public class MessagesStorage extends BaseController {
                         message.readAttachPath(data, getUserConfig().clientUserId);
                         data.reuse();
                         if (message.media != null) {
+                            // MZGram: the media is replaced with an empty one and its file
+                            // deleted below; keep a copy for a tracked dialog first.
+                            org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageMediaRemoved(currentAccount, dialogId, message);
                             if (!addFilesToDelete(message, filesToDelete, idsToDelete, namesToDelete, true)) {
                                 continue;
                             } else {

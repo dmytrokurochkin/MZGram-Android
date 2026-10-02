@@ -13464,6 +13464,10 @@ public class MessagesStorage extends BaseController {
         if (messages == null || messages.isEmpty()) {
             return;
         }
+        if (mode == 0) {
+            // MZGram: fetch and archive other people's one-time media in tracked chats.
+            org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessagesStored(currentAccount, messages);
+        }
         if (useQueue) {
             storageQueue.postRunnable(() -> putMessagesInternal(messages, withTransaction, doNotUpdateDialogDate, downloadMask, ifNoLastMessage, mode, threadMessageId));
         } else {
@@ -16244,6 +16248,10 @@ public class MessagesStorage extends BaseController {
 
     // put messages in data base while load history
     public void putMessages(TLRPC.messages_Messages messages, long dialogId, int load_type, int max_id, boolean createDialog, int mode, long threadMessageId) {
+        if (mode == 0 && messages != null) {
+            // MZGram: fetch and archive other people's one-time media in tracked chats.
+            org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessagesStored(currentAccount, messages.messages);
+        }
         storageQueue.postRunnable(() -> {
             SQLitePreparedStatement state_messages = null;
             SQLitePreparedStatement state_messages_topics = null;

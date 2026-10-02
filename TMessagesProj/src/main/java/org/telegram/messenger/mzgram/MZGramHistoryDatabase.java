@@ -180,6 +180,14 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         }
     }
 
+    public void updateMedia(long rowId, String mediaPath, int mediaType, String mimeType) {
+        ContentValues values = new ContentValues();
+        values.put("mediaPath", mediaPath);
+        values.put("mediaType", mediaType);
+        values.put("mimeType", mimeType);
+        getWritableDatabase().update(TABLE, values, "rowId = ?", new String[]{String.valueOf(rowId)});
+    }
+
     public boolean hasKind(long accountUserId, long dialogId, int messageId, int kind) {
         try (Cursor cursor = getReadableDatabase().rawQuery(
                 "SELECT 1 FROM " + TABLE + " WHERE kind = ? AND accountUserId = ? AND dialogId = ? AND messageId = ? LIMIT 1",

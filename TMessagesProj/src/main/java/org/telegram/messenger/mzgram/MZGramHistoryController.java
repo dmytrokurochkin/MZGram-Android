@@ -26,6 +26,8 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
@@ -193,16 +195,147 @@ public class MZGramHistoryController {
         }
     }
 
+    // Saves one-time media with its file. Called several times for the same
+    // message (on arrival once downloaded, when the viewer opens, when the
+    // media is removed); the file may only be on disk at one of those
+    // points, so a row saved earlier without its file gets the file later.
     private void onOneTimeMediaViewedInner(int accountId, long dialogId, TLRPC.Message message) {
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
         MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
-        if (db.hasKind(accountUserId, dialogId, message.id, MZGramHistoryMessage.KIND_VIEW_ONCE)) {
-            return; // already archived
+        MZGramHistoryMessage existing = db.getLatest(accountUserId, dialogId, message.id, MZGramHistoryMessage.KIND_VIEW_ONCE);
+        if (existing != null && existing.mediaPath != null && new File(existing.mediaPath).exists()) {
+            return; // already archived with its file
         }
-        long rowId = db.insert(buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_VIEW_ONCE, true));
+        MZGramHistoryMessage row = buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_VIEW_ONCE, true);
+        long rowId;
+        if (existing == null) {
+            rowId = db.insert(row);
+        } else if (row.mediaPath != null) {
+            db.updateMedia(existing.rowId, row.mediaPath, row.mediaType, row.mimeType);
+            rowId = existing.rowId;
+        } else {
+            return; // still no file on disk
+        }
         if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("MZGramHistoryController: archived removed media of message " + message.id + " in dialog " + dialogId + ", rowId=" + rowId);
+            FileLog.d("MZGramHistoryController: archived one-time media of message " + message.id + " in dialog " + dialogId
+                    + ", rowId=" + rowId + ", file=" + row.mediaPath);
         }
+    }
+
+    // ---- one-time media on arrival ----
+
+    // MessagesStorage.putMessages: messages arriving (or loaded) into the
+    // cache. Another person's one-time media in a tracked chat is fetched
+    // right away and archived once downloaded, as MZGram Desktop does, so it
+    // is kept even if it is never opened. Downloading the file does not tell
+    // the sender it was viewed; that only happens on opening it.
+    public void onMessagesStored(int accountId, ArrayList<TLRPC.Message> messages) {
+        if (!MZGramConfig.saveMessageHistory || messages == null) {
+            return;
+        }
+        for (int a = 0, N = messages.size(); a < N; a++) {
+            TLRPC.Message message = messages.get(a);
+            if (message == null || message.media == null || message.media.ttl_seconds == 0 || message.id <= 0) {
+                continue;
+            }
+            long dialogId = MessageObject.getDialogId(message);
+            if (!isTracked(dialogId) || isOwnMessage(accountId, message) || oneTimeFileName(message) == null) {
+                continue;
+            }
+            try {
+                onOneTimeMediaArrived(accountId, dialogId, message);
+            } catch (Exception e) {
+                FileLog.e("MZGramHistoryController.onMessagesStored", e);
+            }
+        }
+    }
+
+    // "account:fileName" -> {dialogId, message}
+    private final ConcurrentHashMap<String, Object[]> pendingOneTime = new ConcurrentHashMap<>();
+    private final boolean[] fileObserverAdded = new boolean[UserConfig.MAX_ACCOUNT_COUNT];
+
+    private static String oneTimeFileName(TLRPC.Message message) {
+        TLRPC.MessageMedia media = message.media;
+        if (media instanceof TLRPC.TL_messageMediaPhoto && media.photo instanceof TLRPC.TL_photo) {
+            TLRPC.PhotoSize size = FileLoader.getClosestPhotoSizeWithSize(media.photo.sizes, AndroidUtilities.getPhotoSize());
+            return size != null ? FileLoader.getAttachFileName(size) : null;
+        }
+        if (media instanceof TLRPC.TL_messageMediaDocument && media.document instanceof TLRPC.TL_document) {
+            return FileLoader.getAttachFileName(media.document);
+        }
+        return null;
+    }
+
+    private void onOneTimeMediaArrived(int accountId, long dialogId, TLRPC.Message message) {
+        TLRPC.Message copy = deserializeMessage(serializeMessage(message));
+        String fileName = oneTimeFileName(message);
+        if (copy == null || fileName == null) {
+            return;
+        }
+        copy.dialog_id = dialogId;
+        MessagesStorage.getInstance(accountId).getStorageQueue().postRunnable(() -> {
+            try {
+                if (findLocalFile(accountId, copy) != null) {
+                    onOneTimeMediaViewedInner(accountId, dialogId, copy);
+                    return;
+                }
+                long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+                MZGramHistoryMessage existing = MZGramHistoryDatabase.getInstance().getLatest(accountUserId, dialogId, copy.id, MZGramHistoryMessage.KIND_VIEW_ONCE);
+                if (existing != null && existing.mediaPath != null && new File(existing.mediaPath).exists()) {
+                    return;
+                }
+                pendingOneTime.put(accountId + ":" + fileName, new Object[]{dialogId, copy});
+                AndroidUtilities.runOnUIThread(() -> {
+                    addFileObserver(accountId);
+                    startDownload(accountId, copy);
+                });
+            } catch (Exception e) {
+                FileLog.e("MZGramHistoryController.onOneTimeMediaArrived", e);
+            }
+        });
+    }
+
+    // Plain file in the cache (cache type 1), where findLocalFile looks.
+    private static void startDownload(int accountId, TLRPC.Message message) {
+        FileLoader loader = FileLoader.getInstance(accountId);
+        MessageObject parent = new MessageObject(accountId, message, false, false);
+        TLRPC.MessageMedia media = message.media;
+        if (media instanceof TLRPC.TL_messageMediaPhoto) {
+            TLRPC.PhotoSize size = FileLoader.getClosestPhotoSizeWithSize(media.photo.sizes, AndroidUtilities.getPhotoSize());
+            if (size != null) {
+                loader.loadFile(ImageLocation.getForPhoto(size, media.photo), parent, "jpg", FileLoader.PRIORITY_NORMAL, 1);
+            }
+        } else if (media.document != null) {
+            loader.loadFile(media.document, parent, FileLoader.PRIORITY_NORMAL, 1);
+        }
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("MZGramHistoryController: fetching one-time media of message " + message.id + " in dialog " + message.dialog_id);
+        }
+    }
+
+    private void addFileObserver(int accountId) {
+        if (fileObserverAdded[accountId]) {
+            return;
+        }
+        fileObserverAdded[accountId] = true;
+        NotificationCenter.getInstance(accountId).addObserver((id, account, args) -> {
+            if (id != NotificationCenter.fileLoaded || args.length == 0 || !(args[0] instanceof String)) {
+                return;
+            }
+            Object[] pending = pendingOneTime.remove(account + ":" + args[0]);
+            if (pending == null) {
+                return;
+            }
+            long dialogId = (Long) pending[0];
+            TLRPC.Message message = (TLRPC.Message) pending[1];
+            MessagesStorage.getInstance(account).getStorageQueue().postRunnable(() -> {
+                try {
+                    onOneTimeMediaViewedInner(account, dialogId, message);
+                } catch (Exception e) {
+                    FileLog.e("MZGramHistoryController.fileLoaded", e);
+                }
+            });
+        }, NotificationCenter.fileLoaded);
     }
 
     // Called by MessagesStorage.emptyMessagesMedia right before it replaces a
@@ -308,7 +441,7 @@ public class MZGramHistoryController {
             return;
         }
 
-        File source = findLocalFile(accountId, message);
+        LocalFile source = findLocalFile(accountId, message);
         if (source == null) {
             return; // not downloaded on this device -- nothing local to archive
         }
@@ -331,16 +464,16 @@ public class MZGramHistoryController {
 
         if (!alwaysSave && !oneTimeMedia) {
             int limitMb = MZGramConfig.historyMediaSizeLimitMb;
-            if (limitMb > 0 && source.length() > (long) limitMb * 1024 * 1024) {
+            if (limitMb > 0 && source.file.length() > (long) limitMb * 1024 * 1024) {
                 return; // over the user's size limit -- keep the text row without media
             }
         }
 
         try {
             File destDir = MZGramHistoryDatabase.mediaDir(accountUserId, dialogId);
-            File dest = new File(destDir, message.id + "_" + source.getName());
-            if (!dest.exists()) {
-                AndroidUtilities.copyFile(source, dest);
+            File dest = new File(destDir, message.id + "_" + source.name());
+            if (!dest.exists() || dest.length() == 0) {
+                copyOut(source, dest);
             }
             row.mediaPath = dest.getAbsolutePath();
             row.mediaType = mediaType;
@@ -353,30 +486,96 @@ public class MZGramHistoryController {
         }
     }
 
-    // Where the downloaded file of this message is on disk: the path the
-    // message was sent from (attachPath), the regular download location, or
-    // the cache directory (self-destructing media always lives there).
-    private File findLocalFile(int accountId, TLRPC.Message message) {
+    // A downloaded file of a message: plain, or encrypted in the cache with
+    // its key file (how the one-time viewer stores photos and videos).
+    private static final class LocalFile {
+        final File file;
+        final File keyFile;
+
+        LocalFile(File file, File keyFile) {
+            this.file = file;
+            this.keyFile = keyFile;
+        }
+
+        // The name of the plain file.
+        String name() {
+            String name = file.getName();
+            return keyFile != null && name.endsWith(".enc") ? name.substring(0, name.length() - 4) : name;
+        }
+    }
+
+    // Where the downloaded file of this message is on disk. Looked for in
+    // the path the message was sent from (attachPath), the regular download
+    // folder and the cache, for every photo size (the chat, the one-time
+    // viewer and the archive each pick their own size), both as a plain
+    // file and as "<name>.enc" with "<internal cache>/<name>.enc.key" --
+    // the one-time viewer downloads photos and videos encrypted like that.
+    private static LocalFile findLocalFile(int accountId, TLRPC.Message message) {
         try {
             if (!TextUtils.isEmpty(message.attachPath)) {
                 File f = new File(message.attachPath);
-                if (f.exists()) {
-                    return f;
+                if (f.exists() && f.length() > 0) {
+                    return new LocalFile(f, null);
                 }
             }
             FileLoader loader = FileLoader.getInstance(accountId);
-            File f = loader.getPathToMessage(message);
-            if (f != null && f.exists()) {
-                return f;
+            ArrayList<File> candidates = new ArrayList<>();
+            TLRPC.MessageMedia media = MessageObject.getMedia(message);
+            if (media != null && media.photo != null && media.photo.sizes != null) {
+                ArrayList<TLRPC.PhotoSize> sizes = new ArrayList<>(media.photo.sizes);
+                Collections.sort(sizes, (x, y) -> Integer.compare(y.w * y.h, x.w * x.h));
+                for (int a = 0, N = sizes.size(); a < N; a++) {
+                    TLRPC.PhotoSize size = sizes.get(a);
+                    if (size instanceof TLRPC.TL_photoStrippedSize || size instanceof TLRPC.TL_photoPathSize) {
+                        continue;
+                    }
+                    candidates.add(loader.getPathToAttach(size, true));
+                    candidates.add(loader.getPathToAttach(size, false));
+                }
+            } else if (media != null && media.document != null) {
+                candidates.add(loader.getPathToAttach(media.document, true));
+                candidates.add(loader.getPathToAttach(media.document, false));
             }
-            f = loader.getPathToMessage(message, true, true);
-            if (f != null && f.exists()) {
-                return f;
+            candidates.add(loader.getPathToMessage(message));
+            candidates.add(loader.getPathToMessage(message, true, true));
+            for (int a = 0, N = candidates.size(); a < N; a++) {
+                File f = candidates.get(a);
+                if (f == null || f.getPath().isEmpty()) {
+                    continue;
+                }
+                if (f.exists() && f.length() > 0) {
+                    return new LocalFile(f, null);
+                }
+                File enc = new File(f.getAbsolutePath() + ".enc");
+                File key = new File(FileLoader.getInternalCacheDir(), f.getName() + ".enc.key");
+                if (enc.exists() && enc.length() > 0 && key.exists()) {
+                    return new LocalFile(enc, key);
+                }
             }
         } catch (Exception e) {
             FileLog.e("MZGramHistoryController.findLocalFile", e);
         }
         return null;
+    }
+
+    private static void copyOut(LocalFile source, File dest) throws Exception {
+        if (source.keyFile == null) {
+            AndroidUtilities.copyFile(source.file, dest);
+            return;
+        }
+        try (java.io.InputStream in = new org.telegram.messenger.secretmedia.EncryptedFileInputStream(source.file, source.keyFile);
+             OutputStream out = new FileOutputStream(dest)) {
+            byte[] buffer = new byte[64 * 1024];
+            long left = source.file.length();
+            while (left > 0) {
+                int read = in.read(buffer, 0, (int) Math.min(buffer.length, left));
+                if (read <= 0) {
+                    break;
+                }
+                out.write(buffer, 0, read);
+                left -= read;
+            }
+        }
     }
 
     // ---- total media size cap ----
@@ -708,6 +907,7 @@ public class MZGramHistoryController {
         shown.forceExpired = false;
         shown.generateThumbs(false);
         shown.setType();
+        shown.checkMediaExistance();
         shown.forceUpdate = true;
     }
 
@@ -750,15 +950,27 @@ public class MZGramHistoryController {
             if (!archived.exists()) {
                 return;
             }
-            File target = FileLoader.getInstance(accountId).getPathToMessage(message);
-            if (target == null || target.getPath().isEmpty() || target.exists()) {
-                return;
+            FileLoader loader = FileLoader.getInstance(accountId);
+            ArrayList<File> targets = new ArrayList<>();
+            targets.add(loader.getPathToMessage(message));
+            // A chat bubble shows a photo at its own size, from the image folder.
+            if (message.media.photo != null && message.media.photo.sizes != null) {
+                TLRPC.PhotoSize size = FileLoader.getClosestPhotoSizeWithSize(message.media.photo.sizes, AndroidUtilities.getPhotoSize());
+                if (size != null) {
+                    targets.add(loader.getPathToAttach(size, false));
+                }
             }
-            File dir = target.getParentFile();
-            if (dir != null && !dir.exists()) {
-                dir.mkdirs();
+            for (int a = 0, N = targets.size(); a < N; a++) {
+                File target = targets.get(a);
+                if (target == null || target.getPath().isEmpty() || target.exists()) {
+                    continue;
+                }
+                File dir = target.getParentFile();
+                if (dir != null && !dir.exists()) {
+                    dir.mkdirs();
+                }
+                AndroidUtilities.copyFile(archived, target);
             }
-            AndroidUtilities.copyFile(archived, target);
         } catch (Exception e) {
             FileLog.e("MZGramHistoryController.putFileBack", e);
         }

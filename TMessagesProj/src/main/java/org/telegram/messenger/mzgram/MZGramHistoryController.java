@@ -491,17 +491,22 @@ public class MZGramHistoryController {
     // a new list; the loaded one and its messages are never changed (they
     // may still be on their way into messages_v2).
     //
+    // Works for private chats, groups, supergroups and channels, a forum
+    // topic (threadMessageId = topic, isTopic: only that topic's messages),
+    // a reply thread (threadMessageId = the thread's root message: only
+    // replies in it) and secret chats.
+    //
     // An archived message is added only where it certainly belongs: between
-    // the oldest and the newest loaded message, below them when the server
-    // says the history starts there, above them when this is the newest
-    // part of the chat. Anything else would make the chat think it has
-    // loaded a range it has not.
-    public ArrayList<TLRPC.Message> messagesForChat(int accountId, long dialogId, ArrayList<TLRPC.Message> loaded, int count, int maxId, int loadType, boolean isCache) {
-        if (loaded == null || DialogObject.isEncryptedDialog(dialogId) || !isTracked(dialogId)) {
+    // the oldest and the newest loaded message, below them when the history
+    // starts there, above them when this is the newest part of the chat.
+    // Anything else would make the chat think it has loaded a range it has
+    // not.
+    public ArrayList<TLRPC.Message> messagesForChat(int accountId, long dialogId, ArrayList<TLRPC.Message> loaded, int count, int maxId, int loadType, boolean isCache, long threadMessageId, boolean isTopic) {
+        if (loaded == null || !isTracked(dialogId)) {
             return loaded;
         }
         try {
-            return messagesForChatInner(accountId, dialogId, loaded, count, maxId, loadType, isCache);
+            return messagesForChatInner(accountId, dialogId, loaded, count, maxId, loadType, isCache, threadMessageId, isTopic);
         } catch (Exception e) {
             FileLog.e("MZGramHistoryController.messagesForChat", e);
             return loaded;
@@ -510,17 +515,20 @@ public class MZGramHistoryController {
 
     private static final int CHAT_HISTORY_LIMIT = 200;
 
-    private ArrayList<TLRPC.Message> messagesForChatInner(int accountId, long dialogId, ArrayList<TLRPC.Message> loaded, int count, int maxId, int loadType, boolean isCache) {
+    private ArrayList<TLRPC.Message> messagesForChatInner(int accountId, long dialogId, ArrayList<TLRPC.Message> loaded, int count, int maxId, int loadType, boolean isCache, long threadMessageId, boolean isTopic) {
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
         MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
         ArrayList<TLRPC.Message> result = null;
+        // In a secret chat message ids are negative and go down: the newest
+        // message has the lowest id. Its whole history is on the device.
+        final boolean secret = DialogObject.isEncryptedDialog(dialogId);
 
         HashSet<Integer> ids = new HashSet<>();
         int minLoaded = Integer.MAX_VALUE;
-        int maxLoaded = 0;
+        int maxLoaded = Integer.MIN_VALUE;
         for (int a = 0, N = loaded.size(); a < N; a++) {
             TLRPC.Message message = loaded.get(a);
-            if (message == null || message.id <= 0) {
+            if (message == null || (secret ? message.id >= 0 : message.id <= 0)) {
                 continue;
             }
             ids.add(message.id);
@@ -538,18 +546,26 @@ public class MZGramHistoryController {
         }
 
         boolean fromNewest = loadType == 2 && maxId == 0;
+        boolean reachedOldest = (secret || !isCache) && loaded.size() < count && (loadType == 0 || loadType == 2);
         int lower;
         int upper;
         if (ids.isEmpty()) {
-            if (isCache || !fromNewest && loadType != 0) {
+            if (!secret && isCache || !fromNewest && loadType != 0) {
                 return result != null ? result : loaded;
             }
-            // The server has nothing here: the chat is empty (from the newest
-            // message), or nothing is older than max_id.
-            lower = 1;
-            upper = loadType == 0 && maxId > 0 ? maxId - 1 : Integer.MAX_VALUE;
+            // Nothing here: the chat is empty from its newest message, or
+            // nothing is older than max_id.
+            if (secret) {
+                lower = Integer.MIN_VALUE;
+                upper = -1;
+            } else {
+                lower = 1;
+                upper = loadType == 0 && maxId > 0 ? maxId - 1 : Integer.MAX_VALUE;
+            }
+        } else if (secret) {
+            lower = fromNewest ? Integer.MIN_VALUE : minLoaded;
+            upper = reachedOldest ? -1 : maxLoaded;
         } else {
-            boolean reachedOldest = !isCache && loaded.size() < count && (loadType == 0 || loadType == 2);
             lower = reachedOldest ? 1 : minLoaded;
             upper = fromNewest ? Integer.MAX_VALUE : maxLoaded;
         }
@@ -564,29 +580,61 @@ public class MZGramHistoryController {
             if (message == null || message instanceof TLRPC.TL_messageService || message.id != row.messageId) {
                 continue;
             }
+            if (threadMessageId != 0 && !belongsToThread(accountId, message, threadMessageId, isTopic)) {
+                continue;
+            }
             message.dialog_id = dialogId;
             message.unread = false;
             message.media_unread = false;
             message.mzgramDeleted = true;
+            // One-time media of a deleted message: the server will never let
+            // it be opened again, so it is shown as ordinary media.
+            if (message.media != null && message.media.ttl_seconds != 0) {
+                message.media.ttl_seconds = 0;
+                message.media.flags &= ~4;
+            }
+            message.ttl = 0;
             putFileBack(accountId, message, row.mediaPath);
             if (result == null) {
                 result = new ArrayList<>(loaded);
             }
-            insertByIdDescending(result, message);
+            insertNewestFirst(result, message, secret);
             ids.add(message.id);
         }
         if (BuildVars.LOGS_ENABLED && result != null) {
-            FileLog.d("MZGramHistoryController.messagesForChat dialog=" + dialogId + " range=[" + lower + ", " + upper + "] loaded=" + loaded.size() + " shown=" + result.size());
+            FileLog.d("MZGramHistoryController.messagesForChat dialog=" + dialogId + " thread=" + threadMessageId + " topic=" + isTopic
+                    + " range=[" + lower + ", " + upper + "] loaded=" + loaded.size() + " shown=" + result.size());
         }
         return result != null ? result : loaded;
     }
 
-    // Loaded lists are newest first; ids <= 0 (local, ephemeral) are left
-    // where they are.
-    private static void insertByIdDescending(ArrayList<TLRPC.Message> list, TLRPC.Message message) {
+    // A forum topic holds the messages whose topic id is that topic; a reply
+    // thread holds the replies to its root message (and the root itself).
+    private static boolean belongsToThread(int accountId, TLRPC.Message message, long threadMessageId, boolean isTopic) {
+        if (isTopic) {
+            return MessageObject.getTopicId(accountId, message, true) == threadMessageId;
+        }
+        if (message.id == threadMessageId) {
+            return true;
+        }
+        if (message.reply_to == null) {
+            return false;
+        }
+        long top = message.reply_to.reply_to_top_id != 0 ? message.reply_to.reply_to_top_id : message.reply_to.reply_to_msg_id;
+        return top == threadMessageId;
+    }
+
+    // Loaded lists are newest first. Normal ids grow with time, secret chat
+    // ids go down; ids of the other sign (local, ephemeral) are left where
+    // they are.
+    private static void insertNewestFirst(ArrayList<TLRPC.Message> list, TLRPC.Message message, boolean secret) {
         for (int a = 0, N = list.size(); a < N; a++) {
             TLRPC.Message m = list.get(a);
-            if (m != null && m.id > 0 && m.id < message.id) {
+            if (m == null) {
+                continue;
+            }
+            boolean older = secret ? (m.id < 0 && m.id > message.id) : (m.id > 0 && m.id < message.id);
+            if (older) {
                 list.add(a, message);
                 return;
             }

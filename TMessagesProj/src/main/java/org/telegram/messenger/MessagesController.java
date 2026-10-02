@@ -12142,8 +12142,8 @@ public class MessagesController extends BaseController implements NotificationCe
         // is put back. A separate list: messagesRes.messages has already been
         // handed to putMessages above, and kept messages must never go back
         // into messages_v2.
-        final ArrayList<TLRPC.Message> shownMessages = mode == 0 && threadMessageId == 0
-                ? org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().messagesForChat(currentAccount, dialogId, messagesRes.messages, count, max_id, load_type, isCache)
+        final ArrayList<TLRPC.Message> shownMessages = mode == 0
+                ? org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().messagesForChat(currentAccount, dialogId, messagesRes.messages, count, max_id, load_type, isCache, threadMessageId, isTopic)
                 : messagesRes.messages;
         for (int a = 0, shownCount = shownMessages.size(); a < shownCount; a++) {
             final TLRPC.Message message = shownMessages.get(a);

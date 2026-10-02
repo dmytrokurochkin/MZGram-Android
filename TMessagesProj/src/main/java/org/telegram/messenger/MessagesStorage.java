@@ -14637,12 +14637,10 @@ public class MessagesStorage extends BaseController {
                         // Also deserialize the message when MZGram tracks this dialog, so
                         // it can be archived below, even if nothing else in this method
                         // needs the file deleted. allowMzgramArchive restricts the actual
-                        // archive call to callers that represent a real deletion: the
-                        // update echo, a push delete notice, a secret-chat peer's delete
-                        // notice, and the user's own "Delete" tap (whose later echo finds
-                        // nothing, since this call already removed the rows). Callers
-                        // that only reshuffle local rows (e.g. a sent message replacing
-                        // its temporary copy) leave it false.
+                        // archive call to callers that represent a server-confirmed deletion
+                        // (the deferred update echo, a push delete notice, or a secret-chat
+                        // peer's delete notice) -- never the local synchronous path fired by
+                        // the user's own "Delete" tap: the user chose to remove those.
                         boolean mzgramTracked = org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did);
                         // MZGram: diagnostic logging -- confirms whether this row was
                         // skipped specifically because allowMzgramArchive is false (the
@@ -15369,8 +15367,8 @@ public class MessagesStorage extends BaseController {
     }
 
     // MZGram: allowMzgramArchive is true only for callers that represent a
-    // real deletion (update echo, push notice, secret-chat peer notice, the
-    // user's own "Delete" tap) -- see markMessagesAsDeletedInternal for why.
+    // server-confirmed deletion (update echo, push notice, secret-chat peer
+    // notice) -- see markMessagesAsDeletedInternal for why.
     public ArrayList<Long> markMessagesAsDeleted(long dialogId, ArrayList<Integer> messages, boolean useQueue, boolean deleteFiles, int mode, int topicId, boolean allowMzgramArchive) {
         if (messages.isEmpty()) {
             return null;

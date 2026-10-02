@@ -18478,10 +18478,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         } else {
             timeString = LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000);
         }
-        // MZGram: as in MZGram Desktop, an edited message gets a pencil before
-        // the time and a deleted message kept in the chat reads "deleted".
+        // MZGram: as in MZGram Desktop, another person's edited message in a
+        // tracked chat gets a pencil before the time, and a deleted message
+        // kept in the chat reads "deleted".
+        final boolean mzgramPencil = edited
+                && org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(messageObject.getDialogId())
+                && !org.telegram.messenger.mzgram.MZGramHistoryController.isOwnMessage(currentAccount, messageObject.messageOwner);
         if (!timeString.isEmpty()) {
-            if (edited) {
+            if (mzgramPencil) {
                 timeString = "\u270F\uFE0F " + timeString;
             }
             if (messageObject.messageOwner.mzgramDeleted) {
@@ -18531,7 +18535,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 currentTimeString = TextUtils.concat(formatString(R.string.MessageScheduledRepeatSeconds, period), ", ", currentTimeString);
             }
         }
-        if (edited && currentTimeString != null) {
+        if (mzgramPencil && currentTimeString != null) {
             currentTimeString = Emoji.replaceEmoji(currentTimeString, Theme.chat_timePaint.getFontMetricsInt(), false);
         }
         timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString, 0, currentTimeString == null ? 0 : currentTimeString.length()));

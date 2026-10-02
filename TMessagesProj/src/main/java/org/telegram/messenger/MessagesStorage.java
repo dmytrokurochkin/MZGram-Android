@@ -14773,7 +14773,11 @@ public class MessagesStorage extends BaseController {
                                 }
                                 org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageDeleted(currentAccount, did, message);
                             }
-                            if (DialogObject.isEncryptedDialog(did) || deleteFiles) {
+                            // MZGram: another person's deleted message stays in a tracked
+                            // chat with its media, so its downloaded file is left in place.
+                            boolean mzgramKeepsFile = mzgramTracked && allowMzgramArchive
+                                    && !org.telegram.messenger.mzgram.MZGramHistoryController.isOwnMessage(currentAccount, message);
+                            if ((DialogObject.isEncryptedDialog(did) || deleteFiles) && !mzgramKeepsFile) {
                                 addFilesToDelete(message, filesToDelete, idsToDelete, namesToDelete, false);
                             }
 

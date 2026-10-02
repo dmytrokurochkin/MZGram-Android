@@ -1,5 +1,7 @@
 package org.telegram.messenger.mzgram.test
 
+import android.database.sqlite.SQLiteDatabase
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -7,6 +9,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.telegram.messenger.mzgram.MZGramHistoryDatabase
 import org.telegram.messenger.mzgram.MZGramHistoryMessage
+import java.io.File
 
 // Exercises the local deleted/edited message archive (the core of "spy
 // mode"/anti-recall) directly against MZGramHistoryDatabase, the same
@@ -90,5 +93,32 @@ class MZGramHistoryDatabaseTest {
 
         assertEquals(false, db.hasHistory(testAccountUserId, testDialogId, messageId))
         assertNull(db.getDeleted(testAccountUserId, testDialogId, messageId))
+    }
+    // An app update from database version 2 (no messageData column) must
+    // keep every row archived so far.
+    @Test
+    fun upgradeFromVersion2_keepsArchivedRows() {
+        val file = File(InstrumentationRegistry.getInstrumentation().targetContext.cacheDir, "mzgram_upgrade_test.db")
+        file.delete()
+        val sql = SQLiteDatabase.openOrCreateDatabase(file, null)
+        try {
+            sql.execSQL("CREATE TABLE history_message (rowId INTEGER PRIMARY KEY AUTOINCREMENT, kind INTEGER NOT NULL, " +
+                "accountUserId INTEGER NOT NULL, dialogId INTEGER NOT NULL, topicId INTEGER NOT NULL, messageId INTEGER NOT NULL, " +
+                "groupedId INTEGER NOT NULL, fromId INTEGER NOT NULL, date INTEGER NOT NULL, editDate INTEGER NOT NULL, " +
+                "entityCreateDate INTEGER NOT NULL, text TEXT, entities BLOB, mediaPath TEXT, mediaType INTEGER NOT NULL DEFAULT 0, mimeType TEXT)")
+            sql.execSQL("INSERT INTO history_message (kind, accountUserId, dialogId, topicId, messageId, groupedId, fromId, date, editDate, entityCreateDate, text) " +
+                "VALUES (0, 1, 2, 0, 3, 0, 4, 5, 0, 6, 'archived before the upgrade')")
+
+            MZGramHistoryDatabase.getInstance().onUpgrade(sql, 2, 3)
+
+            sql.rawQuery("SELECT text, messageData FROM history_message WHERE messageId = 3", null).use { c ->
+                assertTrue("row kept", c.moveToFirst())
+                assertEquals("archived before the upgrade", c.getString(0))
+                assertTrue("old rows have no messageData", c.isNull(1))
+            }
+        } finally {
+            sql.close()
+            file.delete()
+        }
     }
 }

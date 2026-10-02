@@ -1,8 +1,11 @@
 """Second account (B) for MZGramDeletedArchiveLiveTest, run on the CI host.
 
 Works only against Telegram's public TEST servers (test DC 2, throwaway
-99966 2 XXXX numbers whose login code is always 22222), never production.
+99966 2 XXXX numbers whose login code is the DC number repeated), never
+production.
 The API credentials come from the environment and are never printed.
+
+With --preflight instead of a file name, only checks that B can sign in.
 
 Phase 1: pick working phone numbers for A and B (a test number can be
 locked by someone else's 2FA password, so retry), sign both in, create a
@@ -24,11 +27,10 @@ import subprocess
 import sys
 
 from telethon import TelegramClient, functions, types
-from telethon.errors import SessionPasswordNeededError, PhoneNumberUnoccupiedError
+from telethon.errors import SessionPasswordNeededError, PhoneNumberUnoccupiedError, PhoneCodeInvalidError
 from telethon.sessions import StringSession
 
 TEST_DC = (2, "149.154.167.40", 443)
-CODE = "22222"
 
 API_ID = int(os.environ["API_ID"])
 API_HASH = os.environ["API_HASH"]
@@ -44,14 +46,30 @@ def new_client():
     return client
 
 
+def candidate_codes(sent):
+    # Test-server codes are the DC number repeated; the length the server
+    # reports for this code wins, 5 and 6 digits are tried as fallbacks.
+    length = getattr(sent.type, "length", None)
+    lengths = [n for n in (length, 5, 6) if n]
+    return list(dict.fromkeys(str(TEST_DC[0]) * n for n in lengths))
+
+
 async def sign_in(client, phone, first_name):
     await client.connect()
     sent = await client.send_code_request(phone)
-    try:
-        await client.sign_in(phone, CODE, phone_code_hash=sent.phone_code_hash)
-    except PhoneNumberUnoccupiedError:
-        await client.sign_up(CODE, first_name, phone_code_hash=sent.phone_code_hash)
-    return await client.get_me()
+    log(f"{phone}: code type {type(sent.type).__name__} length={getattr(sent.type, 'length', None)}")
+    last_error = None
+    for code in candidate_codes(sent):
+        try:
+            try:
+                await client.sign_in(phone, code, phone_code_hash=sent.phone_code_hash)
+            except PhoneNumberUnoccupiedError:
+                await client.sign_up(code, first_name, phone_code_hash=sent.phone_code_hash)
+            return await client.get_me(), code
+        except PhoneCodeInvalidError as e:
+            log(f"{phone}: code of length {len(code)} rejected")
+            last_error = e
+    raise last_error
 
 
 async def usable_account(first_name, exclude):
@@ -61,9 +79,9 @@ async def usable_account(first_name, exclude):
             continue
         client = new_client()
         try:
-            me = await sign_in(client, phone, first_name)
+            me, code = await sign_in(client, phone, first_name)
             log(f"{first_name}: signed in as {phone} id={me.id}")
-            return client, phone, me
+            return client, phone, me, code
         except SessionPasswordNeededError:
             log(f"{first_name}: {phone} has a 2FA password set by someone else, retrying")
         except Exception as e:  # noqa: BLE001 -- any login failure: try another number
@@ -73,8 +91,12 @@ async def usable_account(first_name, exclude):
 
 
 async def main(out_file):
-    b, phone_b, me_b = await usable_account("MZGram E2E B", set())
-    a, phone_a, me_a = await usable_account("MZGram E2E A", {phone_b})
+    b, phone_b, me_b, _ = await usable_account("MZGram E2E B", set())
+    if out_file == "--preflight":
+        await b.disconnect()
+        log("preflight: test-server login works")
+        return
+    a, phone_a, me_a, code_a = await usable_account("MZGram E2E A", {phone_b})
     # A is signed in again inside the app; this host session only made sure
     # the account exists and has no password.
     await a.disconnect()
@@ -98,7 +120,7 @@ async def main(out_file):
     }
 
     with open(out_file, "w") as f:
-        f.write(f"{phone_a} {phone_b} {CODE} {basic_chat.id} {channel.id}\n")
+        f.write(f"{phone_a} {phone_b} {code_a} {basic_chat.id} {channel.id}\n")
     log(f"wrote {out_file}: A={phone_a} B={phone_b}")
 
     proc = subprocess.Popen(["adb", "logcat", "-v", "brief", "MZGramE2E:I", "*:S"],

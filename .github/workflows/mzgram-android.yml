@@ -133,6 +133,14 @@ jobs:
       - name: Install E2E peer dependencies.
         run: pip install telethon==1.36.0
 
+      # Fails fast, before the long build, if the test-server login used by
+      # the live E2E test does not work.
+      - name: E2E peer preflight.
+        env:
+          API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        run: python3 .github/scripts/mzgram_e2e_peer.py --preflight
+
       - name: Build test APKs.
         run: ./gradlew :TMessagesProj_AppTests:assembleAfatDebug :TMessagesProj_AppTests:assembleAfatDebugAndroidTest --console=plain
 

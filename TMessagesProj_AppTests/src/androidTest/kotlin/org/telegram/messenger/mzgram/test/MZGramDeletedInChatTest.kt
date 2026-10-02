@@ -156,7 +156,25 @@ class MZGramDeletedInChatTest {
     // Loads the newest messages of a dialog from the local cache the way
     // ChatActivity does when a chat is opened, and returns the list it
     // would get in messagesDidLoad.
+    // The test messages arrive unread; a chat with unread messages loads
+    // around the first unread one and then asks the server, which this
+    // signed-out test account cannot. Mark the chat read, as after the user
+    // has seen it, so the newest messages come from the cache.
+    private fun markChatRead(dialogId: Long) {
+        val latch = CountDownLatch(1)
+        storage.storageQueue.postRunnable {
+            try {
+                storage.database.executeFast("UPDATE messages_v2 SET read_state = read_state | 1 WHERE uid = $dialogId").stepThis().dispose()
+                storage.database.executeFast("UPDATE dialogs SET unread_count = 0, inbox_max = (SELECT MAX(mid) FROM messages_v2 WHERE uid = $dialogId) WHERE did = $dialogId").stepThis().dispose()
+            } finally {
+                latch.countDown()
+            }
+        }
+        assertTrue(latch.await(30, TimeUnit.SECONDS))
+    }
+
     private fun loadHistory(dialogId: Long): List<MessageObject> {
+        markChatRead(dialogId)
         val guid = ConnectionsManager.generateClassGuid()
         val latch = CountDownLatch(1)
         var loaded: List<MessageObject> = emptyList()

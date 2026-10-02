@@ -51,6 +51,13 @@ else
     echo "::warning::No API credentials: live E2E test skipped."
 fi
 
+# Screenshots MZGramDeletedInChatTest saves of the rendered message cells.
+mkdir -p mzgram-screens
+for png in $(adb shell "find /sdcard/Android/data -name 'mzgram-*.png' 2>/dev/null" | tr -d '\r'); do
+    adb pull "$png" mzgram-screens/ > /dev/null
+done
+ls -l mzgram-screens
+
 adb logcat -d > logcat-full.txt
 echo "===== MZGram logcat ====="
 grep -E "MZGramArchiveTest|MZGramE2E|MZGram|TestRunner" logcat-full.txt | tail -400

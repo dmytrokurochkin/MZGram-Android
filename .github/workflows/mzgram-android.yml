@@ -183,3 +183,4 @@ jobs:
             TMessagesProj_AppTests/build/outputs/androidTest-results/
             logcat-full.txt
             e2e-peer.log
+            mzgram-screens/

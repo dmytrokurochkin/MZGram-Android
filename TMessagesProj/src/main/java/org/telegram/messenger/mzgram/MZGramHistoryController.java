@@ -62,6 +62,17 @@ public class MZGramHistoryController {
         return MZGramConfig.saveMessageHistory && MZGramConfig.isDialogTracked(dialogId);
     }
 
+    // The archive keeps what OTHER people delete or edit. The account owner's
+    // own messages (sent from this or another device, or posted to a channel
+    // the owner runs) are never archived.
+    public static boolean isOwnMessage(int accountId, TLRPC.Message message) {
+        if (message.out) {
+            return true;
+        }
+        long selfId = UserConfig.getInstance(accountId).getClientUserId();
+        return message.from_id != null && MessageObject.getPeerId(message.from_id) == selfId;
+    }
+
     // ---- deleted messages ----
 
     public void onMessageDeleted(int accountId, long dialogId, TLRPC.Message message) {
@@ -76,6 +87,12 @@ public class MZGramHistoryController {
                     + ", isDialogTracked=" + MZGramConfig.isDialogTracked(dialogId));
         }
         if (message == null || !isTracked(dialogId)) {
+            return;
+        }
+        if (isOwnMessage(accountId, message)) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("MZGramHistoryController: message " + message.id + " in dialog " + dialogId + " is the owner's own, not archived");
+            }
             return;
         }
         try {
@@ -111,7 +128,7 @@ public class MZGramHistoryController {
     // ---- edited messages ----
 
     public void onMessageEdited(int accountId, long dialogId, TLRPC.Message oldMessage, TLRPC.Message newMessage) {
-        if (oldMessage == null || newMessage == null || !isTracked(dialogId)) {
+        if (oldMessage == null || newMessage == null || !isTracked(dialogId) || isOwnMessage(accountId, oldMessage)) {
             return;
         }
         try {
@@ -132,37 +149,6 @@ public class MZGramHistoryController {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("MZGramHistoryController: archived edited message " + oldMessage.id + " in dialog " + dialogId + ", rowId=" + rowId);
         }
-    }
-
-    // Editing your OWN message never reaches onMessageEdited above: before
-    // the edit request is even sent, SendMessagesHelper.editMessage()
-    // overwrites the same TLRPC.Message object's text/media in place and
-    // writes that already-new copy into messages_v2 for an instant UI
-    // update (SendMessagesHelper.java, the "if (!retry)" block). By the
-    // time the server's TL_updateEditMessage echoes back and reaches
-    // onMessageEdited, the "old" row read from messages_v2 already holds
-    // the new text, so the sameText/sameMedia check above silently treats
-    // it as a no-op edit and nothing is archived.
-    //
-    // Called instead from that exact spot in SendMessagesHelper, with a
-    // snapshot of the message taken before any field is overwritten, so
-    // there is nothing to compare against here -- a real edit is already
-    // certain (the user just confirmed one).
-    public void onMessageEditedLocally(int accountId, long dialogId, TLRPC.Message oldMessage) {
-        if (oldMessage == null || !isTracked(dialogId)) {
-            return;
-        }
-        MessagesStorage.getInstance(accountId).getStorageQueue().postRunnable(() -> {
-            try {
-                long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
-                long rowId = MZGramHistoryDatabase.getInstance().insert(buildRow(accountId, accountUserId, dialogId, oldMessage, MZGramHistoryMessage.KIND_EDITED));
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("MZGramHistoryController: archived locally-edited message " + oldMessage.id + " in dialog " + dialogId + ", rowId=" + rowId);
-                }
-            } catch (Exception e) {
-                FileLog.e("MZGramHistoryController.onMessageEditedLocally", e);
-            }
-        });
     }
 
     private boolean sameMedia(TLRPC.Message a, TLRPC.Message b) {
@@ -191,7 +177,7 @@ public class MZGramHistoryController {
     // sendSecretMediaDelete / doDeleteShowOnceTask), so the file is still on
     // disk.
     public void onOneTimeMediaViewed(int accountId, long dialogId, TLRPC.Message message) {
-        if (message == null || !isTracked(dialogId)) {
+        if (message == null || !isTracked(dialogId) || isOwnMessage(accountId, message)) {
             return;
         }
         try {

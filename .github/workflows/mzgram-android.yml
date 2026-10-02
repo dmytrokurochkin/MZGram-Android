@@ -79,3 +79,67 @@ jobs:
         with:
           name: MZGram-Android
           path: artifact/
+
+  # MZGram instrumented tests (TMessagesProj_AppTests, package
+  # org.telegram.messenger.mzgram.test) on a real x86_64 emulator. Includes
+  # MZGramDeletedArchiveFlowTest, which drives a synthetic delete update
+  # through MessagesController.processUpdateArray and checks the archive
+  # database, so the deleted-message archive is verified on every push.
+  mzgram-tests:
+    name: MZGram instrumented tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone.
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Set up JDK.
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK.
+        uses: android-actions/setup-android@v4.0.4
+
+      - name: Accept Android SDK licenses.
+        run: yes | sdkmanager --licenses > /dev/null || true
+
+      - name: Install NDK and CMake.
+        run: |
+          sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1" "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Build test APKs.
+        run: ./gradlew :TMessagesProj_AppTests:assembleAfatDebug :TMessagesProj_AppTests:assembleAfatDebugAndroidTest --console=plain
+
+      - name: Enable KVM.
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run MZGram tests on emulator.
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
+          script: |
+            adb logcat -c
+            ./gradlew :TMessagesProj_AppTests:connectedAfatDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=org.telegram.messenger.mzgram.test --console=plain || (adb logcat -d > logcat-full.txt; grep -E "MZGram|AndroidRuntime|TestRunner" logcat-full.txt | tail -300; exit 1)
+            adb logcat -d > logcat-full.txt
+            grep -E "MZGramArchiveTest|MZGram|TestRunner" logcat-full.txt | tail -300
+
+      - name: Upload test reports and logcat.
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: MZGram-Android-tests
+          path: |
+            TMessagesProj_AppTests/build/reports/androidTests/
+            TMessagesProj_AppTests/build/outputs/androidTest-results/
+            logcat-full.txt

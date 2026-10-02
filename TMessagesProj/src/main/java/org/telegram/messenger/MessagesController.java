@@ -8292,6 +8292,13 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (task != null) {
                     for (int a = 0, N = task.size(); a < N; a++) {
                         ArrayList<Integer> mids = task.valueAt(a);
+                        // MZGram: these messages ran out their auto-delete timer
+                        // (ttl_period, or a secret chat's self-destruct timer). The
+                        // server deletes them on its side without sending a delete
+                        // update, so this is the only point where they can be
+                        // archived. Queued before deleteMessages below, so it runs
+                        // on the storage queue while the rows are still there.
+                        getMessagesStorage().archiveExpiredMessagesForMZGram(task.keyAt(a), mids);
                         deleteMessages(mids, null, null, task.keyAt(a), 0, true, 0, !mids.isEmpty() && mids.get(0) > 0);
                     }
                 }

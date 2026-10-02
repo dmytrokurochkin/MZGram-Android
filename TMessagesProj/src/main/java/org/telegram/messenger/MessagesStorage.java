@@ -4734,6 +4734,39 @@ public class MessagesStorage extends BaseController {
         });
     }
 
+    // MZGram: archives messages of a tracked dialog that the auto-delete timer
+    // is about to remove (see MessagesController.checkDeletingTask). Must be
+    // called before the deletion is queued, so the rows are still in
+    // messages_v2 when this runs.
+    public void archiveExpiredMessagesForMZGram(long dialogId, ArrayList<Integer> mids) {
+        if (mids == null || mids.isEmpty() || !org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(dialogId)) {
+            return;
+        }
+        ArrayList<Integer> ids = new ArrayList<>(mids);
+        storageQueue.postRunnable(() -> {
+            SQLiteCursor cursor = null;
+            try {
+                cursor = database.queryFinalized(String.format(Locale.US, "SELECT data FROM messages_v2 WHERE mid IN(%s) AND uid = %d", TextUtils.join(",", ids), dialogId));
+                while (cursor.next()) {
+                    NativeByteBuffer data = cursor.byteBufferValue(0);
+                    if (data == null) {
+                        continue;
+                    }
+                    TLRPC.Message message = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
+                    message.readAttachPath(data, getUserConfig().clientUserId);
+                    data.reuse();
+                    org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageDeleted(currentAccount, dialogId, message);
+                }
+            } catch (Exception e) {
+                checkSQLException(e);
+            } finally {
+                if (cursor != null) {
+                    cursor.dispose();
+                }
+            }
+        });
+    }
+
     public void emptyMessagesMedia(long dialogId, ArrayList<Integer> mids) {
         storageQueue.postRunnable(() -> {
             SQLiteCursor cursor = null;

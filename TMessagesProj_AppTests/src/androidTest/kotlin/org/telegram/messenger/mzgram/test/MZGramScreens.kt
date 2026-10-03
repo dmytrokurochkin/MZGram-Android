@@ -46,6 +46,8 @@ object MZGramScreens {
     }
 
     fun launchApp(): Activity {
+        // Otherwise Android asks for it over the first screen.
+        shell("pm grant ${instrumentation.targetContext.packageName} android.permission.POST_NOTIFICATIONS")
         val intent = Intent(instrumentation.targetContext, LaunchActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         return instrumentation.startActivitySync(intent)

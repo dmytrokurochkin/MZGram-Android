@@ -115,7 +115,7 @@ class MZGramOneTimeMediaRealPathTest {
         it.type = type
         it.w = w
         it.h = w * 3 / 4
-        it.size = 1000
+        it.size = FILE_SIZE
         it.location = TLRPC.TL_fileLocationToBeDeprecated().also { l ->
             l.volume_id = -photoId
             l.local_id = type[0].code
@@ -146,7 +146,7 @@ class MZGramOneTimeMediaRealPathTest {
             d.access_hash = 1
             d.dc_id = 2
             d.date = now()
-            d.size = 4096
+            d.size = FILE_SIZE.toLong()
             d.file_reference = ByteArray(0)
             when (kind) {
                 "video" -> {
@@ -175,7 +175,12 @@ class MZGramOneTimeMediaRealPathTest {
 
     // ---- where the app puts the downloaded file ----
 
-    private fun bytesFor(mid: Int) = ByteArray(5000) { (it * 31 + mid).toByte() }
+    // The size the message says its file has. A downloaded file of another
+    // size is deleted by FileLoadOperation as broken when a download of it
+    // starts, as the one started on arrival does.
+    private val FILE_SIZE = 5000
+
+    private fun bytesFor(mid: Int) = ByteArray(FILE_SIZE) { (it * 31 + mid).toByte() }
 
     // The one-time viewer: photos at the size closest to 1280 px, videos at
     // the message's cache path -- both encrypted.

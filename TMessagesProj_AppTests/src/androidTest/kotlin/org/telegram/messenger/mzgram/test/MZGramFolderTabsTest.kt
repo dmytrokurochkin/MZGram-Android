@@ -71,10 +71,17 @@ class MZGramFolderTabsTest {
     // Where the tabs are on screen, once they have settled.
     private fun tabsPosition(name: String): IntArray {
         MZGramScreens.launchApp().also { activity = it }
-        assertTrue("chat list shows folder tabs", MZGramScreens.waitFor(30) {
-            if (tabs() == null) putFolders()
-            tabs() != null
-        })
+        // The chat list may load its folders from the cache after it opens;
+        // put the test folders back until the tabs show.
+        var shown = false
+        for (attempt in 1..30) {
+            putFolders()
+            if (MZGramScreens.waitFor(1) { tabs() != null }) {
+                shown = true
+                break
+            }
+        }
+        assertTrue("chat list shows folder tabs", shown)
         Thread.sleep(1500)
         var rect = IntArray(4)
         var screenHeight = 0

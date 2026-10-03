@@ -202,29 +202,29 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         final TLRPC.Message owner = messageObject.messageOwner;
         if (!messageObject.isSponsored()) {
-            items.add(DetailFactory.of(ROW_ID, "ID", String.valueOf(owner.id)));
+            items.add(DetailFactory.of(ROW_ID, getString(R.string.MZGramDetailsId), String.valueOf(owner.id)));
         }
         if (!TextUtils.isEmpty(messageObject.messageText)) {
-            items.add(DetailFactory.of(ROW_MESSAGE, "Message", messageObject.messageText.toString()));
+            items.add(DetailFactory.of(ROW_MESSAGE, getString(R.string.MZGramDetailsMessage), messageObject.messageText.toString()));
         }
         if (!TextUtils.isEmpty(messageObject.caption)) {
-            items.add(DetailFactory.of(ROW_CAPTION, "Caption", messageObject.caption.toString()));
+            items.add(DetailFactory.of(ROW_CAPTION, getString(R.string.MZGramDetailsCaption), messageObject.caption.toString()));
         }
         if (toChat != null) {
-            items.add(DetailFactory.of(ROW_CHAT, toChat.broadcast ? "Channel" : "Group", describe(toChat)));
+            items.add(DetailFactory.of(ROW_CHAT, toChat.broadcast ? getString(R.string.MZGramDetailsChannel) : getString(R.string.MZGramDetailsGroup), describe(toChat)));
         }
         if (fromUser != null || fromChat != null || !TextUtils.isEmpty(owner.post_author)) {
             final CharSequence from = fromUser != null ? describe(fromUser) : fromChat != null ? describe(fromChat) : owner.post_author;
-            items.add(DetailFactory.of(ROW_FROM, "From", from));
+            items.add(DetailFactory.of(ROW_FROM, getString(R.string.MZGramDetailsFrom), from));
         }
         if (fromUser != null && fromUser.bot) {
-            items.add(DetailFactory.of(ROW_BOT, "Bot", "Yes"));
+            items.add(DetailFactory.of(ROW_BOT, getString(R.string.MZGramDetailsBot), getString(R.string.MZGramDetailsYes)));
         }
         if (owner.date != 0) {
-            items.add(DetailFactory.of(ROW_DATE, messageObject.scheduled ? "Scheduled date" : "Date", formatTime(owner.date)));
+            items.add(DetailFactory.of(ROW_DATE, messageObject.scheduled ? getString(R.string.MZGramDetailsScheduledDate) : getString(R.string.MZGramDetailsDate), formatTime(owner.date)));
         }
         if (owner.edit_date != 0) {
-            items.add(DetailFactory.of(ROW_EDITED, "Edited", formatTime(owner.edit_date)));
+            items.add(DetailFactory.of(ROW_EDITED, getString(R.string.MZGramDetailsEdited), formatTime(owner.edit_date)));
         }
         if (messageObject.isForwarded() && owner.fwd_from != null) {
             final StringBuilder builder = new StringBuilder();
@@ -238,7 +238,7 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
                 builder.append(owner.fwd_from.from_name);
             }
             builder.append("\n").append(formatTime(owner.fwd_from.date));
-            items.add(DetailFactory.of(ROW_FORWARD, "Forward from", builder));
+            items.add(DetailFactory.of(ROW_FORWARD, getString(R.string.MZGramDetailsForwardFrom), builder));
         }
         if (owner.restriction_reason != null && !owner.restriction_reason.isEmpty()) {
             final StringBuilder value = new StringBuilder();
@@ -249,41 +249,41 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
                 }
                 value.append(reason.reason).append("-").append(reason.platform).append(": ").append(reason.text);
             }
-            items.add(DetailFactory.of(ROW_RESTRICTION, "Restriction reason", value));
+            items.add(DetailFactory.of(ROW_RESTRICTION, getString(R.string.MZGramDetailsRestrictionReason), value));
         }
         if (owner.views > 0 || owner.forwards > 0) {
-            items.add(DetailFactory.of(ROW_VIEWS, "Views and forwards", String.format(Locale.US, "%d views, %d forwards", owner.views, owner.forwards)));
+            items.add(DetailFactory.of(ROW_VIEWS, getString(R.string.MZGramDetailsViewsAndForwards), LocaleController.formatString(R.string.MZGramDetailsViewsAndForwardsValue, owner.views, owner.forwards)));
         }
         if (!TextUtils.isEmpty(fileName)) {
-            items.add(DetailFactory.of(ROW_FILE_NAME, "File name", fileName));
+            items.add(DetailFactory.of(ROW_FILE_NAME, getString(R.string.MZGramDetailsFileName), fileName));
         }
         if (!TextUtils.isEmpty(filePath)) {
-            items.add(DetailFactory.of(ROW_FILE_PATH, "File path", filePath));
+            items.add(DetailFactory.of(ROW_FILE_PATH, getString(R.string.MZGramDetailsFilePath), filePath));
         }
         if (messageObject.getSize() > 0) {
-            items.add(DetailFactory.of(ROW_FILE_SIZE, "File size", AndroidUtilities.formatFileSize(messageObject.getSize())));
+            items.add(DetailFactory.of(ROW_FILE_SIZE, getString(R.string.MZGramDetailsFileSize), AndroidUtilities.formatFileSize(messageObject.getSize())));
         }
         if (!TextUtils.isEmpty(messageObject.getMimeType())) {
-            items.add(DetailFactory.of(ROW_MIME, "MimeType", messageObject.getMimeType()));
+            items.add(DetailFactory.of(ROW_MIME, getString(R.string.MZGramDetailsMimeType), messageObject.getMimeType()));
         }
         if (width > 0 && height > 0) {
-            items.add(DetailFactory.of(ROW_MEDIA, "Media", String.format(Locale.US, "%dx%d", width, height) + (TextUtils.isEmpty(videoCodec) ? "" : ", " + videoCodec)));
+            items.add(DetailFactory.of(ROW_MEDIA, getString(R.string.MZGramDetailsMedia), String.format(Locale.US, "%dx%d", width, height) + (TextUtils.isEmpty(videoCodec) ? "" : ", " + videoCodec)));
         }
         if (dc != 0) {
-            items.add(DetailFactory.of(ROW_DC, "DC", formatDCString(dc)));
+            items.add(DetailFactory.of(ROW_DC, getString(R.string.MZGramDetailsDc), formatDCString(dc)));
         }
         if (stickerSetOwner > 0) {
             final TLRPC.User user = getMessagesController().getUser(stickerSetOwner);
-            items.add(DetailFactory.of(ROW_STICKER_OWNER, "Sticker Pack creator", user != null ? describe(user) : String.valueOf(stickerSetOwner)));
+            items.add(DetailFactory.of(ROW_STICKER_OWNER, getString(R.string.MZGramDetailsStickerPackCreator), user != null ? describe(user) : String.valueOf(stickerSetOwner)));
         }
         if (!emojiSetOwners.isEmpty()) {
-            items.add(DetailFactory.of(ROW_EMOJI_OWNERS, "Emoji Pack creators", TextUtils.join(", ", emojiSetOwners)));
+            items.add(DetailFactory.of(ROW_EMOJI_OWNERS, getString(R.string.MZGramDetailsEmojiPackCreators), TextUtils.join(", ", emojiSetOwners)));
         }
         if (!TextUtils.isEmpty(language)) {
-            items.add(DetailFactory.of(ROW_LANGUAGE, "Language", language));
+            items.add(DetailFactory.of(ROW_LANGUAGE, getString(R.string.MZGramDetailsLanguage), language));
         }
         if (!TextUtils.isEmpty(owner.message) && isLinkOrEmojiOnlyMessage(messageObject)) {
-            items.add(DetailFactory.of(ROW_LINK_OR_EMOJI_ONLY, "Link or emoji only", "Yes"));
+            items.add(DetailFactory.of(ROW_LINK_OR_EMOJI_ONLY, getString(R.string.MZGramDetailsLinkOrEmojiOnly), getString(R.string.MZGramDetailsYes)));
         }
         items.add(UItem.asShadow(null));
     }
@@ -372,7 +372,7 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
 
     private String formatTime(int timestamp) {
         if (timestamp == 0x7ffffffe) {
-            return "When online";
+            return getString(R.string.MZGramDetailsWhenOnline);
         }
         final Date date = new Date(timestamp * 1000L);
         return timestamp + "\n" + LocaleController.formatString(R.string.formatDateAtTime,
@@ -446,12 +446,12 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
         final String name;
         final String location;
         switch (dc) {
-            case 1: name = "Pluto"; location = "Miami"; break;
-            case 2: name = "Venus"; location = "Amsterdam"; break;
-            case 3: name = "Aurora"; location = "Miami"; break;
-            case 4: name = "Vesta"; location = "Amsterdam"; break;
-            case 5: name = "Flora"; location = "Singapore"; break;
-            default: name = "Unknown"; location = "Unknown"; break;
+            case 1: name = "Pluto"; location = getString(R.string.MZGramDetailsDcMiami); break;
+            case 2: name = "Venus"; location = getString(R.string.MZGramDetailsDcAmsterdam); break;
+            case 3: name = "Aurora"; location = getString(R.string.MZGramDetailsDcMiami); break;
+            case 4: name = "Vesta"; location = getString(R.string.MZGramDetailsDcAmsterdam); break;
+            case 5: name = "Flora"; location = getString(R.string.MZGramDetailsDcSingapore); break;
+            default: name = getString(R.string.MZGramDetailsUnknown); location = getString(R.string.MZGramDetailsUnknown); break;
         }
         return String.format(Locale.US, "DC%d %s, %s", dc, name, location);
     }

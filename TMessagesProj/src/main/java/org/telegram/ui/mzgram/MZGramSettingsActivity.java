@@ -75,21 +75,24 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
-        items.add(UItem.asHeader(getString(R.string.MZGramGeneral)));
-        items.add(UItem.asCheck(BUTTON_TEST_TOGGLE, getString(R.string.MZGramTestToggle)).setChecked(MZGramConfig.testToggle));
-        items.add(UItem.asShadow(getString(R.string.MZGramTestToggleInfo)));
-        items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
-        items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
-        items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramOpenArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
-        items.add(UItem.asShadow(getString(R.string.MZGramOpenArchiveOnPullInfo)));
-        items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
-        items.add(UItem.asShadow(getString(R.string.MZGramDisableInstantCameraInfo)));
-        items.add(UItem.asCheck(BUTTON_DISABLE_SPONSORED_MESSAGES, getString(R.string.MZGramDisableSponsoredMessages)).setChecked(MZGramConfig.disableSponsoredMessages));
-        items.add(UItem.asShadow(getString(R.string.MZGramDisableSponsoredMessagesInfo)));
-        items.add(UItem.asCheck(BUTTON_STRIP_ZALGO_TEXT, getString(R.string.MZGramStripZalgoText)).setChecked(MZGramConfig.stripZalgoText));
-        items.add(UItem.asShadow(getString(R.string.MZGramStripZalgoTextInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionArchive)));
+        items.add(UItem.asCheck(BUTTON_SAVE_MESSAGE_HISTORY, getString(R.string.MZGramSaveMessageHistory)).setChecked(MZGramConfig.saveMessageHistory));
+        items.add(UItem.asShadow(getString(R.string.MZGramSaveMessageHistoryInfo)));
+        items.add(UItem.asButton(BUTTON_TRACKED_CHATS, getString(R.string.MZGramTrackedChats), String.valueOf(MZGramConfig.getTrackedDialogs().size())));
+        items.add(UItem.asShadow(getString(R.string.MZGramTrackedChatsInfo)));
+        items.add(UItem.asButton(BUTTON_WIPE_ARCHIVE, getString(R.string.MZGramWipeArchive)));
+        items.add(UItem.asShadow(getString(R.string.MZGramWipeArchiveInfo)));
+        items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
+        items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
+        items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
 
-        items.add(UItem.asHeader(getString(R.string.MZGramPrivacy)));
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionPrivacy)));
+        items.add(UItem.asCheck(BUTTON_HIDE_OWN_ONLINE_STATUS, getString(R.string.MZGramHideOwnOnlineStatus)).setChecked(MZGramConfig.hideOwnOnlineStatus));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideOwnOnlineStatusInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_OWN_PHONE_NUMBER, getString(R.string.MZGramHideOwnPhoneNumber)).setChecked(MZGramConfig.hideOwnPhoneNumber));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideOwnPhoneNumberInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionGhostMode)));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE, getString(R.string.MZGramGhostMode)).setChecked(MZGramConfig.ghostMode));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostModeInfo)));
         items.add(UItem.asCheck(BUTTON_GHOST_AUTO_DELAY_SEND, getString(R.string.MZGramGhostAutoDelaySend)).setChecked(MZGramConfig.ghostAutoDelaySend));
@@ -98,51 +101,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramGhostSilentSendInfo)));
         items.add(UItem.asCheck(BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES, getString(R.string.MZGramOfferGhostModeBeforeStoriesToggle)).setChecked(MZGramConfig.offerGhostModeBeforeStories));
         items.add(UItem.asShadow(getString(R.string.MZGramOfferGhostModeBeforeStoriesToggleInfo)));
-        items.add(UItem.asCheck(BUTTON_SAVE_MESSAGE_HISTORY, getString(R.string.MZGramSaveMessageHistory)).setChecked(MZGramConfig.saveMessageHistory));
-        items.add(UItem.asShadow(getString(R.string.MZGramSaveMessageHistoryInfo)));
-        items.add(UItem.asButton(BUTTON_TRACKED_CHATS, getString(R.string.MZGramTrackedChats), String.valueOf(MZGramConfig.getTrackedDialogs().size())));
-        items.add(UItem.asShadow(getString(R.string.MZGramTrackedChatsInfo)));
-        items.add(UItem.asButton(BUTTON_WIPE_ARCHIVE, getString(R.string.MZGramWipeArchive)));
-        items.add(UItem.asShadow(getString(R.string.MZGramWipeArchiveInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_OWN_PHONE_NUMBER, getString(R.string.MZGramHideOwnPhoneNumber)).setChecked(MZGramConfig.hideOwnPhoneNumber));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideOwnPhoneNumberInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_OWN_ONLINE_STATUS, getString(R.string.MZGramHideOwnOnlineStatus)).setChecked(MZGramConfig.hideOwnOnlineStatus));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideOwnOnlineStatusInfo)));
-        items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
-        items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
-        items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
 
-        items.add(UItem.asHeader(getString(R.string.MZGramAppearance)));
-        items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
-        items.add(UItem.asShadow(getString(R.string.MZGramDisableNumberRoundingInfo)));
-        items.add(UItem.asCheck(BUTTON_FORMAT_TIME_WITH_SECONDS, getString(R.string.MZGramFormatTimeWithSeconds)).setChecked(MZGramConfig.formatTimeWithSeconds));
-        items.add(UItem.asShadow(getString(R.string.MZGramFormatTimeWithSecondsInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
-        items.add(UItem.asCheck(BUTTON_PREDICTIVE_BACK_ANIMATION, getString(R.string.MZGramPredictiveBackAnimation)).setChecked(MZGramConfig.predictiveBackAnimation));
-        items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackAnimationInfo)));
-        items.add(UItem.asCheck(BUTTON_GOOEY_AVATAR_ANIMATION, getString(R.string.MZGramGooeyAvatarAnimation)).setChecked(MZGramConfig.gooeyAvatarAnimation));
-        items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideBottomNavigationBarInfo)));
-        items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
-        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
-
-        items.add(UItem.asHeader(getString(R.string.MZGramChat)));
-        items.add(UItem.asCheck(BUTTON_DISABLE_GREETING_STICKER, getString(R.string.MZGramDisableGreetingSticker)).setChecked(MZGramConfig.disableGreetingSticker));
-        items.add(UItem.asShadow(getString(R.string.MZGramDisableGreetingStickerInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS, getString(R.string.MZGramHideChannelBottomButtons)).setChecked(MZGramConfig.hideChannelBottomButtons));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideChannelBottomButtonsInfo)));
-        items.add(UItem.asCheck(BUTTON_PREFER_ORIGINAL_QUALITY, getString(R.string.MZGramPreferOriginalQuality)).setChecked(MZGramConfig.preferOriginalQuality));
-        items.add(UItem.asShadow(getString(R.string.MZGramPreferOriginalQualityInfo)));
-        items.add(UItem.asCheck(BUTTON_AUTO_PAUSE_VIDEO, getString(R.string.MZGramAutoPauseVideo)).setChecked(MZGramConfig.autoPauseVideo));
-        items.add(UItem.asShadow(getString(R.string.MZGramAutoPauseVideoInfo)));
-        items.add(UItem.asCheck(BUTTON_CONFIRM_AV_MESSAGE, getString(R.string.MZGramConfirmAVMessage)).setChecked(MZGramConfig.confirmAVMessage));
-        items.add(UItem.asShadow(getString(R.string.MZGramConfirmAVMessageInfo)));
-        items.add(UItem.asCheck(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, getString(R.string.MZGramMediaPreviewOnLongPress)).setChecked(MZGramConfig.mediaPreviewOnLongPress));
-        items.add(UItem.asShadow(getString(R.string.MZGramMediaPreviewOnLongPressInfo)));
-
-        items.add(UItem.asHeader(getString(R.string.MZGramMessageMenu)));
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionMessageMenu)));
         items.add(UItem.asCheck(BUTTON_SHOW_COPY_PHOTO, getString(R.string.MZGramCopyPhoto)).setChecked(MZGramConfig.showCopyPhoto));
         items.add(UItem.asShadow(getString(R.string.MZGramShowCopyPhotoInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_DELETE_DOWNLOADED_FILE, getString(R.string.MZGramDeleteDownloadedFile)).setChecked(MZGramConfig.showDeleteDownloadedFile));
@@ -161,6 +121,52 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramShowQrCodeInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_NO_QUOTE_FORWARD, getString(R.string.MZGramForwardNoQuote)).setChecked(MZGramConfig.showNoQuoteForward));
         items.add(UItem.asShadow(getString(R.string.MZGramShowForwardNoQuoteInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionMediaAndCalls)));
+        items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
+        items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableInstantCameraInfo)));
+        items.add(UItem.asCheck(BUTTON_PREFER_ORIGINAL_QUALITY, getString(R.string.MZGramPreferOriginalQuality)).setChecked(MZGramConfig.preferOriginalQuality));
+        items.add(UItem.asShadow(getString(R.string.MZGramPreferOriginalQualityInfo)));
+        items.add(UItem.asCheck(BUTTON_AUTO_PAUSE_VIDEO, getString(R.string.MZGramAutoPauseVideo)).setChecked(MZGramConfig.autoPauseVideo));
+        items.add(UItem.asShadow(getString(R.string.MZGramAutoPauseVideoInfo)));
+        items.add(UItem.asCheck(BUTTON_CONFIRM_AV_MESSAGE, getString(R.string.MZGramConfirmAVMessage)).setChecked(MZGramConfig.confirmAVMessage));
+        items.add(UItem.asShadow(getString(R.string.MZGramConfirmAVMessageInfo)));
+        items.add(UItem.asCheck(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, getString(R.string.MZGramMediaPreviewOnLongPress)).setChecked(MZGramConfig.mediaPreviewOnLongPress));
+        items.add(UItem.asShadow(getString(R.string.MZGramMediaPreviewOnLongPressInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionInterface)));
+        items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
+        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideBottomNavigationBarInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
+        items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramOpenArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
+        items.add(UItem.asShadow(getString(R.string.MZGramOpenArchiveOnPullInfo)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableNumberRoundingInfo)));
+        items.add(UItem.asCheck(BUTTON_FORMAT_TIME_WITH_SECONDS, getString(R.string.MZGramFormatTimeWithSeconds)).setChecked(MZGramConfig.formatTimeWithSeconds));
+        items.add(UItem.asShadow(getString(R.string.MZGramFormatTimeWithSecondsInfo)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_GREETING_STICKER, getString(R.string.MZGramDisableGreetingSticker)).setChecked(MZGramConfig.disableGreetingSticker));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableGreetingStickerInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS, getString(R.string.MZGramHideChannelBottomButtons)).setChecked(MZGramConfig.hideChannelBottomButtons));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideChannelBottomButtonsInfo)));
+        items.add(UItem.asCheck(BUTTON_PREDICTIVE_BACK_ANIMATION, getString(R.string.MZGramPredictiveBackAnimation)).setChecked(MZGramConfig.predictiveBackAnimation));
+        items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackAnimationInfo)));
+        items.add(UItem.asCheck(BUTTON_GOOEY_AVATAR_ANIMATION, getString(R.string.MZGramGooeyAvatarAnimation)).setChecked(MZGramConfig.gooeyAvatarAnimation));
+        items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionAdsAndFilters)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_SPONSORED_MESSAGES, getString(R.string.MZGramDisableSponsoredMessages)).setChecked(MZGramConfig.disableSponsoredMessages));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableSponsoredMessagesInfo)));
+        items.add(UItem.asCheck(BUTTON_STRIP_ZALGO_TEXT, getString(R.string.MZGramStripZalgoText)).setChecked(MZGramConfig.stripZalgoText));
+        items.add(UItem.asShadow(getString(R.string.MZGramStripZalgoTextInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionOther)));
+        items.add(UItem.asCheck(BUTTON_TEST_TOGGLE, getString(R.string.MZGramTestToggle)).setChecked(MZGramConfig.testToggle));
+        items.add(UItem.asShadow(getString(R.string.MZGramTestToggleInfo)));
     }
 
     @Override

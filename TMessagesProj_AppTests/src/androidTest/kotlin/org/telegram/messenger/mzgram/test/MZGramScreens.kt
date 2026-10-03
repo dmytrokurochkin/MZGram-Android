@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.platform.app.InstrumentationRegistry
+import org.telegram.ui.ActionBar.BaseFragment
+import org.telegram.ui.Components.UniversalFragment
 import org.telegram.ui.LaunchActivity
 import java.io.File
 import java.io.FileOutputStream
@@ -77,5 +79,20 @@ object MZGramScreens {
         val xy = IntArray(2)
         view.getLocationOnScreen(xy)
         return intArrayOf(xy[0], xy[1], xy[0] + view.width, xy[1] + view.height)
+    }
+
+    // LaunchActivity and the list views extend androidx classes the test
+    // classpath does not have, so they are reached through reflection.
+    fun lastFragment(): BaseFragment? =
+        LaunchActivity::class.java.getMethod("getLastFragment").invoke(null) as BaseFragment?
+
+    fun listViewOf(fragment: UniversalFragment): ViewGroup? =
+        UniversalFragment::class.java.getField("listView").get(fragment) as ViewGroup?
+
+    // Opens a screen on top of the app, as tapping its entry would.
+    fun open(fragment: BaseFragment) {
+        instrumentation.runOnMainSync {
+            lastFragment()!!.presentFragment(fragment, false, true)
+        }
     }
 }

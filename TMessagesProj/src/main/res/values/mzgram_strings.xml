@@ -3,19 +3,23 @@
 <resources>
     <string name="MZGram">MZGram</string>
     <string name="MZGramSettingsInfo">Features of this client</string>
-    <string name="MZGramGeneral">General</string>
-    <string name="MZGramAppearance">Appearance</string>
+    <string name="MZGramSectionArchive">Archive</string>
+    <string name="MZGramSectionPrivacy">Privacy</string>
+    <string name="MZGramSectionGhostMode">Ghost Mode</string>
+    <string name="MZGramSectionMessageMenu">Message menu</string>
+    <string name="MZGramSectionMediaAndCalls">Media and calls</string>
+    <string name="MZGramSectionInterface">Interface</string>
+    <string name="MZGramSectionAdsAndFilters">Ads and filters</string>
+    <string name="MZGramSectionOther">Other</string>
     <string name="MZGramTestToggle">Test switch</string>
     <string name="MZGramTestToggleInfo">Checks that MZGram settings survive a restart. It changes nothing else.</string>
     <string name="MZGramDisableNumberRounding">Disable number rounding</string>
     <string name="MZGramDisableNumberRoundingInfo">Show exact counts of views, reactions and members: 4777 instead of 4.8K.</string>
     <string name="MZGramFormatTimeWithSeconds">Format time with seconds</string>
-    <string name="MZGramChat">Chat</string>
     <string name="MZGramDisableGreetingSticker">Disable greeting sticker</string>
     <string name="MZGramDisableGreetingStickerInfo">An empty chat shows only its title, without the suggested sticker to send.</string>
     <string name="MZGramHideChannelBottomButtons">Hide channel bottom button</string>
     <string name="MZGramHideChannelBottomButtonsInfo">In channels where you cannot post, hides the bottom bar with the mute button.</string>
-    <string name="MZGramMessageMenu">Message menu</string>
     <string name="MZGramCopyPhoto">Copy Photo</string>
     <string name="MZGramPhotoCopied">Photo copied to clipboard</string>
     <string name="MZGramShowCopyPhotoInfo">Adds Copy Photo to the menu of a downloaded photo, so it can be pasted into other apps.</string>
@@ -57,7 +61,6 @@
     <string name="MZGramAskBeforeCall">Ask before calling</string>
     <string name="MZGramAskBeforeCallInfo">Show a confirmation before a voice or video call starts.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Message times show seconds, such as 12:34:56. Applies to screens opened after the change.</string>
-    <string name="MZGramPrivacy">Privacy</string>
     <string name="MZGramGhostMode">Ghost mode</string>
     <string name="MZGramGhostModeInfo">Other users no longer see that you read their message or that you are typing. Your own unread counters still work as usual.</string>
     <string name="MZGramGhostAutoDelaySend">Delay sending messages</string>

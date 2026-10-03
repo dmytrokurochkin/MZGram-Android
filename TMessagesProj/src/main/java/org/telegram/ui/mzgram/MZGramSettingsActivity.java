@@ -66,6 +66,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
     private static final int BUTTON_HIDE_OWN_ONLINE_STATUS = 39;
+    private static final int BUTTON_FOLDER_TABS_AT_BOTTOM = 41;
 
     @Override
     protected CharSequence getTitle() {
@@ -124,6 +125,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
         items.add(UItem.asShadow(getString(R.string.MZGramHideBottomNavigationBarInfo)));
+        items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
+        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramChat)));
         items.add(UItem.asCheck(BUTTON_DISABLE_GREETING_STICKER, getString(R.string.MZGramDisableGreetingSticker)).setChecked(MZGramConfig.disableGreetingSticker));
@@ -237,6 +240,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
             MZGramConfig.toggleHideBottomNavigationBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
+        } else if (item.id == BUTTON_FOLDER_TABS_AT_BOTTOM) {
+            MZGramConfig.toggleFolderTabsAtBottom();
+            ((TextCheckCell) view).setChecked(MZGramConfig.folderTabsAtBottom);
         } else if (item.id == BUTTON_GHOST_AUTO_DELAY_SEND) {
             MZGramConfig.toggleGhostAutoDelaySend();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostAutoDelaySend);

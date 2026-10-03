@@ -1308,6 +1308,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     childTop = actionBar.getMeasuredHeight();
                 } else if (child instanceof ViewPage) {
                     childTop = 0;
+                } else if (child == filterTabsView && folderTabsAtBottom()) {
+                    childTop = H - navigationBarHeight - additionNavigationBarHeight - height;
                 } else if (child == topPanelLayout || child == topBubblesFadeView || child == filterTabsView) {
                     childTop += actionBar.getMeasuredHeight();
                     childTop += dp(SEARCH_FIELD_HEIGHT);
@@ -2070,7 +2072,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             additionalPadding = 0;
 
-            final float filterTabsVisibility = getFilterTabsVisibilityFactor(false);
+            final float filterTabsVisibility = folderTabsAtBottom() ? 0f : getFilterTabsVisibilityFactor(false);
             final float topPanelsVisibility = topPanelLayout != null ? topPanelLayout.getMetadata().getTotalVisibility() : 0f;
 
             t += (int) (dp(36 + 14) * filterTabsVisibility);
@@ -6610,7 +6612,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         float topPanelsVisibility = 0;
         float fadeViewT = totalOffset;
 
-        if (filterTabsView != null) {
+        if (filterTabsView != null && folderTabsAtBottom()) {
+            filterTabsView.setTranslationY(0);
+        } else if (filterTabsView != null) {
             filterTabsView.setTranslationY(totalOffset - searchOffset);
             filtersTabVisibility = filterTabsView.getAlpha();
             filtersTabHeight = dp(36 + 7) * filtersTabVisibility;
@@ -7197,7 +7201,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             public int getTopOffset(int tag) {
                 return (
                     (actionBar != null ? actionBar.getMeasuredHeight() : 0) +
-                    (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE ? filterTabsView.getMeasuredHeight() : 0) +
+                    (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && !folderTabsAtBottom() ? filterTabsView.getMeasuredHeight() : 0) +
                     (topPanelLayout != null ? topPanelLayout.getHeight() : 0) +
                     (dialogStoriesCell != null && dialogStoriesCellVisible ? (int) ((1f - dialogStoriesCell.getCollapsedProgress()) * dp(DialogStoriesCell.HEIGHT_IN_DP)) : 0) +
                     (dp(SEARCH_FIELD_HEIGHT))
@@ -8884,7 +8888,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateFloatingButtonOffset() {
-        final float top = -navigationBarHeight - additionFloatingButtonOffset - additionalFloatingTranslation;
+        final float top = -navigationBarHeight - additionFloatingButtonOffset - additionalFloatingTranslation - bottomFolderTabsHeight();
         final float baseTranslationY = top
             - floatingButtonPanOffset;
 
@@ -14222,7 +14226,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         final int actionBarHeight = actionBar.getMeasuredHeight()
             + dp(DialogsActivity.SEARCH_FIELD_HEIGHT)
             + dp(hasStories ? DialogStoriesCell.HEIGHT_IN_DP : 0)
-            + (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE ? filterTabsView.getMeasuredHeight() : 0)
+            + (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && !folderTabsAtBottom() ? filterTabsView.getMeasuredHeight() : 0)
             + (topPanelLayout != null && topPanelLayout.getVisibility() == View.VISIBLE ? topPanelLayout.getSumHeightOfAllVisibleChild() : 0)
             + ((int) scrollYOffset);
 
@@ -14266,8 +14270,22 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else if (communityId != 0) {
             return navigationBarHeight + dp(12 + 48 + 12);
         } else {
-            return navigationBarHeight + additionNavigationBarHeight;
+            return navigationBarHeight + additionNavigationBarHeight + bottomFolderTabsHeight();
         }
+    }
+
+    // MZGram: Settings > MZGram > Interface > "Folder tabs at the bottom".
+    // The folder tabs sit above the bottom bars instead of under the search
+    // field; the chat list makes room for them at the bottom instead.
+    private boolean folderTabsAtBottom() {
+        return org.telegram.messenger.mzgram.MZGramConfig.folderTabsAtBottom && filterTabsView != null;
+    }
+
+    private int bottomFolderTabsHeight() {
+        if (!folderTabsAtBottom() || filterTabsView.getVisibility() != View.VISIBLE) {
+            return 0;
+        }
+        return (int) (dp(36 + 14) * getFilterTabsVisibilityFactor(false));
     }
 
     @Override

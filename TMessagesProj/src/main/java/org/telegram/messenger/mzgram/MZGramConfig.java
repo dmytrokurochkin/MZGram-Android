@@ -52,6 +52,8 @@ public class MZGramConfig {
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean gooeyAvatarAnimation = true;
     public static boolean hideBottomNavigationBar = false;
+    // Folder tabs above the bottom bars instead of under the search field.
+    public static boolean folderTabsAtBottom = false;
     // Ported concept from Nekogram (confirmAVMessage). Routes a released
     // record gesture into the existing "recorded, not yet sent" preview
     // panel instead of sending immediately, for both voice and round video.
@@ -147,6 +149,7 @@ public class MZGramConfig {
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
+            folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             mediaPreviewOnLongPress = preferences.getBoolean("mediaPreviewOnLongPress", false);
             ghostMode = preferences.getBoolean("ghostMode", false);
@@ -288,6 +291,11 @@ public class MZGramConfig {
     public static void toggleHideBottomNavigationBar() {
         hideBottomNavigationBar = !hideBottomNavigationBar;
         putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
+    }
+
+    public static void toggleFolderTabsAtBottom() {
+        folderTabsAtBottom = !folderTabsAtBottom;
+        putBoolean("folderTabsAtBottom", folderTabsAtBottom);
     }
 
     public static void toggleConfirmAVMessage() {

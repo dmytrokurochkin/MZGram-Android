@@ -42,6 +42,8 @@
     <string name="MZGramPreferOriginalQualityInfo">Videos that come in several qualities play in the original one, which uses more data.</string>
     <string name="MZGramHideBottomNavigationBar">Hide bottom navigation bar</string>
     <string name="MZGramHideBottomNavigationBarInfo">Removes the tab bar under the chat list. My Profile, Contacts, Calls and Settings move to the chat list menu; switch accounts in Settings. Takes effect after a restart.</string>
+    <string name="MZGramFolderTabsAtBottom">Folder tabs at the bottom</string>
+    <string name="MZGramFolderTabsAtBottomInfo">Shows the chat folder tabs at the bottom of the chat list, within reach of your thumb, instead of under the search field. Takes effect after a restart.</string>
     <string name="MZGramGooeyAvatarAnimation">"Gooey" avatar animation</string>
     <string name="MZGramGooeyAvatarAnimationInfo">When you scroll a profile up, the avatar melts into the top of the screen. When off, it simply fades out.</string>
     <string name="MZGramPredictiveBackAnimation">Predictive back animation</string>

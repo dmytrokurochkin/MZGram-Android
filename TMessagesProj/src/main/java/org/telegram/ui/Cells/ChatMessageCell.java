@@ -18478,11 +18478,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         } else {
             timeString = LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000);
         }
-        // MZGram: as in MZGram Desktop, another person's edited message in a
-        // tracked chat gets a pencil before the time, and a deleted message
+        // MZGram: as in MZGram Desktop, another person's edited message gets
+        // a pencil before the time while the archive is on, and a deleted message
         // kept in the chat reads "deleted".
         final boolean mzgramPencil = edited
-                && org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(messageObject.getDialogId())
+                && org.telegram.messenger.mzgram.MZGramHistoryController.savesChat(messageObject.getDialogId())
                 && !org.telegram.messenger.mzgram.MZGramHistoryController.isOwnMessage(currentAccount, messageObject.messageOwner);
         if (!timeString.isEmpty()) {
             if (mzgramPencil) {

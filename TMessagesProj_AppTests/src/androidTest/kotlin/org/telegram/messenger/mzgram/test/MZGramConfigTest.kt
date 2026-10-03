@@ -1,5 +1,7 @@
 package org.telegram.messenger.mzgram.test
 
+import android.content.Context
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -7,6 +9,8 @@ import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.messenger.mzgram.MZGramGhostMode
 
 class MZGramConfigTest {
+
+    private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     // Toggle, then force-reload from SharedPreferences (as if the app had
     // restarted) to prove the value round-trips through disk, not just the
@@ -46,18 +50,28 @@ class MZGramConfigTest {
         }
     }
 
+    // Saving deleted and edited messages is on by default, for every chat:
+    // the old allowlist and the old switch's stored "off" are dropped.
     @Test
-    fun trackedDialogsAddAndRemoveRoundTrip() {
-        val dialogId = -9_999_999_999L
-        assertEquals(false, MZGramConfig.isDialogTracked(dialogId))
+    fun saveMessageHistory_isOnByDefault_withoutAChatList() {
+        val preferences = context.getSharedPreferences("mzgram_config", Context.MODE_PRIVATE)
+        val before = MZGramConfig.saveMessageHistory
         try {
-            MZGramConfig.setDialogTracked(dialogId, true)
-            assertEquals(true, MZGramConfig.isDialogTracked(dialogId))
-            assertEquals(true, MZGramConfig.getTrackedDialogs().contains(dialogId))
+            preferences.edit()
+                .remove("saveDeletedAndEdited")
+                .putBoolean("saveMessageHistory", false)
+                .putString("historyTrackedDialogs", "123,456")
+                .commit()
+            MZGramConfig.loadConfig(true)
+            assertEquals(true, MZGramConfig.saveMessageHistory)
+            assertEquals(false, preferences.contains("saveMessageHistory"))
+            assertEquals(false, preferences.contains("historyTrackedDialogs"))
+            assertEquals("no total size cap by default", 0, preferences.getInt("historyTotalMediaCapMb", 0))
         } finally {
-            MZGramConfig.setDialogTracked(dialogId, false)
+            if (MZGramConfig.saveMessageHistory != before) {
+                MZGramConfig.toggleSaveMessageHistory()
+            }
         }
-        assertEquals(false, MZGramConfig.isDialogTracked(dialogId))
     }
 
     @Test

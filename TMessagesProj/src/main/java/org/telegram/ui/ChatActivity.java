@@ -452,10 +452,6 @@ public class ChatActivity extends BaseFragment implements
     private RadialProgressView progressBar;
     private ActionBarMenuItem.Item addContactItem;
     private ActionBarMenuItem.Item clearHistoryItem;
-    // MZGram: own code, mirrors Desktop's addMZGramKeepMessages (window_peer_menu.cpp) --
-    // an in-chat shortcut for the same Tracked chats allowlist as
-    // MZGramTrackedChatsActivity, so tracking a chat doesn't require leaving it.
-    private ActionBarMenuItem.Item mzgramSaveMessagesItem;
     private ActionBarMenuItem.Item viewAsTopics;
     private ActionBarMenuItem.Item closeTopicItem;
     private ActionBarMenuItem.Item openForumItem;
@@ -1719,7 +1715,6 @@ public class ChatActivity extends BaseFragment implements
     private final static int charge_fee = 72;
 
     private final static int chat_menu_topic_create = 73;
-    private final static int mzgram_save_messages = 75;
 
     private final static int id_chat_compose_panel = 1000;
 
@@ -3856,14 +3851,6 @@ public class ChatActivity extends BaseFragment implements
                             BulletinFactory.of(ChatActivity.this).createDownloadBulletin(isMusic ? BulletinFactory.FileType.AUDIOS : BulletinFactory.FileType.UNKNOWNS, count, themeDelegate).show();
                         }
                     });
-                } else if (id == mzgram_save_messages) {
-                    boolean tracked = org.telegram.messenger.mzgram.MZGramConfig.isDialogTracked(getDialogId());
-                    org.telegram.messenger.mzgram.MZGramConfig.setDialogTracked(getDialogId(), !tracked);
-                    updateMZGramSaveMessagesItem();
-                    if (getParentActivity() != null) {
-                        BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.contact_check,
-                            LocaleController.getString(tracked ? R.string.MZGramStoppedSavingMessagesToast : R.string.MZGramStartedSavingMessagesToast)).show();
-                    }
                 } else if (id == chat_enc_timer) {
                     if (getParentActivity() == null) {
                         return;
@@ -4484,10 +4471,6 @@ public class ChatActivity extends BaseFragment implements
             }
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {
                 headerItem.lazilyAddSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));
-            }
-            if (!isTopic && !ChatObject.isMonoForum(currentChat) && org.telegram.messenger.mzgram.MZGramConfig.saveMessageHistory) {
-                mzgramSaveMessagesItem = headerItem.lazilyAddSubItem(mzgram_save_messages, R.drawable.msg_saved, "");
-                updateMZGramSaveMessagesItem();
             }
             if (!isTopic && !ChatObject.isMonoForum(currentChat)) {
                 clearHistoryItem = headerItem.lazilyAddSubItem(clear_history, R.drawable.msg_clear,
@@ -11294,16 +11277,6 @@ public class ChatActivity extends BaseFragment implements
         translateItem.setVisibility(getMessagesController().getTranslateController().isTranslateDialogHidden(getDialogId()) && getMessagesController().getTranslateController().isDialogTranslatable(getDialogId()) ? View.VISIBLE : View.GONE);
     }
 
-    // MZGram: own code, mirrors Desktop's addMZGramKeepMessages label toggle
-    // (window_peer_menu.cpp: "Save deleted messages" / "Stop saving deleted messages").
-    private void updateMZGramSaveMessagesItem() {
-        if (mzgramSaveMessagesItem == null) {
-            return;
-        }
-        boolean tracked = org.telegram.messenger.mzgram.MZGramConfig.isDialogTracked(getDialogId());
-        mzgramSaveMessagesItem.setText(LocaleController.getString(tracked ? R.string.MZGramStopSavingMessages : R.string.MZGramStartSavingMessages));
-    }
-
     private Animator infoTopViewAnimator;
 
     private void updateInfoTopView(boolean animated) {
@@ -15651,12 +15624,12 @@ public class ChatActivity extends BaseFragment implements
         }
         // MZGram: own hook (Desktop MZGram already archives one-time media the
         // same way). Copy the media into the local archive before it is
-        // emptied below, for tracked chats only.
-        if (org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(dialog_id)) {
+        // emptied below, while the archive is on.
+        if (org.telegram.messenger.mzgram.MZGramHistoryController.savesChat(dialog_id)) {
             org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onOneTimeMediaViewed(currentAccount, dialog_id, messageObject.messageOwner);
         }
         final long taskId = getMessagesController().createDeleteShowOnceTask(dialog_id, messageObject.getId());
-        // MZGram: another person's one-time media in a tracked chat is not
+        // MZGram: another person's one-time media in a chat is not
         // shown as expired; emptyMessagesMedia sends it back from the archive.
         if (!org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().keepsOneTimeMediaInChat(currentAccount, dialog_id, messageObject.messageOwner)) {
             messageObject.forceExpired = true;
@@ -23273,7 +23246,7 @@ public class ChatActivity extends BaseFragment implements
             TLRPC.Message message = (TLRPC.Message) args[0];
             MessageObject existMessageObject = messagesDict[0].get(message.id);
             if (existMessageObject != null && message.mzgramRestoredMedia) {
-                // MZGram: one-time media of another person in a tracked chat
+                // MZGram: one-time media of another person in a chat
                 // comes back from the archive; show it as ordinary media.
                 org.telegram.messenger.mzgram.MZGramHistoryController.applyRestoredMedia(existMessageObject, message);
                 if (chatAdapter != null) {
@@ -26391,7 +26364,7 @@ public class ChatActivity extends BaseFragment implements
         for (int a = 0; a < size; a++) {
             Integer mid = markAsDeletedMessages.get(a);
             MessageObject obj = chatAdapter != null && chatAdapter.isFiltered ? filteredMessagesDict.get(mid) :  messagesDict[loadIndex].get(mid);
-            // MZGram: another person's message in a tracked chat stays in the
+            // MZGram: another person's message in a chat stays in the
             // chat, marked as deleted (drawn dimmed by ChatMessageCell),
             // instead of being removed.
             if (obj != null && chatMode == MODE_DEFAULT && obj.messageOwner != null

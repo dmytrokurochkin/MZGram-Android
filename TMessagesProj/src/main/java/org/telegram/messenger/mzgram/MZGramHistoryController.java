@@ -3,9 +3,9 @@
  * a fork of Telegram for Android.
  *
  * Decides whether a deleted or edited message is worth keeping, and writes
- * the snapshot to MZGramHistoryDatabase. MZGram only saves for chats the
- * user added to the allowlist (MZGramConfig.isDialogTracked), matching the
- * Desktop anti-recall feature.
+ * the snapshot to MZGramHistoryDatabase. Other people's messages are kept in
+ * every private chat, group, channel and secret chat while "Save deleted and
+ * edited messages" is on; the owner's own messages never are.
  */
 
 package org.telegram.messenger.mzgram;
@@ -58,8 +58,9 @@ public class MZGramHistoryController {
     private MZGramHistoryController() {
     }
 
-    public static boolean isTracked(long dialogId) {
-        return MZGramConfig.saveMessageHistory && MZGramConfig.isDialogTracked(dialogId);
+    // Every chat is saved while the switch is on.
+    public static boolean savesChat(long dialogId) {
+        return MZGramConfig.saveMessageHistory;
     }
 
     // The archive keeps what OTHER people delete or edit. The account owner's
@@ -76,17 +77,16 @@ public class MZGramHistoryController {
     // ---- deleted messages ----
 
     public void onMessageDeleted(int accountId, long dialogId, TLRPC.Message message) {
-        // MZGram: unconditional entry log -- isTracked()/message==null below used
-        // to fail completely silently, so a misconfigured allowlist and "this
-        // hook was never even reached" were indistinguishable from logcat.
-        // Diagnostic-only, no behavior change.
+        // MZGram: unconditional entry log -- savesChat()/message==null below
+        // used to fail completely silently, so a switched-off archive and
+        // "this hook was never even reached" were indistinguishable from
+        // logcat. Diagnostic-only, no behavior change.
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("MZGramHistoryController.onMessageDeleted: called for dialog " + dialogId
                     + ", messageId=" + (message != null ? message.id : "null")
-                    + ", saveMessageHistory=" + MZGramConfig.saveMessageHistory
-                    + ", isDialogTracked=" + MZGramConfig.isDialogTracked(dialogId));
+                    + ", saveMessageHistory=" + MZGramConfig.saveMessageHistory);
         }
-        if (message == null || !isTracked(dialogId)) {
+        if (message == null || !savesChat(dialogId)) {
             return;
         }
         if (isOwnMessage(accountId, message)) {
@@ -127,7 +127,7 @@ public class MZGramHistoryController {
     // ---- edited messages ----
 
     public void onMessageEdited(int accountId, long dialogId, TLRPC.Message oldMessage, TLRPC.Message newMessage) {
-        if (oldMessage == null || newMessage == null || !isTracked(dialogId) || isOwnMessage(accountId, oldMessage)) {
+        if (oldMessage == null || newMessage == null || !savesChat(dialogId) || isOwnMessage(accountId, oldMessage)) {
             return;
         }
         try {
@@ -175,7 +175,7 @@ public class MZGramHistoryController {
     // sendSecretMediaDelete / doDeleteShowOnceTask), so the file is still on
     // disk.
     public void onOneTimeMediaViewed(int accountId, long dialogId, TLRPC.Message message) {
-        if (message == null || !isTracked(dialogId) || isOwnMessage(accountId, message)) {
+        if (message == null || !savesChat(dialogId) || isOwnMessage(accountId, message)) {
             return;
         }
         try {
@@ -215,7 +215,7 @@ public class MZGramHistoryController {
     // ---- one-time media on arrival ----
 
     // MessagesStorage.putMessages: messages arriving (or loaded) into the
-    // cache. Another person's one-time media in a tracked chat is fetched
+    // cache. Another person's one-time media in a chat is fetched
     // right away and archived once downloaded, as MZGram Desktop does, so it
     // is kept even if it is never opened. Downloading the file does not tell
     // the sender it was viewed; that only happens on opening it.
@@ -229,7 +229,7 @@ public class MZGramHistoryController {
                 continue;
             }
             long dialogId = MessageObject.getDialogId(message);
-            if (!isTracked(dialogId) || isOwnMessage(accountId, message) || oneTimeFileName(message) == null) {
+            if (!savesChat(dialogId) || isOwnMessage(accountId, message) || oneTimeFileName(message) == null) {
                 continue;
             }
             try {
@@ -334,7 +334,7 @@ public class MZGramHistoryController {
     // is still on disk here, so a copy goes into the archive. Kept even over
     // the size limit, like any one-time media.
     public void onMessageMediaRemoved(int accountId, long dialogId, TLRPC.Message message) {
-        if (message == null || message.media == null || !isTracked(dialogId) || isOwnMessage(accountId, message)) {
+        if (message == null || message.media == null || !savesChat(dialogId) || isOwnMessage(accountId, message)) {
             return;
         }
         try {
@@ -571,7 +571,7 @@ public class MZGramHistoryController {
     // ---- total media size cap ----
 
     // Oldest-first eviction across the whole media folder (every account,
-    // every tracked chat combined), so the archive's disk usage stays under
+    // every chat combined), so the archive's disk usage stays under
     // MZGramConfig.historyTotalMediaCapMb regardless of which chat is
     // currently growing. Text/entity rows are left alone -- only the media
     // file on disk is removed, the same way the per-file size limit above
@@ -642,7 +642,7 @@ public class MZGramHistoryController {
         for (int a = 0, N = mids.size(); a < N; a++) {
             localDeletions.put(dialogId + ":" + mids.get(a), now);
         }
-        if (removeArchived && isTracked(dialogId)) {
+        if (removeArchived && savesChat(dialogId)) {
             ArrayList<Integer> ids = new ArrayList<>(mids);
             long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
             MessagesStorage.getInstance(accountId).getStorageQueue().postRunnable(() -> {
@@ -660,17 +660,17 @@ public class MZGramHistoryController {
 
     // ChatActivity, when a message shown in an open chat is deleted: true
     // means keep it in the chat, marked as deleted, instead of removing it.
-    // Kept: another person's message in a tracked chat that the user did
+    // Kept: another person's message in a chat that the user did
     // not remove themself.
     public boolean keepsDeletedInChat(int accountId, long dialogId, TLRPC.Message message) {
-        if (message == null || message instanceof TLRPC.TL_messageService || !isTracked(dialogId) || isOwnMessage(accountId, message)) {
+        if (message == null || message instanceof TLRPC.TL_messageService || !savesChat(dialogId) || isOwnMessage(accountId, message)) {
             return false;
         }
         Long when = localDeletions.get(dialogId + ":" + message.id);
         return when == null || System.currentTimeMillis() - when > LOCAL_DELETION_TTL_MS;
     }
 
-    // MessagesController.processLoadedMessages, for a tracked chat: the list
+    // MessagesController.processLoadedMessages, for a chat: the list
     // of messages the chat gets back, with
     //   - other people's archived deleted messages that belong in the loaded
     //     range put back in their place, marked as deleted;
@@ -691,7 +691,7 @@ public class MZGramHistoryController {
     // Anything else would make the chat think it has loaded a range it has
     // not.
     public ArrayList<TLRPC.Message> messagesForChat(int accountId, long dialogId, ArrayList<TLRPC.Message> loaded, int count, int maxId, int loadType, boolean isCache, long threadMessageId, boolean isTopic) {
-        if (loaded == null || !isTracked(dialogId)) {
+        if (loaded == null || !savesChat(dialogId)) {
             return loaded;
         }
         try {
@@ -868,11 +868,11 @@ public class MZGramHistoryController {
 
     // MessagesStorage.emptyMessagesMedia, right after it removed the media of
     // a message (and archived it): what an open chat is told the message now
-    // looks like. For another person's message in a tracked chat that is the
+    // looks like. For another person's message in a chat that is the
     // media back from the archive, as ordinary media; otherwise null (the
     // chat shows it expired, as usual).
     public TLRPC.Message mediaForOpenChat(int accountId, long dialogId, TLRPC.Message emptied) {
-        if (emptied == null || !isTracked(dialogId) || isOwnMessage(accountId, emptied)) {
+        if (emptied == null || !savesChat(dialogId) || isOwnMessage(accountId, emptied)) {
             return null;
         }
         try {
@@ -902,10 +902,10 @@ public class MZGramHistoryController {
     }
 
     // ChatActivity, when the user has viewed one-time media: false means
-    // do not show it as expired. Kept: another person's message in a tracked
-    // chat -- the media comes back from the archive (see mediaForOpenChat).
+    // do not show it as expired. Kept: another person's message -- the media
+    // comes back from the archive (see mediaForOpenChat).
     public boolean keepsOneTimeMediaInChat(int accountId, long dialogId, TLRPC.Message message) {
-        return message != null && isTracked(dialogId) && !isOwnMessage(accountId, message);
+        return message != null && savesChat(dialogId) && !isOwnMessage(accountId, message);
     }
 
     // ChatActivity, for a deleted message it keeps in the open chat: marked

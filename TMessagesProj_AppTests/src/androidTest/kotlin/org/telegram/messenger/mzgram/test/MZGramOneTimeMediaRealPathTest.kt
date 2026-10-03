@@ -25,7 +25,7 @@ import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
-// Another user's one-time media in a tracked chat, on the paths the app
+// Another user's one-time media, on the paths the app
 // really takes, for photos, videos, voice messages and round videos:
 //
 //   viewOnce   the user opens view-once media; the chat calls
@@ -76,12 +76,10 @@ class MZGramOneTimeMediaRealPathTest {
         }
         savedSaveMessageHistory = MZGramConfig.saveMessageHistory
         MZGramConfig.saveMessageHistory = true
-        MZGramConfig.setDialogTracked(otherUserId, true)
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.setDialogTracked(otherUserId, false)
         MZGramConfig.saveMessageHistory = savedSaveMessageHistory
     }
 
@@ -338,7 +336,7 @@ class MZGramOneTimeMediaRealPathTest {
             // ChatActivity.sendSecretMediaDelete, as the viewer opens.
             instrumentation.runOnMainSync {
                 val shown = MessageObject(account, message, true, false)
-                if (MZGramHistoryController.isTracked(otherUserId)) {
+                if (MZGramHistoryController.savesChat(otherUserId)) {
                     MZGramHistoryController.getInstance().onOneTimeMediaViewed(account, otherUserId, shown.messageOwner)
                 }
                 taskId = controller.createDeleteShowOnceTask(otherUserId, mid)

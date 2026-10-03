@@ -13,7 +13,7 @@ import java.io.File
 
 // Exercises the local deleted/edited message archive (the core of "spy
 // mode"/anti-recall) directly against MZGramHistoryDatabase, the same
-// SQLite store MZGramHistoryController writes to when a tracked chat's
+// SQLite store MZGramHistoryController writes to when a chat's
 // message is deleted or edited.
 class MZGramHistoryDatabaseTest {
 

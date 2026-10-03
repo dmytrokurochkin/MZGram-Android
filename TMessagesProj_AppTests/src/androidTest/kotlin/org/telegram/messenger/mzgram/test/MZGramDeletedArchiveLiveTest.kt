@@ -255,9 +255,6 @@ class MZGramDeletedArchiveLiveTest {
         val channelDialog = -channelId!!
         val savedSaveMessageHistory = MZGramConfig.saveMessageHistory
         MZGramConfig.saveMessageHistory = true
-        for (d in listOf(privateDialog, basicDialog, channelDialog)) {
-            MZGramConfig.setDialogTracked(d, true)
-        }
         val failures = ArrayList<String>()
         try {
             runScenario("private", self.id, privateDialog, peerB.id, false)?.let { failures.add(it) }
@@ -268,9 +265,6 @@ class MZGramDeletedArchiveLiveTest {
             val nocache = runScenario("nocache", self.id, privateDialog, peerB.id, true)
             log("NOCACHE_OUTCOME ${nocache ?: "archived"}")
         } finally {
-            for (d in listOf(privateDialog, basicDialog, channelDialog)) {
-                MZGramConfig.setDialogTracked(d, false)
-            }
             MZGramConfig.saveMessageHistory = savedSaveMessageHistory
             InstrumentationRegistry.getInstrumentation().runOnMainSync {
                 NotificationCenter.getInstance(account).removeObserver(deleteObserver, NotificationCenter.messagesDeleted)

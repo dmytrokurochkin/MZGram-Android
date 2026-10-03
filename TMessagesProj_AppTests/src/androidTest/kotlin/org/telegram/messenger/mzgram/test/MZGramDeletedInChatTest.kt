@@ -52,7 +52,7 @@ class MZGramDeletedInChatTest {
     private val account = 0
     private val selfId = 7_000_000_001L
     private val otherUserId = 7_400_000_000L + (Math.random() * 1_000_000).toLong()
-    private val untrackedUserId = 7_500_000_000L + (Math.random() * 1_000_000).toLong()
+    private val newChatUserId = 7_500_000_000L + (Math.random() * 1_000_000).toLong()
 
     private var savedSaveMessageHistory = false
 
@@ -71,17 +71,14 @@ class MZGramDeletedInChatTest {
         UserConfig.getInstance(account).setCurrentUser(self)
         instrumentation.runOnMainSync {
             controller.putUser(user(otherUserId), false)
-            controller.putUser(user(untrackedUserId), false)
+            controller.putUser(user(newChatUserId), false)
         }
         savedSaveMessageHistory = MZGramConfig.saveMessageHistory
         MZGramConfig.saveMessageHistory = true
-        MZGramConfig.setDialogTracked(otherUserId, true)
-        MZGramConfig.setDialogTracked(untrackedUserId, false)
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.setDialogTracked(otherUserId, false)
         MZGramConfig.saveMessageHistory = savedSaveMessageHistory
     }
 
@@ -259,15 +256,15 @@ class MZGramDeletedInChatTest {
     }
 
     @Test
-    fun history_untrackedChat_deletedMessageIsGone() {
+    fun history_newChat_deletedMessageStays() {
         val m1 = newMessageId()
         val m2 = newMessageId()
         val m3 = newMessageId()
-        putInCache(incoming(untrackedUserId, m1, "a $m1"), incoming(untrackedUserId, m2, "b $m2"), incoming(untrackedUserId, m3, "c $m3"))
+        putInCache(incoming(newChatUserId, m1, "a $m1"), incoming(newChatUserId, m2, "b $m2"), incoming(newChatUserId, m3, "c $m3"))
         deliverDelete(m2)
 
-        val loaded = loadHistory(untrackedUserId)
-        assertEquals(listOf(m3, m1), loaded.map { it.id }.filter { it in listOf(m1, m2, m3) })
+        val loaded = loadHistory(newChatUserId)
+        assertEquals("kept without adding the chat anywhere", listOf(m3, m2, m1), loaded.map { it.id }.filter { it in listOf(m1, m2, m3) })
     }
 
     // Self-destructing / view-once media removed from another user's
@@ -337,12 +334,13 @@ class MZGramDeletedInChatTest {
     }
 
     @Test
-    fun live_untrackedChat_isRemoved() {
+    fun live_archiveOff_isRemoved() {
+        MZGramConfig.saveMessageHistory = false
         val mid = newMessageId()
-        val message = incoming(untrackedUserId, mid, "untracked live $mid")
+        val message = incoming(otherUserId, mid, "archive off live $mid")
         putInCache(message)
         deliverDelete(mid)
-        assertFalse(keepsDeletedInChat(untrackedUserId, message))
+        assertFalse(keepsDeletedInChat(otherUserId, message))
     }
 
     // The user deleting a message themself (also a kept deleted one) removes
@@ -460,8 +458,8 @@ class MZGramDeletedInChatTest {
         assertTrue("text is drawn at full opacity (darkest pixel $lastDarkest)", lastDarkest < 30)
     }
 
-    // As in MZGram Desktop: the pencil marks other people's edits in tracked
-    // chats only.
+    // As in MZGram Desktop: the pencil marks other people's edits, in every
+    // chat while the archive is on.
     @Test
     fun look_ownEditedMessage_hasNoPencil() {
         val message = outgoing(otherUserId, newMessageId(), "My own edited message")
@@ -474,14 +472,15 @@ class MZGramDeletedInChatTest {
     }
 
     @Test
-    fun look_editedMessageInUntrackedChat_hasNoPencil() {
-        val message = incoming(untrackedUserId, newMessageId(), "Edited, chat not tracked")
+    fun look_editedMessageWithArchiveOff_hasNoPencil() {
+        MZGramConfig.saveMessageHistory = false
+        val message = incoming(otherUserId, newMessageId(), "Edited, archive off")
         message.edit_date = now()
         message.flags = message.flags or 32768
-        val cell = renderCell("untracked-edited", message)
-        log("untracked edited cell: time='${timeText(cell)}'")
+        val cell = renderCell("archive-off-edited", message)
+        log("archive off edited cell: time='${timeText(cell)}'")
         assertTrue("still marked edited: ${timeText(cell)}", timeText(cell).contains("edited"))
-        assertFalse("no pencil outside tracked chats: ${timeText(cell)}", timeText(cell).contains("✏"))
+        assertFalse("no pencil with the archive off: ${timeText(cell)}", timeText(cell).contains("✏"))
     }
 
     @Test

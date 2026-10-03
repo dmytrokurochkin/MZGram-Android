@@ -9,11 +9,9 @@ package org.telegram.messenger.mzgram;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 
 import org.telegram.messenger.ApplicationLoader;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class MZGramConfig {
@@ -92,10 +90,9 @@ public class MZGramConfig {
     public static int savedLastSeenPrivacyState = Integer.MIN_VALUE;
 
     // Local message history archive (deleted/edited messages).
-    // Allowlist-only, like the Desktop anti-recall feature:
-    // a dialog is archived only when it is in trackedDialogs, never by
-    // default for every chat.
-    public static boolean saveMessageHistory = false;
+    // Saves other people's deleted and edited messages in every private
+    // chat, group, channel and secret chat. On by default.
+    public static boolean saveMessageHistory = true;
     // Spy mode: masks your own phone number on your own profile/settings
     // screen (e.g. before screen sharing). Purely a display change on this
     // device -- unrelated to the server-side privacy setting for what other
@@ -109,10 +106,9 @@ public class MZGramConfig {
     public static boolean stripZalgoText = false;
     public static int historyMediaSizeLimitMb = 50; // videos/files only; 0 = no limit
     // Total cap for everything saved under the archive's media folder,
-    // across all tracked chats; 0 = unlimited. When exceeded, the oldest
-    // saved files are deleted first until back under the cap.
-    public static int historyTotalMediaCapMb = 300;
-    private static final Set<Long> trackedDialogs = new HashSet<>();
+    // across all chats; 0 = unlimited (the default). When exceeded, the
+    // oldest saved files are deleted first until back under the cap.
+    public static int historyTotalMediaCapMb = 0;
 
     static {
         loadConfig(false);
@@ -165,14 +161,17 @@ public class MZGramConfig {
             if (preferences.contains("hideOthersOnlineStatus")) {
                 preferences.edit().remove("hideOthersOnlineStatus").apply();
             }
-            saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
+            // The switch is on by default now; the old key kept "off" for
+            // everyone who never touched it, so it is read under a new key.
+            saveMessageHistory = preferences.getBoolean("saveDeletedAndEdited", true);
+            if (preferences.contains("saveMessageHistory") || preferences.contains("historyTrackedDialogs")) {
+                preferences.edit().remove("saveMessageHistory").remove("historyTrackedDialogs").apply();
+            }
             hideOwnPhoneNumber = preferences.getBoolean("hideOwnPhoneNumber", false);
             disableSponsoredMessages = preferences.getBoolean("disableSponsoredMessages", false);
             stripZalgoText = preferences.getBoolean("stripZalgoText", false);
             historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
-            historyTotalMediaCapMb = preferences.getInt("historyTotalMediaCapMb", 300);
-            trackedDialogs.clear();
-            trackedDialogs.addAll(parseDialogSet(preferences.getString("historyTrackedDialogs", "")));
+            historyTotalMediaCapMb = preferences.getInt("historyTotalMediaCapMb", 0);
             configLoaded = true;
         }
     }
@@ -351,7 +350,7 @@ public class MZGramConfig {
 
     public static void toggleSaveMessageHistory() {
         saveMessageHistory = !saveMessageHistory;
-        putBoolean("saveMessageHistory", saveMessageHistory);
+        putBoolean("saveDeletedAndEdited", saveMessageHistory);
     }
 
     public static void toggleHideOwnPhoneNumber() {
@@ -377,52 +376,5 @@ public class MZGramConfig {
     public static void setHistoryTotalMediaCapMb(int mb) {
         historyTotalMediaCapMb = Math.max(0, mb);
         preferences().edit().putInt("historyTotalMediaCapMb", historyTotalMediaCapMb).apply();
-    }
-
-    public static boolean isDialogTracked(long dialogId) {
-        synchronized (trackedDialogs) {
-            return trackedDialogs.contains(dialogId);
-        }
-    }
-
-    public static void setDialogTracked(long dialogId, boolean tracked) {
-        synchronized (trackedDialogs) {
-            if (tracked) {
-                trackedDialogs.add(dialogId);
-            } else {
-                trackedDialogs.remove(dialogId);
-            }
-            saveTrackedDialogs();
-        }
-    }
-
-    public static Set<Long> getTrackedDialogs() {
-        synchronized (trackedDialogs) {
-            return new HashSet<>(trackedDialogs);
-        }
-    }
-
-    private static void saveTrackedDialogs() {
-        StringBuilder sb = new StringBuilder();
-        for (Long id : trackedDialogs) {
-            if (sb.length() > 0) {
-                sb.append(',');
-            }
-            sb.append(id);
-        }
-        preferences().edit().putString("historyTrackedDialogs", sb.toString()).apply();
-    }
-
-    private static Set<Long> parseDialogSet(String raw) {
-        Set<Long> set = new HashSet<>();
-        if (!TextUtils.isEmpty(raw)) {
-            for (String part : raw.split(",")) {
-                try {
-                    set.add(Long.parseLong(part.trim()));
-                } catch (NumberFormatException ignored) {
-                }
-            }
-        }
-        return set;
     }
 }

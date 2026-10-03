@@ -46,7 +46,7 @@ class MZGramChatCoverageTest {
     private val account = 0
     private val selfId = 7_000_000_001L
     private val otherUserId = 7_600_000_000L + (Math.random() * 1_000_000).toLong()
-    private val untrackedUserId = 7_650_000_000L + (Math.random() * 1_000_000).toLong()
+    private val newChatUserId = 7_650_000_000L + (Math.random() * 1_000_000).toLong()
     private val channelId = 7_700_000_000L + (Math.random() * 1_000_000).toLong()
     private val channelDialogId = -channelId
     private val secretDialogId = DialogObject.makeEncryptedDialogId(100_000L + (Math.random() * 1_000_000).toLong())
@@ -69,20 +69,14 @@ class MZGramChatCoverageTest {
         UserConfig.getInstance(account).setCurrentUser(self)
         instrumentation.runOnMainSync {
             controller.putUser(user(otherUserId), false)
-            controller.putUser(user(untrackedUserId), false)
+            controller.putUser(user(newChatUserId), false)
         }
         savedSaveMessageHistory = MZGramConfig.saveMessageHistory
         MZGramConfig.saveMessageHistory = true
-        MZGramConfig.setDialogTracked(otherUserId, true)
-        MZGramConfig.setDialogTracked(channelDialogId, true)
-        MZGramConfig.setDialogTracked(secretDialogId, true)
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.setDialogTracked(otherUserId, false)
-        MZGramConfig.setDialogTracked(channelDialogId, false)
-        MZGramConfig.setDialogTracked(secretDialogId, false)
         MZGramConfig.saveMessageHistory = savedSaveMessageHistory
     }
 
@@ -362,11 +356,11 @@ class MZGramChatCoverageTest {
     }
 
     @Test
-    fun oneTime_untrackedChat_stillExpires() {
-        MZGramConfig.setDialogTracked(untrackedUserId, false)
+    fun oneTime_archiveOff_stillExpires() {
+        MZGramConfig.saveMessageHistory = false
         val mid = newMessageId()
         val bytes = ByteArray(1000) { it.toByte() }
-        val message = withOneTimeDocument(incoming(untrackedUserId, mid, ""), bytes)
+        val message = withOneTimeDocument(incoming(newChatUserId, mid, ""), bytes)
         putInCache(message)
         writeDownloadedFile(message, bytes)
         val latch = CountDownLatch(1)
@@ -382,7 +376,7 @@ class MZGramChatCoverageTest {
         }
         instrumentation.runOnMainSync { NotificationCenter.getInstance(account).addObserver(observer, NotificationCenter.updateMessageMedia) }
         try {
-            storage.emptyMessagesMedia(untrackedUserId, arrayListOf(mid))
+            storage.emptyMessagesMedia(newChatUserId, arrayListOf(mid))
             assertTrue(latch.await(30, TimeUnit.SECONDS))
         } finally {
             instrumentation.runOnMainSync { NotificationCenter.getInstance(account).removeObserver(observer, NotificationCenter.updateMessageMedia) }
@@ -390,19 +384,22 @@ class MZGramChatCoverageTest {
         assertTrue("expires as usual", posted!!.media.document == null || posted!!.media.document is TLRPC.TL_documentEmpty)
     }
 
-    // The viewer must not mark another user's one-time media "expired" in a
-    // tracked chat (ChatActivity asks keepsOneTimeMediaInChat).
+    // The viewer must not mark another user's one-time media "expired", in
+    // any chat, without adding the chat anywhere (ChatActivity asks
+    // keepsOneTimeMediaInChat). Own media and a switched-off archive expire.
     @Test
-    fun oneTime_keptOnlyForOtherPeopleInTrackedChats() {
+    fun oneTime_keptForOtherPeopleInEveryChat() {
         val other = withOneTimeDocument(incoming(otherUserId, newMessageId(), ""), ByteArray(10))
         val own = withOneTimeDocument(incoming(otherUserId, newMessageId(), ""), ByteArray(10)).also {
             it.out = true
             it.from_id = userPeer(selfId)
         }
-        val untracked = withOneTimeDocument(incoming(untrackedUserId, newMessageId(), ""), ByteArray(10))
+        val newChat = withOneTimeDocument(incoming(newChatUserId, newMessageId(), ""), ByteArray(10))
         assertEquals(true, controllerCall("keepsOneTimeMediaInChat", account, otherUserId, other))
         assertEquals(false, controllerCall("keepsOneTimeMediaInChat", account, otherUserId, own))
-        assertEquals(false, controllerCall("keepsOneTimeMediaInChat", account, untrackedUserId, untracked))
+        assertEquals("a chat never added anywhere", true, controllerCall("keepsOneTimeMediaInChat", account, newChatUserId, newChat))
+        MZGramConfig.saveMessageHistory = false
+        assertEquals("archive off", false, controllerCall("keepsOneTimeMediaInChat", account, otherUserId, other))
     }
 
     // A deleted one-time message kept in the open chat is shown as ordinary

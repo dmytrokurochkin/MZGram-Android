@@ -12152,7 +12152,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final ArrayList<MessageObject> objects = new ArrayList<>();
         final ArrayList<Integer> messagesToReload = new ArrayList<>();
         final HashMap<String, ArrayList<MessageObject>> webpagesToReload = new HashMap<>();
-        // MZGram: in a tracked chat, other people's deleted messages that
+        // MZGram: while the archive is on, other people's deleted messages that
         // belong in this range come back from the archive, and removed media
         // is put back. A separate list: messagesRes.messages has already been
         // handed to putMessages above, and kept messages must never go back

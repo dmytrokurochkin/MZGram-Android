@@ -4734,12 +4734,12 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    // MZGram: archives messages of a tracked dialog that the auto-delete timer
+    // MZGram: archives messages of a dialog that the auto-delete timer
     // is about to remove (see MessagesController.checkDeletingTask). Must be
     // called before the deletion is queued, so the rows are still in
     // messages_v2 when this runs.
     public void archiveExpiredMessagesForMZGram(long dialogId, ArrayList<Integer> mids) {
-        if (mids == null || mids.isEmpty() || !org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(dialogId)) {
+        if (mids == null || mids.isEmpty() || !org.telegram.messenger.mzgram.MZGramHistoryController.savesChat(dialogId)) {
             return;
         }
         ArrayList<Integer> ids = new ArrayList<>(mids);
@@ -4787,7 +4787,7 @@ public class MessagesStorage extends BaseController {
                         data.reuse();
                         if (message.media != null) {
                             // MZGram: the media is replaced with an empty one and its file
-                            // deleted below; keep a copy for a tracked dialog first.
+                            // deleted below; keep a copy for the dialog first.
                             org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageMediaRemoved(currentAccount, dialogId, message);
                             if (!addFilesToDelete(message, filesToDelete, idsToDelete, namesToDelete, true)) {
                                 continue;
@@ -4900,7 +4900,7 @@ public class MessagesStorage extends BaseController {
                         state.dispose();
                         state = null;
                     }
-                    // MZGram: an open tracked chat gets other people's media back from
+                    // MZGram: an open chat gets other people's media back from
                     // the archive instead of an expired placeholder.
                     ArrayList<TLRPC.Message> shownMessages = new ArrayList<>(messages.size());
                     for (int a = 0; a < messages.size(); a++) {
@@ -11454,7 +11454,7 @@ public class MessagesStorage extends BaseController {
     // the server returned no messages at all. Runs on the storage queue.
     private void archiveMissingAfterTooLongForMZGram(long channelId, TLRPC.TL_updates_channelDifferenceTooLong difference) {
         long did = -channelId;
-        if (difference == null || difference.messages == null || difference.messages.isEmpty() || !org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did)) {
+        if (difference == null || difference.messages == null || difference.messages.isEmpty() || !org.telegram.messenger.mzgram.MZGramHistoryController.savesChat(did)) {
             return;
         }
         HashSet<Integer> returned = new HashSet<>();
@@ -13465,7 +13465,7 @@ public class MessagesStorage extends BaseController {
             return;
         }
         if (mode == 0) {
-            // MZGram: fetch and archive other people's one-time media in tracked chats.
+            // MZGram: fetch and archive other people's one-time media (every chat).
             org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessagesStored(currentAccount, messages);
         }
         if (useQueue) {
@@ -14750,16 +14750,16 @@ public class MessagesStorage extends BaseController {
                         // (the deferred update echo, a push delete notice, or a secret-chat
                         // peer's delete notice) -- never the local synchronous path fired by
                         // the user's own "Delete" tap: the user chose to remove those.
-                        boolean mzgramTracked = org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did);
+                        boolean mzgramSaves = org.telegram.messenger.mzgram.MZGramHistoryController.savesChat(did);
                         // MZGram: diagnostic logging -- confirms whether this row was
                         // skipped specifically because allowMzgramArchive is false (the
                         // flag added for the archive), as opposed to any
-                        // other reason (not tracked, row never found at all).
-                        if (BuildVars.LOGS_ENABLED && mzgramTracked && !allowMzgramArchive) {
+                        // other reason (archive off, row never found at all).
+                        if (BuildVars.LOGS_ENABLED && mzgramSaves && !allowMzgramArchive) {
                             FileLog.d("MZGram: markMessagesAsDeletedInternal dialogId=" + did + " mid=" + mid
-                                    + " tracked but allowMzgramArchive=false (caller did not permit archiving) -- NOT archived here");
+                                    + " archive on but allowMzgramArchive=false (caller did not permit archiving) -- NOT archived here");
                         }
-                        if (!DialogObject.isEncryptedDialog(did) && !deleteFiles && did != currentUser && !(mzgramTracked && allowMzgramArchive)) {
+                        if (!DialogObject.isEncryptedDialog(did) && !deleteFiles && did != currentUser && !(mzgramSaves && allowMzgramArchive)) {
                             continue;
                         }
                         NativeByteBuffer data = cursor.byteBufferValue(1);
@@ -14770,15 +14770,15 @@ public class MessagesStorage extends BaseController {
                                 deletedMessages.add(message);
                             }
                             data.reuse();
-                            if (mzgramTracked && allowMzgramArchive) {
+                            if (mzgramSaves && allowMzgramArchive) {
                                 if (BuildVars.LOGS_ENABLED) {
                                     FileLog.d("MZGram: markMessagesAsDeletedInternal dialogId=" + did + " mid=" + mid + " calling onMessageDeleted");
                                 }
                                 org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageDeleted(currentAccount, did, message);
                             }
-                            // MZGram: another person's deleted message stays in a tracked
+                            // MZGram: another person's deleted message stays in the
                             // chat with its media, so its downloaded file is left in place.
-                            boolean mzgramKeepsFile = mzgramTracked && allowMzgramArchive
+                            boolean mzgramKeepsFile = mzgramSaves && allowMzgramArchive
                                     && !org.telegram.messenger.mzgram.MZGramHistoryController.isOwnMessage(currentAccount, message);
                             if ((DialogObject.isEncryptedDialog(did) || deleteFiles) && !mzgramKeepsFile) {
                                 addFilesToDelete(message, filesToDelete, idsToDelete, namesToDelete, false);
@@ -14822,7 +14822,7 @@ public class MessagesStorage extends BaseController {
                             sb.append(", ");
                         }
                         sb.append(did).append("=").append(messagesByDialogs.valueAt(a))
-                                .append(" tracked=").append(org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did));
+                                .append(" saving=").append(org.telegram.messenger.mzgram.MZGramHistoryController.savesChat(did));
                     }
                     sb.append("}");
                     FileLog.d(sb.toString());
@@ -16248,7 +16248,7 @@ public class MessagesStorage extends BaseController {
     // put messages in data base while load history
     public void putMessages(TLRPC.messages_Messages messages, long dialogId, int load_type, int max_id, boolean createDialog, int mode, long threadMessageId) {
         if (mode == 0 && messages != null) {
-            // MZGram: fetch and archive other people's one-time media in tracked chats.
+            // MZGram: fetch and archive other people's one-time media (every chat).
             org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessagesStored(currentAccount, messages.messages);
         }
         storageQueue.postRunnable(() -> {
@@ -16456,7 +16456,7 @@ public class MessagesStorage extends BaseController {
                                     data.reuse();
                                     // MZGram: the previous revision is still the one on disk here, right
                                     // before this method overwrites it below.
-                                    if (org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(dialogId)) {
+                                    if (org.telegram.messenger.mzgram.MZGramHistoryController.savesChat(dialogId)) {
                                         org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageEdited(currentAccount, dialogId, oldMessage, message);
                                     }
                                     if (reactionUpdates != null) {

@@ -94,7 +94,7 @@ class MZGramSettingsTest {
         val shown = items.filter { it.viewType != UniversalAdapter.VIEW_TYPE_HEADER && it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }.map { it.id }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
-        assertEquals("40 switches and buttons", 40, shown.size)
+        assertEquals("39 switches and buttons", 39, shown.size)
 
         // No section is empty.
         var lastWasHeader = false

@@ -285,8 +285,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
 
     // Full wipe for the settings screen's "clear archive" action: every
     // archived row plus every copied media file on disk, for every account
-    // and every dialog (not just the currently tracked ones -- a chat
-    // removed from the allowlist earlier still has old rows/files).
+    // and every dialog.
     public void wipeAll() {
         clean();
         deleteRecursively(mediaRoot());

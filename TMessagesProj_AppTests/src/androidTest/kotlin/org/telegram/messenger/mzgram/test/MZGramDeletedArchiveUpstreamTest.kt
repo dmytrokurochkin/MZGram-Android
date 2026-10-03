@@ -54,14 +54,10 @@ class MZGramDeletedArchiveUpstreamTest {
         InstrumentationRegistry.getInstrumentation().runOnMainSync { controller }
         savedSaveMessageHistory = MZGramConfig.saveMessageHistory
         MZGramConfig.saveMessageHistory = true
-        MZGramConfig.setDialogTracked(otherUserId, true)
-        MZGramConfig.setDialogTracked(channelDialogId, true)
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.setDialogTracked(otherUserId, false)
-        MZGramConfig.setDialogTracked(channelDialogId, false)
         MZGramConfig.saveMessageHistory = savedSaveMessageHistory
     }
 
@@ -172,7 +168,7 @@ class MZGramDeletedArchiveUpstreamTest {
     // whole channel from messages_v2 and reloads it. Messages deleted during
     // the gap vanish here without any delete update ever being processed.
     @Test
-    fun a_channelDifferenceTooLong_dropsTrackedMessagesWithoutDeleteUpdate() {
+    fun a_channelDifferenceTooLong_dropsCachedMessagesWithoutDeleteUpdate() {
         val mid = newMessageId()
         putInCache(incomingChannel(mid, "will vanish in tooLong $mid"))
 

@@ -71,14 +71,10 @@ class MZGramArchiveDataLayerTest {
         }
         savedSaveMessageHistory = MZGramConfig.saveMessageHistory
         MZGramConfig.saveMessageHistory = true
-        MZGramConfig.setDialogTracked(otherUserId, true)
-        MZGramConfig.setDialogTracked(channelDialogId, true)
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.setDialogTracked(otherUserId, false)
-        MZGramConfig.setDialogTracked(channelDialogId, false)
         MZGramConfig.saveMessageHistory = savedSaveMessageHistory
     }
 

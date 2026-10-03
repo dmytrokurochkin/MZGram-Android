@@ -32,7 +32,7 @@ class MZGramDeletedArchiveFlowTest {
     private val account = 0
     private val selfId = 7_000_000_001L
     private val otherUserId = 7_000_000_002L
-    private val untrackedUserId = 7_000_000_003L
+    private val newChatUserId = 7_000_000_003L
     private val channelId = 7_000_000_004L
     private val channelDialogId = -channelId
 
@@ -53,17 +53,10 @@ class MZGramDeletedArchiveFlowTest {
 
         savedSaveMessageHistory = MZGramConfig.saveMessageHistory
         MZGramConfig.saveMessageHistory = true
-        MZGramConfig.setDialogTracked(otherUserId, true)
-        MZGramConfig.setDialogTracked(channelDialogId, true)
-        MZGramConfig.setDialogTracked(selfId, true)
-        MZGramConfig.setDialogTracked(untrackedUserId, false)
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.setDialogTracked(otherUserId, false)
-        MZGramConfig.setDialogTracked(channelDialogId, false)
-        MZGramConfig.setDialogTracked(selfId, false)
         MZGramConfig.saveMessageHistory = savedSaveMessageHistory
     }
 
@@ -147,7 +140,7 @@ class MZGramDeletedArchiveFlowTest {
     private fun log(msg: String) = Log.i("MZGramArchiveTest", msg)
 
     @Test
-    fun otherUserDeletesInTrackedPrivateChat_isArchived() {
+    fun otherUserDeletesInPrivateChat_isArchived() {
         val mid = newMessageId()
         putInCache(incomingPrivate(mid, otherUserId, "secret from other user $mid"))
 
@@ -165,7 +158,7 @@ class MZGramDeletedArchiveFlowTest {
     }
 
     @Test
-    fun otherUserDeletesInTrackedChannel_isArchived() {
+    fun otherUserDeletesInChannel_isArchived() {
         val mid = newMessageId()
         putInCache(incomingChannel(mid, otherUserId, "channel post $mid"))
 
@@ -183,24 +176,39 @@ class MZGramDeletedArchiveFlowTest {
     }
 
     @Test
-    fun otherUserDeletesInUntrackedChat_isNotArchived() {
+    fun otherUserDeletesInAnyChat_isArchivedWithoutAddingIt() {
         val mid = newMessageId()
-        putInCache(incomingPrivate(mid, untrackedUserId, "untracked $mid"))
+        putInCache(incomingPrivate(mid, newChatUserId, "new chat $mid"))
 
         val update = TL_update.TL_updateDeleteMessages()
         update.messages.add(mid)
         deliverUpdate(update)
 
-        assertNull("deleted from messages_v2", storage.getMessage(untrackedUserId, mid.toLong()))
-        val row = archived(untrackedUserId, mid)
-        log("untracked chat: dialog=$untrackedUserId mid=$mid archivedRow=" + (row?.rowId ?: "NONE"))
-        assertNull("allowlist gate: untracked chat is never archived", row)
+        assertNull("deleted from messages_v2", storage.getMessage(newChatUserId, mid.toLong()))
+        val row = archived(newChatUserId, mid)
+        log("new chat: dialog=$newChatUserId mid=$mid archivedRow=" + (row?.rowId ?: "NONE"))
+        assertNotNull("archived in a chat never added anywhere", row)
+        assertEquals("new chat $mid", row!!.text)
+    }
+
+    @Test
+    fun archiveSwitchedOff_isNotArchived() {
+        MZGramConfig.saveMessageHistory = false
+        val mid = newMessageId()
+        putInCache(incomingPrivate(mid, otherUserId, "archive off $mid"))
+
+        val update = TL_update.TL_updateDeleteMessages()
+        update.messages.add(mid)
+        deliverUpdate(update)
+
+        assertNull("deleted from messages_v2", storage.getMessage(otherUserId, mid.toLong()))
+        assertNull("nothing saved with the switch off", archived(otherUserId, mid))
     }
 
     // The owner's own messages are never archived: neither on the local
     // "Delete for everyone" tap nor when the server's echo arrives.
     @Test
-    fun ownDeleteForEveryoneInTrackedChat_isNotArchived() {
+    fun ownDeleteForEveryone_isNotArchived() {
         val mid = newMessageId()
         putInCache(outgoingPrivate(mid, otherUserId, "own message $mid"))
 

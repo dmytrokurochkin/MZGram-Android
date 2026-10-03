@@ -729,7 +729,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         BackupAgent.requestBackup();
 
         RestrictedLanguagesSelectActivity.checkRestrictedLanguages(false);
-        // MZGram: ported from Nekogram (NekoConfig.predictiveBackAnimation).
+        // MZGram: MZGramConfig.predictiveBackAnimation.
         if (Build.VERSION.SDK_INT >= 34 && org.telegram.messenger.mzgram.MZGramConfig.predictiveBackAnimation) {
             if (onBackAnimationCallback == null) {
                 onBackAnimationCallback =  new OnBackAnimationCallback() {

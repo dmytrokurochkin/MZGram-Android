@@ -14743,8 +14743,7 @@ public class MessagesStorage extends BaseController {
                                 }
                             }
                         }
-                        // MZGram: ported from AyuGram4A (messages/AyuMessagesController).
-                        // Also deserialize the message when MZGram tracks this dialog, so
+                        // MZGram: also deserialize the message when MZGram tracks this dialog, so
                         // it can be archived below, even if nothing else in this method
                         // needs the file deleted. allowMzgramArchive restricts the actual
                         // archive call to callers that represent a server-confirmed deletion
@@ -14754,7 +14753,7 @@ public class MessagesStorage extends BaseController {
                         boolean mzgramTracked = org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(did);
                         // MZGram: diagnostic logging -- confirms whether this row was
                         // skipped specifically because allowMzgramArchive is false (the
-                        // new flag from the AyuGram-alignment commit), as opposed to any
+                        // flag added for the archive), as opposed to any
                         // other reason (not tracked, row never found at all).
                         if (BuildVars.LOGS_ENABLED && mzgramTracked && !allowMzgramArchive) {
                             FileLog.d("MZGram: markMessagesAsDeletedInternal dialogId=" + did + " mid=" + mid
@@ -16455,8 +16454,7 @@ public class MessagesStorage extends BaseController {
                                     TLRPC.Message oldMessage = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
                                     oldMessage.readAttachPath(data, getUserConfig().clientUserId);
                                     data.reuse();
-                                    // MZGram: ported from AyuGram4A (messages/AyuMessagesController.onMessageEdited).
-                                    // The previous revision is still the one on disk here, right
+                                    // MZGram: the previous revision is still the one on disk here, right
                                     // before this method overwrites it below.
                                     if (org.telegram.messenger.mzgram.MZGramHistoryController.isTracked(dialogId)) {
                                         org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageEdited(currentAccount, dialogId, oldMessage, message);

@@ -3,17 +3,9 @@
  * a fork of Telegram for Android.
  *
  * Decides whether a deleted or edited message is worth keeping, and writes
- * the snapshot to MZGramHistoryDatabase. Unlike AyuGram4A, which saves for
- * every chat unless excluded, MZGram only saves for chats the user added to
- * the allowlist (MZGramConfig.isDialogTracked), matching the Desktop
- * anti-recall feature.
- *
- * Ported from AyuGram4A 7013145676d36d82ee13c02a89f72097b7490dcd
- * (messages/AyuMessagesController.java: onMessageDeleted, onMessageEdited,
- * the same-media comparison in onMessageEditedInner). AyuGram4A builds the
- * saved TLRPC.Message copy through its proprietary AyuMessageUtils (a
- * private submodule, not part of the public source); MZGram maps the
- * message fields itself instead.
+ * the snapshot to MZGramHistoryDatabase. MZGram only saves for chats the
+ * user added to the allowlist (MZGramConfig.isDialogTracked), matching the
+ * Desktop anti-recall feature.
  */
 
 package org.telegram.messenger.mzgram;
@@ -117,8 +109,7 @@ public class MZGramHistoryController {
     // was ever wrong. insert() itself now uses INSERT OR IGNORE against a
     // partial UNIQUE index (MZGramHistoryDatabase.onCreate), so a genuine
     // duplicate is a no-op enforced atomically by SQLite (rowId == -1)
-    // instead of trusted to a prior Java-side check. See
-    // docs/07-nekogram-features-plan.md for the investigation this replaced.
+    // instead of trusted to a prior Java-side check.
     private void onMessageDeletedInner(int accountId, long dialogId, TLRPC.Message message) {
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
 
@@ -179,8 +170,7 @@ public class MZGramHistoryController {
 
     // ---- one-time-view media ----
 
-    // MZGram: own hook, no AyuGram4A equivalent -- Desktop MZGram already
-    // copies one-time media into its archive the same way (mzgram_archive).
+    // MZGram: Desktop MZGram already copies one-time media into its archive the same way (mzgram_archive).
     // Called right before the media is emptied locally (see ChatActivity's
     // sendSecretMediaDelete / doDeleteShowOnceTask), so the file is still on
     // disk.

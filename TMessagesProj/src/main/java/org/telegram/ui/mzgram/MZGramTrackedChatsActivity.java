@@ -6,9 +6,7 @@
  * dialogs MZGram archives deleted/edited messages for. Modeled on the
  * upstream CacheChatsExceptionsFragment (chat picker + removable list),
  * which is the established pattern in this codebase for "pick some chats"
- * screens; there is no AyuGram4A equivalent to port, since AyuGram4A saves
- * for every chat by default and excludes some, instead of the other way
- * around.
+ * screens.
  */
 
 package org.telegram.ui.mzgram;

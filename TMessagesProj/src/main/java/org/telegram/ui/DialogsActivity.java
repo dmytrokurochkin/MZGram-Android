@@ -2273,7 +2273,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 ((DialogCell) view).startOutAnimation();
                                 parentPage.archivePullViewState = ARCHIVE_ITEM_STATE_SHOWED;
-                                // MZGram: ported from Nekogram (NekoConfig.openArchiveOnPull).
+                                // MZGram: MZGramConfig.openArchiveOnPull.
                                 if (org.telegram.messenger.mzgram.MZGramConfig.openArchiveOnPull) {
                                     AndroidUtilities.runOnUIThread(() -> {
                                         // Delay taken from PullForegroundDrawable.startOutAnimation().
@@ -2992,7 +2992,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         BirthdayController.getInstance(currentAccount).check();
-        // MZGram: ported from Nekogram (NekoConfig.hideBottomNavigationBar).
+        // MZGram: MZGramConfig.hideBottomNavigationBar.
         final boolean mainTabsShown = hasMainTabs && !org.telegram.messenger.mzgram.MZGramConfig.hideBottomNavigationBar;
         additionNavigationBarHeight = mainTabsShown ? dp(MAIN_TABS_HEIGHT_WITH_MARGINS) : 0;
         additionFloatingButtonOffset = mainTabsShown ? dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN) : 0;

@@ -18765,7 +18765,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (photoPaintView != null) {
             photoPaintView.onResume();
         }
-        // MZGram: ported from Nekogram (NekoConfig.autoPauseVideo).
+        // MZGram: MZGramConfig.autoPauseVideo.
         if (pausedOnPause && org.telegram.messenger.mzgram.MZGramConfig.autoPauseVideo && videoPlayer != null && !videoPlayer.isPlaying()) {
             pausedOnPause = false;
             videoPlayer.play();

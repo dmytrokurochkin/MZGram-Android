@@ -3,12 +3,8 @@
  * a fork of Telegram for Android.
  *
  * One row of the local message history archive: either a deleted message or
- * one edited revision of a message. Field set mirrors AyuGram4A's
- * database/entities/AyuMessageBase.java, trimmed to what MZGram stores
- * (reactions and forward/reply metadata are not kept).
- *
- * Ported from AyuGram4A 7013145676d36d82ee13c02a89f72097b7490dcd
- * (database/entities/AyuMessageBase.java, DeletedMessage.java, EditedMessage.java).
+ * one edited revision of a message. Reactions and forward/reply metadata
+ * are not kept.
  */
 
 package org.telegram.messenger.mzgram;

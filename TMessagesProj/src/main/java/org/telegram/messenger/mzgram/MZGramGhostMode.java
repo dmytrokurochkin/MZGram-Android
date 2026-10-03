@@ -8,11 +8,8 @@
  * counters, badges, the chat's own read line) is untouched -- only the
  * outgoing network requests are suppressed.
  *
- * Ported from AyuGram4A 7013145676d36d82ee13c02a89f72097b7490dcd
- * (utils/AyuGhostUtils.java, AyuConfig.isGhostModeActive/setGhostMode).
- * AyuGram4A keeps four separate switches (read receipts, online status,
- * upload progress, "offline after online"); MZGram folds them into the one
- * ghostMode switch in MZGramConfig, matching the Desktop MZGram ghost mode.
+ * One ghostMode switch in MZGramConfig covers all of it, matching the
+ * Desktop MZGram ghost mode.
  */
 
 package org.telegram.messenger.mzgram;

@@ -401,7 +401,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
     @Override
     public View createView(Context context) {
-        // MZGram: ported from Nekogram (NekoConfig.hideBottomNavigationBar).
+        // MZGram: MZGramConfig.hideBottomNavigationBar.
         final boolean mainTabsShown = parentDialogsActivity != null && parentDialogsActivity.hasMainTabs && !org.telegram.messenger.mzgram.MZGramConfig.hideBottomNavigationBar;
         additionNavigationBarHeight = mainTabsShown ? dp(DialogsActivity.MAIN_TABS_HEIGHT_WITH_MARGINS) : 0;
         additionFloatingButtonOffset = mainTabsShown ? dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN) : 0;

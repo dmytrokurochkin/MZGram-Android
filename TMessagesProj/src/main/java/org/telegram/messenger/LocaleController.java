@@ -73,7 +73,7 @@ public class LocaleController {
 
     private volatile FastDateFormat formatterDay;
     public FastDateFormat getFormatterDay() {
-        // MZGram: ported from Nekogram (NekoConfig.formatTimeWithSeconds).
+        // MZGram: MZGramConfig.formatTimeWithSeconds.
         if (org.telegram.messenger.mzgram.MZGramConfig.formatTimeWithSeconds) {
             return getFormatterDayWithSeconds();
         }
@@ -2944,7 +2944,7 @@ public class LocaleController {
     }
 
     public static String formatShortNumber(int number, int[] rounded) {
-        // MZGram: ported from Nekogram (NekoConfig.disableNumberRounding).
+        // MZGram: MZGramConfig.disableNumberRounding.
         if (org.telegram.messenger.mzgram.MZGramConfig.disableNumberRounding) {
             if (rounded != null) {
                 rounded[0] = number;

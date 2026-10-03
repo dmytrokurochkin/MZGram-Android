@@ -107,7 +107,7 @@ public class VoIPHelper {
 			return;
 		}
 
-		// MZGram: ported from Nekogram (NekoConfig.askBeforeCall).
+		// MZGram: MZGramConfig.askBeforeCall.
 		// VoIPPendingCall passes a null user; the dialog needs one.
 		if (org.telegram.messenger.mzgram.MZGramConfig.askBeforeCall && !confirmed && user != null && activity instanceof org.telegram.ui.LaunchActivity) {
 			final org.telegram.ui.ActionBar.BaseFragment lastFragment = ((org.telegram.ui.LaunchActivity) activity).getActionBarLayout().getLastFragment();

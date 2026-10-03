@@ -2,8 +2,7 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Message actions for the MZGram message menu. Ported from Nekogram
- * (tw.nekomimi.nekogram.helpers.MessageHelper, commit d769499).
+ * Message actions for the MZGram message menu.
  */
 
 package org.telegram.messenger.mzgram;

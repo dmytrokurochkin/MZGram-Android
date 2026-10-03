@@ -2,8 +2,7 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Ported from Nekogram (tw.nekomimi.nekogram.streaming.MediaStreamingProvider,
- * commit d769499). Lets an external app play a Telegram video through a
+ * Lets an external app play a Telegram video through a
  * content URI that streams the file as the app reads it, so Open in... works
  * before the whole file is downloaded. Everything stays on the device: the
  * data comes from Telegram's own servers through FileStreamLoadOperation.

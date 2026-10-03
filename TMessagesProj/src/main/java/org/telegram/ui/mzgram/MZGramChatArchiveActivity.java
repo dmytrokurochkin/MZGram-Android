@@ -8,10 +8,7 @@
  * (standard Telegram behavior is unchanged), so this screen is how MZGram
  * makes it visible again -- there is no in-chat placeholder for it.
  *
- * Own screen: AyuGram4A shows this inline in the chat itself, rebuilding a
- * full chat bubble per entry through its proprietary AyuMessageUtils (a
- * private submodule, not part of the public source). MZGram lists the
- * saved text as a plain settings-style list instead.
+ * The saved text is listed as a plain settings-style list.
  */
 
 package org.telegram.ui.mzgram;

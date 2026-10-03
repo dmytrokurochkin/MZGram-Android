@@ -11423,8 +11423,8 @@ public class MessagesController extends BaseController implements NotificationCe
         if (action < 0 || action >= sendingTypings.length || dialogId == 0) {
             return false;
         }
-        // MZGram: ported from AyuGram4A (utils/AyuGhostUtils.java concept). Ghost
-        // mode never announces a typing status to the other side.
+        // MZGram: ghost mode never announces a typing status to the other
+        // side.
         if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()) {
             return false;
         }
@@ -14644,8 +14644,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     private void completeReadTask(ReadTask task) {
-        // MZGram: ported from AyuGram4A (utils/AyuGhostUtils.markReadOnServer).
-        // Ghost mode drops the outgoing read-history request; the local read
+        // MZGram: ghost mode drops the outgoing read-history request; the local read
         // state (unread counters, badges) was already applied in
         // markDialogAsRead and is not affected by this.
         if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()) {
@@ -21322,7 +21321,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 getMessagesStorage().getStorageQueue().postRunnable(() -> {
                     // MZGram: this is the TL_updateDeleteMessages/TL_updateDeleteChannelMessages
                     // echo -- the single shared archiving path for own AND others' ordinary
-                    // deletions (AyuGram-aligned), so archiving is allowed here.
+                    // deletions, so archiving is allowed here.
                     ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsDeleted(key, arrayList, false, true, 0, 0, true);
                     getMessagesStorage().updateDialogsWithDeletedMessages(key, -key, arrayList, dialogIds);
                 });
@@ -21721,8 +21720,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public SponsoredMessagesInfo getSponsoredMessages(long dialogId) {
-        // MZGram: own code, ported concept from AyuGram4A (AyuConfig.disableAds).
-        // Stops sponsored messages at the single place every caller fetches
+        // MZGram: stops sponsored messages at the single place every caller fetches
         // them from, so the request is never even sent.
         if (org.telegram.messenger.mzgram.MZGramConfig.disableSponsoredMessages) {
             return null;

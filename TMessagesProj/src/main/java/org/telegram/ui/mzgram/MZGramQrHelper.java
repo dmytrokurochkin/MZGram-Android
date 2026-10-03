@@ -2,8 +2,7 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Ported from Nekogram (tw.nekomimi.nekogram.helpers.QrHelper and
- * MessageHelper.readQrFromMessage, commit d769499). Finds QR codes in the photo
+ * Finds QR codes in the photo
  * of a message on the device, with Google Play Services vision or zxing, and
  * shows what they contain. Nothing leaves the device.
  */

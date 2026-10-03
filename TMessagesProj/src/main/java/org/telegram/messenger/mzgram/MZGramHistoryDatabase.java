@@ -7,10 +7,7 @@
  * from Telegram's own message cache and never sent anywhere over the
  * network.
  *
- * Ported concept from AyuGram4A 7013145676d36d82ee13c02a89f72097b7490dcd
- * (database/AyuDatabase.java, database/AyuData.java, database/dao/*.java).
- * AyuGram4A uses the Room library over this schema; MZGram uses a plain
- * SQLiteOpenHelper instead, to avoid adding the Room dependency (and its
+ * A plain SQLiteOpenHelper, to avoid adding the Room dependency (and its
  * annotation processor) for a single small table.
  */
 
@@ -58,10 +55,10 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     }
 
     // Next to Telegram's own private data directory, not in public storage
-    // (unlike AyuGram4A's attachmentsPath, which uses the public Downloads
-    // folder -- scoped storage on modern Android makes that fragile, and
-    // MZGram's Desktop history database lives in the private tdata folder,
-    // so the Android archive follows the same "private app data" placement).
+    // (scoped storage on modern Android makes the public Downloads folder
+    // fragile, and MZGram's Desktop history database lives in the private
+    // tdata folder, so the Android archive follows the same "private app
+    // data" placement).
     private static String dbPath(Context context) {
         File dir = new File(context.getFilesDir(), "mzgram");
         if (!dir.exists()) {
@@ -147,8 +144,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     // existsDeleted() check-then-insert in MZGramHistoryController, which was
     // the prime suspect for deleted messages silently never being archived
     // (a stale/mismatched existsDeleted() read could short-circuit before
-    // insert ever ran, with no way to tell from outside this class) -- see
-    // docs/07-nekogram-features-plan.md for the investigation. For
+    // insert ever ran, with no way to tell from outside this class). For
     // KIND_EDITED/KIND_VIEW_ONCE rows, which are never covered by that index,
     // this behaves exactly like the plain insert() did before.
     public long insert(MZGramHistoryMessage msg) {

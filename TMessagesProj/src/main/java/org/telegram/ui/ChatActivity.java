@@ -702,7 +702,7 @@ public class ChatActivity extends BaseFragment implements
         return !TextUtils.isEmpty(reportTitle);
     }
 
-    // MZGram: ported from Nekogram (NekoConfig.hideChannelBottomButtons). True in
+    // MZGram: MZGramConfig.hideChannelBottomButtons. True in
     // a broadcast channel the user cannot post to, where the bottom bar only
     // holds the mute button.
     private boolean hideBottomButton() {
@@ -14424,7 +14424,7 @@ public class ChatActivity extends BaseFragment implements
         forwardMessages(arrayList, fromMyName, hideCaption, notify, scheduleDate, payStars, 0);
     }
 
-    // MZGram: ported from Nekogram. A nonzero did forwards to that dialog (such
+    // MZGram: a nonzero did forwards to that dialog (such
     // as Saved Messages) instead of the open chat, without this chat's thread,
     // slow mode or suggestion state.
     private void forwardMessages(ArrayList<MessageObject> arrayList, boolean fromMyName, boolean hideCaption, boolean notify, int scheduleDate, long payStars, long did) {
@@ -46243,7 +46243,7 @@ public class ChatActivity extends BaseFragment implements
                                 }
                             }
                         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && org.telegram.messenger.mzgram.MZGramConfig.showOpenIn && selectedObject.isVideo() && !noforwardsOrPaidMedia && !selectedObject.hasRevealedExtendedMedia() && !selectedObject.needDrawBluredPreview()) {
-                            // MZGram: ported from Nekogram (NekoConfig.showOpenIn).
+                            // MZGram: MZGramConfig.showOpenIn.
                             items.add(LocaleController.getString(R.string.OpenInExternalApp));
                             options.add(OPTION_MZGRAM_OPEN_IN);
                             icons.add(R.drawable.msg_openin);
@@ -46264,7 +46264,7 @@ public class ChatActivity extends BaseFragment implements
                         icons.add(R.drawable.msg_gif);
                     }
                 } else if (type == 4) {
-                    // MZGram: ported from Nekogram (NekoConfig.showDeleteDownloadedFile).
+                    // MZGram: MZGramConfig.showDeleteDownloadedFile.
                     if (org.telegram.messenger.mzgram.MZGramConfig.showDeleteDownloadedFile && !selectedObject.needDrawBluredPreview() && selectedObject.getDocument() != null) {
                         items.add(LocaleController.getString(R.string.MZGramDeleteDownloadedFile));
                         options.add(OPTION_MZGRAM_DELETE_DOWNLOADED_FILE);
@@ -46309,7 +46309,7 @@ public class ChatActivity extends BaseFragment implements
                                 items.add(LocaleController.getString(R.string.SaveToGallery));
                                 options.add(OPTION_SAVE_TO_GALLERY);
                                 icons.add(R.drawable.msg_gallery);
-                                // MZGram: ported from Nekogram (NekoConfig.showCopyPhoto).
+                                // MZGram: MZGramConfig.showCopyPhoto.
                                 if (org.telegram.messenger.mzgram.MZGramConfig.showCopyPhoto) {
                                     items.add(LocaleController.getString(R.string.MZGramCopyPhoto));
                                     options.add(OPTION_MZGRAM_COPY_PHOTO);
@@ -46443,26 +46443,26 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.Forward));
                     options.add(OPTION_FORWARD);
                     icons.add(R.drawable.msg_forward);
-                    // MZGram: ported from Nekogram (NekoConfig.showNoQuoteForward).
+                    // MZGram: MZGramConfig.showNoQuoteForward.
                     if (org.telegram.messenger.mzgram.MZGramConfig.showNoQuoteForward) {
                         items.add(LocaleController.getString(R.string.MZGramForwardNoQuote));
                         options.add(OPTION_MZGRAM_FORWARD_NOQUOTE);
                         icons.add(R.drawable.msg_forward);
                     }
-                    // MZGram: ported from Nekogram (NekoConfig.showAddToSavedMessages).
+                    // MZGram: MZGramConfig.showAddToSavedMessages.
                     if (org.telegram.messenger.mzgram.MZGramConfig.showAddToSavedMessages && !UserObject.isUserSelf(currentUser)) {
                         items.add(LocaleController.getString(R.string.MZGramSaveMessage));
                         options.add(OPTION_MZGRAM_SAVE_MESSAGE);
                         icons.add(R.drawable.msg_saved);
                     }
-                    // MZGram: ported from Nekogram (NekoConfig.showSetReminder).
+                    // MZGram: MZGramConfig.showSetReminder.
                     if (org.telegram.messenger.mzgram.MZGramConfig.showSetReminder) {
                         items.add(LocaleController.getString(R.string.SetReminder));
                         options.add(OPTION_MZGRAM_SET_REMINDER);
                         icons.add(R.drawable.msg_calendar2);
                     }
                 }
-                // MZGram: ported from Nekogram (NekoConfig.showRepeat).
+                // MZGram: MZGramConfig.showRepeat.
                 if (org.telegram.messenger.mzgram.MZGramConfig.showRepeat) {
                     if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && (!selectedObject.needDrawBluredPreview() || selectedObject.hasExtendedMediaPreview()) &&
                             !selectedObject.isLiveLocation() && selectedObject.type != MessageObject.TYPE_PHONE_CALL &&
@@ -46477,21 +46477,20 @@ public class ChatActivity extends BaseFragment implements
                         }
                     }
                 }
-                // MZGram: ported from Nekogram (NekoConfig.showMessageDetails).
+                // MZGram: MZGramConfig.showMessageDetails.
                 if (org.telegram.messenger.mzgram.MZGramConfig.showMessageDetails && !selectedObject.isSponsored()) {
                     items.add(LocaleController.getString(R.string.MZGramMessageDetails));
                     options.add(OPTION_MZGRAM_DETAILS);
                     icons.add(R.drawable.msg_info);
                 }
-                // MZGram: ported from Nekogram (NekoConfig.showQrCode). The item
+                // MZGram: MZGramConfig.showQrCode. The item
                 // stays hidden until a QR code is found in the photo.
                 if (org.telegram.messenger.mzgram.MZGramConfig.showQrCode && chatMode != MODE_SCHEDULED && selectedObject.isPhoto()) {
                     items.add(LocaleController.getString(R.string.QrCode));
                     options.add(OPTION_MZGRAM_QR);
                     icons.add(R.drawable.msg_qrcode);
                 }
-                // MZGram: own item (no Nekogram/AyuGram4A equivalent to port for
-                // the menu entry itself). Stays hidden until MZGramHistoryController
+                // MZGram: own item. Stays hidden until MZGramHistoryController
                 // actually has a saved deleted/edited revision for this message.
                 if (chatMode != MODE_SCHEDULED && org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().hasHistory(currentAccount, dialog_id, selectedObject.getId())) {
                     items.add(LocaleController.getString(R.string.MZGramMessageHistory));

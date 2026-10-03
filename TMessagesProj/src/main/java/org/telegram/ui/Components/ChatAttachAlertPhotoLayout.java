@@ -821,7 +821,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         gridView.getFastScroll().setAlpha(0f);
         gridView.getFastScroll().usePadding = false;
         gridView.getFastScroll().topOffset = ActionBar.getCurrentActionBarHeight(); // + AndroidUtilities.statusBarHeight;
-        // MZGram: ported from Nekogram (NekoConfig.disableInstantCamera).
+        // MZGram: MZGramConfig.disableInstantCamera.
         gridView.setAdapter(adapter = new PhotoAttachAdapter(context, !org.telegram.messenger.mzgram.MZGramConfig.disableInstantCamera && needCamera));
         gridView.addItemDecoration(cameraViewItemDecoration = new CameraViewItemDecoration(gridView));
         adapter.createCache();

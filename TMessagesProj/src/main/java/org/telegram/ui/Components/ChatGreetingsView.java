@@ -63,7 +63,7 @@ public class ChatGreetingsView extends LinearLayout {
     public BackupImageView nextStickerToSendView;
     private final Theme.ResourcesProvider resourcesProvider;
     boolean wasDraw;
-    // MZGram: ported from Nekogram (NekoConfig.disableGreetingSticker).
+    // MZGram: MZGramConfig.disableGreetingSticker.
     boolean showGreetings = !org.telegram.messenger.mzgram.MZGramConfig.disableGreetingSticker;
 
     public ChatGreetingsView(Context context, TLRPC.User user, int currentAccount, TLRPC.Document sticker, Theme.ResourcesProvider resourcesProvider) {

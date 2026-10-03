@@ -8,8 +8,6 @@
  * leaves the original base characters untouched, since Zalgo text is
  * built by inserting extra combining codepoints, not by replacing the
  * base ones.
- *
- * MZGram's own code -- no AyuGram4A/Nekogram equivalent found.
  */
 
 package org.telegram.messenger.mzgram;

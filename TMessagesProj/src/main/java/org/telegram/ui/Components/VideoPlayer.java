@@ -431,7 +431,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     public static Quality getSavedQuality(ArrayList<Quality> qualities, MessageObject messageObject) {
-        // MZGram: ported from Nekogram (NekoConfig.preferOriginalQuality).
+        // MZGram: MZGramConfig.preferOriginalQuality.
         if (org.telegram.messenger.mzgram.MZGramConfig.preferOriginalQuality) {
             for (Quality q : qualities) {
                 if (q.original) return q;

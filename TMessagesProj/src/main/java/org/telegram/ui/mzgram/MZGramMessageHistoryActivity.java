@@ -7,12 +7,7 @@
  * message's own long-press menu (MZGram: Message history), which only shows
  * up when MZGramHistoryController.hasHistory() finds something saved.
  *
- * Ported concept from AyuGram4A 7013145676d36d82ee13c02a89f72097b7490dcd
- * (ui/AyuMessageHistory.java, ui/AyuMessageCell.java). AyuGram4A rebuilds a
- * full TLRPC.Message/MessageObject per revision and renders it with the
- * normal chat message cell, through its proprietary AyuMessageUtils (a
- * private submodule, not part of the public source); MZGram instead lists
- * the saved text directly, without reconstructing a chat bubble.
+ * The saved text is listed directly, without reconstructing a chat bubble.
  */
 
 package org.telegram.ui.mzgram;

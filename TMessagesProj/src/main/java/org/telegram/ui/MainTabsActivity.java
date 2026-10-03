@@ -891,7 +891,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     }
 
     private boolean canScrollInternal(MotionEvent ev, boolean forward) {
-        // MZGram: ported from Nekogram (NekoConfig.hideBottomNavigationBar).
+        // MZGram: MZGramConfig.hideBottomNavigationBar.
         // Without the tab bar, swiping must not switch to a hidden tab.
         if (org.telegram.messenger.mzgram.MZGramConfig.hideBottomNavigationBar) {
             return false;

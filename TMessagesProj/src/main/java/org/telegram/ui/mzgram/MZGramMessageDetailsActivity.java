@@ -2,12 +2,10 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Ported from Nekogram (tw.nekomimi.nekogram.MessageDetailsActivity, commit
- * d769499), rebuilt on upstream's UniversalFragment. Shows the raw details of
- * a message: ids, sender, dates, forward source, file and media info, DC and
- * sticker pack owners. Unlike Nekogram it does not look people up through
- * third-party bots, has no DC ping popup and no JSON viewer: everything shown
- * is read locally.
+ * Built on upstream's UniversalFragment. Shows the raw details of a
+ * message: ids, sender, dates, forward source, file and media info, DC and
+ * sticker pack owners. It does not look people up through third-party bots:
+ * everything shown is read locally.
  */
 
 package org.telegram.ui.mzgram;
@@ -478,7 +476,7 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
 
         @Override
         public TextDetailSettingsCell createView(Context context, RecyclerListView listView, int currentAccount, int classGuid, Theme.ResourcesProvider resourcesProvider) {
-            // Upstream's cell takes no resources provider, unlike Nekogram's.
+            // Upstream's cell takes no resources provider.
             return new TextDetailSettingsCell(context);
         }
 

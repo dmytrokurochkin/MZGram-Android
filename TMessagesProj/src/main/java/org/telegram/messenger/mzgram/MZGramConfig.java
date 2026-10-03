@@ -2,8 +2,7 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Settings of MZGram features. Flags keep the names Nekogram gives them in
- * NekoConfig, so a port from Nekogram only swaps the class name.
+ * Settings of MZGram features, stored in SharedPreferences.
  */
 
 package org.telegram.messenger.mzgram;
@@ -54,7 +53,7 @@ public class MZGramConfig {
     public static boolean hideBottomNavigationBar = false;
     // Folder tabs above the bottom bars instead of under the search field.
     public static boolean folderTabsAtBottom = false;
-    // Ported concept from Nekogram (confirmAVMessage). Routes a released
+    // Routes a released
     // record gesture into the existing "recorded, not yet sent" preview
     // panel instead of sending immediately, for both voice and round video.
     public static boolean confirmAVMessage = false;
@@ -89,8 +88,8 @@ public class MZGramConfig {
     public static boolean hideOwnOnlineStatus = false;
     public static int savedLastSeenPrivacyState = Integer.MIN_VALUE;
 
-    // Local message history archive (deleted/edited messages, ported concept
-    // from AyuGram4A). Allowlist-only, like the Desktop anti-recall feature:
+    // Local message history archive (deleted/edited messages).
+    // Allowlist-only, like the Desktop anti-recall feature:
     // a dialog is archived only when it is in trackedDialogs, never by
     // default for every chat.
     public static boolean saveMessageHistory = false;
@@ -99,7 +98,7 @@ public class MZGramConfig {
     // device -- unrelated to the server-side privacy setting for what other
     // users can see.
     public static boolean hideOwnPhoneNumber = false;
-    // Ported concept from AyuGram4A (AyuConfig.disableAds). Stops sponsored
+    // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
     // Strips Zalgo-style combining-mark text corruption from display names.

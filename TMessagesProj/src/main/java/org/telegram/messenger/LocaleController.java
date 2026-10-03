@@ -3016,17 +3016,6 @@ public class LocaleController {
     }
 
     public static String formatUserStatus(int currentAccount, TLRPC.User user, boolean[] isOnline, boolean[] madeShorter) {
-        // MZGram: own code. Hides other users' online/last-seen text -- the
-        // reverse of hiding your own status. Never applies to yourself
-        // (UserConfig check), and reuses the existing "a long time ago"
-        // placeholder this function already returns for genuinely unknown
-        // status, so the hidden case looks the same as an ordinary one.
-        // Does not suppress the separate green online-dot indicator that
-        // several list cells compute independently of this function.
-        if (org.telegram.messenger.mzgram.MZGramConfig.hideOthersOnlineStatus
-                && user != null && user.id != UserConfig.getInstance(currentAccount).getClientUserId()) {
-            return getString("ALongTimeAgo", R.string.ALongTimeAgo);
-        }
         if (user != null && user.status != null && user.status.expires == 0) {
             if (user.status instanceof TLRPC.TL_userStatusRecently) {
                 user.status.expires = user.status.by_me ? -1000 : -100;

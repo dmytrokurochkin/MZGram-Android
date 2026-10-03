@@ -87,17 +87,6 @@ public class MZGramConfig {
     public static boolean hideOwnOnlineStatus = false;
     public static int savedLastSeenPrivacyState = Integer.MIN_VALUE;
 
-    // Spy mode: hide OTHER users' online/last-seen status from you -- the
-    // reverse direction of hideOwnOnlineStatus above. Purely local display
-    // suppression (there is no server privacy control over what you see
-    // about others), gated in LocaleController.formatUserStatus, the single
-    // function nearly every profile/chat-header/list-row status text goes
-    // through. Does not cover the separate green "online dot" indicator,
-    // which several list cells (DialogCell, UserCell, etc.) compute
-    // independently from MessagesController.onlinePrivacy and
-    // user.status.expires directly -- see the commit this shipped in.
-    public static boolean hideOthersOnlineStatus = false;
-
     // Local message history archive (deleted/edited messages, ported concept
     // from AyuGram4A). Allowlist-only, like the Desktop anti-recall feature:
     // a dialog is archived only when it is in trackedDialogs, never by
@@ -166,7 +155,10 @@ public class MZGramConfig {
             offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
             hideOwnOnlineStatus = preferences.getBoolean("hideOwnOnlineStatus", false);
             savedLastSeenPrivacyState = preferences.getInt("savedLastSeenPrivacyState", Integer.MIN_VALUE);
-            hideOthersOnlineStatus = preferences.getBoolean("hideOthersOnlineStatus", false);
+            // The removed "hide others' online status" switch.
+            if (preferences.contains("hideOthersOnlineStatus")) {
+                preferences.edit().remove("hideOthersOnlineStatus").apply();
+            }
             saveMessageHistory = preferences.getBoolean("saveMessageHistory", false);
             hideOwnPhoneNumber = preferences.getBoolean("hideOwnPhoneNumber", false);
             disableSponsoredMessages = preferences.getBoolean("disableSponsoredMessages", false);
@@ -339,11 +331,6 @@ public class MZGramConfig {
     public static void toggleGhostMode() {
         ghostMode = !ghostMode;
         putBoolean("ghostMode", ghostMode);
-    }
-
-    public static void toggleHideOthersOnlineStatus() {
-        hideOthersOnlineStatus = !hideOthersOnlineStatus;
-        putBoolean("hideOthersOnlineStatus", hideOthersOnlineStatus);
     }
 
     public static void toggleSaveMessageHistory() {

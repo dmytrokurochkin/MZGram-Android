@@ -66,7 +66,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
     private static final int BUTTON_HIDE_OWN_ONLINE_STATUS = 39;
-    private static final int BUTTON_HIDE_OTHERS_ONLINE_STATUS = 40;
 
     @Override
     protected CharSequence getTitle() {
@@ -108,8 +107,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramHideOwnPhoneNumberInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_OWN_ONLINE_STATUS, getString(R.string.MZGramHideOwnOnlineStatus)).setChecked(MZGramConfig.hideOwnOnlineStatus));
         items.add(UItem.asShadow(getString(R.string.MZGramHideOwnOnlineStatusInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_OTHERS_ONLINE_STATUS, getString(R.string.MZGramHideOthersOnlineStatus)).setChecked(MZGramConfig.hideOthersOnlineStatus));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideOthersOnlineStatusInfo)));
         items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
         items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
         items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
@@ -301,9 +298,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramHideOwnOnlineStatusNotLoaded)).show();
                 }
             }));
-        } else if (item.id == BUTTON_HIDE_OTHERS_ONLINE_STATUS) {
-            MZGramConfig.toggleHideOthersOnlineStatus();
-            ((TextCheckCell) view).setChecked(MZGramConfig.hideOthersOnlineStatus);
         } else if (item.id == BUTTON_EXPORT_ARCHIVE) {
             org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
                 try {

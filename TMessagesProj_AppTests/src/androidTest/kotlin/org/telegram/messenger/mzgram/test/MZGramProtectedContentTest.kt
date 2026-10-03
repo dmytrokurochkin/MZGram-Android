@@ -214,7 +214,10 @@ class MZGramProtectedContentTest {
         assertNull("not a forward", copy!!.messageOwner.fwd_from)
         assertTrue("a photo", copy.messageOwner.media is TLRPC.TL_messageMediaPhoto)
         assertEquals("a new upload", 0L, copy.messageOwner.media.photo.access_hash)
-        assertEquals("of the downloaded file", file.absolutePath, copy.messageOwner.attachPath)
+        // A photo is re-encoded for upload (SendMessagesHelper.generatePhotoSizes),
+        // so it goes out from a new file made from the downloaded one.
+        assertTrue("the upload file exists", File(copy.messageOwner.attachPath).let { it.exists() && it.length() > 0 })
+        assertTrue("made from the downloaded 320x240 photo", copy.messageOwner.media.photo.sizes.any { it.w == 320 && it.h == 240 })
         MZGramScreens.log("protected forward photo: id=${copy.id} attachPath=${copy.messageOwner.attachPath}")
     }
 

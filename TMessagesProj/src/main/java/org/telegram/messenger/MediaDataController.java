@@ -9316,6 +9316,12 @@ public class MediaDataController extends BaseController {
     public void loadEmojiThemes() {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("emojithemes_config_" + currentAccount, Context.MODE_PRIVATE);
         int count = preferences.getInt("count", 0);
+        // MZGram: nothing saved from the server yet, or it gave no default
+        // themes -- the home theme and the chat themes, see MZGramDefaultThemes.
+        if (count == 0) {
+            AndroidUtilities.runOnUIThread(() -> org.telegram.messenger.mzgram.MZGramDefaultThemes.fill(this, currentAccount));
+            return;
+        }
         ArrayList<ChatThemeBottomSheet.ChatThemeItem> previewItems = new ArrayList<>();
         previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme(currentAccount)));
         for (int i = 0; i < count; ++i) {
@@ -9385,8 +9391,9 @@ public class MediaDataController extends BaseController {
                 }
             });
         } else {
-            defaultEmojiThemes.clear();
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged);
+            // MZGram: no default themes in the answer -- the home theme and
+            // the chat themes instead of an empty list, see MZGramDefaultThemes.
+            org.telegram.messenger.mzgram.MZGramDefaultThemes.fill(this, currentAccount);
         }
     }
 

@@ -11,6 +11,14 @@
     <string name="MZGramSectionInterface">Interface</string>
     <string name="MZGramSectionAdsAndFilters">Ads and filters</string>
     <string name="MZGramSectionOther">Other</string>
+    <string name="MZGramSectionArchiveInfo">Deleted and edited messages, export and import</string>
+    <string name="MZGramSectionPrivacyInfo">Your online status and phone number</string>
+    <string name="MZGramSectionGhostModeInfo">Read and typing without anyone seeing</string>
+    <string name="MZGramSectionMessageMenuInfo">Extra actions when you hold a message</string>
+    <string name="MZGramSectionMediaAndCallsInfo">Calls, camera, video and photo quality</string>
+    <string name="MZGramSectionInterfaceInfo">Chat list, stories, time and animations</string>
+    <string name="MZGramSectionAdsAndFiltersInfo">Sponsored messages and broken text</string>
+    <string name="MZGramSectionOtherInfo">Everything else</string>
     <string name="MZGramTestToggle">Test switch</string>
     <string name="MZGramTestToggleInfo">Checks that MZGram settings survive a restart. It changes nothing else.</string>
     <string name="MZGramDisableNumberRounding">Disable number rounding</string>

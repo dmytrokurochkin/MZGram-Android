@@ -106,16 +106,11 @@ class MZGramLocalizationTest {
         UserConfig.getInstance(0).setCurrentUser(self)
         activity = MZGramScreens.launchApp()
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
-        val fragment = MZGramSettingsActivity()
-        MZGramScreens.open(fragment)
-        assertTrue("settings shown", MZGramScreens.waitFor(30) { (MZGramScreens.listViewOf(fragment)?.childCount ?: 0) > 0 })
-        Thread.sleep(1000)
-        MZGramScreens.capture("settings-uk-1")
-        instrumentation.runOnMainSync {
-            val list = MZGramScreens.listViewOf(fragment)!!
-            list.scrollBy(0, list.height * 3)
-        }
-        Thread.sleep(500)
-        MZGramScreens.capture("settings-uk-2")
+        val problems = MZGramScreens.settingsPages("settings-uk", listOf(
+            MZGramSettingsActivity.SECTION_ARCHIVE,
+            MZGramSettingsActivity.SECTION_GHOST_MODE,
+            MZGramSettingsActivity.SECTION_MESSAGE_MENU,
+        ))
+        assertTrue(problems.joinToString(), problems.isEmpty())
     }
 }

@@ -2,7 +2,8 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Settings > MZGram: every MZGram feature has its switch here.
+ * Settings > MZGram: a list of topics; tapping one opens its own page with
+ * that topic's switches. Every MZGram feature has its switch on one of them.
  */
 
 package org.telegram.ui.mzgram;
@@ -14,6 +15,8 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.messenger.mzgram.MZGramConfig;
+import org.telegram.ui.Components.IconBackgroundColors;
+import org.telegram.ui.SettingsActivity;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Components.UItem;
@@ -68,14 +71,102 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FOLDER_TABS_AT_BOTTOM = 41;
     private static final int BUTTON_SAVE_PROTECTED_CONTENT = 42;
 
+    // The topics, in the order the main page lists them.
+    public static final int SECTION_MAIN = -1;
+    public static final int SECTION_ARCHIVE = 0;
+    public static final int SECTION_PRIVACY = 1;
+    public static final int SECTION_GHOST_MODE = 2;
+    public static final int SECTION_MESSAGE_MENU = 3;
+    public static final int SECTION_MEDIA_AND_CALLS = 4;
+    public static final int SECTION_INTERFACE = 5;
+    public static final int SECTION_ADS_AND_FILTERS = 6;
+    public static final int SECTION_OTHER = 7;
+    public static final int SECTIONS_COUNT = 8;
+    // Row ids of the topics on the main page; clear of the BUTTON_ ids.
+    public static final int SECTION_ROW_ID = 100;
+
+    private static final int[] SECTION_TITLES = {
+            R.string.MZGramSectionArchive,
+            R.string.MZGramSectionPrivacy,
+            R.string.MZGramSectionGhostMode,
+            R.string.MZGramSectionMessageMenu,
+            R.string.MZGramSectionMediaAndCalls,
+            R.string.MZGramSectionInterface,
+            R.string.MZGramSectionAdsAndFilters,
+            R.string.MZGramSectionOther,
+    };
+    private static final int[] SECTION_INFOS = {
+            R.string.MZGramSectionArchiveInfo,
+            R.string.MZGramSectionPrivacyInfo,
+            R.string.MZGramSectionGhostModeInfo,
+            R.string.MZGramSectionMessageMenuInfo,
+            R.string.MZGramSectionMediaAndCallsInfo,
+            R.string.MZGramSectionInterfaceInfo,
+            R.string.MZGramSectionAdsAndFiltersInfo,
+            R.string.MZGramSectionOtherInfo,
+    };
+    private static final int[] SECTION_ICONS = {
+            R.drawable.settings_data,
+            R.drawable.settings_privacy,
+            R.drawable.settings_account,
+            R.drawable.settings_chat,
+            R.drawable.settings_calls,
+            R.drawable.settings_features,
+            R.drawable.settings_policy,
+            R.drawable.settings_faq,
+    };
+    private static final IconBackgroundColors[] SECTION_COLORS = {
+            IconBackgroundColors.BLUE_DEEP,
+            IconBackgroundColors.GREEN,
+            IconBackgroundColors.GRAY,
+            IconBackgroundColors.ORANGE,
+            IconBackgroundColors.CYAN,
+            IconBackgroundColors.PURPLE,
+            IconBackgroundColors.RED,
+            IconBackgroundColors.BLUE_LIGHT,
+    };
+
+    private final int section;
+
+    public MZGramSettingsActivity() {
+        this(SECTION_MAIN);
+    }
+
+    public MZGramSettingsActivity(int section) {
+        this.section = section;
+    }
+
     @Override
     protected CharSequence getTitle() {
-        return getString(R.string.MZGram);
+        return section == SECTION_MAIN ? getString(R.string.MZGram) : getString(SECTION_TITLES[section]);
     }
 
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionArchive)));
+        switch (section) {
+            case SECTION_ARCHIVE: fillArchive(items); break;
+            case SECTION_PRIVACY: fillPrivacy(items); break;
+            case SECTION_GHOST_MODE: fillGhostMode(items); break;
+            case SECTION_MESSAGE_MENU: fillMessageMenu(items); break;
+            case SECTION_MEDIA_AND_CALLS: fillMediaAndCalls(items); break;
+            case SECTION_INTERFACE: fillInterface(items); break;
+            case SECTION_ADS_AND_FILTERS: fillAdsAndFilters(items); break;
+            case SECTION_OTHER: fillOther(items); break;
+            default: fillMain(items); break;
+        }
+    }
+
+    // The main page: one row per topic, with its icon and what it holds.
+    private void fillMain(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
+        for (int i = 0; i < SECTIONS_COUNT; i++) {
+            items.add(SettingsActivity.SettingCell.Factory.of(SECTION_ROW_ID + i, SECTION_COLORS[i].top, SECTION_COLORS[i].bottom, SECTION_ICONS[i], getString(SECTION_TITLES[i]), getString(SECTION_INFOS[i])));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramSettingsInfo)));
+    }
+
+    private void fillArchive(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_SAVE_MESSAGE_HISTORY, getString(R.string.MZGramSaveMessageHistory)).setChecked(MZGramConfig.saveMessageHistory));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveMessageHistoryInfo)));
         items.add(UItem.asButton(BUTTON_WIPE_ARCHIVE, getString(R.string.MZGramWipeArchive)));
@@ -83,14 +174,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
         items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
         items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionPrivacy)));
+    private void fillPrivacy(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_HIDE_OWN_ONLINE_STATUS, getString(R.string.MZGramHideOwnOnlineStatus)).setChecked(MZGramConfig.hideOwnOnlineStatus));
         items.add(UItem.asShadow(getString(R.string.MZGramHideOwnOnlineStatusInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_OWN_PHONE_NUMBER, getString(R.string.MZGramHideOwnPhoneNumber)).setChecked(MZGramConfig.hideOwnPhoneNumber));
         items.add(UItem.asShadow(getString(R.string.MZGramHideOwnPhoneNumberInfo)));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionGhostMode)));
+    private void fillGhostMode(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE, getString(R.string.MZGramGhostMode)).setChecked(MZGramConfig.ghostMode));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostModeInfo)));
         items.add(UItem.asCheck(BUTTON_GHOST_AUTO_DELAY_SEND, getString(R.string.MZGramGhostAutoDelaySend)).setChecked(MZGramConfig.ghostAutoDelaySend));
@@ -99,8 +194,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramGhostSilentSendInfo)));
         items.add(UItem.asCheck(BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES, getString(R.string.MZGramOfferGhostModeBeforeStoriesToggle)).setChecked(MZGramConfig.offerGhostModeBeforeStories));
         items.add(UItem.asShadow(getString(R.string.MZGramOfferGhostModeBeforeStoriesToggleInfo)));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionMessageMenu)));
+    private void fillMessageMenu(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_SHOW_COPY_PHOTO, getString(R.string.MZGramCopyPhoto)).setChecked(MZGramConfig.showCopyPhoto));
         items.add(UItem.asShadow(getString(R.string.MZGramShowCopyPhotoInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_DELETE_DOWNLOADED_FILE, getString(R.string.MZGramDeleteDownloadedFile)).setChecked(MZGramConfig.showDeleteDownloadedFile));
@@ -121,8 +218,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramShowForwardNoQuoteInfo)));
         items.add(UItem.asCheck(BUTTON_SAVE_PROTECTED_CONTENT, getString(R.string.MZGramSaveProtectedContent)).setChecked(MZGramConfig.saveProtectedContent));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveProtectedContentInfo)));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionMediaAndCalls)));
+    private void fillMediaAndCalls(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
         items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
@@ -135,8 +234,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramConfirmAVMessageInfo)));
         items.add(UItem.asCheck(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, getString(R.string.MZGramMediaPreviewOnLongPress)).setChecked(MZGramConfig.mediaPreviewOnLongPress));
         items.add(UItem.asShadow(getString(R.string.MZGramMediaPreviewOnLongPressInfo)));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionInterface)));
+    private void fillInterface(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
         items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
@@ -157,21 +258,27 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackAnimationInfo)));
         items.add(UItem.asCheck(BUTTON_GOOEY_AVATAR_ANIMATION, getString(R.string.MZGramGooeyAvatarAnimation)).setChecked(MZGramConfig.gooeyAvatarAnimation));
         items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionAdsAndFilters)));
+    private void fillAdsAndFilters(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_DISABLE_SPONSORED_MESSAGES, getString(R.string.MZGramDisableSponsoredMessages)).setChecked(MZGramConfig.disableSponsoredMessages));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableSponsoredMessagesInfo)));
         items.add(UItem.asCheck(BUTTON_STRIP_ZALGO_TEXT, getString(R.string.MZGramStripZalgoText)).setChecked(MZGramConfig.stripZalgoText));
         items.add(UItem.asShadow(getString(R.string.MZGramStripZalgoTextInfo)));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionOther)));
+    private void fillOther(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_TEST_TOGGLE, getString(R.string.MZGramTestToggle)).setChecked(MZGramConfig.testToggle));
         items.add(UItem.asShadow(getString(R.string.MZGramTestToggleInfo)));
     }
 
     @Override
     protected void onClick(UItem item, View view, int position, float x, float y) {
-        if (item.id == BUTTON_TEST_TOGGLE) {
+        if (item.id >= SECTION_ROW_ID && item.id < SECTION_ROW_ID + SECTIONS_COUNT) {
+            presentFragment(new MZGramSettingsActivity(item.id - SECTION_ROW_ID));
+        } else if (item.id == BUTTON_TEST_TOGGLE) {
             MZGramConfig.toggleTestToggle();
             ((TextCheckCell) view).setChecked(MZGramConfig.testToggle);
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
@@ -359,7 +466,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Refreshes the tracked-chats count after returning from that screen.
+        // Shows switches changed elsewhere (for example on another page).
         if (listView != null && listView.adapter != null) {
             listView.adapter.update(true);
         }

@@ -12,6 +12,14 @@
     <string name="MZGramSectionInterface">Інтерфейс</string>
     <string name="MZGramSectionAdsAndFilters">Реклама і фільтри</string>
     <string name="MZGramSectionOther">Інше</string>
+    <string name="MZGramSectionArchiveInfo">Видалені й редаговані повідомлення, експорт та імпорт</string>
+    <string name="MZGramSectionPrivacyInfo">Ваш онлайн-статус і номер телефону</string>
+    <string name="MZGramSectionGhostModeInfo">Читання і набір тексту непомітно для інших</string>
+    <string name="MZGramSectionMessageMenuInfo">Додаткові дії, коли ви утримуєте повідомлення</string>
+    <string name="MZGramSectionMediaAndCallsInfo">Дзвінки, камера, якість відео і фото</string>
+    <string name="MZGramSectionInterfaceInfo">Список чатів, історії, час і анімації</string>
+    <string name="MZGramSectionAdsAndFiltersInfo">Спонсорські повідомлення і зіпсований текст</string>
+    <string name="MZGramSectionOtherInfo">Усе інше</string>
     <string name="MZGramTestToggle">Тестовий перемикач</string>
     <string name="MZGramTestToggleInfo">Перевіряє, що налаштування MZGram зберігаються після перезапуску. Більше нічого не змінює.</string>
     <string name="MZGramDisableNumberRounding">Вимкнути округлення чисел</string>

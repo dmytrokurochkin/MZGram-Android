@@ -57,12 +57,12 @@ class MZGramSettingsTest {
         InstrumentationRegistry.getInstrumentation().runOnMainSync { activity?.finish() }
     }
 
-    private fun settingsItems(): ArrayList<UItem> {
+    private fun settingsItems(section: Int = MZGramSettingsActivity.SECTION_MAIN): ArrayList<UItem> {
         val items = ArrayList<UItem>()
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
             val fillItems = MZGramSettingsActivity::class.java.getDeclaredMethod("fillItems", ArrayList::class.java, UniversalAdapter::class.java)
             fillItems.isAccessible = true
-            fillItems.invoke(MZGramSettingsActivity(), items, null)
+            fillItems.invoke(MZGramSettingsActivity(section), items, null)
         }
         return items
     }
@@ -73,12 +73,13 @@ class MZGramSettingsTest {
         .map { it.isAccessible = true; it.getInt(null) }
         .toSet()
 
-    // Settings > MZGram is grouped into sections by topic, in this order,
-    // and every switch and button is in one of them -- none lost.
+    // Settings > MZGram lists the topics, in this order, each with a short
+    // description; every switch and button is on exactly one topic's page --
+    // none lost.
     @Test
-    fun settings_areGroupedIntoSections() {
-        val items = settingsItems()
-        val headers = items.filter { it.viewType == UniversalAdapter.VIEW_TYPE_HEADER }.map { it.text.toString() }
+    fun settings_areGroupedIntoTopicPages() {
+        val main = settingsItems()
+        val rows = main.filter { it.id >= MZGramSettingsActivity.SECTION_ROW_ID }
         val expected = listOf(
             R.string.MZGramSectionArchive,
             R.string.MZGramSectionPrivacy,
@@ -89,28 +90,27 @@ class MZGramSettingsTest {
             R.string.MZGramSectionAdsAndFilters,
             R.string.MZGramSectionOther,
         ).map { LocaleController.getString(it) }
-        assertEquals(expected, headers)
+        assertEquals(expected, rows.map { it.text.toString() })
+        assertEquals("one row per topic", (0 until MZGramSettingsActivity.SECTIONS_COUNT).map { MZGramSettingsActivity.SECTION_ROW_ID + it }, rows.map { it.id })
+        assertTrue("every topic has a description", rows.all { !it.subtext.isNullOrEmpty() })
+        assertTrue("no switches on the main page", main.none { it.id in allButtons() })
 
-        val shown = items.filter { it.viewType != UniversalAdapter.VIEW_TYPE_HEADER && it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }.map { it.id }
+        val shown = ArrayList<Int>()
+        val perTopic = ArrayList<String>()
+        for (section in 0 until MZGramSettingsActivity.SECTIONS_COUNT) {
+            val ids = settingsItems(section).filter { it.viewType != UniversalAdapter.VIEW_TYPE_HEADER && it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }.map { it.id }
+            assertTrue("topic $section is not empty", ids.isNotEmpty())
+            shown.addAll(ids)
+            perTopic.add("${expected[section]}=${ids.size}")
+        }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
         assertEquals("39 switches and buttons", 39, shown.size)
-
-        // No section is empty.
-        var lastWasHeader = false
-        for (item in items) {
-            if (item.viewType == UniversalAdapter.VIEW_TYPE_HEADER) {
-                assertFalse("empty section before ${item.text}", lastWasHeader)
-                lastWasHeader = true
-            } else if (item.viewType != UniversalAdapter.VIEW_TYPE_SHADOW) {
-                lastWasHeader = false
-            }
-        }
-        assertFalse("last section is empty", lastWasHeader)
-        MZGramScreens.log("settings sections: $headers, ${shown.size} switches and buttons")
+        MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
 
-    // The settings screen as the user sees it, top to bottom.
+    // The main page and a few topic pages as the user sees them; tapping a
+    // topic opens its page and Back returns to the main page.
     @Test
     fun settings_screenshots() {
         val self = TLRPC.TL_user()
@@ -119,20 +119,11 @@ class MZGramSettingsTest {
         UserConfig.getInstance(account).setCurrentUser(self)
         activity = MZGramScreens.launchApp()
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
-        val fragment = MZGramSettingsActivity()
-        MZGramScreens.open(fragment)
-        assertTrue("settings shown", MZGramScreens.waitFor(30) { (MZGramScreens.listViewOf(fragment)?.childCount ?: 0) > 0 })
-        Thread.sleep(1000)
-        for (page in 1..8) {
-            MZGramScreens.capture("settings-$page")
-            var more = false
-            InstrumentationRegistry.getInstrumentation().runOnMainSync {
-                val list = MZGramScreens.listViewOf(fragment)!!
-                more = list.canScrollVertically(1)
-                if (more) list.scrollBy(0, list.height - list.height / 8)
-            }
-            if (!more) break
-            Thread.sleep(500)
-        }
+        val problems = MZGramScreens.settingsPages("settings", listOf(
+            MZGramSettingsActivity.SECTION_ARCHIVE,
+            MZGramSettingsActivity.SECTION_MESSAGE_MENU,
+            MZGramSettingsActivity.SECTION_INTERFACE,
+        ))
+        assertTrue(problems.joinToString(), problems.isEmpty())
     }
 }

@@ -4,12 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.platform.app.InstrumentationRegistry
 import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.Components.UniversalFragment
 import org.telegram.ui.LaunchActivity
+import org.telegram.ui.mzgram.MZGramSettingsActivity
 import java.io.File
 import java.io.FileOutputStream
 
@@ -101,5 +103,47 @@ object MZGramScreens {
         instrumentation.runOnMainSync {
             lastFragment()!!.presentFragment(fragment, false, true)
         }
+    }
+
+    // Settings > MZGram as the user goes through it: the main page, then a
+    // few topics, each opened by tapping its row and left with Back.
+    // Returns the topics whose page did not open or did not go back.
+    fun settingsPages(prefix: String, sections: List<Int>): List<String> {
+        val problems = ArrayList<String>()
+        val main = MZGramSettingsActivity()
+        open(main)
+        if (!waitFor(30) { (listViewOf(main)?.childCount ?: 0) > 0 }) {
+            return listOf("main page not shown")
+        }
+        Thread.sleep(1000)
+        capture("$prefix-main")
+        for (section in sections) {
+            instrumentation.runOnMainSync {
+                val items = ArrayList<org.telegram.ui.Components.UItem>()
+                val fill = MZGramSettingsActivity::class.java.getDeclaredMethod("fillItems", ArrayList::class.java, org.telegram.ui.Components.UniversalAdapter::class.java)
+                fill.isAccessible = true
+                fill.invoke(main, items, null)
+                val row = items.first { it.id == MZGramSettingsActivity.SECTION_ROW_ID + section }
+                val onClick = MZGramSettingsActivity::class.java.getDeclaredMethod("onClick", org.telegram.ui.Components.UItem::class.java, View::class.java, Int::class.javaPrimitiveType, Float::class.javaPrimitiveType, Float::class.javaPrimitiveType)
+                onClick.isAccessible = true
+                onClick.invoke(main, row, null, 0, 0f, 0f)
+            }
+            val opened = waitFor(30) {
+                val page = lastFragment()
+                page is MZGramSettingsActivity && page !== main && (listViewOf(page)?.childCount ?: 0) > 0
+            }
+            if (!opened) {
+                problems.add("section $section did not open")
+                continue
+            }
+            Thread.sleep(1000)
+            capture("$prefix-section-$section")
+            instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK)
+            if (!waitFor(30) { lastFragment() === main }) {
+                problems.add("section $section: Back did not return to the main page")
+            }
+            Thread.sleep(500)
+        }
+        return problems
     }
 }

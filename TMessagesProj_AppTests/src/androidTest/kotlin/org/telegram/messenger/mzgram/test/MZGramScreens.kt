@@ -22,8 +22,10 @@ object MZGramScreens {
     fun log(msg: String) = Log.i("MZGramArchiveTest", msg)
 
     // The whole screen as the user sees it.
+    // No waitForIdleSync: a screen with a running animation (the chat list
+    // shows "Connecting..." without a network) is never idle.
     fun capture(name: String): Bitmap {
-        instrumentation.waitForIdleSync()
+        Thread.sleep(500)
         val bitmap = instrumentation.uiAutomation.takeScreenshot()
         save(bitmap, name)
         return bitmap
@@ -46,8 +48,11 @@ object MZGramScreens {
     }
 
     fun launchApp(): Activity {
-        // Otherwise Android asks for it over the first screen.
-        shell("pm grant ${instrumentation.targetContext.packageName} android.permission.POST_NOTIFICATIONS")
+        // Otherwise Android and the app ask for them over the first screen.
+        val pkg = instrumentation.targetContext.packageName
+        for (permission in listOf("POST_NOTIFICATIONS", "READ_CONTACTS", "WRITE_CONTACTS")) {
+            shell("pm grant $pkg android.permission.$permission")
+        }
         val intent = Intent(instrumentation.targetContext, LaunchActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         return instrumentation.startActivitySync(intent)

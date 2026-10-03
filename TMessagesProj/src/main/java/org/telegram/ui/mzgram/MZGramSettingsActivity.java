@@ -67,6 +67,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
     private static final int BUTTON_HIDE_OWN_ONLINE_STATUS = 39;
     private static final int BUTTON_FOLDER_TABS_AT_BOTTOM = 41;
+    private static final int BUTTON_SAVE_PROTECTED_CONTENT = 42;
 
     @Override
     protected CharSequence getTitle() {
@@ -121,6 +122,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramShowQrCodeInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_NO_QUOTE_FORWARD, getString(R.string.MZGramForwardNoQuote)).setChecked(MZGramConfig.showNoQuoteForward));
         items.add(UItem.asShadow(getString(R.string.MZGramShowForwardNoQuoteInfo)));
+        items.add(UItem.asCheck(BUTTON_SAVE_PROTECTED_CONTENT, getString(R.string.MZGramSaveProtectedContent)).setChecked(MZGramConfig.saveProtectedContent));
+        items.add(UItem.asShadow(getString(R.string.MZGramSaveProtectedContentInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramSectionMediaAndCalls)));
         items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
@@ -246,6 +249,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
             MZGramConfig.toggleHideBottomNavigationBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
+        } else if (item.id == BUTTON_SAVE_PROTECTED_CONTENT) {
+            MZGramConfig.toggleSaveProtectedContent();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveProtectedContent);
         } else if (item.id == BUTTON_FOLDER_TABS_AT_BOTTOM) {
             MZGramConfig.toggleFolderTabsAtBottom();
             ((TextCheckCell) view).setChecked(MZGramConfig.folderTabsAtBottom);

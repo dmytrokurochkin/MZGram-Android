@@ -2080,6 +2080,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (messages == null || messages.isEmpty()) {
             return 0;
         }
+        // MZGram: the server does not forward messages from chats with
+        // "Restrict saving content"; with the MZGram switch on they are sent
+        // as copies, and only the rest is forwarded.
+        ArrayList<MessageObject> mzgramForwardable = org.telegram.messenger.mzgram.MZGramProtectedContent.sendCopies(currentAccount, messages, peer, notify, scheduleDate, replyToTopMsg);
+        if (mzgramForwardable != messages) {
+            if (mzgramForwardable.isEmpty()) {
+                return 0;
+            }
+            return sendMessage(mzgramForwardable, peer, forwardFromMyName, hideCaption, notify, scheduleDate, scheduleRepeatPeriod, replyToTopMsg, video_timestamp, payStars, monoForumPeerId, suggestionParams);
+        }
         int sendResult = 0;
         long myId = getUserConfig().getClientUserId();
         boolean isChannel = false;

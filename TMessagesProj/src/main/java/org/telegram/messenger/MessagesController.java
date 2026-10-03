@@ -6698,7 +6698,14 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
+    // MZGram: "Restrict saving content" as the app applies it -- not at all
+    // while Settings > MZGram lets protected content be forwarded and saved
+    // (MZGramProtectedContent). The ...OnServer methods give the rule itself.
     public boolean isChatNoForwards(TLRPC.Chat chat) {
+        return !org.telegram.messenger.mzgram.MZGramProtectedContent.isEnabled() && isChatNoForwardsOnServer(chat);
+    }
+
+    public boolean isChatNoForwardsOnServer(TLRPC.Chat chat) {
         if (chat == null) {
             return false;
         }
@@ -6719,11 +6726,19 @@ public class MessagesController extends BaseController implements NotificationCe
         return dialogId > 0 ? isUserNoForwards(dialogId) : isChatNoForwards(-dialogId);
     }
 
+    public boolean isPeerNoForwardsOnServer(long dialogId) {
+        return dialogId > 0 ? isUserNoForwardsOnServer(getUserFull(dialogId)) : isChatNoForwardsOnServer(getChat(-dialogId));
+    }
+
     public boolean isUserNoForwards(long userId) {
         return isUserNoForwards(getUserFull(userId));
     }
 
     public boolean isUserNoForwards(TLRPC.UserFull userFull) {
+        return !org.telegram.messenger.mzgram.MZGramProtectedContent.isEnabled() && isUserNoForwardsOnServer(userFull);
+    }
+
+    public boolean isUserNoForwardsOnServer(TLRPC.UserFull userFull) {
         if (userFull == null) {
             return false;
         }

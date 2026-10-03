@@ -46,6 +46,9 @@ public class MZGramConfig {
     public static boolean showMessageDetails = false;
     public static boolean showQrCode = false;
     public static boolean showNoQuoteForward = false;
+    // Forward, save, copy and screenshot in chats with "Restrict saving
+    // content" (MZGramProtectedContent).
+    public static boolean saveProtectedContent = false;
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean predictiveBackAnimation = true;
     // On by default: upstream always has this animation, the switch only turns it off.
@@ -145,6 +148,7 @@ public class MZGramConfig {
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
             showQrCode = preferences.getBoolean("showQrCode", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
+            saveProtectedContent = preferences.getBoolean("saveProtectedContent", false);
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
@@ -275,6 +279,11 @@ public class MZGramConfig {
     public static void toggleShowNoQuoteForward() {
         showNoQuoteForward = !showNoQuoteForward;
         putBoolean("showNoQuoteForward", showNoQuoteForward);
+    }
+
+    public static void toggleSaveProtectedContent() {
+        saveProtectedContent = !saveProtectedContent;
+        putBoolean("saveProtectedContent", saveProtectedContent);
     }
 
     public static void togglePredictiveBackAnimation() {

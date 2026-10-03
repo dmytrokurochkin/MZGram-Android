@@ -26,6 +26,8 @@
     <string name="MZGramShowSetReminderInfo">Adds Set a reminder to the menu of a message you can forward. It forwards the message to Saved Messages as a scheduled message at the time you pick, which then notifies you.</string>
     <string name="MZGramForwardNoQuote">Forward without sender</string>
     <string name="MZGramShowForwardNoQuoteInfo">Adds Forward without sender next to Forward. It opens the usual forward flow with sender names already hidden, so the message is sent as your own.</string>
+    <string name="MZGramSaveProtectedContent">Forward and save protected content</string>
+    <string name="MZGramSaveProtectedContentInfo">In chats and channels whose owner restricted saving content, you can forward, save and copy messages and media and take screenshots, like anywhere else. Telegram does not forward such messages, so they are sent as new messages without the original sender; media not downloaded yet is downloaded first.</string>
     <string name="MZGramShowQrCodeInfo">Scans the photo on the device when you open its menu; if it holds a QR code, QR Code appears and shows the link or text.</string>
     <string name="MZGramMessageDetails">Details</string>
     <string name="MZGramShowMessageDetailsInfo">Adds Details to the message menu: ids, sender, dates, forward source, file, media and data center of a message. Long press a value to copy it.</string>

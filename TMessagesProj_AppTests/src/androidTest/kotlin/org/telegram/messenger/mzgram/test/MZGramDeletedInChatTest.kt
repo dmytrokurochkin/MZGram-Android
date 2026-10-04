@@ -293,6 +293,11 @@ class MZGramDeletedInChatTest {
         }
         message.flags = message.flags or 512
         putInCache(incoming(otherUserId, m1, "before $m1"), message)
+        // The app starts a download of one-time media as it arrives, and a
+        // starting download drops a file already in its place. Let it start
+        // before the file is written, so the two do not race.
+        instrumentation.runOnMainSync { }
+        repeat(2) { drain(FileLoader.getInstance(account).fileLoaderQueue) }
         val file = FileLoader.getInstance(account).getPathToMessage(message)
         file.parentFile?.mkdirs()
         file.writeBytes(bytes)

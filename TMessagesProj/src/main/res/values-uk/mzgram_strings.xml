@@ -114,7 +114,7 @@
     <string name="MZGramEnableAndView">Увімкнути і переглянути</string>
     <string name="MZGramViewAnyway">Все одно переглянути</string>
     <string name="MZGramWipeArchive">Очистити архів</string>
-    <string name="MZGramWipeArchiveInfo">Назавжди видаляє всі збережені видалені та змінені повідомлення і всі їхні медіа в усіх відстежуваних чатах.</string>
+    <string name="MZGramWipeArchiveInfo">Назавжди видаляє всі збережені видалені та змінені повідомлення і всі їхні медіа в усіх чатах.</string>
     <string name="MZGramWipeArchiveConfirm">Це назавжди видалить увесь локальний архів видалених і змінених повідомлень разом зі збереженими медіа. Цю дію не можна скасувати. Продовжити?</string>
     <string name="MZGramHideOwnPhoneNumber">Приховати свій номер телефону</string>
     <string name="MZGramHideOwnPhoneNumberInfo">Маскує ваш номер телефону на екрані вашого профілю, наприклад перед демонстрацією екрана. Змінює лише те, що показує цей пристрій; не змінює, хто ще бачить ваш номер.</string>

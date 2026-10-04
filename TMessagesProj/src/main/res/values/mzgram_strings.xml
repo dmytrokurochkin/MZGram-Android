@@ -113,7 +113,7 @@
     <string name="MZGramEnableAndView">Enable and view</string>
     <string name="MZGramViewAnyway">View anyway</string>
     <string name="MZGramWipeArchive">Clear archive</string>
-    <string name="MZGramWipeArchiveInfo">Permanently deletes every deleted/edited message archived so far, and all its saved media, for every tracked chat.</string>
+    <string name="MZGramWipeArchiveInfo">Permanently deletes every deleted/edited message archived so far, and all its saved media, in every chat.</string>
     <string name="MZGramWipeArchiveConfirm">This permanently deletes the whole local archive of deleted and edited messages, including saved media. This cannot be undone. Continue?</string>
     <string name="MZGramHideOwnPhoneNumber">Hide own phone number</string>
     <string name="MZGramHideOwnPhoneNumberInfo">Masks your own phone number on your own profile screen, e.g. before sharing your screen. Only changes what this device shows you; does not change who else can see your number.</string>

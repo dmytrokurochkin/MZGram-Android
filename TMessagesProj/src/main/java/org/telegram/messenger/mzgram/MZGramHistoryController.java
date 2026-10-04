@@ -331,8 +331,7 @@ public class MZGramHistoryController {
     // Called by MessagesStorage.emptyMessagesMedia right before it replaces a
     // message's media with an empty one and deletes the file: self-destructing
     // media whose timer ran out, and view-once media after viewing. The file
-    // is still on disk here, so a copy goes into the archive. Kept even over
-    // the size limit, like any one-time media.
+    // is still on disk here, so a copy goes into the archive.
     public void onMessageMediaRemoved(int accountId, long dialogId, TLRPC.Message message) {
         if (message == null || message.media == null || !savesChat(dialogId) || isOwnMessage(accountId, message)) {
             return;
@@ -436,27 +435,15 @@ public class MZGramHistoryController {
             return; // not downloaded on this device -- nothing local to archive
         }
 
+        // Any size is kept: there is no per-file limit and no total quota,
+        // and saved files are never deleted on their own.
         int mediaType;
-        boolean alwaysSave;
         if (message.media instanceof TLRPC.TL_messageMediaPhoto) {
             mediaType = MZGramHistoryMessage.MEDIA_PHOTO;
-            alwaysSave = true;
         } else if (MessageObject.isStickerMessage(message) || MessageObject.isAnimatedStickerMessage(message)) {
             mediaType = MZGramHistoryMessage.MEDIA_STICKER;
-            alwaysSave = true;
-        } else if (MessageObject.isVoiceMessage(message) || MessageObject.isRoundVideoMessage(message)) {
-            mediaType = MZGramHistoryMessage.MEDIA_FILE;
-            alwaysSave = true;
         } else {
             mediaType = MZGramHistoryMessage.MEDIA_FILE;
-            alwaysSave = false;
-        }
-
-        if (!alwaysSave && !oneTimeMedia) {
-            int limitMb = MZGramConfig.historyMediaSizeLimitMb;
-            if (limitMb > 0 && source.file.length() > (long) limitMb * 1024 * 1024) {
-                return; // over the user's size limit -- keep the text row without media
-            }
         }
 
         try {
@@ -470,7 +457,6 @@ public class MZGramHistoryController {
             if (message.media.document != null) {
                 row.mimeType = message.media.document.mime_type;
             }
-            enforceMediaCap();
         } catch (Exception e) {
             FileLog.e("MZGramHistoryController.copyMediaIfNeeded", e);
         }
@@ -566,54 +552,6 @@ public class MZGramHistoryController {
                 left -= read;
             }
         }
-    }
-
-    // ---- total media size cap ----
-
-    // Oldest-first eviction across the whole media folder (every account,
-    // every chat combined), so the archive's disk usage stays under
-    // MZGramConfig.historyTotalMediaCapMb regardless of which chat is
-    // currently growing. Text/entity rows are left alone -- only the media
-    // file on disk is removed, the same way the per-file size limit above
-    // already results in a text-only row.
-    private void enforceMediaCap() {
-        int capMb = MZGramConfig.historyTotalMediaCapMb;
-        if (capMb <= 0) {
-            return;
-        }
-        long capBytes = (long) capMb * 1024 * 1024;
-        List<File> files = new ArrayList<>();
-        long total = collectFiles(MZGramHistoryDatabase.mediaRoot(), files);
-        if (total <= capBytes) {
-            return;
-        }
-        Collections.sort(files, (a, b) -> Long.compare(a.lastModified(), b.lastModified()));
-        for (File f : files) {
-            if (total <= capBytes) {
-                break;
-            }
-            long len = f.length();
-            if (f.delete()) {
-                total -= len;
-            }
-        }
-    }
-
-    private long collectFiles(File dir, List<File> out) {
-        File[] children = dir.listFiles();
-        if (children == null) {
-            return 0;
-        }
-        long total = 0;
-        for (File child : children) {
-            if (child.isDirectory()) {
-                total += collectFiles(child, out);
-            } else {
-                out.add(child);
-                total += child.length();
-            }
-        }
-        return total;
     }
 
     // ---- keeping deleted messages in the chat ----

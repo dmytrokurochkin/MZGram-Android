@@ -104,11 +104,6 @@ public class MZGramConfig {
     // Strips Zalgo-style combining-mark text corruption from display names.
     // See MZGramZalgoFilter.
     public static boolean stripZalgoText = false;
-    public static int historyMediaSizeLimitMb = 50; // videos/files only; 0 = no limit
-    // Total cap for everything saved under the archive's media folder,
-    // across all chats; 0 = unlimited (the default). When exceeded, the
-    // oldest saved files are deleted first until back under the cap.
-    public static int historyTotalMediaCapMb = 0;
 
     static {
         loadConfig(false);
@@ -170,8 +165,11 @@ public class MZGramConfig {
             hideOwnPhoneNumber = preferences.getBoolean("hideOwnPhoneNumber", false);
             disableSponsoredMessages = preferences.getBoolean("disableSponsoredMessages", false);
             stripZalgoText = preferences.getBoolean("stripZalgoText", false);
-            historyMediaSizeLimitMb = preferences.getInt("historyMediaSizeLimitMb", 50);
-            historyTotalMediaCapMb = preferences.getInt("historyTotalMediaCapMb", 0);
+            // The archive keeps media of any size, with no total quota, and
+            // never deletes saved files on its own; the old limit keys go.
+            if (preferences.contains("historyMediaSizeLimitMb") || preferences.contains("historyTotalMediaCapMb")) {
+                preferences.edit().remove("historyMediaSizeLimitMb").remove("historyTotalMediaCapMb").apply();
+            }
             configLoaded = true;
         }
     }
@@ -366,15 +364,5 @@ public class MZGramConfig {
     public static void toggleStripZalgoText() {
         stripZalgoText = !stripZalgoText;
         putBoolean("stripZalgoText", stripZalgoText);
-    }
-
-    public static void setHistoryMediaSizeLimitMb(int mb) {
-        historyMediaSizeLimitMb = Math.max(0, mb);
-        preferences().edit().putInt("historyMediaSizeLimitMb", historyMediaSizeLimitMb).apply();
-    }
-
-    public static void setHistoryTotalMediaCapMb(int mb) {
-        historyTotalMediaCapMb = Math.max(0, mb);
-        preferences().edit().putInt("historyTotalMediaCapMb", historyTotalMediaCapMb).apply();
     }
 }

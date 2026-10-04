@@ -6,9 +6,11 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.telegram.messenger.BuildVars
+import org.telegram.messenger.FileLoader
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.MessagesStorage
 import org.telegram.messenger.UserConfig
@@ -17,6 +19,8 @@ import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.messenger.mzgram.MZGramHistoryDatabase
 import org.telegram.tgnet.TLRPC
 import org.telegram.tgnet.tl.TL_update
+import java.io.File
+import java.io.RandomAccessFile
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -226,5 +230,65 @@ class MZGramDeletedArchiveFlowTest {
             (row?.let { "rowId=${it.rowId} fromId=${it.fromId} text='${it.text}'" } ?: "NONE"))
         assertNull("deleted from messages_v2", storage.getMessage(otherUserId, mid.toLong()))
         assertNull("own deleted message is not archived", row)
+    }
+
+    // Media of any size is archived: a file over the old 50 MB limit is
+    // kept whole, and a file already in the archive is not deleted to make
+    // room for it (there is no total quota).
+    @Test
+    fun bigFile_isArchivedWithoutASizeLimit_andNothingIsDeleted() {
+        val bigFile = 60L * 1024 * 1024
+        val earlier = File(MZGramHistoryDatabase.mediaDir(selfId, otherUserId), "earlier-${newMessageId()}.bin")
+        earlier.parentFile?.mkdirs()
+        earlier.writeBytes(ByteArray(1024) { 7 })
+        earlier.setLastModified(1_000_000L)
+
+        val mid = newMessageId()
+        val message = incomingPrivate(mid, otherUserId, "big file $mid")
+        message.media = TLRPC.TL_messageMediaDocument().also { m ->
+            m.document = TLRPC.TL_document().also { d ->
+                d.id = 400_000_000_000L + mid
+                d.access_hash = 1
+                d.dc_id = 2
+                d.date = message.date
+                d.size = bigFile
+                d.mime_type = "application/zip"
+                d.file_reference = ByteArray(0)
+                d.attributes.add(TLRPC.TL_documentAttributeFilename().also { a -> a.file_name = "big-$mid.zip" })
+            }
+            m.flags = m.flags or 1
+        }
+        message.flags = message.flags or 512
+        putInCache(message)
+
+        val downloaded = FileLoader.getInstance(account).getPathToMessage(message)
+        downloaded.parentFile?.mkdirs()
+        RandomAccessFile(downloaded, "rw").use {
+            it.setLength(bigFile)
+            it.seek(bigFile - 4)
+            it.writeInt(mid)
+        }
+        var saved: File? = null
+        try {
+            val update = TL_update.TL_updateDeleteMessages()
+            update.messages.add(mid)
+            deliverUpdate(update)
+
+            val row = archived(otherUserId, mid)
+            log("big file: mid=$mid archivedRow=" + (row?.let { "mediaPath=${it.mediaPath}" } ?: "NONE"))
+            assertNotNull("deleted message archived", row)
+            assertNotNull("its file archived too", row!!.mediaPath)
+            saved = File(row.mediaPath)
+            assertEquals("the whole file, over 50 MB", bigFile, saved.length())
+            RandomAccessFile(saved, "r").use {
+                it.seek(bigFile - 4)
+                assertEquals("same bytes", mid, it.readInt())
+            }
+            assertTrue("a file saved earlier is not deleted", earlier.exists())
+        } finally {
+            downloaded.delete()
+            earlier.delete()
+            saved?.delete()
+        }
     }
 }

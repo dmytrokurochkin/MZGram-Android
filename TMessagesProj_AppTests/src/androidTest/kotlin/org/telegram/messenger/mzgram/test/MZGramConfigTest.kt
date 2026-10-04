@@ -66,7 +66,6 @@ class MZGramConfigTest {
             assertEquals(true, MZGramConfig.saveMessageHistory)
             assertEquals(false, preferences.contains("saveMessageHistory"))
             assertEquals(false, preferences.contains("historyTrackedDialogs"))
-            assertEquals("no total size cap by default", 0, preferences.getInt("historyTotalMediaCapMb", 0))
         } finally {
             if (MZGramConfig.saveMessageHistory != before) {
                 MZGramConfig.toggleSaveMessageHistory()
@@ -74,14 +73,21 @@ class MZGramConfigTest {
         }
     }
 
+    // The archive has no per-file size limit and no total quota: there is
+    // no setting for either, and the keys an older version saved are
+    // dropped on load.
     @Test
-    fun historyTotalMediaCapMbClampsNegativeToZero() {
-        val before = MZGramConfig.historyTotalMediaCapMb
-        try {
-            MZGramConfig.setHistoryTotalMediaCapMb(-50)
-            assertEquals(0, MZGramConfig.historyTotalMediaCapMb)
-        } finally {
-            MZGramConfig.setHistoryTotalMediaCapMb(before)
-        }
+    fun archiveMedia_hasNoSizeLimitAndNoQuota() {
+        val preferences = context.getSharedPreferences("mzgram_config", Context.MODE_PRIVATE)
+        preferences.edit()
+            .putInt("historyMediaSizeLimitMb", 50)
+            .putInt("historyTotalMediaCapMb", 300)
+            .commit()
+        MZGramConfig.loadConfig(true)
+        assertEquals(false, preferences.contains("historyMediaSizeLimitMb"))
+        assertEquals(false, preferences.contains("historyTotalMediaCapMb"))
+        val limits = MZGramConfig::class.java.declaredFields.map { it.name }
+            .filter { it.contains("SizeLimit") || it.contains("MediaCap") }
+        assertEquals("no size limit or quota setting", emptyList<String>(), limits)
     }
 }

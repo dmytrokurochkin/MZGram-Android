@@ -18922,6 +18922,12 @@ public class MessagesController extends BaseController implements NotificationCe
                     value = getMessagesStorage().getDialogReadMax(true, dialogId);
                 }
                 dialogs_read_outbox_max.put(dialogId, Math.max(value, update.max_id));
+                // MZGram: when own messages were read (message info), and a
+                // sign that the reader was online.
+                org.telegram.messenger.mzgram.MZGramReadDates.onOutboxRead(currentAccount, dialogId, update.max_id, getConnectionsManager().getCurrentTime());
+                if (update.peer.user_id != 0) {
+                    org.telegram.messenger.mzgram.MZGramLastSeen.record(update.peer.user_id, getConnectionsManager().getCurrentTime());
+                }
             } else if (baseUpdate instanceof TL_update.TL_updateDeleteMessages) {
                 TL_update.TL_updateDeleteMessages update = (TL_update.TL_updateDeleteMessages) baseUpdate;
                 // MZGram: diagnostic logging for the archive-not-saving-others'-
@@ -19027,6 +19033,8 @@ public class MessagesController extends BaseController implements NotificationCe
                         continue;
                     }
                 }
+                // MZGram: typing is a sign of being online.
+                org.telegram.messenger.mzgram.MZGramLastSeen.record(userId, getConnectionsManager().getCurrentTime());
                 long uid = -chatId;
                 if (uid == 0) {
                     uid = userId;
@@ -19453,6 +19461,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     value = getMessagesStorage().getDialogReadMax(true, dialogId);
                 }
                 dialogs_read_outbox_max.put(dialogId, Math.max(value, update.max_id));
+                // MZGram: when own messages were read (message info).
+                org.telegram.messenger.mzgram.MZGramReadDates.onOutboxRead(currentAccount, dialogId, update.max_id, getConnectionsManager().getCurrentTime());
             } else if (baseUpdate instanceof TL_update.TL_updateDeleteChannelMessages) {
                 TL_update.TL_updateDeleteChannelMessages update = (TL_update.TL_updateDeleteChannelMessages) baseUpdate;
                 if (BuildVars.LOGS_ENABLED) {
@@ -20032,6 +20042,8 @@ public class MessagesController extends BaseController implements NotificationCe
 
                         if (update.status instanceof TLRPC.TL_userStatusRecently) {
                             update.status.expires = -100;
+                            // MZGram: a hidden status changing now.
+                            org.telegram.messenger.mzgram.MZGramLastSeen.record(update.user_id, getConnectionsManager().getCurrentTime());
                         } else if (update.status instanceof TLRPC.TL_userStatusLastWeek) {
                             update.status.expires = -101;
                         } else if (update.status instanceof TLRPC.TL_userStatusLastMonth) {

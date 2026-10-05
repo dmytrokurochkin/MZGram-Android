@@ -243,7 +243,21 @@ public class MZGramHistoryController {
     // is kept even if it is never opened. Downloading the file does not tell
     // the sender it was viewed; that only happens on opening it.
     public void onMessagesStored(int accountId, ArrayList<TLRPC.Message> messages) {
-        if (!MZGramConfig.saveDeletedMessages || messages == null) {
+        if (messages == null) {
+            return;
+        }
+        for (int a = 0, N = messages.size(); a < N; a++) {
+            TLRPC.Message message = messages.get(a);
+            if (message == null || message.out) {
+                continue;
+            }
+            if (message.from_id instanceof TLRPC.TL_peerUser) {
+                MZGramLastSeen.record(message.from_id.user_id, message.date);
+            } else if (message.from_id == null && message.peer_id != null && message.peer_id.user_id != 0) {
+                MZGramLastSeen.record(message.peer_id.user_id, message.date);
+            }
+        }
+        if (!MZGramConfig.saveDeletedMessages) {
             return;
         }
         for (int a = 0, N = messages.size(); a < N; a++) {

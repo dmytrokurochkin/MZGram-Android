@@ -49,6 +49,10 @@
     <string name="MZGramDetailsScheduledDate">Запланована дата</string>
     <string name="MZGramDetailsDate">Дата</string>
     <string name="MZGramDetailsEdited">Змінено</string>
+    <string name="MZGramDetailsRead">Прочитано</string>
+    <string name="MZGramDetailsReadLocal">%1$s (коли про це дізнався цей пристрій)</string>
+    <string name="MZGramDetailsReadUnknown">Прочитано, час невідомий</string>
+    <string name="MZGramLastSeenApprox">%1$s (приблизно)</string>
     <string name="MZGramDetailsWhenOnline">Коли буде в мережі</string>
     <string name="MZGramDetailsForwardFrom">Переслано від</string>
     <string name="MZGramDetailsRestrictionReason">Причина обмеження</string>

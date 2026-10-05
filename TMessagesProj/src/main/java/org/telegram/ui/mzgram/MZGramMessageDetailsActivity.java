@@ -74,6 +74,7 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
     private static final int ROW_EMOJI_OWNERS = 19;
     private static final int ROW_LANGUAGE = 20;
     private static final int ROW_LINK_OR_EMOJI_ONLY = 21;
+    private static final int ROW_READ = 22;
 
     private final MessageObject messageObject;
     private final boolean noforwards;
@@ -92,6 +93,10 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
     private final ArrayList<Long> emojiSetOwners = new ArrayList<>();
     private CharSequence language;
     private FlagSecureReason flagSecure;
+    // When the other side read this own message (MZGramReadDates).
+    private int readAt;
+    private boolean readFromServer;
+    private boolean readLoaded;
 
     public MZGramMessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
@@ -171,6 +176,14 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
     public View createView(Context context) {
         final View view = super.createView(context);
         flagSecure = new FlagSecureReason(getParentActivity().getWindow(), () -> noforwards);
+        if (readShown()) {
+            org.telegram.messenger.mzgram.MZGramReadDates.load(currentAccount, messageObject, (at, fromServer) -> {
+                readAt = at;
+                readFromServer = fromServer;
+                readLoaded = true;
+                updateList();
+            });
+        }
         final String plainText = getMessagePlainText(messageObject);
         if (!TextUtils.isEmpty(plainText)) {
             language = "…";
@@ -223,6 +236,9 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
         }
         if (owner.edit_date != 0) {
             items.add(DetailFactory.of(ROW_EDITED, getString(R.string.MZGramDetailsEdited), formatTime(owner.edit_date)));
+        }
+        if (readShown()) {
+            items.add(DetailFactory.of(ROW_READ, getString(R.string.MZGramDetailsRead), readText()));
         }
         if (messageObject.isForwarded() && owner.fwd_from != null) {
             final StringBuilder builder = new StringBuilder();
@@ -284,6 +300,22 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
             items.add(DetailFactory.of(ROW_LINK_OR_EMOJI_ONLY, getString(R.string.MZGramDetailsLinkOrEmojiOnly), getString(R.string.MZGramDetailsYes)));
         }
         items.add(UItem.asShadow(null));
+    }
+
+    // An own message, sent and read.
+    private boolean readShown() {
+        return messageObject.isOut() && !messageObject.isSending() && !messageObject.isSendError()
+                && !messageObject.scheduled && !messageObject.isUnread() && messageObject.getId() > 0;
+    }
+
+    private String readText() {
+        if (!readLoaded) {
+            return "\u2026";
+        }
+        if (readAt <= 0) {
+            return getString(R.string.MZGramDetailsReadUnknown);
+        }
+        return readFromServer ? formatTime(readAt) : LocaleController.formatString(R.string.MZGramDetailsReadLocal, formatTime(readAt));
     }
 
     @Override

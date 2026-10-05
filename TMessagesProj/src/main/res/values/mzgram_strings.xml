@@ -48,6 +48,10 @@
     <string name="MZGramDetailsScheduledDate">Scheduled date</string>
     <string name="MZGramDetailsDate">Date</string>
     <string name="MZGramDetailsEdited">Edited</string>
+    <string name="MZGramDetailsRead">Read</string>
+    <string name="MZGramDetailsReadLocal">%1$s (when this device learned of it)</string>
+    <string name="MZGramDetailsReadUnknown">Read, time unknown</string>
+    <string name="MZGramLastSeenApprox">%1$s (approx.)</string>
     <string name="MZGramDetailsWhenOnline">When online</string>
     <string name="MZGramDetailsForwardFrom">Forward from</string>
     <string name="MZGramDetailsRestrictionReason">Restriction reason</string>

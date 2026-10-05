@@ -3043,6 +3043,12 @@ public class LocaleController {
                 }
                 return getString("Online", R.string.Online);
             } else {
+                // MZGram: an approximate time for a hidden last seen, see
+                // MZGramLastSeen.
+                String approximate = org.telegram.messenger.mzgram.MZGramLastSeen.approximateStatus(user, currentTime);
+                if (approximate != null) {
+                    return approximate;
+                }
                 if (user.status.expires == -1) {
                     return getString("Invisible", R.string.Invisible);
                 } else if (user.status.expires == -100 || user.status.expires == -1000) {

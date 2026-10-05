@@ -31,7 +31,9 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     private static final String DB_NAME = "mzgram_history.db";
     // 3: messageData, the whole serialized message, so a deleted message can
     // be shown in the chat again.
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
+    private static final String TABLE_READS = "outbox_reads";
+    private static final String TABLE_LAST_SEEN = "last_seen";
 
     private static final String TABLE = "history_message";
 
@@ -142,6 +144,81 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         // time cannot silently drift from what is actually in the table.
         db.execSQL("CREATE UNIQUE INDEX idx_history_message_unique_deleted ON " + TABLE
                 + " (accountUserId, dialogId, messageId) WHERE kind = " + MZGramHistoryMessage.KIND_DELETED);
+        createReadAndLastSeenTables(db);
+    }
+
+    // When other people read the owner's messages (MZGramReadDates): a row
+    // per read event, every own message up to maxId read by readAt; exact
+    // rows are the server's time for the one message maxId. And the last
+    // time a user was seen online (MZGramLastSeen).
+    private static void createReadAndLastSeenTables(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_READS + " (" +
+                "accountUserId INTEGER NOT NULL, " +
+                "dialogId INTEGER NOT NULL, " +
+                "maxId INTEGER NOT NULL, " +
+                "readAt INTEGER NOT NULL, " +
+                "exact INTEGER NOT NULL DEFAULT 0)");
+        db.execSQL("CREATE INDEX IF NOT EXISTS idx_outbox_reads ON " + TABLE_READS + " (accountUserId, dialogId, maxId)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_LAST_SEEN + " (" +
+                "userId INTEGER PRIMARY KEY, " +
+                "seenAt INTEGER NOT NULL)");
+    }
+
+    public void addOutboxRead(long accountUserId, long dialogId, int maxId, int readAt, boolean exact) {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] key = {String.valueOf(accountUserId), String.valueOf(dialogId)};
+        if (exact) {
+            db.delete(TABLE_READS, "accountUserId = ? AND dialogId = ? AND maxId = ? AND exact = 1",
+                    new String[]{key[0], key[1], String.valueOf(maxId)});
+        } else {
+            // Only a read further on than the ones kept says anything new.
+            try (Cursor cursor = db.rawQuery("SELECT MAX(maxId) FROM " + TABLE_READS + " WHERE accountUserId = ? AND dialogId = ? AND exact = 0", key)) {
+                if (cursor.moveToFirst() && !cursor.isNull(0) && cursor.getInt(0) >= maxId) {
+                    return;
+                }
+            }
+        }
+        ContentValues values = new ContentValues();
+        values.put("accountUserId", accountUserId);
+        values.put("dialogId", dialogId);
+        values.put("maxId", maxId);
+        values.put("readAt", readAt);
+        values.put("exact", exact ? 1 : 0);
+        db.insert(TABLE_READS, null, values);
+    }
+
+    // {readAt, 1 if the server's time} for a message; {0, 0} when unknown.
+    public int[] getReadAt(long accountUserId, long dialogId, int messageId) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] args = {String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(messageId)};
+        try (Cursor cursor = db.rawQuery("SELECT readAt FROM " + TABLE_READS + " WHERE accountUserId = ? AND dialogId = ? AND maxId = ? AND exact = 1 LIMIT 1", args)) {
+            if (cursor.moveToFirst()) {
+                return new int[]{cursor.getInt(0), 1};
+            }
+        }
+        try (Cursor cursor = db.rawQuery("SELECT MIN(readAt) FROM " + TABLE_READS + " WHERE accountUserId = ? AND dialogId = ? AND maxId >= ? AND exact = 0", args)) {
+            if (cursor.moveToFirst() && !cursor.isNull(0)) {
+                return new int[]{cursor.getInt(0), 0};
+            }
+        }
+        return new int[]{0, 0};
+    }
+
+    public void putLastSeen(long userId, int seenAt) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("INSERT OR IGNORE INTO " + TABLE_LAST_SEEN + " (userId, seenAt) VALUES (?, ?)", new Object[]{userId, seenAt});
+        db.execSQL("UPDATE " + TABLE_LAST_SEEN + " SET seenAt = ? WHERE userId = ? AND seenAt < ?", new Object[]{seenAt, userId, seenAt});
+    }
+
+    public java.util.Map<Long, Integer> getAllLastSeen() {
+        java.util.HashMap<Long, Integer> result = new java.util.HashMap<>();
+        try (Cursor cursor = getReadableDatabase().rawQuery("SELECT userId, seenAt FROM " + TABLE_LAST_SEEN, null)) {
+            while (cursor.moveToNext()) {
+                result.put(cursor.getLong(0), cursor.getInt(1));
+            }
+        } catch (Exception ignore) {
+        }
+        return result;
     }
 
     @Override
@@ -155,6 +232,9 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
             // Keeps every row archived so far; old rows simply have no
             // messageData and are shown only in the archive screen.
             db.execSQL("ALTER TABLE " + TABLE + " ADD COLUMN messageData BLOB");
+        }
+        if (oldVersion < 4) {
+            createReadAndLastSeenTables(db);
         }
     }
 
@@ -309,6 +389,9 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     // and every dialog.
     public void wipeAll() {
         clean();
+        getWritableDatabase().execSQL("DELETE FROM " + TABLE_READS);
+        getWritableDatabase().execSQL("DELETE FROM " + TABLE_LAST_SEEN);
+        MZGramLastSeen.forget();
         deleteRecursively(mediaRoot());
         deleteRecursively(attachmentsRoot());
     }

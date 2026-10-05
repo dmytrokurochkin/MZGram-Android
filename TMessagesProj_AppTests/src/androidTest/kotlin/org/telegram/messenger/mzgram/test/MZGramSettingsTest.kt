@@ -82,7 +82,6 @@ class MZGramSettingsTest {
         val rows = main.filter { it.id >= MZGramSettingsActivity.SECTION_ROW_ID }
         val expected = listOf(
             R.string.MZGramSectionArchive,
-            R.string.MZGramSectionPrivacy,
             R.string.MZGramSectionGhostMode,
             R.string.MZGramSectionMessageMenu,
             R.string.MZGramSectionMediaAndCalls,
@@ -105,7 +104,7 @@ class MZGramSettingsTest {
         }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
-        assertEquals("48 switches and buttons", 48, shown.size)
+        assertEquals("46 switches and buttons", 46, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
 

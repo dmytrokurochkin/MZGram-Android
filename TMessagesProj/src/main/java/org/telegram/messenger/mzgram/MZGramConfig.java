@@ -80,15 +80,6 @@ public class MZGramConfig {
     // viewing does not mark the story as seen for the other side.
     public static boolean offerGhostModeBeforeStories = false;
 
-    // Spy mode: hide own online/last-seen status via the native privacy
-    // rule (see MZGramSpyMode -- different mechanism from Ghost Mode's
-    // online-status suppression, which is not safely reachable on
-    // Android). savedLastSeenPrivacyState caches the rule that was active
-    // before hiding, so it can be restored exactly; Integer.MIN_VALUE
-    // means nothing is currently saved.
-    public static boolean hideOwnOnlineStatus = false;
-    public static int savedLastSeenPrivacyState = Integer.MIN_VALUE;
-
     // Local message history archive (Settings > MZGram > Archive). Other
     // people's deleted and edited messages in every private chat, group,
     // channel and secret chat; each part has its own switch, all on by
@@ -109,11 +100,6 @@ public class MZGramConfig {
     public static final String DEFAULT_EDITED_MARK = "\u270F\uFE0F";
     public static String deletedMark = DEFAULT_DELETED_MARK;
     public static String editedMark = DEFAULT_EDITED_MARK;
-    // Spy mode: masks your own phone number on your own profile/settings
-    // screen (e.g. before screen sharing). Purely a display change on this
-    // device -- unrelated to the server-side privacy setting for what other
-    // users can see.
-    public static boolean hideOwnPhoneNumber = false;
     // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
@@ -166,8 +152,11 @@ public class MZGramConfig {
             ghostAutoDelaySend = preferences.getBoolean("ghostAutoDelaySend", false);
             ghostSilentSend = preferences.getBoolean("ghostSilentSend", false);
             offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
-            hideOwnOnlineStatus = preferences.getBoolean("hideOwnOnlineStatus", false);
-            savedLastSeenPrivacyState = preferences.getInt("savedLastSeenPrivacyState", Integer.MIN_VALUE);
+            // The removed "hide own online status" and "hide own phone
+            // number" switches: Telegram's own privacy settings do this.
+            if (preferences.contains("hideOwnOnlineStatus") || preferences.contains("savedLastSeenPrivacyState") || preferences.contains("hideOwnPhoneNumber")) {
+                preferences.edit().remove("hideOwnOnlineStatus").remove("savedLastSeenPrivacyState").remove("hideOwnPhoneNumber").apply();
+            }
             // The removed "hide others' online status" switch.
             if (preferences.contains("hideOthersOnlineStatus")) {
                 preferences.edit().remove("hideOthersOnlineStatus").apply();
@@ -196,7 +185,6 @@ public class MZGramConfig {
             if (preferences.contains("saveMessageHistory") || preferences.contains("historyTrackedDialogs")) {
                 preferences.edit().remove("saveMessageHistory").remove("historyTrackedDialogs").apply();
             }
-            hideOwnPhoneNumber = preferences.getBoolean("hideOwnPhoneNumber", false);
             disableSponsoredMessages = preferences.getBoolean("disableSponsoredMessages", false);
             stripZalgoText = preferences.getBoolean("stripZalgoText", false);
             // The archive keeps media of any size, with no total quota, and
@@ -362,19 +350,6 @@ public class MZGramConfig {
         putBoolean("offerGhostModeBeforeStories", offerGhostModeBeforeStories);
     }
 
-    // The boolean below is set directly by MZGramSpyMode once the server
-    // confirms the privacy rule change (not eagerly on click), since the
-    // toggle should not show "on" if the request failed or was refused.
-    public static void setHideOwnOnlineStatus(boolean hide) {
-        hideOwnOnlineStatus = hide;
-        putBoolean("hideOwnOnlineStatus", hideOwnOnlineStatus);
-    }
-
-    public static void setSavedLastSeenPrivacyState(int state) {
-        savedLastSeenPrivacyState = state;
-        preferences().edit().putInt("savedLastSeenPrivacyState", state).apply();
-    }
-
     public static void toggleGhostMode() {
         ghostMode = !ghostMode;
         putBoolean("ghostMode", ghostMode);
@@ -423,11 +398,6 @@ public class MZGramConfig {
     public static void setEditedMark(String mark) {
         editedMark = mark == null ? "" : mark;
         preferences().edit().putString("editedMark", editedMark).apply();
-    }
-
-    public static void toggleHideOwnPhoneNumber() {
-        hideOwnPhoneNumber = !hideOwnPhoneNumber;
-        putBoolean("hideOwnPhoneNumber", hideOwnPhoneNumber);
     }
 
     public static void toggleDisableSponsoredMessages() {

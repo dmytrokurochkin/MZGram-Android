@@ -5,7 +5,6 @@
     <string name="MZGram">MZGram</string>
     <string name="MZGramSettingsInfo">Функції цього клієнта</string>
     <string name="MZGramSectionArchive">Архів</string>
-    <string name="MZGramSectionPrivacy">Приватність</string>
     <string name="MZGramSectionGhostMode">Режим привида</string>
     <string name="MZGramSectionMessageMenu">Меню повідомлення</string>
     <string name="MZGramSectionMediaAndCalls">Медіа і дзвінки</string>
@@ -13,7 +12,6 @@
     <string name="MZGramSectionAdsAndFilters">Реклама і фільтри</string>
     <string name="MZGramSectionOther">Інше</string>
     <string name="MZGramSectionArchiveInfo">Видалені й редаговані повідомлення, експорт та імпорт</string>
-    <string name="MZGramSectionPrivacyInfo">Ваш онлайн-статус і номер телефону</string>
     <string name="MZGramSectionGhostModeInfo">Читання і набір тексту непомітно для інших</string>
     <string name="MZGramSectionMessageMenuInfo">Додаткові дії, коли ви утримуєте повідомлення</string>
     <string name="MZGramSectionMediaAndCallsInfo">Дзвінки, камера, якість відео і фото</string>
@@ -116,8 +114,6 @@
     <string name="MZGramWipeArchive">Очистити архів</string>
     <string name="MZGramWipeArchiveInfo">Назавжди видаляє всі збережені видалені та змінені повідомлення і всі їхні медіа в усіх чатах.</string>
     <string name="MZGramWipeArchiveConfirm">Це назавжди видалить увесь локальний архів видалених і змінених повідомлень разом зі збереженими медіа. Цю дію не можна скасувати. Продовжити?</string>
-    <string name="MZGramHideOwnPhoneNumber">Приховати свій номер телефону</string>
-    <string name="MZGramHideOwnPhoneNumberInfo">Маскує ваш номер телефону на екрані вашого профілю, наприклад перед демонстрацією екрана. Змінює лише те, що показує цей пристрій; не змінює, хто ще бачить ваш номер.</string>
     <string name="MZGramExportArchive">Експортувати архів</string>
     <string name="MZGramImportArchive">Імпортувати архів</string>
     <string name="MZGramExportImportArchiveInfo">Експорт зберігає базу архіву файлом у вибране вами місце. Імпорт замінює поточний архів раніше експортованим файлом (медіафайли не входять).</string>
@@ -126,10 +122,6 @@
     <string name="MZGramDisableSponsoredMessagesInfo">Рекламні повідомлення в каналах і промобанер або банер проксі в списку чатів більше не запитуються і не показуються.</string>
     <string name="MZGramStripZalgoText">Фільтр Zalgo</string>
     <string name="MZGramStripZalgoTextInfo">Прибирає нагромаджені комбіновані знаки Unicode (зіпсований текст у стилі Zalgo) з імен і назв чатів, які ви бачите.</string>
-    <string name="MZGramHideOwnOnlineStatus">Приховати свій статус у мережі</string>
-    <string name="MZGramHideOwnOnlineStatusInfo">Встановлює приватність «Останній візит і в мережі» на «Ніхто» і повертає попереднє налаштування, коли ви вимикаєте перемикач. Працює, лише коли зараз вибрано «Усі», «Мої контакти» або «Ніхто» без власних винятків.</string>
-    <string name="MZGramHideOwnOnlineStatusCustomRules">Для приватності останнього візиту вже задано власні винятки. Змініть її в Налаштуваннях → Приватність.</string>
-    <string name="MZGramHideOwnOnlineStatusNotLoaded">Налаштування приватності ще завантажуються. Спробуйте за мить.</string>
     <string name="MZGramSaveDeletedMessages">Зберігати видалені повідомлення</string>
     <string name="MZGramSaveEditHistory">Зберігати історію редагувань</string>
     <string name="MZGramSaveMessageHistoryInfo">У всіх приватних чатах, групах, каналах і секретних чатах зберігає локальну копію чужого повідомлення перед видаленням і всі попередні версії відредагованого. Ваші власні повідомлення не зберігаються.</string>

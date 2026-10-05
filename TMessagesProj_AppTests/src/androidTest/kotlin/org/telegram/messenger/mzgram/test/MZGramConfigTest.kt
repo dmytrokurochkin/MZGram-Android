@@ -140,4 +140,22 @@ class MZGramConfigTest {
             .filter { it.contains("SizeLimit") || it.contains("MediaCap") }
         assertEquals("no size limit or quota setting", emptyList<String>(), limits)
     }
+
+    // Hiding the own online status and phone number is left to Telegram's
+    // own privacy settings: no such switches, and the old keys go.
+    @Test
+    fun privacyDuplicates_areGone() {
+        val preferences = context.getSharedPreferences("mzgram_config", Context.MODE_PRIVATE)
+        preferences.edit()
+            .putBoolean("hideOwnOnlineStatus", true)
+            .putInt("savedLastSeenPrivacyState", 1)
+            .putBoolean("hideOwnPhoneNumber", true)
+            .commit()
+        MZGramConfig.loadConfig(true)
+        assertEquals(false, preferences.contains("hideOwnOnlineStatus"))
+        assertEquals(false, preferences.contains("savedLastSeenPrivacyState"))
+        assertEquals(false, preferences.contains("hideOwnPhoneNumber"))
+        val fields = MZGramConfig::class.java.declaredFields.map { it.name }
+        assertEquals(emptyList<String>(), fields.filter { it.startsWith("hideOwn") || it == "savedLastSeenPrivacyState" })
+    }
 }

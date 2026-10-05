@@ -70,33 +70,29 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_GHOST_SILENT_SEND = 31;
     private static final int BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES = 32;
     private static final int BUTTON_WIPE_ARCHIVE = 33;
-    private static final int BUTTON_HIDE_OWN_PHONE_NUMBER = 34;
     private static final int BUTTON_EXPORT_ARCHIVE = 35;
     private static final int BUTTON_IMPORT_ARCHIVE = 36;
     private static final int REQUEST_CODE_IMPORT_ARCHIVE = 8842;
     private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
-    private static final int BUTTON_HIDE_OWN_ONLINE_STATUS = 39;
     private static final int BUTTON_FOLDER_TABS_AT_BOTTOM = 41;
     private static final int BUTTON_SAVE_PROTECTED_CONTENT = 42;
 
     // The topics, in the order the main page lists them.
     public static final int SECTION_MAIN = -1;
     public static final int SECTION_ARCHIVE = 0;
-    public static final int SECTION_PRIVACY = 1;
-    public static final int SECTION_GHOST_MODE = 2;
-    public static final int SECTION_MESSAGE_MENU = 3;
-    public static final int SECTION_MEDIA_AND_CALLS = 4;
-    public static final int SECTION_INTERFACE = 5;
-    public static final int SECTION_ADS_AND_FILTERS = 6;
-    public static final int SECTION_OTHER = 7;
-    public static final int SECTIONS_COUNT = 8;
+    public static final int SECTION_GHOST_MODE = 1;
+    public static final int SECTION_MESSAGE_MENU = 2;
+    public static final int SECTION_MEDIA_AND_CALLS = 3;
+    public static final int SECTION_INTERFACE = 4;
+    public static final int SECTION_ADS_AND_FILTERS = 5;
+    public static final int SECTION_OTHER = 6;
+    public static final int SECTIONS_COUNT = 7;
     // Row ids of the topics on the main page; clear of the BUTTON_ ids.
     public static final int SECTION_ROW_ID = 100;
 
     private static final int[] SECTION_TITLES = {
             R.string.MZGramSectionArchive,
-            R.string.MZGramSectionPrivacy,
             R.string.MZGramSectionGhostMode,
             R.string.MZGramSectionMessageMenu,
             R.string.MZGramSectionMediaAndCalls,
@@ -106,7 +102,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
     };
     private static final int[] SECTION_INFOS = {
             R.string.MZGramSectionArchiveInfo,
-            R.string.MZGramSectionPrivacyInfo,
             R.string.MZGramSectionGhostModeInfo,
             R.string.MZGramSectionMessageMenuInfo,
             R.string.MZGramSectionMediaAndCallsInfo,
@@ -116,7 +111,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
     };
     private static final int[] SECTION_ICONS = {
             R.drawable.settings_data,
-            R.drawable.settings_privacy,
             R.drawable.settings_account,
             R.drawable.settings_chat,
             R.drawable.settings_calls,
@@ -126,7 +120,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
     };
     private static final IconBackgroundColors[] SECTION_COLORS = {
             IconBackgroundColors.BLUE_DEEP,
-            IconBackgroundColors.GREEN,
             IconBackgroundColors.GRAY,
             IconBackgroundColors.ORANGE,
             IconBackgroundColors.CYAN,
@@ -154,7 +147,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         switch (section) {
             case SECTION_ARCHIVE: fillArchive(items); break;
-            case SECTION_PRIVACY: fillPrivacy(items); break;
             case SECTION_GHOST_MODE: fillGhostMode(items); break;
             case SECTION_MESSAGE_MENU: fillMessageMenu(items); break;
             case SECTION_MEDIA_AND_CALLS: fillMediaAndCalls(items); break;
@@ -227,14 +219,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 })
                 .setNegativeButton(getString(R.string.Cancel), null)
                 .show();
-    }
-
-    private void fillPrivacy(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
-        items.add(UItem.asCheck(BUTTON_HIDE_OWN_ONLINE_STATUS, getString(R.string.MZGramHideOwnOnlineStatus)).setChecked(MZGramConfig.hideOwnOnlineStatus));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideOwnOnlineStatusInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_OWN_PHONE_NUMBER, getString(R.string.MZGramHideOwnPhoneNumber)).setChecked(MZGramConfig.hideOwnPhoneNumber));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideOwnPhoneNumberInfo)));
     }
 
     private void fillGhostMode(ArrayList<UItem> items) {
@@ -468,9 +452,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     })
                     .setNegativeButton(getString(R.string.Cancel), null)
                     .show();
-        } else if (item.id == BUTTON_HIDE_OWN_PHONE_NUMBER) {
-            MZGramConfig.toggleHideOwnPhoneNumber();
-            ((TextCheckCell) view).setChecked(MZGramConfig.hideOwnPhoneNumber);
         } else if (item.id == BUTTON_DISABLE_SPONSORED_MESSAGES) {
             MZGramConfig.toggleDisableSponsoredMessages();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableSponsoredMessages);
@@ -482,18 +463,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_STRIP_ZALGO_TEXT) {
             MZGramConfig.toggleStripZalgoText();
             ((TextCheckCell) view).setChecked(MZGramConfig.stripZalgoText);
-        } else if (item.id == BUTTON_HIDE_OWN_ONLINE_STATUS) {
-            boolean target = !MZGramConfig.hideOwnOnlineStatus;
-            org.telegram.messenger.mzgram.MZGramSpyMode.setHideOwnOnlineStatus(getCurrentAccount(), target, (success, hadCustomExceptions) -> AndroidUtilities.runOnUIThread(() -> {
-                if (success) {
-                    MZGramConfig.setHideOwnOnlineStatus(target);
-                    ((TextCheckCell) view).setChecked(MZGramConfig.hideOwnOnlineStatus);
-                } else if (hadCustomExceptions) {
-                    BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramHideOwnOnlineStatusCustomRules)).show();
-                } else {
-                    BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramHideOwnOnlineStatusNotLoaded)).show();
-                }
-            }));
         } else if (item.id == BUTTON_EXPORT_ARCHIVE) {
             org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
                 try {

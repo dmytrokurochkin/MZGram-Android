@@ -4,7 +4,6 @@
     <string name="MZGram">MZGram</string>
     <string name="MZGramSettingsInfo">Features of this client</string>
     <string name="MZGramSectionArchive">Archive</string>
-    <string name="MZGramSectionPrivacy">Privacy</string>
     <string name="MZGramSectionGhostMode">Ghost Mode</string>
     <string name="MZGramSectionMessageMenu">Message menu</string>
     <string name="MZGramSectionMediaAndCalls">Media and calls</string>
@@ -12,7 +11,6 @@
     <string name="MZGramSectionAdsAndFilters">Ads and filters</string>
     <string name="MZGramSectionOther">Other</string>
     <string name="MZGramSectionArchiveInfo">Deleted and edited messages, export and import</string>
-    <string name="MZGramSectionPrivacyInfo">Your online status and phone number</string>
     <string name="MZGramSectionGhostModeInfo">Read and typing without anyone seeing</string>
     <string name="MZGramSectionMessageMenuInfo">Extra actions when you hold a message</string>
     <string name="MZGramSectionMediaAndCallsInfo">Calls, camera, video and photo quality</string>
@@ -115,8 +113,6 @@
     <string name="MZGramWipeArchive">Clear archive</string>
     <string name="MZGramWipeArchiveInfo">Permanently deletes every deleted/edited message archived so far, and all its saved media, in every chat.</string>
     <string name="MZGramWipeArchiveConfirm">This permanently deletes the whole local archive of deleted and edited messages, including saved media. This cannot be undone. Continue?</string>
-    <string name="MZGramHideOwnPhoneNumber">Hide own phone number</string>
-    <string name="MZGramHideOwnPhoneNumberInfo">Masks your own phone number on your own profile screen, e.g. before sharing your screen. Only changes what this device shows you; does not change who else can see your number.</string>
     <string name="MZGramExportArchive">Export archive</string>
     <string name="MZGramImportArchive">Import archive</string>
     <string name="MZGramExportImportArchiveInfo">Export saves the archive database as a file you choose where to put. Import replaces the current archive with a previously exported file (media files are not included).</string>
@@ -125,10 +121,6 @@
     <string name="MZGramDisableSponsoredMessagesInfo">Stops sponsored (ad) messages in channels, and the promo/proxy banner in the chat list, from being requested or shown.</string>
     <string name="MZGramStripZalgoText">Zalgo filter</string>
     <string name="MZGramStripZalgoTextInfo">Removes stacked Unicode combining marks (Zalgo-style corrupted text) from names and chat titles shown to you.</string>
-    <string name="MZGramHideOwnOnlineStatus">Hide own online status</string>
-    <string name="MZGramHideOwnOnlineStatusInfo">Sets your "last seen &amp; online" privacy to Nobody, and restores your previous setting when turned off. Only works when that setting is currently Everybody, My Contacts, or Nobody with no custom exceptions.</string>
-    <string name="MZGramHideOwnOnlineStatusCustomRules">Your last seen privacy already has custom exceptions set. Change it from Settings → Privacy instead.</string>
-    <string name="MZGramHideOwnOnlineStatusNotLoaded">Privacy settings are still loading. Try again in a moment.</string>
     <string name="MZGramSaveDeletedMessages">Save deleted messages</string>
     <string name="MZGramSaveEditHistory">Save edit history</string>
     <string name="MZGramSaveMessageHistoryInfo">In every private chat, group, channel and secret chat, keeps a local copy of another person\'s message before it is deleted, and every earlier revision of an edited one. Your own messages are not saved.</string>

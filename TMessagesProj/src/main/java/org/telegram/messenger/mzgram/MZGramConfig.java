@@ -106,6 +106,16 @@ public class MZGramConfig {
     // Strips Zalgo-style combining-mark text corruption from display names.
     // See MZGramZalgoFilter.
     public static boolean stripZalgoText = false;
+    // Push notifications through UnifiedPush (Notifications and Sounds >
+    // UnifiedPush). Null until the user chooses: then UnifiedPush runs only
+    // on devices without Google services.
+    public static Boolean useUnifiedPush = null;
+    // Telegram's notifications pass through a gateway that moves their
+    // encryption headers into the body. Off sends them straight to the
+    // distributor, where they cannot be decrypted and only wake the app up.
+    public static boolean unifiedPushGatewayEnabled = true;
+    // The user's own gateway; empty for the default one.
+    public static String unifiedPushGateway = "";
 
     static {
         loadConfig(false);
@@ -187,6 +197,9 @@ public class MZGramConfig {
             }
             disableSponsoredMessages = preferences.getBoolean("disableSponsoredMessages", false);
             stripZalgoText = preferences.getBoolean("stripZalgoText", false);
+            useUnifiedPush = preferences.contains("useUnifiedPush") ? preferences.getBoolean("useUnifiedPush", false) : null;
+            unifiedPushGatewayEnabled = preferences.getBoolean("unifiedPushGatewayEnabled", true);
+            unifiedPushGateway = preferences.getString("unifiedPushGateway", "");
             // The archive keeps media of any size, with no total quota, and
             // never deletes saved files on its own; the old limit keys go.
             if (preferences.contains("historyMediaSizeLimitMb") || preferences.contains("historyTotalMediaCapMb")) {
@@ -403,6 +416,31 @@ public class MZGramConfig {
     public static void toggleDisableSponsoredMessages() {
         disableSponsoredMessages = !disableSponsoredMessages;
         putBoolean("disableSponsoredMessages", disableSponsoredMessages);
+    }
+
+    public static void setUseUnifiedPush(boolean use) {
+        useUnifiedPush = use;
+        preferences().edit().putBoolean("useUnifiedPush", use).commit();
+    }
+
+    public static void toggleUnifiedPushGatewayEnabled() {
+        unifiedPushGatewayEnabled = !unifiedPushGatewayEnabled;
+        preferences().edit().putBoolean("unifiedPushGatewayEnabled", unifiedPushGatewayEnabled).commit();
+    }
+
+    // Saves the user's own gateway; empty or null goes back to the default.
+    // An address that cannot be used is not saved and gives false.
+    public static boolean setUnifiedPushGateway(String url) {
+        String gateway = "";
+        if (url != null && !url.trim().isEmpty()) {
+            gateway = MZGramUnifiedPushRules.normalizeGateway(url);
+            if (gateway == null) {
+                return false;
+            }
+        }
+        unifiedPushGateway = gateway;
+        preferences().edit().putString("unifiedPushGateway", gateway).commit();
+        return true;
     }
 
     public static void toggleStripZalgoText() {

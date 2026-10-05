@@ -146,4 +146,22 @@
     <string name="MZGramMessageHistoryEmpty">Для цього повідомлення немає збережених версій.</string>
     <string name="MZGramMessageHistoryNoText">(без тексту)</string>
     <string name="MZGramMessageHistoryCopied">Текст скопійовано</string>
+    <string name="MZGramUnifiedPush">UnifiedPush</string>
+    <string name="MZGramUnifiedPushOn">Увімкнено</string>
+    <string name="MZGramUnifiedPushOff">Вимкнено</string>
+    <string name="MZGramUseUnifiedPush">Сповіщення через UnifiedPush</string>
+    <string name="MZGramUnifiedPushInfo">Сповіщення приходять через застосунок-розподільник UnifiedPush (ntfy, microG, Sunup та інші) замість Google. Вмикається сам на пристроях без сервісів Google.</string>
+    <string name="MZGramUnifiedPushDistributor">Розподільник</string>
+    <string name="MZGramUnifiedPushNotChosen">Не вибрано</string>
+    <string name="MZGramUnifiedPushStatusRegistered">Сповіщення зареєстровано в Telegram.</string>
+    <string name="MZGramUnifiedPushStatusWaiting">Очікування відповіді розподільника.</string>
+    <string name="MZGramUnifiedPushStatusChoose">Виберіть розподільник, щоб отримувати сповіщення.</string>
+    <string name="MZGramUnifiedPushStatusNone">Не встановлено жодного розподільника. Встановіть ntfy, Sunup чи інший розподільник UnifiedPush або скористайтеся microG.</string>
+    <string name="MZGramUnifiedPushGatewayEnabled">Використовувати шлюз</string>
+    <string name="MZGramUnifiedPushGateway">Адреса шлюзу</string>
+    <string name="MZGramUnifiedPushGatewayReset">Скинути на типовий</string>
+    <string name="MZGramUnifiedPushGatewayInfo">Шлюз не бачить вмісту сповіщень: ключі до них зберігаються лише на цьому пристрої. Він бачить адресу вашого розподільника, а також час і розмір кожного сповіщення. Можна вказати свій шлюз. Без шлюзу Telegram надсилає сповіщення просто розподільнику; тоді їх не розшифрувати, вони лише будять застосунок, і той сам забирає нові повідомлення.</string>
+    <string name="MZGramUnifiedPushGatewayInvalid">Цю адресу не можна використати: вона має починатися з https:// і не містити імені чи пароля.</string>
+    <string name="MZGramUnifiedPushGatewaySaved">Шлюз збережено</string>
+    <string name="MZGramUnifiedPushGatewayDefault">Повернено типовий шлюз</string>
 </resources>

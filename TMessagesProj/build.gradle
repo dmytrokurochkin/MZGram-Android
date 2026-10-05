@@ -94,6 +94,15 @@ dependencies {
         }
     }
     implementation 'com.google.android.recaptcha:recaptcha:18.7.1'
+    // Push notifications through a UnifiedPush distributor (ntfy and the like)
+    // on devices without Google services, or when the user turns it on.
+    // Its Tink is the Java build, which clashes with the Android build that
+    // recaptcha brings in; the Android build of the same version has the
+    // same classes.
+    implementation('org.unifiedpush.android:connector:3.0.10') {
+        exclude group: 'com.google.crypto.tink', module: 'tink'
+    }
+    implementation 'com.google.crypto.tink:tink-android:1.17.0'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 }

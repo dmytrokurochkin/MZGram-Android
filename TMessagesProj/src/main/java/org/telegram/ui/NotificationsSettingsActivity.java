@@ -103,6 +103,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
 
     private int notificationsServiceRow;
     private int notificationsServiceConnectionRow;
+    // MZGram: opens the UnifiedPush page.
+    private int mzgramUnifiedPushRow;
 
     private int notificationsSectionRow;
     @Keep
@@ -215,6 +217,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         otherSectionRow = rowCount++;
         notificationsServiceRow = rowCount++;
         notificationsServiceConnectionRow = rowCount++;
+        mzgramUnifiedPushRow = rowCount++;
         androidAutoAlertRow = -1;
         repeatRow = rowCount++;
         resetSection2Row = rowCount++;
@@ -773,6 +776,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     updateVibrate = true;
                     adapter.notifyItemChanged(position);
                 }));
+            } else if (position == mzgramUnifiedPushRow) {
+                presentFragment(new org.telegram.ui.mzgram.MZGramUnifiedPushActivity());
             } else if (position == repeatRow) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(getString("RepeatNotifications", R.string.RepeatNotifications));
@@ -1168,6 +1173,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                             textCell.setTextAndValue(getString("Vibrate", R.string.Vibrate), getString("OnlyIfSilent", R.string.OnlyIfSilent), updateVibrate, true);
                         }
                         updateVibrate = false;
+                    } else if (position == mzgramUnifiedPushRow) {
+                        textCell.setTextAndValue(getString(R.string.MZGramUnifiedPush), getString(org.telegram.messenger.mzgram.MZGramUnifiedPush.isActive() ? R.string.MZGramUnifiedPushOn : R.string.MZGramUnifiedPushOff), true);
                     } else if (position == repeatRow) {
                         int minutes = preferences.getInt("repeat_messages", 60);
                         String value;

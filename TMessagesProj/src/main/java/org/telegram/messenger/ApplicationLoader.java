@@ -107,9 +107,18 @@ public class ApplicationLoader extends Application {
 
     public static PushListenerController.IPushListenerServiceProvider getPushProvider() {
         if (pushProvider == null) {
-            pushProvider = applicationLoaderInstance.onCreatePushProvider();
+            pushProvider = org.telegram.messenger.mzgram.MZGramUnifiedPush.choose(applicationLoaderInstance.onCreatePushProvider());
         }
         return pushProvider;
+    }
+
+    // MZGram: the user switched UnifiedPush on or off.
+    public static void resetPushProvider() {
+        pushProvider = null;
+    }
+
+    public static void restartPushServices() {
+        applicationLoaderInstance.initPushServices();
     }
 
     protected PushListenerController.IPushListenerServiceProvider onCreatePushProvider() {

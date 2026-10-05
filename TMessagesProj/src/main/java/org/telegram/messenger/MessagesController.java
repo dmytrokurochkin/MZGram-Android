@@ -16330,6 +16330,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 SharedConfig.pushString = regid;
                 SharedConfig.pushType = pushType;
                 getUserConfig().saveConfig(false);
+                org.telegram.messenger.mzgram.MZGramUnifiedPush.onRegisteredForPush(currentAccount, pushType);
             }
             AndroidUtilities.runOnUIThread(() -> registeringForPush = false);
         });

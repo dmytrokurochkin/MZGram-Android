@@ -27,7 +27,7 @@ class MZGramLocalizationTest {
     private var savedLocale: Locale? = null
 
     // Strings that read the same in both languages.
-    private val sameInBoth = setOf("MZGram", "MZGramDetailsId")
+    private val sameInBoth = setOf("MZGram", "MZGramDetailsId", "MZGramUnifiedPush")
 
     private val formatArg = Regex("%(\\d+\\$)?[sd]")
 

@@ -138,6 +138,9 @@
     <string name="MZGramSaveForBots">Save in chats with bots</string>
     <string name="MZGramSaveArchiveMediaInfo">Files of saved messages are copied to Downloads/MZGram/Saved Attachments, of any size and with no total limit. Formatting and reactions are kept with the text; chats with bots are saved only while their switch is on.</string>
     <string name="MZGramDeletedMarkText">Deleted mark</string>
+    <string name="MZGramEraseLocalDatabase">Clear Telegram local database</string>
+    <string name="MZGramEraseLocalDatabaseInfo">Clears Telegram\'s cache on this device: messages, the chat list and the rest of the local database. They load again from the server. The MZGram archive is not cleared.</string>
+    <string name="MZGramEraseLocalDatabaseConfirm">This clears Telegram\'s local cache: cached messages and the chat list, which then load again from the server. The MZGram archive (saved deleted and edited messages, and the Saved Attachments folder) is NOT cleared; use "Clear archive" for that. A message deleted on the server before it is loaded again is not saved.</string>
     <string name="MZGramEditedMarkText">Edited mark</string>
     <string name="MZGramSemiTransparentDeleted">Semi-transparent deleted messages</string>
     <string name="MZGramArchiveLookInfo">The marks are shown before the time of another person\'s deleted or edited message; any text, leave empty for none. Deleted messages kept in the chat are drawn at 75% opacity.</string>

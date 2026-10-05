@@ -63,6 +63,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DELETED_MARK = 48;
     private static final int BUTTON_EDITED_MARK = 49;
     private static final int BUTTON_SEMI_TRANSPARENT_DELETED = 50;
+    private static final int BUTTON_ERASE_LOCAL_DATABASE = 51;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
@@ -192,6 +193,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
         items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
         items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
+        items.add(UItem.asButton(BUTTON_ERASE_LOCAL_DATABASE, getString(R.string.MZGramEraseLocalDatabase)).red());
+        items.add(UItem.asShadow(getString(R.string.MZGramEraseLocalDatabaseInfo)));
     }
 
     // The text shown before the time of a deleted or edited message; any
@@ -442,6 +445,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SEMI_TRANSPARENT_DELETED) {
             MZGramConfig.toggleSemiTransparentDeleted();
             ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);
+        } else if (item.id == BUTTON_ERASE_LOCAL_DATABASE) {
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
+                    .setTitle(getString(R.string.MZGramEraseLocalDatabase))
+                    .setMessage(getString(R.string.MZGramEraseLocalDatabaseConfirm))
+                    .setPositiveButton(getString(R.string.CacheClear), (dialog, which) ->
+                            org.telegram.messenger.mzgram.MZGramLocalDatabase.erase(getCurrentAccount()))
+                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .makeRed(org.telegram.ui.ActionBar.AlertDialog.BUTTON_POSITIVE)
+                    .show();
         } else if (item.id == BUTTON_DELETED_MARK) {
             editMark(getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark, MZGramConfig::setDeletedMark);
         } else if (item.id == BUTTON_EDITED_MARK) {

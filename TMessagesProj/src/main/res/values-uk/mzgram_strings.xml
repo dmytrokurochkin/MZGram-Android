@@ -139,6 +139,9 @@
     <string name="MZGramSaveForBots">Зберігати в чатах з ботами</string>
     <string name="MZGramSaveArchiveMediaInfo">Файли збережених повідомлень копіюються в Downloads/MZGram/Saved Attachments, будь-якого розміру і без загального ліміту. Форматування і реакції зберігаються разом з текстом; чати з ботами зберігаються, лише поки їхній перемикач увімкнений.</string>
     <string name="MZGramDeletedMarkText">Позначка видаленого</string>
+    <string name="MZGramEraseLocalDatabase">Стерти локальну базу Telegram</string>
+    <string name="MZGramEraseLocalDatabaseInfo">Стирає кеш Telegram на цьому пристрої: повідомлення, список чатів і решту локальної бази. Вони знову завантажаться з сервера. Архів MZGram не стирається.</string>
+    <string name="MZGramEraseLocalDatabaseConfirm">Буде стерто локальний кеш Telegram: кешовані повідомлення і список чатів, які потім знову завантажаться з сервера. Архів MZGram (збережені видалені й редаговані повідомлення і тека Saved Attachments) НЕ стирається; для нього є "Очистити архів". Повідомлення, видалене на сервері до того, як воно знову завантажиться, не збережеться.</string>
     <string name="MZGramEditedMarkText">Позначка редагованого</string>
     <string name="MZGramSemiTransparentDeleted">Напівпрозорі видалені повідомлення</string>
     <string name="MZGramArchiveLookInfo">Позначки показуються перед часом чужого видаленого чи редагованого повідомлення; будь-який текст, порожньо, щоб не показувати. Видалені повідомлення, що лишаються в чаті, малюються з непрозорістю 75%.</string>

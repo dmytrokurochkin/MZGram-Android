@@ -471,4 +471,36 @@ class MZGramDeletedArchiveFlowTest {
         deleteOnServer(mid)
         assertNotNull("deleted message still saved", archived(otherUserId, mid))
     }
+
+    // Settings > MZGram > Archive > "Clear Telegram local database": the
+    // cached messages and the chat list go, the MZGram archive stays.
+    @Test
+    fun eraseLocalDatabase_clearsTelegramsCache_butNotTheArchive() {
+        val kept = newMessageId()
+        putInCache(incomingPrivate(kept, otherUserId, "archived before $kept"))
+        deleteOnServer(kept)
+        assertNotNull("archived", archived(otherUserId, kept))
+        val cached = newMessageId()
+        putInCache(incomingPrivate(cached, otherUserId, "cached $cached"))
+
+        org.telegram.messenger.mzgram.MZGramLocalDatabase.erase(account)
+        drainAll()
+        drainAll()
+
+        assertNull("cached message cleared", storage.getMessage(otherUserId, cached.toLong()))
+        var left = -1
+        val latch = CountDownLatch(1)
+        storage.storageQueue.postRunnable {
+            val cursor = storage.database.queryFinalized("SELECT COUNT(*) FROM messages_v2")
+            left = if (cursor.next()) cursor.intValue(0) else -1
+            cursor.dispose()
+            val dialogs = storage.database.queryFinalized("SELECT COUNT(*) FROM dialogs")
+            left += if (dialogs.next()) dialogs.intValue(0) else 0
+            dialogs.dispose()
+            latch.countDown()
+        }
+        latch.await(30, TimeUnit.SECONDS)
+        assertEquals("no cached messages or chats left", 0, left)
+        assertNotNull("the archive is not cleared", archived(otherUserId, kept))
+    }
 }

@@ -2992,11 +2992,24 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         BirthdayController.getInstance(currentAccount).check();
-        // MZGram: MZGramConfig.hideBottomNavigationBar.
-        final boolean mainTabsShown = hasMainTabs && !org.telegram.messenger.mzgram.MZGramConfig.hideBottomNavigationBar;
-        additionNavigationBarHeight = mainTabsShown ? dp(MAIN_TABS_HEIGHT_WITH_MARGINS) : 0;
-        additionFloatingButtonOffset = mainTabsShown ? dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN) : 0;
+        updateMainTabsSpace();
 
+        return true;
+    }
+
+    // MZGram: MZGramConfig.hideBottomNavigationBar. The room kept at the
+    // bottom for the app's bottom bar. Read again on every return to the
+    // chat list, since the setting can change while the list is open;
+    // returns true when it changed.
+    private boolean updateMainTabsSpace() {
+        final boolean mainTabsShown = hasMainTabs && !org.telegram.messenger.mzgram.MZGramConfig.hideBottomNavigationBar;
+        final int navigationHeight = mainTabsShown ? dp(MAIN_TABS_HEIGHT_WITH_MARGINS) : 0;
+        final int buttonOffset = mainTabsShown ? dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN) : 0;
+        if (additionNavigationBarHeight == navigationHeight && additionFloatingButtonOffset == buttonOffset) {
+            return false;
+        }
+        additionNavigationBarHeight = navigationHeight;
+        additionFloatingButtonOffset = buttonOffset;
         return true;
     }
 
@@ -7040,6 +7053,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     @Override
     public void onResume() {
         super.onResume();
+        if (updateMainTabsSpace() && fragmentView != null) {
+            ViewCompat.requestApplyInsets(fragmentView);
+            fragmentView.requestLayout();
+        }
         if (dialogStoriesCell != null) {
             dialogStoriesCell.onResume();
         }

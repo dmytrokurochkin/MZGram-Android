@@ -55,13 +55,13 @@ class MZGramDeletedArchiveFlowTest {
         // MessagesController expects to be created on the main thread.
         InstrumentationRegistry.getInstrumentation().runOnMainSync { controller }
 
-        savedSaveMessageHistory = MZGramConfig.saveMessageHistory
-        MZGramConfig.saveMessageHistory = true
+        savedSaveMessageHistory = MZGramConfig.saveDeletedMessages
+        MZGramConfig.saveDeletedMessages = true
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.saveMessageHistory = savedSaveMessageHistory
+        MZGramConfig.saveDeletedMessages = savedSaveMessageHistory
     }
 
     private fun newMessageId(): Int = 100_000 + (Math.random() * 1_000_000).toInt()
@@ -197,7 +197,7 @@ class MZGramDeletedArchiveFlowTest {
 
     @Test
     fun archiveSwitchedOff_isNotArchived() {
-        MZGramConfig.saveMessageHistory = false
+        MZGramConfig.saveDeletedMessages = false
         val mid = newMessageId()
         putInCache(incomingPrivate(mid, otherUserId, "archive off $mid"))
 
@@ -290,5 +290,185 @@ class MZGramDeletedArchiveFlowTest {
             earlier.delete()
             saved?.delete()
         }
+    }
+
+    // ---- Settings > MZGram > Archive: each part has its own switch ----
+
+    private fun withSwitches(block: () -> Unit) {
+        val media = MZGramConfig.saveArchiveMedia
+        val formatting = MZGramConfig.saveFormatting
+        val reactions = MZGramConfig.saveReactions
+        val bots = MZGramConfig.saveForBots
+        val edits = MZGramConfig.saveEditHistory
+        try {
+            block()
+        } finally {
+            MZGramConfig.saveArchiveMedia = media
+            MZGramConfig.saveFormatting = formatting
+            MZGramConfig.saveReactions = reactions
+            MZGramConfig.saveForBots = bots
+            MZGramConfig.saveEditHistory = edits
+        }
+    }
+
+    // Another user's message with a small file downloaded on this device.
+    private fun withFile(mid: Int, fromUser: Long): Pair<TLRPC.Message, File> {
+        val message = incomingPrivate(mid, fromUser, "file $mid")
+        val bytes = ByteArray(4096) { (it * 13 + mid).toByte() }
+        message.media = TLRPC.TL_messageMediaDocument().also { m ->
+            m.document = TLRPC.TL_document().also { d ->
+                d.id = 500_000_000_000L + mid
+                d.access_hash = 1
+                d.dc_id = 2
+                d.date = message.date
+                d.size = bytes.size.toLong()
+                d.mime_type = "application/pdf"
+                d.file_reference = ByteArray(0)
+                d.attributes.add(TLRPC.TL_documentAttributeFilename().also { a -> a.file_name = "doc-$mid.pdf" })
+            }
+            m.flags = m.flags or 1
+        }
+        message.flags = message.flags or 512
+        val file = FileLoader.getInstance(account).getPathToMessage(message)
+        file.parentFile?.mkdirs()
+        file.writeBytes(bytes)
+        return message to file
+    }
+
+    private fun deleteOnServer(mid: Int) {
+        val update = TL_update.TL_updateDeleteMessages()
+        update.messages.add(mid)
+        deliverUpdate(update)
+    }
+
+    private fun storedMessage(row: org.telegram.messenger.mzgram.MZGramHistoryMessage): TLRPC.Message {
+        val data = org.telegram.tgnet.SerializedData(row.messageData)
+        return TLRPC.Message.TLdeserialize(data, data.readInt32(false), false)
+    }
+
+    // Files go to Downloads/MZGram/Saved Attachments, which has a .nomedia
+    // file so the gallery does not list them.
+    @Test
+    fun media_isCopiedToSavedAttachments() = withSwitches {
+        val mid = newMessageId()
+        val (message, file) = withFile(mid, otherUserId)
+        putInCache(message)
+        try {
+            deleteOnServer(mid)
+            val row = archived(otherUserId, mid)
+            log("saved attachment: ${row?.mediaPath}")
+            assertNotNull("archived", row)
+            val saved = File(row!!.mediaPath ?: "")
+            val folder = MZGramHistoryDatabase.attachmentsRoot()
+            assertEquals("in Saved Attachments", folder.absolutePath, saved.parentFile?.absolutePath)
+            assertTrue("folder is Downloads/MZGram/Saved Attachments: $folder", folder.absolutePath.endsWith("/MZGram/Saved Attachments"))
+            assertTrue("same bytes", saved.readBytes().contentEquals(file.readBytes()))
+            assertTrue(".nomedia in the folder", File(folder, ".nomedia").exists())
+            saved.delete()
+        } finally {
+            file.delete()
+        }
+    }
+
+    @Test
+    fun mediaSwitchOff_keepsTheMessageWithoutTheFile() = withSwitches {
+        MZGramConfig.saveArchiveMedia = false
+        val mid = newMessageId()
+        val (message, file) = withFile(mid, otherUserId)
+        putInCache(message)
+        try {
+            deleteOnServer(mid)
+            val row = archived(otherUserId, mid)
+            assertNotNull("message archived", row)
+            assertNull("no file with the switch off", row!!.mediaPath)
+        } finally {
+            file.delete()
+        }
+    }
+
+    private fun formatted(mid: Int): TLRPC.Message {
+        val message = incomingPrivate(mid, otherUserId, "bold text $mid")
+        message.entities.add(TLRPC.TL_messageEntityBold().also { it.offset = 0; it.length = 4 })
+        message.flags = message.flags or 128
+        return message
+    }
+
+    @Test
+    fun formatting_isKept_andDroppedWithItsSwitchOff() = withSwitches {
+        val on = newMessageId()
+        putInCache(formatted(on))
+        deleteOnServer(on)
+        assertEquals("formatting kept", 1, storedMessage(archived(otherUserId, on)!!).entities.size)
+
+        MZGramConfig.saveFormatting = false
+        val off = newMessageId()
+        putInCache(formatted(off))
+        deleteOnServer(off)
+        val row = archived(otherUserId, off)!!
+        assertEquals("text kept", "bold text $off", row.text)
+        assertTrue("no formatting with the switch off", storedMessage(row).entities.isNullOrEmpty())
+    }
+
+    private fun withReaction(mid: Int): TLRPC.Message {
+        val message = incomingPrivate(mid, otherUserId, "liked $mid")
+        message.reactions = TLRPC.TL_messageReactions().also { r ->
+            r.results.add(TLRPC.TL_reactionCount().also { c ->
+                c.reaction = TLRPC.TL_reactionEmoji().also { it.emoticon = "\uD83D\uDC4D" }
+                c.count = 3
+            })
+        }
+        message.flags = message.flags or (1 shl 20)
+        return message
+    }
+
+    @Test
+    fun reactions_areKept_andDroppedWithTheirSwitchOff() = withSwitches {
+        val on = newMessageId()
+        putInCache(withReaction(on))
+        deleteOnServer(on)
+        assertEquals("reactions kept", 1, storedMessage(archived(otherUserId, on)!!).reactions?.results?.size ?: 0)
+
+        MZGramConfig.saveReactions = false
+        val off = newMessageId()
+        putInCache(withReaction(off))
+        deleteOnServer(off)
+        assertNull("no reactions with the switch off", storedMessage(archived(otherUserId, off)!!).reactions)
+    }
+
+    @Test
+    fun botChats_areSaved_andNotWithTheirSwitchOff() = withSwitches {
+        val botId = 7_600_000_000L + (Math.random() * 1_000_000).toLong()
+        InstrumentationRegistry.getInstrumentation().runOnMainSync {
+            controller.putUser(TLRPC.TL_user().also { it.id = botId; it.access_hash = 1; it.first_name = "bot"; it.bot = true }, false)
+        }
+        val on = newMessageId()
+        putInCache(incomingPrivate(on, botId, "bot says $on"))
+        deleteOnServer(on)
+        assertNotNull("saved in a bot chat by default", archived(botId, on))
+
+        MZGramConfig.saveForBots = false
+        val off = newMessageId()
+        putInCache(incomingPrivate(off, botId, "bot says $off"))
+        deleteOnServer(off)
+        assertNull("not saved with the switch off", archived(botId, off))
+        val user = newMessageId()
+        putInCache(incomingPrivate(user, otherUserId, "person says $user"))
+        deleteOnServer(user)
+        assertNotNull("other chats still saved", archived(otherUserId, user))
+    }
+
+    @Test
+    fun editHistoryOff_keepsNoRevisions_butDeletedMessagesStill() = withSwitches {
+        MZGramConfig.saveEditHistory = false
+        val mid = newMessageId()
+        val before = incomingPrivate(mid, otherUserId, "before $mid")
+        val after = incomingPrivate(mid, otherUserId, "after $mid")
+        org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onMessageEdited(account, otherUserId, before, after)
+        assertTrue("no revision with edit history off",
+            MZGramHistoryDatabase.getInstance().getRevisions(selfId, otherUserId, mid).isEmpty())
+
+        putInCache(after)
+        deleteOnServer(mid)
+        assertNotNull("deleted message still saved", archived(otherUserId, mid))
     }
 }

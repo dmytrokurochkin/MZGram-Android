@@ -74,13 +74,13 @@ class MZGramOneTimeMediaRealPathTest {
         instrumentation.runOnMainSync {
             controller.putUser(TLRPC.TL_user().also { it.id = otherUserId; it.access_hash = 1; it.first_name = "other" }, false)
         }
-        savedSaveMessageHistory = MZGramConfig.saveMessageHistory
-        MZGramConfig.saveMessageHistory = true
+        savedSaveMessageHistory = MZGramConfig.saveDeletedMessages
+        MZGramConfig.saveDeletedMessages = true
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.saveMessageHistory = savedSaveMessageHistory
+        MZGramConfig.saveDeletedMessages = savedSaveMessageHistory
     }
 
     // ---- messages ----

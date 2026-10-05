@@ -54,7 +54,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_GOOEY_AVATAR_ANIMATION = 22;
     private static final int BUTTON_HIDE_BOTTOM_NAVIGATION_BAR = 23;
     private static final int BUTTON_GHOST_MODE = 25;
-    private static final int BUTTON_SAVE_MESSAGE_HISTORY = 26;
+    private static final int BUTTON_SAVE_DELETED_MESSAGES = 26;
+    private static final int BUTTON_SAVE_EDIT_HISTORY = 43;
+    private static final int BUTTON_SAVE_ARCHIVE_MEDIA = 44;
+    private static final int BUTTON_SAVE_FORMATTING = 45;
+    private static final int BUTTON_SAVE_REACTIONS = 46;
+    private static final int BUTTON_SAVE_FOR_BOTS = 47;
+    private static final int BUTTON_DELETED_MARK = 48;
+    private static final int BUTTON_EDITED_MARK = 49;
+    private static final int BUTTON_SEMI_TRANSPARENT_DELETED = 50;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
@@ -167,13 +175,55 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private void fillArchive(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
-        items.add(UItem.asCheck(BUTTON_SAVE_MESSAGE_HISTORY, getString(R.string.MZGramSaveMessageHistory)).setChecked(MZGramConfig.saveMessageHistory));
+        items.add(UItem.asCheck(BUTTON_SAVE_DELETED_MESSAGES, getString(R.string.MZGramSaveDeletedMessages)).setChecked(MZGramConfig.saveDeletedMessages));
+        items.add(UItem.asCheck(BUTTON_SAVE_EDIT_HISTORY, getString(R.string.MZGramSaveEditHistory)).setChecked(MZGramConfig.saveEditHistory));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveMessageHistoryInfo)));
+        items.add(UItem.asCheck(BUTTON_SAVE_ARCHIVE_MEDIA, getString(R.string.MZGramSaveArchiveMedia)).setChecked(MZGramConfig.saveArchiveMedia));
+        items.add(UItem.asCheck(BUTTON_SAVE_FORMATTING, getString(R.string.MZGramSaveFormatting)).setChecked(MZGramConfig.saveFormatting));
+        items.add(UItem.asCheck(BUTTON_SAVE_REACTIONS, getString(R.string.MZGramSaveReactions)).setChecked(MZGramConfig.saveReactions));
+        items.add(UItem.asCheck(BUTTON_SAVE_FOR_BOTS, getString(R.string.MZGramSaveForBots)).setChecked(MZGramConfig.saveForBots));
+        items.add(UItem.asShadow(getString(R.string.MZGramSaveArchiveMediaInfo)));
+        items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
+        items.add(UItem.asButton(BUTTON_EDITED_MARK, getString(R.string.MZGramEditedMarkText), MZGramConfig.editedMark));
+        items.add(UItem.asCheck(BUTTON_SEMI_TRANSPARENT_DELETED, getString(R.string.MZGramSemiTransparentDeleted)).setChecked(MZGramConfig.semiTransparentDeleted));
+        items.add(UItem.asShadow(getString(R.string.MZGramArchiveLookInfo)));
         items.add(UItem.asButton(BUTTON_WIPE_ARCHIVE, getString(R.string.MZGramWipeArchive)));
         items.add(UItem.asShadow(getString(R.string.MZGramWipeArchiveInfo)));
         items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
         items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
         items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
+    }
+
+    // The text shown before the time of a deleted or edited message; any
+    // text, empty for none.
+    private void editMark(String title, String current, org.telegram.messenger.Utilities.Callback<String> setter) {
+        if (getContext() == null) {
+            return;
+        }
+        org.telegram.ui.Components.EditTextBoldCursor editText = new org.telegram.ui.Components.EditTextBoldCursor(getContext());
+        editText.setText(current);
+        editText.setSingleLine(true);
+        editText.setTextSize(android.util.TypedValue.COMPLEX_UNIT_DIP, 18);
+        editText.setTextColor(org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_dialogTextBlack, getResourceProvider()));
+        editText.setCursorColor(org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_dialogTextBlack, getResourceProvider()));
+        editText.setLineColors(
+                org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_dialogInputField, getResourceProvider()),
+                org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_dialogInputFieldActivated, getResourceProvider()),
+                org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_text_RedBold, getResourceProvider()));
+        editText.setPadding(0, AndroidUtilities.dp(8), 0, AndroidUtilities.dp(8));
+        android.widget.FrameLayout frame = new android.widget.FrameLayout(getContext());
+        frame.addView(editText, org.telegram.ui.Components.LayoutHelper.createFrame(org.telegram.ui.Components.LayoutHelper.MATCH_PARENT, org.telegram.ui.Components.LayoutHelper.WRAP_CONTENT, 0, 24, 0, 24, 0));
+        new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
+                .setTitle(title)
+                .setView(frame)
+                .setPositiveButton(getString(R.string.Save), (dialog, which) -> {
+                    setter.run(editText.getText() == null ? "" : editText.getText().toString());
+                    if (listView != null && listView.adapter != null) {
+                        listView.adapter.update(true);
+                    }
+                })
+                .setNegativeButton(getString(R.string.Cancel), null)
+                .show();
     }
 
     private void fillPrivacy(ArrayList<UItem> items) {
@@ -371,9 +421,31 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_GHOST_MODE) {
             MZGramConfig.toggleGhostMode();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostMode);
-        } else if (item.id == BUTTON_SAVE_MESSAGE_HISTORY) {
-            MZGramConfig.toggleSaveMessageHistory();
-            ((TextCheckCell) view).setChecked(MZGramConfig.saveMessageHistory);
+        } else if (item.id == BUTTON_SAVE_DELETED_MESSAGES) {
+            MZGramConfig.toggleSaveDeletedMessages();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveDeletedMessages);
+        } else if (item.id == BUTTON_SAVE_EDIT_HISTORY) {
+            MZGramConfig.toggleSaveEditHistory();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveEditHistory);
+        } else if (item.id == BUTTON_SAVE_ARCHIVE_MEDIA) {
+            MZGramConfig.toggleSaveArchiveMedia();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveArchiveMedia);
+        } else if (item.id == BUTTON_SAVE_FORMATTING) {
+            MZGramConfig.toggleSaveFormatting();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveFormatting);
+        } else if (item.id == BUTTON_SAVE_REACTIONS) {
+            MZGramConfig.toggleSaveReactions();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveReactions);
+        } else if (item.id == BUTTON_SAVE_FOR_BOTS) {
+            MZGramConfig.toggleSaveForBots();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveForBots);
+        } else if (item.id == BUTTON_SEMI_TRANSPARENT_DELETED) {
+            MZGramConfig.toggleSemiTransparentDeleted();
+            ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);
+        } else if (item.id == BUTTON_DELETED_MARK) {
+            editMark(getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark, MZGramConfig::setDeletedMark);
+        } else if (item.id == BUTTON_EDITED_MARK) {
+            editMark(getString(R.string.MZGramEditedMarkText), MZGramConfig.editedMark, MZGramConfig::setEditedMark);
         } else if (item.id == BUTTON_WIPE_ARCHIVE) {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
                     .setTitle(getString(R.string.MZGramWipeArchive))

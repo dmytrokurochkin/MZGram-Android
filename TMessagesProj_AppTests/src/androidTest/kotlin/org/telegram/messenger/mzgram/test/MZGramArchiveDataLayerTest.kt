@@ -69,13 +69,13 @@ class MZGramArchiveDataLayerTest {
             controller.putUser(user(otherUserId), false)
             controller.putChat(channel(), false)
         }
-        savedSaveMessageHistory = MZGramConfig.saveMessageHistory
-        MZGramConfig.saveMessageHistory = true
+        savedSaveMessageHistory = MZGramConfig.saveDeletedMessages
+        MZGramConfig.saveDeletedMessages = true
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.saveMessageHistory = savedSaveMessageHistory
+        MZGramConfig.saveDeletedMessages = savedSaveMessageHistory
     }
 
     // ---- fixtures ----

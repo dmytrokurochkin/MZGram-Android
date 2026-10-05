@@ -89,10 +89,26 @@ public class MZGramConfig {
     public static boolean hideOwnOnlineStatus = false;
     public static int savedLastSeenPrivacyState = Integer.MIN_VALUE;
 
-    // Local message history archive (deleted/edited messages).
-    // Saves other people's deleted and edited messages in every private
-    // chat, group, channel and secret chat. On by default.
-    public static boolean saveMessageHistory = true;
+    // Local message history archive (Settings > MZGram > Archive). Other
+    // people's deleted and edited messages in every private chat, group,
+    // channel and secret chat; each part has its own switch, all on by
+    // default.
+    public static boolean saveDeletedMessages = true;
+    public static boolean saveEditHistory = true;
+    // Files of archived messages, copied to Downloads/MZGram/Saved Attachments.
+    public static boolean saveArchiveMedia = true;
+    // Bold, italic, links and the like of archived messages.
+    public static boolean saveFormatting = true;
+    public static boolean saveReactions = true;
+    // Chats with bots.
+    public static boolean saveForBots = true;
+    // How a deleted message kept in the chat looks: drawn at 75% opacity,
+    // and the marks shown before the time (any text, empty for none).
+    public static boolean semiTransparentDeleted = true;
+    public static final String DEFAULT_DELETED_MARK = "\uD83E\uDDF9";
+    public static final String DEFAULT_EDITED_MARK = "\u270F\uFE0F";
+    public static String deletedMark = DEFAULT_DELETED_MARK;
+    public static String editedMark = DEFAULT_EDITED_MARK;
     // Spy mode: masks your own phone number on your own profile/settings
     // screen (e.g. before screen sharing). Purely a display change on this
     // device -- unrelated to the server-side privacy setting for what other
@@ -158,7 +174,25 @@ public class MZGramConfig {
             }
             // The switch is on by default now; the old key kept "off" for
             // everyone who never touched it, so it is read under a new key.
-            saveMessageHistory = preferences.getBoolean("saveDeletedAndEdited", true);
+            // The single archive switch of the previous version is now two;
+            // its value carries over to both.
+            boolean oldArchiveSwitch = preferences.getBoolean("saveDeletedAndEdited", true);
+            saveDeletedMessages = preferences.getBoolean("saveDeletedMessages", oldArchiveSwitch);
+            saveEditHistory = preferences.getBoolean("saveEditHistory", oldArchiveSwitch);
+            if (preferences.contains("saveDeletedAndEdited")) {
+                preferences.edit()
+                        .putBoolean("saveDeletedMessages", saveDeletedMessages)
+                        .putBoolean("saveEditHistory", saveEditHistory)
+                        .remove("saveDeletedAndEdited")
+                        .apply();
+            }
+            saveArchiveMedia = preferences.getBoolean("saveArchiveMedia", true);
+            saveFormatting = preferences.getBoolean("saveFormatting", true);
+            saveReactions = preferences.getBoolean("saveReactions", true);
+            saveForBots = preferences.getBoolean("saveForBots", true);
+            semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
+            deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
+            editedMark = preferences.getString("editedMark", DEFAULT_EDITED_MARK);
             if (preferences.contains("saveMessageHistory") || preferences.contains("historyTrackedDialogs")) {
                 preferences.edit().remove("saveMessageHistory").remove("historyTrackedDialogs").apply();
             }
@@ -346,9 +380,49 @@ public class MZGramConfig {
         putBoolean("ghostMode", ghostMode);
     }
 
-    public static void toggleSaveMessageHistory() {
-        saveMessageHistory = !saveMessageHistory;
-        putBoolean("saveDeletedAndEdited", saveMessageHistory);
+    public static void toggleSaveDeletedMessages() {
+        saveDeletedMessages = !saveDeletedMessages;
+        putBoolean("saveDeletedMessages", saveDeletedMessages);
+    }
+
+    public static void toggleSaveEditHistory() {
+        saveEditHistory = !saveEditHistory;
+        putBoolean("saveEditHistory", saveEditHistory);
+    }
+
+    public static void toggleSaveArchiveMedia() {
+        saveArchiveMedia = !saveArchiveMedia;
+        putBoolean("saveArchiveMedia", saveArchiveMedia);
+    }
+
+    public static void toggleSaveFormatting() {
+        saveFormatting = !saveFormatting;
+        putBoolean("saveFormatting", saveFormatting);
+    }
+
+    public static void toggleSaveReactions() {
+        saveReactions = !saveReactions;
+        putBoolean("saveReactions", saveReactions);
+    }
+
+    public static void toggleSaveForBots() {
+        saveForBots = !saveForBots;
+        putBoolean("saveForBots", saveForBots);
+    }
+
+    public static void toggleSemiTransparentDeleted() {
+        semiTransparentDeleted = !semiTransparentDeleted;
+        putBoolean("semiTransparentDeleted", semiTransparentDeleted);
+    }
+
+    public static void setDeletedMark(String mark) {
+        deletedMark = mark == null ? "" : mark;
+        preferences().edit().putString("deletedMark", deletedMark).apply();
+    }
+
+    public static void setEditedMark(String mark) {
+        editedMark = mark == null ? "" : mark;
+        preferences().edit().putString("editedMark", editedMark).apply();
     }
 
     public static void toggleHideOwnPhoneNumber() {

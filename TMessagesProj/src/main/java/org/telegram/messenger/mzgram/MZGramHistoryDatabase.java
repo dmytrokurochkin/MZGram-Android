@@ -18,6 +18,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 
 import org.telegram.messenger.ApplicationLoader;
 
@@ -75,13 +76,33 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return new File(dbFilePath);
     }
 
+    // Where earlier versions kept archived files, in the app's own folder.
+    // Rows saved then still point there.
     public static File mediaRoot() {
         return new File(new File(ApplicationLoader.applicationContext.getFilesDir(), "mzgram"), "media");
     }
 
+    // Archived files go to a visible folder, Downloads/MZGram/Saved
+    // Attachments, with a .nomedia file so the gallery does not list them.
+    public static File attachmentsRoot() {
+        return new File(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MZGram"), "Saved Attachments");
+    }
+
+    // The folder new archived files are copied to: Saved Attachments, or the
+    // app's own folder when shared storage cannot be written.
     public static File mediaDir(long accountUserId, long dialogId) {
-        File dir = new File(new File(new File(ApplicationLoader.applicationContext.getFilesDir(), "mzgram"), "media"),
-                accountUserId + File.separator + dialogId);
+        File dir = attachmentsRoot();
+        if ((dir.isDirectory() || dir.mkdirs()) && dir.canWrite()) {
+            File noMedia = new File(dir, ".nomedia");
+            if (!noMedia.exists()) {
+                try {
+                    noMedia.createNewFile();
+                } catch (Exception ignore) {
+                }
+            }
+            return dir;
+        }
+        dir = new File(mediaRoot(), accountUserId + File.separator + dialogId);
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -289,6 +310,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     public void wipeAll() {
         clean();
         deleteRecursively(mediaRoot());
+        deleteRecursively(attachmentsRoot());
     }
 
     private static void deleteRecursively(File file) {

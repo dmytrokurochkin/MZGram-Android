@@ -6767,7 +6767,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     public MultiLayoutTypingAnimator botDraftTypingAnimator;
 
     private void setMessageContent(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, boolean bottomNear, boolean topNear, boolean firstInChat, boolean lastInChatList) {
-        mzgramDimAlpha = messageObject.messageOwner != null && messageObject.messageOwner.mzgramDeleted ? 0.75f : 1f;
+        mzgramDimAlpha = messageObject.messageOwner != null && messageObject.messageOwner.mzgramDeleted
+                && org.telegram.messenger.mzgram.MZGramConfig.semiTransparentDeleted ? 0.75f : 1f;
         if (messageObject.checkLayout() || currentPosition != null && lastHeight != AndroidUtilities.displaySize.y) {
             currentMessageObject = null;
         }
@@ -18479,17 +18480,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             timeString = LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000);
         }
         // MZGram: as in MZGram Desktop, another person's edited message gets
-        // a pencil before the time while the archive is on, and a deleted message
-        // kept in the chat reads "deleted".
-        final boolean mzgramPencil = edited
-                && org.telegram.messenger.mzgram.MZGramHistoryController.savesChat(messageObject.getDialogId())
+        // the edited mark before the time while edit history is saved, and a
+        // deleted message kept in the chat gets the deleted mark (Settings >
+        // MZGram > Archive; any text, empty for none).
+        final boolean mzgramEditedMark = edited
+                && org.telegram.messenger.mzgram.MZGramHistoryController.savesEdits(messageObject.getDialogId())
                 && !org.telegram.messenger.mzgram.MZGramHistoryController.isOwnMessage(currentAccount, messageObject.messageOwner);
         if (!timeString.isEmpty()) {
-            if (mzgramPencil) {
-                timeString = "\u270F\uFE0F " + timeString;
+            if (mzgramEditedMark && !TextUtils.isEmpty(org.telegram.messenger.mzgram.MZGramConfig.editedMark)) {
+                timeString = org.telegram.messenger.mzgram.MZGramConfig.editedMark + " " + timeString;
             }
-            if (messageObject.messageOwner.mzgramDeleted) {
-                timeString = getString(R.string.MZGramDeletedMark) + " " + timeString;
+            if (messageObject.messageOwner.mzgramDeleted && !TextUtils.isEmpty(org.telegram.messenger.mzgram.MZGramConfig.deletedMark)) {
+                timeString = org.telegram.messenger.mzgram.MZGramConfig.deletedMark + " " + timeString;
             }
         }
         if (currentMessageObject.messageOwner.video_processing_pending) {
@@ -18535,7 +18537,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 currentTimeString = TextUtils.concat(formatString(R.string.MessageScheduledRepeatSeconds, period), ", ", currentTimeString);
             }
         }
-        if (mzgramPencil && currentTimeString != null) {
+        // The marks may be emoji (the broom, the pencil).
+        if ((mzgramEditedMark || currentMessageObject.messageOwner.mzgramDeleted) && currentTimeString != null) {
             currentTimeString = Emoji.replaceEmoji(currentTimeString, Theme.chat_timePaint.getFontMetricsInt(), false);
         }
         timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString, 0, currentTimeString == null ? 0 : currentTimeString.length()));

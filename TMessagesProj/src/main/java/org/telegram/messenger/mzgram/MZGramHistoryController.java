@@ -21,6 +21,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.NativeByteBuffer;
@@ -58,9 +59,31 @@ public class MZGramHistoryController {
     private MZGramHistoryController() {
     }
 
-    // Every chat is saved while the switch is on.
+    // Deleted messages are saved in every chat while the switch is on; chats
+    // with bots only while "Save for bots" is on too.
     public static boolean savesChat(long dialogId) {
-        return MZGramConfig.saveMessageHistory;
+        return MZGramConfig.saveDeletedMessages && (MZGramConfig.saveForBots || !isBotChat(dialogId));
+    }
+
+    // Earlier versions of other people's edited messages, the same way.
+    public static boolean savesEdits(long dialogId) {
+        return MZGramConfig.saveEditHistory && (MZGramConfig.saveForBots || !isBotChat(dialogId));
+    }
+
+    public static boolean isBotChat(long dialogId) {
+        if (dialogId <= 0) {
+            return false;
+        }
+        for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+            if (!UserConfig.getInstance(a).isClientActivated()) {
+                continue;
+            }
+            TLRPC.User user = MessagesController.getInstance(a).getUser(dialogId);
+            if (user != null) {
+                return user.bot;
+            }
+        }
+        return false;
     }
 
     // The archive keeps what OTHER people delete or edit. The account owner's
@@ -84,7 +107,7 @@ public class MZGramHistoryController {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("MZGramHistoryController.onMessageDeleted: called for dialog " + dialogId
                     + ", messageId=" + (message != null ? message.id : "null")
-                    + ", saveMessageHistory=" + MZGramConfig.saveMessageHistory);
+                    + ", saveDeletedMessages=" + MZGramConfig.saveDeletedMessages);
         }
         if (message == null || !savesChat(dialogId)) {
             return;
@@ -127,7 +150,7 @@ public class MZGramHistoryController {
     // ---- edited messages ----
 
     public void onMessageEdited(int accountId, long dialogId, TLRPC.Message oldMessage, TLRPC.Message newMessage) {
-        if (oldMessage == null || newMessage == null || !savesChat(dialogId) || isOwnMessage(accountId, oldMessage)) {
+        if (oldMessage == null || newMessage == null || !savesEdits(dialogId) || isOwnMessage(accountId, oldMessage)) {
             return;
         }
         try {
@@ -220,7 +243,7 @@ public class MZGramHistoryController {
     // is kept even if it is never opened. Downloading the file does not tell
     // the sender it was viewed; that only happens on opening it.
     public void onMessagesStored(int accountId, ArrayList<TLRPC.Message> messages) {
-        if (!MZGramConfig.saveMessageHistory || messages == null) {
+        if (!MZGramConfig.saveDeletedMessages || messages == null) {
             return;
         }
         for (int a = 0, N = messages.size(); a < N; a++) {
@@ -362,10 +385,33 @@ public class MZGramHistoryController {
         row.editDate = message.edit_date;
         row.entityCreateDate = (int) (System.currentTimeMillis() / 1000);
         row.text = message.message;
-        row.entities = serializeEntities(message);
-        row.messageData = serializeMessage(message);
+        TLRPC.Message saved = withoutSwitchedOffParts(message);
+        row.entities = serializeEntities(saved);
+        row.messageData = serializeMessage(saved);
         copyMediaIfNeeded(accountId, accountUserId, dialogId, message, row, oneTimeMedia);
         return row;
+    }
+
+    // A copy of the message without the parts whose switches are off
+    // (formatting, reactions); the message itself is left as it is, since
+    // the chat may still be showing it.
+    private static TLRPC.Message withoutSwitchedOffParts(TLRPC.Message message) {
+        if (MZGramConfig.saveFormatting && MZGramConfig.saveReactions) {
+            return message;
+        }
+        TLRPC.Message copy = deserializeMessage(serializeMessage(message));
+        if (copy == null) {
+            return message;
+        }
+        copy.dialog_id = message.dialog_id;
+        if (!MZGramConfig.saveFormatting && copy.entities != null) {
+            copy.entities.clear();
+        }
+        if (!MZGramConfig.saveReactions) {
+            copy.reactions = null;
+            copy.flags &= ~org.telegram.tgnet.TLObject.FLAG_20;
+        }
+        return copy;
     }
 
     private static byte[] serializeMessage(TLRPC.Message message) {
@@ -430,6 +476,9 @@ public class MZGramHistoryController {
             return;
         }
 
+        if (!MZGramConfig.saveArchiveMedia) {
+            return;
+        }
         LocalFile source = findLocalFile(accountId, message);
         if (source == null) {
             return; // not downloaded on this device -- nothing local to archive
@@ -448,7 +497,7 @@ public class MZGramHistoryController {
 
         try {
             File destDir = MZGramHistoryDatabase.mediaDir(accountUserId, dialogId);
-            File dest = new File(destDir, message.id + "_" + source.name());
+            File dest = new File(destDir, dialogId + "_" + message.id + "_" + source.name());
             if (!dest.exists() || dest.length() == 0) {
                 copyOut(source, dest);
             }

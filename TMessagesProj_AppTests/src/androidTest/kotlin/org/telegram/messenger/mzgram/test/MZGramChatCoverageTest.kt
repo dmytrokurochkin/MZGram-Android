@@ -71,13 +71,13 @@ class MZGramChatCoverageTest {
             controller.putUser(user(otherUserId), false)
             controller.putUser(user(newChatUserId), false)
         }
-        savedSaveMessageHistory = MZGramConfig.saveMessageHistory
-        MZGramConfig.saveMessageHistory = true
+        savedSaveMessageHistory = MZGramConfig.saveDeletedMessages
+        MZGramConfig.saveDeletedMessages = true
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.saveMessageHistory = savedSaveMessageHistory
+        MZGramConfig.saveDeletedMessages = savedSaveMessageHistory
     }
 
     // ---- fixtures ----
@@ -357,7 +357,7 @@ class MZGramChatCoverageTest {
 
     @Test
     fun oneTime_archiveOff_stillExpires() {
-        MZGramConfig.saveMessageHistory = false
+        MZGramConfig.saveDeletedMessages = false
         val mid = newMessageId()
         val bytes = ByteArray(1000) { it.toByte() }
         val message = withOneTimeDocument(incoming(newChatUserId, mid, ""), bytes)
@@ -398,7 +398,7 @@ class MZGramChatCoverageTest {
         assertEquals(true, controllerCall("keepsOneTimeMediaInChat", account, otherUserId, other))
         assertEquals(false, controllerCall("keepsOneTimeMediaInChat", account, otherUserId, own))
         assertEquals("a chat never added anywhere", true, controllerCall("keepsOneTimeMediaInChat", account, newChatUserId, newChat))
-        MZGramConfig.saveMessageHistory = false
+        MZGramConfig.saveDeletedMessages = false
         assertEquals("archive off", false, controllerCall("keepsOneTimeMediaInChat", account, otherUserId, other))
     }
 

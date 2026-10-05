@@ -44,8 +44,8 @@ import java.util.concurrent.TimeUnit
 //   - a deletion arriving while the chat is open: ChatActivity asks
 //     MZGramHistoryController.keepsDeletedInChat whether to keep the
 //     message instead of removing it.
-// The look (deleted: 75% opacity and a "deleted" mark; edited: a pencil
-// next to the time) is checked on a real ChatMessageCell, and each case is
+// The look (deleted: 75% opacity and the broom mark; edited: the pencil
+// mark next to the time; both marks can be changed) is checked on a real ChatMessageCell, and each case is
 // saved as a PNG under the app's external files dir (mzgram-screens/).
 class MZGramDeletedInChatTest {
 
@@ -73,13 +73,13 @@ class MZGramDeletedInChatTest {
             controller.putUser(user(otherUserId), false)
             controller.putUser(user(newChatUserId), false)
         }
-        savedSaveMessageHistory = MZGramConfig.saveMessageHistory
-        MZGramConfig.saveMessageHistory = true
+        savedSaveMessageHistory = MZGramConfig.saveDeletedMessages
+        MZGramConfig.saveDeletedMessages = true
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.saveMessageHistory = savedSaveMessageHistory
+        MZGramConfig.saveDeletedMessages = savedSaveMessageHistory
     }
 
     // ---- fixtures ----
@@ -340,7 +340,7 @@ class MZGramDeletedInChatTest {
 
     @Test
     fun live_archiveOff_isRemoved() {
-        MZGramConfig.saveMessageHistory = false
+        MZGramConfig.saveDeletedMessages = false
         val mid = newMessageId()
         val message = incoming(otherUserId, mid, "archive off live $mid")
         putInCache(message)
@@ -446,7 +446,7 @@ class MZGramDeletedInChatTest {
         val cell = renderCell("deleted", message)
         log("deleted cell: time='${timeText(cell)}' alpha=${dimAlpha(cell)}")
         assertEquals(0.75f, dimAlpha(cell), 0.001f)
-        assertTrue("time reads 'deleted ...': ${timeText(cell)}", timeText(cell).startsWith("deleted "))
+        assertTrue("time starts with the broom mark: ${timeText(cell)}", timeText(cell).startsWith("\uD83E\uDDF9 "))
         // Black text at 75% opacity over white: about 64.
         assertTrue("text is drawn, at 75% opacity (darkest pixel $lastDarkest)", lastDarkest in 40..90)
     }
@@ -477,15 +477,50 @@ class MZGramDeletedInChatTest {
     }
 
     @Test
-    fun look_editedMessageWithArchiveOff_hasNoPencil() {
-        MZGramConfig.saveMessageHistory = false
-        val message = incoming(otherUserId, newMessageId(), "Edited, archive off")
-        message.edit_date = now()
-        message.flags = message.flags or 32768
-        val cell = renderCell("archive-off-edited", message)
-        log("archive off edited cell: time='${timeText(cell)}'")
-        assertTrue("still marked edited: ${timeText(cell)}", timeText(cell).contains("edited"))
-        assertFalse("no pencil with the archive off: ${timeText(cell)}", timeText(cell).contains("✏"))
+    fun look_editedMessageWithEditHistoryOff_hasNoPencil() {
+        val saved = MZGramConfig.saveEditHistory
+        MZGramConfig.saveEditHistory = false
+        try {
+            val message = incoming(otherUserId, newMessageId(), "Edited, edit history off")
+            message.edit_date = now()
+            message.flags = message.flags or 32768
+            val cell = renderCell("archive-off-edited", message)
+            log("edit history off edited cell: time='${timeText(cell)}'")
+            assertTrue("still marked edited: ${timeText(cell)}", timeText(cell).contains("edited"))
+            assertFalse("no pencil with edit history off: ${timeText(cell)}", timeText(cell).contains("✏"))
+        } finally {
+            MZGramConfig.saveEditHistory = saved
+        }
+    }
+
+    // Settings > MZGram > Archive: the marks are any text, and the opacity
+    // has its own switch.
+    @Test
+    fun look_changedMarksAndOpacity_areUsed() {
+        val savedDeleted = MZGramConfig.deletedMark
+        val savedEdited = MZGramConfig.editedMark
+        val savedDim = MZGramConfig.semiTransparentDeleted
+        try {
+            MZGramConfig.deletedMark = "[gone]"
+            MZGramConfig.semiTransparentDeleted = false
+            val deleted = incoming(otherUserId, newMessageId(), "Deleted, own mark")
+            markDeleted(deleted)
+            val deletedCell = renderCell("deleted-own-mark", deleted)
+            log("own deleted mark: time='${timeText(deletedCell)}' alpha=${dimAlpha(deletedCell)}")
+            assertTrue("own deleted mark: ${timeText(deletedCell)}", timeText(deletedCell).startsWith("[gone] "))
+            assertEquals("not dimmed with the switch off", 1f, dimAlpha(deletedCell), 0.001f)
+
+            MZGramConfig.editedMark = ""
+            val edited = incoming(otherUserId, newMessageId(), "Edited, no mark")
+            edited.edit_date = now()
+            edited.flags = edited.flags or 32768
+            val editedCell = renderCell("edited-no-mark", edited)
+            assertFalse("no mark when empty: ${timeText(editedCell)}", timeText(editedCell).contains("✏"))
+        } finally {
+            MZGramConfig.deletedMark = savedDeleted
+            MZGramConfig.editedMark = savedEdited
+            MZGramConfig.semiTransparentDeleted = savedDim
+        }
     }
 
     @Test

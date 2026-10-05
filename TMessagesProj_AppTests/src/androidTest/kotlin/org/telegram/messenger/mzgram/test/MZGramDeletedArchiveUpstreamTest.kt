@@ -52,13 +52,13 @@ class MZGramDeletedArchiveUpstreamTest {
         self.first_name = "MZGram test self"
         UserConfig.getInstance(account).setCurrentUser(self)
         InstrumentationRegistry.getInstrumentation().runOnMainSync { controller }
-        savedSaveMessageHistory = MZGramConfig.saveMessageHistory
-        MZGramConfig.saveMessageHistory = true
+        savedSaveMessageHistory = MZGramConfig.saveDeletedMessages
+        MZGramConfig.saveDeletedMessages = true
     }
 
     @After
     fun tearDown() {
-        MZGramConfig.saveMessageHistory = savedSaveMessageHistory
+        MZGramConfig.saveDeletedMessages = savedSaveMessageHistory
     }
 
     private fun newMessageId(): Int = 100_000 + (Math.random() * 1_000_000).toInt()

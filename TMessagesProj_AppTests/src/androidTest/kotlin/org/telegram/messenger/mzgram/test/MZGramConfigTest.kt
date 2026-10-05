@@ -52,25 +52,75 @@ class MZGramConfigTest {
 
     // Saving deleted and edited messages is on by default, for every chat:
     // the old allowlist and the old switch's stored "off" are dropped.
-    @Test
-    fun saveMessageHistory_isOnByDefault_withoutAChatList() {
+    private val archiveKeys = listOf(
+        "saveDeletedMessages", "saveEditHistory", "saveArchiveMedia", "saveFormatting",
+        "saveReactions", "saveForBots", "semiTransparentDeleted", "deletedMark", "editedMark",
+        "saveDeletedAndEdited", "saveMessageHistory", "historyTrackedDialogs",
+    )
+
+    private fun withArchivePreferences(block: (android.content.SharedPreferences) -> Unit) {
         val preferences = context.getSharedPreferences("mzgram_config", Context.MODE_PRIVATE)
-        val before = MZGramConfig.saveMessageHistory
+        val saved = preferences.all.filterKeys { it in archiveKeys }
         try {
-            preferences.edit()
-                .remove("saveDeletedAndEdited")
-                .putBoolean("saveMessageHistory", false)
-                .putString("historyTrackedDialogs", "123,456")
-                .commit()
-            MZGramConfig.loadConfig(true)
-            assertEquals(true, MZGramConfig.saveMessageHistory)
-            assertEquals(false, preferences.contains("saveMessageHistory"))
-            assertEquals(false, preferences.contains("historyTrackedDialogs"))
+            val editor = preferences.edit()
+            archiveKeys.forEach { editor.remove(it) }
+            editor.commit()
+            block(preferences)
         } finally {
-            if (MZGramConfig.saveMessageHistory != before) {
-                MZGramConfig.toggleSaveMessageHistory()
+            val editor = preferences.edit()
+            archiveKeys.forEach { editor.remove(it) }
+            saved.forEach { (key, value) ->
+                when (value) {
+                    is Boolean -> editor.putBoolean(key, value)
+                    is String -> editor.putString(key, value)
+                }
             }
+            editor.commit()
+            MZGramConfig.loadConfig(true)
         }
+    }
+
+    // Settings > MZGram > Archive: every part has its own switch, all on by
+    // default, with the broom and pencil marks, for every chat (no list).
+    @Test
+    fun archiveSwitches_areOnByDefault_withoutAChatList() = withArchivePreferences { preferences ->
+        preferences.edit()
+            .putBoolean("saveMessageHistory", false)
+            .putString("historyTrackedDialogs", "123,456")
+            .commit()
+        MZGramConfig.loadConfig(true)
+        assertEquals(true, MZGramConfig.saveDeletedMessages)
+        assertEquals(true, MZGramConfig.saveEditHistory)
+        assertEquals(true, MZGramConfig.saveArchiveMedia)
+        assertEquals(true, MZGramConfig.saveFormatting)
+        assertEquals(true, MZGramConfig.saveReactions)
+        assertEquals(true, MZGramConfig.saveForBots)
+        assertEquals(true, MZGramConfig.semiTransparentDeleted)
+        assertEquals("\uD83E\uDDF9", MZGramConfig.deletedMark)
+        assertEquals("\u270F\uFE0F", MZGramConfig.editedMark)
+        assertEquals(false, preferences.contains("saveMessageHistory"))
+        assertEquals(false, preferences.contains("historyTrackedDialogs"))
+    }
+
+    // The one switch of the previous version carries over to both.
+    @Test
+    fun oldArchiveSwitchOff_turnsOffDeletedAndEdited() = withArchivePreferences { preferences ->
+        preferences.edit().putBoolean("saveDeletedAndEdited", false).commit()
+        MZGramConfig.loadConfig(true)
+        assertEquals(false, MZGramConfig.saveDeletedMessages)
+        assertEquals(false, MZGramConfig.saveEditHistory)
+        assertEquals(false, preferences.contains("saveDeletedAndEdited"))
+        assertEquals(false, preferences.getBoolean("saveDeletedMessages", true))
+        assertEquals(false, preferences.getBoolean("saveEditHistory", true))
+    }
+
+    @Test
+    fun archiveMarks_persistAcrossReload() = withArchivePreferences {
+        MZGramConfig.setDeletedMark("[x]")
+        MZGramConfig.setEditedMark("")
+        MZGramConfig.loadConfig(true)
+        assertEquals("[x]", MZGramConfig.deletedMark)
+        assertEquals("", MZGramConfig.editedMark)
     }
 
     // The archive has no per-file size limit and no total quota: there is

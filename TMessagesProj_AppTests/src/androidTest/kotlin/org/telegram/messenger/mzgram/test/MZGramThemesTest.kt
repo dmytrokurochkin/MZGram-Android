@@ -1,12 +1,16 @@
 package org.telegram.messenger.mzgram.test
 
+import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.telegram.messenger.BuildVars
 import org.telegram.messenger.MediaDataController
 import org.telegram.messenger.UserConfig
+import org.telegram.messenger.mzgram.MZGramDefaultThemes
 import org.telegram.tgnet.TLRPC
+import org.telegram.ui.ActionBar.Theme
 import org.telegram.ui.Components.ChatThemeBottomSheet
 import org.telegram.ui.DefaultThemesPreviewCell
 import org.telegram.ui.ThemeActivity
@@ -39,6 +43,52 @@ class MZGramThemesTest {
         val home = themes().first()
         assertEquals("the home theme first", "🏠", home.chatTheme.emoticonOrSlug)
         assertEquals(listOf("Blue", "Day", "Night", "Dark Blue"), homeThemeKeys(home))
+    }
+
+    // Only the home theme is listed (no default themes saved from the
+    // server yet), but an older theme list hash is saved. Asking with that
+    // hash gets "not modified" back, and the list then never fills. The
+    // request must ask for the whole list (hash 0).
+    @Test
+    fun homeThemeOnly_asksTheServerForTheWholeList() {
+        val self = TLRPC.TL_user()
+        self.id = 7_000_000_001L
+        self.first_name = "MZGram test self"
+        UserConfig.getInstance(account).setCurrentUser(self)
+        BuildVars.LOGS_ENABLED = true
+        val hashes = Theme::class.java.getDeclaredField("remoteThemesHash").also { it.isAccessible = true }.get(null) as LongArray
+        val loading = Theme::class.java.getDeclaredField("loadingRemoteThemes").also { it.isAccessible = true }.get(null) as BooleanArray
+        val savedHash = hashes[account]
+        try {
+            hashes[account] = 4_242_424_242L
+            loading[account] = false
+            val marker = "theme request check ${System.nanoTime()}"
+            Log.i("theme", marker)
+            instrumentation.runOnMainSync {
+                controller.defaultEmojiThemes.clear()
+                controller.defaultEmojiThemes.addAll(MZGramDefaultThemes.homeOnly(account))
+                Theme.loadRemoteThemes(account, true)
+            }
+            var hash: String? = null
+            MZGramScreens.waitFor(10) {
+                hash = themeRequestHashAfter(marker)
+                hash != null
+            }
+            assertEquals("theme list asked for in full", "0", hash)
+        } finally {
+            hashes[account] = savedHash
+        }
+    }
+
+    // The hash of the first theme list request logged after the marker,
+    // from the app's own log.
+    private fun themeRequestHashAfter(marker: String): String? {
+        val process = Runtime.getRuntime().exec(arrayOf("logcat", "-d", "-v", "raw", "-s", "theme:I"))
+        val lines = process.inputStream.bufferedReader().readLines()
+        val start = lines.lastIndexOf(marker)
+        if (start < 0) return null
+        return lines.drop(start + 1).firstOrNull { it.startsWith("loading remote themes, hash ") }
+            ?.removePrefix("loading remote themes, hash ")?.trim()
     }
 
     @Test

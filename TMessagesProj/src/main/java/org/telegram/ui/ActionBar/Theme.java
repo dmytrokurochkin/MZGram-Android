@@ -6943,7 +6943,9 @@ public class Theme {
         loadingRemoteThemes[currentAccount] = true;
         TL_account.getThemes req = new TL_account.getThemes();
         req.format = "android";
-        if (!MediaDataController.getInstance(currentAccount).defaultEmojiThemes.isEmpty()) {
+        // MZGram: the home theme alone is not the server's list; with it,
+        // the saved hash got "not modified" back and the list never filled.
+        if (org.telegram.messenger.mzgram.MZGramDefaultThemes.hasServerThemes(MediaDataController.getInstance(currentAccount))) {
             req.hash = remoteThemesHash[currentAccount];
         }
         if (BuildVars.LOGS_ENABLED) {

@@ -5,29 +5,25 @@
  * Settings > Chat settings (Appearance) > Color theme lists
  * MediaDataController.defaultEmojiThemes: the home theme (Classic, Day,
  * Night, Tinted) and the theme set the server marks as default in
- * account.getThemes. When that answer has no default themes, or has not
- * come yet, the list was left empty and the screen showed no themes at all.
+ * account.getThemes (the emoji themes).
  *
- * Here the list always starts with the home theme, built from the app's own
- * themes, and the rest is filled from the chat themes (account.getChatThemes,
- * the same set the chat theme picker shows).
+ * When the server's answer has no default themes, or has not come yet, the
+ * list holds the home theme alone instead of nothing. That list is not the
+ * server's list: Theme.loadRemoteThemes asks with the saved hash only once
+ * the server's themes are in it (hasServerThemes), otherwise the answer is
+ * "not modified" and the emoji themes never come.
  */
 
 package org.telegram.messenger.mzgram;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatThemeController;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.tgnet.ResultCallback;
-import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MZGramDefaultThemes {
 
@@ -40,34 +36,20 @@ public class MZGramDefaultThemes {
         return items;
     }
 
-    // MediaDataController, when the server gave no default themes: shows the
-    // home theme right away, then adds the chat themes once they are loaded.
-    public static void fill(MediaDataController controller, int account) {
-        apply(controller, account, homeOnly(account));
-        ChatThemeController.getInstance(account).requestAllChatThemes(new ResultCallback<List<EmojiThemes>>() {
-            @Override
-            public void onComplete(List<EmojiThemes> result) {
-                ArrayList<ChatThemeBottomSheet.ChatThemeItem> items = homeOnly(account);
-                if (result != null) {
-                    for (EmojiThemes theme : result) {
-                        if (theme != null && theme.items.size() >= 4 && !HOME_EMOJI.equals(theme.getEmoticonOrSlug())) {
-                            items.add(new ChatThemeBottomSheet.ChatThemeItem(theme));
-                        }
-                    }
-                }
-                apply(controller, account, items);
+    // True when the list has a theme from the server, not only the home one.
+    public static boolean hasServerThemes(MediaDataController controller) {
+        for (ChatThemeBottomSheet.ChatThemeItem item : controller.defaultEmojiThemes) {
+            if (item != null && item.chatTheme != null && !HOME_EMOJI.equals(item.chatTheme.getEmoticonOrSlug())) {
+                return true;
             }
-
-            @Override
-            public void onError(TLRPC.TL_error error) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("MZGram: chat themes not loaded, " + (error != null ? error.text : "no answer"));
-                }
-            }
-        }, false);
+        }
+        return false;
     }
 
-    private static void apply(MediaDataController controller, int account, ArrayList<ChatThemeBottomSheet.ChatThemeItem> items) {
+    // MediaDataController, when the server gave no default themes: the home
+    // theme, until the next theme list request brings the rest.
+    public static void fill(MediaDataController controller, int account) {
+        ArrayList<ChatThemeBottomSheet.ChatThemeItem> items = homeOnly(account);
         ChatThemeController.chatThemeQueue.postRunnable(() -> {
             for (ChatThemeBottomSheet.ChatThemeItem item : items) {
                 item.chatTheme.loadPreviewColors(account);

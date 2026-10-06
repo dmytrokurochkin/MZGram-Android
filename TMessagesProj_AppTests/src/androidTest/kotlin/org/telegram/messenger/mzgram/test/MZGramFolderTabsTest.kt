@@ -1,17 +1,25 @@
 package org.telegram.messenger.mzgram.test
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.os.Bundle
+import android.view.View
+import android.view.WindowInsets
+import android.widget.EditText
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.telegram.messenger.AndroidUtilities
+import org.telegram.messenger.MessageObject
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.UserConfig
 import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.tgnet.TLRPC
+import org.telegram.ui.ChatActivity
+import org.telegram.ui.Components.ChatActivityEnterView
 import org.telegram.ui.Components.FilterTabsView
 import org.telegram.ui.DialogsActivity
 import org.telegram.ui.mzgram.MZGramSettingsActivity
@@ -45,6 +53,7 @@ class MZGramFolderTabsTest {
         MZGramConfig.folderTabsAtBottom = savedAtBottom
         MZGramConfig.hideBottomNavigationBar = savedHideBottomBar
         instrumentation.runOnMainSync {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             activity?.finish()
             controller.dialogFilters.clear()
             controller.dialogFiltersById.clear()
@@ -162,5 +171,160 @@ class MZGramFolderTabsTest {
         assertTrue("back on the chat list", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() !is MZGramSettingsActivity })
         val gap = gapAboveSystemBar(measureTabs("folder-tabs-after-switch"))
         assertTrue("at the very bottom after the switch: gap=$gap", gap < AndroidUtilities.dp(24f))
+    }
+
+    // Forward a message (or share a file into the app) and pick a chat: the
+    // chat list for picking shows the comment field and the send button at
+    // the bottom. With the folder tabs at the bottom, both stay above the
+    // tabs instead of under them.
+
+    private val otherUserId = 7_000_000_002L
+
+    private fun openPicker(): DialogsActivity {
+        MZGramScreens.launchApp().also { activity = it }
+        assertTrue("chat list shown", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() is DialogsActivity })
+        val picker = DialogsActivity(Bundle().apply {
+            putBoolean("onlySelect", true)
+            putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD)
+        })
+        MZGramScreens.open(picker)
+        assertTrue("picker shown", MZGramScreens.waitFor(30) { picker.fragmentView?.isShown == true })
+        var shown = false
+        for (attempt in 1..30) {
+            putFolders()
+            if (MZGramScreens.waitFor(1) { pickerTabs(picker) != null }) {
+                shown = true
+                break
+            }
+        }
+        assertTrue("picker shows folder tabs", shown)
+        instrumentation.runOnMainSync {
+            picker.addOrRemoveSelectedDialog(otherUserId, null)
+            DialogsActivity::class.java.getDeclaredMethod("updateSelectedCount").apply { isAccessible = true }.invoke(picker)
+        }
+        assertTrue("comment field shown", MZGramScreens.waitFor(10) { commentField(picker) != null })
+        Thread.sleep(1500)
+        return picker
+    }
+
+    private fun pickerTabs(picker: DialogsActivity): FilterTabsView? =
+        MZGramScreens.findView(picker.fragmentView, FilterTabsView::class.java) { it.alpha > 0.9f && it.height > 0 }
+
+    private fun commentField(picker: DialogsActivity): ChatActivityEnterView? =
+        MZGramScreens.findView(picker.fragmentView, ChatActivityEnterView::class.java) { it.height > 0 }
+
+    private fun keyboardShown(): Boolean =
+        activity!!.window.decorView.rootWindowInsets?.isVisible(WindowInsets.Type.ime()) == true
+
+    private fun showKeyboard(field: View) {
+        instrumentation.runOnMainSync {
+            val edit = MZGramScreens.findView(field, EditText::class.java)!!
+            edit.requestFocus()
+            AndroidUtilities.showKeyboard(edit)
+        }
+        MZGramScreens.waitFor(10) { keyboardShown() }
+        Thread.sleep(1500)
+    }
+
+    // The field and the send button end above the top of the tabs.
+    private fun assertAboveTabs(picker: DialogsActivity, name: String) {
+        var tabs = IntArray(4)
+        var field = IntArray(4)
+        var send = IntArray(4)
+        var keyboard = false
+        instrumentation.runOnMainSync {
+            tabs = MZGramScreens.screenRect(pickerTabs(picker)!!)
+            field = MZGramScreens.screenRect(commentField(picker)!!)
+            send = MZGramScreens.screenRect(DialogsActivity::class.java.getDeclaredField("writeButton").apply { isAccessible = true }.get(picker) as View)
+            keyboard = keyboardShown()
+        }
+        MZGramScreens.capture(name)
+        MZGramScreens.log("$name: tabs top=${tabs[1]} bottom=${tabs[3]}, field bottom=${field[3]}, send bottom=${send[3]}, keyboard=$keyboard")
+        assertTrue("$name: comment field above the folder tabs: field bottom=${field[3]} tabs top=${tabs[1]}", field[3] <= tabs[1])
+        assertTrue("$name: send button above the folder tabs: send bottom=${send[3]} tabs top=${tabs[1]}", send[3] <= tabs[1])
+    }
+
+    @Test
+    fun folderTabsAtTheBottom_forwardCommentFieldStaysAboveThem() {
+        MZGramConfig.folderTabsAtBottom = true
+        val picker = openPicker()
+        assertAboveTabs(picker, "folder-tabs-forward")
+    }
+
+    @Test
+    fun folderTabsAtTheBottom_forwardCommentFieldWithKeyboardStaysAboveThem() {
+        MZGramConfig.folderTabsAtBottom = true
+        val picker = openPicker()
+        showKeyboard(commentField(picker)!!)
+        assertAboveTabs(picker, "folder-tabs-forward-keyboard")
+    }
+
+    @Test
+    fun folderTabsAtTheBottom_forwardCommentFieldAfterTurningStaysAboveThem() {
+        MZGramConfig.folderTabsAtBottom = true
+        val picker = openPicker()
+        instrumentation.runOnMainSync { activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }
+        Thread.sleep(3000)
+        assertAboveTabs(picker, "folder-tabs-forward-landscape")
+        instrumentation.runOnMainSync { activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT }
+        Thread.sleep(3000)
+        assertAboveTabs(picker, "folder-tabs-forward-portrait")
+    }
+
+    // A chat opened from the chat list: no folder tabs over its message
+    // field, with a reply and with the keyboard; back on the list the tabs
+    // are at the bottom again.
+    @Test
+    fun folderTabsAtTheBottom_chatFieldIsNotCovered() {
+        MZGramConfig.folderTabsAtBottom = true
+        tabsPosition("folder-tabs-before-chat")
+        val other = TLRPC.TL_user().also {
+            it.id = otherUserId
+            it.first_name = "MZGram test peer"
+        }
+        instrumentation.runOnMainSync { controller.putUser(other, false) }
+        val chat = ChatActivity(Bundle().apply { putLong("user_id", otherUserId) })
+        MZGramScreens.open(chat)
+        assertTrue("chat shown", MZGramScreens.waitFor(30) { chat.chatActivityEnterView?.isShown == true && chat.chatActivityEnterView.height > 0 })
+        Thread.sleep(1500)
+
+        fun assertFieldFree(name: String) {
+            var field = IntArray(4)
+            var covering = ""
+            instrumentation.runOnMainSync {
+                field = MZGramScreens.screenRect(chat.chatActivityEnterView)
+                val tabs = MZGramScreens.findView(activity?.window?.decorView, FilterTabsView::class.java) { it.alpha > 0.01f && it.height > 0 }
+                if (tabs != null) {
+                    val rect = MZGramScreens.screenRect(tabs)
+                    if (rect[1] < field[3] && rect[3] > field[1]) covering = "tabs top=${rect[1]} bottom=${rect[3]}"
+                }
+            }
+            MZGramScreens.capture(name)
+            MZGramScreens.log("$name: field top=${field[1]} bottom=${field[3]} $covering")
+            assertTrue("$name: folder tabs over the message field: $covering", covering.isEmpty())
+        }
+
+        assertFieldFree("folder-tabs-chat")
+        val message = TLRPC.TL_message().also {
+            it.id = 1
+            it.message = "MZGram test message"
+            it.date = (System.currentTimeMillis() / 1000).toInt()
+            it.peer_id = TLRPC.TL_peerUser().also { peer -> peer.user_id = otherUserId }
+            it.from_id = TLRPC.TL_peerUser().also { peer -> peer.user_id = otherUserId }
+            it.dialog_id = otherUserId
+        }
+        instrumentation.runOnMainSync { chat.showFieldPanelForReply(MessageObject(account, message, true, false)) }
+        Thread.sleep(1500)
+        assertFieldFree("folder-tabs-chat-reply")
+        showKeyboard(chat.chatActivityEnterView)
+        assertFieldFree("folder-tabs-chat-keyboard")
+
+        instrumentation.runOnMainSync {
+            AndroidUtilities.hideKeyboard(chat.chatActivityEnterView)
+            chat.finishFragment()
+        }
+        assertTrue("back on the chat list", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() is DialogsActivity })
+        val (top, _, screen) = measureTabs("folder-tabs-after-chat").toList()
+        assertTrue("at the bottom after the chat: top=$top screen=$screen", top > screen / 2)
     }
 }

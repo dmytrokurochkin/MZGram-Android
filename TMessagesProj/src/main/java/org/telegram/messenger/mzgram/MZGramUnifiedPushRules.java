@@ -140,6 +140,14 @@ public final class MZGramUnifiedPushRules {
         return normalizeGateway(url) != null;
     }
 
+    // How long a silent distributor is waited for before it is asked again.
+    public static final long ANSWER_WAIT_MIN_MS = 30_000;
+    public static final long ANSWER_WAIT_MAX_MS = 15 * 60_000;
+
+    public static long nextAnswerWait(long current) {
+        return Math.min(Math.max(current, ANSWER_WAIT_MIN_MS) * 2, ANSWER_WAIT_MAX_MS);
+    }
+
     // The gateway in use: the user's own if it is valid, otherwise the
     // default one. Null when the gateway is switched off and Telegram sends
     // straight to the distributor.

@@ -327,6 +327,19 @@ class MZGramUnifiedPushTest {
         assertEquals(data, MZGramUnifiedPush.decode(body))
     }
 
+    // A distributor that does not answer is asked again, the wait doubling
+    // from 30 s up to 15 minutes.
+    @Test
+    fun silentDistributor_isAskedAgainLessAndLessOften() {
+        var wait = MZGramUnifiedPushRules.ANSWER_WAIT_MIN_MS
+        val waits = ArrayList<Long>()
+        repeat(8) {
+            wait = MZGramUnifiedPushRules.nextAnswerWait(wait)
+            waits.add(wait / 1000)
+        }
+        assertEquals(listOf(60L, 120L, 240L, 480L, 900L, 900L, 900L, 900L), waits)
+    }
+
     // The test push: encrypted for this device's keys the way Telegram
     // does, sent to the gateway's address for this device; when it comes
     // back through the distributor it is recognised and goes no further.

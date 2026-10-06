@@ -54,6 +54,12 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
     private static final String KEY_ENDPOINT = "endpoint";
     private static final String KEY_SIMPLE_TOKEN = "simplePushToken";
 
+    // A distributor that does not answer is asked again: after 30 s, then
+    // with the wait doubled each time up to 15 minutes. Google Play Services
+    // was seen to leave a second registration of the app unanswered.
+    private static long answerWait = MZGramUnifiedPushRules.ANSWER_WAIT_MIN_MS;
+    private static Runnable answerCheck;
+
     // A wake-up resumes the connection; the next ones in a burst add nothing.
     private static final long WAKE_UP_INTERVAL_MS = 10_000;
     private static long lastWakeUp = -WAKE_UP_INTERVAL_MS;
@@ -135,12 +141,48 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
                     UnifiedPush.saveDistributor(context(), distributor);
                 }
                 MZGramPushDiagnostics.log("register -> " + distributor);
-                UnifiedPush.register(context(), INSTANCE_NAME, null, null);
+                register();
             } catch (Throwable e) {
                 FileLog.e(e);
                 MZGramPushDiagnostics.setLastFailure(e.toString());
             }
         });
+    }
+
+    // Asks the saved distributor for an endpoint, and again later if it
+    // stays silent.
+    private static void register() {
+        UnifiedPush.register(context(), INSTANCE_NAME, null, null);
+        scheduleAnswerCheck();
+    }
+
+    private static synchronized void scheduleAnswerCheck() {
+        if (answerCheck != null) {
+            Utilities.globalQueue.cancelRunnable(answerCheck);
+        }
+        long wait = answerWait;
+        answerCheck = () -> {
+            synchronized (MZGramUnifiedPush.class) {
+                answerCheck = null;
+            }
+            if (!isActive() || status() != Status.WAITING) {
+                return;
+            }
+            synchronized (MZGramUnifiedPush.class) {
+                answerWait = MZGramUnifiedPushRules.nextAnswerWait(answerWait);
+            }
+            MZGramPushDiagnostics.log("no answer from " + label(UnifiedPush.getSavedDistributor(context())) + " after " + wait / 1000 + " s, asking again");
+            register();
+        };
+        Utilities.globalQueue.postRunnable(answerCheck, wait);
+    }
+
+    private static synchronized void answered() {
+        answerWait = MZGramUnifiedPushRules.ANSWER_WAIT_MIN_MS;
+        if (answerCheck != null) {
+            Utilities.globalQueue.cancelRunnable(answerCheck);
+            answerCheck = null;
+        }
     }
 
     // The distributor's endpoint came (also again, after a restart).
@@ -151,6 +193,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         }
         MZGramPushDiagnostics.log("endpoint: " + Uri.parse(endpoint).getHost());
         MZGramPushDiagnostics.setLastFailure(null);
+        answered();
         preferences().edit().putString(KEY_ENDPOINT, endpoint).commit();
         SharedConfig.pushStringGetTimeEnd = SystemClock.elapsedRealtime();
         registerTokens();
@@ -226,7 +269,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         dropTokens();
         UnifiedPush.saveDistributor(context(), distributor);
         MZGramPushDiagnostics.log("register -> " + distributor);
-        UnifiedPush.register(context(), INSTANCE_NAME, null, null);
+        register();
     }
 
     // Telegram took the WebPush token for this account; the Simple Push one
@@ -427,7 +470,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
             }
             UnifiedPush.saveDistributor(context(), packageName);
             MZGramPushDiagnostics.log("register -> " + packageName);
-            UnifiedPush.register(context(), INSTANCE_NAME, null, null);
+            register();
         });
     }
 

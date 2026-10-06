@@ -34,11 +34,13 @@ public class MZGramUnifiedPushService extends PushService {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("UnifiedPush registration failed: " + reason);
         }
-        Utilities.globalQueue.postRunnable(MZGramUnifiedPush::onRegistrationLost);
+        String why = String.valueOf(reason);
+        Utilities.globalQueue.postRunnable(() -> MZGramUnifiedPush.onRegistrationFailed(why));
     }
 
     @Override
     public void onUnregistered(String instance) {
+        MZGramPushDiagnostics.log("unregistered by the distributor");
         Utilities.globalQueue.postRunnable(MZGramUnifiedPush::onRegistrationLost);
     }
 }

@@ -27,6 +27,11 @@ public class GcmPushListenerService extends FirebaseMessagingService {
             FileLog.d("FCM received data: " + data + " from: " + from);
         }
 
+        // MZGram: pushes of the built-in UnifiedPush distributor reach this
+        // receiver too; they carry no Telegram data and are handled there.
+        if (data == null || data.get("p") == null) {
+            return;
+        }
         PushListenerController.processRemoteMessage(PushListenerController.PUSH_TYPE_FIREBASE, data.get("p"), time);
     }
 

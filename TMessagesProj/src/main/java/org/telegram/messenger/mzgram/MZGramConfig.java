@@ -107,8 +107,8 @@ public class MZGramConfig {
     // See MZGramZalgoFilter.
     public static boolean stripZalgoText = false;
     // Push notifications through UnifiedPush (Notifications and Sounds >
-    // UnifiedPush). Null until the user chooses: then UnifiedPush runs only
-    // on devices without Google services.
+    // UnifiedPush). Null until the user chooses: on by default, since
+    // Telegram's own Google push cannot work in MZGram builds.
     public static Boolean useUnifiedPush = null;
     // Telegram's notifications pass through a gateway that moves their
     // encryption headers into the body. Off sends them straight to the
@@ -116,6 +116,9 @@ public class MZGramConfig {
     public static boolean unifiedPushGatewayEnabled = true;
     // The user's own gateway; empty for the default one.
     public static String unifiedPushGateway = "";
+    // The VAPID public key of the user's own gateway, for the built-in
+    // Google FCM distributor; empty for the default gateway's key.
+    public static String unifiedPushVapidKey = "";
 
     static {
         loadConfig(false);
@@ -200,6 +203,7 @@ public class MZGramConfig {
             useUnifiedPush = preferences.contains("useUnifiedPush") ? preferences.getBoolean("useUnifiedPush", false) : null;
             unifiedPushGatewayEnabled = preferences.getBoolean("unifiedPushGatewayEnabled", true);
             unifiedPushGateway = preferences.getString("unifiedPushGateway", "");
+            unifiedPushVapidKey = preferences.getString("unifiedPushVapidKey", "");
             // The archive keeps media of any size, with no total quota, and
             // never deletes saved files on its own; the old limit keys go.
             if (preferences.contains("historyMediaSizeLimitMb") || preferences.contains("historyTotalMediaCapMb")) {
@@ -440,6 +444,22 @@ public class MZGramConfig {
         }
         unifiedPushGateway = gateway;
         preferences().edit().putString("unifiedPushGateway", gateway).commit();
+        return true;
+    }
+
+    // Saves the VAPID key of the user's own gateway; empty, null or the
+    // default key go back to the default. A key that is not a VAPID key is
+    // not saved and gives false.
+    public static boolean setUnifiedPushVapidKey(String key) {
+        String value = key == null ? "" : key.trim();
+        if (value.equals(MZGramUnifiedPushRules.DEFAULT_VAPID_KEY)) {
+            value = "";
+        }
+        if (!value.isEmpty() && !MZGramUnifiedPushRules.isValidVapidKey(value)) {
+            return false;
+        }
+        unifiedPushVapidKey = value;
+        preferences().edit().putString("unifiedPushVapidKey", value).commit();
         return true;
     }
 

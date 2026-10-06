@@ -2,9 +2,11 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Push notifications through a UnifiedPush distributor app (ntfy, microG,
- * Sunup and others) instead of Google. Used by itself on devices without
- * Google services, or when the user turns it on in Notifications and Sounds.
+ * Push notifications through UnifiedPush: a distributor app (ntfy, microG,
+ * Sunup and others) or the built-in Google FCM distributor
+ * (MZGramFcmDistributor) on phones with Google Play Services or microG.
+ * On unless the user turns it off in Notifications and Sounds: Telegram's
+ * own Google push cannot work in MZGram builds.
  *
  * The distributor gives an endpoint; Telegram gets it as a WebPush token
  * (push type 10) with this device's keys, through the gateway the user
@@ -15,11 +17,11 @@
 
 package org.telegram.messenger.mzgram;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -28,7 +30,9 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.PushListenerController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -68,28 +72,41 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         return context().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    // The provider the app uses: UnifiedPush or the build's own (Google or
-    // Huawei), by the user's choice or by whether Google services are here.
+    // The provider the app uses: UnifiedPush, or the build's own (Google or
+    // Huawei) when the user turned UnifiedPush off.
     public static PushListenerController.IPushListenerServiceProvider choose(PushListenerController.IPushListenerServiceProvider base) {
-        return MZGramUnifiedPushRules.usesUnifiedPush(MZGramConfig.useUnifiedPush, hasGoogleServices(base)) ? INSTANCE : base;
-    }
-
-    public static boolean hasGoogleServices(PushListenerController.IPushListenerServiceProvider base) {
-        try {
-            return base != null && base != INSTANCE && base.hasServices();
-        } catch (Throwable e) {
-            FileLog.e(e);
-            return false;
-        }
+        return MZGramUnifiedPushRules.usesUnifiedPush(MZGramConfig.useUnifiedPush) ? INSTANCE : base;
     }
 
     public static boolean isActive() {
         return ApplicationLoader.getPushProvider() == INSTANCE;
     }
 
+    public static String ownPackage() {
+        return context().getPackageName();
+    }
+
+    public static boolean isBuiltIn(String distributor) {
+        return ownPackage().equals(distributor);
+    }
+
+    // What the built-in Google FCM distributor registers with: the key of
+    // the gateway in use, and its /fcm/ route.
+    public static String fcmVapidKey() {
+        return MZGramUnifiedPushRules.vapidKey(MZGramConfig.unifiedPushVapidKey);
+    }
+
+    public static String fcmEndpoint(String token) {
+        return MZGramUnifiedPushRules.fcmEndpointPrefix(MZGramConfig.unifiedPushGateway) + token;
+    }
+
+    public static boolean hasPlayServices() {
+        return MZGramPushDiagnostics.playServices() != null;
+    }
+
     @Override
     public boolean hasServices() {
-        return UnifiedPush.getSavedDistributor(context()) != null || !UnifiedPush.getDistributors(context()).isEmpty();
+        return !distributors().isEmpty();
     }
 
     @Override
@@ -107,18 +124,20 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         Utilities.globalQueue.postRunnable(() -> {
             try {
                 SharedConfig.pushStringGetTimeStart = SystemClock.elapsedRealtime();
-                if (UnifiedPush.getSavedDistributor(context()) == null) {
-                    // Without a screen to ask on, only a single distributor
-                    // is taken; with more the user picks one in the settings.
-                    List<String> distributors = UnifiedPush.getDistributors(context());
-                    if (distributors.size() != 1) {
-                        return;
-                    }
-                    UnifiedPush.saveDistributor(context(), distributors.get(0));
+                String saved = UnifiedPush.getSavedDistributor(context());
+                String distributor = MZGramUnifiedPushRules.pickDistributor(saved, distributors(), ownPackage());
+                if (distributor == null) {
+                    MZGramPushDiagnostics.log("no distributor: no distributor app and no " + MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE);
+                    return;
                 }
+                if (!distributor.equals(saved)) {
+                    UnifiedPush.saveDistributor(context(), distributor);
+                }
+                MZGramPushDiagnostics.log("register -> " + distributor);
                 UnifiedPush.register(context(), INSTANCE_NAME, null, null);
             } catch (Throwable e) {
                 FileLog.e(e);
+                MZGramPushDiagnostics.setLastFailure(e.toString());
             }
         });
     }
@@ -129,6 +148,8 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
             UnifiedPush.unregister(context(), INSTANCE_NAME);
             return;
         }
+        MZGramPushDiagnostics.log("endpoint: " + Uri.parse(endpoint).getHost());
+        MZGramPushDiagnostics.setLastFailure(null);
         preferences().edit().putString(KEY_ENDPOINT, endpoint).commit();
         SharedConfig.pushStringGetTimeEnd = SystemClock.elapsedRealtime();
         registerTokens();
@@ -142,16 +163,18 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         if (TextUtils.isEmpty(endpoint) || !isActive()) {
             return;
         }
+        boolean builtIn = isBuiltIn(UnifiedPush.getSavedDistributor(context())) || endpoint.startsWith(MZGramUnifiedPushRules.fcmEndpointPrefix(MZGramConfig.unifiedPushGateway));
         String gateway = MZGramUnifiedPushRules.gateway(MZGramConfig.unifiedPushGatewayEnabled, MZGramConfig.unifiedPushGateway);
         String webToken;
         try {
             MZGramWebPushCrypto.Keys keys = MZGramWebPushCrypto.keys();
-            webToken = MZGramUnifiedPushRules.webPushToken(MZGramUnifiedPushRules.webPushEndpoint(endpoint, gateway), keys.publicKey, keys.authSecret);
+            webToken = MZGramUnifiedPushRules.webPushToken(MZGramUnifiedPushRules.webPushEndpoint(endpoint, gateway, builtIn), keys.publicKey, keys.authSecret);
         } catch (Exception e) {
             FileLog.e(e);
+            MZGramPushDiagnostics.setLastFailure("WebPush keys: " + e);
             return;
         }
-        String simpleToken = MZGramUnifiedPushRules.simplePushToken(endpoint, gateway);
+        String simpleToken = MZGramUnifiedPushRules.simplePushToken(endpoint, gateway, builtIn);
         String oldSimpleToken = preferences().getString(KEY_SIMPLE_TOKEN, null);
         if (oldSimpleToken != null && !oldSimpleToken.equals(simpleToken)) {
             unregisterAtServer(PushListenerController.PUSH_TYPE_SIMPLE, oldSimpleToken);
@@ -163,12 +186,39 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         PushListenerController.sendRegistrationToServer(PushListenerController.PUSH_TYPE_WEB, webToken);
     }
 
+    // The gateway or its key changed. A distributor app's endpoint stays the
+    // same and only the tokens change; the built-in Google FCM endpoint is
+    // made from the gateway and its key, so it is registered again.
+    public static void onGatewayChanged() {
+        Utilities.globalQueue.postRunnable(() -> {
+            if (isBuiltIn(UnifiedPush.getSavedDistributor(context()))) {
+                reregister();
+            } else {
+                registerTokens();
+            }
+        });
+    }
+
+    private static void reregister() {
+        String distributor = UnifiedPush.getSavedDistributor(context());
+        if (distributor == null) {
+            INSTANCE.onRequestPushToken();
+            return;
+        }
+        UnifiedPush.unregister(context(), INSTANCE_NAME);
+        dropTokens();
+        UnifiedPush.saveDistributor(context(), distributor);
+        MZGramPushDiagnostics.log("register -> " + distributor);
+        UnifiedPush.register(context(), INSTANCE_NAME, null, null);
+    }
+
     // Telegram took the WebPush token for this account; the Simple Push one
     // goes along with it.
     public static void onRegisteredForPush(int account, int pushType) {
         if (pushType != PushListenerController.PUSH_TYPE_WEB) {
             return;
         }
+        MZGramPushDiagnostics.log("registered with Telegram (account " + account + ")");
         String token = preferences().getString(KEY_SIMPLE_TOKEN, null);
         if (TextUtils.isEmpty(token)) {
             return;
@@ -179,6 +229,11 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         req.secret = SharedConfig.pushAuthKey;
         addOtherAccounts(account, req.other_uids);
         ConnectionsManager.getInstance(account).sendRequest(req, null);
+    }
+
+    public static void onRegistrationFailed(String reason) {
+        MZGramPushDiagnostics.setLastFailure(reason);
+        onRegistrationLost();
     }
 
     // The distributor dropped the registration or refused it.
@@ -227,8 +282,17 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
     public static void onMessage(byte[] content) {
         String payload = decode(content);
         if (payload != null) {
-            new Thread(() -> PushListenerController.processRemoteMessage(PushListenerController.PUSH_TYPE_WEB, payload, System.currentTimeMillis()), "MZGramPush").start();
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH);
+            PowerManager.WakeLock lock = acquireWakeLock();
+            new Thread(() -> {
+                try {
+                    PushListenerController.processRemoteMessage(PushListenerController.PUSH_TYPE_WEB, payload, System.currentTimeMillis());
+                } finally {
+                    release(lock);
+                }
+            }, "MZGramPush").start();
         } else {
+            MZGramPushDiagnostics.onReceived(MZGramUnifiedPushRules.looksLikeWebPush(content) ? MZGramPushDiagnostics.Kind.DECRYPT_FAILED : MZGramPushDiagnostics.Kind.WAKE_UP);
             wakeUp();
         }
     }
@@ -249,6 +313,28 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         }
     }
 
+    private static PowerManager.WakeLock acquireWakeLock() {
+        try {
+            PowerManager powerManager = (PowerManager) context().getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mzgram:push");
+            wakeLock.acquire(30_000);
+            return wakeLock;
+        } catch (Exception e) {
+            FileLog.e(e);
+            return null;
+        }
+    }
+
+    private static void release(PowerManager.WakeLock lock) {
+        try {
+            if (lock != null && lock.isHeld()) {
+                lock.release();
+            }
+        } catch (RuntimeException ignored) {
+            // Released by its timeout already.
+        }
+    }
+
     private static void wakeUp() {
         long now = SystemClock.elapsedRealtime();
         synchronized (MZGramUnifiedPush.class) {
@@ -257,15 +343,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
             }
             lastWakeUp = now;
         }
-        PowerManager.WakeLock wakeLock = null;
-        try {
-            PowerManager powerManager = (PowerManager) context().getSystemService(Context.POWER_SERVICE);
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mzgram:push");
-            wakeLock.acquire(30_000);
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        PowerManager.WakeLock lock = wakeLock;
+        PowerManager.WakeLock lock = acquireWakeLock();
         AndroidUtilities.runOnUIThread(() -> {
             ApplicationLoader.postInitApplication();
             Utilities.stageQueue.postRunnable(() -> {
@@ -277,9 +355,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
                         }
                     }
                 } finally {
-                    if (lock != null && lock.isHeld()) {
-                        lock.release();
-                    }
+                    release(lock);
                 }
             });
         });
@@ -295,6 +371,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
             return;
         }
         if (before == INSTANCE) {
+            MZGramPushDiagnostics.log("turned off by the user");
             UnifiedPush.unregister(context(), INSTANCE_NAME);
             dropTokens();
         } else if (!TextUtils.isEmpty(SharedConfig.pushString)) {
@@ -305,47 +382,40 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         ApplicationLoader.restartPushServices();
     }
 
-    // Lets the user pick the distributor the standard way: the system's
-    // default for UnifiedPush links, or its chooser; when that is not
-    // available, a list of the installed ones (shown by the caller).
-    public static void pickDistributor(Activity activity, Runnable showList, Runnable done) {
-        String old = UnifiedPush.getSavedDistributor(context());
-        if (old != null) {
-            UnifiedPush.unregister(context(), INSTANCE_NAME);
-            dropTokens();
-        }
-        UnifiedPush.tryUseDefaultDistributor(activity, success -> {
-            if (success) {
-                UnifiedPush.register(context(), INSTANCE_NAME, null, null);
-                done.run();
-            } else {
-                showList.run();
+    // The user picked a distributor from the list.
+    public static void useDistributor(String packageName) {
+        Utilities.globalQueue.postRunnable(() -> {
+            String current = UnifiedPush.getSavedDistributor(context());
+            if (current != null && !current.equals(packageName)) {
+                UnifiedPush.unregister(context(), INSTANCE_NAME);
+                dropTokens();
             }
-            return kotlin.Unit.INSTANCE;
+            UnifiedPush.saveDistributor(context(), packageName);
+            MZGramPushDiagnostics.log("register -> " + packageName);
+            UnifiedPush.register(context(), INSTANCE_NAME, null, null);
         });
     }
 
-    public static void useDistributor(String packageName) {
-        String current = UnifiedPush.getSavedDistributor(context());
-        if (current != null && !current.equals(packageName)) {
-            UnifiedPush.unregister(context(), INSTANCE_NAME);
-            dropTokens();
-        }
-        UnifiedPush.saveDistributor(context(), packageName);
-        UnifiedPush.register(context(), INSTANCE_NAME, null, null);
-    }
-
+    // The distributors to choose from, the built-in Google FCM one included
+    // when Google Play Services or microG is installed.
     public static List<String> distributors() {
-        return UnifiedPush.getDistributors(context());
+        return MZGramUnifiedPushRules.offeredDistributors(UnifiedPush.getDistributors(context()), ownPackage(), hasPlayServices());
     }
 
     public static String distributor() {
         return UnifiedPush.getSavedDistributor(context());
     }
 
-    public static String appName(String packageName) {
+    public static String ackedDistributor() {
+        return UnifiedPush.getAckDistributor(context());
+    }
+
+    public static String label(String packageName) {
         if (packageName == null) {
             return null;
+        }
+        if (isBuiltIn(packageName)) {
+            return LocaleController.getString(R.string.MZGramEmbeddedFcm);
         }
         try {
             PackageManager manager = context().getPackageManager();
@@ -360,7 +430,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         if (!isActive()) {
             return Status.OFF;
         }
-        if (UnifiedPush.getDistributors(context()).isEmpty()) {
+        if (distributors().isEmpty()) {
             return Status.NO_DISTRIBUTOR;
         }
         if (UnifiedPush.getSavedDistributor(context()) == null) {

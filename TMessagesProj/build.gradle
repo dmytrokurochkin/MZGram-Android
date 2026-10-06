@@ -103,6 +103,9 @@ dependencies {
         exclude group: 'com.google.crypto.tink', module: 'tink'
     }
     implementation 'com.google.crypto.tink:tink-android:1.17.0'
+    // The built-in Google FCM distributor: asks Google Play Services (or
+    // microG) for a WebPush endpoint directly, without a Google library.
+    implementation 'org.unifiedpush.android:embedded-fcm-distributor:3.0.0'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 }

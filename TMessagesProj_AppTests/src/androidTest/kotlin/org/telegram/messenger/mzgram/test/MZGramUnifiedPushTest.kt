@@ -1,6 +1,7 @@
 package org.telegram.messenger.mzgram.test
 
 import android.content.Context
+import android.content.Intent
 import android.util.Base64
 import androidx.test.platform.app.InstrumentationRegistry
 import org.json.JSONObject
@@ -15,6 +16,8 @@ import org.junit.Test
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
 import org.telegram.messenger.mzgram.MZGramConfig
+import org.telegram.messenger.mzgram.MZGramFcmRegistrationReceiver
+import org.telegram.messenger.mzgram.MZGramPushDiagnostics
 import org.telegram.messenger.mzgram.MZGramUnifiedPush
 import org.telegram.messenger.mzgram.MZGramUnifiedPushRules
 import org.telegram.messenger.mzgram.MZGramWebPushCrypto
@@ -37,14 +40,181 @@ class MZGramUnifiedPushTest {
     private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
     private val endpoint = "https://ntfy.example.org/upAbC123?up=1"
 
-    // Without a choice UnifiedPush runs only where Google services are
-    // missing; the user's choice wins both ways.
+    // Telegram's own Google push cannot work in MZGram builds, so UnifiedPush
+    // is on until the user turns it off.
     @Test
-    fun unifiedPush_isUsedWithoutGoogleOrWhenTheUserTurnsItOn() {
-        assertFalse(MZGramUnifiedPushRules.usesUnifiedPush(null, true))
-        assertTrue(MZGramUnifiedPushRules.usesUnifiedPush(null, false))
-        assertTrue(MZGramUnifiedPushRules.usesUnifiedPush(true, true))
-        assertFalse(MZGramUnifiedPushRules.usesUnifiedPush(false, false))
+    fun unifiedPush_isOnUnlessTheUserTurnsItOff() {
+        assertTrue(MZGramUnifiedPushRules.usesUnifiedPush(null))
+        assertTrue(MZGramUnifiedPushRules.usesUnifiedPush(true))
+        assertFalse(MZGramUnifiedPushRules.usesUnifiedPush(false))
+    }
+
+    // The built-in Google FCM is offered only with Google Play Services or
+    // microG; a distributor app is preferred to it, and a saved choice stays.
+    @Test
+    fun distributor_appFirstThenBuiltInFcm_savedChoiceKept() {
+        val own = "org.telegram.messenger.web"
+        val ntfy = "io.heckel.ntfy"
+        val sunup = "org.unifiedpush.distributor.sunup"
+        assertEquals(listOf(own, ntfy), MZGramUnifiedPushRules.offeredDistributors(listOf(own, ntfy, ntfy), own, true))
+        assertEquals(listOf(ntfy), MZGramUnifiedPushRules.offeredDistributors(listOf(own, ntfy), own, false))
+        assertEquals(emptyList<String>(), MZGramUnifiedPushRules.offeredDistributors(listOf(own), own, false))
+
+        assertEquals(own, MZGramUnifiedPushRules.pickDistributor(null, listOf(own), own))
+        assertEquals(ntfy, MZGramUnifiedPushRules.pickDistributor(null, listOf(own, ntfy), own))
+        assertEquals(own, MZGramUnifiedPushRules.pickDistributor(own, listOf(own, ntfy), own))
+        assertEquals(sunup, MZGramUnifiedPushRules.pickDistributor(sunup, listOf(own, ntfy, sunup), own))
+        // A saved distributor that was uninstalled is replaced.
+        assertEquals(ntfy, MZGramUnifiedPushRules.pickDistributor(sunup, listOf(own, ntfy), own))
+        assertNull(MZGramUnifiedPushRules.pickDistributor(null, emptyList(), own))
+    }
+
+    // The built-in distributor asks for an endpoint with the gateway's key
+    // and gives Telegram the gateway's /fcm/ route, as it is.
+    @Test
+    fun builtInFcm_usesTheGatewaysKeyAndFcmRoute() {
+        val savedGateway = MZGramConfig.unifiedPushGateway
+        val savedKey = MZGramConfig.unifiedPushVapidKey
+        try {
+            MZGramConfig.setUnifiedPushGateway("")
+            MZGramConfig.setUnifiedPushVapidKey("")
+            assertEquals(MZGramUnifiedPushRules.DEFAULT_VAPID_KEY, MZGramUnifiedPush.fcmVapidKey())
+            assertEquals(MZGramUnifiedPushRules.DEFAULT_GATEWAY + "fcm/tok123", MZGramUnifiedPush.fcmEndpoint("tok123"))
+
+            val ownKey = MZGramUnifiedPushRules.base64Url(MZGramWebPushCrypto.generateKeys().publicKey)
+            assertTrue(MZGramConfig.setUnifiedPushGateway("https://own.example.org/gw"))
+            assertTrue(MZGramConfig.setUnifiedPushVapidKey(ownKey))
+            assertEquals(ownKey, MZGramUnifiedPush.fcmVapidKey())
+            assertEquals("https://own.example.org/gw/fcm/tok123", MZGramUnifiedPush.fcmEndpoint("tok123"))
+            // Needs the gateway even with the gateway switch off.
+            assertEquals("https://own.example.org/gw/fcm/", MZGramUnifiedPushRules.fcmEndpointPrefix(MZGramConfig.unifiedPushGateway))
+
+            val fcmEndpoint = "https://own.example.org/gw/fcm/tok123"
+            assertEquals(fcmEndpoint, MZGramUnifiedPushRules.webPushEndpoint(fcmEndpoint, "https://own.example.org/gw/", true))
+            assertEquals(fcmEndpoint, MZGramUnifiedPushRules.simplePushToken(fcmEndpoint, "https://own.example.org/gw/", true))
+            assertTrue(MZGramUnifiedPushRules.webPushEndpoint(endpoint, "https://own.example.org/gw/", false).contains("aesgcm?e="))
+        } finally {
+            MZGramConfig.setUnifiedPushGateway(savedGateway)
+            MZGramConfig.setUnifiedPushVapidKey(savedKey)
+        }
+    }
+
+    @Test
+    fun vapidKey_onlyAnUncompressedP256KeyIsSaved() {
+        val file = File(context.applicationInfo.dataDir, "shared_prefs/mzgram_config.xml")
+        val saved = MZGramConfig.unifiedPushVapidKey
+        val ownKey = MZGramUnifiedPushRules.base64Url(MZGramWebPushCrypto.generateKeys().publicKey)
+        try {
+            assertTrue(MZGramUnifiedPushRules.isValidVapidKey(MZGramUnifiedPushRules.DEFAULT_VAPID_KEY))
+            assertTrue(MZGramUnifiedPushRules.isValidVapidKey(ownKey))
+            for (bad in listOf(null, "", "abc", "$ownKey=", ownKey.dropLast(1), "A" + ownKey.drop(1), ownKey.replace(ownKey[5], '+'))) {
+                assertFalse("must be refused: $bad", MZGramUnifiedPushRules.isValidVapidKey(bad))
+            }
+            assertTrue(MZGramConfig.setUnifiedPushVapidKey(ownKey))
+            assertTrue(file.readText().contains(ownKey))
+            MZGramConfig.unifiedPushVapidKey = "lost"
+            MZGramConfig.loadConfig(true)
+            assertEquals(ownKey, MZGramConfig.unifiedPushVapidKey)
+            assertFalse(MZGramConfig.setUnifiedPushVapidKey("not a key"))
+            assertEquals(ownKey, MZGramConfig.unifiedPushVapidKey)
+            // Reset: the default key is stored as "use the default".
+            assertTrue(MZGramConfig.setUnifiedPushVapidKey(MZGramUnifiedPushRules.DEFAULT_VAPID_KEY))
+            assertEquals("", MZGramConfig.unifiedPushVapidKey)
+            assertEquals(MZGramUnifiedPushRules.DEFAULT_VAPID_KEY, MZGramUnifiedPushRules.vapidKey(MZGramConfig.unifiedPushVapidKey))
+        } finally {
+            MZGramConfig.setUnifiedPushVapidKey(saved)
+        }
+    }
+
+    // The diagnostics show where notifications go without the parts that
+    // identify this device.
+    @Test
+    fun diagnostics_maskTheTokenAndTheKeys() {
+        val token = "dGhpc0lzQUxvbmdGY21Ub2tlbkZvclRoaXNEZXZpY2VPbmx5MTIzNDU2Nzg5"
+        val keys = MZGramWebPushCrypto.keys()
+        val json = MZGramUnifiedPushRules.webPushToken(MZGramUnifiedPushRules.DEFAULT_GATEWAY + "fcm/" + token, keys.publicKey, keys.authSecret)
+        val masked = MZGramUnifiedPushRules.maskPushToken(json)
+        assertTrue(masked, masked.contains(MZGramUnifiedPushRules.DEFAULT_GATEWAY + "fcm/"))
+        assertFalse(masked, masked.contains(token))
+        assertFalse(masked, masked.contains(MZGramUnifiedPushRules.base64Url(keys.authSecret)))
+        assertFalse(masked, masked.contains(MZGramUnifiedPushRules.base64Url(keys.publicKey)))
+        val viaGateway = MZGramUnifiedPushRules.maskUrl(MZGramUnifiedPushRules.webPushEndpoint(endpoint, MZGramUnifiedPushRules.DEFAULT_GATEWAY))
+        assertTrue(viaGateway, viaGateway.startsWith(MZGramUnifiedPushRules.DEFAULT_GATEWAY + "aesgcm?e="))
+        assertFalse(viaGateway, viaGateway.contains("upAbC123"))
+    }
+
+    // Counters, the last answer of Google Play Services or microG and the
+    // recent events are kept on disk and can be reset.
+    @Test
+    fun diagnostics_countAndKeepEvents() {
+        val preferences = context.getSharedPreferences("mzgram_push_stats", Context.MODE_PRIVATE)
+        val saved = preferences.all
+        try {
+            MZGramPushDiagnostics.reset()
+            assertEquals(0, MZGramPushDiagnostics.received())
+            assertEquals(0, MZGramPushDiagnostics.lastReceived())
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH)
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH)
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.WAKE_UP)
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.DECRYPT_FAILED)
+            assertEquals(4, MZGramPushDiagnostics.received())
+            assertEquals(2, MZGramPushDiagnostics.decrypted())
+            assertEquals(1, MZGramPushDiagnostics.wakeUps())
+            assertEquals(1, MZGramPushDiagnostics.decryptFailed())
+            assertTrue(MZGramPushDiagnostics.lastReceived() > 0)
+            assertTrue(MZGramPushDiagnostics.events().last(), MZGramPushDiagnostics.events().last().endsWith("woke up instead)"))
+
+            // What Google Play Services or microG answered, as it reached
+            // the app.
+            MZGramFcmRegistrationReceiver().onReceive(context, Intent("com.google.android.c2dm.intent.REGISTRATION").putExtra("error", "SERVICE_NOT_AVAILABLE"))
+            assertEquals("error: SERVICE_NOT_AVAILABLE", MZGramPushDiagnostics.fcmResult())
+            MZGramFcmRegistrationReceiver().onReceive(context, Intent("com.google.android.c2dm.intent.REGISTRATION").putExtra("registration_id", "1:abc:token"))
+            assertEquals("registered", MZGramPushDiagnostics.fcmResult())
+
+            for (i in 1..30) {
+                MZGramPushDiagnostics.log("event $i")
+            }
+            val events = MZGramPushDiagnostics.events()
+            assertEquals(MZGramPushDiagnostics.EVENTS_KEPT, events.size)
+            assertTrue(events.last(), events.last().endsWith("event 30"))
+            assertTrue(events.first(), events.first().endsWith("event 11"))
+
+            val text = MZGramUnifiedPushActivity.diagnosticsText()
+            assertTrue(text, text.contains("event 30"))
+            assertTrue(text, text.contains("4"))
+
+            MZGramPushDiagnostics.reset()
+            assertEquals(0, MZGramPushDiagnostics.received())
+            assertTrue(MZGramPushDiagnostics.events().isEmpty())
+        } finally {
+            val editor = preferences.edit().clear()
+            saved.forEach { (key, value) ->
+                when (value) {
+                    is Long -> editor.putLong(key, value)
+                    is String -> editor.putString(key, value)
+                }
+            }
+            editor.commit()
+        }
+    }
+
+    // On the CI emulator (Google Play Services, no distributor app) the
+    // built-in distributor really asks Play Services for an endpoint when
+    // the app starts. Whether Play Services answers depends on the
+    // emulator's Google sign-in, so a missing answer skips the check; the
+    // diagnostics go to the log either way.
+    @Test
+    fun builtInFcm_registersWithPlayServices() {
+        assumeTrue("Google Play Services on this device", MZGramUnifiedPush.hasPlayServices())
+        assertTrue("UnifiedPush is on", MZGramUnifiedPush.isActive())
+        val answered = MZGramScreens.waitFor(90) { MZGramPushDiagnostics.fcmResult() != null || MZGramUnifiedPush.status() == MZGramUnifiedPush.Status.REGISTERED }
+        MZGramScreens.log("UnifiedPush diagnostics on the emulator:\n" + MZGramUnifiedPushActivity.diagnosticsText())
+        assertTrue("the built-in distributor asked Play Services", MZGramPushDiagnostics.fcmRequestTime() > 0 || MZGramPushDiagnostics.fcmResult() != null)
+        assumeTrue("Play Services answered: ${MZGramPushDiagnostics.fcmResult()}", answered && MZGramPushDiagnostics.fcmResult() == "registered")
+        val registered = MZGramScreens.waitFor(60) { MZGramUnifiedPush.status() == MZGramUnifiedPush.Status.REGISTERED }
+        assertTrue("the endpoint came back", registered)
+        val saved = context.getSharedPreferences("mzgram_push", Context.MODE_PRIVATE).getString("endpoint", "")!!
+        assertTrue(saved, saved.startsWith(MZGramUnifiedPushRules.fcmEndpointPrefix(MZGramConfig.unifiedPushGateway)))
     }
 
     // A phone with Google Play Services and no distributor app installed
@@ -206,6 +376,18 @@ class MZGramUnifiedPushTest {
         val address = items.first { it.text?.toString() == LocaleController.getString(R.string.MZGramUnifiedPushGateway) }
         assertEquals(MZGramUnifiedPushRules.gateway(true, MZGramConfig.unifiedPushGateway), address.textValue?.toString())
         assertEquals(MZGramUnifiedPush.isActive(), items.first { it.text?.toString() == LocaleController.getString(R.string.MZGramUseUnifiedPush) }.checked)
+        assertTrue("diagnostics row", LocaleController.getString(R.string.MZGramPushDiagnostics) in texts)
+        if (MZGramUnifiedPush.isActive()) {
+            // One choice per offered distributor, the built-in one named.
+            val radios = items.filter { it.`object` is String }
+            assertEquals(MZGramUnifiedPush.distributors(), radios.map { it.`object` })
+            if (MZGramUnifiedPush.hasPlayServices()) {
+                assertTrue(LocaleController.getString(R.string.MZGramEmbeddedFcm) in radios.map { it.text?.toString() })
+            }
+            val current = MZGramUnifiedPush.ackedDistributor() ?: MZGramUnifiedPush.distributor()
+            assertEquals("VAPID key row only for the built-in distributor", MZGramUnifiedPush.isBuiltIn(current),
+                LocaleController.getString(R.string.MZGramEmbeddedFcmVapid) in texts)
+        }
         assertNotNull(LocaleController.getString(R.string.MZGramUnifiedPush))
     }
 

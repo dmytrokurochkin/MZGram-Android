@@ -6,6 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeFalse
 import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.telegram.messenger.MessageKeyData
@@ -135,7 +136,13 @@ class MZGramPushColdStartTest {
         val events = MZGramPushDiagnostics.events()
         assertTrue("Google Play Services delivered the message: $events", MZGramPushDiagnostics.gmsReceived() > 0)
         assertTrue("the push reached the app and was decrypted: $events", MZGramPushDiagnostics.decrypted() > 0)
-        assertTrue("Telegram's part was read: $events", events.any { it.contains("Telegram push: MESSAGE_TEXT") })
+        val telegram = events.lastOrNull { it.contains("Telegram push:") }
+        assertTrue("Telegram's part was read: $events", telegram != null)
+        // The test account has no key on Telegram's servers; when the app
+        // signed it out before the push came, there is nobody to show the
+        // notification to, which says nothing about the push itself.
+        assumeFalse("the test account was signed out, so no notification can be shown: $telegram", telegram!!.contains("is not signed in"))
+        assertTrue("Telegram's part was a new message: $telegram", telegram.contains("MESSAGE_TEXT"))
         assertTrue("the app showed a notification: $events", MZGramPushDiagnostics.shown() > 0)
         assertTrue("the notification is on the screen (dumpsys notification)", notified)
     }

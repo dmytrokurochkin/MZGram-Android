@@ -17,6 +17,7 @@ import org.telegram.messenger.mzgram.MZGramPushDiagnostics
 import org.telegram.messenger.mzgram.MZGramUnifiedPush
 import org.telegram.messenger.mzgram.MZGramUnifiedPushRules
 import org.telegram.messenger.mzgram.MZGramWebPushCrypto
+import org.telegram.tgnet.SerializedData
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.mzgram.MZGramUnifiedPushActivity
 import java.io.File
@@ -105,14 +106,17 @@ class MZGramPushColdStartTest {
         val body = webPushFolded(JSONObject().put("p", p).toString().toByteArray(), MZGramWebPushCrypto.keys())
 
         // The test account has no key on Telegram's servers, so the app
-        // signs it out while the first screen is open; it is written again
-        // last, for the process the push starts.
-        instrumentation.runOnMainSync {
-            UserConfig.getInstance(0).setCurrentUser(self)
-            UserConfig.getInstance(0).saveConfig(true)
-        }
-        Thread.sleep(2000)
-        assertTrue("test account kept", UserConfig.getInstance(0).isClientActivated)
+        // signs it out while the first screen is open; it is written to disk
+        // again last and at once (saveConfig waits for an idle moment and
+        // writes later), for the process the push starts.
+        val data = SerializedData()
+        self.serializeToStream(data)
+        val written = UserConfig.getInstance(0).preferences.edit()
+            .putString("user", Base64.encodeToString(data.toByteArray(), Base64.DEFAULT))
+            .putInt("selectedAccount", 0)
+            .commit()
+        data.cleanup()
+        assertTrue("test account written", written)
 
         MZGramPushDiagnostics.reset()
         File(outDir, "token.txt").writeText(token)

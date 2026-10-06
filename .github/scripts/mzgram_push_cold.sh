@@ -30,7 +30,11 @@ for permission in POST_NOTIFICATIONS READ_CONTACTS WRITE_CONTACTS; do
 done
 
 adb shell rm -rf $DIR
-adb shell am instrument -w -e mzColdStart 1 -e mzVapidPublic "$PUBLIC" -e class "$TEST#prepare" "$INSTRUMENTATION" | tee cold-prepare.txt
+adb logcat -c
+adb shell am instrument -r -w -e mzColdStart 1 -e mzVapidPublic "$PUBLIC" -e class "$TEST#prepare" "$INSTRUMENTATION" > cold-prepare.txt
+grep -E "INSTRUMENTATION_STATUS: (stack|test)=|INSTRUMENTATION_CODE|OK \(|FAILURES" cold-prepare.txt | head -20
+echo "===== app log while preparing ====="
+adb logcat -d -s MZGramArchiveTest UP-FCMD FirebaseReceiver UnifiedPush | tail -80
 TOKEN=$(adb shell cat $DIR/token.txt 2>/dev/null | tr -d '\r')
 if [ -z "$TOKEN" ]; then
     echo "::error::Push cold start: the app gave no FCM endpoint for the test key (see cold-prepare.txt)."
@@ -63,8 +67,11 @@ done
 echo "notification shown: $notified; app process now: '$(adb shell pidof $APP | tr -d '\r')'"
 adb shell dumpsys notification --noredact | grep -A3 "pkg=$APP" | head -20
 
-adb shell am instrument -w -e mzColdStart 1 -e mzNotified $notified -e class "$TEST#verify" "$INSTRUMENTATION" | tee cold-verify.txt
-if grep -q "^OK (1 test)" cold-verify.txt && [ $notified = 1 ]; then
+adb shell am instrument -r -w -e mzColdStart 1 -e mzNotified $notified -e class "$TEST#verify" "$INSTRUMENTATION" > cold-verify.txt
+grep -E "INSTRUMENTATION_STATUS: (stack|test)=|INSTRUMENTATION_CODE|OK \(|FAILURES" cold-verify.txt | head -20
+echo "===== app log after the push ====="
+adb logcat -d -s MZGramArchiveTest UP-FCMD FirebaseReceiver UnifiedPush | tail -120
+if grep -q "INSTRUMENTATION_CODE: -1" cold-verify.txt && ! grep -qE "AssumptionViolatedException|FAILURES" cold-verify.txt && [ $notified = 1 ]; then
     echo "Push cold start: passed"
     exit 0
 fi

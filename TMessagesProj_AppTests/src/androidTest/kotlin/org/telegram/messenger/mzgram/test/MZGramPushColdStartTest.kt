@@ -104,6 +104,16 @@ class MZGramPushColdStartTest {
         // The WebPush part, for this device's keys, folded by "the gateway".
         val body = webPushFolded(JSONObject().put("p", p).toString().toByteArray(), MZGramWebPushCrypto.keys())
 
+        // The test account has no key on Telegram's servers, so the app
+        // signs it out while the first screen is open; it is written again
+        // last, for the process the push starts.
+        instrumentation.runOnMainSync {
+            UserConfig.getInstance(0).setCurrentUser(self)
+            UserConfig.getInstance(0).saveConfig(true)
+        }
+        Thread.sleep(2000)
+        assertTrue("test account kept", UserConfig.getInstance(0).isClientActivated)
+
         MZGramPushDiagnostics.reset()
         File(outDir, "token.txt").writeText(token)
         File(outDir, "body.b64").writeText(Base64.encodeToString(body, Base64.NO_WRAP))

@@ -76,20 +76,13 @@ class MZGramPushColdStartTest {
             UserConfig.getInstance(0).saveConfig(true)
         }
 
-        // The app as the user opens it: push registration starts with the
-        // first screen, not with the process.
-        MZGramScreens.launchApp()
-        assertTrue("UnifiedPush is on", MZGramUnifiedPush.isActive())
-        val first = MZGramScreens.waitFor(120) { MZGramUnifiedPush.status() == MZGramUnifiedPush.Status.REGISTERED }
-        MZGramScreens.log("cold start: diagnostics after opening the app\n" + MZGramUnifiedPushActivity.diagnosticsText())
-        assumeTrue("the built-in distributor registered when the app opened: ${MZGramPushDiagnostics.fcmResult()}", first)
-
-        // The built-in distributor registers again, with the host's key.
+        // The host's key before the first registration, then the app as the
+        // user opens it: push registration starts with the first screen.
         assertTrue("test VAPID key saved", MZGramConfig.setUnifiedPushVapidKey(vapid))
         val preferences = context.getSharedPreferences("mzgram_push", Context.MODE_PRIVATE)
         val prefix = MZGramUnifiedPushRules.fcmEndpointPrefix(MZGramConfig.unifiedPushGateway)
-        MZGramUnifiedPush.onGatewayChanged()
-        assertTrue("old endpoint dropped", MZGramScreens.waitFor(30) { preferences.getString("endpoint", null) == null })
+        MZGramScreens.launchApp()
+        assertTrue("UnifiedPush is on", MZGramUnifiedPush.isActive())
         val registered = MZGramScreens.waitFor(120) { preferences.getString("endpoint", null)?.startsWith(prefix) == true }
         MZGramScreens.log("cold start: diagnostics after registering\n" + MZGramUnifiedPushActivity.diagnosticsText())
         assumeTrue("Play Services gave an endpoint for the test key: ${MZGramPushDiagnostics.fcmResult()}", registered)

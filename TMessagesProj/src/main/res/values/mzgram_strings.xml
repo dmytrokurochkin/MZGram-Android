@@ -190,5 +190,20 @@
     <string name="MZGramPushDiagnosticsSaved">Saved distributor: %1$s</string>
     <string name="MZGramPushDiagnosticsAcked">Distributor that answered: %1$s</string>
     <string name="MZGramPushDiagnosticsNoneSet">none</string>
+    <string name="MZGramPushDiagnosticsGms">Messages from Google Play Services or microG: %1$s</string>
+    <string name="MZGramPushDiagnosticsTelegram">Registration with Telegram: %1$s</string>
+    <string name="MZGramPushDiagnosticsTelegramNoAnswer">no answer from Telegram for %1$s s</string>
+    <string name="MZGramPushDiagnosticsShown">Notifications shown: %1$s</string>
+    <string name="MZGramPushDiagnosticsAllowed">Notifications for this app: %1$s</string>
+    <string name="MZGramPushDiagnosticsAllowedYes">allowed</string>
+    <string name="MZGramPushDiagnosticsAllowedNo">turned off in the system settings</string>
+    <string name="MZGramPushTest">Test push</string>
+    <string name="MZGramPushTestSending">Sending a test push through the gateway…</string>
+    <string name="MZGramPushTestArrived">The test push came back after %1$s s: the way from the gateway through the distributor to this app works.</string>
+    <string name="MZGramPushTestLost">The gateway took the test push (HTTP %1$s), but it did not come back within %2$s s: it got lost between the gateway, the distributor and this app.</string>
+    <string name="MZGramPushTestForbidden">The gateway refused the test push (HTTP 403). The default gateway takes pushes only from Telegram\'s servers, so a test from the phone cannot pass it; Registration with Telegram and the events above show what Telegram did.</string>
+    <string name="MZGramPushTestRefused">The gateway refused the test push: HTTP %1$s.</string>
+    <string name="MZGramPushTestFailed">The test push could not be sent: %1$s</string>
+    <string name="MZGramPushTestNoEndpoint">There is nothing to send to yet: the distributor has not given an endpoint, or the gateway is turned off.</string>
     <string name="MZGramPushDiagnosticsEvents">Events:</string>
 </resources>

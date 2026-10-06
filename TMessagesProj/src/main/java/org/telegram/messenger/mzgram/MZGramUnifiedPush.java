@@ -37,6 +37,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_account;
 import org.unifiedpush.android.connector.UnifiedPush;
 
@@ -186,6 +187,22 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         PushListenerController.sendRegistrationToServer(PushListenerController.PUSH_TYPE_WEB, webToken);
     }
 
+    // Where Telegram sends WebPush notifications for this device: the
+    // gateway's route for the saved endpoint, or null without a gateway or
+    // an endpoint. The test push goes there too.
+    public static String gatewayEndpoint() {
+        String endpoint = preferences().getString(KEY_ENDPOINT, null);
+        if (TextUtils.isEmpty(endpoint) || !isActive()) {
+            return null;
+        }
+        // The built-in Google FCM endpoint is the gateway's /fcm/ route itself.
+        if (isBuiltIn(UnifiedPush.getSavedDistributor(context())) || endpoint.startsWith(MZGramUnifiedPushRules.fcmEndpointPrefix(MZGramConfig.unifiedPushGateway))) {
+            return endpoint;
+        }
+        String gateway = MZGramUnifiedPushRules.gateway(MZGramConfig.unifiedPushGatewayEnabled, MZGramConfig.unifiedPushGateway);
+        return gateway == null ? null : MZGramUnifiedPushRules.webPushEndpoint(endpoint, gateway);
+    }
+
     // The gateway or its key changed. A distributor app's endpoint stays the
     // same and only the tokens change; the built-in Google FCM endpoint is
     // made from the gateway and its key, so it is registered again.
@@ -228,7 +245,9 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         req.token = token;
         req.secret = SharedConfig.pushAuthKey;
         addOtherAccounts(account, req.other_uids);
-        ConnectionsManager.getInstance(account).sendRequest(req, null);
+        MZGramPushDiagnostics.onTelegramRegisterSent(account, req.token_type);
+        ConnectionsManager.getInstance(account).sendRequest(req, (response, error) ->
+                MZGramPushDiagnostics.onTelegramRegisterAnswer(account, PushListenerController.PUSH_TYPE_SIMPLE, response instanceof TLRPC.TL_boolTrue, error));
     }
 
     public static void onRegistrationFailed(String reason) {
@@ -280,9 +299,13 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
     // What arrived from the distributor. Decrypted, it goes the same way as
     // a notification through Google; anything else wakes the app up.
     public static void onMessage(byte[] content) {
-        String payload = decode(content);
+        String[] reason = new String[1];
+        String payload = decode(content, reason);
         if (payload != null) {
-            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH);
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH, content.length, null);
+            if (MZGramPushTest.onPayload(payload)) {
+                return;
+            }
             PowerManager.WakeLock lock = acquireWakeLock();
             new Thread(() -> {
                 try {
@@ -292,7 +315,8 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
                 }
             }, "MZGramPush").start();
         } else {
-            MZGramPushDiagnostics.onReceived(MZGramUnifiedPushRules.looksLikeWebPush(content) ? MZGramPushDiagnostics.Kind.DECRYPT_FAILED : MZGramPushDiagnostics.Kind.WAKE_UP);
+            boolean webPush = MZGramUnifiedPushRules.looksLikeWebPush(content);
+            MZGramPushDiagnostics.onReceived(webPush ? MZGramPushDiagnostics.Kind.DECRYPT_FAILED : MZGramPushDiagnostics.Kind.WAKE_UP, content.length, reason[0]);
             wakeUp();
         }
     }
@@ -300,12 +324,23 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
     // The notification's data, or null when it is a wake-up or cannot be
     // decrypted.
     public static String decode(byte[] content) {
+        return decode(content, new String[1]);
+    }
+
+    // reason[0] says why there is no data.
+    private static String decode(byte[] content, String[] reason) {
         if (!MZGramUnifiedPushRules.looksLikeWebPush(content)) {
+            reason[0] = "not a WebPush message";
             return null;
         }
         try {
-            return MZGramUnifiedPushRules.payload(MZGramWebPushCrypto.decrypt(content, MZGramWebPushCrypto.keys()));
+            String payload = MZGramUnifiedPushRules.payload(MZGramWebPushCrypto.decrypt(content, MZGramWebPushCrypto.keys()));
+            if (payload == null) {
+                reason[0] = "no Telegram data in it";
+            }
+            return payload;
         } catch (Exception e) {
+            reason[0] = e.getClass().getSimpleName() + (e.getMessage() != null ? ": " + e.getMessage() : "");
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("UnifiedPush: cannot decrypt, waking up instead: " + e);
             }

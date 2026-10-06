@@ -24,6 +24,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.mzgram.MZGramConfig;
 import org.telegram.messenger.mzgram.MZGramPushDiagnostics;
+import org.telegram.messenger.mzgram.MZGramPushTest;
 import org.telegram.messenger.mzgram.MZGramUnifiedPush;
 import org.telegram.messenger.mzgram.MZGramUnifiedPushRules;
 import org.telegram.messenger.mzgram.MZGramWebPushCrypto;
@@ -183,6 +184,10 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
         String playServices = MZGramPushDiagnostics.playServices();
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsPlayServices, playServices != null ? playServices : getString(R.string.MZGramPushDiagnosticsNotInstalled)));
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsFcm, fcmResultText()));
+        text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsGms, String.valueOf(MZGramPushDiagnostics.gmsReceived())));
+        text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsTelegram, telegramResultText()));
+        text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsShown, String.valueOf(MZGramPushDiagnostics.shown())));
+        text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsAllowed, getString(MZGramPushDiagnostics.notificationsAllowed() ? R.string.MZGramPushDiagnosticsAllowedYes : R.string.MZGramPushDiagnosticsAllowedNo)));
         String token = SharedConfig.pushType == org.telegram.messenger.PushListenerController.PUSH_TYPE_WEB ? SharedConfig.pushString : null;
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsEndpoint,
                 token == null || token.isEmpty() ? getString(R.string.MZGramPushDiagnosticsNoneSet) : "\n" + MZGramUnifiedPushRules.maskPushToken(token)));
@@ -202,6 +207,21 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
             }
         }
         return text.toString();
+    }
+
+    // What Telegram last answered to the WebPush registration, or how long
+    // it has been silent.
+    private static String telegramResultText() {
+        long requested = MZGramPushDiagnostics.telegramRequestTime();
+        long answered = MZGramPushDiagnostics.telegramResultTime();
+        if (requested == 0 && answered == 0) {
+            return getString(R.string.MZGramPushDiagnosticsFcmNotTried);
+        }
+        if (requested > answered && (System.currentTimeMillis() - requested) / 1000 >= 30) {
+            return formatString(R.string.MZGramPushDiagnosticsTelegramNoAnswer, String.valueOf((System.currentTimeMillis() - requested) / 1000));
+        }
+        String result = MZGramPushDiagnostics.telegramResult();
+        return result != null ? result + " (" + LocaleController.formatDateTime(answered / 1000, true) + ")" : getString(R.string.MZGramPushDiagnosticsFcmNotTried);
     }
 
     // What Google Play Services (or microG) last said to the built-in
@@ -233,8 +253,39 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
                     MZGramPushDiagnostics.reset();
                     update();
                 })
+                .setNegativeButton(getString(R.string.MZGramPushTest), (dialog, which) -> sendTestPush())
                 .setPositiveButton(getString(R.string.OK), null)
                 .show();
+    }
+
+    private void sendTestPush() {
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(R.string.MZGramPushTestSending)).show();
+        MZGramPushTest.send((outcome, detail) -> {
+            if (getContext() == null || getParentActivity() == null) {
+                return;
+            }
+            new AlertDialog.Builder(getContext(), getResourceProvider())
+                    .setTitle(getString(R.string.MZGramPushTest))
+                    .setMessage(testPushText(outcome, detail))
+                    .setPositiveButton(getString(R.string.OK), null)
+                    .show();
+            update();
+        });
+    }
+
+    public static String testPushText(MZGramPushTest.Outcome outcome, String detail) {
+        switch (outcome) {
+            case ARRIVED:
+                return formatString(R.string.MZGramPushTestArrived, detail);
+            case LOST:
+                return formatString(R.string.MZGramPushTestLost, detail, String.valueOf(MZGramPushTest.WAIT_SECONDS));
+            case REFUSED:
+                return "403".equals(detail) ? getString(R.string.MZGramPushTestForbidden) : formatString(R.string.MZGramPushTestRefused, detail);
+            case FAILED:
+                return formatString(R.string.MZGramPushTestFailed, detail);
+            default:
+                return getString(R.string.MZGramPushTestNoEndpoint);
+        }
     }
 
     private EditTextBoldCursor dialogField(String text) {

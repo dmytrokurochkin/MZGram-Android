@@ -17,6 +17,10 @@ import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
 import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.messenger.mzgram.MZGramFcmRegistrationReceiver
+import org.telegram.tgnet.TLRPC
+import org.telegram.messenger.PushListenerController
+import org.telegram.messenger.mzgram.MZGramPushTest
+import org.telegram.messenger.mzgram.MZGramFcmMessageReceiver
 import org.telegram.messenger.mzgram.MZGramPushDiagnostics
 import org.telegram.messenger.mzgram.MZGramUnifiedPush
 import org.telegram.messenger.mzgram.MZGramUnifiedPushRules
@@ -153,16 +157,37 @@ class MZGramUnifiedPushTest {
             MZGramPushDiagnostics.reset()
             assertEquals(0, MZGramPushDiagnostics.received())
             assertEquals(0, MZGramPushDiagnostics.lastReceived())
-            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH)
-            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH)
-            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.WAKE_UP)
-            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.DECRYPT_FAILED)
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH, 300, null)
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.PUSH, 300, null)
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.WAKE_UP, 10, null)
+            MZGramPushDiagnostics.onReceived(MZGramPushDiagnostics.Kind.DECRYPT_FAILED, 120, "AEADBadTagException")
             assertEquals(4, MZGramPushDiagnostics.received())
             assertEquals(2, MZGramPushDiagnostics.decrypted())
             assertEquals(1, MZGramPushDiagnostics.wakeUps())
             assertEquals(1, MZGramPushDiagnostics.decryptFailed())
             assertTrue(MZGramPushDiagnostics.lastReceived() > 0)
-            assertTrue(MZGramPushDiagnostics.events().last(), MZGramPushDiagnostics.events().last().endsWith("woke up instead)"))
+            assertTrue(MZGramPushDiagnostics.events().last(), MZGramPushDiagnostics.events().last().endsWith("not decrypted: AEADBadTagException; woke up instead"))
+            assertTrue(MZGramPushDiagnostics.events().toString(), MZGramPushDiagnostics.events().any { it.endsWith("push received (120 bytes)") })
+
+            // Every message Google Play Services or microG delivers, before
+            // the distributor library looks at it.
+            MZGramFcmMessageReceiver().onReceive(context, Intent(MZGramFcmMessageReceiver.ACTION_RECEIVE).putExtra("subtype", "wp:abc").putExtra("rawData", ByteArray(77)))
+            assertEquals(1, MZGramPushDiagnostics.gmsReceived())
+            assertTrue(MZGramPushDiagnostics.events().last(), MZGramPushDiagnostics.events().last().endsWith("(77 bytes)"))
+
+            // What Telegram answered to the registration.
+            MZGramPushDiagnostics.onTelegramRegisterSent(0, PushListenerController.PUSH_TYPE_WEB)
+            assertTrue(MZGramPushDiagnostics.events().last(), MZGramPushDiagnostics.events().last().endsWith("registerDevice type 10 sent (account 0)"))
+            val error = TLRPC.TL_error().also { it.code = 400; it.text = "TOKEN_INVALID" }
+            MZGramPushDiagnostics.onTelegramRegisterAnswer(0, PushListenerController.PUSH_TYPE_WEB, false, error)
+            assertEquals("error 400 TOKEN_INVALID", MZGramPushDiagnostics.telegramResult())
+            MZGramPushDiagnostics.onTelegramRegisterAnswer(0, PushListenerController.PUSH_TYPE_SIMPLE, true, null)
+            assertEquals("the Simple Push answer does not replace the WebPush one", "error 400 TOKEN_INVALID", MZGramPushDiagnostics.telegramResult())
+            MZGramPushDiagnostics.onTelegramRegisterAnswer(0, PushListenerController.PUSH_TYPE_WEB, true, null)
+            assertEquals("ok", MZGramPushDiagnostics.telegramResult())
+            MZGramPushDiagnostics.onTelegramPush("MESSAGE_TEXT (account 0)")
+            MZGramPushDiagnostics.onNotificationShown(1)
+            assertEquals(1, MZGramPushDiagnostics.shown())
 
             // What Google Play Services or microG answered, as it reached
             // the app.
@@ -171,17 +196,21 @@ class MZGramUnifiedPushTest {
             MZGramFcmRegistrationReceiver().onReceive(context, Intent("com.google.android.c2dm.intent.REGISTRATION").putExtra("registration_id", "1:abc:token"))
             assertEquals("registered", MZGramPushDiagnostics.fcmResult())
 
-            for (i in 1..30) {
+            val text = MZGramUnifiedPushActivity.diagnosticsText()
+            assertTrue(text, text.contains(LocaleController.formatString(R.string.MZGramPushDiagnosticsTelegram, "")))
+            assertTrue(text, text.contains("ok ("))
+            assertTrue(text, text.contains(LocaleController.formatString(R.string.MZGramPushDiagnosticsGms, "1")))
+            assertTrue(text, text.contains(LocaleController.formatString(R.string.MZGramPushDiagnosticsShown, "1")))
+            assertTrue(text, text.contains("MESSAGE_TEXT (account 0)"))
+
+            for (i in 1..50) {
                 MZGramPushDiagnostics.log("event $i")
             }
             val events = MZGramPushDiagnostics.events()
             assertEquals(MZGramPushDiagnostics.EVENTS_KEPT, events.size)
-            assertTrue(events.last(), events.last().endsWith("event 30"))
+            assertTrue(events.last(), events.last().endsWith("event 50"))
             assertTrue(events.first(), events.first().endsWith("event 11"))
-
-            val text = MZGramUnifiedPushActivity.diagnosticsText()
-            assertTrue(text, text.contains("event 30"))
-            assertTrue(text, text.contains("4"))
+            assertTrue(MZGramUnifiedPushActivity.diagnosticsText().contains("event 50"))
 
             MZGramPushDiagnostics.reset()
             assertEquals(0, MZGramPushDiagnostics.received())
@@ -296,6 +325,29 @@ class MZGramUnifiedPushTest {
         val data = "AAECAwQFBgcICQ"
         val body = encrypt("{\"p\":\"$data\"}".toByteArray(), MZGramWebPushCrypto.keys())
         assertEquals(data, MZGramUnifiedPush.decode(body))
+    }
+
+    // The test push: encrypted for this device's keys the way Telegram
+    // does, sent to the gateway's address for this device; when it comes
+    // back through the distributor it is recognised and goes no further.
+    // On CI the default gateway refuses requests that do not come from
+    // Telegram's servers, which the result says.
+    @Test
+    fun testPush_isRecognisedWhenItComesBack() {
+        val keys = MZGramWebPushCrypto.keys()
+        val encrypted = MZGramWebPushCrypto.encrypt("{\"p\":\"x\"}".toByteArray(), keys.publicKey, keys.authSecret)
+        val body = ("aesgcm\nEncryption: salt=" + base64Url(encrypted[0]) + "\nCrypto-Key: dh=" + base64Url(encrypted[1]) + "\n").toByteArray() + encrypted[2]
+        assertEquals("the app's own encryption is what Telegram sends", "x", MZGramUnifiedPush.decode(body))
+        assertFalse("an ordinary push is not the test push", MZGramPushTest.onPayload("x"))
+
+        val results = java.util.concurrent.LinkedBlockingQueue<Pair<MZGramPushTest.Outcome, String?>>()
+        MZGramPushTest.send { outcome, detail -> results.add(Pair(outcome, detail)) }
+        val result = results.poll(40, java.util.concurrent.TimeUnit.SECONDS)
+        assertNotNull("the test push gives a result", result)
+        val text = MZGramUnifiedPushActivity.testPushText(result!!.first, result.second)
+        MZGramScreens.log("test push on the emulator: $result $text")
+        assertTrue(text, text.isNotEmpty())
+        assertTrue(MZGramPushDiagnostics.events().toString(), MZGramPushDiagnostics.events().any { it.contains("test push:") })
     }
 
     // Anything that cannot be decrypted gives no data, so the app is woken up

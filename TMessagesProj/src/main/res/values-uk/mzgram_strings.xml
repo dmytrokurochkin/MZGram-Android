@@ -191,5 +191,20 @@
     <string name="MZGramPushDiagnosticsSaved">Збережений розподільник: %1$s</string>
     <string name="MZGramPushDiagnosticsAcked">Розподільник, що відповів: %1$s</string>
     <string name="MZGramPushDiagnosticsNoneSet">немає</string>
+    <string name="MZGramPushDiagnosticsGms">Повідомлень від Google Play Services або microG: %1$s</string>
+    <string name="MZGramPushDiagnosticsTelegram">Реєстрація в Telegram: %1$s</string>
+    <string name="MZGramPushDiagnosticsTelegramNoAnswer">Telegram не відповідає %1$s с</string>
+    <string name="MZGramPushDiagnosticsShown">Показано сповіщень: %1$s</string>
+    <string name="MZGramPushDiagnosticsAllowed">Сповіщення застосунку: %1$s</string>
+    <string name="MZGramPushDiagnosticsAllowedYes">дозволені</string>
+    <string name="MZGramPushDiagnosticsAllowedNo">вимкнені в налаштуваннях системи</string>
+    <string name="MZGramPushTest">Тестовий пуш</string>
+    <string name="MZGramPushTestSending">Надсилаю тестовий пуш через шлюз…</string>
+    <string name="MZGramPushTestArrived">Тестовий пуш повернувся за %1$s с: шлях від шлюзу через розподільник до застосунку працює.</string>
+    <string name="MZGramPushTestLost">Шлюз прийняв тестовий пуш (HTTP %1$s), але за %2$s с він не повернувся: загубився між шлюзом, розподільником і застосунком.</string>
+    <string name="MZGramPushTestForbidden">Шлюз відхилив тестовий пуш (HTTP 403). Типовий шлюз приймає пуші лише від серверів Telegram, тож тест із телефона через нього не пройде; що зробив Telegram, видно в рядку «Реєстрація в Telegram» і в подіях вище.</string>
+    <string name="MZGramPushTestRefused">Шлюз відхилив тестовий пуш: HTTP %1$s.</string>
+    <string name="MZGramPushTestFailed">Не вдалося надіслати тестовий пуш: %1$s</string>
+    <string name="MZGramPushTestNoEndpoint">Поки нема куди надсилати: розподільник ще не дав адресу або шлюз вимкнено.</string>
     <string name="MZGramPushDiagnosticsEvents">Події:</string>
 </resources>

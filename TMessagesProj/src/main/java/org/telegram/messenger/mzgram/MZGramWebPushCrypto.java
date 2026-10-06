@@ -180,6 +180,25 @@ public final class MZGramWebPushCrypto {
         return Arrays.copyOfRange(padded, 2 + padding, padded.length);
     }
 
+    // What Telegram does for a notification to these keys: the "aesgcm"
+    // scheme with a fresh key pair and salt, no padding. Returns the salt,
+    // the sender's public key and the ciphertext; the test push uses it.
+    public static byte[][] encrypt(byte[] plaintext, byte[] receiverPublicKey, byte[] authSecret) throws Exception {
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("EC");
+        generator.initialize(new ECGenParameterSpec("secp256r1"));
+        KeyPair sender = generator.generateKeyPair();
+        byte[] senderPublicKey = rawPublicKey((ECPublicKey) sender.getPublic());
+        KeyAgreement agreement = KeyAgreement.getInstance("ECDH");
+        agreement.init(sender.getPrivate());
+        agreement.doPhase(publicKey(receiverPublicKey), true);
+        byte[] salt = new byte[16];
+        new SecureRandom().nextBytes(salt);
+        byte[][] keyAndNonce = contentKeyAndNonce(agreement.generateSecret(), authSecret, salt, receiverPublicKey, senderPublicKey);
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(keyAndNonce[0], "AES"), new GCMParameterSpec(128, keyAndNonce[1]));
+        return new byte[][]{salt, senderPublicKey, cipher.doFinal(concat(new byte[2], plaintext))};
+    }
+
     // The content key (16 bytes) and the nonce (12 bytes) of the "aesgcm"
     // scheme; the same on both sides, so tests use it to encrypt.
     public static byte[][] contentKeyAndNonce(byte[] sharedSecret, byte[] authSecret, byte[] salt, byte[] receiverPublicKey, byte[] senderPublicKey) throws Exception {

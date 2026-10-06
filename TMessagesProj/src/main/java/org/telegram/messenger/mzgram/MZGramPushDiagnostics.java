@@ -16,7 +16,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.text.TextUtils;
 
+import androidx.core.app.NotificationManagerCompat;
+
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.tgnet.TLRPC;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,8 +41,13 @@ public final class MZGramPushDiagnostics {
     private static final String KEY_FCM_RESULT_TIME = "fcmResultTime";
     private static final String KEY_FCM_REQUEST_TIME = "fcmRequestTime";
     private static final String KEY_EVENTS = "events";
+    private static final String KEY_GMS_RECEIVED = "gmsReceived";
+    private static final String KEY_TELEGRAM_RESULT = "telegramResult";
+    private static final String KEY_TELEGRAM_RESULT_TIME = "telegramResultTime";
+    private static final String KEY_TELEGRAM_REQUEST_TIME = "telegramRequestTime";
+    private static final String KEY_SHOWN = "shown";
 
-    public static final int EVENTS_KEPT = 20;
+    public static final int EVENTS_KEPT = 40;
 
     public enum Kind {
         PUSH, WAKE_UP, DECRYPT_FAILED
@@ -52,24 +60,90 @@ public final class MZGramPushDiagnostics {
         return ApplicationLoader.applicationContext.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    public static synchronized void onReceived(Kind kind) {
+    // What the distributor handed over: decrypted, a wake-up without
+    // content, or content that could not be decrypted (with the reason).
+    public static synchronized void onReceived(Kind kind, int size, String reason) {
         SharedPreferences preferences = preferences();
         String counter = kind == Kind.PUSH ? KEY_DECRYPTED : kind == Kind.WAKE_UP ? KEY_WAKE_UPS : KEY_DECRYPT_FAILED;
         preferences.edit()
                 .putLong(KEY_LAST_RECEIVED, System.currentTimeMillis())
                 .putLong(KEY_RECEIVED, preferences.getLong(KEY_RECEIVED, 0) + 1)
                 .putLong(counter, preferences.getLong(counter, 0) + 1)
-                .apply();
-        log(kind == Kind.PUSH ? "push" : kind == Kind.WAKE_UP ? "wake-up" : "push (decrypt failed, woke up instead)");
+                .commit();
+        log("push received (" + size + " bytes)");
+        log(kind == Kind.PUSH ? "decrypted" : kind == Kind.WAKE_UP ? "wake-up (no content)" : "not decrypted: " + reason + "; woke up instead");
     }
 
+    // Google Play Services or microG delivered a message to this app,
+    // before the distributor library looks at it.
+    public static synchronized void onGmsMessage(int size, String subtype) {
+        SharedPreferences preferences = preferences();
+        preferences.edit().putLong(KEY_GMS_RECEIVED, preferences.getLong(KEY_GMS_RECEIVED, 0) + 1).commit();
+        log("FCM message from " + MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE + " (" + size + " bytes" + (subtype != null && subtype.startsWith("wp:") ? "" : ", not for UnifiedPush") + ")");
+    }
+
+    public static long gmsReceived() {
+        return preferences().getLong(KEY_GMS_RECEIVED, 0);
+    }
+
+    // account.registerDevice for a push token, and what Telegram answered.
+    public static void onTelegramRegisterSent(int account, int tokenType) {
+        preferences().edit().putLong(KEY_TELEGRAM_REQUEST_TIME, System.currentTimeMillis()).commit();
+        log("Telegram: registerDevice type " + tokenType + " sent (account " + account + ")");
+    }
+
+    public static void onTelegramRegisterAnswer(int account, int tokenType, boolean ok, TLRPC.TL_error error) {
+        String result = ok ? "ok" : error != null ? "error " + error.code + " " + error.text : "error: no answer";
+        if (tokenType == org.telegram.messenger.PushListenerController.PUSH_TYPE_WEB) {
+            preferences().edit().putString(KEY_TELEGRAM_RESULT, result).putLong(KEY_TELEGRAM_RESULT_TIME, System.currentTimeMillis()).commit();
+        }
+        log("Telegram: registerDevice type " + tokenType + " " + result + " (account " + account + ")");
+    }
+
+    public static String telegramResult() {
+        return preferences().getString(KEY_TELEGRAM_RESULT, null);
+    }
+
+    public static long telegramResultTime() {
+        return preferences().getLong(KEY_TELEGRAM_RESULT_TIME, 0);
+    }
+
+    public static long telegramRequestTime() {
+        return preferences().getLong(KEY_TELEGRAM_REQUEST_TIME, 0);
+    }
+
+    // What the decrypted Telegram push turned into.
+    public static void onTelegramPush(String outcome) {
+        log("Telegram push: " + outcome);
+    }
+
+    public static synchronized void onNotificationShown(int messages) {
+        SharedPreferences preferences = preferences();
+        preferences.edit().putLong(KEY_SHOWN, preferences.getLong(KEY_SHOWN, 0) + 1).commit();
+        log("notification shown (" + messages + " messages)");
+    }
+
+    public static long shown() {
+        return preferences().getLong(KEY_SHOWN, 0);
+    }
+
+    public static boolean notificationsAllowed() {
+        try {
+            return NotificationManagerCompat.from(ApplicationLoader.applicationContext).areNotificationsEnabled();
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+    // Written at once: the interesting events happen in a process that was
+    // started for a push and may be gone right after.
     public static synchronized void log(String event) {
         List<String> events = events();
         events.add(new SimpleDateFormat("dd.MM HH:mm:ss", Locale.US).format(new Date()) + " " + event);
         while (events.size() > EVENTS_KEPT) {
             events.remove(0);
         }
-        preferences().edit().putString(KEY_EVENTS, TextUtils.join("\n", events)).apply();
+        preferences().edit().putString(KEY_EVENTS, TextUtils.join("\n", events)).commit();
     }
 
     // Oldest first.

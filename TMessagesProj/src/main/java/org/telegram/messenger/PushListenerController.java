@@ -133,6 +133,8 @@ public class PushListenerController {
                     byte[] inAuthKeyId = new byte[8];
                     buffer.readBytes(inAuthKeyId, true);
                     if (!Arrays.equals(SharedConfig.pushAuthKeyId, inAuthKeyId)) {
+                        // MZGram: Notification diagnostics.
+                        org.telegram.messenger.mzgram.MZGramPushDiagnostics.onTelegramPush("not shown: encrypted for another push key");
                         onDecryptError();
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d(String.format(Locale.US, tag + " DECRYPT ERROR 2 k1=%s k2=%s, key=%s", Utilities.bytesToHex(SharedConfig.pushAuthKeyId), Utilities.bytesToHex(inAuthKeyId), Utilities.bytesToHex(SharedConfig.pushAuthKey)));
@@ -148,6 +150,7 @@ public class PushListenerController {
 
                     byte[] messageKeyFull = Utilities.computeSHA256(SharedConfig.pushAuthKey, 88 + 8, 32, buffer.buffer, 24, buffer.buffer.limit());
                     if (!Utilities.arraysEquals(messageKey, 0, messageKeyFull, 8)) {
+                        org.telegram.messenger.mzgram.MZGramPushDiagnostics.onTelegramPush("not shown: push key check failed");
                         onDecryptError();
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d(String.format(tag + " DECRYPT ERROR 3, key = %s", Utilities.bytesToHex(SharedConfig.pushAuthKey)));
@@ -212,6 +215,7 @@ public class PushListenerController {
                         }
                     }
                     if (!foundAccount) {
+                        org.telegram.messenger.mzgram.MZGramPushDiagnostics.onTelegramPush("not shown: no signed-in account with user id " + accountUserId);
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d(tag + " ACCOUNT NOT FOUND");
                         }
@@ -220,6 +224,7 @@ public class PushListenerController {
                     }
                     final int accountFinal = currentAccount = account;
                     if (!UserConfig.getInstance(currentAccount).isClientActivated()) {
+                        org.telegram.messenger.mzgram.MZGramPushDiagnostics.onTelegramPush("not shown: account " + currentAccount + " is not signed in");
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d(tag + " ACCOUNT NOT ACTIVATED");
                         }
@@ -229,6 +234,7 @@ public class PushListenerController {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d(tag + " " + loc_key);
                     }
+                    org.telegram.messenger.mzgram.MZGramPushDiagnostics.onTelegramPush((TextUtils.isEmpty(loc_key) ? "no loc_key" : loc_key) + " (account " + currentAccount + ")");
                     switch (loc_key) {
                         case "DC_UPDATE": {
                             int dc = custom.getInt("dc");
@@ -1507,6 +1513,7 @@ public class PushListenerController {
                     } else {
                         onDecryptError();
                     }
+                    org.telegram.messenger.mzgram.MZGramPushDiagnostics.onTelegramPush("error: " + e);
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.e("error in loc_key = " + loc_key + " json " + jsonString);
                     }

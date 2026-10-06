@@ -16321,7 +16321,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
         }
+        // MZGram: Notification diagnostics show what Telegram answered.
+        org.telegram.messenger.mzgram.MZGramPushDiagnostics.onTelegramRegisterSent(currentAccount, pushType);
         getConnectionsManager().sendRequest(req, (response, error) -> {
+            org.telegram.messenger.mzgram.MZGramPushDiagnostics.onTelegramRegisterAnswer(currentAccount, pushType, response instanceof TLRPC.TL_boolTrue, error);
             if (response instanceof TLRPC.TL_boolTrue) {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("account " + currentAccount + " registered for push, push type: " + pushType);

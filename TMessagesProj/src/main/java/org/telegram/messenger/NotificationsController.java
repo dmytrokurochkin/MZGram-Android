@@ -4823,6 +4823,8 @@ public class NotificationsController extends BaseController implements Notificat
     @SuppressLint("InlinedApi")
     private void showExtraNotifications(NotificationCompat.Builder notificationBuilder, String summary, long lastDialogId, long lastTopicId, String chatName, long[] vibrationPattern, int ledColor, Uri sound, int importance, boolean isDefault, boolean isInApp, boolean isSilent, int chatType) {
         FileLog.d("showExtraNotifications pushMessages.size()=" + pushMessages.size());
+        // MZGram: Notification diagnostics.
+        org.telegram.messenger.mzgram.MZGramPushDiagnostics.onNotificationShown(pushMessages.size());
         if (Build.VERSION.SDK_INT >= 26) {
             notificationBuilder.setChannelId(validateChannelId(lastDialogId, lastTopicId, chatName, vibrationPattern, ledColor, sound, importance, isDefault, isInApp, isSilent, chatType));
         }

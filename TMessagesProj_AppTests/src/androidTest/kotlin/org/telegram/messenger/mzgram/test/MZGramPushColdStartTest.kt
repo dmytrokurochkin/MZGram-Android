@@ -119,7 +119,10 @@ class MZGramPushColdStartTest {
         val text = MZGramUnifiedPushActivity.diagnosticsText()
         MZGramScreens.log("cold start: diagnostics after the push\n$text")
         val events = MZGramPushDiagnostics.events()
+        assertTrue("Google Play Services delivered the message: $events", MZGramPushDiagnostics.gmsReceived() > 0)
         assertTrue("the push reached the app and was decrypted: $events", MZGramPushDiagnostics.decrypted() > 0)
+        assertTrue("Telegram's part was read: $events", events.any { it.contains("Telegram push: MESSAGE_TEXT") })
+        assertTrue("the app showed a notification: $events", MZGramPushDiagnostics.shown() > 0)
         assertTrue("the notification is on the screen (dumpsys notification)", notified)
     }
 

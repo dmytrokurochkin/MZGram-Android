@@ -51,6 +51,16 @@ if [ -n "$pid" ]; then
     sleep 3
     pid=$(adb shell pidof $APP | tr -d '\r')
 fi
+if [ -n "$pid" ]; then
+    # The task of the first screen brought the process back; end it the way
+    # the system ends a process it needs the memory of.
+    adb root > /dev/null
+    sleep 3
+    adb wait-for-device
+    adb shell kill -9 $pid
+    sleep 3
+    pid=$(adb shell pidof $APP | tr -d '\r')
+fi
 echo "app process before the push: '${pid}' (empty: not running)"
 [ -z "$pid" ] || echo "::warning::Push cold start: the app is still running, so this is not a cold start."
 

@@ -369,10 +369,13 @@ class MZGramUnifiedPushTest {
             fillItems.invoke(MZGramUnifiedPushActivity(), items, null)
         }
         val texts = items.mapNotNull { it.text?.toString() }
-        for (id in listOf(R.string.MZGramUseUnifiedPush, R.string.MZGramUnifiedPushGatewayEnabled, R.string.MZGramUnifiedPushGateway, R.string.MZGramUnifiedPushGatewayReset, R.string.MZGramUnifiedPushGatewayInfo)) {
+        for (id in listOf(R.string.MZGramUseUnifiedPush, R.string.MZGramUnifiedPushGatewayEnabled, R.string.MZGramUnifiedPushGateway, R.string.MZGramUnifiedPushGatewayReset)) {
             val text = LocaleController.getString(id)
             assertTrue("missing: $text", text in texts)
         }
+        // The note under the address starts with what the address is.
+        val note = LocaleController.getString(R.string.MZGramUnifiedPushGatewayPrefix) + " " + LocaleController.getString(R.string.MZGramUnifiedPushGatewayInfo)
+        assertTrue("missing: $note", note in texts)
         val address = items.first { it.text?.toString() == LocaleController.getString(R.string.MZGramUnifiedPushGateway) }
         assertEquals(MZGramUnifiedPushRules.gateway(true, MZGramConfig.unifiedPushGateway), address.textValue?.toString())
         assertEquals(MZGramUnifiedPush.isActive(), items.first { it.text?.toString() == LocaleController.getString(R.string.MZGramUseUnifiedPush) }.checked)

@@ -187,7 +187,8 @@ class MZGramFolderTabsTest {
     // Forward in a chat opens the picker with these arguments.
     private fun openPicker(): DialogsActivity {
         MZGramScreens.launchApp().also { activity = it }
-        assertTrue("chat list shown", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() is DialogsActivity })
+        assertTrue("chat list shown", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment()?.fragmentView?.isShown == true })
+        MZGramScreens.log("picker: chat list shown (${MZGramScreens.lastFragment()?.javaClass?.simpleName})")
         val picker = DialogsActivity(Bundle().apply {
             putBoolean("onlySelect", true)
             putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD)
@@ -205,7 +206,9 @@ class MZGramFolderTabsTest {
             MZGramScreens.shell("pm grant $pkg android.permission.$permission")
         }
         intent.setClass(context, LaunchActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        MZGramScreens.log("share picker: starting ${intent.action}")
         activity = instrumentation.startActivitySync(intent)
+        MZGramScreens.log("share picker: activity started")
         val onlySelect = DialogsActivity::class.java.getDeclaredField("onlySelect").apply { isAccessible = true }
         assertTrue("share picker shown", MZGramScreens.waitFor(30) {
             val last = MZGramScreens.lastFragment()
@@ -218,6 +221,7 @@ class MZGramFolderTabsTest {
 
     private fun preparePicker(picker: DialogsActivity): DialogsActivity {
         assertTrue("picker shown", MZGramScreens.waitFor(30) { picker.fragmentView?.isShown == true })
+        MZGramScreens.log("picker: shown")
         var shown = false
         for (attempt in 1..30) {
             putFolders()
@@ -227,11 +231,13 @@ class MZGramFolderTabsTest {
             }
         }
         assertTrue("picker shows folder tabs", shown)
+        MZGramScreens.log("picker: folder tabs shown")
         instrumentation.runOnMainSync {
             picker.addOrRemoveSelectedDialog(otherUserId, null)
             DialogsActivity::class.java.getDeclaredMethod("updateSelectedCount").apply { isAccessible = true }.invoke(picker)
         }
         assertTrue("comment field shown", MZGramScreens.waitFor(10) { commentField(picker) != null })
+        MZGramScreens.log("picker: chat selected, comment field shown")
         Thread.sleep(1500)
         return picker
     }
@@ -246,6 +252,7 @@ class MZGramFolderTabsTest {
         activity!!.window.decorView.rootWindowInsets?.isVisible(WindowInsets.Type.ime()) == true
 
     private fun showKeyboard(field: View) {
+        MZGramScreens.log("keyboard: showing")
         instrumentation.runOnMainSync {
             val edit = MZGramScreens.findView(field, EditText::class.java)!!
             edit.requestFocus()
@@ -369,9 +376,22 @@ class MZGramFolderTabsTest {
     @Test
     fun folderTabsAtTheBottom_sharedPhotosFromAnotherApp_sendPanelStaysAboveThem() {
         MZGramConfig.folderTabsAtBottom = true
-        val photos = arrayListOf(Uri.parse("content://media/external/images/media/1"), Uri.parse("content://media/external/images/media/2"))
+        val photos = arrayListOf(testPhoto("mzgram-share-1"), testPhoto("mzgram-share-2"))
         val picker = openSharePicker(Intent(Intent.ACTION_SEND_MULTIPLE).setType("image/*").putParcelableArrayListExtra(Intent.EXTRA_STREAM, photos))
         assertAboveTabs(picker, "folder-tabs-share-photos")
+    }
+
+    private fun testPhoto(name: String): Uri {
+        val resolver = instrumentation.targetContext.contentResolver
+        val values = android.content.ContentValues().apply {
+            put(android.provider.MediaStore.Images.Media.DISPLAY_NAME, "$name.png")
+            put(android.provider.MediaStore.Images.Media.MIME_TYPE, "image/png")
+        }
+        val uri = resolver.insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
+        resolver.openOutputStream(uri)!!.use {
+            android.graphics.Bitmap.createBitmap(8, 8, android.graphics.Bitmap.Config.ARGB_8888).compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it)
+        }
+        return uri
     }
 
     // The share sheet of a chat (Share on a message or a link) has no folder

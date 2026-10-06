@@ -10,6 +10,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
@@ -44,6 +45,24 @@ class MZGramUnifiedPushTest {
         assertTrue(MZGramUnifiedPushRules.usesUnifiedPush(null, false))
         assertTrue(MZGramUnifiedPushRules.usesUnifiedPush(true, true))
         assertFalse(MZGramUnifiedPushRules.usesUnifiedPush(false, false))
+    }
+
+    // A phone with Google Play Services and no distributor app installed
+    // (the CI emulator is one): Telegram's own Google push cannot work in
+    // MZGram builds, so UnifiedPush is on and takes the built-in Google FCM
+    // distributor by itself.
+    @Test
+    fun phoneWithPlayServicesAndNoDistributorApp_getsTheBuiltInDistributor() {
+        val playServices = try {
+            context.packageManager.getPackageInfo("com.google.android.gms", 0)
+            true
+        } catch (e: Exception) {
+            false
+        }
+        assumeTrue("Google Play Services on this device", playServices)
+        assertTrue("UnifiedPush is on", MZGramUnifiedPush.isActive())
+        assertTrue("the built-in distributor is offered: ${MZGramUnifiedPush.distributors()}", context.packageName in MZGramUnifiedPush.distributors())
+        assertTrue("the built-in distributor is chosen: ${MZGramUnifiedPush.distributor()}", MZGramScreens.waitFor(30) { MZGramUnifiedPush.distributor() == context.packageName })
     }
 
     @Test

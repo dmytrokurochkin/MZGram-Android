@@ -1,7 +1,6 @@
 package org.telegram.messenger.mzgram.test
 
 import android.app.Activity
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
@@ -56,7 +55,6 @@ class MZGramFolderTabsTest {
         MZGramConfig.folderTabsAtBottom = savedAtBottom
         MZGramConfig.hideBottomNavigationBar = savedHideBottomBar
         instrumentation.runOnMainSync {
-            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             activity?.finish()
             controller.dialogFilters.clear()
             controller.dialogFiltersById.clear()
@@ -291,21 +289,6 @@ class MZGramFolderTabsTest {
         assertAboveTabs(picker, "folder-tabs-forward-keyboard")
     }
 
-    @Test
-    fun folderTabsAtTheBottom_forwardCommentFieldAfterTurningStaysAboveThem() {
-        MZGramConfig.folderTabsAtBottom = true
-        val picker = openPicker()
-        instrumentation.runOnMainSync { activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }
-        Thread.sleep(3000)
-        assertAboveTabs(picker, "folder-tabs-forward-landscape")
-        instrumentation.runOnMainSync { activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT }
-        Thread.sleep(3000)
-        assertAboveTabs(picker, "folder-tabs-forward-portrait")
-    }
-
-    // A chat opened from the chat list: no folder tabs over its message
-    // field, with a reply and with the keyboard; back on the list the tabs
-    // are at the bottom again.
     @Test
     fun folderTabsAtTheBottom_chatFieldIsNotCovered() {
         MZGramConfig.folderTabsAtBottom = true

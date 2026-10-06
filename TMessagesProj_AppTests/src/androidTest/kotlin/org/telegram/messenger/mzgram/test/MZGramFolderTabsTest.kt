@@ -1,9 +1,7 @@
 package org.telegram.messenger.mzgram.test
 
 import android.app.Activity
-import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
@@ -15,6 +13,8 @@ import org.junit.Before
 import org.junit.Test
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.MessageObject
+import org.telegram.messenger.R
+import org.telegram.messenger.LocaleController
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.UserConfig
@@ -25,7 +25,6 @@ import org.telegram.ui.Components.ChatActivityEnterView
 import org.telegram.ui.Components.FilterTabsView
 import org.telegram.ui.Components.ShareAlert
 import org.telegram.ui.DialogsActivity
-import org.telegram.ui.LaunchActivity
 import org.telegram.ui.mzgram.MZGramSettingsActivity
 
 // Settings > MZGram > Interface > "Folder tabs at the bottom": the chat list
@@ -198,25 +197,22 @@ class MZGramFolderTabsTest {
         return preparePicker(picker)
     }
 
-    // Share in another app, MZGram chosen: the app opens its own picker.
-    private fun openSharePicker(intent: Intent): DialogsActivity {
-        val context = instrumentation.targetContext
-        val pkg = context.packageName
-        for (permission in listOf("POST_NOTIFICATIONS", "READ_CONTACTS", "WRITE_CONTACTS")) {
-            MZGramScreens.shell("pm grant $pkg android.permission.$permission")
-        }
-        intent.setClass(context, LaunchActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        MZGramScreens.log("share picker: starting ${intent.action}")
-        activity = instrumentation.startActivitySync(intent)
-        MZGramScreens.log("share picker: activity started")
-        val onlySelect = DialogsActivity::class.java.getDeclaredField("onlySelect").apply { isAccessible = true }
-        assertTrue("share picker shown", MZGramScreens.waitFor(30) {
-            val last = MZGramScreens.lastFragment()
-            last is DialogsActivity && onlySelect.getBoolean(last) && last.fragmentView?.isShown == true
+    // Share in another app, MZGram chosen: LaunchActivity.openDialogsToSend
+    // opens the picker with these arguments. Opened here directly: a share
+    // intent from the test process takes the CI emulator down.
+    private fun openSharePicker(): DialogsActivity {
+        MZGramScreens.launchApp().also { activity = it }
+        assertTrue("chat list shown", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment()?.fragmentView?.isShown == true })
+        val picker = DialogsActivity(Bundle().apply {
+            putBoolean("onlySelect", true)
+            putBoolean("canSelectTopics", true)
+            putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD)
+            putBoolean("allowSwitchAccount", true)
+            putString("selectAlertString", LocaleController.getString(R.string.SendMessagesToText))
+            putString("selectAlertStringGroup", LocaleController.getString(R.string.SendMessagesToGroupText))
         })
-        var picker: DialogsActivity? = null
-        instrumentation.runOnMainSync { picker = MZGramScreens.lastFragment() as DialogsActivity }
-        return preparePicker(picker!!)
+        MZGramScreens.open(picker)
+        return preparePicker(picker)
     }
 
     private fun preparePicker(picker: DialogsActivity): DialogsActivity {
@@ -365,33 +361,12 @@ class MZGramFolderTabsTest {
     }
 
     @Test
-    fun folderTabsAtTheBottom_sharedTextFromAnotherApp_sendPanelStaysAboveThem() {
+    fun folderTabsAtTheBottom_sharePickerFromAnotherApp_sendPanelStaysAboveThem() {
         MZGramConfig.folderTabsAtBottom = true
-        val picker = openSharePicker(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "MZGram test share"))
-        assertAboveTabs(picker, "folder-tabs-share-text")
+        val picker = openSharePicker()
+        assertAboveTabs(picker, "folder-tabs-share")
         showKeyboard(commentField(picker)!!)
-        assertAboveTabs(picker, "folder-tabs-share-text-keyboard")
-    }
-
-    @Test
-    fun folderTabsAtTheBottom_sharedPhotosFromAnotherApp_sendPanelStaysAboveThem() {
-        MZGramConfig.folderTabsAtBottom = true
-        val photos = arrayListOf(testPhoto("mzgram-share-1"), testPhoto("mzgram-share-2"))
-        val picker = openSharePicker(Intent(Intent.ACTION_SEND_MULTIPLE).setType("image/*").putParcelableArrayListExtra(Intent.EXTRA_STREAM, photos))
-        assertAboveTabs(picker, "folder-tabs-share-photos")
-    }
-
-    private fun testPhoto(name: String): Uri {
-        val resolver = instrumentation.targetContext.contentResolver
-        val values = android.content.ContentValues().apply {
-            put(android.provider.MediaStore.Images.Media.DISPLAY_NAME, "$name.png")
-            put(android.provider.MediaStore.Images.Media.MIME_TYPE, "image/png")
-        }
-        val uri = resolver.insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
-        resolver.openOutputStream(uri)!!.use {
-            android.graphics.Bitmap.createBitmap(8, 8, android.graphics.Bitmap.Config.ARGB_8888).compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it)
-        }
-        return uri
+        assertAboveTabs(picker, "folder-tabs-share-keyboard")
     }
 
     // The share sheet of a chat (Share on a message or a link) has no folder

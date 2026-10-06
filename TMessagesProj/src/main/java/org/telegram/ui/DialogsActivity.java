@@ -208,6 +208,7 @@ import org.telegram.ui.Components.blur3.utils.Blur3Utils;
 import org.telegram.ui.Components.chat.ChatInputViewsContainer;
 import org.telegram.ui.Components.chat.ViewPositionWatcher;
 import org.telegram.ui.Components.chat.layouts.ChatActivityFadeView;
+import org.telegram.ui.Components.inset.WindowInsetsProvider;
 import org.telegram.ui.Components.inset.WindowInsetsStateHolder;
 import org.telegram.ui.Gifts.GiftSheet;
 import org.telegram.ui.Stars.StarGiftSheet;
@@ -325,6 +326,51 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
 
     private final WindowInsetsStateHolder windowInsetsStateHolder = new WindowInsetsStateHolder(this::checkInsets);
+
+    // MZGram: the comment field of the picker (Forward, Share from another
+    // app) sees the folder tabs at the bottom as part of the bottom inset, so
+    // the field and the send button sit above the tabs, not under them.
+    private final WindowInsetsProvider commentFieldInsets = new WindowInsetsProvider() {
+        @Override
+        public float getAnimatedMaxBottomInset() {
+            return commentFieldBottomInset();
+        }
+
+        @Override
+        public float getAnimatedImeBottomInset() {
+            return windowInsetsStateHolder.getAnimatedImeBottomInset();
+        }
+
+        @Override
+        public float getAnimatedKeyboardVisibility() {
+            return windowInsetsStateHolder.getAnimatedKeyboardVisibility();
+        }
+
+        @Override
+        public int getCurrentMaxBottomInset() {
+            return Math.max(windowInsetsStateHolder.getCurrentMaxBottomInset(), bottomFolderTabsTop());
+        }
+
+        @Override
+        public Insets getInsets(int type) {
+            return windowInsetsStateHolder.getInsets(type);
+        }
+
+        @Override
+        public int getCurrentNavigationBarInset() {
+            return windowInsetsStateHolder.getCurrentNavigationBarInset();
+        }
+
+        @Override
+        public boolean inAppViewIsVisible() {
+            return windowInsetsStateHolder.inAppViewIsVisible();
+        }
+
+        @Override
+        public int getInAppKeyboardRecommendedViewHeight() {
+            return windowInsetsStateHolder.getInAppKeyboardRecommendedViewHeight();
+        }
+    };
 
     private boolean canShowFilterTabsView;
     private int initialSearchType = -1;
@@ -4903,7 +4949,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else if (initialDialogsType == DIALOGS_TYPE_FORWARD || clickSelectsDialog()) {
             chatInputViewsContainer = new ChatInputViewsContainer(context);
             chatInputViewsContainer.setClipChildren(false);
-            chatInputViewsContainer.setWindowInsetsProvider(windowInsetsStateHolder);
+            chatInputViewsContainer.setWindowInsetsProvider(commentFieldInsets);
             chatInputViewsContainer.setInputIslandBubbleDrawable(
                 iBlur3FactoryLiquidGlass.create(chatInputViewsContainer, BlurredBackgroundProviderImpl.inputFieldDialogActivity(resourceProvider)));
             chatInputViewsContainer.setUnderKeyboardBackgroundDrawable(
@@ -13878,6 +13924,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         final Insets systemInsets = AndroidUtilities.getDefaultWindowInsets(insets, false);
         statusBarHeight = systemInsets.top;
         navigationBarHeight = systemInsets.bottom;
+        if (commentView != null && folderTabsAtBottom()) {
+            checkInsets();
+        }
         final int imeInsetHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
         if (this.imeInsetHeight != imeInsetHeight) {
             this.imeInsetHeight = imeInsetHeight;
@@ -14086,6 +14135,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (alphaChanged && viewPages[0] != null) {
                 viewPages[0].listView.requestLayout();
             }
+            if (alphaChanged && commentView != null && folderTabsAtBottom()) {
+                checkInsets();
+            }
         }
         updateContextViewPosition();
     }
@@ -14283,7 +14335,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private int calculateListViewPaddingBottom() {
         if (commentView != null) {
-            return (int) (windowInsetsStateHolder.getAnimatedMaxBottomInset() + dp(9) + chatInputViewsContainer.getInputBubbleHeight() + dp(7) + dp(2));
+            return (int) (commentFieldBottomInset() + dp(9) + chatInputViewsContainer.getInputBubbleHeight() + dp(7) + dp(2));
         } else if (communityId != 0) {
             return navigationBarHeight + dp(12 + 48 + 12);
         } else {
@@ -14303,6 +14355,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return 0;
         }
         return (int) (dp(36 + 14) * getFilterTabsVisibilityFactor(false));
+    }
+
+    // Distance from the bottom of the screen to the top of the folder tabs
+    // at the bottom, as they are shown now (they hide while searching).
+    private int bottomFolderTabsTop() {
+        if (!folderTabsAtBottom() || filterTabsView.getVisibility() != View.VISIBLE) {
+            return 0;
+        }
+        return navigationBarHeight + additionNavigationBarHeight + (int) (dp(36 + 14) * getFilterTabsVisibilityFactor(true));
+    }
+
+    // Bottom inset of the picker's comment field: the keyboard or the system
+    // bar, or the folder tabs at the bottom when they are higher.
+    private float commentFieldBottomInset() {
+        return Math.max(windowInsetsStateHolder.getAnimatedMaxBottomInset(), bottomFolderTabsTop());
     }
 
     @Override
@@ -14345,13 +14412,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         checkUi_fadeView();
 
         if (writeButton != null) {
-            writeButton.setTranslationY(-windowInsetsStateHolder.getAnimatedMaxBottomInset());
+            writeButton.setTranslationY(-commentFieldBottomInset());
         }
     }
 
     private void checkUi_fadeView() {
         if (chatInputViewsContainer != null) {
-            chatInputViewsContainer.setBlurredBottomHeight(windowInsetsStateHolder.getAnimatedMaxBottomInset() + dp(9) + chatInputViewsContainer.getInputBubbleHeight() + dp(7));
+            chatInputViewsContainer.setBlurredBottomHeight(commentFieldBottomInset() + dp(9) + chatInputViewsContainer.getInputBubbleHeight() + dp(7));
         }
     }
 

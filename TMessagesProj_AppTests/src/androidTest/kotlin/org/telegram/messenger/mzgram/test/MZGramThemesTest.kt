@@ -302,27 +302,26 @@ class MZGramThemesTest {
                 val row = ThemeActivity::class.java.getDeclaredField("themeListRow2").also { it.isAccessible = true }.getInt(fragment)
                 list.javaClass.getMethod("scrollToPosition", Int::class.javaPrimitiveType).invoke(list, row)
             }
+            // On the main thread: waitFor runs its check there
             fun shown(): Int {
-                var count = 0
-                instrumentation.runOnMainSync {
-                    val cell = MZGramScreens.findView(fragment.fragmentView, DefaultThemesPreviewCell::class.java)
-                    count = cell?.let { itemsOf(it).size } ?: 0
-                }
-                return count
+                val cell = MZGramScreens.findView(fragment.fragmentView, DefaultThemesPreviewCell::class.java)
+                return cell?.let { itemsOf(it).size } ?: 0
             }
-            assertTrue("the row with the home theme", MZGramScreens.waitFor(15) { shown() > 0 })
-            MZGramScreens.log("appearance themes before the list came: ${shown()}")
+            var before = 0
+            assertTrue("the row with the home theme", MZGramScreens.waitFor(15) { before = shown(); before > 0 })
+            MZGramScreens.log("appearance themes before the list came: $before")
 
             instrumentation.runOnMainSync {
                 controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
             }
             // The themes and the custom one ("🎨") the screen adds at the end.
             val expected = 1 + chatThemeEmoticons.size + 1
-            MZGramScreens.waitFor(15) { shown() >= expected }
+            var after = 0
+            MZGramScreens.waitFor(15) { after = shown(); after >= expected }
             Thread.sleep(1500)
             MZGramScreens.capture("appearance-themes-came-later")
-            MZGramScreens.log("appearance themes after the list came: ${shown()}")
-            assertEquals("themes in the color theme row", expected, shown())
+            MZGramScreens.log("appearance themes after the list came: $after")
+            assertEquals("themes in the color theme row", expected, after)
             instrumentation.runOnMainSync { fragment.finishFragment() }
         } finally {
             clearChatThemes()

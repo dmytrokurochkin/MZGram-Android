@@ -92,9 +92,13 @@ public class MZGramDefaultThemes {
 
     // MediaDataController, when the server gave no default themes: the home
     // theme at once, then the chat themes after it, unless the server's
-    // themes came in the meantime.
+    // themes came in the meantime. A list that already has the chat themes
+    // stays as it is while they load again: dropping it to the home theme
+    // for that moment left an Appearance screen opened then with one theme.
     public static void fill(MediaDataController controller, int account) {
-        show(controller, account, homeOnly(account), false);
+        if (controller.defaultEmojiThemes.isEmpty()) {
+            show(controller, account, homeOnly(account), false);
+        }
         ChatThemeController.getInstance(account).requestAllChatThemes(new ResultCallback<List<EmojiThemes>>() {
             @Override
             public void onComplete(List<EmojiThemes> chatThemes) {

@@ -294,6 +294,16 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             }
         }
 
+        setThemes();
+        updateDayNightMode();
+        updateSelectedPosition();
+        updateColors();
+        if (selectedPosition >= 0 && layoutManager != null) {
+            layoutManager.scrollToPositionWithOffset(selectedPosition, AndroidUtilities.dp(16));
+        }
+    }
+
+    private void setThemes() {
         if (!MediaDataController.getInstance(parentFragment.getCurrentAccount()).defaultEmojiThemes.isEmpty()) {
             ArrayList<ChatThemeBottomSheet.ChatThemeItem> themes = new ArrayList<>(MediaDataController.getInstance(parentFragment.getCurrentAccount()).defaultEmojiThemes);
             if (currentType == ThemeActivity.THEME_TYPE_BASIC) {
@@ -307,12 +317,14 @@ public class DefaultThemesPreviewCell extends LinearLayout {
 
             adapter.setItems(themes);
         }
-        updateDayNightMode();
+    }
+
+    // MZGram: the theme list can fill or change after the screen is open (the
+    // chat themes load after the home theme); ThemeActivity calls this on
+    // emojiPreviewThemesChanged, the row otherwise keeps the list it was made with.
+    public void updateThemes() {
+        setThemes();
         updateSelectedPosition();
-        updateColors();
-        if (selectedPosition >= 0 && layoutManager != null) {
-            layoutManager.scrollToPositionWithOffset(selectedPosition, AndroidUtilities.dp(16));
-        }
     }
 
     public void updateLayoutManager() {

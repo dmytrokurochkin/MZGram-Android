@@ -926,6 +926,12 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             checkCurrentDayNight();
         } else if (id == NotificationCenter.emojiPreviewThemesChanged) {
             if (themeListRow2 >= 0) {
+                // MZGram: binding the row only updates day/night, give the cell the new list
+                for (int i = 0; i < listView.getChildCount(); i++) {
+                    if (listView.getChildAt(i) instanceof DefaultThemesPreviewCell) {
+                        ((DefaultThemesPreviewCell) listView.getChildAt(i)).updateThemes();
+                    }
+                }
                 listAdapter.notifyItemChanged(themeListRow2);
             }
         } else if (id == NotificationCenter.contentSettingsLoaded || id == NotificationCenter.appConfigUpdated) {

@@ -1,6 +1,10 @@
 name: MZGram Android
 
 # Builds one APK carrying all four ABIs: arm64-v8a, armeabi-v7a, x86, x86_64.
+# With the signing secrets the APK is signed with the MZGram key (rotated from
+# the old development key, see .github/scripts/mzgram_sign.sh), so it installs
+# over a release; without them it keeps the development key and the artifact
+# is named MZGram-Android-debugkey. Releases: mzgram-android-release.yml.
 
 on:
   push:
@@ -57,27 +61,52 @@ jobs:
             echo "::warning::No API credentials set. The APK will build but cannot sign in."
           fi
 
+      - name: Version.
+        id: version
+        run: |
+          set -o pipefail
+          python3 .github/scripts/test_mzgram_version.py
+          # A push build gets the versionCode of the newest release tag (or the
+          # gradle.properties one before the first release): it installs over the
+          # last release, and the next release installs over it
+          UPSTREAM=$(sed -n 's/^APP_VERSION_NAME=//p' gradle.properties)
+          FLOOR=$(sed -n 's/^APP_VERSION_CODE=//p' gradle.properties)
+          git ls-remote --tags origin 'refs/tags/v*' | python3 .github/scripts/mzgram_version.py dev --upstream "$UPSTREAM" --floor "$FLOOR" | tee -a "$GITHUB_OUTPUT"
+
       # The module has no 'release' buildType: signing and minification live on
       # 'standalone'. assembleAfatRelease produces an unsigned APK that will not install.
       - name: Build.
-        run: ./gradlew :TMessagesProj_AppStandalone:assembleAfatStandalone --console=plain
+        env:
+          CODE: ${{ steps.version.outputs.code }}
+          NAME: ${{ steps.version.outputs.name }}
+        run: |
+          ARGS=("-PAPP_VERSION_CODE=$CODE")
+          [ -z "$NAME" ] || ARGS+=("-PAPP_VERSION_NAME=$NAME")
+          ./gradlew :TMessagesProj_AppStandalone:assembleAfatStandalone --console=plain "${ARGS[@]}"
+
+      - name: Sign with the MZGram key.
+        id: sign
+        env:
+          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          mkdir -p artifact
+          # The module overrides outputFileName, so the APK lands under intermediates too
+          APK=$(find TMessagesProj_AppStandalone/build/outputs -name '*.apk' | head -1)
+          bash .github/scripts/mzgram_sign_ci.sh "$APK" artifact/MZGram.apk artifact/MZGram-rotation.lineage
 
       - name: Verify the APK is signed.
         run: |
-          APK=$(find TMessagesProj_AppStandalone/build -name '*.apk' | head -1)
-          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$APK"
-
-      - name: Collect artifact.
-        run: |
-          mkdir -p artifact
-          # The module overrides outputFileName, so the APK lands under intermediates.
-          find TMessagesProj_AppStandalone/build -name '*.apk' -exec cp {} artifact/MZGram.apk \;
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs artifact/MZGram.apk
+          "$ANDROID_HOME/build-tools/36.0.0/aapt2" dump badging artifact/MZGram.apk | head -1
           ls -lh artifact/
 
       - name: Upload artifact.
         uses: actions/upload-artifact@v7
         with:
-          name: MZGram-Android
+          name: ${{ steps.sign.outputs.signed == 'true' && 'MZGram-Android' || 'MZGram-Android-debugkey' }}
           path: artifact/
 
   # MZGram instrumented tests (TMessagesProj_AppTests, package
@@ -174,7 +203,9 @@ jobs:
           target: google_apis
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
-          script: bash .github/scripts/mzgram_tests.sh
+          script: |
+            bash .github/scripts/mzgram_tests.sh
+            bash .github/scripts/mzgram_rotation_check.sh
 
       - name: Upload test reports and logcat.
         if: always()

@@ -88,6 +88,9 @@ jobs:
   mzgram-tests:
     name: MZGram instrumented tests
     runs-on: ubuntu-latest
+    # A run takes about 55 minutes; an app crash the instrumentation does
+    # not notice once kept the emulator waiting for hours.
+    timeout-minutes: 120
 
     steps:
       - name: Clone.

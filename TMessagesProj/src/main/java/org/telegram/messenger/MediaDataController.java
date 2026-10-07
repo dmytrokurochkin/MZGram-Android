@@ -9377,6 +9377,12 @@ public class MediaDataController extends BaseController {
                     previewItems.add(item);
                 }
             }
+            // MZGram: none of the default themes has the four variants the
+            // list needs -- the home theme and the chat themes instead.
+            if (previewItems.size() <= 1) {
+                org.telegram.messenger.mzgram.MZGramDefaultThemes.fill(this, currentAccount);
+                return;
+            }
             ChatThemeController.chatThemeQueue.postRunnable(new Runnable() {
                 @Override
                 public void run() {

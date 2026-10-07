@@ -1,46 +1,125 @@
-## Telegram messenger for Android
+# MZGram for Android
 
-[Telegram](https://telegram.org) is a messaging app with a focus on speed and security. It’s superfast, simple and free.
-This repo contains the official source code for [Telegram App for Android](https://play.google.com/store/apps/details?id=org.telegram.messenger).
+MZGram is an unofficial Telegram client for Android that keeps deleted and edited messages, adds a ghost mode and many small extras.
 
-## Creating your Telegram Application
+> **Disclaimer.** MZGram is an unofficial client. It is not affiliated with, endorsed by or supported by Telegram. It is a fork of [Telegram for Android](https://github.com/DrKLO/Telegram) (the desktop version is a fork of [Telegram Desktop](https://github.com/telegramdesktop/tdesktop): [MZGram Desktop](https://github.com/dmytrokurochkin/MZGram-Desktop)). MZGram uses its own name and its own `api_id`. The Telegram name and logo are trademarks of Telegram, and MZGram does not use the Telegram logo as its own; the app icon is still the one inherited from upstream and is to be replaced.
 
-We welcome all developers to use our API and source code to create applications on our platform.
-There are several things we require from **all developers** for the moment.
+## Features
 
-1. [**Obtain your own api_id**](https://core.telegram.org/api/obtaining_api_id) for your application.
-2. Please **do not** use the name Telegram for your app — or make sure your users understand that it is unofficial.
-3. Kindly **do not** use our standard logo (white paper plane in a blue circle) as your app's logo.
-3. Please study our [**security guidelines**](https://core.telegram.org/mtproto/security_guidelines) and take good care of your users' data and privacy.
-4. Please remember to publish **your** code too in order to comply with the licences.
+All MZGram features are in **Settings > MZGram**, grouped by topic. Every MZGram text is available in English and Ukrainian.
 
-### API, Protocol documentation
+### Archive of deleted and edited messages
 
-Telegram API manuals: https://core.telegram.org/api
+- Keeps a local copy of another person's message before it is deleted, in every private chat, group, channel and secret chat. On by default.
+- Keeps every earlier revision of an edited message; the message history screen shows them, tap a revision to copy its text.
+- Deleted messages and removed media stay in the chat, also in topics, threads and secret chats.
+- View-once photos and videos are kept with their file, also unopened ones.
+- Separate switches for media, formatting, reactions and chats with bots.
+- Media of saved messages is copied to `Downloads/MZGram/Saved Attachments`, with no size limit and no total quota.
+- Your own messages are never saved.
+- Editable marks before the time of a deleted or edited message; deleted messages are drawn at 75% opacity (switchable).
+- Clear the archive, export it to a file and import it back.
+- Clear Telegram's local database without touching the archive.
 
-MTproto protocol manuals: https://core.telegram.org/mtproto
+### Protected content
 
-### Compilation Guide
+- In chats and channels that restrict saving content: forward, save and copy messages and media, and take screenshots. Such messages are sent as new messages without the original sender.
 
-**Note**: In order to support [reproducible builds](https://core.telegram.org/reproducible-builds), this repo contains dummy release.keystore,  google-services.json and filled variables inside BuildVars.java. Before publishing your own APKs please make sure to replace all these files with your own.
+### Ghost mode
 
-You will require Android Studio 2025.1.4, Android NDK 27.2.12479018 and Android SDK 36.
+- Others do not see that you read their messages or that you are typing.
+- Delay sending outgoing messages, so sending right away does not show you online.
+- Send every message without sound while ghost mode is on.
+- Offer to turn ghost mode on before opening a story.
 
-1. Clone the Telegram source code with its submodules:
+### Message menu
+
+- Copy Photo, Delete Downloaded File, Save Message (to Saved Messages), Set a reminder, Repeat, Open in... (videos), Forward without sender.
+- Details: ids, sender, dates, forward source, file, media and data center of a message. For your own messages it shows when the other side read them.
+- QR Code: if a downloaded photo holds a QR code, it shows the link or text. Scanning runs on the device.
+
+### Media and calls
+
+- Ask before calling.
+- Disable the instant camera in the attach menu.
+- Prefer original video quality.
+- Auto pause video when the app goes to the background.
+- Confirm voice and round video messages before sending.
+- Media preview on chat avatar long-press.
+
+### Interface
+
+- Folder tabs at the bottom of the chat list.
+- Hide the bottom navigation bar.
+- Hide Stories.
+- Open Archive on pull down.
+- Exact numbers instead of rounded ones (4777 instead of 4.8K).
+- Message times with seconds.
+- Disable the greeting sticker in empty chats.
+- Hide the bottom button in channels where you cannot post.
+- Switches for the predictive back animation and the "gooey" avatar animation.
+- For people who hide their last seen, an approximate last seen from what this device saw.
+
+### Themes
+
+- The color theme list in Chat settings always shows the built-in themes (Classic, Day, Night, Tinted) and the emoji themes.
+
+### Ads and filters
+
+- Disable sponsored messages in channels and the promo banner in the chat list.
+- Zalgo filter: removes stacked combining marks from names, chat titles and message text.
+
+### Notifications through UnifiedPush
+
+- Background notifications through a [UnifiedPush](https://unifiedpush.org) distributor: an app such as ntfy or Sunup, or the built-in Google FCM distributor (Google Play Services or microG).
+- Notifications go through a gateway that you can change; the keys stay on the device, so the gateway cannot read them.
+- Notification diagnostics with a test push.
+
+## Download
+
+Releases will be published on the [Releases](https://github.com/dmytrokurochkin/MZGram-Android/releases) page. There are no releases yet.
+
+## Build
+
+The working branch is `mzgram`.
+
+Requirements: JDK 21, Android SDK 36, Android NDK 27.2.12479018 (exact version), CMake 3.22.1. Android Studio is optional.
+
+1. Clone the `mzgram` branch with its submodules:
    ```bash
-   git clone --recursive --shallow-submodules https://github.com/DrKLO/Telegram.git Telegram
+   git clone --recursive --shallow-submodules -b mzgram https://github.com/dmytrokurochkin/MZGram-Android.git
    ```
-   In case you forgot the `--recursive` flag, change to the `Telegram` directory and run:
+2. Get your own `api_id` and `api_hash` at https://my.telegram.org/apps and put them into `APP_ID` and `APP_HASH` in `TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java`. Do not commit them.
+3. Signing: the repo contains a dummy `TMessagesProj/config/release.keystore`. For your own builds, create your own keystore, put it there and set `RELEASE_KEY_PASSWORD`, `RELEASE_KEY_ALIAS` and `RELEASE_STORE_PASSWORD` in `gradle.properties`. Do not commit them.
+4. Firebase: the build applies the Google Services plugin, so each app module needs a `google-services.json` whose `package_name` matches the application id. The repo contains dummy files for the default ids. If you change `APP_PACKAGE` in `gradle.properties`, create a project in the [Firebase console](https://console.firebase.google.com/) for your ids and replace the files. Background notifications in MZGram go through UnifiedPush, not through Telegram's Firebase push.
+5. Build:
    ```bash
-   git submodule init && git submodule update --init --recursive --depth=1
+   ./gradlew :TMessagesProj_AppStandalone:assembleAfatStandalone   # signed, minified
+   ./gradlew :TMessagesProj_AppStandalone:assembleAfatDebug        # for development
    ```
-2. Copy your release.keystore into TMessagesProj/config
-3. Fill out RELEASE_KEY_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_STORE_PASSWORD in gradle.properties to access your  release.keystore
-4.  Go to https://console.firebase.google.com/, create two android apps with application IDs org.telegram.messenger and org.telegram.messenger.beta, turn on firebase messaging and download google-services.json, which should be copied to the same folder as TMessagesProj.
-5. Open the project in the Studio (note that it should be opened, NOT imported).
-6. Fill out values in TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java – there’s a link for each of the variables showing where and which data to obtain.
-7. You are ready to compile Telegram.
+   The APK is under `TMessagesProj_AppStandalone/build`. `assembleAfatRelease` gives an unsigned APK that does not install.
 
-### Localization
+CI builds the APK and runs the instrumented tests on every push to `mzgram` (`.github/workflows/mzgram-android.yml`). It reads the credentials from the repository secrets `TELEGRAM_API_ID` and `TELEGRAM_API_HASH`.
 
-We moved all translations to https://translations.telegram.org/en/android/. Please use it.
+Notes from the upstream README (API documentation, BuildVars, localization) are in [docs/upstream-notes.md](docs/upstream-notes.md).
+
+## Upstream
+
+MZGram for Android is based on Telegram for Android **12.10.1 (7038)** from [DrKLO/Telegram](https://github.com/DrKLO/Telegram). Upstream updates are taken from that repository: the `mzgram` branch is rebased onto the newer upstream release, so the fork stays a readable set of patches on top of it.
+
+Every fork commit has the `[mzgram]` prefix. To list all changes against upstream:
+
+```bash
+git log --grep='^\[mzgram\]'
+```
+
+## License
+
+MZGram for Android is free software under the [GNU General Public License v2](LICENSE), inherited from Telegram for Android. If you distribute a modified build, you must publish its source code under the same license.
+
+MZGram Desktop is licensed under GPLv3 with the OpenSSL exception, see its [repository](https://github.com/dmytrokurochkin/MZGram-Desktop).
+
+## Credits
+
+- [Telegram](https://telegram.org) and the authors of [Telegram for Android](https://github.com/DrKLO/Telegram), on whose code MZGram is built.
+- The [UnifiedPush](https://unifiedpush.org) project for its Android connector and embedded FCM distributor libraries.

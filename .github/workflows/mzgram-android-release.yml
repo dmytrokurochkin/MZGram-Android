@@ -21,6 +21,10 @@ on:
       tag:
         description: 'Version to build without publishing, e.g. v1.0.0'
         required: true
+      throwaway_key:
+        description: 'Sign with a key made for this run instead of the secrets (checks the signed path)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -112,7 +116,16 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          THROWAWAY: ${{ github.event_name == 'workflow_dispatch' && inputs.throwaway_key }}
         run: |
+          if [ "$THROWAWAY" = true ] && [ "$PUBLISH" != true ]; then
+            echo "::notice::Signing with a throwaway key made for this run, not the MZGram key."
+            export ANDROID_KEYSTORE_PASSWORD=throwaway-$RANDOM$RANDOM ANDROID_KEY_ALIAS=mzgram ANDROID_KEY_PASSWORD=
+            keytool -genkeypair -keystore "$RUNNER_TEMP/throwaway.jks" -storetype PKCS12 -alias mzgram -keyalg RSA -keysize 2048 -validity 30 -dname "CN=MZGram throwaway" -storepass:env ANDROID_KEYSTORE_PASSWORD 2>/dev/null
+            ANDROID_KEYSTORE_B64=$(base64 -w0 "$RUNNER_TEMP/throwaway.jks")
+            export ANDROID_KEYSTORE_B64
+            rm -f "$RUNNER_TEMP/throwaway.jks"
+          fi
           # The module overrides outputFileName, so the APK lands under intermediates too
           APK=$(find TMessagesProj_AppStandalone/build/outputs -name '*.apk' | head -1)
           bash .github/scripts/mzgram_sign_ci.sh "$APK" "$RUNNER_TEMP/signed.apk" "$RUNNER_TEMP/rotation.lineage"

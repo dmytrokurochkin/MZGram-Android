@@ -145,8 +145,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private GridLayoutManager layoutManager;
     private PhotoAttachAdapter adapter;
     private EmptyTextProgressView progressView;
-    // MZGram: shown instead of the live camera tile when the instant camera is off.
-    private FragmentFloatingButton cameraFloatingButton;
     private RecyclerViewItemRangeSelector itemRangeSelector;
     private int gridExtraSpace;
     private boolean shouldSelect;
@@ -821,8 +819,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         gridView.getFastScroll().setAlpha(0f);
         gridView.getFastScroll().usePadding = false;
         gridView.getFastScroll().topOffset = ActionBar.getCurrentActionBarHeight(); // + AndroidUtilities.statusBarHeight;
-        // MZGram: MZGramConfig.disableInstantCamera.
-        gridView.setAdapter(adapter = new PhotoAttachAdapter(context, !org.telegram.messenger.mzgram.MZGramConfig.disableInstantCamera && needCamera));
+        gridView.setAdapter(adapter = new PhotoAttachAdapter(context, needCamera));
         gridView.addItemDecoration(cameraViewItemDecoration = new CameraViewItemDecoration(gridView));
         adapter.createCache();
         gridView.setClipToPadding(false);
@@ -1134,21 +1131,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             progressView.showProgress();
         } else {
             progressView.showTextView();
-        }
-
-        if (needCamera && org.telegram.messenger.mzgram.MZGramConfig.disableInstantCamera) {
-            cameraFloatingButton = new FragmentFloatingButton(getContext(), resourcesProvider);
-            cameraFloatingButton.setContentDescription(LocaleController.getString(R.string.AccDescrInstantCamera));
-            cameraFloatingButton.setImageResource(R.drawable.camera);
-            cameraFloatingButton.setOnClickListener(view -> openCameraWithPermissionCheck());
-            cameraFloatingButton.setOnLongClickListener(view -> {
-                if (parentAlert.delegate != null) {
-                    parentAlert.delegate.didPressedButton(0, false, true, 0, 0, 0, parentAlert.isCaptionAbove(), false, 0);
-                    return true;
-                }
-                return false;
-            });
-            addView(cameraFloatingButton, FragmentFloatingButton.createDefaultLayoutParams());
         }
 
         Paint recordPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -1556,22 +1538,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (parentAlert.delegate != null) {
                 parentAlert.delegate.didPressedButton(0, false, true, 0, 0, 0, parentAlert.isCaptionAbove(), false, 0);
             }
-        }
-    }
-
-    // MZGram: keeps the camera button above the attach type buttons and hides it
-    // while photos are selected.
-    public void updateCameraButton() {
-        if (cameraFloatingButton == null) return;
-        boolean show = getSelectedItemsCount() == 0;
-        if (show) {
-            View typeButtons = parentAlert.buttonsRecyclerViewWrapper;
-            float progress = typeButtons.getVisibility() != VISIBLE ? 0f : typeButtons.getAlpha();
-            float offsetY = progress * parentAlert.getTypeButtonsHeight() + AndroidUtilities.navigationBarHeight;
-            cameraFloatingButton.setTranslationY(-offsetY);
-        }
-        if (cameraFloatingButton.getButtonVisible() != show) {
-            cameraFloatingButton.setButtonVisible(show, true);
         }
     }
 
@@ -2514,18 +2480,14 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         AndroidUtilities.setLightNavigationBar(parentAlert, false);
         parentAlert.getWindow().addFlags(FLAG_KEEP_SCREEN_ON);
         if (animated) {
-            setCameraOpenProgress(org.telegram.messenger.mzgram.MZGramConfig.disableInstantCamera ? 1f : 0);
+            setCameraOpenProgress(0);
             cameraAnimationInProgress = true;
             if (gridView != null) {
                 gridView.invalidate();
             }
             notificationsLocker.lock();
             ArrayList<Animator> animators = new ArrayList<>();
-            if (!org.telegram.messenger.mzgram.MZGramConfig.disableInstantCamera) {
-                animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f, 1.0f));
-            } else if (cameraView.isInited()) {
-                animators.add(ObjectAnimator.ofFloat(cameraView, View.ALPHA, 0.0f, 1.0f));
-            }
+            animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f, 1.0f));
             animators.add(ObjectAnimator.ofFloat(cameraPanel, View.ALPHA, 1.0f));
             animators.add(ObjectAnimator.ofFloat(counterTextView, View.ALPHA, 1.0f));
             animators.add(ObjectAnimator.ofFloat(cameraPhotoRecyclerView, View.ALPHA, 1.0f));
@@ -2613,6 +2575,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             return;
         }
         if (cameraView == null) {
+            // MZGram: with the instant camera off, the camera tile stays in the
+            // gallery, as in the original app, but shows no live preview until
+            // it is tapped: the lazy camera the app uses in Lite mode.
             final boolean lazy = org.telegram.messenger.mzgram.MZGramConfig.disableInstantCamera || !LiteMode.isEnabled(LiteMode.FLAGS_CHAT);
             cameraView = new CameraViewInternal(getContext(), isCameraFrontfaceBeforeEnteringEditMode != null ? isCameraFrontfaceBeforeEnteringEditMode : parentAlert.openWithFrontFaceCamera, lazy);
             //if (lazy) {
@@ -2884,11 +2849,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 gridView.invalidate();
             }
             ArrayList<Animator> animators = new ArrayList<>();
-            if (!org.telegram.messenger.mzgram.MZGramConfig.disableInstantCamera) {
-                animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f));
-            } else {
-                animators.add(ObjectAnimator.ofFloat(cameraView, View.ALPHA, 0.0f));
-            }
+            animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f));
             animators.add(ObjectAnimator.ofFloat(cameraPanel, View.ALPHA, 0.0f));
             animators.add(ObjectAnimator.ofFloat(zoomControlView, View.ALPHA, 0.0f));
             animators.add(ObjectAnimator.ofFloat(counterTextView, View.ALPHA, 0.0f));
@@ -3590,7 +3551,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         } else {
             parentAlert.selectedMenuItem.hideSubItem(stars);
         }
-        updateCameraButton();
     }
 
     private void updateStarsItem() {
@@ -3823,7 +3783,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     @Override
     public void onButtonsTranslationYUpdated() {
         checkCameraViewPosition();
-        updateCameraButton();
         invalidate();
     }
 

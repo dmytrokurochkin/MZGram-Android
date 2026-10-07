@@ -89,6 +89,16 @@ class MZGramAttachGalleryTest {
         return uri
     }
 
+    // The screen cannot be captured while the live camera preview is on it
+    // (the screenshot comes back empty); the checks do not depend on it.
+    private fun screenshot(name: String) {
+        try {
+            MZGramScreens.capture(name)
+        } catch (e: NullPointerException) {
+            MZGramScreens.log("$name: no screenshot while the camera preview is shown")
+        }
+    }
+
     private fun photoLayout(): ChatAttachAlertPhotoLayout? = chat?.chatAttachAlert?.photoLayout
 
     private fun grid(layout: ChatAttachAlertPhotoLayout): ViewGroup = layout.gridView as ViewGroup
@@ -134,7 +144,7 @@ class MZGramAttachGalleryTest {
             layout != null && layout.isShown && MZGramScreens.findView(grid(layout), PhotoAttachPhotoCell::class.java) { it.height > 0 } != null
         })
         Thread.sleep(1500)
-        MZGramScreens.capture("$name-gallery")
+        screenshot("$name-gallery")
 
         // The camera tile is the first item, as in the original app.
         var needsCamera = false
@@ -167,7 +177,7 @@ class MZGramAttachGalleryTest {
         tap(cell!!)
         val opened = MZGramScreens.waitFor(15) { PhotoViewer.hasInstance() && PhotoViewer.getInstance().isVisible || photoLayout()?.cameraOpened == true }
         Thread.sleep(1000)
-        MZGramScreens.capture("$name-after-tap")
+        screenshot("$name-after-tap")
         var cameraOpened = false
         var shown: Any? = null
         instrumentation.runOnMainSync {

@@ -278,20 +278,19 @@ class MZGramThemesTest {
         }
     }
 
-    // Appearance is open with the home theme only, then the chat themes
-    // come: the color theme row shows them without reopening the screen.
+    // The theme list changes while Appearance is open (the chat themes come
+    // after the home theme, or a new answer replaces the list): the color
+    // theme row follows it without reopening the screen. Checked both ways,
+    // to the home theme alone and back to all nine, so it does not depend on
+    // what the list held when the screen opened.
     @Test
-    fun appearance_rowShowsThemesThatComeWhileItIsOpen() {
+    fun appearance_rowFollowsTheListWhileItIsOpen() {
         val self = TLRPC.TL_user()
         self.id = 7_000_000_001L
         self.first_name = "MZGram test self"
         UserConfig.getInstance(account).setCurrentUser(self)
         seedChatThemes()
         try {
-            instrumentation.runOnMainSync {
-                controller.defaultEmojiThemes.clear()
-                controller.defaultEmojiThemes.addAll(MZGramDefaultThemes.homeOnly(account))
-            }
             MZGramScreens.launchApp()
             assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
             val fragment = ThemeActivity(ThemeActivity.THEME_TYPE_BASIC)
@@ -307,21 +306,30 @@ class MZGramThemesTest {
                 val cell = MZGramScreens.findView(fragment.fragmentView, DefaultThemesPreviewCell::class.java)
                 return cell?.let { itemsOf(it).size } ?: 0
             }
-            var before = 0
-            assertTrue("the row with the home theme", MZGramScreens.waitFor(15) { before = shown(); before > 0 })
-            MZGramScreens.log("appearance themes before the list came: $before")
+            var opened = 0
+            assertTrue("the color theme row", MZGramScreens.waitFor(15) { opened = shown(); opened > 0 })
 
+            // The list drops to the home theme: the row shows it and the custom theme ("🎨")
+            instrumentation.runOnMainSync {
+                controller.defaultEmojiThemes.clear()
+                controller.defaultEmojiThemes.addAll(MZGramDefaultThemes.homeOnly(account))
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged)
+            }
+            var homeOnly = 0
+            MZGramScreens.waitFor(10) { homeOnly = shown(); homeOnly == 2 }
+
+            // The chat themes come: all nine and the custom theme
             instrumentation.runOnMainSync {
                 controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
             }
-            // The themes and the custom one ("🎨") the screen adds at the end.
             val expected = 1 + chatThemeEmoticons.size + 1
-            var after = 0
-            MZGramScreens.waitFor(15) { after = shown(); after >= expected }
+            var full = 0
+            MZGramScreens.waitFor(15) { full = shown(); full == expected }
             Thread.sleep(1500)
             MZGramScreens.capture("appearance-themes-came-later")
-            MZGramScreens.log("appearance themes after the list came: $after")
-            assertEquals("themes in the color theme row", expected, after)
+            MZGramScreens.log("appearance themes: opened with $opened, home theme only $homeOnly, after the chat themes $full")
+            assertEquals("themes in the row after the list dropped to the home theme", 2, homeOnly)
+            assertEquals("themes in the row after the chat themes came", expected, full)
             instrumentation.runOnMainSync { fragment.finishFragment() }
         } finally {
             clearChatThemes()

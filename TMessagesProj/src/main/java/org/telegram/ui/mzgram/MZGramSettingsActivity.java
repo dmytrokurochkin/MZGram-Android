@@ -64,6 +64,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_EDITED_MARK = 49;
     private static final int BUTTON_SEMI_TRANSPARENT_DELETED = 50;
     private static final int BUTTON_ERASE_LOCAL_DATABASE = 51;
+    private static final int BUTTON_HIDE_CAMERA_TILE = 52;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
@@ -263,6 +264,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableInstantCameraInfo)));
+        items.add(UItem.asCheck(BUTTON_HIDE_CAMERA_TILE, getString(R.string.MZGramHideCameraTile)).setChecked(MZGramConfig.hideCameraTile));
+        items.add(UItem.asShadow(getString(R.string.MZGramHideCameraTileInfo)));
         items.add(UItem.asCheck(BUTTON_PREFER_ORIGINAL_QUALITY, getString(R.string.MZGramPreferOriginalQuality)).setChecked(MZGramConfig.preferOriginalQuality));
         items.add(UItem.asShadow(getString(R.string.MZGramPreferOriginalQualityInfo)));
         items.add(UItem.asCheck(BUTTON_AUTO_PAUSE_VIDEO, getString(R.string.MZGramAutoPauseVideo)).setChecked(MZGramConfig.autoPauseVideo));
@@ -342,6 +345,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DISABLE_INSTANT_CAMERA) {
             MZGramConfig.toggleDisableInstantCamera();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableInstantCamera);
+        } else if (item.id == BUTTON_HIDE_CAMERA_TILE) {
+            MZGramConfig.toggleHideCameraTile();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideCameraTile);
         } else if (item.id == BUTTON_PREFER_ORIGINAL_QUALITY) {
             MZGramConfig.togglePreferOriginalQuality();
             ((TextCheckCell) view).setChecked(MZGramConfig.preferOriginalQuality);

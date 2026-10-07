@@ -33,6 +33,7 @@ public class MZGramConfig {
     public static boolean hideChannelBottomButtons = false;
     public static boolean openArchiveOnPull = false;
     public static boolean disableInstantCamera = false;
+    public static boolean hideCameraTile = false;
     public static boolean preferOriginalQuality = false;
     public static boolean autoPauseVideo = false;
     public static boolean showCopyPhoto = false;
@@ -143,6 +144,7 @@ public class MZGramConfig {
             hideChannelBottomButtons = preferences.getBoolean("hideChannelBottomButtons", false);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
+            hideCameraTile = preferences.getBoolean("hideCameraTile", false);
             preferOriginalQuality = preferences.getBoolean("preferOriginalQuality", false);
             autoPauseVideo = preferences.getBoolean("autoPauseVideo", false);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
@@ -260,6 +262,11 @@ public class MZGramConfig {
     public static void toggleDisableInstantCamera() {
         disableInstantCamera = !disableInstantCamera;
         putBoolean("disableInstantCamera", disableInstantCamera);
+    }
+
+    public static void toggleHideCameraTile() {
+        hideCameraTile = !hideCameraTile;
+        putBoolean("hideCameraTile", hideCameraTile);
     }
 
     public static void togglePreferOriginalQuality() {

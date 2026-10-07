@@ -98,6 +98,8 @@
     <string name="MZGramHideStories">Приховати історії</string>
     <string name="MZGramHideStoriesInfo">Прибирає рядок історій зі списку чатів. Історії в профілях лишаються. Діє після перезапуску.</string>
     <string name="MZGramDisableInstantCamera">Вимкнути миттєву камеру</string>
+    <string name="MZGramHideCameraTile">Сховати плитку камери</string>
+    <string name="MZGramHideCameraTileInfo">Прибирає плитку камери з галереї фото і відео в меню вкладень: галерея починається з першої фотки, а камера не запускається. Камеру застосунку тоді не відкрити з меню вкладень. Діє для чатів, відкритих після зміни.</string>
     <string name="MZGramDisableInstantCameraInfo">Плитка камери в меню вкладень більше не показує живе зображення камери; камера вмикається, коли ви торкаєтеся плитки.</string>
     <string name="MZGramOpenArchiveOnPull">Відкривати архів потягуванням униз</string>
     <string name="MZGramOpenArchiveOnPullInfo">Якщо потягнути список чатів униз далі за рядок архіву, відкривається архів.</string>

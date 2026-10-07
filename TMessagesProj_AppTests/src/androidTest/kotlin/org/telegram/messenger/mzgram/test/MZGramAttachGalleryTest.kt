@@ -30,7 +30,9 @@ import org.telegram.ui.PhotoViewer
 // The gallery of the attach menu in a chat: the camera tile comes first, as
 // in the original app, and tapping the first photo opens that photo, not the
 // camera. Checked with the instant camera on and off (Settings > MZGram >
-// Media and calls > "Disable instant camera").
+// Media and calls > "Disable instant camera"). With "Hide camera tile" on,
+// there is no camera tile at all: the first photo is the first item, a tap
+// opens it, and the camera is not started.
 class MZGramAttachGalleryTest {
 
     private val account = 0
@@ -39,6 +41,7 @@ class MZGramAttachGalleryTest {
     private val context get() = instrumentation.targetContext
 
     private var savedDisableInstantCamera = false
+    private var savedHideCameraTile = false
     private val inserted = ArrayList<Uri>()
     private var chat: ChatActivity? = null
 
@@ -49,6 +52,7 @@ class MZGramAttachGalleryTest {
         self.first_name = "MZGram test self"
         UserConfig.getInstance(account).setCurrentUser(self)
         savedDisableInstantCamera = MZGramConfig.disableInstantCamera
+        savedHideCameraTile = MZGramConfig.hideCameraTile
         val pkg = context.packageName
         for (permission in listOf("READ_MEDIA_IMAGES", "READ_MEDIA_VIDEO", "READ_EXTERNAL_STORAGE", "CAMERA")) {
             MZGramScreens.shell("pm grant $pkg android.permission.$permission")
@@ -61,6 +65,7 @@ class MZGramAttachGalleryTest {
     @After
     fun tearDown() {
         MZGramConfig.disableInstantCamera = savedDisableInstantCamera
+        MZGramConfig.hideCameraTile = savedHideCameraTile
         instrumentation.runOnMainSync {
             if (PhotoViewer.hasInstance() && PhotoViewer.getInstance().isVisible) {
                 PhotoViewer.getInstance().closePhoto(false, false)
@@ -120,7 +125,7 @@ class MZGramAttachGalleryTest {
         instrumentation.sendPointerSync(MotionEvent.obtain(down, down + 80, MotionEvent.ACTION_UP, x, y, 0))
     }
 
-    private fun openGalleryAndTapFirstPhoto(name: String) {
+    private fun openGalleryAndTapFirstPhoto(name: String, cameraTile: Boolean = true) {
         MZGramScreens.launchApp()
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
         val other = TLRPC.TL_user().also {
@@ -170,7 +175,11 @@ class MZGramAttachGalleryTest {
             }
         }
         MZGramScreens.log("$name: camera tile=$needsCamera, item 0 shown=${firstChildPosition == 0} photo=$firstIsPhoto, first photo at $cellPosition")
-        assertTrue("$name: the gallery starts with the camera tile", needsCamera && firstChildPosition == 0 && !firstIsPhoto)
+        if (cameraTile) {
+            assertTrue("$name: the gallery starts with the camera tile", needsCamera && firstChildPosition == 0 && !firstIsPhoto)
+        } else {
+            assertTrue("$name: no camera tile, the gallery starts with the first photo", !needsCamera && firstChildPosition == 0 && firstIsPhoto && cellPosition == 0)
+        }
         assertTrue("$name: a photo is shown", cell != null)
         val entry = cell!!.photoEntry
 
@@ -194,17 +203,33 @@ class MZGramAttachGalleryTest {
         assertTrue("$name: something opened", opened)
         assertFalse("$name: the tap on the first photo opened the camera", cameraOpened)
         assertTrue("$name: the tapped photo is shown: ${entry.path}, shown $shownPath", shownPath == entry.path)
+        if (!cameraTile) {
+            var cameraView: Any? = null
+            instrumentation.runOnMainSync {
+                cameraView = ChatAttachAlertPhotoLayout::class.java.getDeclaredField("cameraView").also { it.isAccessible = true }.get(photoLayout())
+            }
+            assertTrue("$name: the camera was not started", cameraView == null)
+        }
     }
 
     @Test
     fun instantCameraOn_firstPhotoTapOpensThatPhoto() {
+        MZGramConfig.hideCameraTile = false
         MZGramConfig.disableInstantCamera = false
         openGalleryAndTapFirstPhoto("attach-instant-camera-on")
     }
 
     @Test
     fun instantCameraOff_cameraTileShownAndFirstPhotoTapOpensThatPhoto() {
+        MZGramConfig.hideCameraTile = false
         MZGramConfig.disableInstantCamera = true
         openGalleryAndTapFirstPhoto("attach-instant-camera-off")
+    }
+
+    @Test
+    fun hideCameraTile_galleryStartsWithTheFirstPhotoAndTapOpensIt() {
+        MZGramConfig.hideCameraTile = true
+        MZGramConfig.disableInstantCamera = false
+        openGalleryAndTapFirstPhoto("attach-no-camera-tile", cameraTile = false)
     }
 }

@@ -97,6 +97,8 @@
     <string name="MZGramHideStories">Hide Stories</string>
     <string name="MZGramHideStoriesInfo">Removes the stories row from the chat list. Stories in profiles stay. Takes effect after a restart.</string>
     <string name="MZGramDisableInstantCamera">Disable instant camera</string>
+    <string name="MZGramHideCameraTile">Hide camera tile</string>
+    <string name="MZGramHideCameraTileInfo">Removes the camera tile from the photo and video gallery of the attach menu: the gallery starts with your first photo and the camera does not start. The in-app camera then cannot be opened from the attach menu. Applies to chats opened after the change.</string>
     <string name="MZGramDisableInstantCameraInfo">The camera tile in the attach menu no longer shows a live camera preview; the camera starts when you tap the tile.</string>
     <string name="MZGramOpenArchiveOnPull">Open Archive on pull down</string>
     <string name="MZGramOpenArchiveOnPullInfo">Pulling the chat list down past the archive row opens the archive.</string>

@@ -130,8 +130,8 @@ class MZGramThemesTest {
 
     // The chat themes as account.getChatThemes gives them (the set the chat
     // theme picker shows): an emoticon with a light and a dark setting each,
-    // saved where ChatThemeController keeps them, fresh, so no request is
-    // needed.
+    // every setting with its wallpaper colors, saved where ChatThemeController
+    // keeps them, fresh, so no request is needed.
     private val chatThemeEmoticons = listOf("🐥", "⛄", "💎", "👨‍🏫", "🌷", "💜", "🎄", "🎮")
 
     private fun seedChatThemes() {
@@ -149,6 +149,19 @@ class MZGramThemesTest {
                 val settings = TLRPC.TL_themeSettings()
                 settings.base_theme = if (night) TLRPC.TL_baseThemeNight() else TLRPC.TL_baseThemeClassic()
                 settings.accent_color = 0xff3390ec.toInt() + i
+                val colors = TLRPC.TL_wallPaperSettings()
+                colors.flags = 1 or 16 or 32 or 64
+                colors.background_color = 0xdbddbb + i
+                colors.second_background_color = 0x6ba587
+                colors.third_background_color = 0xd5d88d
+                colors.fourth_background_color = 0x88b884
+                val wallpaper = TLRPC.TL_wallPaperNoFile()
+                wallpaper.id = 6_000_000_000L + i * 2 + (if (night) 1 else 0)
+                wallpaper.flags = 4
+                wallpaper.dark = night
+                wallpaper.settings = colors
+                settings.wallpaper = wallpaper
+                settings.flags = settings.flags or 2
                 theme.settings.add(settings)
             }
             val data = SerializedData(theme.objectSize)

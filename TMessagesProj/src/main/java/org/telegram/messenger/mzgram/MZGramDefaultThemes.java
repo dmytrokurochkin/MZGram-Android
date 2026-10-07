@@ -55,10 +55,16 @@ public class MZGramDefaultThemes {
     }
 
     // A theme as the color theme list shows it, with four variants, or null
-    // when it has no settings.
+    // when it has no settings, or a setting without the wallpaper colors the
+    // list's preview draws from.
     public static EmojiThemes preview(int account, TLRPC.TL_theme theme) {
         if (theme == null || theme.settings == null || theme.settings.isEmpty()) {
             return null;
+        }
+        for (TLRPC.ThemeSettings settings : theme.settings) {
+            if (settings == null || settings.wallpaper == null || settings.wallpaper.settings == null) {
+                return null;
+            }
         }
         if (theme.settings.size() >= 4) {
             return EmojiThemes.createPreviewFullTheme(account, theme);

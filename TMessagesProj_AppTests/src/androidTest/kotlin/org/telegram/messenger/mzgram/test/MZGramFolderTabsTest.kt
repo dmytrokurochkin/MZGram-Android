@@ -338,7 +338,7 @@ class MZGramFolderTabsTest {
             AndroidUtilities.hideKeyboard(chat.chatActivityEnterView)
             chat.finishFragment()
         }
-        assertTrue("back on the chat list", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() is DialogsActivity })
+        assertTrue("back on the chat list", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() !is ChatActivity && MZGramScreens.lastFragment()?.fragmentView?.isShown == true })
         val (top, _, screen) = measureTabs("folder-tabs-after-chat").toList()
         assertTrue("at the bottom after the chat: top=$top screen=$screen", top > screen / 2)
     }

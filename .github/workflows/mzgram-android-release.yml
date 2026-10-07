@@ -1,0 +1,207 @@
+name: MZGram Android release
+
+# A tag vX.Y.Z (stable) or vX.Y.Z-beta.N (prerelease) on the mzgram branch
+# builds the APK, signs it with the MZGram key from GitHub Secrets and publishes
+# a GitHub release with:
+#   MZGram-Android-X.Y.Z.apk, MZGram-Android-X.Y.Z-rotation.lineage, SHA256SUMS
+# and the [mzgram] commits since the previous release as the notes.
+# The release is created as a draft and published only when every file is in
+# it: the channel bot reads published releases and needs the whole set.
+# Without the signing secrets the APK keeps the public development key and the
+# release is published as a prerelease named "debug key", never as stable.
+# Run by hand (workflow_dispatch) it builds and signs a version as an artifact
+# without a release.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version to build without publishing, e.g. v1.0.0'
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mzgram-android-release-${{ github.ref }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
+      PUBLISH: ${{ github.event_name == 'push' }}
+
+    steps:
+      - name: Clone.
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          # All history and tags: the notes list the commits since the previous release
+          fetch-depth: 0
+
+      - name: Version.
+        id: version
+        run: |
+          python3 .github/scripts/test_mzgram_version.py
+          if [ "$PUBLISH" = true ]; then
+            git fetch -q origin mzgram
+            if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/mzgram; then
+              echo "::error::$TAG does not point to a commit of the mzgram branch"
+              exit 1
+            fi
+          fi
+          UPSTREAM=$(sed -n 's/^APP_VERSION_NAME=//p' gradle.properties)
+          FLOOR=$(sed -n 's/^APP_VERSION_CODE=//p' gradle.properties)
+          git tag -l 'v*' | python3 .github/scripts/mzgram_version.py release "$TAG" --upstream "$UPSTREAM" --floor "$FLOOR" | tee -a "$GITHUB_OUTPUT"
+          echo "upstream=$UPSTREAM" >> "$GITHUB_OUTPUT"
+          echo "previous=$(git tag -l 'v*' | python3 .github/scripts/mzgram_version.py previous "$TAG")" | tee -a "$GITHUB_OUTPUT"
+
+      - name: Set up JDK.
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK.
+        uses: android-actions/setup-android@v4.0.4
+
+      - name: Accept Android SDK licenses.
+        run: yes | sdkmanager --licenses > /dev/null || true
+
+      - name: Install NDK and CMake.
+        run: |
+          sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1" "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Apply API credentials.
+        env:
+          API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        run: |
+          BUILD_VARS=TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
+          if [ -n "$API_ID" ] && [ -n "$API_HASH" ]; then
+            sed -i "s/public static int APP_ID = [0-9]*;/public static int APP_ID = $API_ID;/" $BUILD_VARS
+            sed -i "s/public static String APP_HASH = \"[0-9a-fA-F]*\";/public static String APP_HASH = \"$API_HASH\";/" $BUILD_VARS
+            echo "Credentials applied."
+          else
+            echo "::error::No API credentials: a release APK could not sign in."
+            exit 1
+          fi
+
+      - name: Build.
+        env:
+          CODE: ${{ steps.version.outputs.code }}
+          NAME: ${{ steps.version.outputs.name }}
+        run: |
+          ./gradlew :TMessagesProj_AppStandalone:assembleAfatStandalone --console=plain \
+            "-PAPP_VERSION_CODE=$CODE" "-PAPP_VERSION_NAME=$NAME"
+
+      - name: Sign with the MZGram key.
+        id: sign
+        env:
+          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          # The module overrides outputFileName, so the APK lands under intermediates too
+          APK=$(find TMessagesProj_AppStandalone/build/outputs -name '*.apk' | head -1)
+          bash .github/scripts/mzgram_sign_ci.sh "$APK" "$RUNNER_TEMP/signed.apk" "$RUNNER_TEMP/rotation.lineage"
+
+      - name: Check the APK.
+        env:
+          CODE: ${{ steps.version.outputs.code }}
+          NAME: ${{ steps.version.outputs.name }}
+        run: |
+          BADGING=$("$ANDROID_HOME/build-tools/36.0.0/aapt2" dump badging "$RUNNER_TEMP/signed.apk" | head -1)
+          echo "$BADGING"
+          grep -q "name='org.telegram.messenger.web'" <<<"$BADGING" || { echo "::error::package name"; exit 1; }
+          grep -q "versionCode='$((CODE * 10 + 9))'" <<<"$BADGING" || { echo "::error::versionCode is not $((CODE * 10 + 9))"; exit 1; }
+          grep -qF "versionName='$NAME'" <<<"$BADGING" || { echo "::error::versionName is not $NAME"; exit 1; }
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify "$RUNNER_TEMP/signed.apk"
+
+      - name: Release files and notes.
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          UPSTREAM: ${{ steps.version.outputs.upstream }}
+          PREVIOUS: ${{ steps.version.outputs.previous }}
+          SIGNED: ${{ steps.sign.outputs.signed }}
+          CERT: ${{ steps.sign.outputs.cert_sha256 }}
+        run: |
+          mkdir dist
+          if [ "$SIGNED" = true ]; then
+            cp "$RUNNER_TEMP/signed.apk" "dist/MZGram-Android-$VERSION.apk"
+            cp "$RUNNER_TEMP/rotation.lineage" "dist/MZGram-Android-$VERSION-rotation.lineage"
+          else
+            cp "$RUNNER_TEMP/signed.apk" "dist/MZGram-Android-$VERSION-debugkey.apk"
+          fi
+          (cd dist && sha256sum -- * > SHA256SUMS && cat SHA256SUMS)
+
+          RANGE=${PREVIOUS:+$PREVIOUS..}$TAG
+          [ "$PUBLISH" = true ] || RANGE=${PREVIOUS:+$PREVIOUS..}HEAD
+          CHANGES=$(git log --no-merges --format=%s "$RANGE" | sed -n 's/^\[mzgram\] /- /p')
+          {
+            echo "MZGram for Android $VERSION, based on Telegram for Android $UPSTREAM."
+            echo
+            echo "## Changes"
+            echo
+            if [ -n "$CHANGES" ]; then echo "$CHANGES"; else echo "- No MZGram changes${PREVIOUS:+ since $PREVIOUS}, build only."; fi
+            echo
+            echo "## Install"
+            echo
+            if [ "$SIGNED" = true ]; then
+              echo "Download \`MZGram-Android-$VERSION.apk\` and open it. It installs over earlier MZGram builds and keeps all data."
+              echo "On Android 9 and newer it also moves the app to the MZGram signing key; after that only APKs signed with this key can update it."
+              echo
+              echo "Signing certificate SHA-256: \`$CERT\`"
+            else
+              echo "This build is signed with the public development key, not the MZGram key. It is not a stable release: do not install it over a signed MZGram build."
+            fi
+            echo
+            echo "\`SHA256SUMS\` lists the SHA-256 of every file."
+          } > notes.md
+          cat notes.md
+
+      - name: Upload artifact.
+        uses: actions/upload-artifact@v7
+        with:
+          name: MZGram-Android-${{ steps.version.outputs.version }}${{ steps.sign.outputs.signed != 'true' && '-debugkey' || '' }}
+          path: |
+            dist/
+            notes.md
+
+      - name: Publish the release.
+        if: env.PUBLISH == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          PRERELEASE: ${{ steps.version.outputs.prerelease }}
+          SIGNED: ${{ steps.sign.outputs.signed }}
+        run: |
+          TITLE="MZGram Android $VERSION"
+          FLAGS=()
+          if [ "$SIGNED" != true ]; then
+            TITLE="$TITLE (debug key)"
+            FLAGS+=(--prerelease)
+          elif [ "$PRERELEASE" = true ]; then
+            FLAGS+=(--prerelease)
+          fi
+          gh release create "$TAG" --draft --verify-tag --title "$TITLE" --notes-file notes.md "${FLAGS[@]}" dist/*
+          # Every file must be in the release before it is published
+          EXPECTED=$(ls dist | sort)
+          UPLOADED=$(gh release view "$TAG" --json assets --jq '.assets[].name' | sort)
+          if [ "$EXPECTED" != "$UPLOADED" ]; then
+            echo "::error::Release files differ from dist/: $UPLOADED"
+            exit 1
+          fi
+          gh release edit "$TAG" --draft=false
+          gh release view "$TAG" --json url,isPrerelease,assets --jq '{url, isPrerelease, assets: [.assets[].name]}'

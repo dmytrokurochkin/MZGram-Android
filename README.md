@@ -77,7 +77,9 @@ All MZGram features are in **Settings > MZGram**, grouped by topic. Every MZGram
 
 ## Download
 
-Releases will be published on the [Releases](https://github.com/dmytrokurochkin/MZGram-Android/releases) page. There are no releases yet.
+Releases are published on the [Releases](https://github.com/dmytrokurochkin/MZGram-Android/releases) page. There are no releases yet.
+
+Each release has one APK for all four ABIs, its signing lineage and `SHA256SUMS`. Release APKs are signed with the MZGram key; its certificate SHA-256 is in the release notes. A release installs over earlier MZGram builds and keeps all data. Releases named "debug key" and betas are prereleases.
 
 ## Build
 
@@ -99,7 +101,7 @@ Requirements: JDK 21, Android SDK 36, Android NDK 27.2.12479018 (exact version),
    ```
    The APK is under `TMessagesProj_AppStandalone/build`. `assembleAfatRelease` gives an unsigned APK that does not install.
 
-CI builds the APK and runs the instrumented tests on every push to `mzgram` (`.github/workflows/mzgram-android.yml`). It reads the credentials from the repository secrets `TELEGRAM_API_ID` and `TELEGRAM_API_HASH`.
+CI builds the APK and runs the instrumented tests on every push to `mzgram` (`.github/workflows/mzgram-android.yml`). It reads the credentials from the repository secrets `TELEGRAM_API_ID` and `TELEGRAM_API_HASH`. A tag `vX.Y.Z` builds and publishes a release (`.github/workflows/mzgram-android-release.yml`); how releases are versioned and signed is in [docs/releasing.md](docs/releasing.md).
 
 Notes from the upstream README (API documentation, BuildVars, localization) are in [docs/upstream-notes.md](docs/upstream-notes.md).
 

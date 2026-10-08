@@ -202,7 +202,11 @@ jobs:
           arch: x86_64
           target: google_apis
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
+          # No cameras: opening the emulated camera hung the emulator in most runs
+          # (#153, #155, #156, in MZGramAttachGalleryTest). The camera tile and
+          # its tap handling do not need camera hardware; the live preview is
+          # not covered by CI.
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -camera-back none -camera-front none
           script: |
             bash .github/scripts/mzgram_tests.sh
             bash .github/scripts/mzgram_rotation_check.sh

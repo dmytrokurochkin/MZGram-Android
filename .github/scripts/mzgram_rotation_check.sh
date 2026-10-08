@@ -38,8 +38,9 @@ bash .github/scripts/mzgram_sign.sh "$APK" "$WORK/rotated.apk" "$WORK/rotated.li
 "$BUILD_TOOLS/apksigner" sign --in "$APK" --out "$WORK/new-only.apk" --v4-signing-enabled false     --ks "$MZGRAM_KEYSTORE" --ks-key-alias mzgram --ks-pass env:MZGRAM_KEYSTORE_PASSWORD     --key-pass env:MZGRAM_KEYSTORE_PASSWORD || fail "could not sign the new-key-only APK"
 echo "APKs signed"
 
-install() { adb install -r "$1" 2>&1 | tr -d '\r'; }
-marker() { adb shell "run-as $PKG cat $MARKER" 2>&1 | tr -d '\r'; }
+# A refused install is an expected result here, not an error of the script
+install() { adb install -r "$1" 2>&1 | tr -d '\r' || true; }
+marker() { adb shell "run-as $PKG cat $MARKER" 2>&1 | tr -d '\r' || true; }
 
 adb uninstall "$PKG" >/dev/null 2>&1 || true
 out=$(install "$APK")

@@ -60,10 +60,11 @@ fi
 # The test copies them to /data/local/tmp, since the app (and its files)
 # is uninstalled when the test run ends.
 mkdir -p mzgram-screens
-adb pull /data/local/tmp/mzgram-screens/. mzgram-screens/ > /dev/null 2>&1
+# timeout: when the emulator died during the tests, adb waits for it forever
+timeout 120 adb pull /data/local/tmp/mzgram-screens/. mzgram-screens/ > /dev/null 2>&1
 ls -l mzgram-screens
 
-adb logcat -d > logcat-full.txt
+timeout 120 adb logcat -d > logcat-full.txt
 echo "===== MZGram logcat ====="
 grep -E "MZGramArchiveTest|MZGramE2E|MZGram|TestRunner" logcat-full.txt | tail -400
 exit $status

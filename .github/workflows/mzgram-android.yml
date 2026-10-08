@@ -183,6 +183,16 @@ jobs:
       - name: Build test APKs.
         run: ./gradlew :TMessagesProj_AppTests:assembleAfatDebug :TMessagesProj_AppTests:assembleAfatDebugAndroidTest --console=plain
 
+      # The Gradle daemon (-Xmx8g) and the Kotlin daemon stay after the build
+      # and share the runner's memory with the emulator; the emulator died in
+      # the middle of the tests in several runs. The test run needs only a
+      # small new daemon.
+      - name: Free memory for the emulator.
+        run: |
+          ./gradlew --stop
+          pkill -f KotlinCompileDaemon || true
+          free -m
+
       - name: Enable KVM.
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -210,6 +220,12 @@ jobs:
           script: |
             bash .github/scripts/mzgram_tests.sh
             bash .github/scripts/mzgram_rotation_check.sh
+
+      - name: Out-of-memory kills on the runner.
+        if: always()
+        run: |
+          free -m
+          sudo dmesg | grep -iE "out of memory|oom-kill|killed process" || echo "no out-of-memory kills"
 
       - name: Upload test reports and logcat.
         if: always()

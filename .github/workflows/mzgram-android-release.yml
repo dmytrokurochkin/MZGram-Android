@@ -161,13 +161,14 @@ jobs:
 
           RANGE=${PREVIOUS:+$PREVIOUS..}$TAG
           [ "$PUBLISH" = true ] || RANGE=${PREVIOUS:+$PREVIOUS..}HEAD
-          CHANGES=$(git log --no-merges --format=%s "$RANGE" | sed -n 's/^\[mzgram\] /- /p')
+          # The [mzgram] commits users notice; CI:, Test:, Release workflow:, Docs:, Spec: are left out
+          CHANGES=$(git log --no-merges --format=%s "$RANGE" | python3 .github/scripts/mzgram_version.py notes)
           {
             echo "MZGram for Android $VERSION, based on Telegram for Android $UPSTREAM."
             echo
             echo "## Changes"
             echo
-            if [ -n "$CHANGES" ]; then echo "$CHANGES"; else echo "- No MZGram changes${PREVIOUS:+ since $PREVIOUS}, build only."; fi
+            echo "$CHANGES"
             echo
             echo "## Install"
             echo

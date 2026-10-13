@@ -2,9 +2,12 @@ package org.telegram.messenger.mzgram.test
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.BuildVars
@@ -17,17 +20,42 @@ import org.telegram.tgnet.SerializedData
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.ActionBar.Theme
 import org.telegram.ui.Components.ChatThemeBottomSheet
+import org.telegram.ui.Components.RecyclerListView
 import org.telegram.ui.DefaultThemesPreviewCell
 import org.telegram.ui.ThemeActivity
 
-// Settings > Chat settings > Color theme: the standard themes are listed
-// even when the server's theme list has no default themes in it (or has not
-// come yet -- the emulator has no connection at all).
+// Settings > Chat settings > the color theme row. The standard themes are
+// built on the device and always listed, whatever the server answered, and
+// whatever an earlier build saved: these tests start from the states a phone
+// is really in (a fresh install with no answer, an update over a build that
+// saved an answer without usable themes, an answer without and with default
+// themes, a theme chosen before the update). The emulator is not signed in,
+// so no request of the app gets an answer, as on a phone without a
+// connection or before the first answer.
 class MZGramThemesTest {
 
     private val account = 0
     private val instrumentation get() = InstrumentationRegistry.getInstrumentation()
     private val controller get() = MediaDataController.getInstance(account)
+    // The labels of the standard themes the app builds (MZGramDefaultThemes.LOCAL_EMOJI)
+    private val localEmoji = listOf("🌊", "🌿", "🍑", "🌸", "🍇", "☁️", "🔥", "🌙")
+    private val localCount get() = localEmoji.size
+    private val homeEmoji = "🏠"
+
+    private fun savedAnswer() = ApplicationLoader.applicationContext.getSharedPreferences("emojithemes_config_$account", Context.MODE_PRIVATE)
+
+    @Before
+    fun setUp() {
+        // No saved answer and no chat themes: what a fresh install has
+        savedAnswer().edit().clear().commit()
+        ApplicationLoader.applicationContext.getSharedPreferences("chatthemeconfig_$account", Context.MODE_PRIVATE).edit().clear().commit()
+        instrumentation.runOnMainSync { controller.defaultEmojiThemes.clear() }
+    }
+
+    @After
+    fun tearDown() {
+        savedAnswer().edit().clear().commit()
+    }
 
     private fun themes(): List<ChatThemeBottomSheet.ChatThemeItem> {
         var result = listOf<ChatThemeBottomSheet.ChatThemeItem>()
@@ -35,32 +63,153 @@ class MZGramThemesTest {
         return result
     }
 
-    // The home theme's own themes: Classic, Day, Night, Tinted.
-    private fun homeThemeKeys(item: ChatThemeBottomSheet.ChatThemeItem) =
-        item.chatTheme.items.mapNotNull { it.themeInfo?.key }
+    private fun emoji(items: List<ChatThemeBottomSheet.ChatThemeItem>) = items.map { it.chatTheme.emoticonOrSlug }
 
-    @Test
-    fun serverWithoutDefaultThemes_keepsTheStandardThemes() {
-        instrumentation.runOnMainSync {
-            controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
-        }
-        assertTrue("themes listed", MZGramScreens.waitFor(10) { controller.defaultEmojiThemes.isNotEmpty() })
-        val home = themes().first()
-        assertEquals("the home theme first", "🏠", home.chatTheme.emoticonOrSlug)
-        assertEquals(listOf("Blue", "Day", "Night", "Dark Blue"), homeThemeKeys(home))
+    private fun waitForThemes(count: Int): List<ChatThemeBottomSheet.ChatThemeItem> {
+        MZGramScreens.waitFor(15) { controller.defaultEmojiThemes.size >= count }
+        return themes()
     }
 
-    // Only the home theme is listed (no default themes saved from the
-    // server yet), but an older theme list hash is saved. Asking with that
-    // hash gets "not modified" back, and the list then never fills. The
-    // request must ask for the whole list (hash 0).
+    // The home theme, then the local standard themes, each with four variants.
+    private fun assertStandardThemesFirst(listed: List<ChatThemeBottomSheet.ChatThemeItem>, where: String) {
+        MZGramScreens.log("$where: ${listed.size} themes, ${emoji(listed)}")
+        assertTrue("$where: at least ${1 + localCount} themes, got ${emoji(listed)}", listed.size >= 1 + localCount)
+        assertEquals("$where: the home theme first", homeEmoji, listed.first().chatTheme.emoticonOrSlug)
+        assertEquals("$where: the standard themes after it", localEmoji, emoji(listed.subList(1, 1 + localCount)))
+        assertTrue("$where: four variants each", listed.take(1 + localCount).all { it.chatTheme.items.size == 4 })
+        assertTrue("$where: every variant is a built-in theme", listed.take(1 + localCount).all { item -> item.chatTheme.items.all { it.themeInfo != null } })
+    }
+
+    // A theme as account.getThemes gives it: an emoticon with the classic,
+    // day, night and tinted settings, every setting with its wallpaper colors.
+    private fun serverTheme(i: Int, emoticon: String, variants: Int = 4, withWallpaper: Boolean = true): TLRPC.TL_theme {
+        val theme = TLRPC.TL_theme()
+        theme.id = 5_100_000_000L + i
+        theme.access_hash = 1
+        theme.slug = "mzgram-server-$i"
+        theme.title = emoticon
+        theme.isDefault = true
+        theme.emoticon = emoticon
+        theme.flags = theme.flags or 8 or 64
+        val bases = listOf(TLRPC.TL_baseThemeClassic(), TLRPC.TL_baseThemeDay(), TLRPC.TL_baseThemeNight(), TLRPC.TL_baseThemeTinted())
+        for (v in 0 until variants) {
+            val settings = TLRPC.TL_themeSettings()
+            settings.base_theme = bases[v]
+            settings.accent_color = 0xff3390ec.toInt() + i
+            if (withWallpaper) {
+                val colors = TLRPC.TL_wallPaperSettings()
+                colors.flags = 1 or 16
+                colors.background_color = 0xdbddbb + i
+                colors.second_background_color = 0x6ba587
+                val wallpaper = TLRPC.TL_wallPaperNoFile()
+                wallpaper.id = 6_100_000_000L + i * 4 + v
+                wallpaper.flags = 4
+                wallpaper.dark = v >= 2
+                wallpaper.settings = colors
+                settings.wallpaper = wallpaper
+                settings.flags = settings.flags or 2
+            }
+            theme.settings.add(settings)
+        }
+        return theme
+    }
+
+    private fun saveAnswer(themes: List<TLRPC.TL_theme>) {
+        val editor = savedAnswer().edit().clear()
+        themes.forEachIndexed { i, theme ->
+            val data = SerializedData(theme.objectSize)
+            theme.serializeToStream(data)
+            editor.putString("theme_$i", Utilities.bytesToHex(data.toByteArray()))
+        }
+        editor.putInt("count", themes.size).commit()
+    }
+
+    // A fresh install: nothing saved, no answer yet (or no connection).
     @Test
-    fun homeThemeOnly_asksTheServerForTheWholeList() {
+    fun freshInstall_withoutAnAnswer_listsTheStandardThemes() {
+        controller.loadEmojiThemes()
+        assertStandardThemesFirst(waitForThemes(1 + localCount), "fresh install")
+        assertEquals("nothing else without an answer", 1 + localCount, themes().size)
+    }
+
+    // An update over an older build that saved an answer whose themes the row
+    // cannot use (two variants, no wallpaper colors): upstream read that back
+    // and showed the home theme alone, without asking again.
+    @Test
+    fun updateOverAnOldBuild_withASavedAnswerOfUnusableThemes_listsTheStandardThemes() {
+        saveAnswer(listOf(serverTheme(1, "🐥", variants = 2, withWallpaper = false), serverTheme(2, "⛄", variants = 2, withWallpaper = false)))
+        controller.loadEmojiThemes()
+        val listed = waitForThemes(1 + localCount)
+        assertStandardThemesFirst(listed, "update over an old build")
+        assertEquals("the unusable saved themes are left out", 1 + localCount, listed.size)
+    }
+
+    // An update over a build that saved good default themes: they stay, after the standard ones.
+    @Test
+    fun updateOverAnOldBuild_withSavedDefaultThemes_addsThemAfterTheStandardOnes() {
+        saveAnswer(listOf(serverTheme(1, "🐥"), serverTheme(2, "⛄")))
+        controller.loadEmojiThemes()
+        val listed = waitForThemes(1 + localCount + 2)
+        assertStandardThemesFirst(listed, "saved default themes")
+        assertEquals("the saved themes after the standard ones", listOf("🐥", "⛄"), emoji(listed.drop(1 + localCount)))
+    }
+
+    // The server answers without default themes for this app.
+    @Test
+    fun serverAnswerWithoutDefaultThemes_listsTheStandardThemes() {
+        instrumentation.runOnMainSync { controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account) }
+        val listed = waitForThemes(1 + localCount)
+        assertStandardThemesFirst(listed, "answer without default themes")
+        assertEquals(1 + localCount, listed.size)
+    }
+
+    // The server answers with default themes: they are added, never in place of the standard ones.
+    @Test
+    fun serverAnswerWithDefaultThemes_addsThemAfterTheStandardOnes() {
+        instrumentation.runOnMainSync {
+            controller.generateEmojiPreviewThemes(arrayListOf(serverTheme(1, "🐥"), serverTheme(2, "⛄"), serverTheme(3, "💎", withWallpaper = false)), account)
+        }
+        val listed = waitForThemes(1 + localCount + 2)
+        assertStandardThemesFirst(listed, "answer with default themes")
+        assertEquals("server themes after, one without wallpaper colors left out", listOf("🐥", "⛄"), emoji(listed.drop(1 + localCount)))
+        assertTrue("server themes with four variants", listed.drop(1 + localCount).all { it.chatTheme.items.size >= 4 })
+    }
+
+    // A second answer must not drop the row to fewer themes, even for a moment
+    // (a screen opened in that moment kept one theme).
+    @Test
+    fun secondAnswer_neverShrinksTheRow() {
+        instrumentation.runOnMainSync { controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account) }
+        waitForThemes(1 + localCount)
+        val sizes = ArrayList<Int>()
+        val observer = NotificationCenter.NotificationCenterDelegate { _, _, _ -> sizes.add(controller.defaultEmojiThemes.size) }
+        try {
+            instrumentation.runOnMainSync {
+                NotificationCenter.getGlobalInstance().addObserver(observer, NotificationCenter.emojiPreviewThemesChanged)
+                controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
+            }
+            Thread.sleep(2000)
+            MZGramScreens.log("theme list sizes after the second answer: $sizes")
+            assertTrue("the row shrank: $sizes", sizes.none { it < 1 + localCount })
+        } finally {
+            instrumentation.runOnMainSync {
+                NotificationCenter.getGlobalInstance().removeObserver(observer, NotificationCenter.emojiPreviewThemesChanged)
+            }
+        }
+    }
+
+    // Until the server's own themes are listed, the theme request asks for the
+    // whole list (hash 0): with a saved hash the answer is "not modified" and
+    // the server's themes would never come.
+    @Test
+    fun withoutServerThemes_asksTheServerForTheWholeList() {
         val self = TLRPC.TL_user()
         self.id = 7_000_000_001L
         self.first_name = "MZGram test self"
         UserConfig.getInstance(account).setCurrentUser(self)
         BuildVars.LOGS_ENABLED = true
+        controller.loadEmojiThemes()
+        waitForThemes(1)
         val hashes = Theme::class.java.getDeclaredField("remoteThemesHash").also { it.isAccessible = true }.get(null) as LongArray
         val loading = Theme::class.java.getDeclaredField("loadingRemoteThemes").also { it.isAccessible = true }.get(null) as BooleanArray
         val savedHash = hashes[account]
@@ -69,11 +218,7 @@ class MZGramThemesTest {
             loading[account] = false
             val marker = "theme request check ${System.nanoTime()}"
             Log.i("theme", marker)
-            instrumentation.runOnMainSync {
-                controller.defaultEmojiThemes.clear()
-                controller.defaultEmojiThemes.addAll(MZGramDefaultThemes.homeOnly(account))
-                Theme.loadRemoteThemes(account, true)
-            }
+            instrumentation.runOnMainSync { Theme.loadRemoteThemes(account, true) }
             var hash: String? = null
             MZGramScreens.waitFor(10) {
                 hash = themeRequestHashAfter(marker)
@@ -85,8 +230,6 @@ class MZGramThemesTest {
         }
     }
 
-    // The hash of the first theme list request logged after the marker,
-    // from the app's own log.
     private fun themeRequestHashAfter(marker: String): String? {
         val process = Runtime.getRuntime().exec(arrayOf("logcat", "-d", "-v", "raw", "-s", "theme:I"))
         val lines = process.inputStream.bufferedReader().readLines()
@@ -96,248 +239,135 @@ class MZGramThemesTest {
             ?.removePrefix("loading remote themes, hash ")?.trim()
     }
 
-    @Test
-    fun appearance_showsTheStandardThemes() {
+    private fun openAppearance(): ThemeActivity {
         val self = TLRPC.TL_user()
         self.id = 7_000_000_001L
         self.first_name = "MZGram test self"
         UserConfig.getInstance(account).setCurrentUser(self)
-        instrumentation.runOnMainSync {
-            controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
-        }
         MZGramScreens.launchApp()
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
         val fragment = ThemeActivity(ThemeActivity.THEME_TYPE_BASIC)
         MZGramScreens.open(fragment)
         assertTrue("appearance shown", MZGramScreens.waitFor(30) { fragment.fragmentView?.isShown == true })
-
-        // The color theme row, scrolled into view.
         instrumentation.runOnMainSync {
             val list = ThemeActivity::class.java.getDeclaredField("listView").also { it.isAccessible = true }.get(fragment)
             val row = ThemeActivity::class.java.getDeclaredField("themeListRow2").also { it.isAccessible = true }.getInt(fragment)
             list.javaClass.getMethod("scrollToPosition", Int::class.javaPrimitiveType).invoke(list, row)
         }
-        var shown = 0
-        val listed = MZGramScreens.waitFor(15) {
-            val cell = MZGramScreens.findView(fragment.fragmentView, DefaultThemesPreviewCell::class.java)
-            shown = cell?.let { itemsOf(it).size } ?: 0
-            shown > 0
-        }
-        Thread.sleep(1500)
-        MZGramScreens.capture("appearance-themes")
-        MZGramScreens.log("appearance themes: $shown, ${themes().map { it.chatTheme.emoticonOrSlug }}")
-        assertTrue("the color theme row lists themes", listed)
+        return fragment
     }
 
-    // The chat themes as account.getChatThemes gives them (the set the chat
-    // theme picker shows): an emoticon with a light and a dark setting each,
-    // every setting with its wallpaper colors, saved where ChatThemeController
-    // keeps them, fresh, so no request is needed.
-    private val chatThemeEmoticons = listOf("🐥", "⛄", "💎", "👨‍🏫", "🌷", "💜", "🎄", "🎮")
-
-    private fun seedChatThemes() {
-        val editor = ApplicationLoader.applicationContext.getSharedPreferences("chatthemeconfig_$account", Context.MODE_PRIVATE).edit().clear()
-        chatThemeEmoticons.forEachIndexed { i, emoticon ->
-            val theme = TLRPC.TL_theme()
-            theme.id = 5_000_000_000L + i
-            theme.access_hash = 1
-            theme.slug = "mzgram-test-$i"
-            theme.title = emoticon
-            theme.for_chat = true
-            theme.emoticon = emoticon
-            theme.flags = theme.flags or 8 or 64
-            for (night in listOf(false, true)) {
-                val settings = TLRPC.TL_themeSettings()
-                settings.base_theme = if (night) TLRPC.TL_baseThemeNight() else TLRPC.TL_baseThemeClassic()
-                settings.accent_color = 0xff3390ec.toInt() + i
-                val colors = TLRPC.TL_wallPaperSettings()
-                colors.flags = 1 or 16 or 32 or 64
-                colors.background_color = 0xdbddbb + i
-                colors.second_background_color = 0x6ba587
-                colors.third_background_color = 0xd5d88d
-                colors.fourth_background_color = 0x88b884
-                val wallpaper = TLRPC.TL_wallPaperNoFile()
-                wallpaper.id = 6_000_000_000L + i * 2 + (if (night) 1 else 0)
-                wallpaper.flags = 4
-                wallpaper.dark = night
-                wallpaper.settings = colors
-                settings.wallpaper = wallpaper
-                settings.flags = settings.flags or 2
-                theme.settings.add(settings)
-            }
-            val data = SerializedData(theme.objectSize)
-            theme.serializeToStream(data)
-            editor.putString("theme_$i", Utilities.bytesToHex(data.toByteArray()))
-        }
-        editor.putInt("count", chatThemeEmoticons.size)
-            .putLong("hash", 4_242L)
-            .putLong("lastReload", System.currentTimeMillis())
-            .commit()
-    }
-
-    private fun clearChatThemes() {
-        ApplicationLoader.applicationContext.getSharedPreferences("chatthemeconfig_$account", Context.MODE_PRIVATE).edit().clear().commit()
-    }
-
-    // The server's theme list has no default themes for this app: the color
-    // theme list still has the home theme and every chat theme, nine in all,
-    // each with the four variants the list needs.
-    @Test
-    fun serverWithoutDefaultThemes_listsTheHomeAndChatThemes() {
-        seedChatThemes()
-        try {
-            instrumentation.runOnMainSync {
-                controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
-            }
-            val expected = 1 + chatThemeEmoticons.size
-            MZGramScreens.waitFor(15) { controller.defaultEmojiThemes.size >= expected }
-            val listed = themes()
-            MZGramScreens.log("color themes: ${listed.size}, ${listed.map { it.chatTheme.emoticonOrSlug }}")
-            assertEquals("themes in the color theme list", expected, listed.size)
-            assertEquals("the home theme first", "🏠", listed.first().chatTheme.emoticonOrSlug)
-            assertEquals(chatThemeEmoticons, listed.drop(1).map { it.chatTheme.emoticonOrSlug })
-            assertTrue("four variants each", listed.all { it.chatTheme.items.size >= 4 })
-        } finally {
-            clearChatThemes()
-        }
-    }
-
-    // The same on the screen: Settings > Chat settings, the color theme row.
-    @Test
-    fun appearance_listsAllStandardThemes() {
-        val self = TLRPC.TL_user()
-        self.id = 7_000_000_001L
-        self.first_name = "MZGram test self"
-        UserConfig.getInstance(account).setCurrentUser(self)
-        seedChatThemes()
-        try {
-            instrumentation.runOnMainSync {
-                controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
-            }
-            val expected = 1 + chatThemeEmoticons.size
-            MZGramScreens.waitFor(15) { controller.defaultEmojiThemes.size >= expected }
-            MZGramScreens.launchApp()
-            assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
-            val fragment = ThemeActivity(ThemeActivity.THEME_TYPE_BASIC)
-            MZGramScreens.open(fragment)
-            assertTrue("appearance shown", MZGramScreens.waitFor(30) { fragment.fragmentView?.isShown == true })
-            instrumentation.runOnMainSync {
-                val list = ThemeActivity::class.java.getDeclaredField("listView").also { it.isAccessible = true }.get(fragment)
-                val row = ThemeActivity::class.java.getDeclaredField("themeListRow2").also { it.isAccessible = true }.getInt(fragment)
-                list.javaClass.getMethod("scrollToPosition", Int::class.javaPrimitiveType).invoke(list, row)
-            }
-            var shown = 0
-            MZGramScreens.waitFor(15) {
-                val cell = MZGramScreens.findView(fragment.fragmentView, DefaultThemesPreviewCell::class.java)
-                shown = cell?.let { itemsOf(it).size } ?: 0
-                shown > expected
-            }
-            Thread.sleep(1500)
-            MZGramScreens.capture("appearance-all-themes")
-            MZGramScreens.log("appearance themes on the screen: $shown")
-            // The themes and the custom one ("🎨") the screen adds at the end.
-            assertEquals("themes in the color theme row", expected + 1, shown)
-            instrumentation.runOnMainSync { fragment.finishFragment() }
-        } finally {
-            clearChatThemes()
-        }
-    }
-
-    // The list already has the chat themes and the server again answers
-    // without default themes: the list must not drop to the home theme
-    // while the chat themes load again (a screen opened in that moment
-    // showed one theme).
-    @Test
-    fun serverWithoutDefaultThemesAgain_keepsTheListWhole() {
-        seedChatThemes()
-        val sizes = ArrayList<Int>()
-        val observer = NotificationCenter.NotificationCenterDelegate { _, _, _ -> sizes.add(controller.defaultEmojiThemes.size) }
-        try {
-            instrumentation.runOnMainSync {
-                controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
-            }
-            val expected = 1 + chatThemeEmoticons.size
-            assertTrue("chat themes listed", MZGramScreens.waitFor(15) { controller.defaultEmojiThemes.size >= expected })
-            Thread.sleep(1000)
-            instrumentation.runOnMainSync {
-                NotificationCenter.getGlobalInstance().addObserver(observer, NotificationCenter.emojiPreviewThemesChanged)
-                controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
-            }
-            Thread.sleep(2000)
-            instrumentation.runOnMainSync {
-                NotificationCenter.getGlobalInstance().removeObserver(observer, NotificationCenter.emojiPreviewThemesChanged)
-            }
-            MZGramScreens.log("theme list sizes after the second answer: $sizes")
-            assertTrue("the list dropped to the home theme: $sizes", sizes.none { it < expected })
-            assertEquals("themes in the color theme list", expected, themes().size)
-        } finally {
-            instrumentation.runOnMainSync {
-                NotificationCenter.getGlobalInstance().removeObserver(observer, NotificationCenter.emojiPreviewThemesChanged)
-            }
-            clearChatThemes()
-        }
-    }
-
-    // The theme list changes while Appearance is open (the chat themes come
-    // after the home theme, or a new answer replaces the list): the color
-    // theme row follows it without reopening the screen. Checked both ways,
-    // to the home theme alone and back to all nine, so it does not depend on
-    // what the list held when the screen opened.
-    @Test
-    fun appearance_rowFollowsTheListWhileItIsOpen() {
-        val self = TLRPC.TL_user()
-        self.id = 7_000_000_001L
-        self.first_name = "MZGram test self"
-        UserConfig.getInstance(account).setCurrentUser(self)
-        seedChatThemes()
-        try {
-            MZGramScreens.launchApp()
-            assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
-            val fragment = ThemeActivity(ThemeActivity.THEME_TYPE_BASIC)
-            MZGramScreens.open(fragment)
-            assertTrue("appearance shown", MZGramScreens.waitFor(30) { fragment.fragmentView?.isShown == true })
-            instrumentation.runOnMainSync {
-                val list = ThemeActivity::class.java.getDeclaredField("listView").also { it.isAccessible = true }.get(fragment)
-                val row = ThemeActivity::class.java.getDeclaredField("themeListRow2").also { it.isAccessible = true }.getInt(fragment)
-                list.javaClass.getMethod("scrollToPosition", Int::class.javaPrimitiveType).invoke(list, row)
-            }
-            // On the main thread: waitFor runs its check there
-            fun shown(): Int {
-                val cell = MZGramScreens.findView(fragment.fragmentView, DefaultThemesPreviewCell::class.java)
-                return cell?.let { itemsOf(it).size } ?: 0
-            }
-            var opened = 0
-            assertTrue("the color theme row", MZGramScreens.waitFor(15) { opened = shown(); opened > 0 })
-
-            // The list drops to the home theme: the row shows it and the custom theme ("🎨")
-            instrumentation.runOnMainSync {
-                controller.defaultEmojiThemes.clear()
-                controller.defaultEmojiThemes.addAll(MZGramDefaultThemes.homeOnly(account))
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged)
-            }
-            var homeOnly = 0
-            MZGramScreens.waitFor(10) { homeOnly = shown(); homeOnly == 2 }
-
-            // The chat themes come: all nine and the custom theme
-            instrumentation.runOnMainSync {
-                controller.generateEmojiPreviewThemes(ArrayList<TLRPC.TL_theme>(), account)
-            }
-            val expected = 1 + chatThemeEmoticons.size + 1
-            var full = 0
-            MZGramScreens.waitFor(15) { full = shown(); full == expected }
-            Thread.sleep(1500)
-            MZGramScreens.capture("appearance-themes-came-later")
-            MZGramScreens.log("appearance themes: opened with $opened, home theme only $homeOnly, after the chat themes $full")
-            assertEquals("themes in the row after the list dropped to the home theme", 2, homeOnly)
-            assertEquals("themes in the row after the chat themes came", expected, full)
-            instrumentation.runOnMainSync { fragment.finishFragment() }
-        } finally {
-            clearChatThemes()
-        }
-    }
+    // On the main thread: waitFor runs its check there
+    private fun rowOf(fragment: ThemeActivity) = MZGramScreens.findView(fragment.fragmentView, DefaultThemesPreviewCell::class.java)
 
     private fun itemsOf(cell: DefaultThemesPreviewCell): List<*> {
         val adapter = DefaultThemesPreviewCell::class.java.getDeclaredField("adapter").also { it.isAccessible = true }.get(cell)
         return adapter.javaClass.getField("items").get(adapter) as List<*>? ?: emptyList<Any>()
+    }
+
+    private fun selectedOf(cell: DefaultThemesPreviewCell) =
+        DefaultThemesPreviewCell::class.java.getDeclaredField("selectedPosition").also { it.isAccessible = true }.getInt(cell)
+
+    // The row's list, through reflection: the test classpath has no androidx.core
+    private fun rowList(cell: DefaultThemesPreviewCell): Any =
+        DefaultThemesPreviewCell::class.java.getDeclaredField("recyclerView").also { it.isAccessible = true }.get(cell)
+
+    private fun scrollRow(cell: DefaultThemesPreviewCell, position: Int) {
+        val list = rowList(cell)
+        list.javaClass.getMethod("scrollToPosition", Int::class.javaPrimitiveType).invoke(list, position)
+    }
+
+    // A tap on a theme of the row, as the row's own click listener gets it
+    private fun tapRow(cell: DefaultThemesPreviewCell, position: Int): Boolean {
+        val list = rowList(cell)
+        val holder = list.javaClass.getMethod("findViewHolderForAdapterPosition", Int::class.javaPrimitiveType).invoke(list, position) ?: return false
+        val view = holder.javaClass.getField("itemView").get(holder) as View
+        val listener = RecyclerListView::class.java.getDeclaredField("onItemClickListener").also { it.isAccessible = true }.get(list)
+        listener.javaClass.getMethod("onItemClick", View::class.java, Int::class.javaPrimitiveType).also { it.isAccessible = true }.invoke(listener, view, position)
+        return true
+    }
+
+    // What the user sees on Appearance after a fresh install with no answer:
+    // the home theme, the standard themes and the custom one ("🎨").
+    @Test
+    fun appearance_freshInstall_showsTheStandardThemes() {
+        controller.loadEmojiThemes()
+        waitForThemes(1 + localCount)
+        val fragment = openAppearance()
+        val expected = 1 + localCount + 1
+        var shown = 0
+        MZGramScreens.waitFor(15) { shown = rowOf(fragment)?.let { itemsOf(it).size } ?: 0; shown >= expected }
+        Thread.sleep(1500)
+        MZGramScreens.capture("appearance-standard-themes")
+        MZGramScreens.log("appearance themes on the screen: $shown")
+        assertEquals("themes in the color theme row", expected, shown)
+        instrumentation.runOnMainSync { fragment.finishFragment() }
+    }
+
+    // A standard theme picked before the update (its accent is saved with the
+    // theme) is still the selected one when Appearance opens again.
+    @Test
+    fun appearance_themeChosenBefore_isSelectedAfterReopening() {
+        controller.loadEmojiThemes()
+        waitForThemes(1 + localCount)
+        val fragment = openAppearance()
+        assertTrue("the row", MZGramScreens.waitFor(15) { rowOf(fragment)?.let { itemsOf(it).size > localCount } ?: false })
+        val chosen = 3
+        try {
+            instrumentation.runOnMainSync { scrollRow(rowOf(fragment)!!, chosen) }
+            Thread.sleep(800)
+            var tapped = false
+            instrumentation.runOnMainSync { tapped = tapRow(rowOf(fragment)!!, chosen) }
+            assertTrue("theme $chosen tapped", tapped)
+            Thread.sleep(1500)
+            val active = Theme.getActiveTheme()
+            MZGramScreens.log("picked theme $chosen: ${active.key} accent ${active.currentAccentId}")
+            instrumentation.runOnMainSync { fragment.finishFragment() }
+            Thread.sleep(800)
+
+            val again = openAppearance()
+            var selected = -1
+            MZGramScreens.waitFor(15) { selected = rowOf(again)?.let { selectedOf(it) } ?: -1; selected == chosen }
+            MZGramScreens.capture("appearance-theme-chosen-before")
+            assertEquals("the picked standard theme is selected after reopening", chosen, selected)
+            instrumentation.runOnMainSync { again.finishFragment() }
+        } finally {
+            // Back to the home theme for the other tests
+            val back = openAppearance()
+            MZGramScreens.waitFor(15) { rowOf(back) != null }
+            instrumentation.runOnMainSync { scrollRow(rowOf(back)!!, 0) }
+            Thread.sleep(800)
+            instrumentation.runOnMainSync { tapRow(rowOf(back)!!, 0) }
+            Thread.sleep(1000)
+            instrumentation.runOnMainSync { back.finishFragment() }
+        }
+    }
+
+    // The list changes while Appearance is open: the row follows it, both
+    // ways, without reopening the screen.
+    @Test
+    fun appearance_rowFollowsTheListWhileItIsOpen() {
+        controller.loadEmojiThemes()
+        waitForThemes(1 + localCount)
+        val fragment = openAppearance()
+        var opened = 0
+        assertTrue("the color theme row", MZGramScreens.waitFor(15) { opened = rowOf(fragment)?.let { itemsOf(it).size } ?: 0; opened > 0 })
+
+        instrumentation.runOnMainSync {
+            controller.defaultEmojiThemes.clear()
+            controller.defaultEmojiThemes.addAll(MZGramDefaultThemes.homeOnly(account))
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged)
+        }
+        var homeOnly = 0
+        MZGramScreens.waitFor(10) { homeOnly = rowOf(fragment)?.let { itemsOf(it).size } ?: 0; homeOnly == 2 }
+
+        instrumentation.runOnMainSync { controller.generateEmojiPreviewThemes(arrayListOf(serverTheme(1, "🐥")), account) }
+        val expected = 1 + localCount + 1 + 1
+        var full = 0
+        MZGramScreens.waitFor(15) { full = rowOf(fragment)?.let { itemsOf(it).size } ?: 0; full == expected }
+        MZGramScreens.log("appearance themes: opened with $opened, home theme only $homeOnly, after the answer $full")
+        assertEquals("themes in the row after the list dropped to the home theme", 2, homeOnly)
+        assertEquals("themes in the row after the answer", expected, full)
+        instrumentation.runOnMainSync { fragment.finishFragment() }
     }
 }

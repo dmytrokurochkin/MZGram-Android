@@ -141,12 +141,8 @@ public class AutoDeleteMediaTask {
 
             int maxCacheGb = SharedConfig.getPreferences().getInt("cache_limit", Integer.MAX_VALUE);
             if (maxCacheGb != Integer.MAX_VALUE) {
-                long maxCacheSize;
-                if (maxCacheGb == 1) {
-                    maxCacheSize = 1024L * 1024L * 300L;
-                } else {
-                    maxCacheSize = maxCacheGb * 1024L * 1024L * 1000L;
-                }
+                // MZGram: 1 is the 1 GB option, not upstream's 300 MB debug value
+                long maxCacheSize = maxCacheGb * 1024L * 1024L * 1000L;
                 long totalSize = 0;
                 for (int a = 0; a < paths.size(); a++) {
                     totalSize += Utilities.getDirSize(paths.valueAt(a).getAbsolutePath(), 0, true);

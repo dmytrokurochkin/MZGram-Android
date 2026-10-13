@@ -52,6 +52,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.AutoDeleteMediaTask;
 import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.CacheByChatsController;
@@ -2477,9 +2478,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
                     float totalSizeInGb = (int) (totalDeviceSize / 1024L / 1024L) / 1000.0f;
                     ArrayList<Integer> options = new ArrayList<>();
-//                    if (BuildVars.DEBUG_PRIVATE_VERSION) {
-//                        options.add(1);
-//                    }
+                    // MZGram: a 1 GB limit (upstream had 1 only as a 300 MB debug option)
+                    options.add(1);
                     if (totalSizeInGb <= 17) {
                         options.add(2);
                     }
@@ -2495,16 +2495,20 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                     options.add(Integer.MAX_VALUE);
                     String[] values = new String[options.size()];
                     for (int i = 0; i < options.size(); i++) {
-                        if (options.get(i) == 1) {
-                            values[i] = String.format("300 MB");
-                        } else if (options.get(i) == Integer.MAX_VALUE) {
+                        if (options.get(i) == Integer.MAX_VALUE) {
                             values[i] = LocaleController.getString(R.string.NoLimit);
                         } else {
                             values[i] = String.format("%d GB", options.get(i));
                         }
                     }
                     slideChooseView2.setCallback(i -> {
+                        int previousLimit = SharedConfig.getPreferences().getInt("cache_limit", Integer.MAX_VALUE);
                         SharedConfig.getPreferences().edit().putInt("cache_limit", options.get(i)).apply();
+                        // MZGram: a lower limit applies now, not at the next daily check
+                        if (options.get(i) < previousLimit) {
+                            SharedConfig.lastKeepMediaCheckTime = 0;
+                            AutoDeleteMediaTask.run();
+                        }
                     });
                     int currentLimit = SharedConfig.getPreferences().getInt("cache_limit", Integer.MAX_VALUE);
                     int i = options.indexOf(currentLimit);

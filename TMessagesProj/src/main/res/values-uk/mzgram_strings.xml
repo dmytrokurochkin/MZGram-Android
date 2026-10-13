@@ -214,4 +214,7 @@
     <string name="MZGramUpdateAvailable">Доступне оновлення MZGram %1$s</string>
     <string name="MZGramUpdateOpen">Оновити</string>
     <string name="MZGramUpdateClose">Закрити</string>
+    <string name="MZGramPinLocally">Закріпити лише в MZGram</string>
+    <string name="MZGramUnpinLocally">Відкріпити з MZGram</string>
+    <string name="MZGramPinnedLocally">Закріплено лише в MZGram: сервер не дозволяє більше закріплених чатів, тому цей закріплено на цьому пристрої, а на інших ваших пристроях ні.</string>
 </resources>

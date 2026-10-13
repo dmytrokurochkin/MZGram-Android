@@ -8800,13 +8800,24 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     maxPinnedCount = getMessagesController().maxPinnedDialogsCountDefault;
                 }
             }
+            // MZGram: past the server's limit, chats are pinned in MZGram only, up to MZGramLocalPins.MAX_TOTAL
+            if (!containsFilter) {
+                maxPinnedCount = Math.max(maxPinnedCount, org.telegram.messenger.mzgram.MZGramLocalPins.MAX_TOTAL);
+            }
             hasPinAction[0] = !(newPinnedSecretCount + pinnedSecretCount > maxPinnedCount || newPinnedCount + pinnedCount - alreadyAdded > maxPinnedCount);
         }
 
         if (hasPinAction[0]) {
             ActionBarMenuSubItem unpinItem = new ActionBarMenuSubItem(getParentActivity(), false, false);
+            boolean localList = filter == null && dialog != null;
             if (isDialogPinned(dialog)) {
-                unpinItem.setTextAndIcon(LocaleController.getString(R.string.UnpinMessage), R.drawable.msg_unpin);
+                if (localList && !dialog.pinned) {
+                    unpinItem.setTextAndIcon(LocaleController.getString(R.string.MZGramUnpinLocally), R.drawable.msg_unpin);
+                } else {
+                    unpinItem.setTextAndIcon(LocaleController.getString(R.string.UnpinMessage), R.drawable.msg_unpin);
+                }
+            } else if (localList && mzgramPinsLocally(dialogId, dialog.folder_id)) {
+                unpinItem.setTextAndIcon(LocaleController.getString(R.string.MZGramPinLocally), R.drawable.msg_pin);
             } else {
                 unpinItem.setTextAndIcon(LocaleController.getString(R.string.PinMessage), R.drawable.msg_pin);
             }
@@ -9234,7 +9245,44 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (filter != null) {
             return filter.pinnedDialogs.indexOfKey(dialog.id) >= 0;
         }
-        return dialog.pinned;
+        // MZGram: a chat pinned in MZGram only is pinned in this list too
+        return dialog.pinned || org.telegram.messenger.mzgram.MZGramLocalPins.getInstance(currentAccount).isPinned(dialog.id, dialog.folder_id);
+    }
+
+    // MZGram: the server's limit of pinned chats in the main list or the archive
+    private int mzgramServerPinLimit(int listFolderId) {
+        if (listFolderId != 0) {
+            return getUserConfig().isPremium() ? getMessagesController().maxFolderPinnedDialogsCountPremium : getMessagesController().maxFolderPinnedDialogsCountDefault;
+        }
+        return getUserConfig().isPremium() ? getMessagesController().maxPinnedDialogsCountPremium : getMessagesController().maxPinnedDialogsCountDefault;
+    }
+
+    // MZGram: pinned chats of a list on the server, and pinned in MZGram only
+    private int[] mzgramPinCounts(int listFolderId) {
+        int server = 0;
+        ArrayList<TLRPC.Dialog> dialogs = getMessagesController().getDialogs(listFolderId);
+        for (int a = 0, N = dialogs.size(); a < N; a++) {
+            TLRPC.Dialog d = dialogs.get(a);
+            if (!(d instanceof TLRPC.TL_dialogFolder) && d.pinned && !DialogObject.isEncryptedDialog(d.id)) {
+                server++;
+            }
+        }
+        int local = 0;
+        for (long id : org.telegram.messenger.mzgram.MZGramLocalPins.getInstance(currentAccount).get(listFolderId)) {
+            if (getMessagesController().dialogs_dict.get(id) != null) {
+                local++;
+            }
+        }
+        return new int[] {server, local};
+    }
+
+    // MZGram: whether pinning this chat now pins it in MZGram only
+    private boolean mzgramPinsLocally(long dialogId, int listFolderId) {
+        if (DialogObject.isEncryptedDialog(dialogId)) {
+            return false;
+        }
+        int[] counts = mzgramPinCounts(listFolderId);
+        return org.telegram.messenger.mzgram.MZGramLocalPins.pinsLocally(counts[0], counts[1], mzgramServerPinLimit(listFolderId));
     }
 
     private void performSelectedDialogsAction(ArrayList<Long> selectedDialogs, int action, boolean alert, boolean longPress) {
@@ -9331,6 +9379,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
             } else {
                 maxPinnedCount = getUserConfig().isPremium() ? getMessagesController().dialogFiltersPinnedLimitPremium : getMessagesController().dialogFiltersPinnedLimitDefault;
+            }
+            // MZGram: past the server's limit, chats are pinned in MZGram only, up to MZGramLocalPins.MAX_TOTAL
+            if (!containsFilter) {
+                maxPinnedCount = Math.max(maxPinnedCount, org.telegram.messenger.mzgram.MZGramLocalPins.MAX_TOTAL);
             }
             if (newPinnedSecretCount + pinnedSecretCount > maxPinnedCount || newPinnedCount + pinnedCount - alreadyAdded > maxPinnedCount) {
                 if (folderId != 0 || filter != null) {
@@ -9770,7 +9822,34 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             updated = true;
         } else {
-            updated = getMessagesController().pinDialog(selectedDialog, pin, null, -1);
+            // MZGram: past the server's limit the chat is pinned in MZGram only
+            // (MZGramLocalPins), without a request to the server
+            org.telegram.messenger.mzgram.MZGramLocalPins localPins = org.telegram.messenger.mzgram.MZGramLocalPins.getInstance(currentAccount);
+            TLRPC.Dialog pinnedDialog = getMessagesController().dialogs_dict.get(selectedDialog);
+            int listFolderId = pinnedDialog != null ? pinnedDialog.folder_id : folderId;
+            if (!pin && localPins.isPinned(selectedDialog, listFolderId)) {
+                localPins.unpin(selectedDialog, listFolderId);
+                if (pinnedDialog != null && pinnedDialog.pinned) {
+                    getMessagesController().pinDialog(selectedDialog, false, null, -1);
+                } else {
+                    getMessagesController().sortDialogs(null);
+                    getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload);
+                }
+                updated = true;
+            } else if (pin && pinnedDialog != null && !pinnedDialog.pinned && mzgramPinsLocally(selectedDialog, listFolderId)) {
+                localPins.pin(selectedDialog, listFolderId);
+                getMessagesController().sortDialogs(null);
+                getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload);
+                updated = true;
+                // After the "Chat pinned" note the caller shows
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (getParentActivity() != null) {
+                        BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_pin, LocaleController.getString(R.string.MZGramPinnedLocally)).show();
+                    }
+                }, 1700);
+            } else {
+                updated = getMessagesController().pinDialog(selectedDialog, pin, null, -1);
+            }
         }
 
 

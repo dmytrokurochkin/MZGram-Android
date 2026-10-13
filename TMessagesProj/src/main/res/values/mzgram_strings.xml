@@ -213,4 +213,7 @@
     <string name="MZGramUpdateAvailable">MZGram %1$s update available</string>
     <string name="MZGramUpdateOpen">Update</string>
     <string name="MZGramUpdateClose">Close</string>
+    <string name="MZGramPinLocally">Pin in MZGram only</string>
+    <string name="MZGramUnpinLocally">Unpin from MZGram</string>
+    <string name="MZGramPinnedLocally">Pinned in MZGram only: the server allows no more pinned chats, so this one is pinned on this device and not on your other devices.</string>
 </resources>

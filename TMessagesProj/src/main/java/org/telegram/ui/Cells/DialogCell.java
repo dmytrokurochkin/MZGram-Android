@@ -596,6 +596,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     private boolean drawReorder;
     private boolean drawPinBackground;
     private boolean drawPin;
+    // MZGram: pinned in MZGram only (MZGramLocalPins): the pin has another color
+    private boolean drawLocalPin;
     private boolean drawPinForced;
     private int pinTop;
     private int pinLeft;
@@ -3276,7 +3278,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             MessagesController.DialogFilter filter = MessagesController.getInstance(currentAccount).selectedDialogFilter[dialogsType == 8 ? 1 : 0];
                             drawPin = filter != null && filter.pinnedDialogs.indexOfKey(dialog.id) >= 0;
                         } else {
-                            drawPin = currentDialogFolderId == 0 && dialog.pinned;
+                            drawLocalPin = currentDialogFolderId == 0 && !dialog.pinned && org.telegram.messenger.mzgram.MZGramLocalPins.getInstance(currentAccount).isPinned(dialog.id, dialog.folder_id);
+                            drawPin = currentDialogFolderId == 0 && (dialog.pinned || drawLocalPin);
                         }
                         if (message != null) {
                             lastSendState = message.messageOwner.send_state;
@@ -4148,7 +4151,13 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     canvas.drawRoundRect(l, y, r, y + dp(17), dp(17 / 2f), dp(17 / 2f), timeTextPaint);
                     timeTextPaint.setAlpha(a);
 
-                    pd.draw(canvas);
+                    if (drawLocalPin) {
+                        pd.setColorFilter(new android.graphics.PorterDuffColorFilter(Theme.getColor(Theme.key_chats_onlineCircle, resourcesProvider), android.graphics.PorterDuff.Mode.SRC_IN));
+                        pd.draw(canvas);
+                        pd.setColorFilter(null);
+                    } else {
+                        pd.draw(canvas);
+                    }
                 }
 
                 final int tpColor = timeLayout.getPaint().getColor();

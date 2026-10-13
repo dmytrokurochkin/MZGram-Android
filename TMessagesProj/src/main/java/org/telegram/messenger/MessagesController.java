@@ -1454,6 +1454,19 @@ public class MessagesController extends BaseController implements NotificationCe
                 return 0;
             }
         }
+        // MZGram: the chats pinned in MZGram only (MZGramLocalPins) come right
+        // after the server's pinned chats, in the order they were pinned
+        org.telegram.messenger.mzgram.MZGramLocalPins localPins = org.telegram.messenger.mzgram.MZGramLocalPins.getInstance(currentAccount);
+        int local1 = localPins.index(dialog1.id, dialog1.folder_id);
+        int local2 = localPins.index(dialog2.id, dialog2.folder_id);
+        if (local1 >= 0 || local2 >= 0) {
+            if (local2 < 0) {
+                return -1;
+            } else if (local1 < 0) {
+                return 1;
+            }
+            return Integer.compare(local1, local2);
+        }
         MediaDataController mediaDataController = getMediaDataController();
         long date1 = DialogObject.getLastMessageOrDraftDate(dialog1, mediaDataController.getDraft(dialog1.id, 0));
         long date2 = DialogObject.getLastMessageOrDraftDate(dialog2, mediaDataController.getDraft(dialog2.id, 0));

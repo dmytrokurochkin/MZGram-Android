@@ -65,6 +65,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SEMI_TRANSPARENT_DELETED = 50;
     private static final int BUTTON_ERASE_LOCAL_DATABASE = 51;
     private static final int BUTTON_HIDE_CAMERA_TILE = 52;
+    private static final int BUTTON_CHECK_UPDATES = 53;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
@@ -310,6 +311,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private void fillOther(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_CHECK_UPDATES, getString(R.string.MZGramCheckUpdates)).setChecked(MZGramConfig.checkUpdates));
+        items.add(UItem.asShadow(getString(R.string.MZGramCheckUpdatesInfo)));
         items.add(UItem.asCheck(BUTTON_TEST_TOGGLE, getString(R.string.MZGramTestToggle)).setChecked(MZGramConfig.testToggle));
         items.add(UItem.asShadow(getString(R.string.MZGramTestToggleInfo)));
     }
@@ -345,6 +348,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DISABLE_INSTANT_CAMERA) {
             MZGramConfig.toggleDisableInstantCamera();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableInstantCamera);
+        } else if (item.id == BUTTON_CHECK_UPDATES) {
+            MZGramConfig.toggleCheckUpdates();
+            ((TextCheckCell) view).setChecked(MZGramConfig.checkUpdates);
+            MZGramUpdateBanner banner = MZGramUpdateBanner.current();
+            if (!MZGramConfig.checkUpdates && banner != null) {
+                banner.hide();
+            }
         } else if (item.id == BUTTON_HIDE_CAMERA_TILE) {
             MZGramConfig.toggleHideCameraTile();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideCameraTile);

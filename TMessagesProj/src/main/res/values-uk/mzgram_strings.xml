@@ -209,4 +209,9 @@
     <string name="MZGramPushTestFailed">Не вдалося надіслати тестовий пуш: %1$s</string>
     <string name="MZGramPushTestNoEndpoint">Поки нема куди надсилати: розподільник ще не дав адресу або шлюз вимкнено.</string>
     <string name="MZGramPushDiagnosticsEvents">Події:</string>
+    <string name="MZGramCheckUpdates">Перевіряти оновлення MZGram</string>
+    <string name="MZGramCheckUpdatesInfo">Раз на кілька годин MZGram шукає свій останній стабільний реліз на GitHub і показує плашку внизу екрана, якщо він новіший. Оновити відкриває сторінку релізу; застосунок нічого не завантажує і не встановлює. Власна перевірка оновлень Telegram вимкнена: вона пропонує офіційний застосунок, який не може оновити MZGram.</string>
+    <string name="MZGramUpdateAvailable">Доступне оновлення MZGram %1$s</string>
+    <string name="MZGramUpdateOpen">Оновити</string>
+    <string name="MZGramUpdateClose">Закрити</string>
 </resources>

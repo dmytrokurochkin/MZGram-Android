@@ -208,4 +208,9 @@
     <string name="MZGramPushTestFailed">The test push could not be sent: %1$s</string>
     <string name="MZGramPushTestNoEndpoint">There is nothing to send to yet: the distributor has not given an endpoint, or the gateway is turned off.</string>
     <string name="MZGramPushDiagnosticsEvents">Events:</string>
+    <string name="MZGramCheckUpdates">Check for MZGram updates</string>
+    <string name="MZGramCheckUpdatesInfo">Every few hours MZGram looks for its latest stable release on GitHub and shows a bar at the bottom of the screen when it is newer. Update opens the release page; nothing is downloaded or installed by the app. The update check of Telegram itself is off: it offers the official app, which cannot update MZGram.</string>
+    <string name="MZGramUpdateAvailable">MZGram %1$s update available</string>
+    <string name="MZGramUpdateOpen">Update</string>
+    <string name="MZGramUpdateClose">Close</string>
 </resources>

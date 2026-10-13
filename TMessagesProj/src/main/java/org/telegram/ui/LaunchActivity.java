@@ -307,6 +307,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private FrameLayout shadowTablet;
     private SizeNotifierFrameLayout backgroundTablet;
     public FrameLayout frameLayout;
+    // MZGram: the bar about a newer MZGram release (MZGramUpdateChecker)
+    public org.telegram.ui.mzgram.MZGramUpdateBanner mzgramUpdateBanner;
+    // MZGram: true, Telegram's own update check below is never reached
+    private static final boolean MZGRAM_UPDATE_CHECK = true;
     private FireworksOverlay fireworksOverlay;
     private BottomSheetTabsOverlay bottomSheetTabsOverlay;
     public DrawerLayoutContainer drawerLayoutContainer;
@@ -507,6 +511,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         drawerLayoutContainer.setClipToPadding(false);
 
         frameLayout.addView(drawerLayoutContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        frameLayout.addView(mzgramUpdateBanner = new org.telegram.ui.mzgram.MZGramUpdateBanner(this), org.telegram.ui.mzgram.MZGramUpdateBanner.layoutParams());
 
         themeSwitchSunView = new ImageView(this) {
             @Override

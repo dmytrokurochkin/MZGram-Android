@@ -191,6 +191,8 @@ class MZGramUpdateCheckerTest {
         val opened = ArrayList<String>()
         MZGramUpdateBanner.opener = MZGramUpdateBanner.Opener { _, url -> opened.add(url) }
         answer = { ok(release("v1.0.1")) }
+        // Past the check the app made on its own when it opened
+        later()
         val offered = MZGramUpdateChecker.checkNow(false)!!
 
         instrumentation.runOnMainSync { banner.show(offered) }

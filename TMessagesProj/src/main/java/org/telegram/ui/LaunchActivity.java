@@ -5959,6 +5959,32 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     private boolean firstAppUpdateCheck = true;
     public void checkAppUpdate(boolean force, Browser.Progress progress) {
+        // MZGram: Telegram's own check (help.getAppUpdate) offers the official
+        // app, signed with another key, which cannot update MZGram. MZGram
+        // looks at its own GitHub releases instead; an update saved by the
+        // old check (pendingAppUpdate, which can force an update screen) is dropped.
+        if (MZGRAM_UPDATE_CHECK) {
+            if (SharedConfig.pendingAppUpdate != null) {
+                SharedConfig.pendingAppUpdate = null;
+                SharedConfig.saveConfig();
+            }
+            org.telegram.messenger.mzgram.MZGramUpdateChecker.check(force, release -> {
+                if (progress != null) {
+                    progress.end();
+                }
+                if (release != null) {
+                    if (mzgramUpdateBanner != null) {
+                        mzgramUpdateBanner.show(release);
+                    }
+                } else if (force) {
+                    BaseFragment fragment = getLastFragment();
+                    if (fragment != null) {
+                        BulletinFactory.of(fragment).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.YourVersionIsLatest)).show();
+                    }
+                }
+            });
+            return;
+        }
         if (!ApplicationLoader.isStandaloneBuild() && !ApplicationLoader.isBetaBuild()) {
             return;
         }

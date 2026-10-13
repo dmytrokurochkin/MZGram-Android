@@ -216,7 +216,10 @@ jobs:
           # (#153, #155, #156, in MZGramAttachGalleryTest). The camera tile and
           # its tap handling do not need camera hardware; the live preview is
           # not covered by CI.
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -camera-back none -camera-front none
+          # swangle_indirect: the emulator still died in the gallery tests with
+          # swiftshader_indirect and no cameras (#157, #159, no OOM kill), the
+          # last frames going through its host GL pipe at about a second each.
+          emulator-options: -no-window -gpu swangle_indirect -noaudio -no-boot-anim -no-snapshot -camera-back none -camera-front none
           script: |
             bash .github/scripts/mzgram_tests.sh
             bash .github/scripts/mzgram_rotation_check.sh

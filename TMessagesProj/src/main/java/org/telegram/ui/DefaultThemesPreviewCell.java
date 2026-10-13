@@ -94,7 +94,8 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             ChatThemeBottomSheet.ChatThemeItem chatTheme = adapter.items.get(position);
             Theme.ThemeInfo info = chatTheme.chatTheme.getThemeInfo(themeIndex);
             int accentId = -1;
-            if (chatTheme.chatTheme.getEmoticonOrSlug().equals("\uD83C\uDFE0") || chatTheme.chatTheme.getEmoticonOrSlug().equals("\uD83C\uDFA8")) {
+            // MZGram: a local standard theme carries its accent like the home theme
+            if (chatTheme.chatTheme.getEmoticonOrSlug().equals("\uD83C\uDFE0") || chatTheme.chatTheme.getEmoticonOrSlug().equals("\uD83C\uDFA8") || org.telegram.messenger.mzgram.MZGramDefaultThemes.isLocal(chatTheme.chatTheme)) {
                 accentId = chatTheme.chatTheme.getAccentId(themeIndex);
             }
             if (info == null) {

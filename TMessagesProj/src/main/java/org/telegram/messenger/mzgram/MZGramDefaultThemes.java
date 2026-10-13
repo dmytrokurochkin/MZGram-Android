@@ -2,40 +2,137 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Settings > Chat settings (Appearance) > Color theme lists
- * MediaDataController.defaultEmojiThemes: the home theme (Classic, Day,
- * Night, Tinted) and the theme set the server marks as default in
- * account.getThemes (the emoji themes).
+ * Settings > Chat settings (Appearance) > the color theme row
+ * (MediaDataController.defaultEmojiThemes).
  *
- * When the server's answer has no default themes, or has not come yet, the
- * list holds the home theme and the chat themes of account.getChatThemes
- * (the emoji themes the chat theme picker shows) instead of the home theme
- * alone. A chat theme has a light and a dark setting, while the list needs
- * four variants (day, day, night, night), so each setting is used twice.
+ * Upstream fills the row only from the server: the home theme plus the
+ * themes account.getThemes marks as default, and keeps the last answer. On a
+ * phone that list could stay at the home theme alone: a fresh install whose
+ * answer did not come, an update over a build that saved an answer without
+ * usable themes (the saved list is then read back and never asked again), or
+ * an answer without default themes for this app.
  *
- * Theme.loadRemoteThemes asks with the saved hash only once the list holds
- * more than the home theme (hasServerThemes), otherwise the answer is "not
- * modified" and the emoji themes never come.
+ * MZGram builds the standard themes itself, from the color accents Telegram
+ * ships for its built-in themes (Classic, Day, Night, Tinted), so the row
+ * always has them: no network, no saved answer and no account needed. Each
+ * local theme has the four variants the row needs, the same way the home
+ * theme has (a built-in theme and one of its accents per variant), so picking
+ * it works offline. Themes from the server are only added after them.
  */
 
 package org.telegram.messenger.mzgram;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatThemeController;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.EmojiThemes;
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.theme.ThemeKey;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class MZGramDefaultThemes {
 
     private static final String HOME_EMOJI = "🏠";
+
+    // The label of each local theme in the row, in order. Not the emoji of
+    // the server's chat themes, so a server theme is never mistaken for one.
+    public static final String[] LOCAL_EMOJI = {
+            "🌊", // water wave
+            "🌿", // herb
+            "🍑", // peach
+            "🌸", // cherry blossom
+            "🍇", // grapes
+            "☁️", // cloud
+            "🔥", // fire
+            "🌙", // crescent moon
+    };
+
+    // The built-in themes of the four variants: day (Classic, Day), night (Night, Tinted)
+    private static final String[] BASE_THEMES = {"Blue", "Day", "Night", "Dark Blue"};
+    // The accent of each base theme the home theme already uses
+    private static final int[] HOME_ACCENTS = {Theme.DEFALT_THEME_ACCENT_ID, 9, 0, 0};
+
+    // Accents Telegram ships with a built-in theme: ids below 100; custom and
+    // server accents get ids from 101 on.
+    private static ArrayList<Integer> builtInAccents(Theme.ThemeInfo info, int homeAccent) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        if (info == null || info.themeAccents == null) {
+            return ids;
+        }
+        for (Theme.ThemeAccent accent : info.themeAccents) {
+            if (accent != null && accent.info == null && accent.id < 100 && accent.id != homeAccent && accent.id != Theme.DEFALT_THEME_ACCENT_ID) {
+                ids.add(accent.id);
+            }
+        }
+        return ids;
+    }
+
+    // The standard themes, built here: LOCAL_EMOJI.length of them, or fewer
+    // when a built-in theme has fewer accents.
+    public static ArrayList<EmojiThemes> localThemes(int account) {
+        ArrayList<ArrayList<Integer>> accents = new ArrayList<>();
+        Theme.ThemeInfo[] infos = new Theme.ThemeInfo[BASE_THEMES.length];
+        int count = LOCAL_EMOJI.length;
+        for (int i = 0; i < BASE_THEMES.length; i++) {
+            infos[i] = Theme.getTheme(BASE_THEMES[i]);
+            ArrayList<Integer> ids = builtInAccents(infos[i], HOME_ACCENTS[i]);
+            accents.add(ids);
+            count = Math.min(count, ids.size());
+        }
+        ArrayList<EmojiThemes> result = new ArrayList<>();
+        for (int k = 0; k < count; k++) {
+            EmojiThemes theme = new EmojiThemes(account);
+            theme.emoji = LOCAL_EMOJI[k];
+            theme.key = ThemeKey.ofEmoticon(theme.emoji);
+            theme.chatTheme = TLRPC.ChatTheme.ofEmoticon(theme.emoji);
+            theme.mzgramLocal = true;
+            for (int i = 0; i < BASE_THEMES.length; i++) {
+                EmojiThemes.ThemeItem item = new EmojiThemes.ThemeItem();
+                item.themeInfo = infos[i];
+                item.accentId = accents.get(i).get(k);
+                theme.items.add(item);
+            }
+            result.add(theme);
+        }
+        return result;
+    }
+
+    public static boolean isLocal(EmojiThemes theme) {
+        return theme != null && theme.mzgramLocal;
+    }
+
+    // The row: the home theme, the local standard themes, then the server's
+    // themes that have the four variants (and are not repeated).
+    public static ArrayList<ChatThemeBottomSheet.ChatThemeItem> list(int account, List<TLRPC.TL_theme> serverThemes) {
+        ArrayList<ChatThemeBottomSheet.ChatThemeItem> items = new ArrayList<>();
+        items.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme(account)));
+        HashSet<String> seen = new HashSet<>();
+        seen.add(HOME_EMOJI);
+        for (EmojiThemes theme : localThemes(account)) {
+            seen.add(theme.emoji);
+            items.add(new ChatThemeBottomSheet.ChatThemeItem(theme));
+        }
+        if (serverThemes != null) {
+            for (TLRPC.TL_theme server : serverThemes) {
+                EmojiThemes theme = preview(account, server);
+                if (theme == null || theme.items.size() < 4) {
+                    continue;
+                }
+                String emoticon = theme.getEmoticonOrSlug();
+                if (emoticon != null && !seen.add(emoticon)) {
+                    continue;
+                }
+                items.add(new ChatThemeBottomSheet.ChatThemeItem(theme));
+            }
+        }
+        return items;
+    }
 
     // The list with the home theme only, built without the network.
     public static ArrayList<ChatThemeBottomSheet.ChatThemeItem> homeOnly(int account) {
@@ -44,19 +141,21 @@ public class MZGramDefaultThemes {
         return items;
     }
 
-    // True when the list has more than the home theme.
+    // True when the list holds themes from the server's answer; until then
+    // Theme.loadRemoteThemes asks for the whole list (hash 0), a saved hash
+    // would get "not modified" back and the server's themes would never come.
     public static boolean hasServerThemes(MediaDataController controller) {
         for (ChatThemeBottomSheet.ChatThemeItem item : controller.defaultEmojiThemes) {
-            if (item != null && item.chatTheme != null && !HOME_EMOJI.equals(item.chatTheme.getEmoticonOrSlug())) {
+            if (item != null && item.chatTheme != null && !isLocal(item.chatTheme) && item.chatTheme.getTlTheme(0) != null) {
                 return true;
             }
         }
         return false;
     }
 
-    // A theme as the color theme list shows it, with four variants, or null
-    // when it has no settings, or a setting without the wallpaper colors the
-    // list's preview draws from.
+    // A server theme as the row shows it, with four variants, or null when it
+    // has no settings, or a setting without the wallpaper colors the row's
+    // preview draws from.
     public static EmojiThemes preview(int account, TLRPC.TL_theme theme) {
         if (theme == null || theme.settings == null || theme.settings.isEmpty()) {
             return null;
@@ -90,52 +189,16 @@ public class MZGramDefaultThemes {
         return EmojiThemes.createPreviewFullTheme(account, four);
     }
 
-    // MediaDataController, when the server gave no default themes: the home
-    // theme at once, then the chat themes after it, unless the server's
-    // themes came in the meantime. A list that already has the chat themes
-    // stays as it is while they load again: dropping it to the home theme
-    // for that moment left an Appearance screen opened then with one theme.
-    public static void fill(MediaDataController controller, int account) {
-        if (controller.defaultEmojiThemes.isEmpty()) {
-            show(controller, account, homeOnly(account), false);
-        }
-        ChatThemeController.getInstance(account).requestAllChatThemes(new ResultCallback<List<EmojiThemes>>() {
-            @Override
-            public void onComplete(List<EmojiThemes> chatThemes) {
-                ArrayList<ChatThemeBottomSheet.ChatThemeItem> items = homeOnly(account);
-                if (chatThemes != null) {
-                    for (EmojiThemes chatTheme : chatThemes) {
-                        if (chatTheme == null || chatTheme.isAnyStub() || chatTheme.isGiftTheme()) {
-                            continue;
-                        }
-                        EmojiThemes theme = preview(account, chatTheme.getTlTheme(0));
-                        if (theme != null) {
-                            items.add(new ChatThemeBottomSheet.ChatThemeItem(theme));
-                        }
-                    }
-                }
-                FileLog.d("MZGram: color theme list from " + (items.size() - 1) + " chat themes");
-                if (items.size() > 1) {
-                    show(controller, account, items, true);
-                }
-            }
-
-            @Override
-            public void onError(TLRPC.TL_error error) {
-                FileLog.d("MZGram: no chat themes for the color theme list: " + (error == null ? "no answer" : error.text));
-            }
-        }, false);
-    }
-
-    private static void show(MediaDataController controller, int account, ArrayList<ChatThemeBottomSheet.ChatThemeItem> items, boolean onlyOverHomeTheme) {
+    // MediaDataController: puts the row together and shows it. The local
+    // themes are there at once; serverThemes may be null (nothing saved or
+    // no answer yet).
+    public static void publish(MediaDataController controller, int account, List<TLRPC.TL_theme> serverThemes) {
+        ArrayList<ChatThemeBottomSheet.ChatThemeItem> items = list(account, serverThemes);
         ChatThemeController.chatThemeQueue.postRunnable(() -> {
             for (ChatThemeBottomSheet.ChatThemeItem item : items) {
                 item.chatTheme.loadPreviewColors(account);
             }
             AndroidUtilities.runOnUIThread(() -> {
-                if (onlyOverHomeTheme && hasServerThemes(controller)) {
-                    return;
-                }
                 controller.defaultEmojiThemes.clear();
                 controller.defaultEmojiThemes.addAll(items);
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged);

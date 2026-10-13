@@ -40,6 +40,8 @@ public class EmojiThemes {
     public static final String REMOVED_EMOJI = "❌";
 
     public boolean showAsDefaultStub;
+    // MZGram: a standard theme built locally (MZGramDefaultThemes), not from the server
+    public boolean mzgramLocal;
     public boolean showAsRemovedStub;
     public ThemeKey key;
     public TLRPC.ChatTheme chatTheme;

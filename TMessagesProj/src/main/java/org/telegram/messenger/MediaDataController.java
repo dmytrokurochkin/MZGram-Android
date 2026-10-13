@@ -9314,44 +9314,28 @@ public class MediaDataController extends BaseController {
     }
 
     public void loadEmojiThemes() {
+        // MZGram: the row always starts with the home theme and the standard
+        // themes built locally (MZGramDefaultThemes); the saved server themes,
+        // if any can be read, are added after them. Upstream showed only what
+        // was saved, so a saved answer without usable themes left the home
+        // theme alone until the server's list changed.
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("emojithemes_config_" + currentAccount, Context.MODE_PRIVATE);
         int count = preferences.getInt("count", 0);
-        // MZGram: nothing saved from the server yet, or it gave no default
-        // themes -- the home theme and the chat themes, see MZGramDefaultThemes.
-        if (count == 0) {
-            AndroidUtilities.runOnUIThread(() -> org.telegram.messenger.mzgram.MZGramDefaultThemes.fill(this, currentAccount));
-            return;
-        }
-        ArrayList<ChatThemeBottomSheet.ChatThemeItem> previewItems = new ArrayList<>();
-        previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme(currentAccount)));
+        ArrayList<TLRPC.TL_theme> saved = new ArrayList<>();
         for (int i = 0; i < count; ++i) {
             String value = preferences.getString("theme_" + i, "");
             SerializedData serializedData = new SerializedData(Utilities.hexToBytes(value));
             try {
                 TLRPC.TL_theme theme = TLRPC.Theme.TLdeserialize(serializedData, serializedData.readInt32(true), true);
-                EmojiThemes fullTheme = EmojiThemes.createPreviewFullTheme(currentAccount, theme);
-                if (fullTheme.items.size() >= 4) {
-                    previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(fullTheme));
+                if (theme != null) {
+                    saved.add(theme);
                 }
-
-                ChatThemeController.chatThemeQueue.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < previewItems.size(); i++) {
-                            if (previewItems.get(i) != null && previewItems.get(i).chatTheme != null) {
-                                previewItems.get(i).chatTheme.loadPreviewColors(0);
-                            }
-                        }
-                        AndroidUtilities.runOnUIThread(() -> {
-                            defaultEmojiThemes.clear();
-                            defaultEmojiThemes.addAll(previewItems);
-                        });
-                    }
-                });
             } catch (Throwable e) {
                 FileLog.e(e);
             }
+            serializedData.cleanup();
         }
+        AndroidUtilities.runOnUIThread(() -> org.telegram.messenger.mzgram.MZGramDefaultThemes.publish(this, currentAccount, saved));
     }
 
     public void generateEmojiPreviewThemes(final ArrayList<TLRPC.TL_theme> emojiPreviewThemes, int currentAccount) {
@@ -9366,41 +9350,9 @@ public class MediaDataController extends BaseController {
         }
         editor.apply();
 
-        if (!emojiPreviewThemes.isEmpty()) {
-            final ArrayList<ChatThemeBottomSheet.ChatThemeItem> previewItems = new ArrayList<>();
-            previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme(currentAccount)));
-            for (int i = 0; i < emojiPreviewThemes.size(); i++) {
-                TLRPC.TL_theme theme = emojiPreviewThemes.get(i);
-                EmojiThemes chatTheme = EmojiThemes.createPreviewFullTheme(currentAccount, theme);
-                ChatThemeBottomSheet.ChatThemeItem item = new ChatThemeBottomSheet.ChatThemeItem(chatTheme);
-                if (chatTheme.items.size() >= 4) {
-                    previewItems.add(item);
-                }
-            }
-            // MZGram: none of the default themes has the four variants the
-            // list needs -- the home theme and the chat themes instead.
-            if (previewItems.size() <= 1) {
-                org.telegram.messenger.mzgram.MZGramDefaultThemes.fill(this, currentAccount);
-                return;
-            }
-            ChatThemeController.chatThemeQueue.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i < previewItems.size(); i++) {
-                        previewItems.get(i).chatTheme.loadPreviewColors(currentAccount);
-                    }
-                    AndroidUtilities.runOnUIThread(() -> {
-                        defaultEmojiThemes.clear();
-                        defaultEmojiThemes.addAll(previewItems);
-                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged);
-                    });
-                }
-            });
-        } else {
-            // MZGram: no default themes in the answer -- the home theme and
-            // the chat themes instead of an empty list, see MZGramDefaultThemes.
-            org.telegram.messenger.mzgram.MZGramDefaultThemes.fill(this, currentAccount);
-        }
+        // MZGram: the home theme, the local standard themes, then the
+        // server's default themes that have the four variants the row needs.
+        org.telegram.messenger.mzgram.MZGramDefaultThemes.publish(this, currentAccount, emojiPreviewThemes);
     }
 
     //---------------- EMOJI END ----------------

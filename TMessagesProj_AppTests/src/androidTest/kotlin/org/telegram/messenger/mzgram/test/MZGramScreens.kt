@@ -57,7 +57,18 @@ object MZGramScreens {
         }
         val intent = Intent(instrumentation.targetContext, LaunchActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        return instrumentation.startActivitySync(intent)
+        // Not startActivitySync: it waits for the main thread to go idle, and
+        // the chat list of the test account (no key for the server) loads
+        // forever, its placeholder animating every frame.
+        instrumentation.targetContext.startActivity(intent)
+        var launched: Activity? = null
+        waitFor(45) {
+            launched = androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry.getInstance()
+                .getActivitiesInStage(androidx.test.runner.lifecycle.Stage.RESUMED)
+                .firstOrNull { it is LaunchActivity && !it.isFinishing }
+            launched != null
+        }
+        return launched ?: throw AssertionError("the app did not open")
     }
 
     fun waitFor(timeoutSec: Int, check: () -> Boolean): Boolean {

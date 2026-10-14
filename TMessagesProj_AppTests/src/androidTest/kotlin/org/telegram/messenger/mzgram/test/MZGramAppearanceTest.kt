@@ -110,13 +110,17 @@ class MZGramAppearanceTest {
         assertTrue("switched to night: ${A.describe()}", MZGramScreens.waitFor(10) { Theme.getActiveTheme().isDark })
         Thread.sleep(1500)
         val night = A.brightness(MZGramScreens.capture("appearance-3-night"))
-        MZGramScreens.log("appearance: day/night switch -> ${A.describe()}, selected ${A.rowSelected(A.row(basic)!!)}")
+        // The row updates once the colors of the new theme are worked out in the background
+        var atNight = -1
+        MZGramScreens.waitFor(10) { atNight = A.row(basic)?.let { A.rowSelected(it) } ?: -1; atNight == 0 }
+        MZGramScreens.log("appearance: day/night switch -> ${A.describe()}, selected $atNight")
         assertTrue("the screen turned dark: $day -> $night", night < day - 60)
-        assertEquals("the home theme stays selected at night", 0, A.rowSelected(A.row(basic)!!))
+        assertEquals("the home theme stays selected at night", 0, atNight)
         A.tap(A.dayNightSwitch(A.row(basic)!!))
         assertTrue("switched back to day: ${A.describe()}", MZGramScreens.waitFor(10) { !Theme.getActiveTheme().isDark })
-        Thread.sleep(1500)
-        assertEquals("the home theme stays selected by day", 0, A.rowSelected(A.row(basic)!!))
+        var byDay = -1
+        MZGramScreens.waitFor(10) { byDay = A.row(basic)?.let { A.rowSelected(it) } ?: -1; byDay == 0 }
+        assertEquals("the home theme stays selected by day", 0, byDay)
         A.close(basic)
 
         val nightMode = A.open(ThemeActivity.THEME_TYPE_NIGHT)

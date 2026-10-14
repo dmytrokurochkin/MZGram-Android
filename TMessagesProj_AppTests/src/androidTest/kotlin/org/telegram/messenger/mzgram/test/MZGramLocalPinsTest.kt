@@ -7,6 +7,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.UserConfig
@@ -14,6 +15,7 @@ import org.telegram.messenger.mzgram.MZGramLocalPins
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.Cells.DialogCell
 import org.telegram.ui.DialogsActivity
+import org.telegram.ui.LaunchActivity
 
 // Pinned chats past the server's limit: pinned in MZGram only, after the
 // server's pinned chats, kept on the device, never sent to the server.
@@ -37,9 +39,20 @@ class MZGramLocalPinsTest {
         dict().javaClass.getMethod("remove", Long::class.javaPrimitiveType).invoke(dict(), id)
     }
 
+    // sortDialogs(null) does nothing while the app is in the background, as it is between screen tests
     private fun sortDialogs() {
-        MessagesController::class.java.methods.first { it.name == "sortDialogs" && it.parameterCount == 1 }.invoke(controller, null)
+        val paused = ApplicationLoader.mainInterfacePaused
+        ApplicationLoader.mainInterfacePaused = false
+        try {
+            MessagesController::class.java.methods.first { it.name == "sortDialogs" && it.parameterCount == 1 }.invoke(controller, null)
+        } finally {
+            ApplicationLoader.mainInterfacePaused = paused
+        }
     }
+
+    // The chat list sits inside the main tabs
+    private fun chatList(): DialogsActivity? =
+        LaunchActivity::class.java.getMethod("getLastFragmentIncludeMainTabs").invoke(null) as? DialogsActivity
 
     @Suppress("UNCHECKED_CAST")
     private fun allDialogs() = MessagesController::class.java.getDeclaredField("allDialogs").also { it.isAccessible = true }.get(controller) as ArrayList<TLRPC.Dialog>
@@ -203,8 +216,8 @@ class MZGramLocalPinsTest {
         val extra = (6..9).map { chat(it, now - 1000 - it) }
         publish()
         MZGramScreens.launchApp()
-        assertTrue("chat list", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() is DialogsActivity })
-        val dialogs = MZGramScreens.lastFragment() as DialogsActivity
+        assertTrue("chat list: ${MZGramScreens.lastFragment()?.javaClass?.simpleName}", MZGramScreens.waitFor(30) { chatList()?.fragmentView?.isShown == true })
+        val dialogs = chatList()!!
         val pinMethod = DialogsActivity::class.java.getDeclaredMethod("pinDialog", Long::class.javaPrimitiveType, Boolean::class.javaPrimitiveType, MessagesController.DialogFilter::class.java, Int::class.javaPrimitiveType, Boolean::class.javaPrimitiveType).also { it.isAccessible = true }
         val serverPinsBefore = made.filter { it.pinned }.map { it.id }
 

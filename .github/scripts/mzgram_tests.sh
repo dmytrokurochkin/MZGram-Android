@@ -5,6 +5,8 @@
 # 1. Every test in org.telegram.messenger.mzgram.test except the live one.
 # 1a. MZGramPushColdStartTest, driven by mzgram_push_cold.sh: a real push
 #    through Google FCM to the app while its process is gone.
+# 1b. MZGramAppearanceRestartTest, driven by mzgram_appearance_restart.sh:
+#    the chosen theme across restarts and an update over an earlier build.
 # 2. MZGramDeletedArchiveLiveTest, with mzgram_e2e_peer.py driving the
 #    second Telegram test-server account from this host -- only when the
 #    preflight step managed to sign in (e2e-preflight-ok exists).
@@ -21,9 +23,12 @@ adb logcat -c
 # A real push through Google FCM to the app while it is not running.
 bash .github/scripts/mzgram_push_cold.sh || status=1
 
+# The theme across restarts of the app (the APKs mzgram_push_cold.sh installed).
+bash .github/scripts/mzgram_appearance_restart.sh || status=1
+
 ./gradlew :TMessagesProj_AppTests:connectedAfatDebugAndroidTest --console=plain \
     -Pandroid.testInstrumentationRunnerArguments.package=$PKG \
-    -Pandroid.testInstrumentationRunnerArguments.notClass=$LIVE,$PKG.MZGramPushColdStartTest || status=1
+    -Pandroid.testInstrumentationRunnerArguments.notClass=$LIVE,$PKG.MZGramPushColdStartTest,$PKG.MZGramAppearanceRestartTest || status=1
 
 if [ ! -f e2e-preflight-ok ]; then
     echo "::warning::Live E2E test skipped: the test-server login preflight did not pass."

@@ -3,6 +3,7 @@ package org.telegram.messenger.mzgram.test
 import android.app.Activity
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -10,6 +11,7 @@ import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.MessagesController
+import org.telegram.messenger.UserConfig
 import org.telegram.messenger.Utilities
 import org.telegram.tgnet.SerializedData
 import org.telegram.tgnet.TLRPC
@@ -36,6 +38,18 @@ class MZGramAppearanceRestartTest {
 
     private val instrumentation get() = InstrumentationRegistry.getInstrumentation()
     private val expectedFile get() = File(instrumentation.targetContext.filesDir, "mzgram-appearance-expected.txt")
+
+    // Each step signs in a test user that has no key for the server; the app
+    // saves it, and the next process (the rest of the tests) would start
+    // signed in with a chat list that never finishes loading. Signed out
+    // again, as the emulator was before.
+    @After
+    fun signOut() {
+        if (InstrumentationRegistry.getArguments().getString("mzAppearanceRestart") != null) {
+            UserConfig.getInstance(0).clearConfig()
+            Thread.sleep(500)
+        }
+    }
 
     private fun requireScript() {
         assumeTrue("run by mzgram_appearance_restart.sh", InstrumentationRegistry.getArguments().getString("mzAppearanceRestart") != null)
@@ -161,5 +175,7 @@ class MZGramAppearanceRestartTest {
         A.close(browse)
         A.close(basic)
         A.reset()
+        // Not the state the other tests start from
+        ApplicationLoader.applicationContext.getSharedPreferences("emojithemes_config_0", Context.MODE_PRIVATE).edit().clear().commit()
     }
 }

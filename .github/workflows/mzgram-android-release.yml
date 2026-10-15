@@ -172,6 +172,11 @@ jobs:
             echo
             echo "## Install"
             echo
+            # A release can add lines of its own (.github/release_notes/X.Y.Z.md)
+            if [ -f ".github/release_notes/$VERSION.md" ]; then
+              cat ".github/release_notes/$VERSION.md"
+              echo
+            fi
             if [ "$SIGNED" = true ]; then
               echo "Download \`MZGram-Android-$VERSION.apk\` and open it. It installs over earlier MZGram builds and keeps all data."
               echo "On Android 9 and newer it also moves the app to the MZGram signing key; after that only APKs signed with this key can update it."

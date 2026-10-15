@@ -104,7 +104,7 @@ class MZGramSettingsTest {
         }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
-        assertEquals("48 switches and buttons", 48, shown.size)
+        assertEquals("49 switches and buttons", 49, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
 

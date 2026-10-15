@@ -38,6 +38,9 @@ class MZGramAccountsMenuTest {
         MZGramConfig.accountsInMenu = true
         instrumentation.runOnMainSync {
             UserConfig.getInstance(0).setCurrentUser(user(7_000_000_001L, "MZGram test self"))
+            // Loaded first: a later first load would read the empty saved
+            // config over the user set here
+            UserConfig.getInstance(second).loadConfig()
             UserConfig.getInstance(second).setCurrentUser(user(7_000_000_002L, "MZGram second account"))
             UserConfig.getInstance(second).loginTime = 1_800_000_000
         }
@@ -59,7 +62,9 @@ class MZGramAccountsMenuTest {
                 MZGramAccountsMenu.switchTo(0, UserConfig.selectedAccount)
             }
         }
-        MZGramScreens.waitFor(30) { UserConfig.selectedAccount == 0 }
+        // Back on account 0 with its chat list before the other account goes
+        MZGramScreens.waitFor(30) { UserConfig.selectedAccount == 0 && chatList()?.currentAccount == 0 }
+        Thread.sleep(1000)
         instrumentation.runOnMainSync {
             UserConfig.getInstance(second).clearConfig()
         }

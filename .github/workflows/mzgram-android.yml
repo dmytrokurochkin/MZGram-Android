@@ -66,6 +66,8 @@ jobs:
         run: |
           set -o pipefail
           python3 .github/scripts/test_mzgram_version.py
+          # FEATURES.md is kept with every feature change (both repositories)
+          python3 .github/scripts/test_features.py
           # A push build gets the versionCode of the newest release tag (or the
           # gradle.properties one before the first release): it installs over the
           # last release, and the next release installs over it

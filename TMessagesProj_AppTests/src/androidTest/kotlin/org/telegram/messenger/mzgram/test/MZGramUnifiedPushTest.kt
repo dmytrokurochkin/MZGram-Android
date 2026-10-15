@@ -185,7 +185,8 @@ class MZGramUnifiedPushTest {
             assertEquals("the Simple Push answer does not replace the WebPush one", "error 400 TOKEN_INVALID", MZGramPushDiagnostics.telegramResult())
             MZGramPushDiagnostics.onTelegramRegisterAnswer(0, PushListenerController.PUSH_TYPE_WEB, true, null)
             assertEquals("ok", MZGramPushDiagnostics.telegramResult())
-            MZGramPushDiagnostics.onTelegramPush("MESSAGE_TEXT (account 0)")
+            MZGramPushDiagnostics.onTelegramPush(R.string.MZGramPushEventTelegramPush, "MESSAGE_TEXT", 0)
+            assertTrue(MZGramPushDiagnostics.events().last(), MZGramPushDiagnostics.events().last().endsWith("Telegram push: MESSAGE_TEXT (account 0)"))
             MZGramPushDiagnostics.onNotificationShown(1)
             assertEquals(1, MZGramPushDiagnostics.shown())
 
@@ -198,13 +199,13 @@ class MZGramUnifiedPushTest {
 
             val text = MZGramUnifiedPushActivity.diagnosticsText()
             assertTrue(text, text.contains(LocaleController.formatString(R.string.MZGramPushDiagnosticsTelegram, "")))
-            assertTrue(text, text.contains("ok ("))
+            assertTrue(text, text.contains(LocaleController.getString(R.string.MZGramPushResultOk) + " ("))
             assertTrue(text, text.contains(LocaleController.formatString(R.string.MZGramPushDiagnosticsGms, "1")))
             assertTrue(text, text.contains(LocaleController.formatString(R.string.MZGramPushDiagnosticsShown, "1")))
-            assertTrue(text, text.contains("MESSAGE_TEXT (account 0)"))
+            assertTrue(text, text.contains(LocaleController.formatString(R.string.MZGramPushEventTelegramPush, "MESSAGE_TEXT", "0")))
 
             for (i in 1..50) {
-                MZGramPushDiagnostics.log("event $i")
+                MZGramPushDiagnostics.event(R.string.MZGramPushEventFcmError, "event $i")
             }
             val events = MZGramPushDiagnostics.events()
             assertEquals(MZGramPushDiagnostics.EVENTS_KEPT, events.size)

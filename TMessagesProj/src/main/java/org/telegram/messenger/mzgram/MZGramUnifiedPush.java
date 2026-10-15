@@ -134,13 +134,13 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
                 String saved = UnifiedPush.getSavedDistributor(context());
                 String distributor = MZGramUnifiedPushRules.pickDistributor(saved, distributors(), ownPackage());
                 if (distributor == null) {
-                    MZGramPushDiagnostics.log("no distributor: no distributor app and no " + MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE);
+                    MZGramPushDiagnostics.event(R.string.MZGramPushEventNoDistributor, MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE);
                     return;
                 }
                 if (!distributor.equals(saved)) {
                     UnifiedPush.saveDistributor(context(), distributor);
                 }
-                MZGramPushDiagnostics.log("register -> " + distributor);
+                MZGramPushDiagnostics.event(R.string.MZGramPushEventRegister, distributor);
                 register();
             } catch (Throwable e) {
                 FileLog.e(e);
@@ -171,7 +171,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
             synchronized (MZGramUnifiedPush.class) {
                 answerWait = MZGramUnifiedPushRules.nextAnswerWait(answerWait);
             }
-            MZGramPushDiagnostics.log("no answer from " + label(UnifiedPush.getSavedDistributor(context())) + " after " + wait / 1000 + " s, asking again");
+            MZGramPushDiagnostics.event(R.string.MZGramPushEventNoAnswer, MZGramPushDiagnostics.distributor(UnifiedPush.getSavedDistributor(context())), wait / 1000);
             register();
         };
         Utilities.globalQueue.postRunnable(answerCheck, wait);
@@ -191,7 +191,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
             UnifiedPush.unregister(context(), INSTANCE_NAME);
             return;
         }
-        MZGramPushDiagnostics.log("endpoint: " + Uri.parse(endpoint).getHost());
+        MZGramPushDiagnostics.event(R.string.MZGramPushEventEndpoint, Uri.parse(endpoint).getHost());
         MZGramPushDiagnostics.setLastFailure(null);
         answered();
         preferences().edit().putString(KEY_ENDPOINT, endpoint).commit();
@@ -215,7 +215,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
             webToken = MZGramUnifiedPushRules.webPushToken(MZGramUnifiedPushRules.webPushEndpoint(endpoint, gateway, builtIn), keys.publicKey, keys.authSecret);
         } catch (Exception e) {
             FileLog.e(e);
-            MZGramPushDiagnostics.setLastFailure("WebPush keys: " + e);
+            MZGramPushDiagnostics.setKeysFailure(e.toString());
             return;
         }
         String simpleToken = MZGramUnifiedPushRules.simplePushToken(endpoint, gateway, builtIn);
@@ -268,7 +268,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         UnifiedPush.unregister(context(), INSTANCE_NAME);
         dropTokens();
         UnifiedPush.saveDistributor(context(), distributor);
-        MZGramPushDiagnostics.log("register -> " + distributor);
+        MZGramPushDiagnostics.event(R.string.MZGramPushEventRegister, distributor);
         register();
     }
 
@@ -278,7 +278,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
         if (pushType != PushListenerController.PUSH_TYPE_WEB) {
             return;
         }
-        MZGramPushDiagnostics.log("registered with Telegram (account " + account + ")");
+        MZGramPushDiagnostics.event(R.string.MZGramPushEventRegisteredTelegram, account);
         String token = preferences().getString(KEY_SIMPLE_TOKEN, null);
         if (TextUtils.isEmpty(token)) {
             return;
@@ -373,13 +373,13 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
     // reason[0] says why there is no data.
     private static String decode(byte[] content, String[] reason) {
         if (!MZGramUnifiedPushRules.looksLikeWebPush(content)) {
-            reason[0] = "not a WebPush message";
+                reason[0] = MZGramPushDiagnostics.resource(R.string.MZGramPushReasonNotWebPush);
             return null;
         }
         try {
             String payload = MZGramUnifiedPushRules.payload(MZGramWebPushCrypto.decrypt(content, MZGramWebPushCrypto.keys()));
             if (payload == null) {
-                reason[0] = "no Telegram data in it";
+                    reason[0] = MZGramPushDiagnostics.resource(R.string.MZGramPushReasonNoData);
             }
             return payload;
         } catch (Exception e) {
@@ -449,7 +449,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
             return;
         }
         if (before == INSTANCE) {
-            MZGramPushDiagnostics.log("turned off by the user");
+            MZGramPushDiagnostics.event(R.string.MZGramPushEventTurnedOff);
             UnifiedPush.unregister(context(), INSTANCE_NAME);
             dropTokens();
         } else if (!TextUtils.isEmpty(SharedConfig.pushString)) {
@@ -469,7 +469,7 @@ public final class MZGramUnifiedPush implements PushListenerController.IPushList
                 dropTokens();
             }
             UnifiedPush.saveDistributor(context(), packageName);
-            MZGramPushDiagnostics.log("register -> " + packageName);
+            MZGramPushDiagnostics.event(R.string.MZGramPushEventRegister, packageName);
             register();
         });
     }

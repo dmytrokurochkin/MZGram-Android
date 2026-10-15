@@ -14,11 +14,15 @@ package org.telegram.messenger.mzgram;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.text.TextUtils;
 
 import androidx.core.app.NotificationManagerCompat;
 
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 
 import java.text.SimpleDateFormat;
@@ -48,6 +52,20 @@ public final class MZGramPushDiagnostics {
     private static final String KEY_SHOWN = "shown";
 
     public static final int EVENTS_KEPT = 40;
+    // What Telegram and Google Play Services answered, as kept (fcmResult, telegramResult)
+    public static final String RESULT_OK = "ok";
+    public static final String RESULT_REGISTERED = "registered";
+    public static final String RESULT_NO_ANSWER = "error: no answer";
+    public static final String RESULT_NO_TOKEN = "error: no token and no error given";
+
+    // An event is kept as the name of its string resource (ids change between
+    // builds) and its arguments, so the list is shown in the app's language.
+    // An argument can itself be a string resource (resource()) or the label
+    // of a distributor app (distributor()).
+    private static final char EVENT = '\u0001';
+    private static final char ARG = '\u0002';
+    private static final char RESOURCE = '\u0003';
+    private static final char LABEL = '\u0004';
 
     public enum Kind {
         PUSH, WAKE_UP, DECRYPT_FAILED
@@ -70,8 +88,14 @@ public final class MZGramPushDiagnostics {
                 .putLong(KEY_RECEIVED, preferences.getLong(KEY_RECEIVED, 0) + 1)
                 .putLong(counter, preferences.getLong(counter, 0) + 1)
                 .commit();
-        log("push received (" + size + " bytes)");
-        log(kind == Kind.PUSH ? "decrypted" : kind == Kind.WAKE_UP ? "wake-up (no content)" : "not decrypted: " + reason + "; woke up instead");
+        event(R.string.MZGramPushEventReceived, size);
+        if (kind == Kind.PUSH) {
+            event(R.string.MZGramPushEventDecrypted);
+        } else if (kind == Kind.WAKE_UP) {
+            event(R.string.MZGramPushEventWakeUp);
+        } else {
+            event(R.string.MZGramPushEventNotDecrypted, reason);
+        }
     }
 
     // Google Play Services or microG delivered a message to this app,
@@ -79,7 +103,7 @@ public final class MZGramPushDiagnostics {
     public static synchronized void onGmsMessage(int size, String subtype) {
         SharedPreferences preferences = preferences();
         preferences.edit().putLong(KEY_GMS_RECEIVED, preferences.getLong(KEY_GMS_RECEIVED, 0) + 1).commit();
-        log("FCM message from " + MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE + " (" + size + " bytes" + (subtype != null && subtype.startsWith("wp:") ? "" : ", not for UnifiedPush") + ")");
+        event(subtype != null && subtype.startsWith("wp:") ? R.string.MZGramPushEventGms : R.string.MZGramPushEventGmsOther, MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE, size);
     }
 
     public static long gmsReceived() {
@@ -89,15 +113,21 @@ public final class MZGramPushDiagnostics {
     // account.registerDevice for a push token, and what Telegram answered.
     public static void onTelegramRegisterSent(int account, int tokenType) {
         preferences().edit().putLong(KEY_TELEGRAM_REQUEST_TIME, System.currentTimeMillis()).commit();
-        log("Telegram: registerDevice type " + tokenType + " sent (account " + account + ")");
+        event(R.string.MZGramPushEventRegisterSent, tokenType, account);
     }
 
     public static void onTelegramRegisterAnswer(int account, int tokenType, boolean ok, TLRPC.TL_error error) {
-        String result = ok ? "ok" : error != null ? "error " + error.code + " " + error.text : "error: no answer";
+        String result = ok ? RESULT_OK : error != null ? "error " + error.code + " " + error.text : RESULT_NO_ANSWER;
         if (tokenType == org.telegram.messenger.PushListenerController.PUSH_TYPE_WEB) {
             preferences().edit().putString(KEY_TELEGRAM_RESULT, result).putLong(KEY_TELEGRAM_RESULT_TIME, System.currentTimeMillis()).commit();
         }
-        log("Telegram: registerDevice type " + tokenType + " " + result + " (account " + account + ")");
+        if (ok) {
+            event(R.string.MZGramPushEventRegisterOk, tokenType, account);
+        } else if (error != null) {
+            event(R.string.MZGramPushEventRegisterError, tokenType, error.code + " " + error.text, account);
+        } else {
+            event(R.string.MZGramPushEventRegisterNoAnswer, tokenType, account);
+        }
     }
 
     public static String telegramResult() {
@@ -112,15 +142,15 @@ public final class MZGramPushDiagnostics {
         return preferences().getLong(KEY_TELEGRAM_REQUEST_TIME, 0);
     }
 
-    // What the decrypted Telegram push turned into.
-    public static void onTelegramPush(String outcome) {
-        log("Telegram push: " + outcome);
+    // What the decrypted Telegram push turned into: an event resource and its arguments.
+    public static void onTelegramPush(int res, Object... args) {
+        event(res, args);
     }
 
     public static synchronized void onNotificationShown(int messages) {
         SharedPreferences preferences = preferences();
         preferences.edit().putLong(KEY_SHOWN, preferences.getLong(KEY_SHOWN, 0) + 1).commit();
-        log("notification shown (" + messages + " messages)");
+        event(R.string.MZGramPushEventShown, messages);
     }
 
     public static long shown() {
@@ -135,10 +165,32 @@ public final class MZGramPushDiagnostics {
         }
     }
 
+    // A string resource as an argument of an event, shown in the same language
+    public static String resource(int res) {
+        return RESOURCE + ApplicationLoader.applicationContext.getResources().getResourceEntryName(res);
+    }
+
+    // The name of a distributor app as an argument of an event
+    public static String distributor(String packageName) {
+        return LABEL + String.valueOf(packageName);
+    }
+
+    private static String encode(int res, Object... args) {
+        StringBuilder text = new StringBuilder().append(EVENT).append(ApplicationLoader.applicationContext.getResources().getResourceEntryName(res));
+        for (Object arg : args) {
+            text.append(ARG).append(String.valueOf(arg).replace('\n', ' '));
+        }
+        return text.toString();
+    }
+
     // Written at once: the interesting events happen in a process that was
     // started for a push and may be gone right after.
-    public static synchronized void log(String event) {
-        List<String> events = events();
+    public static synchronized void event(int res, Object... args) {
+        add(encode(res, args));
+    }
+
+    private static synchronized void add(String event) {
+        List<String> events = saved();
         events.add(new SimpleDateFormat("dd.MM HH:mm:ss", Locale.US).format(new Date()) + " " + event);
         while (events.size() > EVENTS_KEPT) {
             events.remove(0);
@@ -146,36 +198,112 @@ public final class MZGramPushDiagnostics {
         preferences().edit().putString(KEY_EVENTS, TextUtils.join("\n", events)).commit();
     }
 
-    // Oldest first.
-    public static synchronized List<String> events() {
+    private static List<String> saved() {
         String saved = preferences().getString(KEY_EVENTS, "");
         return saved.isEmpty() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(saved.split("\n")));
     }
 
+    private static Resources english;
+
+    private static Resources english() {
+        if (english == null) {
+            Context context = ApplicationLoader.applicationContext;
+            Configuration configuration = new Configuration(context.getResources().getConfiguration());
+            configuration.setLocale(Locale.ENGLISH);
+            english = context.createConfigurationContext(configuration).getResources();
+        }
+        return english;
+    }
+
+    private static String string(String name, boolean inEnglish, Object... args) {
+        Context context = ApplicationLoader.applicationContext;
+        int res = context.getResources().getIdentifier(name, "string", context.getPackageName());
+        if (res == 0) {
+            return name;
+        }
+        return inEnglish ? english().getString(res, args) : LocaleController.formatString(name, res, args);
+    }
+
+    // An event as text: in English or in the app's language. Lines kept by
+    // earlier versions are plain text and stay as they are.
+    static String render(String line, boolean inEnglish) {
+        int start = line.indexOf(EVENT);
+        if (start < 0) {
+            return line;
+        }
+        String[] parts = line.substring(start + 1).split(String.valueOf(ARG), -1);
+        Object[] args = new Object[parts.length - 1];
+        for (int i = 1; i < parts.length; i++) {
+            String arg = parts[i];
+            if (!arg.isEmpty() && arg.charAt(0) == RESOURCE) {
+                args[i - 1] = string(arg.substring(1), inEnglish);
+            } else if (!arg.isEmpty() && arg.charAt(0) == LABEL) {
+                String label = MZGramUnifiedPush.label(arg.substring(1));
+                args[i - 1] = label != null ? label : arg.substring(1);
+            } else {
+                args[i - 1] = arg;
+            }
+        }
+        return line.substring(0, start) + string(parts[0], inEnglish, args);
+    }
+
+    private static List<String> rendered(boolean inEnglish) {
+        List<String> events = saved();
+        for (int i = 0; i < events.size(); i++) {
+            events.set(i, render(events.get(i), inEnglish));
+        }
+        return events;
+    }
+
+    // Oldest first, in English (logs and tests).
+    public static synchronized List<String> events() {
+        return rendered(true);
+    }
+
+    // Oldest first, in the app's language (the diagnostics screen).
+    public static synchronized List<String> localizedEvents() {
+        return rendered(false);
+    }
+
+    // Why the registration failed, as the distributor or the system gave it
     public static void setLastFailure(String reason) {
         preferences().edit().putString(KEY_LAST_FAILURE, reason).apply();
         if (reason != null) {
-            log("registration failed: " + reason);
+            event(R.string.MZGramPushEventFailed, reason);
         }
     }
 
+    // The WebPush keys could not be made
+    public static void setKeysFailure(String error) {
+        preferences().edit().putString(KEY_LAST_FAILURE, encode(R.string.MZGramPushFailureKeys, error)).apply();
+        event(R.string.MZGramPushEventKeysFailed, error);
+    }
+
+    // In the app's language
     public static String lastFailure() {
-        return preferences().getString(KEY_LAST_FAILURE, null);
+        String failure = preferences().getString(KEY_LAST_FAILURE, null);
+        return failure == null ? null : render(failure, false);
     }
 
     // The built-in Google FCM distributor asked Google Play Services (or
     // microG) for an endpoint.
     public static void onFcmRequested() {
         preferences().edit().putLong(KEY_FCM_REQUEST_TIME, System.currentTimeMillis()).apply();
-        log("FCM: token requested from " + MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE);
+        event(R.string.MZGramPushEventFcmRequested, MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE);
     }
 
     // What Google Play Services (or microG) answered: a token, or the error
     // it gave ("SERVICE_NOT_AVAILABLE", "AUTHENTICATION_FAILED" and the like).
     public static void onFcmAnswer(boolean registered, String error) {
-        String result = registered ? "registered" : "error: " + (TextUtils.isEmpty(error) ? "no token and no error given" : error);
+        String result = registered ? RESULT_REGISTERED : TextUtils.isEmpty(error) ? RESULT_NO_TOKEN : "error: " + error;
         preferences().edit().putString(KEY_FCM_RESULT, result).putLong(KEY_FCM_RESULT_TIME, System.currentTimeMillis()).apply();
-        log("FCM: " + result);
+        if (registered) {
+            event(R.string.MZGramPushEventFcmRegistered);
+        } else if (TextUtils.isEmpty(error)) {
+            event(R.string.MZGramPushEventFcmNoToken);
+        } else {
+            event(R.string.MZGramPushEventFcmError, error);
+        }
     }
 
     public static String fcmResult() {

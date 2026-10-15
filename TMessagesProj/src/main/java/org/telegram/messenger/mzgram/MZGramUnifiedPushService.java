@@ -10,6 +10,7 @@ package org.telegram.messenger.mzgram;
 
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.unifiedpush.android.connector.FailedReason;
 import org.unifiedpush.android.connector.PushService;
@@ -40,7 +41,7 @@ public class MZGramUnifiedPushService extends PushService {
 
     @Override
     public void onUnregistered(String instance) {
-        MZGramPushDiagnostics.log("unregistered by the distributor");
+        MZGramPushDiagnostics.event(R.string.MZGramPushEventUnregistered);
         Utilities.globalQueue.postRunnable(MZGramUnifiedPush::onRegistrationLost);
     }
 }

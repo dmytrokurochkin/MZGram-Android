@@ -84,6 +84,7 @@ Each item has its own switch.
 | No greeting sticker | An empty chat shows no suggested sticker. | 1.0.0 |
 | Hide channel bottom button | In channels where you cannot post, hides the bottom bar with the mute button. | 1.0.0 |
 | Animation switches | Switches for the predictive back animation and the gooey avatar animation in profiles. | 1.0.0 |
+| English and Ukrainian | The MZGram interface is available in English and Ukrainian: every MZGram switch, setting, menu item, dialog, error, the update banner and the push diagnostics are complete in both. With any other app language, the MZGram parts are in English, never a mix. | Next release |
 | Standard color themes | The color theme row in Appearance always lists the home theme and 8 standard themes built on the device, also without a server answer and after an update; themes from the server are added after them. The theme in use stays selected after Switch to Night Mode. | 1.0.1 |
 
 ### Ads and filters

@@ -23,6 +23,8 @@ import androidx.annotation.NonNull;
 import org.unifiedpush.android.embedded_fcm_distributor.EmbeddedDistributorReceiver;
 import org.unifiedpush.android.embedded_fcm_distributor.Gateway;
 
+import org.telegram.messenger.R;
+
 public class MZGramFcmDistributor extends EmbeddedDistributorReceiver {
 
     private static final String ACTION_REGISTER = "org.unifiedpush.android.distributor.REGISTER";
@@ -50,7 +52,7 @@ public class MZGramFcmDistributor extends EmbeddedDistributorReceiver {
     public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         if (ACTION_REGISTER.equals(intent.getAction())) {
             if (MZGramPushDiagnostics.playServices() == null) {
-                MZGramPushDiagnostics.log("FCM: " + MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE + " is not installed");
+                MZGramPushDiagnostics.event(R.string.MZGramPushEventFcmMissing, MZGramUnifiedPushRules.PLAY_SERVICES_PACKAGE);
             } else {
                 MZGramPushDiagnostics.onFcmRequested();
             }

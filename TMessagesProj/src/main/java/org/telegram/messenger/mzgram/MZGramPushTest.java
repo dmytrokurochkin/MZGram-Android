@@ -16,6 +16,7 @@ import android.os.SystemClock;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.json.JSONObject;
 
@@ -51,7 +52,7 @@ public final class MZGramPushTest {
         Utilities.globalQueue.postRunnable(() -> {
             String target = MZGramUnifiedPush.gatewayEndpoint();
             if (target == null) {
-                MZGramPushDiagnostics.log("test push: no endpoint through the gateway");
+                MZGramPushDiagnostics.event(R.string.MZGramPushEventTestNoEndpoint);
                 AndroidUtilities.runOnUIThread(() -> result.onResult(Outcome.NO_ENDPOINT, null));
                 return;
             }
@@ -71,7 +72,7 @@ public final class MZGramPushTest {
                 finish(Outcome.FAILED, e.getClass().getSimpleName() + (e.getMessage() != null ? ": " + e.getMessage() : ""));
                 return;
             }
-            MZGramPushDiagnostics.log("test push: sent to " + Uri.parse(target).getHost() + ", HTTP " + code);
+            MZGramPushDiagnostics.event(R.string.MZGramPushEventTestSent, Uri.parse(target).getHost(), code);
             if (code < 200 || code >= 300) {
                 finish(Outcome.REFUSED, String.valueOf(code));
                 return;
@@ -107,7 +108,25 @@ public final class MZGramPushTest {
             pending = null;
             callback = null;
         }
-        MZGramPushDiagnostics.log("test push: " + outcome.name().toLowerCase(java.util.Locale.ROOT).replace('_', ' ') + (detail != null ? " (" + detail + ")" : ""));
+        int event;
+        switch (outcome) {
+            case ARRIVED:
+                event = R.string.MZGramPushEventTestArrived;
+                break;
+            case LOST:
+                event = R.string.MZGramPushEventTestLost;
+                break;
+            case REFUSED:
+                event = R.string.MZGramPushEventTestRefused;
+                break;
+            case NO_ENDPOINT:
+                event = R.string.MZGramPushEventTestNoEndpoint;
+                break;
+            default:
+                event = R.string.MZGramPushEventTestFailed;
+                break;
+        }
+        MZGramPushDiagnostics.event(event, detail != null ? detail : "");
         if (result != null) {
             AndroidUtilities.runOnUIThread(() -> result.onResult(outcome, detail));
         }

@@ -199,7 +199,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
         String acked = MZGramUnifiedPush.ackedDistributor();
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsSaved, saved != null ? MZGramUnifiedPush.label(saved) : getString(R.string.MZGramPushDiagnosticsNoneSet)));
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsAcked, acked != null ? MZGramUnifiedPush.label(acked) : getString(R.string.MZGramPushDiagnosticsNoneSet)));
-        List<String> events = MZGramPushDiagnostics.events();
+        List<String> events = MZGramPushDiagnostics.localizedEvents();
         if (!events.isEmpty()) {
             text.append("\n\n").append(getString(R.string.MZGramPushDiagnosticsEvents));
             for (int i = events.size() - 1; i >= 0; i--) {
@@ -207,6 +207,31 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
             }
         }
         return text.toString();
+    }
+
+    // An answer of Telegram or Google Play Services in the app's language;
+    // the error codes they give stay as they are.
+    private static String resultText(String result) {
+        if (result == null) {
+            return null;
+        }
+        switch (result) {
+            case MZGramPushDiagnostics.RESULT_OK:
+                return getString(R.string.MZGramPushResultOk);
+            case MZGramPushDiagnostics.RESULT_REGISTERED:
+                return getString(R.string.MZGramPushResultRegistered);
+            case MZGramPushDiagnostics.RESULT_NO_ANSWER:
+                return getString(R.string.MZGramPushResultNoAnswer);
+            case MZGramPushDiagnostics.RESULT_NO_TOKEN:
+                return getString(R.string.MZGramPushResultNoToken);
+        }
+        if (result.startsWith("error: ")) {
+            return formatString(R.string.MZGramPushResultError, result.substring(7));
+        }
+        if (result.startsWith("error ")) {
+            return formatString(R.string.MZGramPushResultError, result.substring(6));
+        }
+        return result;
     }
 
     // What Telegram last answered to the WebPush registration, or how long
@@ -220,7 +245,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
         if (requested > answered && (System.currentTimeMillis() - requested) / 1000 >= 30) {
             return formatString(R.string.MZGramPushDiagnosticsTelegramNoAnswer, String.valueOf((System.currentTimeMillis() - requested) / 1000));
         }
-        String result = MZGramPushDiagnostics.telegramResult();
+        String result = resultText(MZGramPushDiagnostics.telegramResult());
         return result != null ? result + " (" + LocaleController.formatDateTime(answered / 1000, true) + ")" : getString(R.string.MZGramPushDiagnosticsFcmNotTried);
     }
 
@@ -238,7 +263,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
                 return formatString(R.string.MZGramPushDiagnosticsFcmNoAnswer, String.valueOf(silent));
             }
         }
-        String result = MZGramPushDiagnostics.fcmResult();
+        String result = resultText(MZGramPushDiagnostics.fcmResult());
         return result != null ? result + " (" + LocaleController.formatDateTime(answered / 1000, true) + ")" : getString(R.string.MZGramPushDiagnosticsFcmNotTried);
     }
 

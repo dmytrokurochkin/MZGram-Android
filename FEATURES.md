@@ -186,6 +186,7 @@ Each item has its own switch.
 | Hide stories | Removes stories from the chat list. | 1.0.0 |
 | No greeting sticker | An empty chat shows no suggested sticker. | 1.0.0 |
 | Hide channel bottom button | Hides the bottom button of channels where you cannot post. | 1.0.0 |
+| English and Ukrainian | The MZGram interface is available in English and Ukrainian: every MZGram setting, menu item, dialog and the update bar are complete in both. With any other app language, the MZGram parts are in English, never a mix. | 1.0.0 |
 
 ### Ads and filters
 
@@ -238,6 +239,7 @@ Yes: present. No: absent. Partly: present in a narrower form.
 | Standard color themes without the server | Yes | No (Telegram Desktop has them built in) |
 | 1 GB cache limit | Yes | No (Telegram Desktop already offers it) |
 | UnifiedPush notifications | Yes | No |
+| Interface in English and Ukrainian, complete in both | Next release | Yes |
 | MZGram update banner, Telegram's updater off | Yes | Yes |
 | Self-update from GitHub with a SHA-256 check | Next release | No |
 | MZGram name everywhere | Next release | Next release |

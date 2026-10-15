@@ -79,9 +79,11 @@ All MZGram features are in **Settings > MZGram**, grouped by topic. Every MZGram
 
 ## Download
 
-Releases are published on the [Releases](https://github.com/dmytrokurochkin/MZGram-Android/releases) page. There are no releases yet.
+Releases are published on the [Releases](https://github.com/dmytrokurochkin/MZGram-Android/releases) page.
 
 Each release has one APK for all four ABIs, its signing lineage and `SHA256SUMS`. Release APKs are signed with the MZGram key; its certificate SHA-256 is in the release notes. A release installs over earlier MZGram builds and keeps all data. Releases named "debug key" and betas are prereleases.
+
+MZGram updates itself from this page: when a newer stable release is out, Update in the banner downloads its APK from GitHub, checks it against `SHA256SUMS` and installs it with Android's package installer. The first version that can do this is installed by hand once. Settings > MZGram > Other > Check for MZGram updates turns it off.
 
 ## Build
 

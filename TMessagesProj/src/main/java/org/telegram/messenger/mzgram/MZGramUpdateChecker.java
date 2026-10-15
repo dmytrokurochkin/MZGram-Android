@@ -8,9 +8,9 @@
  * At most once in CHECK_INTERVAL_MS the latest release of the MZGram-Android
  * repository is read from GitHub (no token, the ETag of the last answer sent
  * along, so an unchanged answer costs nothing). A stable release with a higher
- * version than the installed one gives a banner with a link to its page:
- * nothing is downloaded or installed by the app. A closed banner stays closed
- * for that version. Errors are silent. Settings > MZGram > Other turns it off.
+ * version than the installed one gives a banner; its Update downloads and
+ * installs it (MZGramUpdateInstaller). A closed banner stays closed for that
+ * version. Errors are silent. Settings > MZGram > Other turns both off.
  */
 
 package org.telegram.messenger.mzgram;
@@ -222,6 +222,12 @@ public class MZGramUpdateChecker {
         checking = true;
         Utilities.globalQueue.postRunnable(() -> {
             Release release = null;
+            try {
+                // An installed update leaves its APK in the cache until now
+                MZGramUpdateInstaller.removeOld();
+            } catch (Throwable e) {
+                FileLog.e(e);
+            }
             try {
                 release = checkNow(force);
             } finally {

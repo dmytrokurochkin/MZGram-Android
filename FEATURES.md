@@ -111,7 +111,8 @@ Each item has its own switch.
 
 | Feature | What it does, and how it differs from Telegram | Since |
 |---|---|---|
-| MZGram update banner | Every few hours MZGram checks its latest stable release on GitHub and shows a banner when a newer one is out; Update opens the release page, Close hides that version. Nothing is downloaded or installed by the app. Telegram's own update check is turned off. Can be switched off. | 1.0.1 |
+| MZGram update banner | Every few hours MZGram checks its latest stable release on GitHub and shows a banner when a newer one is out; Close hides that version. Telegram's own update check is turned off. Can be switched off. | 1.0.1 |
+| Self-update | Update in the banner downloads the APK of that release (for the device's architecture, else the universal one) only from the MZGram-Android releases on GitHub over HTTPS, checks its SHA-256 against the release's SHA256SUMS and GitHub's digest, and installs it with Android's package installer; Android may ask to confirm, and the first time asks to allow installing apps from MZGram. Progress is shown in the banner; a broken download resumes; a file that fails the check is deleted and nothing is installed. On an error: Retry or the release page. When a release has no APK that can be checked, the release page opens. Turned off with the update banner. The version before it is installed by hand once. | Next release |
 | MZGram name | The app calls itself MZGram in dialogs, permission requests, call notifications, contacts and in the version line of Settings ("MZGram 1.0.2 (based on Telegram 12.10.1)"), in every language. The Telegram service keeps its name. | Next release |
 
 ### Releases
@@ -237,5 +238,6 @@ Yes: present. No: absent. Partly: present in a narrower form.
 | 1 GB cache limit | Yes | No (Telegram Desktop already offers it) |
 | UnifiedPush notifications | Yes | No |
 | MZGram update banner, Telegram's updater off | Yes | Yes |
+| Self-update from GitHub with a SHA-256 check | Next release | No |
 | MZGram name everywhere | Next release | Next release |
 | ARM64 builds | Yes (the APK) | Windows yes, Linux next release |

@@ -185,26 +185,5 @@ class MZGramUpdateCheckerTest {
         assertEquals("v1.0.1", banner.release?.tag)
     }
 
-    @Test
-    fun banner_update_opensTheReleasePage_close_hidesThatVersion() {
-        val banner = banner()
-        val opened = ArrayList<String>()
-        MZGramUpdateBanner.opener = MZGramUpdateBanner.Opener { _, url -> opened.add(url) }
-        answer = { ok(release("v1.0.1")) }
-        // Past the check the app made on its own when it opened
-        later()
-        val offered = MZGramUpdateChecker.checkNow(false)!!
-
-        instrumentation.runOnMainSync { banner.show(offered) }
-        instrumentation.runOnMainSync { banner.updateButton.performClick() }
-        assertEquals(listOf("https://github.com/dmytrokurochkin/MZGram-Android/releases/tag/v1.0.1"), opened)
-        assertEquals("hidden after Update", View.GONE, banner.visibility)
-        assertNotNull("Update does not close the version for good", MZGramUpdateChecker.checkNow(false))
-
-        instrumentation.runOnMainSync { banner.show(offered) }
-        instrumentation.runOnMainSync { banner.closeButton.performClick() }
-        assertEquals("hidden after Close", View.GONE, banner.visibility)
-        assertNull("closed for this version", MZGramUpdateChecker.checkNow(false))
-        assertEquals("Close opens nothing", 1, opened.size)
-    }
+    // Update and Close of the banner: MZGramUpdateInstallerTest
 }

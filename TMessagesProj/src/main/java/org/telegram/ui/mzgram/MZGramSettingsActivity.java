@@ -66,6 +66,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_ERASE_LOCAL_DATABASE = 51;
     private static final int BUTTON_HIDE_CAMERA_TILE = 52;
     private static final int BUTTON_CHECK_UPDATES = 53;
+    private static final int BUTTON_ACCOUNTS_IN_MENU = 54;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
@@ -283,6 +284,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
         items.add(UItem.asShadow(getString(R.string.MZGramHideBottomNavigationBarInfo)));
+        items.add(UItem.asCheck(BUTTON_ACCOUNTS_IN_MENU, getString(R.string.MZGramAccountsInMenu)).setChecked(MZGramConfig.accountsInMenu));
+        items.add(UItem.asShadow(getString(R.string.MZGramAccountsInMenuInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
         items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
         items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramOpenArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
@@ -406,6 +409,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
             MZGramConfig.toggleHideBottomNavigationBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
+        } else if (item.id == BUTTON_ACCOUNTS_IN_MENU) {
+            MZGramConfig.toggleAccountsInMenu();
+            ((TextCheckCell) view).setChecked(MZGramConfig.accountsInMenu);
         } else if (item.id == BUTTON_SAVE_PROTECTED_CONTENT) {
             MZGramConfig.toggleSaveProtectedContent();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveProtectedContent);

@@ -55,6 +55,8 @@ public class MZGramConfig {
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean gooeyAvatarAnimation = true;
     public static boolean hideBottomNavigationBar = false;
+    // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
+    public static boolean accountsInMenu = true;
     // Folder tabs above the bottom bars instead of under the search field.
     public static boolean folderTabsAtBottom = false;
     // Routes a released
@@ -163,6 +165,7 @@ public class MZGramConfig {
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
+            accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             mediaPreviewOnLongPress = preferences.getBoolean("mediaPreviewOnLongPress", false);
@@ -350,6 +353,11 @@ public class MZGramConfig {
     public static void toggleHideBottomNavigationBar() {
         hideBottomNavigationBar = !hideBottomNavigationBar;
         putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
+    }
+
+    public static void toggleAccountsInMenu() {
+        accountsInMenu = !accountsInMenu;
+        putBoolean("accountsInMenu", accountsInMenu);
     }
 
     public static void toggleFolderTabsAtBottom() {

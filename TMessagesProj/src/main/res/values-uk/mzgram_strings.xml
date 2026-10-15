@@ -88,7 +88,9 @@
     <string name="MZGramPreferOriginalQuality">Віддавати перевагу оригінальній якості відео</string>
     <string name="MZGramPreferOriginalQualityInfo">Відео, доступні в кількох якостях, відтворюються в оригінальній, що витрачає більше трафіку.</string>
     <string name="MZGramHideBottomNavigationBar">Приховати нижню панель навігації</string>
-    <string name="MZGramHideBottomNavigationBarInfo">Прибирає панель вкладок під списком чатів. Мій профіль, Контакти, Дзвінки і Налаштування переходять у меню списку чатів; акаунти перемикайте в Налаштуваннях. Діє після перезапуску.</string>
+    <string name="MZGramHideBottomNavigationBarInfo">Прибирає панель вкладок під списком чатів. Мій профіль, Контакти, Дзвінки і Налаштування переходять у меню списку чатів, де є і ваші акаунти. Діє після перезапуску.</string>
+    <string name="MZGramAccountsInMenu">Акаунти в меню списку чатів</string>
+    <string name="MZGramAccountsInMenuInfo">Меню трьох крапок угорі списку чатів закінчується вашими акаунтами: дотик одразу перемикає на акаунт, без Налаштувань. Поточний акаунт позначено, в інших видно кількість непрочитаних, а «Додати акаунт» є, поки є місце для ще одного.</string>
     <string name="MZGramFolderTabsAtBottom">Вкладки папок унизу</string>
     <string name="MZGramFolderTabsAtBottomInfo">Показує вкладки папок чатів унизу списку чатів, під великим пальцем, а не під полем пошуку. Діє після перезапуску.</string>
     <string name="MZGramGooeyAvatarAnimation">«Тягуча» анімація аватара</string>

@@ -13955,6 +13955,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 presentFragment(new SettingsActivity());
             });
         }
+        // MZGram: the signed-in accounts, a tap switches (MZGramAccountsMenu)
+        org.telegram.ui.mzgram.MZGramAccountsMenu.addTo(io, this);
 
         if (proxyMenuSubItem != null) {
             proxyMenuSubItem.subtextView.setTextColor(getThemedColor(Theme.key_groupcreate_sectionText));

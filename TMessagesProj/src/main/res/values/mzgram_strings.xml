@@ -87,7 +87,9 @@
     <string name="MZGramPreferOriginalQuality">Prefer original video quality</string>
     <string name="MZGramPreferOriginalQualityInfo">Videos that come in several qualities play in the original one, which uses more data.</string>
     <string name="MZGramHideBottomNavigationBar">Hide bottom navigation bar</string>
-    <string name="MZGramHideBottomNavigationBarInfo">Removes the tab bar under the chat list. My Profile, Contacts, Calls and Settings move to the chat list menu; switch accounts in Settings. Takes effect after a restart.</string>
+    <string name="MZGramHideBottomNavigationBarInfo">Removes the tab bar under the chat list. My Profile, Contacts, Calls and Settings move to the chat list menu, where your accounts are too. Takes effect after a restart.</string>
+    <string name="MZGramAccountsInMenu">Accounts in the chat list menu</string>
+    <string name="MZGramAccountsInMenuInfo">The menu of the three dots at the top of the chat list ends with your accounts: a tap switches to one at once, without Settings. The current account is marked, the others show their unread count, and Add Account is there while there is room for one.</string>
     <string name="MZGramFolderTabsAtBottom">Folder tabs at the bottom</string>
     <string name="MZGramFolderTabsAtBottomInfo">Shows the chat folder tabs at the bottom of the chat list, within reach of your thumb, instead of under the search field. Takes effect after a restart.</string>
     <string name="MZGramGooeyAvatarAnimation">"Gooey" avatar animation</string>

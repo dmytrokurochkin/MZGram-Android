@@ -44,7 +44,7 @@ class MZGramAccountsMenuTest {
         MZGramScreens.launchApp()
         instrumentation.runOnMainSync {
             if (UserConfig.selectedAccount != 0) {
-                LaunchActivity.instance?.switchToAccount(0, true)
+                MZGramAccountsMenu.switchTo(0, UserConfig.selectedAccount)
             }
         }
         assertTrue("on account 0", MZGramScreens.waitFor(30) { UserConfig.selectedAccount == 0 })
@@ -56,7 +56,7 @@ class MZGramAccountsMenuTest {
         instrumentation.runOnMainSync {
             MZGramAccountsMenu.lastMenu?.get()?.dismiss()
             if (UserConfig.selectedAccount != 0) {
-                LaunchActivity.instance?.switchToAccount(0, true)
+                MZGramAccountsMenu.switchTo(0, UserConfig.selectedAccount)
             }
         }
         MZGramScreens.waitFor(30) { UserConfig.selectedAccount == 0 }

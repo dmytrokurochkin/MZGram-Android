@@ -132,6 +132,14 @@ class NotesTest(unittest.TestCase):
         ]
         self.assertEqual(notes(subjects), ["- Keep the archive across restarts"])
 
+    def test_features_md_lines_are_left_out(self):
+        subjects = [
+            "[mzgram] FEATURES.md: self-update on Desktop, same file as in MZGram-Desktop",
+            "[mzgram] English and Ukrainian: a check of every string, FEATURES.md names the languages",
+            "[mzgram] Accounts in the chat list menu",
+        ]
+        self.assertEqual(notes(subjects), ["- Accounts in the chat list menu"])
+
     def test_commit_hashes_are_removed(self):
         self.assertEqual(notes(["[mzgram] Revert own-deletion archiving (0b331573e)",
                                 "[mzgram] Hide statuses on both platforms (1caf86c27, ec74fd73e8)",

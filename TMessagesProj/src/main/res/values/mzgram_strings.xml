@@ -216,4 +216,6 @@
     <string name="MZGramPinLocally">Pin in MZGram only</string>
     <string name="MZGramUnpinLocally">Unpin from MZGram</string>
     <string name="MZGramPinnedLocally">Pinned in MZGram only: the server allows no more pinned chats, so this one is pinned on this device and not on your other devices.</string>
+    <string name="MZGramVersion">MZGram %1$s (based on Telegram %2$s)</string>
+    <string name="MZGramVersionBase">MZGram (based on Telegram %1$s)</string>
 </resources>

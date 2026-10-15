@@ -73,10 +73,25 @@ class MZGramAccountsMenuTest {
     private fun chatList(): DialogsActivity? =
         LaunchActivity::class.java.getMethod("getLastFragmentIncludeMainTabs").invoke(null) as? DialogsActivity
 
+    private var listed: List<Int> = emptyList()
+    private var listedFromSecond: List<Int> = emptyList()
+
+    // The test accounts have no key on Telegram's servers, so the app may sign
+    // the second one out after a while: it is set again on the main thread
+    // right before the menu reads the accounts.
+    private fun keepSecondAccount() {
+        if (!UserConfig.getInstance(second).isClientActivated) {
+            UserConfig.getInstance(second).setCurrentUser(user(7_000_000_002L, "MZGram second account"))
+        }
+        listed = MZGramAccountsMenu.accounts(0)
+        listedFromSecond = MZGramAccountsMenu.accounts(second)
+    }
+
     // The menu of the three dots, as a tap on them opens it
     private fun openMenu(): ViewGroup {
         assertTrue("chat list", MZGramScreens.waitFor(30) { chatList() != null })
         instrumentation.runOnMainSync {
+            keepSecondAccount()
             MZGramAccountsMenu.lastMenu = null
             DialogsActivity::class.java.getDeclaredMethod("showItemOptions").also { it.isAccessible = true }.invoke(chatList())
         }
@@ -97,9 +112,9 @@ class MZGramAccountsMenuTest {
 
     @Test
     fun menu_listsTheAccounts_currentFirst_andAddAccount() {
-        assertEquals("the current account first", listOf(0, second), MZGramAccountsMenu.accounts(0))
-        assertEquals(listOf(second, 0), MZGramAccountsMenu.accounts(second))
         val menu = openMenu()
+        assertEquals("the current account first", listOf(0, second), listed)
+        assertEquals(listOf(second, 0), listedFromSecond)
         MZGramScreens.capture("accounts-menu")
         assertNotNull("this account", row(menu, MZGramAccountsMenu.TAG_ACCOUNT + 0))
         assertNotNull("the other account", row(menu, MZGramAccountsMenu.TAG_ACCOUNT + second))

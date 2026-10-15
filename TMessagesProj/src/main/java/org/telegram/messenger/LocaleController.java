@@ -1456,7 +1456,8 @@ public class LocaleController {
         if (value == null) {
             value = "LOC_ERR:" + key;
         }
-        return value;
+        // MZGram: the app's own name (MZGramBranding)
+        return org.telegram.messenger.mzgram.MZGramBranding.brand(key, value);
     }
 
     public static String getServerString(String key) {
@@ -1697,6 +1698,8 @@ public class LocaleController {
                 }
             }
 
+            // MZGram: the app's own name (MZGramBranding)
+            value = org.telegram.messenger.mzgram.MZGramBranding.brand(key, value);
             if (getInstance().currentLocale != null) {
                 return String.format(getInstance().currentLocale, value, args);
             } else {

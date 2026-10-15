@@ -472,17 +472,11 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         versionView.setPadding(dp(21), dp(10), dp(21), dp(10));
         versionView.setGravity(Gravity.CENTER);
         versionView.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), Theme.RIPPLE_MASK_ALL));
-        versionView.setOnClickListener(v -> {
-            versionViewPressCount++;
-            if (versionViewPressCount < 2 && !BuildVars.DEBUG_PRIVATE_VERSION) {
-                try {
-                    Toast.makeText(getParentActivity(), getString(R.string.DebugMenuLongPress), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-                return;
-            }
+        // MZGram: a tap opens MZGram on GitHub, a long press the debug menu
+        versionView.setOnClickListener(v -> Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL));
+        versionView.setOnLongClickListener(v -> {
             openDebugMenu();
+            return true;
         });
 
         navigationBar = new View(context);
@@ -937,7 +931,12 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     }
                     break;
             }
-            return formatString(R.string.TelegramVersion, String.format(Locale.US, "v%s (%d)\n%s", pInfo.versionName, code, abi));
+            // MZGram: "MZGram 1.0.1 (based on Telegram 12.10.1)", not "Telegram for Android"
+            String[] versions = org.telegram.messenger.mzgram.MZGramBranding.versions(pInfo.versionName);
+            String line = versions[1] != null
+                    ? formatString(R.string.MZGramVersion, versions[0], versions[1])
+                    : formatString(R.string.MZGramVersionBase, versions[0]);
+            return line + String.format(Locale.US, "\n(%d) %s", code, abi);
         } catch (Exception e) {
             FileLog.e(e);
         }

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Checks on the emulator (API 34) that the key rotation of mzgram_sign.sh lets an
 # installed app signed with the old key update to the MZGram key without losing data.
+# Since MZGram has its own package (org.mzgram.messenger) no installed app has the
+# old key; the lineage stays in the release and this check keeps mzgram_sign.sh working.
 # Called from the "MZGram instrumented tests" job after the tests.
 #
 # Uses a throwaway key made here, never the release key, so it runs on every push.
@@ -13,7 +15,7 @@
 set -uo pipefail
 trap 'echo "::error::Key rotation check stopped at line $LINENO: $BASH_COMMAND"' ERR
 
-PKG=org.telegram.messenger.web
+PKG=org.mzgram.messenger
 MARKER=files/mzgram-rotation-marker
 BUILD_TOOLS=${BUILD_TOOLS:-$ANDROID_HOME/build-tools/36.0.0}
 APK=$(find TMessagesProj_AppTests/build/outputs/apk/afat/debug -name '*.apk' | head -1)

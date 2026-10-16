@@ -81,9 +81,20 @@ All MZGram features are in **Settings > MZGram**, grouped by topic. Every MZGram
 
 Releases are published on the [Releases](https://github.com/dmytrokurochkin/MZGram-Android/releases) page.
 
-Each release has one APK for all four ABIs, its signing lineage and `SHA256SUMS`. Release APKs are signed with the MZGram key; its certificate SHA-256 is in the release notes. A release installs over earlier MZGram builds and keeps all data. Releases named "debug key" and betas are prereleases.
+Each release has one APK for all four ABIs, its signing lineage and `SHA256SUMS`. Release APKs are signed with the MZGram key; its certificate SHA-256 is in the release notes. A release installs over earlier MZGram builds of the same package and keeps all data. Releases named "debug key" and betas are prereleases.
 
 MZGram updates itself from this page: when a newer stable release is out, Update in the banner downloads its APK from GitHub, checks it against `SHA256SUMS` and installs it with Android's package installer. The first version that can do this is installed by hand once. Settings > MZGram > Other > Check for MZGram updates turns it off.
+
+### Own package
+
+MZGram's package is `org.mzgram.messenger`, so it installs as a separate app beside Telegram from Google Play (`org.telegram.messenger`) and from telegram.org (`org.telegram.messenger.web`). Up to 1.0.3 MZGram had the package `org.telegram.messenger.web`, so Android took it for an update of Telegram from telegram.org and refused it. MZGram 1.0.3 and older do not update to the new package; move once:
+
+1. In the old MZGram: Settings > MZGram > Archive > Export. Android asks which app opens the file `mzgram_archive_export.db`: pick one that can save it, such as a file manager, and save it to Downloads.
+2. Install the new APK from the Releases page by hand and sign in.
+3. In the new MZGram: Settings > MZGram > Archive > Import, and pick that file.
+4. Remove the old MZGram.
+
+Files of archived messages stay in Downloads/MZGram/Saved Attachments.
 
 ## Build
 
@@ -97,7 +108,7 @@ Requirements: JDK 21, Android SDK 36, Android NDK 27.2.12479018 (exact version),
    ```
 2. Get your own `api_id` and `api_hash` at https://my.telegram.org/apps and put them into `APP_ID` and `APP_HASH` in `TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java`. Do not commit them.
 3. Signing: the repo contains a dummy `TMessagesProj/config/release.keystore`. For your own builds, create your own keystore, put it there and set `RELEASE_KEY_PASSWORD`, `RELEASE_KEY_ALIAS` and `RELEASE_STORE_PASSWORD` in `gradle.properties`. Do not commit them.
-4. Firebase: the build applies the Google Services plugin, so each app module needs a `google-services.json` whose `package_name` matches the application id. The repo contains dummy files for the default ids. If you change `APP_PACKAGE` in `gradle.properties`, create a project in the [Firebase console](https://console.firebase.google.com/) for your ids and replace the files. Background notifications in MZGram go through UnifiedPush, not through Telegram's Firebase push.
+4. Firebase: the build applies the Google Services plugin, so each app module needs a `google-services.json` whose `package_name` matches the application id. The repo contains dummy files for the default ids. MZGram's own id is `MZGRAM_PACKAGE` in `gradle.properties`; its `google-services.json` entry is a copy of the `.web` one, only so that the plugin builds. If you change `APP_PACKAGE` or `MZGRAM_PACKAGE`, create a project in the [Firebase console](https://console.firebase.google.com/) for your ids and replace the files. Background notifications in MZGram go through UnifiedPush, not through Telegram's Firebase push.
 5. Build:
    ```bash
    ./gradlew :TMessagesProj_AppStandalone:assembleAfatStandalone   # signed, minified

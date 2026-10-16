@@ -32,7 +32,10 @@ android {
     compileSdkVersion 36
     buildToolsVersion '36.0.0'
 
-    defaultConfig.applicationId = APP_PACKAGE
+    // MZGram: the tests run on MZGram's own package, as the release APK
+    // (TMessagesProj_AppStandalone)
+    defaultConfig.applicationId = MZGRAM_PACKAGE
+    defaultConfig.resValue "string", "mzgram_account_type", MZGRAM_PACKAGE
 
     sourceSets.main.jniLibs.srcDirs = ['../TMessagesProj/jni/']
     testBuildType "debug"
@@ -79,7 +82,6 @@ android {
             debuggable true
             jniDebuggable true
             signingConfig signingConfigs.debug
-            applicationIdSuffix ".web"
             minifyEnabled false
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro', '../TMessagesProj/proguard-rules-beta.pro'
@@ -89,7 +91,6 @@ android {
             debuggable false
             jniDebuggable false
             signingConfig signingConfigs.release
-            applicationIdSuffix ".web"
             minifyEnabled true
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'

@@ -12,7 +12,7 @@
 # Exit code is non-zero when a step fails.
 set -u
 
-APP=org.telegram.messenger.web
+APP=org.mzgram.messenger
 TEST=org.telegram.messenger.mzgram.test.MZGramAppearanceRestartTest
 INSTRUMENTATION=$(adb shell pm list instrumentation | tr -d '\r' | sed -n "s/^instrumentation:\([^ ]*\) (target=$APP)\$/\1/p" | head -1)
 echo "instrumentation: $INSTRUMENTATION"

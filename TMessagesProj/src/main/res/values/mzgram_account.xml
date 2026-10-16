@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The contacts account type (res/xml/auth.xml, sync_contacts.xml, ContactsController).
+     Only one app may own an account type, so MZGram's builds set it to their own
+     package (resValue in TMessagesProj_AppStandalone and TMessagesProj_AppTests);
+     the other builds keep Telegram's. -->
+<resources>
+    <string name="mzgram_account_type" translatable="false">org.telegram.messenger</string>
+</resources>

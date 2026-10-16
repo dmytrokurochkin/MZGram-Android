@@ -13,6 +13,8 @@
  * 3. The APK is downloaded into the app's cache, resuming a broken download.
  * 4. Its SHA-256 must match SHA256SUMS and, when GitHub gives one, the digest
  *    of the asset; otherwise the file is deleted and nothing is installed.
+ *    Its package must be this app's own (org.mzgram.messenger), or it is
+ *    deleted too.
  * 5. PackageInstaller installs it. Android asks the user to confirm (on
  *    Android 12 and newer it may skip that for an app updating itself) and
  *    checks the signature, which is the MZGram key of the installed app.
@@ -123,9 +125,15 @@ public class MZGramUpdateInstaller {
         void install(Context context, File apk, Listener listener) throws Exception;
     }
 
+    public interface PackageReader {
+        // The package of an APK file; null when it is not one
+        String packageOf(Context context, File apk);
+    }
+
     // Swapped by the tests: they never touch the network or install anything
     public static Downloader downloader = MZGramUpdateInstaller::httpDownload;
     public static Installer installer = MZGramUpdateInstaller::packageInstall;
+    public static PackageReader packageReader = MZGramUpdateInstaller::apkPackage;
     public static String[] abisOverride;
 
     private static volatile boolean running;
@@ -360,9 +368,20 @@ public class MZGramUpdateInstaller {
             ui(() -> listener.onFailed(Failure.NETWORK, e.getMessage()));
             return;
         }
+        // Only an APK of this app's own package is this update: one of
+        // another package (Telegram's, or MZGram's old org.telegram.messenger.web)
+        // would be a separate app
+        Context context = ApplicationLoader.applicationContext;
+        String apkPackage = packageReader.packageOf(context, ready);
+        if (!context.getPackageName().equals(apkPackage)) {
+            FileLog.d("MZGram update: the APK is of " + apkPackage + ", not " + context.getPackageName());
+            ready.delete();
+            ui(() -> listener.onFailed(Failure.INSTALL, "package " + apkPackage));
+            return;
+        }
         ui(listener::onInstalling);
         try {
-            installer.install(ApplicationLoader.applicationContext, ready, listener);
+            installer.install(context, ready, listener);
         } catch (Exception e) {
             FileLog.e(e);
             ready.delete();
@@ -473,6 +492,15 @@ public class MZGramUpdateInstaller {
             return value == null ? -1 : Long.parseLong(value.trim());
         } catch (NumberFormatException e) {
             return -1;
+        }
+    }
+
+    public static String apkPackage(Context context, File apk) {
+        try {
+            android.content.pm.PackageInfo info = context.getPackageManager().getPackageArchiveInfo(apk.getAbsolutePath(), 0);
+            return info == null ? null : info.packageName;
+        } catch (Exception e) {
+            return null;
         }
     }
 

@@ -137,7 +137,7 @@ jobs:
         run: |
           BADGING=$("$ANDROID_HOME/build-tools/36.0.0/aapt2" dump badging "$RUNNER_TEMP/signed.apk" | head -1)
           echo "$BADGING"
-          grep -q "name='org.telegram.messenger.web'" <<<"$BADGING" || { echo "::error::package name"; exit 1; }
+          grep -q "name='org.mzgram.messenger'" <<<"$BADGING" || { echo "::error::package name"; exit 1; }
           grep -q "versionCode='$((CODE * 10 + 9))'" <<<"$BADGING" || { echo "::error::versionCode is not $((CODE * 10 + 9))"; exit 1; }
           grep -qF "versionName='$NAME'" <<<"$BADGING" || { echo "::error::versionName is not $NAME"; exit 1; }
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify "$RUNNER_TEMP/signed.apk"

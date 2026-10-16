@@ -26,7 +26,11 @@ android {
     compileSdkVersion 36
     buildToolsVersion '36.0.0'
 
-    defaultConfig.applicationId = APP_PACKAGE
+    // MZGram: its own package (gradle.properties), not Telegram's
+    // org.telegram.messenger.web. The Java packages and the namespace stay.
+    // The contacts account type is the package too (res/xml/auth.xml).
+    defaultConfig.applicationId = MZGRAM_PACKAGE
+    defaultConfig.resValue "string", "mzgram_account_type", MZGRAM_PACKAGE
 
     sourceSets.main.jniLibs.srcDirs = ['../TMessagesProj/jni/']
 
@@ -68,7 +72,6 @@ android {
             debuggable true
             jniDebuggable true
             signingConfig signingConfigs.debug
-            applicationIdSuffix ".web"
             minifyEnabled false
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro', '../TMessagesProj/proguard-rules-beta.pro'
@@ -79,7 +82,6 @@ android {
             debuggable false
             jniDebuggable false
             signingConfig signingConfigs.release
-            applicationIdSuffix ".web"
             minifyEnabled true
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
@@ -155,4 +157,8 @@ android {
     }
 }
 
+// MZGram: google-services.json has a client for org.mzgram.messenger, a copy
+// of Telegram's .web one, only so that the plugin builds this package.
+// Telegram's own Google push never worked in MZGram (another signing key);
+// notifications come through UnifiedPush (MZGramUnifiedPush).
 apply plugin: 'com.google.gms.google-services'

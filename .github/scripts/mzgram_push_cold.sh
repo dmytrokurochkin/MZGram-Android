@@ -15,7 +15,7 @@
 # Exit code is non-zero when the push did not end up as a notification.
 set -u
 
-APP=org.telegram.messenger.web
+APP=org.mzgram.messenger
 TEST=org.telegram.messenger.mzgram.test.MZGramPushColdStartTest
 DIR=/data/local/tmp/mzgram-push
 

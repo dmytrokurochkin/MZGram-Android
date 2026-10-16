@@ -70,7 +70,7 @@ jobs:
           python3 .github/scripts/test_features.py
           # MZGram's strings: complete in each of the twelve languages
           python3 .github/scripts/test_strings.py
-          # Installs beside other Telegram apps: own authorities and permissions
+          # Installs beside Telegram: own package org.mzgram.messenger, authorities, permissions, account type, icon
           python3 .github/scripts/test_manifest.py
           # A push build gets the versionCode of the newest release tag (or the
           # gradle.properties one before the first release): it installs over the
@@ -106,7 +106,10 @@ jobs:
       - name: Verify the APK is signed.
         run: |
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs artifact/MZGram.apk
-          "$ANDROID_HOME/build-tools/36.0.0/aapt2" dump badging artifact/MZGram.apk | head -1
+          BADGING=$("$ANDROID_HOME/build-tools/36.0.0/aapt2" dump badging artifact/MZGram.apk | head -1)
+          echo "$BADGING"
+          # MZGram's own package: with Telegram's Android takes it for Telegram's update
+          grep -q "name='org.mzgram.messenger'" <<<"$BADGING" || { echo "::error::package name is not org.mzgram.messenger"; exit 1; }
           ls -lh artifact/
 
       - name: Upload artifact.

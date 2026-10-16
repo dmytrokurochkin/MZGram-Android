@@ -2308,7 +2308,8 @@ public class MessagesController extends BaseController implements NotificationCe
                             ArrayList<MessageObject> oldMsgs = dialogMessage.get(key);
                             boolean oldMsgsDeleted = false;
                             for (int i = 0; oldMsgs != null && i < oldMsgs.size(); ++i) {
-                                if (oldMsgs.get(i) != null && oldMsgs.get(i).deleted) {
+                                // MZGram: a kept deleted message shown for a chat without messages (mzgramShowKeptLastMessage) gives way to a real one
+                                if (oldMsgs.get(i) != null && (oldMsgs.get(i).deleted || oldMsgs.get(i).messageOwner != null && oldMsgs.get(i).messageOwner.mzgramDeleted)) {
                                     oldMsgsDeleted = true;
                                     break;
                                 }
@@ -13693,6 +13694,10 @@ public class MessagesController extends BaseController implements NotificationCe
                         archivedDialogsCount++;
                     }
                     ArrayList<MessageObject> newMsgs = new_dialogMessage.get(value.id);
+                    if (loadType == DIALOGS_LOAD_TYPE_CACHE && (newMsgs == null || newMsgs.isEmpty()) && value.top_message == 0 && !DialogObject.isFolderDialogId(key)) {
+                        // MZGram: a chat whose own history is gone, kept for its deleted messages
+                        mzgramShowKeptLastMessage(key, null);
+                    }
                     if (currentDialog == null) {
                         added = true;
                         dialogs_dict.put(key, value);
@@ -13721,7 +13726,8 @@ public class MessagesController extends BaseController implements NotificationCe
 
                         boolean oldMsgsDeleted = false;
                         for (int i = 0; oldMsgs != null && i < oldMsgs.size(); ++i) {
-                            if (oldMsgs.get(i) != null && oldMsgs.get(i).deleted) {
+                            // MZGram: a kept deleted message shown for a chat without messages (mzgramShowKeptLastMessage) gives way to a real one
+                            if (oldMsgs.get(i) != null && (oldMsgs.get(i).deleted || oldMsgs.get(i).messageOwner != null && oldMsgs.get(i).messageOwner.mzgramDeleted)) {
                                 oldMsgsDeleted = true;
                                 break;
                             }
@@ -14016,6 +14022,49 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
+    // The server has no message in a chat that has none here either: Telegram
+    // removes it from the chat list. MZGram keeps it there while it keeps
+    // deleted messages of the chat (the only message or the whole history
+    // deleted, or the history cleared by the other side) and shows the
+    // newest of them.
+    void onLastDialogMessageMissing(long dialogId) {
+        mzgramShowKeptLastMessage(dialogId, () -> deleteDialog(dialogId, 3));
+    }
+
+    // MZGram: the newest deleted message MZGram keeps for a chat without a
+    // message of its own (MZGramHistoryController.keptLastMessage) becomes
+    // its last message in the chat list; without one, orElse runs.
+    private void mzgramShowKeptLastMessage(long dialogId, Runnable orElse) {
+        getMessagesStorage().getStorageQueue().postRunnable(() -> {
+            TLRPC.Message kept = org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().keptLastMessage(currentAccount, dialogId);
+            AndroidUtilities.runOnUIThread(() -> {
+                TLRPC.Dialog dialog = dialogs_dict.get(dialogId);
+                if (dialog == null || dialog.top_message != 0) {
+                    return;
+                }
+                ArrayList<MessageObject> shown = dialogMessage.get(dialogId);
+                if (shown != null && !shown.isEmpty() && shown.get(0) != null && !shown.get(0).messageOwner.mzgramDeleted) {
+                    // A message of its own came meanwhile
+                    return;
+                }
+                if (kept == null) {
+                    if (orElse != null) {
+                        orElse.run();
+                    }
+                    return;
+                }
+                ArrayList<MessageObject> list = new ArrayList<>(1);
+                list.add(new MessageObject(currentAccount, kept, false, false));
+                dialogMessage.put(dialogId, list);
+                if (dialog.last_message_date == 0) {
+                    dialog.last_message_date = kept.date;
+                }
+                sortDialogs(null);
+                getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload);
+            });
+        });
+    }
+
     protected void checkLastDialogMessage(TLRPC.Dialog dialog, TLRPC.InputPeer peer, long taskId) {
         if (DialogObject.isEncryptedDialog(dialog.id) || checkingLastMessagesDialogs.indexOfKey(dialog.id) >= 0) {
             return;
@@ -14110,7 +14159,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                     FileLog.d("checkLastDialogMessage for " + dialog.id + " current dialog top message " + currentDialog.top_message);
                                 }
                                 if (currentDialog.top_message == 0) {
-                                    deleteDialog(dialog.id, 3);
+                                    onLastDialogMessageMissing(dialog.id);
                                 }
                             }
                         }
@@ -14244,6 +14293,8 @@ public class MessagesController extends BaseController implements NotificationCe
                         dialogMessage.put(key, newMsgs);
                         if (newMsgs == null || newMsgs.size() <= 0) {
                             if (fromCache) {
+                                // MZGram: the newest kept deleted message, if any, until the server answers
+                                mzgramShowKeptLastMessage(key, null);
                                 checkLastDialogMessage(value, null, 0);
                             }
                             if (BuildVars.LOGS_ENABLED) {
@@ -14289,7 +14340,8 @@ public class MessagesController extends BaseController implements NotificationCe
                         ArrayList<MessageObject> oldMsgs = dialogMessage.get(key);
                         boolean oldMsgsDeleted = false;
                         for (int i = 0; oldMsgs != null && i < oldMsgs.size(); ++i) {
-                            if (oldMsgs.get(i) != null && oldMsgs.get(i).deleted) {
+                            // MZGram: a kept deleted message shown for a chat without messages (mzgramShowKeptLastMessage) gives way to a real one
+                            if (oldMsgs.get(i) != null && (oldMsgs.get(i).deleted || oldMsgs.get(i).messageOwner != null && oldMsgs.get(i).messageOwner.mzgramDeleted)) {
                                 oldMsgsDeleted = true;
                                 break;
                             }
@@ -14335,6 +14387,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                 }
                             }
                             if (fromCache && newMsgs == null) {
+                                // MZGram: the newest kept deleted message, if any, until the server answers
+                                mzgramShowKeptLastMessage(key, null);
                                 checkLastDialogMessage(value, null, 0);
                                 if (BuildVars.LOGS_ENABLED) {
                                     FileLog.d("processDialogsUpdate new messages are null");

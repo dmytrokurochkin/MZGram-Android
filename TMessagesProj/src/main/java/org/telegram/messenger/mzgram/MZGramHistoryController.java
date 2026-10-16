@@ -967,6 +967,38 @@ public class MZGramHistoryController {
         }
     }
 
+    // ---- a chat whose whole history is gone ----
+
+    // MessagesController, when a chat has no message left (the only one or
+    // all of them deleted, the history cleared): the newest deleted message
+    // MZGram keeps for it, marked deleted, or null. With one the chat stays
+    // in the chat list and shows it; without, the chat goes as usual.
+    // Reads the archive: not on the UI thread.
+    public TLRPC.Message keptLastMessage(int accountId, long dialogId) {
+        if (!savesChat(dialogId) || DialogObject.isEncryptedDialog(dialogId)) {
+            return null;
+        }
+        try {
+            long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+            List<MZGramHistoryMessage> rows = MZGramHistoryDatabase.getInstance().getDeletedInRange(accountUserId, dialogId, 1, Integer.MAX_VALUE, 20);
+            for (int r = 0, N = rows.size(); r < N; r++) {
+                MZGramHistoryMessage row = rows.get(r);
+                TLRPC.Message message = deserializeMessage(row.messageData);
+                if (message == null || message instanceof TLRPC.TL_messageService || message.id != row.messageId) {
+                    continue;
+                }
+                message.dialog_id = dialogId;
+                message.unread = false;
+                message.media_unread = false;
+                message.mzgramDeleted = true;
+                return message;
+            }
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.keptLastMessage", e);
+        }
+        return null;
+    }
+
     // ---- retrieval for the UI ----
 
     public boolean hasHistory(int accountId, long dialogId, int messageId) {

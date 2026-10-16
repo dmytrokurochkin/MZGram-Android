@@ -10,6 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import org.telegram.messenger.BuildVars
 import org.telegram.messenger.DispatchQueue
+import org.telegram.messenger.MessageObject
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.MessagesStorage
 import org.telegram.messenger.UserConfig
@@ -102,7 +103,14 @@ class MZGramDeletedChatStaysTest {
         dialogs.users.add(user)
         controller.processDialogsUpdate(dialogs, null, false)
         drainAll()
-        assertNotNull("the chat is in the list before", controller.dialogs_dict.get(userId))
+        assertNotNull("the chat is in the list before", entry("dialogs_dict", userId))
+    }
+
+    // MessagesController's androidx LongSparseArray maps are not on this
+    // module's compile classpath: read them through reflection.
+    private fun entry(field: String, key: Long): Any? {
+        val map = MessagesController::class.java.getField(field).get(controller) ?: return null
+        return map.javaClass.getMethod("get", Long::class.javaPrimitiveType).invoke(map, key)
     }
 
     private fun deleteByTheOtherSide(vararg mids: Int) {
@@ -126,7 +134,7 @@ class MZGramDeletedChatStaysTest {
         drainAll()
     }
 
-    private fun shownMessage(userId: Long) = controller.dialogMessage.get(userId)?.firstOrNull()?.messageOwner
+    private fun shownMessage(userId: Long) = (entry("dialogMessage", userId) as? List<*>)?.firstOrNull()?.let { (it as MessageObject).messageOwner }
 
     private fun waitFor(what: String, condition: () -> Boolean) {
         val until = System.currentTimeMillis() + 15_000
@@ -145,7 +153,7 @@ class MZGramDeletedChatStaysTest {
     private fun inTheList(userId: Long): Boolean {
         var listed = false
         instrumentation.runOnMainSync {
-            listed = controller.dialogs_dict.get(userId) != null && controller.getDialogs(0).any { it.id == userId }
+            listed = entry("dialogs_dict", userId) != null && controller.getDialogs(0).any { it.id == userId }
         }
         return listed
     }
@@ -194,6 +202,6 @@ class MZGramDeletedChatStaysTest {
         deleteByTheOtherSide(mid)
         assertNull("not archived", MZGramHistoryDatabase.getInstance().getDeleted(selfId, userId, mid))
         serverHasNoMessages(userId)
-        waitFor("the chat is removed as in Telegram") { controller.dialogs_dict.get(userId) == null }
+        waitFor("the chat is removed as in Telegram") { entry("dialogs_dict", userId) == null }
     }
 }

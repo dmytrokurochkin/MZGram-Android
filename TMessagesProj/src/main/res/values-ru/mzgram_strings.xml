@@ -83,7 +83,7 @@
     <string name="MZGramConfirmAVMessage">Подтверждать голосовые и видеосообщения</string>
     <string name="MZGramConfirmAVMessageInfo">Если отпустить кнопку записи, записанное голосовое или видеосообщение показывается для просмотра с отдельной кнопкой «Отправить», а не отправляется сразу.</string>
     <string name="MZGramMediaPreviewOnLongPress">Медиа при удержании аватара чата</string>
-    <string name="MZGramMediaPreviewOnLongPressInfo">Если последнее сообщение в чате — фото или видео, удержание аватара в списке чатов показывает это медиа вместо предпросмотра чата.</string>
+    <string name="MZGramMediaPreviewOnLongPressInfo">Если последнее сообщение в чате это фото или видео, удержание аватара в списке чатов показывает это медиа вместо предпросмотра чата.</string>
     <string name="MZGramPreferOriginalQuality">Предпочитать исходное качество видео</string>
     <string name="MZGramPreferOriginalQualityInfo">Видео, доступные в нескольких качествах, воспроизводятся в исходном, которое расходует больше трафика.</string>
     <string name="MZGramHideBottomNavigationBar">Скрыть нижнюю панель навигации</string>

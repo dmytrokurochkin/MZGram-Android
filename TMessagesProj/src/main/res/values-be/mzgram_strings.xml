@@ -83,7 +83,7 @@
     <string name="MZGramConfirmAVMessage">Пацвярджаць галасавыя і відэапаведамленні</string>
     <string name="MZGramConfirmAVMessageInfo">Калі адпусціць кнопку запісу, запісанае галасавое або відэапаведамленне паказваецца для прагляду з асобнай кнопкай «Адправіць», а не адпраўляецца адразу.</string>
     <string name="MZGramMediaPreviewOnLongPress">Медыя пры ўтрыманні аватара чата</string>
-    <string name="MZGramMediaPreviewOnLongPressInfo">Калі апошняе паведамленне ў чаце — фота або відэа, утрыманне яго аватара ў спісе чатаў паказвае гэтае медыя замест папярэдняга прагляду чата.</string>
+    <string name="MZGramMediaPreviewOnLongPressInfo">Калі апошняе паведамленне ў чаце гэта фота або відэа, утрыманне яго аватара ў спісе чатаў паказвае гэтае медыя замест папярэдняга прагляду чата.</string>
     <string name="MZGramPreferOriginalQuality">Аддаваць перавагу арыгінальнай якасці відэа</string>
     <string name="MZGramPreferOriginalQualityInfo">Відэа, даступныя ў некалькіх якасцях, прайграюцца ў арыгінальнай, якая расходуе больш трафіку.</string>
     <string name="MZGramHideBottomNavigationBar">Схаваць ніжнюю панэль навігацыі</string>

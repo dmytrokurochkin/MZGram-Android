@@ -17,7 +17,7 @@
     <string name="MZGramSectionInterfaceInfo">Chat list, stories, time and animations</string>
     <string name="MZGramLanguage">MZGram language</string>
     <string name="MZGramLanguageSystem">System</string>
-    <string name="MZGramLanguageInfo">The language of MZGram's own settings and features, apart from Telegram's language. System: the phone's language when MZGram has it, otherwise English.</string>
+    <string name="MZGramLanguageInfo">The language of MZGram\'s own settings and features, apart from Telegram\'s language. System: the phone\'s language when MZGram has it, otherwise English.</string>
     <string name="MZGramSectionAdsAndFiltersInfo">Sponsored messages and broken text</string>
     <string name="MZGramSectionOtherInfo">Everything else</string>
     <string name="MZGramDisableNumberRounding">Disable number rounding</string>

@@ -68,8 +68,10 @@ jobs:
           python3 .github/scripts/test_mzgram_version.py
           # FEATURES.md is kept with every feature change (both repositories)
           python3 .github/scripts/test_features.py
-          # MZGram's strings: English and Ukrainian, complete in both
+          # MZGram's strings: complete in each of the twelve languages
           python3 .github/scripts/test_strings.py
+          # Installs beside other Telegram apps: own authorities and permissions
+          python3 .github/scripts/test_manifest.py
           # A push build gets the versionCode of the newest release tag (or the
           # gradle.properties one before the first release): it installs over the
           # last release, and the next release installs over it

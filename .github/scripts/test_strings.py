@@ -94,6 +94,13 @@ class StringsTest(unittest.TestCase):
                     self.assertRegex(value, ARABIC, code + " " + key + ": not Arabic")
             self.assertRegex("".join(values.values()), OWN_LETTERS[code], code + ": not that language")
 
+    def test_apostrophes_escaped_and_no_long_dashes(self):
+        # aapt refuses a bare apostrophe and fails the whole build
+        for code, values in [("en", self.en)] + list(self.other.items()):
+            for key, value in values.items():
+                self.assertIsNone(re.search(r"(?<!\\)'", value), code + " " + key + ": apostrophe without \\")
+                self.assertNotIn("—", value, code + " " + key + ": long dash")
+
     def test_same_placeholders(self):
         for code, values in self.other.items():
             for key, value in self.en.items():

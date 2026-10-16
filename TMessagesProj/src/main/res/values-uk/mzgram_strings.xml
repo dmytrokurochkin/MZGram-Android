@@ -84,7 +84,7 @@
     <string name="MZGramConfirmAVMessage">Підтверджувати голосові та відеоповідомлення</string>
     <string name="MZGramConfirmAVMessageInfo">Коли ви відпускаєте кнопку запису, записане голосове або відеоповідомлення показується для перегляду з окремою кнопкою «Надіслати», замість того щоб надсилатися одразу.</string>
     <string name="MZGramMediaPreviewOnLongPress">Перегляд медіа за утриманням аватара чату</string>
-    <string name="MZGramMediaPreviewOnLongPressInfo">Якщо останнє повідомлення в чаті — фото або відео, утримання аватара в списку чатів показує це медіа замість попереднього перегляду чату.</string>
+    <string name="MZGramMediaPreviewOnLongPressInfo">Якщо останнє повідомлення в чаті це фото або відео, утримання аватара в списку чатів показує це медіа замість попереднього перегляду чату.</string>
     <string name="MZGramPreferOriginalQuality">Віддавати перевагу оригінальній якості відео</string>
     <string name="MZGramPreferOriginalQualityInfo">Відео, доступні в кількох якостях, відтворюються в оригінальній, що витрачає більше трафіку.</string>
     <string name="MZGramHideBottomNavigationBar">Приховати нижню панель навігації</string>
@@ -263,7 +263,7 @@
     <string name="MZGramUpdateCheckNow">Перевірити оновлення</string>
     <string name="MZGramUpdateCheckLatest">У вас остання версія MZGram</string>
     <string name="MZGramUpdateCheckAvailable">Доступна версія MZGram %1$s</string>
-    <string name="MZGramUpdateCheckFailed">Не вдалося перевірити оновлення. Перевірте з'єднання і спробуйте ще раз.</string>
+    <string name="MZGramUpdateCheckFailed">Не вдалося перевірити оновлення. Перевірте з\'єднання і спробуйте ще раз.</string>
     <string name="MZGramUpdateOpen">Оновити</string>
     <string name="MZGramUpdateClose">Закрити</string>
     <string name="MZGramUpdateRetry">Повторити</string>

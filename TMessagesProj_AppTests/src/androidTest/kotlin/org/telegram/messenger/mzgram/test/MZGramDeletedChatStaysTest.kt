@@ -8,6 +8,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.BuildVars
 import org.telegram.messenger.DispatchQueue
 import org.telegram.messenger.MessageObject
@@ -150,9 +151,21 @@ class MZGramDeletedChatStaysTest {
         assertTrue(what, met)
     }
 
+    // sortDialogs(null) does nothing while the app is in the background, as it is between screen tests
+    private fun sortDialogs() {
+        val paused = ApplicationLoader.mainInterfacePaused
+        ApplicationLoader.mainInterfacePaused = false
+        try {
+            MessagesController::class.java.methods.first { it.name == "sortDialogs" && it.parameterCount == 1 }.invoke(controller, null)
+        } finally {
+            ApplicationLoader.mainInterfacePaused = paused
+        }
+    }
+
     private fun inTheList(userId: Long): Boolean {
         var listed = false
         instrumentation.runOnMainSync {
+            sortDialogs()
             listed = entry("dialogs_dict", userId) != null && controller.getDialogs(0).any { it.id == userId }
         }
         return listed

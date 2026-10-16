@@ -129,6 +129,8 @@ class MZGramUpdateInstallerTest {
         MZGramUpdateInstaller.installer = MZGramUpdateInstaller.Installer { _, apk, _ ->
             installed.add(apk.readBytes())
         }
+        // The fake APKs are not real ones: they read as this app's package
+        MZGramUpdateInstaller.packageReader = MZGramUpdateInstaller.PackageReader { context, _ -> context.packageName }
         MZGramUpdateBanner.permission = object : MZGramUpdateBanner.Permission {
             override fun granted() = true
             override fun ask(context: android.content.Context) {
@@ -146,6 +148,7 @@ class MZGramUpdateInstallerTest {
         MZGramUpdateChecker.fetcher = MZGramUpdateChecker.Fetcher { _, _ -> throw IOException("no network in tests") }
         MZGramUpdateInstaller.downloader = MZGramUpdateInstaller.Downloader { _, _, _, _, _ -> throw IOException("no network in tests") }
         MZGramUpdateInstaller.installer = MZGramUpdateInstaller.Installer { _, _, _ -> throw IOException("no installs in tests") }
+        MZGramUpdateInstaller.packageReader = MZGramUpdateInstaller.PackageReader { context, apk -> MZGramUpdateInstaller.apkPackage(context, apk) }
         MZGramUpdateInstaller.abisOverride = null
         MZGramUpdateInstaller.cleanUp()
         MZGramUpdateBanner.permission = MZGramUpdateBanner.Permission.SYSTEM
@@ -233,6 +236,32 @@ class MZGramUpdateInstallerTest {
         assertEquals("failed:CHECKSUM", update().last())
         assertTrue("nothing installed", installed.isEmpty())
         assertEquals("the file deleted", emptyList<String>(), leftovers())
+    }
+
+    // A release APK of another package (Telegram's, or MZGram's old
+    // org.telegram.messenger.web) would be a separate app, not this update.
+    @Test
+    fun apkOfAnotherPackage_isNotInstalled() {
+        serve()
+        MZGramUpdateInstaller.packageReader = MZGramUpdateInstaller.PackageReader { _, _ -> "org.telegram.messenger.web" }
+        assertEquals("failed:INSTALL", update().last())
+        assertTrue("nothing installed", installed.isEmpty())
+        assertEquals("the file deleted", emptyList<String>(), leftovers())
+    }
+
+    @Test
+    fun apkPackage_isReadFromTheFile() {
+        val app = instrumentation.targetContext
+        val tests = instrumentation.context
+        assertEquals("org.mzgram.messenger", MZGramUpdateInstaller.apkPackage(app, File(app.packageCodePath)))
+        assertEquals("another app's APK", tests.packageName, MZGramUpdateInstaller.apkPackage(app, File(tests.packageCodePath)))
+        val notApk = File(app.cacheDir, "mzgram-not-an-apk.apk")
+        notApk.writeBytes(apkBytes)
+        try {
+            assertNull("not an APK", MZGramUpdateInstaller.apkPackage(app, notApk))
+        } finally {
+            notApk.delete()
+        }
     }
 
     @Test

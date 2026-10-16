@@ -82,7 +82,7 @@ class MZGramBrandingTest {
             assertFalse("no \"офіційний\": $text", Regex("(?<![а-яіїєґА-ЯІЇЄҐ])[оО]фіційн").containsMatchIn(text))
         }
         assertEquals("MZGram", context.packageManager.getApplicationLabel(context.applicationInfo).toString())
-        assertEquals("the package stays", "org.telegram.messenger.web", context.packageName)
+        assertEquals("MZGram's own package", "org.mzgram.messenger", context.packageName)
 
         val self = TLRPC.TL_user()
         self.id = 7_000_000_001L

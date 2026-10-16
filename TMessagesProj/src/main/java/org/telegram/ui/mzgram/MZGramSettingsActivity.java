@@ -30,7 +30,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Row id of the entry in Settings; clear of the ids SettingsActivity uses.
     public static final int SETTINGS_ROW_ID = 1000;
 
-    private static final int BUTTON_TEST_TOGGLE = 1;
     private static final int BUTTON_DISABLE_NUMBER_ROUNDING = 2;
     private static final int BUTTON_FORMAT_TIME_WITH_SECONDS = 3;
     private static final int BUTTON_ASK_BEFORE_CALL = 4;
@@ -67,6 +66,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_CAMERA_TILE = 52;
     private static final int BUTTON_CHECK_UPDATES = 53;
     private static final int BUTTON_ACCOUNTS_IN_MENU = 54;
+    private static final int BUTTON_CHECK_UPDATES_NOW = 55;
+    private static final int BUTTON_LANGUAGE = 56;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
@@ -192,6 +193,36 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramEraseLocalDatabaseInfo)));
     }
 
+    private static String languageValue() {
+        return MZGramConfig.language.isEmpty() ? getString(R.string.MZGramLanguageSystem) : org.telegram.messenger.mzgram.MZGramLanguage.name(MZGramConfig.language);
+    }
+
+    // System and the languages, each by its own name; the choice applies at once.
+    private void chooseLanguage() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] codes = org.telegram.messenger.mzgram.MZGramLanguage.LANGUAGES;
+        String[] options = new String[codes.length + 1];
+        options[0] = getString(R.string.MZGramLanguageSystem);
+        System.arraycopy(org.telegram.messenger.mzgram.MZGramLanguage.NAMES, 0, options, 1, codes.length);
+        int selected = org.telegram.messenger.mzgram.MZGramLanguage.indexOf(MZGramConfig.language) + 1;
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramLanguage), selected, (dialog, which) -> {
+            setLanguage(which == 0 ? org.telegram.messenger.mzgram.MZGramLanguage.SYSTEM : codes[which - 1]);
+        }));
+    }
+
+    // Also used by the tests
+    public void setLanguage(String code) {
+        MZGramConfig.setLanguage(code);
+        // Every open MZGram page and its title in the new language
+        if (getParentLayout() != null) {
+            getParentLayout().rebuildAllFragmentViews(false, false);
+        } else if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
+        }
+    }
+
     // The text shown before the time of a deleted or edited message; any
     // text, empty for none.
     private void editMark(String title, String current, org.telegram.messenger.Utilities.Callback<String> setter) {
@@ -280,6 +311,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private void fillInterface(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
+        items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
         items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
         items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
@@ -315,18 +348,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private void fillOther(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_CHECK_UPDATES, getString(R.string.MZGramCheckUpdates)).setChecked(MZGramConfig.checkUpdates));
+        items.add(UItem.asButton(BUTTON_CHECK_UPDATES_NOW, getString(R.string.MZGramUpdateCheckNow)));
         items.add(UItem.asShadow(getString(R.string.MZGramCheckUpdatesInfo)));
-        items.add(UItem.asCheck(BUTTON_TEST_TOGGLE, getString(R.string.MZGramTestToggle)).setChecked(MZGramConfig.testToggle));
-        items.add(UItem.asShadow(getString(R.string.MZGramTestToggleInfo)));
     }
 
     @Override
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (item.id >= SECTION_ROW_ID && item.id < SECTION_ROW_ID + SECTIONS_COUNT) {
             presentFragment(new MZGramSettingsActivity(item.id - SECTION_ROW_ID));
-        } else if (item.id == BUTTON_TEST_TOGGLE) {
-            MZGramConfig.toggleTestToggle();
-            ((TextCheckCell) view).setChecked(MZGramConfig.testToggle);
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);
@@ -358,6 +387,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
             if (!MZGramConfig.checkUpdates && banner != null) {
                 banner.hide();
             }
+        } else if (item.id == BUTTON_LANGUAGE) {
+            chooseLanguage();
+        } else if (item.id == BUTTON_CHECK_UPDATES_NOW) {
+            MZGramUpdateBanner.checkByHand(this, null);
         } else if (item.id == BUTTON_HIDE_CAMERA_TILE) {
             MZGramConfig.toggleHideCameraTile();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideCameraTile);

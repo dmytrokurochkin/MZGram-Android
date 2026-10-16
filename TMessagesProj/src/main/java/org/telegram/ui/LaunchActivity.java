@@ -5968,19 +5968,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 SharedConfig.pendingAppUpdate = null;
                 SharedConfig.saveConfig();
             }
-            org.telegram.messenger.mzgram.MZGramUpdateChecker.check(force, release -> {
-                if (progress != null) {
-                    progress.end();
-                }
-                if (release != null) {
-                    if (mzgramUpdateBanner != null) {
-                        mzgramUpdateBanner.show(release);
-                    }
-                } else if (force) {
-                    BaseFragment fragment = getLastFragment();
-                    if (fragment != null) {
-                        BulletinFactory.of(fragment).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.YourVersionIsLatest)).show();
-                    }
+            if (force) {
+                // Asked by the user: the result is said, an error too
+                org.telegram.ui.mzgram.MZGramUpdateBanner.checkByHand(getLastFragment(), progress == null ? null : progress::end);
+                return;
+            }
+            org.telegram.messenger.mzgram.MZGramUpdateChecker.check(false, release -> {
+                if (release != null && mzgramUpdateBanner != null) {
+                    mzgramUpdateBanner.show(release);
                 }
             });
             return;

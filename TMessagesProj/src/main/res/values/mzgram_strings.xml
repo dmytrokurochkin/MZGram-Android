@@ -15,10 +15,11 @@
     <string name="MZGramSectionMessageMenuInfo">Extra actions when you hold a message</string>
     <string name="MZGramSectionMediaAndCallsInfo">Calls, camera, video and photo quality</string>
     <string name="MZGramSectionInterfaceInfo">Chat list, stories, time and animations</string>
+    <string name="MZGramLanguage">MZGram language</string>
+    <string name="MZGramLanguageSystem">System</string>
+    <string name="MZGramLanguageInfo">The language of MZGram's own settings and features, apart from Telegram's language. System: the phone's language when MZGram has it, otherwise English.</string>
     <string name="MZGramSectionAdsAndFiltersInfo">Sponsored messages and broken text</string>
     <string name="MZGramSectionOtherInfo">Everything else</string>
-    <string name="MZGramTestToggle">Test switch</string>
-    <string name="MZGramTestToggleInfo">Checks that MZGram settings survive a restart. It changes nothing else.</string>
     <string name="MZGramDisableNumberRounding">Disable number rounding</string>
     <string name="MZGramDisableNumberRoundingInfo">Show exact counts of views, reactions and members: 4777 instead of 4.8K.</string>
     <string name="MZGramFormatTimeWithSeconds">Format time with seconds</string>
@@ -51,7 +52,6 @@
     <string name="MZGramDetailsRead">Read</string>
     <string name="MZGramDetailsReadLocal">%1$s (when this device learned of it)</string>
     <string name="MZGramDetailsReadUnknown">Read, time unknown</string>
-    <string name="MZGramLastSeenApprox">%1$s (approx.)</string>
     <string name="MZGramDetailsWhenOnline">When online</string>
     <string name="MZGramDetailsForwardFrom">Forward from</string>
     <string name="MZGramDetailsRestrictionReason">Restriction reason</string>
@@ -257,8 +257,12 @@
     <string name="MZGramPushResultNoAnswer">error: no answer</string>
     <string name="MZGramPushResultNoToken">error: no token and no error given</string>
     <string name="MZGramCheckUpdates">Check for MZGram updates</string>
-    <string name="MZGramCheckUpdatesInfo">Every few hours MZGram looks for its latest stable release on GitHub and shows a bar at the bottom of the screen when it is newer. Update downloads the APK of that release from GitHub, checks its SHA-256 and installs it; Android may ask you to confirm. If the file does not pass the check, nothing is installed. Turning this off turns off the update too. The update check of Telegram itself is off: it offers the official app, which cannot update MZGram.</string>
+    <string name="MZGramCheckUpdatesInfo">Every few hours MZGram looks for its latest stable release on GitHub and shows a bar at the bottom of the screen when it is newer. Update downloads the APK of that release from GitHub, checks its SHA-256 and installs it; Android may ask you to confirm. If the file does not pass the check, nothing is installed. Turning this off turns off the update too. Check for updates looks at once and says what it found, also when this is off. The update check of Telegram itself is off: it offers the official app, which cannot update MZGram.</string>
     <string name="MZGramUpdateAvailable">MZGram %1$s update available</string>
+    <string name="MZGramUpdateCheckNow">Check for updates</string>
+    <string name="MZGramUpdateCheckLatest">You have the latest version of MZGram</string>
+    <string name="MZGramUpdateCheckAvailable">MZGram %1$s is available</string>
+    <string name="MZGramUpdateCheckFailed">Could not check for updates. Check the connection and try again.</string>
     <string name="MZGramUpdateOpen">Update</string>
     <string name="MZGramUpdateClose">Close</string>
     <string name="MZGramUpdateRetry">Retry</string>

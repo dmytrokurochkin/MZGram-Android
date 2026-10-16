@@ -8,7 +8,7 @@ MZGram is an unofficial Telegram client for Android that keeps deleted and edite
 
 Everything MZGram adds to Telegram, on Android and on Desktop, with the version each feature came in: [FEATURES.md](FEATURES.md).
 
-All MZGram features are in **Settings > MZGram**, grouped by topic. Every MZGram text is available in English and Ukrainian.
+All MZGram features are in **Settings > MZGram**, grouped by topic. Every MZGram text is available in 12 languages (English, Ukrainian, Russian, Polish, Spanish, German, French, Portuguese (Brazil), Turkish, Arabic, Belarusian and Kazakh), chosen in Settings > MZGram > Interface apart from Telegram's language.
 
 ### Archive of deleted and edited messages
 

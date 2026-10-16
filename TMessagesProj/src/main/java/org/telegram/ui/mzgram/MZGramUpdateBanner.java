@@ -275,6 +275,42 @@ public class MZGramUpdateBanner extends LinearLayout {
         return activity == null ? null : activity.mzgramUpdateBanner;
     }
 
+    // The text of the last checkByHand result, for the tests
+    public static volatile String lastCheckText;
+
+    // "Check for updates" (Settings > MZGram > Other, and Telegram's own
+    // item): a check now, outside the interval; the result in a bulletin,
+    // and a newer version also gets the banner.
+    public static void checkByHand(org.telegram.ui.ActionBar.BaseFragment fragment, Runnable done) {
+        MZGramUpdateChecker.checkManually(result -> {
+            if (done != null) {
+                done.run();
+            }
+            if (result.result == MZGramUpdateChecker.MANUAL_AVAILABLE && result.release != null) {
+                MZGramUpdateBanner banner = current();
+                if (banner != null) {
+                    banner.show(result.release);
+                }
+            }
+            String text = resultText(result);
+            lastCheckText = text;
+            if (fragment != null && fragment.getParentActivity() != null) {
+                org.telegram.ui.Components.BulletinFactory.of(fragment).createSimpleBulletin(R.raw.chats_infotip, text).show();
+            }
+        });
+    }
+
+    public static String resultText(MZGramUpdateChecker.Manual result) {
+        switch (result.result) {
+            case MZGramUpdateChecker.MANUAL_AVAILABLE:
+                return LocaleController.formatString(R.string.MZGramUpdateCheckAvailable, result.release.version());
+            case MZGramUpdateChecker.MANUAL_ERROR:
+                return LocaleController.getString(R.string.MZGramUpdateCheckFailed);
+            default:
+                return LocaleController.getString(R.string.MZGramUpdateCheckLatest);
+        }
+    }
+
     // The app's update check (LaunchActivity.checkAppUpdate), as on resume or from settings
     public static void checkFromApp(boolean force) {
         org.telegram.ui.LaunchActivity activity = org.telegram.ui.LaunchActivity.instance;

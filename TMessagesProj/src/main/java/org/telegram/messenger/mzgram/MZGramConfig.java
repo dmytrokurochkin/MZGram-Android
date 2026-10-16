@@ -21,10 +21,6 @@ public class MZGramConfig {
     private static final Object sync = new Object();
     private static boolean configLoaded;
 
-    // Placeholder that proves the settings survive a restart. Removed once the
-    // first real feature flag lands.
-    public static boolean testToggle = false;
-
     public static boolean disableNumberRounding = false;
     public static boolean formatTimeWithSeconds = false;
     public static boolean askBeforeCall = false;
@@ -57,6 +53,8 @@ public class MZGramConfig {
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
+    // MZGramLanguage: "" follows the phone, otherwise one of its codes
+    public static String language = "";
     // Folder tabs above the bottom bars instead of under the search field.
     public static boolean folderTabsAtBottom = false;
     // Routes a released
@@ -139,7 +137,6 @@ public class MZGramConfig {
                 return;
             }
             final SharedPreferences preferences = preferences();
-            testToggle = preferences.getBoolean("testToggle", false);
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             askBeforeCall = preferences.getBoolean("askBeforeCall", false);
@@ -166,6 +163,7 @@ public class MZGramConfig {
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
+            language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             mediaPreviewOnLongPress = preferences.getBoolean("mediaPreviewOnLongPress", false);
@@ -223,11 +221,6 @@ public class MZGramConfig {
 
     private static void putBoolean(String key, boolean value) {
         preferences().edit().putBoolean(key, value).apply();
-    }
-
-    public static void toggleTestToggle() {
-        testToggle = !testToggle;
-        putBoolean("testToggle", testToggle);
     }
 
     public static void toggleDisableNumberRounding() {
@@ -353,6 +346,12 @@ public class MZGramConfig {
     public static void toggleHideBottomNavigationBar() {
         hideBottomNavigationBar = !hideBottomNavigationBar;
         putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
+    }
+
+    public static void setLanguage(String code) {
+        language = code == null ? "" : code;
+        preferences().edit().putString("language", language).apply();
+        MZGramLanguage.reset();
     }
 
     public static void toggleAccountsInMenu() {

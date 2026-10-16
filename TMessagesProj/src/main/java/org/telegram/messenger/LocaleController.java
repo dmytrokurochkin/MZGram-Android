@@ -1435,7 +1435,12 @@ public class LocaleController {
     }
 
     private String getStringInternal(String key, String fallback, int fallbackRes, int res) {
-        String value = BuildVars.USE_CLOUD_STRINGS ? localeValues.get(key) : null;
+        // MZGram: its own strings in the MZGram language (MZGramLanguage)
+        String value = org.telegram.messenger.mzgram.MZGramLanguage.string(key, res);
+        if (value != null) {
+            return org.telegram.messenger.mzgram.MZGramBranding.brand(key, value);
+        }
+        value = BuildVars.USE_CLOUD_STRINGS ? localeValues.get(key) : null;
         if (value == null) {
             if (BuildVars.USE_CLOUD_STRINGS && fallback != null) {
                 value = localeValues.get(fallback);
@@ -1674,7 +1679,11 @@ public class LocaleController {
 
     public static String formatString(String key, String fallback, int res, int fallbackRes, Object... args) {
         try {
-            String value = BuildVars.USE_CLOUD_STRINGS ? getInstance().localeValues.get(key) : null;
+            // MZGram: its own strings in the MZGram language (MZGramLanguage)
+            String value = org.telegram.messenger.mzgram.MZGramLanguage.string(key, res);
+            if (value == null) {
+                value = BuildVars.USE_CLOUD_STRINGS ? getInstance().localeValues.get(key) : null;
+            }
             if (value == null) {
                 if (BuildVars.USE_CLOUD_STRINGS && fallback != null) {
                     value = getInstance().localeValues.get(fallback);
@@ -1725,7 +1734,11 @@ public class LocaleController {
 
     public static CharSequence formatSpannable(String key, String fallback, int res, int fallbackRes, Object... args) {
         try {
-            String value = BuildVars.USE_CLOUD_STRINGS ? getInstance().localeValues.get(key) : null;
+            // MZGram: its own strings in the MZGram language (MZGramLanguage)
+            String value = org.telegram.messenger.mzgram.MZGramLanguage.string(key, res);
+            if (value == null) {
+                value = BuildVars.USE_CLOUD_STRINGS ? getInstance().localeValues.get(key) : null;
+            }
             if (value == null) {
                 if (BuildVars.USE_CLOUD_STRINGS && fallback != null) {
                     value = getInstance().localeValues.get(fallback);

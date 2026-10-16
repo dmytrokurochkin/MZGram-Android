@@ -50,7 +50,7 @@ android {
     }
 
     androidResources {
-        localeFilters += ["en", "ar", "de", "es", "it", "ko", "nl", "pt-rBR", "ru", "uk"]
+        localeFilters += ["en", "ar", "de", "es", "it", "ko", "nl", "pt-rBR", "ru", "uk", "pl", "fr", "tr", "be", "kk"]
     }
 
     signingConfigs {

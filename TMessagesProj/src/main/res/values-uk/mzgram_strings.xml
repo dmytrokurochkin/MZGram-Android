@@ -16,10 +16,11 @@
     <string name="MZGramSectionMessageMenuInfo">Додаткові дії, коли ви утримуєте повідомлення</string>
     <string name="MZGramSectionMediaAndCallsInfo">Дзвінки, камера, якість відео і фото</string>
     <string name="MZGramSectionInterfaceInfo">Список чатів, історії, час і анімації</string>
+    <string name="MZGramLanguage">Мова MZGram</string>
+    <string name="MZGramLanguageSystem">Як у системі</string>
+    <string name="MZGramLanguageInfo">Мова власних налаштувань і функцій MZGram, окремо від мови Telegram. Як у системі: мова телефона, якщо MZGram її має, інакше англійська.</string>
     <string name="MZGramSectionAdsAndFiltersInfo">Спонсорські повідомлення і зіпсований текст</string>
     <string name="MZGramSectionOtherInfo">Усе інше</string>
-    <string name="MZGramTestToggle">Тестовий перемикач</string>
-    <string name="MZGramTestToggleInfo">Перевіряє, що налаштування MZGram зберігаються після перезапуску. Більше нічого не змінює.</string>
     <string name="MZGramDisableNumberRounding">Вимкнути округлення чисел</string>
     <string name="MZGramDisableNumberRoundingInfo">Показувати точну кількість переглядів, реакцій і учасників: 4777 замість 4.8K.</string>
     <string name="MZGramFormatTimeWithSeconds">Час із секундами</string>
@@ -52,7 +53,6 @@
     <string name="MZGramDetailsRead">Прочитано</string>
     <string name="MZGramDetailsReadLocal">%1$s (коли про це дізнався цей пристрій)</string>
     <string name="MZGramDetailsReadUnknown">Прочитано, час невідомий</string>
-    <string name="MZGramLastSeenApprox">%1$s (приблизно)</string>
     <string name="MZGramDetailsWhenOnline">Коли буде в мережі</string>
     <string name="MZGramDetailsForwardFrom">Переслано від</string>
     <string name="MZGramDetailsRestrictionReason">Причина обмеження</string>
@@ -258,8 +258,12 @@
     <string name="MZGramPushResultNoAnswer">помилка: немає відповіді</string>
     <string name="MZGramPushResultNoToken">помилка: немає ні токена, ні опису помилки</string>
     <string name="MZGramCheckUpdates">Перевіряти оновлення MZGram</string>
-    <string name="MZGramCheckUpdatesInfo">Раз на кілька годин MZGram шукає свій останній стабільний реліз на GitHub і показує плашку внизу екрана, якщо він новіший. Оновити завантажує APK цього релізу з GitHub, перевіряє його SHA-256 і встановлює; Android може попросити підтвердження. Якщо файл не пройшов перевірку, нічого не встановлюється. Якщо вимкнути перевірку, оновлення теж вимкнеться. Власна перевірка оновлень Telegram вимкнена: вона пропонує офіційний застосунок, який не може оновити MZGram.</string>
+    <string name="MZGramCheckUpdatesInfo">Раз на кілька годин MZGram шукає свій останній стабільний реліз на GitHub і показує плашку внизу екрана, якщо він новіший. Оновити завантажує APK цього релізу з GitHub, перевіряє його SHA-256 і встановлює; Android може попросити підтвердження. Якщо файл не пройшов перевірку, нічого не встановлюється. Якщо вимкнути перевірку, оновлення теж вимкнеться. Перевірити оновлення шукає одразу і каже, що знайшло, навіть коли це вимкнено. Власна перевірка оновлень Telegram вимкнена: вона пропонує офіційний застосунок, який не може оновити MZGram.</string>
     <string name="MZGramUpdateAvailable">Доступне оновлення MZGram %1$s</string>
+    <string name="MZGramUpdateCheckNow">Перевірити оновлення</string>
+    <string name="MZGramUpdateCheckLatest">У вас остання версія MZGram</string>
+    <string name="MZGramUpdateCheckAvailable">Доступна версія MZGram %1$s</string>
+    <string name="MZGramUpdateCheckFailed">Не вдалося перевірити оновлення. Перевірте з'єднання і спробуйте ще раз.</string>
     <string name="MZGramUpdateOpen">Оновити</string>
     <string name="MZGramUpdateClose">Закрити</string>
     <string name="MZGramUpdateRetry">Повторити</string>

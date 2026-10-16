@@ -11,6 +11,10 @@
  * version than the installed one gives a banner; its Update downloads and
  * installs it (MZGramUpdateInstaller). A closed banner stays closed for that
  * version. Errors are silent. Settings > MZGram > Other turns both off.
+ *
+ * "Check for updates" (checkManually) asks GitHub at once, whatever the
+ * interval and the switch, and says what it found: the latest version is
+ * installed, a newer one is out (it also gets the banner), or the check failed.
  */
 
 package org.telegram.messenger.mzgram;
@@ -75,6 +79,26 @@ public class MZGramUpdateChecker {
 
     public interface Fetcher {
         Response fetch(String url, String etag) throws IOException;
+    }
+
+    // What a check the user asked for found
+    public static final int MANUAL_LATEST = 0;
+    public static final int MANUAL_AVAILABLE = 1;
+    public static final int MANUAL_ERROR = 2;
+
+    public static final class Manual {
+        public final int result;
+        // The newer release, for MANUAL_AVAILABLE
+        public final Release release;
+
+        Manual(int result, Release release) {
+            this.result = result;
+            this.release = release;
+        }
+    }
+
+    public interface ManualListener {
+        void onResult(Manual result);
     }
 
     public interface Listener {
@@ -179,19 +203,7 @@ public class MZGramUpdateChecker {
             try {
                 Response response = fetcher.fetch(LATEST_RELEASE_URL, prefs.getString("etag", null));
                 if (response.status == 200) {
-                    latest = parse(response.body);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    if (response.etag != null) {
-                        editor.putString("etag", response.etag);
-                    } else {
-                        editor.remove("etag");
-                    }
-                    if (latest != null) {
-                        editor.putString("latest_tag", latest.tag).putString("latest_url", latest.url);
-                    } else {
-                        editor.remove("latest_tag").remove("latest_url");
-                    }
-                    editor.apply();
+                    latest = remember(prefs, response);
                 } else if (response.status == 404) {
                     // No release published yet
                     latest = null;
@@ -209,6 +221,79 @@ public class MZGramUpdateChecker {
             return null;
         }
         return latest;
+    }
+
+    // A 200 answer: its release (null when it is not a stable one), saved with its ETag
+    private static Release remember(SharedPreferences prefs, Response response) {
+        Release latest = parse(response.body);
+        SharedPreferences.Editor editor = prefs.edit();
+        if (response.etag != null) {
+            editor.putString("etag", response.etag);
+        } else {
+            editor.remove("etag");
+        }
+        if (latest != null) {
+            editor.putString("latest_tag", latest.tag).putString("latest_url", latest.url);
+        } else {
+            editor.remove("latest_tag").remove("latest_url");
+        }
+        editor.apply();
+        return latest;
+    }
+
+    // The check the user asked for, on the calling thread (never the UI
+    // thread): now, whatever the interval and the switch, a closed version
+    // included. No network, a GitHub error or a broken answer is an error,
+    // not "the latest version".
+    public static Manual checkManually() {
+        SharedPreferences prefs = preferences();
+        prefs.edit().putLong("last_check", now()).apply();
+        Release latest;
+        try {
+            Response response = fetcher.fetch(LATEST_RELEASE_URL, prefs.getString("etag", null));
+            if (response.status == 200) {
+                if (!isReleaseAnswer(response.body)) {
+                    return new Manual(MANUAL_ERROR, null);
+                }
+                latest = remember(prefs, response);
+            } else if (response.status == 304) {
+                latest = saved(prefs);
+            } else if (response.status == 404) {
+                // No release published yet
+                latest = null;
+                prefs.edit().remove("etag").remove("latest_tag").remove("latest_url").apply();
+            } else {
+                return new Manual(MANUAL_ERROR, null);
+            }
+        } catch (Throwable e) {
+            FileLog.d("MZGram update check failed: " + e.getMessage());
+            return new Manual(MANUAL_ERROR, null);
+        }
+        if (latest == null || latest.code <= installedCode()) {
+            return new Manual(MANUAL_LATEST, null);
+        }
+        return new Manual(MANUAL_AVAILABLE, latest);
+    }
+
+    // A JSON object with a tag: an answer about a release, even one that is not offered
+    private static boolean isReleaseAnswer(String json) {
+        try {
+            return new JSONObject(json).has("tag_name");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // checkManually off the UI thread; the listener runs on the UI thread.
+    public static void checkManually(ManualListener listener) {
+        Utilities.globalQueue.postRunnable(() -> {
+            Manual result = checkManually();
+            AndroidUtilities.runOnUIThread(() -> {
+                if (listener != null) {
+                    listener.onResult(result);
+                }
+            });
+        });
     }
 
     // The check off the UI thread; the listener runs on the UI thread.

@@ -6,8 +6,8 @@
  * says "recently", "within a week" or "within a month"; this device notes
  * when it last saw a sign of the person being online: a new message from
  * them, typing, reading the owner's messages, or a status change the server
- * sends. The status line shows that time, marked as approximate, instead of
- * the vague one, while it falls inside what the server says.
+ * sends. The status line shows that time, the way any last seen time is
+ * shown, instead of the vague one, while it falls inside what the server says.
  *
  * Kept in the archive database, so it stays after a restart.
  */
@@ -15,7 +15,6 @@
 package org.telegram.messenger.mzgram;
 
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 
@@ -49,7 +48,7 @@ public class MZGramLastSeen {
     }
 
     // The status line for a user who hides their last seen: the noted time,
-    // marked as approximate, when it fits what the server says (expires is
+    // as a usual last seen line, when it fits what the server says (expires is
     // the app's code for "recently", "within a week", "within a month").
     // Null otherwise, and the usual text is shown.
     public static String approximateStatus(TLRPC.User user, int now) {
@@ -77,7 +76,7 @@ public class MZGramLastSeen {
         if (at <= 0 || at > now + 60 || now - at > maxAge) {
             return null;
         }
-        return LocaleController.formatString(R.string.MZGramLastSeenApprox, LocaleController.formatDateOnline(Math.min(at, now), null));
+        return LocaleController.formatDateOnline(Math.min(at, now), null);
     }
 
     private static void ensureLoaded() {

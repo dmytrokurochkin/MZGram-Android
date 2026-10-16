@@ -152,7 +152,9 @@ class MZGramReadAndLastSeenTest {
         val shown = status(user)
         MZGramScreens.log("approximate last seen: '$vague' -> '$shown'")
         assertTrue("noted: ${MZGramLastSeen.lastSeen(user.id)}", MZGramLastSeen.lastSeen(user.id) >= at - 5)
-        assertEquals(LocaleController.formatString(R.string.MZGramLastSeenApprox, LocaleController.formatDateOnline(MZGramLastSeen.lastSeen(user.id).toLong(), null)), shown)
+        // Shown as any last seen time: no dash, no "approx."
+        assertEquals(LocaleController.formatDateOnline(MZGramLastSeen.lastSeen(user.id).toLong(), null), shown)
+        assertTrue("no approx. mark: $shown", !shown.contains("approx") && !shown.contains("—") && !shown.contains("("))
     }
 
     @Test
@@ -171,7 +173,7 @@ class MZGramReadAndLastSeenTest {
         MessagesStorage.getInstance(account).putMessages(arrayListOf<TLRPC.Message>(message), false, true, false, 0, 0, 0)
         repeat(3) { drain(MessagesStorage.getInstance(account).storageQueue) }
         assertEquals(date, MZGramLastSeen.lastSeen(user.id))
-        assertTrue("approximate within a week: ${status(user)}", status(user).endsWith(")"))
+        assertEquals("the noted time within a week", LocaleController.formatDateOnline(date.toLong(), null), status(user))
     }
 
     // A time older than what the server says is not shown.

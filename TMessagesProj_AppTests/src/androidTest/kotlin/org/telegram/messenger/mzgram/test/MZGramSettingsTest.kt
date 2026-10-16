@@ -104,8 +104,20 @@ class MZGramSettingsTest {
         }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
-        assertEquals("49 switches and buttons", 49, shown.size)
+        assertEquals("50 switches and buttons", 50, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
+    }
+
+    // The test switch that only proved settings survive a restart is gone:
+    // no switch, no setting, no text.
+    @Test
+    fun settings_haveNoTestSwitch() {
+        val fields = MZGramSettingsActivity::class.java.declaredFields.map { it.name }
+        assertTrue("no test button: $fields", fields.none { it.contains("TEST") })
+        assertTrue("no test setting", org.telegram.messenger.mzgram.MZGramConfig::class.java.declaredFields.none { it.name == "testToggle" })
+        assertTrue("no test text", R.string::class.java.fields.none { it.name.startsWith("MZGramTestToggle") })
+        val other = settingsItems(MZGramSettingsActivity.SECTION_OTHER).map { it.text?.toString() ?: "" }
+        assertTrue("Other: $other", other.none { it.contains("Test switch") || it.contains("Тестовий") })
     }
 
     // The main page and a few topic pages as the user sees them; tapping a

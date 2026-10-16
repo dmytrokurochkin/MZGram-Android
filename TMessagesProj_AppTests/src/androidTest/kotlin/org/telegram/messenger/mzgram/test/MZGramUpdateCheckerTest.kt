@@ -9,6 +9,8 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.telegram.messenger.LocaleController
+import org.telegram.messenger.R
 import org.telegram.messenger.SharedConfig
 import org.telegram.messenger.UserConfig
 import org.telegram.messenger.mzgram.MZGramConfig
@@ -183,6 +185,63 @@ class MZGramUpdateCheckerTest {
         Thread.sleep(500)
         MZGramScreens.capture("update-banner")
         assertEquals("v1.0.1", banner.release?.tag)
+    }
+
+    // "Check for updates" (Settings > MZGram > Other): at once, outside the
+    // interval and with the switch off, a closed version too; it says what
+    // it found, and an error is never "the latest version".
+    @Test
+    fun checkForUpdates_saysLatestAvailableOrFailed() {
+        MZGramConfig.checkUpdates = false
+        answer = { ok(release("v1.0.1")) }
+        var result = MZGramUpdateChecker.checkManually()
+        assertEquals("a newer version, the switch off", MZGramUpdateChecker.MANUAL_AVAILABLE, result.result)
+        assertEquals("v1.0.1", result.release?.tag)
+        MZGramUpdateChecker.dismiss(result.release!!)
+        assertEquals("a closed version is still said", MZGramUpdateChecker.MANUAL_AVAILABLE, MZGramUpdateChecker.checkManually().result)
+        assertEquals("asked each time, inside the interval", 2, requests.size)
+
+        answer = { ok(release("v1.0.0"), "\"e2\"") }
+        assertEquals("the installed version", MZGramUpdateChecker.MANUAL_LATEST, MZGramUpdateChecker.checkManually().result)
+        answer = { MZGramUpdateChecker.Response(404, """{"message":"Not Found"}""", null) }
+        assertEquals("no release yet", MZGramUpdateChecker.MANUAL_LATEST, MZGramUpdateChecker.checkManually().result)
+
+        for ((what, response) in listOf<Pair<String, () -> MZGramUpdateChecker.Response>>(
+            "no network" to { throw IOException("offline") },
+            "rate limit" to { MZGramUpdateChecker.Response(403, """{"message":"API rate limit exceeded"}""", null) },
+            "server error" to { MZGramUpdateChecker.Response(500, "", null) },
+            "a broken answer" to { MZGramUpdateChecker.Response(200, "<html>", null) },
+        )) {
+            answer = response
+            result = MZGramUpdateChecker.checkManually()
+            assertEquals(what, MZGramUpdateChecker.MANUAL_ERROR, result.result)
+        }
+    }
+
+    // The button's result as the user reads it, and the banner for a newer version.
+    @Test
+    fun checkForUpdates_button_showsTheResultAndTheBanner() {
+        val banner = banner()
+        MZGramUpdateBanner.lastCheckText = null
+        answer = { throw IOException("offline") }
+        instrumentation.runOnMainSync { MZGramUpdateBanner.checkByHand(null, null) }
+        assertTrue("error said", MZGramScreens.waitFor(15) { MZGramUpdateBanner.lastCheckText != null })
+        assertEquals(LocaleController.getString(R.string.MZGramUpdateCheckFailed), MZGramUpdateBanner.lastCheckText)
+        assertTrue("no banner on an error", banner.visibility != View.VISIBLE)
+
+        MZGramUpdateBanner.lastCheckText = null
+        answer = { ok(release("v1.0.0")) }
+        instrumentation.runOnMainSync { MZGramUpdateBanner.checkByHand(null, null) }
+        assertTrue("latest said", MZGramScreens.waitFor(15) { MZGramUpdateBanner.lastCheckText != null })
+        assertEquals(LocaleController.getString(R.string.MZGramUpdateCheckLatest), MZGramUpdateBanner.lastCheckText)
+
+        MZGramUpdateBanner.lastCheckText = null
+        answer = { ok(release("v1.0.4"), "\"e9\"") }
+        instrumentation.runOnMainSync { MZGramUpdateBanner.checkByHand(null, null) }
+        assertTrue("available said", MZGramScreens.waitFor(15) { MZGramUpdateBanner.lastCheckText != null })
+        assertEquals(LocaleController.formatString(R.string.MZGramUpdateCheckAvailable, "1.0.4"), MZGramUpdateBanner.lastCheckText)
+        assertTrue("banner shown", MZGramScreens.waitFor(15) { banner.visibility == View.VISIBLE })
+        assertEquals("v1.0.4", banner.release?.tag)
     }
 
     // Update and Close of the banner: MZGramUpdateInstallerTest

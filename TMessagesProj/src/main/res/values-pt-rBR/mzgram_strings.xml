@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">Importar o arquivo</string>
     <string name="MZGramExportImportArchiveInfo">Exportar salva o banco de dados do arquivo como um arquivo onde você escolher. Importar substitui o arquivo atual por um exportado antes (os arquivos de mídia não vão junto).</string>
     <string name="MZGramImportArchiveConfirm">Isto substitui o arquivo local atual pelo arquivo escolhido. Não é possível desfazer. Continuar?</string>
+    <string name="MZGramArchiveExported">Arquivo exportado.</string>
+    <string name="MZGramArchiveExportFailed">Não foi possível exportar o arquivo.</string>
+    <string name="MZGramArchiveImported">Arquivo importado.</string>
+    <string name="MZGramArchiveImportFailed">Não foi possível importar o arquivo.</string>
     <string name="MZGramDisableSponsoredMessages">Desativar mensagens patrocinadas</string>
     <string name="MZGramDisableSponsoredMessagesInfo">Mensagens patrocinadas (anúncios) em canais e o banner de promoção ou de proxy na lista de conversas deixam de ser pedidos e exibidos.</string>
     <string name="MZGramStripZalgoText">Filtro Zalgo</string>

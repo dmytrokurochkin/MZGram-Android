@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">Мұрағатты импорттау</string>
     <string name="MZGramExportImportArchiveInfo">Экспорт мұрағат дерекқорын өзіңіз таңдаған жерге файл ретінде сақтайды. Импорт ағымдағы мұрағатты бұрын экспортталған файлмен алмастырады (медиа файлдар кірмейді).</string>
     <string name="MZGramImportArchiveConfirm">Бұл ағымдағы жергілікті мұрағатты таңдалған файлмен алмастырады. Мұны болдырмау мүмкін емес. Жалғастыру керек пе?</string>
+    <string name="MZGramArchiveExported">Мұрағат экспортталды.</string>
+    <string name="MZGramArchiveExportFailed">Мұрағатты экспорттау мүмкін болмады.</string>
+    <string name="MZGramArchiveImported">Мұрағат импортталды.</string>
+    <string name="MZGramArchiveImportFailed">Мұрағатты импорттау мүмкін болмады.</string>
     <string name="MZGramDisableSponsoredMessages">Демеушілік хабарламаларды өшіру</string>
     <string name="MZGramDisableSponsoredMessagesInfo">Арналардағы демеушілік (жарнамалық) хабарламалар және чаттар тізіміндегі промо немесе прокси баннері енді сұралмайды және көрсетілмейді.</string>
     <string name="MZGramStripZalgoText">Zalgo сүзгісі</string>

@@ -77,6 +77,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_EXPORT_ARCHIVE = 35;
     private static final int BUTTON_IMPORT_ARCHIVE = 36;
     private static final int REQUEST_CODE_IMPORT_ARCHIVE = 8842;
+    private static final int REQUEST_CODE_EXPORT_ARCHIVE = 8843;
+    private static final String EXPORT_FILE_NAME = "mzgram_archive_export.db";
     private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
     private static final int BUTTON_FOLDER_TABS_AT_BOTTOM = 41;
@@ -519,19 +521,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
             MZGramConfig.toggleStripZalgoText();
             ((TextCheckCell) view).setChecked(MZGramConfig.stripZalgoText);
         } else if (item.id == BUTTON_EXPORT_ARCHIVE) {
-            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
-                try {
-                    java.io.File file = org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().exportArchive();
-                    android.app.Activity activity = getParentActivity();
-                    org.telegram.messenger.AndroidUtilities.runOnUIThread(() -> {
-                        if (activity != null) {
-                            org.telegram.messenger.AndroidUtilities.openForView(file, file.getName(), "application/octet-stream", activity, getResourceProvider(), false);
-                        }
-                    });
-                } catch (java.io.IOException e) {
-                    org.telegram.messenger.FileLog.e("MZGramSettingsActivity.exportArchive", e);
-                }
-            });
+            // Android's "save as": the user picks where the file goes (Downloads,
+            // a file manager, a cloud drive), and the archive is written there
+            // (onActivityResultFragment). Before, the copy in the cache folder was
+            // opened for viewing through the FileProvider, which has no root for
+            // that folder, so Export crashed the app.
+            android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(android.content.Intent.CATEGORY_OPENABLE);
+            intent.setType("application/octet-stream");
+            intent.putExtra(android.content.Intent.EXTRA_TITLE, EXPORT_FILE_NAME);
+            try {
+                startActivityForResult(intent, REQUEST_CODE_EXPORT_ARCHIVE);
+            } catch (Exception e) {
+                org.telegram.messenger.FileLog.e("MZGramSettingsActivity.exportArchive", e);
+                BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramArchiveExportFailed)).show();
+            }
         } else if (item.id == BUTTON_IMPORT_ARCHIVE) {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
                     .setTitle(getString(R.string.MZGramImportArchive))
@@ -552,18 +556,64 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     @Override
     public void onActivityResultFragment(int requestCode, int resultCode, android.content.Intent data) {
-        if (requestCode == REQUEST_CODE_IMPORT_ARCHIVE && resultCode == android.app.Activity.RESULT_OK && data != null && data.getData() != null) {
-            android.net.Uri uri = data.getData();
+        if (resultCode != android.app.Activity.RESULT_OK || data == null || data.getData() == null) {
+            return;
+        }
+        android.net.Uri uri = data.getData();
+        android.content.ContentResolver resolver = org.telegram.messenger.ApplicationLoader.applicationContext.getContentResolver();
+        if (requestCode == REQUEST_CODE_EXPORT_ARCHIVE) {
             org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
-                try (java.io.InputStream input = org.telegram.messenger.ApplicationLoader.applicationContext.getContentResolver().openInputStream(uri)) {
+                boolean done = false;
+                java.io.File file = null;
+                try {
+                    file = org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().exportArchive();
+                    try (java.io.InputStream in = new java.io.FileInputStream(file); java.io.OutputStream out = resolver.openOutputStream(uri, "wt")) {
+                        if (out == null) {
+                            throw new java.io.IOException("no output for " + uri);
+                        }
+                        byte[] buffer = new byte[64 * 1024];
+                        int read;
+                        while ((read = in.read(buffer)) > 0) {
+                            out.write(buffer, 0, read);
+                        }
+                    }
+                    done = true;
+                } catch (Exception e) {
+                    org.telegram.messenger.FileLog.e("MZGramSettingsActivity.exportArchive", e);
+                } finally {
+                    if (file != null) {
+                        file.delete();
+                    }
+                }
+                showArchiveResult(done, R.string.MZGramArchiveExported, R.string.MZGramArchiveExportFailed);
+            });
+        } else if (requestCode == REQUEST_CODE_IMPORT_ARCHIVE) {
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                boolean done = false;
+                try (java.io.InputStream input = resolver.openInputStream(uri)) {
                     if (input != null) {
                         org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().importArchive(input);
+                        done = true;
                     }
                 } catch (Exception e) {
                     org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importArchive", e);
                 }
+                showArchiveResult(done, R.string.MZGramArchiveImported, R.string.MZGramArchiveImportFailed);
             });
         }
+    }
+
+    private void showArchiveResult(boolean done, int doneText, int failedText) {
+        AndroidUtilities.runOnUIThread(() -> {
+            if (getParentActivity() == null) {
+                return;
+            }
+            if (done) {
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(doneText)).show();
+            } else {
+                BulletinFactory.of(this).createErrorBulletin(getString(failedText)).show();
+            }
+        });
     }
 
     @Override

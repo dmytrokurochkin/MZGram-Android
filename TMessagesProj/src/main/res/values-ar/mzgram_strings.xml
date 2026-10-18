@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">استيراد الأرشيف</string>
     <string name="MZGramExportImportArchiveInfo">يحفظ التصدير قاعدة بيانات الأرشيف كملف في المكان الذي تختاره. ويستبدل الاستيراد الأرشيف الحالي بملف صُدِّر سابقًا (لا تُضمَّن ملفات الوسائط).</string>
     <string name="MZGramImportArchiveConfirm">سيؤدي هذا إلى استبدال الأرشيف المحلي الحالي بالملف المختار. لا يمكن التراجع عن ذلك. هل تريد المتابعة؟</string>
+    <string name="MZGramArchiveExported">صُدِّر الأرشيف.</string>
+    <string name="MZGramArchiveExportFailed">تعذّر تصدير الأرشيف.</string>
+    <string name="MZGramArchiveImported">استُورد الأرشيف.</string>
+    <string name="MZGramArchiveImportFailed">تعذّر استيراد الأرشيف.</string>
     <string name="MZGramDisableSponsoredMessages">تعطيل الرسائل الممولة</string>
     <string name="MZGramDisableSponsoredMessagesInfo">لا تُطلب الرسائل الممولة (الإعلانات) في القنوات ولا شريط الترويج أو الوكيل في قائمة المحادثات ولا تُعرض بعد الآن.</string>
     <string name="MZGramStripZalgoText">مرشح زالغو</string>

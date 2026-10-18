@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">Importer les archives</string>
     <string name="MZGramExportImportArchiveInfo">L’export enregistre la base de données des archives dans un fichier à l’endroit de votre choix. L’import remplace les archives actuelles par un fichier exporté auparavant (les fichiers multimédias ne sont pas inclus).</string>
     <string name="MZGramImportArchiveConfirm">Cela remplace les archives locales actuelles par le fichier choisi. Impossible d’annuler. Continuer ?</string>
+    <string name="MZGramArchiveExported">Archives exportées.</string>
+    <string name="MZGramArchiveExportFailed">Impossible d’exporter les archives.</string>
+    <string name="MZGramArchiveImported">Archives importées.</string>
+    <string name="MZGramArchiveImportFailed">Impossible d’importer les archives.</string>
     <string name="MZGramDisableSponsoredMessages">Désactiver les messages sponsorisés</string>
     <string name="MZGramDisableSponsoredMessagesInfo">Les messages sponsorisés (publicités) dans les canaux et la bannière promo ou proxy dans la liste des discussions ne sont plus demandés ni affichés.</string>
     <string name="MZGramStripZalgoText">Filtre Zalgo</string>

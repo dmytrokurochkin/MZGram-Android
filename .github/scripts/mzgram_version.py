@@ -34,7 +34,7 @@ INTERNAL = re.compile(r"^(CI|Test|Tests|Release workflow|Release notes|Docs|Spec
 # Release breakpad build links". Whole words only ("CIrcle" stays).
 INTERNAL_PREFIX = re.compile(r"^[^:]*\b(CI|tests?)\s*:", re.IGNORECASE)
 # FEATURES.md is updated with every feature: its lines are noise in the notes.
-INTERNAL_WORDS = re.compile(r"\b(CI|workflow|breakpad|unit tests?|builds|Qt6|Qt Network|superseded|README|upstream|comments|FEATURES\.md)\b")
+INTERNAL_WORDS = re.compile(r"\b(CI|workflow|breakpad|unit tests?|builds|Qt6|Qt Network|superseded|README|upstream|comments|FEATURES\.md|apostrophes?|manifest)\b")
 NO_CHANGES = "- Build, test and CI changes only."
 # Names of other clients never go into the notes, whatever case. Kept
 # reversed so the names themselves do not appear in this repository.
@@ -130,6 +130,21 @@ def notes(subjects: list[str]) -> list[str]:
     return lines or [NO_CHANGES]
 
 
+def install(version: str, signed: bool, cert: str) -> list[str]:
+    """The Install part of the notes. Since 1.0.4 MZGram has its own package
+    (org.mzgram.messenger): a release installs over 1.0.4 and newer; older
+    builds had another package and are a separate app."""
+    if not signed:
+        return ["This build is signed with the public development key, not the MZGram key. "
+                "It is not a stable release: do not install it over a signed MZGram build."]
+    return [
+        f"Download `MZGram-Android-{version}.apk` and open it. It installs over MZGram 1.0.4 and newer and keeps all data. "
+        "Only APKs signed with the MZGram key can update it.",
+        "",
+        f"Signing certificate SHA-256: `{cert}`",
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="command", required=True)
@@ -143,7 +158,15 @@ def main() -> int:
     prev = sub.add_parser("previous")
     prev.add_argument("tag")
     sub.add_parser("notes")
+    ins = sub.add_parser("install")
+    ins.add_argument("version")
+    ins.add_argument("--signed", action="store_true")
+    ins.add_argument("--cert", default="")
     args = parser.parse_args()
+
+    if args.command == "install":
+        print("\n".join(install(args.version, args.signed, args.cert)))
+        return 0
 
     if args.command == "notes":
         print("\n".join(notes(sys.stdin.read().splitlines())))

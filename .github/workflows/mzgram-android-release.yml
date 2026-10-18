@@ -177,13 +177,11 @@ jobs:
               cat ".github/release_notes/$VERSION.md"
               echo
             fi
+            # How it installs (mzgram_version.py install): over 1.0.4 and newer, the own package
             if [ "$SIGNED" = true ]; then
-              echo "Download \`MZGram-Android-$VERSION.apk\` and open it. It installs over earlier MZGram builds and keeps all data."
-              echo "On Android 9 and newer it also moves the app to the MZGram signing key; after that only APKs signed with this key can update it."
-              echo
-              echo "Signing certificate SHA-256: \`$CERT\`"
+              python3 .github/scripts/mzgram_version.py install "$VERSION" --signed --cert "$CERT"
             else
-              echo "This build is signed with the public development key, not the MZGram key. It is not a stable release: do not install it over a signed MZGram build."
+              python3 .github/scripts/mzgram_version.py install "$VERSION"
             fi
             echo
             echo "\`SHA256SUMS\` lists the SHA-256 of every file."

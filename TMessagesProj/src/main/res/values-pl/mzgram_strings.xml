@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">Importuj archiwum</string>
     <string name="MZGramExportImportArchiveInfo">Eksport zapisuje bazę archiwum jako plik w wybranym przez ciebie miejscu. Import zastępuje bieżące archiwum wcześniej wyeksportowanym plikiem (pliki multimediów nie są dołączane).</string>
     <string name="MZGramImportArchiveConfirm">Spowoduje to zastąpienie bieżącego lokalnego archiwum wybranym plikiem. Tego nie można cofnąć. Kontynuować?</string>
+    <string name="MZGramArchiveExported">Archiwum wyeksportowane.</string>
+    <string name="MZGramArchiveExportFailed">Nie udało się wyeksportować archiwum.</string>
+    <string name="MZGramArchiveImported">Archiwum zaimportowane.</string>
+    <string name="MZGramArchiveImportFailed">Nie udało się zaimportować archiwum.</string>
     <string name="MZGramDisableSponsoredMessages">Wyłącz wiadomości sponsorowane</string>
     <string name="MZGramDisableSponsoredMessagesInfo">Wiadomości sponsorowane (reklamy) na kanałach oraz baner promocyjny lub proxy na liście czatów nie są już pobierane ani pokazywane.</string>
     <string name="MZGramStripZalgoText">Filtr Zalgo</string>

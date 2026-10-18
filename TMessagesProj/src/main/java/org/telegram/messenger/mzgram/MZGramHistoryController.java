@@ -1029,10 +1029,10 @@ public class MZGramHistoryController {
 
     // ---- export / import ----
 
-    // Copies the raw SQLite file to a fresh location the caller can hand to
-    // AndroidUtilities.openForView (native "open with"/share chooser). The
-    // export is the database file itself, not a separate format -- import
-    // is the exact reverse (see importArchive below).
+    // Copies the raw SQLite file to a fresh file in the cache, which the
+    // caller writes to the place the user picked in Android's "save as"
+    // (MZGramSettingsActivity). The export is the database file itself, not a
+    // separate format -- import is the exact reverse (see importArchive below).
     public File exportArchive() throws IOException {
         MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
         db.close(); // flush every pending write before copying the file
@@ -1049,15 +1049,46 @@ public class MZGramHistoryController {
     // contents. Does not touch already-copied media files on disk (those
     // are referenced by path from rows in the imported database, and export
     // does not currently bundle them -- only the row/text/entity data).
+    // The picked file is read into a temporary copy first and must be an
+    // MZGram archive (an SQLite database with the archive table); otherwise
+    // the current archive stays as it is.
     public void importArchive(InputStream input) throws IOException {
-        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
-        db.close();
-        try (OutputStream out = new FileOutputStream(db.getDatabaseFile())) {
-            byte[] buffer = new byte[8192];
-            int read;
-            while ((read = input.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
+        File temp = new File(ApplicationLoader.applicationContext.getCacheDir(), "mzgram_import.db");
+        try {
+            try (OutputStream out = new FileOutputStream(temp)) {
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = input.read(buffer)) != -1) {
+                    out.write(buffer, 0, read);
+                }
             }
+            if (!isArchive(temp)) {
+                throw new IOException("not an MZGram archive");
+            }
+            MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+            db.close();
+            if (!AndroidUtilities.copyFile(temp, db.getDatabaseFile())) {
+                throw new IOException("could not replace the archive");
+            }
+        } finally {
+            temp.delete();
+        }
+    }
+
+    private static boolean isArchive(File file) {
+        byte[] header = new byte[16];
+        try (java.io.FileInputStream in = new java.io.FileInputStream(file)) {
+            if (in.read(header) != header.length || !new String(header, 0, 15, java.nio.charset.StandardCharsets.US_ASCII).equals("SQLite format 3")) {
+                return false;
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        try (android.database.sqlite.SQLiteDatabase db = android.database.sqlite.SQLiteDatabase.openDatabase(file.getPath(), null, android.database.sqlite.SQLiteDatabase.OPEN_READONLY);
+             android.database.Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'history_message'", null)) {
+            return cursor.moveToFirst();
+        } catch (Exception e) {
+            return false;
         }
     }
 }

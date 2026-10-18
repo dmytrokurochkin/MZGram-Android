@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">Arşivi içe aktar</string>
     <string name="MZGramExportImportArchiveInfo">Dışa aktarma, arşiv veritabanını yerini sizin seçtiğiniz bir dosya olarak kaydeder. İçe aktarma, geçerli arşivi daha önce dışa aktarılmış bir dosyayla değiştirir (medya dosyaları dahil değildir).</string>
     <string name="MZGramImportArchiveConfirm">Bu işlem, geçerli yerel arşivi seçilen dosyayla değiştirir. Geri alınamaz. Devam edilsin mi?</string>
+    <string name="MZGramArchiveExported">Arşiv dışa aktarıldı.</string>
+    <string name="MZGramArchiveExportFailed">Arşiv dışa aktarılamadı.</string>
+    <string name="MZGramArchiveImported">Arşiv içe aktarıldı.</string>
+    <string name="MZGramArchiveImportFailed">Arşiv içe aktarılamadı.</string>
     <string name="MZGramDisableSponsoredMessages">Sponsorlu mesajları kapat</string>
     <string name="MZGramDisableSponsoredMessagesInfo">Kanallardaki sponsorlu (reklam) mesajlar ve sohbet listesindeki tanıtım veya proxy bandı artık istenmez ve gösterilmez.</string>
     <string name="MZGramStripZalgoText">Zalgo filtresi</string>

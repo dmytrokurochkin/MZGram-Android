@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">Archiv importieren</string>
     <string name="MZGramExportImportArchiveInfo">Export speichert die Archivdatenbank als Datei an einem Ort deiner Wahl. Import ersetzt das aktuelle Archiv durch eine zuvor exportierte Datei (Mediendateien sind nicht enthalten).</string>
     <string name="MZGramImportArchiveConfirm">Dadurch wird das aktuelle lokale Archiv durch die gewählte Datei ersetzt. Das kann nicht rückgängig gemacht werden. Fortfahren?</string>
+    <string name="MZGramArchiveExported">Archiv exportiert.</string>
+    <string name="MZGramArchiveExportFailed">Das Archiv konnte nicht exportiert werden.</string>
+    <string name="MZGramArchiveImported">Archiv importiert.</string>
+    <string name="MZGramArchiveImportFailed">Das Archiv konnte nicht importiert werden.</string>
     <string name="MZGramDisableSponsoredMessages">Gesponserte Nachrichten deaktivieren</string>
     <string name="MZGramDisableSponsoredMessagesInfo">Gesponserte Nachrichten (Werbung) in Kanälen und das Promo- oder Proxy-Banner in der Chatliste werden nicht mehr abgefragt oder angezeigt.</string>
     <string name="MZGramStripZalgoText">Zalgo-Filter</string>

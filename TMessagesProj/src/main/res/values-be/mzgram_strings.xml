@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">Імпартаваць архіў</string>
     <string name="MZGramExportImportArchiveInfo">Экспарт захоўвае базу архіва ў файл, месца для якога вы выбіраеце. Імпарт замяняе бягучы архіў раней экспартаваным файлам (медыяфайлы не ўваходзяць).</string>
     <string name="MZGramImportArchiveConfirm">Бягучы лакальны архіў будзе заменены выбраным файлам. Гэта нельга адмяніць. Працягнуць?</string>
+    <string name="MZGramArchiveExported">Архіў экспартаваны.</string>
+    <string name="MZGramArchiveExportFailed">Не ўдалося экспартаваць архіў.</string>
+    <string name="MZGramArchiveImported">Архіў імпартаваны.</string>
+    <string name="MZGramArchiveImportFailed">Не ўдалося імпартаваць архіў.</string>
     <string name="MZGramDisableSponsoredMessages">Адключыць спонсарскія паведамленні</string>
     <string name="MZGramDisableSponsoredMessagesInfo">Спонсарскія (рэкламныя) паведамленні ў каналах і прома-банер або банер проксі ў спісе чатаў больш не запытваюцца і не паказваюцца.</string>
     <string name="MZGramStripZalgoText">Фільтр Zalgo</string>

@@ -125,6 +125,10 @@
     <string name="MZGramImportArchive">Importar el archivo</string>
     <string name="MZGramExportImportArchiveInfo">Exportar guarda la base de datos del archivo como un archivo donde tú elijas. Importar reemplaza el archivo actual por uno exportado antes (los archivos multimedia no se incluyen).</string>
     <string name="MZGramImportArchiveConfirm">Esto reemplaza el archivo local actual por el archivo elegido. No se puede deshacer. ¿Continuar?</string>
+    <string name="MZGramArchiveExported">Archivo exportado.</string>
+    <string name="MZGramArchiveExportFailed">No se pudo exportar el archivo.</string>
+    <string name="MZGramArchiveImported">Archivo importado.</string>
+    <string name="MZGramArchiveImportFailed">No se pudo importar el archivo.</string>
     <string name="MZGramDisableSponsoredMessages">Desactivar los mensajes patrocinados</string>
     <string name="MZGramDisableSponsoredMessagesInfo">Los mensajes patrocinados (anuncios) en los canales y el banner de promoción o proxy en la lista de chats dejan de pedirse y mostrarse.</string>
     <string name="MZGramStripZalgoText">Filtro Zalgo</string>

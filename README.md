@@ -87,14 +87,9 @@ MZGram updates itself from this page: when a newer stable release is out, Update
 
 ### Own package
 
-MZGram's package is `org.mzgram.messenger`, so it installs as a separate app beside Telegram from Google Play (`org.telegram.messenger`) and from telegram.org (`org.telegram.messenger.web`). Up to 1.0.3 MZGram had the package `org.telegram.messenger.web`, so Android took it for an update of Telegram from telegram.org and refused it. MZGram 1.0.3 and older do not update to the new package; move once:
+MZGram's package is `org.mzgram.messenger`, so it installs as a separate app beside Telegram from Google Play (`org.telegram.messenger`) and from telegram.org (`org.telegram.messenger.web`). Up to 1.0.3 MZGram had the package `org.telegram.messenger.web`, so Android took it for an update of Telegram from telegram.org and refused it. MZGram 1.0.3 and older do not update to the new package: install 1.0.4 by hand once from the Releases page and sign in.
 
-1. In the old MZGram: Settings > MZGram > Archive > Export. Android asks which app opens the file `mzgram_archive_export.db`: pick one that can save it, such as a file manager, and save it to Downloads.
-2. Install the new APK from the Releases page by hand and sign in.
-3. In the new MZGram: Settings > MZGram > Archive > Import, and pick that file.
-4. Remove the old MZGram.
-
-Files of archived messages stay in Downloads/MZGram/Saved Attachments.
+The archive of the old MZGram is not moved: Export of the archive did not work in 1.0.3 (it closed the app), so the new MZGram starts with an empty archive. Files of archived messages stay in Downloads/MZGram/Saved Attachments. You can remove the old MZGram once you no longer need its archive. Export and Import work from the version after 1.0.4, for moving the archive in the future.
 
 ## Build
 

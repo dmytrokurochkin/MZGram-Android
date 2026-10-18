@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from mzgram_version import NO_CHANGES, VersionError, code, dev, notes, previous, release  # noqa: E402
+from mzgram_version import NO_CHANGES, VersionError, code, dev, install, notes, previous, release  # noqa: E402
 
 SCRIPT = Path(__file__).parent / "mzgram_version.py"
 
@@ -140,6 +140,14 @@ class NotesTest(unittest.TestCase):
         ]
         self.assertEqual(notes(subjects), ["- Accounts in the chat list menu"])
 
+    def test_string_and_manifest_work_is_left_out(self):
+        subjects = [
+            "[mzgram] Escape apostrophes in the new strings, no long dashes, manifest test for own authorities and permissions",
+            "[mzgram] MZGram in 12 languages; test switch removed",
+            "[mzgram] Notification diagnostics, test push",
+        ]
+        self.assertEqual(notes(subjects), ["- MZGram in 12 languages; test switch removed", "- Notification diagnostics, test push"])
+
     def test_commit_hashes_are_removed(self):
         self.assertEqual(notes(["[mzgram] Revert own-deletion archiving (0b331573e)",
                                 "[mzgram] Hide statuses on both platforms (1caf86c27, ec74fd73e8)",
@@ -149,6 +157,30 @@ class NotesTest(unittest.TestCase):
     def test_nothing_left_gives_one_line(self):
         self.assertEqual(notes(["[mzgram] CI: x", "[mzgram] Test: y", "upstream commit"]), [NO_CHANGES])
         self.assertEqual(notes([]), [NO_CHANGES])
+
+
+class InstallTest(unittest.TestCase):
+    CERT = "0b6801b8606f1d2dd6d7511600d834cf6cf5d3791f78601b216a49c3777f1560"
+
+    # Since 1.0.4 MZGram has its own package (org.mzgram.messenger): a
+    # release installs over 1.0.4 and newer, not over the older builds,
+    # which had another package and are a separate app.
+    def test_signed_release_installs_over_the_own_package(self):
+        text = chr(10).join(install("1.0.5", True, self.CERT))
+        self.assertIn("Download `MZGram-Android-1.0.5.apk` and open it.", text)
+        self.assertIn("It installs over MZGram 1.0.4 and newer and keeps all data.", text)
+        self.assertIn("Signing certificate SHA-256: `%s`" % self.CERT, text)
+        self.assertNotIn("earlier MZGram builds", text)
+        self.assertNotIn("moves the app to the MZGram signing key", text)
+
+    def test_debug_key_build_is_not_for_installing_over(self):
+        text = chr(10).join(install("1.0.5", False, ""))
+        self.assertIn("public development key", text)
+        self.assertNotIn("keeps all data", text)
+
+    def test_cli(self):
+        result = subprocess.run([sys.executable, str(SCRIPT), "install", "1.0.5", "--signed", "--cert", self.CERT], capture_output=True, text=True)
+        self.assertIn("It installs over MZGram 1.0.4 and newer and keeps all data.", result.stdout)
 
 
 class CliTest(unittest.TestCase):

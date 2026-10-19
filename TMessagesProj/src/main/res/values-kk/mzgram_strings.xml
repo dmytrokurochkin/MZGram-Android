@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Тек MZGram-да бекітілді: сервер бұдан артық чат бекітуге рұқсат бермейді, сондықтан бұл чат басқа құрылғыларыңызда емес, осы құрылғыда бекітілді.</string>
     <string name="MZGramVersion">MZGram %1$s (Telegram %2$s негізінде)</string>
     <string name="MZGramVersionBase">MZGram (Telegram %1$s негізінде)</string>
+    <string name="MZGramCancel">Бас тарту</string>
+    <string name="MZGramOk">Жарайды</string>
+    <string name="MZGramSave">Сақтау</string>
+    <string name="MZGramDelete">Жою</string>
+    <string name="MZGramContinue">Жалғастыру</string>
+    <string name="MZGramClear">Тазалау</string>
+    <string name="MZGramReset">Қалпына келтіру</string>
+    <string name="MZGramCopy">Көшіру</string>
+    <string name="MZGramOpen">Ашу</string>
+    <string name="MZGramShare">Бөлісу</string>
+    <string name="MZGramTextCopied">Мәтін алмасу буферіне көшірілді</string>
+    <string name="MZGramLinkCopied">Сілтеме алмасу буферіне көшірілді</string>
+    <string name="MZGramPhoneCopied">Телефон нөмірі алмасу буферіне көшірілді</string>
+    <string name="MZGramHashtagCopied">Хэштег алмасу буферіне көшірілді</string>
+    <string name="MZGramUsernameCopied">Пайдаланушы аты алмасу буферіне көшірілді</string>
+    <string name="MZGramAddAccount">Аккаунт қосу</string>
+    <string name="MZGramSetReminder">Еске салғыш қою</string>
+    <string name="MZGramOpenIn">Басқада ашу…</string>
+    <string name="MZGramQrCode">QR коды</string>
+    <string name="MZGramDetailsRestrictedUser">Бұл пайдаланушы үшін көшіруге және қайта жіберуге тыйым салынған.</string>
+    <string name="MZGramDetailsRestrictedChannel">Бұл арнада көшіруге және қайта жіберуге тыйым салынған.</string>
+    <string name="MZGramDetailsRestrictedGroup">Бұл топта көшіруге және қайта жіберуге тыйым салынған.</string>
+    <string name="MZGramDateAtTime">%1$s, сағат %2$s</string>
 </resources>

@@ -307,15 +307,15 @@ class MZGramUpdateInstallerTest {
         assertTrue(installed[0].contentEquals(apkBytes))
     }
 
+    // The switch turns off the automatic check, not an update the user
+    // starts: "Check for updates" shows the bar with the switch off too
     @Test
-    fun switchOff_doesNothing() {
+    fun switchOff_updateTheUserStarts_stillInstalls() {
         serve()
         MZGramConfig.checkUpdates = false
-        assertFalse(MZGramUpdateInstaller.start(offered, listener))
-        Thread.sleep(500)
-        assertEquals(0, fetched)
-        assertTrue(downloads.isEmpty())
-        assertTrue(installed.isEmpty())
+        val events = update()
+        assertTrue(events.toString(), events.contains("installing"))
+        assertEquals(1, installed.size)
     }
 
     @Test

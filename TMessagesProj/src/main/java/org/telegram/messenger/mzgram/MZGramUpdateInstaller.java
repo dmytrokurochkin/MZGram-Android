@@ -19,7 +19,8 @@
  *    Android 12 and newer it may skip that for an app updating itself) and
  *    checks the signature, which is the MZGram key of the installed app.
  *
- * Turned off with the same switch as the banner (MZGramConfig.checkUpdates).
+ * Started only by Update on the banner, also with the switch of the
+ * automatic check (MZGramConfig.checkUpdates) off.
  * Nothing here talks to Telegram, and the app's identity towards Telegram's
  * servers does not change.
  */
@@ -284,9 +285,12 @@ public class MZGramUpdateInstaller {
     }
 
     // Downloads, checks and installs the release; the listener runs on the UI
-    // thread. false: nothing started (the switch is off, or one is running).
+    // thread. false: nothing started (one is running). Only the user starts
+    // it, with Update on the bar, so the switch of the automatic check does
+    // not stop it: "Check for updates" shows the bar with the switch off too,
+    // and its Update did nothing then.
     public static boolean start(MZGramUpdateChecker.Release release, Listener listener) {
-        if (!MZGramConfig.checkUpdates || release == null || running) {
+        if (release == null || running) {
             return false;
         }
         running = true;

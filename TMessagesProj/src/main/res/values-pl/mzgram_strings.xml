@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Przypięto tylko w MZGram: serwer nie pozwala na więcej przypiętych czatów, więc ten jest przypięty na tym urządzeniu, a nie na twoich innych urządzeniach.</string>
     <string name="MZGramVersion">MZGram %1$s (na bazie Telegrama %2$s)</string>
     <string name="MZGramVersionBase">MZGram (na bazie Telegrama %1$s)</string>
+    <string name="MZGramCancel">Anuluj</string>
+    <string name="MZGramOk">OK</string>
+    <string name="MZGramSave">Zapisz</string>
+    <string name="MZGramDelete">Usuń</string>
+    <string name="MZGramContinue">Kontynuuj</string>
+    <string name="MZGramClear">Wyczyść</string>
+    <string name="MZGramReset">Resetuj</string>
+    <string name="MZGramCopy">Kopiuj</string>
+    <string name="MZGramOpen">Otwórz</string>
+    <string name="MZGramShare">Udostępnij</string>
+    <string name="MZGramTextCopied">Tekst skopiowany do schowka</string>
+    <string name="MZGramLinkCopied">Link skopiowany do schowka</string>
+    <string name="MZGramPhoneCopied">Numer telefonu skopiowany do schowka</string>
+    <string name="MZGramHashtagCopied">Hashtag skopiowany do schowka</string>
+    <string name="MZGramUsernameCopied">Nazwa użytkownika skopiowana do schowka</string>
+    <string name="MZGramAddAccount">Dodaj konto</string>
+    <string name="MZGramSetReminder">Ustaw przypomnienie</string>
+    <string name="MZGramOpenIn">Otwórz w…</string>
+    <string name="MZGramQrCode">Kod QR</string>
+    <string name="MZGramDetailsRestrictedUser">Kopiowanie i przekazywanie jest niedozwolone dla tego użytkownika.</string>
+    <string name="MZGramDetailsRestrictedChannel">Kopiowanie i przekazywanie jest niedozwolone na tym kanale.</string>
+    <string name="MZGramDetailsRestrictedGroup">Kopiowanie i przekazywanie jest niedozwolone w tej grupie.</string>
+    <string name="MZGramDateAtTime">%1$s o %2$s</string>
 </resources>

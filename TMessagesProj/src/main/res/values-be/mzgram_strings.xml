@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Замацавана толькі ў MZGram: сервер больш не дазваляе замацоўваць чаты, таму гэты чат замацаваны на гэтай прыладзе, а не на іншых вашых прыладах.</string>
     <string name="MZGramVersion">MZGram %1$s (на аснове Telegram %2$s)</string>
     <string name="MZGramVersionBase">MZGram (на аснове Telegram %1$s)</string>
+    <string name="MZGramCancel">Скасаваць</string>
+    <string name="MZGramOk">Добра</string>
+    <string name="MZGramSave">Захаваць</string>
+    <string name="MZGramDelete">Выдаліць</string>
+    <string name="MZGramContinue">Працягнуць</string>
+    <string name="MZGramClear">Ачысціць</string>
+    <string name="MZGramReset">Скінуць</string>
+    <string name="MZGramCopy">Капіяваць</string>
+    <string name="MZGramOpen">Адкрыць</string>
+    <string name="MZGramShare">Падзяліцца</string>
+    <string name="MZGramTextCopied">Тэкст скапіяваны ў буфер абмену</string>
+    <string name="MZGramLinkCopied">Спасылка скапіявана ў буфер абмену</string>
+    <string name="MZGramPhoneCopied">Нумар тэлефона скапіяваны ў буфер абмену</string>
+    <string name="MZGramHashtagCopied">Хэштэг скапіяваны ў буфер абмену</string>
+    <string name="MZGramUsernameCopied">Імя карыстальніка скапіявана ў буфер абмену</string>
+    <string name="MZGramAddAccount">Дадаць акаўнт</string>
+    <string name="MZGramSetReminder">Нагадаць</string>
+    <string name="MZGramOpenIn">Адкрыць у…</string>
+    <string name="MZGramQrCode">QR-код</string>
+    <string name="MZGramDetailsRestrictedUser">Капіяванне і перасылка забароненыя для гэтага карыстальніка.</string>
+    <string name="MZGramDetailsRestrictedChannel">Капіяванне і перасылка забароненыя ў гэтым канале.</string>
+    <string name="MZGramDetailsRestrictedGroup">Капіяванне і перасылка забароненыя ў гэтай групе.</string>
+    <string name="MZGramDateAtTime">%1$s у %2$s</string>
 </resources>

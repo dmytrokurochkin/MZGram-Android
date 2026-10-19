@@ -97,6 +97,33 @@ public class MZGramLanguage {
         return dash < 0 ? new Locale(code) : new Locale(code.substring(0, dash), code.substring(dash + 1));
     }
 
+    // The locale of the MZGram language, for dates and times on MZGram's
+    // screens (Telegram's formatters follow Telegram's language).
+    public static Locale locale() {
+        return locale(current());
+    }
+
+    private static String pattern(String skeleton) {
+        return android.text.format.DateFormat.getBestDateTimePattern(locale(), skeleton);
+    }
+
+    private static String time(long millis, boolean seconds) {
+        boolean hours24 = android.text.format.DateFormat.is24HourFormat(ApplicationLoader.applicationContext);
+        String skeleton = (hours24 ? "Hm" : "hm") + (seconds ? "s" : "");
+        return new java.text.SimpleDateFormat(pattern(skeleton), locale()).format(new java.util.Date(millis));
+    }
+
+    // "<date> at <time>" in the MZGram language, the date with the year
+    public static String formatDateTime(long millis, boolean seconds) {
+        String date = new java.text.SimpleDateFormat(pattern("yMMMd"), locale()).format(new java.util.Date(millis));
+        return String.format(locale(), string("MZGramDateAtTime", org.telegram.messenger.R.string.MZGramDateAtTime), date, time(millis, seconds));
+    }
+
+    // "<day month>, <time>" in the MZGram language
+    public static String formatDayMonthTime(long millis) {
+        return new java.text.SimpleDateFormat(pattern("MMMd"), locale()).format(new java.util.Date(millis)) + ", " + time(millis, false);
+    }
+
     // Resources in the MZGram language, made again when it changes.
     public static Resources resources() {
         String language = current();

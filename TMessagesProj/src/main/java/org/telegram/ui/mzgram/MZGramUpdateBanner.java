@@ -63,7 +63,8 @@ public class MZGramUpdateBanner extends LinearLayout {
                                 FileLog.e(e);
                             }
                         })
-                        .setNegativeButton(LocaleController.getString(R.string.Cancel), null)
+                        // MZGram's own Cancel: Telegram's follows Telegram's language
+                        .setNegativeButton(LocaleController.getString(R.string.MZGramCancel), null)
                         .show();
             }
         };
@@ -79,6 +80,9 @@ public class MZGramUpdateBanner extends LinearLayout {
     private final TextView close;
     private MZGramUpdateChecker.Release release;
     private boolean failed;
+    // What the text says now, so that it can be said again in another language
+    private int textRes = R.string.MZGramUpdateAvailable;
+    private int textPercent;
 
     public MZGramUpdateBanner(Context context) {
         super(context);
@@ -145,8 +149,35 @@ public class MZGramUpdateBanner extends LinearLayout {
     private void buttons(boolean offer) {
         page.setVisibility(failed ? VISIBLE : GONE);
         update.setVisibility(offer ? VISIBLE : GONE);
-        update.setText(LocaleController.getString(failed ? R.string.MZGramUpdateRetry : R.string.MZGramUpdateOpen));
         close.setVisibility(offer ? VISIBLE : GONE);
+        labels();
+    }
+
+    // The buttons were labelled once, when the app started, so after the
+    // MZGram language changed they kept the old one
+    private void labels() {
+        page.setText(LocaleController.getString(R.string.MZGramUpdatePage));
+        update.setText(LocaleController.getString(failed ? R.string.MZGramUpdateRetry : R.string.MZGramUpdateOpen));
+        close.setText(LocaleController.getString(R.string.MZGramUpdateClose));
+    }
+
+    private void setText(int res, int percent) {
+        textRes = res;
+        textPercent = percent;
+        String version = release == null ? "" : release.version();
+        if (res == R.string.MZGramUpdateDownloading) {
+            text.setText(LocaleController.formatString(res, version, percent));
+        } else {
+            text.setText(LocaleController.formatString(res, version));
+        }
+    }
+
+    // Every text in the MZGram language now (after it was changed)
+    public void refreshTexts() {
+        labels();
+        if (release != null) {
+            setText(textRes, textPercent);
+        }
     }
 
     public void show(MZGramUpdateChecker.Release release) {
@@ -156,7 +187,7 @@ public class MZGramUpdateBanner extends LinearLayout {
         }
         this.release = release;
         failed = false;
-        text.setText(LocaleController.formatString(R.string.MZGramUpdateAvailable, release.version()));
+        setText(R.string.MZGramUpdateAvailable, 0);
         buttons(true);
         setVisibility(VISIBLE);
         bringToFront();
@@ -170,13 +201,14 @@ public class MZGramUpdateBanner extends LinearLayout {
     private void startUpdate() {
         MZGramUpdateChecker.Release release = this.release;
         if (release == null) {
+            FileLog.d("MZGram update: Update tapped without a release");
             return;
         }
         if (!permission.granted()) {
+            FileLog.d("MZGram update: asking for the install permission");
             permission.ask(getContext());
             return;
         }
-        String version = release.version();
         MZGramUpdateInstaller.Listener listener = new MZGramUpdateInstaller.Listener() {
             private boolean current() {
                 return MZGramUpdateBanner.this.release == release && getVisibility() == VISIBLE;
@@ -185,21 +217,21 @@ public class MZGramUpdateBanner extends LinearLayout {
             @Override
             public void onProgress(int percent) {
                 if (current()) {
-                    text.setText(LocaleController.formatString(R.string.MZGramUpdateDownloading, version, percent));
+                    setText(R.string.MZGramUpdateDownloading, percent);
                 }
             }
 
             @Override
             public void onVerifying() {
                 if (current()) {
-                    text.setText(LocaleController.formatString(R.string.MZGramUpdateVerifying, version));
+                    setText(R.string.MZGramUpdateVerifying, 0);
                 }
             }
 
             @Override
             public void onInstalling() {
                 if (current()) {
-                    text.setText(LocaleController.formatString(R.string.MZGramUpdateInstalling, version));
+                    setText(R.string.MZGramUpdateInstalling, 0);
                 }
             }
 
@@ -226,7 +258,7 @@ public class MZGramUpdateBanner extends LinearLayout {
                         message = R.string.MZGramUpdateFailedNetwork;
                         break;
                 }
-                text.setText(LocaleController.formatString(message, version));
+                setText(message, 0);
                 buttons(true);
             }
 
@@ -240,8 +272,10 @@ public class MZGramUpdateBanner extends LinearLayout {
         };
         if (MZGramUpdateInstaller.start(release, listener)) {
             failed = false;
-            text.setText(LocaleController.formatString(R.string.MZGramUpdateDownloading, version, 0));
+            setText(R.string.MZGramUpdateDownloading, 0);
             buttons(false);
+        } else {
+            FileLog.d("MZGram update: " + release.tag + " not started, one is running");
         }
     }
 

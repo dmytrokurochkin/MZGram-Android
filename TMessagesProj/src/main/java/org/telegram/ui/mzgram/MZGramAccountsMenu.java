@@ -93,7 +93,7 @@ public class MZGramAccountsMenu {
             }
         }
         if (hasRoom()) {
-            io.add(R.drawable.outline_add_account, LocaleController.getString(R.string.AddAccount), () -> addAccount(fragment));
+            io.add(R.drawable.outline_add_account, LocaleController.getString(R.string.MZGramAddAccount), () -> addAccount(fragment));
             View row = io.getLastView();
             if (row != null) {
                 row.setTag(TAG_ADD_ACCOUNT);

@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Pinned in MZGram only: the server allows no more pinned chats, so this one is pinned on this device and not on your other devices.</string>
     <string name="MZGramVersion">MZGram %1$s (based on Telegram %2$s)</string>
     <string name="MZGramVersionBase">MZGram (based on Telegram %1$s)</string>
+    <string name="MZGramCancel">Cancel</string>
+    <string name="MZGramOk">OK</string>
+    <string name="MZGramSave">Save</string>
+    <string name="MZGramDelete">Delete</string>
+    <string name="MZGramContinue">Continue</string>
+    <string name="MZGramClear">Clear</string>
+    <string name="MZGramReset">Reset</string>
+    <string name="MZGramCopy">Copy</string>
+    <string name="MZGramOpen">Open</string>
+    <string name="MZGramShare">Share</string>
+    <string name="MZGramTextCopied">Text copied to clipboard</string>
+    <string name="MZGramLinkCopied">Link copied to clipboard</string>
+    <string name="MZGramPhoneCopied">Phone number copied to clipboard</string>
+    <string name="MZGramHashtagCopied">Hashtag copied to clipboard</string>
+    <string name="MZGramUsernameCopied">Username copied to clipboard</string>
+    <string name="MZGramAddAccount">Add Account</string>
+    <string name="MZGramSetReminder">Set a reminder</string>
+    <string name="MZGramOpenIn">Open in...</string>
+    <string name="MZGramQrCode">QR Code</string>
+    <string name="MZGramDetailsRestrictedUser">Copying and forwarding is not allowed for this user.</string>
+    <string name="MZGramDetailsRestrictedChannel">Copying and forwarding is not allowed in this channel.</string>
+    <string name="MZGramDetailsRestrictedGroup">Copying and forwarding is not allowed in this group.</string>
+    <string name="MZGramDateAtTime">%1$s at %2$s</string>
 </resources>

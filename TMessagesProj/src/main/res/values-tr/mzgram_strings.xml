@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Yalnızca MZGram\'da sabitlendi: sunucu daha fazla sabitlenmiş sohbete izin vermiyor, bu yüzden bu sohbet diğer cihazlarınızda değil, bu cihazda sabitlendi.</string>
     <string name="MZGramVersion">MZGram %1$s (Telegram %2$s tabanlı)</string>
     <string name="MZGramVersionBase">MZGram (Telegram %1$s tabanlı)</string>
+    <string name="MZGramCancel">İptal</string>
+    <string name="MZGramOk">Tamam</string>
+    <string name="MZGramSave">Kaydet</string>
+    <string name="MZGramDelete">Sil</string>
+    <string name="MZGramContinue">Devam</string>
+    <string name="MZGramClear">Temizle</string>
+    <string name="MZGramReset">Sıfırla</string>
+    <string name="MZGramCopy">Kopyala</string>
+    <string name="MZGramOpen">Aç</string>
+    <string name="MZGramShare">Paylaş</string>
+    <string name="MZGramTextCopied">Metin panoya kopyalandı</string>
+    <string name="MZGramLinkCopied">Bağlantı panoya kopyalandı</string>
+    <string name="MZGramPhoneCopied">Telefon numarası panoya kopyalandı</string>
+    <string name="MZGramHashtagCopied">Hashtag panoya kopyalandı</string>
+    <string name="MZGramUsernameCopied">Kullanıcı adı panoya kopyalandı</string>
+    <string name="MZGramAddAccount">Hesap ekle</string>
+    <string name="MZGramSetReminder">Hatırlatıcı kur</string>
+    <string name="MZGramOpenIn">Şurada aç…</string>
+    <string name="MZGramQrCode">QR kodu</string>
+    <string name="MZGramDetailsRestrictedUser">Bu kullanıcı için kopyalama ve iletme izni yok.</string>
+    <string name="MZGramDetailsRestrictedChannel">Bu kanalda kopyalama ve iletme izni yok.</string>
+    <string name="MZGramDetailsRestrictedGroup">Bu grupta kopyalama ve iletme izni yok.</string>
+    <string name="MZGramDateAtTime">%1$s, saat %2$s</string>
 </resources>

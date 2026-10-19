@@ -286,4 +286,27 @@
     <string name="MZGramPinnedLocally">Закріплено лише в MZGram: сервер не дозволяє більше закріплених чатів, тому цей закріплено на цьому пристрої, а на інших ваших пристроях ні.</string>
     <string name="MZGramVersion">MZGram %1$s (на базі Telegram %2$s)</string>
     <string name="MZGramVersionBase">MZGram (на базі Telegram %1$s)</string>
+    <string name="MZGramCancel">Скасувати</string>
+    <string name="MZGramOk">Гаразд</string>
+    <string name="MZGramSave">Зберегти</string>
+    <string name="MZGramDelete">Видалити</string>
+    <string name="MZGramContinue">Продовжити</string>
+    <string name="MZGramClear">Очистити</string>
+    <string name="MZGramReset">Скинути</string>
+    <string name="MZGramCopy">Копіювати</string>
+    <string name="MZGramOpen">Відкрити</string>
+    <string name="MZGramShare">Поділитися</string>
+    <string name="MZGramTextCopied">Текст скопійовано в буфер обміну</string>
+    <string name="MZGramLinkCopied">Посилання скопійовано в буфер обміну</string>
+    <string name="MZGramPhoneCopied">Номер телефону скопійовано в буфер обміну</string>
+    <string name="MZGramHashtagCopied">Хештег скопійовано в буфер обміну</string>
+    <string name="MZGramUsernameCopied">Імʼя користувача скопійовано в буфер обміну</string>
+    <string name="MZGramAddAccount">Додати акаунт</string>
+    <string name="MZGramSetReminder">Встановити нагадування</string>
+    <string name="MZGramOpenIn">Відкрити в…</string>
+    <string name="MZGramQrCode">QR-код</string>
+    <string name="MZGramDetailsRestrictedUser">Копіювання і пересилання заборонені для цього користувача.</string>
+    <string name="MZGramDetailsRestrictedChannel">Копіювання і пересилання заборонені в цьому каналі.</string>
+    <string name="MZGramDetailsRestrictedGroup">Копіювання і пересилання заборонені в цій групі.</string>
+    <string name="MZGramDateAtTime">%1$s о %2$s</string>
 </resources>

@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Nur in MZGram angeheftet: Der Server erlaubt keine weiteren angehefteten Chats, daher ist dieser auf diesem Gerät angeheftet und nicht auf deinen anderen Geräten.</string>
     <string name="MZGramVersion">MZGram %1$s (basierend auf Telegram %2$s)</string>
     <string name="MZGramVersionBase">MZGram (basierend auf Telegram %1$s)</string>
+    <string name="MZGramCancel">Abbrechen</string>
+    <string name="MZGramOk">OK</string>
+    <string name="MZGramSave">Speichern</string>
+    <string name="MZGramDelete">Löschen</string>
+    <string name="MZGramContinue">Weiter</string>
+    <string name="MZGramClear">Leeren</string>
+    <string name="MZGramReset">Zurücksetzen</string>
+    <string name="MZGramCopy">Kopieren</string>
+    <string name="MZGramOpen">Öffnen</string>
+    <string name="MZGramShare">Teilen</string>
+    <string name="MZGramTextCopied">Text in die Zwischenablage kopiert</string>
+    <string name="MZGramLinkCopied">Link in die Zwischenablage kopiert</string>
+    <string name="MZGramPhoneCopied">Telefonnummer in die Zwischenablage kopiert</string>
+    <string name="MZGramHashtagCopied">Hashtag in die Zwischenablage kopiert</string>
+    <string name="MZGramUsernameCopied">Benutzername in die Zwischenablage kopiert</string>
+    <string name="MZGramAddAccount">Konto hinzufügen</string>
+    <string name="MZGramSetReminder">Erinnerung setzen</string>
+    <string name="MZGramOpenIn">Öffnen in…</string>
+    <string name="MZGramQrCode">QR-Code</string>
+    <string name="MZGramDetailsRestrictedUser">Kopieren und Weiterleiten ist für diesen Nutzer nicht erlaubt.</string>
+    <string name="MZGramDetailsRestrictedChannel">Kopieren und Weiterleiten ist in diesem Kanal nicht erlaubt.</string>
+    <string name="MZGramDetailsRestrictedGroup">Kopieren und Weiterleiten ist in dieser Gruppe nicht erlaubt.</string>
+    <string name="MZGramDateAtTime">%1$s um %2$s</string>
 </resources>

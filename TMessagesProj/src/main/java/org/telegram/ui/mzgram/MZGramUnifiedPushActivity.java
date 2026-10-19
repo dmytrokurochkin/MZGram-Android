@@ -77,7 +77,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
         }
         long lastPush = MZGramPushDiagnostics.lastReceived();
         items.add(UItem.asButton(BUTTON_DIAGNOSTICS, getString(R.string.MZGramPushDiagnostics),
-                lastPush == 0 ? getString(R.string.MZGramPushDiagnosticsNever) : LocaleController.formatDateTime(lastPush / 1000, true)));
+                lastPush == 0 ? getString(R.string.MZGramPushDiagnosticsNever) : org.telegram.messenger.mzgram.MZGramLanguage.formatDateTime(lastPush, false)));
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_GATEWAY_ENABLED, getString(R.string.MZGramUnifiedPushGatewayEnabled)).setChecked(MZGramConfig.unifiedPushGatewayEnabled));
         items.add(UItem.asButton(BUTTON_GATEWAY, getString(R.string.MZGramUnifiedPushGateway), MZGramUnifiedPushRules.gateway(true, MZGramConfig.unifiedPushGateway)));
@@ -150,11 +150,11 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
             new AlertDialog.Builder(getContext(), getResourceProvider())
                     .setTitle(getString(R.string.MZGramEmbeddedFcm))
                     .setMessage(getString(R.string.MZGramEmbeddedFcmWarning))
-                    .setPositiveButton(getString(R.string.OK), (dialog, which) -> {
+                    .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                         MZGramUnifiedPush.useDistributor(distributor);
                         updateSoon();
                     })
-                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .setNegativeButton(getString(R.string.MZGramCancel), null)
                     .show();
         } else {
             MZGramUnifiedPush.useDistributor(distributor);
@@ -246,7 +246,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
             return formatString(R.string.MZGramPushDiagnosticsTelegramNoAnswer, String.valueOf((System.currentTimeMillis() - requested) / 1000));
         }
         String result = resultText(MZGramPushDiagnostics.telegramResult());
-        return result != null ? result + " (" + LocaleController.formatDateTime(answered / 1000, true) + ")" : getString(R.string.MZGramPushDiagnosticsFcmNotTried);
+        return result != null ? result + " (" + org.telegram.messenger.mzgram.MZGramLanguage.formatDateTime(answered, false) + ")" : getString(R.string.MZGramPushDiagnosticsFcmNotTried);
     }
 
     // What Google Play Services (or microG) last said to the built-in
@@ -264,7 +264,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
             }
         }
         String result = resultText(MZGramPushDiagnostics.fcmResult());
-        return result != null ? result + " (" + LocaleController.formatDateTime(answered / 1000, true) + ")" : getString(R.string.MZGramPushDiagnosticsFcmNotTried);
+        return result != null ? result + " (" + org.telegram.messenger.mzgram.MZGramLanguage.formatDateTime(answered, false) + ")" : getString(R.string.MZGramPushDiagnosticsFcmNotTried);
     }
 
     private void showDiagnostics() {
@@ -274,12 +274,12 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
         new AlertDialog.Builder(getContext(), getResourceProvider())
                 .setTitle(getString(R.string.MZGramPushDiagnostics))
                 .setMessage(diagnosticsText())
-                .setNeutralButton(getString(R.string.Reset), (dialog, which) -> {
+                .setNeutralButton(getString(R.string.MZGramReset), (dialog, which) -> {
                     MZGramPushDiagnostics.reset();
                     update();
                 })
                 .setNegativeButton(getString(R.string.MZGramPushTest), (dialog, which) -> sendTestPush())
-                .setPositiveButton(getString(R.string.OK), null)
+                .setPositiveButton(getString(R.string.MZGramOk), null)
                 .show();
     }
 
@@ -292,7 +292,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
             new AlertDialog.Builder(getContext(), getResourceProvider())
                     .setTitle(getString(R.string.MZGramPushTest))
                     .setMessage(testPushText(outcome, detail))
-                    .setPositiveButton(getString(R.string.OK), null)
+                    .setPositiveButton(getString(R.string.MZGramOk), null)
                     .show();
             update();
         });
@@ -343,7 +343,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
         new AlertDialog.Builder(getContext(), getResourceProvider())
                 .setTitle(getString(R.string.MZGramUnifiedPushGateway))
                 .setView(frame(editText))
-                .setPositiveButton(getString(R.string.Save), (dialog, which) -> {
+                .setPositiveButton(getString(R.string.MZGramSave), (dialog, which) -> {
                     String text = editText.getText() == null ? "" : editText.getText().toString();
                     if (MZGramUnifiedPushRules.DEFAULT_GATEWAY.equals(MZGramUnifiedPushRules.normalizeGateway(text))) {
                         text = "";
@@ -360,7 +360,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
                     update();
                 })
                 .setNeutralButton(getString(R.string.MZGramUnifiedPushGatewayReset), (dialog, which) -> resetGateway())
-                .setNegativeButton(getString(R.string.Cancel), null)
+                .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
     }
 
@@ -382,7 +382,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
         AlertDialog dialog = new AlertDialog.Builder(getContext(), getResourceProvider())
                 .setTitle(getString(R.string.MZGramEmbeddedFcmVapid))
                 .setView(frame(editText))
-                .setPositiveButton(getString(R.string.OK), (d, which) -> {
+                .setPositiveButton(getString(R.string.MZGramOk), (d, which) -> {
                     String key = editText.getText() == null ? "" : editText.getText().toString();
                     String before = MZGramConfig.unifiedPushVapidKey;
                     if (!MZGramConfig.setUnifiedPushVapidKey(key)) {
@@ -394,8 +394,8 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
                     }
                     update();
                 })
-                .setNeutralButton(getString(R.string.Reset), null)
-                .setNegativeButton(getString(R.string.Cancel), null)
+                .setNeutralButton(getString(R.string.MZGramReset), null)
+                .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .create();
         dialog.show();
         // Reset fills the field and keeps the dialog open, so Cancel still

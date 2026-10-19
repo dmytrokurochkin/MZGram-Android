@@ -150,13 +150,13 @@ public class MZGramQrHelper {
                 textView.setText(text);
                 textView.setOnClickListener(v1 -> {
                     AndroidUtilities.addToClipboard(text);
-                    BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
+                    BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createCopyBulletin(LocaleController.getString(R.string.MZGramTextCopied)).show();
                 });
             }
             textView.setOnLongClickListener(v -> {
                 final BottomSheet.Builder builder = new BottomSheet.Builder(context, false, resourcesProvider);
                 builder.setTitle(username != null ? "@" + username : text);
-                builder.setItems(linkOrUsername ? new CharSequence[]{LocaleController.getString(R.string.Open), LocaleController.getString(R.string.ShareFile), LocaleController.getString(R.string.Copy)} : new CharSequence[]{null, null, null, LocaleController.getString(R.string.Copy)}, (d, which) -> {
+                builder.setItems(linkOrUsername ? new CharSequence[]{LocaleController.getString(R.string.MZGramOpen), LocaleController.getString(R.string.MZGramShare), LocaleController.getString(R.string.MZGramCopy)} : new CharSequence[]{null, null, null, LocaleController.getString(R.string.MZGramCopy)}, (d, which) -> {
                     if (which == 0) {
                         AlertsCreator.showOpenUrlAlert(fragment, text, true, false, resourcesProvider);
                     } else if (which == 1 || which == 2) {
@@ -172,13 +172,13 @@ public class MZGramQrHelper {
                             AndroidUtilities.addToClipboard(url1);
                             final String bulletinMessage;
                             if (tel) {
-                                bulletinMessage = LocaleController.getString(R.string.PhoneCopied);
+                                bulletinMessage = LocaleController.getString(R.string.MZGramPhoneCopied);
                             } else if (url1.startsWith("#")) {
-                                bulletinMessage = LocaleController.getString(R.string.HashtagCopied);
+                                bulletinMessage = LocaleController.getString(R.string.MZGramHashtagCopied);
                             } else if (url1.startsWith("@")) {
-                                bulletinMessage = LocaleController.getString(R.string.UsernameCopied);
+                                bulletinMessage = LocaleController.getString(R.string.MZGramUsernameCopied);
                             } else {
-                                bulletinMessage = LocaleController.getString(R.string.LinkCopied);
+                                bulletinMessage = LocaleController.getString(R.string.MZGramLinkCopied);
                             }
                             if (AndroidUtilities.shouldShowClipboardToast()) {
                                 BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createSimpleBulletin(R.raw.voip_invite, bulletinMessage).show();
@@ -187,13 +187,13 @@ public class MZGramQrHelper {
                             final Intent shareIntent = new Intent(Intent.ACTION_SEND);
                             shareIntent.setType("text/plain");
                             shareIntent.putExtra(Intent.EXTRA_TEXT, url1);
-                            final Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString(R.string.ShareFile));
+                            final Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString(R.string.MZGramShare));
                             chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             ApplicationLoader.applicationContext.startActivity(chooserIntent);
                         }
                     } else {
                         AndroidUtilities.addToClipboard(text);
-                        BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
+                        BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createCopyBulletin(LocaleController.getString(R.string.MZGramTextCopied)).show();
                     }
                 });
                 builder.create().show();

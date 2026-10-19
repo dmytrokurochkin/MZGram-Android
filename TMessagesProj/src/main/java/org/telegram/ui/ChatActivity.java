@@ -46217,7 +46217,7 @@ public class ChatActivity extends BaseFragment implements
                             }
                         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && org.telegram.messenger.mzgram.MZGramConfig.showOpenIn && selectedObject.isVideo() && !noforwardsOrPaidMedia && !selectedObject.hasRevealedExtendedMedia() && !selectedObject.needDrawBluredPreview()) {
                             // MZGram: MZGramConfig.showOpenIn.
-                            items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                            items.add(LocaleController.getString(R.string.MZGramOpenIn));
                             options.add(OPTION_MZGRAM_OPEN_IN);
                             icons.add(R.drawable.msg_openin);
                         } else if (selectedObject.isMusic() && !noforwardsOrPaidMedia && !selectedObject.isVoiceOnce() && !selectedObject.isRoundOnce()) {
@@ -46253,7 +46253,7 @@ public class ChatActivity extends BaseFragment implements
                                 options.add(OPTION_SHARE);
                                 icons.add(R.drawable.msg_shareout);
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && org.telegram.messenger.mzgram.MZGramConfig.showOpenIn) {
-                                    items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                                    items.add(LocaleController.getString(R.string.MZGramOpenIn));
                                     options.add(OPTION_MZGRAM_OPEN_IN);
                                     icons.add(R.drawable.msg_openin);
                                 }
@@ -46332,7 +46332,7 @@ public class ChatActivity extends BaseFragment implements
                         options.add(OPTION_SHARE);
                         icons.add(R.drawable.msg_shareout);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && org.telegram.messenger.mzgram.MZGramConfig.showOpenIn && selectedObject.isVideo()) {
-                            items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                            items.add(LocaleController.getString(R.string.MZGramOpenIn));
                             options.add(OPTION_MZGRAM_OPEN_IN);
                             icons.add(R.drawable.msg_openin);
                         }
@@ -46430,7 +46430,7 @@ public class ChatActivity extends BaseFragment implements
                     }
                     // MZGram: MZGramConfig.showSetReminder.
                     if (org.telegram.messenger.mzgram.MZGramConfig.showSetReminder) {
-                        items.add(LocaleController.getString(R.string.SetReminder));
+                        items.add(LocaleController.getString(R.string.MZGramSetReminder));
                         options.add(OPTION_MZGRAM_SET_REMINDER);
                         icons.add(R.drawable.msg_calendar2);
                     }
@@ -46459,7 +46459,7 @@ public class ChatActivity extends BaseFragment implements
                 // MZGram: MZGramConfig.showQrCode. The item
                 // stays hidden until a QR code is found in the photo.
                 if (org.telegram.messenger.mzgram.MZGramConfig.showQrCode && chatMode != MODE_SCHEDULED && selectedObject.isPhoto()) {
-                    items.add(LocaleController.getString(R.string.QrCode));
+                    items.add(LocaleController.getString(R.string.MZGramQrCode));
                     options.add(OPTION_MZGRAM_QR);
                     icons.add(R.drawable.msg_qrcode);
                 }

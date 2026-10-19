@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Fijado solo en MZGram: el servidor no permite más chats fijados, así que este se fija en este dispositivo y no en tus otros dispositivos.</string>
     <string name="MZGramVersion">MZGram %1$s (basado en Telegram %2$s)</string>
     <string name="MZGramVersionBase">MZGram (basado en Telegram %1$s)</string>
+    <string name="MZGramCancel">Cancelar</string>
+    <string name="MZGramOk">Aceptar</string>
+    <string name="MZGramSave">Guardar</string>
+    <string name="MZGramDelete">Eliminar</string>
+    <string name="MZGramContinue">Continuar</string>
+    <string name="MZGramClear">Borrar</string>
+    <string name="MZGramReset">Restablecer</string>
+    <string name="MZGramCopy">Copiar</string>
+    <string name="MZGramOpen">Abrir</string>
+    <string name="MZGramShare">Compartir</string>
+    <string name="MZGramTextCopied">Texto copiado al portapapeles</string>
+    <string name="MZGramLinkCopied">Enlace copiado al portapapeles</string>
+    <string name="MZGramPhoneCopied">Número de teléfono copiado al portapapeles</string>
+    <string name="MZGramHashtagCopied">Hashtag copiado al portapapeles</string>
+    <string name="MZGramUsernameCopied">Nombre de usuario copiado al portapapeles</string>
+    <string name="MZGramAddAccount">Añadir cuenta</string>
+    <string name="MZGramSetReminder">Crear recordatorio</string>
+    <string name="MZGramOpenIn">Abrir en…</string>
+    <string name="MZGramQrCode">Código QR</string>
+    <string name="MZGramDetailsRestrictedUser">No se permite copiar ni reenviar los mensajes de este usuario.</string>
+    <string name="MZGramDetailsRestrictedChannel">No se permite copiar ni reenviar en este canal.</string>
+    <string name="MZGramDetailsRestrictedGroup">No se permite copiar ni reenviar en este grupo.</string>
+    <string name="MZGramDateAtTime">%1$s a las %2$s</string>
 </resources>

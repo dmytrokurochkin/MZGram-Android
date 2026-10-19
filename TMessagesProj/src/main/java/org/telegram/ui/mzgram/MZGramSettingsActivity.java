@@ -169,7 +169,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         for (int i = 0; i < SECTIONS_COUNT; i++) {
             items.add(SettingsActivity.SettingCell.Factory.of(SECTION_ROW_ID + i, SECTION_COLORS[i].top, SECTION_COLORS[i].bottom, SECTION_ICONS[i], getString(SECTION_TITLES[i]), getString(SECTION_INFOS[i])));
         }
-        items.add(UItem.asShadow(getString(R.string.MZGramSettingsInfo)));
+        // "Features of this client" is only the subtitle of the MZGram row in Settings
+        items.add(UItem.asShadow(null));
     }
 
     private void fillArchive(ArrayList<UItem> items) {
@@ -217,11 +218,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Also used by the tests
     public void setLanguage(String code) {
         MZGramConfig.setLanguage(code);
-        // Every open MZGram page and its title in the new language
+        // Every open MZGram page and its title in the new language: the pages
+        // under this one are built again, this one is filled again
         if (getParentLayout() != null) {
             getParentLayout().rebuildAllFragmentViews(false, false);
-        } else if (listView != null && listView.adapter != null) {
+        }
+        if (actionBar != null) {
+            actionBar.setTitle(getTitle());
+        }
+        if (listView != null && listView.adapter != null) {
             listView.adapter.update(true);
+        }
+        // The update bar lives outside the pages: its texts are set again too
+        MZGramUpdateBanner banner = MZGramUpdateBanner.current();
+        if (banner != null) {
+            banner.refreshTexts();
         }
     }
 
@@ -247,13 +258,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
         new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
                 .setTitle(title)
                 .setView(frame)
-                .setPositiveButton(getString(R.string.Save), (dialog, which) -> {
+                .setPositiveButton(getString(R.string.MZGramSave), (dialog, which) -> {
                     setter.run(editText.getText() == null ? "" : editText.getText().toString());
                     if (listView != null && listView.adapter != null) {
                         listView.adapter.update(true);
                     }
                 })
-                .setNegativeButton(getString(R.string.Cancel), null)
+                .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
     }
 
@@ -277,15 +288,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramShowDeleteDownloadedFileInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_ADD_TO_SAVED_MESSAGES, getString(R.string.MZGramSaveMessage)).setChecked(MZGramConfig.showAddToSavedMessages));
         items.add(UItem.asShadow(getString(R.string.MZGramShowSaveMessageInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_SET_REMINDER, getString(R.string.SetReminder)).setChecked(MZGramConfig.showSetReminder));
+        items.add(UItem.asCheck(BUTTON_SHOW_SET_REMINDER, getString(R.string.MZGramSetReminder)).setChecked(MZGramConfig.showSetReminder));
         items.add(UItem.asShadow(getString(R.string.MZGramShowSetReminderInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_REPEAT, getString(R.string.MZGramRepeat)).setChecked(MZGramConfig.showRepeat));
         items.add(UItem.asShadow(getString(R.string.MZGramShowRepeatInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_OPEN_IN, getString(R.string.OpenInExternalApp)).setChecked(MZGramConfig.showOpenIn));
+        items.add(UItem.asCheck(BUTTON_SHOW_OPEN_IN, getString(R.string.MZGramOpenIn)).setChecked(MZGramConfig.showOpenIn));
         items.add(UItem.asShadow(getString(R.string.MZGramShowOpenInInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_MESSAGE_DETAILS, getString(R.string.MZGramMessageDetails)).setChecked(MZGramConfig.showMessageDetails));
         items.add(UItem.asShadow(getString(R.string.MZGramShowMessageDetailsInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_QR_CODE, getString(R.string.QrCode)).setChecked(MZGramConfig.showQrCode));
+        items.add(UItem.asCheck(BUTTON_SHOW_QR_CODE, getString(R.string.MZGramQrCode)).setChecked(MZGramConfig.showQrCode));
         items.add(UItem.asShadow(getString(R.string.MZGramShowQrCodeInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_NO_QUOTE_FORWARD, getString(R.string.MZGramForwardNoQuote)).setChecked(MZGramConfig.showNoQuoteForward));
         items.add(UItem.asShadow(getString(R.string.MZGramShowForwardNoQuoteInfo)));
@@ -490,9 +501,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
                     .setTitle(getString(R.string.MZGramEraseLocalDatabase))
                     .setMessage(getString(R.string.MZGramEraseLocalDatabaseConfirm))
-                    .setPositiveButton(getString(R.string.CacheClear), (dialog, which) ->
+                    .setPositiveButton(getString(R.string.MZGramClear), (dialog, which) ->
                             org.telegram.messenger.mzgram.MZGramLocalDatabase.erase(getCurrentAccount()))
-                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .setNegativeButton(getString(R.string.MZGramCancel), null)
                     .makeRed(org.telegram.ui.ActionBar.AlertDialog.BUTTON_POSITIVE)
                     .show();
         } else if (item.id == BUTTON_DELETED_MARK) {
@@ -503,11 +514,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
                     .setTitle(getString(R.string.MZGramWipeArchive))
                     .setMessage(getString(R.string.MZGramWipeArchiveConfirm))
-                    .setPositiveButton(getString(R.string.Delete), (dialog, which) -> {
+                    .setPositiveButton(getString(R.string.MZGramDelete), (dialog, which) -> {
                         org.telegram.messenger.Utilities.globalQueue.postRunnable(() ->
                                 org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().wipeArchive());
                     })
-                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .setNegativeButton(getString(R.string.MZGramCancel), null)
                     .show();
         } else if (item.id == BUTTON_DISABLE_SPONSORED_MESSAGES) {
             MZGramConfig.toggleDisableSponsoredMessages();
@@ -540,7 +551,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
                     .setTitle(getString(R.string.MZGramImportArchive))
                     .setMessage(getString(R.string.MZGramImportArchiveConfirm))
-                    .setPositiveButton(getString(R.string.Continue), (dialog, which) -> {
+                    .setPositiveButton(getString(R.string.MZGramContinue), (dialog, which) -> {
                         android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_GET_CONTENT);
                         intent.setType("*/*");
                         try {
@@ -549,7 +560,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
                             org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importArchive", e);
                         }
                     })
-                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .setNegativeButton(getString(R.string.MZGramCancel), null)
                     .show();
         }
     }

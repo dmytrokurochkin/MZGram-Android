@@ -58,8 +58,7 @@ public class MZGramMessageHistoryActivity extends UniversalFragment {
         }
         for (int i = 0; i < revisions.size(); i++) {
             MZGramHistoryMessage revision = revisions.get(i);
-            String time = LocaleController.getInstance().getFormatterDayMonth().format((long) revision.entityCreateDate * 1000L)
-                    + ", " + LocaleController.getInstance().getFormatterDay().format((long) revision.entityCreateDate * 1000L);
+            String time = org.telegram.messenger.mzgram.MZGramLanguage.formatDayMonthTime((long) revision.entityCreateDate * 1000L);
             String preview = revision.text != null ? revision.text : getString(R.string.MZGramMessageHistoryNoText);
             items.add(UItem.asButton(i + 1, time, preview));
         }

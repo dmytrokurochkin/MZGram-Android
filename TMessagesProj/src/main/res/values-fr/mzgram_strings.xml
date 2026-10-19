@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Épinglé dans MZGram seulement : le serveur ne permet plus d’épingler de discussions, celle-ci est donc épinglée sur cet appareil et non sur vos autres appareils.</string>
     <string name="MZGramVersion">MZGram %1$s (basé sur Telegram %2$s)</string>
     <string name="MZGramVersionBase">MZGram (basé sur Telegram %1$s)</string>
+    <string name="MZGramCancel">Annuler</string>
+    <string name="MZGramOk">OK</string>
+    <string name="MZGramSave">Enregistrer</string>
+    <string name="MZGramDelete">Supprimer</string>
+    <string name="MZGramContinue">Continuer</string>
+    <string name="MZGramClear">Effacer</string>
+    <string name="MZGramReset">Réinitialiser</string>
+    <string name="MZGramCopy">Copier</string>
+    <string name="MZGramOpen">Ouvrir</string>
+    <string name="MZGramShare">Partager</string>
+    <string name="MZGramTextCopied">Texte copié dans le presse-papiers</string>
+    <string name="MZGramLinkCopied">Lien copié dans le presse-papiers</string>
+    <string name="MZGramPhoneCopied">Numéro de téléphone copié dans le presse-papiers</string>
+    <string name="MZGramHashtagCopied">Hashtag copié dans le presse-papiers</string>
+    <string name="MZGramUsernameCopied">Nom d’utilisateur copié dans le presse-papiers</string>
+    <string name="MZGramAddAccount">Ajouter un compte</string>
+    <string name="MZGramSetReminder">Définir un rappel</string>
+    <string name="MZGramOpenIn">Ouvrir dans…</string>
+    <string name="MZGramQrCode">Code QR</string>
+    <string name="MZGramDetailsRestrictedUser">La copie et le transfert ne sont pas autorisés pour cet utilisateur.</string>
+    <string name="MZGramDetailsRestrictedChannel">La copie et le transfert ne sont pas autorisés dans ce canal.</string>
+    <string name="MZGramDetailsRestrictedGroup">La copie et le transfert ne sont pas autorisés dans ce groupe.</string>
+    <string name="MZGramDateAtTime">%1$s à %2$s</string>
 </resources>

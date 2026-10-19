@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">Fixada só no MZGram: o servidor não permite mais conversas fixadas, então esta foi fixada neste aparelho e não nos seus outros aparelhos.</string>
     <string name="MZGramVersion">MZGram %1$s (baseado no Telegram %2$s)</string>
     <string name="MZGramVersionBase">MZGram (baseado no Telegram %1$s)</string>
+    <string name="MZGramCancel">Cancelar</string>
+    <string name="MZGramOk">OK</string>
+    <string name="MZGramSave">Salvar</string>
+    <string name="MZGramDelete">Apagar</string>
+    <string name="MZGramContinue">Continuar</string>
+    <string name="MZGramClear">Limpar</string>
+    <string name="MZGramReset">Redefinir</string>
+    <string name="MZGramCopy">Copiar</string>
+    <string name="MZGramOpen">Abrir</string>
+    <string name="MZGramShare">Compartilhar</string>
+    <string name="MZGramTextCopied">Texto copiado para a área de transferência</string>
+    <string name="MZGramLinkCopied">Link copiado para a área de transferência</string>
+    <string name="MZGramPhoneCopied">Número de telefone copiado para a área de transferência</string>
+    <string name="MZGramHashtagCopied">Hashtag copiada para a área de transferência</string>
+    <string name="MZGramUsernameCopied">Nome de usuário copiado para a área de transferência</string>
+    <string name="MZGramAddAccount">Adicionar conta</string>
+    <string name="MZGramSetReminder">Criar lembrete</string>
+    <string name="MZGramOpenIn">Abrir em…</string>
+    <string name="MZGramQrCode">Código QR</string>
+    <string name="MZGramDetailsRestrictedUser">Não é permitido copiar nem encaminhar mensagens deste usuário.</string>
+    <string name="MZGramDetailsRestrictedChannel">Não é permitido copiar nem encaminhar neste canal.</string>
+    <string name="MZGramDetailsRestrictedGroup">Não é permitido copiar nem encaminhar neste grupo.</string>
+    <string name="MZGramDateAtTime">%1$s às %2$s</string>
 </resources>

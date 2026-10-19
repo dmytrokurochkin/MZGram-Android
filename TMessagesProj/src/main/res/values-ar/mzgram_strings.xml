@@ -285,4 +285,27 @@
     <string name="MZGramPinnedLocally">مثبّتة في MZGram فقط: لا يسمح الخادم بتثبيت مزيد من المحادثات، لذا ثُبّتت هذه على هذا الجهاز وليس على أجهزتك الأخرى.</string>
     <string name="MZGramVersion">MZGram %1$s (مبني على تيليجرام %2$s)</string>
     <string name="MZGramVersionBase">MZGram (مبني على تيليجرام %1$s)</string>
+    <string name="MZGramCancel">إلغاء</string>
+    <string name="MZGramOk">حسنًا</string>
+    <string name="MZGramSave">حفظ</string>
+    <string name="MZGramDelete">حذف</string>
+    <string name="MZGramContinue">متابعة</string>
+    <string name="MZGramClear">مسح</string>
+    <string name="MZGramReset">إعادة تعيين</string>
+    <string name="MZGramCopy">نسخ</string>
+    <string name="MZGramOpen">فتح</string>
+    <string name="MZGramShare">مشاركة</string>
+    <string name="MZGramTextCopied">تم نسخ النص إلى الحافظة</string>
+    <string name="MZGramLinkCopied">تم نسخ الرابط إلى الحافظة</string>
+    <string name="MZGramPhoneCopied">تم نسخ رقم الهاتف إلى الحافظة</string>
+    <string name="MZGramHashtagCopied">تم نسخ الوسم إلى الحافظة</string>
+    <string name="MZGramUsernameCopied">تم نسخ اسم المستخدم إلى الحافظة</string>
+    <string name="MZGramAddAccount">إضافة حساب</string>
+    <string name="MZGramSetReminder">ضبط تذكير</string>
+    <string name="MZGramOpenIn">فتح في…</string>
+    <string name="MZGramQrCode">رمز QR</string>
+    <string name="MZGramDetailsRestrictedUser">النسخ وإعادة التوجيه غير مسموح بهما لهذا المستخدم.</string>
+    <string name="MZGramDetailsRestrictedChannel">النسخ وإعادة التوجيه غير مسموح بهما في هذه القناة.</string>
+    <string name="MZGramDetailsRestrictedGroup">النسخ وإعادة التوجيه غير مسموح بهما في هذه المجموعة.</string>
+    <string name="MZGramDateAtTime">%1$s في %2$s</string>
 </resources>

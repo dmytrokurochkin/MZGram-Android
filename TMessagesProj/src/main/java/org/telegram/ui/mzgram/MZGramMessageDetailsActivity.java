@@ -331,7 +331,7 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
                 intent.setDataAndType(uri, messageObject.getMimeType());
-                startActivityForResult(Intent.createChooser(intent, getString(R.string.ShareFile)), 500);
+                startActivityForResult(Intent.createChooser(intent, getString(R.string.MZGramShare)), 500);
             } catch (Exception ignored) {
             }
         } else if (item.id == ROW_CHAT && toChat != null) {
@@ -364,7 +364,7 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
             return true;
         }
         AndroidUtilities.addToClipboard(((TextDetailSettingsCell) view).getValueTextView().getText());
-        BulletinFactory.of(this).createCopyBulletin(getString(R.string.TextCopied)).show();
+        BulletinFactory.of(this).createCopyBulletin(getString(R.string.MZGramTextCopied)).show();
         return true;
     }
 
@@ -377,9 +377,9 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
     private void showNoForwards() {
         final int text;
         if (toChat == null) {
-            text = R.string.ForwardsRestrictedInfoUser;
+            text = R.string.MZGramDetailsRestrictedUser;
         } else {
-            text = toChat.broadcast ? R.string.ForwardsRestrictedInfoChannel : R.string.ForwardsRestrictedInfoGroup;
+            text = toChat.broadcast ? R.string.MZGramDetailsRestrictedChannel : R.string.MZGramDetailsRestrictedGroup;
         }
         BulletinFactory.of(this).createErrorBulletin(getString(text)).show();
     }
@@ -404,10 +404,8 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
         if (timestamp == 0x7ffffffe) {
             return getString(R.string.MZGramDetailsWhenOnline);
         }
-        final Date date = new Date(timestamp * 1000L);
-        return timestamp + "\n" + LocaleController.formatString(R.string.formatDateAtTime,
-                LocaleController.getInstance().getFormatterYear().format(date),
-                LocaleController.getInstance().getFormatterDayWithSeconds().format(date));
+        // In the MZGram language: Telegram's formatters follow Telegram's
+        return timestamp + "\n" + org.telegram.messenger.mzgram.MZGramLanguage.formatDateTime(timestamp * 1000L, true);
     }
 
     private static CharSequence describe(TLObject object) {

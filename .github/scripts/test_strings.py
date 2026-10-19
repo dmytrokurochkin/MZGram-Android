@@ -44,7 +44,7 @@ FOREIGN_LETTERS = {
 SHARED_WORDS = {
     "MZGram", "ID", "UnifiedPush", "DC", "MIME", "FCM", "Google", "GitHub", "SHA",
     "VAPID", "Bot", "Miami", "Amsterdam", "Singapore", "Zalgo", "Unicode",
-    "Telegram", "Interface", "Media", "Details", "Message", "Date",
+    "Telegram", "Interface", "Media", "Details", "Message", "Date", "OK",
 }
 
 

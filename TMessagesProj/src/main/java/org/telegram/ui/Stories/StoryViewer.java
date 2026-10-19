@@ -414,7 +414,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         mzgramSkipGhostModePrompt = true;
                         open(account, context, storyItem, peerIds, position, storiesList, userStories, placeProvider, reversed);
                     })
-                    .setNegativeButton(org.telegram.messenger.LocaleController.getString(R.string.Cancel), null)
+                    .setNegativeButton(org.telegram.messenger.LocaleController.getString(R.string.MZGramCancel), null)
                     .show();
             return;
         }

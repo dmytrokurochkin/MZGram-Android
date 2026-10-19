@@ -617,10 +617,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
         items.add(UItem.asCustomShadow(topView, 200 - 12));
 
-        // MZGram: its own settings first, above the accounts and every Telegram setting
-        items.add(SettingCell.Factory.of(org.telegram.ui.mzgram.MZGramSettingsActivity.SETTINGS_ROW_ID, IconBackgroundColors.CYAN.top, IconBackgroundColors.CYAN.bottom, R.drawable.settings_features, getString(R.string.MZGram), getString(R.string.MZGramSettingsInfo)));
-        items.add(UItem.asShadow(null));
-
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
             if (UserConfig.getInstance(a).isClientActivated() && currentAccount != a) {
@@ -686,6 +682,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             items.add(UItem.asShadow(null));
         }
 
+        // MZGram: its own settings are the first row of the settings list, in
+        // the same group as My Account and the other settings
+        items.add(SettingCell.Factory.of(org.telegram.ui.mzgram.MZGramSettingsActivity.SETTINGS_ROW_ID, IconBackgroundColors.CYAN.top, IconBackgroundColors.CYAN.bottom, R.drawable.settings_features, getString(R.string.MZGram), getString(R.string.MZGramSettingsInfo)));
         items.add(SettingCell.Factory.of(1, IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom, R.drawable.settings_account, getString(R.string.SettingsAccount), getString(R.string.SettingsAccountInfo)));
         items.add(SettingCell.Factory.of(2, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_chat, getString(R.string.SettingsChat), getString(R.string.SettingsChatInfo)));
         items.add(SettingCell.Factory.of(3, IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom, R.drawable.settings_privacy, getString(R.string.SettingsPrivacySecurity), getString(R.string.SettingsPrivacySecurityInfo)));

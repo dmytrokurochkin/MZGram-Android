@@ -76,6 +76,8 @@ public class MZGramLastSeen {
         if (at <= 0 || at > now + 60 || now - at > maxAge) {
             return null;
         }
+        // Telegram's own text: the status line of a chat or profile is Telegram's, and an
+        // approximate last seen reads the same as a real one
         return LocaleController.formatDateOnline(Math.min(at, now), null);
     }
 

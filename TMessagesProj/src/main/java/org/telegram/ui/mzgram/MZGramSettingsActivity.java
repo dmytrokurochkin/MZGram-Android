@@ -212,7 +212,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         int selected = org.telegram.messenger.mzgram.MZGramLanguage.indexOf(MZGramConfig.language) + 1;
         showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramLanguage), selected, (dialog, which) -> {
             setLanguage(which == 0 ? org.telegram.messenger.mzgram.MZGramLanguage.SYSTEM : codes[which - 1]);
-        }));
+        }, getString(R.string.MZGramCancel)));
     }
 
     // Also used by the tests

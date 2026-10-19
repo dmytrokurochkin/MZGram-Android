@@ -7604,6 +7604,11 @@ public class AlertsCreator {
     }
 
     public static Dialog createSingleChoiceDialog(Activity parentActivity, final String[] options, final String title, final int selected, final DialogInterface.OnClickListener listener) {
+        return createSingleChoiceDialog(parentActivity, options, title, selected, listener, LocaleController.getString(R.string.Cancel));
+    }
+
+    // MZGram: the same with its own Cancel, in the MZGram language
+    public static Dialog createSingleChoiceDialog(Activity parentActivity, final String[] options, final String title, final int selected, final DialogInterface.OnClickListener listener, String cancel) {
         final LinearLayout linearLayout = new LinearLayout(parentActivity);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
@@ -7623,7 +7628,7 @@ public class AlertsCreator {
 
         builder.setTitle(title);
         builder.setView(linearLayout);
-        builder.setPositiveButton(LocaleController.getString(R.string.Cancel), null);
+        builder.setPositiveButton(cancel, null);
         return builder.create();
     }
 

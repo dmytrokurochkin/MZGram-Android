@@ -137,6 +137,26 @@ class MZGramClassesTest(unittest.TestCase):
                             problems.append(f"{path.name}:{i + 1}: {literal} on the screen")
         self.assertEqual([], problems)
 
+    def test_telegram_dialogs_get_mzgram_buttons(self):
+        # A dialog Telegram's AlertsCreator makes has Telegram's own Cancel
+        # unless MZGram passes its own (the language choice had it)
+        problems = []
+        for path in mzgram_files():
+            lines = code_lines(path)
+            raw = [line for _, line in lines]
+            text = "\n".join(code for code, _ in lines)
+            for match in re.finditer(r"AlertsCreator\.create\w+\(", text):
+                depth, end = 0, match.end() - 1
+                for end in range(match.end() - 1, len(text)):
+                    depth += {"(": 1, ")": -1}.get(text[end], 0)
+                    if depth == 0:
+                        break
+                call = text[match.start():end + 1]
+                line = text.count("\n", 0, match.start())
+                if "R.string.MZGramCancel" not in call and not allowed(raw, line):
+                    problems.append(f"{path.name}:{line + 1}: a Telegram dialog with Telegram's Cancel")
+        self.assertEqual([], problems)
+
     def test_the_check_finds_what_it_looks_for(self):
         sample = 'builder.setNegativeButton(getString(R.string.Cancel), null);\nbutton.setText("Update");\n'
         self.assertEqual(["Cancel"], [n for n in STRING_REF.findall(sample) if not mzgram_string(n)])

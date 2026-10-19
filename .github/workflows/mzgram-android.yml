@@ -70,6 +70,8 @@ jobs:
           python3 .github/scripts/test_features.py
           # MZGram's strings: complete in each of the twelve languages
           python3 .github/scripts/test_strings.py
+          # MZGram's screens show only MZGram strings, in the MZGram language: no Telegram strings, no texts in the code
+          python3 .github/scripts/test_texts.py
           # Installs beside Telegram: own package org.mzgram.messenger, authorities, permissions, account type, icon
           python3 .github/scripts/test_manifest.py
           # A push build gets the versionCode of the newest release tag (or the

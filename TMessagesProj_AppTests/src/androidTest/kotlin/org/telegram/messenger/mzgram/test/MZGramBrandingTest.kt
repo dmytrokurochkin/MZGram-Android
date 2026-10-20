@@ -14,6 +14,7 @@ import org.telegram.messenger.UserConfig
 import org.telegram.messenger.mzgram.MZGramBranding
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.SettingsActivity
+import org.telegram.utils.localization.Localization
 import java.util.Locale
 
 // MZGram's own name wherever the app names itself, in English and in a
@@ -24,8 +25,9 @@ class MZGramBrandingTest {
     private val context get() = instrumentation.targetContext
 
     @Suppress("UNCHECKED_CAST")
-    private fun localeValues(): HashMap<String, String> =
-        LocaleController::class.java.getDeclaredField("localeValues").also { it.isAccessible = true }.get(LocaleController.getInstance()) as HashMap<String, String>
+    // The strings of a downloaded (cloud) language pack: since Telegram 13.0
+    // LocaleController keeps them as a Localization, built from the pack's map
+    private val cloudPack = LocaleController::class.java.getDeclaredField("localizationExternal").also { it.isAccessible = true }
 
     private fun string(locale: String, res: Int): String {
         val config = Configuration(context.resources.configuration)
@@ -55,19 +57,20 @@ class MZGramBrandingTest {
         assertEquals("MZGram", LocaleController.getString(R.string.AppName))
         assertTrue(LocaleController.getString(R.string.PermissionNoLocation).startsWith("MZGram"))
         assertTrue(LocaleController.formatString(R.string.StorageUsageTelegram, "1 GB").startsWith("MZGram"))
-        val values = localeValues()
-        val saved = HashMap(values)
+        val saved = cloudPack.get(LocaleController.getInstance())
         try {
-            values["AppName"] = "Telegram"
-            values["PermissionNoLocation"] = "Telegram потребує доступу до вашого місцезнаходження."
-            values["SessionsListInfo"] = "Офіційний застосунок Telegram доступний для Android."
+            val pack = Localization.Builder().addLocalization(hashMapOf(
+                "AppName" to "Telegram",
+                "PermissionNoLocation" to "Telegram потребує доступу до вашого місцезнаходження.",
+                "SessionsListInfo" to "Офіційний застосунок Telegram доступний для Android.",
+            )).build()
+            cloudPack.set(LocaleController.getInstance(), pack)
             assertEquals("MZGram", LocaleController.getString(R.string.AppName))
             assertEquals("MZGram потребує доступу до вашого місцезнаходження.", LocaleController.getString(R.string.PermissionNoLocation))
             assertTrue("the service's own texts stay", LocaleController.getString(R.string.SessionsListInfo).contains("Telegram"))
-            assertEquals("the pack keeps its text", "Telegram", values["AppName"])
+            assertEquals("the pack keeps its text", "Telegram", pack.getByResName("AppName"))
         } finally {
-            values.clear()
-            values.putAll(saved)
+            cloudPack.set(LocaleController.getInstance(), saved)
         }
     }
 

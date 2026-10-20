@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.telegram.build-app-plugin'
 
 repositories {
     mavenCentral()
@@ -32,7 +33,6 @@ android {
     defaultConfig.applicationId = MZGRAM_PACKAGE
     defaultConfig.resValue "string", "mzgram_account_type", MZGRAM_PACKAGE
 
-    sourceSets.main.jniLibs.srcDirs = ['../TMessagesProj/jni/']
 
     lintOptions {
         disable 'MissingTranslation'
@@ -48,6 +48,10 @@ android {
     }
 
     androidResources {
+        noCompress += "pack"
+        // MZGram: 13.0 drops every language from the resources ("zz"), its
+        // Telegram strings come from the .pack files; MZGram's own strings in
+        // 12 languages are resources (values-xx/mzgram_strings.xml) and stay.
         localeFilters += ["en", "ar", "de", "es", "it", "ko", "nl", "pt-rBR", "ru", "uk", "pl", "fr", "tr", "be", "kk"]
     }
 
@@ -67,6 +71,12 @@ android {
         }
     }
 
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
@@ -74,7 +84,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled false
             multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro', '../TMessagesProj/proguard-rules-beta.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../TMessagesProj/proguard-rules.pro'
             ndk.debugSymbolLevel = 'FULL'
         }
         standalone {
@@ -83,8 +93,9 @@ android {
             jniDebuggable false
             signingConfig signingConfigs.release
             minifyEnabled true
+            shrinkResources true
             multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../TMessagesProj/proguard-rules.pro'
             ndk.debugSymbolLevel = 'FULL'
         }
     }
@@ -129,7 +140,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 36
         versionName APP_VERSION_NAME
         ndkVersion "27.2.12479018"

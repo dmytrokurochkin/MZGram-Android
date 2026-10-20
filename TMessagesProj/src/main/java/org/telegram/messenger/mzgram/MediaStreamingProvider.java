@@ -29,10 +29,11 @@ import android.system.OsConstants;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.annotation.RequiresApi;
-
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DataSpec;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.DataSource;
+import androidx.media3.datasource.DataSpec;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLoader;
@@ -181,6 +182,8 @@ public class MediaStreamingProvider extends ContentProvider {
         return true;
     }
 
+    // Telegram 13.0 streams through media3 (it replaced ExoPlayer 2)
+    @OptIn(markerClass = UnstableApi.class)
     @RequiresApi(api = Build.VERSION_CODES.O)
     private static class StreamingProxyFileDescriptorCallback extends ProxyFileDescriptorCallback {
         private long size;

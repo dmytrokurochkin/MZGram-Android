@@ -21,6 +21,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.SparseArray;
 
 import org.telegram.messenger.ApplicationLoader;
 
@@ -142,6 +143,29 @@ public class MZGramLanguage {
             }
         }
         return result;
+    }
+
+    private static final SparseArray<String> keys = new SparseArray<>();
+
+    // The key of a string, its resource name. Telegram 13.0 looks a string up
+    // by its resource id alone (key null), while MZGram tells its own strings
+    // and the strings with the app's name apart by the key.
+    public static String key(String key, int res) {
+        if (key != null || res == 0) {
+            return key;
+        }
+        synchronized (keys) {
+            String name = keys.get(res);
+            if (name == null) {
+                try {
+                    name = ApplicationLoader.applicationContext.getResources().getResourceEntryName(res);
+                } catch (Exception e) {
+                    return null;
+                }
+                keys.put(res, name);
+            }
+            return name;
+        }
     }
 
     // An MZGram string in the MZGram language; null when res is not one.

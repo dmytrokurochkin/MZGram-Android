@@ -1449,6 +1449,7 @@ public class LocaleController {
 
     private String getStringInternal(String key, String fallback, int res) {
         // MZGram: its own strings in the MZGram language (MZGramLanguage)
+        key = org.telegram.messenger.mzgram.MZGramLanguage.key(key, res);
         String value = org.telegram.messenger.mzgram.MZGramLanguage.string(key, res);
         if (value == null) {
             value = getStringV2(key, res, fallback);
@@ -1636,6 +1637,7 @@ public class LocaleController {
     private static String formatString(String key, String fallback, int res, Object... args) {
         try {
             // MZGram: its own strings in the MZGram language (MZGramLanguage)
+            key = org.telegram.messenger.mzgram.MZGramLanguage.key(key, res);
             String value = org.telegram.messenger.mzgram.MZGramLanguage.string(key, res);
             if (value == null) {
                 value = getInstance().getStringV2(key, res, fallback);
@@ -1668,6 +1670,7 @@ public class LocaleController {
     private static CharSequence formatSpannable(String key, String fallback, int res, Object... args) {
         try {
             // MZGram: its own strings in the MZGram language (MZGramLanguage)
+            key = org.telegram.messenger.mzgram.MZGramLanguage.key(key, res);
             String value = org.telegram.messenger.mzgram.MZGramLanguage.string(key, res);
             if (value == null) {
                 value = getInstance().getStringV2(key, res, fallback);

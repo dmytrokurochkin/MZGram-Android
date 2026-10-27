@@ -162,7 +162,7 @@ jobs:
           RANGE=${PREVIOUS:+$PREVIOUS..}$TAG
           [ "$PUBLISH" = true ] || RANGE=${PREVIOUS:+$PREVIOUS..}HEAD
           # The [mzgram] commits users notice; CI:, Test:, Release workflow:, Docs:, Spec: are left out
-          CHANGES=$(git log --no-merges --format=%s "$RANGE" | python3 .github/scripts/mzgram_version.py notes)
+          CHANGES=$(git log --no-merges --format=%s "$RANGE" | python3 .github/scripts/mzgram_version.py notes --own ".github/release_notes/$VERSION.changes.md")
           {
             echo "MZGram for Android $VERSION, based on Telegram for Android $UPSTREAM."
             echo

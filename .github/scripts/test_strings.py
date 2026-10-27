@@ -120,15 +120,18 @@ class StringsTest(unittest.TestCase):
         self.assertEqual([], sorted(used - set(self.en)))
 
     def test_the_languages_are_in_every_app_build(self):
-        # localeFilters drops every other resource language from the APK
+        # localeFilters drops every other resource language from the APK; one
+        # list, MZGRAM_LOCALES in gradle.properties, serves every app build
+        properties = (ROOT / "gradle.properties").read_text(encoding="utf-8")
+        match = re.search(r"^MZGRAM_LOCALES=(.+)$", properties, re.M)
+        self.assertIsNotNone(match, "no MZGRAM_LOCALES in gradle.properties")
+        kept = set(match.group(1).strip().split(","))
+        for folder in LANGUAGES.values():
+            self.assertIn(folder[len("values-"):], kept)
         for build in ROOT.glob("TMessagesProj_App*/build.gradle"):
             text = build.read_text(encoding="utf-8")
-            match = re.search(r"localeFilters \+= \[(.*?)\]", text)
-            if not match:
-                continue
-            kept = set(re.findall(r'"([^"]+)"', match.group(1)))
-            for folder in LANGUAGES.values():
-                self.assertIn(folder[len("values-"):], kept, build.parent.name)
+            self.assertNotRegex(text, r"localeFilters \+= \[", build.parent.name + " has a list of its own")
+            self.assertIn('localeFilters += MZGRAM_LOCALES.split(",").toList()', text, build.parent.name)
 
     def test_features_names_the_languages(self):
         features = (ROOT / "FEATURES.md").read_text(encoding="utf-8")

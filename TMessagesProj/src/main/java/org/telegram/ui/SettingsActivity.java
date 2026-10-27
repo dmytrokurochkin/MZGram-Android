@@ -684,9 +684,10 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             items.add(UItem.asShadow(null));
         }
 
-        // MZGram: its row stays the first row of Settings, so the wallet row
-        // keeps its usual place below the settings group instead of going
-        // above everything for its first four weeks
+        // MZGram: its row stays the first row of the settings, so the wallet
+        // row keeps its usual place below the settings group instead of its
+        // own group above it for its first four weeks. Telegram's lines stay
+        // as they are, so that its next versions merge cleanly.
         final boolean walletAbove = false;
         if (walletAbove && getMessagesController().config.walletAvailable.get()) {
             final GramWallet wallet = GramWallet.getInstance(currentAccount);

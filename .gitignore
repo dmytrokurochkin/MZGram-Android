@@ -19,3 +19,5 @@ TMessagesProj/jni/ffmpeg/build_android
 *.jks
 *.b64
 mzgram-release*.keystore
+# Python caches of the CI scripts
+__pycache__/

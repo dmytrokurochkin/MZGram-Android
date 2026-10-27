@@ -44,6 +44,8 @@ class MZGramVideoTest {
             } finally {
                 field.set(viewer, saved)
                 MZGramConfig.autoPauseVideo = before
+                // The media3 player the VideoPlayer made
+                player.releasePlayer(false)
             }
         }
         failure?.let { throw it }

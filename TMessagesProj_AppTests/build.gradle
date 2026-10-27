@@ -70,10 +70,8 @@ android {
 
     androidResources {
         noCompress += "pack"
-        // MZGram: 13.0 drops every language from the resources ("zz"), its
-        // Telegram strings come from the .pack files; MZGram's own strings in
-        // 12 languages are resources (values-xx/mzgram_strings.xml) and stay.
-        localeFilters += ["en", "ar", "de", "es", "it", "ko", "nl", "pt-rBR", "ru", "uk", "pl", "fr", "tr", "be", "kk"]
+        // MZGram: the resource languages it keeps (gradle.properties)
+        localeFilters += MZGRAM_LOCALES.split(",").toList()
     }
 
     signingConfigs {

@@ -46,6 +46,9 @@ public class MZGramConfig {
     // Forward, save, copy and screenshot in chats with "Restrict saving
     // content" (MZGramProtectedContent).
     public static boolean saveProtectedContent = false;
+    // The Delete box of messages comes with "Delete for everyone" (or "Also
+    // delete for ...") already ticked; Telegram leaves it unticked.
+    public static boolean deleteForAllByDefault = false;
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean predictiveBackAnimation = true;
     // On by default: upstream always has this animation, the switch only turns it off.
@@ -159,6 +162,7 @@ public class MZGramConfig {
             showQrCode = preferences.getBoolean("showQrCode", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
             saveProtectedContent = preferences.getBoolean("saveProtectedContent", false);
+            deleteForAllByDefault = preferences.getBoolean("deleteForAllByDefault", false);
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
@@ -362,6 +366,11 @@ public class MZGramConfig {
     public static void toggleFolderTabsAtBottom() {
         folderTabsAtBottom = !folderTabsAtBottom;
         putBoolean("folderTabsAtBottom", folderTabsAtBottom);
+    }
+
+    public static void toggleDeleteForAllByDefault() {
+        deleteForAllByDefault = !deleteForAllByDefault;
+        putBoolean("deleteForAllByDefault", deleteForAllByDefault);
     }
 
     public static void toggleConfirmAVMessage() {

@@ -16,13 +16,16 @@ package org.telegram.messenger.mzgram;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.text.TextUtils;
 
 import org.telegram.messenger.ApplicationLoader;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,11 +53,8 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return instance;
     }
 
-    private final String dbFilePath;
-
     private MZGramHistoryDatabase(Context context) {
         super(context, dbPath(context), null, DB_VERSION);
-        dbFilePath = dbPath(context);
     }
 
     // Next to Telegram's own private data directory, not in public storage
@@ -70,12 +70,100 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return new File(dir, DB_NAME).getAbsolutePath();
     }
 
-    // For export/import: the raw SQLite file backing this database. Callers
-    // must close() this helper first so every write is flushed to disk
-    // before the file is copied or replaced -- this reads the path stored
-    // at construction time rather than opening the database.
-    public File getDatabaseFile() {
-        return new File(dbFilePath);
+    // Export and import copy the rows through the open database and never
+    // close() it: the app keeps using this helper from other threads all the
+    // time (messages deleted or edited, reads, last seen), and a query that
+    // got its connection before a close() fails with "the connection pool has
+    // been closed". Inside the transaction those threads simply wait.
+
+    // A new archive file at dest with every row of this one, as one moment
+    // of the archive.
+    public void exportTo(File dest) throws IOException {
+        SQLiteDatabase.deleteDatabase(dest);
+        try (SQLiteDatabase out = SQLiteDatabase.openOrCreateDatabase(dest, null)) {
+            onCreate(out);
+            out.setVersion(DB_VERSION);
+            SQLiteDatabase db = getWritableDatabase();
+            out.beginTransaction();
+            db.beginTransaction();
+            try {
+                copyRows(db, out);
+                out.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+                out.endTransaction();
+            }
+        } catch (SQLException e) {
+            throw new IOException(e);
+        }
+    }
+
+    // Replaces every row of this archive with the rows of the archive file
+    // source, all at once; when that fails the archive stays as it was.
+    // Columns the two have in common are copied, so an archive of an earlier
+    // or later version comes in too.
+    public void importFrom(File source) throws IOException {
+        try (SQLiteDatabase in = SQLiteDatabase.openDatabase(source.getPath(), null, SQLiteDatabase.OPEN_READONLY)) {
+            SQLiteDatabase db = getWritableDatabase();
+            db.beginTransaction();
+            try {
+                copyRows(in, db);
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } catch (SQLException e) {
+            throw new IOException(e);
+        }
+    }
+
+    private static void copyRows(SQLiteDatabase from, SQLiteDatabase to) {
+        for (String table : new String[]{TABLE, TABLE_READS, TABLE_LAST_SEEN}) {
+            to.delete(table, null, null);
+            List<String> columns = columns(to, table);
+            columns.retainAll(columns(from, table));
+            if (columns.isEmpty()) {
+                continue;
+            }
+            ContentValues values = new ContentValues();
+            try (Cursor cursor = from.rawQuery("SELECT " + TextUtils.join(", ", columns) + " FROM " + table, null)) {
+                while (cursor.moveToNext()) {
+                    values.clear();
+                    for (int i = 0; i < columns.size(); i++) {
+                        String column = columns.get(i);
+                        switch (cursor.getType(i)) {
+                            case Cursor.FIELD_TYPE_NULL:
+                                values.putNull(column);
+                                break;
+                            case Cursor.FIELD_TYPE_INTEGER:
+                                values.put(column, cursor.getLong(i));
+                                break;
+                            case Cursor.FIELD_TYPE_FLOAT:
+                                values.put(column, cursor.getDouble(i));
+                                break;
+                            case Cursor.FIELD_TYPE_BLOB:
+                                values.put(column, cursor.getBlob(i));
+                                break;
+                            default:
+                                values.put(column, cursor.getString(i));
+                                break;
+                        }
+                    }
+                    to.insertOrThrow(table, null, values);
+                }
+            }
+        }
+    }
+
+    // The columns of a table, none when the database has no such table.
+    private static List<String> columns(SQLiteDatabase db, String table) {
+        List<String> columns = new ArrayList<>();
+        try (Cursor cursor = db.rawQuery("PRAGMA table_info(" + table + ")", null)) {
+            while (cursor.moveToNext()) {
+                columns.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+            }
+        }
+        return columns;
     }
 
     // Where earlier versions kept archived files, in the app's own folder.

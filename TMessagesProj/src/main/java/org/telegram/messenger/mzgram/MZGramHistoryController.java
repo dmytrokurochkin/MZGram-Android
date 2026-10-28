@@ -1029,19 +1029,18 @@ public class MZGramHistoryController {
 
     // ---- export / import ----
 
-    // Copies the raw SQLite file to a fresh file in the cache, which the
+    // Writes the archive to a fresh SQLite file in the cache, which the
     // caller writes to the place the user picked in Android's "save as"
-    // (MZGramSettingsActivity). The export is the database file itself, not a
-    // separate format -- import is the exact reverse (see importArchive below).
+    // (MZGramSettingsActivity). The export is an archive database like the
+    // app's own, not a separate format -- import is the exact reverse (see
+    // importArchive below).
     public File exportArchive() throws IOException {
-        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
-        db.close(); // flush every pending write before copying the file
         File exportDir = new File(ApplicationLoader.applicationContext.getCacheDir(), "mzgram_export");
         if (!exportDir.exists()) {
             exportDir.mkdirs();
         }
         File dest = new File(exportDir, "mzgram_archive_export.db");
-        AndroidUtilities.copyFile(db.getDatabaseFile(), dest);
+        MZGramHistoryDatabase.getInstance().exportTo(dest);
         return dest;
     }
 
@@ -1065,11 +1064,7 @@ public class MZGramHistoryController {
             if (!isArchive(temp)) {
                 throw new IOException("not an MZGram archive");
             }
-            MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
-            db.close();
-            if (!AndroidUtilities.copyFile(temp, db.getDatabaseFile())) {
-                throw new IOException("could not replace the archive");
-            }
+            MZGramHistoryDatabase.getInstance().importFrom(temp);
         } finally {
             temp.delete();
         }

@@ -8054,6 +8054,10 @@ public class AlertsCreator {
                 } else {
                     cell.setText(LocaleController.getString(R.string.DeleteMessagesOption), "", false, false);
                 }
+                // MZGram: MZGramConfig.deleteForAllByDefault.
+                if (org.telegram.messenger.mzgram.MZGramConfig.deleteForAllByDefault) {
+                    cell.setChecked(deleteForAll[0] = true, false);
+                }
                 cell.setPadding(LocaleController.isRTL ? dp(16) : dp(8), 0, LocaleController.isRTL ? dp(8) : dp(16), 0);
                 frameLayout.addView(cell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.TOP | Gravity.LEFT, 0, 0, 0, 0));
                 cell.setOnClickListener(v -> {
@@ -8112,6 +8116,10 @@ public class AlertsCreator {
                     cell.setText(LocaleController.getString(R.string.DeleteForAll), "", false, false);
                 } else {
                     cell.setText(LocaleController.getString(R.string.DeleteMessagesOption), "", false, false);
+                }
+                // MZGram: MZGramConfig.deleteForAllByDefault.
+                if (org.telegram.messenger.mzgram.MZGramConfig.deleteForAllByDefault) {
+                    cell.setChecked(deleteForAll[0] = true, false);
                 }
                 cell.setPadding(LocaleController.isRTL ? dp(16) : dp(8), 0, LocaleController.isRTL ? dp(8) : dp(16), 0);
                 frameLayout.addView(cell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.TOP | Gravity.LEFT, 0, 0, 0, 0));

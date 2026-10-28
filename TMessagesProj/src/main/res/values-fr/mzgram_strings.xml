@@ -35,6 +35,8 @@
     <string name="MZGramShowForwardNoQuoteInfo">Ajoute « Transférer sans l’expéditeur » à côté de « Transférer ». Le transfert habituel s’ouvre avec les noms des expéditeurs déjà masqués, et le message est envoyé comme le vôtre.</string>
     <string name="MZGramSaveProtectedContent">Transférer et enregistrer le contenu protégé</string>
     <string name="MZGramSaveProtectedContentInfo">Dans les discussions et canaux dont le propriétaire a restreint l’enregistrement du contenu, vous pouvez transférer, enregistrer et copier les messages et médias et faire des captures d’écran comme ailleurs. Telegram ne transfère pas ces messages, ils sont donc envoyés comme de nouveaux messages sans l’expéditeur d’origine ; les médias pas encore téléchargés le sont d’abord.</string>
+    <string name="MZGramDeleteForAllByDefault">Supprimer pour tous par défaut</string>
+    <string name="MZGramDeleteForAllByDefaultInfo">Quand vous supprimez des messages, l’option pour les supprimer aussi chez les autres est déjà cochée ; décochez-la pour les supprimer seulement chez vous. Telegram la laisse décochée.</string>
     <string name="MZGramShowQrCodeInfo">Analyse la photo sur l’appareil quand vous ouvrez son menu ; si elle contient un code QR, « Code QR » apparaît et affiche le lien ou le texte.</string>
     <string name="MZGramMessageDetails">Détails</string>
     <string name="MZGramShowMessageDetailsInfo">Ajoute « Détails » au menu du message : identifiants, expéditeur, dates, source du transfert, fichier, média et centre de données d’un message. Maintenez une valeur pour la copier.</string>

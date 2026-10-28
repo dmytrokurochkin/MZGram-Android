@@ -35,6 +35,8 @@
     <string name="MZGramShowForwardNoQuoteInfo">يضيف «إعادة التوجيه دون المرسل» بجانب «إعادة التوجيه». يفتح إعادة التوجيه المعتادة وأسماء المرسلين مخفية مسبقًا، فتُرسل الرسالة باسمك.</string>
     <string name="MZGramSaveProtectedContent">إعادة توجيه المحتوى المحمي وحفظه</string>
     <string name="MZGramSaveProtectedContentInfo">في المحادثات والقنوات التي قيّد مالكها حفظ المحتوى، يمكنك إعادة توجيه الرسائل والوسائط وحفظها ونسخها وأخذ لقطات للشاشة كما في أي مكان آخر. لا يعيد تيليجرام توجيه هذه الرسائل، لذا تُرسل كرسائل جديدة دون المرسل الأصلي؛ وتُنزَّل الوسائط غير المنزّلة أولًا.</string>
+    <string name="MZGramDeleteForAllByDefault">الحذف لدى الجميع افتراضيًا</string>
+    <string name="MZGramDeleteForAllByDefaultInfo">عند حذف الرسائل يكون خيار حذفها لدى الآخرين أيضًا محددًا مسبقًا؛ ألغِ تحديده لحذفها لديك فقط. يتركه Telegram غير محدد.</string>
     <string name="MZGramShowQrCodeInfo">يفحص الصورة على الجهاز عند فتح قائمتها؛ وإن كانت تحتوي على رمز QR، يظهر «رمز QR» ويعرض الرابط أو النص.</string>
     <string name="MZGramMessageDetails">التفاصيل</string>
     <string name="MZGramShowMessageDetailsInfo">يضيف «التفاصيل» إلى قائمة الرسالة: المعرّفات والمرسل والتواريخ ومصدر إعادة التوجيه والملف والوسائط ومركز البيانات للرسالة. اضغط مطوّلًا على قيمة لنسخها.</string>

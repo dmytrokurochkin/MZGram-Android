@@ -35,6 +35,8 @@
     <string name="MZGramShowForwardNoQuoteInfo">Dodaje „Przekaż bez nadawcy” obok „Przekaż”. Otwiera zwykłe przekazywanie z już ukrytymi nazwami nadawców, więc wiadomość zostaje wysłana jako twoja.</string>
     <string name="MZGramSaveProtectedContent">Przekazuj i zapisuj chronione treści</string>
     <string name="MZGramSaveProtectedContentInfo">Na czatach i kanałach, których właściciel ograniczył zapisywanie treści, możesz przekazywać, zapisywać i kopiować wiadomości i multimedia oraz robić zrzuty ekranu jak wszędzie indziej. Telegram nie przekazuje takich wiadomości, więc są wysyłane jako nowe, bez pierwotnego nadawcy; niepobrane jeszcze multimedia są najpierw pobierane.</string>
+    <string name="MZGramDeleteForAllByDefault">Domyślnie usuwaj dla wszystkich</string>
+    <string name="MZGramDeleteForAllByDefaultInfo">Przy usuwaniu wiadomości opcja usunięcia ich także u innych jest już zaznaczona; po odznaczeniu znikają tylko u siebie. Telegram jej nie zaznacza.</string>
     <string name="MZGramShowQrCodeInfo">Po otwarciu menu zdjęcia skanuje je na urządzeniu; jeśli zawiera kod QR, pojawia się „Kod QR” i pokazuje link lub tekst.</string>
     <string name="MZGramMessageDetails">Szczegóły</string>
     <string name="MZGramShowMessageDetailsInfo">Dodaje „Szczegóły” do menu wiadomości: identyfikatory, nadawcę, daty, źródło przekazania, plik, multimedia i centrum danych wiadomości. Przytrzymaj wartość, aby ją skopiować.</string>

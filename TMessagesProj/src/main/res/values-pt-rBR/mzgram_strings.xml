@@ -35,6 +35,8 @@
     <string name="MZGramShowForwardNoQuoteInfo">Adiciona “Encaminhar sem remetente” ao lado de “Encaminhar”. Abre o encaminhamento normal com os nomes dos remetentes já ocultos, então a mensagem é enviada como sua.</string>
     <string name="MZGramSaveProtectedContent">Encaminhar e salvar conteúdo protegido</string>
     <string name="MZGramSaveProtectedContentInfo">Em conversas e canais cujo dono restringiu salvar conteúdo, você pode encaminhar, salvar e copiar mensagens e mídia e tirar capturas de tela como em qualquer lugar. O Telegram não encaminha essas mensagens, então elas são enviadas como mensagens novas sem o remetente original; a mídia ainda não baixada é baixada primeiro.</string>
+    <string name="MZGramDeleteForAllByDefault">Apagar para todos por padrão</string>
+    <string name="MZGramDeleteForAllByDefaultInfo">Ao apagar mensagens, a opção de apagá-las também para os outros já vem marcada; desmarque-a para apagar só para você. O Telegram a deixa desmarcada.</string>
     <string name="MZGramShowQrCodeInfo">Analisa a foto no aparelho quando você abre o menu dela; se tiver um código QR, aparece “Código QR”, que mostra o link ou o texto.</string>
     <string name="MZGramMessageDetails">Detalhes</string>
     <string name="MZGramShowMessageDetailsInfo">Adiciona “Detalhes” ao menu da mensagem: IDs, remetente, datas, origem do encaminhamento, arquivo, mídia e data center de uma mensagem. Segure um valor para copiá-lo.</string>

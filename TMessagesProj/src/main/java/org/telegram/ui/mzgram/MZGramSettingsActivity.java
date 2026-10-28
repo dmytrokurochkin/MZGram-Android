@@ -68,6 +68,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_ACCOUNTS_IN_MENU = 54;
     private static final int BUTTON_CHECK_UPDATES_NOW = 55;
     private static final int BUTTON_LANGUAGE = 56;
+    private static final int BUTTON_DELETE_FOR_ALL_BY_DEFAULT = 57;
     private static final int BUTTON_CONFIRM_AV_MESSAGE = 28;
     private static final int BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS = 29;
     private static final int BUTTON_GHOST_AUTO_DELAY_SEND = 30;
@@ -302,6 +303,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramShowForwardNoQuoteInfo)));
         items.add(UItem.asCheck(BUTTON_SAVE_PROTECTED_CONTENT, getString(R.string.MZGramSaveProtectedContent)).setChecked(MZGramConfig.saveProtectedContent));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveProtectedContentInfo)));
+        items.add(UItem.asCheck(BUTTON_DELETE_FOR_ALL_BY_DEFAULT, getString(R.string.MZGramDeleteForAllByDefault)).setChecked(MZGramConfig.deleteForAllByDefault));
+        items.add(UItem.asShadow(getString(R.string.MZGramDeleteForAllByDefaultInfo)));
     }
 
     private void fillMediaAndCalls(ArrayList<UItem> items) {
@@ -413,6 +416,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_AUTO_PAUSE_VIDEO) {
             MZGramConfig.toggleAutoPauseVideo();
             ((TextCheckCell) view).setChecked(MZGramConfig.autoPauseVideo);
+        } else if (item.id == BUTTON_DELETE_FOR_ALL_BY_DEFAULT) {
+            MZGramConfig.toggleDeleteForAllByDefault();
+            ((TextCheckCell) view).setChecked(MZGramConfig.deleteForAllByDefault);
         } else if (item.id == BUTTON_CONFIRM_AV_MESSAGE) {
             MZGramConfig.toggleConfirmAVMessage();
             ((TextCheckCell) view).setChecked(MZGramConfig.confirmAVMessage);

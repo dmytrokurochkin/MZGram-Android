@@ -35,6 +35,8 @@
     <string name="MZGramShowForwardNoQuoteInfo">“İlet”in yanına “Göndereni gizleyerek ilet” ekler. Gönderen adları zaten gizlenmiş olarak normal iletme ekranını açar; mesaj sizin mesajınız olarak gönderilir.</string>
     <string name="MZGramSaveProtectedContent">Korumalı içeriği ilet ve kaydet</string>
     <string name="MZGramSaveProtectedContentInfo">Sahibinin içerik kaydetmeyi kısıtladığı sohbet ve kanallarda, mesajları ve medyayı her yerde olduğu gibi iletebilir, kaydedebilir, kopyalayabilir ve ekran görüntüsü alabilirsiniz. Telegram bu mesajları iletmez, bu yüzden asıl gönderen olmadan yeni mesajlar olarak gönderilirler; henüz indirilmemiş medya önce indirilir.</string>
+    <string name="MZGramDeleteForAllByDefault">Varsayılan olarak herkesten sil</string>
+    <string name="MZGramDeleteForAllByDefaultInfo">Mesajlar silinirken onları başkaları için de silme seçeneği zaten işaretlidir; işaret kaldırılırsa yalnızca kendiniz için silinir. Telegram bu seçeneği işaretsiz bırakır.</string>
     <string name="MZGramShowQrCodeInfo">Menüsünü açtığınızda fotoğrafı cihazda tarar; bir QR kodu içeriyorsa “QR kodu” belirir ve bağlantıyı ya da metni gösterir.</string>
     <string name="MZGramMessageDetails">Ayrıntılar</string>
     <string name="MZGramShowMessageDetailsInfo">Mesaj menüsüne “Ayrıntılar” ekler: bir mesajın kimlikleri, göndereni, tarihleri, iletildiği kaynak, dosyası, medyası ve veri merkezi. Kopyalamak için bir değeri basılı tutun.</string>

@@ -35,6 +35,8 @@
     <string name="MZGramShowForwardNoQuoteInfo">Añade «Reenviar sin remitente» junto a «Reenviar». Abre el reenvío habitual con los nombres de los remitentes ya ocultos, así que el mensaje se envía como tuyo.</string>
     <string name="MZGramSaveProtectedContent">Reenviar y guardar contenido protegido</string>
     <string name="MZGramSaveProtectedContentInfo">En los chats y canales cuyo propietario restringió guardar contenido, puedes reenviar, guardar y copiar mensajes y multimedia y hacer capturas de pantalla como en cualquier otro sitio. Telegram no reenvía esos mensajes, así que se envían como mensajes nuevos sin el remitente original; la multimedia que aún no se descargó se descarga primero.</string>
+    <string name="MZGramDeleteForAllByDefault">Eliminar para todos por defecto</string>
+    <string name="MZGramDeleteForAllByDefaultInfo">Al eliminar mensajes, la opción de eliminarlos también para los demás ya está marcada; al desmarcarla se eliminan solo para uno mismo. Telegram la deja sin marcar.</string>
     <string name="MZGramShowQrCodeInfo">Escanea la foto en el dispositivo al abrir su menú; si contiene un código QR, aparece «Código QR» y muestra el enlace o el texto.</string>
     <string name="MZGramMessageDetails">Detalles</string>
     <string name="MZGramShowMessageDetailsInfo">Añade «Detalles» al menú del mensaje: identificadores, remitente, fechas, origen del reenvío, archivo, multimedia y centro de datos del mensaje. Mantén pulsado un valor para copiarlo.</string>

@@ -35,6 +35,8 @@
     <string name="MZGramShowForwardNoQuoteInfo">Fügt „Ohne Absender weiterleiten“ neben „Weiterleiten“ hinzu. Es öffnet das übliche Weiterleiten mit bereits ausgeblendeten Absendernamen, sodass die Nachricht als deine eigene gesendet wird.</string>
     <string name="MZGramSaveProtectedContent">Geschützte Inhalte weiterleiten und speichern</string>
     <string name="MZGramSaveProtectedContentInfo">In Chats und Kanälen, deren Inhaber das Speichern von Inhalten eingeschränkt hat, kannst du Nachrichten und Medien weiterleiten, speichern und kopieren und Bildschirmfotos machen wie überall sonst. Telegram leitet solche Nachrichten nicht weiter, daher werden sie als neue Nachrichten ohne den ursprünglichen Absender gesendet; noch nicht heruntergeladene Medien werden zuerst heruntergeladen.</string>
+    <string name="MZGramDeleteForAllByDefault">Standardmäßig für alle löschen</string>
+    <string name="MZGramDeleteForAllByDefaultInfo">Beim Löschen von Nachrichten ist „auch für andere löschen“ bereits angehakt; ohne Haken werden sie nur für einen selbst gelöscht. Telegram lässt es leer.</string>
     <string name="MZGramShowQrCodeInfo">Scannt das Foto auf dem Gerät, wenn du sein Menü öffnest; enthält es einen QR-Code, erscheint „QR-Code“ und zeigt den Link oder Text.</string>
     <string name="MZGramMessageDetails">Details</string>
     <string name="MZGramShowMessageDetailsInfo">Fügt „Details“ zum Nachrichtenmenü hinzu: IDs, Absender, Daten, Weiterleitungsquelle, Datei, Medien und Rechenzentrum einer Nachricht. Halte einen Wert gedrückt, um ihn zu kopieren.</string>

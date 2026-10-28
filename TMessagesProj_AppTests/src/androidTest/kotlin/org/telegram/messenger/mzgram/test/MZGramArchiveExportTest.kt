@@ -142,4 +142,48 @@ class MZGramArchiveExportTest {
         assertTrue("imported", MZGramScreens.waitFor(30) { db.getDeleted(self, dialog, mid) != null })
         assertTrue("the app is still there", page.fragmentView?.isShown == true)
     }
+
+    // The app keeps using the archive while it is exported or imported
+    // (messages deleted or edited at that moment, reads, last seen): none of
+    // that may fail, and the export and import stay whole.
+    @Test
+    fun exportAndImport_whileTheArchiveIsInUse_nothingFails() {
+        val controller = MZGramHistoryController.getInstance()
+        val other = mid + 1
+        val failures = java.util.Collections.synchronizedList(ArrayList<Throwable>())
+        val running = java.util.concurrent.atomic.AtomicBoolean(true)
+        val user = Thread {
+            while (running.get()) {
+                try {
+                    db.getDeleted(self, dialog, mid)
+                    db.insert(MZGramHistoryMessage().also {
+                        it.kind = MZGramHistoryMessage.KIND_DELETED
+                        it.accountUserId = self
+                        it.dialogId = dialog
+                        it.messageId = other
+                        it.date = (System.currentTimeMillis() / 1000).toInt()
+                        it.text = "in use $other"
+                    })
+                    db.delete(self, dialog, other)
+                } catch (e: Throwable) {
+                    failures.add(e)
+                }
+            }
+        }.also { it.start() }
+        try {
+            repeat(10) {
+                val exported = File(dir, "in-use.db")
+                controller.exportArchive().copyTo(exported, overwrite = true)
+                assertEquals("export $it has the row", 1, rowsIn(exported))
+                exported.inputStream().use { input -> controller.importArchive(input) }
+            }
+        } finally {
+            running.set(false)
+            user.join(10_000)
+        }
+        MZGramScreens.log("archive in use: ${failures.size} failures ${failures.firstOrNull()}")
+        assertEquals("nothing failed while the archive was in use: ${failures.firstOrNull()}", 0, failures.size)
+        assertNotNull("the archive still has the row", db.getDeleted(self, dialog, mid))
+        db.delete(self, dialog, other)
+    }
 }

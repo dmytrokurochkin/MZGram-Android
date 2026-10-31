@@ -43,6 +43,13 @@ public class MZGramConfig {
     public static boolean showMessageDetails = false;
     public static boolean showQrCode = false;
     public static boolean showNoQuoteForward = false;
+    // "Ask AI" in the message menu (MZGramAiActivity)
+    public static boolean showAskAi = true;
+    // The AI site "Ask AI" starts with (MZGramAiRules)
+    public static String aiProvider = MZGramAiRules.DEFAULT_PROVIDER;
+    // The warning that the text goes to a service outside Telegram was
+    // shown and accepted
+    public static boolean aiWarned = false;
     // Forward, save, copy and screenshot in chats with "Restrict saving
     // content" (MZGramProtectedContent).
     public static boolean saveProtectedContent = false;
@@ -161,6 +168,9 @@ public class MZGramConfig {
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
             showQrCode = preferences.getBoolean("showQrCode", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
+            showAskAi = preferences.getBoolean("showAskAi", true);
+            aiProvider = preferences.getString("aiProvider", MZGramAiRules.DEFAULT_PROVIDER);
+            aiWarned = preferences.getBoolean("aiWarned", false);
             saveProtectedContent = preferences.getBoolean("saveProtectedContent", false);
             deleteForAllByDefault = preferences.getBoolean("deleteForAllByDefault", false);
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
@@ -330,6 +340,21 @@ public class MZGramConfig {
     public static void toggleShowNoQuoteForward() {
         showNoQuoteForward = !showNoQuoteForward;
         putBoolean("showNoQuoteForward", showNoQuoteForward);
+    }
+
+    public static void toggleShowAskAi() {
+        showAskAi = !showAskAi;
+        putBoolean("showAskAi", showAskAi);
+    }
+
+    public static void setAiProvider(String key) {
+        aiProvider = key;
+        preferences().edit().putString("aiProvider", key).commit();
+    }
+
+    public static void setAiWarned(boolean warned) {
+        aiWarned = warned;
+        preferences().edit().putBoolean("aiWarned", warned).commit();
     }
 
     public static void toggleSaveProtectedContent() {

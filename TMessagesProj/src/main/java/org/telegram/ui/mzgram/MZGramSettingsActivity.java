@@ -84,6 +84,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
     private static final int BUTTON_FOLDER_TABS_AT_BOTTOM = 41;
     private static final int BUTTON_SAVE_PROTECTED_CONTENT = 42;
+    private static final int BUTTON_SHOW_ASK_AI = 58;
+    private static final int BUTTON_AI_PROVIDER = 59;
+    private static final int BUTTON_AI_SIGN_OUT = 60;
 
     // The topics, in the order the main page lists them.
     public static final int SECTION_MAIN = -1;
@@ -93,8 +96,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     public static final int SECTION_MEDIA_AND_CALLS = 3;
     public static final int SECTION_INTERFACE = 4;
     public static final int SECTION_ADS_AND_FILTERS = 5;
-    public static final int SECTION_OTHER = 6;
-    public static final int SECTIONS_COUNT = 7;
+    public static final int SECTION_AI = 6;
+    public static final int SECTION_OTHER = 7;
+    public static final int SECTIONS_COUNT = 8;
     // Row ids of the topics on the main page; clear of the BUTTON_ ids.
     public static final int SECTION_ROW_ID = 100;
 
@@ -105,6 +109,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.string.MZGramSectionMediaAndCalls,
             R.string.MZGramSectionInterface,
             R.string.MZGramSectionAdsAndFilters,
+            R.string.MZGramSectionAi,
             R.string.MZGramSectionOther,
     };
     private static final int[] SECTION_INFOS = {
@@ -114,6 +119,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.string.MZGramSectionMediaAndCallsInfo,
             R.string.MZGramSectionInterfaceInfo,
             R.string.MZGramSectionAdsAndFiltersInfo,
+            R.string.MZGramSectionAiInfo,
             R.string.MZGramSectionOtherInfo,
     };
     private static final int[] SECTION_ICONS = {
@@ -123,6 +129,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.drawable.settings_calls,
             R.drawable.settings_features,
             R.drawable.settings_policy,
+            R.drawable.settings_ask,
             R.drawable.settings_faq,
     };
     private static final IconBackgroundColors[] SECTION_COLORS = {
@@ -132,6 +139,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             IconBackgroundColors.CYAN,
             IconBackgroundColors.PURPLE,
             IconBackgroundColors.RED,
+            IconBackgroundColors.GREEN,
             IconBackgroundColors.BLUE_LIGHT,
     };
 
@@ -159,6 +167,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             case SECTION_MEDIA_AND_CALLS: fillMediaAndCalls(items); break;
             case SECTION_INTERFACE: fillInterface(items); break;
             case SECTION_ADS_AND_FILTERS: fillAdsAndFilters(items); break;
+            case SECTION_AI: fillAi(items); break;
             case SECTION_OTHER: fillOther(items); break;
             default: fillMain(items); break;
         }
@@ -361,6 +370,37 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramStripZalgoTextInfo)));
     }
 
+    private void fillAi(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_SHOW_ASK_AI, getString(R.string.MZGramShowAskAi)).setChecked(MZGramConfig.showAskAi));
+        items.add(UItem.asButton(BUTTON_AI_PROVIDER, getString(R.string.MZGramAiDefaultProvider), org.telegram.messenger.mzgram.MZGramAiRules.defaultProvider().name));
+        items.add(UItem.asShadow(getString(R.string.MZGramAiInfo)));
+        items.add(UItem.asButton(BUTTON_AI_SIGN_OUT, getString(R.string.MZGramAiSignOut)).red());
+        items.add(UItem.asShadow(null));
+    }
+
+    // The five AI sites, each by its name; the choice applies at once.
+    private void chooseAiProvider() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        java.util.List<org.telegram.messenger.mzgram.MZGramAiRules.Provider> providers = org.telegram.messenger.mzgram.MZGramAiRules.providers();
+        String[] options = new String[providers.size()];
+        int selected = 0;
+        for (int i = 0; i < options.length; i++) {
+            options[i] = providers.get(i).name;
+            if (providers.get(i) == org.telegram.messenger.mzgram.MZGramAiRules.defaultProvider()) {
+                selected = i;
+            }
+        }
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramAiDefaultProvider), selected, (dialog, which) -> {
+            org.telegram.messenger.mzgram.MZGramAiRules.setDefaultProvider(providers.get(which).key);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
     private void fillOther(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_CHECK_UPDATES, getString(R.string.MZGramCheckUpdates)).setChecked(MZGramConfig.checkUpdates));
@@ -464,6 +504,22 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_ACCOUNTS_IN_MENU) {
             MZGramConfig.toggleAccountsInMenu();
             ((TextCheckCell) view).setChecked(MZGramConfig.accountsInMenu);
+        } else if (item.id == BUTTON_SHOW_ASK_AI) {
+            MZGramConfig.toggleShowAskAi();
+            ((TextCheckCell) view).setChecked(MZGramConfig.showAskAi);
+        } else if (item.id == BUTTON_AI_PROVIDER) {
+            chooseAiProvider();
+        } else if (item.id == BUTTON_AI_SIGN_OUT) {
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
+                    .setTitle(getString(R.string.MZGramAiSignOut))
+                    .setMessage(getString(R.string.MZGramAiSignOutConfirm))
+                    .setPositiveButton(getString(R.string.MZGramAiSignOut), (dialog, which) -> {
+                        MZGramAiActivity.signOut();
+                        BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramAiSignedOut)).show();
+                    })
+                    .setNegativeButton(getString(R.string.MZGramCancel), null)
+                    .makeRed(org.telegram.ui.ActionBar.AlertDialog.BUTTON_POSITIVE)
+                    .show();
         } else if (item.id == BUTTON_SAVE_PROTECTED_CONTENT) {
             MZGramConfig.toggleSaveProtectedContent();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveProtectedContent);

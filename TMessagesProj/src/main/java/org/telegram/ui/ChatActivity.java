@@ -1283,6 +1283,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_QR = 1008;
     public final static int OPTION_MZGRAM_FORWARD_NOQUOTE = 1009;
     public final static int OPTION_MZGRAM_HISTORY = 1010;
+    public final static int OPTION_MZGRAM_ASK_AI = 1011;
 
     // MZGram: set by Forward without sender so the next forward panel starts
     // with sender names hidden; passed on when the target is another chat.
@@ -33774,6 +33775,12 @@ public class ChatActivity extends BaseFragment implements
                 presentFragment(new org.telegram.ui.mzgram.MZGramMessageDetailsActivity(selectedObject));
                 break;
             }
+            case OPTION_MZGRAM_ASK_AI: {
+                CharSequence askCaption = getMessageCaption(selectedObject, selectedObjectGroup);
+                CharSequence askText = askCaption != null ? askCaption : getMessageContent(selectedObject, 0, false);
+                org.telegram.ui.mzgram.MZGramAiActivity.ask(this, askText == null ? "" : askText.toString());
+                break;
+            }
             case OPTION_MZGRAM_HISTORY: {
                 presentFragment(new org.telegram.ui.mzgram.MZGramMessageHistoryActivity(currentAccount, selectedObject));
                 break;
@@ -46349,6 +46356,13 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.Copy));
                     options.add(OPTION_COPY);
                     icons.add(R.drawable.msg_copy);
+                }
+                // MZGram: MZGramConfig.showAskAi. Only where copying is allowed
+                // (also with "Forward and save protected content" on, as Copy).
+                if (org.telegram.messenger.mzgram.MZGramConfig.showAskAi && (selectedObject.type == MessageObject.TYPE_TEXT || selectedObject.type == MessageObject.TYPE_ARTICLE || getMessageCaption(selectedObject, selectedObjectGroup) != null) && !noforwardsOrPaidMedia && !selectedObject.isSponsored() && !selectedObject.sponsoredCanReport) {
+                    items.add(LocaleController.getString(R.string.MZGramAskAi));
+                    options.add(OPTION_MZGRAM_ASK_AI);
+                    icons.add(R.drawable.msg_bot);
                 }
                 if (!isThreadChat() && chatMode != MODE_SCHEDULED && currentChat != null && primaryMessage != null && (currentChat.has_link || primaryMessage.hasReplies()) && currentChat.megagroup && primaryMessage.canViewThread()) {
                     if (primaryMessage.hasReplies()) {

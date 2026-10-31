@@ -237,6 +237,21 @@ jobs:
             bash .github/scripts/mzgram_tests.sh
             bash .github/scripts/mzgram_rotation_check.sh
 
+      # "Ask AI" needs WebView profiles, which WebView 113 of the API 34
+      # image above does not have (there the window test only checks that
+      # no site is opened). The API 35 image's WebView has them: the window
+      # test runs again there and must find them.
+      - name: AI window test on a newer emulator.
+        if: ${{ !cancelled() }}
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swangle_indirect -noaudio -no-boot-anim -no-snapshot -camera-back none -camera-front none
+          script: bash .github/scripts/mzgram_ai_window.sh
+
       - name: Out-of-memory kills on the runner.
         if: always()
         run: |
@@ -252,5 +267,7 @@ jobs:
             TMessagesProj_AppTests/build/reports/androidTests/
             TMessagesProj_AppTests/build/outputs/androidTest-results/
             logcat-full.txt
+            logcat-ai.txt
             e2e-peer.log
             mzgram-screens/
+            mzgram-screens-ai/

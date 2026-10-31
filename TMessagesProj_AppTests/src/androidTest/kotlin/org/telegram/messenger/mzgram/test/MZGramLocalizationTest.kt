@@ -35,7 +35,9 @@ class MZGramLocalizationTest {
     private var savedLanguage = ""
 
     // Strings that may read the same as in English: names and terms
-    private val sameEverywhere = setOf("MZGram", "MZGramDetailsId", "MZGramUnifiedPush", "MZGramDetailsBot", "MZGramDetailsDcMiami", "MZGramDetailsDcAmsterdam", "MZGramSectionInterface", "MZGramMessageDetails", "MZGramDetailsMessage", "MZGramDetailsDate", "MZGramStripZalgoText", "MZGramDetailsMedia", "MZGramOk")
+    private val sameEverywhere = setOf("MZGram", "MZGramDetailsId", "MZGramUnifiedPush", "MZGramDetailsBot", "MZGramDetailsDcMiami", "MZGramDetailsDcAmsterdam", "MZGramSectionInterface", "MZGramMessageDetails", "MZGramDetailsMessage", "MZGramDetailsDate", "MZGramStripZalgoText", "MZGramDetailsMedia", "MZGramOk",
+        // AI and Model in Polish, Model in Turkish, Message in French
+        "MZGramSectionAi", "MZGramAiModel", "MZGramAiMessage")
 
     private val formatArg = Regex("%(\\d+\\$)?[sd]")
 

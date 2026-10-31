@@ -87,8 +87,10 @@ class MZGramSettingsTest {
             R.string.MZGramSectionMediaAndCalls,
             R.string.MZGramSectionInterface,
             R.string.MZGramSectionAdsAndFilters,
+            // "Ask AI": its switch, the default site and "Sign out of AI sites"
+            context.resources.getIdentifier("MZGramSectionAi", "string", context.packageName),
             R.string.MZGramSectionOther,
-        ).map { LocaleController.getString(it) }
+        ).map { if (it == 0) "(no AI topic)" else LocaleController.getString(it) }
         assertEquals(expected, rows.map { it.text.toString() })
         assertEquals("one row per topic", (0 until MZGramSettingsActivity.SECTIONS_COUNT).map { MZGramSettingsActivity.SECTION_ROW_ID + it }, rows.map { it.id })
         assertTrue("every topic has a description", rows.all { !it.subtext.isNullOrEmpty() })
@@ -104,7 +106,7 @@ class MZGramSettingsTest {
         }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
-        assertEquals("51 switches and buttons", 51, shown.size)
+        assertEquals("54 switches and buttons", 54, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
 

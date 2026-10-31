@@ -45,6 +45,8 @@ SHARED_WORDS = {
     "MZGram", "ID", "UnifiedPush", "DC", "MIME", "FCM", "Google", "GitHub", "SHA",
     "VAPID", "Bot", "Miami", "Amsterdam", "Singapore", "Zalgo", "Unicode",
     "Telegram", "Interface", "Media", "Details", "Message", "Date", "OK",
+    # "AI" is the same in Polish, "Model" in Polish and Turkish
+    "AI", "Model",
 }
 
 

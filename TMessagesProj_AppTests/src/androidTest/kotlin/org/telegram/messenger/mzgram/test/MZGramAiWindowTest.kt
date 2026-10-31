@@ -17,6 +17,7 @@ import org.telegram.messenger.mzgram.MZGramAiRules
 import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.ActionBar.AlertDialog
+import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.mzgram.MZGramAiActivity
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -26,6 +27,12 @@ import java.util.concurrent.TimeUnit
 // address, with the site's input field, a Send button, a form and an Enter
 // key handler that each mark the page as sent. The window must put the text
 // into the field, in the AI profile, and send nothing.
+//
+// A WebView without profiles (the API 34 emulator image has WebView 113)
+// must not open the site at all. CI runs this class twice: in the main run
+// on API 34, and on an API 35 emulator with mzAiProfiles=required
+// (.github/scripts/mzgram_ai_window.sh), where profiles must be there and
+// the text must get into each site's field.
 class MZGramAiWindowTest {
 
     private val instrumentation get() = InstrumentationRegistry.getInstrumentation()
@@ -102,8 +109,26 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
 })()"""
     }
 
+    private val profilesRequired get() = InstrumentationRegistry.getArguments().getString("mzAiProfiles") == "required"
+
+    // Closes the window, once its opening animation lets it
+    private fun close(window: MZGramAiActivity, under: BaseFragment?) =
+        MZGramScreens.waitFor(15) {
+            if (MZGramScreens.lastFragment() === window) window.finishFragment(false)
+            MZGramScreens.lastFragment() !== window && (under == null || MZGramScreens.lastFragment() === under)
+        }
+
     @Test
     fun window_putsTheTextIntoEachSite_andSendsNothing() {
+        val profiles = MZGramAiActivity.profileSupported()
+        MZGramScreens.log("MZGram AI test: profiles $profiles, required $profilesRequired")
+        if (profilesRequired) {
+            assertTrue("this WebView must have profiles: ${MZGramAiActivity.webViewState()}", profiles)
+        }
+        if (!profiles) {
+            window_withoutProfiles_opensNoSite()
+            return
+        }
         val passed = ArrayList<String>()
         for (provider in MZGramAiRules.providers()) {
             val window = MZGramAiActivity.forTest(provider.key, text, page(fields.getValue(provider.key)))
@@ -121,11 +146,30 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
             assertEquals("${provider.key}: the page later", "\"ok\"", evaluate(window, check(provider)))
             MZGramScreens.log("MZGram AI test: PASS ${provider.key}: the field has the text, nothing sent")
             passed.add(provider.key)
-            instrumentation.runOnMainSync { window.finishFragment(false) }
-            MZGramScreens.waitFor(10) { MZGramScreens.lastFragment() !== window }
+            assertTrue("${provider.key}: the window closes", close(window, null))
         }
         assertEquals(listOf("gemini", "claude", "chatgpt", "deepseek", "grok"), passed)
         MZGramScreens.log("MZGram AI test: done")
+    }
+
+    // No profiles: the window says so, has no WebView and loads nothing; the
+    // text can still be copied.
+    private fun window_withoutProfiles_opensNoSite() {
+        val shown = ArrayList<String>()
+        for (provider in MZGramAiRules.providers()) {
+            val window = MZGramAiActivity.forTest(provider.key, text, page(fields.getValue(provider.key)))
+            MZGramScreens.open(window)
+            assertTrue("${provider.key}: the window opened", MZGramScreens.waitFor(15) { MZGramScreens.lastFragment() === window })
+            MZGramScreens.capture("ai-${provider.key}-no-profiles")
+            assertEquals("${provider.key}: says there are no profiles", MZGramAiActivity.STATE_NO_PROFILE, window.aiState)
+            assertNull("${provider.key}: no profile", window.profileName)
+            assertNull("${provider.key}: no page", evaluate(window, "1"))
+            MZGramScreens.log("MZGram AI test: PASS ${provider.key}: no profiles in this WebView, the site is not opened")
+            shown.add(provider.key)
+            assertTrue("${provider.key}: the window closes", close(window, null))
+        }
+        assertEquals(listOf("gemini", "claude", "chatgpt", "deepseek", "grok"), shown)
+        MZGramScreens.log("MZGram AI test: done (no profiles)")
     }
 
     // The warning that the text goes to another service comes before the
@@ -153,14 +197,13 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
         instrumentation.runOnMainSync { dialog!!.getButton(DialogInterface.BUTTON_POSITIVE).performClick() }
         assertTrue("Continue opens the window", MZGramScreens.waitFor(15) { MZGramScreens.lastFragment() === first })
         assertTrue("kept", warned())
-        instrumentation.runOnMainSync { first.finishFragment(false) }
-        assertTrue(MZGramScreens.waitFor(10) { MZGramScreens.lastFragment() === start })
+        assertTrue("the first window closes", close(first, start))
 
         val second = MZGramAiActivity.forTest("grok", text, page(fields.getValue("grok")))
         instrumentation.runOnMainSync { MZGramAiActivity.open(start, second) }
         assertTrue("then no warning", MZGramScreens.waitFor(15) { MZGramScreens.lastFragment() === second })
         assertNull(start.visibleDialog)
         assertNotNull(second.getFragmentView())
-        instrumentation.runOnMainSync { second.finishFragment(false) }
+        assertTrue("the second window closes", close(second, start))
     }
 }

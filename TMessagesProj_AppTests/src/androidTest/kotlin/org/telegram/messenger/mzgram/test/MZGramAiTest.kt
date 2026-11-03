@@ -179,15 +179,28 @@ class MZGramAiTest {
         val keys = listOf(
             "MZGramSectionAi", "MZGramSectionAiInfo", "MZGramShowAskAi", "MZGramAskAi", "MZGramAiDefaultProvider",
             "MZGramAiSignOut", "MZGramAiSignOutConfirm", "MZGramAiSignedOut", "MZGramAiInfo", "MZGramAiMessage",
-            "MZGramAiPrompt", "MZGramAiProvider", "MZGramAiModel", "MZGramAiModelOnSite", "MZGramAiPrivacyTitle",
-            "MZGramAiPrivacyText", "MZGramAiPrivacyNote", "MZGramAiStatusOpening", "MZGramAiStatusInserted",
+            "MZGramAiPrompt", "MZGramAiProvider", "MZGramAiModelOnSite", "MZGramAiPrivacyTitle",
+            "MZGramAiPrivacyText", "MZGramAiStatusOpening", "MZGramAiStatusInserted",
             "MZGramAiStatusNoField", "MZGramAiInsert", "MZGramAiCopy", "MZGramAiNoProfile", "MZGramAiNoWebView",
+            "MZGramAiAttachments", "MZGramAiLeftOut", "MZGramAiLeftOverLimit", "MZGramAiLeftTooLarge",
+            "MZGramAiLeftArchives", "MZGramAiLeftMedia", "MZGramAiLeftOther", "MZGramAiStatusDownloading",
+            "MZGramAiStatusAttached", "MZGramAiStatusNoAttach", "MZGramAiSaveFiles", "MZGramAiFilesSaved",
+            "MZGramAiMenuButtons", "MZGramAiMenuButtonsInfo", "MZGramAiChooseMessageFiles", "MZGramAiChooseOtherFiles",
         )
-        val withName = setOf("MZGramAiModelOnSite", "MZGramAiPrivacyText", "MZGramAiStatusOpening")
-        // The same word in some languages: AI and Model in Polish, Model in Turkish, Message in French
-        val same = setOf("MZGramSectionAi", "MZGramAiModel", "MZGramAiMessage")
+        val withName = setOf(
+            "MZGramAiModelOnSite", "MZGramAiPrivacyText", "MZGramAiStatusOpening", "MZGramAiAttachments",
+            "MZGramAiLeftOut", "MZGramAiLeftOverLimit", "MZGramAiLeftTooLarge", "MZGramAiLeftArchives",
+            "MZGramAiLeftMedia", "MZGramAiLeftOther", "MZGramAiStatusDownloading", "MZGramAiStatusAttached",
+            "MZGramAiFilesSaved", "MZGramAiChooseMessageFiles",
+        )
+        // The same word in some languages: AI in Polish, Message in French
+        val same = setOf("MZGramSectionAi", "MZGramAiMessage")
         val problems = ArrayList<String>()
         val english = resourcesIn("en")
+        // The permanent note and the Model header are gone from the box
+        for (gone in listOf("MZGramAiPrivacyNote", "MZGramAiModel")) {
+            if (context.resources.getIdentifier(gone, "string", context.packageName) != 0) problems.add("$gone: still there")
+        }
         for (key in keys) {
             val id = context.resources.getIdentifier(key, "string", context.packageName)
             if (id == 0) {
@@ -204,8 +217,154 @@ class MZGramAiTest {
                 }
             }
         }
+        // The warning tells about the attachments and that it comes once; the
+        // info under the switch no longer says nothing is sent
+        val attachments = english.getString(context.resources.getIdentifier("MZGramAiPrivacyText", "string", context.packageName))
+        if (!attachments.contains("attachments") || !attachments.contains("once")) problems.add("the warning: $attachments")
+        val info = english.getString(context.resources.getIdentifier("MZGramAiInfo", "string", context.packageName))
+        if (info.contains("nothing is sent") || !info.contains("10 photos and files")) problems.add("the info: $info")
         assertTrue(problems.joinToString("; "), problems.isEmpty())
         MZGramScreens.log("ai texts: ${keys.size} keys in ${MZGramLanguage.LANGUAGES.size} languages")
+    }
+
+    // Photos, pictures sent as files and documents an AI reads go; archives,
+    // video, GIFs, stickers, voice and music do not.
+    @Test
+    fun classifyFile_photosDocumentsArchivesMedia() {
+        val cases = mapOf(
+            ("scan.JPG" to "image/jpeg") to MZGramAiRules.KIND_PHOTO,
+            ("chart.png" to "") to MZGramAiRules.KIND_PHOTO,
+            ("sticker.webp" to "image/webp") to MZGramAiRules.KIND_PHOTO,
+            ("" to "image/png") to MZGramAiRules.KIND_PHOTO,
+            ("README" to "") to MZGramAiRules.KIND_FILE,
+            ("README.md" to "") to MZGramAiRules.KIND_FILE,
+            ("notes.txt" to "text/plain") to MZGramAiRules.KIND_FILE,
+            ("data.csv" to "") to MZGramAiRules.KIND_FILE,
+            ("config.json" to "application/json") to MZGramAiRules.KIND_FILE,
+            ("feed.xml" to "") to MZGramAiRules.KIND_FILE,
+            ("app.log" to "") to MZGramAiRules.KIND_FILE,
+            ("main.kt" to "") to MZGramAiRules.KIND_FILE,
+            ("paper.pdf" to "application/pdf") to MZGramAiRules.KIND_FILE,
+            ("letter.docx" to "application/vnd.openxmlformats-officedocument.wordprocessingml.document") to MZGramAiRules.KIND_FILE,
+            ("table.xlsx" to "") to MZGramAiRules.KIND_FILE,
+            ("slides.pptx" to "") to MZGramAiRules.KIND_FILE,
+            ("old.doc" to "application/msword") to MZGramAiRules.KIND_FILE,
+            ("text.rtf" to "") to MZGramAiRules.KIND_FILE,
+            ("sheet.ods" to "") to MZGramAiRules.KIND_FILE,
+            ("doc.odt" to "") to MZGramAiRules.KIND_FILE,
+            ("show.odp" to "") to MZGramAiRules.KIND_FILE,
+            ("backup.zip" to "application/zip") to MZGramAiRules.KIND_ARCHIVE,
+            ("photos.rar" to "") to MZGramAiRules.KIND_ARCHIVE,
+            ("src.7z" to "") to MZGramAiRules.KIND_ARCHIVE,
+            ("src.tar" to "") to MZGramAiRules.KIND_ARCHIVE,
+            ("src.tar.gz" to "") to MZGramAiRules.KIND_ARCHIVE,
+            ("dump.bz2" to "") to MZGramAiRules.KIND_ARCHIVE,
+            ("dump.xz" to "") to MZGramAiRules.KIND_ARCHIVE,
+            ("MZGram.apk" to "application/vnd.android.package-archive") to MZGramAiRules.KIND_ARCHIVE,
+            ("noname" to "application/zip") to MZGramAiRules.KIND_ARCHIVE,
+            ("clip.mp4" to "video/mp4") to MZGramAiRules.KIND_MEDIA,
+            ("funny.gif" to "image/gif") to MZGramAiRules.KIND_MEDIA,
+            ("voice.ogg" to "audio/ogg") to MZGramAiRules.KIND_MEDIA,
+            ("song.mp3" to "") to MZGramAiRules.KIND_MEDIA,
+            ("sticker.tgs" to "application/x-tgsticker") to MZGramAiRules.KIND_MEDIA,
+            ("tool.exe" to "application/x-msdownload") to MZGramAiRules.KIND_UNSUPPORTED,
+            ("model.bin" to "") to MZGramAiRules.KIND_UNSUPPORTED,
+        )
+        val wrong = cases.filter { (file, kind) -> MZGramAiRules.classifyFile(file.first, file.second) != kind }
+            .map { (file, kind) -> "${file.first} ${file.second}: ${MZGramAiRules.classifyFile(file.first, file.second)}, not $kind" }
+        assertTrue(wrong.joinToString("; "), wrong.isEmpty())
+    }
+
+    // At most 10, each at most 30 MB; the rest counted by why.
+    @Test
+    fun chooseAttachments_tenAtMost_theRestCounted() {
+        val mb = 1024L * 1024
+        val candidates = ArrayList<MZGramAiRules.Candidate>()
+        for (i in 0 until 12) candidates.add(MZGramAiRules.Candidate(if (i % 2 == 0) MZGramAiRules.KIND_PHOTO else MZGramAiRules.KIND_FILE, mb))
+        candidates.add(1, MZGramAiRules.Candidate(MZGramAiRules.KIND_FILE, 31 * mb))
+        candidates.add(MZGramAiRules.Candidate(MZGramAiRules.KIND_ARCHIVE, mb))
+        candidates.add(MZGramAiRules.Candidate(MZGramAiRules.KIND_MEDIA, mb))
+        candidates.add(MZGramAiRules.Candidate(MZGramAiRules.KIND_MEDIA, mb))
+        candidates.add(MZGramAiRules.Candidate(MZGramAiRules.KIND_UNSUPPORTED, mb))
+        val choice = MZGramAiRules.chooseAttachments(candidates)
+        assertEquals(10, MZGramAiRules.MAX_ATTACHMENTS)
+        assertEquals(30L * mb, MZGramAiRules.MAX_ATTACHMENT_SIZE)
+        assertEquals(listOf(0, 2, 3, 4, 5, 6, 7, 8, 9, 10), choice.chosen)
+        assertEquals("over the limit", 2, choice.overLimit)
+        assertEquals("too large", 1, choice.tooLarge)
+        assertEquals("archives", 1, choice.archives)
+        assertEquals("media", 2, choice.media)
+        assertEquals("other", 1, choice.unsupported)
+        assertEquals(7, choice.leftOut())
+        assertTrue(MZGramAiRules.chooseAttachments(emptyList()).chosen.isEmpty())
+    }
+
+    // The files go in pieces of base64, then to the file input or as a
+    // paste; the script never presses a key or a button.
+    @Test
+    fun attachScript_givesTheFilesAndNeverSends() {
+        val start = MZGramAiRules.fileStartScript(1, "a \"b\" </script>.txt", "text/plain")
+        assertTrue(start, start.contains("window.__mzgramAiFiles"))
+        assertTrue(start, start.contains(MZGramAiRules.scriptString("a \"b\" </script>.txt")))
+        assertFalse(start, start.contains("</script>"))
+        val bytes = byteArrayOf(0, 1, 2, 3, 0xff.toByte(), 0x7f)
+        val chunk = MZGramAiRules.fileChunkScript(1, bytes, 2, 3)
+        assertTrue(chunk, chunk.contains(android.util.Base64.encodeToString(byteArrayOf(2, 3, 0xff.toByte()), android.util.Base64.NO_WRAP)))
+        assertEquals(512 * 1024, MZGramAiRules.CHUNK_SIZE)
+        for (provider in MZGramAiRules.providers()) {
+            val script = MZGramAiRules.attachScript(provider)
+            for (part in listOf("input[type=\"file\"]", "new DataTransfer()", "ClipboardEvent('paste'", "'attached'", "'no_attach_target'", "new File(")) {
+                assertTrue("${provider.key}: $part", script.contains(part))
+            }
+            for (selector in provider.inputSelectors) {
+                assertTrue("${provider.key}: $selector", script.contains(MZGramAiRules.scriptString(selector)))
+            }
+            for (word in listOf("click(", "submit", "keydown", "keypress", "KeyboardEvent", "Enter", "location", "fetch(", "XMLHttpRequest")) {
+                assertFalse("${provider.key}: $word", script.contains(word))
+            }
+        }
+    }
+
+    @Test
+    fun parseAttach_readsWhatTheScriptGives() {
+        val input = MZGramAiRules.parseAttach("\"{\\\"mzgram_ai\\\":\\\"attached\\\",\\\"how\\\":\\\"input\\\",\\\"count\\\":2}\"")
+        assertNotNull(input)
+        assertTrue(input!!.attached)
+        assertEquals("input", input.how)
+        assertEquals(2, input.count)
+        val paste = MZGramAiRules.parseAttach("{\"mzgram_ai\":\"attached\",\"how\":\"paste\",\"count\":1}")
+        assertEquals("paste", paste!!.how)
+        assertEquals(1, paste.count)
+        val none = MZGramAiRules.parseAttach("\"{\\\"mzgram_ai\\\":\\\"no_attach_target\\\"}\"")
+        assertNotNull(none)
+        assertFalse(none!!.attached)
+        for (other in listOf(null, "null", "", "\"inserted\"", "{\"mzgram_ai\":\"other\"}", "[1]")) {
+            assertNull("$other", MZGramAiRules.parseAttach(other))
+        }
+    }
+
+    // Settings > MZGram > AI: a button in the chat list menu for each site,
+    // off by default, kept.
+    @Test
+    fun menuButtons_offByDefault_kept() {
+        val saved = preferences().getStringSet("aiMenuButtons", null)?.toSet()
+        try {
+            preferences().edit().remove("aiMenuButtons").commit()
+            MZGramConfig.loadConfig(true)
+            for (provider in MZGramAiRules.providers()) {
+                assertFalse("${provider.key}: off by default", MZGramAiRules.menuButton(provider))
+            }
+            MZGramAiRules.setMenuButton(MZGramAiRules.provider("deepseek"), true)
+            MZGramAiRules.setMenuButton(MZGramAiRules.provider("grok"), true)
+            MZGramConfig.loadConfig(true)
+            assertEquals(listOf("deepseek", "grok"), MZGramAiRules.providers().filter { MZGramAiRules.menuButton(it) }.map { it.key })
+            MZGramAiRules.setMenuButton(MZGramAiRules.provider("grok"), false)
+            MZGramConfig.loadConfig(true)
+            assertEquals(listOf("deepseek"), MZGramAiRules.providers().filter { MZGramAiRules.menuButton(it) }.map { it.key })
+        } finally {
+            preferences().edit().apply { if (saved == null) remove("aiMenuButtons") else putStringSet("aiMenuButtons", saved) }.commit()
+            MZGramConfig.loadConfig(true)
+        }
     }
 
     private fun resourcesIn(code: String) = context.createConfigurationContext(Configuration(context.resources.configuration).apply {

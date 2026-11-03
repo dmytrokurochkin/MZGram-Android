@@ -550,4 +550,27 @@ public class MZGramAiActivity extends BaseFragment {
         }
         super.onFragmentDestroy();
     }
+
+    // The tests come first: the attachments and the site alone are not
+    // written yet.
+    public static final int STATE_DOWNLOADING = 5;
+    public static final int STATE_ATTACHED = 6;
+
+    public static final class Attachment {
+        public static Attachment ofFile(String name, String mime, java.io.File file) {
+            return new Attachment();
+        }
+    }
+
+    public static MZGramAiActivity forTest(String providerKey, String text, String page, java.util.List<Attachment> files) {
+        return forTest(providerKey, text, page);
+    }
+
+    public static void openSite(BaseFragment from, String providerKey) {
+        open(from, new MZGramAiActivity(providerKey, ""));
+    }
+
+    public String getAttachedHow() {
+        return null;
+    }
 }

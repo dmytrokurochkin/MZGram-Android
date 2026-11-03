@@ -112,6 +112,37 @@ class MZGramBrandingTest {
         assertTrue("the version line names MZGram: $text", text.startsWith("MZGram "))
         assertTrue("based on Telegram: $text", text.contains("based on Telegram") || text.contains("на базі Telegram"))
         assertFalse("not Telegram for Android: $text", text.contains("Telegram for Android"))
+        // The build line is in the MZGram language too: no English "direct"
+        // or "store bundled" in another language
+        val build = text.substringAfter("\n", "")
+        assertTrue("the build line: $text", build.isNotEmpty())
+        if (org.telegram.messenger.mzgram.MZGramLanguage.current() != "en") {
+            assertFalse("the build line in English: $build", Regex("\\b(direct|store bundled)\\b").containsMatchIn(build))
+        }
         instrumentation.runOnMainSync { settings.finishFragment(false) }
+    }
+
+    // The build line in the twelve languages: its three parts, never English
+    // outside English (only "APK" and the ABI names stay)
+    @Test
+    fun versionBuildLine_inTheTwelveLanguages() {
+        val problems = ArrayList<String>()
+        val ids = listOf("MZGramVersionBuild", "MZGramBuildDirect", "MZGramBuildUniversal", "MZGramBuildStore")
+            .map { context.resources.getIdentifier(it, "string", context.packageName) }
+        assertTrue("the build line strings: $ids", ids.none { it == 0 })
+        val english = ids.associateWith { string("en", it) }
+        assertEquals("build 1234, direct download, arm64-v8a", String.format(Locale.US, english.getValue(ids[0]), "1234", english.getValue(ids[1]), "arm64-v8a"))
+        for (code in org.telegram.messenger.mzgram.MZGramLanguage.LANGUAGES) {
+            val locale = code.split("-").let { if (it.size == 2) Locale(it[0], it[1]) else Locale(it[0]) }
+            val config = Configuration(context.resources.configuration)
+            config.setLocale(locale)
+            val resources = context.createConfigurationContext(config).resources
+            val line = resources.getString(ids[0])
+            for (n in 1..3) if (!line.contains("%$n\$s")) problems.add("$code: %$n")
+            for ((res, text) in english) {
+                if (code != "en" && resources.getString(res) == text) problems.add("$code: ${resources.getResourceEntryName(res)} is English")
+            }
+        }
+        assertTrue(problems.joinToString("; "), problems.isEmpty())
     }
 }

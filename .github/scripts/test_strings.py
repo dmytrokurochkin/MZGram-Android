@@ -47,6 +47,9 @@ SHARED_WORDS = {
     "Telegram", "Interface", "Media", "Details", "Message", "Date", "OK",
     # "AI" is the same in Polish, "Model" in Polish and Turkish
     "AI", "Model",
+    # The names of Telegram's own Settings rows: Telegram Premium, Telegram
+    # Business, Wallet in German
+    "Premium", "Business", "Wallet",
 }
 
 

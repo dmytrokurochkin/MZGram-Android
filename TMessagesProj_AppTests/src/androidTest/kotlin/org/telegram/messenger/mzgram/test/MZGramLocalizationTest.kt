@@ -36,8 +36,10 @@ class MZGramLocalizationTest {
 
     // Strings that may read the same as in English: names and terms
     private val sameEverywhere = setOf("MZGram", "MZGramDetailsId", "MZGramUnifiedPush", "MZGramDetailsBot", "MZGramDetailsDcMiami", "MZGramDetailsDcAmsterdam", "MZGramSectionInterface", "MZGramMessageDetails", "MZGramDetailsMessage", "MZGramDetailsDate", "MZGramStripZalgoText", "MZGramDetailsMedia", "MZGramOk",
-        // AI and Model in Polish, Model in Turkish, Message in French
-        "MZGramSectionAi", "MZGramAiModel", "MZGramAiMessage")
+        // AI in Polish, Message in French
+        "MZGramSectionAi", "MZGramAiMessage",
+        // The names of Telegram's own rows: Telegram Premium, Telegram Business, Wallet in German
+        "MZGramHideRowPremium", "MZGramHideRowBusiness", "MZGramHideRowWallet")
 
     private val formatArg = Regex("%(\\d+\\$)?[sd]")
 
@@ -58,6 +60,7 @@ class MZGramLocalizationTest {
     fun tearDown() {
         instrumentation.runOnMainSync { activity?.finish() }
         MZGramLanguage.systemOverride = null
+        MZGramLanguage.telegramOverride = null
         MZGramConfig.setLanguage(savedLanguage)
         savedLocale?.let { setAppLanguage(it) }
     }
@@ -150,6 +153,51 @@ class MZGramLocalizationTest {
         }
     }
 
+    // Same as Telegram, the default: Telegram's language when MZGram has it,
+    // else English; the phone's language does not matter then.
+    @Test
+    fun sameAsTelegram_isTheDefault() {
+        val preferences = ApplicationLoader.applicationContext.getSharedPreferences("mzgram_config", Context.MODE_PRIVATE)
+        preferences.edit().remove("language").commit()
+        MZGramConfig.loadConfig(true)
+        assertEquals("the default", MZGramLanguage.TELEGRAM, MZGramConfig.language)
+        MZGramLanguage.systemOverride = Locale("pl")
+        val expected = mapOf(
+            "uk" to "Архів",
+            "de" to "Archiv",
+            "pt-br" to "Arquivo",
+            "kk" to "Мұрағат",
+            "ar" to "الأرشيف",
+            "it" to "Archive",
+            "en" to "Archive",
+        )
+        for ((telegram, text) in expected) {
+            MZGramLanguage.telegramOverride = telegram
+            assertEquals("Telegram in $telegram", text, LocaleController.getString(R.string.MZGramSectionArchive))
+        }
+        // System is kept apart: the phone's language, whatever Telegram's is
+        MZGramConfig.setLanguage(MZGramLanguage.SYSTEM)
+        MZGramConfig.loadConfig(true)
+        assertEquals(MZGramLanguage.SYSTEM, MZGramConfig.language)
+        MZGramLanguage.telegramOverride = "uk"
+        assertEquals("Archiwum", LocaleController.getString(R.string.MZGramSectionArchive))
+        // The rules alone
+        val cases = listOf(
+            Triple("", "uk", Locale("de")) to "uk",
+            Triple("", "pt-br", Locale("de")) to "pt-BR",
+            Triple("", "de_AT", Locale("uk")) to "de",
+            Triple("", "it", Locale("uk")) to "en",
+            Triple("", null, Locale("uk")) to "uk",
+            Triple("system", "uk", Locale("de", "DE")) to "de",
+            Triple("system", "uk", Locale("it")) to "en",
+            Triple("pl", "uk", Locale("de")) to "pl",
+            Triple("xx", "be", Locale("de")) to "be",
+        )
+        val wrong = cases.filter { (input, result) -> MZGramLanguage.resolve(input.first, input.second, input.third) != result }
+            .map { (input, result) -> "$input: ${MZGramLanguage.resolve(input.first, input.second, input.third)}, not $result" }
+        assertTrue(wrong.joinToString("; "), wrong.isEmpty())
+    }
+
     private fun interfaceItems(): ArrayList<UItem> {
         val items = ArrayList<UItem>()
         instrumentation.runOnMainSync {
@@ -160,13 +208,18 @@ class MZGramLocalizationTest {
         return items
     }
 
-    // Settings > MZGram > Interface starts with the language: System, or
-    // the chosen one by its own name.
+    // Settings > MZGram > Interface starts with the language: Same as
+    // Telegram, System, or the chosen one by its own name.
     @Test
     fun settings_haveTheLanguageChoice() {
+        MZGramConfig.setLanguage(MZGramLanguage.TELEGRAM)
+        MZGramLanguage.telegramOverride = "en"
+        var row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }
+        assertEquals("MZGram language", row.text.toString())
+        assertEquals("Same as Telegram", row.textValue.toString())
         MZGramConfig.setLanguage(MZGramLanguage.SYSTEM)
         MZGramLanguage.systemOverride = Locale.ENGLISH
-        var row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }
+        row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }
         assertEquals("MZGram language", row.text.toString())
         assertEquals("System", row.textValue.toString())
         MZGramConfig.setLanguage("ar")

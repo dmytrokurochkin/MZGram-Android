@@ -272,4 +272,81 @@ public final class MZGramAiRules {
         }
         return NEW_WINDOW_BROWSER;
     }
+
+    // The tests come first: the attachments and the menu buttons are not
+    // written yet.
+    public static final int MAX_ATTACHMENTS = 0;
+    public static final long MAX_ATTACHMENT_SIZE = 0;
+    public static final int CHUNK_SIZE = 0;
+    public static final int KIND_PHOTO = 0;
+    public static final int KIND_FILE = 1;
+    public static final int KIND_ARCHIVE = 2;
+    public static final int KIND_MEDIA = 3;
+    public static final int KIND_UNSUPPORTED = 4;
+
+    public static int classifyFile(String name, String mime) {
+        return KIND_UNSUPPORTED;
+    }
+
+    public static final class Candidate {
+        public final int kind;
+        public final long size;
+
+        public Candidate(int kind, long size) {
+            this.kind = kind;
+            this.size = size;
+        }
+    }
+
+    public static final class Choice {
+        public final List<Integer> chosen = new ArrayList<>();
+        public int overLimit;
+        public int tooLarge;
+        public int archives;
+        public int media;
+        public int unsupported;
+
+        public int leftOut() {
+            return 0;
+        }
+    }
+
+    public static Choice chooseAttachments(List<Candidate> candidates) {
+        return new Choice();
+    }
+
+    public static String fileStartScript(int index, String name, String mime) {
+        return "";
+    }
+
+    public static String fileChunkScript(int index, byte[] bytes, int offset, int length) {
+        return "";
+    }
+
+    public static String attachScript(Provider provider) {
+        return "";
+    }
+
+    public static final class AttachResult {
+        public final boolean attached;
+        public final String how;
+        public final int count;
+
+        AttachResult(boolean attached, String how, int count) {
+            this.attached = attached;
+            this.how = how;
+            this.count = count;
+        }
+    }
+
+    public static AttachResult parseAttach(String result) {
+        return null;
+    }
+
+    public static boolean menuButton(Provider provider) {
+        return false;
+    }
+
+    public static void setMenuButton(Provider provider, boolean shown) {
+    }
 }

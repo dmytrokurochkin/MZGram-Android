@@ -185,4 +185,12 @@ public class MZGramLanguage {
         resources = null;
         resourcesLanguage = null;
     }
+
+    // The tests come first: Same as Telegram is not written yet.
+    public static final String TELEGRAM = "";
+    public static String telegramOverride;
+
+    public static String resolve(String choice, String telegram, Locale system) {
+        return FALLBACK;
+    }
 }

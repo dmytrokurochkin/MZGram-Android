@@ -24,9 +24,11 @@ import java.util.concurrent.TimeUnit
 
 // The "Ask AI" window for real, with no network and no sign-in: each of the
 // five sites is replaced by a page of the tests under the site's own
-// address, with the site's input field, a Send button, a form and an Enter
-// key handler that each mark the page as sent. The window must put the text
-// into the field, in the AI profile, and send nothing.
+// address, with the site's input field, a file input (Gemini's page: none,
+// its field takes a paste), a Send button, a form and an Enter key handler
+// that each mark the page as sent. The window must put the text into the
+// field and two files (a text file and a picture) into the message, in the
+// AI profile, and send nothing.
 //
 // A WebView without profiles (the API 34 emulator image has WebView 113)
 // must not open the site at all. CI runs this class twice: in the main run
@@ -53,13 +55,37 @@ class MZGramAiWindowTest {
         "grok" to """<textarea aria-label="Ask Grok anything" rows="3"></textarea>""",
     )
 
-    private fun page(field: String) = """<!doctype html><html><head><meta name="viewport" content="width=device-width"></head><body>
+    private fun page(field: String, fileInput: Boolean = true) = """<!doctype html><html><head><meta name="viewport" content="width=device-width"></head><body>
 <form id="form" onsubmit="window.mzgramSent = 'form'; return false;">$field
+${if (fileInput) "<input type=\"file\" id=\"files\" multiple style=\"display:none\">" else ""}
 <button id="send" type="submit" onclick="window.mzgramSent = 'button'">Send</button></form>
 <script>
 window.mzgramSent = '';
+window.mzgramFiles = [];
+function record(list) { window.mzgramFiles = Array.prototype.map.call(list, function (f) { return f.name + ':' + f.size; }); }
+var files = document.getElementById('files');
+if (files) files.addEventListener('change', function () { record(files.files); });
+document.addEventListener('paste', function (e) { if (e.clipboardData && e.clipboardData.files.length) { record(e.clipboardData.files); e.preventDefault(); } }, true);
 document.addEventListener('keydown', function (e) { if (e.key === 'Enter') window.mzgramSent = 'enter'; }, true);
 </script></body></html>"""
+
+    private fun sitePage(key: String) = page(fields.getValue(key), key != "gemini")
+
+    // A text file and a 1x1 PNG, as the messages' files would be
+    private val notes = "MZGram test file\nsecond line\n".toByteArray()
+    private val pixel = android.util.Base64.decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", android.util.Base64.DEFAULT)
+
+    private fun testFiles(): List<MZGramAiActivity.Attachment> {
+        val folder = java.io.File(context.cacheDir, "mzgram-ai-test").apply { mkdirs() }
+        val text = java.io.File(folder, "notes.txt").apply { writeBytes(notes) }
+        val picture = java.io.File(folder, "pixel.png").apply { writeBytes(pixel) }
+        return listOf(
+            MZGramAiActivity.Attachment.ofFile("notes.txt", "text/plain", text),
+            MZGramAiActivity.Attachment.ofFile("pixel.png", "image/png", picture),
+        )
+    }
+
+    private val expectedFiles get() = "[\"notes.txt:${notes.size}\",\"pixel.png:${pixel.size}\"]"
 
     @Before
     fun setUp() {
@@ -131,20 +157,25 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
         }
         val passed = ArrayList<String>()
         for (provider in MZGramAiRules.providers()) {
-            val window = MZGramAiActivity.forTest(provider.key, text, page(fields.getValue(provider.key)))
+            val window = MZGramAiActivity.forTest(provider.key, text, sitePage(provider.key), testFiles())
             MZGramScreens.open(window)
             assertTrue("${provider.key}: the window opened", MZGramScreens.waitFor(15) { MZGramScreens.lastFragment() === window })
             MZGramScreens.log("MZGram AI test: ${provider.key} window created, start ${provider.startUrl}, profile ${window.profileName}")
-            val done = MZGramScreens.waitFor(45) { window.aiState != MZGramAiActivity.STATE_OPENING }
+            val done = MZGramScreens.waitFor(60) {
+                window.aiState != MZGramAiActivity.STATE_OPENING && window.aiState != MZGramAiActivity.STATE_INSERTED && window.aiState != MZGramAiActivity.STATE_DOWNLOADING
+            }
             MZGramScreens.capture("ai-${provider.key}")
-            assertTrue("${provider.key}: the window says what happened", done)
+            assertTrue("${provider.key}: the window says what happened (${window.aiState})", done)
             assertEquals("${provider.key}: the AI profile", MZGramAiRules.PROFILE, window.profileName)
-            assertEquals("${provider.key}: the text is in the field", MZGramAiActivity.STATE_INSERTED, window.aiState)
+            assertEquals("${provider.key}: the text and the files are in", MZGramAiActivity.STATE_ATTACHED, window.aiState)
+            assertEquals("${provider.key}: the files went by", if (provider.key == "gemini") "paste" else "input", window.attachedHow)
             assertEquals("${provider.key}: the page", "\"ok\"", evaluate(window, check(provider)))
+            assertEquals("${provider.key}: the files", expectedFiles, evaluate(window, "JSON.stringify(window.mzgramFiles)")?.let { org.json.JSONTokener(it).nextValue() as String })
             // A while later still nothing is sent
             Thread.sleep(2000)
             assertEquals("${provider.key}: the page later", "\"ok\"", evaluate(window, check(provider)))
-            MZGramScreens.log("MZGram AI test: PASS ${provider.key}: the field has the text, nothing sent")
+            MZGramScreens.log("MZGram AI test: ${provider.key} files given by ${window.attachedHow}: 2")
+            MZGramScreens.log("MZGram AI test: PASS ${provider.key}: the field has the text, 2 files attached, nothing sent")
             passed.add(provider.key)
             assertTrue("${provider.key}: the window closes", close(window, null))
         }
@@ -157,7 +188,7 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
     private fun window_withoutProfiles_opensNoSite() {
         val shown = ArrayList<String>()
         for (provider in MZGramAiRules.providers()) {
-            val window = MZGramAiActivity.forTest(provider.key, text, page(fields.getValue(provider.key)))
+            val window = MZGramAiActivity.forTest(provider.key, text, sitePage(provider.key), testFiles())
             MZGramScreens.open(window)
             assertTrue("${provider.key}: the window opened", MZGramScreens.waitFor(15) { MZGramScreens.lastFragment() === window })
             MZGramScreens.capture("ai-${provider.key}-no-profiles")
@@ -205,5 +236,20 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
         assertNull(start.visibleDialog)
         assertNotNull(second.getFragmentView())
         assertTrue("the second window closes", close(second, start))
+    }
+
+    // A site opened from the chat list menu has no message: no warning, even
+    // before the first window with one.
+    @Test
+    fun siteAlone_noWarning() {
+        preferences().edit().putBoolean("aiWarned", false).commit()
+        MZGramConfig.loadConfig(true)
+        val start = MZGramScreens.lastFragment()!!
+        instrumentation.runOnMainSync { MZGramAiActivity.openSite(start, "deepseek") }
+        assertTrue("the window at once", MZGramScreens.waitFor(15) { MZGramScreens.lastFragment() is MZGramAiActivity })
+        assertNull("no warning", start.visibleDialog)
+        assertFalse("still not warned", warned())
+        val window = MZGramScreens.lastFragment() as MZGramAiActivity
+        assertTrue("it closes", close(window, start))
     }
 }

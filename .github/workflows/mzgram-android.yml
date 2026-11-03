@@ -74,6 +74,8 @@ jobs:
           python3 .github/scripts/test_texts.py
           # Ask AI: the menu item only where copying is allowed, the window's own WebView profile, no bridge, nothing sent
           python3 .github/scripts/test_ai.py
+          # Rows of Telegram's Settings hidden one by one, also from the settings search
+          python3 .github/scripts/test_settings_rows.py
           # Installs beside Telegram: own package org.mzgram.messenger, authorities, permissions, account type, icon
           python3 .github/scripts/test_manifest.py
           # A push build gets the versionCode of the newest release tag (or the

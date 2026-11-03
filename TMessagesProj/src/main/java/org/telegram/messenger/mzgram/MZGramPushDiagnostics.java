@@ -285,6 +285,12 @@ public final class MZGramPushDiagnostics {
         return failure == null ? null : render(failure, false);
     }
 
+    // In English, for the push log
+    public static String lastFailureInEnglish() {
+        String failure = preferences().getString(KEY_LAST_FAILURE, null);
+        return failure == null ? null : render(failure, true);
+    }
+
     // The built-in Google FCM distributor asked Google Play Services (or
     // microG) for an endpoint.
     public static void onFcmRequested() {

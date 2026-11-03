@@ -50,6 +50,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
     private static final int BUTTON_GATEWAY_RESET = 5;
     private static final int BUTTON_DIAGNOSTICS = 6;
     private static final int BUTTON_VAPID = 7;
+    private static final int BUTTON_DEVICE_CHECK = 8;
 
     @Override
     protected CharSequence getTitle() {
@@ -125,6 +126,8 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
             selectDistributor((String) item.object);
         } else if (item.id == BUTTON_DIAGNOSTICS) {
             showDiagnostics();
+        } else if (item.id == BUTTON_DEVICE_CHECK) {
+            presentFragment(new MZGramDeviceCheckActivity());
         } else if (item.id == BUTTON_GATEWAY_ENABLED) {
             MZGramConfig.toggleUnifiedPushGatewayEnabled();
             ((TextCheckCell) view).setChecked(MZGramConfig.unifiedPushGatewayEnabled);

@@ -50,6 +50,8 @@ SHARED_WORDS = {
     # The names of Telegram's own Settings rows: Telegram Premium, Telegram
     # Business, Wallet in German
     "Premium", "Business", "Wallet",
+    # MIUI is a name; "Autostart" in Polish and German, "No" in Spanish
+    "MIUI", "Autostart", "No",
 }
 
 

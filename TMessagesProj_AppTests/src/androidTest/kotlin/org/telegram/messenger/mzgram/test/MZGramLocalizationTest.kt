@@ -39,7 +39,9 @@ class MZGramLocalizationTest {
         // AI in Polish, Message in French
         "MZGramSectionAi", "MZGramAiMessage",
         // The names of Telegram's own rows: Telegram Premium, Telegram Business, Wallet in German
-        "MZGramHideRowPremium", "MZGramHideRowBusiness", "MZGramHideRowWallet")
+        "MZGramHideRowPremium", "MZGramHideRowBusiness", "MZGramHideRowWallet",
+        // MIUI is a name; Autostart in Polish and German, No in Spanish
+        "MZGramDeviceCheckMiui", "MZGramDeviceCheckAutostart", "MZGramDeviceCheckNo")
 
     private val formatArg = Regex("%(\\d+\\$)?[sd]")
 

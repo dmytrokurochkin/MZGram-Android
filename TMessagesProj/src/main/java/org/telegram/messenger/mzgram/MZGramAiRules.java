@@ -393,7 +393,9 @@ public final class MZGramAiRules {
 
     public static Give give(List<Integer> checked, boolean multiple) {
         Give result = new Give();
-        // Not done yet: the tests come first.
+        for (int i = 0; i < checked.size(); i++) {
+            (multiple || i == 0 ? result.now : result.later).add(checked.get(i));
+        }
         return result;
     }
 
@@ -401,8 +403,31 @@ public final class MZGramAiRules {
     // ("image/*", "application/pdf", ".pdf"); an empty list or "*/*" takes
     // everything.
     public static boolean accepts(String[] accept, String name, String mime) {
-        // Not done yet: the tests come first.
-        return false;
+        String lowerName = name == null ? "" : name.toLowerCase(Locale.US);
+        String type = mime == null ? "" : mime.trim().toLowerCase(Locale.US);
+        boolean any = false;
+        if (accept != null) {
+            for (String entry : accept) {
+                if (entry == null) {
+                    continue;
+                }
+                for (String part : entry.split(",")) {
+                    String item = part.trim().toLowerCase(Locale.US);
+                    if (item.isEmpty()) {
+                        continue;
+                    }
+                    any = true;
+                    if (item.equals("*/*")
+                            || (item.startsWith(".") && lowerName.endsWith(item))
+                            || item.equals(type)
+                            || (item.endsWith("/*") && type.startsWith(item.substring(0, item.length() - 1)))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        // Nothing listed, or nothing known of the file: the site decides
+        return !any || (type.isEmpty() && lowerName.indexOf('.') < 0);
     }
 
     // Settings > MZGram > AI: a button for each site in the chat list menu,

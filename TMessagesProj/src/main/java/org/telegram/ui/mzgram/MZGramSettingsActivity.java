@@ -87,6 +87,46 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SHOW_ASK_AI = 58;
     private static final int BUTTON_AI_PROVIDER = 59;
     private static final int BUTTON_AI_SIGN_OUT = 60;
+    // Interface > Hide in Telegram's Settings, in MZGramSettingsRows' order
+    private static final int BUTTON_HIDE_ROW_PREMIUM = 61;
+    private static final int BUTTON_HIDE_ROW_STARS = 62;
+    private static final int BUTTON_HIDE_ROW_EARNINGS = 63;
+    private static final int BUTTON_HIDE_ROW_BUSINESS = 64;
+    private static final int BUTTON_HIDE_ROW_GIFT = 65;
+    private static final int BUTTON_HIDE_ROW_WALLET = 66;
+    private static final int BUTTON_HIDE_ROW_ASK = 67;
+    private static final int BUTTON_HIDE_ROW_FAQ = 68;
+    private static final int BUTTON_HIDE_ROW_FEATURES = 69;
+    private static final int BUTTON_HIDE_ROW_POLICY = 70;
+    private static final int[] HIDE_ROW_BUTTONS = {
+            BUTTON_HIDE_ROW_PREMIUM, BUTTON_HIDE_ROW_STARS, BUTTON_HIDE_ROW_EARNINGS, BUTTON_HIDE_ROW_BUSINESS,
+            BUTTON_HIDE_ROW_GIFT, BUTTON_HIDE_ROW_WALLET, BUTTON_HIDE_ROW_ASK, BUTTON_HIDE_ROW_FAQ,
+            BUTTON_HIDE_ROW_FEATURES, BUTTON_HIDE_ROW_POLICY,
+    };
+    private static final int[] HIDE_ROW_TITLES = {
+            R.string.MZGramHideRowPremium, R.string.MZGramHideRowStars, R.string.MZGramHideRowEarnings,
+            R.string.MZGramHideRowBusiness, R.string.MZGramHideRowGift, R.string.MZGramHideRowWallet,
+            R.string.MZGramHideRowAsk, R.string.MZGramHideRowFaq, R.string.MZGramHideRowFeatures,
+            R.string.MZGramHideRowPolicy,
+    };
+    // AI > Buttons in the chat list menu, in MZGramAiRules' order
+    private static final int BUTTON_AI_MENU_GEMINI = 71;
+    private static final int BUTTON_AI_MENU_CLAUDE = 72;
+    private static final int BUTTON_AI_MENU_CHATGPT = 73;
+    private static final int BUTTON_AI_MENU_DEEPSEEK = 74;
+    private static final int BUTTON_AI_MENU_GROK = 75;
+    private static final int[] AI_MENU_BUTTONS = {
+            BUTTON_AI_MENU_GEMINI, BUTTON_AI_MENU_CLAUDE, BUTTON_AI_MENU_CHATGPT, BUTTON_AI_MENU_DEEPSEEK, BUTTON_AI_MENU_GROK,
+    };
+
+    private static int indexOf(int[] ids, int id) {
+        for (int i = 0; i < ids.length; i++) {
+            if (ids[i] == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     // The topics, in the order the main page lists them.
     public static final int SECTION_MAIN = -1;
@@ -207,21 +247,36 @@ public class MZGramSettingsActivity extends UniversalFragment {
     }
 
     private static String languageValue() {
-        return MZGramConfig.language.isEmpty() ? getString(R.string.MZGramLanguageSystem) : org.telegram.messenger.mzgram.MZGramLanguage.name(MZGramConfig.language);
+        if (org.telegram.messenger.mzgram.MZGramLanguage.SYSTEM.equals(MZGramConfig.language)) {
+            return getString(R.string.MZGramLanguageSystem);
+        }
+        if (org.telegram.messenger.mzgram.MZGramLanguage.indexOf(MZGramConfig.language) < 0) {
+            return getString(R.string.MZGramLanguageTelegram);
+        }
+        return org.telegram.messenger.mzgram.MZGramLanguage.name(MZGramConfig.language);
     }
 
-    // System and the languages, each by its own name; the choice applies at once.
+    // Same as Telegram, System and the languages, each by its own name; the
+    // choice applies at once.
     private void chooseLanguage() {
         if (getParentActivity() == null) {
             return;
         }
         String[] codes = org.telegram.messenger.mzgram.MZGramLanguage.LANGUAGES;
-        String[] options = new String[codes.length + 1];
-        options[0] = getString(R.string.MZGramLanguageSystem);
-        System.arraycopy(org.telegram.messenger.mzgram.MZGramLanguage.NAMES, 0, options, 1, codes.length);
-        int selected = org.telegram.messenger.mzgram.MZGramLanguage.indexOf(MZGramConfig.language) + 1;
+        String[] options = new String[codes.length + 2];
+        options[0] = getString(R.string.MZGramLanguageTelegram);
+        options[1] = getString(R.string.MZGramLanguageSystem);
+        System.arraycopy(org.telegram.messenger.mzgram.MZGramLanguage.NAMES, 0, options, 2, codes.length);
+        int selected;
+        if (org.telegram.messenger.mzgram.MZGramLanguage.SYSTEM.equals(MZGramConfig.language)) {
+            selected = 1;
+        } else if (org.telegram.messenger.mzgram.MZGramLanguage.indexOf(MZGramConfig.language) >= 0) {
+            selected = org.telegram.messenger.mzgram.MZGramLanguage.indexOf(MZGramConfig.language) + 2;
+        } else {
+            selected = 0;
+        }
         showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramLanguage), selected, (dialog, which) -> {
-            setLanguage(which == 0 ? org.telegram.messenger.mzgram.MZGramLanguage.SYSTEM : codes[which - 1]);
+            setLanguage(which == 0 ? org.telegram.messenger.mzgram.MZGramLanguage.TELEGRAM : which == 1 ? org.telegram.messenger.mzgram.MZGramLanguage.SYSTEM : codes[which - 2]);
         }, getString(R.string.MZGramCancel)));
     }
 
@@ -360,6 +415,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackAnimationInfo)));
         items.add(UItem.asCheck(BUTTON_GOOEY_AVATAR_ANIMATION, getString(R.string.MZGramGooeyAvatarAnimation)).setChecked(MZGramConfig.gooeyAvatarAnimation));
         items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramHideRowsTitle)));
+        java.util.List<org.telegram.messenger.mzgram.MZGramSettingsRows.Row> rows = org.telegram.messenger.mzgram.MZGramSettingsRows.rows();
+        for (int i = 0; i < rows.size(); i++) {
+            items.add(UItem.asCheck(HIDE_ROW_BUTTONS[i], getString(HIDE_ROW_TITLES[i])).setChecked(org.telegram.messenger.mzgram.MZGramSettingsRows.hidden(rows.get(i).key)));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramHideRowsInfo)));
     }
 
     private void fillAdsAndFilters(ArrayList<UItem> items) {
@@ -375,6 +436,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_SHOW_ASK_AI, getString(R.string.MZGramShowAskAi)).setChecked(MZGramConfig.showAskAi));
         items.add(UItem.asButton(BUTTON_AI_PROVIDER, getString(R.string.MZGramAiDefaultProvider), org.telegram.messenger.mzgram.MZGramAiRules.defaultProvider().name));
         items.add(UItem.asShadow(getString(R.string.MZGramAiInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramAiMenuButtons)));
+        java.util.List<org.telegram.messenger.mzgram.MZGramAiRules.Provider> providers = org.telegram.messenger.mzgram.MZGramAiRules.providers();
+        for (int i = 0; i < providers.size(); i++) {
+            items.add(UItem.asCheck(AI_MENU_BUTTONS[i], providers.get(i).name).setChecked(org.telegram.messenger.mzgram.MZGramAiRules.menuButton(providers.get(i))));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramAiMenuButtonsInfo)));
         items.add(UItem.asButton(BUTTON_AI_SIGN_OUT, getString(R.string.MZGramAiSignOut)).red());
         items.add(UItem.asShadow(null));
     }
@@ -509,6 +576,20 @@ public class MZGramSettingsActivity extends UniversalFragment {
             ((TextCheckCell) view).setChecked(MZGramConfig.showAskAi);
         } else if (item.id == BUTTON_AI_PROVIDER) {
             chooseAiProvider();
+        } else if (indexOf(HIDE_ROW_BUTTONS, item.id) >= 0) {
+            String key = org.telegram.messenger.mzgram.MZGramSettingsRows.rows().get(indexOf(HIDE_ROW_BUTTONS, item.id)).key;
+            boolean hidden = !org.telegram.messenger.mzgram.MZGramSettingsRows.hidden(key);
+            org.telegram.messenger.mzgram.MZGramSettingsRows.setHidden(key, hidden);
+            ((TextCheckCell) view).setChecked(hidden);
+            // Telegram's Settings under this page show it at once
+            if (getParentLayout() != null) {
+                getParentLayout().rebuildAllFragmentViews(false, false);
+            }
+        } else if (indexOf(AI_MENU_BUTTONS, item.id) >= 0) {
+            org.telegram.messenger.mzgram.MZGramAiRules.Provider provider = org.telegram.messenger.mzgram.MZGramAiRules.providers().get(indexOf(AI_MENU_BUTTONS, item.id));
+            boolean shown = !org.telegram.messenger.mzgram.MZGramAiRules.menuButton(provider);
+            org.telegram.messenger.mzgram.MZGramAiRules.setMenuButton(provider, shown);
+            ((TextCheckCell) view).setChecked(shown);
         } else if (item.id == BUTTON_AI_SIGN_OUT) {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
                     .setTitle(getString(R.string.MZGramAiSignOut))

@@ -9,6 +9,10 @@
  * it into the site's input field, and where the window may go. No Android
  * views here, so all of it can be tested directly.
  *
+ * Photos and files of the messages go with the text: classifyFile sorts
+ * them, chooseAttachments keeps the first MAX_ATTACHMENTS, and attachScript
+ * hands them to the site's file input, or as a paste into its field.
+ *
  * The text gets into the site only by that script: none of the five sites
  * has a documented address parameter that fills its input field without
  * sending it (ChatGPT's and Grok's "q" parameter sends it at once), and none has a
@@ -18,12 +22,18 @@
 package org.telegram.messenger.mzgram;
 
 import android.net.Uri;
+import android.util.Base64;
+
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public final class MZGramAiRules {
 
@@ -241,6 +251,261 @@ public final class MZGramAiRules {
         }
     }
 
+    // Attachments: photos and documents of the chosen messages go with the
+    // text, at most MAX_ATTACHMENTS (what the sites take in one message),
+    // each at most MAX_ATTACHMENT_SIZE (the smallest limit of the five sites).
+    public static final int MAX_ATTACHMENTS = 10;
+    public static final long MAX_ATTACHMENT_SIZE = 30L * 1024 * 1024;
+    // The files go into the page in pieces of this many bytes, base64 in a
+    // script each.
+    public static final int CHUNK_SIZE = 512 * 1024;
+    // The window waits this long for the files to download.
+    public static final int DOWNLOAD_TIMEOUT_MS = 120_000;
+
+    public static final int KIND_PHOTO = 0; // A photo, or a jpg, png or webp sent as a file
+    public static final int KIND_FILE = 1; // A document an AI reads: text, code, pdf, office files
+    public static final int KIND_ARCHIVE = 2; // zip, rar, 7z, tar, gz, apk and the like: never sent
+    public static final int KIND_MEDIA = 3; // Video, GIF, sticker, voice, round video, music: never sent
+    public static final int KIND_UNSUPPORTED = 4; // Any other file
+
+    private static final Set<String> IMAGE_EXTENSIONS = set("jpg", "jpeg", "png", "webp");
+    private static final Set<String> IMAGE_TYPES = set("image/jpeg", "image/png", "image/webp");
+    private static final Set<String> FILE_EXTENSIONS = set(
+            "txt", "text", "md", "markdown", "rst", "csv", "tsv", "json", "jsonl",
+            "xml", "yaml", "yml", "toml", "ini", "cfg", "conf", "log", "tex", "srt",
+            "vtt", "html", "htm", "css", "js", "mjs", "cjs", "ts", "jsx", "tsx",
+            "py", "ipynb", "java", "kt", "kts", "c", "h", "cpp", "cc", "cxx", "hpp",
+            "cs", "go", "rs", "rb", "php", "swift", "m", "mm", "scala", "dart",
+            "lua", "pl", "r", "sql", "sh", "bash", "zsh", "ps1", "bat", "cmd",
+            "gradle", "properties", "vue", "svelte", "pdf", "doc", "docx", "xls",
+            "xlsx", "ppt", "pptx", "rtf", "odt", "ods", "odp", "epub");
+    // Text files that usually have no extension
+    private static final Set<String> FILE_NAMES = set(
+            "readme", "license", "licence", "changelog", "makefile", "dockerfile",
+            "notice", "authors", "contributing");
+    private static final Set<String> FILE_TYPES = set(
+            "application/pdf", "application/json", "application/xml",
+            "application/rtf", "application/msword", "application/vnd.ms-excel",
+            "application/vnd.ms-powerpoint");
+    private static final String[] FILE_TYPE_PREFIXES = {
+            "application/vnd.openxmlformats-officedocument.",
+            "application/vnd.oasis.opendocument.",
+    };
+    // Archives and packages: large, and the sites read them badly or not at all
+    private static final Set<String> ARCHIVE_EXTENSIONS = set(
+            "zip", "rar", "7z", "tar", "gz", "tgz", "bz2", "tbz", "tbz2", "xz",
+            "txz", "zst", "lz", "lzma", "lz4", "z", "cab", "iso", "dmg", "apk",
+            "apks", "xapk", "aab", "ipa", "jar", "war", "deb", "rpm", "msix",
+            "appx");
+    private static final Set<String> ARCHIVE_TYPES = set(
+            "application/zip", "application/x-zip-compressed", "application/gzip",
+            "application/x-gzip", "application/x-tar", "application/x-7z-compressed",
+            "application/x-rar-compressed", "application/vnd.rar",
+            "application/x-bzip2", "application/x-xz", "application/zstd",
+            "application/vnd.android.package-archive", "application/java-archive",
+            "application/x-iso9660-image");
+    private static final Set<String> MEDIA_EXTENSIONS = set(
+            "gif", "tgs", "webm", "mp4", "mov", "mkv", "avi", "m4v", "mp3",
+            "ogg", "oga", "opus", "m4a", "wav", "flac", "aac");
+
+    private static Set<String> set(String... values) {
+        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(values)));
+    }
+
+    // A file by its name and MIME type (a photo: KIND_PHOTO with no name).
+    public static int classifyFile(String name, String mime) {
+        String lower = name == null ? "" : name.trim().toLowerCase(Locale.US);
+        String type = mime == null ? "" : mime.trim().toLowerCase(Locale.US);
+        int dot = lower.lastIndexOf('.');
+        String extension = dot >= 0 ? lower.substring(dot + 1) : "";
+        String base = dot > 0 ? lower.substring(0, dot) : lower;
+        if (ARCHIVE_EXTENSIONS.contains(extension) || ARCHIVE_TYPES.contains(type)) {
+            return KIND_ARCHIVE;
+        } else if (IMAGE_EXTENSIONS.contains(extension) || (extension.isEmpty() && IMAGE_TYPES.contains(type))) {
+            return KIND_PHOTO;
+        } else if (type.startsWith("video/") || type.startsWith("audio/") || type.equals("image/gif") || MEDIA_EXTENSIONS.contains(extension)) {
+            return KIND_MEDIA;
+        } else if (FILE_EXTENSIONS.contains(extension) || FILE_NAMES.contains(base) || FILE_NAMES.contains(lower)
+                || type.startsWith("text/") || FILE_TYPES.contains(type)) {
+            return KIND_FILE;
+        }
+        for (String prefix : FILE_TYPE_PREFIXES) {
+            if (type.startsWith(prefix)) {
+                return KIND_FILE;
+            }
+        }
+        return KIND_UNSUPPORTED;
+    }
+
+    public static final class Candidate {
+        public final int kind;
+        public final long size;
+
+        public Candidate(int kind, long size) {
+            this.kind = kind;
+            this.size = size;
+        }
+    }
+
+    public static final class Choice {
+        public final List<Integer> chosen = new ArrayList<>(); // Indices into the candidates, in order
+        public int overLimit; // Past MAX_ATTACHMENTS
+        public int tooLarge; // Over MAX_ATTACHMENT_SIZE
+        public int archives;
+        public int media;
+        public int unsupported;
+
+        public int leftOut() {
+            return overLimit + tooLarge + archives + media + unsupported;
+        }
+    }
+
+    // The first MAX_ATTACHMENTS photos and files that are not too large, and
+    // what is left out and why.
+    public static Choice chooseAttachments(List<Candidate> candidates) {
+        Choice result = new Choice();
+        for (int i = 0; i < candidates.size(); i++) {
+            Candidate candidate = candidates.get(i);
+            switch (candidate.kind) {
+                case KIND_ARCHIVE: result.archives++; break;
+                case KIND_MEDIA: result.media++; break;
+                case KIND_PHOTO:
+                case KIND_FILE:
+                    if (candidate.size > MAX_ATTACHMENT_SIZE) {
+                        result.tooLarge++;
+                    } else if (result.chosen.size() >= MAX_ATTACHMENTS) {
+                        result.overLimit++;
+                    } else {
+                        result.chosen.add(i);
+                    }
+                    break;
+                default: result.unsupported++; break;
+            }
+        }
+        return result;
+    }
+
+    // The start of file number index in the page; its bytes follow in
+    // fileChunkScript pieces.
+    public static String fileStartScript(int index, String name, String mime) {
+        return "(window.__mzgramAiFiles = window.__mzgramAiFiles || [])[" + index + "] = { name: "
+                + scriptString(name == null ? "" : name) + ", type: " + scriptString(mime == null ? "" : mime)
+                + ", parts: [] }; 'ok';";
+    }
+
+    public static String fileChunkScript(int index, byte[] bytes, int offset, int length) {
+        return "window.__mzgramAiFiles[" + index + "].parts.push(\""
+                + Base64.encodeToString(bytes, offset, length, Base64.NO_WRAP) + "\"); 'ok';";
+    }
+
+    // The files as File objects: to the site's file input, as choosing them
+    // in its file dialog would, or else as a paste into its input field. It
+    // gives {"mzgram_ai":"attached","how":"input"|"paste","count":N} or
+    // {"mzgram_ai":"no_attach_target"}. Nothing here presses a key or a
+    // button.
+    public static String attachScript(Provider provider) {
+        StringBuilder selectors = new StringBuilder();
+        List<String> all = new ArrayList<>(provider.inputSelectors);
+        all.addAll(ANY_INPUT);
+        for (String selector : all) {
+            if (selectors.length() > 0) {
+                selectors.append(',');
+            }
+            selectors.append(scriptString(selector));
+        }
+        return "(function(){\n"
+                + "var selectors = [" + selectors + "];\n"
+                + "function shown(e) { var r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; }\n"
+                + "function field() {\n"
+                + "  for (var i = 0; i < selectors.length; i++) {\n"
+                + "    var list = document.querySelectorAll(selectors[i]);\n"
+                + "    for (var j = 0; j < list.length; j++) { if (shown(list[j])) return list[j]; }\n"
+                + "  }\n"
+                + "  return null;\n"
+                + "}\n"
+                + "var files = [];\n"
+                + "var saved = window.__mzgramAiFiles || [];\n"
+                + "for (var k = 0; k < saved.length; k++) {\n"
+                + "  var f = saved[k];\n"
+                + "  if (!f) continue;\n"
+                + "  var binary = atob(f.parts.join(''));\n"
+                + "  var bytes = new Uint8Array(binary.length);\n"
+                + "  for (var b = 0; b < binary.length; b++) bytes[b] = binary.charCodeAt(b);\n"
+                + "  files.push(new File([bytes], f.name, { type: f.type }));\n"
+                + "}\n"
+                + "window.__mzgramAiFiles = [];\n"
+                + "function list(some) { var data = new DataTransfer(); for (var i = 0; i < some.length; i++) data.items.add(some[i]); return data; }\n"
+                + "var inputs = Array.prototype.filter.call(document.querySelectorAll('input[type=\"file\"]'), function (i) { return !i.disabled; });\n"
+                + "var input = inputs.filter(function (i) { return i.multiple; })[0] || inputs[0];\n"
+                + "if (input) {\n"
+                + "  var put = function (some) {\n"
+                + "    input.files = list(some).files;\n"
+                + "    input.dispatchEvent(new Event('input', { bubbles: true }));\n"
+                + "    input.dispatchEvent(new Event('change', { bubbles: true }));\n"
+                + "  };\n"
+                + "  if (input.multiple || files.length < 2) { put(files); } else { for (var n = 0; n < files.length; n++) put([files[n]]); }\n"
+                + "  return JSON.stringify({ mzgram_ai: 'attached', how: 'input', count: files.length });\n"
+                + "}\n"
+                + "var e = field();\n"
+                + "if (e) {\n"
+                + "  e.focus();\n"
+                + "  e.dispatchEvent(new ClipboardEvent('paste', { clipboardData: list(files), bubbles: true, cancelable: true }));\n"
+                + "  return JSON.stringify({ mzgram_ai: 'attached', how: 'paste', count: files.length });\n"
+                + "}\n"
+                + "return JSON.stringify({ mzgram_ai: 'no_attach_target' });\n"
+                + "})();";
+    }
+
+    public static final class AttachResult {
+        public final boolean attached; // false: the page had nowhere to put them
+        public final String how; // "input" or "paste"
+        public final int count;
+
+        AttachResult(boolean attached, String how, int count) {
+            this.attached = attached;
+            this.how = how;
+            this.count = count;
+        }
+    }
+
+    // What WebView.evaluateJavascript gives for attachScript: the returned
+    // JSON text as a JSON string. null for anything else.
+    public static AttachResult parseAttach(String result) {
+        if (result == null) {
+            return null;
+        }
+        try {
+            Object value = new JSONTokener(result.trim()).nextValue();
+            if (value instanceof String) {
+                value = new JSONTokener((String) value).nextValue();
+            }
+            if (!(value instanceof JSONObject)) {
+                return null;
+            }
+            JSONObject object = (JSONObject) value;
+            String status = object.optString("mzgram_ai");
+            if ("attached".equals(status)) {
+                return new AttachResult(true, object.optString("how"), object.optInt("count"));
+            } else if ("no_attach_target".equals(status)) {
+                return new AttachResult(false, "", 0);
+            }
+        } catch (Exception ignore) {
+        }
+        return null;
+    }
+
+    // Settings > MZGram > AI: a button for each site in the chat list menu,
+    // which opens the site with no text; all off by default.
+    public static boolean menuButton(Provider provider) {
+        return provider != null && MZGramConfig.aiMenuButtons.contains(provider.key);
+    }
+
+    public static void setMenuButton(Provider provider, boolean shown) {
+        if (provider != null) {
+            MZGramConfig.setAiMenuButton(provider.key, shown);
+        }
+    }
+
     // The window loads only https pages.
     public static boolean allowedNavigation(String url) {
         if ("about:blank".equals(url)) {
@@ -271,82 +536,5 @@ public final class MZGramAiRules {
             return NEW_WINDOW_HERE;
         }
         return NEW_WINDOW_BROWSER;
-    }
-
-    // The tests come first: the attachments and the menu buttons are not
-    // written yet.
-    public static final int MAX_ATTACHMENTS = 0;
-    public static final long MAX_ATTACHMENT_SIZE = 0;
-    public static final int CHUNK_SIZE = 0;
-    public static final int KIND_PHOTO = 0;
-    public static final int KIND_FILE = 1;
-    public static final int KIND_ARCHIVE = 2;
-    public static final int KIND_MEDIA = 3;
-    public static final int KIND_UNSUPPORTED = 4;
-
-    public static int classifyFile(String name, String mime) {
-        return KIND_UNSUPPORTED;
-    }
-
-    public static final class Candidate {
-        public final int kind;
-        public final long size;
-
-        public Candidate(int kind, long size) {
-            this.kind = kind;
-            this.size = size;
-        }
-    }
-
-    public static final class Choice {
-        public final List<Integer> chosen = new ArrayList<>();
-        public int overLimit;
-        public int tooLarge;
-        public int archives;
-        public int media;
-        public int unsupported;
-
-        public int leftOut() {
-            return 0;
-        }
-    }
-
-    public static Choice chooseAttachments(List<Candidate> candidates) {
-        return new Choice();
-    }
-
-    public static String fileStartScript(int index, String name, String mime) {
-        return "";
-    }
-
-    public static String fileChunkScript(int index, byte[] bytes, int offset, int length) {
-        return "";
-    }
-
-    public static String attachScript(Provider provider) {
-        return "";
-    }
-
-    public static final class AttachResult {
-        public final boolean attached;
-        public final String how;
-        public final int count;
-
-        AttachResult(boolean attached, String how, int count) {
-            this.attached = attached;
-            this.how = how;
-            this.count = count;
-        }
-    }
-
-    public static AttachResult parseAttach(String result) {
-        return null;
-    }
-
-    public static boolean menuButton(Provider provider) {
-        return false;
-    }
-
-    public static void setMenuButton(Provider provider, boolean shown) {
     }
 }

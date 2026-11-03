@@ -14494,6 +14494,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.currentAccount = fragment.getCurrentAccount();
             mContext = context;
             searchArray = onCreateSearchArray(fragment);
+            // MZGram: rows hidden in Settings > MZGram > Interface are not found
+            for (int a = 0; a < searchArray.length; a++) {
+                if (searchArray[a] != null && org.telegram.messenger.mzgram.MZGramSettingsRows.hidesSearchResult(searchArray[a].guid)) {
+                    searchArray[a] = null;
+                }
+            }
             updateSearchArray();
         }
 
@@ -14513,6 +14519,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         int num = data.readInt32(false);
                         int type = data.readInt32(false);
                         if (type == 0) {
+                            // MZGram: no recent FAQ articles with Telegram FAQ hidden
+                            if (org.telegram.messenger.mzgram.MZGramSettingsRows.hidden("faq")) {
+                                continue;
+                            }
                             String title = data.readString(false);
                             int count = data.readInt32(false);
                             String[] path = null;
@@ -14822,6 +14832,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public void loadFaqWebPage() {
+            // MZGram: with Telegram FAQ hidden in Settings > MZGram > Interface,
+            // its articles are not searched
+            if (org.telegram.messenger.mzgram.MZGramSettingsRows.hidden("faq")) {
+                return;
+            }
             faqWebPage = MessagesController.getInstance(currentAccount).faqWebPage;
             if (faqWebPage != null) {
                 faqSearchArray.addAll(MessagesController.getInstance(currentAccount).faqSearchArray);

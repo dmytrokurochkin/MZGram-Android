@@ -14003,6 +14003,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 presentFragment(new SettingsActivity());
             });
         }
+        // MZGram: the AI sites whose button is on in Settings > MZGram > AI
+        org.telegram.ui.mzgram.MZGramAiActivity.addMenuButtons(io, this);
         // MZGram: the signed-in accounts, a tap switches (MZGramAccountsMenu)
         org.telegram.ui.mzgram.MZGramAccountsMenu.addTo(io, this);
 

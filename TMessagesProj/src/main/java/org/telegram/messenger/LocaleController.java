@@ -558,6 +558,20 @@ public class LocaleController {
     private ArrayList<LocaleInfo> otherLanguages = new ArrayList<>();
 
     private static volatile LocaleController Instance = null;
+    // MZGram: Telegram's language for MZGramLanguage ("uk", "pt-br"; an
+    // unofficial pack: the language it is based on), null before the
+    // controller is made. Never makes it, so it is safe from inside its own
+    // constructor.
+    public static String mzgramLanguageCode() {
+        LocaleController instance = Instance;
+        LocaleInfo info = instance == null ? null : instance.currentLocaleInfo;
+        if (info == null || info.shortName == null) {
+            return null;
+        }
+        String base = info.getBaseLangCode();
+        return !TextUtils.isEmpty(base) ? base : info.getLangCode();
+    }
+
     public static LocaleController getInstance() {
         LocaleController localInstance = Instance;
         if (localInstance == null) {

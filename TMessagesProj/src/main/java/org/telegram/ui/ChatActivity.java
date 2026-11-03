@@ -1721,6 +1721,8 @@ public class ChatActivity extends BaseFragment implements
     private final static int edit_quick_reply = 64;
 
     private final static int copy_business_link = 65;
+    // MZGram: "Ask AI" for the selected messages (MZGramAiActivity)
+    private final static int mzgram_ask_ai = 1100;
     private final static int share_business_link = 66;
     private final static int rename_business_link = 67;
     private final static int delete_business_link = 68;
@@ -3795,6 +3797,40 @@ public class ChatActivity extends BaseFragment implements
                         getMessagesController().getTopicsController().toggleViewForumAsMessages(-dialog_id, false);
                         TopicsFragment.prepareToSwitchAnimation(ChatActivity.this);
                     }
+                } else if (id == mzgram_ask_ai) {
+                    // MZGram: the text as Copy gives it, with the photos and
+                    // files of all the selected messages
+                    SpannableStringBuilder str = new SpannableStringBuilder();
+                    ArrayList<MessageObject> askMessages = new ArrayList<>();
+                    long askPreviousUid = 0;
+                    for (int a = 1; a >= 0; a--) {
+                        ArrayList<Integer> ids = new ArrayList<>();
+                        for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                            ids.add(selectedMessagesIds[a].keyAt(b));
+                        }
+                        if (currentEncryptedChat == null) {
+                            Collections.sort(ids);
+                        } else {
+                            Collections.sort(ids, Collections.reverseOrder());
+                        }
+                        for (int b = 0; b < ids.size(); b++) {
+                            MessageObject messageObject = selectedMessagesIds[a].get(ids.get(b));
+                            if (messageObject == null) {
+                                continue;
+                            }
+                            askMessages.add(messageObject);
+                            if (selectedMessagesCanCopyIds[a].indexOfKey(ids.get(b)) < 0) {
+                                continue;
+                            }
+                            if (str.length() != 0) {
+                                str.append("\n\n");
+                            }
+                            str.append(getMessageContent(messageObject, askPreviousUid, ids.size() != 1 && (currentUser == null || !currentUser.self)));
+                            askPreviousUid = messageObject.getFromChatId();
+                        }
+                    }
+                    clearSelectionMode();
+                    org.telegram.ui.mzgram.MZGramAiActivity.ask(ChatActivity.this, str.toString(), askMessages);
                 } else if (id == copy) {
                     SpannableStringBuilder str = new SpannableStringBuilder();
                     long previousUid = 0;
@@ -10411,6 +10447,8 @@ public class ChatActivity extends BaseFragment implements
             }
             actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.msg_fave, dp(48), LocaleController.getString(R.string.AddToFavorites)));
             actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.msg_copy, dp(48), LocaleController.getString(R.string.Copy)));
+            // MZGram: "Ask AI" for the selected messages
+            actionModeViews.add(actionMode.addItemWithWidth(mzgram_ask_ai, R.drawable.msg_bot, dp(48), LocaleController.getString(R.string.MZGramAskAi)));
             if (!isSavedMessages && getDialogId() != UserObject.VERIFY) {
                 actionModeViews.add(actionMode.addItemWithWidth(forward, R.drawable.msg_forward, dp(48), LocaleController.getString(R.string.Forward)));
             }
@@ -10424,6 +10462,7 @@ public class ChatActivity extends BaseFragment implements
         }
         actionMode.setItemVisibility(edit, canEditMessagesCount == 1 && selectedMessagesIds[0].size() + selectedMessagesIds[1].size() == 1 ? View.VISIBLE : View.GONE);
         actionMode.setItemVisibility(copy, !isPeerNoForwards() && selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0 ? View.VISIBLE : View.GONE);
+        actionMode.setItemVisibility(mzgram_ask_ai, View.GONE);
         actionMode.setItemVisibility(star, selectedMessagesCanStarIds[0].size() + selectedMessagesCanStarIds[1].size() != 0 ? View.VISIBLE : View.GONE);
         actionMode.setItemVisibility(delete, cantDeleteMessagesCount == 0 ? View.VISIBLE : View.GONE);
         actionMode.setItemVisibility(tag_message, getUserConfig().isPremium() ? View.VISIBLE : View.GONE);
@@ -19400,6 +19439,20 @@ public class ChatActivity extends BaseFragment implements
                     copyVisible = copyItem.getVisibility();
                     copyItem.setVisibility(!noforwards && selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0 ? View.VISIBLE : View.GONE);
                     newCopyVisible = copyItem.getVisibility();
+                }
+                // MZGram: "Ask AI" where copying is allowed, for text, photos and files
+                ActionBarMenuItem mzgramAskAiItem = actionBar.createActionMode().getItem(mzgram_ask_ai);
+                if (mzgramAskAiItem != null) {
+                    boolean askAi = false;
+                    if (org.telegram.messenger.mzgram.MZGramConfig.showAskAi && !noforwards) {
+                        askAi = selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0;
+                        for (int a = 0; a < 2 && !askAi; a++) {
+                            for (int b = 0; b < selectedMessagesIds[a].size() && !askAi; b++) {
+                                askAi = org.telegram.ui.mzgram.MZGramAiActivity.hasAttachment(selectedMessagesIds[a].valueAt(b));
+                            }
+                        }
+                    }
+                    mzgramAskAiItem.setVisibility(askAi ? View.VISIBLE : View.GONE);
                 }
                 if (starItem != null) {
                     starVisible = starItem.getVisibility();
@@ -33777,8 +33830,15 @@ public class ChatActivity extends BaseFragment implements
             }
             case OPTION_MZGRAM_ASK_AI: {
                 CharSequence askCaption = getMessageCaption(selectedObject, selectedObjectGroup);
-                CharSequence askText = askCaption != null ? askCaption : getMessageContent(selectedObject, 0, false);
-                org.telegram.ui.mzgram.MZGramAiActivity.ask(this, askText == null ? "" : askText.toString());
+                CharSequence askText = askCaption != null ? askCaption : (selectedObject.type == MessageObject.TYPE_TEXT || selectedObject.type == MessageObject.TYPE_ARTICLE ? getMessageContent(selectedObject, 0, false) : null);
+                // The message, or all of its album
+                ArrayList<MessageObject> askMessages = new ArrayList<>();
+                if (selectedObjectGroup != null && !selectedObjectGroup.messages.isEmpty()) {
+                    askMessages.addAll(selectedObjectGroup.messages);
+                } else {
+                    askMessages.add(selectedObject);
+                }
+                org.telegram.ui.mzgram.MZGramAiActivity.ask(this, askText == null ? "" : askText.toString(), askMessages);
                 break;
             }
             case OPTION_MZGRAM_HISTORY: {
@@ -46359,7 +46419,7 @@ public class ChatActivity extends BaseFragment implements
                 }
                 // MZGram: MZGramConfig.showAskAi. Only where copying is allowed
                 // (also with "Forward and save protected content" on, as Copy).
-                if (org.telegram.messenger.mzgram.MZGramConfig.showAskAi && (selectedObject.type == MessageObject.TYPE_TEXT || selectedObject.type == MessageObject.TYPE_ARTICLE || getMessageCaption(selectedObject, selectedObjectGroup) != null) && !noforwardsOrPaidMedia && !selectedObject.isSponsored() && !selectedObject.sponsoredCanReport) {
+                if (org.telegram.messenger.mzgram.MZGramConfig.showAskAi && (selectedObject.type == MessageObject.TYPE_TEXT || selectedObject.type == MessageObject.TYPE_ARTICLE || getMessageCaption(selectedObject, selectedObjectGroup) != null || org.telegram.ui.mzgram.MZGramAiActivity.hasAttachment(selectedObject)) && !noforwardsOrPaidMedia && !selectedObject.isSponsored() && !selectedObject.sponsoredCanReport) {
                     items.add(LocaleController.getString(R.string.MZGramAskAi));
                     options.add(OPTION_MZGRAM_ASK_AI);
                     icons.add(R.drawable.msg_bot);

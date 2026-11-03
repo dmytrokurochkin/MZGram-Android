@@ -50,6 +50,12 @@ public class MZGramConfig {
     // The warning that the text goes to a service outside Telegram was
     // shown and accepted
     public static boolean aiWarned = false;
+    // The AI sites whose button is in the chat list menu (MZGramAiRules
+    // keys); none by default
+    public static Set<String> aiMenuButtons = new java.util.HashSet<>();
+    // The rows of Telegram's Settings that are hidden (MZGramSettingsRows
+    // keys); none by default
+    public static Set<String> hiddenSettingsRows = new java.util.HashSet<>();
     // Forward, save, copy and screenshot in chats with "Restrict saving
     // content" (MZGramProtectedContent).
     public static boolean saveProtectedContent = false;
@@ -63,7 +69,8 @@ public class MZGramConfig {
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
-    // MZGramLanguage: "" follows the phone, otherwise one of its codes
+    // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
+    // the phone's, otherwise one of its codes
     public static String language = "";
     // Folder tabs above the bottom bars instead of under the search field.
     public static boolean folderTabsAtBottom = false;
@@ -171,6 +178,8 @@ public class MZGramConfig {
             showAskAi = preferences.getBoolean("showAskAi", true);
             aiProvider = preferences.getString("aiProvider", MZGramAiRules.DEFAULT_PROVIDER);
             aiWarned = preferences.getBoolean("aiWarned", false);
+            aiMenuButtons = new java.util.HashSet<>(preferences.getStringSet("aiMenuButtons", java.util.Collections.emptySet()));
+            hiddenSettingsRows = new java.util.HashSet<>(preferences.getStringSet("hiddenSettingsRows", java.util.Collections.emptySet()));
             saveProtectedContent = preferences.getBoolean("saveProtectedContent", false);
             deleteForAllByDefault = preferences.getBoolean("deleteForAllByDefault", false);
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
@@ -355,6 +364,28 @@ public class MZGramConfig {
     public static void setAiWarned(boolean warned) {
         aiWarned = warned;
         preferences().edit().putBoolean("aiWarned", warned).commit();
+    }
+
+    public static void setAiMenuButton(String key, boolean shown) {
+        Set<String> result = new java.util.HashSet<>(aiMenuButtons);
+        if (shown) {
+            result.add(key);
+        } else {
+            result.remove(key);
+        }
+        aiMenuButtons = result;
+        preferences().edit().putStringSet("aiMenuButtons", new java.util.HashSet<>(result)).commit();
+    }
+
+    public static void setSettingsRowHidden(String key, boolean hidden) {
+        Set<String> result = new java.util.HashSet<>(hiddenSettingsRows);
+        if (hidden) {
+            result.add(key);
+        } else {
+            result.remove(key);
+        }
+        hiddenSettingsRows = result;
+        preferences().edit().putStringSet("hiddenSettingsRows", new java.util.HashSet<>(result)).commit();
     }
 
     public static void toggleSaveProtectedContent() {

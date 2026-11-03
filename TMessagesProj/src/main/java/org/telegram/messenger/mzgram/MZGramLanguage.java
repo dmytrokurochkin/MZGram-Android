@@ -3,9 +3,11 @@
  * a fork of Telegram for Android.
  *
  * The language of MZGram's own strings (settings, switches, menus, banner,
- * dialogs), chosen in Settings > MZGram > Interface, apart from Telegram's
- * language: System or one of LANGUAGES. System is the phone's language when
- * MZGram has it, English otherwise.
+ * dialogs), chosen in Settings > MZGram > Interface: Same as Telegram (the
+ * default: Telegram's language when MZGram has it, English otherwise),
+ * System (the phone's language when MZGram has it, English otherwise) or one
+ * of LANGUAGES. Up to 1.0.8 the default was System, so a screen could show
+ * MZGram's texts in the phone's language and Telegram's in another.
  *
  * MZGram's strings are read from their own Resources in that language, not
  * from the app's Resources: Telegram sets the language of those to its own,
@@ -34,21 +36,54 @@ public class MZGramLanguage {
     public static final String[] LANGUAGES = {"en", "uk", "ru", "pl", "es", "de", "fr", "pt-BR", "tr", "ar", "be", "kk"};
     // Each language's own name; not translated.
     public static final String[] NAMES = {"English", "Українська", "Русский", "Polski", "Español", "Deutsch", "Français", "Português (Brasil)", "Türkçe", "العربية", "Беларуская", "Қазақша"};
-    public static final String SYSTEM = "";
+    // The choices: "" Same as Telegram, SYSTEM, or a code of LANGUAGES
+    public static final String TELEGRAM = "";
+    public static final String SYSTEM = "system";
     public static final String FALLBACK = "en";
 
     private static volatile Resources resources;
     private static volatile String resourcesLanguage;
     // Swapped by the tests: the phone's language
     public static Locale systemOverride;
+    // Swapped by the tests: Telegram's language
+    public static String telegramOverride;
 
     // The language MZGram's strings are shown in now.
     public static String current() {
-        String chosen = MZGramConfig.language;
-        if (!TextUtils.isEmpty(chosen) && indexOf(chosen) >= 0) {
-            return chosen;
+        return resolve(MZGramConfig.language, telegramLanguage(), systemLocale());
+    }
+
+    // The MZGram language for a choice, Telegram's language code ("uk",
+    // "pt-br", null before Telegram has one) and the phone's locale.
+    public static String resolve(String choice, String telegram, Locale system) {
+        if (!TextUtils.isEmpty(choice) && indexOf(choice) >= 0) {
+            return choice;
         }
-        return supported(systemLocale());
+        if (SYSTEM.equals(choice) || TextUtils.isEmpty(telegram)) {
+            return supported(system);
+        }
+        return supportedCode(telegram);
+    }
+
+    // The MZGram language for a language code such as "uk", "pt-br" or
+    // "de_AT": one MZGram has, else English.
+    public static String supportedCode(String code) {
+        if (TextUtils.isEmpty(code)) {
+            return FALLBACK;
+        }
+        String language = code.toLowerCase(Locale.US).split("[-_]")[0];
+        if ("pt".equals(language)) {
+            return "pt-BR";
+        }
+        return indexOf(language) >= 0 ? language : FALLBACK;
+    }
+
+    private static String telegramLanguage() {
+        if (telegramOverride != null) {
+            return telegramOverride;
+        }
+        // Telegram's own text: not a text, Telegram's language code
+        return org.telegram.messenger.LocaleController.mzgramLanguageCode();
     }
 
     // The MZGram language for a locale: one MZGram has, else English.
@@ -184,13 +219,5 @@ public class MZGramLanguage {
     public static void reset() {
         resources = null;
         resourcesLanguage = null;
-    }
-
-    // The tests come first: Same as Telegram is not written yet.
-    public static final String TELEGRAM = "";
-    public static String telegramOverride;
-
-    public static String resolve(String choice, String telegram, Locale system) {
-        return FALLBACK;
     }
 }

@@ -47,6 +47,12 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
             synchronized (MZGramHistoryDatabase.class) {
                 if (instance == null) {
                     instance = new MZGramHistoryDatabase(ApplicationLoader.applicationContext);
+                    // What a wipe set aside and did not delete (the app was
+                    // closed first)
+                    List<File> left = MZGramArchiveWipe.leftovers(archiveFolders());
+                    if (!left.isEmpty()) {
+                        new Thread(() -> MZGramArchiveWipe.remove(left), "MZGramArchiveWipe").start();
+                    }
                 }
             }
         }
@@ -472,16 +478,25 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         getWritableDatabase().execSQL("DELETE FROM " + TABLE);
     }
 
+    // The media folder and Saved Attachments, what Clear archive deletes.
+    public static List<File> archiveFolders() {
+        List<File> result = new ArrayList<>();
+        result.add(mediaRoot());
+        result.add(attachmentsRoot());
+        return result;
+    }
+
     // Full wipe for the settings screen's "clear archive" action: every
     // archived row plus every copied media file on disk, for every account
-    // and every dialog.
-    public void wipeAll() {
+    // and every dialog. The rows go at once; the folders are moved aside and
+    // returned, to be deleted with MZGramArchiveWipe.remove (slow for
+    // gigabytes). Not on the UI thread.
+    public List<File> wipeAll() {
         clean();
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_READS);
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_LAST_SEEN);
         MZGramLastSeen.forget();
-        deleteRecursively(mediaRoot());
-        deleteRecursively(attachmentsRoot());
+        return MZGramArchiveWipe.setAside(archiveFolders());
     }
 
     private static void deleteRecursively(File file) {

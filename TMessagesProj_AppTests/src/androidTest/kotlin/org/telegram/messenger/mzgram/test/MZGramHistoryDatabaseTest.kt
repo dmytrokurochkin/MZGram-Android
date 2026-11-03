@@ -89,7 +89,7 @@ class MZGramHistoryDatabaseTest {
         db.insert(row(messageId, MZGramHistoryMessage.KIND_DELETED, "will be wiped"))
         assertTrue(db.hasHistory(testAccountUserId, testDialogId, messageId))
 
-        db.wipeAll()
+        org.telegram.messenger.mzgram.MZGramArchiveWipe.remove(db.wipeAll())
 
         assertEquals(false, db.hasHistory(testAccountUserId, testDialogId, messageId))
         assertNull(db.getDeleted(testAccountUserId, testDialogId, messageId))

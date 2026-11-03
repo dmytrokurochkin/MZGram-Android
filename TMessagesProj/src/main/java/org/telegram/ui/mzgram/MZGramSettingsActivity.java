@@ -8,6 +8,7 @@
 
 package org.telegram.ui.mzgram;
 
+import static org.telegram.messenger.LocaleController.formatString;
 import static org.telegram.messenger.LocaleController.getString;
 
 import android.view.View;
@@ -658,10 +659,28 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     .setTitle(getString(R.string.MZGramWipeArchive))
                     .setMessage(getString(R.string.MZGramWipeArchiveConfirm))
                     .setPositiveButton(getString(R.string.MZGramDelete), (dialog, which) -> {
-                        org.telegram.messenger.Utilities.globalQueue.postRunnable(() ->
-                                org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().wipeArchive());
+                        // The button shows progress while the archive goes,
+                        // then the box closes and a message says what was
+                        // done. Own thread: gigabytes of files take a while
+                        // and globalQueue is shared.
+                        org.telegram.messenger.browser.Browser.Progress progress = ((org.telegram.ui.ActionBar.AlertDialog) dialog).makeButtonLoading(org.telegram.ui.ActionBar.AlertDialog.BUTTON_POSITIVE);
+                        progress.init();
+                        new Thread(() -> {
+                            org.telegram.messenger.mzgram.MZGramArchiveWipe.Result result = null;
+                            try {
+                                result = org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().wipeArchive();
+                            } catch (Exception e) {
+                                org.telegram.messenger.FileLog.e("MZGramSettingsActivity.wipeArchive", e);
+                            }
+                            org.telegram.messenger.mzgram.MZGramArchiveWipe.Result done = result;
+                            AndroidUtilities.runOnUIThread(() -> {
+                                progress.end();
+                                showWipeResult(done);
+                            });
+                        }, "MZGramArchiveWipe").start();
                     })
                     .setNegativeButton(getString(R.string.MZGramCancel), null)
+                    .makeRed(org.telegram.ui.ActionBar.AlertDialog.BUTTON_POSITIVE)
                     .show();
         } else if (item.id == BUTTON_DISABLE_SPONSORED_MESSAGES) {
             MZGramConfig.toggleDisableSponsoredMessages();
@@ -754,6 +773,22 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 }
                 showArchiveResult(done, R.string.MZGramArchiveImported, R.string.MZGramArchiveImportFailed);
             });
+        }
+    }
+
+    // After Clear archive: cleared and how much was freed, or what could
+    // not be deleted
+    private void showWipeResult(org.telegram.messenger.mzgram.MZGramArchiveWipe.Result result) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        if (result == null || !result.complete) {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramArchiveFilesLeft)).show();
+        } else if (result.files > 0) {
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramArchiveCleared),
+                    formatString(R.string.MZGramArchiveFilesDeleted, AndroidUtilities.formatFileSize(result.bytes))).show();
+        } else {
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramArchiveCleared)).show();
         }
     }
 

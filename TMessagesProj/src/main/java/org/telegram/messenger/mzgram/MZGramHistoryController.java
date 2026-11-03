@@ -1023,8 +1023,10 @@ public class MZGramHistoryController {
 
     // ---- full wipe ----
 
-    public void wipeArchive() {
-        MZGramHistoryDatabase.getInstance().wipeAll();
+    // The rows at once and the files after them; what was deleted. Slow:
+    // not on the UI thread.
+    public MZGramArchiveWipe.Result wipeArchive() {
+        return MZGramArchiveWipe.remove(MZGramHistoryDatabase.getInstance().wipeAll());
     }
 
     // ---- export / import ----

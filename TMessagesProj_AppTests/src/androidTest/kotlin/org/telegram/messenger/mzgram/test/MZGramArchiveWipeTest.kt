@@ -132,6 +132,8 @@ class MZGramArchiveWipeTest {
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
 
         val db = MZGramHistoryDatabase.getInstance()
+        // What another test's wipe set aside is not this test's
+        MZGramArchiveWipe.remove(MZGramArchiveWipe.leftovers(MZGramHistoryDatabase.archiveFolders()))
         db.insert(row(556001))
         val media = MZGramHistoryDatabase.mediaRoot()
         write(File(media, "${account}/${dialog}/a.jpg"), 4096)

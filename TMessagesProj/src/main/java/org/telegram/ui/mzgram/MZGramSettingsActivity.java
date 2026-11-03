@@ -116,6 +116,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_AI_MENU_CHATGPT = 73;
     private static final int BUTTON_AI_MENU_DEEPSEEK = 74;
     private static final int BUTTON_AI_MENU_GROK = 75;
+    private static final int BUTTON_SAVE_FROM_USERS = 76;
+    private static final int BUTTON_SAVE_IN_GROUPS = 77;
+    private static final int BUTTON_SAVE_IN_CHANNELS = 78;
     private static final int[] AI_MENU_BUTTONS = {
             BUTTON_AI_MENU_GEMINI, BUTTON_AI_MENU_CLAUDE, BUTTON_AI_MENU_CHATGPT, BUTTON_AI_MENU_DEEPSEEK, BUTTON_AI_MENU_GROK,
     };
@@ -240,8 +243,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_SAVE_ARCHIVE_MEDIA, getString(R.string.MZGramSaveArchiveMedia)).setChecked(MZGramConfig.saveArchiveMedia));
         items.add(UItem.asCheck(BUTTON_SAVE_FORMATTING, getString(R.string.MZGramSaveFormatting)).setChecked(MZGramConfig.saveFormatting));
         items.add(UItem.asCheck(BUTTON_SAVE_REACTIONS, getString(R.string.MZGramSaveReactions)).setChecked(MZGramConfig.saveReactions));
-        items.add(UItem.asCheck(BUTTON_SAVE_FOR_BOTS, getString(R.string.MZGramSaveForBots)).setChecked(MZGramConfig.saveForBots));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveArchiveMediaInfo)));
+        // Whose messages are kept; turning one off keeps what was saved
+        items.add(UItem.asHeader(getString(R.string.MZGramKeepFromTitle)));
+        items.add(UItem.asCheck(BUTTON_SAVE_FROM_USERS, getString(R.string.MZGramKeepFromUsers)).setChecked(MZGramConfig.saveFromUsers));
+        items.add(UItem.asCheck(BUTTON_SAVE_FOR_BOTS, getString(R.string.MZGramKeepFromBots)).setChecked(MZGramConfig.saveForBots));
+        items.add(UItem.asCheck(BUTTON_SAVE_IN_GROUPS, getString(R.string.MZGramKeepFromGroups)).setChecked(MZGramConfig.saveInGroups));
+        items.add(UItem.asCheck(BUTTON_SAVE_IN_CHANNELS, getString(R.string.MZGramKeepFromChannels)).setChecked(MZGramConfig.saveInChannels));
+        items.add(UItem.asShadow(getString(R.string.MZGramKeepFromInfo)));
         items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
         items.add(UItem.asButton(BUTTON_EDITED_MARK, getString(R.string.MZGramEditedMarkText), MZGramConfig.editedMark));
         items.add(UItem.asCheck(BUTTON_SEMI_TRANSPARENT_DELETED, getString(R.string.MZGramSemiTransparentDeleted)).setChecked(MZGramConfig.semiTransparentDeleted));
@@ -646,6 +655,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SAVE_FOR_BOTS) {
             MZGramConfig.toggleSaveForBots();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveForBots);
+        } else if (item.id == BUTTON_SAVE_FROM_USERS) {
+            MZGramConfig.toggleSaveFromUsers();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveFromUsers);
+        } else if (item.id == BUTTON_SAVE_IN_GROUPS) {
+            MZGramConfig.toggleSaveInGroups();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveInGroups);
+        } else if (item.id == BUTTON_SAVE_IN_CHANNELS) {
+            MZGramConfig.toggleSaveInChannels();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveInChannels);
         } else if (item.id == BUTTON_SEMI_TRANSPARENT_DELETED) {
             MZGramConfig.toggleSemiTransparentDeleted();
             ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);

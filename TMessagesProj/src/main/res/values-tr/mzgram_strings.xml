@@ -151,6 +151,12 @@
     <string name="MZGramSaveFormatting">Biçimlendirmeyi kaydet</string>
     <string name="MZGramSaveReactions">Tepkileri kaydet</string>
     <string name="MZGramSaveForBots">Botlarla sohbetlerde kaydet</string>
+    <string name="MZGramKeepFromTitle">Mesajları sakla</string>
+    <string name="MZGramKeepFromUsers">Kullanıcılardan</string>
+    <string name="MZGramKeepFromBots">Botlardan</string>
+    <string name="MZGramKeepFromGroups">Gruplarda</string>
+    <string name="MZGramKeepFromChannels">Kanallarda</string>
+    <string name="MZGramKeepFromInfo">Bir botun mesajları her sohbette \"Botlardan\" ayarına uyar; diğerleri sohbetin türüne: özel sohbet, grup veya kanal. Kapatmak yeni kaydı durdurur; zaten saklananlar kalır.</string>
     <string name="MZGramSaveArchiveMediaInfo">Kaydedilen mesajların dosyaları, boyutu ne olursa olsun ve toplam sınır olmadan Downloads/MZGram/Saved Attachments klasörüne kopyalanır. Biçimlendirme ve tepkiler metinle birlikte tutulur; botlarla sohbetler yalnızca anahtarları açıkken kaydedilir.</string>
     <string name="MZGramDeletedMarkText">Silindi işareti</string>
     <string name="MZGramEraseLocalDatabase">Telegram yerel veritabanını temizle</string>

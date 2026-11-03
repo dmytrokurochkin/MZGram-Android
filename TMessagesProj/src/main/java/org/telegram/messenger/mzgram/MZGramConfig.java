@@ -111,8 +111,13 @@ public class MZGramConfig {
     // Bold, italic, links and the like of archived messages.
     public static boolean saveFormatting = true;
     public static boolean saveReactions = true;
-    // Chats with bots.
+    // Keep messages: from users, from bots, in groups, in channels (see
+    // MZGramKeepFrom). "From bots" keeps the key of the earlier "Save in
+    // chats with bots", so its value carries over.
+    public static boolean saveFromUsers = true;
     public static boolean saveForBots = true;
+    public static boolean saveInGroups = true;
+    public static boolean saveInChannels = true;
     // How a deleted message kept in the chat looks: drawn at 75% opacity,
     // and the marks shown before the time (any text, empty for none).
     public static boolean semiTransparentDeleted = true;
@@ -220,7 +225,10 @@ public class MZGramConfig {
             saveArchiveMedia = preferences.getBoolean("saveArchiveMedia", true);
             saveFormatting = preferences.getBoolean("saveFormatting", true);
             saveReactions = preferences.getBoolean("saveReactions", true);
+            saveFromUsers = preferences.getBoolean("saveFromUsers", true);
             saveForBots = preferences.getBoolean("saveForBots", true);
+            saveInGroups = preferences.getBoolean("saveInGroups", true);
+            saveInChannels = preferences.getBoolean("saveInChannels", true);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
             editedMark = preferences.getString("editedMark", DEFAULT_EDITED_MARK);
@@ -487,6 +495,21 @@ public class MZGramConfig {
     public static void toggleSaveForBots() {
         saveForBots = !saveForBots;
         putBoolean("saveForBots", saveForBots);
+    }
+
+    public static void toggleSaveFromUsers() {
+        saveFromUsers = !saveFromUsers;
+        putBoolean("saveFromUsers", saveFromUsers);
+    }
+
+    public static void toggleSaveInGroups() {
+        saveInGroups = !saveInGroups;
+        putBoolean("saveInGroups", saveInGroups);
+    }
+
+    public static void toggleSaveInChannels() {
+        saveInChannels = !saveInChannels;
+        putBoolean("saveInChannels", saveInChannels);
     }
 
     public static void toggleSemiTransparentDeleted() {

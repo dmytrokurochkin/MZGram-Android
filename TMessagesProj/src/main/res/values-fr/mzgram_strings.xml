@@ -151,6 +151,12 @@
     <string name="MZGramSaveFormatting">Enregistrer la mise en forme</string>
     <string name="MZGramSaveReactions">Enregistrer les réactions</string>
     <string name="MZGramSaveForBots">Enregistrer dans les discussions avec des bots</string>
+    <string name="MZGramKeepFromTitle">Conserver les messages</string>
+    <string name="MZGramKeepFromUsers">Des utilisateurs</string>
+    <string name="MZGramKeepFromBots">Des bots</string>
+    <string name="MZGramKeepFromGroups">Dans les groupes</string>
+    <string name="MZGramKeepFromChannels">Dans les canaux</string>
+    <string name="MZGramKeepFromInfo">Les messages d\'un bot suivent « Des bots » dans chaque discussion ; les autres suivent le type de discussion : privée, groupe ou canal. Désactiver arrête les nouveaux enregistrements ; ce qui est déjà conservé reste.</string>
     <string name="MZGramSaveArchiveMediaInfo">Les fichiers des messages enregistrés sont copiés dans Downloads/MZGram/Saved Attachments, quelle que soit leur taille et sans limite totale. La mise en forme et les réactions sont conservées avec le texte ; les discussions avec des bots ne sont enregistrées que tant que leur interrupteur est activé.</string>
     <string name="MZGramDeletedMarkText">Marque de suppression</string>
     <string name="MZGramEraseLocalDatabase">Vider la base de données locale de Telegram</string>

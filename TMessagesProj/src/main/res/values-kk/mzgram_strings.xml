@@ -151,6 +151,12 @@
     <string name="MZGramSaveFormatting">Пішімдеуді сақтау</string>
     <string name="MZGramSaveReactions">Реакцияларды сақтау</string>
     <string name="MZGramSaveForBots">Боттармен чаттарда сақтау</string>
+    <string name="MZGramKeepFromTitle">Хабарламаларды сақтау</string>
+    <string name="MZGramKeepFromUsers">Пайдаланушылардан</string>
+    <string name="MZGramKeepFromBots">Боттардан</string>
+    <string name="MZGramKeepFromGroups">Топтарда</string>
+    <string name="MZGramKeepFromChannels">Арналарда</string>
+    <string name="MZGramKeepFromInfo">Боттың хабарламалары кез келген чатта «Боттардан» ауыстырғышына бағынады; қалғандары чат түріне: жеке чат, топ немесе арна. Өшіру жаңа сақтауды тоқтатады; бұрын сақталғаны қалады.</string>
     <string name="MZGramSaveArchiveMediaInfo">Сақталған хабарламалардың файлдары кез келген өлшемде және жалпы шектеусіз Downloads/MZGram/Saved Attachments ішіне көшіріледі. Пішімдеу мен реакциялар мәтінмен бірге сақталады; боттармен чаттар тек олардың қосқышы қосулы кезде сақталады.</string>
     <string name="MZGramDeletedMarkText">Жойылған белгісі</string>
     <string name="MZGramEraseLocalDatabase">Telegram жергілікті дерекқорын тазалау</string>

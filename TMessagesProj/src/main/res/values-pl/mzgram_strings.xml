@@ -151,6 +151,12 @@
     <string name="MZGramSaveFormatting">Zapisuj formatowanie</string>
     <string name="MZGramSaveReactions">Zapisuj reakcje</string>
     <string name="MZGramSaveForBots">Zapisuj w czatach z botami</string>
+    <string name="MZGramKeepFromTitle">Zachowuj wiadomości</string>
+    <string name="MZGramKeepFromUsers">Od użytkowników</string>
+    <string name="MZGramKeepFromBots">Od botów</string>
+    <string name="MZGramKeepFromGroups">W grupach</string>
+    <string name="MZGramKeepFromChannels">W kanałach</string>
+    <string name="MZGramKeepFromInfo">Wiadomości bota w każdym czacie podlegają „Od botów”; pozostałe podlegają rodzajowi czatu: czat prywatny, grupa lub kanał. Wyłączenie zatrzymuje nowe zapisywanie; to, co już zachowane, zostaje.</string>
     <string name="MZGramSaveArchiveMediaInfo">Pliki zapisanych wiadomości są kopiowane do Downloads/MZGram/Saved Attachments, dowolnej wielkości i bez łącznego limitu. Formatowanie i reakcje są zachowywane z tekstem; czaty z botami są zapisywane tylko wtedy, gdy ich przełącznik jest włączony.</string>
     <string name="MZGramDeletedMarkText">Znacznik usuniętej</string>
     <string name="MZGramEraseLocalDatabase">Wyczyść lokalną bazę Telegrama</string>

@@ -151,6 +151,12 @@
     <string name="MZGramSaveFormatting">Guardar el formato</string>
     <string name="MZGramSaveReactions">Guardar reacciones</string>
     <string name="MZGramSaveForBots">Guardar en chats con bots</string>
+    <string name="MZGramKeepFromTitle">Guardar mensajes</string>
+    <string name="MZGramKeepFromUsers">De usuarios</string>
+    <string name="MZGramKeepFromBots">De bots</string>
+    <string name="MZGramKeepFromGroups">En grupos</string>
+    <string name="MZGramKeepFromChannels">En canales</string>
+    <string name="MZGramKeepFromInfo">Los mensajes de un bot siguen «De bots» en cualquier chat; los demás, el tipo de chat: chat privado, grupo o canal. Al desactivar uno se dejan de guardar mensajes nuevos; lo ya guardado se queda.</string>
     <string name="MZGramSaveArchiveMediaInfo">Los archivos de los mensajes guardados se copian en Downloads/MZGram/Saved Attachments, de cualquier tamaño y sin límite total. El formato y las reacciones se guardan con el texto; los chats con bots se guardan solo mientras su interruptor está activado.</string>
     <string name="MZGramDeletedMarkText">Marca de eliminado</string>
     <string name="MZGramEraseLocalDatabase">Borrar la base de datos local de Telegram</string>

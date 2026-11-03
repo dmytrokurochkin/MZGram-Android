@@ -24,6 +24,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.ChatObject;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC;
@@ -59,15 +60,48 @@ public class MZGramHistoryController {
     private MZGramHistoryController() {
     }
 
-    // Deleted messages are saved in every chat while the switch is on; chats
-    // with bots only while "Save for bots" is on too.
+    // Deleted messages are saved while the switch is on, by Keep messages
+    // (MZGramKeepFrom): whether anything of the chat may be kept, before its
+    // messages are known.
     public static boolean savesChat(long dialogId) {
-        return MZGramConfig.saveDeletedMessages && (MZGramConfig.saveForBots || !isBotChat(dialogId));
+        return MZGramConfig.saveDeletedMessages && MZGramKeepFrom.maySaveChat(isBotChat(dialogId), chatKind(dialogId));
     }
 
     // Earlier versions of other people's edited messages, the same way.
     public static boolean savesEdits(long dialogId) {
-        return MZGramConfig.saveEditHistory && (MZGramConfig.saveForBots || !isBotChat(dialogId));
+        return MZGramConfig.saveEditHistory && MZGramKeepFrom.maySaveChat(isBotChat(dialogId), chatKind(dialogId));
+    }
+
+    // A message of the chat: its author decides for a bot's message, the
+    // chat for the rest (a channel's post, a channel writing in a group and
+    // an anonymous admin have no user as the author).
+    public static boolean savesMessage(long dialogId, TLRPC.Message message) {
+        return MZGramConfig.saveDeletedMessages && MZGramKeepFrom.saves(sourceOf(dialogId, message));
+    }
+
+    public static boolean savesEdits(long dialogId, TLRPC.Message message) {
+        return MZGramConfig.saveEditHistory && MZGramKeepFrom.saves(sourceOf(dialogId, message));
+    }
+
+    public static int sourceOf(long dialogId, TLRPC.Message message) {
+        boolean bot = message != null && message.from_id instanceof TLRPC.TL_peerUser && isBotChat(message.from_id.user_id);
+        return MZGramKeepFrom.sourceOf(bot, chatKind(dialogId));
+    }
+
+    public static int chatKind(long dialogId) {
+        if (dialogId >= 0 || DialogObject.isEncryptedDialog(dialogId)) {
+            return MZGramKeepFrom.CHAT_PRIVATE;
+        }
+        for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+            if (!UserConfig.getInstance(a).isClientActivated()) {
+                continue;
+            }
+            TLRPC.Chat chat = MessagesController.getInstance(a).getChat(-dialogId);
+            if (chat != null) {
+                return ChatObject.isChannelAndNotMegaGroup(chat) ? MZGramKeepFrom.CHAT_CHANNEL : MZGramKeepFrom.CHAT_GROUP;
+            }
+        }
+        return MZGramKeepFrom.CHAT_GROUP;
     }
 
     public static boolean isBotChat(long dialogId) {
@@ -109,7 +143,7 @@ public class MZGramHistoryController {
                     + ", messageId=" + (message != null ? message.id : "null")
                     + ", saveDeletedMessages=" + MZGramConfig.saveDeletedMessages);
         }
-        if (message == null || !savesChat(dialogId)) {
+        if (message == null || !savesMessage(dialogId, message)) {
             return;
         }
         if (isOwnMessage(accountId, message)) {
@@ -150,7 +184,7 @@ public class MZGramHistoryController {
     // ---- edited messages ----
 
     public void onMessageEdited(int accountId, long dialogId, TLRPC.Message oldMessage, TLRPC.Message newMessage) {
-        if (oldMessage == null || newMessage == null || !savesEdits(dialogId) || isOwnMessage(accountId, oldMessage)) {
+        if (oldMessage == null || newMessage == null || !savesEdits(dialogId, oldMessage) || isOwnMessage(accountId, oldMessage)) {
             return;
         }
         try {
@@ -198,7 +232,7 @@ public class MZGramHistoryController {
     // sendSecretMediaDelete / doDeleteShowOnceTask), so the file is still on
     // disk.
     public void onOneTimeMediaViewed(int accountId, long dialogId, TLRPC.Message message) {
-        if (message == null || !savesChat(dialogId) || isOwnMessage(accountId, message)) {
+        if (message == null || !savesMessage(dialogId, message) || isOwnMessage(accountId, message)) {
             return;
         }
         try {
@@ -266,7 +300,7 @@ public class MZGramHistoryController {
                 continue;
             }
             long dialogId = MessageObject.getDialogId(message);
-            if (!savesChat(dialogId) || isOwnMessage(accountId, message) || oneTimeFileName(message) == null) {
+            if (!savesMessage(dialogId, message) || isOwnMessage(accountId, message) || oneTimeFileName(message) == null) {
                 continue;
             }
             try {
@@ -370,7 +404,7 @@ public class MZGramHistoryController {
     // media whose timer ran out, and view-once media after viewing. The file
     // is still on disk here, so a copy goes into the archive.
     public void onMessageMediaRemoved(int accountId, long dialogId, TLRPC.Message message) {
-        if (message == null || message.media == null || !savesChat(dialogId) || isOwnMessage(accountId, message)) {
+        if (message == null || message.media == null || !savesMessage(dialogId, message) || isOwnMessage(accountId, message)) {
             return;
         }
         try {
@@ -664,7 +698,7 @@ public class MZGramHistoryController {
     // Kept: another person's message in a chat that the user did
     // not remove themself.
     public boolean keepsDeletedInChat(int accountId, long dialogId, TLRPC.Message message) {
-        if (message == null || message instanceof TLRPC.TL_messageService || !savesChat(dialogId) || isOwnMessage(accountId, message)) {
+        if (message == null || message instanceof TLRPC.TL_messageService || !savesMessage(dialogId, message) || isOwnMessage(accountId, message)) {
             return false;
         }
         Long when = localDeletions.get(dialogId + ":" + message.id);
@@ -873,7 +907,7 @@ public class MZGramHistoryController {
     // media back from the archive, as ordinary media; otherwise null (the
     // chat shows it expired, as usual).
     public TLRPC.Message mediaForOpenChat(int accountId, long dialogId, TLRPC.Message emptied) {
-        if (emptied == null || !savesChat(dialogId) || isOwnMessage(accountId, emptied)) {
+        if (emptied == null || !savesMessage(dialogId, emptied) || isOwnMessage(accountId, emptied)) {
             return null;
         }
         try {
@@ -906,7 +940,7 @@ public class MZGramHistoryController {
     // do not show it as expired. Kept: another person's message -- the media
     // comes back from the archive (see mediaForOpenChat).
     public boolean keepsOneTimeMediaInChat(int accountId, long dialogId, TLRPC.Message message) {
-        return message != null && savesChat(dialogId) && !isOwnMessage(accountId, message);
+        return message != null && savesMessage(dialogId, message) && !isOwnMessage(accountId, message);
     }
 
     // ChatActivity, for a deleted message it keeps in the open chat: marked

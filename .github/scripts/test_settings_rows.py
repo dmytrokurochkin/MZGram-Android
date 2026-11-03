@@ -27,6 +27,26 @@ def read(path):
 
 
 class SettingsRowsTest(unittest.TestCase):
+    def test_keep_messages_from_four_switches(self):
+        settings = (ROOT / "TMessagesProj/src/main/java/org/telegram/ui/mzgram/MZGramSettingsActivity.java").read_text(encoding="utf-8")
+        start = settings.index("R.string.MZGramKeepFromTitle")
+        end = settings.index("R.string.MZGramKeepFromInfo", start)
+        part = settings[start:end]
+        for row in ("BUTTON_SAVE_FROM_USERS", "BUTTON_SAVE_FOR_BOTS", "BUTTON_SAVE_IN_GROUPS", "BUTTON_SAVE_IN_CHANNELS"):
+            self.assertIn(row, part)
+        controller = (ROOT / "TMessagesProj/src/main/java/org/telegram/messenger/mzgram/MZGramHistoryController.java").read_text(encoding="utf-8")
+        # The message decides where it is known; turning a switch off deletes nothing
+        self.assertGreaterEqual(controller.count("savesMessage(dialogId, "), 6)
+        self.assertIn("message.from_id instanceof TLRPC.TL_peerUser && isBotChat(message.from_id.user_id)", controller)
+        self.assertIn("ChatObject.isChannelAndNotMegaGroup(chat)", controller)
+        config = (ROOT / "TMessagesProj/src/main/java/org/telegram/messenger/mzgram/MZGramConfig.java").read_text(encoding="utf-8")
+        for name in ("saveFromUsers", "saveInGroups", "saveInChannels"):
+            self.assertIn("public static boolean %s = true;" % name, config)
+            self.assertIn('preferences.getBoolean("%s", true)' % name, config)
+            toggle = config[config.index("public static void toggle%s%s()" % (name[0].upper(), name[1:])):]
+            toggle = toggle[:toggle.index("}")]
+            self.assertNotIn("delete", toggle.lower())
+
     def test_each_row_has_its_check(self):
         settings = read(SETTINGS)
         for row in IDS:

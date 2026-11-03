@@ -151,6 +151,12 @@
     <string name="MZGramSaveFormatting">حفظ التنسيق</string>
     <string name="MZGramSaveReactions">حفظ التفاعلات</string>
     <string name="MZGramSaveForBots">الحفظ في المحادثات مع البوتات</string>
+    <string name="MZGramKeepFromTitle">الاحتفاظ بالرسائل</string>
+    <string name="MZGramKeepFromUsers">من المستخدمين</string>
+    <string name="MZGramKeepFromBots">من البوتات</string>
+    <string name="MZGramKeepFromGroups">في المجموعات</string>
+    <string name="MZGramKeepFromChannels">في القنوات</string>
+    <string name="MZGramKeepFromInfo">تتبع رسائل البوت «من البوتات» في أي محادثة؛ وتتبع الرسائل الأخرى نوع المحادثة: محادثة خاصة أو مجموعة أو قناة. يوقف الإيقاف الحفظ الجديد؛ ويبقى ما حُفظ.</string>
     <string name="MZGramSaveArchiveMediaInfo">تُنسخ ملفات الرسائل المحفوظة إلى Downloads/MZGram/Saved Attachments، بأي حجم ودون حد إجمالي. يُحتفظ بالتنسيق والتفاعلات مع النص؛ ولا تُحفظ المحادثات مع البوتات إلا ما دام مفتاحها مفعّلًا.</string>
     <string name="MZGramDeletedMarkText">علامة المحذوفة</string>
     <string name="MZGramEraseLocalDatabase">مسح قاعدة بيانات تيليجرام المحلية</string>

@@ -151,6 +151,12 @@
     <string name="MZGramSaveFormatting">Formatierung speichern</string>
     <string name="MZGramSaveReactions">Reaktionen speichern</string>
     <string name="MZGramSaveForBots">In Chats mit Bots speichern</string>
+    <string name="MZGramKeepFromTitle">Nachrichten behalten</string>
+    <string name="MZGramKeepFromUsers">Von Nutzern</string>
+    <string name="MZGramKeepFromBots">Von Bots</string>
+    <string name="MZGramKeepFromGroups">In Gruppen</string>
+    <string name="MZGramKeepFromChannels">In Kanälen</string>
+    <string name="MZGramKeepFromInfo">Nachrichten eines Bots folgen in jedem Chat „Von Bots“; andere folgen der Art des Chats: privater Chat, Gruppe oder Kanal. Ausschalten stoppt neues Speichern; bereits Behaltenes bleibt.</string>
     <string name="MZGramSaveArchiveMediaInfo">Dateien gespeicherter Nachrichten werden nach Downloads/MZGram/Saved Attachments kopiert, in jeder Größe und ohne Gesamtlimit. Formatierung und Reaktionen bleiben beim Text; Chats mit Bots werden nur gespeichert, solange ihr Schalter an ist.</string>
     <string name="MZGramDeletedMarkText">Markierung für Gelöschtes</string>
     <string name="MZGramEraseLocalDatabase">Lokale Telegram-Datenbank leeren</string>

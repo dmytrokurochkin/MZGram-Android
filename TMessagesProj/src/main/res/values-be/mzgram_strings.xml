@@ -151,6 +151,12 @@
     <string name="MZGramSaveFormatting">Захоўваць фарматаванне</string>
     <string name="MZGramSaveReactions">Захоўваць рэакцыі</string>
     <string name="MZGramSaveForBots">Захоўваць у чатах з ботамі</string>
+    <string name="MZGramKeepFromTitle">Захоўваць паведамленні</string>
+    <string name="MZGramKeepFromUsers">Ад карыстальнікаў</string>
+    <string name="MZGramKeepFromBots">Ад ботаў</string>
+    <string name="MZGramKeepFromGroups">У групах</string>
+    <string name="MZGramKeepFromChannels">У каналах</string>
+    <string name="MZGramKeepFromInfo">Паведамленні бота ў любым чаце ідуць за «Ад ботаў»; астатнія ідуць за тыпам чата: асабісты чат, група ці канал. Выключэнне спыняе новае захаванне; ужо захаванае застаецца.</string>
     <string name="MZGramSaveArchiveMediaInfo">Файлы захаваных паведамленняў капіруюцца ў Downloads/MZGram/Saved Attachments, любога памеру і без агульнага абмежавання. Фарматаванне і рэакцыі захоўваюцца разам з тэкстам; чаты з ботамі захоўваюцца, толькі пакуль уключаны іх пераключальнік.</string>
     <string name="MZGramDeletedMarkText">Пазнака выдаленага</string>
     <string name="MZGramEraseLocalDatabase">Ачысціць лакальную базу Telegram</string>

@@ -125,6 +125,12 @@
     <string name="MZGramArchiveCleared">مُسح الأرشيف.</string>
     <string name="MZGramArchiveFilesDeleted">حُذفت ملفات الأرشيف وتحرّرت %1$s.</string>
     <string name="MZGramArchiveFilesLeft">تعذّر حذف بعض ملفات الأرشيف. سيحاول MZGram مجددًا عند التشغيل التالي.</string>
+    <string name="MZGramArchiveSize">حجم الأرشيف</string>
+    <string name="MZGramArchiveSizeCounting">جارٍ الحساب…</string>
+    <string name="MZGramArchiveSizeDatabase">الرسائل</string>
+    <string name="MZGramArchiveSizeMedia">الوسائط</string>
+    <string name="MZGramArchiveSizeAttachments">المرفقات المحفوظة</string>
+    <string name="MZGramArchiveSizeOther">أخرى</string>
     <string name="MZGramWipeArchiveConfirm">سيؤدي هذا إلى حذف الأرشيف المحلي بالكامل للرسائل المحذوفة والمعدّلة نهائيًا، بما في ذلك الوسائط المحفوظة. لا يمكن التراجع عن ذلك. هل تريد المتابعة؟</string>
     <string name="MZGramExportArchive">تصدير الأرشيف</string>
     <string name="MZGramImportArchive">استيراد الأرشيف</string>

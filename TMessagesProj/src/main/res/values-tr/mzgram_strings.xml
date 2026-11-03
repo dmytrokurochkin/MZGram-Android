@@ -125,6 +125,12 @@
     <string name="MZGramArchiveCleared">Arşiv temizlendi.</string>
     <string name="MZGramArchiveFilesDeleted">Arşiv dosyaları silindi, %1$s boşaltıldı.</string>
     <string name="MZGramArchiveFilesLeft">Bazı arşiv dosyaları silinemedi. MZGram bir sonraki açılışta yeniden deneyecek.</string>
+    <string name="MZGramArchiveSize">Arşiv boyutu</string>
+    <string name="MZGramArchiveSizeCounting">Hesaplanıyor…</string>
+    <string name="MZGramArchiveSizeDatabase">Mesajlar</string>
+    <string name="MZGramArchiveSizeMedia">Medya</string>
+    <string name="MZGramArchiveSizeAttachments">Kaydedilen ekler</string>
+    <string name="MZGramArchiveSizeOther">Diğer</string>
     <string name="MZGramWipeArchiveConfirm">Bu işlem, kaydedilmiş medya dahil silinen ve düzenlenen mesajların tüm yerel arşivini kalıcı olarak siler. Geri alınamaz. Devam edilsin mi?</string>
     <string name="MZGramExportArchive">Arşivi dışa aktar</string>
     <string name="MZGramImportArchive">Arşivi içe aktar</string>

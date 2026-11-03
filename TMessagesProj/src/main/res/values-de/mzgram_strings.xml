@@ -125,6 +125,12 @@
     <string name="MZGramArchiveCleared">Archiv geleert.</string>
     <string name="MZGramArchiveFilesDeleted">Archivdateien gelöscht, %1$s freigegeben.</string>
     <string name="MZGramArchiveFilesLeft">Einige Archivdateien konnten nicht gelöscht werden. MZGram versucht es beim nächsten Start erneut.</string>
+    <string name="MZGramArchiveSize">Größe des Archivs</string>
+    <string name="MZGramArchiveSizeCounting">Wird berechnet…</string>
+    <string name="MZGramArchiveSizeDatabase">Nachrichten</string>
+    <string name="MZGramArchiveSizeMedia">Medien</string>
+    <string name="MZGramArchiveSizeAttachments">Gespeicherte Anhänge</string>
+    <string name="MZGramArchiveSizeOther">Sonstiges</string>
     <string name="MZGramWipeArchiveConfirm">Dadurch wird das gesamte lokale Archiv gelöschter und bearbeiteter Nachrichten samt gespeicherter Medien dauerhaft gelöscht. Das kann nicht rückgängig gemacht werden. Fortfahren?</string>
     <string name="MZGramExportArchive">Archiv exportieren</string>
     <string name="MZGramImportArchive">Archiv importieren</string>

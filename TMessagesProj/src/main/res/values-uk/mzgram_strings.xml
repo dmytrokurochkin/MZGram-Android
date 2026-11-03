@@ -126,6 +126,12 @@
     <string name="MZGramArchiveCleared">Архів очищено.</string>
     <string name="MZGramArchiveFilesDeleted">Файли архіву видалено, звільнено %1$s.</string>
     <string name="MZGramArchiveFilesLeft">Деякі файли архіву не вдалося видалити. MZGram спробує ще раз під час наступного запуску.</string>
+    <string name="MZGramArchiveSize">Розмір архіву</string>
+    <string name="MZGramArchiveSizeCounting">Рахую…</string>
+    <string name="MZGramArchiveSizeDatabase">Повідомлення</string>
+    <string name="MZGramArchiveSizeMedia">Медіа</string>
+    <string name="MZGramArchiveSizeAttachments">Збережені вкладення</string>
+    <string name="MZGramArchiveSizeOther">Інше</string>
     <string name="MZGramWipeArchiveConfirm">Це назавжди видалить увесь локальний архів видалених і змінених повідомлень разом зі збереженими медіа. Цю дію не можна скасувати. Продовжити?</string>
     <string name="MZGramExportArchive">Експортувати архів</string>
     <string name="MZGramImportArchive">Імпортувати архів</string>

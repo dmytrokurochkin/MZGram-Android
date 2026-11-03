@@ -31,7 +31,7 @@ import java.util.List;
 
 public class MZGramHistoryDatabase extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "mzgram_history.db";
+    static final String DB_NAME = "mzgram_history.db";
     // 3: messageData, the whole serialized message, so a deleted message can
     // be shown in the chat again.
     private static final int DB_VERSION = 4;
@@ -496,6 +496,12 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_READS);
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_LAST_SEEN);
         MZGramLastSeen.forget();
+        // The emptied database gives its space back
+        try {
+            getWritableDatabase().execSQL("VACUUM");
+        } catch (Exception e) {
+            org.telegram.messenger.FileLog.e("MZGramHistoryDatabase.vacuum", e);
+        }
         return MZGramArchiveWipe.setAside(archiveFolders());
     }
 

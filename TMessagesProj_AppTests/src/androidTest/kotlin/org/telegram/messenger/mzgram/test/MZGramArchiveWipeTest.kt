@@ -17,6 +17,8 @@ import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
 import org.telegram.messenger.UserConfig
 import org.telegram.messenger.mzgram.MZGramArchiveWipe
+import org.telegram.messenger.AndroidUtilities
+import org.telegram.messenger.mzgram.MZGramArchiveSize
 import org.telegram.messenger.mzgram.MZGramHistoryDatabase
 import org.telegram.messenger.mzgram.MZGramHistoryMessage
 import org.telegram.tgnet.TLRPC
@@ -144,6 +146,10 @@ class MZGramArchiveWipeTest {
         MZGramScreens.open(page)
         assertTrue("Archive opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() === page && page.fragmentView?.isShown == true })
         Thread.sleep(800)
+        // The size counts the files first
+        val size = page.sizeViewForTest()!!
+        assertTrue("the size is counted", MZGramScreens.waitFor(60) { !size.countingForTest() })
+        assertTrue("the size has the media", MZGramArchiveSize.measureArchive().media >= 12288L)
         val id = MZGramSettingsActivity::class.java.getDeclaredField("BUTTON_WIPE_ARCHIVE").also { it.isAccessible = true }.getInt(null)
         instrumentation.runOnMainSync {
             val onClick = page.javaClass.getDeclaredMethod("onClick", UItem::class.java, View::class.java, Int::class.javaPrimitiveType, Float::class.javaPrimitiveType, Float::class.javaPrimitiveType)
@@ -171,6 +177,7 @@ class MZGramArchiveWipeTest {
         assertTrue("a message at the bottom says the archive is cleared: $seen", shown)
         assertTrue("the freed size is shown", MZGramScreens.waitFor(30) { windowTexts().any { it.startsWith(freed) } })
         assertFalse("the rows are gone", db.hasHistory(account, dialog, 556001))
+        assertEquals("the size is 0 at once", AndroidUtilities.formatFileSize(0), size.totalForTest())
         assertFalse("the files are gone", File(media, "${account}/${dialog}/a.jpg").exists())
         assertTrue("nothing left aside", MZGramScreens.waitFor(30) {
             MZGramArchiveWipe.leftovers(listOf(media, MZGramHistoryDatabase.attachmentsRoot())).isEmpty()

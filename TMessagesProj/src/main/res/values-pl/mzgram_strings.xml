@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">Obejrzyj mimo to</string>
     <string name="MZGramWipeArchive">Wyczyść archiwum</string>
     <string name="MZGramWipeArchiveInfo">Trwale usuwa wszystkie dotąd zarchiwizowane usunięte i edytowane wiadomości oraz wszystkie ich zapisane multimedia we wszystkich czatach.</string>
+    <string name="MZGramArchiveCleared">Archiwum wyczyszczone.</string>
+    <string name="MZGramArchiveFilesDeleted">Pliki archiwum usunięte, zwolniono %1$s.</string>
+    <string name="MZGramArchiveFilesLeft">Nie udało się usunąć niektórych plików archiwum. MZGram spróbuje ponownie przy następnym uruchomieniu.</string>
     <string name="MZGramWipeArchiveConfirm">Spowoduje to trwałe usunięcie całego lokalnego archiwum usuniętych i edytowanych wiadomości, łącznie z zapisanymi multimediami. Tego nie można cofnąć. Kontynuować?</string>
     <string name="MZGramExportArchive">Eksportuj archiwum</string>
     <string name="MZGramImportArchive">Importuj archiwum</string>

@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">Ver de todos modos</string>
     <string name="MZGramWipeArchive">Borrar el archivo</string>
     <string name="MZGramWipeArchiveInfo">Elimina para siempre todos los mensajes eliminados y editados archivados hasta ahora, y toda su multimedia guardada, en todos los chats.</string>
+    <string name="MZGramArchiveCleared">Archivo borrado.</string>
+    <string name="MZGramArchiveFilesDeleted">Se eliminaron los archivos guardados, se liberaron %1$s.</string>
+    <string name="MZGramArchiveFilesLeft">No se pudieron eliminar algunos archivos guardados. MZGram lo intentará de nuevo en el próximo inicio.</string>
     <string name="MZGramWipeArchiveConfirm">Esto elimina para siempre todo el archivo local de mensajes eliminados y editados, incluida la multimedia guardada. No se puede deshacer. ¿Continuar?</string>
     <string name="MZGramExportArchive">Exportar el archivo</string>
     <string name="MZGramImportArchive">Importar el archivo</string>

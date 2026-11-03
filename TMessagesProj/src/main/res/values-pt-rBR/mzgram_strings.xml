@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">Assistir mesmo assim</string>
     <string name="MZGramWipeArchive">Limpar o arquivo</string>
     <string name="MZGramWipeArchiveInfo">Apaga para sempre todas as mensagens apagadas e editadas arquivadas até agora, e toda a mídia salva delas, em todas as conversas.</string>
+    <string name="MZGramArchiveCleared">Arquivo limpo.</string>
+    <string name="MZGramArchiveFilesDeleted">Arquivos salvos apagados, %1$s liberados.</string>
+    <string name="MZGramArchiveFilesLeft">Não foi possível apagar alguns arquivos salvos. O MZGram tentará de novo na próxima inicialização.</string>
     <string name="MZGramWipeArchiveConfirm">Isto apaga para sempre todo o arquivo local de mensagens apagadas e editadas, incluindo a mídia salva. Não é possível desfazer. Continuar?</string>
     <string name="MZGramExportArchive">Exportar o arquivo</string>
     <string name="MZGramImportArchive">Importar o arquivo</string>

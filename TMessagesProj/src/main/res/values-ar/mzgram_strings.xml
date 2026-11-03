@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">المشاهدة على أي حال</string>
     <string name="MZGramWipeArchive">مسح الأرشيف</string>
     <string name="MZGramWipeArchiveInfo">يحذف نهائيًا كل الرسائل المحذوفة والمعدّلة المؤرشفة حتى الآن، وكل وسائطها المحفوظة، في كل المحادثات.</string>
+    <string name="MZGramArchiveCleared">مُسح الأرشيف.</string>
+    <string name="MZGramArchiveFilesDeleted">حُذفت ملفات الأرشيف وتحرّرت %1$s.</string>
+    <string name="MZGramArchiveFilesLeft">تعذّر حذف بعض ملفات الأرشيف. سيحاول MZGram مجددًا عند التشغيل التالي.</string>
     <string name="MZGramWipeArchiveConfirm">سيؤدي هذا إلى حذف الأرشيف المحلي بالكامل للرسائل المحذوفة والمعدّلة نهائيًا، بما في ذلك الوسائط المحفوظة. لا يمكن التراجع عن ذلك. هل تريد المتابعة؟</string>
     <string name="MZGramExportArchive">تصدير الأرشيف</string>
     <string name="MZGramImportArchive">استيراد الأرشيف</string>

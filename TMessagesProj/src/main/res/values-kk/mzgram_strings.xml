@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">Бәрібір қарау</string>
     <string name="MZGramWipeArchive">Мұрағатты тазалау</string>
     <string name="MZGramWipeArchiveInfo">Осы уақытқа дейін мұрағатталған барлық жойылған және өңделген хабарламаларды және олардың сақталған барлық медиасын барлық чаттардан біржола жояды.</string>
+    <string name="MZGramArchiveCleared">Мұрағат тазаланды.</string>
+    <string name="MZGramArchiveFilesDeleted">Мұрағат файлдары жойылды, %1$s босатылды.</string>
+    <string name="MZGramArchiveFilesLeft">Мұрағаттың кейбір файлдарын жою мүмкін болмады. MZGram келесі іске қосқанда қайта көреді.</string>
     <string name="MZGramWipeArchiveConfirm">Бұл жойылған және өңделген хабарламалардың бүкіл жергілікті мұрағатын, сақталған медиамен бірге, біржола жояды. Мұны болдырмау мүмкін емес. Жалғастыру керек пе?</string>
     <string name="MZGramExportArchive">Мұрағатты экспорттау</string>
     <string name="MZGramImportArchive">Мұрағатты импорттау</string>

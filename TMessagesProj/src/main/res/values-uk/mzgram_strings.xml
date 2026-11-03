@@ -123,6 +123,9 @@
     <string name="MZGramViewAnyway">Все одно переглянути</string>
     <string name="MZGramWipeArchive">Очистити архів</string>
     <string name="MZGramWipeArchiveInfo">Назавжди видаляє всі збережені видалені та змінені повідомлення і всі їхні медіа в усіх чатах.</string>
+    <string name="MZGramArchiveCleared">Архів очищено.</string>
+    <string name="MZGramArchiveFilesDeleted">Файли архіву видалено, звільнено %1$s.</string>
+    <string name="MZGramArchiveFilesLeft">Деякі файли архіву не вдалося видалити. MZGram спробує ще раз під час наступного запуску.</string>
     <string name="MZGramWipeArchiveConfirm">Це назавжди видалить увесь локальний архів видалених і змінених повідомлень разом зі збереженими медіа. Цю дію не можна скасувати. Продовжити?</string>
     <string name="MZGramExportArchive">Експортувати архів</string>
     <string name="MZGramImportArchive">Імпортувати архів</string>

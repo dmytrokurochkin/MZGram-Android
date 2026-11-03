@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">Yine de izle</string>
     <string name="MZGramWipeArchive">Arşivi temizle</string>
     <string name="MZGramWipeArchiveInfo">Şimdiye kadar arşivlenen tüm silinen ve düzenlenen mesajları ve kaydedilmiş tüm medyalarını, her sohbette kalıcı olarak siler.</string>
+    <string name="MZGramArchiveCleared">Arşiv temizlendi.</string>
+    <string name="MZGramArchiveFilesDeleted">Arşiv dosyaları silindi, %1$s boşaltıldı.</string>
+    <string name="MZGramArchiveFilesLeft">Bazı arşiv dosyaları silinemedi. MZGram bir sonraki açılışta yeniden deneyecek.</string>
     <string name="MZGramWipeArchiveConfirm">Bu işlem, kaydedilmiş medya dahil silinen ve düzenlenen mesajların tüm yerel arşivini kalıcı olarak siler. Geri alınamaz. Devam edilsin mi?</string>
     <string name="MZGramExportArchive">Arşivi dışa aktar</string>
     <string name="MZGramImportArchive">Arşivi içe aktar</string>

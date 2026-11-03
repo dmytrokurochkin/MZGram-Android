@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">Trotzdem ansehen</string>
     <string name="MZGramWipeArchive">Archiv leeren</string>
     <string name="MZGramWipeArchiveInfo">Löscht dauerhaft alle bisher archivierten gelöschten und bearbeiteten Nachrichten und alle ihre gespeicherten Medien in jedem Chat.</string>
+    <string name="MZGramArchiveCleared">Archiv geleert.</string>
+    <string name="MZGramArchiveFilesDeleted">Archivdateien gelöscht, %1$s freigegeben.</string>
+    <string name="MZGramArchiveFilesLeft">Einige Archivdateien konnten nicht gelöscht werden. MZGram versucht es beim nächsten Start erneut.</string>
     <string name="MZGramWipeArchiveConfirm">Dadurch wird das gesamte lokale Archiv gelöschter und bearbeiteter Nachrichten samt gespeicherter Medien dauerhaft gelöscht. Das kann nicht rückgängig gemacht werden. Fortfahren?</string>
     <string name="MZGramExportArchive">Archiv exportieren</string>
     <string name="MZGramImportArchive">Archiv importieren</string>

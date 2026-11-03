@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">View anyway</string>
     <string name="MZGramWipeArchive">Clear archive</string>
     <string name="MZGramWipeArchiveInfo">Permanently deletes every deleted/edited message archived so far, and all its saved media, in every chat.</string>
+    <string name="MZGramArchiveCleared">Archive cleared.</string>
+    <string name="MZGramArchiveFilesDeleted">Archive files deleted, %1$s freed.</string>
+    <string name="MZGramArchiveFilesLeft">Some archive files could not be deleted. MZGram will try again at the next start.</string>
     <string name="MZGramWipeArchiveConfirm">This permanently deletes the whole local archive of deleted and edited messages, including saved media. This cannot be undone. Continue?</string>
     <string name="MZGramExportArchive">Export archive</string>
     <string name="MZGramImportArchive">Import archive</string>

@@ -122,6 +122,9 @@
     <string name="MZGramViewAnyway">Regarder quand même</string>
     <string name="MZGramWipeArchive">Vider les archives</string>
     <string name="MZGramWipeArchiveInfo">Supprime définitivement tous les messages supprimés et modifiés archivés jusqu’ici, ainsi que tous leurs médias enregistrés, dans toutes les discussions.</string>
+    <string name="MZGramArchiveCleared">Archives vidées.</string>
+    <string name="MZGramArchiveFilesDeleted">Fichiers des archives supprimés, %1$s libérés.</string>
+    <string name="MZGramArchiveFilesLeft">Certains fichiers des archives n’ont pas pu être supprimés. MZGram réessaiera au prochain démarrage.</string>
     <string name="MZGramWipeArchiveConfirm">Cela supprime définitivement toutes les archives locales des messages supprimés et modifiés, y compris les médias enregistrés. Impossible d’annuler. Continuer ?</string>
     <string name="MZGramExportArchive">Exporter les archives</string>
     <string name="MZGramImportArchive">Importer les archives</string>

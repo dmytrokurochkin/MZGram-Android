@@ -125,6 +125,12 @@
     <string name="MZGramArchiveCleared">Archivo borrado.</string>
     <string name="MZGramArchiveFilesDeleted">Se eliminaron los archivos guardados, se liberaron %1$s.</string>
     <string name="MZGramArchiveFilesLeft">No se pudieron eliminar algunos archivos guardados. MZGram lo intentará de nuevo en el próximo inicio.</string>
+    <string name="MZGramArchiveSize">Tamaño del archivo</string>
+    <string name="MZGramArchiveSizeCounting">Calculando…</string>
+    <string name="MZGramArchiveSizeDatabase">Mensajes</string>
+    <string name="MZGramArchiveSizeMedia">Multimedia</string>
+    <string name="MZGramArchiveSizeAttachments">Adjuntos guardados</string>
+    <string name="MZGramArchiveSizeOther">Otros</string>
     <string name="MZGramWipeArchiveConfirm">Esto elimina para siempre todo el archivo local de mensajes eliminados y editados, incluida la multimedia guardada. No se puede deshacer. ¿Continuar?</string>
     <string name="MZGramExportArchive">Exportar el archivo</string>
     <string name="MZGramImportArchive">Importar el archivo</string>

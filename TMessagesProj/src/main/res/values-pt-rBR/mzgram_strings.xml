@@ -125,6 +125,12 @@
     <string name="MZGramArchiveCleared">Arquivo limpo.</string>
     <string name="MZGramArchiveFilesDeleted">Arquivos salvos apagados, %1$s liberados.</string>
     <string name="MZGramArchiveFilesLeft">Não foi possível apagar alguns arquivos salvos. O MZGram tentará de novo na próxima inicialização.</string>
+    <string name="MZGramArchiveSize">Tamanho do arquivo</string>
+    <string name="MZGramArchiveSizeCounting">Calculando…</string>
+    <string name="MZGramArchiveSizeDatabase">Mensagens</string>
+    <string name="MZGramArchiveSizeMedia">Mídia</string>
+    <string name="MZGramArchiveSizeAttachments">Anexos salvos</string>
+    <string name="MZGramArchiveSizeOther">Outros</string>
     <string name="MZGramWipeArchiveConfirm">Isto apaga para sempre todo o arquivo local de mensagens apagadas e editadas, incluindo a mídia salva. Não é possível desfazer. Continuar?</string>
     <string name="MZGramExportArchive">Exportar o arquivo</string>
     <string name="MZGramImportArchive">Importar o arquivo</string>

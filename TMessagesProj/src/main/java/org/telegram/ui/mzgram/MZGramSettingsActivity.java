@@ -185,6 +185,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     };
 
     private final int section;
+    private MZGramArchiveSizeView sizeView;
+    private int sizeCount;
 
     public MZGramSettingsActivity() {
         this(SECTION_MAIN);
@@ -225,6 +227,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
     }
 
     private void fillArchive(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
+        if (sizeView == null) {
+            sizeView = new MZGramArchiveSizeView(getContext());
+            countArchiveSize();
+        }
+        items.add(UItem.asCustom(sizeView, MZGramArchiveSizeView.HEIGHT_DP));
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_SAVE_DELETED_MESSAGES, getString(R.string.MZGramSaveDeletedMessages)).setChecked(MZGramConfig.saveDeletedMessages));
         items.add(UItem.asCheck(BUTTON_SAVE_EDIT_HISTORY, getString(R.string.MZGramSaveEditHistory)).setChecked(MZGramConfig.saveEditHistory));
@@ -675,6 +683,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
                             org.telegram.messenger.mzgram.MZGramArchiveWipe.Result done = result;
                             AndroidUtilities.runOnUIThread(() -> {
                                 progress.end();
+                                // Nothing left of the archive: 0 at once
+                                sizeCount++;
+                                if (sizeView != null) {
+                                    sizeView.setSizes(new org.telegram.messenger.mzgram.MZGramArchiveSize.Sizes());
+                                }
                                 showWipeResult(done);
                             });
                         }, "MZGramArchiveWipe").start();
@@ -772,8 +785,31 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importArchive", e);
                 }
                 showArchiveResult(done, R.string.MZGramArchiveImported, R.string.MZGramArchiveImportFailed);
+                AndroidUtilities.runOnUIThread(this::countArchiveSize);
             });
         }
+    }
+
+    // The archive's size, counted on a thread of its own: the media of an
+    // archive can take gigabytes
+    private void countArchiveSize() {
+        if (sizeView == null) {
+            return;
+        }
+        sizeView.setCounting();
+        int count = ++sizeCount;
+        new Thread(() -> {
+            org.telegram.messenger.mzgram.MZGramArchiveSize.Sizes sizes = org.telegram.messenger.mzgram.MZGramArchiveSize.measureArchive();
+            AndroidUtilities.runOnUIThread(() -> {
+                if (count == sizeCount && sizeView != null) {
+                    sizeView.setSizes(sizes);
+                }
+            });
+        }, "MZGramArchiveSize").start();
+    }
+
+    public MZGramArchiveSizeView sizeViewForTest() {
+        return sizeView;
     }
 
     // After Clear archive: cleared and how much was freed, or what could

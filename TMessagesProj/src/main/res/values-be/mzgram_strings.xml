@@ -125,6 +125,12 @@
     <string name="MZGramArchiveCleared">Архіў ачышчаны.</string>
     <string name="MZGramArchiveFilesDeleted">Файлы архіва выдалены, вызвалена %1$s.</string>
     <string name="MZGramArchiveFilesLeft">Некаторыя файлы архіва не ўдалося выдаліць. MZGram паспрабуе зноў пры наступным запуску.</string>
+    <string name="MZGramArchiveSize">Памер архіва</string>
+    <string name="MZGramArchiveSizeCounting">Лічу…</string>
+    <string name="MZGramArchiveSizeDatabase">Паведамленні</string>
+    <string name="MZGramArchiveSizeMedia">Медыя</string>
+    <string name="MZGramArchiveSizeAttachments">Захаваныя ўкладанні</string>
+    <string name="MZGramArchiveSizeOther">Іншае</string>
     <string name="MZGramWipeArchiveConfirm">Будзе беззваротна выдалены ўвесь лакальны архіў выдаленых і змененых паведамленняў, разам з захаванымі медыя. Гэта нельга адмяніць. Працягнуць?</string>
     <string name="MZGramExportArchive">Экспартаваць архіў</string>
     <string name="MZGramImportArchive">Імпартаваць архіў</string>

@@ -125,6 +125,12 @@
     <string name="MZGramArchiveCleared">Archives vidées.</string>
     <string name="MZGramArchiveFilesDeleted">Fichiers des archives supprimés, %1$s libérés.</string>
     <string name="MZGramArchiveFilesLeft">Certains fichiers des archives n’ont pas pu être supprimés. MZGram réessaiera au prochain démarrage.</string>
+    <string name="MZGramArchiveSize">Taille des archives</string>
+    <string name="MZGramArchiveSizeCounting">Calcul…</string>
+    <string name="MZGramArchiveSizeDatabase">Base des messages</string>
+    <string name="MZGramArchiveSizeMedia">Médias</string>
+    <string name="MZGramArchiveSizeAttachments">Pièces jointes enregistrées</string>
+    <string name="MZGramArchiveSizeOther">Autre</string>
     <string name="MZGramWipeArchiveConfirm">Cela supprime définitivement toutes les archives locales des messages supprimés et modifiés, y compris les médias enregistrés. Impossible d’annuler. Continuer ?</string>
     <string name="MZGramExportArchive">Exporter les archives</string>
     <string name="MZGramImportArchive">Importer les archives</string>

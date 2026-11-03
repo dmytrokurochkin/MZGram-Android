@@ -72,19 +72,29 @@ class AskAiTest(unittest.TestCase):
         # The site alone: no text leaves Telegram, so no warning
         self.assertIn("MZGramConfig.aiWarned || window.emptyRequest()", window)
 
-    def test_attachments_go_by_script_and_never_send(self):
+    def test_attachments_go_by_the_sites_own_chooser(self):
         window = read(WINDOW)
-        for part in ("MZGramAiRules.fileStartScript(", "MZGramAiRules.fileChunkScript(", "MZGramAiRules.attachScript(provider)",
-                     "MZGramAiRules.parseAttach(", "MZGramAiRules.chooseAttachments(", "onShowFileChooser"):
+        # The site's own add-files button: MZGram's chooser, every checked
+        # file at once; nothing is put into the page by itself
+        for part in ("onShowFileChooser", "new MZGramAiFilesSheet(", "MZGramAiRules.give(checked, multiple)",
+                     "MZGramAiRules.accepts(accept, ", "MZGramAiRules.chooseAttachments(",
+                     "params.getMode() == WebChromeClient.FileChooserParams.MODE_OPEN_MULTIPLE",
+                     "giveFiles(uris.isEmpty() ? null : uris.toArray(new Uri[0]))"):
             self.assertIn(part, window)
-        # The box has no permanent note and no Model header
+        for part in ("attachScript", "fileStartScript", "fileChunkScript", "__mzgramAiFiles"):
+            self.assertNotIn(part, window)
+            self.assertNotIn(part, read(RULES))
+        self.assertNotIn("ClipboardEvent", window)
+        # The warning says how the files are added; no permanent note
+        self.assertIn("getString(R.string.MZGramAiWarningFiles)", window)
         self.assertNotIn("MZGramAiPrivacyNote", window)
         self.assertNotIn("R.string.MZGramAiModel)", window)
-        rules = read(RULES)
-        script = rules[rules.find("public static String attachScript"):rules.find("public static final class AttachResult")]
-        self.assertTrue(script)
-        for word in ("click(", "submit", "keydown", "KeyboardEvent", "Enter", "fetch(", "XMLHttpRequest"):
-            self.assertNotIn(word, script)
+        sheet = read(JAVA / "ui/mzgram/MZGramAiFilesSheet.java")
+        for part in ("R.string.MZGramAiFilesTitle", "R.string.MZGramAiFilesAdd", "R.string.MZGramAiFilesOther",
+                     "new CheckBox2(", "FileLoader.getClosestPhotoSizeWithSize(", "AndroidUtilities.getThumbForNameOrMime("):
+            self.assertIn(part, sheet)
+        # Small thumbnails only: nothing big is decoded
+        self.assertNotIn("BitmapFactory", sheet)
 
     def test_window_has_its_own_profile_and_no_bridge(self):
         window = read(WINDOW)

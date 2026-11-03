@@ -8,7 +8,7 @@
  * of its own (MZGramAiRules.PROFILE), so the sign-ins of the AI sites stay
  * apart from Telegram's WebViews. The text is put into the site's input
  * field by MZGramAiRules.insertScript and the files are given to the site's
- * message by MZGramAiRules.attachScript; nothing is sent: the user presses
+ * message by the site's own add-files button (MZGramAiFilesSheet); nothing is sent: the user presses
  * Send on the site. The site gets no JavaScript interface of the app.
  *
  * A WebView without profiles (Android System WebView too old) does not
@@ -91,9 +91,12 @@ public class MZGramAiActivity extends BaseFragment {
     public static final int STATE_NO_WEBVIEW = 4;
     public static final int STATE_DOWNLOADING = 5;
     public static final int STATE_ATTACHED = 6;
-    public static final int STATE_NO_ATTACH = 7;
     // The site alone, with no message
     public static final int STATE_SITE = 8;
+    // The files are downloaded: the site's own add-files button gives them
+    public static final int STATE_FILES_READY = 9;
+    // The site's field takes one file at a time: some wait for the next press
+    public static final int STATE_ONE_BY_ONE = 10;
 
     // The message text in the box, at most this long
     private static final int PREVIEW_LENGTH = 600;
@@ -148,6 +151,13 @@ public class MZGramAiActivity extends BaseFragment {
     private int state = STATE_OPENING;
     private boolean inserted;
     private boolean attaching;
+    // The files not given to the site yet
+    private final List<Attachment> remaining = new ArrayList<>();
+    private int given;
+    private boolean filesReady;
+    private MZGramAiFilesSheet filesSheet;
+    // What of the messages does not go, said in the chooser
+    private String leftOut;
     private int tries;
     private long downloadStarted;
     private String attachedHow;
@@ -168,6 +178,7 @@ public class MZGramAiActivity extends BaseFragment {
         this.text = text == null ? "" : text;
         this.attachments = attachments == null ? Collections.emptyList() : new ArrayList<>(attachments);
         this.testPage = testPage;
+        this.remaining.addAll(this.attachments);
     }
 
     // The window with the tests' page in place of the site: the same window,
@@ -332,7 +343,9 @@ public class MZGramAiActivity extends BaseFragment {
                 .setView(scroll)
                 .setPositiveButton(getString(R.string.MZGramOpen), (d, which) -> {
                     String prompt = promptView.getText() == null ? "" : promptView.getText().toString();
-                    open(from, new MZGramAiActivity(chosen[0], MZGramAiRules.composeText(prompt, message), collected.attachments));
+                    MZGramAiActivity window = new MZGramAiActivity(chosen[0], MZGramAiRules.composeText(prompt, message), collected.attachments);
+                    window.leftOut = leftOut;
+                    open(from, window);
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .create();
@@ -382,7 +395,7 @@ public class MZGramAiActivity extends BaseFragment {
         }
         AlertDialog dialog = new AlertDialog.Builder(from.getParentActivity(), from.getResourceProvider())
                 .setTitle(getString(R.string.MZGramAiPrivacyTitle))
-                .setMessage(formatString(R.string.MZGramAiPrivacyText, window.provider.name))
+                .setMessage(formatString(R.string.MZGramAiPrivacyText, window.provider.name) + "\n\n" + getString(R.string.MZGramAiWarningFiles))
                 .setPositiveButton(getString(R.string.MZGramContinue), (d, which) -> {
                     MZGramConfig.setAiWarned(true);
                     from.presentFragment(window);
@@ -481,6 +494,14 @@ public class MZGramAiActivity extends BaseFragment {
     // How the files went to the page: "input" or "paste", null before
     public String getAttachedHow() {
         return attachedHow;
+    }
+
+    public MZGramAiFilesSheet filesSheetForTest() {
+        return filesSheet;
+    }
+
+    public View webViewForTest() {
+        return webView;
     }
 
     // Runs a script in the window's page (the tests read the page with it)
@@ -623,6 +644,7 @@ public class MZGramAiActivity extends BaseFragment {
                 if (!inserted && !emptyRequest()) {
                     startInserting();
                 }
+                startAttaching();
             }
         });
         // The site's own "attach" button: the files of the messages first,
@@ -682,7 +704,8 @@ public class MZGramAiActivity extends BaseFragment {
             if (status == MZGramAiRules.STATUS_INSERTED) {
                 boolean first = !inserted;
                 inserted = true;
-                setState(STATE_INSERTED);
+                // The files hint stays until the files are given
+                setState(filesReady && given == 0 ? STATE_FILES_READY : STATE_INSERTED);
                 if (first) {
                     startAttaching();
                 }
@@ -738,8 +761,9 @@ public class MZGramAiActivity extends BaseFragment {
         }
     }
 
-    // After the text: the attachments are downloaded where needed, then go
-    // into the page and to the site's message.
+    // The attachments are downloaded where needed; the site's own add-files
+    // button then gives them (chooseFiles). Nothing is put into the page by
+    // itself: a site may ignore files given that way and show nothing.
     private void startAttaching() {
         if (attachments.isEmpty() || attaching || webView == null) {
             return;
@@ -773,66 +797,15 @@ public class MZGramAiActivity extends BaseFragment {
             AndroidUtilities.runOnUIThread(checkDownloads, 500);
             return;
         }
-        List<Attachment> files = new ArrayList<>();
-        for (Attachment attachment : attachments) {
-            if (localFile(attachment) != null) {
-                files.add(attachment);
-            }
+        filesReady = true;
+        if (given == 0) {
+            setState(STATE_FILES_READY);
         }
-        sendFile(files, 0);
     }
 
-    // File index of files into the page, a piece at a time, then the next
-    // one; after the last, the attach script.
-    private void sendFile(List<Attachment> files, int index) {
-        if (webView == null) {
-            return;
-        }
-        if (index >= files.size()) {
-            webView.evaluateJavascript(MZGramAiRules.attachScript(provider), value -> {
-                MZGramAiRules.AttachResult result = MZGramAiRules.parseAttach(value);
-                if (result != null && result.attached) {
-                    attachedHow = result.how;
-                    setState(STATE_ATTACHED);
-                    if (statusView != null) {
-                        statusView.setText(formatString(R.string.MZGramAiStatusAttached, result.count));
-                    }
-                } else {
-                    setState(STATE_NO_ATTACH);
-                }
-            });
-            return;
-        }
-        Attachment attachment = files.get(index);
-        webView.evaluateJavascript(MZGramAiRules.fileStartScript(index, attachment.name, attachment.mime), value -> sendChunk(files, index, 0));
-    }
-
-    // The bytes of file index from position on
-    private void sendChunk(List<Attachment> files, int index, long position) {
-        if (webView == null) {
-            return;
-        }
-        File file = files.get(index).file;
-        long length = file.length();
-        if (position >= length) {
-            sendFile(files, index + 1);
-            return;
-        }
-        byte[] buffer = new byte[(int) Math.min(MZGramAiRules.CHUNK_SIZE, length - position)];
-        try (java.io.RandomAccessFile input = new java.io.RandomAccessFile(file, "r")) {
-            input.seek(position);
-            input.readFully(buffer);
-        } catch (Exception e) {
-            FileLog.e(e);
-            sendFile(files, index + 1);
-            return;
-        }
-        long next = position + buffer.length;
-        webView.evaluateJavascript(MZGramAiRules.fileChunkScript(index, buffer, 0, buffer.length), value -> sendChunk(files, index, next));
-    }
-
-    // The site asks for files (its attach button): the files of the
-    // messages, or Android's file picker.
+    // The site asks for files (its own add-files button): the files of the
+    // messages not given yet, to check and add all at once, or Android's
+    // file picker.
     private boolean chooseFiles(ValueCallback<Uri[]> callback, WebChromeClient.FileChooserParams params) {
         if (getParentActivity() == null) {
             return false;
@@ -841,33 +814,61 @@ public class MZGramAiActivity extends BaseFragment {
             fileCallback.onReceiveValue(null);
         }
         fileCallback = callback;
-        List<Uri> ready = new ArrayList<>();
-        for (Attachment attachment : attachments) {
-            File file = localFile(attachment);
-            if (file != null) {
-                try {
-                    ready.add(FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", file));
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            }
-        }
-        if (ready.isEmpty()) {
+        if (remaining.isEmpty()) {
             return pickFiles(params);
         }
-        String[] options = {formatString(R.string.MZGramAiChooseMessageFiles, ready.size()), getString(R.string.MZGramAiChooseOtherFiles)};
-        AlertDialog dialog = new AlertDialog.Builder(getParentActivity(), getResourceProvider())
-                .setItems(options, (d, which) -> {
-                    if (which == 0) {
-                        giveFiles(ready.toArray(new Uri[0]));
-                    } else if (!pickFiles(params)) {
-                        giveFiles(null);
+        boolean multiple = params.getMode() == WebChromeClient.FileChooserParams.MODE_OPEN_MULTIPLE;
+        String[] accept = params.getAcceptTypes();
+        boolean[] allowed = new boolean[remaining.size()];
+        for (int i = 0; i < allowed.length; i++) {
+            allowed[i] = MZGramAiRules.accepts(accept, remaining.get(i).name, remaining.get(i).mime);
+        }
+        List<Attachment> offered = new ArrayList<>(remaining);
+        filesSheet = new MZGramAiFilesSheet(getParentActivity(), getResourceProvider(), provider.name, offered, allowed,
+                given == 0 ? leftOut : null, this::localFile, new MZGramAiFilesSheet.Listener() {
+            @Override
+            public void onAdd(List<Attachment> chosen) {
+                List<Integer> checked = new ArrayList<>();
+                for (Attachment attachment : chosen) {
+                    checked.add(offered.indexOf(attachment));
+                }
+                MZGramAiRules.Give give = MZGramAiRules.give(checked, multiple);
+                List<Uri> uris = new ArrayList<>();
+                for (int index : give.now) {
+                    try {
+                        uris.add(FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", localFile(offered.get(index))));
+                    } catch (Exception e) {
+                        FileLog.e(e);
                     }
-                })
-                .setNegativeButton(getString(R.string.MZGramCancel), (d, which) -> giveFiles(null))
-                .create();
-        dialog.setOnCancelListener(d -> giveFiles(null));
-        showDialog(dialog);
+                }
+                // What was not checked is not wanted; what waits stays
+                remaining.clear();
+                for (int index : give.later) {
+                    remaining.add(offered.get(index));
+                }
+                given += uris.size();
+                attachedHow = "chooser";
+                giveFiles(uris.isEmpty() ? null : uris.toArray(new Uri[0]));
+                if (!remaining.isEmpty()) {
+                    setState(STATE_ONE_BY_ONE);
+                } else if (given > 0) {
+                    setState(STATE_ATTACHED);
+                }
+            }
+
+            @Override
+            public void onOther() {
+                if (!pickFiles(params)) {
+                    giveFiles(null);
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                giveFiles(null);
+            }
+        });
+        filesSheet.show();
         return true;
     }
 
@@ -954,12 +955,17 @@ public class MZGramAiActivity extends BaseFragment {
             case STATE_NO_WEBVIEW:
                 statusView.setText(getString(R.string.MZGramAiNoWebView));
                 break;
-            case STATE_NO_ATTACH:
-                statusView.setText(getString(R.string.MZGramAiStatusNoAttach));
-                break;
             case STATE_DOWNLOADING:
-            case STATE_ATTACHED:
                 // Set by the caller, with the counts
+                break;
+            case STATE_FILES_READY:
+                statusView.setText(formatString(R.string.MZGramAiStatusPressAdd, remaining.size()));
+                break;
+            case STATE_ONE_BY_ONE:
+                statusView.setText(formatString(R.string.MZGramAiStatusOneByOne, remaining.size()));
+                break;
+            case STATE_ATTACHED:
+                statusView.setText(formatString(R.string.MZGramAiStatusAttached, given));
                 break;
             case STATE_SITE:
                 statusView.setText(provider.name);

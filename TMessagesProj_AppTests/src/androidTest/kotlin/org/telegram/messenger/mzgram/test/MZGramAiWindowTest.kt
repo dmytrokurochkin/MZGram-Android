@@ -24,11 +24,13 @@ import java.util.concurrent.TimeUnit
 
 // The "Ask AI" window for real, with no network and no sign-in: each of the
 // five sites is replaced by a page of the tests under the site's own
-// address, with the site's input field, a file input (Gemini's page: none,
-// its field takes a paste), a Send button, a form and an Enter key handler
-// that each mark the page as sent. The window must put the text into the
-// field and two files (a text file and a picture) into the message, in the
-// AI profile, and send nothing.
+// address, with the site's input field, its add-files button (a file input
+// in the page, or on Gemini's page one made when the button is pressed), a
+// Send button, a form and an Enter key handler that each mark the page as
+// sent. The window must put the text into the field and nothing else; a
+// real tap on the site's add-files button shows MZGram's chooser with the
+// two files (a text file and a picture), and Add gives both to the site at
+// once. Nothing is sent.
 //
 // A WebView without profiles (the API 34 emulator image has WebView 113)
 // must not open the site at all. CI runs this class twice: in the main run
@@ -55,21 +57,59 @@ class MZGramAiWindowTest {
         "grok" to """<textarea aria-label="Ask Grok anything" rows="3"></textarea>""",
     )
 
-    private fun page(field: String, fileInput: Boolean = true) = """<!doctype html><html><head><meta name="viewport" content="width=device-width"></head><body>
+    private fun page(field: String, fileInput: Boolean = true, multiple: Boolean = true) = """<!doctype html><html><head><meta name="viewport" content="width=device-width"></head><body>
 <form id="form" onsubmit="window.mzgramSent = 'form'; return false;">$field
-${if (fileInput) "<input type=\"file\" id=\"files\" multiple style=\"display:none\">" else ""}
+<button id="plus" type="button" style="display:block;width:240px;height:96px;font-size:40px">+</button>
+${if (fileInput) "<input type=\"file\" id=\"files\" ${if (multiple) "multiple" else ""} style=\"display:none\">" else ""}
 <button id="send" type="submit" onclick="window.mzgramSent = 'button'">Send</button></form>
 <script>
 window.mzgramSent = '';
 window.mzgramFiles = [];
-function record(list) { window.mzgramFiles = Array.prototype.map.call(list, function (f) { return f.name + ':' + f.size; }); }
+window.mzgramChanges = 0;
+function record(list) { window.mzgramChanges++; window.mzgramFiles = window.mzgramFiles.concat(Array.prototype.map.call(list, function (f) { return f.name + ':' + f.size; })); }
 var files = document.getElementById('files');
 if (files) files.addEventListener('change', function () { record(files.files); });
+document.getElementById('plus').addEventListener('click', function () {
+  var input = files;
+  if (!input) { input = document.createElement('input'); input.type = 'file'; input.multiple = true; input.addEventListener('change', function () { record(input.files); }); }
+  input.click();
+});
 document.addEventListener('paste', function (e) { if (e.clipboardData && e.clipboardData.files.length) { record(e.clipboardData.files); e.preventDefault(); } }, true);
 document.addEventListener('keydown', function (e) { if (e.key === 'Enter') window.mzgramSent = 'enter'; }, true);
 </script></body></html>"""
 
     private fun sitePage(key: String) = page(fields.getValue(key), key != "gemini")
+
+    private fun pageFiles(window: MZGramAiActivity) =
+        evaluate(window, "JSON.stringify(window.mzgramFiles)")?.let { org.json.JSONTokener(it).nextValue() as String }
+
+    private fun pageChanges(window: MZGramAiActivity) = evaluate(window, "window.mzgramChanges")
+
+    // A real tap on the site's add-files button: a user's tap, so the page
+    // may open its file dialog
+    private fun tapPlus(window: MZGramAiActivity) {
+        val rect = evaluate(window, "JSON.stringify((function(){var r = document.getElementById('plus').getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2, window.devicePixelRatio];})())")
+            ?.let { org.json.JSONArray(org.json.JSONTokener(it).nextValue() as String) }
+        assertTrue("the add-files button", rect != null)
+        val at = IntArray(2)
+        instrumentation.runOnMainSync { window.webViewForTest()!!.getLocationOnScreen(at) }
+        val x = at[0] + rect!!.getDouble(0).toFloat() * rect.getDouble(2).toFloat()
+        val y = at[1] + rect.getDouble(1).toFloat() * rect.getDouble(2).toFloat()
+        val down = android.os.SystemClock.uptimeMillis()
+        instrumentation.sendPointerSync(android.view.MotionEvent.obtain(down, down, android.view.MotionEvent.ACTION_DOWN, x, y, 0))
+        instrumentation.sendPointerSync(android.view.MotionEvent.obtain(down, down + 80, android.view.MotionEvent.ACTION_UP, x, y, 0))
+    }
+
+    // The chooser after a tap on the site's button: its title and rows
+    private fun chooser(window: MZGramAiActivity, provider: MZGramAiRules.Provider, rows: Int): org.telegram.ui.mzgram.MZGramAiFilesSheet {
+        tapPlus(window)
+        assertTrue("${provider.key}: the chooser", MZGramScreens.waitFor(15) { window.filesSheetForTest()?.isShowing == true })
+        Thread.sleep(800)
+        val sheet = window.filesSheetForTest()!!
+        assertEquals("${provider.key}: the title", org.telegram.messenger.LocaleController.formatString(org.telegram.messenger.R.string.MZGramAiFilesTitle, provider.name), sheet.titleForTest())
+        assertEquals("${provider.key}: the files", rows, sheet.rowsForTest())
+        return sheet
+    }
 
     // A text file and a 1x1 PNG, as the messages' files would be
     private val notes = "MZGram test file\nsecond line\n".toByteArray()
@@ -161,16 +201,19 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
             MZGramScreens.open(window)
             assertTrue("${provider.key}: the window opened", MZGramScreens.waitFor(15) { MZGramScreens.lastFragment() === window })
             MZGramScreens.log("MZGram AI test: ${provider.key} window created, start ${provider.startUrl}, profile ${window.profileName}")
-            val done = MZGramScreens.waitFor(60) {
-                window.aiState != MZGramAiActivity.STATE_OPENING && window.aiState != MZGramAiActivity.STATE_INSERTED && window.aiState != MZGramAiActivity.STATE_DOWNLOADING
-            }
+            val done = MZGramScreens.waitFor(60) { window.aiState == MZGramAiActivity.STATE_FILES_READY }
             MZGramScreens.capture("ai-${provider.key}")
-            assertTrue("${provider.key}: the window says what happened (${window.aiState})", done)
+            assertTrue("${provider.key}: the files are ready for the site's button (${window.aiState})", done)
             assertEquals("${provider.key}: the AI profile", MZGramAiRules.PROFILE, window.profileName)
-            assertEquals("${provider.key}: the text and the files are in", MZGramAiActivity.STATE_ATTACHED, window.aiState)
-            assertEquals("${provider.key}: the files went by", if (provider.key == "gemini") "paste" else "input", window.attachedHow)
             assertEquals("${provider.key}: the page", "\"ok\"", evaluate(window, check(provider)))
-            assertEquals("${provider.key}: the files", expectedFiles, evaluate(window, "JSON.stringify(window.mzgramFiles)")?.let { org.json.JSONTokener(it).nextValue() as String })
+            assertEquals("${provider.key}: nothing is put into the page by itself", "[]", pageFiles(window))
+            val sheet = chooser(window, provider, 2)
+            MZGramScreens.capture("ai-${provider.key}-chooser")
+            MZGramAppearance.tap(sheet.addButtonForTest())
+            assertTrue("${provider.key}: the files are given", MZGramScreens.waitFor(15) { pageFiles(window) == expectedFiles })
+            assertEquals("${provider.key}: both at once", "1", pageChanges(window))
+            assertEquals("${provider.key}: the window says so", MZGramAiActivity.STATE_ATTACHED, window.aiState)
+            assertEquals("${provider.key}: the files went by", "chooser", window.attachedHow)
             // A while later still nothing is sent
             Thread.sleep(2000)
             assertEquals("${provider.key}: the page later", "\"ok\"", evaluate(window, check(provider)))
@@ -181,6 +224,28 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
         }
         assertEquals(listOf("gemini", "claude", "chatgpt", "deepseek", "grok"), passed)
         MZGramScreens.log("MZGram AI test: done")
+    }
+
+    // A site whose file field takes one file: the first checked one goes,
+    // the next press of the site's button offers the rest.
+    @Test
+    fun window_oneFileField_takesThemOneByOne() {
+        if (!MZGramAiActivity.profileSupported()) {
+            return
+        }
+        MZGramConfig.setAiWarned(true)
+        val provider = MZGramAiRules.provider("deepseek")!!
+        val window = MZGramAiActivity.forTest(provider.key, text, page(fields.getValue(provider.key), true, false), testFiles())
+        MZGramScreens.open(window)
+        assertTrue("the files are ready", MZGramScreens.waitFor(60) { window.aiState == MZGramAiActivity.STATE_FILES_READY })
+        MZGramAppearance.tap(chooser(window, provider, 2).addButtonForTest())
+        assertTrue("the first file", MZGramScreens.waitFor(15) { pageFiles(window) == "[\"notes.txt:${notes.size}\"]" })
+        assertEquals("one waits", MZGramAiActivity.STATE_ONE_BY_ONE, window.aiState)
+        MZGramAppearance.tap(chooser(window, provider, 1).addButtonForTest())
+        assertTrue("the second file", MZGramScreens.waitFor(15) { pageFiles(window) == expectedFiles })
+        assertEquals(MZGramAiActivity.STATE_ATTACHED, window.aiState)
+        MZGramScreens.log("MZGram AI test: PASS one file at a time")
+        assertTrue("the window closes", close(window, null))
     }
 
     // No profiles: the window says so, has no WebView and loads nothing; the

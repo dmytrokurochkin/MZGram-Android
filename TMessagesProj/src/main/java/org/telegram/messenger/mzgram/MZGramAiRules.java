@@ -10,8 +10,9 @@
  * views here, so all of it can be tested directly.
  *
  * Photos and files of the messages go with the text: classifyFile sorts
- * them, chooseAttachments keeps the first MAX_ATTACHMENTS, and attachScript
- * hands them to the site's file input, or as a paste into its field.
+ * them, chooseAttachments keeps the first MAX_ATTACHMENTS, and give says
+ * which of the checked ones the site's file field takes when the site asks
+ * for files (its own add-files button, MZGramAiFilesSheet).
  *
  * The text gets into the site only by that script: none of the five sites
  * has a documented address parameter that fills its input field without
@@ -22,7 +23,6 @@
 package org.telegram.messenger.mzgram;
 
 import android.net.Uri;
-import android.util.Base64;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -256,9 +256,6 @@ public final class MZGramAiRules {
     // each at most MAX_ATTACHMENT_SIZE (the smallest limit of the five sites).
     public static final int MAX_ATTACHMENTS = 10;
     public static final long MAX_ATTACHMENT_SIZE = 30L * 1024 * 1024;
-    // The files go into the page in pieces of this many bytes, base64 in a
-    // script each.
-    public static final int CHUNK_SIZE = 512 * 1024;
     // The window waits this long for the files to download.
     public static final int DOWNLOAD_TIMEOUT_MS = 120_000;
 
@@ -385,113 +382,27 @@ public final class MZGramAiRules {
         return result;
     }
 
-    // The start of file number index in the page; its bytes follow in
-    // fileChunkScript pieces.
-    public static String fileStartScript(int index, String name, String mime) {
-        return "(window.__mzgramAiFiles = window.__mzgramAiFiles || [])[" + index + "] = { name: "
-                + scriptString(name == null ? "" : name) + ", type: " + scriptString(mime == null ? "" : mime)
-                + ", parts: [] }; 'ok';";
+    // The files chooser: what goes to the site's file field now and what
+    // waits. A field for several files takes every checked file at once; a
+    // field for one file takes the first, and the rest wait for the next
+    // press of the site's button.
+    public static final class Give {
+        public final List<Integer> now = new ArrayList<>();
+        public final List<Integer> later = new ArrayList<>();
     }
 
-    public static String fileChunkScript(int index, byte[] bytes, int offset, int length) {
-        return "window.__mzgramAiFiles[" + index + "].parts.push(\""
-                + Base64.encodeToString(bytes, offset, length, Base64.NO_WRAP) + "\"); 'ok';";
+    public static Give give(List<Integer> checked, boolean multiple) {
+        Give result = new Give();
+        // Not done yet: the tests come first.
+        return result;
     }
 
-    // The files as File objects: to the site's file input, as choosing them
-    // in its file dialog would, or else as a paste into its input field. It
-    // gives {"mzgram_ai":"attached","how":"input"|"paste","count":N} or
-    // {"mzgram_ai":"no_attach_target"}. Nothing here presses a key or a
-    // button.
-    public static String attachScript(Provider provider) {
-        StringBuilder selectors = new StringBuilder();
-        List<String> all = new ArrayList<>(provider.inputSelectors);
-        all.addAll(ANY_INPUT);
-        for (String selector : all) {
-            if (selectors.length() > 0) {
-                selectors.append(',');
-            }
-            selectors.append(scriptString(selector));
-        }
-        return "(function(){\n"
-                + "var selectors = [" + selectors + "];\n"
-                + "function shown(e) { var r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; }\n"
-                + "function field() {\n"
-                + "  for (var i = 0; i < selectors.length; i++) {\n"
-                + "    var list = document.querySelectorAll(selectors[i]);\n"
-                + "    for (var j = 0; j < list.length; j++) { if (shown(list[j])) return list[j]; }\n"
-                + "  }\n"
-                + "  return null;\n"
-                + "}\n"
-                + "var files = [];\n"
-                + "var saved = window.__mzgramAiFiles || [];\n"
-                + "for (var k = 0; k < saved.length; k++) {\n"
-                + "  var f = saved[k];\n"
-                + "  if (!f) continue;\n"
-                + "  var binary = atob(f.parts.join(''));\n"
-                + "  var bytes = new Uint8Array(binary.length);\n"
-                + "  for (var b = 0; b < binary.length; b++) bytes[b] = binary.charCodeAt(b);\n"
-                + "  files.push(new File([bytes], f.name, { type: f.type }));\n"
-                + "}\n"
-                + "window.__mzgramAiFiles = [];\n"
-                + "function list(some) { var data = new DataTransfer(); for (var i = 0; i < some.length; i++) data.items.add(some[i]); return data; }\n"
-                + "var inputs = Array.prototype.filter.call(document.querySelectorAll('input[type=\"file\"]'), function (i) { return !i.disabled; });\n"
-                + "var input = inputs.filter(function (i) { return i.multiple; })[0] || inputs[0];\n"
-                + "if (input) {\n"
-                + "  var put = function (some) {\n"
-                + "    input.files = list(some).files;\n"
-                + "    input.dispatchEvent(new Event('input', { bubbles: true }));\n"
-                + "    input.dispatchEvent(new Event('change', { bubbles: true }));\n"
-                + "  };\n"
-                + "  if (input.multiple || files.length < 2) { put(files); } else { for (var n = 0; n < files.length; n++) put([files[n]]); }\n"
-                + "  return JSON.stringify({ mzgram_ai: 'attached', how: 'input', count: files.length });\n"
-                + "}\n"
-                + "var e = field();\n"
-                + "if (e) {\n"
-                + "  e.focus();\n"
-                + "  e.dispatchEvent(new ClipboardEvent('paste', { clipboardData: list(files), bubbles: true, cancelable: true }));\n"
-                + "  return JSON.stringify({ mzgram_ai: 'attached', how: 'paste', count: files.length });\n"
-                + "}\n"
-                + "return JSON.stringify({ mzgram_ai: 'no_attach_target' });\n"
-                + "})();";
-    }
-
-    public static final class AttachResult {
-        public final boolean attached; // false: the page had nowhere to put them
-        public final String how; // "input" or "paste"
-        public final int count;
-
-        AttachResult(boolean attached, String how, int count) {
-            this.attached = attached;
-            this.how = how;
-            this.count = count;
-        }
-    }
-
-    // What WebView.evaluateJavascript gives for attachScript: the returned
-    // JSON text as a JSON string. null for anything else.
-    public static AttachResult parseAttach(String result) {
-        if (result == null) {
-            return null;
-        }
-        try {
-            Object value = new JSONTokener(result.trim()).nextValue();
-            if (value instanceof String) {
-                value = new JSONTokener((String) value).nextValue();
-            }
-            if (!(value instanceof JSONObject)) {
-                return null;
-            }
-            JSONObject object = (JSONObject) value;
-            String status = object.optString("mzgram_ai");
-            if ("attached".equals(status)) {
-                return new AttachResult(true, object.optString("how"), object.optInt("count"));
-            } else if ("no_attach_target".equals(status)) {
-                return new AttachResult(false, "", 0);
-            }
-        } catch (Exception ignore) {
-        }
-        return null;
+    // Whether the site's file field takes the file, by its accept list
+    // ("image/*", "application/pdf", ".pdf"); an empty list or "*/*" takes
+    // everything.
+    public static boolean accepts(String[] accept, String name, String mime) {
+        // Not done yet: the tests come first.
+        return false;
     }
 
     // Settings > MZGram > AI: a button for each site in the chat list menu,

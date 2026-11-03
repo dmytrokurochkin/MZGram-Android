@@ -184,14 +184,17 @@ class MZGramAiTest {
             "MZGramAiStatusNoField", "MZGramAiInsert", "MZGramAiCopy", "MZGramAiNoProfile", "MZGramAiNoWebView",
             "MZGramAiAttachments", "MZGramAiLeftOut", "MZGramAiLeftOverLimit", "MZGramAiLeftTooLarge",
             "MZGramAiLeftArchives", "MZGramAiLeftMedia", "MZGramAiLeftOther", "MZGramAiStatusDownloading",
-            "MZGramAiStatusAttached", "MZGramAiStatusNoAttach", "MZGramAiSaveFiles", "MZGramAiFilesSaved",
-            "MZGramAiMenuButtons", "MZGramAiMenuButtonsInfo", "MZGramAiChooseMessageFiles", "MZGramAiChooseOtherFiles",
+            "MZGramAiStatusAttached", "MZGramAiSaveFiles", "MZGramAiFilesSaved",
+            "MZGramAiMenuButtons", "MZGramAiMenuButtonsInfo", "MZGramAiWarningFiles", "MZGramAiFilesTitle",
+            "MZGramAiFilesHint", "MZGramAiFilesAdd", "MZGramAiFilesOther", "MZGramAiFilesPhotosOnly",
+            "MZGramAiFilesDownloading", "MZGramAiStatusPressAdd", "MZGramAiStatusOneByOne",
         )
         val withName = setOf(
             "MZGramAiModelOnSite", "MZGramAiPrivacyText", "MZGramAiStatusOpening", "MZGramAiAttachments",
             "MZGramAiLeftOut", "MZGramAiLeftOverLimit", "MZGramAiLeftTooLarge", "MZGramAiLeftArchives",
             "MZGramAiLeftMedia", "MZGramAiLeftOther", "MZGramAiStatusDownloading", "MZGramAiStatusAttached",
-            "MZGramAiFilesSaved", "MZGramAiChooseMessageFiles",
+            "MZGramAiFilesSaved", "MZGramAiFilesTitle", "MZGramAiFilesAdd", "MZGramAiStatusPressAdd",
+            "MZGramAiStatusOneByOne",
         )
         // The same word in some languages: AI in Polish, Message in French
         val same = setOf("MZGramSectionAi", "MZGramAiMessage")
@@ -299,48 +302,33 @@ class MZGramAiTest {
         assertTrue(MZGramAiRules.chooseAttachments(emptyList()).chosen.isEmpty())
     }
 
-    // The files go in pieces of base64, then to the file input or as a
-    // paste; the script never presses a key or a button.
+    // The chooser: a field for several files takes every checked file at
+    // once; a field for one file takes the first, the rest wait.
     @Test
-    fun attachScript_givesTheFilesAndNeverSends() {
-        val start = MZGramAiRules.fileStartScript(1, "a \"b\" </script>.txt", "text/plain")
-        assertTrue(start, start.contains("window.__mzgramAiFiles"))
-        assertTrue(start, start.contains(MZGramAiRules.scriptString("a \"b\" </script>.txt")))
-        assertFalse(start, start.contains("</script>"))
-        val bytes = byteArrayOf(0, 1, 2, 3, 0xff.toByte(), 0x7f)
-        val chunk = MZGramAiRules.fileChunkScript(1, bytes, 2, 3)
-        assertTrue(chunk, chunk.contains(android.util.Base64.encodeToString(byteArrayOf(2, 3, 0xff.toByte()), android.util.Base64.NO_WRAP)))
-        assertEquals(512 * 1024, MZGramAiRules.CHUNK_SIZE)
-        for (provider in MZGramAiRules.providers()) {
-            val script = MZGramAiRules.attachScript(provider)
-            for (part in listOf("input[type=\"file\"]", "new DataTransfer()", "ClipboardEvent('paste'", "'attached'", "'no_attach_target'", "new File(")) {
-                assertTrue("${provider.key}: $part", script.contains(part))
-            }
-            for (selector in provider.inputSelectors) {
-                assertTrue("${provider.key}: $selector", script.contains(MZGramAiRules.scriptString(selector)))
-            }
-            for (word in listOf("click(", "submit", "keydown", "keypress", "KeyboardEvent", "Enter", "location", "fetch(", "XMLHttpRequest")) {
-                assertFalse("${provider.key}: $word", script.contains(word))
-            }
-        }
+    fun give_allAtOnce_orOneByOne() {
+        val all = MZGramAiRules.give(listOf(0, 2, 3), true)
+        assertEquals(listOf(0, 2, 3), all.now)
+        assertEquals(emptyList<Int>(), all.later)
+        val one = MZGramAiRules.give(listOf(0, 2, 3), false)
+        assertEquals(listOf(0), one.now)
+        assertEquals(listOf(2, 3), one.later)
+        val none = MZGramAiRules.give(emptyList(), true)
+        assertTrue(none.now.isEmpty() && none.later.isEmpty())
     }
 
+    // The site's accept list: kinds, extensions, or anything
     @Test
-    fun parseAttach_readsWhatTheScriptGives() {
-        val input = MZGramAiRules.parseAttach("\"{\\\"mzgram_ai\\\":\\\"attached\\\",\\\"how\\\":\\\"input\\\",\\\"count\\\":2}\"")
-        assertNotNull(input)
-        assertTrue(input!!.attached)
-        assertEquals("input", input.how)
-        assertEquals(2, input.count)
-        val paste = MZGramAiRules.parseAttach("{\"mzgram_ai\":\"attached\",\"how\":\"paste\",\"count\":1}")
-        assertEquals("paste", paste!!.how)
-        assertEquals(1, paste.count)
-        val none = MZGramAiRules.parseAttach("\"{\\\"mzgram_ai\\\":\\\"no_attach_target\\\"}\"")
-        assertNotNull(none)
-        assertFalse(none!!.attached)
-        for (other in listOf(null, "null", "", "\"inserted\"", "{\"mzgram_ai\":\"other\"}", "[1]")) {
-            assertNull("$other", MZGramAiRules.parseAttach(other))
-        }
+    fun accepts_theSitesList() {
+        assertTrue(MZGramAiRules.accepts(null, "a.pdf", "application/pdf"))
+        assertTrue(MZGramAiRules.accepts(arrayOf(), "a.pdf", "application/pdf"))
+        assertTrue(MZGramAiRules.accepts(arrayOf(""), "a.pdf", "application/pdf"))
+        assertTrue(MZGramAiRules.accepts(arrayOf("*/*"), "a.pdf", "application/pdf"))
+        assertTrue(MZGramAiRules.accepts(arrayOf("image/*"), "photo.jpg", "image/jpeg"))
+        assertFalse(MZGramAiRules.accepts(arrayOf("image/*"), "a.pdf", "application/pdf"))
+        assertTrue(MZGramAiRules.accepts(arrayOf("image/png,.pdf"), "A.PDF", "application/octet-stream"))
+        assertTrue(MZGramAiRules.accepts(arrayOf("image/png", "application/pdf"), "a.pdf", "application/pdf"))
+        assertFalse(MZGramAiRules.accepts(arrayOf(".txt"), "a.pdf", "application/pdf"))
+        assertTrue("no type known: the site decides", MZGramAiRules.accepts(arrayOf("image/*"), "x", ""))
     }
 
     // Settings > MZGram > AI: a button in the chat list menu for each site,

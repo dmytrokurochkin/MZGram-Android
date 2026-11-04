@@ -149,10 +149,13 @@ class MZGramSettingsHeaderTest {
             MZGramConfig.setPeerIdMode(MZGramPeerId.HIDDEN)
             self(name)
             val settings = open()
+            var hiddenHeight = 0
+            instrumentation.runOnMainSync { hiddenHeight = item(settings).height }
             MZGramConfig.setPeerIdMode(MZGramPeerId.TELEGRAM_API)
             instrumentation.runOnMainSync { settings.onResume() }
             Thread.sleep(1000)
             var shown = false
+            var shownHeight = 0
             var idBottom = 0
             var itemBottom = 0
             var nextTop = Int.MAX_VALUE
@@ -161,6 +164,7 @@ class MZGramSettingsHeaderTest {
             instrumentation.runOnMainSync {
                 val id = field(settings, "mzgramIdView")
                 shown = id.visibility == View.VISIBLE && id.height > 0
+                shownHeight = item(settings).height
                 idBottom = bottom(id)
                 itemBottom = bottom(item(settings))
                 next(settings)?.let { nextTop = top(it) }
@@ -168,9 +172,10 @@ class MZGramSettingsHeaderTest {
                 subtitleTop = top(field(settings, "subtitleView"))
             }
             MZGramScreens.capture("settings-header-id-later-" + names.indexOf(name))
-            MZGramScreens.log("ID turned on later, $name: ID bottom $idBottom, header bottom $itemBottom, Accounts top $nextTop")
+            MZGramScreens.log("ID turned on later, $name: header $hiddenHeight then $shownHeight, ID bottom $idBottom, header bottom $itemBottom, Accounts top $nextTop")
             instrumentation.runOnMainSync { settings.finishFragment(false) }
             assertTrue("the own ID is shown: $name", shown)
+            assertTrue("the header grew for the ID line: $name, $hiddenHeight then $shownHeight", shownHeight > hiddenHeight)
             assertTrue("the ID not cut by the header: $name, ID bottom $idBottom, header bottom $itemBottom", idBottom <= itemBottom)
             assertTrue("the ID not under Accounts: $name, ID bottom $idBottom, Accounts top $nextTop", idBottom <= nextTop)
             assertTrue("the number below the name: $name", subtitleTop >= titleBottom)

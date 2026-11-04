@@ -459,14 +459,38 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         titleView.setGravity(Gravity.CENTER);
         titleView.setSingleLine();
         titleView.setEllipsize(TextUtils.TruncateAt.END);
-        topView.addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 16, 138.333f - 12, 16, 0));
+        // MZGram: the name, the number with the username and the ID one under
+        // another, each below the real bottom of the line above it: a name
+        // in a fallback font (runes, for one) is taller than one line of
+        // Roboto, and the number on its fixed place went under it.
+        mzgramNameLayout = new LinearLayout(context);
+        mzgramNameLayout.setOrientation(LinearLayout.VERTICAL);
+        topView.addView(mzgramNameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 138.333f - 12, 0, 0));
+        mzgramNameLayout.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
 
         subtitleView = new TextView(context);
         subtitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         subtitleView.setGravity(Gravity.CENTER);
         subtitleView.setSingleLine();
         subtitleView.setEllipsize(TextUtils.TruncateAt.END);
-        topView.addView(subtitleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 168 - 12, 0, 0));
+        mzgramNameLayout.addView(subtitleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+        // MZGram: the own ID, by Settings > MZGram > Interface > Show ID;
+        // hidden by default, a tap copies it
+        mzgramIdView = new TextView(context);
+        mzgramIdView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+        mzgramIdView.setGravity(Gravity.CENTER);
+        mzgramIdView.setSingleLine();
+        mzgramIdView.setEllipsize(TextUtils.TruncateAt.END);
+        mzgramIdView.setVisibility(View.GONE);
+        mzgramIdView.setOnClickListener(v -> {
+            final String id = mzgramPeerIdText();
+            if (!TextUtils.isEmpty(id)) {
+                AndroidUtilities.addToClipboard(id);
+                BulletinFactory.of(this).createCopyBulletin(getString(R.string.MZGramPeerIdCopied)).show();
+            }
+        });
+        mzgramNameLayout.addView(mzgramIdView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 16, 2, 16, 0));
 
         versionView = new TextView(context);
         versionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -539,8 +563,31 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             sb.append(" • @").append(username);
         }
         subtitleView.setText(sb);
+        // MZGram: Show ID
+        final String id = mzgramPeerIdText();
+        mzgramIdView.setText(TextUtils.isEmpty(id) ? "" : getString(R.string.MZGramPeerIdLabel) + ": " + id);
+        mzgramIdView.setVisibility(TextUtils.isEmpty(id) ? View.GONE : View.VISIBLE);
 
         versionView.setText(getVersionName());
+    }
+
+    // MZGram: the own ID as Show ID wants it; empty when hidden
+    private static final int MZGRAM_ID_LINE_DP = 20;
+    private LinearLayout mzgramNameLayout;
+    private TextView mzgramIdView;
+
+    private String mzgramPeerIdText() {
+        return org.telegram.messenger.mzgram.MZGramPeerId.format(getUserConfig().getClientUserId(), org.telegram.messenger.mzgram.MZGramPeerId.USER, org.telegram.messenger.mzgram.MZGramConfig.peerIdMode);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // MZGram: Show ID may have been changed in MZGram's settings
+        if (listView != null && mzgramIdView != null) {
+            setInfo();
+            listView.adapter.update(false);
+        }
     }
 
 
@@ -550,6 +597,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         contentView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
         titleView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         subtitleView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
+        mzgramIdView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
         searchItem.updateColor();
 
         final int navigationBarColor = getThemedColor(Theme.key_windowBackgroundWhite);
@@ -617,7 +665,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             return;
         }
 
-        items.add(UItem.asCustomShadow(topView, 200 - 12));
+        // MZGram: one line more for the own ID
+        items.add(UItem.asCustomShadow(topView, 200 - 12 + (TextUtils.isEmpty(mzgramPeerIdText()) ? 0 : MZGRAM_ID_LINE_DP)));
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {

@@ -6,7 +6,8 @@ received table), its file in advance up to the limit of its kind of chat
 this device had no copy of counts as deleted without content; a failed
 file reference counts as "link expired".
 
-Show ID: a row of the profile, hidden by default.
+Show ID: a row of the profile and of the own header of Settings, hidden by
+default.
 
 Reliable delivery: a new foreground service of the specialUse type (not
 Telegram's Keep-Alive, which has no notification), off by default, one
@@ -70,6 +71,19 @@ class PeerIdTest(unittest.TestCase):
         config = read(MZ / "MZGramConfig.java")
         self.assertIn('preferences.getInt("peerIdMode", MZGramPeerId.HIDDEN)', config)
 
+
+class SettingsHeaderTest(unittest.TestCase):
+    """The own header of Settings: the own ID by Show ID. Where the number
+    stands is for MZGramSettingsHeaderTest on the emulator."""
+
+    def test_own_id_and_stacked_lines(self):
+        page = read(JAVA / "ui/SettingsActivity.java")
+        self.assertIn("mzgramNameLayout.addView(titleView,", page)
+        self.assertIn("mzgramNameLayout.addView(mzgramIdView,", page)
+        self.assertIn("MZGramPeerId.format(getUserConfig().getClientUserId(), org.telegram.messenger.mzgram.MZGramPeerId.USER,", page)
+        self.assertIn("AndroidUtilities.addToClipboard(id);", page)
+        profile = read(JAVA / "ui/ProfileActivity.java")
+        self.assertGreaterEqual(profile.count("mzgramIdRow = rowCount++;"), 3)
 
 class ReliableTest(unittest.TestCase):
     def test_a_foreground_service_of_its_own(self):

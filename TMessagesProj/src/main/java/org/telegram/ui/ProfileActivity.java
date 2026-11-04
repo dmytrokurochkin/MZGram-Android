@@ -10653,6 +10653,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 numberRow = rowCount++;
                 setUsernameRow = rowCount++;
                 bioRow = rowCount++;
+                // MZGram: the own ID, by Show ID
+                if (org.telegram.messenger.mzgram.MZGramConfig.peerIdMode != org.telegram.messenger.mzgram.MZGramPeerId.HIDDEN) {
+                    mzgramIdRow = rowCount++;
+                }
 
                 settingsSectionRow = rowCount++;
 

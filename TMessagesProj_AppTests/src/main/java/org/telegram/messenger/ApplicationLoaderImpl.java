@@ -5,4 +5,11 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
     protected boolean isAndroidTestEnv() {
         return true;
     }
+
+    // As the app gives it; without it FileProvider authorities come out
+    // as "null.provider" in tests.
+    @Override
+    protected String onGetApplicationId() {
+        return getPackageName();
+    }
 }

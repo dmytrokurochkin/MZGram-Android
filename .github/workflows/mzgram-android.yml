@@ -137,6 +137,14 @@ jobs:
     timeout-minutes: 120
 
     steps:
+      # The runner once ran out of disk while building the test APKs. Tools
+      # the job never uses go first; the Android SDK stays.
+      - name: Free disk space.
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/share/swift /usr/local/share/boost /opt/hostedtoolcache/CodeQL || true
+          df -h /
+
       - name: Clone.
         uses: actions/checkout@v7
         with:

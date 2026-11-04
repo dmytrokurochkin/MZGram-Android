@@ -82,6 +82,8 @@ class SettingsHeaderTest(unittest.TestCase):
         self.assertIn("mzgramNameLayout.addView(mzgramIdView,", page)
         self.assertIn("MZGramPeerId.format(getUserConfig().getClientUserId(), org.telegram.messenger.mzgram.MZGramPeerId.USER,", page)
         self.assertIn("AndroidUtilities.addToClipboard(id);", page)
+        self.assertIn("items.add(UItem.asCustomShadow(topView, LayoutHelper.WRAP_CONTENT));", page)
+        self.assertIn("setMeasuredDimension(getMeasuredWidth(), mzgramHeaderHeight());", page)
         profile = read(JAVA / "ui/ProfileActivity.java")
         self.assertGreaterEqual(profile.count("mzgramIdRow = rowCount++;"), 3)
 

@@ -393,7 +393,17 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         imageUpdater.parentFragment = this;
         imageUpdater.setDelegate(this);
 
-        topView = new FrameLayout(context);
+        // MZGram: as high as its lines need, the name, the number and the own
+        // ID each whole, and never lower than Telegram's 188dp. The adapter
+        // keeps the height it gave when the view was first put in its item,
+        // so a height in the item did not follow Show ID turned on later.
+        topView = new FrameLayout(context) {
+            @Override
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+                setMeasuredDimension(getMeasuredWidth(), mzgramHeaderHeight());
+            }
+        };
 
         avatarContainer = new FrameLayout(context);
         topView.addView(avatarContainer, LayoutHelper.createFrame(120, 120, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 23 - 12, 0, 0));
@@ -572,9 +582,19 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     }
 
     // MZGram: the own ID as Show ID wants it; empty when hidden
-    private static final int MZGRAM_ID_LINE_DP = 20;
+    private static final int MZGRAM_HEADER_DP = 200 - 12;
+    private static final int MZGRAM_HEADER_BOTTOM_DP = 12;
     private LinearLayout mzgramNameLayout;
     private TextView mzgramIdView;
+
+    private int mzgramHeaderHeight() {
+        int height = dp(MZGRAM_HEADER_DP);
+        if (mzgramNameLayout != null && mzgramNameLayout.getVisibility() != View.GONE) {
+            final FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mzgramNameLayout.getLayoutParams();
+            height = Math.max(height, lp.topMargin + mzgramNameLayout.getMeasuredHeight() + dp(MZGRAM_HEADER_BOTTOM_DP));
+        }
+        return height;
+    }
 
     private String mzgramPeerIdText() {
         return org.telegram.messenger.mzgram.MZGramPeerId.format(getUserConfig().getClientUserId(), org.telegram.messenger.mzgram.MZGramPeerId.USER, org.telegram.messenger.mzgram.MZGramConfig.peerIdMode);
@@ -665,8 +685,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             return;
         }
 
-        // MZGram: one line more for the own ID
-        items.add(UItem.asCustomShadow(topView, 200 - 12 + (TextUtils.isEmpty(mzgramPeerIdText()) ? 0 : MZGRAM_ID_LINE_DP)));
+        // MZGram: the header measures its own height (mzgramHeaderHeight)
+        items.add(UItem.asCustomShadow(topView, LayoutHelper.WRAP_CONTENT));
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {

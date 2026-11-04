@@ -719,6 +719,22 @@ public class MZGramAiActivity extends BaseFragment {
     }
 
     // The local file of an attachment, null while it is not downloaded
+    // The file as the site gets it. Telegram keeps some files where the
+    // app's FileProvider does not reach (its cache folder when there is no
+    // external storage); those go as a copy in files/cache/mzgram-ai.
+    private Uri uriFor(File file) throws java.io.IOException {
+        String authority = ApplicationLoader.getApplicationId() + ".provider";
+        try {
+            return FileProvider.getUriForFile(getParentActivity(), authority, file);
+        } catch (IllegalArgumentException outside) {
+            File folder = new File(ApplicationLoader.getFilesDirFixed(), "cache/mzgram-ai");
+            folder.mkdirs();
+            File copy = new File(folder, file.getName());
+            AndroidUtilities.copyFile(file, copy);
+            return FileProvider.getUriForFile(getParentActivity(), authority, copy);
+        }
+    }
+
     private File localFile(Attachment attachment) {
         if (attachment.file != null && attachment.file.exists()) {
             return attachment.file;
@@ -836,7 +852,7 @@ public class MZGramAiActivity extends BaseFragment {
                 List<Uri> uris = new ArrayList<>();
                 for (int index : give.now) {
                     try {
-                        uris.add(FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", localFile(offered.get(index))));
+                        uris.add(uriFor(localFile(offered.get(index))));
                     } catch (Exception e) {
                         FileLog.e(e);
                     }

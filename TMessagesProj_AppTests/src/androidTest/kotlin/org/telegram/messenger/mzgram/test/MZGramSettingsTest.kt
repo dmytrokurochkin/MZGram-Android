@@ -99,14 +99,16 @@ class MZGramSettingsTest {
         val shown = ArrayList<Int>()
         val perTopic = ArrayList<String>()
         for (section in 0 until MZGramSettingsActivity.SECTIONS_COUNT) {
-            val ids = settingsItems(section).filter { it.viewType != UniversalAdapter.VIEW_TYPE_HEADER && it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }.map { it.id }
+            // The archive size at the top of Archive is a view, not a switch
+            val ids = settingsItems(section).filter { it.viewType != UniversalAdapter.VIEW_TYPE_HEADER && it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW && it.viewType != UniversalAdapter.VIEW_TYPE_CUSTOM }.map { it.id }
             assertTrue("topic $section is not empty", ids.isNotEmpty())
             shown.addAll(ids)
             perTopic.add("${expected[section]}=${ids.size}")
         }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
-        assertEquals("69 switches and buttons", 69, shown.size)
+        // 69, then Keep messages from users, in groups, in channels
+        assertEquals("72 switches and buttons", 72, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
 

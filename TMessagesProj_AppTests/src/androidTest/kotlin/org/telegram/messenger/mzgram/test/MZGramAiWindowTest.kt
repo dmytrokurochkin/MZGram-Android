@@ -85,6 +85,17 @@ document.addEventListener('keydown', function (e) { if (e.key === 'Enter') windo
 
     private fun pageChanges(window: MZGramAiActivity) = evaluate(window, "window.mzgramChanges")
 
+    // Waits for what the page holds: evaluate() waits for the page itself,
+    // so it runs on the test thread, not inside MZGramScreens.waitFor.
+    private fun waitForPage(timeoutSec: Int, check: () -> Boolean): Boolean {
+        val end = System.currentTimeMillis() + timeoutSec * 1000L
+        while (System.currentTimeMillis() < end) {
+            if (check()) return true
+            Thread.sleep(250)
+        }
+        return check()
+    }
+
     // A real tap on the site's add-files button: a user's tap, so the page
     // may open its file dialog
     private fun tapPlus(window: MZGramAiActivity) {
@@ -210,7 +221,7 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
             val sheet = chooser(window, provider, 2)
             MZGramScreens.capture("ai-${provider.key}-chooser")
             MZGramAppearance.tap(sheet.addButtonForTest())
-            assertTrue("${provider.key}: the files are given", MZGramScreens.waitFor(15) { pageFiles(window) == expectedFiles })
+            assertTrue("${provider.key}: the files are given", waitForPage(15) { pageFiles(window) == expectedFiles })
             assertEquals("${provider.key}: both at once", "1", pageChanges(window))
             assertEquals("${provider.key}: the window says so", MZGramAiActivity.STATE_ATTACHED, window.aiState)
             assertEquals("${provider.key}: the files went by", "chooser", window.attachedHow)
@@ -239,10 +250,10 @@ return v === f(${MZGramAiRules.scriptString(text)}) ? 'ok' : 'the field has: ' +
         MZGramScreens.open(window)
         assertTrue("the files are ready", MZGramScreens.waitFor(60) { window.aiState == MZGramAiActivity.STATE_FILES_READY })
         MZGramAppearance.tap(chooser(window, provider, 2).addButtonForTest())
-        assertTrue("the first file", MZGramScreens.waitFor(15) { pageFiles(window) == "[\"notes.txt:${notes.size}\"]" })
+        assertTrue("the first file", waitForPage(15) { pageFiles(window) == "[\"notes.txt:${notes.size}\"]" })
         assertEquals("one waits", MZGramAiActivity.STATE_ONE_BY_ONE, window.aiState)
         MZGramAppearance.tap(chooser(window, provider, 1).addButtonForTest())
-        assertTrue("the second file", MZGramScreens.waitFor(15) { pageFiles(window) == expectedFiles })
+        assertTrue("the second file", waitForPage(15) { pageFiles(window) == expectedFiles })
         assertEquals(MZGramAiActivity.STATE_ATTACHED, window.aiState)
         MZGramScreens.log("MZGram AI test: PASS one file at a time")
         assertTrue("the window closes", close(window, null))

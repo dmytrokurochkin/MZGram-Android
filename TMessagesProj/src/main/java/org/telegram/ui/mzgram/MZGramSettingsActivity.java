@@ -232,7 +232,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private void fillArchive(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
         if (sizeView == null) {
-            sizeView = new MZGramArchiveSizeView(getContext());
+            // The page can be filled before the fragment has a context (tests)
+            sizeView = new MZGramArchiveSizeView(getContext() != null ? getContext() : org.telegram.messenger.ApplicationLoader.applicationContext);
             countArchiveSize();
         }
         items.add(UItem.asCustom(sizeView, MZGramArchiveSizeView.HEIGHT_DP));

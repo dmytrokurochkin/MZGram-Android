@@ -119,6 +119,20 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SAVE_FROM_USERS = 76;
     private static final int BUTTON_SAVE_IN_GROUPS = 77;
     private static final int BUTTON_SAVE_IN_CHANNELS = 78;
+    // Download in advance: users, bots, groups, channels (MZGramKeepFrom)
+    private static final int BUTTON_ARCHIVE_LIMIT_USERS = 79;
+    private static final int BUTTON_ARCHIVE_LIMIT_BOTS = 80;
+    private static final int BUTTON_ARCHIVE_LIMIT_GROUPS = 81;
+    private static final int BUTTON_ARCHIVE_LIMIT_CHANNELS = 82;
+    private static final int ARCHIVE_LIMIT_FIRST = BUTTON_ARCHIVE_LIMIT_USERS;
+    private static final int BUTTON_ARCHIVE_COUNTERS_RESET = 83;
+    private static final int BUTTON_PEER_ID = 84;
+    private static final int[] ARCHIVE_LIMIT_TITLES = {
+            R.string.MZGramArchiveLimitUsers,
+            R.string.MZGramArchiveLimitBots,
+            R.string.MZGramArchiveLimitGroups,
+            R.string.MZGramArchiveLimitChannels,
+    };
     private static final int[] AI_MENU_BUTTONS = {
             BUTTON_AI_MENU_GEMINI, BUTTON_AI_MENU_CLAUDE, BUTTON_AI_MENU_CHATGPT, BUTTON_AI_MENU_DEEPSEEK, BUTTON_AI_MENU_GROK,
     };
@@ -245,6 +259,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_SAVE_FORMATTING, getString(R.string.MZGramSaveFormatting)).setChecked(MZGramConfig.saveFormatting));
         items.add(UItem.asCheck(BUTTON_SAVE_REACTIONS, getString(R.string.MZGramSaveReactions)).setChecked(MZGramConfig.saveReactions));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveArchiveMediaInfo)));
+        // Download in advance: the largest file for each kind of chat; when a
+        // message is deleted a file up to 100 MB larger is downloaded then
+        items.add(UItem.asHeader(getString(R.string.MZGramArchiveLimits)));
+        for (int i = 0; i < ARCHIVE_LIMIT_TITLES.length; i++) {
+            items.add(UItem.asButton(ARCHIVE_LIMIT_FIRST + i, getString(ARCHIVE_LIMIT_TITLES[i]), limitText(org.telegram.messenger.mzgram.MZGramArchiveLimits.limitMb(i))));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramArchiveLimitsInfo)));
+        // What happened to the downloads, to choose the limits on real data
+        items.add(UItem.asHeader(getString(R.string.MZGramArchiveCounters)));
+        items.add(UItem.asShadow(countersText()));
+        items.add(UItem.asButton(BUTTON_ARCHIVE_COUNTERS_RESET, getString(R.string.MZGramArchiveCountersReset)));
+        items.add(UItem.asShadow(getString(R.string.MZGramArchiveCountersInfo)));
         // Whose messages are kept; turning one off keeps what was saved
         items.add(UItem.asHeader(getString(R.string.MZGramKeepFromTitle)));
         items.add(UItem.asCheck(BUTTON_SAVE_FROM_USERS, getString(R.string.MZGramKeepFromUsers)).setChecked(MZGramConfig.saveFromUsers));
@@ -263,6 +289,74 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
         items.add(UItem.asButton(BUTTON_ERASE_LOCAL_DATABASE, getString(R.string.MZGramEraseLocalDatabase)).red());
         items.add(UItem.asShadow(getString(R.string.MZGramEraseLocalDatabaseInfo)));
+    }
+
+    // A limit of Download in advance, as it reads: the size, or No limit.
+    public static String limitText(int mb) {
+        return mb < 0 ? getString(R.string.MZGramArchiveLimitNone) : AndroidUtilities.formatFileSize(mb * 1024L * 1024L);
+    }
+
+    // Saved in advance and when deleted, not downloaded, link expired,
+    // deleted without content.
+    public static String countersText() {
+        return org.telegram.messenger.LocaleController.formatString(R.string.MZGramArchiveCounterSaved,
+                        org.telegram.messenger.mzgram.MZGramArchiveLimits.counter(org.telegram.messenger.mzgram.MZGramArchiveLimits.SAVED_AHEAD),
+                        org.telegram.messenger.mzgram.MZGramArchiveLimits.counter(org.telegram.messenger.mzgram.MZGramArchiveLimits.SAVED_ON_DELETION))
+                + "\n" + org.telegram.messenger.LocaleController.formatString(R.string.MZGramArchiveCounterFailed,
+                        org.telegram.messenger.mzgram.MZGramArchiveLimits.counter(org.telegram.messenger.mzgram.MZGramArchiveLimits.FAILED))
+                + "\n" + org.telegram.messenger.LocaleController.formatString(R.string.MZGramArchiveCounterExpired,
+                        org.telegram.messenger.mzgram.MZGramArchiveLimits.counter(org.telegram.messenger.mzgram.MZGramArchiveLimits.EXPIRED))
+                + "\n" + org.telegram.messenger.LocaleController.formatString(R.string.MZGramArchiveCounterEmpty,
+                        org.telegram.messenger.mzgram.MZGramArchiveLimits.counter(org.telegram.messenger.mzgram.MZGramArchiveLimits.DELETED_WITHOUT_CONTENT));
+    }
+
+    // The largest file downloaded in advance for one kind of chat; the
+    // choice applies at once.
+    private void chooseLimit(int source) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        int[] choices = org.telegram.messenger.mzgram.MZGramArchiveLimits.CHOICES;
+        String[] options = new String[choices.length];
+        int selected = 0;
+        for (int i = 0; i < choices.length; i++) {
+            options[i] = limitText(choices[i]);
+            if (choices[i] == org.telegram.messenger.mzgram.MZGramArchiveLimits.limitMb(source)) {
+                selected = i;
+            }
+        }
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(ARCHIVE_LIMIT_TITLES[source]), selected, (dialog, which) -> {
+            org.telegram.messenger.mzgram.MZGramArchiveLimits.setLimitMb(source, choices[which]);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
+    public static String peerIdValue() {
+        switch (MZGramConfig.peerIdMode) {
+            case org.telegram.messenger.mzgram.MZGramPeerId.TELEGRAM_API: return getString(R.string.MZGramPeerIdTelegram);
+            case org.telegram.messenger.mzgram.MZGramPeerId.BOT_API: return getString(R.string.MZGramPeerIdBot);
+            default: return getString(R.string.MZGramPeerIdHidden);
+        }
+    }
+
+    // Show ID: hidden, as in Telegram API or as in Bot API; applies at once.
+    private void choosePeerId() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] options = {
+                getString(R.string.MZGramPeerIdHidden),
+                getString(R.string.MZGramPeerIdTelegram),
+                getString(R.string.MZGramPeerIdBot),
+        };
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramPeerId), MZGramConfig.peerIdMode, (dialog, which) -> {
+            MZGramConfig.setPeerIdMode(which);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
     }
 
     private static String languageValue() {
@@ -412,6 +506,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
         items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
+        items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
+        items.add(UItem.asShadow(getString(R.string.MZGramPeerIdInfo)));
         items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
         items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
@@ -531,6 +627,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
             }
         } else if (item.id == BUTTON_LANGUAGE) {
             chooseLanguage();
+        } else if (item.id == BUTTON_PEER_ID) {
+            choosePeerId();
+        } else if (item.id >= ARCHIVE_LIMIT_FIRST && item.id < ARCHIVE_LIMIT_FIRST + ARCHIVE_LIMIT_TITLES.length) {
+            chooseLimit(item.id - ARCHIVE_LIMIT_FIRST);
+        } else if (item.id == BUTTON_ARCHIVE_COUNTERS_RESET) {
+            org.telegram.messenger.mzgram.MZGramArchiveLimits.resetCounters();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
         } else if (item.id == BUTTON_CHECK_UPDATES_NOW) {
             MZGramUpdateBanner.checkByHand(this, null);
         } else if (item.id == BUTTON_HIDE_CAMERA_TILE) {

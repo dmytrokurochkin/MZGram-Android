@@ -78,6 +78,8 @@ jobs:
           python3 .github/scripts/test_settings_rows.py
           # Installs beside Telegram: own package org.mzgram.messenger, authorities, permissions, account type, icon
           python3 .github/scripts/test_manifest.py
+          # The archive's three levels, Show ID, Reliable delivery as wired
+          python3 .github/scripts/test_levels_reliable.py
           # A push build gets the versionCode of the newest release tag (or the
           # gradle.properties one before the first release): it installs over the
           # last release, and the next release installs over it

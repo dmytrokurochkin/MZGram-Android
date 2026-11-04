@@ -4883,6 +4883,9 @@ public class NotificationsController extends BaseController implements Notificat
         FileLog.d("showExtraNotifications pushMessages.size()=" + pushMessages.size());
         // MZGram: Notification diagnostics.
         org.telegram.messenger.mzgram.MZGramPushDiagnostics.onNotificationShown(pushMessages.size());
+        if (!pushMessages.isEmpty() && pushMessages.get(0).messageOwner != null) {
+            org.telegram.messenger.mzgram.MZGramReliableJournal.onShown(pushMessages.get(0).messageOwner.date);
+        }
         if (Build.VERSION.SDK_INT >= 26) {
             notificationBuilder.setChannelId(validateChannelId(lastDialogId, lastTopicId, chatName, vibrationPattern, ledColor, sound, importance, isDefault, isInApp, isSilent, chatType));
         }

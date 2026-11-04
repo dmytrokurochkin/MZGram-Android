@@ -282,6 +282,8 @@ public class ApplicationLoader extends Application {
             DownloadController.getInstance(a);
         }
         BillingController.getInstance().startConnection();
+        // MZGram: Reliable delivery when the process starts
+        org.telegram.messenger.mzgram.MZGramReliableService.apply(applicationContext, org.telegram.messenger.mzgram.MZGramReliableService.REASON_PROCESS);
     }
 
     public ApplicationLoader() {

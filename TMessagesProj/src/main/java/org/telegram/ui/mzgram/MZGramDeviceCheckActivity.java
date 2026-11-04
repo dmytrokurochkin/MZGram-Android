@@ -19,6 +19,7 @@ import android.view.View;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
+import org.telegram.messenger.mzgram.MZGramConfig;
 import org.telegram.messenger.mzgram.MZGramDeviceCheck;
 import org.telegram.messenger.mzgram.MZGramDeviceCheck.State;
 import org.telegram.ui.Components.BulletinFactory;
@@ -37,6 +38,7 @@ public class MZGramDeviceCheckActivity extends UniversalFragment {
     public static final int BUTTON_POPUPS = 5;
     public static final int BUTTON_LOCK_SCREEN = 6;
     public static final int BUTTON_SHARE = 7;
+    public static final int BUTTON_RELIABLE = 8;
 
     // The last intent a row tried to open, for tests
     public static Intent openedForTest;
@@ -57,7 +59,10 @@ public class MZGramDeviceCheckActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_NOTIFICATIONS, getString(R.string.MZGramDeviceCheckNotifications), stateText(MZGramDeviceCheck.notifications())));
         items.add(UItem.asButton(BUTTON_CALLS, getString(R.string.MZGramDeviceCheckCalls), stateText(MZGramDeviceCheck.calls())));
         items.add(UItem.asButton(BUTTON_BATTERY, getString(R.string.MZGramDeviceCheckBattery), stateText(MZGramDeviceCheck.battery())));
-        items.add(UItem.asShadow(null));
+        items.add(UItem.asButton(BUTTON_RELIABLE, getString(R.string.MZGramReliable), stateText(MZGramConfig.reliableDelivery ? State.YES : State.NO)));
+        // The phone limits the app in the background: Reliable delivery is
+        // offered; its switch stays the user's
+        items.add(UItem.asShadow(suggestsReliable() ? getString(R.string.MZGramReliableSuggest) : null));
         if (MZGramDeviceCheck.isMiui()) {
             String version = MZGramDeviceCheck.miuiVersion();
             String miui = getString(R.string.MZGramDeviceCheckMiui);
@@ -69,6 +74,10 @@ public class MZGramDeviceCheckActivity extends UniversalFragment {
         }
         items.add(UItem.asButton(BUTTON_SHARE, getString(R.string.MZGramDeviceCheckShare)));
         items.add(UItem.asShadow(getString(R.string.MZGramDeviceCheckShareInfo)));
+    }
+
+    public static boolean suggestsReliable() {
+        return !MZGramConfig.reliableDelivery && MZGramDeviceCheck.battery() == State.NO;
     }
 
     // The system screen a row opens; null for a row that opens none.
@@ -100,6 +109,10 @@ public class MZGramDeviceCheckActivity extends UniversalFragment {
 
     @Override
     protected void onClick(UItem item, View view, int position, float x, float y) {
+        if (item.id == BUTTON_RELIABLE) {
+            presentFragment(new org.telegram.ui.NotificationsSettingsActivity());
+            return;
+        }
         Intent intent = intentFor(item.id);
         if (intent == null) {
             return;

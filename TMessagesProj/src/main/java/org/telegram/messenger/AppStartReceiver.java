@@ -15,7 +15,13 @@ import android.content.Intent;
 public class AppStartReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
+        // MZGram: Reliable delivery after a reboot or an update
+        if (intent != null && Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
+            org.telegram.messenger.mzgram.MZGramReliableService.apply(context, org.telegram.messenger.mzgram.MZGramReliableService.REASON_UPDATE);
+            return;
+        }
         if (intent != null && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            org.telegram.messenger.mzgram.MZGramReliableService.apply(context, org.telegram.messenger.mzgram.MZGramReliableService.REASON_BOOT);
             AndroidUtilities.runOnUIThread(() -> {
                 SharedConfig.loadConfig();
                 if (SharedConfig.passcodeHash.length() > 0) {

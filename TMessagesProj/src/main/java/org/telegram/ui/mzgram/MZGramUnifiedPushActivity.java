@@ -191,6 +191,7 @@ public class MZGramUnifiedPushActivity extends UniversalFragment {
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsGms, String.valueOf(MZGramPushDiagnostics.gmsReceived())));
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsTelegram, telegramResultText()));
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsShown, String.valueOf(MZGramPushDiagnostics.shown())));
+        text.append('\n').append(formatString(R.string.MZGramArchiveCounterEmpty, String.valueOf(org.telegram.messenger.mzgram.MZGramArchiveLimits.counter(org.telegram.messenger.mzgram.MZGramArchiveLimits.DELETED_WITHOUT_CONTENT))));
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsAllowed, getString(MZGramPushDiagnostics.notificationsAllowed() ? R.string.MZGramPushDiagnosticsAllowedYes : R.string.MZGramPushDiagnosticsAllowedNo)));
         String token = SharedConfig.pushType == org.telegram.messenger.PushListenerController.PUSH_TYPE_WEB ? SharedConfig.pushString : null;
         text.append('\n').append(formatString(R.string.MZGramPushDiagnosticsEndpoint,

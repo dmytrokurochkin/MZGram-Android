@@ -659,6 +659,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int userInfoRow;
     private int channelInfoRow;
     private int usernameRow;
+    // MZGram: the ID, by Settings > MZGram > Interface > Show ID
+    private int mzgramIdRow;
     private int notificationsDividerRow;
     private int notificationsRow;
     private int bizHoursRow;
@@ -4643,6 +4645,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 Bundle args = new Bundle();
                 args.putLong("chat_id", userInfo.personal_channel_id);
                 presentFragment(new ChatActivity(args));
+            } else if (position == mzgramIdRow) {
+                // MZGram: a tap copies the ID
+                String id = mzgramPeerIdText();
+                if (!TextUtils.isEmpty(id)) {
+                    AndroidUtilities.addToClipboard(id);
+                    BulletinFactory.of(ProfileActivity.this).createCopyBulletin(getString(R.string.MZGramPeerIdCopied), resourcesProvider).show();
+                }
             } else if (position == birthdayRow) {
                 if (birthdayEffect != null && birthdayEffect.start()) {
                     return;
@@ -10452,6 +10461,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return chatId != 0;
     }
 
+    // MZGram: the ID of this user, bot, group or channel as Show ID wants it.
+    private String mzgramPeerIdText() {
+        int mode = org.telegram.messenger.mzgram.MZGramConfig.peerIdMode;
+        if (userId != 0) {
+            return org.telegram.messenger.mzgram.MZGramPeerId.format(userId, org.telegram.messenger.mzgram.MZGramPeerId.USER, mode);
+        }
+        TLRPC.Chat chat = getMessagesController().getChat(chatId);
+        int kind = ChatObject.isChannel(chat) ? org.telegram.messenger.mzgram.MZGramPeerId.CHANNEL : org.telegram.messenger.mzgram.MZGramPeerId.GROUP;
+        return org.telegram.messenger.mzgram.MZGramPeerId.format(chatId, kind, mode);
+    }
+
     private void updateRowsIds() {
         updateNotifications(false);
 
@@ -10531,6 +10551,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         locationRow = -1;
         channelInfoRow = -1;
         usernameRow = -1;
+        mzgramIdRow = -1;
         settingsTimerRow = -1;
         settingsKeyRow = -1;
         notificationsDividerRow = -1;
@@ -10723,6 +10744,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (user != null && username != null) {
                     usernameRow = rowCount++;
                 }
+                if (user != null && org.telegram.messenger.mzgram.MZGramConfig.peerIdMode != org.telegram.messenger.mzgram.MZGramPeerId.HIDDEN) {
+                    mzgramIdRow = rowCount++;
+                }
                 if (userInfo != null) {
                     if (userInfo.birthday != null) {
                         birthdayRow = rowCount++;
@@ -10858,7 +10882,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 sharedMediaRow = rowCount++;
             }
         } else if (chatId != 0) {
-            if (chatInfo != null && (!TextUtils.isEmpty(chatInfo.about) || chatInfo.location instanceof TLRPC.TL_channelLocation) || ChatObject.isPublic(currentChat)) {
+            if (chatInfo != null && (!TextUtils.isEmpty(chatInfo.about) || chatInfo.location instanceof TLRPC.TL_channelLocation) || ChatObject.isPublic(currentChat)
+                    || org.telegram.messenger.mzgram.MZGramConfig.peerIdMode != org.telegram.messenger.mzgram.MZGramPeerId.HIDDEN) {
                 if (emptyRow < 0 && emptyRow2 < 0) {
                     if (hasMusic || peerColor != null || actionsView == null) {
                         emptyRow2 = rowCount++;
@@ -10880,6 +10905,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (ChatObject.isPublic(currentChat)) {
                     usernameRow = rowCount++;
+                }
+                if (org.telegram.messenger.mzgram.MZGramConfig.peerIdMode != org.telegram.messenger.mzgram.MZGramPeerId.HIDDEN) {
+                    mzgramIdRow = rowCount++;
                 }
             }
             if (emptyRow < 0 && emptyRow2 < 0) {
@@ -13469,7 +13497,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     TextDetailCell detailCell = (TextDetailCell) holder.itemView;
                     boolean containsQr = false;
                     boolean containsGift = false;
-                    if (position == birthdayRow) {
+                    if (position == mzgramIdRow) {
+                        // MZGram: Show ID
+                        detailCell.setTextAndValue(mzgramPeerIdText(), getString(R.string.MZGramPeerIdLabel), false);
+                    } else if (position == birthdayRow) {
                         TLRPC.UserFull userFull = getMessagesController().getUserFull(userId);
                         if (userFull != null && userFull.birthday != null) {
                             final boolean today = BirthdayController.isToday(userFull);
@@ -14327,7 +14358,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (position == infoHeaderRow || position == membersHeaderRow || position == settingsSectionRow2 ||
                     position == numberSectionRow || position == helpHeaderRow || position == debugHeaderRow || position == botPermissionsHeader) {
                 return VIEW_TYPE_HEADER;
-            } else if (position == phoneRow || position == locationRow || position == numberRow || position == birthdayRow) {
+            } else if (position == phoneRow || position == locationRow || position == numberRow || position == birthdayRow || position == mzgramIdRow) {
                 return VIEW_TYPE_TEXT_DETAIL;
             } else if (position == usernameRow || position == setUsernameRow) {
                 return VIEW_TYPE_TEXT_DETAIL_MULTILINE;
@@ -15746,6 +15777,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, userInfoRow, sparseIntArray);
             put(++pointer, channelInfoRow, sparseIntArray);
             put(++pointer, usernameRow, sparseIntArray);
+            put(++pointer, mzgramIdRow, sparseIntArray);
             put(++pointer, notificationsDividerRow, sparseIntArray);
             put(++pointer, reportDividerRow, sparseIntArray);
             put(++pointer, notificationsRow, sparseIntArray);

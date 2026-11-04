@@ -100,6 +100,14 @@ public class MZGramConfig {
     // viewing does not mark the story as seen for the other side.
     public static boolean offerGhostModeBeforeStories = false;
 
+    // Settings > MZGram > Interface > Show ID (MZGramPeerId): hidden by
+    // default, as in Telegram API or as in Bot API.
+    public static int peerIdMode = MZGramPeerId.HIDDEN;
+
+    // Notifications and Sounds > Reliable delivery (MZGramReliableService):
+    // a permanent notification keeps the connection; off by default.
+    public static boolean reliableDelivery = false;
+
     // Local message history archive (Settings > MZGram > Archive). Other
     // people's deleted and edited messages in every private chat, group,
     // channel and secret chat; each part has its own switch, all on by
@@ -223,6 +231,8 @@ public class MZGramConfig {
                         .apply();
             }
             saveArchiveMedia = preferences.getBoolean("saveArchiveMedia", true);
+            peerIdMode = preferences.getInt("peerIdMode", MZGramPeerId.HIDDEN);
+            reliableDelivery = preferences.getBoolean("reliableDelivery", false);
             saveFormatting = preferences.getBoolean("saveFormatting", true);
             saveReactions = preferences.getBoolean("saveReactions", true);
             saveFromUsers = preferences.getBoolean("saveFromUsers", true);
@@ -414,6 +424,16 @@ public class MZGramConfig {
     public static void toggleHideBottomNavigationBar() {
         hideBottomNavigationBar = !hideBottomNavigationBar;
         putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
+    }
+
+    public static void setPeerIdMode(int mode) {
+        peerIdMode = mode;
+        preferences().edit().putInt("peerIdMode", mode).apply();
+    }
+
+    public static void setReliableDelivery(boolean enabled) {
+        reliableDelivery = enabled;
+        preferences().edit().putBoolean("reliableDelivery", enabled).commit();
     }
 
     public static void setLanguage(String code) {

@@ -14829,6 +14829,13 @@ public class MessagesStorage extends BaseController {
                     FileLog.d(sb.toString());
                 }
 
+                // MZGram: deleted messages this cache had no copy of: the ones MZGram
+                // kept as they came (level 1 of the archive), the rest counted as
+                // deleted without content
+                if (allowMzgramArchive && !unknownMessages.isEmpty()) {
+                    org.telegram.messenger.mzgram.MZGramHistoryController.getInstance().onDeletedNotInCache(currentAccount, dialogId, new ArrayList<>(unknownMessages));
+                }
+
                 ArrayList<TopicKey> topicsToDelete = null;
 
                 if (dialogId != 0) {

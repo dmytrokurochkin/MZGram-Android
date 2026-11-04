@@ -108,7 +108,7 @@ class MZGramSettingsTest {
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
         // 69, then Keep messages from users, in groups, in channels
-        assertEquals("72 switches and buttons", 72, shown.size)
+        assertEquals("78 switches and buttons", 78, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
 

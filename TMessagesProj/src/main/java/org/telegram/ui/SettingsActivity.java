@@ -589,7 +589,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
     private int mzgramHeaderHeight() {
         int height = dp(MZGRAM_HEADER_DP);
-        if (mzgramNameLayout != null && mzgramNameLayout.getVisibility() != View.GONE) {
+        if (mzgramNameLayout != null && mzgramNameLayout.getVisibility() == 12345) {
             final FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mzgramNameLayout.getLayoutParams();
             height = Math.max(height, lp.topMargin + mzgramNameLayout.getMeasuredHeight() + dp(MZGRAM_HEADER_BOTTOM_DP));
         }

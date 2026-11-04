@@ -163,7 +163,7 @@ public class MZGramReliableService extends Service {
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null && manager.getNotificationChannel(CHANNEL_ID) == null) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, LocaleController.getString(R.string.MZGramReliable), NotificationManager.IMPORTANCE_MIN);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, LocaleController.getString(R.string.MZGramReliable), NotificationManager.IMPORTANCE_LOW);
                 channel.setSound(null, null);
                 channel.enableVibration(false);
                 channel.enableLights(false);

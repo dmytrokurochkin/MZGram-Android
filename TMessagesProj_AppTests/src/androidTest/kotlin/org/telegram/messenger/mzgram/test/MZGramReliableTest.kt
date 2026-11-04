@@ -83,7 +83,7 @@ class MZGramReliableTest {
         if (Build.VERSION.SDK_INT >= 26) {
             assertEquals(MZGramReliableService.CHANNEL_ID, notification.channelId)
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            assertEquals("a quiet channel", NotificationManager.IMPORTANCE_MIN, manager.getNotificationChannel(MZGramReliableService.CHANNEL_ID).importance)
+            assertEquals("a quiet channel", NotificationManager.IMPORTANCE_LOW, manager.getNotificationChannel(MZGramReliableService.CHANNEL_ID).importance)
         }
 
         MZGramConfig.setReliableDelivery(false)

@@ -86,7 +86,7 @@ class ReliableTest(unittest.TestCase):
         self.assertIn("startForegroundService(intent)", code)
         self.assertIn('MZGramReliableJournal.event("start refused', code)
         self.assertNotIn("addAction(", code)
-        self.assertIn("NotificationManager.IMPORTANCE_MIN", code)
+        self.assertIn("NotificationManager.IMPORTANCE_LOW", code)
         self.assertIn('SETTINGS_LINK = "tg://settings/mzgram_reliable"', code)
         self.assertNotIn("NotificationsService", re.sub(r"//.*|/\*.*?\*/", "", code, flags=re.S))
 

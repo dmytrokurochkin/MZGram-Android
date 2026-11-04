@@ -769,14 +769,15 @@ public class MZGramHistoryController {
             return;
         }
         LocalFile source = findLocalFile(accountId, message);
+        // Level 2: the file downloaded in advance, already in the archive
+        File kept = null;
         if (source == null) {
-            // Level 2: the file downloaded in advance
             MZGramHistoryDatabase.Received received = MZGramHistoryDatabase.getInstance().getReceived(accountUserId, dialogId, message.id);
             if (received != null && received.mediaPath != null && new File(received.mediaPath).exists()) {
-                source = new LocalFile(new File(received.mediaPath), null);
+                kept = new File(received.mediaPath);
             }
         }
-        if (source == null) {
+        if (source == null && kept == null) {
             return; // not downloaded on this device -- nothing local to archive
         }
 
@@ -792,10 +793,13 @@ public class MZGramHistoryController {
         }
 
         try {
-            File destDir = MZGramHistoryDatabase.mediaDir(accountUserId, dialogId);
-            File dest = new File(destDir, dialogId + "_" + message.id + "_" + source.name());
-            if (!dest.exists() || dest.length() == 0) {
-                copyOut(source, dest);
+            File dest = kept;
+            if (dest == null) {
+                File destDir = MZGramHistoryDatabase.mediaDir(accountUserId, dialogId);
+                dest = new File(destDir, dialogId + "_" + message.id + "_" + source.name());
+                if (!dest.exists() || dest.length() == 0) {
+                    copyOut(source, dest);
+                }
             }
             row.mediaPath = dest.getAbsolutePath();
             row.mediaType = mediaType;

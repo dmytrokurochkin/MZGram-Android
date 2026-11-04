@@ -2608,7 +2608,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         data = Uri.parse(url);
                                         theme = data.getQueryParameter("slug");
                                     } else if (url.startsWith("tg:settings") || url.startsWith("tg://settings")) {
-                                        if (url.contains("themes") || url.contains("theme")) {
+                                        // MZGram: the Reliable delivery notification opens its switch
+                                        if (url.contains("mzgram_reliable")) {
+                                            open_settings = 40;
+                                        } else if (url.contains("themes") || url.contains("theme")) {
                                             open_settings = 2;
                                         } else if (url.contains("devices")) {
                                             open_settings = 3;
@@ -3162,6 +3165,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     fragment = new PrivacySettingsActivity();
                 } else if (open_settings == 14) {
                     fragment = new PrivacyControlActivity(ContactsController.PRIVACY_RULES_TYPE_PHONE);
+                } else if (open_settings == 40) {
+                    fragment = new NotificationsSettingsActivity();
                 } else if (open_settings == 15) {
 
                     ConnectionsManager.getInstance(currentAccount).sendRequest(new TL_account.getPassword(), (response, error) -> {

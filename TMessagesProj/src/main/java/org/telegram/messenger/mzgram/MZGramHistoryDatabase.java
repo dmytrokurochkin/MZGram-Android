@@ -34,8 +34,12 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     static final String DB_NAME = "mzgram_history.db";
     // 3: messageData, the whole serialized message, so a deleted message can
     // be shown in the chat again.
-    private static final int DB_VERSION = 4;
+    // 5: received, other people's messages as soon as they come (level 1
+    // of the archive), so a deletion finds them even when Telegram's own
+    // cache has no copy.
+    private static final int DB_VERSION = 5;
     private static final String TABLE_READS = "outbox_reads";
+    private static final String TABLE_RECEIVED = "received";
     private static final String TABLE_LAST_SEEN = "last_seen";
 
     private static final String TABLE = "history_message";
@@ -239,6 +243,73 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE UNIQUE INDEX idx_history_message_unique_deleted ON " + TABLE
                 + " (accountUserId, dialogId, messageId) WHERE kind = " + MZGramHistoryMessage.KIND_DELETED);
         createReadAndLastSeenTables(db);
+        createReceivedTable(db);
+    }
+
+    private static void createReceivedTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECEIVED + " (" +
+                "accountUserId INTEGER NOT NULL, " +
+                "dialogId INTEGER NOT NULL, " +
+                "messageId INTEGER NOT NULL, " +
+                "channel INTEGER NOT NULL, " +
+                "date INTEGER NOT NULL, " +
+                "messageData BLOB, " +
+                "mediaPath TEXT, " +
+                "PRIMARY KEY (accountUserId, dialogId, messageId))");
+        db.execSQL("CREATE INDEX IF NOT EXISTS idx_received_message ON " + TABLE_RECEIVED + " (accountUserId, messageId, channel)");
+    }
+
+    // ---- level 1: the message as soon as it comes ----
+
+    public void putReceived(long accountUserId, long dialogId, int messageId, boolean channel, int date, byte[] data) {
+        getWritableDatabase().execSQL("INSERT OR IGNORE INTO " + TABLE_RECEIVED
+                        + " (accountUserId, dialogId, messageId, channel, date, messageData) VALUES (?, ?, ?, ?, ?, ?)",
+                new Object[]{accountUserId, dialogId, messageId, channel ? 1 : 0, date, data});
+    }
+
+    public static final class Received {
+        public long dialogId;
+        public int messageId;
+        public byte[] data;
+        public String mediaPath;
+    }
+
+    // The kept message, or null. dialogId 0: a private chat or group, whose
+    // deletions name only ids (they share one id sequence per account).
+    public Received getReceived(long accountUserId, long dialogId, int messageId) {
+        String query = dialogId != 0
+                ? "SELECT dialogId, messageId, messageData, mediaPath FROM " + TABLE_RECEIVED + " WHERE accountUserId = ? AND dialogId = ? AND messageId = ?"
+                : "SELECT dialogId, messageId, messageData, mediaPath FROM " + TABLE_RECEIVED + " WHERE accountUserId = ? AND messageId = ? AND channel = 0";
+        String[] args = dialogId != 0
+                ? new String[]{String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(messageId)}
+                : new String[]{String.valueOf(accountUserId), String.valueOf(messageId)};
+        try (Cursor cursor = getReadableDatabase().rawQuery(query, args)) {
+            if (cursor.moveToFirst()) {
+                Received result = new Received();
+                result.dialogId = cursor.getLong(0);
+                result.messageId = cursor.getInt(1);
+                result.data = cursor.isNull(2) ? null : cursor.getBlob(2);
+                result.mediaPath = cursor.isNull(3) ? null : cursor.getString(3);
+                return result;
+            }
+        } catch (Exception e) {
+            org.telegram.messenger.FileLog.e("MZGramHistoryDatabase.getReceived", e);
+        }
+        return null;
+    }
+
+    // Level 2: the file downloaded in advance.
+    public void setReceivedMedia(long accountUserId, long dialogId, int messageId, String mediaPath) {
+        ContentValues values = new ContentValues();
+        values.put("mediaPath", mediaPath);
+        getWritableDatabase().update(TABLE_RECEIVED, values, "accountUserId = ? AND dialogId = ? AND messageId = ?",
+                new String[]{String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(messageId)});
+    }
+
+    // Once archived as deleted, or deleted by the owner.
+    public void deleteReceived(long accountUserId, long dialogId, int messageId) {
+        getWritableDatabase().delete(TABLE_RECEIVED, "accountUserId = ? AND dialogId = ? AND messageId = ?",
+                new String[]{String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(messageId)});
     }
 
     // When other people read the owner's messages (MZGramReadDates): a row
@@ -329,6 +400,9 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         }
         if (oldVersion < 4) {
             createReadAndLastSeenTables(db);
+        }
+        if (oldVersion < 5) {
+            createReceivedTable(db);
         }
     }
 
@@ -495,6 +569,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         clean();
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_READS);
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_LAST_SEEN);
+        getWritableDatabase().execSQL("DELETE FROM " + TABLE_RECEIVED);
         MZGramLastSeen.forget();
         // The emptied database gives its space back
         try {

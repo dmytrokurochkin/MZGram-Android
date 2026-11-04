@@ -171,7 +171,12 @@ public class MZGramHistoryController {
         long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
 
         MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
-        long rowId = db.insert(buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_DELETED));
+        MZGramHistoryMessage row = buildRow(accountId, accountUserId, dialogId, message, MZGramHistoryMessage.KIND_DELETED);
+        long rowId = db.insert(row);
+        if (row.mediaPath == null) {
+            fetchOnDeletion(accountId, accountUserId, dialogId, message, rowId);
+        }
+        db.deleteReceived(accountUserId, dialogId, message.id);
         if (BuildVars.LOGS_ENABLED) {
             if (rowId == -1) {
                 FileLog.d("MZGramHistoryController: message " + message.id + " in dialog " + dialogId + " already archived (INSERT OR IGNORE no-op)");
@@ -294,6 +299,7 @@ public class MZGramHistoryController {
         if (!MZGramConfig.saveDeletedMessages) {
             return;
         }
+        receive(accountId, messages);
         for (int a = 0, N = messages.size(); a < N; a++) {
             TLRPC.Message message = messages.get(a);
             if (message == null || message.media == null || message.media.ttl_seconds == 0 || message.id <= 0) {
@@ -311,11 +317,246 @@ public class MZGramHistoryController {
         }
     }
 
+    // ---- the archive's levels 1 and 2: other people's messages as they come ----
+
+    // Level 1: every message from someone else, whole, as soon as it comes
+    // (also when Telegram's own cache later has no copy of it). Level 2:
+    // its file, downloaded at once when not larger than the limit of its
+    // source (MZGramArchiveLimits); a file already on the device is copied.
+    private void receive(int accountId, ArrayList<TLRPC.Message> messages) {
+        long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+        for (int a = 0, N = messages.size(); a < N; a++) {
+            TLRPC.Message message = messages.get(a);
+            if (message == null || message.out || message.id <= 0 || message instanceof TLRPC.TL_messageService) {
+                continue;
+            }
+            long dialogId = MessageObject.getDialogId(message);
+            if (dialogId == 0 || DialogObject.isEncryptedDialog(dialogId) || !savesMessage(dialogId, message) || isOwnMessage(accountId, message)) {
+                continue;
+            }
+            try {
+                TLRPC.Message saved = withoutSwitchedOffParts(message);
+                byte[] data = serializeMessage(saved);
+                if (data == null) {
+                    continue;
+                }
+                boolean channel = message.peer_id != null && message.peer_id.channel_id != 0;
+                db.putReceived(accountUserId, dialogId, message.id, channel, message.date, data);
+                if (message.media != null && message.media.ttl_seconds == 0) {
+                    fetchAhead(accountId, accountUserId, dialogId, message);
+                }
+            } catch (Exception e) {
+                FileLog.e("MZGramHistoryController.receive", e);
+            }
+        }
+    }
+
+    // The size a file is checked against: a document's own, the largest
+    // size of a photo (0 when not known, counted as small).
+    static long fileSize(TLRPC.Message message) {
+        TLRPC.MessageMedia media = MessageObject.getMedia(message);
+        if (media == null) {
+            return 0;
+        } else if (media.document != null) {
+            return media.document.size;
+        } else if (media.photo != null && media.photo.sizes != null) {
+            long result = 0;
+            for (int a = 0, N = media.photo.sizes.size(); a < N; a++) {
+                result = Math.max(result, media.photo.sizes.get(a).size);
+            }
+            return result;
+        }
+        return 0;
+    }
+
+    private static boolean archivableMedia(TLRPC.Message message) {
+        return MZGramConfig.saveArchiveMedia
+                && message.media != null
+                && oneTimeFileName(message) != null
+                && !MessageObject.isStickerMessage(message)
+                && !MessageObject.isAnimatedStickerMessage(message);
+    }
+
+    private void fetchAhead(int accountId, long accountUserId, long dialogId, TLRPC.Message message) {
+        if (!archivableMedia(message)) {
+            return;
+        }
+        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+        MZGramHistoryDatabase.Received received = db.getReceived(accountUserId, dialogId, message.id);
+        if (received != null && received.mediaPath != null && new File(received.mediaPath).exists()) {
+            return;
+        }
+        LocalFile local = findLocalFile(accountId, message);
+        if (local != null) {
+            File dest = saveFile(accountUserId, dialogId, message, local);
+            if (dest != null) {
+                db.setReceivedMedia(accountUserId, dialogId, message.id, dest.getAbsolutePath());
+                MZGramArchiveLimits.count(MZGramArchiveLimits.SAVED_AHEAD);
+            }
+            return;
+        }
+        int limit = MZGramArchiveLimits.limitMb(sourceOf(dialogId, message));
+        if (!MZGramArchiveLimits.fetches(fileSize(message), limit, false)) {
+            return;
+        }
+        download(accountId, accountUserId, dialogId, message, -1);
+    }
+
+    // The file into the archive's folder of the chat; null when it fails.
+    private static File saveFile(long accountUserId, long dialogId, TLRPC.Message message, LocalFile source) {
+        try {
+            File dest = new File(MZGramHistoryDatabase.mediaDir(accountUserId, dialogId), dialogId + "_" + message.id + "_" + source.name());
+            if (!dest.exists() || dest.length() == 0) {
+                copyOut(source, dest);
+            }
+            return dest.exists() && dest.length() > 0 ? dest : null;
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.saveFile", e);
+            return null;
+        }
+    }
+
+    // Level 3: a deleted message archived without its file. A file kept in
+    // advance is used; else it is downloaded by the kept message, up to
+    // the limit plus MZGramArchiveLimits.DELETION_EXTRA_MB.
+    private void fetchOnDeletion(int accountId, long accountUserId, long dialogId, TLRPC.Message message, long rowId) {
+        if (rowId < 0 || !archivableMedia(message)) {
+            return;
+        }
+        int limit = MZGramArchiveLimits.limitMb(sourceOf(dialogId, message));
+        if (!MZGramArchiveLimits.fetches(fileSize(message), limit, true)) {
+            return;
+        }
+        download(accountId, accountUserId, dialogId, message, rowId);
+    }
+
+    private static final class PendingArchive {
+        final long accountUserId;
+        final long dialogId;
+        final TLRPC.Message message;
+        // The archived deleted row to give the file to; -1 in advance
+        final long rowId;
+
+        PendingArchive(long accountUserId, long dialogId, TLRPC.Message message, long rowId) {
+            this.accountUserId = accountUserId;
+            this.dialogId = dialogId;
+            this.message = message;
+            this.rowId = rowId;
+        }
+    }
+
+    // "account:fileName" -> the archive's download
+    private final ConcurrentHashMap<String, PendingArchive> pendingArchive = new ConcurrentHashMap<>();
+    private final boolean[] archiveObserverAdded = new boolean[UserConfig.MAX_ACCOUNT_COUNT];
+
+    private void download(int accountId, long accountUserId, long dialogId, TLRPC.Message message, long rowId) {
+        String fileName = oneTimeFileName(message);
+        if (fileName == null) {
+            return;
+        }
+        TLRPC.Message copy = deserializeMessage(serializeMessage(message));
+        if (copy == null) {
+            return;
+        }
+        copy.dialog_id = dialogId;
+        pendingArchive.put(accountId + ":" + fileName, new PendingArchive(accountUserId, dialogId, copy, rowId));
+        AndroidUtilities.runOnUIThread(() -> {
+            addArchiveObserver(accountId);
+            startDownload(accountId, copy);
+        });
+    }
+
+    private void addArchiveObserver(int accountId) {
+        if (archiveObserverAdded[accountId]) {
+            return;
+        }
+        archiveObserverAdded[accountId] = true;
+        NotificationCenter.NotificationCenterDelegate delegate = (id, account, args) -> {
+            if (args.length == 0 || !(args[0] instanceof String)) {
+                return;
+            }
+            String fileName = (String) args[0];
+            if (id == NotificationCenter.fileLoadFailed && args.length > 1 && args[1] instanceof Integer && (Integer) args[1] == 1) {
+                return; // canceled, it may start again
+            }
+            PendingArchive pending = pendingArchive.remove(account + ":" + fileName);
+            if (pending == null) {
+                return;
+            }
+            if (id == NotificationCenter.fileLoadFailed) {
+                MZGramArchiveLimits.count(MZGramArchiveLimits.failure(fileName));
+                return;
+            }
+            MessagesStorage.getInstance(account).getStorageQueue().postRunnable(() -> {
+                try {
+                    downloaded(account, pending);
+                } catch (Exception e) {
+                    FileLog.e("MZGramHistoryController.downloaded", e);
+                }
+            });
+        };
+        NotificationCenter.getInstance(accountId).addObserver(delegate, NotificationCenter.fileLoaded);
+        NotificationCenter.getInstance(accountId).addObserver(delegate, NotificationCenter.fileLoadFailed);
+    }
+
+    private void downloaded(int accountId, PendingArchive pending) {
+        LocalFile local = findLocalFile(accountId, pending.message);
+        File dest = local != null ? saveFile(pending.accountUserId, pending.dialogId, pending.message, local) : null;
+        if (dest == null) {
+            MZGramArchiveLimits.count(MZGramArchiveLimits.FAILED);
+            return;
+        }
+        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+        String path = dest.getAbsolutePath();
+        String mime = pending.message.media != null && pending.message.media.document != null ? pending.message.media.document.mime_type : null;
+        int type = pending.message.media instanceof TLRPC.TL_messageMediaPhoto ? MZGramHistoryMessage.MEDIA_PHOTO : MZGramHistoryMessage.MEDIA_FILE;
+        if (pending.rowId >= 0) {
+            db.updateMedia(pending.rowId, path, type, mime);
+            MZGramArchiveLimits.count(MZGramArchiveLimits.SAVED_ON_DELETION);
+            return;
+        }
+        db.setReceivedMedia(pending.accountUserId, pending.dialogId, pending.message.id, path);
+        MZGramArchiveLimits.count(MZGramArchiveLimits.SAVED_AHEAD);
+        // Deleted while it was downloading: the archived row gets it now
+        MZGramHistoryMessage deleted = db.getDeleted(pending.accountUserId, pending.dialogId, pending.message.id);
+        if (deleted != null && (deleted.mediaPath == null || !new File(deleted.mediaPath).exists())) {
+            db.updateMedia(deleted.rowId, path, type, mime);
+        }
+    }
+
+    // MessagesStorage.markMessagesAsDeletedInternal: deleted messages this
+    // device's cache had no copy of. The one kept as it came is archived;
+    // else it counts as deleted without content (Archive and push
+    // diagnostics). dialogId 0: a private chat or group.
+    public void onDeletedNotInCache(int accountId, long dialogId, ArrayList<Integer> ids) {
+        if (ids == null || ids.isEmpty() || !MZGramConfig.saveDeletedMessages) {
+            return;
+        }
+        long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+        MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+        for (int a = 0, N = ids.size(); a < N; a++) {
+            int id = ids.get(a);
+            try {
+                MZGramHistoryDatabase.Received received = db.getReceived(accountUserId, dialogId, id);
+                TLRPC.Message message = received != null && received.data != null ? deserializeMessage(received.data) : null;
+                if (message == null) {
+                    MZGramArchiveLimits.count(MZGramArchiveLimits.DELETED_WITHOUT_CONTENT);
+                    continue;
+                }
+                message.dialog_id = received.dialogId;
+                onMessageDeleted(accountId, received.dialogId, message);
+            } catch (Exception e) {
+                FileLog.e("MZGramHistoryController.onDeletedNotInCache", e);
+            }
+        }
+    }
+
     // "account:fileName" -> {dialogId, message}
     private final ConcurrentHashMap<String, Object[]> pendingOneTime = new ConcurrentHashMap<>();
     private final boolean[] fileObserverAdded = new boolean[UserConfig.MAX_ACCOUNT_COUNT];
 
-    private static String oneTimeFileName(TLRPC.Message message) {
+    static String oneTimeFileName(TLRPC.Message message) {
         TLRPC.MessageMedia media = message.media;
         if (media instanceof TLRPC.TL_messageMediaPhoto && media.photo instanceof TLRPC.TL_photo) {
             TLRPC.PhotoSize size = FileLoader.getClosestPhotoSizeWithSize(media.photo.sizes, AndroidUtilities.getPhotoSize());
@@ -528,6 +769,13 @@ public class MZGramHistoryController {
             return;
         }
         LocalFile source = findLocalFile(accountId, message);
+        if (source == null) {
+            // Level 2: the file downloaded in advance
+            MZGramHistoryDatabase.Received received = MZGramHistoryDatabase.getInstance().getReceived(accountUserId, dialogId, message.id);
+            if (received != null && received.mediaPath != null && new File(received.mediaPath).exists()) {
+                source = new LocalFile(new File(received.mediaPath), null);
+            }
+        }
         if (source == null) {
             return; // not downloaded on this device -- nothing local to archive
         }

@@ -105,6 +105,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     private int notificationsServiceConnectionRow;
     // MZGram: opens the UnifiedPush page.
     private int mzgramUnifiedPushRow;
+    // MZGram: Reliable delivery, a permanent notification keeps the connection.
+    private int mzgramReliableRow;
 
     private int notificationsSectionRow;
     @Keep
@@ -215,6 +217,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         otherSection2Row = rowCount++;
 
         otherSectionRow = rowCount++;
+        mzgramReliableRow = rowCount++;
         notificationsServiceRow = rowCount++;
         notificationsServiceConnectionRow = rowCount++;
         mzgramUnifiedPushRow = rowCount++;
@@ -778,6 +781,10 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 }));
             } else if (position == mzgramUnifiedPushRow) {
                 presentFragment(new org.telegram.ui.mzgram.MZGramUnifiedPushActivity());
+            } else if (position == mzgramReliableRow) {
+                enabled = org.telegram.messenger.mzgram.MZGramConfig.reliableDelivery;
+                org.telegram.messenger.mzgram.MZGramConfig.setReliableDelivery(!enabled);
+                org.telegram.messenger.mzgram.MZGramReliableService.apply(ApplicationLoader.applicationContext, org.telegram.messenger.mzgram.MZGramReliableService.REASON_SWITCH);
             } else if (position == repeatRow) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(getString("RepeatNotifications", R.string.RepeatNotifications));
@@ -1022,6 +1029,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         checkCell.setTextAndCheck(getString("PinnedMessages", R.string.PinnedMessages), preferences.getBoolean("PinnedMessages", true), false);
                     } else if (position == androidAutoAlertRow) {
                         checkCell.setTextAndCheck("Android Auto", preferences.getBoolean("EnableAutoNotifications", false), true);
+                    } else if (position == mzgramReliableRow) {
+                        checkCell.setTextAndValueAndCheck(getString(R.string.MZGramReliable), getString(R.string.MZGramReliableInfo), org.telegram.messenger.mzgram.MZGramConfig.reliableDelivery, true, true);
                     } else if (position == notificationsServiceRow) {
                         checkCell.setTextAndValueAndCheck(getString("NotificationsService", R.string.NotificationsService), getString("NotificationsServiceInfo", R.string.NotificationsServiceInfo), preferences.getBoolean("pushService", getMessagesController().keepAliveService), true, true);
                     } else if (position == notificationsServiceConnectionRow) {
@@ -1208,7 +1217,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 return 0;
             } else if (position == inappSoundRow || position == inappVibrateRow || position == notificationsServiceConnectionRow ||
                     position == inappPreviewRow || position == contactJoinedRow || position == pinnedMessageRow ||
-                    position == notificationsServiceRow || position == badgeNumberMutedRow || position == badgeNumberMessagesRow ||
+                    position == notificationsServiceRow || position == mzgramReliableRow || position == badgeNumberMutedRow || position == badgeNumberMessagesRow ||
                     position == badgeNumberShowRow || position == inappPriorityRow || position == inchatSoundRow ||
                     position == androidAutoAlertRow || position == accountsAllRow) {
                 return 1;

@@ -278,6 +278,9 @@ public final class MZGramDeviceCheck {
         if (failure != null) {
             log.append("Last failure: ").append(failure).append('\n');
         }
+        log.append("Deleted messages without content: ").append(MZGramArchiveLimits.counter(MZGramArchiveLimits.DELETED_WITHOUT_CONTENT)).append('\n');
+        log.append('\n').append(MZGramReliableJournal.log(MZGramReliableService.isRunning(),
+                MZGramReliableService.watchScheduled(org.telegram.messenger.ApplicationLoader.applicationContext)));
         List<String> events = MZGramPushDiagnostics.events();
         if (!events.isEmpty()) {
             log.append("\nEvents, oldest first:\n");

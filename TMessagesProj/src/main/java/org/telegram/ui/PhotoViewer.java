@@ -17488,7 +17488,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (chatActivity != null && chatActivity.getCurrentEncryptedChat() != null ||
                 avatarsDialogId != 0 && MessagesController.getInstance(currentAccount).isPeerNoForwards(avatarsDialogId) ||
                 messageObject != null && (MessagesController.getInstance(currentAccount).isPeerNoForwards(messageObject.getDialogId()) ||
-                (messageObject.messageOwner != null && messageObject.isNoforwards())) || messageObject != null && messageObject.hasRevealedExtendedMedia() ||
+                (messageObject.messageOwner != null && messageObject.messageOwner.noforwards)) || messageObject != null && messageObject.hasRevealedExtendedMedia() ||
                 isPageBlocksNoForwards(pageBlocksAdapter)
             ) {
                 windowLayoutParams.flags |= WindowManager.LayoutParams.FLAG_SECURE;
@@ -19504,7 +19504,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         final Object parent = adapter.getParentObject();
         if (parent instanceof MessageObject && ((MessageObject) parent).messageOwner != null) {
             final MessageObject messageObject = (MessageObject) parent;
-            return MessagesController.getInstance(currentAccount).isPeerNoForwards(messageObject.getDialogId()) || messageObject.isNoforwards() || messageObject.hasRevealedExtendedMedia();
+            return MessagesController.getInstance(currentAccount).isPeerNoForwards(messageObject.getDialogId()) || messageObject.messageOwner.noforwards || messageObject.hasRevealedExtendedMedia();
         }
         return false;
     }

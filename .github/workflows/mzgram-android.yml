@@ -80,6 +80,8 @@ jobs:
           python3 .github/scripts/test_manifest.py
           # The archive's three levels, Show ID, Reliable delivery as wired
           python3 .github/scripts/test_levels_reliable.py
+          # "Forward and save protected content": the viewer and the text selection use the app's check
+          python3 .github/scripts/test_protected_content.py
           # A push build gets the versionCode of the newest release tag (or the
           # gradle.properties one before the first release): it installs over the
           # last release, and the next release installs over it

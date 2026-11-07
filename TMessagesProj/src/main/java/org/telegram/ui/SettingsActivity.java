@@ -619,6 +619,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             setInfo();
             listView.adapter.update(false);
         }
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -685,14 +688,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             actionBarVisibleAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             actionBarVisibleAnimator.setDuration(420);
             actionBarVisibleAnimator.start();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (listView.adapter != null) {
-            listView.adapter.notifyDataSetChanged();
         }
     }
 

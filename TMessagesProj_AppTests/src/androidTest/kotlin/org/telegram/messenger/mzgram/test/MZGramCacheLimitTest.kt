@@ -158,7 +158,12 @@ class MZGramCacheLimitTest {
         waitForCleanup()
         assertFalse("the lower limit cleared the oldest file at once", files[0].exists())
         assertTrue("the newest file kept", files[3].exists())
-        instrumentation.runOnMainSync { fragment.finishFragment() }
+        // Closed at once, not after the close animation: Telegram's screen
+        // stops its size count through a static flag when it is destroyed,
+        // and a destroy that comes after the next screen started would stop
+        // that screen's count too, so the slider would never be shown.
+        instrumentation.runOnMainSync { fragment.finishFragment(false) }
+        assertTrue("storage usage closed", MZGramScreens.waitFor(10) { fragment.fragmentView?.isShown != true })
 
         val (again, sliderAgain) = openSlider()
         assertEquals("the saved 1 GB is selected after reopening", "1 GB", options(sliderAgain)[selected(sliderAgain)])

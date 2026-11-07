@@ -2,7 +2,7 @@
 
 What MZGram adds to the regular Telegram apps, and how it differs from them. MZGram is an unofficial client: MZGram for Android is based on Telegram for Android, MZGram Desktop on Telegram Desktop. Everything here is in the code today; nothing planned is listed.
 
-"Since" is the first MZGram release with the feature. "Next release" means it is done and tested but not released yet (Android 1.0.10, Desktop 1.0.11).
+"Since" is the first MZGram release with the feature. "Next release" means it is done and tested but not released yet (Android 1.0.11, Desktop 1.0.11).
 
 Most switches are under **Settings > MZGram**, grouped into topic pages. This file is the same in both repositories; it is updated together with every change to a feature.
 

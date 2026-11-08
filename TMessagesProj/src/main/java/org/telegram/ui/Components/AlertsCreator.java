@@ -7703,7 +7703,8 @@ public class AlertsCreator {
     }
 
     public static AlertDialog createAccountSelectDialog(Activity parentActivity, final AccountSelectDelegate delegate) {
-        if (UserConfig.getActivatedAccountsCount() < 2) {
+        // MZGram: hidden accounts are not counted (MZGramPasscodeAccounts)
+        if (org.telegram.messenger.mzgram.MZGramPasscodeAccounts.listedAccountsCount() < 2) {
             return null;
         }
 
@@ -7714,6 +7715,8 @@ public class AlertsCreator {
         final LinearLayout linearLayout = new LinearLayout(parentActivity);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+            // MZGram: hidden accounts are left out (MZGramPasscodeAccounts)
+            if (!org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isListed(a, UserConfig.selectedAccount)) continue;
             TLRPC.User u = UserConfig.getInstance(a).getCurrentUser();
             if (u != null) {
                 AccountSelectCell cell = new AccountSelectCell(parentActivity, false);

@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">Start from %1$s</string>
     <string name="MZGramReduceNetworkTracking">Reduce network tracking</string>
     <string name="MZGramReduceNetworkTrackingInfo">Telegram\'s CDN servers only know your account\'s permanent key, so every file from them carries the same key id that someone watching the network can use to link your downloads. Files are asked from Telegram\'s main servers instead. Large files can download slower.</string>
+    <string name="MZGramPasscodeAccounts">Account passcodes</string>
+    <string name="MZGramPasscodeAccountsInfo">Each account can have its own passcode for the app lock: entering it unlocks the app and opens that account. An account with its own passcode can be hidden from the account lists and notifications.</string>
+    <string name="MZGramPasscodeAccountsSetup">Set up account passcodes</string>
+    <string name="MZGramPasscodeAccountsNeedApp">Account passcodes work with the app lock. Turn on Passcode Lock first; account passcodes are of the same kind (a 4-digit PIN or a password).</string>
+    <string name="MZGramPasscodeAccountsListInfo">A hidden account is left out of Settings, the chat list menu and every account choice, and shows no notifications; only its own passcode on the lock screen opens it. The app passcode or the fingerprint opens a visible account. Turning off Account passcodes or Passcode Lock shows hidden accounts again.</string>
+    <string name="MZGramPasscodeSet">Set passcode</string>
+    <string name="MZGramPasscodeChange">Change passcode</string>
+    <string name="MZGramPasscodeRemove">Remove passcode</string>
+    <string name="MZGramPasscodeHide">Hide account</string>
+    <string name="MZGramPasscodeEnter">Passcode</string>
+    <string name="MZGramPasscodeRepeat">Repeat passcode</string>
+    <string name="MZGramPasscodeEmpty">Enter a passcode</string>
+    <string name="MZGramPasscodePinLength">The PIN must have 4 digits</string>
+    <string name="MZGramPasscodeMismatch">The passcodes do not match</string>
+    <string name="MZGramPasscodeSameAsApp">This is the app passcode, choose another one</string>
+    <string name="MZGramPasscodeTaken">Another account already has this passcode</string>
+    <string name="MZGramPasscodeSaved">Passcode saved</string>
+    <string name="MZGramPasscodeRemoved">Passcode removed</string>
+    <string name="MZGramPasscodeLastVisible">At least one account must stay visible</string>
 </resources>

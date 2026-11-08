@@ -3918,7 +3918,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             });
         }
 
-        if (allowSwitchAccount && UserConfig.getActivatedAccountsCount() > 1) {
+        // MZGram: hidden accounts are not counted (MZGramPasscodeAccounts)
+        if (allowSwitchAccount && org.telegram.messenger.mzgram.MZGramPasscodeAccounts.listedAccountsCount() > 1) {
             switchItem = menu.addItemWithWidth(11, 0, dp(56));
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             avatarDrawable.setTextSize(dp(12));
@@ -14650,7 +14651,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-            if (UserConfig.getInstance(a).isClientActivated()) {
+            // MZGram: hidden accounts are left out (MZGramPasscodeAccounts)
+            if (UserConfig.getInstance(a).isClientActivated() && org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isListed(a, currentAccount)) {
                 accountNumbers.add(a);
             }
         }

@@ -1650,6 +1650,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     private boolean pendingSwitchingAccount;
 
     private void onAuthSuccess(TLRPC.TL_auth_authorization res, boolean afterSignup) {
+        // MZGram: a new login in this slot starts without the old passcode (MZGramPasscodeAccounts)
+        org.telegram.messenger.mzgram.MZGramPasscodeAccounts.forget(currentAccount);
         MessagesController.getInstance(currentAccount).cleanup();
         ConnectionsManager.getInstance(currentAccount).setUserId(res.user.id);
         UserConfig.getInstance(currentAccount).clearConfig();

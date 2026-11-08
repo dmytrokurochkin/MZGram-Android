@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">Запусціць з акаўнта %1$s</string>
     <string name="MZGramReduceNetworkTracking">Менш сеткавага сачэння</string>
     <string name="MZGramReduceNetworkTrackingInfo">CDN-серверы Telegram ведаюць толькі пастаянны ключ вашага акаўнта, таму кожны файл адтуль нясе той самы ідэнтыфікатар ключа, па якім назіральнік у сетцы можа звязаць вашы загрузкі. Замест гэтага файлы запытваюцца з асноўных сервераў Telegram. Вялікія файлы могуць загружацца павольней.</string>
+    <string name="MZGramPasscodeAccounts">Коды-паролі акаўнтаў</string>
+    <string name="MZGramPasscodeAccountsInfo">Кожны акаўнт можа мець свой код-пароль для блакіроўкі праграмы: яго ўвод разблакіруе праграму і адкрывае гэты акаўнт. Акаўнт са сваім кодам можна схаваць са спісаў акаўнтаў і апавяшчэнняў.</string>
+    <string name="MZGramPasscodeAccountsSetup">Наладзіць коды акаўнтаў</string>
+    <string name="MZGramPasscodeAccountsNeedApp">Коды акаўнтаў працуюць разам з блакіроўкай праграмы. Спачатку ўключыце «Код-пароль»; коды акаўнтаў таго ж віду (PIN з 4 лічбаў або пароль).</string>
+    <string name="MZGramPasscodeAccountsListInfo">Схаваны акаўнт не відаць у Наладах, меню спісу чатаў і пры выбары акаўнта, і ён не паказвае апавяшчэнняў; адкрывае яго толькі свой код на экране блакіроўкі. Код праграмы або адбітак пальца адкрывае бачны акаўнт. Калі выключыць «Коды-паролі акаўнтаў» або «Код-пароль», схаваныя акаўнты зноў відаць.</string>
+    <string name="MZGramPasscodeSet">Задаць код</string>
+    <string name="MZGramPasscodeChange">Змяніць код</string>
+    <string name="MZGramPasscodeRemove">Выдаліць код</string>
+    <string name="MZGramPasscodeHide">Схаваць акаўнт</string>
+    <string name="MZGramPasscodeEnter">Код-пароль</string>
+    <string name="MZGramPasscodeRepeat">Паўтарыце код</string>
+    <string name="MZGramPasscodeEmpty">Увядзіце код</string>
+    <string name="MZGramPasscodePinLength">PIN мусіць мець 4 лічбы</string>
+    <string name="MZGramPasscodeMismatch">Коды не супадаюць</string>
+    <string name="MZGramPasscodeSameAsApp">Гэта код праграмы, выберыце іншы</string>
+    <string name="MZGramPasscodeTaken">Іншы акаўнт ужо мае гэты код</string>
+    <string name="MZGramPasscodeSaved">Код захаваны</string>
+    <string name="MZGramPasscodeRemoved">Код выдалены</string>
+    <string name="MZGramPasscodeLastVisible">Хаця б адзін акаўнт мусіць заставацца бачным</string>
 </resources>

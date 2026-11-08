@@ -1318,7 +1318,8 @@ public class NotificationsController extends BaseController implements Notificat
                 notifyCheck = isLast;
             }
 
-            if (!popupArrayAdd.isEmpty() && !AndroidUtilities.needShowPasscode() && !SharedConfig.isWaitingForPasscodeEnter) {
+            // MZGram: a hidden account shows no popups (MZGramPasscodeAccounts)
+            if (!popupArrayAdd.isEmpty() && !org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isHidden(currentAccount) && !AndroidUtilities.needShowPasscode() && !SharedConfig.isWaitingForPasscodeEnter) {
                 int popupFinal = popup;
                 AndroidUtilities.runOnUIThread(() -> {
                     popupMessages.addAll(0, popupArrayAdd);
@@ -1778,7 +1779,8 @@ public class NotificationsController extends BaseController implements Notificat
     private int getTotalAllUnreadCount() {
         int count = 0;
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-            if (!UserConfig.getInstance(a).isClientActivated()) {
+            // MZGram: a hidden account adds nothing to the badge (MZGramPasscodeAccounts)
+            if (!UserConfig.getInstance(a).isClientActivated() || org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isHidden(a)) {
                 continue;
             }
             if (!SharedConfig.showNotificationsForAllAccounts && UserConfig.selectedAccount != a) {
@@ -4155,7 +4157,8 @@ public class NotificationsController extends BaseController implements Notificat
     }
 
     private void showOrUpdateNotification(boolean notifyAboutLast) {
-        if (!getUserConfig().isClientActivated() || pushMessages.isEmpty() && storyPushMessages.isEmpty() || !SharedConfig.showNotificationsForAllAccounts && currentAccount != UserConfig.selectedAccount) {
+        // MZGram: a hidden account shows no notifications (MZGramPasscodeAccounts)
+        if (!getUserConfig().isClientActivated() || pushMessages.isEmpty() && storyPushMessages.isEmpty() || org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isHidden(currentAccount) || !SharedConfig.showNotificationsForAllAccounts && currentAccount != UserConfig.selectedAccount) {
             dismissNotification();
             return;
         }
@@ -4323,7 +4326,8 @@ public class NotificationsController extends BaseController implements Notificat
 
             String detailText;
             if (allowSummary) {
-                if (UserConfig.getActivatedAccountsCount() > 1) {
+                // MZGram: hidden accounts are not counted (MZGramPasscodeAccounts)
+                if (org.telegram.messenger.mzgram.MZGramPasscodeAccounts.listedAccountsCount() > 1) {
                     if (pushDialogs.size() == 1) {
                         detailText = UserObject.getFirstName(getUserConfig().getCurrentUser());
                     } else {

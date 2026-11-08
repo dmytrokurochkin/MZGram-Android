@@ -26,6 +26,7 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.mzgram.MZGramConfig;
+import org.telegram.messenger.mzgram.MZGramPasscodeAccounts;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ItemOptions;
@@ -47,11 +48,12 @@ public class MZGramAccountsMenu {
     public static WeakReference<ItemOptions> lastMenu;
 
     // The signed-in accounts: the current one first, then the others by the
-    // time they signed in, as Settings lists them.
+    // time they signed in, as Settings lists them. Hidden accounts (account
+    // passcodes) are left out unless current.
     public static ArrayList<Integer> accounts(int currentAccount) {
         ArrayList<Integer> others = new ArrayList<>();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-            if (a != currentAccount && UserConfig.getInstance(a).isClientActivated()) {
+            if (a != currentAccount && UserConfig.getInstance(a).isClientActivated() && MZGramPasscodeAccounts.isListed(a, currentAccount)) {
                 others.add(a);
             }
         }

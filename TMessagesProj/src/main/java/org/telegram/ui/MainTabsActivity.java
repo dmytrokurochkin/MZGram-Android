@@ -606,7 +606,8 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-            if (UserConfig.getInstance(a).isClientActivated()) {
+            // MZGram: hidden accounts are left out (MZGramPasscodeAccounts)
+            if (UserConfig.getInstance(a).isClientActivated() && org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isListed(a, currentAccount)) {
                 accountNumbers.add(a);
             }
         }

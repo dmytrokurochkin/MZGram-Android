@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">Запустить с аккаунта %1$s</string>
     <string name="MZGramReduceNetworkTracking">Меньше сетевой слежки</string>
     <string name="MZGramReduceNetworkTrackingInfo">CDN-серверы Telegram знают только постоянный ключ вашего аккаунта, поэтому каждый файл оттуда несёт один и тот же идентификатор ключа, по которому наблюдатель в сети может связать ваши загрузки. Вместо этого файлы запрашиваются с основных серверов Telegram. Большие файлы могут загружаться медленнее.</string>
+    <string name="MZGramPasscodeAccounts">Код-пароли аккаунтов</string>
+    <string name="MZGramPasscodeAccountsInfo">У каждого аккаунта может быть свой код-пароль для блокировки приложения: его ввод разблокирует приложение и открывает этот аккаунт. Аккаунт со своим кодом можно скрыть из списков аккаунтов и уведомлений.</string>
+    <string name="MZGramPasscodeAccountsSetup">Настроить коды аккаунтов</string>
+    <string name="MZGramPasscodeAccountsNeedApp">Коды аккаунтов работают вместе с блокировкой приложения. Сначала включите «Код-пароль»; коды аккаунтов того же вида (PIN из 4 цифр или пароль).</string>
+    <string name="MZGramPasscodeAccountsListInfo">Скрытый аккаунт не виден в Настройках, меню списка чатов и при выборе аккаунта и не показывает уведомлений; открывает его только свой код на экране блокировки. Код приложения или отпечаток пальца открывает видимый аккаунт. Если выключить «Код-пароли аккаунтов» или «Код-пароль», скрытые аккаунты снова видны.</string>
+    <string name="MZGramPasscodeSet">Задать код</string>
+    <string name="MZGramPasscodeChange">Изменить код</string>
+    <string name="MZGramPasscodeRemove">Удалить код</string>
+    <string name="MZGramPasscodeHide">Скрыть аккаунт</string>
+    <string name="MZGramPasscodeEnter">Код-пароль</string>
+    <string name="MZGramPasscodeRepeat">Повторите код</string>
+    <string name="MZGramPasscodeEmpty">Введите код</string>
+    <string name="MZGramPasscodePinLength">PIN должен состоять из 4 цифр</string>
+    <string name="MZGramPasscodeMismatch">Коды не совпадают</string>
+    <string name="MZGramPasscodeSameAsApp">Это код приложения, выберите другой</string>
+    <string name="MZGramPasscodeTaken">Другой аккаунт уже использует этот код</string>
+    <string name="MZGramPasscodeSaved">Код сохранён</string>
+    <string name="MZGramPasscodeRemoved">Код удалён</string>
+    <string name="MZGramPasscodeLastVisible">Хотя бы один аккаунт должен оставаться видимым</string>
 </resources>

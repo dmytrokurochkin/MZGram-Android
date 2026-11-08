@@ -125,6 +125,9 @@ public class MZGramConfig {
     // Files come from the main datacenter instead of a CDN, which only
     // knows the permanent auth key (MZGramPrivacy.refuseCdnRedirect).
     public static boolean reduceNetworkTracking = false;
+    // Every account can have its own passcode for the app lock, and an
+    // account with one can be hidden (MZGramPasscodeAccounts).
+    public static boolean passcodeAccounts = false;
 
     // Settings > MZGram > Interface > Show ID (MZGramPeerId): hidden by
     // default, as in Telegram API or as in Bot API.
@@ -243,6 +246,7 @@ public class MZGramConfig {
             keepGroupReads = preferences.getBoolean("keepGroupReads", false);
             botStartConfirm = preferences.getBoolean("botStartConfirm", false);
             reduceNetworkTracking = preferences.getBoolean("reduceNetworkTracking", false);
+            passcodeAccounts = preferences.getBoolean("passcodeAccounts", false);
             // The removed "hide own online status" and "hide own phone
             // number" switches: Telegram's own privacy settings do this.
             if (preferences.contains("hideOwnOnlineStatus") || preferences.contains("savedLastSeenPrivacyState") || preferences.contains("hideOwnPhoneNumber")) {
@@ -566,6 +570,11 @@ public class MZGramConfig {
     public static void toggleReduceNetworkTracking() {
         reduceNetworkTracking = !reduceNetworkTracking;
         putBoolean("reduceNetworkTracking", reduceNetworkTracking);
+    }
+
+    public static void togglePasscodeAccounts() {
+        passcodeAccounts = !passcodeAccounts;
+        putBoolean("passcodeAccounts", passcodeAccounts);
     }
 
     public static void toggleGhostMode() {

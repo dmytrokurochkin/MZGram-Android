@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">Uruchom z konta %1$s</string>
     <string name="MZGramReduceNetworkTracking">Ogranicz śledzenie w sieci</string>
     <string name="MZGramReduceNetworkTrackingInfo">Serwery CDN Telegrama znają tylko stały klucz twojego konta, więc każdy plik z nich niesie ten sam identyfikator klucza, po którym obserwator sieci może powiązać twoje pobrania. Zamiast tego pliki są pobierane z głównych serwerów Telegrama. Duże pliki mogą pobierać się wolniej.</string>
+    <string name="MZGramPasscodeAccounts">Kody kont</string>
+    <string name="MZGramPasscodeAccountsInfo">Każde konto może mieć własny kod blokady aplikacji: jego wpisanie odblokowuje aplikację i otwiera to konto. Konto z własnym kodem można ukryć na listach kont i w powiadomieniach.</string>
+    <string name="MZGramPasscodeAccountsSetup">Ustaw kody kont</string>
+    <string name="MZGramPasscodeAccountsNeedApp">Kody kont działają z blokadą aplikacji. Najpierw włącz Blokadę kodem; kody kont są tego samego rodzaju (4-cyfrowy PIN lub hasło).</string>
+    <string name="MZGramPasscodeAccountsListInfo">Ukrytego konta nie ma w Ustawieniach, w menu listy czatów ani przy żadnym wyborze konta i nie pokazuje ono powiadomień; otwiera je tylko jego własny kod na ekranie blokady. Kod aplikacji lub odcisk palca otwiera widoczne konto. Wyłączenie Kodów kont lub Blokady kodem znów pokazuje ukryte konta.</string>
+    <string name="MZGramPasscodeSet">Ustaw kod</string>
+    <string name="MZGramPasscodeChange">Zmień kod</string>
+    <string name="MZGramPasscodeRemove">Usuń kod</string>
+    <string name="MZGramPasscodeHide">Ukryj konto</string>
+    <string name="MZGramPasscodeEnter">Kod</string>
+    <string name="MZGramPasscodeRepeat">Powtórz kod</string>
+    <string name="MZGramPasscodeEmpty">Wpisz kod</string>
+    <string name="MZGramPasscodePinLength">PIN musi mieć 4 cyfry</string>
+    <string name="MZGramPasscodeMismatch">Kody nie są zgodne</string>
+    <string name="MZGramPasscodeSameAsApp">To kod aplikacji, wybierz inny</string>
+    <string name="MZGramPasscodeTaken">Inne konto ma już ten kod</string>
+    <string name="MZGramPasscodeSaved">Kod zapisany</string>
+    <string name="MZGramPasscodeRemoved">Kod usunięty</string>
+    <string name="MZGramPasscodeLastVisible">Co najmniej jedno konto musi pozostać widoczne</string>
 </resources>

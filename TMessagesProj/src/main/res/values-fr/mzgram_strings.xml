@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">Lancer depuis %1$s</string>
     <string name="MZGramReduceNetworkTracking">Réduire le pistage réseau</string>
     <string name="MZGramReduceNetworkTrackingInfo">Les serveurs CDN de Telegram ne connaissent que la clé permanente de votre compte, donc chaque fichier venant d\'eux porte le même identifiant de clé, qu\'un observateur du réseau peut utiliser pour relier vos téléchargements. Les fichiers sont demandés aux serveurs principaux de Telegram à la place. Les gros fichiers peuvent se télécharger plus lentement.</string>
+    <string name="MZGramPasscodeAccounts">Codes des comptes</string>
+    <string name="MZGramPasscodeAccountsInfo">Chaque compte peut avoir son propre code pour le verrouillage de l\'app : le saisir déverrouille l\'app et ouvre ce compte. Un compte avec son propre code peut être masqué des listes de comptes et des notifications.</string>
+    <string name="MZGramPasscodeAccountsSetup">Configurer les codes des comptes</string>
+    <string name="MZGramPasscodeAccountsNeedApp">Les codes des comptes fonctionnent avec le verrouillage de l\'app. Activez d\'abord le Verrouillage par code ; les codes des comptes sont du même type (un code PIN à 4 chiffres ou un mot de passe).</string>
+    <string name="MZGramPasscodeAccountsListInfo">Un compte masqué n\'apparaît ni dans les Paramètres, ni dans le menu de la liste des discussions, ni dans aucun choix de compte, et n\'affiche aucune notification ; seul son propre code sur l\'écran de verrouillage l\'ouvre. Le code de l\'app ou l\'empreinte ouvre un compte visible. Désactiver Codes des comptes ou le Verrouillage par code affiche de nouveau les comptes masqués.</string>
+    <string name="MZGramPasscodeSet">Définir le code</string>
+    <string name="MZGramPasscodeChange">Changer le code</string>
+    <string name="MZGramPasscodeRemove">Supprimer le code</string>
+    <string name="MZGramPasscodeHide">Masquer le compte</string>
+    <string name="MZGramPasscodeEnter">Code</string>
+    <string name="MZGramPasscodeRepeat">Répétez le code</string>
+    <string name="MZGramPasscodeEmpty">Saisissez un code</string>
+    <string name="MZGramPasscodePinLength">Le code PIN doit avoir 4 chiffres</string>
+    <string name="MZGramPasscodeMismatch">Les codes ne correspondent pas</string>
+    <string name="MZGramPasscodeSameAsApp">C\'est le code de l\'app, choisissez-en un autre</string>
+    <string name="MZGramPasscodeTaken">Un autre compte a déjà ce code</string>
+    <string name="MZGramPasscodeSaved">Code enregistré</string>
+    <string name="MZGramPasscodeRemoved">Code supprimé</string>
+    <string name="MZGramPasscodeLastVisible">Au moins un compte doit rester visible</string>
 </resources>

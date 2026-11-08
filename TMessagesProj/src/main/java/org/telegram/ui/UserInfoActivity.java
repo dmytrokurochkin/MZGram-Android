@@ -302,7 +302,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
     private void updateAccounts() {
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-            if (UserConfig.getInstance(a).isClientActivated() && currentAccount != a) {
+            // MZGram: hidden accounts are left out (MZGramPasscodeAccounts)
+            if (UserConfig.getInstance(a).isClientActivated() && currentAccount != a && org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isListed(a, currentAccount)) {
                 accountNumbers.add(a);
             }
         }

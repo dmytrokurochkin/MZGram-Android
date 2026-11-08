@@ -1254,6 +1254,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 break;
             }
         }
+        // MZGram: a visible account rather than a hidden one (MZGramPasscodeAccounts)
+        account = org.telegram.messenger.mzgram.MZGramPasscodeAccounts.firstVisibleAccount(account);
         if (termsOfServiceView != null) {
             termsOfServiceView.setVisibility(View.GONE);
         }
@@ -4109,7 +4111,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             progress.onCancel(() -> AndroidUtilities.cancelRunOnUIThread(runnable));
             AndroidUtilities.runOnUIThread(runnable, 7500);
             return;
-        } else if (state == 0 && UserConfig.getActivatedAccountsCount() >= 2 && auth != null) {
+        } else if (state == 0 && org.telegram.messenger.mzgram.MZGramPasscodeAccounts.listedAccountsCount() >= 2 && auth != null) { // MZGram: hidden accounts are not counted
             AlertsCreator.createAccountSelectDialog(this, account -> {
                 if (account != intentAccount) {
                     switchToAccount(account, true);

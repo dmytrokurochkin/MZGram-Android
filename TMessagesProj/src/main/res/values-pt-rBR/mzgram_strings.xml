@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">Iniciar a partir de %1$s</string>
     <string name="MZGramReduceNetworkTracking">Reduzir rastreamento na rede</string>
     <string name="MZGramReduceNetworkTrackingInfo">Os servidores CDN do Telegram só conhecem a chave permanente da sua conta, então cada arquivo vindo deles leva o mesmo id de chave, que alguém observando a rede pode usar para ligar seus downloads. Os arquivos são pedidos aos servidores principais do Telegram em vez disso. Arquivos grandes podem baixar mais devagar.</string>
+    <string name="MZGramPasscodeAccounts">Senhas das contas</string>
+    <string name="MZGramPasscodeAccountsInfo">Cada conta pode ter sua própria senha para o bloqueio do app: digitá-la desbloqueia o app e abre essa conta. Uma conta com senha própria pode ser ocultada das listas de contas e das notificações.</string>
+    <string name="MZGramPasscodeAccountsSetup">Configurar senhas das contas</string>
+    <string name="MZGramPasscodeAccountsNeedApp">As senhas das contas funcionam com o bloqueio do app. Ative primeiro o Bloqueio com senha; as senhas das contas são do mesmo tipo (um PIN de 4 dígitos ou uma senha).</string>
+    <string name="MZGramPasscodeAccountsListInfo">Uma conta oculta não aparece nas Configurações, no menu da lista de conversas nem em nenhuma escolha de conta, e não mostra notificações; só a própria senha na tela de bloqueio a abre. A senha do app ou a digital abre uma conta visível. Desativar Senhas das contas ou o Bloqueio com senha mostra as contas ocultas de novo.</string>
+    <string name="MZGramPasscodeSet">Definir senha</string>
+    <string name="MZGramPasscodeChange">Alterar senha</string>
+    <string name="MZGramPasscodeRemove">Remover senha</string>
+    <string name="MZGramPasscodeHide">Ocultar conta</string>
+    <string name="MZGramPasscodeEnter">Senha</string>
+    <string name="MZGramPasscodeRepeat">Repita a senha</string>
+    <string name="MZGramPasscodeEmpty">Digite uma senha</string>
+    <string name="MZGramPasscodePinLength">O PIN deve ter 4 dígitos</string>
+    <string name="MZGramPasscodeMismatch">As senhas não coincidem</string>
+    <string name="MZGramPasscodeSameAsApp">Esta é a senha do app, escolha outra</string>
+    <string name="MZGramPasscodeTaken">Outra conta já tem esta senha</string>
+    <string name="MZGramPasscodeSaved">Senha salva</string>
+    <string name="MZGramPasscodeRemoved">Senha removida</string>
+    <string name="MZGramPasscodeLastVisible">Pelo menos uma conta deve continuar visível</string>
 </resources>

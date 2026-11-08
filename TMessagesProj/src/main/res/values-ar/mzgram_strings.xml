@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">التشغيل من %1$s</string>
     <string name="MZGramReduceNetworkTracking">تقليل التتبع عبر الشبكة</string>
     <string name="MZGramReduceNetworkTrackingInfo">تعرف خوادم CDN في تيليجرام المفتاح الدائم لحسابك فقط، لذا يحمل كل ملف منها معرّف المفتاح نفسه الذي يمكن لمراقب الشبكة استخدامه لربط تنزيلاتك. تُطلب الملفات من خوادم تيليجرام الرئيسية بدلًا من ذلك. قد تُنزَّل الملفات الكبيرة أبطأ.</string>
+    <string name="MZGramPasscodeAccounts">رموز الحسابات</string>
+    <string name="MZGramPasscodeAccountsInfo">يمكن أن يكون لكل حساب رمز خاص لقفل التطبيق: إدخاله يفتح قفل التطبيق ويفتح ذلك الحساب. ويمكن إخفاء الحساب الذي له رمز خاص من قوائم الحسابات والإشعارات.</string>
+    <string name="MZGramPasscodeAccountsSetup">إعداد رموز الحسابات</string>
+    <string name="MZGramPasscodeAccountsNeedApp">تعمل رموز الحسابات مع قفل التطبيق. فعّل قفل رمز المرور أولاً؛ رموز الحسابات من النوع نفسه (رقم PIN من 4 أرقام أو كلمة مرور).</string>
+    <string name="MZGramPasscodeAccountsListInfo">لا يظهر الحساب المخفي في الإعدادات ولا في قائمة لائحة المحادثات ولا في أي اختيار للحساب، ولا يعرض إشعارات؛ لا يفتحه إلا رمزه الخاص على شاشة القفل. رمز التطبيق أو البصمة يفتح حساباً ظاهراً. إيقاف رموز الحسابات أو قفل رمز المرور يُظهر الحسابات المخفية من جديد.</string>
+    <string name="MZGramPasscodeSet">تعيين الرمز</string>
+    <string name="MZGramPasscodeChange">تغيير الرمز</string>
+    <string name="MZGramPasscodeRemove">إزالة الرمز</string>
+    <string name="MZGramPasscodeHide">إخفاء الحساب</string>
+    <string name="MZGramPasscodeEnter">الرمز</string>
+    <string name="MZGramPasscodeRepeat">أعد إدخال الرمز</string>
+    <string name="MZGramPasscodeEmpty">أدخل رمزاً</string>
+    <string name="MZGramPasscodePinLength">يجب أن يتكون رقم PIN من 4 أرقام</string>
+    <string name="MZGramPasscodeMismatch">الرمزان غير متطابقين</string>
+    <string name="MZGramPasscodeSameAsApp">هذا رمز التطبيق، اختر رمزاً آخر</string>
+    <string name="MZGramPasscodeTaken">حساب آخر يستخدم هذا الرمز بالفعل</string>
+    <string name="MZGramPasscodeSaved">تم حفظ الرمز</string>
+    <string name="MZGramPasscodeRemoved">تمت إزالة الرمز</string>
+    <string name="MZGramPasscodeLastVisible">يجب أن يبقى حساب واحد على الأقل ظاهراً</string>
 </resources>

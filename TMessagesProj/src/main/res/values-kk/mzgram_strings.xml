@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">%1$s аккаунтынан іске қосу</string>
     <string name="MZGramReduceNetworkTracking">Желілік бақылауды азайту</string>
     <string name="MZGramReduceNetworkTrackingInfo">Telegram-ның CDN серверлері тек аккаунтыңыздың тұрақты кілтін біледі, сондықтан олардан келетін әр файл бірдей кілт идентификаторын алып жүреді, оны желіні бақылаушы жүктеулеріңізді байланыстыру үшін пайдалана алады. Оның орнына файлдар Telegram-ның негізгі серверлерінен сұралады. Үлкен файлдар баяуырақ жүктелуі мүмкін.</string>
+    <string name="MZGramPasscodeAccounts">Аккаунт кодтары</string>
+    <string name="MZGramPasscodeAccountsInfo">Әр аккаунттың қолданбаны құлыптауға арналған өз коды болуы мүмкін: оны енгізу қолданбаның құлпын ашып, сол аккаунтты ашады. Өз коды бар аккаунтты аккаунттар тізімінен және хабарландырулардан жасыруға болады.</string>
+    <string name="MZGramPasscodeAccountsSetup">Аккаунт кодтарын баптау</string>
+    <string name="MZGramPasscodeAccountsNeedApp">Аккаунт кодтары қолданба құлпымен бірге жұмыс істейді. Алдымен «Кодтық құлып» параметрін қосыңыз; аккаунт кодтары сол түрде болады (4 цифрлы PIN немесе құпиясөз).</string>
+    <string name="MZGramPasscodeAccountsListInfo">Жасырын аккаунт Баптауларда, чаттар тізімінің мәзірінде және аккаунт таңдауда көрінбейді әрі хабарландыру көрсетпейді; оны тек құлып экранындағы өз коды ашады. Қолданба коды немесе саусақ ізі көрінетін аккаунтты ашады. «Аккаунт кодтары» немесе «Кодтық құлып» өшірілсе, жасырын аккаунттар қайта көрінеді.</string>
+    <string name="MZGramPasscodeSet">Код орнату</string>
+    <string name="MZGramPasscodeChange">Кодты өзгерту</string>
+    <string name="MZGramPasscodeRemove">Кодты өшіру</string>
+    <string name="MZGramPasscodeHide">Аккаунтты жасыру</string>
+    <string name="MZGramPasscodeEnter">Код</string>
+    <string name="MZGramPasscodeRepeat">Кодты қайталаңыз</string>
+    <string name="MZGramPasscodeEmpty">Код енгізіңіз</string>
+    <string name="MZGramPasscodePinLength">PIN 4 цифрдан тұруы керек</string>
+    <string name="MZGramPasscodeMismatch">Кодтар сәйкес келмейді</string>
+    <string name="MZGramPasscodeSameAsApp">Бұл қолданба коды, басқасын таңдаңыз</string>
+    <string name="MZGramPasscodeTaken">Бұл код басқа аккаунтта бар</string>
+    <string name="MZGramPasscodeSaved">Код сақталды</string>
+    <string name="MZGramPasscodeRemoved">Код өшірілді</string>
+    <string name="MZGramPasscodeLastVisible">Кемінде бір аккаунт көрініп тұруы керек</string>
 </resources>

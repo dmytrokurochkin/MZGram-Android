@@ -153,7 +153,8 @@ public class OAuthSheet {
         final boolean testBackend = ConnectionsManager.getInstance(currentAccount).isTestBackend();
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-            if (UserConfig.getInstance(a).isClientActivated() && ConnectionsManager.getInstance(a).isTestBackend() == testBackend) {
+            // MZGram: hidden accounts are left out (MZGramPasscodeAccounts)
+            if (UserConfig.getInstance(a).isClientActivated() && ConnectionsManager.getInstance(a).isTestBackend() == testBackend && org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isListed(a, currentAccount)) {
                 accountNumbers.add(a);
             }
         }

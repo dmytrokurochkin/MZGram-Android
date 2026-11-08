@@ -461,4 +461,23 @@
     <string name="MZGramBotStartFromAccount">%1$s hesabından başlat</string>
     <string name="MZGramReduceNetworkTracking">Ağ izlemesini azalt</string>
     <string name="MZGramReduceNetworkTrackingInfo">Telegram\'ın CDN sunucuları yalnızca hesabınızın kalıcı anahtarını bilir; bu yüzden oradan gelen her dosya, ağı izleyen birinin indirmelerinizi ilişkilendirebileceği aynı anahtar kimliğini taşır. Bunun yerine dosyalar Telegram\'ın ana sunucularından istenir. Büyük dosyalar daha yavaş inebilir.</string>
+    <string name="MZGramPasscodeAccounts">Hesap şifreleri</string>
+    <string name="MZGramPasscodeAccountsInfo">Her hesabın uygulama kilidi için kendi şifresi olabilir: girildiğinde uygulamanın kilidi açılır ve o hesap açılır. Kendi şifresi olan bir hesap, hesap listelerinden ve bildirimlerden gizlenebilir.</string>
+    <string name="MZGramPasscodeAccountsSetup">Hesap şifrelerini ayarla</string>
+    <string name="MZGramPasscodeAccountsNeedApp">Hesap şifreleri uygulama kilidiyle çalışır. Önce Şifre Kilidi\'ni açın; hesap şifreleri aynı türdendir (4 haneli PIN veya parola).</string>
+    <string name="MZGramPasscodeAccountsListInfo">Gizli bir hesap Ayarlar\'da, sohbet listesi menüsünde ve hiçbir hesap seçiminde görünmez ve bildirim göstermez; onu yalnızca kilit ekranındaki kendi şifresi açar. Uygulama şifresi veya parmak izi görünür bir hesabı açar. Hesap şifreleri veya Şifre Kilidi kapatılırsa gizli hesaplar yeniden görünür.</string>
+    <string name="MZGramPasscodeSet">Şifre belirle</string>
+    <string name="MZGramPasscodeChange">Şifreyi değiştir</string>
+    <string name="MZGramPasscodeRemove">Şifreyi kaldır</string>
+    <string name="MZGramPasscodeHide">Hesabı gizle</string>
+    <string name="MZGramPasscodeEnter">Şifre</string>
+    <string name="MZGramPasscodeRepeat">Şifreyi tekrarlayın</string>
+    <string name="MZGramPasscodeEmpty">Bir şifre girin</string>
+    <string name="MZGramPasscodePinLength">PIN 4 haneli olmalıdır</string>
+    <string name="MZGramPasscodeMismatch">Şifreler eşleşmiyor</string>
+    <string name="MZGramPasscodeSameAsApp">Bu uygulama şifresi, başka birini seçin</string>
+    <string name="MZGramPasscodeTaken">Başka bir hesapta bu şifre zaten var</string>
+    <string name="MZGramPasscodeSaved">Şifre kaydedildi</string>
+    <string name="MZGramPasscodeRemoved">Şifre kaldırıldı</string>
+    <string name="MZGramPasscodeLastVisible">En az bir hesap görünür kalmalıdır</string>
 </resources>

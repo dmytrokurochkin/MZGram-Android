@@ -1093,6 +1093,8 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
 
     protected void processDone(boolean fingerprint) {
         if (dismissing || getVisibility() != VISIBLE) return;
+        // MZGram: the account whose own passcode was entered (MZGramPasscodeAccounts)
+        int mzgramAccount = -1;
         if (!fingerprint) {
             if (SharedConfig.passcodeRetryInMs > 0) {
                 return;
@@ -1107,7 +1109,9 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 onPasscodeError();
                 return;
             }
-            if (!SharedConfig.checkPasscode(password)) {
+            // MZGram: an account's own passcode unlocks too (MZGramPasscodeAccounts)
+            mzgramAccount = isAppLock() ? org.telegram.messenger.mzgram.MZGramPasscodeAccounts.accountForCode(getContext(), password) : -1;
+            if (mzgramAccount < 0 && !SharedConfig.checkPasscode(password)) {
                 SharedConfig.increaseBadPasscodeTries();
                 if (SharedConfig.passcodeRetryInMs > 0) {
                     checkRetryTextView();
@@ -1120,6 +1124,10 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 }
                 return;
             }
+        }
+        // MZGram: open that account, or leave a hidden one for a visible one
+        if (isAppLock()) {
+            org.telegram.messenger.mzgram.MZGramPasscodeAccounts.onUnlocked(getContext(), mzgramAccount);
         }
         dismissing = true;
         onPause();

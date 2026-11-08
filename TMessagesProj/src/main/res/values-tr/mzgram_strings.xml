@@ -521,4 +521,12 @@
     <string name="MZGramSearchOperatorsInfo">Sohbet aramasında: from:username, date:2026-01-31 (ya da today, yesterday), after:, before: ve type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention veya pinned, normal sözcüklerle birlikte. Anlaşılmayan kısım metin olarak aranır.</string>
     <string name="MZGramCleanLinks">Bağlantılardan izlemeyi temizle</string>
     <string name="MZGramCleanLinksInfo">İzleme parametreleri (utm_source, fbclid, gclid, si ve diğerleri) bir bağlantıyı açtığınızda ve bir mesaja yapıştırdığınızda kaldırılır. Kurallar uygulamaya gömülü AdGuard URL Tracking filtresidir; asla internetten indirilmez veya güncellenmez.</string>
+    <string name="MZGramDoubleTapActions">Çift dokunma eylemleri</string>
+    <string name="MZGramDoubleTapActionsInfo">Bir mesaja çift dokunmanın ne yapacağını, kendi mesajlarınız ve başkalarının mesajları için ayrı ayrı seçin: Telegram\'ın hızlı tepkisi, yanıtla, metni kopyala ya da hiçbir şey.</string>
+    <string name="MZGramDoubleTapOwn">Mesajlarımda</string>
+    <string name="MZGramDoubleTapOther">Başkalarının mesajlarında</string>
+    <string name="MZGramDoubleTapReaction">Hızlı tepki</string>
+    <string name="MZGramDoubleTapReply">Yanıtla</string>
+    <string name="MZGramDoubleTapCopy">Metni kopyala</string>
+    <string name="MZGramDoubleTapNothing">Hiçbir şey</string>
 </resources>

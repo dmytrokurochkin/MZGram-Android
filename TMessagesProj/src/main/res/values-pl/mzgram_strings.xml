@@ -521,4 +521,12 @@
     <string name="MZGramSearchOperatorsInfo">W wyszukiwaniu czatu: from:username, date:2026-01-31 (lub today, yesterday), after:, before: i type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention albo pinned razem ze zwykłymi słowami. Nierozpoznana część jest szukana jako tekst.</string>
     <string name="MZGramCleanLinks">Usuwaj śledzenie z linków</string>
     <string name="MZGramCleanLinksInfo">Parametry śledzące (utm_source, fbclid, gclid, si i inne) są usuwane z linku, gdy go otwierasz i gdy wklejasz go do wiadomości. Reguły to wbudowany w aplikację filtr AdGuard URL Tracking; nigdy nie jest pobierany ani aktualizowany z internetu.</string>
+    <string name="MZGramDoubleTapActions">Akcje podwójnego dotknięcia</string>
+    <string name="MZGramDoubleTapActionsInfo">Wybierz, co robi podwójne dotknięcie wiadomości, osobno dla własnych i cudzych wiadomości: szybką reakcję Telegrama, odpowiedź, skopiowanie tekstu albo nic.</string>
+    <string name="MZGramDoubleTapOwn">Na moich wiadomościach</string>
+    <string name="MZGramDoubleTapOther">Na cudzych wiadomościach</string>
+    <string name="MZGramDoubleTapReaction">Szybka reakcja</string>
+    <string name="MZGramDoubleTapReply">Odpowiedz</string>
+    <string name="MZGramDoubleTapCopy">Kopiuj tekst</string>
+    <string name="MZGramDoubleTapNothing">Nic</string>
 </resources>

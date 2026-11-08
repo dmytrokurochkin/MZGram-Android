@@ -161,6 +161,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CHARACTER_COUNTER = 107;
     private static final int BUTTON_SEARCH_OPERATORS = 108;
     private static final int BUTTON_CLEAN_LINKS = 109;
+    private static final int BUTTON_DOUBLE_TAP_ACTIONS = 110;
+    private static final int BUTTON_DOUBLE_TAP_OWN = 111;
+    private static final int BUTTON_DOUBLE_TAP_OTHER = 112;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -575,11 +578,35 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramDisableReadStickersInfo)));
     }
 
+    // What a double tap does on own or other people's messages; applies at once.
+    private void chooseDoubleTap(int title, int current, org.telegram.messenger.Utilities.Callback<Integer> setter) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        int[] titles = org.telegram.ui.mzgram.MZGramDoubleTap.TITLES;
+        String[] options = new String[titles.length];
+        for (int i = 0; i < titles.length; i++) {
+            options[i] = getString(titles[i]);
+        }
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(title), current, (dialog, which) -> {
+            setter.run(which);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
     // Typing, sending and search in chats (domain messages)
     private void fillChats(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_CHARACTER_COUNTER, getString(R.string.MZGramCharacterCounter)).setChecked(MZGramConfig.characterCounter));
         items.add(UItem.asShadow(getString(R.string.MZGramCharacterCounterInfo)));
+        items.add(UItem.asCheck(BUTTON_DOUBLE_TAP_ACTIONS, getString(R.string.MZGramDoubleTapActions)).setChecked(MZGramConfig.doubleTapActions));
+        if (MZGramConfig.doubleTapActions) {
+            items.add(UItem.asButton(BUTTON_DOUBLE_TAP_OWN, getString(R.string.MZGramDoubleTapOwn), getString(org.telegram.ui.mzgram.MZGramDoubleTap.TITLES[MZGramConfig.doubleTapOwn])));
+            items.add(UItem.asButton(BUTTON_DOUBLE_TAP_OTHER, getString(R.string.MZGramDoubleTapOther), getString(org.telegram.ui.mzgram.MZGramDoubleTap.TITLES[MZGramConfig.doubleTapOther])));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramDoubleTapActionsInfo)));
         items.add(UItem.asCheck(BUTTON_CLEAN_LINKS, getString(R.string.MZGramCleanLinks)).setChecked(MZGramConfig.cleanLinks));
         items.add(UItem.asShadow(getString(R.string.MZGramCleanLinksInfo)));
         items.add(UItem.asCheck(BUTTON_SEARCH_OPERATORS, getString(R.string.MZGramSearchOperators)).setChecked(MZGramConfig.searchOperators));
@@ -727,6 +754,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CHARACTER_COUNTER) {
             MZGramConfig.toggleCharacterCounter();
             ((TextCheckCell) view).setChecked(MZGramConfig.characterCounter);
+        } else if (item.id == BUTTON_DOUBLE_TAP_ACTIONS) {
+            MZGramConfig.toggleDoubleTapActions();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_DOUBLE_TAP_OWN) {
+            chooseDoubleTap(R.string.MZGramDoubleTapOwn, MZGramConfig.doubleTapOwn, MZGramConfig::setDoubleTapOwn);
+        } else if (item.id == BUTTON_DOUBLE_TAP_OTHER) {
+            chooseDoubleTap(R.string.MZGramDoubleTapOther, MZGramConfig.doubleTapOther, MZGramConfig::setDoubleTapOther);
         } else if (item.id == BUTTON_CLEAN_LINKS) {
             MZGramConfig.toggleCleanLinks();
             ((TextCheckCell) view).setChecked(MZGramConfig.cleanLinks);

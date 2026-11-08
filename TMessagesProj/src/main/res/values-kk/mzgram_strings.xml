@@ -521,4 +521,12 @@
     <string name="MZGramSearchOperatorsInfo">Чат іздеуінде: from:username, date:2026-01-31 (немесе today, yesterday), after:, before: және type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention не pinned, қарапайым сөздермен бірге. Танылмаған бөлік мәтін ретінде ізделеді.</string>
     <string name="MZGramCleanLinks">Сілтемелерді бақылаудан тазарту</string>
     <string name="MZGramCleanLinksInfo">Бақылау параметрлері (utm_source, fbclid, gclid, si және басқалар) сілтемені ашқанда және хабарламаға қойғанда алынып тасталады. Ережелер — қолданбаға енгізілген AdGuard URL Tracking сүзгісі; ол ешқашан интернеттен жүктелмейді және жаңартылмайды.</string>
+    <string name="MZGramDoubleTapActions">Қос түрту әрекеттері</string>
+    <string name="MZGramDoubleTapActionsInfo">Хабарламаға қос түрту не істейтінін өз хабарламаларыңыз бен басқалардікі үшін бөлек таңдаңыз: Telegram-ның жылдам реакциясы, жауап беру, мәтінді көшіру немесе ештеңе.</string>
+    <string name="MZGramDoubleTapOwn">Менің хабарламаларымда</string>
+    <string name="MZGramDoubleTapOther">Басқалардың хабарламаларында</string>
+    <string name="MZGramDoubleTapReaction">Жылдам реакция</string>
+    <string name="MZGramDoubleTapReply">Жауап беру</string>
+    <string name="MZGramDoubleTapCopy">Мәтінді көшіру</string>
+    <string name="MZGramDoubleTapNothing">Ештеңе</string>
 </resources>

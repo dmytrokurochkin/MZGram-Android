@@ -213,6 +213,16 @@ public class MZGramConfig {
     // (MZGramLinkCleaner, rules from assets only).
     public static boolean cleanLinks = false;
 
+    // What a double tap on a message does, for own and other messages
+    // (MZGramDoubleTap).
+    public static boolean doubleTapActions = false;
+
+    // Double tap on own messages: 0 reaction, 1 reply, 2 copy text, 3 nothing.
+    public static int doubleTapOwn = 0;
+
+    // Double tap on other people's messages, same values.
+    public static int doubleTapOther = 0;
+
     static {
         loadConfig(false);
     }
@@ -337,6 +347,9 @@ public class MZGramConfig {
             characterCounter = preferences.getBoolean("characterCounter", false);
             searchOperators = preferences.getBoolean("searchOperators", false);
             cleanLinks = preferences.getBoolean("cleanLinks", false);
+            doubleTapActions = preferences.getBoolean("doubleTapActions", false);
+            doubleTapOwn = preferences.getInt("doubleTapOwn", 0);
+            doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
         }
     }
@@ -782,5 +795,20 @@ public class MZGramConfig {
     public static void toggleCleanLinks() {
         cleanLinks = !cleanLinks;
         putBoolean("cleanLinks", cleanLinks);
+    }
+
+    public static void toggleDoubleTapActions() {
+        doubleTapActions = !doubleTapActions;
+        putBoolean("doubleTapActions", doubleTapActions);
+    }
+
+    public static void setDoubleTapOwn(int value) {
+        doubleTapOwn = value;
+        preferences().edit().putInt("doubleTapOwn", value).apply();
+    }
+
+    public static void setDoubleTapOther(int value) {
+        doubleTapOther = value;
+        preferences().edit().putInt("doubleTapOther", value).apply();
     }
 }

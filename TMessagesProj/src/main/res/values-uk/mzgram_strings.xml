@@ -522,4 +522,12 @@
     <string name="MZGramSearchOperatorsInfo">У пошуку чату: from:username, date:2026-01-31 (або today, yesterday), after:, before: і type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention чи pinned разом зі звичайними словами. Те, що не розпізнано, шукається як текст.</string>
     <string name="MZGramCleanLinks">Очищати посилання від стеження</string>
     <string name="MZGramCleanLinksInfo">Параметри стеження (utm_source, fbclid, gclid, si та інші) прибираються з посилання, коли ви його відкриваєте і коли вставляєте в повідомлення. Правила — вбудований у застосунок фільтр AdGuard URL Tracking; він ніколи не завантажується й не оновлюється з інтернету.</string>
+    <string name="MZGramDoubleTapActions">Дії подвійного дотику</string>
+    <string name="MZGramDoubleTapActionsInfo">Оберіть, що робить подвійний дотик до повідомлення, окремо для ваших повідомлень і для чужих: швидка реакція Telegram, відповідь, копіювання тексту або нічого.</string>
+    <string name="MZGramDoubleTapOwn">На моїх повідомленнях</string>
+    <string name="MZGramDoubleTapOther">На чужих повідомленнях</string>
+    <string name="MZGramDoubleTapReaction">Швидка реакція</string>
+    <string name="MZGramDoubleTapReply">Відповісти</string>
+    <string name="MZGramDoubleTapCopy">Копіювати текст</string>
+    <string name="MZGramDoubleTapNothing">Нічого</string>
 </resources>

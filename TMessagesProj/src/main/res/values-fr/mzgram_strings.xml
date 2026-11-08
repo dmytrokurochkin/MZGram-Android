@@ -521,4 +521,12 @@
     <string name="MZGramSearchOperatorsInfo">Dans la recherche d’une discussion : from:username, date:2026-01-31 (ou today, yesterday), after:, before: et type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention ou pinned, avec des mots ordinaires. Ce qui n’est pas reconnu est cherché comme texte.</string>
     <string name="MZGramCleanLinks">Retirer le pistage des liens</string>
     <string name="MZGramCleanLinksInfo">Les paramètres de pistage (utm_source, fbclid, gclid, si et autres) sont retirés d’un lien quand vous l’ouvrez et quand vous le collez dans un message. Les règles sont le filtre AdGuard URL Tracking intégré à l’application ; il n’est jamais téléchargé ni mis à jour depuis Internet.</string>
+    <string name="MZGramDoubleTapActions">Actions du double appui</string>
+    <string name="MZGramDoubleTapActionsInfo">Choisissez l’effet d’un double appui sur un message, séparément pour vos messages et ceux des autres : la réaction rapide de Telegram, répondre, copier le texte ou rien.</string>
+    <string name="MZGramDoubleTapOwn">Sur mes messages</string>
+    <string name="MZGramDoubleTapOther">Sur les messages des autres</string>
+    <string name="MZGramDoubleTapReaction">Réaction rapide</string>
+    <string name="MZGramDoubleTapReply">Répondre</string>
+    <string name="MZGramDoubleTapCopy">Copier le texte</string>
+    <string name="MZGramDoubleTapNothing">Rien</string>
 </resources>

@@ -1977,6 +1977,10 @@ public class ChatActivity extends BaseFragment implements
         @Override
         public boolean hasDoubleTap(View view, int position) {
             if (isQuickRepliesOrWelcomeMessagesMode()) return false;
+            int mzgramAction = org.telegram.ui.mzgram.MZGramDoubleTap.actionFor(view); // MZGram: double tap actions
+            if (mzgramAction != org.telegram.ui.mzgram.MZGramDoubleTap.REACTION) {
+                return org.telegram.ui.mzgram.MZGramDoubleTap.available(ChatActivity.this, view, mzgramAction);
+            }
             String reactionStringSetting = getMediaDataController().getDoubleTapReaction();
             TLRPC.TL_availableReaction reaction = getMediaDataController().getReactionsMap().get(reactionStringSetting);
             if (reaction == null && (reactionStringSetting == null || !reactionStringSetting.startsWith("animated_"))) {
@@ -2003,6 +2007,11 @@ public class ChatActivity extends BaseFragment implements
         @Override
         public void onDoubleTap(View view, int position, float x, float y) {
             if (getParentActivity() == null || isSecretChat() || isInScheduleMode() || isInPreviewMode() || isQuickRepliesOrWelcomeMessagesMode()) {
+                return;
+            }
+            int mzgramAction = org.telegram.ui.mzgram.MZGramDoubleTap.actionFor(view); // MZGram: double tap actions
+            if (mzgramAction != org.telegram.ui.mzgram.MZGramDoubleTap.REACTION) {
+                org.telegram.ui.mzgram.MZGramDoubleTap.perform(ChatActivity.this, view, mzgramAction);
                 return;
             }
             MessageObject messageObject;

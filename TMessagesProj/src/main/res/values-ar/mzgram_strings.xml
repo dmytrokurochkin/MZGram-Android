@@ -521,4 +521,12 @@
     <string name="MZGramSearchOperatorsInfo">في بحث المحادثة: from:username وdate:2026-01-31 (أو today وyesterday) وafter: وbefore: وtype:photo أو video أو voice أو round أو music أو gif أو file أو link أو contact أو location أو poll أو mention أو pinned، مع كلمات عادية. ما لا يُفهم يُبحث عنه كنص.</string>
     <string name="MZGramCleanLinks">إزالة التتبع من الروابط</string>
     <string name="MZGramCleanLinksInfo">تُزال معاملات التتبع (utm_source وfbclid وgclid وsi وغيرها) من الرابط عند فتحه وعند لصقه في رسالة. القواعد هي مرشح AdGuard URL Tracking المضمّن في التطبيق؛ لا يُنزَّل ولا يُحدَّث من الإنترنت أبدًا.</string>
+    <string name="MZGramDoubleTapActions">إجراءات النقر المزدوج</string>
+    <string name="MZGramDoubleTapActionsInfo">اختر ما يفعله النقر المزدوج على الرسالة، بشكل منفصل لرسائلك ولرسائل الآخرين: تفاعل Telegram السريع أو الرد أو نسخ النص أو لا شيء.</string>
+    <string name="MZGramDoubleTapOwn">على رسائلي</string>
+    <string name="MZGramDoubleTapOther">على رسائل الآخرين</string>
+    <string name="MZGramDoubleTapReaction">تفاعل سريع</string>
+    <string name="MZGramDoubleTapReply">رد</string>
+    <string name="MZGramDoubleTapCopy">نسخ النص</string>
+    <string name="MZGramDoubleTapNothing">لا شيء</string>
 </resources>

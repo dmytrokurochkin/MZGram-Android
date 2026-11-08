@@ -521,4 +521,12 @@
     <string name="MZGramSearchOperatorsInfo">In a chat\'s search: from:username, date:2026-01-31 (or today, yesterday), after:, before: and type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention or pinned, together with plain words. A part that is not understood is searched as text.</string>
     <string name="MZGramCleanLinks">Clean tracking from links</string>
     <string name="MZGramCleanLinksInfo">Tracking parameters (utm_source, fbclid, gclid, si and others) are removed from a link when you open it and when you paste it into a message. The rules are the AdGuard URL Tracking filter built into the app; it is never downloaded or updated from the internet.</string>
+    <string name="MZGramDoubleTapActions">Double tap actions</string>
+    <string name="MZGramDoubleTapActionsInfo">Choose what a double tap on a message does, separately for your own messages and for other people\'s: Telegram\'s quick reaction, reply, copy the text, or nothing.</string>
+    <string name="MZGramDoubleTapOwn">On my messages</string>
+    <string name="MZGramDoubleTapOther">On other people\'s messages</string>
+    <string name="MZGramDoubleTapReaction">Quick reaction</string>
+    <string name="MZGramDoubleTapReply">Reply</string>
+    <string name="MZGramDoubleTapCopy">Copy text</string>
+    <string name="MZGramDoubleTapNothing">Nothing</string>
 </resources>

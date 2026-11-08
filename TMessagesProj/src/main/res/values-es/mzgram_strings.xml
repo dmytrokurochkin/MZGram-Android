@@ -521,4 +521,12 @@
     <string name="MZGramSearchOperatorsInfo">En la búsqueda de un chat: from:username, date:2026-01-31 (o today, yesterday), after:, before: y type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention o pinned, junto con palabras normales. Lo que no se reconoce se busca como texto.</string>
     <string name="MZGramCleanLinks">Quitar el rastreo de los enlaces</string>
     <string name="MZGramCleanLinksInfo">Los parámetros de rastreo (utm_source, fbclid, gclid, si y otros) se quitan de un enlace al abrirlo y al pegarlo en un mensaje. Las reglas son el filtro AdGuard URL Tracking incluido en la app; nunca se descarga ni se actualiza desde internet.</string>
+    <string name="MZGramDoubleTapActions">Acciones de doble toque</string>
+    <string name="MZGramDoubleTapActionsInfo">Elige qué hace un doble toque en un mensaje, por separado para tus mensajes y los de otros: la reacción rápida de Telegram, responder, copiar el texto o nada.</string>
+    <string name="MZGramDoubleTapOwn">En mis mensajes</string>
+    <string name="MZGramDoubleTapOther">En mensajes de otros</string>
+    <string name="MZGramDoubleTapReaction">Reacción rápida</string>
+    <string name="MZGramDoubleTapReply">Responder</string>
+    <string name="MZGramDoubleTapCopy">Copiar texto</string>
+    <string name="MZGramDoubleTapNothing">Nada</string>
 </resources>

@@ -162,6 +162,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SEARCH_OPERATORS = 108;
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
+    private static final int BUTTON_INLINE_MATH = 114;
     private static final int BUTTON_DOUBLE_TAP_ACTIONS = 110;
     private static final int BUTTON_DOUBLE_TAP_OWN = 111;
     private static final int BUTTON_DOUBLE_TAP_OTHER = 112;
@@ -602,6 +603,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_CHARACTER_COUNTER, getString(R.string.MZGramCharacterCounter)).setChecked(MZGramConfig.characterCounter));
         items.add(UItem.asShadow(getString(R.string.MZGramCharacterCounterInfo)));
+        items.add(UItem.asCheck(BUTTON_INLINE_MATH, getString(R.string.MZGramInlineMath)).setChecked(MZGramConfig.inlineMath));
+        items.add(UItem.asShadow(getString(R.string.MZGramInlineMathInfo)));
         items.add(UItem.asCheck(BUTTON_COPY_PLAIN, getString(R.string.MZGramCopyPlain)).setChecked(MZGramConfig.copyPlainText));
         items.add(UItem.asShadow(getString(R.string.MZGramCopyPlainInfo)));
         items.add(UItem.asCheck(BUTTON_DOUBLE_TAP_ACTIONS, getString(R.string.MZGramDoubleTapActions)).setChecked(MZGramConfig.doubleTapActions));
@@ -757,6 +760,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CHARACTER_COUNTER) {
             MZGramConfig.toggleCharacterCounter();
             ((TextCheckCell) view).setChecked(MZGramConfig.characterCounter);
+        } else if (item.id == BUTTON_INLINE_MATH) {
+            MZGramConfig.toggleInlineMath();
+            ((TextCheckCell) view).setChecked(MZGramConfig.inlineMath);
         } else if (item.id == BUTTON_COPY_PLAIN) {
             MZGramConfig.toggleCopyPlainText();
             ((TextCheckCell) view).setChecked(MZGramConfig.copyPlainText);

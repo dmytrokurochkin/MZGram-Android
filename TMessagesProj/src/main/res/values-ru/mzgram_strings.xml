@@ -531,4 +531,6 @@
     <string name="MZGramDoubleTapNothing">Ничего</string>
     <string name="MZGramCopyPlain">Копировать без форматирования</string>
     <string name="MZGramCopyPlainInfo">Добавляет в меню сообщения пункт Копировать без форматирования: только простой текст, без жирного шрифта, ссылок и оформления эмодзи.</string>
+    <string name="MZGramInlineMath">Встроенный калькулятор</string>
+    <string name="MZGramInlineMathInfo">Введите в поле сообщения выражение и "=" (25*40=), и результат добавится после него (25*40=1000). Работает офлайн, с действиями + - * / ^ % и скобками; курсов валют нет.</string>
 </resources>

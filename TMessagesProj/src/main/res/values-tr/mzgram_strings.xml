@@ -531,4 +531,6 @@
     <string name="MZGramDoubleTapNothing">Hiçbir şey</string>
     <string name="MZGramCopyPlain">Biçimlendirmesiz kopyala</string>
     <string name="MZGramCopyPlainInfo">Mesaj menüsüne Biçimlendirmesiz kopyala ekler: yalnızca düz metin, kalın yazı, bağlantı veya emoji biçimi olmadan.</string>
+    <string name="MZGramInlineMath">Yerleşik hesap makinesi</string>
+    <string name="MZGramInlineMathInfo">Mesaj alanına bir ifade ve "=" yazın (25*40=), sonuç arkasına eklenir (25*40=1000). Çevrimdışı çalışır, + - * / ^ % ve parantezlerle; döviz kuru yoktur.</string>
 </resources>

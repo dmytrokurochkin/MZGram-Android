@@ -6069,6 +6069,8 @@ public class ChatActivityEnterView extends FrameLayout implements
             }
         });
         messageEditText.addTextChangedListener(new EditTextSuggestionsFix());
+        // MZGram: inline calculator (Settings > MZGram > Chats)
+        org.telegram.ui.mzgram.MZGramInlineMath.attach(messageEditText);
         messageEditText.setEnabled(messageEditTextEnabled);
         if (messageEditTextWatchers != null) {
             for (TextWatcher textWatcher : messageEditTextWatchers) {

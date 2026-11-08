@@ -531,4 +531,6 @@
     <string name="MZGramDoubleTapNothing">Nothing</string>
     <string name="MZGramCopyPlain">Copy without formatting</string>
     <string name="MZGramCopyPlainInfo">Adds Copy without formatting to the message menu: only the plain text, without bold, links or emoji styling.</string>
+    <string name="MZGramInlineMath">Inline calculator</string>
+    <string name="MZGramInlineMathInfo">Type an expression and "=" in the message field (25*40=) and the result is added after it (25*40=1000). It works offline, with + - * / ^ % and brackets; there are no currency rates.</string>
 </resources>

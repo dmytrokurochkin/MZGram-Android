@@ -531,4 +531,6 @@
     <string name="MZGramDoubleTapNothing">Rien</string>
     <string name="MZGramCopyPlain">Copier sans mise en forme</string>
     <string name="MZGramCopyPlainInfo">Ajoute Copier sans mise en forme au menu du message : seulement le texte brut, sans gras, liens ni style d'emoji.</string>
+    <string name="MZGramInlineMath">Calculatrice intégrée</string>
+    <string name="MZGramInlineMathInfo">Saisissez une expression et "=" dans le champ du message (25*40=) et le résultat s'ajoute après (25*40=1000). Fonctionne hors ligne, avec + - * / ^ % et les parenthèses ; pas de taux de change.</string>
 </resources>

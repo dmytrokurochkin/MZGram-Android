@@ -531,4 +531,6 @@
     <string name="MZGramDoubleTapNothing">لا شيء</string>
     <string name="MZGramCopyPlain">نسخ بدون تنسيق</string>
     <string name="MZGramCopyPlainInfo">يضيف نسخ بدون تنسيق إلى قائمة الرسالة: النص العادي فقط، دون خط عريض أو روابط أو تنسيق الإيموجي.</string>
+    <string name="MZGramInlineMath">آلة حاسبة مدمجة</string>
+    <string name="MZGramInlineMathInfo">اكتب تعبيرًا و"=" في حقل الرسالة (25*40=) فتُضاف النتيجة بعده (25*40=1000). يعمل دون اتصال مع + - * / ^ % والأقواس؛ لا توجد أسعار صرف.</string>
 </resources>

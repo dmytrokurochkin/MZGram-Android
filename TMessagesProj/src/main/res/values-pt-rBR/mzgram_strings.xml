@@ -531,4 +531,6 @@
     <string name="MZGramDoubleTapNothing">Nada</string>
     <string name="MZGramCopyPlain">Copiar sem formatação</string>
     <string name="MZGramCopyPlainInfo">Adiciona Copiar sem formatação ao menu da mensagem: só o texto simples, sem negrito, links ou estilo de emoji.</string>
+    <string name="MZGramInlineMath">Calculadora integrada</string>
+    <string name="MZGramInlineMathInfo">Digite uma expressão e "=" no campo da mensagem (25*40=) e o resultado é adicionado depois (25*40=1000). Funciona offline, com + - * / ^ % e parênteses; não há cotações de moedas.</string>
 </resources>

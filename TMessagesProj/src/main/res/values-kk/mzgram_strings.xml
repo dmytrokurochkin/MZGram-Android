@@ -545,4 +545,6 @@
     <string name="MZGramHideChatStatusInfo">Чат атауының астындағы жолды жасырады: соңғы кіру, онлайн, мүшелер немесе жазылушылар саны. «Жазып жатыр» көрсеткіші қалады.</string>
     <string name="MZGramAlwaysSendHd">Фотоларды әрқашан HD форматында жіберу</string>
     <string name="MZGramAlwaysSendHdInfo">Фотолар үшін HD ауыстырғышы әдепкіде қосулы. Жеке фото үшін оны әлі де өшіруге болады.</string>
+    <string name="MZGramPauseRound">Чаттан шыққанда дөңгелек бейнені кідірту</string>
+    <string name="MZGramPauseRoundInfo">Басқа чатқа немесе экранға өткенде дөңгелек бейнехабар тоқтайды.</string>
 </resources>

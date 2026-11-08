@@ -545,4 +545,6 @@
     <string name="MZGramHideChatStatusInfo">يخفي السطر تحت اسم الدردشة: آخر ظهور أو متصل أو عدد الأعضاء أو المشتركين. يبقى مؤشر «يكتب».</string>
     <string name="MZGramAlwaysSendHd">إرسال الصور دائماً بجودة HD</string>
     <string name="MZGramAlwaysSendHdInfo">مفتاح HD للصور مفعّل افتراضياً. ما زال بإمكانك إيقافه لصورة واحدة.</string>
+    <string name="MZGramPauseRound">إيقاف الفيديو الدائري مؤقتاً عند مغادرة الدردشة</string>
+    <string name="MZGramPauseRoundInfo">تتوقف رسالة الفيديو الدائرية عند الانتقال إلى دردشة أو شاشة أخرى.</string>
 </resources>

@@ -545,4 +545,6 @@
     <string name="MZGramHideChatStatusInfo">Ukrywa wiersz pod nazwą czatu: ostatnio widziany, online, liczba członków lub subskrybentów. Wskaźnik „pisze” zostaje.</string>
     <string name="MZGramAlwaysSendHd">Zawsze wysyłaj zdjęcia w HD</string>
     <string name="MZGramAlwaysSendHdInfo">Przełącznik HD dla zdjęć jest domyślnie włączony. Dla pojedynczego zdjęcia nadal można go wyłączyć.</string>
+    <string name="MZGramPauseRound">Pauzuj film okrągły po opuszczeniu czatu</string>
+    <string name="MZGramPauseRoundInfo">Okrągła wiadomość wideo zatrzymuje się po przejściu do innego czatu lub ekranu.</string>
 </resources>

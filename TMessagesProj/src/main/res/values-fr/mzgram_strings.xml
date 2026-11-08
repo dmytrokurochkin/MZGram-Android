@@ -545,4 +545,6 @@
     <string name="MZGramHideChatStatusInfo">Masque la ligne sous le nom du chat : dernière connexion, en ligne, nombre de membres ou d’abonnés. L’indicateur « écrit » reste.</string>
     <string name="MZGramAlwaysSendHd">Toujours envoyer les photos en HD</string>
     <string name="MZGramAlwaysSendHdInfo">L’interrupteur HD des photos est activé par défaut. Vous pouvez toujours le désactiver pour une seule photo.</string>
+    <string name="MZGramPauseRound">Mettre en pause la vidéo ronde en quittant le chat</string>
+    <string name="MZGramPauseRoundInfo">Le message vidéo rond s’arrête lorsque vous passez à un autre chat ou écran.</string>
 </resources>

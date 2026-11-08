@@ -545,4 +545,6 @@
     <string name="MZGramHideChatStatusInfo">Sohbet adının altındaki satırı gizler: son görülme, çevrimiçi, üye veya abone sayısı. «Yazıyor» göstergesi kalır.</string>
     <string name="MZGramAlwaysSendHd">Fotoğrafları her zaman HD gönder</string>
     <string name="MZGramAlwaysSendHdInfo">Fotoğraflar için HD anahtarı varsayılan olarak açıktır. Tek bir fotoğraf için yine de kapatabilirsiniz.</string>
+    <string name="MZGramPauseRound">Sohbetten çıkınca yuvarlak videoyu duraklat</string>
+    <string name="MZGramPauseRoundInfo">Başka bir sohbete veya ekrana geçtiğinizde yuvarlak video mesajı durur.</string>
 </resources>

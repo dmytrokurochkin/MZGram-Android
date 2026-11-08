@@ -545,4 +545,6 @@
     <string name="MZGramHideChatStatusInfo">Blendet die Zeile unter dem Chatnamen aus: zuletzt online, online, Anzahl der Mitglieder oder Abonnenten. Die Anzeige „schreibt“ bleibt.</string>
     <string name="MZGramAlwaysSendHd">Fotos immer in HD senden</string>
     <string name="MZGramAlwaysSendHdInfo">Der HD-Schalter für Fotos ist standardmäßig an. Für ein einzelnes Foto lässt er sich weiterhin ausschalten.</string>
+    <string name="MZGramPauseRound">Rundes Video beim Verlassen des Chats pausieren</string>
+    <string name="MZGramPauseRoundInfo">Eine runde Videonachricht stoppt, wenn Sie zu einem anderen Chat oder Bildschirm wechseln.</string>
 </resources>

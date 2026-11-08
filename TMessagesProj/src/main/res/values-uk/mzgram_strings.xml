@@ -546,4 +546,6 @@
     <string name="MZGramHideChatStatusInfo">Ховає рядок під назвою чату: час візиту, онлайн, кількість учасників або підписників. Індикатор «друкує» лишається.</string>
     <string name="MZGramAlwaysSendHd">Завжди надсилати фото в HD</string>
     <string name="MZGramAlwaysSendHdInfo">Перемикач HD для фото ввімкнено за замовчуванням. Для окремого фото його все одно можна вимкнути.</string>
+    <string name="MZGramPauseRound">Пауза круглого відео при виході з чату</string>
+    <string name="MZGramPauseRoundInfo">Кругле відеоповідомлення зупиняється, коли ви переходите в інший чат або на інший екран.</string>
 </resources>

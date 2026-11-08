@@ -27660,6 +27660,9 @@ public class ChatActivity extends BaseFragment implements
 
         flagSecure.detach();
 
+        // MZGram: pause round video when the chat is covered (Settings > MZGram > Chats)
+        org.telegram.messenger.mzgram.MZGramRoundPause.onChatHidden(dialog_id);
+
         super.onBecomeFullyHidden();
     }
 

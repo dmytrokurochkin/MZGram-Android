@@ -545,4 +545,6 @@
     <string name="MZGramHideChatStatusInfo">Hides the line under the chat name: last seen, online, number of members or subscribers. The \"typing\" indicator stays.</string>
     <string name="MZGramAlwaysSendHd">Always send photos in HD</string>
     <string name="MZGramAlwaysSendHdInfo">The HD switch for photos is on by default. You can still turn it off for a single photo.</string>
+    <string name="MZGramPauseRound">Pause round video on leaving the chat</string>
+    <string name="MZGramPauseRoundInfo">A round video message stops playing when you switch to another chat or screen.</string>
 </resources>

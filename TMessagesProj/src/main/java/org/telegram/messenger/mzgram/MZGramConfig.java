@@ -223,6 +223,9 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // pauseRoundOnLeave
+    public static boolean pauseRoundOnLeave = false;
+
     // alwaysSendHd
     public static boolean alwaysSendHd = false;
 
@@ -368,6 +371,7 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            pauseRoundOnLeave = preferences.getBoolean("pauseRoundOnLeave", false);
             alwaysSendHd = preferences.getBoolean("alwaysSendHd", false);
             hideChatStatus = preferences.getBoolean("hideChatStatus", false);
             staticInputIcons = preferences.getBoolean("staticInputIcons", false);
@@ -824,6 +828,11 @@ public class MZGramConfig {
     public static void toggleAlwaysSendHd() {
         alwaysSendHd = !alwaysSendHd;
         putBoolean("alwaysSendHd", alwaysSendHd);
+    }
+
+    public static void togglePauseRoundOnLeave() {
+        pauseRoundOnLeave = !pauseRoundOnLeave;
+        putBoolean("pauseRoundOnLeave", pauseRoundOnLeave);
     }
 
     public static void toggleInlineMath() {

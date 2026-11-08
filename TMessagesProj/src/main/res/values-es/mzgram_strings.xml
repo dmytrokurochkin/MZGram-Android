@@ -545,4 +545,6 @@
     <string name="MZGramHideChatStatusInfo">Oculta la línea bajo el nombre del chat: última conexión, en línea, número de miembros o suscriptores. El indicador «escribiendo» se mantiene.</string>
     <string name="MZGramAlwaysSendHd">Enviar siempre las fotos en HD</string>
     <string name="MZGramAlwaysSendHdInfo">El interruptor HD de las fotos está activado por defecto. Aún puedes desactivarlo para una sola foto.</string>
+    <string name="MZGramPauseRound">Pausar el videomensaje al salir del chat</string>
+    <string name="MZGramPauseRoundInfo">El videomensaje redondo se detiene al cambiar a otro chat o pantalla.</string>
 </resources>

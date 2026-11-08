@@ -10,6 +10,11 @@
  * shown, instead of the vague one, while it falls inside what the server says.
  *
  * Kept in the archive database, so it stays after a restart.
+ *
+ * Exact statuses count too (recordStatus): while the person still shows
+ * "online" or "last seen at", that time is noted, so after they hide their
+ * last seen the line keeps the last time this device knew. Idea from
+ * AyuGram (GPL-3.0), LastSeenHelper.onUserStatusUpdated.
  */
 
 package org.telegram.messenger.mzgram;
@@ -39,6 +44,16 @@ public class MZGramLastSeen {
         }
         seen.put(userId, date);
         Utilities.globalQueue.postRunnable(() -> MZGramHistoryDatabase.getInstance().putLastSeen(userId, date));
+    }
+
+    // A status from the server: "online" is a sign at "now", "last seen at"
+    // at that time. Hidden statuses carry no time and are left to record().
+    public static void recordStatus(long userId, TLRPC.UserStatus status, int now) {
+        if (status instanceof TLRPC.TL_userStatusOnline) {
+            record(userId, now);
+        } else if (status instanceof TLRPC.TL_userStatusOffline && status.expires > 0) {
+            record(userId, Math.min(status.expires, now));
+        }
     }
 
     public static int lastSeen(long userId) {

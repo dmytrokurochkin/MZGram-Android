@@ -134,6 +134,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DISABLE_CLOUD_DRAFTS = 88;
     private static final int BUTTON_LOCK_SCREEN_VOICE_PROTECTION = 89;
     private static final int BUTTON_GHOST_MODE_EXCLUSIONS = 90;
+    private static final int BUTTON_OWN_LAST_SEEN = 91;
+    private static final int BUTTON_OWN_LAST_SEEN_VALUE = 92;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -505,6 +507,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramDisableCloudDraftsInfo)));
         items.add(UItem.asCheck(BUTTON_LOCK_SCREEN_VOICE_PROTECTION, getString(R.string.MZGramLockScreenVoiceProtection)).setChecked(MZGramConfig.lockScreenVoiceProtection));
         items.add(UItem.asShadow(getString(R.string.MZGramLockScreenVoiceProtectionInfo)));
+        items.add(UItem.asCheck(BUTTON_OWN_LAST_SEEN, getString(R.string.MZGramOwnLastSeen)).setChecked(MZGramConfig.ownLastSeen));
+        if (MZGramConfig.ownLastSeen) {
+            items.add(UItem.asButton(BUTTON_OWN_LAST_SEEN_VALUE, getString(R.string.MZGramOwnLastSeenValue), org.telegram.messenger.mzgram.MZGramOwnLastSeen.describe(currentAccount, getConnectionsManager().getCurrentTime())));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramOwnLastSeenInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_READ_STICKERS, getString(R.string.MZGramDisableReadStickers)).setChecked(MZGramConfig.disableReadStickers));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableReadStickersInfo)));
     }
@@ -663,6 +670,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_GHOST_MODE_EXCLUSIONS) {
             MZGramConfig.toggleGhostModeExclusions();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostModeExclusions);
+        } else if (item.id == BUTTON_OWN_LAST_SEEN) {
+            MZGramConfig.toggleOwnLastSeen();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);

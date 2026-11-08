@@ -446,4 +446,8 @@
     <string name="MZGramGhostExclusionDefault">حسب مفتاح وضع الشبح</string>
     <string name="MZGramGhostExclusionAlwaysRead">إظهار القراءة والكتابة دائمًا</string>
     <string name="MZGramGhostExclusionNeverRead">عدم إظهار القراءة والكتابة أبدًا</string>
+    <string name="MZGramOwnLastSeen">تسجيل آخر ظهور لي</string>
+    <string name="MZGramOwnLastSeenValue">يرى الآخرون</string>
+    <string name="MZGramOwnLastSeenUnknown">غير معروف بعد</string>
+    <string name="MZGramOwnLastSeenInfo">لا يعرض لك تيليجرام آخر ظهور لك. يسجّل هذا الجهاز آخر مرة أخبر فيها تيليجرام بأنك متصل أو غير متصل ويعرضه هنا لهذا الحساب. من تخفيه عنهم إعدادات الخصوصية يرون «مؤخرًا».</string>
 </resources>

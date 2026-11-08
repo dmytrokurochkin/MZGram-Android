@@ -446,4 +446,8 @@
     <string name="MZGramGhostExclusionDefault">Como el interruptor del modo fantasma</string>
     <string name="MZGramGhostExclusionAlwaysRead">Mostrar siempre lectura y escritura</string>
     <string name="MZGramGhostExclusionNeverRead">No mostrar nunca lectura y escritura</string>
+    <string name="MZGramOwnLastSeen">Anotar mi última conexión</string>
+    <string name="MZGramOwnLastSeenValue">Los demás ven</string>
+    <string name="MZGramOwnLastSeenUnknown">aún desconocido</string>
+    <string name="MZGramOwnLastSeenInfo">Telegram no te muestra tu propia última conexión. Este dispositivo anota cuándo le dijo por última vez a Telegram que estabas en línea o desconectado y lo muestra aquí para esta cuenta. Quienes no pueden verla por tu privacidad ven «recientemente».</string>
 </resources>

@@ -446,4 +446,8 @@
     <string name="MZGramGhostExclusionDefault">As the ghost mode switch</string>
     <string name="MZGramGhostExclusionAlwaysRead">Always show reads and typing</string>
     <string name="MZGramGhostExclusionNeverRead">Never show reads and typing</string>
+    <string name="MZGramOwnLastSeen">Note my own last seen</string>
+    <string name="MZGramOwnLastSeenValue">Others see</string>
+    <string name="MZGramOwnLastSeenUnknown">not known yet</string>
+    <string name="MZGramOwnLastSeenInfo">Telegram does not show you your own last seen. This device notes when it last told Telegram you are online or offline and shows it here, for this account. People your privacy settings hide it from see \"recently\" instead.</string>
 </resources>

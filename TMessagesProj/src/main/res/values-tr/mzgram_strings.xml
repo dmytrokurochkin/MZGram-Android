@@ -446,4 +446,8 @@
     <string name="MZGramGhostExclusionDefault">Hayalet modu anahtarı gibi</string>
     <string name="MZGramGhostExclusionAlwaysRead">Okumayı ve yazmayı her zaman göster</string>
     <string name="MZGramGhostExclusionNeverRead">Okumayı ve yazmayı asla gösterme</string>
+    <string name="MZGramOwnLastSeen">Kendi son görülmemi kaydet</string>
+    <string name="MZGramOwnLastSeenValue">Diğerleri görür</string>
+    <string name="MZGramOwnLastSeenUnknown">henüz bilinmiyor</string>
+    <string name="MZGramOwnLastSeenInfo">Telegram size kendi son görülmenizi göstermez. Bu cihaz Telegram\'a en son ne zaman çevrimiçi veya çevrimdışı olduğunuzu bildirdiğini kaydeder ve bu hesap için burada gösterir. Gizlilik ayarlarınızın gizlediği kişiler «yakın zamanda» görür.</string>
 </resources>

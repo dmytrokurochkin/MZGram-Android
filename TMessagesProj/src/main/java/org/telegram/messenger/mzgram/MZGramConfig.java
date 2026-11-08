@@ -114,6 +114,9 @@ public class MZGramConfig {
     public static boolean disableCloudDrafts = false;
     // Voice messages and round videos do not play from the lock screen.
     public static boolean lockScreenVoiceProtection = false;
+    // The owner's own last seen, as others see it, noted on this device
+    // (MZGramOwnLastSeen).
+    public static boolean ownLastSeen = false;
 
     // Settings > MZGram > Interface > Show ID (MZGramPeerId): hidden by
     // default, as in Telegram API or as in Bot API.
@@ -228,6 +231,7 @@ public class MZGramConfig {
             disableLinkPreviews = preferences.getBoolean("disableLinkPreviews", false);
             disableCloudDrafts = preferences.getBoolean("disableCloudDrafts", false);
             lockScreenVoiceProtection = preferences.getBoolean("lockScreenVoiceProtection", false);
+            ownLastSeen = preferences.getBoolean("ownLastSeen", false);
             // The removed "hide own online status" and "hide own phone
             // number" switches: Telegram's own privacy settings do this.
             if (preferences.contains("hideOwnOnlineStatus") || preferences.contains("savedLastSeenPrivacyState") || preferences.contains("hideOwnPhoneNumber")) {
@@ -531,6 +535,11 @@ public class MZGramConfig {
     public static void toggleGhostModeExclusions() {
         ghostModeExclusions = !ghostModeExclusions;
         putBoolean("ghostModeExclusions", ghostModeExclusions);
+    }
+
+    public static void toggleOwnLastSeen() {
+        ownLastSeen = !ownLastSeen;
+        putBoolean("ownLastSeen", ownLastSeen);
     }
 
     public static void toggleGhostMode() {

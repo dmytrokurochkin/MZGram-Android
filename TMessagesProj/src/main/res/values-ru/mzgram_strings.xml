@@ -446,4 +446,8 @@
     <string name="MZGramGhostExclusionDefault">Как переключатель режима призрака</string>
     <string name="MZGramGhostExclusionAlwaysRead">Всегда показывать прочтение и набор</string>
     <string name="MZGramGhostExclusionNeverRead">Никогда не показывать прочтение и набор</string>
+    <string name="MZGramOwnLastSeen">Запоминать моё последнее посещение</string>
+    <string name="MZGramOwnLastSeenValue">Другие видят</string>
+    <string name="MZGramOwnLastSeenUnknown">пока неизвестно</string>
+    <string name="MZGramOwnLastSeenInfo">Telegram не показывает вам ваше собственное последнее посещение. Это устройство запоминает, когда в последний раз сообщило Telegram, что вы в сети или вышли, и показывает это здесь для этого аккаунта. Те, от кого это скрывают ваши настройки конфиденциальности, видят «недавно».</string>
 </resources>

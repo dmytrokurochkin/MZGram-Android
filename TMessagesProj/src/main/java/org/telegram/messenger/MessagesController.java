@@ -10588,6 +10588,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                 lastStatusUpdateTime = System.currentTimeMillis();
                                 offlineSent = false;
                                 statusSettingState = 0;
+                                // MZGram: own last seen (MZGramOwnLastSeen).
+                                org.telegram.messenger.mzgram.MZGramOwnLastSeen.onStatusSent(currentAccount, false, getConnectionsManager().getCurrentTime());
                             } else {
                                 if (lastStatusUpdateTime != 0) {
                                     lastStatusUpdateTime += 5000;
@@ -10607,6 +10609,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
                     if (error == null) {
                         offlineSent = true;
+                        // MZGram: own last seen (MZGramOwnLastSeen).
+                        org.telegram.messenger.mzgram.MZGramOwnLastSeen.onStatusSent(currentAccount, true, getConnectionsManager().getCurrentTime());
                     } else {
                         if (lastStatusUpdateTime != 0) {
                             lastStatusUpdateTime += 5000;
@@ -20170,6 +20174,8 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else if (update.status instanceof TLRPC.TL_userStatusLastMonth) {
                             update.status.expires = -102;
                         }
+                        // MZGram: an exact online or offline time is kept too, for when the person hides it later.
+                        org.telegram.messenger.mzgram.MZGramLastSeen.recordStatus(update.user_id, update.status, getConnectionsManager().getCurrentTime());
                         if (currentUser != null) {
                             currentUser.id = update.user_id;
                             currentUser.status = update.status;

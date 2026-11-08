@@ -447,4 +447,8 @@
     <string name="MZGramGhostExclusionDefault">Як перемикач режиму привида</string>
     <string name="MZGramGhostExclusionAlwaysRead">Завжди показувати прочитання й набір</string>
     <string name="MZGramGhostExclusionNeverRead">Ніколи не показувати прочитання й набір</string>
+    <string name="MZGramOwnLastSeen">Запам\'ятовувати мій останній візит</string>
+    <string name="MZGramOwnLastSeenValue">Інші бачать</string>
+    <string name="MZGramOwnLastSeenUnknown">ще невідомо</string>
+    <string name="MZGramOwnLastSeenInfo">Telegram не показує вам ваш власний останній візит. Цей пристрій запам\'ятовує, коли востаннє повідомив Telegram, що ви в мережі чи вийшли, і показує це тут для цього акаунта. Ті, від кого це приховують ваші налаштування приватності, бачать «нещодавно».</string>
 </resources>

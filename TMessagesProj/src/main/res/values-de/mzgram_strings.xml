@@ -446,4 +446,8 @@
     <string name="MZGramGhostExclusionDefault">Wie der Geistermodus-Schalter</string>
     <string name="MZGramGhostExclusionAlwaysRead">Lesen und Tippen immer zeigen</string>
     <string name="MZGramGhostExclusionNeverRead">Lesen und Tippen nie zeigen</string>
+    <string name="MZGramOwnLastSeen">Meine eigene Zuletzt-online-Zeit merken</string>
+    <string name="MZGramOwnLastSeenValue">Andere sehen</string>
+    <string name="MZGramOwnLastSeenUnknown">noch unbekannt</string>
+    <string name="MZGramOwnLastSeenInfo">Telegram zeigt dir deine eigene Zuletzt-online-Zeit nicht. Dieses Gerät merkt sich, wann es Telegram zuletzt gemeldet hat, dass du online oder offline bist, und zeigt es hier für dieses Konto. Wer sie laut deinen Datenschutzeinstellungen nicht sehen darf, sieht „kürzlich“.</string>
 </resources>

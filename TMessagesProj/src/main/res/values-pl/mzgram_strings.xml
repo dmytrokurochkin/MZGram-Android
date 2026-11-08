@@ -446,4 +446,8 @@
     <string name="MZGramGhostExclusionDefault">Jak przełącznik trybu ducha</string>
     <string name="MZGramGhostExclusionAlwaysRead">Zawsze pokazuj odczytanie i pisanie</string>
     <string name="MZGramGhostExclusionNeverRead">Nigdy nie pokazuj odczytania i pisania</string>
+    <string name="MZGramOwnLastSeen">Zapamiętuj moją ostatnią aktywność</string>
+    <string name="MZGramOwnLastSeenValue">Inni widzą</string>
+    <string name="MZGramOwnLastSeenUnknown">jeszcze nieznane</string>
+    <string name="MZGramOwnLastSeenInfo">Telegram nie pokazuje ci twojej własnej ostatniej aktywności. To urządzenie zapamiętuje, kiedy ostatnio powiedziało Telegramowi, że jesteś online lub offline, i pokazuje to tutaj dla tego konta. Ci, przed którymi ukrywają ją twoje ustawienia prywatności, widzą „ostatnio”.</string>
 </resources>

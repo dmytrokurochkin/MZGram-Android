@@ -446,4 +446,8 @@
     <string name="MZGramGhostExclusionDefault">Елес режимі қосқышы бойынша</string>
     <string name="MZGramGhostExclusionAlwaysRead">Оқу мен теруді әрдайым көрсету</string>
     <string name="MZGramGhostExclusionNeverRead">Оқу мен теруді ешқашан көрсетпеу</string>
+    <string name="MZGramOwnLastSeen">Өзімнің соңғы кіруімді есте сақтау</string>
+    <string name="MZGramOwnLastSeenValue">Басқалар көреді</string>
+    <string name="MZGramOwnLastSeenUnknown">әзірге белгісіз</string>
+    <string name="MZGramOwnLastSeenInfo">Telegram сізге өзіңіздің соңғы кіруіңізді көрсетпейді. Бұл құрылғы Telegram-ға соңғы рет қашан желіде немесе желіден тыс екеніңізді хабарлағанын есте сақтап, осы аккаунт үшін осында көрсетеді. Құпиялылық баптауларыңыз жасыратындар «жақында» деп көреді.</string>
 </resources>

@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Набраны, але не адпраўлены тэкст не загружаецца ў Telegram і не з\'яўляецца на іншых вашых прыладах. Ачыстка чарнавіка ўсё роўна выдаляе старую копію з воблака.</string>
     <string name="MZGramLockScreenVoiceProtection">Абарона галасавых на экране блакіроўкі</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Пакуль тэлефон заблакіраваны, галасавыя і круглыя відэа не запускаюцца і не аднаўляюцца з плэера на экране блакіроўкі ці кнопкамі гарнітуры, а плэер хавае імя і фота адпраўніка. Музыка грае як звычайна.</string>
+    <string name="MZGramGhostModeExclusions">Рэжым прывіда для асобных чатаў</string>
+    <string name="MZGramGhostModeExclusionsInfo">Дадае «Рэжым прывіда ў гэтым чаце» ў меню чата: як пераключальнік вышэй, заўсёды паказваць там прачытанне і набор тэксту або ніколі не паказваць нават з выключаным рэжымам прывіда. Аўтазатрымка і ціхая адпраўка ідуць за тым жа выбарам.</string>
+    <string name="MZGramGhostExclusion">Рэжым прывіда ў гэтым чаце</string>
+    <string name="MZGramGhostExclusionDefault">Як пераключальнік рэжыму прывіда</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Заўсёды паказваць прачытанне і набор</string>
+    <string name="MZGramGhostExclusionNeverRead">Ніколі не паказваць прачытанне і набор</string>
 </resources>

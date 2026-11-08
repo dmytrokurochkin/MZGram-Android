@@ -99,6 +99,9 @@ public class MZGramConfig {
     // swiping between already-open stories), offer to turn ghost mode on so
     // viewing does not mark the story as seen for the other side.
     public static boolean offerGhostModeBeforeStories = false;
+    // Ghost mode: a chat's menu sets ghost mode for that chat only
+    // (MZGramGhostMode exclusions); off ignores the saved exclusions.
+    public static boolean ghostModeExclusions = false;
 
     // Settings > MZGram > Privacy (MZGramPrivacy); all off by default.
     // t.me and tg:// links ask before they open.
@@ -219,6 +222,7 @@ public class MZGramConfig {
             ghostAutoDelaySend = preferences.getBoolean("ghostAutoDelaySend", false);
             ghostSilentSend = preferences.getBoolean("ghostSilentSend", false);
             offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
+            ghostModeExclusions = preferences.getBoolean("ghostModeExclusions", false);
             confirmInternalLinks = preferences.getBoolean("confirmInternalLinks", false);
             disableReadStickers = preferences.getBoolean("disableReadStickers", false);
             disableLinkPreviews = preferences.getBoolean("disableLinkPreviews", false);
@@ -522,6 +526,11 @@ public class MZGramConfig {
     public static void toggleLockScreenVoiceProtection() {
         lockScreenVoiceProtection = !lockScreenVoiceProtection;
         putBoolean("lockScreenVoiceProtection", lockScreenVoiceProtection);
+    }
+
+    public static void toggleGhostModeExclusions() {
+        ghostModeExclusions = !ghostModeExclusions;
+        putBoolean("ghostModeExclusions", ghostModeExclusions);
     }
 
     public static void toggleGhostMode() {

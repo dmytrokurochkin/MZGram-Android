@@ -1725,6 +1725,8 @@ public class ChatActivity extends BaseFragment implements
     private final static int copy_business_link = 65;
     // MZGram: "Ask AI" for the selected messages (MZGramAiActivity)
     private final static int mzgram_ask_ai = 1100;
+    // MZGram: this chat's ghost mode exclusion (MZGramGhostExclusionMenu)
+    private final static int mzgram_ghost_exclusion = 1101;
     private final static int share_business_link = 66;
     private final static int rename_business_link = 67;
     private final static int delete_business_link = 68;
@@ -4004,6 +4006,9 @@ public class ChatActivity extends BaseFragment implements
                     }
                 } else if (id == mute) {
                     toggleMute(false);
+                } else if (id == mzgram_ghost_exclusion) {
+                    // MZGram: ghost mode for this chat only.
+                    org.telegram.ui.mzgram.MZGramGhostExclusionMenu.show(ChatActivity.this, getDialogId());
                 } else if (id == add_shortcut) {
                     try {
                         getMediaDataController().installShortcut(currentUser.id, MediaDataController.SHORTCUT_TYPE_USER_OR_CHAT);
@@ -4552,6 +4557,10 @@ public class ChatActivity extends BaseFragment implements
             }
             if (themeDelegate.isThemeChangeAvailable(true)) {
                 headerItem.lazilyAddSubItem(change_colors, R.drawable.msg_background, LocaleController.getString(R.string.SetWallpapers));
+            }
+            // MZGram: ghost mode for this chat only.
+            if (org.telegram.ui.mzgram.MZGramGhostExclusionMenu.isAvailable(currentUser, chatMode)) {
+                headerItem.lazilyAddSubItem(mzgram_ghost_exclusion, R.drawable.msg_secret, LocaleController.getString(R.string.MZGramGhostExclusion));
             }
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {
                 headerItem.lazilyAddSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));

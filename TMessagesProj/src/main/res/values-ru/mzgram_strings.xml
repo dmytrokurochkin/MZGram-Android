@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Набранный, но не отправленный текст не загружается в Telegram и не появляется на других ваших устройствах. Очистка черновика всё равно удаляет старую копию из облака.</string>
     <string name="MZGramLockScreenVoiceProtection">Защита голосовых на экране блокировки</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Пока телефон заблокирован, голосовые и круглые видео не запускаются и не возобновляются из плеера на экране блокировки или кнопками гарнитуры, а плеер скрывает имя и фото отправителя. Музыка играет как обычно.</string>
+    <string name="MZGramGhostModeExclusions">Режим призрака для отдельных чатов</string>
+    <string name="MZGramGhostModeExclusionsInfo">Добавляет «Режим призрака в этом чате» в меню чата: как переключатель выше, всегда показывать там прочтение и набор текста или никогда не показывать даже при выключенном режиме призрака. Автозадержка и тихая отправка следуют тому же выбору.</string>
+    <string name="MZGramGhostExclusion">Режим призрака в этом чате</string>
+    <string name="MZGramGhostExclusionDefault">Как переключатель режима призрака</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Всегда показывать прочтение и набор</string>
+    <string name="MZGramGhostExclusionNeverRead">Никогда не показывать прочтение и набор</string>
 </resources>

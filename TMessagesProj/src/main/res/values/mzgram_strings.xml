@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Text you typed but did not send is not uploaded to Telegram and does not show on your other devices. Clearing a draft still removes an old copy from the cloud.</string>
     <string name="MZGramLockScreenVoiceProtection">Protect voice messages on the lock screen</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">While the phone is locked, voice messages and round videos do not start or resume from the lock screen player or headset buttons, and their player hides the sender\'s name and photo. Music plays as usual.</string>
+    <string name="MZGramGhostModeExclusions">Ghost mode per chat</string>
+    <string name="MZGramGhostModeExclusionsInfo">Adds \"Ghost mode in this chat\" to a chat\'s menu: follow the switch above, always show reads and typing there, or never show them there even while ghost mode is off. The auto-delay and silent send follow the same choice.</string>
+    <string name="MZGramGhostExclusion">Ghost mode in this chat</string>
+    <string name="MZGramGhostExclusionDefault">As the ghost mode switch</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Always show reads and typing</string>
+    <string name="MZGramGhostExclusionNeverRead">Never show reads and typing</string>
 </resources>

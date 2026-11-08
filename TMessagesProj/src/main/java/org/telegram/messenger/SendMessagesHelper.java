@@ -4446,7 +4446,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         // which have their own explicit timing.
         if (!sendMessageParams.mzgramDelaySent
                 && sendMessageParams.scheduleDate == 0
-                && org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()
+                && org.telegram.messenger.mzgram.MZGramGhostMode.isEnabledFor(currentAccount, sendMessageParams.peer)
                 && org.telegram.messenger.mzgram.MZGramConfig.ghostAutoDelaySend) {
             sendMessageParams.mzgramDelaySent = true;
             boolean hasMedia = sendMessageParams.photo != null || sendMessageParams.document != null
@@ -4460,7 +4460,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         // Ghost mode: send without sound/notification for as long as ghost
         // mode and this toggle are on, regardless of what the per-message
         // "send without sound" long-press option was set to.
-        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()
+        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabledFor(currentAccount, sendMessageParams.peer)
                 && org.telegram.messenger.mzgram.MZGramConfig.ghostSilentSend) {
             sendMessageParams.notify = false;
         }

@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Терілген, бірақ жіберілмеген мәтін Telegram-ға жүктелмейді және басқа құрылғыларыңызда көрінбейді. Жобаны тазалау бәрібір бұлттағы ескі көшірмені өшіреді.</string>
     <string name="MZGramLockScreenVoiceProtection">Құлып экранында дауыстық хабарларды қорғау</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Телефон құлыптаулы кезде дауыстық хабарлар мен дөңгелек бейнелер құлып экранындағы ойнатқыштан немесе гарнитура түймелерінен басталмайды және жалғаспайды, ал ойнатқыш жіберушінің атын және фотосын жасырады. Музыка әдеттегідей ойнайды.</string>
+    <string name="MZGramGhostModeExclusions">Жеке чаттар үшін елес режимі</string>
+    <string name="MZGramGhostModeExclusionsInfo">Чат мәзіріне «Осы чаттағы елес режимі» қосады: жоғарыдағы қосқыш бойынша, онда оқуды және теруді әрдайым көрсету немесе елес режимі өшірулі болса да ешқашан көрсетпеу. Автокідіріс пен дыбыссыз жіберу де сол таңдауға сүйенеді.</string>
+    <string name="MZGramGhostExclusion">Осы чаттағы елес режимі</string>
+    <string name="MZGramGhostExclusionDefault">Елес режимі қосқышы бойынша</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Оқу мен теруді әрдайым көрсету</string>
+    <string name="MZGramGhostExclusionNeverRead">Оқу мен теруді ешқашан көрсетпеу</string>
 </resources>

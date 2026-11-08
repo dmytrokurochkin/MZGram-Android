@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">النص الذي كتبته ولم ترسله لا يُرفع إلى تيليجرام ولا يظهر على أجهزتك الأخرى. مسح المسودة يحذف مع ذلك نسخة قديمة من السحابة.</string>
     <string name="MZGramLockScreenVoiceProtection">حماية الرسائل الصوتية على شاشة القفل</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">عندما يكون الهاتف مقفلًا، لا تبدأ الرسائل الصوتية ومقاطع الفيديو الدائرية ولا تُستأنف من مشغّل شاشة القفل أو أزرار السماعة، ويخفي المشغّل اسم المرسل وصورته. تعمل الموسيقى كالمعتاد.</string>
+    <string name="MZGramGhostModeExclusions">وضع الشبح لكل محادثة</string>
+    <string name="MZGramGhostModeExclusionsInfo">يضيف «وضع الشبح في هذه المحادثة» إلى قائمة المحادثة: اتباع المفتاح أعلاه، أو إظهار القراءة والكتابة هناك دائمًا، أو عدم إظهارهما هناك أبدًا حتى مع إيقاف وضع الشبح. يتبع التأخير التلقائي والإرسال الصامت الاختيار نفسه.</string>
+    <string name="MZGramGhostExclusion">وضع الشبح في هذه المحادثة</string>
+    <string name="MZGramGhostExclusionDefault">حسب مفتاح وضع الشبح</string>
+    <string name="MZGramGhostExclusionAlwaysRead">إظهار القراءة والكتابة دائمًا</string>
+    <string name="MZGramGhostExclusionNeverRead">عدم إظهار القراءة والكتابة أبدًا</string>
 </resources>

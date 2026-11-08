@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">El texto que escribiste pero no enviaste no se sube a Telegram ni aparece en tus otros dispositivos. Borrar un borrador sigue eliminando una copia antigua de la nube.</string>
     <string name="MZGramLockScreenVoiceProtection">Proteger mensajes de voz en la pantalla de bloqueo</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Mientras el teléfono está bloqueado, los mensajes de voz y los videos redondos no se inician ni se reanudan desde el reproductor de la pantalla de bloqueo o los botones del auricular, y el reproductor oculta el nombre y la foto del remitente. La música suena como siempre.</string>
+    <string name="MZGramGhostModeExclusions">Modo fantasma por chat</string>
+    <string name="MZGramGhostModeExclusionsInfo">Añade «Modo fantasma en este chat» al menú del chat: seguir el interruptor de arriba, mostrar siempre ahí lecturas y escritura, o no mostrarlas nunca ahí aunque el modo fantasma esté apagado. El retraso automático y el envío silencioso siguen la misma elección.</string>
+    <string name="MZGramGhostExclusion">Modo fantasma en este chat</string>
+    <string name="MZGramGhostExclusionDefault">Como el interruptor del modo fantasma</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Mostrar siempre lectura y escritura</string>
+    <string name="MZGramGhostExclusionNeverRead">No mostrar nunca lectura y escritura</string>
 </resources>

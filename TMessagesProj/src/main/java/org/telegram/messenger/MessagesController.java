@@ -11445,8 +11445,8 @@ public class MessagesController extends BaseController implements NotificationCe
             return false;
         }
         // MZGram: ghost mode never announces a typing status to the other
-        // side.
-        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()) {
+        // side; a chat's ghost mode exclusion wins.
+        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabledFor(currentAccount, dialogId)) {
             return false;
         }
         final long selfId = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -14691,7 +14691,7 @@ public class MessagesController extends BaseController implements NotificationCe
     // server regardless of ghost mode -- independent of the ReadTask queue,
     // so the general suppression above is untouched.
     public void mzgramMarkMessageReadDueToInteraction(long dialogId, int messageId) {
-        if (!org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled() || messageId <= 0 || dialogId == 0) {
+        if (!org.telegram.messenger.mzgram.MZGramGhostMode.isEnabledFor(currentAccount, dialogId) || messageId <= 0 || dialogId == 0) {
             return;
         }
         if (DialogObject.isEncryptedDialog(dialogId)) {
@@ -14724,8 +14724,9 @@ public class MessagesController extends BaseController implements NotificationCe
     private void completeReadTask(ReadTask task) {
         // MZGram: ghost mode drops the outgoing read-history request; the local read
         // state (unread counters, badges) was already applied in
-        // markDialogAsRead and is not affected by this.
-        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled()) {
+        // markDialogAsRead and is not affected by this. A chat's ghost mode
+        // exclusion wins.
+        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabledFor(currentAccount, task.dialogId)) {
             return;
         }
         if (task.replyId != 0 && task.monoForumPeerId == 0) {

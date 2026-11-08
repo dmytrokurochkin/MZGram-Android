@@ -441,4 +441,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Набраний, але не надісланий текст не завантажується в Telegram і не з\'являється на інших ваших пристроях. Очищення чернетки все одно видаляє стару копію з хмари.</string>
     <string name="MZGramLockScreenVoiceProtection">Захист голосових на екрані блокування</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Поки телефон заблоковано, голосові й кругле відео не запускаються і не відновлюються з плеєра на екрані блокування чи кнопками гарнітури, а плеєр приховує ім\'я і фото відправника. Музика грає як завжди.</string>
+    <string name="MZGramGhostModeExclusions">Режим привида для окремих чатів</string>
+    <string name="MZGramGhostModeExclusionsInfo">Додає «Режим привида в цьому чаті» в меню чату: як перемикач вище, завжди показувати там прочитання й набір тексту або ніколи не показувати навіть з вимкненим режимом привида. Автозатримка й тиха відправка слідують тому ж вибору.</string>
+    <string name="MZGramGhostExclusion">Режим привида в цьому чаті</string>
+    <string name="MZGramGhostExclusionDefault">Як перемикач режиму привида</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Завжди показувати прочитання й набір</string>
+    <string name="MZGramGhostExclusionNeverRead">Ніколи не показувати прочитання й набір</string>
 </resources>

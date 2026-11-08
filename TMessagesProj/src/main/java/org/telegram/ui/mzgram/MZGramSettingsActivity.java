@@ -133,6 +133,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DISABLE_LINK_PREVIEWS = 87;
     private static final int BUTTON_DISABLE_CLOUD_DRAFTS = 88;
     private static final int BUTTON_LOCK_SCREEN_VOICE_PROTECTION = 89;
+    private static final int BUTTON_GHOST_MODE_EXCLUSIONS = 90;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -490,6 +491,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramGhostSilentSendInfo)));
         items.add(UItem.asCheck(BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES, getString(R.string.MZGramOfferGhostModeBeforeStoriesToggle)).setChecked(MZGramConfig.offerGhostModeBeforeStories));
         items.add(UItem.asShadow(getString(R.string.MZGramOfferGhostModeBeforeStoriesToggleInfo)));
+        items.add(UItem.asCheck(BUTTON_GHOST_MODE_EXCLUSIONS, getString(R.string.MZGramGhostModeExclusions)).setChecked(MZGramConfig.ghostModeExclusions));
+        items.add(UItem.asShadow(getString(R.string.MZGramGhostModeExclusionsInfo)));
     }
 
     private void fillPrivacy(ArrayList<UItem> items) {
@@ -657,6 +660,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_LOCK_SCREEN_VOICE_PROTECTION) {
             MZGramConfig.toggleLockScreenVoiceProtection();
             ((TextCheckCell) view).setChecked(MZGramConfig.lockScreenVoiceProtection);
+        } else if (item.id == BUTTON_GHOST_MODE_EXCLUSIONS) {
+            MZGramConfig.toggleGhostModeExclusions();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostModeExclusions);
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);

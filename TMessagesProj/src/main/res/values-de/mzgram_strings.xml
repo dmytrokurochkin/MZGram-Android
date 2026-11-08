@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Getippter, aber nicht gesendeter Text wird nicht zu Telegram hochgeladen und erscheint nicht auf deinen anderen Geräten. Das Leeren eines Entwurfs entfernt trotzdem eine alte Kopie aus der Cloud.</string>
     <string name="MZGramLockScreenVoiceProtection">Sprachnachrichten auf dem Sperrbildschirm schützen</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Solange das Telefon gesperrt ist, starten Sprachnachrichten und runde Videos nicht über den Player auf dem Sperrbildschirm oder die Headset-Tasten, und der Player verbirgt Name und Foto des Absenders. Musik spielt wie gewohnt.</string>
+    <string name="MZGramGhostModeExclusions">Geistermodus pro Chat</string>
+    <string name="MZGramGhostModeExclusionsInfo">Fügt dem Chatmenü „Geistermodus in diesem Chat“ hinzu: dem Schalter oben folgen, dort Lesen und Tippen immer zeigen oder dort nie zeigen, auch wenn der Geistermodus aus ist. Verzögerung und lautloses Senden folgen derselben Wahl.</string>
+    <string name="MZGramGhostExclusion">Geistermodus in diesem Chat</string>
+    <string name="MZGramGhostExclusionDefault">Wie der Geistermodus-Schalter</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Lesen und Tippen immer zeigen</string>
+    <string name="MZGramGhostExclusionNeverRead">Lesen und Tippen nie zeigen</string>
 </resources>

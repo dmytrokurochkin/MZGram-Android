@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Le texte saisi mais non envoyé n\'est pas téléversé sur Telegram et n\'apparaît pas sur vos autres appareils. Vider un brouillon supprime quand même une ancienne copie du cloud.</string>
     <string name="MZGramLockScreenVoiceProtection">Protéger les messages vocaux sur l\'écran de verrouillage</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Tant que le téléphone est verrouillé, les messages vocaux et les vidéos rondes ne démarrent ni ne reprennent depuis le lecteur de l\'écran de verrouillage ou les boutons du casque, et le lecteur masque le nom et la photo de l\'expéditeur. La musique joue normalement.</string>
+    <string name="MZGramGhostModeExclusions">Mode fantôme par discussion</string>
+    <string name="MZGramGhostModeExclusionsInfo">Ajoute « Mode fantôme dans cette discussion » au menu de la discussion : suivre l\'interrupteur ci-dessus, toujours y montrer la lecture et la saisie, ou ne jamais les y montrer même mode fantôme désactivé. Le délai automatique et l\'envoi silencieux suivent le même choix.</string>
+    <string name="MZGramGhostExclusion">Mode fantôme dans cette discussion</string>
+    <string name="MZGramGhostExclusionDefault">Comme l\'interrupteur du mode fantôme</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Toujours montrer lecture et saisie</string>
+    <string name="MZGramGhostExclusionNeverRead">Ne jamais montrer lecture et saisie</string>
 </resources>

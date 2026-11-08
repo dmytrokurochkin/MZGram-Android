@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Wpisany, ale niewysłany tekst nie trafia do Telegrama i nie pojawia się na innych twoich urządzeniach. Wyczyszczenie szkicu nadal usuwa starą kopię z chmury.</string>
     <string name="MZGramLockScreenVoiceProtection">Chroń wiadomości głosowe na ekranie blokady</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Gdy telefon jest zablokowany, wiadomości głosowe i okrągłe filmy nie uruchamiają się ani nie wznawiają z odtwarzacza na ekranie blokady czy przycisków słuchawek, a odtwarzacz ukrywa imię i zdjęcie nadawcy. Muzyka gra jak zwykle.</string>
+    <string name="MZGramGhostModeExclusions">Tryb ducha dla poszczególnych czatów</string>
+    <string name="MZGramGhostModeExclusionsInfo">Dodaje „Tryb ducha w tym czacie” do menu czatu: jak przełącznik wyżej, zawsze pokazuj tam odczytanie i pisanie albo nigdy ich tam nie pokazuj, nawet gdy tryb ducha jest wyłączony. Opóźnienie i ciche wysyłanie idą za tym samym wyborem.</string>
+    <string name="MZGramGhostExclusion">Tryb ducha w tym czacie</string>
+    <string name="MZGramGhostExclusionDefault">Jak przełącznik trybu ducha</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Zawsze pokazuj odczytanie i pisanie</string>
+    <string name="MZGramGhostExclusionNeverRead">Nigdy nie pokazuj odczytania i pisania</string>
 </resources>

@@ -440,4 +440,10 @@
     <string name="MZGramDisableCloudDraftsInfo">Yazıp göndermediğiniz metin Telegram\'a yüklenmez ve diğer cihazlarınızda görünmez. Bir taslağı temizlemek yine de buluttaki eski kopyayı siler.</string>
     <string name="MZGramLockScreenVoiceProtection">Kilit ekranında sesli mesajları koru</string>
     <string name="MZGramLockScreenVoiceProtectionInfo">Telefon kilitliyken sesli mesajlar ve yuvarlak videolar kilit ekranı oynatıcısından veya kulaklık düğmelerinden başlamaz ya da devam etmez; oynatıcı göndericinin adını ve fotoğrafını gizler. Müzik her zamanki gibi çalar.</string>
+    <string name="MZGramGhostModeExclusions">Sohbete göre hayalet modu</string>
+    <string name="MZGramGhostModeExclusionsInfo">Sohbet menüsüne «Bu sohbette hayalet modu» ekler: yukarıdaki anahtarı izle, orada okumayı ve yazmayı her zaman göster ya da hayalet modu kapalıyken bile orada asla gösterme. Otomatik gecikme ve sessiz gönderim aynı seçimi izler.</string>
+    <string name="MZGramGhostExclusion">Bu sohbette hayalet modu</string>
+    <string name="MZGramGhostExclusionDefault">Hayalet modu anahtarı gibi</string>
+    <string name="MZGramGhostExclusionAlwaysRead">Okumayı ve yazmayı her zaman göster</string>
+    <string name="MZGramGhostExclusionNeverRead">Okumayı ve yazmayı asla gösterme</string>
 </resources>

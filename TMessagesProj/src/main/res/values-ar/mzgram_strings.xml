@@ -547,4 +547,6 @@
     <string name="MZGramAlwaysSendHdInfo">مفتاح HD للصور مفعّل افتراضياً. ما زال بإمكانك إيقافه لصورة واحدة.</string>
     <string name="MZGramPauseRound">إيقاف الفيديو الدائري مؤقتاً عند مغادرة الدردشة</string>
     <string name="MZGramPauseRoundInfo">تتوقف رسالة الفيديو الدائرية عند الانتقال إلى دردشة أو شاشة أخرى.</string>
+    <string name="MZGramCameraStabilization">تثبيت تسجيل الفيديو</string>
+    <string name="MZGramCameraStabilizationInfo">يفعّل التثبيت البصري أو الإلكتروني أثناء تسجيل رسالة فيديو دائرية إذا كانت الكاميرا تدعمه.</string>
 </resources>

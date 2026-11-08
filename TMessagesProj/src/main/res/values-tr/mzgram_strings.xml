@@ -547,4 +547,6 @@
     <string name="MZGramAlwaysSendHdInfo">Fotoğraflar için HD anahtarı varsayılan olarak açıktır. Tek bir fotoğraf için yine de kapatabilirsiniz.</string>
     <string name="MZGramPauseRound">Sohbetten çıkınca yuvarlak videoyu duraklat</string>
     <string name="MZGramPauseRoundInfo">Başka bir sohbete veya ekrana geçtiğinizde yuvarlak video mesajı durur.</string>
+    <string name="MZGramCameraStabilization">Video kaydını sabitle</string>
+    <string name="MZGramCameraStabilizationInfo">Kamera destekliyorsa, yuvarlak video mesajı kaydederken optik veya elektronik sabitlemeyi açar.</string>
 </resources>

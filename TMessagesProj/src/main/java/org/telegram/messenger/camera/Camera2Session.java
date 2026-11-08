@@ -492,6 +492,8 @@ public class Camera2Session {
             if (recordingVideo) {
                 captureRequestBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<Integer>(30, 60));
                 captureRequestBuilder.set(CaptureRequest.CONTROL_CAPTURE_INTENT, CaptureRequest.CONTROL_CAPTURE_INTENT_VIDEO_RECORD);
+                // MZGram: video stabilization for recording (Settings > MZGram > Chats)
+                org.telegram.messenger.mzgram.MZGramCameraStabilization.apply(captureRequestBuilder, cameraCharacteristics);
             }
 
             if (sensorSize != null && Math.abs(currentZoom - 1f) >= 0.01f) {

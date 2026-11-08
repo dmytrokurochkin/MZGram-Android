@@ -547,4 +547,6 @@
     <string name="MZGramAlwaysSendHdInfo">Фотолар үшін HD ауыстырғышы әдепкіде қосулы. Жеке фото үшін оны әлі де өшіруге болады.</string>
     <string name="MZGramPauseRound">Чаттан шыққанда дөңгелек бейнені кідірту</string>
     <string name="MZGramPauseRoundInfo">Басқа чатқа немесе экранға өткенде дөңгелек бейнехабар тоқтайды.</string>
+    <string name="MZGramCameraStabilization">Бейне жазуды тұрақтандыру</string>
+    <string name="MZGramCameraStabilizationInfo">Камера қолдаса, дөңгелек бейнехабар жазу кезінде оптикалық немесе электрондық тұрақтандыруды қосады.</string>
 </resources>

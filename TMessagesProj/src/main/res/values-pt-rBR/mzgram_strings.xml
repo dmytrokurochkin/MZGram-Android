@@ -547,4 +547,6 @@
     <string name="MZGramAlwaysSendHdInfo">A chave HD das fotos fica ativada por padrão. Você ainda pode desativá-la para uma única foto.</string>
     <string name="MZGramPauseRound">Pausar vídeo redondo ao sair do chat</string>
     <string name="MZGramPauseRoundInfo">A mensagem de vídeo redonda para quando você troca para outro chat ou tela.</string>
+    <string name="MZGramCameraStabilization">Estabilizar a gravação de vídeo</string>
+    <string name="MZGramCameraStabilizationInfo">Ativa a estabilização óptica ou eletrônica ao gravar um vídeo redondo, se a câmera for compatível.</string>
 </resources>

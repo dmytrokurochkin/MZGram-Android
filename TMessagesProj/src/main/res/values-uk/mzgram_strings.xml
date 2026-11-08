@@ -548,4 +548,6 @@
     <string name="MZGramAlwaysSendHdInfo">Перемикач HD для фото ввімкнено за замовчуванням. Для окремого фото його все одно можна вимкнути.</string>
     <string name="MZGramPauseRound">Пауза круглого відео при виході з чату</string>
     <string name="MZGramPauseRoundInfo">Кругле відеоповідомлення зупиняється, коли ви переходите в інший чат або на інший екран.</string>
+    <string name="MZGramCameraStabilization">Стабілізація запису відео</string>
+    <string name="MZGramCameraStabilizationInfo">Вмикає оптичну або електронну стабілізацію під час запису круглого відео, якщо камера це підтримує.</string>
 </resources>

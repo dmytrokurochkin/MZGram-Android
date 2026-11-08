@@ -547,4 +547,6 @@
     <string name="MZGramAlwaysSendHdInfo">Przełącznik HD dla zdjęć jest domyślnie włączony. Dla pojedynczego zdjęcia nadal można go wyłączyć.</string>
     <string name="MZGramPauseRound">Pauzuj film okrągły po opuszczeniu czatu</string>
     <string name="MZGramPauseRoundInfo">Okrągła wiadomość wideo zatrzymuje się po przejściu do innego czatu lub ekranu.</string>
+    <string name="MZGramCameraStabilization">Stabilizuj nagrywanie wideo</string>
+    <string name="MZGramCameraStabilizationInfo">Włącza stabilizację optyczną lub elektroniczną podczas nagrywania okrągłej wiadomości wideo, jeśli aparat ją obsługuje.</string>
 </resources>

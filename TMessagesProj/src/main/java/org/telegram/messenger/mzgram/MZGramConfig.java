@@ -223,6 +223,9 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // cameraStabilization
+    public static boolean cameraStabilization = false;
+
     // pauseRoundOnLeave
     public static boolean pauseRoundOnLeave = false;
 
@@ -371,6 +374,7 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            cameraStabilization = preferences.getBoolean("cameraStabilization", false);
             pauseRoundOnLeave = preferences.getBoolean("pauseRoundOnLeave", false);
             alwaysSendHd = preferences.getBoolean("alwaysSendHd", false);
             hideChatStatus = preferences.getBoolean("hideChatStatus", false);
@@ -833,6 +837,11 @@ public class MZGramConfig {
     public static void togglePauseRoundOnLeave() {
         pauseRoundOnLeave = !pauseRoundOnLeave;
         putBoolean("pauseRoundOnLeave", pauseRoundOnLeave);
+    }
+
+    public static void toggleCameraStabilization() {
+        cameraStabilization = !cameraStabilization;
+        putBoolean("cameraStabilization", cameraStabilization);
     }
 
     public static void toggleInlineMath() {

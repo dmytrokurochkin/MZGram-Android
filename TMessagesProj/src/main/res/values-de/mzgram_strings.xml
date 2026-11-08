@@ -547,4 +547,6 @@
     <string name="MZGramAlwaysSendHdInfo">Der HD-Schalter für Fotos ist standardmäßig an. Für ein einzelnes Foto lässt er sich weiterhin ausschalten.</string>
     <string name="MZGramPauseRound">Rundes Video beim Verlassen des Chats pausieren</string>
     <string name="MZGramPauseRoundInfo">Eine runde Videonachricht stoppt, wenn Sie zu einem anderen Chat oder Bildschirm wechseln.</string>
+    <string name="MZGramCameraStabilization">Videoaufnahme stabilisieren</string>
+    <string name="MZGramCameraStabilizationInfo">Schaltet beim Aufnehmen einer runden Videonachricht die optische oder elektronische Stabilisierung ein, falls die Kamera sie unterstützt.</string>
 </resources>

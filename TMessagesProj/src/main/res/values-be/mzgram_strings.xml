@@ -547,4 +547,6 @@
     <string name="MZGramAlwaysSendHdInfo">Пераключальнік HD для фота ўключаны па змаўчанні. Для асобнага фота яго ўсё роўна можна выключыць.</string>
     <string name="MZGramPauseRound">Паўза круглага відэа пры выхадзе з чата</string>
     <string name="MZGramPauseRoundInfo">Круглае відэапаведамленне спыняецца, калі вы пераходзіце ў іншы чат або на іншы экран.</string>
+    <string name="MZGramCameraStabilization">Стабілізацыя запісу відэа</string>
+    <string name="MZGramCameraStabilizationInfo">Уключае аптычную або электронную стабілізацыю падчас запісу круглага відэа, калі камера гэта падтрымлівае.</string>
 </resources>

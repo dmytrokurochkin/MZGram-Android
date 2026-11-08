@@ -547,4 +547,6 @@
     <string name="MZGramAlwaysSendHdInfo">El interruptor HD de las fotos está activado por defecto. Aún puedes desactivarlo para una sola foto.</string>
     <string name="MZGramPauseRound">Pausar el videomensaje al salir del chat</string>
     <string name="MZGramPauseRoundInfo">El videomensaje redondo se detiene al cambiar a otro chat o pantalla.</string>
+    <string name="MZGramCameraStabilization">Estabilizar la grabación de vídeo</string>
+    <string name="MZGramCameraStabilizationInfo">Activa la estabilización óptica o electrónica al grabar un videomensaje redondo, si la cámara la admite.</string>
 </resources>

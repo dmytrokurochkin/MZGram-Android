@@ -543,4 +543,6 @@
     <string name="MZGramStaticInputIconsInfo">Mikrofon-, Kamera- und Emoji-Tasten wechseln ohne Animation. Schont schwache Prozessoren.</string>
     <string name="MZGramHideChatStatus">Status in der Chat-Kopfzeile ausblenden</string>
     <string name="MZGramHideChatStatusInfo">Blendet die Zeile unter dem Chatnamen aus: zuletzt online, online, Anzahl der Mitglieder oder Abonnenten. Die Anzeige „schreibt“ bleibt.</string>
+    <string name="MZGramAlwaysSendHd">Fotos immer in HD senden</string>
+    <string name="MZGramAlwaysSendHdInfo">Der HD-Schalter für Fotos ist standardmäßig an. Für ein einzelnes Foto lässt er sich weiterhin ausschalten.</string>
 </resources>

@@ -543,4 +543,6 @@
     <string name="MZGramStaticInputIconsInfo">Микрофон, камера және эмодзи түймелері анимациясыз ауысады. Әлсіз процессорларға жеңіл.</string>
     <string name="MZGramHideChatStatus">Чат тақырыбындағы күйді жасыру</string>
     <string name="MZGramHideChatStatusInfo">Чат атауының астындағы жолды жасырады: соңғы кіру, онлайн, мүшелер немесе жазылушылар саны. «Жазып жатыр» көрсеткіші қалады.</string>
+    <string name="MZGramAlwaysSendHd">Фотоларды әрқашан HD форматында жіберу</string>
+    <string name="MZGramAlwaysSendHdInfo">Фотолар үшін HD ауыстырғышы әдепкіде қосулы. Жеке фото үшін оны әлі де өшіруге болады.</string>
 </resources>

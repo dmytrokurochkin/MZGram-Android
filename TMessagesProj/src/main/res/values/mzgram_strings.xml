@@ -543,4 +543,6 @@
     <string name="MZGramStaticInputIconsInfo">The microphone, camera and emoji buttons change without animation. Easier on weak processors.</string>
     <string name="MZGramHideChatStatus">Hide status in chat header</string>
     <string name="MZGramHideChatStatusInfo">Hides the line under the chat name: last seen, online, number of members or subscribers. The \"typing\" indicator stays.</string>
+    <string name="MZGramAlwaysSendHd">Always send photos in HD</string>
+    <string name="MZGramAlwaysSendHdInfo">The HD switch for photos is on by default. You can still turn it off for a single photo.</string>
 </resources>

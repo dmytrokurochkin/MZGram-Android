@@ -543,4 +543,6 @@
     <string name="MZGramStaticInputIconsInfo">Przyciski mikrofonu, kamery i emoji zmieniają się bez animacji. Mniejsze obciążenie słabych procesorów.</string>
     <string name="MZGramHideChatStatus">Ukryj status w nagłówku czatu</string>
     <string name="MZGramHideChatStatusInfo">Ukrywa wiersz pod nazwą czatu: ostatnio widziany, online, liczba członków lub subskrybentów. Wskaźnik „pisze” zostaje.</string>
+    <string name="MZGramAlwaysSendHd">Zawsze wysyłaj zdjęcia w HD</string>
+    <string name="MZGramAlwaysSendHdInfo">Przełącznik HD dla zdjęć jest domyślnie włączony. Dla pojedynczego zdjęcia nadal można go wyłączyć.</string>
 </resources>

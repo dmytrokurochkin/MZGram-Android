@@ -544,4 +544,6 @@
     <string name="MZGramStaticInputIconsInfo">Кнопки мікрофона, камери та емодзі змінюються без анімації. Менше навантаження на слабких процесорах.</string>
     <string name="MZGramHideChatStatus">Сховати статус у шапці чату</string>
     <string name="MZGramHideChatStatusInfo">Ховає рядок під назвою чату: час візиту, онлайн, кількість учасників або підписників. Індикатор «друкує» лишається.</string>
+    <string name="MZGramAlwaysSendHd">Завжди надсилати фото в HD</string>
+    <string name="MZGramAlwaysSendHdInfo">Перемикач HD для фото ввімкнено за замовчуванням. Для окремого фото його все одно можна вимкнути.</string>
 </resources>

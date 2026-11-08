@@ -543,4 +543,6 @@
     <string name="MZGramStaticInputIconsInfo">تتغير أزرار الميكروفون والكاميرا والإيموجي بدون حركة. حمل أقل على المعالجات الضعيفة.</string>
     <string name="MZGramHideChatStatus">إخفاء الحالة في رأس الدردشة</string>
     <string name="MZGramHideChatStatusInfo">يخفي السطر تحت اسم الدردشة: آخر ظهور أو متصل أو عدد الأعضاء أو المشتركين. يبقى مؤشر «يكتب».</string>
+    <string name="MZGramAlwaysSendHd">إرسال الصور دائماً بجودة HD</string>
+    <string name="MZGramAlwaysSendHdInfo">مفتاح HD للصور مفعّل افتراضياً. ما زال بإمكانك إيقافه لصورة واحدة.</string>
 </resources>

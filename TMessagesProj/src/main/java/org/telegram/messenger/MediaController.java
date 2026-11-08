@@ -515,7 +515,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public Boolean highQuality;
         public boolean isHighQuality() {
             if (highQuality == null)
-                return SharedConfig.photoHighQualityDefault;
+                return SharedConfig.photoHighQualityDefault || org.telegram.messenger.mzgram.MZGramConfig.alwaysSendHd; // MZGram: always HD for photos
             return highQuality;
         }
 

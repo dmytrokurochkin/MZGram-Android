@@ -163,6 +163,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_LAUNCH_FOLDER = 122;
     private static final int BUTTON_CAMERA_STABILIZATION = 121;
     private static final int BUTTON_PAUSE_ROUND = 120;
     private static final int BUTTON_ALWAYS_SEND_HD = 119;
@@ -690,6 +691,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramStaticInputIconsInfo)));
         items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
+        items.add(UItem.asButton(BUTTON_LAUNCH_FOLDER, getString(R.string.MZGramLaunchFolder), MZGramLaunchFolder.valueFor(currentAccount)));
+        items.add(UItem.asShadow(getString(R.string.MZGramLaunchFolderInfo)));
         items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramPeerIdInfo)));
         items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
@@ -891,6 +894,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
             }
         } else if (item.id == BUTTON_LANGUAGE) {
             chooseLanguage();
+        } else if (item.id == BUTTON_LAUNCH_FOLDER) {
+            MZGramLaunchFolder.choose(this, currentAccount, () -> {
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            });
         } else if (item.id == BUTTON_PEER_ID) {
             choosePeerId();
         } else if (item.id >= ARCHIVE_LIMIT_FIRST && item.id < ARCHIVE_LIMIT_FIRST + ARCHIVE_LIMIT_TITLES.length) {

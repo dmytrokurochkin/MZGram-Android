@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">Okrągła wiadomość wideo zatrzymuje się po przejściu do innego czatu lub ekranu.</string>
     <string name="MZGramCameraStabilization">Stabilizuj nagrywanie wideo</string>
     <string name="MZGramCameraStabilizationInfo">Włącza stabilizację optyczną lub elektroniczną podczas nagrywania okrągłej wiadomości wideo, jeśli aparat ją obsługuje.</string>
+    <string name="MZGramLaunchFolder">Folder przy uruchomieniu</string>
+    <string name="MZGramLaunchFolderOff">Wyłączone</string>
+    <string name="MZGramLaunchFolderInfo">Wybrany folder otwiera się przy uruchomieniu aplikacji, osobno dla każdego konta. „Wstecz” z innego folderu najpierw do niego wraca.</string>
 </resources>

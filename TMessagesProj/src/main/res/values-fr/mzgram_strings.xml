@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">Le message vidéo rond s’arrête lorsque vous passez à un autre chat ou écran.</string>
     <string name="MZGramCameraStabilization">Stabiliser l’enregistrement vidéo</string>
     <string name="MZGramCameraStabilizationInfo">Active la stabilisation optique ou électronique pendant l’enregistrement d’un message vidéo rond, si la caméra la prend en charge.</string>
+    <string name="MZGramLaunchFolder">Dossier au lancement</string>
+    <string name="MZGramLaunchFolderOff">Désactivé</string>
+    <string name="MZGramLaunchFolderInfo">Le dossier choisi s’ouvre au lancement de l’app, séparément pour chaque compte. « Retour » depuis un autre dossier y ramène d’abord.</string>
 </resources>

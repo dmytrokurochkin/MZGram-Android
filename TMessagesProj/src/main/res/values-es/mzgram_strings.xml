@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">El videomensaje redondo se detiene al cambiar a otro chat o pantalla.</string>
     <string name="MZGramCameraStabilization">Estabilizar la grabación de vídeo</string>
     <string name="MZGramCameraStabilizationInfo">Activa la estabilización óptica o electrónica al grabar un videomensaje redondo, si la cámara la admite.</string>
+    <string name="MZGramLaunchFolder">Carpeta al iniciar</string>
+    <string name="MZGramLaunchFolderOff">Desactivado</string>
+    <string name="MZGramLaunchFolderInfo">La carpeta elegida se abre al iniciar la app, por separado para cada cuenta. «Atrás» desde otra carpeta vuelve primero a ella.</string>
 </resources>

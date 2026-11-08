@@ -6986,6 +6986,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (updateCurrentTab) {
                     switchToCurrentSelectedMode(false);
                 }
+                // MZGram: open the chosen folder on a cold start (Settings > MZGram > Interface)
+                if (!onlySelect && initialDialogsType == DIALOGS_TYPE_DEFAULT) {
+                    org.telegram.ui.mzgram.MZGramLaunchFolder.applyOnLaunch(this, currentAccount);
+                }
                 if (filterTabsView.isLocked(filterTabsView.getCurrentTabId())) {
                     filterTabsView.selectFirstTab();
                 }
@@ -7384,7 +7388,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 fragmentSearchField.editText.clearFocus();
             }
             return false;
-        } else if (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && !tabsAnimationInProgress && !filterTabsView.isAnimatingIndicator() && !startedTracking && !filterTabsView.isFirstTabSelected()) {
+        } else if (!onlySelect && filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && !tabsAnimationInProgress && !filterTabsView.isAnimatingIndicator() && !startedTracking
+                && org.telegram.ui.mzgram.MZGramLaunchFolder.backToLaunchFolder(this, currentAccount, filterTabsView, invoked)) {
+            // MZGram: Back on another folder returns to the chosen launch folder first
+            return false;
+        } else if (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && !tabsAnimationInProgress && !filterTabsView.isAnimatingIndicator() && !startedTracking && !filterTabsView.isFirstTabSelected()
+                && (onlySelect || !org.telegram.ui.mzgram.MZGramLaunchFolder.isOnLaunchFolder(currentAccount, filterTabsView))) {
             if (invoked) filterTabsView.selectFirstTab();
             return false;
         } else if (commentView != null && commentView.isPopupShowing()) {

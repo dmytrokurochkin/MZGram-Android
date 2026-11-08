@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">A round video message stops playing when you switch to another chat or screen.</string>
     <string name="MZGramCameraStabilization">Stabilize video recording</string>
     <string name="MZGramCameraStabilizationInfo">Turns on optical or electronic stabilization while recording a round video message, if the camera supports it.</string>
+    <string name="MZGramLaunchFolder">Folder on launch</string>
+    <string name="MZGramLaunchFolderOff">Off</string>
+    <string name="MZGramLaunchFolderInfo">The chosen folder opens when the app starts, separately for each account. Back from another folder returns to it first.</string>
 </resources>

@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">Eine runde Videonachricht stoppt, wenn Sie zu einem anderen Chat oder Bildschirm wechseln.</string>
     <string name="MZGramCameraStabilization">Videoaufnahme stabilisieren</string>
     <string name="MZGramCameraStabilizationInfo">Schaltet beim Aufnehmen einer runden Videonachricht die optische oder elektronische Stabilisierung ein, falls die Kamera sie unterstützt.</string>
+    <string name="MZGramLaunchFolder">Ordner beim Start</string>
+    <string name="MZGramLaunchFolderOff">Aus</string>
+    <string name="MZGramLaunchFolderInfo">Der gewählte Ordner öffnet sich beim Start der App, für jedes Konto getrennt. „Zurück“ aus einem anderen Ordner führt zuerst zu ihm zurück.</string>
 </resources>

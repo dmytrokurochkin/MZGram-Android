@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">Круглае відэапаведамленне спыняецца, калі вы пераходзіце ў іншы чат або на іншы экран.</string>
     <string name="MZGramCameraStabilization">Стабілізацыя запісу відэа</string>
     <string name="MZGramCameraStabilizationInfo">Уключае аптычную або электронную стабілізацыю падчас запісу круглага відэа, калі камера гэта падтрымлівае.</string>
+    <string name="MZGramLaunchFolder">Папка пры запуску</string>
+    <string name="MZGramLaunchFolderOff">Выключана</string>
+    <string name="MZGramLaunchFolderInfo">Абраная папка адкрываецца пры запуску праграмы, асобна для кожнага акаўнта. «Назад» з іншай папкі спачатку вяртае да яе.</string>
 </resources>

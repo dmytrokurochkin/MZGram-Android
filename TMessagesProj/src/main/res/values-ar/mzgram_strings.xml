@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">تتوقف رسالة الفيديو الدائرية عند الانتقال إلى دردشة أو شاشة أخرى.</string>
     <string name="MZGramCameraStabilization">تثبيت تسجيل الفيديو</string>
     <string name="MZGramCameraStabilizationInfo">يفعّل التثبيت البصري أو الإلكتروني أثناء تسجيل رسالة فيديو دائرية إذا كانت الكاميرا تدعمه.</string>
+    <string name="MZGramLaunchFolder">المجلد عند التشغيل</string>
+    <string name="MZGramLaunchFolderOff">متوقف</string>
+    <string name="MZGramLaunchFolderInfo">يفتح المجلد المختار عند بدء التطبيق، لكل حساب على حدة. زر الرجوع من مجلد آخر يعيدك إليه أولاً.</string>
 </resources>

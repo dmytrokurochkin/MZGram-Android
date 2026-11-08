@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">A mensagem de vídeo redonda para quando você troca para outro chat ou tela.</string>
     <string name="MZGramCameraStabilization">Estabilizar a gravação de vídeo</string>
     <string name="MZGramCameraStabilizationInfo">Ativa a estabilização óptica ou eletrônica ao gravar um vídeo redondo, se a câmera for compatível.</string>
+    <string name="MZGramLaunchFolder">Pasta ao iniciar</string>
+    <string name="MZGramLaunchFolderOff">Desativado</string>
+    <string name="MZGramLaunchFolderInfo">A pasta escolhida abre ao iniciar o app, separadamente para cada conta. «Voltar» de outra pasta retorna primeiro a ela.</string>
 </resources>

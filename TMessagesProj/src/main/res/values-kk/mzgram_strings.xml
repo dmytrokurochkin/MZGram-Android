@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">Басқа чатқа немесе экранға өткенде дөңгелек бейнехабар тоқтайды.</string>
     <string name="MZGramCameraStabilization">Бейне жазуды тұрақтандыру</string>
     <string name="MZGramCameraStabilizationInfo">Камера қолдаса, дөңгелек бейнехабар жазу кезінде оптикалық немесе электрондық тұрақтандыруды қосады.</string>
+    <string name="MZGramLaunchFolder">Іске қосқандағы бума</string>
+    <string name="MZGramLaunchFolderOff">Өшірулі</string>
+    <string name="MZGramLaunchFolderInfo">Таңдалған бума қолданба іске қосылғанда, әр аккаунт үшін бөлек ашылады. Басқа бумадан «Артқа» алдымен соған қайтарады.</string>
 </resources>

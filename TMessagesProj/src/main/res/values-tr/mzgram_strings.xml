@@ -549,4 +549,7 @@
     <string name="MZGramPauseRoundInfo">Başka bir sohbete veya ekrana geçtiğinizde yuvarlak video mesajı durur.</string>
     <string name="MZGramCameraStabilization">Video kaydını sabitle</string>
     <string name="MZGramCameraStabilizationInfo">Kamera destekliyorsa, yuvarlak video mesajı kaydederken optik veya elektronik sabitlemeyi açar.</string>
+    <string name="MZGramLaunchFolder">Açılışta klasör</string>
+    <string name="MZGramLaunchFolderOff">Kapalı</string>
+    <string name="MZGramLaunchFolderInfo">Seçilen klasör uygulama açılırken, her hesap için ayrı ayrı açılır. Başka bir klasörden Geri önce buna döner.</string>
 </resources>

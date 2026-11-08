@@ -529,4 +529,6 @@
     <string name="MZGramDoubleTapReply">Жауап беру</string>
     <string name="MZGramDoubleTapCopy">Мәтінді көшіру</string>
     <string name="MZGramDoubleTapNothing">Ештеңе</string>
+    <string name="MZGramCopyPlain">Пішімдеусіз көшіру</string>
+    <string name="MZGramCopyPlainInfo">Хабарлама мәзіріне Пішімдеусіз көшіру тармағын қосады: тек қарапайым мәтін, қалың қаріпсіз, сілтемесіз және эмодзи әрлеусіз.</string>
 </resources>

@@ -529,4 +529,6 @@
     <string name="MZGramDoubleTapReply">Ответить</string>
     <string name="MZGramDoubleTapCopy">Копировать текст</string>
     <string name="MZGramDoubleTapNothing">Ничего</string>
+    <string name="MZGramCopyPlain">Копировать без форматирования</string>
+    <string name="MZGramCopyPlainInfo">Добавляет в меню сообщения пункт Копировать без форматирования: только простой текст, без жирного шрифта, ссылок и оформления эмодзи.</string>
 </resources>

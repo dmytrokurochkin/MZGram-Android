@@ -529,4 +529,6 @@
     <string name="MZGramDoubleTapReply">Адказаць</string>
     <string name="MZGramDoubleTapCopy">Капіяваць тэкст</string>
     <string name="MZGramDoubleTapNothing">Нічога</string>
+    <string name="MZGramCopyPlain">Капіраваць без фарматавання</string>
+    <string name="MZGramCopyPlainInfo">Дадае ў меню паведамлення пункт Капіраваць без фарматавання: толькі просты тэкст, без тлустага шрыфту, спасылак і афармлення эмодзі.</string>
 </resources>

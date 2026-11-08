@@ -529,4 +529,6 @@
     <string name="MZGramDoubleTapReply">Yanıtla</string>
     <string name="MZGramDoubleTapCopy">Metni kopyala</string>
     <string name="MZGramDoubleTapNothing">Hiçbir şey</string>
+    <string name="MZGramCopyPlain">Biçimlendirmesiz kopyala</string>
+    <string name="MZGramCopyPlainInfo">Mesaj menüsüne Biçimlendirmesiz kopyala ekler: yalnızca düz metin, kalın yazı, bağlantı veya emoji biçimi olmadan.</string>
 </resources>

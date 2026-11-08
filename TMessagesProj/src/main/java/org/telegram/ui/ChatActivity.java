@@ -1286,6 +1286,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_FORWARD_NOQUOTE = 1009;
     public final static int OPTION_MZGRAM_HISTORY = 1010;
     public final static int OPTION_MZGRAM_ASK_AI = 1011;
+    public final static int OPTION_MZGRAM_COPY_PLAIN = 1012;
 
     // MZGram: set by Forward without sender so the next forward panel starts
     // with sender names hidden; passed on when the target is another chat.
@@ -34174,6 +34175,21 @@ public class ChatActivity extends BaseFragment implements
                 });
                 break;
             }
+            case OPTION_MZGRAM_COPY_PLAIN: {
+                // MZGram: the text or caption without formatting, links and emoji spans.
+                CharSequence plainText = getMessageCaption(selectedObject, selectedObjectGroup);
+                if (plainText == null) {
+                    plainText = getMessageContent(selectedObject, 0, false);
+                }
+                if (plainText != null) {
+                    AndroidUtilities.addToClipboard(plainText.toString());
+                    createUndoView();
+                    if (undoView != null) {
+                        undoView.showWithAction(0, UndoView.ACTION_MESSAGE_COPIED, null);
+                    }
+                }
+                break;
+            }
             case OPTION_MZGRAM_COPY_PHOTO: {
                 org.telegram.messenger.mzgram.MZGramMessageHelper.addMessageToClipboard(selectedObject, () -> {
                     if (BulletinFactory.canShowBulletin(ChatActivity.this)) {
@@ -47072,6 +47088,12 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.Copy));
                     options.add(OPTION_COPY);
                     icons.add(R.drawable.msg_copy);
+                    // MZGram: MZGramConfig.copyPlainText.
+                    if (org.telegram.messenger.mzgram.MZGramConfig.copyPlainText) {
+                        items.add(LocaleController.getString(R.string.MZGramCopyPlain));
+                        options.add(OPTION_MZGRAM_COPY_PLAIN);
+                        icons.add(R.drawable.msg_copy);
+                    }
                 }
                 if (!isThreadChat() && chatMode != MODE_SCHEDULED && currentChat != null && primaryMessage != null && (currentChat.has_link || primaryMessage.hasReplies()) && currentChat.megagroup && primaryMessage.canViewThread()) {
                     if (primaryMessage.hasReplies()) {

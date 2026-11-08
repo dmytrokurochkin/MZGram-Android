@@ -529,4 +529,6 @@
     <string name="MZGramDoubleTapReply">Répondre</string>
     <string name="MZGramDoubleTapCopy">Copier le texte</string>
     <string name="MZGramDoubleTapNothing">Rien</string>
+    <string name="MZGramCopyPlain">Copier sans mise en forme</string>
+    <string name="MZGramCopyPlainInfo">Ajoute Copier sans mise en forme au menu du message : seulement le texte brut, sans gras, liens ni style d'emoji.</string>
 </resources>

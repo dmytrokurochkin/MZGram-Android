@@ -529,4 +529,6 @@
     <string name="MZGramDoubleTapReply">Odpowiedz</string>
     <string name="MZGramDoubleTapCopy">Kopiuj tekst</string>
     <string name="MZGramDoubleTapNothing">Nic</string>
+    <string name="MZGramCopyPlain">Kopiuj bez formatowania</string>
+    <string name="MZGramCopyPlainInfo">Dodaje do menu wiadomości pozycję Kopiuj bez formatowania: tylko zwykły tekst, bez pogrubienia, linków i stylu emoji.</string>
 </resources>

@@ -529,4 +529,6 @@
     <string name="MZGramDoubleTapReply">رد</string>
     <string name="MZGramDoubleTapCopy">نسخ النص</string>
     <string name="MZGramDoubleTapNothing">لا شيء</string>
+    <string name="MZGramCopyPlain">نسخ بدون تنسيق</string>
+    <string name="MZGramCopyPlainInfo">يضيف نسخ بدون تنسيق إلى قائمة الرسالة: النص العادي فقط، دون خط عريض أو روابط أو تنسيق الإيموجي.</string>
 </resources>

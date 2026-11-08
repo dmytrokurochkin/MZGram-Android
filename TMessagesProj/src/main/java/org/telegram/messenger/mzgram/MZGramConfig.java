@@ -217,6 +217,9 @@ public class MZGramConfig {
     // (MZGramDoubleTap).
     public static boolean doubleTapActions = false;
 
+    // "Copy without formatting" in the message menu.
+    public static boolean copyPlainText = false;
+
     // Double tap on own messages: 0 reaction, 1 reply, 2 copy text, 3 nothing.
     public static int doubleTapOwn = 0;
 
@@ -348,6 +351,7 @@ public class MZGramConfig {
             searchOperators = preferences.getBoolean("searchOperators", false);
             cleanLinks = preferences.getBoolean("cleanLinks", false);
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
+            copyPlainText = preferences.getBoolean("copyPlainText", false);
             doubleTapOwn = preferences.getInt("doubleTapOwn", 0);
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
@@ -780,6 +784,11 @@ public class MZGramConfig {
     public static void toggleFoldFancyFontsInSearch() {
         foldFancyFontsInSearch = !foldFancyFontsInSearch;
         putBoolean("foldFancyFontsInSearch", foldFancyFontsInSearch);
+    }
+
+    public static void toggleCopyPlainText() {
+        copyPlainText = !copyPlainText;
+        putBoolean("copyPlainText", copyPlainText);
     }
 
     public static void toggleCharacterCounter() {

@@ -537,4 +537,6 @@
     <string name="MZGramOpenByIdHint">Numéro d'utilisateur, de groupe ou de canal</string>
     <string name="MZGramOpenByIdNotFound">L'application ne connaît pas encore ce numéro</string>
     <string name="MZGramOpenByIdInfo">Ouvre le profil d'un utilisateur, d'un groupe ou d'un canal par son numéro, par exemple pris dans un bot. Telegram n'affiche que les comptes déjà connus de l'application, donc un numéro jamais vu est introuvable.</string>
+    <string name="MZGramPangu">Espace entre CJK et caractères latins</string>
+    <string name="MZGramPanguInfo">Pendant la saisie, ajoute une espace entre les caractères chinois, japonais ou coréens et les lettres latines ou chiffres.</string>
 </resources>

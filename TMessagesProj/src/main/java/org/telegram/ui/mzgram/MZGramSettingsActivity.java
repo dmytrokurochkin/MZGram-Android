@@ -163,6 +163,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_PANGU = 116;
     private static final int BUTTON_OPEN_BY_ID = 115;
     private static final int BUTTON_DOUBLE_TAP_ACTIONS = 110;
     private static final int BUTTON_DOUBLE_TAP_OWN = 111;
@@ -602,6 +603,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Typing, sending and search in chats (domain messages)
     private void fillChats(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_PANGU, getString(R.string.MZGramPangu)).setChecked(MZGramConfig.panguSpacing));
+        items.add(UItem.asShadow(getString(R.string.MZGramPanguInfo)));
         items.add(UItem.asCheck(BUTTON_CHARACTER_COUNTER, getString(R.string.MZGramCharacterCounter)).setChecked(MZGramConfig.characterCounter));
         items.add(UItem.asShadow(getString(R.string.MZGramCharacterCounterInfo)));
         items.add(UItem.asButton(BUTTON_OPEN_BY_ID, getString(R.string.MZGramOpenById)));
@@ -768,6 +771,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_INLINE_MATH) {
             MZGramConfig.toggleInlineMath();
             ((TextCheckCell) view).setChecked(MZGramConfig.inlineMath);
+        } else if (item.id == BUTTON_PANGU) {
+            MZGramConfig.togglePanguSpacing();
+            ((TextCheckCell) view).setChecked(MZGramConfig.panguSpacing);
         } else if (item.id == BUTTON_COPY_PLAIN) {
             MZGramConfig.toggleCopyPlainText();
             ((TextCheckCell) view).setChecked(MZGramConfig.copyPlainText);

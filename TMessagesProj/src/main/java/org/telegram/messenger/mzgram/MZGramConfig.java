@@ -223,6 +223,9 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // panguSpacing
+    public static boolean panguSpacing = false;
+
     // Double tap on own messages: 0 reaction, 1 reply, 2 copy text, 3 nothing.
     public static int doubleTapOwn = 0;
 
@@ -356,6 +359,7 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            panguSpacing = preferences.getBoolean("panguSpacing", false);
             doubleTapOwn = preferences.getInt("doubleTapOwn", 0);
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
@@ -788,6 +792,11 @@ public class MZGramConfig {
     public static void toggleFoldFancyFontsInSearch() {
         foldFancyFontsInSearch = !foldFancyFontsInSearch;
         putBoolean("foldFancyFontsInSearch", foldFancyFontsInSearch);
+    }
+
+    public static void togglePanguSpacing() {
+        panguSpacing = !panguSpacing;
+        putBoolean("panguSpacing", panguSpacing);
     }
 
     public static void toggleInlineMath() {

@@ -537,4 +537,6 @@
     <string name="MZGramOpenByIdHint">Нумар карыстальніка, групы або канала</string>
     <string name="MZGramOpenByIdNotFound">Гэты нумар праграме пакуль невядомы</string>
     <string name="MZGramOpenByIdInfo">Адкрывае профіль карыстальніка, групы або канала па нумары, напрыклад узятым з бота. Telegram паказвае толькі акаўнты, якія праграма ўжо ведае, таму нумар, якога яна ніколі не бачыла, не знаходзіцца.</string>
+    <string name="MZGramPangu">Прабел паміж іерогліфамі і лацінкай</string>
+    <string name="MZGramPanguInfo">Падчас набору дадае прабел паміж кітайскімі, японскімі ці карэйскімі сімваламі і лацінскімі літарамі або лічбамі.</string>
 </resources>

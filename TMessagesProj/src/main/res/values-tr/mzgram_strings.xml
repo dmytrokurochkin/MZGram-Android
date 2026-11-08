@@ -537,4 +537,6 @@
     <string name="MZGramOpenByIdHint">Kullanıcı, grup veya kanal numarası</string>
     <string name="MZGramOpenByIdNotFound">Bu numara uygulama tarafından henüz bilinmiyor</string>
     <string name="MZGramOpenByIdInfo">Bir kullanıcının, grubun veya kanalın profilini numarasıyla açar, örneğin bir bottan alınan. Telegram yalnızca uygulamanın bildiği hesapları gösterir, bu yüzden hiç görülmemiş numara bulunamaz.</string>
+    <string name="MZGramPangu">CJK ve Latin arasına boşluk</string>
+    <string name="MZGramPanguInfo">Yazarken Çince, Japonca veya Korece karakterlerle Latin harfleri ya da rakamlar arasına boşluk ekler.</string>
 </resources>

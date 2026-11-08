@@ -519,4 +519,6 @@
     <string name="MZGramCharacterCounterInfo">يعرض عدد الأحرف المكتوبة فوق الطرف الأيمن من حقل الرسالة، محسوبة كما يحسبها Bot API. مفيد حيث يحدّ بوت من طول الرسالة. قرب حدّ Telegram نفسه يظهر عدّاد المتبقي بدلًا منه.</string>
     <string name="MZGramSearchOperators">عوامل البحث</string>
     <string name="MZGramSearchOperatorsInfo">في بحث المحادثة: from:username وdate:2026-01-31 (أو today وyesterday) وafter: وbefore: وtype:photo أو video أو voice أو round أو music أو gif أو file أو link أو contact أو location أو poll أو mention أو pinned، مع كلمات عادية. ما لا يُفهم يُبحث عنه كنص.</string>
+    <string name="MZGramCleanLinks">إزالة التتبع من الروابط</string>
+    <string name="MZGramCleanLinksInfo">تُزال معاملات التتبع (utm_source وfbclid وgclid وsi وغيرها) من الرابط عند فتحه وعند لصقه في رسالة. القواعد هي مرشح AdGuard URL Tracking المضمّن في التطبيق؛ لا يُنزَّل ولا يُحدَّث من الإنترنت أبدًا.</string>
 </resources>

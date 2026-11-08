@@ -209,6 +209,10 @@ public class MZGramConfig {
     // (MZGramSearchQuery in MediaDataController.searchMessagesInChat).
     public static boolean searchOperators = false;
 
+    // Tracking parameters are cut from links when opened and pasted
+    // (MZGramLinkCleaner, rules from assets only).
+    public static boolean cleanLinks = false;
+
     static {
         loadConfig(false);
     }
@@ -332,6 +336,7 @@ public class MZGramConfig {
             foldFancyFontsInSearch = preferences.getBoolean("foldFancyFontsInSearch", false);
             characterCounter = preferences.getBoolean("characterCounter", false);
             searchOperators = preferences.getBoolean("searchOperators", false);
+            cleanLinks = preferences.getBoolean("cleanLinks", false);
             configLoaded = true;
         }
     }
@@ -772,5 +777,10 @@ public class MZGramConfig {
     public static void toggleSearchOperators() {
         searchOperators = !searchOperators;
         putBoolean("searchOperators", searchOperators);
+    }
+
+    public static void toggleCleanLinks() {
+        cleanLinks = !cleanLinks;
+        putBoolean("cleanLinks", cleanLinks);
     }
 }

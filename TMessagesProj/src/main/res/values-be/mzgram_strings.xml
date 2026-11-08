@@ -519,4 +519,6 @@
     <string name="MZGramCharacterCounterInfo">Паказвае, колькі сімвалаў набрана, над правым краем поля паведамлення, лічачы так, як лічыць Bot API. Карысна там, дзе бот абмяжоўвае даўжыню паведамлення. Каля ўласнага ліміту Telegram замест яго відаць лічыльнік рэшты.</string>
     <string name="MZGramSearchOperators">Аператары пошуку</string>
     <string name="MZGramSearchOperatorsInfo">У пошуку чата: from:username, date:2026-01-31 (або today, yesterday), after:, before: і type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention ці pinned разам са звычайнымі словамі. Нераспазнанае шукаецца як тэкст.</string>
+    <string name="MZGramCleanLinks">Ачышчаць спасылкі ад сачэння</string>
+    <string name="MZGramCleanLinksInfo">Параметры сачэння (utm_source, fbclid, gclid, si і іншыя) прыбіраюцца са спасылкі, калі вы яе адкрываеце і калі ўстаўляеце ў паведамленне. Правілы — убудаваны ў праграму фільтр AdGuard URL Tracking; ён ніколі не спампоўваецца і не абнаўляецца з інтэрнэту.</string>
 </resources>

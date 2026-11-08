@@ -519,4 +519,6 @@
     <string name="MZGramCharacterCounterInfo">Zeigt über dem rechten Ende des Nachrichtenfelds, wie viele Zeichen getippt sind, gezählt wie in der Bot API. Nützlich, wo ein Bot die Länge einer Nachricht begrenzt. Nahe an Telegrams eigenem Limit erscheint stattdessen dessen Restzähler.</string>
     <string name="MZGramSearchOperators">Suchoperatoren</string>
     <string name="MZGramSearchOperatorsInfo">In der Chatsuche: from:username, date:2026-01-31 (oder today, yesterday), after:, before: und type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention oder pinned, zusammen mit normalen Wörtern. Was nicht erkannt wird, wird als Text gesucht.</string>
+    <string name="MZGramCleanLinks">Tracking aus Links entfernen</string>
+    <string name="MZGramCleanLinksInfo">Tracking-Parameter (utm_source, fbclid, gclid, si und andere) werden aus einem Link entfernt, wenn Sie ihn öffnen und wenn Sie ihn in eine Nachricht einfügen. Die Regeln sind der in die App eingebaute AdGuard-URL-Tracking-Filter; er wird nie aus dem Internet geladen oder aktualisiert.</string>
 </resources>

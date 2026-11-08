@@ -519,4 +519,6 @@
     <string name="MZGramCharacterCounterInfo">Mesaj alanının sağ ucunun üstünde kaç karakter yazıldığını Bot API\'nin saydığı gibi gösterir. Bir botun mesaj uzunluğunu sınırladığı yerlerde işe yarar. Telegram\'ın kendi sınırına yaklaşınca yerine kalan karakter sayacı görünür.</string>
     <string name="MZGramSearchOperators">Arama operatörleri</string>
     <string name="MZGramSearchOperatorsInfo">Sohbet aramasında: from:username, date:2026-01-31 (ya da today, yesterday), after:, before: ve type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention veya pinned, normal sözcüklerle birlikte. Anlaşılmayan kısım metin olarak aranır.</string>
+    <string name="MZGramCleanLinks">Bağlantılardan izlemeyi temizle</string>
+    <string name="MZGramCleanLinksInfo">İzleme parametreleri (utm_source, fbclid, gclid, si ve diğerleri) bir bağlantıyı açtığınızda ve bir mesaja yapıştırdığınızda kaldırılır. Kurallar uygulamaya gömülü AdGuard URL Tracking filtresidir; asla internetten indirilmez veya güncellenmez.</string>
 </resources>

@@ -971,6 +971,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
                     String html = clipData.getItemAt(0).getHtmlText();
                     SpannableStringBuilder pasted = new SpannableStringBuilder(CopyUtilities.fromHTML(html));
                     Emoji.replaceEmoji(pasted, getPaint().getFontMetricsInt(), false, null);
+                    org.telegram.messenger.mzgram.MZGramLinkCleaner.cleanSpannedUrls(pasted); // MZGram: tracking cut from pasted links
                     AnimatedEmojiSpan[] spans = pasted.getSpans(0, pasted.length(), AnimatedEmojiSpan.class);
                     if (spans != null) {
                         for (int k = 0; k < spans.length; ++k) {
@@ -995,6 +996,9 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
+            }
+            if (org.telegram.messenger.mzgram.MZGramLinkCleaner.handleContextMenuPaste(this)) { // MZGram: tracking cut from pasted links
+                return true;
             }
         } else if (id == android.R.id.copy) {
             int start = Math.max(0, getSelectionStart());
@@ -1027,5 +1031,11 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
             } catch (Exception e) {}
         }
         return super.onTextContextMenuItem(id);
+    }
+
+    @Override
+    public android.view.inputmethod.InputConnection onCreateInputConnection(android.view.inputmethod.EditorInfo outAttrs) {
+        // MZGram: tracking cut from links the keyboard pastes
+        return org.telegram.messenger.mzgram.MZGramLinkCleaner.wrapInputConnection(super.onCreateInputConnection(outAttrs));
     }
 }

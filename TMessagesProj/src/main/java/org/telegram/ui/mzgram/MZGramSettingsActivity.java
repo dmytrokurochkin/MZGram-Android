@@ -160,6 +160,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FOLD_FANCY_FONTS = 106;
     private static final int BUTTON_CHARACTER_COUNTER = 107;
     private static final int BUTTON_SEARCH_OPERATORS = 108;
+    private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -579,6 +580,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_CHARACTER_COUNTER, getString(R.string.MZGramCharacterCounter)).setChecked(MZGramConfig.characterCounter));
         items.add(UItem.asShadow(getString(R.string.MZGramCharacterCounterInfo)));
+        items.add(UItem.asCheck(BUTTON_CLEAN_LINKS, getString(R.string.MZGramCleanLinks)).setChecked(MZGramConfig.cleanLinks));
+        items.add(UItem.asShadow(getString(R.string.MZGramCleanLinksInfo)));
         items.add(UItem.asCheck(BUTTON_SEARCH_OPERATORS, getString(R.string.MZGramSearchOperators)).setChecked(MZGramConfig.searchOperators));
         items.add(UItem.asShadow(getString(R.string.MZGramSearchOperatorsInfo)));
         items.add(UItem.asCheck(BUTTON_FOLD_FANCY_FONTS, getString(R.string.MZGramFoldFancyFonts)).setChecked(MZGramConfig.foldFancyFontsInSearch));
@@ -724,6 +727,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CHARACTER_COUNTER) {
             MZGramConfig.toggleCharacterCounter();
             ((TextCheckCell) view).setChecked(MZGramConfig.characterCounter);
+        } else if (item.id == BUTTON_CLEAN_LINKS) {
+            MZGramConfig.toggleCleanLinks();
+            ((TextCheckCell) view).setChecked(MZGramConfig.cleanLinks);
         } else if (item.id == BUTTON_SEARCH_OPERATORS) {
             MZGramConfig.toggleSearchOperators();
             ((TextCheckCell) view).setChecked(MZGramConfig.searchOperators);

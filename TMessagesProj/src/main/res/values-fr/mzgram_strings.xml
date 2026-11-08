@@ -519,4 +519,6 @@
     <string name="MZGramCharacterCounterInfo">Affiche le nombre de caractères saisis au-dessus du bord droit du champ de message, comptés comme le fait la Bot API. Utile là où un bot limite la longueur d’un message. Près de la limite de Telegram, son compteur du reste s’affiche à la place.</string>
     <string name="MZGramSearchOperators">Opérateurs de recherche</string>
     <string name="MZGramSearchOperatorsInfo">Dans la recherche d’une discussion : from:username, date:2026-01-31 (ou today, yesterday), after:, before: et type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention ou pinned, avec des mots ordinaires. Ce qui n’est pas reconnu est cherché comme texte.</string>
+    <string name="MZGramCleanLinks">Retirer le pistage des liens</string>
+    <string name="MZGramCleanLinksInfo">Les paramètres de pistage (utm_source, fbclid, gclid, si et autres) sont retirés d’un lien quand vous l’ouvrez et quand vous le collez dans un message. Les règles sont le filtre AdGuard URL Tracking intégré à l’application ; il n’est jamais téléchargé ni mis à jour depuis Internet.</string>
 </resources>

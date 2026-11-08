@@ -517,4 +517,6 @@
     <string name="MZGramFoldFancyFontsInfo">A busca trata letras de fontes Unicode decorativas (negrito, cursiva, em círculo, largura total e letras parecidas) como comuns, então chat encontra um grupo chamado ⓒⓗⓐⓣ. Cirílico, grego, CJK e outras escritas reais não mudam. Só muda o que a busca compara; os nomes ficam iguais.</string>
     <string name="MZGramCharacterCounter">Contador de caracteres</string>
     <string name="MZGramCharacterCounterInfo">Mostra quantos caracteres foram digitados, acima da ponta direita do campo de mensagem, contados como a Bot API conta. Útil onde um bot limita o tamanho da mensagem. Perto do limite do próprio Telegram aparece o contador do que resta.</string>
+    <string name="MZGramSearchOperators">Operadores de busca</string>
+    <string name="MZGramSearchOperatorsInfo">Na busca de uma conversa: from:username, date:2026-01-31 (ou today, yesterday), after:, before: e type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention ou pinned, junto com palavras comuns. O que não for reconhecido é buscado como texto.</string>
 </resources>

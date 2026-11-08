@@ -517,4 +517,6 @@
     <string name="MZGramFoldFancyFontsInfo">Пошук лічыць літары дэкаратыўных Unicode-шрыфтоў (тлустыя, рукапісныя, у кружках, шырокія і падобныя літары) звычайнымі, таму запыт chat знаходзіць групу ⓒⓗⓐⓣ. Кірыліца, грэчаская, CJK і іншыя сапраўдныя пісьменнасці не мяняюцца. Мяняецца толькі тое, што параўноўвае пошук, імёны выглядаюць гэтак жа.</string>
     <string name="MZGramCharacterCounter">Лічыльнік сімвалаў</string>
     <string name="MZGramCharacterCounterInfo">Паказвае, колькі сімвалаў набрана, над правым краем поля паведамлення, лічачы так, як лічыць Bot API. Карысна там, дзе бот абмяжоўвае даўжыню паведамлення. Каля ўласнага ліміту Telegram замест яго відаць лічыльнік рэшты.</string>
+    <string name="MZGramSearchOperators">Аператары пошуку</string>
+    <string name="MZGramSearchOperatorsInfo">У пошуку чата: from:username, date:2026-01-31 (або today, yesterday), after:, before: і type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention ці pinned разам са звычайнымі словамі. Нераспазнанае шукаецца як тэкст.</string>
 </resources>

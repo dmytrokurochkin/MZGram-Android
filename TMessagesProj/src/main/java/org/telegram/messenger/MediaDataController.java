@@ -3687,6 +3687,8 @@ public class MediaDataController extends BaseController {
     private boolean loadingMoreSearchMessages;
     private boolean loadingSearchLocal;
     private boolean loadedPredirectedSearchLocal;
+    // MZGram: search operators of the last in-chat search (MZGramSearchQuery)
+    private org.telegram.messenger.mzgram.MZGramSearchQuery mzgramChatSearchQuery = org.telegram.messenger.mzgram.MZGramSearchQuery.EMPTY;
 
     public void removeMessageFromResults(int id) {
         for (int i = 0; i < searchResultMessages.size(); ++i) {
@@ -3854,6 +3856,12 @@ public class MediaDataController extends BaseController {
         int max_id = 0;
         long queryWithDialog = dialogId;
         boolean firstQuery = !internal;
+        if (query != null && !internal) { // MZGram: from:, date:, before:, after:, type: in the search field
+            mzgramChatSearchQuery = org.telegram.messenger.mzgram.MZGramConfig.searchOperators ? org.telegram.messenger.mzgram.MZGramSearchQuery.parse(query, getMessagesController()) : org.telegram.messenger.mzgram.MZGramSearchQuery.EMPTY;
+            if (mzgramChatSearchQuery != org.telegram.messenger.mzgram.MZGramSearchQuery.EMPTY) {
+                query = mzgramChatSearchQuery.q;
+            }
+        }
         if (reqId != 0) {
             loadingMoreSearchMessages = false;
             getConnectionsManager().cancelRequest(reqId, true);
@@ -3957,6 +3965,7 @@ public class MediaDataController extends BaseController {
                     req.flags |= 8;
                 }
                 req.filter = new TLRPC.TL_inputMessagesFilterEmpty();
+                mzgramChatSearchQuery.applyTo(req); // MZGram: search operators
                 mergeReqId = getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
                     if (lastMergeDialogId == mergeDialogId) {
                         mergeReqId = 0;
@@ -4005,7 +4014,7 @@ public class MediaDataController extends BaseController {
         loadedPredirectedSearchLocal = false;
         int currentReqId = ++lastReqId;
         final boolean isSaved = dialogId == getUserConfig().getClientUserId();
-        if (isSaved && reaction != null && firstQuery) {
+        if (isSaved && reaction != null && firstQuery && !mzgramChatSearchQuery.hasOperators()) { // MZGram: tag search knows no operators
             lastReturnedNum = 0;
             searchServerResultMessages.clear();
             searchServerResultMessagesMap[0].clear();
@@ -4042,6 +4051,7 @@ public class MediaDataController extends BaseController {
             req.flags |= 8;
         }
         req.filter = new TLRPC.TL_inputMessagesFilterEmpty();
+        mzgramChatSearchQuery.applyTo(req); // MZGram: search operators
         lastSearchQuery = query;
         long queryWithDialogFinal = queryWithDialog;
         String finalQuery = query;

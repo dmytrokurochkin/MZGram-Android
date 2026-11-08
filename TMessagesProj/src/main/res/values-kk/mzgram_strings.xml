@@ -517,4 +517,6 @@
     <string name="MZGramFoldFancyFontsInfo">Іздеу сәндік Unicode қаріптерінің әріптерін (жуан, жазба, дөңгелектегі, кең және ұқсас әріптер) қарапайым деп санайды, сондықтан chat сұрауы ⓒⓗⓐⓣ тобын табады. Кирилл, грек, CJK және басқа нақты жазулар өзгермейді. Тек іздеу салыстыратыны өзгереді, аттар бұрынғыдай көрінеді.</string>
     <string name="MZGramCharacterCounter">Таңба санағышы</string>
     <string name="MZGramCharacterCounterInfo">Хабарлама өрісінің оң жақ шетінің үстінде қанша таңба терілгенін Bot API санағандай көрсетеді. Бот хабарлама ұзындығын шектейтін жерде пайдалы. Telegram-ның өз шегіне жақындағанда оның орнына қалған таңба санағышы көрінеді.</string>
+    <string name="MZGramSearchOperators">Іздеу операторлары</string>
+    <string name="MZGramSearchOperatorsInfo">Чат іздеуінде: from:username, date:2026-01-31 (немесе today, yesterday), after:, before: және type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention не pinned, қарапайым сөздермен бірге. Танылмаған бөлік мәтін ретінде ізделеді.</string>
 </resources>

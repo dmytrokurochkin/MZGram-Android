@@ -205,6 +205,10 @@ public class MZGramConfig {
     // (MZGramCharCounter).
     public static boolean characterCounter = false;
 
+    // from:, date:, before:, after: and type: in a chat's search field
+    // (MZGramSearchQuery in MediaDataController.searchMessagesInChat).
+    public static boolean searchOperators = false;
+
     static {
         loadConfig(false);
     }
@@ -327,6 +331,7 @@ public class MZGramConfig {
             }
             foldFancyFontsInSearch = preferences.getBoolean("foldFancyFontsInSearch", false);
             characterCounter = preferences.getBoolean("characterCounter", false);
+            searchOperators = preferences.getBoolean("searchOperators", false);
             configLoaded = true;
         }
     }
@@ -762,5 +767,10 @@ public class MZGramConfig {
     public static void toggleCharacterCounter() {
         characterCounter = !characterCounter;
         putBoolean("characterCounter", characterCounter);
+    }
+
+    public static void toggleSearchOperators() {
+        searchOperators = !searchOperators;
+        putBoolean("searchOperators", searchOperators);
     }
 }

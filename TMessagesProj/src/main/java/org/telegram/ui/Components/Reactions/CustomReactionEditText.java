@@ -41,6 +41,11 @@ public class CustomReactionEditText extends EditTextCaption {
     }
 
     public CustomReactionEditText(Context context, Theme.ResourcesProvider resourcesProvider, int maxLength) {
+        this(context, resourcesProvider, maxLength, false);
+    }
+
+    // MZGram: needBackground paints the field with the page colour (used by the pinned reactions screen)
+    public CustomReactionEditText(Context context, Theme.ResourcesProvider resourcesProvider, int maxLength, boolean needBackground) {
         super(context, resourcesProvider);
         this.resourcesProvider = resourcesProvider;
         this.gestureDetector = new GestureDetectorCompat(getContext(), new GestureDetector.SimpleOnGestureListener() {
@@ -49,7 +54,11 @@ public class CustomReactionEditText extends EditTextCaption {
                 return true;
             }
         });
-        setBackground(null);
+        if (needBackground) {
+            setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        } else {
+            setBackground(null);
+        }
         setIncludeFontPadding(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setShowSoftInputOnFocus(false);

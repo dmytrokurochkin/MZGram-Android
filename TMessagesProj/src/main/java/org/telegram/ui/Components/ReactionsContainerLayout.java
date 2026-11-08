@@ -445,6 +445,12 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         MediaDataController.getInstance(currentAccount).preloadDefaultReactions();
     }
 
+    // MZGram: used by the pinned reactions preview
+    public void setShowExpandableReactions(boolean showExpandableReactions) {
+        this.showExpandableReactions = showExpandableReactions;
+        invalidate();
+    }
+
     public boolean showExpandableReactions() {
         return showExpandableReactions;
     }
@@ -580,7 +586,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void setVisibleReactionsList(List<ReactionsLayoutInBubble.VisibleReaction> visibleReactionsList, boolean animated) {
+    public void setVisibleReactionsList(List<ReactionsLayoutInBubble.VisibleReaction> visibleReactionsList, boolean animated) {
         this.visibleReactionsList.clear();
         if (showCustomEmojiReaction()) {
             int i = 0;
@@ -1160,12 +1166,24 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 fillRecentReactionsList(visibleReactions);
             } else if (reactionsChat.available_reactions instanceof TLRPC.TL_chatReactionsSome) {
                 TLRPC.TL_chatReactionsSome reactionsSome = (TLRPC.TL_chatReactionsSome) reactionsChat.available_reactions;
+                // MZGram: pinned reactions that this chat allows go first (nothing is added while the lists are off)
+                ArrayList<String> mzgramPinnedEmoticons = new ArrayList<>();
+                ArrayList<Long> mzgramPinnedDocumentIds = new ArrayList<>();
+                if (type == TYPE_DEFAULT) {
+                    org.telegram.ui.mzgram.MZGramPinnedReactions.prefillAllowed(channelReactions, reactionsSome.reactions, visibleReactions, mzgramPinnedEmoticons, mzgramPinnedDocumentIds);
+                }
                 for (TLRPC.Reaction s : reactionsSome.reactions) {
                     for (TLRPC.TL_availableReaction a : MediaDataController.getInstance(currentAccount).getEnabledReactionsList()) {
                         if (s instanceof TLRPC.TL_reactionEmoji && a.reaction.equals(((TLRPC.TL_reactionEmoji) s).emoticon)) {
+                            if (mzgramPinnedEmoticons.contains(a.reaction)) {
+                                break;
+                            }
                             visibleReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(s));
                             break;
                         } else if (s instanceof TLRPC.TL_reactionCustomEmoji) {
+                            if (mzgramPinnedDocumentIds.contains(((TLRPC.TL_reactionCustomEmoji) s).document_id)) {
+                                break;
+                            }
                             visibleReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(s));
                             break;
                         }
@@ -1383,11 +1401,25 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 }
             } else {
                 //fill default reactions
+                // MZGram: pinned emoji reactions go first (nothing is added while the lists are off)
+                if (type == TYPE_DEFAULT) {
+                    for (ReactionsLayoutInBubble.VisibleReaction visibleReaction : org.telegram.ui.mzgram.MZGramPinnedReactions.getFavoriteReactions(channelReactions)) {
+                        if (!hashSet.contains(visibleReaction) && visibleReaction.documentId == 0) {
+                            hashSet.add(visibleReaction);
+                            visibleReactions.add(visibleReaction);
+                        }
+                    }
+                }
                 List<TLRPC.TL_availableReaction> enabledReactions = MediaDataController.getInstance(currentAccount).getEnabledReactionsList();
                 for (int i = 0; i < enabledReactions.size(); i++) {
                     ReactionsLayoutInBubble.VisibleReaction visibleReaction = ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(enabledReactions.get(i));
+                    if (hashSet.contains(visibleReaction)) {
+                        continue;
+                    }
                     visibleReactions.add(visibleReaction);
+                    hashSet.add(visibleReaction);
                 }
+                hashSet.clear();
             }
             return;
         }
@@ -1435,6 +1467,16 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 }
             }
         } else {
+            // MZGram: pinned reactions go first (custom ones only for Premium; nothing is added while the lists are off)
+            if (type == TYPE_DEFAULT) {
+                for (ReactionsLayoutInBubble.VisibleReaction visibleReaction : org.telegram.ui.mzgram.MZGramPinnedReactions.getFavoriteReactions(channelReactions)) {
+                    if (!hashSet.contains(visibleReaction) && (UserConfig.getInstance(currentAccount).isPremium() || visibleReaction.documentId == 0)) {
+                        hashSet.add(visibleReaction);
+                        visibleReactions.add(visibleReaction);
+                        added++;
+                    }
+                }
+            }
             for (int i = 0; i < topReactions.size(); i++) {
                 ReactionsLayoutInBubble.VisibleReaction visibleReaction = ReactionsLayoutInBubble.VisibleReaction.fromTL(topReactions.get(i));
                 if (!hashSet.contains(visibleReaction) && (type == TYPE_TAGS || UserConfig.getInstance(currentAccount).isPremium() || visibleReaction.documentId == 0)) {
@@ -1500,6 +1542,23 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             animator = ObjectAnimator.ofFloat(this, ReactionsContainerLayout.TRANSITION_PROGRESS_VALUE, 0f, 1f).setDuration(250);
             animator.setInterpolator(new OvershootInterpolator(0.5f));
         }
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                notificationsLocker.unlock();
+            }
+        });
+        animator.start();
+    }
+
+    // MZGram: reverse of startEnterAnimation; used by the pinned reactions preview
+    public void startCloseAnimation() {
+        setTransitionProgress(0);
+        setAlpha(1f);
+        notificationsLocker.lock();
+        ObjectAnimator animator = ObjectAnimator.ofFloat(this, ReactionsContainerLayout.TRANSITION_PROGRESS_VALUE, 1f, 0f).setDuration(250);
+        animator.setInterpolator(new OvershootInterpolator(0.5f));
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

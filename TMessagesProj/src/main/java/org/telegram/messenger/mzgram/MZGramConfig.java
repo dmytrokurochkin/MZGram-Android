@@ -262,6 +262,12 @@ public class MZGramConfig {
     // Default delay (minutes) offered by the schedule dialog while scheduleSlider is on.
     public static int scheduleDefaultMinutes = 60;
 
+    // Own list of quick reactions (JSON arrays of {"emoticon"} or {"document_id"}), separately for chats and channels.
+    public static boolean usePinnedReactionsChats = false;
+    public static boolean usePinnedReactionsChannels = false;
+    public static String pinnedReactionsChats = "[]";
+    public static String pinnedReactionsChannels = "[]";
+
     // Double tap on other people's messages, same values.
     public static int doubleTapOther = 0;
 
@@ -405,6 +411,10 @@ public class MZGramConfig {
             doubleTapOwn = preferences.getInt("doubleTapOwn", 0);
             fabShape = preferences.getInt("fabShape", 0);
             scheduleDefaultMinutes = preferences.getInt("scheduleDefaultMinutes", 60);
+            usePinnedReactionsChats = preferences.getBoolean("usePinnedReactionsChats", false);
+            usePinnedReactionsChannels = preferences.getBoolean("usePinnedReactionsChannels", false);
+            pinnedReactionsChats = preferences.getString("pinnedReactionsChats", "[]");
+            pinnedReactionsChannels = preferences.getString("pinnedReactionsChannels", "[]");
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
         }
@@ -866,6 +876,20 @@ public class MZGramConfig {
     public static void toggleCameraStabilization() {
         cameraStabilization = !cameraStabilization;
         putBoolean("cameraStabilization", cameraStabilization);
+    }
+
+    public static void setPinnedReactions(boolean channels, boolean enabled, String json) {
+        if (channels) {
+            usePinnedReactionsChannels = enabled;
+            pinnedReactionsChannels = json;
+        } else {
+            usePinnedReactionsChats = enabled;
+            pinnedReactionsChats = json;
+        }
+        preferences().edit()
+            .putBoolean(channels ? "usePinnedReactionsChannels" : "usePinnedReactionsChats", enabled)
+            .putString(channels ? "pinnedReactionsChannels" : "pinnedReactionsChats", json)
+            .apply();
     }
 
     public static void setScheduleDefaultMinutes(int value) {

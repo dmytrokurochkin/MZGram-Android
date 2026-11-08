@@ -436,4 +436,8 @@
     <string name="MZGramDisableReadStickersInfo">O servidor não fica sabendo quais pacotes de figurinhas e emojis em alta você viu. Eles são marcados como vistos só neste aparelho e podem aparecer como novos de novo após reiniciar.</string>
     <string name="MZGramDisableLinkPreviews">Sem prévia de links ao digitar</string>
     <string name="MZGramDisableLinkPreviewsInfo">Um link que você digita ou cola não é enviado ao Telegram para gerar prévia, então o servidor não o abre antes de você enviar a mensagem. As mensagens vão sem prévia. As prévias das mensagens recebidas continuam aparecendo.</string>
+    <string name="MZGramDisableCloudDrafts">Rascunhos só neste aparelho</string>
+    <string name="MZGramDisableCloudDraftsInfo">O texto digitado mas não enviado não é enviado ao Telegram e não aparece nos seus outros aparelhos. Limpar um rascunho ainda remove uma cópia antiga da nuvem.</string>
+    <string name="MZGramLockScreenVoiceProtection">Proteger mensagens de voz na tela de bloqueio</string>
+    <string name="MZGramLockScreenVoiceProtectionInfo">Enquanto o telefone está bloqueado, mensagens de voz e vídeos redondos não iniciam nem retomam pelo player da tela de bloqueio ou pelos botões do fone, e o player oculta o nome e a foto do remetente. A música toca normalmente.</string>
 </resources>

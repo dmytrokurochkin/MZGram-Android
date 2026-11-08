@@ -131,6 +131,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CONFIRM_INTERNAL_LINKS = 85;
     private static final int BUTTON_DISABLE_READ_STICKERS = 86;
     private static final int BUTTON_DISABLE_LINK_PREVIEWS = 87;
+    private static final int BUTTON_DISABLE_CLOUD_DRAFTS = 88;
+    private static final int BUTTON_LOCK_SCREEN_VOICE_PROTECTION = 89;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -496,6 +498,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramConfirmInternalLinksInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_LINK_PREVIEWS, getString(R.string.MZGramDisableLinkPreviews)).setChecked(MZGramConfig.disableLinkPreviews));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableLinkPreviewsInfo)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_CLOUD_DRAFTS, getString(R.string.MZGramDisableCloudDrafts)).setChecked(MZGramConfig.disableCloudDrafts));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableCloudDraftsInfo)));
+        items.add(UItem.asCheck(BUTTON_LOCK_SCREEN_VOICE_PROTECTION, getString(R.string.MZGramLockScreenVoiceProtection)).setChecked(MZGramConfig.lockScreenVoiceProtection));
+        items.add(UItem.asShadow(getString(R.string.MZGramLockScreenVoiceProtectionInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_READ_STICKERS, getString(R.string.MZGramDisableReadStickers)).setChecked(MZGramConfig.disableReadStickers));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableReadStickersInfo)));
     }
@@ -645,6 +651,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DISABLE_LINK_PREVIEWS) {
             MZGramConfig.toggleDisableLinkPreviews();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableLinkPreviews);
+        } else if (item.id == BUTTON_DISABLE_CLOUD_DRAFTS) {
+            MZGramConfig.toggleDisableCloudDrafts();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableCloudDrafts);
+        } else if (item.id == BUTTON_LOCK_SCREEN_VOICE_PROTECTION) {
+            MZGramConfig.toggleLockScreenVoiceProtection();
+            ((TextCheckCell) view).setChecked(MZGramConfig.lockScreenVoiceProtection);
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);

@@ -436,4 +436,8 @@
     <string name="MZGramDisableReadStickersInfo">Sunucu hangi popüler çıkartma ve emoji paketlerine baktığınızı öğrenmez. Yalnızca bu cihazda görüldü olarak işaretlenir ve yeniden başlattıktan sonra tekrar yeni görünebilir.</string>
     <string name="MZGramDisableLinkPreviews">Yazarken bağlantı önizlemesi yok</string>
     <string name="MZGramDisableLinkPreviewsInfo">Yazdığınız veya yapıştırdığınız bağlantı önizleme için Telegram\'a gönderilmez, böylece sunucu mesajı göndermeden önce onu açmaz. Mesajlar önizlemesiz gider. Alınan mesajlardaki önizlemeler yine görünür.</string>
+    <string name="MZGramDisableCloudDrafts">Taslaklar yalnızca bu cihazda</string>
+    <string name="MZGramDisableCloudDraftsInfo">Yazıp göndermediğiniz metin Telegram\'a yüklenmez ve diğer cihazlarınızda görünmez. Bir taslağı temizlemek yine de buluttaki eski kopyayı siler.</string>
+    <string name="MZGramLockScreenVoiceProtection">Kilit ekranında sesli mesajları koru</string>
+    <string name="MZGramLockScreenVoiceProtectionInfo">Telefon kilitliyken sesli mesajlar ve yuvarlak videolar kilit ekranı oynatıcısından veya kulaklık düğmelerinden başlamaz ya da devam etmez; oynatıcı göndericinin adını ve fotoğrafını gizler. Müzik her zamanki gibi çalar.</string>
 </resources>

@@ -436,4 +436,8 @@
     <string name="MZGramDisableReadStickersInfo">Serwer nie wie, które popularne zestawy naklejek i emoji obejrzałeś. Są oznaczane jako obejrzane tylko na tym urządzeniu i po ponownym uruchomieniu mogą znów wyglądać na nowe.</string>
     <string name="MZGramDisableLinkPreviews">Bez podglądu linków podczas pisania</string>
     <string name="MZGramDisableLinkPreviewsInfo">Wpisany lub wklejony link nie jest wysyłany do Telegrama po podgląd, więc serwer nie otwiera go przed wysłaniem wiadomości. Wiadomości idą wtedy bez podglądu. Podglądy w otrzymanych wiadomościach nadal się wyświetlają.</string>
+    <string name="MZGramDisableCloudDrafts">Szkice tylko na tym urządzeniu</string>
+    <string name="MZGramDisableCloudDraftsInfo">Wpisany, ale niewysłany tekst nie trafia do Telegrama i nie pojawia się na innych twoich urządzeniach. Wyczyszczenie szkicu nadal usuwa starą kopię z chmury.</string>
+    <string name="MZGramLockScreenVoiceProtection">Chroń wiadomości głosowe na ekranie blokady</string>
+    <string name="MZGramLockScreenVoiceProtectionInfo">Gdy telefon jest zablokowany, wiadomości głosowe i okrągłe filmy nie uruchamiają się ani nie wznawiają z odtwarzacza na ekranie blokady czy przycisków słuchawek, a odtwarzacz ukrywa imię i zdjęcie nadawcy. Muzyka gra jak zwykle.</string>
 </resources>

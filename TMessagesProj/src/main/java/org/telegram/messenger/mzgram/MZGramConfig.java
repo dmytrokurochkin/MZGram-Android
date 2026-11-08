@@ -107,6 +107,10 @@ public class MZGramConfig {
     public static boolean disableReadStickers = false;
     // A typed link is not sent to the server for a preview.
     public static boolean disableLinkPreviews = false;
+    // Unsent text stays on this device: drafts are not sent to the server.
+    public static boolean disableCloudDrafts = false;
+    // Voice messages and round videos do not play from the lock screen.
+    public static boolean lockScreenVoiceProtection = false;
 
     // Settings > MZGram > Interface > Show ID (MZGramPeerId): hidden by
     // default, as in Telegram API or as in Bot API.
@@ -218,6 +222,8 @@ public class MZGramConfig {
             confirmInternalLinks = preferences.getBoolean("confirmInternalLinks", false);
             disableReadStickers = preferences.getBoolean("disableReadStickers", false);
             disableLinkPreviews = preferences.getBoolean("disableLinkPreviews", false);
+            disableCloudDrafts = preferences.getBoolean("disableCloudDrafts", false);
+            lockScreenVoiceProtection = preferences.getBoolean("lockScreenVoiceProtection", false);
             // The removed "hide own online status" and "hide own phone
             // number" switches: Telegram's own privacy settings do this.
             if (preferences.contains("hideOwnOnlineStatus") || preferences.contains("savedLastSeenPrivacyState") || preferences.contains("hideOwnPhoneNumber")) {
@@ -506,6 +512,16 @@ public class MZGramConfig {
     public static void toggleDisableLinkPreviews() {
         disableLinkPreviews = !disableLinkPreviews;
         putBoolean("disableLinkPreviews", disableLinkPreviews);
+    }
+
+    public static void toggleDisableCloudDrafts() {
+        disableCloudDrafts = !disableCloudDrafts;
+        putBoolean("disableCloudDrafts", disableCloudDrafts);
+    }
+
+    public static void toggleLockScreenVoiceProtection() {
+        lockScreenVoiceProtection = !lockScreenVoiceProtection;
+        putBoolean("lockScreenVoiceProtection", lockScreenVoiceProtection);
     }
 
     public static void toggleGhostMode() {

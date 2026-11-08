@@ -436,4 +436,8 @@
     <string name="MZGramDisableReadStickersInfo">لا يعرف الخادم أي حزم الملصقات والرموز التعبيرية الرائجة التي شاهدتها. تُعلَّم كمشاهدة على هذا الجهاز فقط وقد تظهر جديدة مرة أخرى بعد إعادة التشغيل.</string>
     <string name="MZGramDisableLinkPreviews">بلا معاينة للروابط أثناء الكتابة</string>
     <string name="MZGramDisableLinkPreviewsInfo">لا يُرسَل الرابط الذي تكتبه أو تلصقه إلى تيليجرام لإنشاء معاينة، فلا يفتحه الخادم قبل إرسال الرسالة. تُرسَل الرسائل حينها بلا معاينة. تظل المعاينات في الرسائل المستلمة ظاهرة.</string>
+    <string name="MZGramDisableCloudDrafts">المسودات على هذا الجهاز فقط</string>
+    <string name="MZGramDisableCloudDraftsInfo">النص الذي كتبته ولم ترسله لا يُرفع إلى تيليجرام ولا يظهر على أجهزتك الأخرى. مسح المسودة يحذف مع ذلك نسخة قديمة من السحابة.</string>
+    <string name="MZGramLockScreenVoiceProtection">حماية الرسائل الصوتية على شاشة القفل</string>
+    <string name="MZGramLockScreenVoiceProtectionInfo">عندما يكون الهاتف مقفلًا، لا تبدأ الرسائل الصوتية ومقاطع الفيديو الدائرية ولا تُستأنف من مشغّل شاشة القفل أو أزرار السماعة، ويخفي المشغّل اسم المرسل وصورته. تعمل الموسيقى كالمعتاد.</string>
 </resources>

@@ -436,4 +436,8 @@
     <string name="MZGramDisableReadStickersInfo">Le serveur ne sait pas quels packs de stickers et d\'emojis tendance vous avez regardés. Ils sont marqués vus sur cet appareil seulement et peuvent réapparaître comme nouveaux après un redémarrage.</string>
     <string name="MZGramDisableLinkPreviews">Pas d\'aperçu des liens pendant la saisie</string>
     <string name="MZGramDisableLinkPreviewsInfo">Un lien saisi ou collé n\'est pas envoyé à Telegram pour un aperçu, le serveur ne l\'ouvre donc pas avant l\'envoi du message. Les messages partent alors sans aperçu. Les aperçus des messages reçus restent affichés.</string>
+    <string name="MZGramDisableCloudDrafts">Brouillons sur cet appareil uniquement</string>
+    <string name="MZGramDisableCloudDraftsInfo">Le texte saisi mais non envoyé n\'est pas téléversé sur Telegram et n\'apparaît pas sur vos autres appareils. Vider un brouillon supprime quand même une ancienne copie du cloud.</string>
+    <string name="MZGramLockScreenVoiceProtection">Protéger les messages vocaux sur l\'écran de verrouillage</string>
+    <string name="MZGramLockScreenVoiceProtectionInfo">Tant que le téléphone est verrouillé, les messages vocaux et les vidéos rondes ne démarrent ni ne reprennent depuis le lecteur de l\'écran de verrouillage ou les boutons du casque, et le lecteur masque le nom et la photo de l\'expéditeur. La musique joue normalement.</string>
 </resources>

@@ -3646,6 +3646,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (messageObject == null) {
             return false;
         }
+        // MZGram: no voice or round video from the lock screen (MZGramPrivacy).
+        if (org.telegram.messenger.mzgram.MZGramPrivacy.blockPlayWhileLocked(messageObject)) {
+            return false;
+        }
         isSilent = silent;
         checkVolumeBarUI();
         if ((audioPlayer != null || videoPlayer != null) && isSamePlayingMessage(messageObject)) {

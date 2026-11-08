@@ -436,4 +436,8 @@
     <string name="MZGramDisableReadStickersInfo">El servidor no sabe qué paquetes populares de stickers y emojis has mirado. Se marcan como vistos solo en este dispositivo y pueden volver a aparecer como nuevos tras reiniciar.</string>
     <string name="MZGramDisableLinkPreviews">Sin vista previa de enlaces al escribir</string>
     <string name="MZGramDisableLinkPreviewsInfo">Un enlace que escribes o pegas no se envía a Telegram para la vista previa, así que el servidor no lo abre antes de que envíes el mensaje. Los mensajes se envían sin vista previa. Las vistas previas de los mensajes recibidos se siguen mostrando.</string>
+    <string name="MZGramDisableCloudDrafts">Borradores solo en este dispositivo</string>
+    <string name="MZGramDisableCloudDraftsInfo">El texto que escribiste pero no enviaste no se sube a Telegram ni aparece en tus otros dispositivos. Borrar un borrador sigue eliminando una copia antigua de la nube.</string>
+    <string name="MZGramLockScreenVoiceProtection">Proteger mensajes de voz en la pantalla de bloqueo</string>
+    <string name="MZGramLockScreenVoiceProtectionInfo">Mientras el teléfono está bloqueado, los mensajes de voz y los videos redondos no se inician ni se reanudan desde el reproductor de la pantalla de bloqueo o los botones del auricular, y el reproductor oculta el nombre y la foto del remitente. La música suena como siempre.</string>
 </resources>

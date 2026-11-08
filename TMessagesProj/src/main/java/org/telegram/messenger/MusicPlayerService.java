@@ -541,7 +541,8 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
 
             mediaSession.setMetadata(meta.build());
 
-            bldr.setVisibility(Notification.VISIBILITY_PUBLIC);
+            // MZGram: voice and round video hide the sender on the lock screen (MZGramPrivacy).
+            bldr.setVisibility(org.telegram.messenger.mzgram.MZGramPrivacy.playerNotificationVisibility(messageObject));
 
             notification = bldr.build();
 

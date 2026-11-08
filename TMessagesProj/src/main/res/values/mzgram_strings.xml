@@ -436,4 +436,8 @@
     <string name="MZGramDisableReadStickersInfo">The server is not told which trending sticker and emoji packs you looked at. They are marked viewed on this device only and can show as new again after a restart.</string>
     <string name="MZGramDisableLinkPreviews">No link preview while typing</string>
     <string name="MZGramDisableLinkPreviewsInfo">A link you type or paste is not sent to Telegram for a preview, so the server does not open it before you send the message. Messages then go without a preview. Previews in received messages still show.</string>
+    <string name="MZGramDisableCloudDrafts">Drafts on this device only</string>
+    <string name="MZGramDisableCloudDraftsInfo">Text you typed but did not send is not uploaded to Telegram and does not show on your other devices. Clearing a draft still removes an old copy from the cloud.</string>
+    <string name="MZGramLockScreenVoiceProtection">Protect voice messages on the lock screen</string>
+    <string name="MZGramLockScreenVoiceProtectionInfo">While the phone is locked, voice messages and round videos do not start or resume from the lock screen player or headset buttons, and their player hides the sender\'s name and photo. Music plays as usual.</string>
 </resources>

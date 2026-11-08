@@ -163,6 +163,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_OPEN_BY_ID = 115;
     private static final int BUTTON_DOUBLE_TAP_ACTIONS = 110;
     private static final int BUTTON_DOUBLE_TAP_OWN = 111;
     private static final int BUTTON_DOUBLE_TAP_OTHER = 112;
@@ -603,6 +604,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_CHARACTER_COUNTER, getString(R.string.MZGramCharacterCounter)).setChecked(MZGramConfig.characterCounter));
         items.add(UItem.asShadow(getString(R.string.MZGramCharacterCounterInfo)));
+        items.add(UItem.asButton(BUTTON_OPEN_BY_ID, getString(R.string.MZGramOpenById)));
+        items.add(UItem.asShadow(getString(R.string.MZGramOpenByIdInfo)));
         items.add(UItem.asCheck(BUTTON_INLINE_MATH, getString(R.string.MZGramInlineMath)).setChecked(MZGramConfig.inlineMath));
         items.add(UItem.asShadow(getString(R.string.MZGramInlineMathInfo)));
         items.add(UItem.asCheck(BUTTON_COPY_PLAIN, getString(R.string.MZGramCopyPlain)).setChecked(MZGramConfig.copyPlainText));
@@ -760,6 +763,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CHARACTER_COUNTER) {
             MZGramConfig.toggleCharacterCounter();
             ((TextCheckCell) view).setChecked(MZGramConfig.characterCounter);
+        } else if (item.id == BUTTON_OPEN_BY_ID) {
+            org.telegram.ui.mzgram.MZGramOpenById.show(this);
         } else if (item.id == BUTTON_INLINE_MATH) {
             MZGramConfig.toggleInlineMath();
             ((TextCheckCell) view).setChecked(MZGramConfig.inlineMath);

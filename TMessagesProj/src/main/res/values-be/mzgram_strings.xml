@@ -533,4 +533,8 @@
     <string name="MZGramCopyPlainInfo">Дадае ў меню паведамлення пункт Капіраваць без фарматавання: толькі просты тэкст, без тлустага шрыфту, спасылак і афармлення эмодзі.</string>
     <string name="MZGramInlineMath">Убудаваны калькулятар</string>
     <string name="MZGramInlineMathInfo">Увядзіце ў полі паведамлення выраз і "=" (25*40=), і вынік дадасца пасля яго (25*40=1000). Працуе афлайн, з дзеяннямі + - * / ^ % і дужкамі; курсаў валют няма.</string>
+    <string name="MZGramOpenById">Адкрыць профіль па нумары</string>
+    <string name="MZGramOpenByIdHint">Нумар карыстальніка, групы або канала</string>
+    <string name="MZGramOpenByIdNotFound">Гэты нумар праграме пакуль невядомы</string>
+    <string name="MZGramOpenByIdInfo">Адкрывае профіль карыстальніка, групы або канала па нумары, напрыклад узятым з бота. Telegram паказвае толькі акаўнты, якія праграма ўжо ведае, таму нумар, якога яна ніколі не бачыла, не знаходзіцца.</string>
 </resources>

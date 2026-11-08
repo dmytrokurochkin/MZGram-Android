@@ -534,4 +534,8 @@
     <string name="MZGramCopyPlainInfo">Додає до меню повідомлення пункт Копіювати без форматування: лише простий текст, без жирного шрифту, посилань і оформлення емодзі.</string>
     <string name="MZGramInlineMath">Вбудований калькулятор</string>
     <string name="MZGramInlineMathInfo">Введіть у полі повідомлення вираз і "=" (25*40=), і результат додасться після нього (25*40=1000). Працює офлайн, з діями + - * / ^ % і дужками; курсів валют немає.</string>
+    <string name="MZGramOpenById">Відкрити профіль за номером</string>
+    <string name="MZGramOpenByIdHint">Номер користувача, групи або каналу</string>
+    <string name="MZGramOpenByIdNotFound">Цей номер застосунку ще невідомий</string>
+    <string name="MZGramOpenByIdInfo">Відкриває профіль користувача, групи або каналу за номером, наприклад узятим із бота. Telegram показує лише акаунти, які застосунок уже знає, тому номер, якого він ніколи не бачив, не знаходиться.</string>
 </resources>

@@ -533,4 +533,8 @@
     <string name="MZGramCopyPlainInfo">Adds Copy without formatting to the message menu: only the plain text, without bold, links or emoji styling.</string>
     <string name="MZGramInlineMath">Inline calculator</string>
     <string name="MZGramInlineMathInfo">Type an expression and "=" in the message field (25*40=) and the result is added after it (25*40=1000). It works offline, with + - * / ^ % and brackets; there are no currency rates.</string>
+    <string name="MZGramOpenById">Open profile by number</string>
+    <string name="MZGramOpenByIdHint">User, group or channel number</string>
+    <string name="MZGramOpenByIdNotFound">This number is not known to the app yet</string>
+    <string name="MZGramOpenByIdInfo">Opens the profile of a user, group or channel by its number, for example one taken from a bot. Telegram shows only accounts the app already knows, so a number it has never seen is not found.</string>
 </resources>

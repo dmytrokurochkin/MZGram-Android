@@ -533,4 +533,8 @@
     <string name="MZGramCopyPlainInfo">Mesaj menüsüne Biçimlendirmesiz kopyala ekler: yalnızca düz metin, kalın yazı, bağlantı veya emoji biçimi olmadan.</string>
     <string name="MZGramInlineMath">Yerleşik hesap makinesi</string>
     <string name="MZGramInlineMathInfo">Mesaj alanına bir ifade ve "=" yazın (25*40=), sonuç arkasına eklenir (25*40=1000). Çevrimdışı çalışır, + - * / ^ % ve parantezlerle; döviz kuru yoktur.</string>
+    <string name="MZGramOpenById">Profili numarayla aç</string>
+    <string name="MZGramOpenByIdHint">Kullanıcı, grup veya kanal numarası</string>
+    <string name="MZGramOpenByIdNotFound">Bu numara uygulama tarafından henüz bilinmiyor</string>
+    <string name="MZGramOpenByIdInfo">Bir kullanıcının, grubun veya kanalın profilini numarasıyla açar, örneğin bir bottan alınan. Telegram yalnızca uygulamanın bildiği hesapları gösterir, bu yüzden hiç görülmemiş numara bulunamaz.</string>
 </resources>

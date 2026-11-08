@@ -559,4 +559,6 @@
     <string name="MZGramFabShapeInfo">Sohbet listesindeki yuvarlak düğmenin şekli. Liste yeniden açıldığında uygulanır.</string>
     <string name="MZGramAudioEnhance">Sesli mesajlarda gürültü bastırma</string>
     <string name="MZGramAudioEnhanceInfo">Sesli mesaj kaydederken telefonun kendi gürültü bastırma ve otomatik kazanç kontrolünü, varsa, açar. Hiçbir şey gönderilmez.</string>
+    <string name="MZGramShowRegistrationDate">Yaklaşık kayıt tarihi</string>
+    <string name="MZGramShowRegistrationDateInfo">Kullanıcı profilinde ID’nin yanında hesabın oluşturulduğu yaklaşık ay ve yılı gösterir. Uygulamadaki bir tabloyla ID’den tahmin edilir, birkaç ay sapabilir. ID satırının gösterilmesi gerekir.</string>
 </resources>

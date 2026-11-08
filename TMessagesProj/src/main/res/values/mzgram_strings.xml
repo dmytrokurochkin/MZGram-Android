@@ -559,4 +559,6 @@
     <string name="MZGramFabShapeInfo">Shape of the round button on the chat list. Applies after the list is reopened.</string>
     <string name="MZGramAudioEnhance">Noise suppression for voice messages</string>
     <string name="MZGramAudioEnhanceInfo">While recording a voice message, turns on the phone’s own noise suppressor and automatic gain control, if it has them. Nothing is sent anywhere.</string>
+    <string name="MZGramShowRegistrationDate">Approximate registration date</string>
+    <string name="MZGramShowRegistrationDateInfo">In a user profile, next to the ID, shows the approximate month and year the account was created. It is estimated from the ID with a table stored in the app, so it can be off by a few months. Needs the ID row to be shown.</string>
 </resources>

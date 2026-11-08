@@ -559,4 +559,6 @@
     <string name="MZGramFabShapeInfo">Kształt okrągłego przycisku na liście czatów. Zastosuje się po ponownym otwarciu listy.</string>
     <string name="MZGramAudioEnhance">Redukcja szumów w wiadomościach głosowych</string>
     <string name="MZGramAudioEnhanceInfo">Podczas nagrywania wiadomości głosowej włącza wbudowaną w telefon redukcję szumów i automatyczną regulację głośności, jeśli są dostępne. Nic nie jest wysyłane.</string>
+    <string name="MZGramShowRegistrationDate">Przybliżona data rejestracji</string>
+    <string name="MZGramShowRegistrationDateInfo">W profilu użytkownika obok ID pokazuje przybliżony miesiąc i rok utworzenia konta. Szacowane z ID za pomocą tabeli w aplikacji, więc może się różnić o kilka miesięcy. Wymaga wyświetlania wiersza ID.</string>
 </resources>

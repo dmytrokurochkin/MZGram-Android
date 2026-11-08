@@ -13554,7 +13554,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     boolean containsGift = false;
                     if (position == mzgramIdRow) {
                         // MZGram: Show ID
-                        detailCell.setTextAndValue(mzgramPeerIdText(), getString(R.string.MZGramPeerIdLabel), false);
+                        // MZGram: approximate registration date next to the ID (Settings > MZGram > Interface)
+                        String mzgramRegistered = org.telegram.messenger.mzgram.MZGramRegistrationDate.text(userId);
+                        detailCell.setTextAndValue(mzgramPeerIdText(), getString(R.string.MZGramPeerIdLabel) + (mzgramRegistered != null ? " · " + mzgramRegistered : ""), false);
                     } else if (position == birthdayRow) {
                         TLRPC.UserFull userFull = getMessagesController().getUserFull(userId);
                         if (userFull != null && userFull.birthday != null) {

@@ -559,4 +559,6 @@
     <string name="MZGramFabShapeInfo">Forma del botón redondo de la lista de chats. Se aplica al volver a abrir la lista.</string>
     <string name="MZGramAudioEnhance">Supresión de ruido en mensajes de voz</string>
     <string name="MZGramAudioEnhanceInfo">Al grabar un mensaje de voz, activa la supresión de ruido y el control automático de ganancia del propio teléfono, si los tiene. No se envía nada.</string>
+    <string name="MZGramShowRegistrationDate">Fecha aproximada de registro</string>
+    <string name="MZGramShowRegistrationDateInfo">En el perfil de un usuario, junto al ID, muestra el mes y año aproximados de creación de la cuenta. Se estima a partir del ID con una tabla guardada en la app, por lo que puede variar unos meses. Requiere mostrar la fila del ID.</string>
 </resources>

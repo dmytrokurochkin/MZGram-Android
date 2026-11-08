@@ -559,4 +559,6 @@
     <string name="MZGramFabShapeInfo">شكل الزر الدائري في قائمة الدردشات. يُطبَّق بعد إعادة فتح القائمة.</string>
     <string name="MZGramAudioEnhance">كتم الضوضاء في الرسائل الصوتية</string>
     <string name="MZGramAudioEnhanceInfo">أثناء تسجيل رسالة صوتية يفعّل كتم الضوضاء والتحكم التلقائي في الكسب المدمجين في الهاتف إن وُجدا. لا يُرسل أي شيء.</string>
+    <string name="MZGramShowRegistrationDate">تاريخ التسجيل التقريبي</string>
+    <string name="MZGramShowRegistrationDateInfo">في ملف المستخدم يعرض بجانب المعرّف الشهر والسنة التقريبيين لإنشاء الحساب. يُقدَّر من المعرّف بجدول داخل التطبيق، فقد يختلف ببضعة أشهر. يلزم عرض سطر المعرّف.</string>
 </resources>

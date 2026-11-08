@@ -163,6 +163,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
     private static final int BUTTON_FAB_SHAPE = 123;
     private static final int BUTTON_LAUNCH_FOLDER = 122;
@@ -689,6 +690,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private void fillInterface(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_SHOW_REGISTRATION_DATE, getString(R.string.MZGramShowRegistrationDate)).setChecked(MZGramConfig.showRegistrationDate));
+        items.add(UItem.asShadow(getString(R.string.MZGramShowRegistrationDateInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_CHAT_STATUS, getString(R.string.MZGramHideChatStatus)).setChecked(MZGramConfig.hideChatStatus));
         items.add(UItem.asShadow(getString(R.string.MZGramHideChatStatusInfo)));
         items.add(UItem.asCheck(BUTTON_STATIC_INPUT_ICONS, getString(R.string.MZGramStaticInputIcons)).setChecked(MZGramConfig.staticInputIcons));
@@ -1022,6 +1025,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_CHAT_STATUS) {
             MZGramConfig.toggleHideChatStatus();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideChatStatus);
+        } else if (item.id == BUTTON_SHOW_REGISTRATION_DATE) {
+            MZGramConfig.toggleShowRegistrationDate();
+            ((TextCheckCell) view).setChecked(MZGramConfig.showRegistrationDate);
         } else if (item.id == BUTTON_FOLDER_TABS_AT_BOTTOM) {
             MZGramConfig.toggleFolderTabsAtBottom();
             ((TextCheckCell) view).setChecked(MZGramConfig.folderTabsAtBottom);

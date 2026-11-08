@@ -559,4 +559,6 @@
     <string name="MZGramFabShapeInfo">Чаттар тізіміндегі дөңгелек түйменің пішіні. Тізім қайта ашылғанда қолданылады.</string>
     <string name="MZGramAudioEnhance">Дауыстық хабарлардағы шуды басу</string>
     <string name="MZGramAudioEnhanceInfo">Дауыстық хабарды жазу кезінде телефонның кірістірілген шуды басуы мен автоматты күшейту реттегішін, бар болса, қосады. Ешнәрсе жіберілмейді.</string>
+    <string name="MZGramShowRegistrationDate">Шамамен тіркелу күні</string>
+    <string name="MZGramShowRegistrationDateInfo">Пайдаланушы профилінде ID жанында аккаунт құрылған шамамен ай мен жылды көрсетеді. Қолданбадағы кесте бойынша ID-ден бағаланады, сондықтан бірнеше айға ауытқуы мүмкін. ID жолы көрсетілуі керек.</string>
 </resources>

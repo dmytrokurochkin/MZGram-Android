@@ -223,6 +223,9 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // showRegistrationDate
+    public static boolean showRegistrationDate = false;
+
     // audioEnhance
     public static boolean audioEnhance = false;
 
@@ -380,6 +383,7 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            showRegistrationDate = preferences.getBoolean("showRegistrationDate", false);
             audioEnhance = preferences.getBoolean("audioEnhance", false);
             cameraStabilization = preferences.getBoolean("cameraStabilization", false);
             pauseRoundOnLeave = preferences.getBoolean("pauseRoundOnLeave", false);
@@ -860,6 +864,11 @@ public class MZGramConfig {
     public static void toggleAudioEnhance() {
         audioEnhance = !audioEnhance;
         putBoolean("audioEnhance", audioEnhance);
+    }
+
+    public static void toggleShowRegistrationDate() {
+        showRegistrationDate = !showRegistrationDate;
+        putBoolean("showRegistrationDate", showRegistrationDate);
     }
 
     public static void toggleInlineMath() {

@@ -559,4 +559,6 @@
     <string name="MZGramFabShapeInfo">Form der runden Taste in der Chatliste. Wird nach erneutem Öffnen der Liste übernommen.</string>
     <string name="MZGramAudioEnhance">Rauschunterdrückung für Sprachnachrichten</string>
     <string name="MZGramAudioEnhanceInfo">Schaltet beim Aufnehmen einer Sprachnachricht die im Telefon vorhandene Rauschunterdrückung und automatische Pegelregelung ein. Es wird nichts versendet.</string>
+    <string name="MZGramShowRegistrationDate">Ungefähres Registrierungsdatum</string>
+    <string name="MZGramShowRegistrationDateInfo">Zeigt im Benutzerprofil neben der ID den ungefähren Monat und das Jahr der Kontoerstellung. Geschätzt aus der ID mit einer Tabelle in der App, kann also um einige Monate abweichen. Die ID-Zeile muss angezeigt werden.</string>
 </resources>

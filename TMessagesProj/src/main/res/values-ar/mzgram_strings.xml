@@ -515,4 +515,6 @@
     <string name="MZGramSectionChatsInfo">الكتابة والإرسال والبحث</string>
     <string name="MZGramFoldFancyFonts">البحث عن الأسماء بالخطوط المزخرفة</string>
     <string name="MZGramFoldFancyFontsInfo">يعامل البحث حروف خطوط Unicode المزخرفة (العريضة والمكتوبة باليد والمحاطة بدائرة وكاملة العرض والحروف المشابهة) كحروف عادية، فيجد البحث عن chat مجموعة باسم ⓒⓗⓐⓣ. لا تتغير السيريلية واليونانية وCJK وغيرها من الكتابات الحقيقية. يتغير ما يقارنه البحث فقط، وتبقى الأسماء كما هي.</string>
+    <string name="MZGramCharacterCounter">عدّاد الأحرف</string>
+    <string name="MZGramCharacterCounterInfo">يعرض عدد الأحرف المكتوبة فوق الطرف الأيمن من حقل الرسالة، محسوبة كما يحسبها Bot API. مفيد حيث يحدّ بوت من طول الرسالة. قرب حدّ Telegram نفسه يظهر عدّاد المتبقي بدلًا منه.</string>
 </resources>

@@ -201,6 +201,10 @@ public class MZGramConfig {
     // (MZGramUnicodeFold in LocaleController.getTranslitString).
     public static boolean foldFancyFontsInSearch = false;
 
+    // A live count of the typed characters above the message field
+    // (MZGramCharCounter).
+    public static boolean characterCounter = false;
+
     static {
         loadConfig(false);
     }
@@ -322,6 +326,7 @@ public class MZGramConfig {
                 preferences.edit().remove("historyMediaSizeLimitMb").remove("historyTotalMediaCapMb").apply();
             }
             foldFancyFontsInSearch = preferences.getBoolean("foldFancyFontsInSearch", false);
+            characterCounter = preferences.getBoolean("characterCounter", false);
             configLoaded = true;
         }
     }
@@ -752,5 +757,10 @@ public class MZGramConfig {
     public static void toggleFoldFancyFontsInSearch() {
         foldFancyFontsInSearch = !foldFancyFontsInSearch;
         putBoolean("foldFancyFontsInSearch", foldFancyFontsInSearch);
+    }
+
+    public static void toggleCharacterCounter() {
+        characterCounter = !characterCounter;
+        putBoolean("characterCounter", characterCounter);
     }
 }

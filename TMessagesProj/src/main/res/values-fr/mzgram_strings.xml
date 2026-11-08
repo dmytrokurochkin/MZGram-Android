@@ -515,4 +515,6 @@
     <string name="MZGramSectionChatsInfo">Saisie, envoi et recherche</string>
     <string name="MZGramFoldFancyFonts">Trouver les noms en polices décoratives</string>
     <string name="MZGramFoldFancyFontsInfo">La recherche traite les lettres des polices Unicode décoratives (gras, cursive, cerclées, pleine chasse et sosies) comme des lettres ordinaires : chat trouve un groupe nommé ⓒⓗⓐⓣ. Le cyrillique, le grec, le CJK et les autres écritures réelles ne changent pas. Seule la comparaison de la recherche change, les noms restent identiques.</string>
+    <string name="MZGramCharacterCounter">Compteur de caractères</string>
+    <string name="MZGramCharacterCounterInfo">Affiche le nombre de caractères saisis au-dessus du bord droit du champ de message, comptés comme le fait la Bot API. Utile là où un bot limite la longueur d’un message. Près de la limite de Telegram, son compteur du reste s’affiche à la place.</string>
 </resources>

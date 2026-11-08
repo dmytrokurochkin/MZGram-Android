@@ -515,4 +515,6 @@
     <string name="MZGramSectionChatsInfo">Yazma, gönderme ve arama</string>
     <string name="MZGramFoldFancyFonts">Süslü yazı tipindeki adları bul</string>
     <string name="MZGramFoldFancyFontsInfo">Arama, süslü Unicode yazı tiplerindeki harfleri (kalın, el yazısı, daire içinde, tam genişlik ve benzer harfler) normal harf sayar, böylece chat yazmak ⓒⓗⓐⓣ adlı grubu bulur. Kiril, Yunan, CJK ve diğer gerçek yazılar değişmez. Yalnızca aramanın karşılaştırdığı değişir, adlar aynı görünür.</string>
+    <string name="MZGramCharacterCounter">Karakter sayacı</string>
+    <string name="MZGramCharacterCounterInfo">Mesaj alanının sağ ucunun üstünde kaç karakter yazıldığını Bot API\'nin saydığı gibi gösterir. Bir botun mesaj uzunluğunu sınırladığı yerlerde işe yarar. Telegram\'ın kendi sınırına yaklaşınca yerine kalan karakter sayacı görünür.</string>
 </resources>

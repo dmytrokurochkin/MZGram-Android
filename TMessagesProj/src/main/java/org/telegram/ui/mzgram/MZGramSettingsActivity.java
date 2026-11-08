@@ -158,6 +158,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FORWARD_DELETED_AS_COPY = 105;
     // messages (topic Chats)
     private static final int BUTTON_FOLD_FANCY_FONTS = 106;
+    private static final int BUTTON_CHARACTER_COUNTER = 107;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -575,6 +576,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Typing, sending and search in chats (domain messages)
     private void fillChats(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_CHARACTER_COUNTER, getString(R.string.MZGramCharacterCounter)).setChecked(MZGramConfig.characterCounter));
+        items.add(UItem.asShadow(getString(R.string.MZGramCharacterCounterInfo)));
         items.add(UItem.asCheck(BUTTON_FOLD_FANCY_FONTS, getString(R.string.MZGramFoldFancyFonts)).setChecked(MZGramConfig.foldFancyFontsInSearch));
         items.add(UItem.asShadow(getString(R.string.MZGramFoldFancyFontsInfo)));
     }
@@ -715,6 +718,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (item.id >= SECTION_ROW_ID && item.id < SECTION_ROW_ID + SECTIONS_COUNT) {
             presentFragment(new MZGramSettingsActivity(item.id - SECTION_ROW_ID));
+        } else if (item.id == BUTTON_CHARACTER_COUNTER) {
+            MZGramConfig.toggleCharacterCounter();
+            ((TextCheckCell) view).setChecked(MZGramConfig.characterCounter);
         } else if (item.id == BUTTON_FOLD_FANCY_FONTS) {
             MZGramConfig.toggleFoldFancyFontsInSearch();
             ((TextCheckCell) view).setChecked(MZGramConfig.foldFancyFontsInSearch);

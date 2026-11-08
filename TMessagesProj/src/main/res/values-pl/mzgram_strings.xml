@@ -515,4 +515,6 @@
     <string name="MZGramSectionChatsInfo">Pisanie, wysyłanie i wyszukiwanie</string>
     <string name="MZGramFoldFancyFonts">Szukaj nazw w ozdobnych czcionkach</string>
     <string name="MZGramFoldFancyFontsInfo">Wyszukiwanie traktuje litery z ozdobnych czcionek Unicode (pogrubione, pisane, w kółkach, pełnej szerokości i podobne) jak zwykłe, więc chat znajduje grupę ⓒⓗⓐⓣ. Cyrylica, greka, CJK i inne prawdziwe pisma się nie zmieniają. Zmienia się tylko to, co porównuje wyszukiwanie, nazwy wyglądają tak samo.</string>
+    <string name="MZGramCharacterCounter">Licznik znaków</string>
+    <string name="MZGramCharacterCounterInfo">Pokazuje nad prawym końcem pola wiadomości, ile znaków wpisano, licząc tak jak Bot API. Przydatne tam, gdzie bot ogranicza długość wiadomości. Blisko własnego limitu Telegrama zamiast niego widać licznik pozostałych znaków.</string>
 </resources>

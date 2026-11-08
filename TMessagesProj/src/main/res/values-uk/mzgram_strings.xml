@@ -516,4 +516,6 @@
     <string name="MZGramSectionChatsInfo">Набір, надсилання й пошук</string>
     <string name="MZGramFoldFancyFonts">Шукати імена в декоративних шрифтах</string>
     <string name="MZGramFoldFancyFontsInfo">Пошук сприймає літери декоративних Unicode-шрифтів (жирні, рукописні, в колах, широкі й схожі літери) як звичайні, тож запит chat знаходить групу ⓒⓗⓐⓣ. Кирилиця, грецька, CJK та інші справжні писемності не змінюються. Змінюється лише те, що порівнює пошук, імена виглядають так само.</string>
+    <string name="MZGramCharacterCounter">Лічильник символів</string>
+    <string name="MZGramCharacterCounterInfo">Показує, скільки символів набрано, над правим краєм поля повідомлення, рахуючи так, як рахує Bot API. Корисно там, де бот обмежує довжину повідомлення. Біля власного ліміту Telegram замість нього видно лічильник залишку.</string>
 </resources>

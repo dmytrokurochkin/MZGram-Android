@@ -515,4 +515,6 @@
     <string name="MZGramSectionChatsInfo">Eingabe, Senden und Suche</string>
     <string name="MZGramFoldFancyFonts">Namen in Zierschriften finden</string>
     <string name="MZGramFoldFancyFontsInfo">Die Suche behandelt Buchstaben aus Unicode-Zierschriften (fett, Schreibschrift, eingekreist, vollbreit und ähnlich aussehende Zeichen) wie normale, sodass chat eine Gruppe namens ⓒⓗⓐⓣ findet. Kyrillisch, Griechisch, CJK und andere echte Schriften bleiben unverändert. Nur der Suchvergleich ändert sich, Namen sehen gleich aus.</string>
+    <string name="MZGramCharacterCounter">Zeichenzähler</string>
+    <string name="MZGramCharacterCounterInfo">Zeigt über dem rechten Ende des Nachrichtenfelds, wie viele Zeichen getippt sind, gezählt wie in der Bot API. Nützlich, wo ein Bot die Länge einer Nachricht begrenzt. Nahe an Telegrams eigenem Limit erscheint stattdessen dessen Restzähler.</string>
 </resources>

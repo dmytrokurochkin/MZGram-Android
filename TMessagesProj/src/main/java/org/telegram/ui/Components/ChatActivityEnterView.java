@@ -6040,6 +6040,8 @@ public class ChatActivityEnterView extends FrameLayout implements
                         }
                     });
                 }
+                // MZGram: live character counter (Settings > MZGram > Chats)
+                org.telegram.ui.mzgram.MZGramCharCounter.update(ChatActivityEnterView.this, resourcesProvider, codePointCount, currentLimit > 0 && currentLimit - codePointCount <= (isLiveComment ? 5 : 100));
 
                 if (doneButtonEnabled != doneButtonEnabledLocal && (doneButton != null)) {
                     doneButtonEnabled = doneButtonEnabledLocal;

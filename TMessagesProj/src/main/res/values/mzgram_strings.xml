@@ -515,4 +515,6 @@
     <string name="MZGramSectionChatsInfo">Typing, sending and search</string>
     <string name="MZGramFoldFancyFonts">Find names in fancy fonts</string>
     <string name="MZGramFoldFancyFontsInfo">Search treats letters from decorated Unicode fonts (bold, script, circled, fullwidth and lookalike letters) as plain ones, so typing chat finds a group named ⓒⓗⓐⓣ. Cyrillic, Greek, CJK and other real scripts are not changed. Only what search compares changes, names look the same.</string>
+    <string name="MZGramCharacterCounter">Character counter</string>
+    <string name="MZGramCharacterCounterInfo">Shows how many characters are typed, above the right end of the message field, counted as the Bot API counts them. Useful where a bot limits the length of a message. Near Telegram\'s own limit its counter of what is left shows instead.</string>
 </resources>

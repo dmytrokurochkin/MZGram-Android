@@ -542,4 +542,6 @@
     <string name="MZGramPanguInfo">Під час набору додає пробіл між китайськими, японськими чи корейськими символами та латинськими літерами або цифрами.</string>
     <string name="MZGramStaticInputIcons">Статичні іконки поля введення</string>
     <string name="MZGramStaticInputIconsInfo">Кнопки мікрофона, камери та емодзі змінюються без анімації. Менше навантаження на слабких процесорах.</string>
+    <string name="MZGramHideChatStatus">Сховати статус у шапці чату</string>
+    <string name="MZGramHideChatStatusInfo">Ховає рядок під назвою чату: час візиту, онлайн, кількість учасників або підписників. Індикатор «друкує» лишається.</string>
 </resources>

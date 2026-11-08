@@ -541,4 +541,6 @@
     <string name="MZGramPanguInfo">Теру кезінде қытай, жапон немесе корей таңбалары мен латын әріптері не сандар арасына бос орын қосады.</string>
     <string name="MZGramStaticInputIcons">Енгізу өрісінің статикалық белгішелері</string>
     <string name="MZGramStaticInputIconsInfo">Микрофон, камера және эмодзи түймелері анимациясыз ауысады. Әлсіз процессорларға жеңіл.</string>
+    <string name="MZGramHideChatStatus">Чат тақырыбындағы күйді жасыру</string>
+    <string name="MZGramHideChatStatusInfo">Чат атауының астындағы жолды жасырады: соңғы кіру, онлайн, мүшелер немесе жазылушылар саны. «Жазып жатыр» көрсеткіші қалады.</string>
 </resources>

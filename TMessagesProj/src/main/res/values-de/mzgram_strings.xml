@@ -541,4 +541,6 @@
     <string name="MZGramPanguInfo">Fügt beim Tippen ein Leerzeichen zwischen chinesischen, japanischen oder koreanischen Zeichen und lateinischen Buchstaben oder Ziffern ein.</string>
     <string name="MZGramStaticInputIcons">Statische Symbole im Eingabefeld</string>
     <string name="MZGramStaticInputIconsInfo">Mikrofon-, Kamera- und Emoji-Tasten wechseln ohne Animation. Schont schwache Prozessoren.</string>
+    <string name="MZGramHideChatStatus">Status in der Chat-Kopfzeile ausblenden</string>
+    <string name="MZGramHideChatStatusInfo">Blendet die Zeile unter dem Chatnamen aus: zuletzt online, online, Anzahl der Mitglieder oder Abonnenten. Die Anzeige „schreibt“ bleibt.</string>
 </resources>

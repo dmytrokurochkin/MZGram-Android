@@ -541,4 +541,6 @@
     <string name="MZGramPanguInfo">Падчас набору дадае прабел паміж кітайскімі, японскімі ці карэйскімі сімваламі і лацінскімі літарамі або лічбамі.</string>
     <string name="MZGramStaticInputIcons">Статычныя іконкі поля ўводу</string>
     <string name="MZGramStaticInputIconsInfo">Кнопкі мікрафона, камеры і эмодзі змяняюцца без анімацыі. Меншая нагрузка на слабых працэсарах.</string>
+    <string name="MZGramHideChatStatus">Схаваць статус у шапцы чата</string>
+    <string name="MZGramHideChatStatusInfo">Хавае радок пад назвай чата: час візіту, анлайн, колькасць удзельнікаў або падпісчыкаў. Індыкатар «друкуе» застаецца.</string>
 </resources>

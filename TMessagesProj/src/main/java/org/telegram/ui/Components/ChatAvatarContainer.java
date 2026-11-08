@@ -1282,6 +1282,10 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
             useOnlineColor = true;
             setTypingAnimation(true);
         }
+        // MZGram: hide the status line of the chat header, but keep "typing" (Settings > MZGram > Interface)
+        if (org.telegram.messenger.mzgram.MZGramConfig.hideChatStatus && newSubtitle != printString) {
+            newSubtitle = "";
+        }
         lastSubtitleColorKey = useOnlineColor ? Theme.key_chat_status : Theme.key_actionBarDefaultSubtitle;
         if (lastSubtitle == null) {
             if (subtitleTextView != null) {

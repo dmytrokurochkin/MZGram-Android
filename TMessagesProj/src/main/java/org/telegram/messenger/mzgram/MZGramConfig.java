@@ -223,6 +223,9 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // audioEnhance
+    public static boolean audioEnhance = false;
+
     // cameraStabilization
     public static boolean cameraStabilization = false;
 
@@ -377,6 +380,7 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            audioEnhance = preferences.getBoolean("audioEnhance", false);
             cameraStabilization = preferences.getBoolean("cameraStabilization", false);
             pauseRoundOnLeave = preferences.getBoolean("pauseRoundOnLeave", false);
             alwaysSendHd = preferences.getBoolean("alwaysSendHd", false);
@@ -851,6 +855,11 @@ public class MZGramConfig {
     public static void setFabShape(int value) {
         fabShape = value;
         preferences().edit().putInt("fabShape", value).apply();
+    }
+
+    public static void toggleAudioEnhance() {
+        audioEnhance = !audioEnhance;
+        putBoolean("audioEnhance", audioEnhance);
     }
 
     public static void toggleInlineMath() {

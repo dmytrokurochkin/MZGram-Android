@@ -557,4 +557,6 @@
     <string name="MZGramFabShapeSquare">Yuvarlatılmış kare</string>
     <string name="MZGramFabShapeSquircle">Squircle</string>
     <string name="MZGramFabShapeInfo">Sohbet listesindeki yuvarlak düğmenin şekli. Liste yeniden açıldığında uygulanır.</string>
+    <string name="MZGramAudioEnhance">Sesli mesajlarda gürültü bastırma</string>
+    <string name="MZGramAudioEnhanceInfo">Sesli mesaj kaydederken telefonun kendi gürültü bastırma ve otomatik kazanç kontrolünü, varsa, açar. Hiçbir şey gönderilmez.</string>
 </resources>

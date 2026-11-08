@@ -163,6 +163,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_AUDIO_ENHANCE = 124;
     private static final int BUTTON_FAB_SHAPE = 123;
     private static final int BUTTON_LAUNCH_FOLDER = 122;
     private static final int BUTTON_CAMERA_STABILIZATION = 121;
@@ -668,6 +669,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private void fillMediaAndCalls(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_AUDIO_ENHANCE, getString(R.string.MZGramAudioEnhance)).setChecked(MZGramConfig.audioEnhance));
+        items.add(UItem.asShadow(getString(R.string.MZGramAudioEnhanceInfo)));
         items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
         items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
@@ -804,6 +807,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CAMERA_STABILIZATION) {
             MZGramConfig.toggleCameraStabilization();
             ((TextCheckCell) view).setChecked(MZGramConfig.cameraStabilization);
+        } else if (item.id == BUTTON_AUDIO_ENHANCE) {
+            MZGramConfig.toggleAudioEnhance();
+            ((TextCheckCell) view).setChecked(MZGramConfig.audioEnhance);
         } else if (item.id == BUTTON_COPY_PLAIN) {
             MZGramConfig.toggleCopyPlainText();
             ((TextCheckCell) view).setChecked(MZGramConfig.copyPlainText);

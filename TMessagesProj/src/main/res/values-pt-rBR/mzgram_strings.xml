@@ -557,4 +557,6 @@
     <string name="MZGramFabShapeSquare">Quadrado arredondado</string>
     <string name="MZGramFabShapeSquircle">Squircle</string>
     <string name="MZGramFabShapeInfo">Formato do botão redondo na lista de chats. Vale após reabrir a lista.</string>
+    <string name="MZGramAudioEnhance">Supressão de ruído em mensagens de voz</string>
+    <string name="MZGramAudioEnhanceInfo">Ao gravar uma mensagem de voz, ativa a supressão de ruído e o controle automático de ganho do próprio telefone, se houver. Nada é enviado.</string>
 </resources>

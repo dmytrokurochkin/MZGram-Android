@@ -557,4 +557,6 @@
     <string name="MZGramFabShapeSquare">Дөңгелектелген төртбұрыш</string>
     <string name="MZGramFabShapeSquircle">Сквиркл</string>
     <string name="MZGramFabShapeInfo">Чаттар тізіміндегі дөңгелек түйменің пішіні. Тізім қайта ашылғанда қолданылады.</string>
+    <string name="MZGramAudioEnhance">Дауыстық хабарлардағы шуды басу</string>
+    <string name="MZGramAudioEnhanceInfo">Дауыстық хабарды жазу кезінде телефонның кірістірілген шуды басуы мен автоматты күшейту реттегішін, бар болса, қосады. Ешнәрсе жіберілмейді.</string>
 </resources>

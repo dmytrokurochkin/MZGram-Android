@@ -557,4 +557,6 @@
     <string name="MZGramFabShapeSquare">Carré arrondi</string>
     <string name="MZGramFabShapeSquircle">Squircle</string>
     <string name="MZGramFabShapeInfo">Forme du bouton rond de la liste des chats. S’applique à la réouverture de la liste.</string>
+    <string name="MZGramAudioEnhance">Réduction du bruit pour les messages vocaux</string>
+    <string name="MZGramAudioEnhanceInfo">Pendant l’enregistrement d’un message vocal, active la réduction de bruit et le contrôle automatique du gain du téléphone, s’il en dispose. Rien n’est envoyé.</string>
 </resources>

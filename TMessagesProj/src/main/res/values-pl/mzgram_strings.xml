@@ -557,4 +557,6 @@
     <string name="MZGramFabShapeSquare">Zaokrąglony kwadrat</string>
     <string name="MZGramFabShapeSquircle">Squircle</string>
     <string name="MZGramFabShapeInfo">Kształt okrągłego przycisku na liście czatów. Zastosuje się po ponownym otwarciu listy.</string>
+    <string name="MZGramAudioEnhance">Redukcja szumów w wiadomościach głosowych</string>
+    <string name="MZGramAudioEnhanceInfo">Podczas nagrywania wiadomości głosowej włącza wbudowaną w telefon redukcję szumów i automatyczną regulację głośności, jeśli są dostępne. Nic nie jest wysyłane.</string>
 </resources>

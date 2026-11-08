@@ -557,4 +557,6 @@
     <string name="MZGramFabShapeSquare">Rounded square</string>
     <string name="MZGramFabShapeSquircle">Squircle</string>
     <string name="MZGramFabShapeInfo">Shape of the round button on the chat list. Applies after the list is reopened.</string>
+    <string name="MZGramAudioEnhance">Noise suppression for voice messages</string>
+    <string name="MZGramAudioEnhanceInfo">While recording a voice message, turns on the phone’s own noise suppressor and automatic gain control, if it has them. Nothing is sent anywhere.</string>
 </resources>

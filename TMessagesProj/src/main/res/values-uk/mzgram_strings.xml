@@ -558,4 +558,6 @@
     <string name="MZGramFabShapeSquare">Квадрат із закругленими кутами</string>
     <string name="MZGramFabShapeSquircle">Сквиркл</string>
     <string name="MZGramFabShapeInfo">Форма круглої кнопки у списку чатів. Застосовується після повторного відкриття списку.</string>
+    <string name="MZGramAudioEnhance">Шумозаглушення для голосових повідомлень</string>
+    <string name="MZGramAudioEnhanceInfo">Під час запису голосового повідомлення вмикає вбудоване в телефон шумозаглушення та автоматичне регулювання гучності, якщо вони є. Нічого нікуди не надсилається.</string>
 </resources>

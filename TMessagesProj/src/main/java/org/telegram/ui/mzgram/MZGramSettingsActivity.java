@@ -146,7 +146,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
         return -1;
     }
 
-    // The topics, in the order the main page lists them.
+    // The topics. The id is the index in SECTION_TITLES, SECTION_INFOS,
+    // SECTION_ICONS and SECTION_COLORS; MAIN_PAGE_ORDER says where the main
+    // page lists each one.
+    //
+    // A new topic (CHATS, NAVIGATION, APPEARANCE, SYSTEM, PLUGINS come with
+    // the domains that fill them): the next id, SECTIONS_COUNT + 1, a title
+    // and an info string (MZGramSection<Name>, MZGramSection<Name>Info, 12
+    // languages), an icon and a color appended to the four arrays, its place
+    // in MAIN_PAGE_ORDER, a case in fillItems with a fill<Name> method. Only
+    // together with its first switch: a topic is never empty.
     public static final int SECTION_MAIN = -1;
     public static final int SECTION_ARCHIVE = 0;
     public static final int SECTION_GHOST_MODE = 1;
@@ -157,8 +166,20 @@ public class MZGramSettingsActivity extends UniversalFragment {
     public static final int SECTION_AI = 6;
     public static final int SECTION_OTHER = 7;
     public static final int SECTIONS_COUNT = 8;
-    // Row ids of the topics on the main page; clear of the BUTTON_ ids.
-    public static final int SECTION_ROW_ID = 100;
+    // Row ids of the topics on the main page; clear of the BUTTON_ ids,
+    // which stay below it.
+    public static final int SECTION_ROW_ID = 1000;
+    // "Other" stays last: new topics go before it.
+    private static final int[] MAIN_PAGE_ORDER = {
+            SECTION_ARCHIVE,
+            SECTION_GHOST_MODE,
+            SECTION_MESSAGE_MENU,
+            SECTION_MEDIA_AND_CALLS,
+            SECTION_INTERFACE,
+            SECTION_ADS_AND_FILTERS,
+            SECTION_AI,
+            SECTION_OTHER,
+    };
 
     private static final int[] SECTION_TITLES = {
             R.string.MZGramSectionArchive,
@@ -236,7 +257,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // The main page: one row per topic, with its icon and what it holds.
     private void fillMain(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
-        for (int i = 0; i < SECTIONS_COUNT; i++) {
+        for (int i : MAIN_PAGE_ORDER) {
             items.add(SettingsActivity.SettingCell.Factory.of(SECTION_ROW_ID + i, SECTION_COLORS[i].top, SECTION_COLORS[i].bottom, SECTION_ICONS[i], getString(SECTION_TITLES[i]), getString(SECTION_INFOS[i])));
         }
         // "Features of this client" is only the subtitle of the MZGram row in Settings

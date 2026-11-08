@@ -37,12 +37,20 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     // 5: received, other people's messages as soon as they come (level 1
     // of the archive), so a deletion finds them even when Telegram's own
     // cache has no copy.
+    // A new table or column: DB_VERSION + 1, create it in onCreate (a
+    // create<Name>Table method with CREATE TABLE IF NOT EXISTS, called from
+    // onCreate and from onUpgrade's "if (oldVersion < N)"; a new column is
+    // "ALTER TABLE ... ADD COLUMN ... DEFAULT ..." in onUpgrade only, plus the
+    // column in onCreate). Archive data also goes into EXPORTED_TABLES and
+    // wipeAll(); a table not in EXPORTED_TABLES stays out of export/import.
     private static final int DB_VERSION = 5;
     private static final String TABLE_READS = "outbox_reads";
     private static final String TABLE_RECEIVED = "received";
     private static final String TABLE_LAST_SEEN = "last_seen";
 
     private static final String TABLE = "history_message";
+    // What export and import carry; received is only the level 1 cache.
+    private static final String[] EXPORTED_TABLES = {TABLE, TABLE_READS, TABLE_LAST_SEEN};
 
     private static volatile MZGramHistoryDatabase instance;
 
@@ -128,7 +136,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     }
 
     private static void copyRows(SQLiteDatabase from, SQLiteDatabase to) {
-        for (String table : new String[]{TABLE, TABLE_READS, TABLE_LAST_SEEN}) {
+        for (String table : EXPORTED_TABLES) {
             to.delete(table, null, null);
             List<String> columns = columns(to, table);
             columns.retainAll(columns(from, table));

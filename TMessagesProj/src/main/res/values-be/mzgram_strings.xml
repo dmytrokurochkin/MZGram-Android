@@ -450,4 +450,7 @@
     <string name="MZGramOwnLastSeenValue">Іншыя бачаць</string>
     <string name="MZGramOwnLastSeenUnknown">пакуль невядома</string>
     <string name="MZGramOwnLastSeenInfo">Telegram не паказвае вам ваш уласны апошні візіт. Гэтая прылада запамінае, калі апошні раз паведаміла Telegram, што вы ў сетцы ці выйшлі, і паказвае гэта тут для гэтага акаўнта. Тыя, ад каго гэта хаваюць вашы налады прыватнасці, бачаць «нядаўна».</string>
+    <string name="MZGramKeepGroupReads">Захоўваць, хто прачытаў мае паведамленні ў групах</string>
+    <string name="MZGramKeepGroupReadsInfo">Telegram паказвае, хто прачытаў ваша паведамленне, толькі ў малых групах і толькі каля тыдня. Кожны раз, калі меню паведамлення паказвае гэты спіс, ён захоўваецца на гэтай прыладзе, і меню паведамлення &gt; Падрабязнасці паказвае чытачоў і час і пазней.</string>
+    <string name="MZGramDetailsReadBy">Прачыталі</string>
 </resources>

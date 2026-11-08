@@ -450,4 +450,7 @@
     <string name="MZGramOwnLastSeenValue">Inni widzą</string>
     <string name="MZGramOwnLastSeenUnknown">jeszcze nieznane</string>
     <string name="MZGramOwnLastSeenInfo">Telegram nie pokazuje ci twojej własnej ostatniej aktywności. To urządzenie zapamiętuje, kiedy ostatnio powiedziało Telegramowi, że jesteś online lub offline, i pokazuje to tutaj dla tego konta. Ci, przed którymi ukrywają ją twoje ustawienia prywatności, widzą „ostatnio”.</string>
+    <string name="MZGramKeepGroupReads">Zapisuj, kto przeczytał moje wiadomości w grupach</string>
+    <string name="MZGramKeepGroupReadsInfo">Telegram pokazuje, kto przeczytał twoją wiadomość, tylko w małych grupach i tylko przez około tydzień. Za każdym razem, gdy menu wiadomości pokazuje tę listę, jest ona zapisywana na tym urządzeniu, a menu wiadomości &gt; Szczegóły pokazuje czytelników i czas także później.</string>
+    <string name="MZGramDetailsReadBy">Przeczytali</string>
 </resources>

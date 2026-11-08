@@ -450,4 +450,7 @@
     <string name="MZGramOwnLastSeenValue">Diğerleri görür</string>
     <string name="MZGramOwnLastSeenUnknown">henüz bilinmiyor</string>
     <string name="MZGramOwnLastSeenInfo">Telegram size kendi son görülmenizi göstermez. Bu cihaz Telegram\'a en son ne zaman çevrimiçi veya çevrimdışı olduğunuzu bildirdiğini kaydeder ve bu hesap için burada gösterir. Gizlilik ayarlarınızın gizlediği kişiler «yakın zamanda» görür.</string>
+    <string name="MZGramKeepGroupReads">Gruplarda mesajlarımı kimin okuduğunu sakla</string>
+    <string name="MZGramKeepGroupReadsInfo">Telegram mesajınızı kimin okuduğunu yalnızca küçük gruplarda ve yalnızca yaklaşık bir hafta boyunca gösterir. Mesaj menüsü bu listeyi her gösterdiğinde liste bu cihazda saklanır ve mesaj menüsü &gt; Ayrıntılar okuyanları ve zamanları sonra da gösterir.</string>
+    <string name="MZGramDetailsReadBy">Okuyanlar</string>
 </resources>

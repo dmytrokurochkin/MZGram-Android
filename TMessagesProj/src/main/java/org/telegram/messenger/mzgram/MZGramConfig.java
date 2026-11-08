@@ -117,6 +117,9 @@ public class MZGramConfig {
     // The owner's own last seen, as others see it, noted on this device
     // (MZGramOwnLastSeen).
     public static boolean ownLastSeen = false;
+    // Who read own messages in groups is kept for message Details
+    // (MZGramGroupReads).
+    public static boolean keepGroupReads = false;
 
     // Settings > MZGram > Interface > Show ID (MZGramPeerId): hidden by
     // default, as in Telegram API or as in Bot API.
@@ -232,6 +235,7 @@ public class MZGramConfig {
             disableCloudDrafts = preferences.getBoolean("disableCloudDrafts", false);
             lockScreenVoiceProtection = preferences.getBoolean("lockScreenVoiceProtection", false);
             ownLastSeen = preferences.getBoolean("ownLastSeen", false);
+            keepGroupReads = preferences.getBoolean("keepGroupReads", false);
             // The removed "hide own online status" and "hide own phone
             // number" switches: Telegram's own privacy settings do this.
             if (preferences.contains("hideOwnOnlineStatus") || preferences.contains("savedLastSeenPrivacyState") || preferences.contains("hideOwnPhoneNumber")) {
@@ -540,6 +544,11 @@ public class MZGramConfig {
     public static void toggleOwnLastSeen() {
         ownLastSeen = !ownLastSeen;
         putBoolean("ownLastSeen", ownLastSeen);
+    }
+
+    public static void toggleKeepGroupReads() {
+        keepGroupReads = !keepGroupReads;
+        putBoolean("keepGroupReads", keepGroupReads);
     }
 
     public static void toggleGhostMode() {

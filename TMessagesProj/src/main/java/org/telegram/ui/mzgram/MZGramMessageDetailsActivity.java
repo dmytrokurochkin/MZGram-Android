@@ -75,6 +75,7 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
     private static final int ROW_LANGUAGE = 20;
     private static final int ROW_LINK_OR_EMOJI_ONLY = 21;
     private static final int ROW_READ = 22;
+    private static final int ROW_READ_BY = 23;
 
     private final MessageObject messageObject;
     private final boolean noforwards;
@@ -97,6 +98,8 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
     private int readAt;
     private boolean readFromServer;
     private boolean readLoaded;
+    // Who read it in a group, as kept by MZGramGroupReads; null until loaded.
+    private java.util.List<long[]> groupReaders;
 
     public MZGramMessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
@@ -184,6 +187,12 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
                 updateList();
             });
         }
+        if (groupReadsShown()) {
+            org.telegram.messenger.mzgram.MZGramGroupReads.load(currentAccount, messageObject.getDialogId(), messageObject.getId(), readers -> {
+                groupReaders = readers;
+                updateList();
+            });
+        }
         final String plainText = getMessagePlainText(messageObject);
         if (!TextUtils.isEmpty(plainText)) {
             language = "…";
@@ -239,6 +248,9 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
         }
         if (readShown()) {
             items.add(DetailFactory.of(ROW_READ, getString(R.string.MZGramDetailsRead), readText()));
+        }
+        if (groupReadsShown() && groupReaders != null && !groupReaders.isEmpty()) {
+            items.add(DetailFactory.of(ROW_READ_BY, getString(R.string.MZGramDetailsReadBy), groupReadersText()));
         }
         if (messageObject.isForwarded() && owner.fwd_from != null) {
             final StringBuilder builder = new StringBuilder();
@@ -306,6 +318,26 @@ public class MZGramMessageDetailsActivity extends UniversalFragment {
     private boolean readShown() {
         return messageObject.isOut() && !messageObject.isSending() && !messageObject.isSendError()
                 && !messageObject.scheduled && !messageObject.isUnread() && messageObject.getId() > 0;
+    }
+
+    private boolean groupReadsShown() {
+        return org.telegram.messenger.mzgram.MZGramConfig.keepGroupReads && readShown() && toChat != null && !toChat.broadcast;
+    }
+
+    // One reader per line: the name and, when the server gave it, the time.
+    private String groupReadersText() {
+        final StringBuilder builder = new StringBuilder();
+        for (long[] reader : groupReaders) {
+            if (builder.length() > 0) {
+                builder.append('\n');
+            }
+            final TLRPC.User user = getMessagesController().getUser(reader[0]);
+            builder.append(user != null ? UserObject.getUserName(user) : String.valueOf(reader[0]));
+            if (reader[1] > 0) {
+                builder.append(" \u2014 ").append(formatTime((int) reader[1]));
+            }
+        }
+        return builder.toString();
     }
 
     private String readText() {

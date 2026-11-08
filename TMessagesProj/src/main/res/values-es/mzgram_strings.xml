@@ -450,4 +450,7 @@
     <string name="MZGramOwnLastSeenValue">Los demás ven</string>
     <string name="MZGramOwnLastSeenUnknown">aún desconocido</string>
     <string name="MZGramOwnLastSeenInfo">Telegram no te muestra tu propia última conexión. Este dispositivo anota cuándo le dijo por última vez a Telegram que estabas en línea o desconectado y lo muestra aquí para esta cuenta. Quienes no pueden verla por tu privacidad ven «recientemente».</string>
+    <string name="MZGramKeepGroupReads">Guardar quién leyó mis mensajes en grupos</string>
+    <string name="MZGramKeepGroupReadsInfo">Telegram muestra quién leyó tu mensaje solo en grupos pequeños y solo durante una semana aproximadamente. Cada vez que el menú del mensaje muestra esa lista, se guarda en este dispositivo, y menú del mensaje &gt; Detalles muestra los lectores y las horas también después.</string>
+    <string name="MZGramDetailsReadBy">Leído por</string>
 </resources>

@@ -450,4 +450,7 @@
     <string name="MZGramOwnLastSeenValue">Басқалар көреді</string>
     <string name="MZGramOwnLastSeenUnknown">әзірге белгісіз</string>
     <string name="MZGramOwnLastSeenInfo">Telegram сізге өзіңіздің соңғы кіруіңізді көрсетпейді. Бұл құрылғы Telegram-ға соңғы рет қашан желіде немесе желіден тыс екеніңізді хабарлағанын есте сақтап, осы аккаунт үшін осында көрсетеді. Құпиялылық баптауларыңыз жасыратындар «жақында» деп көреді.</string>
+    <string name="MZGramKeepGroupReads">Топтарда хабарларымды кім оқығанын сақтау</string>
+    <string name="MZGramKeepGroupReadsInfo">Telegram хабарыңызды кім оқығанын тек шағын топтарда және тек бір аптадай көрсетеді. Хабар мәзірі бұл тізімді көрсеткен сайын ол осы құрылғыда сақталады, ал хабар мәзірі &gt; Толығырақ оқырмандар мен уақытты кейін де көрсетеді.</string>
+    <string name="MZGramDetailsReadBy">Оқығандар</string>
 </resources>

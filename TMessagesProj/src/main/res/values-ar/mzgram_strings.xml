@@ -450,4 +450,7 @@
     <string name="MZGramOwnLastSeenValue">يرى الآخرون</string>
     <string name="MZGramOwnLastSeenUnknown">غير معروف بعد</string>
     <string name="MZGramOwnLastSeenInfo">لا يعرض لك تيليجرام آخر ظهور لك. يسجّل هذا الجهاز آخر مرة أخبر فيها تيليجرام بأنك متصل أو غير متصل ويعرضه هنا لهذا الحساب. من تخفيه عنهم إعدادات الخصوصية يرون «مؤخرًا».</string>
+    <string name="MZGramKeepGroupReads">حفظ من قرأ رسائلي في المجموعات</string>
+    <string name="MZGramKeepGroupReadsInfo">يعرض تيليجرام من قرأ رسالتك فقط في المجموعات الصغيرة ولمدة أسبوع تقريبًا. في كل مرة تعرض قائمة الرسالة هذه القائمة تُحفظ على هذا الجهاز، وتعرض قائمة الرسالة &gt; التفاصيل القرّاء والأوقات لاحقًا أيضًا.</string>
+    <string name="MZGramDetailsReadBy">قرأها</string>
 </resources>

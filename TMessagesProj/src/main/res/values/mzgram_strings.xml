@@ -450,4 +450,7 @@
     <string name="MZGramOwnLastSeenValue">Others see</string>
     <string name="MZGramOwnLastSeenUnknown">not known yet</string>
     <string name="MZGramOwnLastSeenInfo">Telegram does not show you your own last seen. This device notes when it last told Telegram you are online or offline and shows it here, for this account. People your privacy settings hide it from see \"recently\" instead.</string>
+    <string name="MZGramKeepGroupReads">Keep who read my messages in groups</string>
+    <string name="MZGramKeepGroupReadsInfo">Telegram lists who read your message only in small groups and only for about a week. Each time the message menu shows that list, it is kept on this device, and message menu &gt; Details shows the readers and times later too.</string>
+    <string name="MZGramDetailsReadBy">Read by</string>
 </resources>

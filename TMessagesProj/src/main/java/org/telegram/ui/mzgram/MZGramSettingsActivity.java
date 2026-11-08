@@ -136,6 +136,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_GHOST_MODE_EXCLUSIONS = 90;
     private static final int BUTTON_OWN_LAST_SEEN = 91;
     private static final int BUTTON_OWN_LAST_SEEN_VALUE = 92;
+    private static final int BUTTON_KEEP_GROUP_READS = 93;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -512,6 +513,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(BUTTON_OWN_LAST_SEEN_VALUE, getString(R.string.MZGramOwnLastSeenValue), org.telegram.messenger.mzgram.MZGramOwnLastSeen.describe(currentAccount, getConnectionsManager().getCurrentTime())));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramOwnLastSeenInfo)));
+        items.add(UItem.asCheck(BUTTON_KEEP_GROUP_READS, getString(R.string.MZGramKeepGroupReads)).setChecked(MZGramConfig.keepGroupReads));
+        items.add(UItem.asShadow(getString(R.string.MZGramKeepGroupReadsInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_READ_STICKERS, getString(R.string.MZGramDisableReadStickers)).setChecked(MZGramConfig.disableReadStickers));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableReadStickersInfo)));
     }
@@ -675,6 +678,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             if (listView != null && listView.adapter != null) {
                 listView.adapter.update(true);
             }
+        } else if (item.id == BUTTON_KEEP_GROUP_READS) {
+            MZGramConfig.toggleKeepGroupReads();
+            ((TextCheckCell) view).setChecked(MZGramConfig.keepGroupReads);
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);

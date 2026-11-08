@@ -152,6 +152,8 @@ public class MessageSeenView extends FrameLayout {
                     }
                 }
 
+                // MZGram: keep who read it, for message Details later (MZGramGroupReads).
+                org.telegram.messenger.mzgram.MZGramGroupReads.onReadParticipants(currentAccount, messageObject.getDialogId(), messageObject.getId(), allPeers);
                 if (unknownUsers.isEmpty()) {
                     for (int i = 0; i < allPeers.size(); i++) {
                         Pair<Long, Integer> pair = allPeers.get(i);

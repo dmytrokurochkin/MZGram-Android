@@ -43,14 +43,16 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     // "ALTER TABLE ... ADD COLUMN ... DEFAULT ..." in onUpgrade only, plus the
     // column in onCreate). Archive data also goes into EXPORTED_TABLES and
     // wipeAll(); a table not in EXPORTED_TABLES stays out of export/import.
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
     private static final String TABLE_READS = "outbox_reads";
     private static final String TABLE_RECEIVED = "received";
     private static final String TABLE_LAST_SEEN = "last_seen";
+    // Who read the owner's message in a group (MZGramGroupReads), version 6.
+    private static final String TABLE_GROUP_READS = "group_reads";
 
     private static final String TABLE = "history_message";
     // What export and import carry; received is only the level 1 cache.
-    private static final String[] EXPORTED_TABLES = {TABLE, TABLE_READS, TABLE_LAST_SEEN};
+    private static final String[] EXPORTED_TABLES = {TABLE, TABLE_READS, TABLE_LAST_SEEN, TABLE_GROUP_READS};
 
     private static volatile MZGramHistoryDatabase instance;
 
@@ -252,6 +254,52 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
                 + " (accountUserId, dialogId, messageId) WHERE kind = " + MZGramHistoryMessage.KIND_DELETED);
         createReadAndLastSeenTables(db);
         createReceivedTable(db);
+        createGroupReadsTable(db);
+    }
+
+    // The readers of the owner's message in a group, as the server listed
+    // them (messages.getMessageReadParticipants); readAt is 0 when the
+    // server gave no time.
+    private static void createGroupReadsTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_GROUP_READS + " (" +
+                "accountUserId INTEGER NOT NULL, " +
+                "dialogId INTEGER NOT NULL, " +
+                "messageId INTEGER NOT NULL, " +
+                "userId INTEGER NOT NULL, " +
+                "readAt INTEGER NOT NULL DEFAULT 0, " +
+                "PRIMARY KEY (accountUserId, dialogId, messageId, userId))");
+    }
+
+    public void putGroupReads(long accountUserId, long dialogId, int messageId, long[] userIds, int[] readAt) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            for (int i = 0; i < userIds.length; i++) {
+                // A time the server gave is not replaced by a missing one.
+                db.execSQL("INSERT OR IGNORE INTO " + TABLE_GROUP_READS + " (accountUserId, dialogId, messageId, userId, readAt) VALUES (?, ?, ?, ?, ?)",
+                        new Object[]{accountUserId, dialogId, messageId, userIds[i], readAt[i]});
+                if (readAt[i] > 0) {
+                    db.execSQL("UPDATE " + TABLE_GROUP_READS + " SET readAt = ? WHERE accountUserId = ? AND dialogId = ? AND messageId = ? AND userId = ?",
+                            new Object[]{readAt[i], accountUserId, dialogId, messageId, userIds[i]});
+                }
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    // {userId, readAt} pairs, earliest read first.
+    public List<long[]> getGroupReads(long accountUserId, long dialogId, int messageId) {
+        List<long[]> result = new ArrayList<>();
+        String[] args = {String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(messageId)};
+        try (Cursor cursor = getReadableDatabase().rawQuery("SELECT userId, readAt FROM " + TABLE_GROUP_READS + " WHERE accountUserId = ? AND dialogId = ? AND messageId = ? ORDER BY readAt", args)) {
+            while (cursor.moveToNext()) {
+                result.add(new long[]{cursor.getLong(0), cursor.getInt(1)});
+            }
+        } catch (Exception ignore) {
+        }
+        return result;
     }
 
     private static void createReceivedTable(SQLiteDatabase db) {
@@ -411,6 +459,9 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         }
         if (oldVersion < 5) {
             createReceivedTable(db);
+        }
+        if (oldVersion < 6) {
+            createGroupReadsTable(db);
         }
     }
 
@@ -578,6 +629,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_READS);
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_LAST_SEEN);
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_RECEIVED);
+        getWritableDatabase().execSQL("DELETE FROM " + TABLE_GROUP_READS);
         MZGramLastSeen.forget();
         // The emptied database gives its space back
         try {

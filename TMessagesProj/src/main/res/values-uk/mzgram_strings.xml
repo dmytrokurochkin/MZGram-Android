@@ -490,4 +490,10 @@
     <string name="MZGramKeptReplyPreviews">Показувати відповіді на видалені повідомлення</string>
     <string name="MZGramReplyToDeletedAsQuote">Відповідь на видалене як цитата</string>
     <string name="MZGramDeletedRepliesInfo">Відповідь, оригінал якої видалено, показує копію з архіву замість «Видалене повідомлення». На сервері видаленого повідомлення немає, тож із другим перемикачем відповідь на збережене видалене повідомлення надсилається з його автором і текстом як цитатою вгорі.</string>
+    <string name="MZGramDeletedMessagesList">Видалені повідомлення в меню чату</string>
+    <string name="MZGramDeletedMessagesListInfo">Додає «Видалені повідомлення» в меню чату: усі повідомлення, які там видалили інші і які зберігає архів, від нових, з пошуком. Торкніться, щоб перейти до нього в чаті, утримуйте, щоб скопіювати текст.</string>
+    <string name="MZGramDeletedMessages">Видалені повідомлення</string>
+    <string name="MZGramDeletedMessagesEmpty">Архів не зберігає видалених повідомлень цього чату.</string>
+    <string name="MZGramDeletedMessagesNotFound">Немає видалених повідомлень із таким текстом.</string>
+    <string name="MZGramDeletedMessagesInfo">Торкніться повідомлення, щоб перейти до нього в чаті, утримуйте, щоб скопіювати текст.</string>
 </resources>

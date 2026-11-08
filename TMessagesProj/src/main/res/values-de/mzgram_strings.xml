@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Antworten auf gelöschte Nachrichten zeigen</string>
     <string name="MZGramReplyToDeletedAsQuote">Antwort auf Gelöschtes als Zitat</string>
     <string name="MZGramDeletedRepliesInfo">Eine Antwort, deren Original gelöscht wurde, zeigt statt „Gelöschte Nachricht“ die Kopie aus dem Archiv. Auf dem Server gibt es die gelöschte Nachricht nicht mehr, daher wird mit dem zweiten Schalter eine Antwort auf eine behaltene gelöschte Nachricht mit deren Autor und Text als Zitat oben gesendet.</string>
+    <string name="MZGramDeletedMessagesList">Gelöschte Nachrichten im Chatmenü</string>
+    <string name="MZGramDeletedMessagesListInfo">Fügt dem Chatmenü „Gelöschte Nachrichten“ hinzu: alle Nachrichten, die andere dort gelöscht haben und die das Archiv behält, neueste zuerst, mit Suche. Tippen springt zur Nachricht im Chat, langes Drücken kopiert ihren Text.</string>
+    <string name="MZGramDeletedMessages">Gelöschte Nachrichten</string>
+    <string name="MZGramDeletedMessagesEmpty">Das Archiv enthält keine gelöschten Nachrichten dieses Chats.</string>
+    <string name="MZGramDeletedMessagesNotFound">Keine gelöschten Nachrichten mit diesem Text.</string>
+    <string name="MZGramDeletedMessagesInfo">Tippe auf eine Nachricht, um im Chat zu ihr zu springen, halte sie gedrückt, um ihren Text zu kopieren.</string>
 </resources>

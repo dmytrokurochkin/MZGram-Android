@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Pokazuj odpowiedzi na usunięte wiadomości</string>
     <string name="MZGramReplyToDeletedAsQuote">Odpowiedź na usunięte jako cytat</string>
     <string name="MZGramDeletedRepliesInfo">Odpowiedź, której oryginał usunięto, pokazuje kopię z archiwum zamiast „Usunięta wiadomość”. Serwer nie ma już usuniętej wiadomości, więc z drugim przełącznikiem odpowiedź na zachowaną usuniętą wiadomość jest wysyłana z jej autorem i tekstem jako cytatem na górze.</string>
+    <string name="MZGramDeletedMessagesList">Usunięte wiadomości w menu czatu</string>
+    <string name="MZGramDeletedMessagesListInfo">Dodaje „Usunięte wiadomości” do menu czatu: wszystkie wiadomości, które inni tam usunęli, a archiwum zachowało, od najnowszych, z wyszukiwaniem. Dotknij, aby przejść do niej w czacie, przytrzymaj, aby skopiować tekst.</string>
+    <string name="MZGramDeletedMessages">Usunięte wiadomości</string>
+    <string name="MZGramDeletedMessagesEmpty">Archiwum nie ma usuniętych wiadomości z tego czatu.</string>
+    <string name="MZGramDeletedMessagesNotFound">Brak usuniętych wiadomości z tym tekstem.</string>
+    <string name="MZGramDeletedMessagesInfo">Dotknij wiadomości, aby przejść do niej w czacie, przytrzymaj, aby skopiować tekst.</string>
 </resources>

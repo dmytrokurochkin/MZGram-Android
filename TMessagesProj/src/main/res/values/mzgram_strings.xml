@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Show replies to deleted messages</string>
     <string name="MZGramReplyToDeletedAsQuote">Reply to deleted as a quote</string>
     <string name="MZGramDeletedRepliesInfo">A reply whose original was deleted shows the copy kept in the archive instead of \"Deleted message\". The server has no deleted message to reply to, so with the second switch a reply to a kept deleted message is sent with its author and text as a quote at the top.</string>
+    <string name="MZGramDeletedMessagesList">Deleted messages in the chat menu</string>
+    <string name="MZGramDeletedMessagesListInfo">Adds \"Deleted messages\" to a chat\'s menu: every message other people deleted there that the archive keeps, newest first, with search. Tap one to go to it in the chat, hold to copy its text.</string>
+    <string name="MZGramDeletedMessages">Deleted messages</string>
+    <string name="MZGramDeletedMessagesEmpty">The archive keeps no deleted messages of this chat.</string>
+    <string name="MZGramDeletedMessagesNotFound">No deleted messages with this text.</string>
+    <string name="MZGramDeletedMessagesInfo">Tap a message to go to it in the chat, hold to copy its text.</string>
 </resources>

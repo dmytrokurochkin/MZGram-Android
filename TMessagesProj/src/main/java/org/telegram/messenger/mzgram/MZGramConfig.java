@@ -162,6 +162,9 @@ public class MZGramConfig {
     // as the reply preview, and a reply to a kept message sent as a quote.
     public static boolean keptReplyPreviews = false;
     public static boolean replyToDeletedAsQuote = false;
+    // "Deleted messages" in a chat's menu: the list of the chat's kept
+    // deleted messages with search (MZGramDeletedMessagesActivity).
+    public static boolean deletedMessagesList = false;
     // How a deleted message kept in the chat looks: drawn at 75% opacity,
     // and the marks shown before the time (any text, empty for none).
     public static boolean semiTransparentDeleted = true;
@@ -289,6 +292,7 @@ public class MZGramConfig {
             saveExclusions = preferences.getBoolean("saveExclusions", false);
             keptReplyPreviews = preferences.getBoolean("keptReplyPreviews", false);
             replyToDeletedAsQuote = preferences.getBoolean("replyToDeletedAsQuote", false);
+            deletedMessagesList = preferences.getBoolean("deletedMessagesList", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
             editedMark = preferences.getString("editedMark", DEFAULT_EDITED_MARK);
@@ -650,6 +654,11 @@ public class MZGramConfig {
     public static void toggleReplyToDeletedAsQuote() {
         replyToDeletedAsQuote = !replyToDeletedAsQuote;
         putBoolean("replyToDeletedAsQuote", replyToDeletedAsQuote);
+    }
+
+    public static void toggleDeletedMessagesList() {
+        deletedMessagesList = !deletedMessagesList;
+        putBoolean("deletedMessagesList", deletedMessagesList);
     }
 
     public static void toggleSemiTransparentDeleted() {

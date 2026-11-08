@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Afficher les réponses aux messages supprimés</string>
     <string name="MZGramReplyToDeletedAsQuote">Répondre à un message supprimé par une citation</string>
     <string name="MZGramDeletedRepliesInfo">Une réponse dont l’original a été supprimé affiche la copie conservée dans l’archive au lieu de « Message supprimé ». Le serveur n’a plus le message supprimé : avec le second interrupteur, une réponse à un message supprimé conservé est envoyée avec son auteur et son texte en citation au début.</string>
+    <string name="MZGramDeletedMessagesList">Messages supprimés dans le menu de la discussion</string>
+    <string name="MZGramDeletedMessagesListInfo">Ajoute « Messages supprimés » au menu de la discussion : tous les messages que d’autres y ont supprimés et que l’archive conserve, du plus récent au plus ancien, avec recherche. Touchez-en un pour y aller dans la discussion, maintenez pour copier son texte.</string>
+    <string name="MZGramDeletedMessages">Messages supprimés</string>
+    <string name="MZGramDeletedMessagesEmpty">L’archive ne contient aucun message supprimé de cette discussion.</string>
+    <string name="MZGramDeletedMessagesNotFound">Aucun message supprimé avec ce texte.</string>
+    <string name="MZGramDeletedMessagesInfo">Touchez un message pour y aller dans la discussion, maintenez pour copier son texte.</string>
 </resources>

@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Показывать ответы на удалённые сообщения</string>
     <string name="MZGramReplyToDeletedAsQuote">Ответ на удалённое как цитата</string>
     <string name="MZGramDeletedRepliesInfo">Ответ, оригинал которого удалён, показывает копию из архива вместо «Удалённое сообщение». На сервере удалённого сообщения нет, поэтому со вторым переключателем ответ на сохранённое удалённое сообщение отправляется с его автором и текстом в виде цитаты сверху.</string>
+    <string name="MZGramDeletedMessagesList">Удалённые сообщения в меню чата</string>
+    <string name="MZGramDeletedMessagesListInfo">Добавляет «Удалённые сообщения» в меню чата: все сообщения, которые там удалили другие и которые хранит архив, сначала новые, с поиском. Нажмите, чтобы перейти к нему в чате, удерживайте, чтобы скопировать текст.</string>
+    <string name="MZGramDeletedMessages">Удалённые сообщения</string>
+    <string name="MZGramDeletedMessagesEmpty">В архиве нет удалённых сообщений этого чата.</string>
+    <string name="MZGramDeletedMessagesNotFound">Нет удалённых сообщений с таким текстом.</string>
+    <string name="MZGramDeletedMessagesInfo">Нажмите на сообщение, чтобы перейти к нему в чате, удерживайте, чтобы скопировать текст.</string>
 </resources>

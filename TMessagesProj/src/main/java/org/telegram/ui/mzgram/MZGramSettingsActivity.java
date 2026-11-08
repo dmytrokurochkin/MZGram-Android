@@ -146,6 +146,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Archive: replies to deleted messages (MZGramDeletedReplies)
     private static final int BUTTON_KEPT_REPLY_PREVIEWS = 99;
     private static final int BUTTON_REPLY_TO_DELETED_AS_QUOTE = 100;
+    // Archive: a chat's deleted messages list (MZGramDeletedMessagesActivity)
+    private static final int BUTTON_DELETED_MESSAGES_LIST = 101;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -330,6 +332,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_KEPT_REPLY_PREVIEWS, getString(R.string.MZGramKeptReplyPreviews)).setChecked(MZGramConfig.keptReplyPreviews));
         items.add(UItem.asCheck(BUTTON_REPLY_TO_DELETED_AS_QUOTE, getString(R.string.MZGramReplyToDeletedAsQuote)).setChecked(MZGramConfig.replyToDeletedAsQuote));
         items.add(UItem.asShadow(getString(R.string.MZGramDeletedRepliesInfo)));
+        items.add(UItem.asCheck(BUTTON_DELETED_MESSAGES_LIST, getString(R.string.MZGramDeletedMessagesList)).setChecked(MZGramConfig.deletedMessagesList));
+        items.add(UItem.asShadow(getString(R.string.MZGramDeletedMessagesListInfo)));
         items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
         items.add(UItem.asButton(BUTTON_EDITED_MARK, getString(R.string.MZGramEditedMarkText), MZGramConfig.editedMark));
         items.add(UItem.asCheck(BUTTON_SEMI_TRANSPARENT_DELETED, getString(R.string.MZGramSemiTransparentDeleted)).setChecked(MZGramConfig.semiTransparentDeleted));
@@ -902,6 +906,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_REPLY_TO_DELETED_AS_QUOTE) {
             MZGramConfig.toggleReplyToDeletedAsQuote();
             ((TextCheckCell) view).setChecked(MZGramConfig.replyToDeletedAsQuote);
+        } else if (item.id == BUTTON_DELETED_MESSAGES_LIST) {
+            MZGramConfig.toggleDeletedMessagesList();
+            ((TextCheckCell) view).setChecked(MZGramConfig.deletedMessagesList);
         } else if (item.id == BUTTON_SEMI_TRANSPARENT_DELETED) {
             MZGramConfig.toggleSemiTransparentDeleted();
             ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);

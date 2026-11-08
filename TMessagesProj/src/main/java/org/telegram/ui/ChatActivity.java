@@ -1729,6 +1729,8 @@ public class ChatActivity extends BaseFragment implements
     private final static int mzgram_ghost_exclusion = 1101;
     // MZGram: this chat's archive rule (MZGramSaveExclusionMenu)
     private final static int mzgram_save_exclusion = 1102;
+    // MZGram: this chat's kept deleted messages (MZGramDeletedMessagesActivity)
+    private final static int mzgram_deleted_messages = 1103;
     private final static int share_business_link = 66;
     private final static int rename_business_link = 67;
     private final static int delete_business_link = 68;
@@ -4014,6 +4016,9 @@ public class ChatActivity extends BaseFragment implements
                 } else if (id == mzgram_save_exclusion) {
                     // MZGram: archive rule for this chat only.
                     org.telegram.ui.mzgram.MZGramSaveExclusionMenu.show(ChatActivity.this, getDialogId());
+                } else if (id == mzgram_deleted_messages) {
+                    // MZGram: the list of this chat's kept deleted messages.
+                    presentFragment(new org.telegram.ui.mzgram.MZGramDeletedMessagesActivity(ChatActivity.this, getDialogId()));
                 } else if (id == add_shortcut) {
                     try {
                         getMediaDataController().installShortcut(currentUser.id, MediaDataController.SHORTCUT_TYPE_USER_OR_CHAT);
@@ -4570,6 +4575,10 @@ public class ChatActivity extends BaseFragment implements
             // MZGram: archive rule for this chat only.
             if (org.telegram.ui.mzgram.MZGramSaveExclusionMenu.isAvailable(currentUser, chatMode)) {
                 headerItem.lazilyAddSubItem(mzgram_save_exclusion, R.drawable.msg_archive, LocaleController.getString(R.string.MZGramSaveExclusion));
+            }
+            // MZGram: the list of this chat's kept deleted messages.
+            if (org.telegram.ui.mzgram.MZGramDeletedMessagesActivity.isAvailable(currentUser, chatMode)) {
+                headerItem.lazilyAddSubItem(mzgram_deleted_messages, R.drawable.msg_delete, LocaleController.getString(R.string.MZGramDeletedMessages));
             }
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {
                 headerItem.lazilyAddSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));

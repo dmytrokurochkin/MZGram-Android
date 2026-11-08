@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Mostrar respostas a mensagens apagadas</string>
     <string name="MZGramReplyToDeletedAsQuote">Responder a apagadas como citação</string>
     <string name="MZGramDeletedRepliesInfo">Uma resposta cujo original foi apagado mostra a cópia guardada no arquivo em vez de \"Mensagem apagada\". O servidor não tem mais a mensagem apagada, então com a segunda chave uma resposta a uma mensagem apagada guardada é enviada com o autor e o texto dela como citação no topo.</string>
+    <string name="MZGramDeletedMessagesList">Mensagens apagadas no menu da conversa</string>
+    <string name="MZGramDeletedMessagesListInfo">Adiciona \"Mensagens apagadas\" ao menu da conversa: todas as mensagens que outras pessoas apagaram ali e que o arquivo guarda, das mais novas para as mais antigas, com busca. Toque em uma para ir até ela na conversa, segure para copiar o texto.</string>
+    <string name="MZGramDeletedMessages">Mensagens apagadas</string>
+    <string name="MZGramDeletedMessagesEmpty">O arquivo não tem mensagens apagadas desta conversa.</string>
+    <string name="MZGramDeletedMessagesNotFound">Nenhuma mensagem apagada com este texto.</string>
+    <string name="MZGramDeletedMessagesInfo">Toque em uma mensagem para ir até ela na conversa, segure para copiar o texto.</string>
 </resources>

@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Жойылған хабарламаларға жауаптарды көрсету</string>
     <string name="MZGramReplyToDeletedAsQuote">Жойылғанға жауапты дәйексөз ретінде жіберу</string>
     <string name="MZGramDeletedRepliesInfo">Түпнұсқасы жойылған жауап «Жойылған хабарлама» орнына мұрағаттағы көшірмені көрсетеді. Серверде жойылған хабарлама жоқ, сондықтан екінші қосқышпен сақталған жойылған хабарламаға жауап оның авторы мен мәтіні жоғарыда дәйексөз ретінде жіберіледі.</string>
+    <string name="MZGramDeletedMessagesList">Чат мәзіріндегі жойылған хабарламалар</string>
+    <string name="MZGramDeletedMessagesListInfo">Чат мәзіріне «Жойылған хабарламалар» қосады: басқалар онда жойған және мұрағат сақтаған барлық хабарламалар, жаңадан бастап, іздеумен. Чатта оған өту үшін түртіңіз, мәтінін көшіру үшін басып тұрыңыз.</string>
+    <string name="MZGramDeletedMessages">Жойылған хабарламалар</string>
+    <string name="MZGramDeletedMessagesEmpty">Мұрағатта бұл чаттың жойылған хабарламалары жоқ.</string>
+    <string name="MZGramDeletedMessagesNotFound">Мұндай мәтіні бар жойылған хабарлама жоқ.</string>
+    <string name="MZGramDeletedMessagesInfo">Чатта оған өту үшін хабарламаны түртіңіз, мәтінін көшіру үшін басып тұрыңыз.</string>
 </resources>

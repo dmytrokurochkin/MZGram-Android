@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">إظهار الردود على الرسائل المحذوفة</string>
     <string name="MZGramReplyToDeletedAsQuote">الرد على المحذوف كاقتباس</string>
     <string name="MZGramDeletedRepliesInfo">يعرض الرد الذي حُذف أصله النسخة المحفوظة في الأرشيف بدلًا من «رسالة محذوفة». لم تعد الرسالة المحذوفة موجودة على الخادم، لذا مع المفتاح الثاني يُرسل الرد على رسالة محذوفة محفوظة مع كاتبها ونصها كاقتباس في الأعلى.</string>
+    <string name="MZGramDeletedMessagesList">الرسائل المحذوفة في قائمة المحادثة</string>
+    <string name="MZGramDeletedMessagesListInfo">يضيف «الرسائل المحذوفة» إلى قائمة المحادثة: كل الرسائل التي حذفها الآخرون هناك ويحتفظ بها الأرشيف، الأحدث أولًا، مع البحث. اضغط على رسالة للانتقال إليها في المحادثة، واضغط مطولًا لنسخ نصها.</string>
+    <string name="MZGramDeletedMessages">الرسائل المحذوفة</string>
+    <string name="MZGramDeletedMessagesEmpty">لا يحتوي الأرشيف على رسائل محذوفة من هذه المحادثة.</string>
+    <string name="MZGramDeletedMessagesNotFound">لا توجد رسائل محذوفة بهذا النص.</string>
+    <string name="MZGramDeletedMessagesInfo">اضغط على رسالة للانتقال إليها في المحادثة، واضغط مطولًا لنسخ نصها.</string>
 </resources>

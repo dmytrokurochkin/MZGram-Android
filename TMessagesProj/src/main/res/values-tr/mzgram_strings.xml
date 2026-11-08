@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Silinen mesajlara verilen yanıtları göster</string>
     <string name="MZGramReplyToDeletedAsQuote">Silinene yanıtı alıntı olarak gönder</string>
     <string name="MZGramDeletedRepliesInfo">Orijinali silinmiş bir yanıt, \"Silinmiş mesaj\" yerine arşivde saklanan kopyayı gösterir. Sunucuda silinen mesaj artık yoktur; bu yüzden ikinci anahtarla saklanan silinmiş bir mesaja verilen yanıt, yazarı ve metni üstte alıntı olarak gönderilir.</string>
+    <string name="MZGramDeletedMessagesList">Sohbet menüsünde silinen mesajlar</string>
+    <string name="MZGramDeletedMessagesListInfo">Sohbet menüsüne \"Silinen mesajlar\" ekler: başkalarının orada sildiği ve arşivin sakladığı tüm mesajlar, en yeniden başlayarak, aramayla. Sohbette ona gitmek için dokunun, metnini kopyalamak için basılı tutun.</string>
+    <string name="MZGramDeletedMessages">Silinen mesajlar</string>
+    <string name="MZGramDeletedMessagesEmpty">Arşivde bu sohbetin silinen mesajı yok.</string>
+    <string name="MZGramDeletedMessagesNotFound">Bu metni içeren silinmiş mesaj yok.</string>
+    <string name="MZGramDeletedMessagesInfo">Sohbette ona gitmek için bir mesaja dokunun, metnini kopyalamak için basılı tutun.</string>
 </resources>

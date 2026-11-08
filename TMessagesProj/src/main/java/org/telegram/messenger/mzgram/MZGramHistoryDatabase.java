@@ -590,6 +590,30 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return result;
     }
 
+    // The deleted messages kept for a dialog, newest first; with a query,
+    // those whose text has it (any case). For the list of a chat's deleted
+    // messages (MZGramDeletedMessagesActivity).
+    public List<MZGramHistoryMessage> getDeletedForDialog(long accountUserId, long dialogId, String query, int limit) {
+        List<MZGramHistoryMessage> result = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM " + TABLE + " WHERE kind = ? AND accountUserId = ? AND dialogId = ?");
+        List<String> args = new ArrayList<>();
+        args.add(String.valueOf(MZGramHistoryMessage.KIND_DELETED));
+        args.add(String.valueOf(accountUserId));
+        args.add(String.valueOf(dialogId));
+        if (!TextUtils.isEmpty(query)) {
+            sql.append(" AND text LIKE ? ESCAPE '!'");
+            args.add("%" + query.replace("!", "!!").replace("%", "!%").replace("_", "!_") + "%");
+        }
+        sql.append(" ORDER BY date DESC, messageId DESC LIMIT ?");
+        args.add(String.valueOf(limit));
+        try (Cursor cursor = getReadableDatabase().rawQuery(sql.toString(), args.toArray(new String[0]))) {
+            while (cursor.moveToNext()) {
+                result.add(fromCursor(cursor));
+            }
+        }
+        return result;
+    }
+
     public List<MZGramHistoryMessage> getRevisions(long accountUserId, long dialogId, int messageId) {
         List<MZGramHistoryMessage> result = new ArrayList<>();
         try (Cursor cursor = getReadableDatabase().rawQuery(

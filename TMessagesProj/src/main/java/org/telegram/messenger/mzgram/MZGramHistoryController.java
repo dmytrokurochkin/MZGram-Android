@@ -1312,6 +1312,10 @@ public class MZGramHistoryController {
     // An archived row as a message the chat can draw, or null when the row
     // was saved without the whole message (old versions) or is a service one.
     public TLRPC.Message shownMessage(int accountId, long dialogId, MZGramHistoryMessage row) {
+        return shownMessage(accountId, dialogId, row, true);
+    }
+
+    private TLRPC.Message shownMessage(int accountId, long dialogId, MZGramHistoryMessage row, boolean putFile) {
         TLRPC.Message message = deserializeMessage(row.messageData);
         if (message == null || message instanceof TLRPC.TL_messageService || message.id != row.messageId) {
             return null;
@@ -1325,8 +1329,48 @@ public class MZGramHistoryController {
             message.media.flags &= ~4;
         }
         message.ttl = 0;
-        putFileBack(accountId, message, row.mediaPath);
+        if (putFile) {
+            putFileBack(accountId, message, row.mediaPath);
+        }
         return message;
+    }
+
+    // The deleted messages kept for a chat, newest first, for the list of
+    // them (MZGramDeletedMessagesActivity). A row saved without the whole
+    // message (old versions) comes as a plain text message. Files are not
+    // put back here: the chat does that when it shows the message. Not on
+    // the UI thread.
+    public ArrayList<TLRPC.Message> deletedMessagesForList(int accountId, long dialogId, int limit) {
+        ArrayList<TLRPC.Message> result = new ArrayList<>();
+        try {
+            long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+            List<MZGramHistoryMessage> rows = MZGramHistoryDatabase.getInstance().getDeletedForDialog(accountUserId, dialogId, null, limit);
+            for (int r = 0, N = rows.size(); r < N; r++) {
+                MZGramHistoryMessage row = rows.get(r);
+                TLRPC.Message message = row.messageData != null ? shownMessage(accountId, dialogId, row, false) : null;
+                if (message == null) {
+                    if (row.messageData != null || TextUtils.isEmpty(row.text)) {
+                        continue;
+                    }
+                    MessagesController controller = MessagesController.getInstance(accountId);
+                    message = new TLRPC.TL_message();
+                    message.id = row.messageId;
+                    message.date = row.date;
+                    message.message = row.text;
+                    message.dialog_id = dialogId;
+                    message.peer_id = controller.getPeer(dialogId);
+                    if (row.fromId != 0) {
+                        message.from_id = controller.getPeer(row.fromId);
+                        message.flags |= 256;
+                    }
+                    message.mzgramDeleted = true;
+                }
+                result.add(message);
+            }
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.deletedMessagesForList", e);
+        }
+        return result;
     }
 
     // ---- retrieval for the UI ----

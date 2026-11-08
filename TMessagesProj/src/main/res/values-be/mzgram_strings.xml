@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Паказваць адказы на выдаленыя паведамленні</string>
     <string name="MZGramReplyToDeletedAsQuote">Адказ на выдаленае як цытата</string>
     <string name="MZGramDeletedRepliesInfo">Адказ, арыгінал якога выдалены, паказвае копію з архіва замест «Выдаленае паведамленне». На серверы выдаленага паведамлення няма, таму з другім пераключальнікам адказ на захаванае выдаленае паведамленне адпраўляецца з яго аўтарам і тэкстам як цытатай уверсе.</string>
+    <string name="MZGramDeletedMessagesList">Выдаленыя паведамленні ў меню чата</string>
+    <string name="MZGramDeletedMessagesListInfo">Дадае «Выдаленыя паведамленні» ў меню чата: усе паведамленні, якія там выдалілі іншыя і якія захоўвае архіў, ад новых, з пошукам. Націсніце, каб перайсці да яго ў чаце, утрымлівайце, каб скапіяваць тэкст.</string>
+    <string name="MZGramDeletedMessages">Выдаленыя паведамленні</string>
+    <string name="MZGramDeletedMessagesEmpty">У архіве няма выдаленых паведамленняў гэтага чата.</string>
+    <string name="MZGramDeletedMessagesNotFound">Няма выдаленых паведамленняў з такім тэкстам.</string>
+    <string name="MZGramDeletedMessagesInfo">Націсніце на паведамленне, каб перайсці да яго ў чаце, утрымлівайце, каб скапіяваць тэкст.</string>
 </resources>

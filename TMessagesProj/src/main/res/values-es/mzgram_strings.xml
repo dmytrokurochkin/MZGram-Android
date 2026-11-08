@@ -489,4 +489,10 @@
     <string name="MZGramKeptReplyPreviews">Mostrar respuestas a mensajes eliminados</string>
     <string name="MZGramReplyToDeletedAsQuote">Responder a lo eliminado como cita</string>
     <string name="MZGramDeletedRepliesInfo">Una respuesta cuyo original se eliminó muestra la copia guardada en el archivo en lugar de «Mensaje eliminado». El servidor ya no tiene el mensaje eliminado, así que con el segundo interruptor una respuesta a un mensaje eliminado guardado se envía con su autor y texto como cita arriba.</string>
+    <string name="MZGramDeletedMessagesList">Mensajes eliminados en el menú del chat</string>
+    <string name="MZGramDeletedMessagesListInfo">Añade «Mensajes eliminados» al menú del chat: todos los mensajes que otros eliminaron ahí y que guarda el archivo, primero los más nuevos, con búsqueda. Toca uno para ir a él en el chat, mantén pulsado para copiar su texto.</string>
+    <string name="MZGramDeletedMessages">Mensajes eliminados</string>
+    <string name="MZGramDeletedMessagesEmpty">El archivo no tiene mensajes eliminados de este chat.</string>
+    <string name="MZGramDeletedMessagesNotFound">No hay mensajes eliminados con este texto.</string>
+    <string name="MZGramDeletedMessagesInfo">Toca un mensaje para ir a él en el chat, mantén pulsado para copiar su texto.</string>
 </resources>

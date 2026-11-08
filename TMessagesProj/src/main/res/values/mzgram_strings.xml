@@ -539,4 +539,6 @@
     <string name="MZGramOpenByIdInfo">Opens the profile of a user, group or channel by its number, for example one taken from a bot. Telegram shows only accounts the app already knows, so a number it has never seen is not found.</string>
     <string name="MZGramPangu">Space between CJK and Latin</string>
     <string name="MZGramPanguInfo">While typing, adds a space between Chinese, Japanese or Korean characters and Latin letters or digits.</string>
+    <string name="MZGramStaticInputIcons">Static input field icons</string>
+    <string name="MZGramStaticInputIconsInfo">The microphone, camera and emoji buttons change without animation. Easier on weak processors.</string>
 </resources>

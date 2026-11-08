@@ -539,4 +539,6 @@
     <string name="MZGramOpenByIdInfo">Bir kullanıcının, grubun veya kanalın profilini numarasıyla açar, örneğin bir bottan alınan. Telegram yalnızca uygulamanın bildiği hesapları gösterir, bu yüzden hiç görülmemiş numara bulunamaz.</string>
     <string name="MZGramPangu">CJK ve Latin arasına boşluk</string>
     <string name="MZGramPanguInfo">Yazarken Çince, Japonca veya Korece karakterlerle Latin harfleri ya da rakamlar arasına boşluk ekler.</string>
+    <string name="MZGramStaticInputIcons">Giriş alanında sabit simgeler</string>
+    <string name="MZGramStaticInputIconsInfo">Mikrofon, kamera ve emoji düğmeleri animasyonsuz değişir. Zayıf işlemcilerde daha az yük.</string>
 </resources>

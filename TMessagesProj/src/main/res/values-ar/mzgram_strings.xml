@@ -539,4 +539,6 @@
     <string name="MZGramOpenByIdInfo">يفتح الملف الشخصي لمستخدم أو مجموعة أو قناة بالرقم، مثل رقم مأخوذ من بوت. يعرض تيليجرام الحسابات التي يعرفها التطبيق فقط، لذا لا يُعثر على رقم لم يره من قبل.</string>
     <string name="MZGramPangu">مسافة بين أحرف CJK واللاتينية</string>
     <string name="MZGramPanguInfo">أثناء الكتابة يضيف مسافة بين الأحرف الصينية أو اليابانية أو الكورية والأحرف اللاتينية أو الأرقام.</string>
+    <string name="MZGramStaticInputIcons">أيقونات ثابتة في حقل الإدخال</string>
+    <string name="MZGramStaticInputIconsInfo">تتغير أزرار الميكروفون والكاميرا والإيموجي بدون حركة. حمل أقل على المعالجات الضعيفة.</string>
 </resources>

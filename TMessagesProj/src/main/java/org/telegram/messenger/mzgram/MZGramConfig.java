@@ -223,6 +223,9 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // staticInputIcons
+    public static boolean staticInputIcons = false;
+
     // panguSpacing
     public static boolean panguSpacing = false;
 
@@ -359,6 +362,7 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            staticInputIcons = preferences.getBoolean("staticInputIcons", false);
             panguSpacing = preferences.getBoolean("panguSpacing", false);
             doubleTapOwn = preferences.getInt("doubleTapOwn", 0);
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
@@ -797,6 +801,11 @@ public class MZGramConfig {
     public static void togglePanguSpacing() {
         panguSpacing = !panguSpacing;
         putBoolean("panguSpacing", panguSpacing);
+    }
+
+    public static void toggleStaticInputIcons() {
+        staticInputIcons = !staticInputIcons;
+        putBoolean("staticInputIcons", staticInputIcons);
     }
 
     public static void toggleInlineMath() {

@@ -163,6 +163,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_STATIC_INPUT_ICONS = 117;
     private static final int BUTTON_PANGU = 116;
     private static final int BUTTON_OPEN_BY_ID = 115;
     private static final int BUTTON_DOUBLE_TAP_ACTIONS = 110;
@@ -673,6 +674,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private void fillInterface(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_STATIC_INPUT_ICONS, getString(R.string.MZGramStaticInputIcons)).setChecked(MZGramConfig.staticInputIcons));
+        items.add(UItem.asShadow(getString(R.string.MZGramStaticInputIconsInfo)));
         items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
         items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
@@ -968,6 +971,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SAVE_PROTECTED_CONTENT) {
             MZGramConfig.toggleSaveProtectedContent();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveProtectedContent);
+        } else if (item.id == BUTTON_STATIC_INPUT_ICONS) {
+            MZGramConfig.toggleStaticInputIcons();
+            ((TextCheckCell) view).setChecked(MZGramConfig.staticInputIcons);
         } else if (item.id == BUTTON_FOLDER_TABS_AT_BOTTOM) {
             MZGramConfig.toggleFolderTabsAtBottom();
             ((TextCheckCell) view).setChecked(MZGramConfig.folderTabsAtBottom);

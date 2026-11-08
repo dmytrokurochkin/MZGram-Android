@@ -42,6 +42,10 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     }
 
     public void setState(State state, boolean animate) {
+        // MZGram: static input icons, no transition animation (Settings > MZGram > Interface)
+        if (org.telegram.messenger.mzgram.MZGramConfig.staticInputIcons) {
+            animate = false;
+        }
         if (animate && state == currentState) {
             return;
         }

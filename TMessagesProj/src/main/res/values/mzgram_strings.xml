@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">As Keep messages</string>
     <string name="MZGramSaveExclusionAlways">Always keep deleted and edited</string>
     <string name="MZGramSaveExclusionNever">Never keep</string>
+    <string name="MZGramKeptReplyPreviews">Show replies to deleted messages</string>
+    <string name="MZGramReplyToDeletedAsQuote">Reply to deleted as a quote</string>
+    <string name="MZGramDeletedRepliesInfo">A reply whose original was deleted shows the copy kept in the archive instead of \"Deleted message\". The server has no deleted message to reply to, so with the second switch a reply to a kept deleted message is sent with its author and text as a quote at the top.</string>
 </resources>

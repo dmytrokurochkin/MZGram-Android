@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">Jak „Zachowuj wiadomości”</string>
     <string name="MZGramSaveExclusionAlways">Zawsze zachowuj usunięte i edytowane</string>
     <string name="MZGramSaveExclusionNever">Nigdy nie zachowuj</string>
+    <string name="MZGramKeptReplyPreviews">Pokazuj odpowiedzi na usunięte wiadomości</string>
+    <string name="MZGramReplyToDeletedAsQuote">Odpowiedź na usunięte jako cytat</string>
+    <string name="MZGramDeletedRepliesInfo">Odpowiedź, której oryginał usunięto, pokazuje kopię z archiwum zamiast „Usunięta wiadomość”. Serwer nie ma już usuniętej wiadomości, więc z drugim przełącznikiem odpowiedź na zachowaną usuniętą wiadomość jest wysyłana z jej autorem i tekstem jako cytatem na górze.</string>
 </resources>

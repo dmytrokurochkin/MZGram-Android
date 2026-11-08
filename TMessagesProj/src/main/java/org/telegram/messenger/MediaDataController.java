@@ -6832,7 +6832,9 @@ public class MediaDataController extends BaseController {
         }
         ArrayList<MessageObject> messageObjects = new ArrayList<>();
         for (int a = 0, N = result.size(); a < N; a++) {
-            messageObjects.add(new MessageObject(currentAccount, result.get(a), usersDict, chatsDict, false, false));
+            // MZGram: a deleted original shows the copy kept in the archive.
+            TLRPC.Message reply = org.telegram.messenger.mzgram.MZGramDeletedReplies.forReply(currentAccount, dialog_id, result.get(a));
+            messageObjects.add(new MessageObject(currentAccount, reply, usersDict, chatsDict, false, false));
         }
         AndroidUtilities.runOnUIThread(() -> {
             getMessagesController().putUsers(users, isCache);

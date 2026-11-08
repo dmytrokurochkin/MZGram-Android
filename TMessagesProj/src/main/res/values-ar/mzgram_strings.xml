@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">مثل «الاحتفاظ بالرسائل»</string>
     <string name="MZGramSaveExclusionAlways">الاحتفاظ دائمًا بالمحذوف والمعدّل</string>
     <string name="MZGramSaveExclusionNever">عدم الاحتفاظ أبدًا</string>
+    <string name="MZGramKeptReplyPreviews">إظهار الردود على الرسائل المحذوفة</string>
+    <string name="MZGramReplyToDeletedAsQuote">الرد على المحذوف كاقتباس</string>
+    <string name="MZGramDeletedRepliesInfo">يعرض الرد الذي حُذف أصله النسخة المحفوظة في الأرشيف بدلًا من «رسالة محذوفة». لم تعد الرسالة المحذوفة موجودة على الخادم، لذا مع المفتاح الثاني يُرسل الرد على رسالة محذوفة محفوظة مع كاتبها ونصها كاقتباس في الأعلى.</string>
 </resources>

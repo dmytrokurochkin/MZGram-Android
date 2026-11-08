@@ -143,6 +143,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_PASSCODE_ACCOUNTS_SETUP = 97;
     // Archive: rules per chat (MZGramSaveExclusions)
     private static final int BUTTON_SAVE_EXCLUSIONS = 98;
+    // Archive: replies to deleted messages (MZGramDeletedReplies)
+    private static final int BUTTON_KEPT_REPLY_PREVIEWS = 99;
+    private static final int BUTTON_REPLY_TO_DELETED_AS_QUOTE = 100;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -324,6 +327,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramKeepFromInfo)));
         items.add(UItem.asCheck(BUTTON_SAVE_EXCLUSIONS, getString(R.string.MZGramSaveExclusions)).setChecked(MZGramConfig.saveExclusions));
         items.add(UItem.asShadow(getString(R.string.MZGramSaveExclusionsInfo)));
+        items.add(UItem.asCheck(BUTTON_KEPT_REPLY_PREVIEWS, getString(R.string.MZGramKeptReplyPreviews)).setChecked(MZGramConfig.keptReplyPreviews));
+        items.add(UItem.asCheck(BUTTON_REPLY_TO_DELETED_AS_QUOTE, getString(R.string.MZGramReplyToDeletedAsQuote)).setChecked(MZGramConfig.replyToDeletedAsQuote));
+        items.add(UItem.asShadow(getString(R.string.MZGramDeletedRepliesInfo)));
         items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
         items.add(UItem.asButton(BUTTON_EDITED_MARK, getString(R.string.MZGramEditedMarkText), MZGramConfig.editedMark));
         items.add(UItem.asCheck(BUTTON_SEMI_TRANSPARENT_DELETED, getString(R.string.MZGramSemiTransparentDeleted)).setChecked(MZGramConfig.semiTransparentDeleted));
@@ -890,6 +896,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SAVE_EXCLUSIONS) {
             MZGramConfig.toggleSaveExclusions();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveExclusions);
+        } else if (item.id == BUTTON_KEPT_REPLY_PREVIEWS) {
+            MZGramConfig.toggleKeptReplyPreviews();
+            ((TextCheckCell) view).setChecked(MZGramConfig.keptReplyPreviews);
+        } else if (item.id == BUTTON_REPLY_TO_DELETED_AS_QUOTE) {
+            MZGramConfig.toggleReplyToDeletedAsQuote();
+            ((TextCheckCell) view).setChecked(MZGramConfig.replyToDeletedAsQuote);
         } else if (item.id == BUTTON_SEMI_TRANSPARENT_DELETED) {
             MZGramConfig.toggleSemiTransparentDeleted();
             ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);

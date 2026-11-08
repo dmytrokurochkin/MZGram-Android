@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">Wie „Nachrichten behalten“</string>
     <string name="MZGramSaveExclusionAlways">Gelöschte und bearbeitete immer behalten</string>
     <string name="MZGramSaveExclusionNever">Nie behalten</string>
+    <string name="MZGramKeptReplyPreviews">Antworten auf gelöschte Nachrichten zeigen</string>
+    <string name="MZGramReplyToDeletedAsQuote">Antwort auf Gelöschtes als Zitat</string>
+    <string name="MZGramDeletedRepliesInfo">Eine Antwort, deren Original gelöscht wurde, zeigt statt „Gelöschte Nachricht“ die Kopie aus dem Archiv. Auf dem Server gibt es die gelöschte Nachricht nicht mehr, daher wird mit dem zweiten Schalter eine Antwort auf eine behaltene gelöschte Nachricht mit deren Autor und Text als Zitat oben gesendet.</string>
 </resources>

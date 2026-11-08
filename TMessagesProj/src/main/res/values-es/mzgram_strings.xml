@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">Como «Guardar mensajes»</string>
     <string name="MZGramSaveExclusionAlways">Guardar siempre eliminados y editados</string>
     <string name="MZGramSaveExclusionNever">No guardar nunca</string>
+    <string name="MZGramKeptReplyPreviews">Mostrar respuestas a mensajes eliminados</string>
+    <string name="MZGramReplyToDeletedAsQuote">Responder a lo eliminado como cita</string>
+    <string name="MZGramDeletedRepliesInfo">Una respuesta cuyo original se eliminó muestra la copia guardada en el archivo en lugar de «Mensaje eliminado». El servidor ya no tiene el mensaje eliminado, así que con el segundo interruptor una respuesta a un mensaje eliminado guardado se envía con su autor y texto como cita arriba.</string>
 </resources>

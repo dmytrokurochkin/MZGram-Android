@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">Как «Сохранять сообщения»</string>
     <string name="MZGramSaveExclusionAlways">Всегда сохранять удалённые и изменённые</string>
     <string name="MZGramSaveExclusionNever">Никогда не сохранять</string>
+    <string name="MZGramKeptReplyPreviews">Показывать ответы на удалённые сообщения</string>
+    <string name="MZGramReplyToDeletedAsQuote">Ответ на удалённое как цитата</string>
+    <string name="MZGramDeletedRepliesInfo">Ответ, оригинал которого удалён, показывает копию из архива вместо «Удалённое сообщение». На сервере удалённого сообщения нет, поэтому со вторым переключателем ответ на сохранённое удалённое сообщение отправляется с его автором и текстом в виде цитаты сверху.</string>
 </resources>

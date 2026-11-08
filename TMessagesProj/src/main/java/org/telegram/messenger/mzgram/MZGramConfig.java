@@ -158,6 +158,10 @@ public class MZGramConfig {
     // A chat's menu sets the archive rule for that chat only
     // (MZGramSaveExclusions); off ignores the saved rules.
     public static boolean saveExclusions = false;
+    // Replies to deleted messages (MZGramDeletedReplies): the kept original
+    // as the reply preview, and a reply to a kept message sent as a quote.
+    public static boolean keptReplyPreviews = false;
+    public static boolean replyToDeletedAsQuote = false;
     // How a deleted message kept in the chat looks: drawn at 75% opacity,
     // and the marks shown before the time (any text, empty for none).
     public static boolean semiTransparentDeleted = true;
@@ -283,6 +287,8 @@ public class MZGramConfig {
             saveInGroups = preferences.getBoolean("saveInGroups", true);
             saveInChannels = preferences.getBoolean("saveInChannels", true);
             saveExclusions = preferences.getBoolean("saveExclusions", false);
+            keptReplyPreviews = preferences.getBoolean("keptReplyPreviews", false);
+            replyToDeletedAsQuote = preferences.getBoolean("replyToDeletedAsQuote", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
             editedMark = preferences.getString("editedMark", DEFAULT_EDITED_MARK);
@@ -634,6 +640,16 @@ public class MZGramConfig {
     public static void toggleSaveExclusions() {
         saveExclusions = !saveExclusions;
         putBoolean("saveExclusions", saveExclusions);
+    }
+
+    public static void toggleKeptReplyPreviews() {
+        keptReplyPreviews = !keptReplyPreviews;
+        putBoolean("keptReplyPreviews", keptReplyPreviews);
+    }
+
+    public static void toggleReplyToDeletedAsQuote() {
+        replyToDeletedAsQuote = !replyToDeletedAsQuote;
+        putBoolean("replyToDeletedAsQuote", replyToDeletedAsQuote);
     }
 
     public static void toggleSemiTransparentDeleted() {

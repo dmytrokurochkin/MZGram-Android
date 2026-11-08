@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">Comme « Conserver les messages »</string>
     <string name="MZGramSaveExclusionAlways">Toujours conserver supprimés et modifiés</string>
     <string name="MZGramSaveExclusionNever">Ne jamais conserver</string>
+    <string name="MZGramKeptReplyPreviews">Afficher les réponses aux messages supprimés</string>
+    <string name="MZGramReplyToDeletedAsQuote">Répondre à un message supprimé par une citation</string>
+    <string name="MZGramDeletedRepliesInfo">Une réponse dont l’original a été supprimé affiche la copie conservée dans l’archive au lieu de « Message supprimé ». Le serveur n’a plus le message supprimé : avec le second interrupteur, une réponse à un message supprimé conservé est envoyée avec son auteur et son texte en citation au début.</string>
 </resources>

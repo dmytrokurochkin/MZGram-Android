@@ -487,4 +487,7 @@
     <string name="MZGramSaveExclusionDefault">Як «Зберігати повідомлення»</string>
     <string name="MZGramSaveExclusionAlways">Завжди зберігати видалені й змінені</string>
     <string name="MZGramSaveExclusionNever">Ніколи не зберігати</string>
+    <string name="MZGramKeptReplyPreviews">Показувати відповіді на видалені повідомлення</string>
+    <string name="MZGramReplyToDeletedAsQuote">Відповідь на видалене як цитата</string>
+    <string name="MZGramDeletedRepliesInfo">Відповідь, оригінал якої видалено, показує копію з архіву замість «Видалене повідомлення». На сервері видаленого повідомлення немає, тож із другим перемикачем відповідь на збережене видалене повідомлення надсилається з його автором і текстом як цитатою вгорі.</string>
 </resources>

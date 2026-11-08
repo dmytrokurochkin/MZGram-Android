@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">«Хабарламаларды сақтау» сияқты</string>
     <string name="MZGramSaveExclusionAlways">Жойылған және өңделгенді әрқашан сақтау</string>
     <string name="MZGramSaveExclusionNever">Ешқашан сақтамау</string>
+    <string name="MZGramKeptReplyPreviews">Жойылған хабарламаларға жауаптарды көрсету</string>
+    <string name="MZGramReplyToDeletedAsQuote">Жойылғанға жауапты дәйексөз ретінде жіберу</string>
+    <string name="MZGramDeletedRepliesInfo">Түпнұсқасы жойылған жауап «Жойылған хабарлама» орнына мұрағаттағы көшірмені көрсетеді. Серверде жойылған хабарлама жоқ, сондықтан екінші қосқышпен сақталған жойылған хабарламаға жауап оның авторы мен мәтіні жоғарыда дәйексөз ретінде жіберіледі.</string>
 </resources>

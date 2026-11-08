@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">Як «Захоўваць паведамленні»</string>
     <string name="MZGramSaveExclusionAlways">Заўсёды захоўваць выдаленыя і змененыя</string>
     <string name="MZGramSaveExclusionNever">Ніколі не захоўваць</string>
+    <string name="MZGramKeptReplyPreviews">Паказваць адказы на выдаленыя паведамленні</string>
+    <string name="MZGramReplyToDeletedAsQuote">Адказ на выдаленае як цытата</string>
+    <string name="MZGramDeletedRepliesInfo">Адказ, арыгінал якога выдалены, паказвае копію з архіва замест «Выдаленае паведамленне». На серверы выдаленага паведамлення няма, таму з другім пераключальнікам адказ на захаванае выдаленае паведамленне адпраўляецца з яго аўтарам і тэкстам як цытатай уверсе.</string>
 </resources>

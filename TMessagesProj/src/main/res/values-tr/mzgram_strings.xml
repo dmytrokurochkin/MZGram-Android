@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">Mesajları sakla gibi</string>
     <string name="MZGramSaveExclusionAlways">Silinen ve düzenlenenleri her zaman sakla</string>
     <string name="MZGramSaveExclusionNever">Asla saklama</string>
+    <string name="MZGramKeptReplyPreviews">Silinen mesajlara verilen yanıtları göster</string>
+    <string name="MZGramReplyToDeletedAsQuote">Silinene yanıtı alıntı olarak gönder</string>
+    <string name="MZGramDeletedRepliesInfo">Orijinali silinmiş bir yanıt, \"Silinmiş mesaj\" yerine arşivde saklanan kopyayı gösterir. Sunucuda silinen mesaj artık yoktur; bu yüzden ikinci anahtarla saklanan silinmiş bir mesaja verilen yanıt, yazarı ve metni üstte alıntı olarak gönderilir.</string>
 </resources>

@@ -486,4 +486,7 @@
     <string name="MZGramSaveExclusionDefault">Como \"Guardar mensagens\"</string>
     <string name="MZGramSaveExclusionAlways">Sempre guardar apagadas e editadas</string>
     <string name="MZGramSaveExclusionNever">Nunca guardar</string>
+    <string name="MZGramKeptReplyPreviews">Mostrar respostas a mensagens apagadas</string>
+    <string name="MZGramReplyToDeletedAsQuote">Responder a apagadas como citação</string>
+    <string name="MZGramDeletedRepliesInfo">Uma resposta cujo original foi apagado mostra a cópia guardada no arquivo em vez de \"Mensagem apagada\". O servidor não tem mais a mensagem apagada, então com a segunda chave uma resposta a uma mensagem apagada guardada é enviada com o autor e o texto dela como citação no topo.</string>
 </resources>

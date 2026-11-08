@@ -983,7 +983,10 @@ public class MZGramHistoryController {
             return loaded;
         }
         try {
-            return messagesForChatInner(accountId, dialogId, loaded, count, maxId, loadType, isCache, threadMessageId, isTopic);
+            ArrayList<TLRPC.Message> shown = messagesForChatInner(accountId, dialogId, loaded, count, maxId, loadType, isCache, threadMessageId, isTopic);
+            // Replies to deleted messages show the kept original.
+            MZGramDeletedReplies.fill(accountId, dialogId, shown);
+            return shown;
         } catch (Exception e) {
             FileLog.e("MZGramHistoryController.messagesForChat", e);
             return loaded;
@@ -1284,6 +1287,46 @@ public class MZGramHistoryController {
             FileLog.e("MZGramHistoryController.keptLastMessage", e);
         }
         return null;
+    }
+
+    // ---- one kept message ----
+
+    // The deleted message MZGram keeps under this id, ready to be shown
+    // (marked deleted, read, its archived file put back), or null: for the
+    // preview of a reply to it (MZGramDeletedReplies) and the list of a
+    // chat's deleted messages. Reads the archive: not on the UI thread.
+    public TLRPC.Message keptDeletedMessage(int accountId, long dialogId, int messageId) {
+        if (messageId == 0 || dialogId == 0) {
+            return null;
+        }
+        try {
+            long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+            MZGramHistoryMessage row = MZGramHistoryDatabase.getInstance().getDeleted(accountUserId, dialogId, messageId);
+            return row != null ? shownMessage(accountId, dialogId, row) : null;
+        } catch (Exception e) {
+            FileLog.e("MZGramHistoryController.keptDeletedMessage", e);
+            return null;
+        }
+    }
+
+    // An archived row as a message the chat can draw, or null when the row
+    // was saved without the whole message (old versions) or is a service one.
+    public TLRPC.Message shownMessage(int accountId, long dialogId, MZGramHistoryMessage row) {
+        TLRPC.Message message = deserializeMessage(row.messageData);
+        if (message == null || message instanceof TLRPC.TL_messageService || message.id != row.messageId) {
+            return null;
+        }
+        message.dialog_id = dialogId;
+        message.unread = false;
+        message.media_unread = false;
+        message.mzgramDeleted = true;
+        if (message.media != null && message.media.ttl_seconds != 0) {
+            message.media.ttl_seconds = 0;
+            message.media.flags &= ~4;
+        }
+        message.ttl = 0;
+        putFileBack(accountId, message, row.mediaPath);
+        return message;
     }
 
     // ---- retrieval for the UI ----

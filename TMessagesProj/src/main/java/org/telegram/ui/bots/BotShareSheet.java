@@ -135,6 +135,11 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
     }
 
     public static Runnable loadWebPagePreview(int currentAccount, String url, Utilities.Callback<TLRPC.WebPage> whenLoaded) {
+        // MZGram: a typed link is not sent for a preview (MZGramPrivacy).
+        if (org.telegram.messenger.mzgram.MZGramPrivacy.noLinkPreviewWhileTyping()) {
+            whenLoaded.run(null);
+            return () -> {};
+        }
         final int[] reqId = new int[1];
         final NotificationCenter.NotificationCenterDelegate[] delegateToRemove = new NotificationCenter.NotificationCenterDelegate[1];
 

@@ -14269,6 +14269,10 @@ public class ChatActivity extends BaseFragment implements
     }
 
     public void searchLinks(final CharSequence charSequence, final boolean force) {
+        // MZGram: a typed link is not sent for a preview (MZGramPrivacy).
+        if (org.telegram.messenger.mzgram.MZGramPrivacy.noLinkPreviewWhileTyping()) {
+            return;
+        }
         if (currentEncryptedChat != null && getMessagesController().secretWebpagePreview == 0 || editingMessageObject != null && (!editingMessageObject.isWebpage() || editingMessageObject.messageOwner.media.webpage instanceof TLRPC.TL_webPagePending)) {
             return;
         }

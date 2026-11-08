@@ -33,6 +33,11 @@ public class WebPageLoader {
     }
 
     public void get(String url, Utilities.Callback2<TLRPC.WebPage, TLObject> callback) {
+        // MZGram: a typed link is not sent for a preview (MZGramPrivacy).
+        if (org.telegram.messenger.mzgram.MZGramPrivacy.noLinkPreviewWhileTyping()) {
+            callback.run(null, null);
+            return;
+        }
         if (pages.containsKey(url)) {
             callback.run(pages.get(url), null);
             return;

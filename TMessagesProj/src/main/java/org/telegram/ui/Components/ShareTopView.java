@@ -378,6 +378,8 @@ public class ShareTopView extends FrameLayout implements NotificationCenter.Noti
     private void requestLinkPreview(String message) {
         cancelLinkRequest();
         if (message == null || message.isEmpty()) return;
+        // MZGram: a typed link is not sent for a preview (MZGramPrivacy).
+        if (org.telegram.messenger.mzgram.MZGramPrivacy.noLinkPreviewWhileTyping()) return;
         final TL_account.getWebPagePreview req = new TL_account.getWebPagePreview();
         req.message = message;
         final int serial = ++linkRequestSerial;

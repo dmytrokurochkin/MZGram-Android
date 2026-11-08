@@ -6970,6 +6970,10 @@ public class ChatActivityEnterView extends FrameLayout implements
     }
 
     public boolean isMessageWebPageSearchEnabled() {
+        // MZGram: no preview requested, so the message goes with no_webpage (MZGramPrivacy).
+        if (org.telegram.messenger.mzgram.MZGramPrivacy.noLinkPreviewWhileTyping()) {
+            return false;
+        }
         return messageWebPageSearch;
     }
 

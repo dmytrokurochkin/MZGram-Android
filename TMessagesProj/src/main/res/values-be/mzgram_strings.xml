@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Спасылкі, чарнавікі, прэв\'ю і што даведваецца сервер</string>
     <string name="MZGramConfirmInternalLinks">Пацвярджаць спасылкі Telegram</string>
     <string name="MZGramConfirmInternalLinksInfo">Спасылкі t.me і tg:// паказваюць адрас і пытаюцца перад адкрыццём, таму схаваная спасылка не падпіша на канал, не запусціць бота і не дадасць проксі адным дотыкам.</string>
+    <string name="MZGramDisableReadStickers">Не адзначаць папулярныя стыкеры прагледжанымі</string>
+    <string name="MZGramDisableReadStickersInfo">Сервер не даведваецца, якія папулярныя наборы стыкераў і эмодзі вы прагледзелі. Яны адзначаюцца прагледжанымі толькі на гэтай прыладзе і пасля перазапуску могуць зноў паказацца новымі.</string>
+    <string name="MZGramDisableLinkPreviews">Без прэв\'ю спасылак пры наборы</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Спасылка, якую вы ўводзіце ці ўстаўляеце, не адпраўляецца ў Telegram для прэв\'ю, таму сервер не адкрывае яе да адпраўкі. Паведамленні тады ідуць без прэв\'ю. Прэв\'ю ў атрыманых паведамленнях паказваюцца як звычайна.</string>
 </resources>

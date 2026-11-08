@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Links, drafts, previews and what the server learns</string>
     <string name="MZGramConfirmInternalLinks">Confirm Telegram links</string>
     <string name="MZGramConfirmInternalLinksInfo">t.me and tg:// links show their address and ask before they open, so a hidden link cannot join a channel, start a bot or add a proxy in one tap.</string>
+    <string name="MZGramDisableReadStickers">Don\'t mark trending stickers viewed</string>
+    <string name="MZGramDisableReadStickersInfo">The server is not told which trending sticker and emoji packs you looked at. They are marked viewed on this device only and can show as new again after a restart.</string>
+    <string name="MZGramDisableLinkPreviews">No link preview while typing</string>
+    <string name="MZGramDisableLinkPreviewsInfo">A link you type or paste is not sent to Telegram for a preview, so the server does not open it before you send the message. Messages then go without a preview. Previews in received messages still show.</string>
 </resources>

@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Ссылки, черновики, превью и что узнаёт сервер</string>
     <string name="MZGramConfirmInternalLinks">Подтверждать ссылки Telegram</string>
     <string name="MZGramConfirmInternalLinksInfo">Ссылки t.me и tg:// показывают адрес и спрашивают перед открытием, поэтому скрытая ссылка не вступит в канал, не запустит бота и не добавит прокси одним нажатием.</string>
+    <string name="MZGramDisableReadStickers">Не отмечать популярные стикеры просмотренными</string>
+    <string name="MZGramDisableReadStickersInfo">Сервер не узнаёт, какие популярные наборы стикеров и эмодзи вы посмотрели. Они отмечаются просмотренными только на этом устройстве и после перезапуска могут снова показаться новыми.</string>
+    <string name="MZGramDisableLinkPreviews">Без превью ссылок при наборе</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Ссылка, которую вы вводите или вставляете, не отправляется в Telegram для превью, поэтому сервер не открывает её до отправки. Сообщения тогда уходят без превью. Превью в полученных сообщениях показываются как обычно.</string>
 </resources>

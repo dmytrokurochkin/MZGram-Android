@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Links, rascunhos, prévias e o que o servidor fica sabendo</string>
     <string name="MZGramConfirmInternalLinks">Confirmar links do Telegram</string>
     <string name="MZGramConfirmInternalLinksInfo">Links t.me e tg:// mostram o endereço e perguntam antes de abrir, para que um link oculto não entre num canal, inicie um bot ou adicione um proxy com um toque.</string>
+    <string name="MZGramDisableReadStickers">Não marcar figurinhas em alta como vistas</string>
+    <string name="MZGramDisableReadStickersInfo">O servidor não fica sabendo quais pacotes de figurinhas e emojis em alta você viu. Eles são marcados como vistos só neste aparelho e podem aparecer como novos de novo após reiniciar.</string>
+    <string name="MZGramDisableLinkPreviews">Sem prévia de links ao digitar</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Um link que você digita ou cola não é enviado ao Telegram para gerar prévia, então o servidor não o abre antes de você enviar a mensagem. As mensagens vão sem prévia. As prévias das mensagens recebidas continuam aparecendo.</string>
 </resources>

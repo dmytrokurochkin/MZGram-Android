@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Links, Entwürfe, Vorschauen und was der Server erfährt</string>
     <string name="MZGramConfirmInternalLinks">Telegram-Links bestätigen</string>
     <string name="MZGramConfirmInternalLinksInfo">t.me- und tg://-Links zeigen ihre Adresse und fragen vor dem Öffnen, damit ein versteckter Link nicht mit einem Tippen einem Kanal beitritt, einen Bot startet oder einen Proxy hinzufügt.</string>
+    <string name="MZGramDisableReadStickers">Angesagte Sticker nicht als gesehen markieren</string>
+    <string name="MZGramDisableReadStickersInfo">Der Server erfährt nicht, welche angesagten Sticker- und Emoji-Pakete du dir angesehen hast. Sie gelten nur auf diesem Gerät als gesehen und können nach einem Neustart wieder als neu erscheinen.</string>
+    <string name="MZGramDisableLinkPreviews">Keine Linkvorschau beim Tippen</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Ein getippter oder eingefügter Link wird nicht für eine Vorschau an Telegram gesendet, der Server öffnet ihn also nicht vor dem Senden. Nachrichten gehen dann ohne Vorschau. Vorschauen in empfangenen Nachrichten werden weiter angezeigt.</string>
 </resources>

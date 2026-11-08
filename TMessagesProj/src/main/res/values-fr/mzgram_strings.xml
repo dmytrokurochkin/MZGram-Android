@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Liens, brouillons, aperçus et ce que le serveur apprend</string>
     <string name="MZGramConfirmInternalLinks">Confirmer les liens Telegram</string>
     <string name="MZGramConfirmInternalLinksInfo">Les liens t.me et tg:// affichent leur adresse et demandent avant de s\'ouvrir, pour qu\'un lien caché ne puisse pas rejoindre un canal, lancer un bot ou ajouter un proxy d\'un seul toucher.</string>
+    <string name="MZGramDisableReadStickers">Ne pas marquer les stickers tendance comme vus</string>
+    <string name="MZGramDisableReadStickersInfo">Le serveur ne sait pas quels packs de stickers et d\'emojis tendance vous avez regardés. Ils sont marqués vus sur cet appareil seulement et peuvent réapparaître comme nouveaux après un redémarrage.</string>
+    <string name="MZGramDisableLinkPreviews">Pas d\'aperçu des liens pendant la saisie</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Un lien saisi ou collé n\'est pas envoyé à Telegram pour un aperçu, le serveur ne l\'ouvre donc pas avant l\'envoi du message. Les messages partent alors sans aperçu. Les aperçus des messages reçus restent affichés.</string>
 </resources>

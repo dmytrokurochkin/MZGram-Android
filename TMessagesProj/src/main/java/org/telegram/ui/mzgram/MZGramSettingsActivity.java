@@ -129,6 +129,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_PEER_ID = 84;
     // Privacy topic (MZGramPrivacy)
     private static final int BUTTON_CONFIRM_INTERNAL_LINKS = 85;
+    private static final int BUTTON_DISABLE_READ_STICKERS = 86;
+    private static final int BUTTON_DISABLE_LINK_PREVIEWS = 87;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -492,6 +494,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_CONFIRM_INTERNAL_LINKS, getString(R.string.MZGramConfirmInternalLinks)).setChecked(MZGramConfig.confirmInternalLinks));
         items.add(UItem.asShadow(getString(R.string.MZGramConfirmInternalLinksInfo)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_LINK_PREVIEWS, getString(R.string.MZGramDisableLinkPreviews)).setChecked(MZGramConfig.disableLinkPreviews));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableLinkPreviewsInfo)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_READ_STICKERS, getString(R.string.MZGramDisableReadStickers)).setChecked(MZGramConfig.disableReadStickers));
+        items.add(UItem.asShadow(getString(R.string.MZGramDisableReadStickersInfo)));
     }
 
     private void fillMessageMenu(ArrayList<UItem> items) {
@@ -633,6 +639,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CONFIRM_INTERNAL_LINKS) {
             MZGramConfig.toggleConfirmInternalLinks();
             ((TextCheckCell) view).setChecked(MZGramConfig.confirmInternalLinks);
+        } else if (item.id == BUTTON_DISABLE_READ_STICKERS) {
+            MZGramConfig.toggleDisableReadStickers();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableReadStickers);
+        } else if (item.id == BUTTON_DISABLE_LINK_PREVIEWS) {
+            MZGramConfig.toggleDisableLinkPreviews();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableLinkPreviews);
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);

@@ -347,6 +347,16 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     }
 
     private final Runnable requestPreview = () -> {
+        // MZGram: a typed link is not sent for a preview (MZGramPrivacy).
+        if (org.telegram.messenger.mzgram.MZGramPrivacy.noLinkPreviewWhileTyping()) {
+            webpage = null;
+            webpageId = 0;
+            loading = false;
+            if (adapter != null) {
+                adapter.update(true);
+            }
+            return;
+        }
         final TL_account.getWebPagePreview req = new TL_account.getWebPagePreview();
         req.message = urlEditText.editText.getText().toString();
         reqId = ConnectionsManager.getInstance(currentAccount).sendRequest(req, (res, err) -> AndroidUtilities.runOnUIThread(() -> {

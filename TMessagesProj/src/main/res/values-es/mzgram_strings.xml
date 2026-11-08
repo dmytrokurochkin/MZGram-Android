@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Enlaces, borradores, vistas previas y lo que sabe el servidor</string>
     <string name="MZGramConfirmInternalLinks">Confirmar enlaces de Telegram</string>
     <string name="MZGramConfirmInternalLinksInfo">Los enlaces t.me y tg:// muestran su dirección y preguntan antes de abrirse, para que un enlace oculto no te una a un canal, inicie un bot ni añada un proxy con un toque.</string>
+    <string name="MZGramDisableReadStickers">No marcar los stickers populares como vistos</string>
+    <string name="MZGramDisableReadStickersInfo">El servidor no sabe qué paquetes populares de stickers y emojis has mirado. Se marcan como vistos solo en este dispositivo y pueden volver a aparecer como nuevos tras reiniciar.</string>
+    <string name="MZGramDisableLinkPreviews">Sin vista previa de enlaces al escribir</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Un enlace que escribes o pegas no se envía a Telegram para la vista previa, así que el servidor no lo abre antes de que envíes el mensaje. Los mensajes se envían sin vista previa. Las vistas previas de los mensajes recibidos se siguen mostrando.</string>
 </resources>

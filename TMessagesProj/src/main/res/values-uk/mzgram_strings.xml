@@ -433,4 +433,8 @@
     <string name="MZGramSectionPrivacyInfo">Посилання, чернетки, прев\'ю і що дізнається сервер</string>
     <string name="MZGramConfirmInternalLinks">Підтверджувати посилання Telegram</string>
     <string name="MZGramConfirmInternalLinksInfo">Посилання t.me і tg:// показують адресу й питають перед відкриттям, тож приховане посилання не підпише на канал, не запустить бота і не додасть проксі одним дотиком.</string>
+    <string name="MZGramDisableReadStickers">Не позначати популярні стікери переглянутими</string>
+    <string name="MZGramDisableReadStickersInfo">Сервер не дізнається, які популярні набори стікерів і емодзі ви переглянули. Вони позначаються переглянутими лише на цьому пристрої й після перезапуску можуть знову показатися новими.</string>
+    <string name="MZGramDisableLinkPreviews">Без прев\'ю посилань під час набору</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Посилання, яке ви вводите чи вставляєте, не надсилається в Telegram для прев\'ю, тож сервер не відкриває його до відправлення. Повідомлення тоді йдуть без прев\'ю. Прев\'ю в отриманих повідомленнях показуються як завжди.</string>
 </resources>

@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Bağlantılar, taslaklar, önizlemeler ve sunucunun öğrendikleri</string>
     <string name="MZGramConfirmInternalLinks">Telegram bağlantılarını onayla</string>
     <string name="MZGramConfirmInternalLinksInfo">t.me ve tg:// bağlantıları adreslerini gösterir ve açılmadan önce sorar; böylece gizli bir bağlantı tek dokunuşla kanala katılamaz, bot başlatamaz veya proxy ekleyemez.</string>
+    <string name="MZGramDisableReadStickers">Popüler çıkartmaları görüldü olarak işaretleme</string>
+    <string name="MZGramDisableReadStickersInfo">Sunucu hangi popüler çıkartma ve emoji paketlerine baktığınızı öğrenmez. Yalnızca bu cihazda görüldü olarak işaretlenir ve yeniden başlattıktan sonra tekrar yeni görünebilir.</string>
+    <string name="MZGramDisableLinkPreviews">Yazarken bağlantı önizlemesi yok</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Yazdığınız veya yapıştırdığınız bağlantı önizleme için Telegram\'a gönderilmez, böylece sunucu mesajı göndermeden önce onu açmaz. Mesajlar önizlemesiz gider. Alınan mesajlardaki önizlemeler yine görünür.</string>
 </resources>

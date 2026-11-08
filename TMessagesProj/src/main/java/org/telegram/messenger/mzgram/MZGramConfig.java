@@ -103,6 +103,10 @@ public class MZGramConfig {
     // Settings > MZGram > Privacy (MZGramPrivacy); all off by default.
     // t.me and tg:// links ask before they open.
     public static boolean confirmInternalLinks = false;
+    // The viewed mark of trending sticker packs is not sent to the server.
+    public static boolean disableReadStickers = false;
+    // A typed link is not sent to the server for a preview.
+    public static boolean disableLinkPreviews = false;
 
     // Settings > MZGram > Interface > Show ID (MZGramPeerId): hidden by
     // default, as in Telegram API or as in Bot API.
@@ -212,6 +216,8 @@ public class MZGramConfig {
             ghostSilentSend = preferences.getBoolean("ghostSilentSend", false);
             offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
             confirmInternalLinks = preferences.getBoolean("confirmInternalLinks", false);
+            disableReadStickers = preferences.getBoolean("disableReadStickers", false);
+            disableLinkPreviews = preferences.getBoolean("disableLinkPreviews", false);
             // The removed "hide own online status" and "hide own phone
             // number" switches: Telegram's own privacy settings do this.
             if (preferences.contains("hideOwnOnlineStatus") || preferences.contains("savedLastSeenPrivacyState") || preferences.contains("hideOwnPhoneNumber")) {
@@ -490,6 +496,16 @@ public class MZGramConfig {
     public static void toggleConfirmInternalLinks() {
         confirmInternalLinks = !confirmInternalLinks;
         putBoolean("confirmInternalLinks", confirmInternalLinks);
+    }
+
+    public static void toggleDisableReadStickers() {
+        disableReadStickers = !disableReadStickers;
+        putBoolean("disableReadStickers", disableReadStickers);
+    }
+
+    public static void toggleDisableLinkPreviews() {
+        disableLinkPreviews = !disableLinkPreviews;
+        putBoolean("disableLinkPreviews", disableLinkPreviews);
     }
 
     public static void toggleGhostMode() {

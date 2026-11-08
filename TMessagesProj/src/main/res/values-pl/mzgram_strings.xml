@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Linki, szkice, podglądy i to, co wie serwer</string>
     <string name="MZGramConfirmInternalLinks">Potwierdzaj linki Telegrama</string>
     <string name="MZGramConfirmInternalLinksInfo">Linki t.me i tg:// pokazują adres i pytają przed otwarciem, więc ukryty link nie dołączy do kanału, nie uruchomi bota ani nie doda proxy jednym dotknięciem.</string>
+    <string name="MZGramDisableReadStickers">Nie oznaczaj popularnych naklejek jako obejrzanych</string>
+    <string name="MZGramDisableReadStickersInfo">Serwer nie wie, które popularne zestawy naklejek i emoji obejrzałeś. Są oznaczane jako obejrzane tylko na tym urządzeniu i po ponownym uruchomieniu mogą znów wyglądać na nowe.</string>
+    <string name="MZGramDisableLinkPreviews">Bez podglądu linków podczas pisania</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Wpisany lub wklejony link nie jest wysyłany do Telegrama po podgląd, więc serwer nie otwiera go przed wysłaniem wiadomości. Wiadomości idą wtedy bez podglądu. Podglądy w otrzymanych wiadomościach nadal się wyświetlają.</string>
 </resources>

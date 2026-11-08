@@ -2478,7 +2478,8 @@ public class MediaDataController extends BaseController {
         loadFeaturedHash[emoji ? 1 : 0] = calcFeaturedStickersHash(emoji, featuredStickerSets[emoji ? 1 : 0]);
         getNotificationCenter().postNotificationName(emoji ? NotificationCenter.featuredEmojiDidLoad : NotificationCenter.featuredStickersDidLoad);
         putFeaturedStickersToCache(emoji, featuredStickerSets[emoji ? 1 : 0], unreadStickerSets[emoji ? 1 : 0], loadFeaturedDate[emoji ? 1 : 0], loadFeaturedHash[emoji ? 1 : 0], loadFeaturedPremium);
-        if (query) {
+        // MZGram: the viewed mark of trending stickers stays on this device (MZGramPrivacy).
+        if (query && !org.telegram.messenger.mzgram.MZGramPrivacy.keepStickerReadLocal()) {
             TLRPC.TL_messages_readFeaturedStickers req = new TLRPC.TL_messages_readFeaturedStickers();
             getConnectionsManager().sendRequest(req, (response, error) -> {
 
@@ -2503,11 +2504,14 @@ public class MediaDataController extends BaseController {
             return;
         }
         readingStickerSets[emoji ? 1 : 0].add(id);
-        TLRPC.TL_messages_readFeaturedStickers req = new TLRPC.TL_messages_readFeaturedStickers();
-        req.id.add(id);
-        getConnectionsManager().sendRequest(req, (response, error) -> {
+        // MZGram: the viewed mark of trending stickers stays on this device (MZGramPrivacy).
+        if (!org.telegram.messenger.mzgram.MZGramPrivacy.keepStickerReadLocal()) {
+            TLRPC.TL_messages_readFeaturedStickers req = new TLRPC.TL_messages_readFeaturedStickers();
+            req.id.add(id);
+            getConnectionsManager().sendRequest(req, (response, error) -> {
 
-        });
+            });
+        }
         AndroidUtilities.runOnUIThread(() -> {
             unreadStickerSets[emoji ? 1 : 0].remove(id);
             readingStickerSets[emoji ? 1 : 0].remove(id);

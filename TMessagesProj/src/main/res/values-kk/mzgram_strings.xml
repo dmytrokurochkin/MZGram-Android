@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">Сілтемелер, жобалар, алдын ала қарау және сервер не біледі</string>
     <string name="MZGramConfirmInternalLinks">Telegram сілтемелерін растау</string>
     <string name="MZGramConfirmInternalLinksInfo">t.me және tg:// сілтемелері мекенжайын көрсетіп, ашпас бұрын сұрайды, сондықтан жасырын сілтеме бір түртумен арнаға қоспайды, ботты іске қоспайды және прокси қоспайды.</string>
+    <string name="MZGramDisableReadStickers">Танымал стикерлерді көрілді деп белгілемеу</string>
+    <string name="MZGramDisableReadStickersInfo">Сервер қай танымал стикер және эмодзи жинақтарын көргеніңізді білмейді. Олар тек осы құрылғыда көрілді деп белгіленеді және қайта іске қосқаннан кейін қайтадан жаңа болып көрінуі мүмкін.</string>
+    <string name="MZGramDisableLinkPreviews">Теру кезінде сілтеме алдын ала көрінісі жоқ</string>
+    <string name="MZGramDisableLinkPreviewsInfo">Сіз теретін немесе қоятын сілтеме алдын ала көрініс үшін Telegram-ға жіберілмейді, сондықтан сервер оны хабар жіберілгенге дейін ашпайды. Хабарлар алдын ала көрініссіз кетеді. Алынған хабарлардағы алдын ала көріністер әдеттегідей көрсетіледі.</string>
 </resources>

@@ -432,4 +432,8 @@
     <string name="MZGramSectionPrivacyInfo">الروابط والمسودات والمعاينات وما يعرفه الخادم</string>
     <string name="MZGramConfirmInternalLinks">تأكيد روابط تيليجرام</string>
     <string name="MZGramConfirmInternalLinksInfo">تعرض روابط t.me وtg:// عنوانها وتسأل قبل الفتح، حتى لا يتمكن رابط مخفي من الانضمام إلى قناة أو تشغيل بوت أو إضافة وكيل بلمسة واحدة.</string>
+    <string name="MZGramDisableReadStickers">عدم تعليم الملصقات الرائجة كمشاهدة</string>
+    <string name="MZGramDisableReadStickersInfo">لا يعرف الخادم أي حزم الملصقات والرموز التعبيرية الرائجة التي شاهدتها. تُعلَّم كمشاهدة على هذا الجهاز فقط وقد تظهر جديدة مرة أخرى بعد إعادة التشغيل.</string>
+    <string name="MZGramDisableLinkPreviews">بلا معاينة للروابط أثناء الكتابة</string>
+    <string name="MZGramDisableLinkPreviewsInfo">لا يُرسَل الرابط الذي تكتبه أو تلصقه إلى تيليجرام لإنشاء معاينة، فلا يفتحه الخادم قبل إرسال الرسالة. تُرسَل الرسائل حينها بلا معاينة. تظل المعاينات في الرسائل المستلمة ظاهرة.</string>
 </resources>

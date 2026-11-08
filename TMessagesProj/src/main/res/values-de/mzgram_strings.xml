@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">%1$s aus „Gelöschte Chats“ entfernen? Die behaltenen Nachrichten bleiben im Archiv.</string>
     <string name="MZGramDeletedDialogsGoneAt">Aus der Chatliste verschwunden: %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">Entfernen</string>
+    <string name="MZGramImportForeignArchive">Aus anderem Client importieren</string>
+    <string name="MZGramImportForeignArchiveInfo">Fügt gelöschte und bearbeitete Nachrichten, gelöschte Chats und Zuletzt-online-Zeiten aus der Nachrichtendatenbank eines anderen Clients hinzu (eine SQLite-Datei wie database-export.sqlite). Was das Archiv hat, bleibt; deine eigenen Nachrichten werden ausgelassen.</string>
+    <string name="MZGramImportForeignArchiveConfirm">Wähle die Nachrichtendatenbank des anderen Clients. Ihre Nachrichten werden dem Archiv hinzugefügt; nichts im Archiv wird ersetzt.</string>
+    <string name="MZGramImportForeignArchiveDone">Hinzugefügt: %1$d gelöschte, %2$d bearbeitete</string>
+    <string name="MZGramImportForeignArchiveFailed">Diese Datei ist keine Nachrichtendatenbank, die das Archiv lesen kann</string>
 </resources>

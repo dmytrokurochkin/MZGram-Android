@@ -569,6 +569,28 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return getWritableDatabase().insertWithOnConflict(TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
+    // Several writes as one, all or none (an import that adds rows).
+    public void inTransaction(Runnable work) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            work.run();
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    // A revision of the message captured at that time is already here.
+    public boolean hasRevision(long accountUserId, long dialogId, int messageId, int entityCreateDate) {
+        try (Cursor cursor = getReadableDatabase().rawQuery(
+                "SELECT 1 FROM " + TABLE + " WHERE kind = ? AND accountUserId = ? AND dialogId = ? AND messageId = ? AND entityCreateDate = ? LIMIT 1",
+                new String[]{String.valueOf(MZGramHistoryMessage.KIND_EDITED), String.valueOf(accountUserId), String.valueOf(dialogId),
+                        String.valueOf(messageId), String.valueOf(entityCreateDate)})) {
+            return cursor.moveToFirst();
+        }
+    }
+
     public boolean existsDeleted(long accountUserId, long dialogId, int messageId) {
         try (Cursor cursor = getReadableDatabase().rawQuery(
                 "SELECT 1 FROM " + TABLE + " WHERE kind = ? AND accountUserId = ? AND dialogId = ? AND messageId = ? LIMIT 1",

@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">Убрать %1$s из «Удалённых чатов»? Сохранённые сообщения останутся в архиве.</string>
     <string name="MZGramDeletedDialogsGoneAt">Исчез из списка чатов: %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">Убрать</string>
+    <string name="MZGramImportForeignArchive">Импорт из другого клиента</string>
+    <string name="MZGramImportForeignArchiveInfo">Добавляет удалённые и изменённые сообщения, удалённые чаты и время последнего визита из базы сообщений другого клиента (файл SQLite, например database-export.sqlite). То, что есть в архиве, остаётся; ваши собственные сообщения не добавляются.</string>
+    <string name="MZGramImportForeignArchiveConfirm">Выберите базу сообщений другого клиента. Её сообщения добавятся в архив; ничего в архиве не заменится.</string>
+    <string name="MZGramImportForeignArchiveDone">Добавлено: удалённых %1$d, изменённых %2$d</string>
+    <string name="MZGramImportForeignArchiveFailed">Этот файл не является базой сообщений, которую может прочитать архив</string>
 </resources>

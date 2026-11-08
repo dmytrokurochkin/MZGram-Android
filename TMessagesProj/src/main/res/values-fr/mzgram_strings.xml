@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">Retirer %1$s des « Discussions supprimées » ? Ses messages conservés restent dans l’archive.</string>
     <string name="MZGramDeletedDialogsGoneAt">Sortie de la liste des discussions : %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">Retirer</string>
+    <string name="MZGramImportForeignArchive">Importer depuis un autre client</string>
+    <string name="MZGramImportForeignArchiveInfo">Ajoute les messages supprimés et modifiés, les discussions supprimées et les heures de dernière connexion depuis la base de messages d’un autre client (un fichier SQLite comme database-export.sqlite). Ce que l’archive contient reste ; vos propres messages sont exclus.</string>
+    <string name="MZGramImportForeignArchiveConfirm">Choisissez la base de messages de l’autre client. Ses messages sont ajoutés à l’archive ; rien n’y est remplacé.</string>
+    <string name="MZGramImportForeignArchiveDone">Ajoutés : %1$d supprimés, %2$d modifiés</string>
+    <string name="MZGramImportForeignArchiveFailed">Ce fichier n’est pas une base de messages que l’archive peut lire</string>
 </resources>

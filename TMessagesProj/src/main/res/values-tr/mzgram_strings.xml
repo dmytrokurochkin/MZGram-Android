@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">%1$s \"Silinen sohbetler\"den çıkarılsın mı? Saklanan mesajları arşivde kalır.</string>
     <string name="MZGramDeletedDialogsGoneAt">Sohbet listesinden çıktı: %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">Çıkar</string>
+    <string name="MZGramImportForeignArchive">Başka bir istemciden içe aktar</string>
+    <string name="MZGramImportForeignArchiveInfo">Başka bir istemcinin mesaj veritabanından (database-export.sqlite gibi bir SQLite dosyası) silinen ve düzenlenen mesajları, silinen sohbetleri ve son görülme zamanlarını ekler. Arşivdekiler kalır; kendi mesajlarınız eklenmez.</string>
+    <string name="MZGramImportForeignArchiveConfirm">Diğer istemcinin mesaj veritabanını seçin. Mesajları arşive eklenir; arşivdeki hiçbir şey değiştirilmez.</string>
+    <string name="MZGramImportForeignArchiveDone">Eklendi: %1$d silinmiş, %2$d düzenlenmiş</string>
+    <string name="MZGramImportForeignArchiveFailed">Bu dosya arşivin okuyabileceği bir mesaj veritabanı değil</string>
 </resources>

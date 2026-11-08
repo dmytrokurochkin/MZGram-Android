@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">هل تريد إزالة %1$s من «المحادثات المحذوفة»؟ تبقى رسائلها المحفوظة في الأرشيف.</string>
     <string name="MZGramDeletedDialogsGoneAt">خرجت من قائمة المحادثات: %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">إزالة</string>
+    <string name="MZGramImportForeignArchive">استيراد من عميل آخر</string>
+    <string name="MZGramImportForeignArchiveInfo">يضيف الرسائل المحذوفة والمعدّلة والمحادثات المحذوفة وأوقات آخر ظهور من قاعدة رسائل عميل آخر (ملف SQLite مثل database-export.sqlite). يبقى ما في الأرشيف، ولا تُضاف رسائلك.</string>
+    <string name="MZGramImportForeignArchiveConfirm">اختر قاعدة رسائل العميل الآخر. تُضاف رسائلها إلى الأرشيف، ولا يُستبدل شيء فيه.</string>
+    <string name="MZGramImportForeignArchiveDone">أُضيفت: %1$d محذوفة، %2$d معدّلة</string>
+    <string name="MZGramImportForeignArchiveFailed">هذا الملف ليس قاعدة رسائل يمكن للأرشيف قراءتها</string>
 </resources>

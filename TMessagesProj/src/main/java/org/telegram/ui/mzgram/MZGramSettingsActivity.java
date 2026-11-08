@@ -80,6 +80,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_IMPORT_ARCHIVE = 36;
     private static final int REQUEST_CODE_IMPORT_ARCHIVE = 8842;
     private static final int REQUEST_CODE_EXPORT_ARCHIVE = 8843;
+    private static final int REQUEST_CODE_IMPORT_FOREIGN_ARCHIVE = 8844;
     private static final String EXPORT_FILE_NAME = "mzgram_archive_export.db";
     private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
@@ -151,6 +152,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Archive: Deleted chats (MZGramDeletedDialogsActivity)
     private static final int BUTTON_DELETED_DIALOGS_LIST = 102;
     private static final int BUTTON_DELETED_DIALOGS_OPEN = 103;
+    // Archive: import another client's message database (MZGramForeignArchiveImport)
+    private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -351,6 +354,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_EXPORT_ARCHIVE, getString(R.string.MZGramExportArchive)));
         items.add(UItem.asButton(BUTTON_IMPORT_ARCHIVE, getString(R.string.MZGramImportArchive)));
         items.add(UItem.asShadow(getString(R.string.MZGramExportImportArchiveInfo)));
+        items.add(UItem.asButton(BUTTON_IMPORT_FOREIGN_ARCHIVE, getString(R.string.MZGramImportForeignArchive)));
+        items.add(UItem.asShadow(getString(R.string.MZGramImportForeignArchiveInfo)));
         items.add(UItem.asButton(BUTTON_ERASE_LOCAL_DATABASE, getString(R.string.MZGramEraseLocalDatabase)).red());
         items.add(UItem.asShadow(getString(R.string.MZGramEraseLocalDatabaseInfo)));
     }
@@ -1001,6 +1006,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 org.telegram.messenger.FileLog.e("MZGramSettingsActivity.exportArchive", e);
                 BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramArchiveExportFailed)).show();
             }
+        } else if (item.id == BUTTON_IMPORT_FOREIGN_ARCHIVE) {
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
+                    .setTitle(getString(R.string.MZGramImportForeignArchive))
+                    .setMessage(getString(R.string.MZGramImportForeignArchiveConfirm))
+                    .setPositiveButton(getString(R.string.MZGramContinue), (dialog, which) -> {
+                        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");
+                        try {
+                            startActivityForResult(intent, REQUEST_CODE_IMPORT_FOREIGN_ARCHIVE);
+                        } catch (Exception e) {
+                            org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importForeignArchive", e);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.MZGramCancel), null)
+                    .show();
         } else if (item.id == BUTTON_IMPORT_ARCHIVE) {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
                     .setTitle(getString(R.string.MZGramImportArchive))
@@ -1065,6 +1085,30 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 }
                 showArchiveResult(done, R.string.MZGramArchiveImported, R.string.MZGramArchiveImportFailed);
                 AndroidUtilities.runOnUIThread(this::countArchiveSize);
+            });
+        } else if (requestCode == REQUEST_CODE_IMPORT_FOREIGN_ARCHIVE) {
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                org.telegram.messenger.mzgram.MZGramForeignArchiveImport.Result result = null;
+                try (java.io.InputStream input = resolver.openInputStream(uri)) {
+                    if (input != null) {
+                        result = org.telegram.messenger.mzgram.MZGramForeignArchiveImport.importFrom(input);
+                    }
+                } catch (Exception e) {
+                    org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importForeignArchive", e);
+                }
+                final org.telegram.messenger.mzgram.MZGramForeignArchiveImport.Result done = result;
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (getParentActivity() == null) {
+                        return;
+                    }
+                    if (done != null) {
+                        BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check,
+                                org.telegram.messenger.LocaleController.formatString(R.string.MZGramImportForeignArchiveDone, done.deleted, done.edited)).show();
+                    } else {
+                        BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramImportForeignArchiveFailed)).show();
+                    }
+                    countArchiveSize();
+                });
             });
         }
     }

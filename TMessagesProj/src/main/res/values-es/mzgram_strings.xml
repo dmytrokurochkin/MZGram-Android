@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">¿Quitar %1$s de «Chats eliminados»? Sus mensajes guardados siguen en el archivo.</string>
     <string name="MZGramDeletedDialogsGoneAt">Salió de la lista de chats: %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">Quitar</string>
+    <string name="MZGramImportForeignArchive">Importar de otro cliente</string>
+    <string name="MZGramImportForeignArchiveInfo">Añade mensajes eliminados y editados, chats eliminados y horas de última conexión de la base de mensajes de otro cliente (un archivo SQLite como database-export.sqlite). Lo que tiene el archivo se queda; tus propios mensajes no se añaden.</string>
+    <string name="MZGramImportForeignArchiveConfirm">Elige la base de mensajes del otro cliente. Sus mensajes se añaden al archivo; no se reemplaza nada del archivo.</string>
+    <string name="MZGramImportForeignArchiveDone">Añadidos: %1$d eliminados, %2$d editados</string>
+    <string name="MZGramImportForeignArchiveFailed">Este archivo no es una base de mensajes que el archivo pueda leer</string>
 </resources>

@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">%1$s «Жойылған чаттардан» алып тасталсын ба? Сақталған хабарламалар мұрағатта қалады.</string>
     <string name="MZGramDeletedDialogsGoneAt">Чаттар тізімінен жоғалды: %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">Алып тастау</string>
+    <string name="MZGramImportForeignArchive">Басқа клиенттен импорттау</string>
+    <string name="MZGramImportForeignArchiveInfo">Басқа клиенттің хабарламалар базасынан (database-export.sqlite сияқты SQLite файлы) жойылған және өңделген хабарламаларды, жойылған чаттарды және соңғы кіру уақытын қосады. Мұрағаттағы қалады; өз хабарламаларыңыз қосылмайды.</string>
+    <string name="MZGramImportForeignArchiveConfirm">Басқа клиенттің хабарламалар базасын таңдаңыз. Оның хабарламалары мұрағатқа қосылады; мұрағаттағы ештеңе ауыстырылмайды.</string>
+    <string name="MZGramImportForeignArchiveDone">Қосылды: жойылған %1$d, өңделген %2$d</string>
+    <string name="MZGramImportForeignArchiveFailed">Бұл файл мұрағат оқи алатын хабарламалар базасы емес</string>
 </resources>

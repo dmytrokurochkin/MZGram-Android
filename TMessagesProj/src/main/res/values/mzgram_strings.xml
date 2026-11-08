@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">Take %1$s off Deleted chats? Its kept messages stay in the archive.</string>
     <string name="MZGramDeletedDialogsGoneAt">Left the chat list: %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">Take off</string>
+    <string name="MZGramImportForeignArchive">Import from another client</string>
+    <string name="MZGramImportForeignArchiveInfo">Adds deleted and edited messages, deleted chats and last seen times from another client\'s message database (an SQLite file such as database-export.sqlite). What the archive has stays; your own messages are left out.</string>
+    <string name="MZGramImportForeignArchiveConfirm">Pick the other client\'s message database. Its messages are added to the archive; nothing in the archive is replaced.</string>
+    <string name="MZGramImportForeignArchiveDone">Added: %1$d deleted, %2$d edited</string>
+    <string name="MZGramImportForeignArchiveFailed">This file is not a message database the archive can read</string>
 </resources>

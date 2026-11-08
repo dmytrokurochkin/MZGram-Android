@@ -704,7 +704,7 @@ public class MZGramHistoryController {
         return copy;
     }
 
-    private static byte[] serializeMessage(TLRPC.Message message) {
+    static byte[] serializeMessage(TLRPC.Message message) {
         try {
             SerializedData data = new SerializedData(message.getObjectSize());
             message.serializeToStream(data);

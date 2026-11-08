@@ -504,4 +504,9 @@
     <string name="MZGramDeletedDialogsForget">Tirar %1$s de \"Conversas apagadas\"? As mensagens guardadas continuam no arquivo.</string>
     <string name="MZGramDeletedDialogsGoneAt">Saiu da lista de conversas: %1$s</string>
     <string name="MZGramDeletedDialogsForgetButton">Tirar</string>
+    <string name="MZGramImportForeignArchive">Importar de outro cliente</string>
+    <string name="MZGramImportForeignArchiveInfo">Adiciona mensagens apagadas e editadas, conversas apagadas e horários de visto por último do banco de mensagens de outro cliente (um arquivo SQLite como database-export.sqlite). O que o arquivo já tem permanece; suas próprias mensagens ficam de fora.</string>
+    <string name="MZGramImportForeignArchiveConfirm">Escolha o banco de mensagens do outro cliente. As mensagens dele são adicionadas ao arquivo; nada no arquivo é substituído.</string>
+    <string name="MZGramImportForeignArchiveDone">Adicionadas: %1$d apagadas, %2$d editadas</string>
+    <string name="MZGramImportForeignArchiveFailed">Este arquivo não é um banco de mensagens que o arquivo consiga ler</string>
 </resources>

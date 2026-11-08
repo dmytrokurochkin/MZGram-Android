@@ -3343,6 +3343,9 @@ public class LocaleController {
         if (src == null) {
             return null;
         }
+        if (!onlyEnglish && org.telegram.messenger.mzgram.MZGramConfig.foldFancyFontsInSearch) { // MZGram: decorated Unicode fonts fold to plain letters for search
+            src = org.telegram.messenger.mzgram.MZGramUnicodeFold.fold(src);
+        }
 
         if (ruTranslitChars == null) {
             ruTranslitChars = new HashMap<>(33);

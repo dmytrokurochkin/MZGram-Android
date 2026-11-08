@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">Этот файл не является базой сообщений, которую может прочитать архив</string>
     <string name="MZGramForwardDeletedAsCopy">Пересылать удалённые сообщения копиями</string>
     <string name="MZGramForwardDeletedAsCopyInfo">У удалённого сообщения, сохранённого в чате, нет оригинала на сервере, поэтому Telegram не может его переслать. Оно отправляется новым сообщением с текстом и файлом с этого устройства; если файла уже нет, отправляется только текст и ничего не запрашивается у сервера.</string>
+    <string name="MZGramSectionChats">Чаты</string>
+    <string name="MZGramSectionChatsInfo">Набор, отправка и поиск</string>
+    <string name="MZGramFoldFancyFonts">Искать имена в декоративных шрифтах</string>
+    <string name="MZGramFoldFancyFontsInfo">Поиск считает буквы декоративных Unicode-шрифтов (жирные, рукописные, в кружках, широкие и похожие буквы) обычными, поэтому запрос chat находит группу ⓒⓗⓐⓣ. Кириллица, греческий, CJK и другие настоящие письменности не меняются. Меняется только то, что сравнивает поиск, имена выглядят так же.</string>
 </resources>

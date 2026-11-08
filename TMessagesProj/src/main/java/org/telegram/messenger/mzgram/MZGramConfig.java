@@ -197,6 +197,10 @@ public class MZGramConfig {
     // Google FCM distributor; empty for the default gateway's key.
     public static String unifiedPushVapidKey = "";
 
+    // Search folds names in decorated Unicode fonts to plain letters
+    // (MZGramUnicodeFold in LocaleController.getTranslitString).
+    public static boolean foldFancyFontsInSearch = false;
+
     static {
         loadConfig(false);
     }
@@ -317,6 +321,7 @@ public class MZGramConfig {
             if (preferences.contains("historyMediaSizeLimitMb") || preferences.contains("historyTotalMediaCapMb")) {
                 preferences.edit().remove("historyMediaSizeLimitMb").remove("historyTotalMediaCapMb").apply();
             }
+            foldFancyFontsInSearch = preferences.getBoolean("foldFancyFontsInSearch", false);
             configLoaded = true;
         }
     }
@@ -742,5 +747,10 @@ public class MZGramConfig {
     public static void toggleStripZalgoText() {
         stripZalgoText = !stripZalgoText;
         putBoolean("stripZalgoText", stripZalgoText);
+    }
+
+    public static void toggleFoldFancyFontsInSearch() {
+        foldFancyFontsInSearch = !foldFancyFontsInSearch;
+        putBoolean("foldFancyFontsInSearch", foldFancyFontsInSearch);
     }
 }

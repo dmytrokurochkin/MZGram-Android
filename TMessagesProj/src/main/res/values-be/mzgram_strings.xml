@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">Гэты файл не з\'яўляецца базай паведамленняў, якую можа прачытаць архіў</string>
     <string name="MZGramForwardDeletedAsCopy">Перасылаць выдаленыя паведамленні копіямі</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Выдаленае паведамленне, захаванае ў чаце, не мае арыгінала на серверы, таму Telegram не можа яго пераслаць. Яно адпраўляецца новым паведамленнем з тэкстам і файлам з гэтай прылады; калі файла ўжо няма, адпраўляецца толькі тэкст і нічога не запытваецца ў сервера.</string>
+    <string name="MZGramSectionChats">Чаты</string>
+    <string name="MZGramSectionChatsInfo">Набор, адпраўка і пошук</string>
+    <string name="MZGramFoldFancyFonts">Шукаць імёны ў дэкаратыўных шрыфтах</string>
+    <string name="MZGramFoldFancyFontsInfo">Пошук лічыць літары дэкаратыўных Unicode-шрыфтоў (тлустыя, рукапісныя, у кружках, шырокія і падобныя літары) звычайнымі, таму запыт chat знаходзіць групу ⓒⓗⓐⓣ. Кірыліца, грэчаская, CJK і іншыя сапраўдныя пісьменнасці не мяняюцца. Мяняецца толькі тое, што параўноўвае пошук, імёны выглядаюць гэтак жа.</string>
 </resources>

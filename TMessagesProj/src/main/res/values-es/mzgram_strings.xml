@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">Este archivo no es una base de mensajes que el archivo pueda leer</string>
     <string name="MZGramForwardDeletedAsCopy">Reenviar mensajes eliminados como copias</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Un mensaje eliminado guardado en el chat no tiene original en el servidor, así que Telegram no puede reenviarlo. Se envía como mensaje nuevo con su texto y el archivo de este dispositivo; si el archivo ya no está, solo se envía el texto y no se pide nada al servidor.</string>
+    <string name="MZGramSectionChats">Chats</string>
+    <string name="MZGramSectionChatsInfo">Escritura, envío y búsqueda</string>
+    <string name="MZGramFoldFancyFonts">Buscar nombres con fuentes decorativas</string>
+    <string name="MZGramFoldFancyFontsInfo">La búsqueda trata las letras de fuentes Unicode decorativas (negrita, cursiva, en círculo, de ancho completo y letras parecidas) como normales, así que chat encuentra un grupo llamado ⓒⓗⓐⓣ. El cirílico, el griego, el CJK y otras escrituras reales no cambian. Solo cambia lo que compara la búsqueda; los nombres se ven igual.</string>
 </resources>

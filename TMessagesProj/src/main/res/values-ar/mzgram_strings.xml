@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">هذا الملف ليس قاعدة رسائل يمكن للأرشيف قراءتها</string>
     <string name="MZGramForwardDeletedAsCopy">إعادة توجيه الرسائل المحذوفة كنسخ</string>
     <string name="MZGramForwardDeletedAsCopyInfo">الرسالة المحذوفة المحفوظة في المحادثة ليس لها أصل على الخادم، لذا لا يستطيع Telegram إعادة توجيهها. تُرسل كرسالة جديدة بنصها والملف الموجود على هذا الجهاز؛ وإن لم يعد الملف موجودًا يُرسل النص فقط ولا يُطلب شيء من الخادم.</string>
+    <string name="MZGramSectionChats">المحادثات</string>
+    <string name="MZGramSectionChatsInfo">الكتابة والإرسال والبحث</string>
+    <string name="MZGramFoldFancyFonts">البحث عن الأسماء بالخطوط المزخرفة</string>
+    <string name="MZGramFoldFancyFontsInfo">يعامل البحث حروف خطوط Unicode المزخرفة (العريضة والمكتوبة باليد والمحاطة بدائرة وكاملة العرض والحروف المشابهة) كحروف عادية، فيجد البحث عن chat مجموعة باسم ⓒⓗⓐⓣ. لا تتغير السيريلية واليونانية وCJK وغيرها من الكتابات الحقيقية. يتغير ما يقارنه البحث فقط، وتبقى الأسماء كما هي.</string>
 </resources>

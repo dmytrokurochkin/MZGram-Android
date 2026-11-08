@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">This file is not a message database the archive can read</string>
     <string name="MZGramForwardDeletedAsCopy">Forward deleted messages as copies</string>
     <string name="MZGramForwardDeletedAsCopyInfo">A deleted message kept in the chat has no original on the server, so Telegram cannot forward it. It is sent as a new message with its text and the file on this device; when the file is gone, only the text is sent and nothing is requested from the server.</string>
+    <string name="MZGramSectionChats">Chats</string>
+    <string name="MZGramSectionChatsInfo">Typing, sending and search</string>
+    <string name="MZGramFoldFancyFonts">Find names in fancy fonts</string>
+    <string name="MZGramFoldFancyFontsInfo">Search treats letters from decorated Unicode fonts (bold, script, circled, fullwidth and lookalike letters) as plain ones, so typing chat finds a group named ⓒⓗⓐⓣ. Cyrillic, Greek, CJK and other real scripts are not changed. Only what search compares changes, names look the same.</string>
 </resources>

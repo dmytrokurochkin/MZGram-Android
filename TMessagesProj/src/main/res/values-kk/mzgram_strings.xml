@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">Бұл файл мұрағат оқи алатын хабарламалар базасы емес</string>
     <string name="MZGramForwardDeletedAsCopy">Жойылған хабарламаларды көшірме ретінде жіберу</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Чатта сақталған жойылған хабарламаның серверде түпнұсқасы жоқ, сондықтан Telegram оны жібере алмайды. Ол мәтінімен және осы құрылғыдағы файлымен жаңа хабарлама ретінде жіберіледі; файл жоқ болса, тек мәтін жіберіледі және серверден ештеңе сұралмайды.</string>
+    <string name="MZGramSectionChats">Чаттар</string>
+    <string name="MZGramSectionChatsInfo">Теру, жіберу және іздеу</string>
+    <string name="MZGramFoldFancyFonts">Сәндік қаріптегі аттарды іздеу</string>
+    <string name="MZGramFoldFancyFontsInfo">Іздеу сәндік Unicode қаріптерінің әріптерін (жуан, жазба, дөңгелектегі, кең және ұқсас әріптер) қарапайым деп санайды, сондықтан chat сұрауы ⓒⓗⓐⓣ тобын табады. Кирилл, грек, CJK және басқа нақты жазулар өзгермейді. Тек іздеу салыстыратыны өзгереді, аттар бұрынғыдай көрінеді.</string>
 </resources>

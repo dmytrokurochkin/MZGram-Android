@@ -156,6 +156,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
     // Archive: forward kept deleted messages as copies (MZGramProtectedContent)
     private static final int BUTTON_FORWARD_DELETED_AS_COPY = 105;
+    // messages (topic Chats)
+    private static final int BUTTON_FOLD_FANCY_FONTS = 106;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -195,7 +197,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     public static final int SECTION_AI = 6;
     public static final int SECTION_OTHER = 7;
     public static final int SECTION_PRIVACY = 8;
-    public static final int SECTIONS_COUNT = 9;
+    public static final int SECTION_CHATS = 9;
+    public static final int SECTIONS_COUNT = 10;
     // Row ids of the topics on the main page; clear of the BUTTON_ ids,
     // which stay below it.
     public static final int SECTION_ROW_ID = 1000;
@@ -204,6 +207,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             SECTION_ARCHIVE,
             SECTION_GHOST_MODE,
             SECTION_PRIVACY,
+            SECTION_CHATS,
             SECTION_MESSAGE_MENU,
             SECTION_MEDIA_AND_CALLS,
             SECTION_INTERFACE,
@@ -222,6 +226,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.string.MZGramSectionAi,
             R.string.MZGramSectionOther,
             R.string.MZGramSectionPrivacy,
+            R.string.MZGramSectionChats,
     };
     private static final int[] SECTION_INFOS = {
             R.string.MZGramSectionArchiveInfo,
@@ -233,6 +238,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.string.MZGramSectionAiInfo,
             R.string.MZGramSectionOtherInfo,
             R.string.MZGramSectionPrivacyInfo,
+            R.string.MZGramSectionChatsInfo,
     };
     private static final int[] SECTION_ICONS = {
             R.drawable.settings_data,
@@ -244,6 +250,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.drawable.settings_ask,
             R.drawable.settings_faq,
             R.drawable.settings_privacy,
+            R.drawable.settings_channel,
     };
     private static final IconBackgroundColors[] SECTION_COLORS = {
             IconBackgroundColors.BLUE_DEEP,
@@ -255,6 +262,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             IconBackgroundColors.GREEN,
             IconBackgroundColors.BLUE_LIGHT,
             IconBackgroundColors.ORANGE_DEEP,
+            IconBackgroundColors.BLUE,
     };
 
     private final int section;
@@ -286,6 +294,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             case SECTION_AI: fillAi(items); break;
             case SECTION_OTHER: fillOther(items); break;
             case SECTION_PRIVACY: fillPrivacy(items); break;
+            case SECTION_CHATS: fillChats(items); break;
             default: fillMain(items); break;
         }
     }
@@ -563,6 +572,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramDisableReadStickersInfo)));
     }
 
+    // Typing, sending and search in chats (domain messages)
+    private void fillChats(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_FOLD_FANCY_FONTS, getString(R.string.MZGramFoldFancyFonts)).setChecked(MZGramConfig.foldFancyFontsInSearch));
+        items.add(UItem.asShadow(getString(R.string.MZGramFoldFancyFontsInfo)));
+    }
+
     private void fillMessageMenu(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_SHOW_COPY_PHOTO, getString(R.string.MZGramCopyPhoto)).setChecked(MZGramConfig.showCopyPhoto));
@@ -699,6 +715,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (item.id >= SECTION_ROW_ID && item.id < SECTION_ROW_ID + SECTIONS_COUNT) {
             presentFragment(new MZGramSettingsActivity(item.id - SECTION_ROW_ID));
+        } else if (item.id == BUTTON_FOLD_FANCY_FONTS) {
+            MZGramConfig.toggleFoldFancyFontsInSearch();
+            ((TextCheckCell) view).setChecked(MZGramConfig.foldFancyFontsInSearch);
         } else if (item.id == BUTTON_CONFIRM_INTERNAL_LINKS) {
             MZGramConfig.toggleConfirmInternalLinks();
             ((TextCheckCell) view).setChecked(MZGramConfig.confirmInternalLinks);

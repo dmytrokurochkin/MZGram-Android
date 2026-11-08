@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">Este arquivo não é um banco de mensagens que o arquivo consiga ler</string>
     <string name="MZGramForwardDeletedAsCopy">Encaminhar mensagens apagadas como cópias</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Uma mensagem apagada guardada na conversa não tem original no servidor, então o Telegram não consegue encaminhá-la. Ela é enviada como nova mensagem com o texto e o arquivo deste aparelho; sem o arquivo, só o texto é enviado e nada é pedido ao servidor.</string>
+    <string name="MZGramSectionChats">Conversas</string>
+    <string name="MZGramSectionChatsInfo">Digitação, envio e busca</string>
+    <string name="MZGramFoldFancyFonts">Encontrar nomes em fontes decorativas</string>
+    <string name="MZGramFoldFancyFontsInfo">A busca trata letras de fontes Unicode decorativas (negrito, cursiva, em círculo, largura total e letras parecidas) como comuns, então chat encontra um grupo chamado ⓒⓗⓐⓣ. Cirílico, grego, CJK e outras escritas reais não mudam. Só muda o que a busca compara; os nomes ficam iguais.</string>
 </resources>

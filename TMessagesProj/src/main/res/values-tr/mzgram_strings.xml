@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">Bu dosya arşivin okuyabileceği bir mesaj veritabanı değil</string>
     <string name="MZGramForwardDeletedAsCopy">Silinen mesajları kopya olarak ilet</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Sohbette saklanan silinmiş bir mesajın sunucuda orijinali yoktur, bu yüzden Telegram onu iletemez. Metni ve bu cihazdaki dosyasıyla yeni bir mesaj olarak gönderilir; dosya yoksa yalnızca metin gönderilir ve sunucudan bir şey istenmez.</string>
+    <string name="MZGramSectionChats">Sohbetler</string>
+    <string name="MZGramSectionChatsInfo">Yazma, gönderme ve arama</string>
+    <string name="MZGramFoldFancyFonts">Süslü yazı tipindeki adları bul</string>
+    <string name="MZGramFoldFancyFontsInfo">Arama, süslü Unicode yazı tiplerindeki harfleri (kalın, el yazısı, daire içinde, tam genişlik ve benzer harfler) normal harf sayar, böylece chat yazmak ⓒⓗⓐⓣ adlı grubu bulur. Kiril, Yunan, CJK ve diğer gerçek yazılar değişmez. Yalnızca aramanın karşılaştırdığı değişir, adlar aynı görünür.</string>
 </resources>

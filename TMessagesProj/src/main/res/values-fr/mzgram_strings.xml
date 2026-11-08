@@ -511,4 +511,8 @@
     <string name="MZGramImportForeignArchiveFailed">Ce fichier n’est pas une base de messages que l’archive peut lire</string>
     <string name="MZGramForwardDeletedAsCopy">Transférer les messages supprimés en copie</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Un message supprimé conservé dans la discussion n’a plus d’original sur le serveur, Telegram ne peut donc pas le transférer. Il est envoyé comme nouveau message avec son texte et le fichier de cet appareil ; sans fichier, seul le texte part et rien n’est demandé au serveur.</string>
+    <string name="MZGramSectionChats">Discussions</string>
+    <string name="MZGramSectionChatsInfo">Saisie, envoi et recherche</string>
+    <string name="MZGramFoldFancyFonts">Trouver les noms en polices décoratives</string>
+    <string name="MZGramFoldFancyFontsInfo">La recherche traite les lettres des polices Unicode décoratives (gras, cursive, cerclées, pleine chasse et sosies) comme des lettres ordinaires : chat trouve un groupe nommé ⓒⓗⓐⓣ. Le cyrillique, le grec, le CJK et les autres écritures réelles ne changent pas. Seule la comparaison de la recherche change, les noms restent identiques.</string>
 </resources>

@@ -509,4 +509,6 @@
     <string name="MZGramImportForeignArchiveConfirm">Escolha o banco de mensagens do outro cliente. As mensagens dele são adicionadas ao arquivo; nada no arquivo é substituído.</string>
     <string name="MZGramImportForeignArchiveDone">Adicionadas: %1$d apagadas, %2$d editadas</string>
     <string name="MZGramImportForeignArchiveFailed">Este arquivo não é um banco de mensagens que o arquivo consiga ler</string>
+    <string name="MZGramForwardDeletedAsCopy">Encaminhar mensagens apagadas como cópias</string>
+    <string name="MZGramForwardDeletedAsCopyInfo">Uma mensagem apagada guardada na conversa não tem original no servidor, então o Telegram não consegue encaminhá-la. Ela é enviada como nova mensagem com o texto e o arquivo deste aparelho; sem o arquivo, só o texto é enviado e nada é pedido ao servidor.</string>
 </resources>

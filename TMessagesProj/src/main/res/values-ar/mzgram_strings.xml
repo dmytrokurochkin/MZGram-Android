@@ -509,4 +509,6 @@
     <string name="MZGramImportForeignArchiveConfirm">اختر قاعدة رسائل العميل الآخر. تُضاف رسائلها إلى الأرشيف، ولا يُستبدل شيء فيه.</string>
     <string name="MZGramImportForeignArchiveDone">أُضيفت: %1$d محذوفة، %2$d معدّلة</string>
     <string name="MZGramImportForeignArchiveFailed">هذا الملف ليس قاعدة رسائل يمكن للأرشيف قراءتها</string>
+    <string name="MZGramForwardDeletedAsCopy">إعادة توجيه الرسائل المحذوفة كنسخ</string>
+    <string name="MZGramForwardDeletedAsCopyInfo">الرسالة المحذوفة المحفوظة في المحادثة ليس لها أصل على الخادم، لذا لا يستطيع Telegram إعادة توجيهها. تُرسل كرسالة جديدة بنصها والملف الموجود على هذا الجهاز؛ وإن لم يعد الملف موجودًا يُرسل النص فقط ولا يُطلب شيء من الخادم.</string>
 </resources>

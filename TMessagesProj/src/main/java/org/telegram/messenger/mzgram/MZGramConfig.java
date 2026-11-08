@@ -168,6 +168,8 @@ public class MZGramConfig {
     // Deleted chats: chats that left the chat list while the archive keeps
     // their deleted messages (MZGramDeletedDialogs).
     public static boolean deletedDialogsList = false;
+    // A kept deleted message is forwarded as a copy (MZGramProtectedContent).
+    public static boolean forwardDeletedAsCopy = false;
     // How a deleted message kept in the chat looks: drawn at 75% opacity,
     // and the marks shown before the time (any text, empty for none).
     public static boolean semiTransparentDeleted = true;
@@ -297,6 +299,7 @@ public class MZGramConfig {
             replyToDeletedAsQuote = preferences.getBoolean("replyToDeletedAsQuote", false);
             deletedMessagesList = preferences.getBoolean("deletedMessagesList", false);
             deletedDialogsList = preferences.getBoolean("deletedDialogsList", false);
+            forwardDeletedAsCopy = preferences.getBoolean("forwardDeletedAsCopy", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
             editedMark = preferences.getString("editedMark", DEFAULT_EDITED_MARK);
@@ -668,6 +671,11 @@ public class MZGramConfig {
     public static void toggleDeletedDialogsList() {
         deletedDialogsList = !deletedDialogsList;
         putBoolean("deletedDialogsList", deletedDialogsList);
+    }
+
+    public static void toggleForwardDeletedAsCopy() {
+        forwardDeletedAsCopy = !forwardDeletedAsCopy;
+        putBoolean("forwardDeletedAsCopy", forwardDeletedAsCopy);
     }
 
     public static void toggleSemiTransparentDeleted() {

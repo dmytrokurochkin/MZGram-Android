@@ -154,6 +154,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DELETED_DIALOGS_OPEN = 103;
     // Archive: import another client's message database (MZGramForeignArchiveImport)
     private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
+    // Archive: forward kept deleted messages as copies (MZGramProtectedContent)
+    private static final int BUTTON_FORWARD_DELETED_AS_COPY = 105;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -338,6 +340,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_KEPT_REPLY_PREVIEWS, getString(R.string.MZGramKeptReplyPreviews)).setChecked(MZGramConfig.keptReplyPreviews));
         items.add(UItem.asCheck(BUTTON_REPLY_TO_DELETED_AS_QUOTE, getString(R.string.MZGramReplyToDeletedAsQuote)).setChecked(MZGramConfig.replyToDeletedAsQuote));
         items.add(UItem.asShadow(getString(R.string.MZGramDeletedRepliesInfo)));
+        items.add(UItem.asCheck(BUTTON_FORWARD_DELETED_AS_COPY, getString(R.string.MZGramForwardDeletedAsCopy)).setChecked(MZGramConfig.forwardDeletedAsCopy));
+        items.add(UItem.asShadow(getString(R.string.MZGramForwardDeletedAsCopyInfo)));
         items.add(UItem.asCheck(BUTTON_DELETED_MESSAGES_LIST, getString(R.string.MZGramDeletedMessagesList)).setChecked(MZGramConfig.deletedMessagesList));
         items.add(UItem.asShadow(getString(R.string.MZGramDeletedMessagesListInfo)));
         items.add(UItem.asCheck(BUTTON_DELETED_DIALOGS_LIST, getString(R.string.MZGramDeletedDialogsList)).setChecked(MZGramConfig.deletedDialogsList));
@@ -919,6 +923,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_REPLY_TO_DELETED_AS_QUOTE) {
             MZGramConfig.toggleReplyToDeletedAsQuote();
             ((TextCheckCell) view).setChecked(MZGramConfig.replyToDeletedAsQuote);
+        } else if (item.id == BUTTON_FORWARD_DELETED_AS_COPY) {
+            MZGramConfig.toggleForwardDeletedAsCopy();
+            ((TextCheckCell) view).setChecked(MZGramConfig.forwardDeletedAsCopy);
         } else if (item.id == BUTTON_DELETED_MESSAGES_LIST) {
             MZGramConfig.toggleDeletedMessagesList();
             ((TextCheckCell) view).setChecked(MZGramConfig.deletedMessagesList);

@@ -509,4 +509,6 @@
     <string name="MZGramImportForeignArchiveConfirm">Choisissez la base de messages de l’autre client. Ses messages sont ajoutés à l’archive ; rien n’y est remplacé.</string>
     <string name="MZGramImportForeignArchiveDone">Ajoutés : %1$d supprimés, %2$d modifiés</string>
     <string name="MZGramImportForeignArchiveFailed">Ce fichier n’est pas une base de messages que l’archive peut lire</string>
+    <string name="MZGramForwardDeletedAsCopy">Transférer les messages supprimés en copie</string>
+    <string name="MZGramForwardDeletedAsCopyInfo">Un message supprimé conservé dans la discussion n’a plus d’original sur le serveur, Telegram ne peut donc pas le transférer. Il est envoyé comme nouveau message avec son texte et le fichier de cet appareil ; sans fichier, seul le texte part et rien n’est demandé au serveur.</string>
 </resources>

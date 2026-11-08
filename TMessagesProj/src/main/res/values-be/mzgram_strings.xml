@@ -509,4 +509,6 @@
     <string name="MZGramImportForeignArchiveConfirm">Выберыце базу паведамленняў іншага кліента. Яе паведамленні дададуцца ў архіў; нічога ў архіве не заменіцца.</string>
     <string name="MZGramImportForeignArchiveDone">Дададзена: выдаленых %1$d, змененых %2$d</string>
     <string name="MZGramImportForeignArchiveFailed">Гэты файл не з\'яўляецца базай паведамленняў, якую можа прачытаць архіў</string>
+    <string name="MZGramForwardDeletedAsCopy">Перасылаць выдаленыя паведамленні копіямі</string>
+    <string name="MZGramForwardDeletedAsCopyInfo">Выдаленае паведамленне, захаванае ў чаце, не мае арыгінала на серверы, таму Telegram не можа яго пераслаць. Яно адпраўляецца новым паведамленнем з тэкстам і файлам з гэтай прылады; калі файла ўжо няма, адпраўляецца толькі тэкст і нічога не запытваецца ў сервера.</string>
 </resources>

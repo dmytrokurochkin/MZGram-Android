@@ -509,4 +509,6 @@
     <string name="MZGramImportForeignArchiveConfirm">Elige la base de mensajes del otro cliente. Sus mensajes se añaden al archivo; no se reemplaza nada del archivo.</string>
     <string name="MZGramImportForeignArchiveDone">Añadidos: %1$d eliminados, %2$d editados</string>
     <string name="MZGramImportForeignArchiveFailed">Este archivo no es una base de mensajes que el archivo pueda leer</string>
+    <string name="MZGramForwardDeletedAsCopy">Reenviar mensajes eliminados como copias</string>
+    <string name="MZGramForwardDeletedAsCopyInfo">Un mensaje eliminado guardado en el chat no tiene original en el servidor, así que Telegram no puede reenviarlo. Se envía como mensaje nuevo con su texto y el archivo de este dispositivo; si el archivo ya no está, solo se envía el texto y no se pide nada al servidor.</string>
 </resources>

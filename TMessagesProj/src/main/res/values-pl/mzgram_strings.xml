@@ -509,4 +509,6 @@
     <string name="MZGramImportForeignArchiveConfirm">Wybierz bazę wiadomości innego klienta. Jej wiadomości zostaną dodane do archiwum; nic w archiwum nie zostanie zastąpione.</string>
     <string name="MZGramImportForeignArchiveDone">Dodano: usuniętych %1$d, edytowanych %2$d</string>
     <string name="MZGramImportForeignArchiveFailed">Ten plik nie jest bazą wiadomości, którą archiwum może odczytać</string>
+    <string name="MZGramForwardDeletedAsCopy">Przekazuj usunięte wiadomości jako kopie</string>
+    <string name="MZGramForwardDeletedAsCopyInfo">Usunięta wiadomość zachowana w czacie nie ma oryginału na serwerze, więc Telegram nie może jej przekazać. Jest wysyłana jako nowa wiadomość z tekstem i plikiem z tego urządzenia; gdy pliku już nie ma, wysyłany jest tylko tekst i nic nie jest pobierane z serwera.</string>
 </resources>

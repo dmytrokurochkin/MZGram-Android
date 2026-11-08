@@ -13,6 +13,15 @@
  * such messages, so SendMessagesHelper hands them to sendCopies: each one is
  * sent again as a new message with its text and a fresh upload of its file,
  * downloading the file first when it is not on the device yet.
+ *
+ * Settings > MZGram > Archive > "Forward deleted messages as copies" (off by
+ * default): a deleted message the archive keeps in the chat has no original
+ * on the server, so forwarding it would only fail. It is sent as a copy the
+ * same way, from the file on the device; with no file left only its text
+ * goes, and nothing is requested from the server for it.
+ *
+ * Idea of the deleted-message part from AyuGram (GPL-3.0),
+ * com/radolyn/ayugram/messages/AyuForwardLoader.java (as in exteraless).
  */
 
 package org.telegram.messenger.mzgram;
@@ -56,14 +65,23 @@ public class MZGramProtectedContent {
     // SendMessagesHelper.sendMessage, forwarding: sends the protected
     // messages as copies and returns the others, to be forwarded as usual.
     // With the switch off nothing is copied: the server refuses as before.
+    // A kept deleted message: the server has no original to forward.
+    private static boolean isKeptDeleted(MessageObject message) {
+        return MZGramConfig.forwardDeletedAsCopy && message != null && message.messageOwner != null && message.messageOwner.mzgramDeleted;
+    }
+
+    private static boolean sendsCopy(int account, MessageObject message) {
+        return isKeptDeleted(message) || isEnabled() && isProtected(account, message);
+    }
+
     public static ArrayList<MessageObject> sendCopies(int account, ArrayList<MessageObject> messages, long peer, boolean notify, int scheduleDate, MessageObject replyToTopMsg) {
-        if (!isEnabled() || messages == null) {
+        if (messages == null || !isEnabled() && !MZGramConfig.forwardDeletedAsCopy) {
             return messages;
         }
         ArrayList<MessageObject> rest = null;
         for (int a = 0, N = messages.size(); a < N; a++) {
             MessageObject message = messages.get(a);
-            if (!isProtected(account, message)) {
+            if (!sendsCopy(account, message)) {
                 continue;
             }
             if (rest == null) {
@@ -76,7 +94,7 @@ public class MZGramProtectedContent {
         }
         for (int a = 0, N = messages.size(); a < N; a++) {
             MessageObject message = messages.get(a);
-            if (!isProtected(account, message) && !rest.contains(message)) {
+            if (!sendsCopy(account, message) && !rest.contains(message)) {
                 rest.add(message);
             }
         }
@@ -102,6 +120,14 @@ public class MZGramProtectedContent {
         File file = localFile(account, owner);
         if (file != null) {
             sendFile(account, owner, file, text, entities, peer, notify, scheduleDate, replyToTopMsg);
+            return;
+        }
+        if (owner.mzgramDeleted) {
+            // The server has no file of a deleted message: its text only
+            if (!TextUtils.isEmpty(text)) {
+                helper.sendMessage(SendMessagesHelper.SendMessageParams.of(text, peer, null, replyToTopMsg, null, true, entities, null, null, notify, scheduleDate, 0, null, false));
+                log("sent the text of deleted message " + owner.id + " to " + peer + ", its file is gone");
+            }
             return;
         }
         // Not on the device yet: download it, then send.

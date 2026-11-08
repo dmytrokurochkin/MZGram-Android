@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Passcode saved</string>
     <string name="MZGramPasscodeRemoved">Passcode removed</string>
     <string name="MZGramPasscodeLastVisible">At least one account must stay visible</string>
+    <string name="MZGramSaveExclusions">Archive rules per chat</string>
+    <string name="MZGramSaveExclusionsInfo">Adds \"Archive in this chat\" to a chat\'s menu: follow Keep messages above, always keep other people\'s deleted and edited messages there, or never keep them there. Save deleted messages and Save edit history still apply, and what was saved stays.</string>
+    <string name="MZGramSaveExclusion">Archive in this chat</string>
+    <string name="MZGramSaveExclusionDefault">As Keep messages</string>
+    <string name="MZGramSaveExclusionAlways">Always keep deleted and edited</string>
+    <string name="MZGramSaveExclusionNever">Never keep</string>
 </resources>

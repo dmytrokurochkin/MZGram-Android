@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Code gespeichert</string>
     <string name="MZGramPasscodeRemoved">Code entfernt</string>
     <string name="MZGramPasscodeLastVisible">Mindestens ein Konto muss sichtbar bleiben</string>
+    <string name="MZGramSaveExclusions">Archivregeln pro Chat</string>
+    <string name="MZGramSaveExclusionsInfo">Fügt dem Chatmenü „Archiv in diesem Chat“ hinzu: wie „Nachrichten behalten“ oben, gelöschte und bearbeitete Nachrichten anderer dort immer behalten oder nie. „Gelöschte Nachrichten speichern“ und „Bearbeitungsverlauf speichern“ gelten weiter, Gespeichertes bleibt erhalten.</string>
+    <string name="MZGramSaveExclusion">Archiv in diesem Chat</string>
+    <string name="MZGramSaveExclusionDefault">Wie „Nachrichten behalten“</string>
+    <string name="MZGramSaveExclusionAlways">Gelöschte und bearbeitete immer behalten</string>
+    <string name="MZGramSaveExclusionNever">Nie behalten</string>
 </resources>

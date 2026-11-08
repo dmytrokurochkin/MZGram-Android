@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Код сақталды</string>
     <string name="MZGramPasscodeRemoved">Код өшірілді</string>
     <string name="MZGramPasscodeLastVisible">Кемінде бір аккаунт көрініп тұруы керек</string>
+    <string name="MZGramSaveExclusions">Жеке чаттарға арналған мұрағат ережелері</string>
+    <string name="MZGramSaveExclusionsInfo">Чат мәзіріне «Осы чаттағы мұрағат» қосады: жоғарыдағы «Хабарламаларды сақтау» сияқты, басқалардың жойылған және өңделген хабарламаларын онда әрқашан сақтау немесе ешқашан сақтамау. «Жойылған хабарламаларды сақтау» және «Өңдеу тарихын сақтау» бұрынғыдай әрекет етеді, сақталғаны қалады.</string>
+    <string name="MZGramSaveExclusion">Осы чаттағы мұрағат</string>
+    <string name="MZGramSaveExclusionDefault">«Хабарламаларды сақтау» сияқты</string>
+    <string name="MZGramSaveExclusionAlways">Жойылған және өңделгенді әрқашан сақтау</string>
+    <string name="MZGramSaveExclusionNever">Ешқашан сақтамау</string>
 </resources>

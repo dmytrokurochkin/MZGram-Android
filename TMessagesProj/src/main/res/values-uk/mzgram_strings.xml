@@ -481,4 +481,10 @@
     <string name="MZGramPasscodeSaved">Код збережено</string>
     <string name="MZGramPasscodeRemoved">Код видалено</string>
     <string name="MZGramPasscodeLastVisible">Хоча б один акаунт має лишатися видимим</string>
+    <string name="MZGramSaveExclusions">Правила архіву для окремих чатів</string>
+    <string name="MZGramSaveExclusionsInfo">Додає «Архів у цьому чаті» в меню чату: як «Зберігати повідомлення» вище, завжди зберігати там видалені й змінені повідомлення інших або ніколи не зберігати. Перемикачі «Зберігати видалені повідомлення» і «Зберігати історію редагувань» діють і далі, а збережене лишається.</string>
+    <string name="MZGramSaveExclusion">Архів у цьому чаті</string>
+    <string name="MZGramSaveExclusionDefault">Як «Зберігати повідомлення»</string>
+    <string name="MZGramSaveExclusionAlways">Завжди зберігати видалені й змінені</string>
+    <string name="MZGramSaveExclusionNever">Ніколи не зберігати</string>
 </resources>

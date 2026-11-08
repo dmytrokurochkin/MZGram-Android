@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">تم حفظ الرمز</string>
     <string name="MZGramPasscodeRemoved">تمت إزالة الرمز</string>
     <string name="MZGramPasscodeLastVisible">يجب أن يبقى حساب واحد على الأقل ظاهراً</string>
+    <string name="MZGramSaveExclusions">قواعد الأرشيف لكل محادثة</string>
+    <string name="MZGramSaveExclusionsInfo">يضيف «الأرشيف في هذه المحادثة» إلى قائمة المحادثة: مثل «الاحتفاظ بالرسائل» أعلاه، أو الاحتفاظ دائمًا هناك برسائل الآخرين المحذوفة والمعدّلة، أو عدم الاحتفاظ بها أبدًا. يبقى «حفظ الرسائل المحذوفة» و«حفظ سجل التعديلات» ساريين، ويبقى ما حُفظ.</string>
+    <string name="MZGramSaveExclusion">الأرشيف في هذه المحادثة</string>
+    <string name="MZGramSaveExclusionDefault">مثل «الاحتفاظ بالرسائل»</string>
+    <string name="MZGramSaveExclusionAlways">الاحتفاظ دائمًا بالمحذوف والمعدّل</string>
+    <string name="MZGramSaveExclusionNever">عدم الاحتفاظ أبدًا</string>
 </resources>

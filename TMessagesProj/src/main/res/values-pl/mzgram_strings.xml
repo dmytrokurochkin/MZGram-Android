@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Kod zapisany</string>
     <string name="MZGramPasscodeRemoved">Kod usunięty</string>
     <string name="MZGramPasscodeLastVisible">Co najmniej jedno konto musi pozostać widoczne</string>
+    <string name="MZGramSaveExclusions">Reguły archiwum dla czatów</string>
+    <string name="MZGramSaveExclusionsInfo">Dodaje „Archiwum w tym czacie” do menu czatu: jak „Zachowuj wiadomości” powyżej, zawsze zachowuj tam usunięte i edytowane wiadomości innych albo nigdy ich nie zachowuj. „Zapisuj usunięte wiadomości” i „Zapisuj historię edycji” nadal działają, a zapisane zostaje.</string>
+    <string name="MZGramSaveExclusion">Archiwum w tym czacie</string>
+    <string name="MZGramSaveExclusionDefault">Jak „Zachowuj wiadomości”</string>
+    <string name="MZGramSaveExclusionAlways">Zawsze zachowuj usunięte i edytowane</string>
+    <string name="MZGramSaveExclusionNever">Nigdy nie zachowuj</string>
 </resources>

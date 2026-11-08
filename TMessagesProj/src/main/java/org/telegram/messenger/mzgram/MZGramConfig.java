@@ -155,6 +155,9 @@ public class MZGramConfig {
     public static boolean saveForBots = true;
     public static boolean saveInGroups = true;
     public static boolean saveInChannels = true;
+    // A chat's menu sets the archive rule for that chat only
+    // (MZGramSaveExclusions); off ignores the saved rules.
+    public static boolean saveExclusions = false;
     // How a deleted message kept in the chat looks: drawn at 75% opacity,
     // and the marks shown before the time (any text, empty for none).
     public static boolean semiTransparentDeleted = true;
@@ -279,6 +282,7 @@ public class MZGramConfig {
             saveForBots = preferences.getBoolean("saveForBots", true);
             saveInGroups = preferences.getBoolean("saveInGroups", true);
             saveInChannels = preferences.getBoolean("saveInChannels", true);
+            saveExclusions = preferences.getBoolean("saveExclusions", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
             editedMark = preferences.getString("editedMark", DEFAULT_EDITED_MARK);
@@ -625,6 +629,11 @@ public class MZGramConfig {
     public static void toggleSaveInChannels() {
         saveInChannels = !saveInChannels;
         putBoolean("saveInChannels", saveInChannels);
+    }
+
+    public static void toggleSaveExclusions() {
+        saveExclusions = !saveExclusions;
+        putBoolean("saveExclusions", saveExclusions);
     }
 
     public static void toggleSemiTransparentDeleted() {

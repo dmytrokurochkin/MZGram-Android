@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Código guardado</string>
     <string name="MZGramPasscodeRemoved">Código quitado</string>
     <string name="MZGramPasscodeLastVisible">Al menos una cuenta debe seguir visible</string>
+    <string name="MZGramSaveExclusions">Reglas del archivo por chat</string>
+    <string name="MZGramSaveExclusionsInfo">Añade «Archivo en este chat» al menú del chat: como «Guardar mensajes» arriba, guardar siempre ahí los mensajes eliminados y editados de otros o no guardarlos nunca. «Guardar mensajes eliminados» y «Guardar el historial de ediciones» siguen aplicándose, y lo guardado se conserva.</string>
+    <string name="MZGramSaveExclusion">Archivo en este chat</string>
+    <string name="MZGramSaveExclusionDefault">Como «Guardar mensajes»</string>
+    <string name="MZGramSaveExclusionAlways">Guardar siempre eliminados y editados</string>
+    <string name="MZGramSaveExclusionNever">No guardar nunca</string>
 </resources>

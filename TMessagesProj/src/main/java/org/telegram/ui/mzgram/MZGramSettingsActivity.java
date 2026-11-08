@@ -141,6 +141,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_REDUCE_NETWORK_TRACKING = 95;
     private static final int BUTTON_PASSCODE_ACCOUNTS = 96;
     private static final int BUTTON_PASSCODE_ACCOUNTS_SETUP = 97;
+    // Archive: rules per chat (MZGramSaveExclusions)
+    private static final int BUTTON_SAVE_EXCLUSIONS = 98;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -320,6 +322,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_SAVE_IN_GROUPS, getString(R.string.MZGramKeepFromGroups)).setChecked(MZGramConfig.saveInGroups));
         items.add(UItem.asCheck(BUTTON_SAVE_IN_CHANNELS, getString(R.string.MZGramKeepFromChannels)).setChecked(MZGramConfig.saveInChannels));
         items.add(UItem.asShadow(getString(R.string.MZGramKeepFromInfo)));
+        items.add(UItem.asCheck(BUTTON_SAVE_EXCLUSIONS, getString(R.string.MZGramSaveExclusions)).setChecked(MZGramConfig.saveExclusions));
+        items.add(UItem.asShadow(getString(R.string.MZGramSaveExclusionsInfo)));
         items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
         items.add(UItem.asButton(BUTTON_EDITED_MARK, getString(R.string.MZGramEditedMarkText), MZGramConfig.editedMark));
         items.add(UItem.asCheck(BUTTON_SEMI_TRANSPARENT_DELETED, getString(R.string.MZGramSemiTransparentDeleted)).setChecked(MZGramConfig.semiTransparentDeleted));
@@ -883,6 +887,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SAVE_IN_CHANNELS) {
             MZGramConfig.toggleSaveInChannels();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveInChannels);
+        } else if (item.id == BUTTON_SAVE_EXCLUSIONS) {
+            MZGramConfig.toggleSaveExclusions();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveExclusions);
         } else if (item.id == BUTTON_SEMI_TRANSPARENT_DELETED) {
             MZGramConfig.toggleSemiTransparentDeleted();
             ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);

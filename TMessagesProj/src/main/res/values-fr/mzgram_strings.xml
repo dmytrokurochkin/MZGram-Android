@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Code enregistré</string>
     <string name="MZGramPasscodeRemoved">Code supprimé</string>
     <string name="MZGramPasscodeLastVisible">Au moins un compte doit rester visible</string>
+    <string name="MZGramSaveExclusions">Règles d’archive par discussion</string>
+    <string name="MZGramSaveExclusionsInfo">Ajoute « Archive dans cette discussion » au menu de la discussion : comme « Conserver les messages » ci-dessus, toujours y conserver les messages supprimés et modifiés des autres, ou ne jamais les conserver. « Enregistrer les messages supprimés » et « Enregistrer l’historique des modifications » s’appliquent toujours, et ce qui a été enregistré reste.</string>
+    <string name="MZGramSaveExclusion">Archive dans cette discussion</string>
+    <string name="MZGramSaveExclusionDefault">Comme « Conserver les messages »</string>
+    <string name="MZGramSaveExclusionAlways">Toujours conserver supprimés et modifiés</string>
+    <string name="MZGramSaveExclusionNever">Ne jamais conserver</string>
 </resources>

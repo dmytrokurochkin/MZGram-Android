@@ -64,23 +64,24 @@ public class MZGramHistoryController {
     // (MZGramKeepFrom): whether anything of the chat may be kept, before its
     // messages are known.
     public static boolean savesChat(long dialogId) {
-        return MZGramConfig.saveDeletedMessages && MZGramKeepFrom.maySaveChat(isBotChat(dialogId), chatKind(dialogId));
+        return MZGramConfig.saveDeletedMessages && MZGramSaveExclusions.applies(dialogId, MZGramKeepFrom.maySaveChat(isBotChat(dialogId), chatKind(dialogId)));
     }
 
     // Earlier versions of other people's edited messages, the same way.
     public static boolean savesEdits(long dialogId) {
-        return MZGramConfig.saveEditHistory && MZGramKeepFrom.maySaveChat(isBotChat(dialogId), chatKind(dialogId));
+        return MZGramConfig.saveEditHistory && MZGramSaveExclusions.applies(dialogId, MZGramKeepFrom.maySaveChat(isBotChat(dialogId), chatKind(dialogId)));
     }
 
     // A message of the chat: its author decides for a bot's message, the
     // chat for the rest (a channel's post, a channel writing in a group and
-    // an anonymous admin have no user as the author).
+    // an anonymous admin have no user as the author). A chat's own rule
+    // (MZGramSaveExclusions) goes over Keep messages.
     public static boolean savesMessage(long dialogId, TLRPC.Message message) {
-        return MZGramConfig.saveDeletedMessages && MZGramKeepFrom.saves(sourceOf(dialogId, message));
+        return MZGramConfig.saveDeletedMessages && MZGramSaveExclusions.applies(dialogId, MZGramKeepFrom.saves(sourceOf(dialogId, message)));
     }
 
     public static boolean savesEdits(long dialogId, TLRPC.Message message) {
-        return MZGramConfig.saveEditHistory && MZGramKeepFrom.saves(sourceOf(dialogId, message));
+        return MZGramConfig.saveEditHistory && MZGramSaveExclusions.applies(dialogId, MZGramKeepFrom.saves(sourceOf(dialogId, message)));
     }
 
     public static int sourceOf(long dialogId, TLRPC.Message message) {

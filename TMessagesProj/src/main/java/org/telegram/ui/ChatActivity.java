@@ -1727,6 +1727,8 @@ public class ChatActivity extends BaseFragment implements
     private final static int mzgram_ask_ai = 1100;
     // MZGram: this chat's ghost mode exclusion (MZGramGhostExclusionMenu)
     private final static int mzgram_ghost_exclusion = 1101;
+    // MZGram: this chat's archive rule (MZGramSaveExclusionMenu)
+    private final static int mzgram_save_exclusion = 1102;
     private final static int share_business_link = 66;
     private final static int rename_business_link = 67;
     private final static int delete_business_link = 68;
@@ -4009,6 +4011,9 @@ public class ChatActivity extends BaseFragment implements
                 } else if (id == mzgram_ghost_exclusion) {
                     // MZGram: ghost mode for this chat only.
                     org.telegram.ui.mzgram.MZGramGhostExclusionMenu.show(ChatActivity.this, getDialogId());
+                } else if (id == mzgram_save_exclusion) {
+                    // MZGram: archive rule for this chat only.
+                    org.telegram.ui.mzgram.MZGramSaveExclusionMenu.show(ChatActivity.this, getDialogId());
                 } else if (id == add_shortcut) {
                     try {
                         getMediaDataController().installShortcut(currentUser.id, MediaDataController.SHORTCUT_TYPE_USER_OR_CHAT);
@@ -4561,6 +4566,10 @@ public class ChatActivity extends BaseFragment implements
             // MZGram: ghost mode for this chat only.
             if (org.telegram.ui.mzgram.MZGramGhostExclusionMenu.isAvailable(currentUser, chatMode)) {
                 headerItem.lazilyAddSubItem(mzgram_ghost_exclusion, R.drawable.msg_secret, LocaleController.getString(R.string.MZGramGhostExclusion));
+            }
+            // MZGram: archive rule for this chat only.
+            if (org.telegram.ui.mzgram.MZGramSaveExclusionMenu.isAvailable(currentUser, chatMode)) {
+                headerItem.lazilyAddSubItem(mzgram_save_exclusion, R.drawable.msg_archive, LocaleController.getString(R.string.MZGramSaveExclusion));
             }
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {
                 headerItem.lazilyAddSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));

@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Şifre kaydedildi</string>
     <string name="MZGramPasscodeRemoved">Şifre kaldırıldı</string>
     <string name="MZGramPasscodeLastVisible">En az bir hesap görünür kalmalıdır</string>
+    <string name="MZGramSaveExclusions">Sohbete özel arşiv kuralları</string>
+    <string name="MZGramSaveExclusionsInfo">Sohbet menüsüne \"Bu sohbette arşiv\" ekler: yukarıdaki Mesajları sakla gibi, başkalarının silinen ve düzenlenen mesajlarını orada her zaman sakla veya hiç saklama. Silinen mesajları kaydet ve Düzenleme geçmişini kaydet yine geçerlidir, kaydedilenler kalır.</string>
+    <string name="MZGramSaveExclusion">Bu sohbette arşiv</string>
+    <string name="MZGramSaveExclusionDefault">Mesajları sakla gibi</string>
+    <string name="MZGramSaveExclusionAlways">Silinen ve düzenlenenleri her zaman sakla</string>
+    <string name="MZGramSaveExclusionNever">Asla saklama</string>
 </resources>

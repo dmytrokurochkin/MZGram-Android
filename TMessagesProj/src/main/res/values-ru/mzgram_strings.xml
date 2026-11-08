@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Код сохранён</string>
     <string name="MZGramPasscodeRemoved">Код удалён</string>
     <string name="MZGramPasscodeLastVisible">Хотя бы один аккаунт должен оставаться видимым</string>
+    <string name="MZGramSaveExclusions">Правила архива для отдельных чатов</string>
+    <string name="MZGramSaveExclusionsInfo">Добавляет «Архив в этом чате» в меню чата: как «Сохранять сообщения» выше, всегда сохранять там удалённые и изменённые сообщения других или никогда не сохранять. Переключатели «Сохранять удалённые сообщения» и «Сохранять историю изменений» продолжают действовать, а сохранённое остаётся.</string>
+    <string name="MZGramSaveExclusion">Архив в этом чате</string>
+    <string name="MZGramSaveExclusionDefault">Как «Сохранять сообщения»</string>
+    <string name="MZGramSaveExclusionAlways">Всегда сохранять удалённые и изменённые</string>
+    <string name="MZGramSaveExclusionNever">Никогда не сохранять</string>
 </resources>

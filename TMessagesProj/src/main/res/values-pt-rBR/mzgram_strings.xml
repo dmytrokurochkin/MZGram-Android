@@ -480,4 +480,10 @@
     <string name="MZGramPasscodeSaved">Senha salva</string>
     <string name="MZGramPasscodeRemoved">Senha removida</string>
     <string name="MZGramPasscodeLastVisible">Pelo menos uma conta deve continuar visível</string>
+    <string name="MZGramSaveExclusions">Regras do arquivo por conversa</string>
+    <string name="MZGramSaveExclusionsInfo">Adiciona \"Arquivo nesta conversa\" ao menu da conversa: como \"Guardar mensagens\" acima, sempre guardar ali as mensagens apagadas e editadas dos outros ou nunca guardar. \"Salvar mensagens apagadas\" e \"Salvar histórico de edições\" continuam valendo, e o que foi salvo permanece.</string>
+    <string name="MZGramSaveExclusion">Arquivo nesta conversa</string>
+    <string name="MZGramSaveExclusionDefault">Como \"Guardar mensagens\"</string>
+    <string name="MZGramSaveExclusionAlways">Sempre guardar apagadas e editadas</string>
+    <string name="MZGramSaveExclusionNever">Nunca guardar</string>
 </resources>

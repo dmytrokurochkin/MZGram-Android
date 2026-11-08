@@ -552,4 +552,9 @@
     <string name="MZGramLaunchFolder">Pasta ao iniciar</string>
     <string name="MZGramLaunchFolderOff">Desativado</string>
     <string name="MZGramLaunchFolderInfo">A pasta escolhida abre ao iniciar o app, separadamente para cada conta. «Voltar» de outra pasta retorna primeiro a ela.</string>
+    <string name="MZGramFabShape">Formato do botão de novo chat</string>
+    <string name="MZGramFabShapeCircle">Círculo</string>
+    <string name="MZGramFabShapeSquare">Quadrado arredondado</string>
+    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeInfo">Formato do botão redondo na lista de chats. Vale após reabrir a lista.</string>
 </resources>

@@ -552,4 +552,9 @@
     <string name="MZGramLaunchFolder">Açılışta klasör</string>
     <string name="MZGramLaunchFolderOff">Kapalı</string>
     <string name="MZGramLaunchFolderInfo">Seçilen klasör uygulama açılırken, her hesap için ayrı ayrı açılır. Başka bir klasörden Geri önce buna döner.</string>
+    <string name="MZGramFabShape">Yeni sohbet düğmesinin şekli</string>
+    <string name="MZGramFabShapeCircle">Daire</string>
+    <string name="MZGramFabShapeSquare">Yuvarlatılmış kare</string>
+    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeInfo">Sohbet listesindeki yuvarlak düğmenin şekli. Liste yeniden açıldığında uygulanır.</string>
 </resources>

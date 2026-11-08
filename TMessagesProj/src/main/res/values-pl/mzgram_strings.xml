@@ -552,4 +552,9 @@
     <string name="MZGramLaunchFolder">Folder przy uruchomieniu</string>
     <string name="MZGramLaunchFolderOff">Wyłączone</string>
     <string name="MZGramLaunchFolderInfo">Wybrany folder otwiera się przy uruchomieniu aplikacji, osobno dla każdego konta. „Wstecz” z innego folderu najpierw do niego wraca.</string>
+    <string name="MZGramFabShape">Kształt przycisku nowego czatu</string>
+    <string name="MZGramFabShapeCircle">Koło</string>
+    <string name="MZGramFabShapeSquare">Zaokrąglony kwadrat</string>
+    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeInfo">Kształt okrągłego przycisku na liście czatów. Zastosuje się po ponownym otwarciu listy.</string>
 </resources>

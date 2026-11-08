@@ -552,4 +552,9 @@
     <string name="MZGramLaunchFolder">Folder on launch</string>
     <string name="MZGramLaunchFolderOff">Off</string>
     <string name="MZGramLaunchFolderInfo">The chosen folder opens when the app starts, separately for each account. Back from another folder returns to it first.</string>
+    <string name="MZGramFabShape">New chat button shape</string>
+    <string name="MZGramFabShapeCircle">Circle</string>
+    <string name="MZGramFabShapeSquare">Rounded square</string>
+    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeInfo">Shape of the round button on the chat list. Applies after the list is reopened.</string>
 </resources>

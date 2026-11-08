@@ -552,4 +552,9 @@
     <string name="MZGramLaunchFolder">Carpeta al iniciar</string>
     <string name="MZGramLaunchFolderOff">Desactivado</string>
     <string name="MZGramLaunchFolderInfo">La carpeta elegida se abre al iniciar la app, por separado para cada cuenta. «Atrás» desde otra carpeta vuelve primero a ella.</string>
+    <string name="MZGramFabShape">Forma del botón de nuevo chat</string>
+    <string name="MZGramFabShapeCircle">Círculo</string>
+    <string name="MZGramFabShapeSquare">Cuadrado redondeado</string>
+    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeInfo">Forma del botón redondo de la lista de chats. Se aplica al volver a abrir la lista.</string>
 </resources>

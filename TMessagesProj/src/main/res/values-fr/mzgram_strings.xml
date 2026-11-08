@@ -552,4 +552,9 @@
     <string name="MZGramLaunchFolder">Dossier au lancement</string>
     <string name="MZGramLaunchFolderOff">Désactivé</string>
     <string name="MZGramLaunchFolderInfo">Le dossier choisi s’ouvre au lancement de l’app, séparément pour chaque compte. « Retour » depuis un autre dossier y ramène d’abord.</string>
+    <string name="MZGramFabShape">Forme du bouton nouveau chat</string>
+    <string name="MZGramFabShapeCircle">Cercle</string>
+    <string name="MZGramFabShapeSquare">Carré arrondi</string>
+    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeInfo">Forme du bouton rond de la liste des chats. S’applique à la réouverture de la liste.</string>
 </resources>

@@ -552,4 +552,9 @@
     <string name="MZGramLaunchFolder">Іске қосқандағы бума</string>
     <string name="MZGramLaunchFolderOff">Өшірулі</string>
     <string name="MZGramLaunchFolderInfo">Таңдалған бума қолданба іске қосылғанда, әр аккаунт үшін бөлек ашылады. Басқа бумадан «Артқа» алдымен соған қайтарады.</string>
+    <string name="MZGramFabShape">Жаңа чат түймесінің пішіні</string>
+    <string name="MZGramFabShapeCircle">Шеңбер</string>
+    <string name="MZGramFabShapeSquare">Дөңгелектелген төртбұрыш</string>
+    <string name="MZGramFabShapeSquircle">Сквиркл</string>
+    <string name="MZGramFabShapeInfo">Чаттар тізіміндегі дөңгелек түйменің пішіні. Тізім қайта ашылғанда қолданылады.</string>
 </resources>

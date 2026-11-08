@@ -167,6 +167,10 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
                 Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider),
                 Theme.getColor(Theme.key_featuredStickers_addButtonPressed, resourcesProvider)
             ));
+            // MZGram: button shape (Settings > MZGram > Interface); the circle stays as is
+            org.telegram.ui.mzgram.MZGramFabShape.apply(this,
+                Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider),
+                Theme.getColor(Theme.key_featuredStickers_addButtonPressed, resourcesProvider));
         }
     }
 

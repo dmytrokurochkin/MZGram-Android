@@ -244,6 +244,9 @@ public class MZGramConfig {
     // Double tap on own messages: 0 reaction, 1 reply, 2 copy text, 3 nothing.
     public static int doubleTapOwn = 0;
 
+    // Shape of the chat-list new-chat button: 0 circle, 1 rounded square, 2 squircle (MZGramFabShape).
+    public static int fabShape = 0;
+
     // Double tap on other people's messages, same values.
     public static int doubleTapOther = 0;
 
@@ -381,6 +384,7 @@ public class MZGramConfig {
             staticInputIcons = preferences.getBoolean("staticInputIcons", false);
             panguSpacing = preferences.getBoolean("panguSpacing", false);
             doubleTapOwn = preferences.getInt("doubleTapOwn", 0);
+            fabShape = preferences.getInt("fabShape", 0);
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
         }
@@ -842,6 +846,11 @@ public class MZGramConfig {
     public static void toggleCameraStabilization() {
         cameraStabilization = !cameraStabilization;
         putBoolean("cameraStabilization", cameraStabilization);
+    }
+
+    public static void setFabShape(int value) {
+        fabShape = value;
+        preferences().edit().putInt("fabShape", value).apply();
     }
 
     public static void toggleInlineMath() {

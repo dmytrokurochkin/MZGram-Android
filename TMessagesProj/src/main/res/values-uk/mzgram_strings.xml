@@ -553,4 +553,9 @@
     <string name="MZGramLaunchFolder">Папка при запуску</string>
     <string name="MZGramLaunchFolderOff">Вимкнено</string>
     <string name="MZGramLaunchFolderInfo">Обрана папка відкривається під час запуску застосунку, окремо для кожного акаунта. «Назад» з іншої папки спочатку повертає до неї.</string>
+    <string name="MZGramFabShape">Форма кнопки нового чату</string>
+    <string name="MZGramFabShapeCircle">Коло</string>
+    <string name="MZGramFabShapeSquare">Квадрат із закругленими кутами</string>
+    <string name="MZGramFabShapeSquircle">Сквиркл</string>
+    <string name="MZGramFabShapeInfo">Форма круглої кнопки у списку чатів. Застосовується після повторного відкриття списку.</string>
 </resources>

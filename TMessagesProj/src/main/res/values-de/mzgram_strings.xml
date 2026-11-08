@@ -552,4 +552,9 @@
     <string name="MZGramLaunchFolder">Ordner beim Start</string>
     <string name="MZGramLaunchFolderOff">Aus</string>
     <string name="MZGramLaunchFolderInfo">Der gewählte Ordner öffnet sich beim Start der App, für jedes Konto getrennt. „Zurück“ aus einem anderen Ordner führt zuerst zu ihm zurück.</string>
+    <string name="MZGramFabShape">Form der Neuer-Chat-Taste</string>
+    <string name="MZGramFabShapeCircle">Kreis</string>
+    <string name="MZGramFabShapeSquare">Abgerundetes Quadrat</string>
+    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeInfo">Form der runden Taste in der Chatliste. Wird nach erneutem Öffnen der Liste übernommen.</string>
 </resources>

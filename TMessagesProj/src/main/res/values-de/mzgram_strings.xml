@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">Das Archiv enthält keine gelöschten Nachrichten dieses Chats.</string>
     <string name="MZGramDeletedMessagesNotFound">Keine gelöschten Nachrichten mit diesem Text.</string>
     <string name="MZGramDeletedMessagesInfo">Tippe auf eine Nachricht, um im Chat zu ihr zu springen, halte sie gedrückt, um ihren Text zu kopieren.</string>
+    <string name="MZGramDeletedDialogsList">Gelöschte Chats merken</string>
+    <string name="MZGramDeletedDialogsListInfo">Verlässt ein Chat die Chatliste (vom Gegenüber oder von dir gelöscht oder verlassen) oder verliert er alle Nachrichten, während das Archiv gelöschte Nachrichten davon behält, kommt er zu „Gelöschte Chats“. Telegram löscht den Chat wie gewohnt, MZGram merkt ihn sich nur.</string>
+    <string name="MZGramDeletedDialogs">Gelöschte Chats</string>
+    <string name="MZGramDeletedDialogsEmpty">Noch keine gelöschten Chats.</string>
+    <string name="MZGramDeletedDialogsKept">Chat und behaltene gelöschte Nachrichten</string>
+    <string name="MZGramDeletedDialogsInfo">Tippe auf einen Chat, um ihn mit den behaltenen Nachrichten zu öffnen, halte ihn gedrückt, um ihn von dieser Liste zu nehmen. Die Nachrichten bleiben im Archiv.</string>
+    <string name="MZGramDeletedDialogsForget">%1$s aus „Gelöschte Chats“ entfernen? Die behaltenen Nachrichten bleiben im Archiv.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Aus der Chatliste verschwunden: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Entfernen</string>
 </resources>

@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">В архиве нет удалённых сообщений этого чата.</string>
     <string name="MZGramDeletedMessagesNotFound">Нет удалённых сообщений с таким текстом.</string>
     <string name="MZGramDeletedMessagesInfo">Нажмите на сообщение, чтобы перейти к нему в чате, удерживайте, чтобы скопировать текст.</string>
+    <string name="MZGramDeletedDialogsList">Запоминать удалённые чаты</string>
+    <string name="MZGramDeletedDialogsListInfo">Когда чат исчезает из списка чатов (его удалил собеседник или вы, или вы вышли) или теряет все сообщения, а архив хранит его удалённые сообщения, он попадает в «Удалённые чаты». Telegram удаляет чат как обычно, MZGram только запоминает его.</string>
+    <string name="MZGramDeletedDialogs">Удалённые чаты</string>
+    <string name="MZGramDeletedDialogsEmpty">Удалённых чатов пока нет.</string>
+    <string name="MZGramDeletedDialogsKept">Чат и сохранённые удалённые сообщения</string>
+    <string name="MZGramDeletedDialogsInfo">Нажмите на чат, чтобы открыть его с сохранёнными сообщениями, удерживайте, чтобы убрать из списка. Сообщения остаются в архиве.</string>
+    <string name="MZGramDeletedDialogsForget">Убрать %1$s из «Удалённых чатов»? Сохранённые сообщения останутся в архиве.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Исчез из списка чатов: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Убрать</string>
 </resources>

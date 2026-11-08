@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">لا يحتوي الأرشيف على رسائل محذوفة من هذه المحادثة.</string>
     <string name="MZGramDeletedMessagesNotFound">لا توجد رسائل محذوفة بهذا النص.</string>
     <string name="MZGramDeletedMessagesInfo">اضغط على رسالة للانتقال إليها في المحادثة، واضغط مطولًا لنسخ نصها.</string>
+    <string name="MZGramDeletedDialogsList">تذكّر المحادثات المحذوفة</string>
+    <string name="MZGramDeletedDialogsListInfo">عندما تخرج محادثة من قائمة المحادثات (حذفها الطرف الآخر أو أنت، أو غادرتها) أو تفقد كل رسائلها بينما يحتفظ الأرشيف برسائلها المحذوفة، تنتقل إلى «المحادثات المحذوفة». يحذف Telegram المحادثة كالمعتاد، وMZGram يتذكرها فقط.</string>
+    <string name="MZGramDeletedDialogs">المحادثات المحذوفة</string>
+    <string name="MZGramDeletedDialogsEmpty">لا توجد محادثات محذوفة بعد.</string>
+    <string name="MZGramDeletedDialogsKept">المحادثة والرسائل المحذوفة المحفوظة</string>
+    <string name="MZGramDeletedDialogsInfo">اضغط على محادثة لفتحها مع رسائلها المحفوظة، واضغط مطولًا لإزالتها من هذه القائمة. تبقى الرسائل في الأرشيف.</string>
+    <string name="MZGramDeletedDialogsForget">هل تريد إزالة %1$s من «المحادثات المحذوفة»؟ تبقى رسائلها المحفوظة في الأرشيف.</string>
+    <string name="MZGramDeletedDialogsGoneAt">خرجت من قائمة المحادثات: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">إزالة</string>
 </resources>

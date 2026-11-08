@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">The archive keeps no deleted messages of this chat.</string>
     <string name="MZGramDeletedMessagesNotFound">No deleted messages with this text.</string>
     <string name="MZGramDeletedMessagesInfo">Tap a message to go to it in the chat, hold to copy its text.</string>
+    <string name="MZGramDeletedDialogsList">Remember deleted chats</string>
+    <string name="MZGramDeletedDialogsListInfo">When a chat leaves the chat list (deleted by the other side or by you, or left) or loses all its messages while the archive keeps deleted messages of it, it goes to Deleted chats. Telegram deletes the chat as usual; MZGram only remembers it.</string>
+    <string name="MZGramDeletedDialogs">Deleted chats</string>
+    <string name="MZGramDeletedDialogsEmpty">No deleted chats yet.</string>
+    <string name="MZGramDeletedDialogsKept">Chat and kept deleted messages</string>
+    <string name="MZGramDeletedDialogsInfo">Tap a chat to open it with its kept messages, hold to take it off this list. The messages stay in the archive.</string>
+    <string name="MZGramDeletedDialogsForget">Take %1$s off Deleted chats? Its kept messages stay in the archive.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Left the chat list: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Take off</string>
 </resources>

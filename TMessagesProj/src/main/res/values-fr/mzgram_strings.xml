@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">L’archive ne contient aucun message supprimé de cette discussion.</string>
     <string name="MZGramDeletedMessagesNotFound">Aucun message supprimé avec ce texte.</string>
     <string name="MZGramDeletedMessagesInfo">Touchez un message pour y aller dans la discussion, maintenez pour copier son texte.</string>
+    <string name="MZGramDeletedDialogsList">Se souvenir des discussions supprimées</string>
+    <string name="MZGramDeletedDialogsListInfo">Quand une discussion quitte la liste (supprimée par l’autre personne ou par vous, ou quittée) ou perd tous ses messages alors que l’archive en conserve des messages supprimés, elle va dans « Discussions supprimées ». Telegram supprime la discussion comme d’habitude ; MZGram s’en souvient seulement.</string>
+    <string name="MZGramDeletedDialogs">Discussions supprimées</string>
+    <string name="MZGramDeletedDialogsEmpty">Aucune discussion supprimée pour l’instant.</string>
+    <string name="MZGramDeletedDialogsKept">Discussion et messages supprimés conservés</string>
+    <string name="MZGramDeletedDialogsInfo">Touchez une discussion pour l’ouvrir avec ses messages conservés, maintenez pour la retirer de cette liste. Les messages restent dans l’archive.</string>
+    <string name="MZGramDeletedDialogsForget">Retirer %1$s des « Discussions supprimées » ? Ses messages conservés restent dans l’archive.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Sortie de la liste des discussions : %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Retirer</string>
 </resources>

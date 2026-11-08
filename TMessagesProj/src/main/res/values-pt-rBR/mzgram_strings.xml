@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">O arquivo não tem mensagens apagadas desta conversa.</string>
     <string name="MZGramDeletedMessagesNotFound">Nenhuma mensagem apagada com este texto.</string>
     <string name="MZGramDeletedMessagesInfo">Toque em uma mensagem para ir até ela na conversa, segure para copiar o texto.</string>
+    <string name="MZGramDeletedDialogsList">Lembrar conversas apagadas</string>
+    <string name="MZGramDeletedDialogsListInfo">Quando uma conversa sai da lista (apagada pela outra pessoa ou por você, ou abandonada) ou perde todas as mensagens enquanto o arquivo guarda mensagens apagadas dela, ela vai para \"Conversas apagadas\". O Telegram apaga a conversa como sempre; o MZGram só se lembra dela.</string>
+    <string name="MZGramDeletedDialogs">Conversas apagadas</string>
+    <string name="MZGramDeletedDialogsEmpty">Ainda não há conversas apagadas.</string>
+    <string name="MZGramDeletedDialogsKept">Conversa e mensagens apagadas guardadas</string>
+    <string name="MZGramDeletedDialogsInfo">Toque em uma conversa para abri-la com as mensagens guardadas, segure para tirá-la desta lista. As mensagens continuam no arquivo.</string>
+    <string name="MZGramDeletedDialogsForget">Tirar %1$s de \"Conversas apagadas\"? As mensagens guardadas continuam no arquivo.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Saiu da lista de conversas: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Tirar</string>
 </resources>

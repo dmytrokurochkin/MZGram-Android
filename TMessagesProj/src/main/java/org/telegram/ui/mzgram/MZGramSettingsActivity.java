@@ -148,6 +148,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_REPLY_TO_DELETED_AS_QUOTE = 100;
     // Archive: a chat's deleted messages list (MZGramDeletedMessagesActivity)
     private static final int BUTTON_DELETED_MESSAGES_LIST = 101;
+    // Archive: Deleted chats (MZGramDeletedDialogsActivity)
+    private static final int BUTTON_DELETED_DIALOGS_LIST = 102;
+    private static final int BUTTON_DELETED_DIALOGS_OPEN = 103;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -334,6 +337,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramDeletedRepliesInfo)));
         items.add(UItem.asCheck(BUTTON_DELETED_MESSAGES_LIST, getString(R.string.MZGramDeletedMessagesList)).setChecked(MZGramConfig.deletedMessagesList));
         items.add(UItem.asShadow(getString(R.string.MZGramDeletedMessagesListInfo)));
+        items.add(UItem.asCheck(BUTTON_DELETED_DIALOGS_LIST, getString(R.string.MZGramDeletedDialogsList)).setChecked(MZGramConfig.deletedDialogsList));
+        if (MZGramConfig.deletedDialogsList) {
+            items.add(UItem.asButton(BUTTON_DELETED_DIALOGS_OPEN, getString(R.string.MZGramDeletedDialogs)));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramDeletedDialogsListInfo)));
         items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
         items.add(UItem.asButton(BUTTON_EDITED_MARK, getString(R.string.MZGramEditedMarkText), MZGramConfig.editedMark));
         items.add(UItem.asCheck(BUTTON_SEMI_TRANSPARENT_DELETED, getString(R.string.MZGramSemiTransparentDeleted)).setChecked(MZGramConfig.semiTransparentDeleted));
@@ -909,6 +917,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DELETED_MESSAGES_LIST) {
             MZGramConfig.toggleDeletedMessagesList();
             ((TextCheckCell) view).setChecked(MZGramConfig.deletedMessagesList);
+        } else if (item.id == BUTTON_DELETED_DIALOGS_LIST) {
+            MZGramConfig.toggleDeletedDialogsList();
+            ((TextCheckCell) view).setChecked(MZGramConfig.deletedDialogsList);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_DELETED_DIALOGS_OPEN) {
+            presentFragment(new MZGramDeletedDialogsActivity());
         } else if (item.id == BUTTON_SEMI_TRANSPARENT_DELETED) {
             MZGramConfig.toggleSemiTransparentDeleted();
             ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);

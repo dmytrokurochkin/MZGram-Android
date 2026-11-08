@@ -37,22 +37,27 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     // 5: received, other people's messages as soon as they come (level 1
     // of the archive), so a deletion finds them even when Telegram's own
     // cache has no copy.
+    // 6: group_reads. 7: deleted_dialogs, chats that left the chat list
+    // while the archive keeps their deleted messages.
     // A new table or column: DB_VERSION + 1, create it in onCreate (a
     // create<Name>Table method with CREATE TABLE IF NOT EXISTS, called from
     // onCreate and from onUpgrade's "if (oldVersion < N)"; a new column is
     // "ALTER TABLE ... ADD COLUMN ... DEFAULT ..." in onUpgrade only, plus the
     // column in onCreate). Archive data also goes into EXPORTED_TABLES and
     // wipeAll(); a table not in EXPORTED_TABLES stays out of export/import.
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
     private static final String TABLE_READS = "outbox_reads";
     private static final String TABLE_RECEIVED = "received";
     private static final String TABLE_LAST_SEEN = "last_seen";
     // Who read the owner's message in a group (MZGramGroupReads), version 6.
     private static final String TABLE_GROUP_READS = "group_reads";
+    // Chats that left the chat list while the archive keeps deleted messages
+    // of them (MZGramDeletedDialogs), version 7.
+    private static final String TABLE_DELETED_DIALOGS = "deleted_dialogs";
 
     private static final String TABLE = "history_message";
     // What export and import carry; received is only the level 1 cache.
-    private static final String[] EXPORTED_TABLES = {TABLE, TABLE_READS, TABLE_LAST_SEEN, TABLE_GROUP_READS};
+    private static final String[] EXPORTED_TABLES = {TABLE, TABLE_READS, TABLE_LAST_SEEN, TABLE_GROUP_READS, TABLE_DELETED_DIALOGS};
 
     private static volatile MZGramHistoryDatabase instance;
 
@@ -255,6 +260,71 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         createReadAndLastSeenTables(db);
         createReceivedTable(db);
         createGroupReadsTable(db);
+        createDeletedDialogsTable(db);
+    }
+
+    private static void createDeletedDialogsTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_DELETED_DIALOGS + " (" +
+                "accountUserId INTEGER NOT NULL, " +
+                "dialogId INTEGER NOT NULL, " +
+                "title TEXT, " +
+                "deletedAt INTEGER NOT NULL, " +
+                "PRIMARY KEY (accountUserId, dialogId))");
+    }
+
+    // A chat that left the chat list (or lost all its messages): its name
+    // then and when; the first time stays (a chat with no message left is
+    // seen again on every load of the chat list).
+    public void putDeletedDialog(long accountUserId, long dialogId, String title, int deletedAt) {
+        ContentValues values = new ContentValues();
+        values.put("accountUserId", accountUserId);
+        values.put("dialogId", dialogId);
+        values.put("title", title);
+        values.put("deletedAt", deletedAt);
+        getWritableDatabase().insertWithOnConflict(TABLE_DELETED_DIALOGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+    }
+
+    public void removeDeletedDialog(long accountUserId, long dialogId) {
+        getWritableDatabase().delete(TABLE_DELETED_DIALOGS, "accountUserId = ? AND dialogId = ?",
+                new String[]{String.valueOf(accountUserId), String.valueOf(dialogId)});
+    }
+
+    public static final class DeletedDialog {
+        public long dialogId;
+        public String title;
+        public int deletedAt;
+        public int keptCount; // deleted messages the archive keeps for it
+        public int lastDate; // the newest of them
+    }
+
+    // The recorded chats that still have kept deleted messages, the most
+    // recently gone first.
+    public List<DeletedDialog> getDeletedDialogs(long accountUserId) {
+        List<DeletedDialog> result = new ArrayList<>();
+        try (Cursor cursor = getReadableDatabase().rawQuery(
+                "SELECT d.dialogId, d.title, d.deletedAt, COUNT(h.rowId), MAX(h.date) FROM " + TABLE_DELETED_DIALOGS + " d " +
+                        "JOIN " + TABLE + " h ON h.accountUserId = d.accountUserId AND h.dialogId = d.dialogId AND h.kind = ? " +
+                        "WHERE d.accountUserId = ? GROUP BY d.dialogId, d.title, d.deletedAt ORDER BY d.deletedAt DESC",
+                new String[]{String.valueOf(MZGramHistoryMessage.KIND_DELETED), String.valueOf(accountUserId)})) {
+            while (cursor.moveToNext()) {
+                DeletedDialog dialog = new DeletedDialog();
+                dialog.dialogId = cursor.getLong(0);
+                dialog.title = cursor.isNull(1) ? null : cursor.getString(1);
+                dialog.deletedAt = cursor.getInt(2);
+                dialog.keptCount = cursor.getInt(3);
+                dialog.lastDate = cursor.getInt(4);
+                result.add(dialog);
+            }
+        }
+        return result;
+    }
+
+    public boolean hasDeleted(long accountUserId, long dialogId) {
+        try (Cursor cursor = getReadableDatabase().rawQuery(
+                "SELECT 1 FROM " + TABLE + " WHERE kind = ? AND accountUserId = ? AND dialogId = ? LIMIT 1",
+                new String[]{String.valueOf(MZGramHistoryMessage.KIND_DELETED), String.valueOf(accountUserId), String.valueOf(dialogId)})) {
+            return cursor.moveToFirst();
+        }
     }
 
     // The readers of the owner's message in a group, as the server listed
@@ -463,6 +533,9 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         if (oldVersion < 6) {
             createGroupReadsTable(db);
         }
+        if (oldVersion < 7) {
+            createDeletedDialogsTable(db);
+        }
     }
 
     // MZGram: own fix. insertWithOnConflict(..., CONFLICT_IGNORE) instead of
@@ -654,6 +727,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_LAST_SEEN);
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_RECEIVED);
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_GROUP_READS);
+        getWritableDatabase().execSQL("DELETE FROM " + TABLE_DELETED_DIALOGS);
         MZGramLastSeen.forget();
         // The emptied database gives its space back
         try {

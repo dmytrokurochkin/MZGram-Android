@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">Arşivde bu sohbetin silinen mesajı yok.</string>
     <string name="MZGramDeletedMessagesNotFound">Bu metni içeren silinmiş mesaj yok.</string>
     <string name="MZGramDeletedMessagesInfo">Sohbette ona gitmek için bir mesaja dokunun, metnini kopyalamak için basılı tutun.</string>
+    <string name="MZGramDeletedDialogsList">Silinen sohbetleri hatırla</string>
+    <string name="MZGramDeletedDialogsListInfo">Bir sohbet sohbet listesinden çıktığında (karşı taraf veya siz sildiğinizde ya da ayrıldığınızda) veya arşiv silinen mesajlarını saklarken tüm mesajlarını kaybettiğinde \"Silinen sohbetler\"e gider. Telegram sohbeti her zamanki gibi siler, MZGram yalnızca hatırlar.</string>
+    <string name="MZGramDeletedDialogs">Silinen sohbetler</string>
+    <string name="MZGramDeletedDialogsEmpty">Henüz silinen sohbet yok.</string>
+    <string name="MZGramDeletedDialogsKept">Sohbet ve saklanan silinmiş mesajlar</string>
+    <string name="MZGramDeletedDialogsInfo">Saklanan mesajlarıyla açmak için bir sohbete dokunun, bu listeden çıkarmak için basılı tutun. Mesajlar arşivde kalır.</string>
+    <string name="MZGramDeletedDialogsForget">%1$s \"Silinen sohbetler\"den çıkarılsın mı? Saklanan mesajları arşivde kalır.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Sohbet listesinden çıktı: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Çıkar</string>
 </resources>

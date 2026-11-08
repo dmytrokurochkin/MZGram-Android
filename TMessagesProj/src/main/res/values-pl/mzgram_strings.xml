@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">Archiwum nie ma usuniętych wiadomości z tego czatu.</string>
     <string name="MZGramDeletedMessagesNotFound">Brak usuniętych wiadomości z tym tekstem.</string>
     <string name="MZGramDeletedMessagesInfo">Dotknij wiadomości, aby przejść do niej w czacie, przytrzymaj, aby skopiować tekst.</string>
+    <string name="MZGramDeletedDialogsList">Zapamiętuj usunięte czaty</string>
+    <string name="MZGramDeletedDialogsListInfo">Gdy czat znika z listy czatów (usunięty przez rozmówcę lub przez ciebie albo opuszczony) lub traci wszystkie wiadomości, a archiwum zachowuje jego usunięte wiadomości, trafia do „Usunięte czaty”. Telegram usuwa czat jak zwykle, MZGram tylko go zapamiętuje.</string>
+    <string name="MZGramDeletedDialogs">Usunięte czaty</string>
+    <string name="MZGramDeletedDialogsEmpty">Brak usuniętych czatów.</string>
+    <string name="MZGramDeletedDialogsKept">Czat i zachowane usunięte wiadomości</string>
+    <string name="MZGramDeletedDialogsInfo">Dotknij czatu, aby otworzyć go z zachowanymi wiadomościami, przytrzymaj, aby usunąć go z listy. Wiadomości zostają w archiwum.</string>
+    <string name="MZGramDeletedDialogsForget">Usunąć %1$s z „Usunięte czaty”? Zachowane wiadomości zostaną w archiwum.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Zniknął z listy czatów: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Usuń z listy</string>
 </resources>

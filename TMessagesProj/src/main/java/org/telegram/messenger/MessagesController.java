@@ -10155,6 +10155,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogDeleted, did, 0);
                 getNotificationsController().deleteNotificationChannel(did, 0);
                 JoinCallAlert.processDeletedChat(currentAccount, did);
+                // MZGram: remember the chat for Deleted chats while the archive keeps its deleted messages.
+                org.telegram.messenger.mzgram.MZGramDeletedDialogs.onDialogGone(currentAccount, did);
             }
             if (onlyHistory == 0) {
                 getMediaDataController().cleanDraft(did, 0, false);
@@ -14056,6 +14058,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 ArrayList<MessageObject> list = new ArrayList<>(1);
                 list.add(new MessageObject(currentAccount, kept, false, false));
                 dialogMessage.put(dialogId, list);
+                // MZGram: the chat lost all its messages; Deleted chats remembers it.
+                org.telegram.messenger.mzgram.MZGramDeletedDialogs.onDialogGone(currentAccount, dialogId);
                 if (dialog.last_message_date == 0) {
                     dialog.last_message_date = kept.date;
                 }

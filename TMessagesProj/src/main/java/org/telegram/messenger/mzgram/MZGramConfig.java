@@ -165,6 +165,9 @@ public class MZGramConfig {
     // "Deleted messages" in a chat's menu: the list of the chat's kept
     // deleted messages with search (MZGramDeletedMessagesActivity).
     public static boolean deletedMessagesList = false;
+    // Deleted chats: chats that left the chat list while the archive keeps
+    // their deleted messages (MZGramDeletedDialogs).
+    public static boolean deletedDialogsList = false;
     // How a deleted message kept in the chat looks: drawn at 75% opacity,
     // and the marks shown before the time (any text, empty for none).
     public static boolean semiTransparentDeleted = true;
@@ -293,6 +296,7 @@ public class MZGramConfig {
             keptReplyPreviews = preferences.getBoolean("keptReplyPreviews", false);
             replyToDeletedAsQuote = preferences.getBoolean("replyToDeletedAsQuote", false);
             deletedMessagesList = preferences.getBoolean("deletedMessagesList", false);
+            deletedDialogsList = preferences.getBoolean("deletedDialogsList", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
             editedMark = preferences.getString("editedMark", DEFAULT_EDITED_MARK);
@@ -659,6 +663,11 @@ public class MZGramConfig {
     public static void toggleDeletedMessagesList() {
         deletedMessagesList = !deletedMessagesList;
         putBoolean("deletedMessagesList", deletedMessagesList);
+    }
+
+    public static void toggleDeletedDialogsList() {
+        deletedDialogsList = !deletedDialogsList;
+        putBoolean("deletedDialogsList", deletedDialogsList);
     }
 
     public static void toggleSemiTransparentDeleted() {

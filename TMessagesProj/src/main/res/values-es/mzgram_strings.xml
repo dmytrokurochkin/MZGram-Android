@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">El archivo no tiene mensajes eliminados de este chat.</string>
     <string name="MZGramDeletedMessagesNotFound">No hay mensajes eliminados con este texto.</string>
     <string name="MZGramDeletedMessagesInfo">Toca un mensaje para ir a él en el chat, mantén pulsado para copiar su texto.</string>
+    <string name="MZGramDeletedDialogsList">Recordar chats eliminados</string>
+    <string name="MZGramDeletedDialogsListInfo">Cuando un chat sale de la lista de chats (eliminado por la otra persona o por ti, o abandonado) o pierde todos sus mensajes mientras el archivo guarda mensajes eliminados de él, pasa a «Chats eliminados». Telegram elimina el chat como siempre; MZGram solo lo recuerda.</string>
+    <string name="MZGramDeletedDialogs">Chats eliminados</string>
+    <string name="MZGramDeletedDialogsEmpty">Aún no hay chats eliminados.</string>
+    <string name="MZGramDeletedDialogsKept">Chat y mensajes eliminados guardados</string>
+    <string name="MZGramDeletedDialogsInfo">Toca un chat para abrirlo con sus mensajes guardados, mantén pulsado para quitarlo de esta lista. Los mensajes siguen en el archivo.</string>
+    <string name="MZGramDeletedDialogsForget">¿Quitar %1$s de «Chats eliminados»? Sus mensajes guardados siguen en el archivo.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Salió de la lista de chats: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Quitar</string>
 </resources>

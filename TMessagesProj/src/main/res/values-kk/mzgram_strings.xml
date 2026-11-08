@@ -495,4 +495,13 @@
     <string name="MZGramDeletedMessagesEmpty">Мұрағатта бұл чаттың жойылған хабарламалары жоқ.</string>
     <string name="MZGramDeletedMessagesNotFound">Мұндай мәтіні бар жойылған хабарлама жоқ.</string>
     <string name="MZGramDeletedMessagesInfo">Чатта оған өту үшін хабарламаны түртіңіз, мәтінін көшіру үшін басып тұрыңыз.</string>
+    <string name="MZGramDeletedDialogsList">Жойылған чаттарды есте сақтау</string>
+    <string name="MZGramDeletedDialogsListInfo">Чат тізімнен жоғалғанда (оны әңгімелесуші немесе сіз жойсаңыз, не шықсаңыз) немесе мұрағат оның жойылған хабарламаларын сақтап тұрғанда барлық хабарламасынан айырылса, ол «Жойылған чаттарға» түседі. Telegram чатты әдеттегідей жояды, MZGram оны тек есте сақтайды.</string>
+    <string name="MZGramDeletedDialogs">Жойылған чаттар</string>
+    <string name="MZGramDeletedDialogsEmpty">Әзірге жойылған чаттар жоқ.</string>
+    <string name="MZGramDeletedDialogsKept">Чат және сақталған жойылған хабарламалар</string>
+    <string name="MZGramDeletedDialogsInfo">Сақталған хабарламаларымен ашу үшін чатты түртіңіз, тізімнен алып тастау үшін басып тұрыңыз. Хабарламалар мұрағатта қалады.</string>
+    <string name="MZGramDeletedDialogsForget">%1$s «Жойылған чаттардан» алып тасталсын ба? Сақталған хабарламалар мұрағатта қалады.</string>
+    <string name="MZGramDeletedDialogsGoneAt">Чаттар тізімінен жоғалды: %1$s</string>
+    <string name="MZGramDeletedDialogsForgetButton">Алып тастау</string>
 </resources>

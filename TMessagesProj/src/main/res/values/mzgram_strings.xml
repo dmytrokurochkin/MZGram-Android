@@ -428,4 +428,8 @@
     <string name="MZGramReliableInfo">A permanent notification keeps the connection, so that messages and calls come on time. For phones where messages come late. Uses more battery.</string>
     <string name="MZGramReliableNotification">MZGram is connected</string>
     <string name="MZGramReliableSuggest">This phone limits MZGram in the background, so messages can come late. Reliable delivery keeps the connection. Tap to open its switch.</string>
+    <string name="MZGramSectionPrivacy">Privacy</string>
+    <string name="MZGramSectionPrivacyInfo">Links, drafts, previews and what the server learns</string>
+    <string name="MZGramConfirmInternalLinks">Confirm Telegram links</string>
+    <string name="MZGramConfirmInternalLinksInfo">t.me and tg:// links show their address and ask before they open, so a hidden link cannot join a channel, start a bot or add a proxy in one tap.</string>
 </resources>

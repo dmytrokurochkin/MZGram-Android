@@ -428,4 +428,8 @@
     <string name="MZGramReliableInfo">Stałe powiadomienie utrzymuje połączenie, aby wiadomości i połączenia przychodziły na czas. Dla telefonów, na których wiadomości się spóźniają. Zużywa więcej baterii.</string>
     <string name="MZGramReliableNotification">MZGram jest połączony</string>
     <string name="MZGramReliableSuggest">Ten telefon ogranicza MZGram w tle, więc wiadomości mogą się spóźniać. Niezawodne dostarczanie utrzymuje połączenie. Dotknij, aby otworzyć jego przełącznik.</string>
+    <string name="MZGramSectionPrivacy">Prywatność</string>
+    <string name="MZGramSectionPrivacyInfo">Linki, szkice, podglądy i to, co wie serwer</string>
+    <string name="MZGramConfirmInternalLinks">Potwierdzaj linki Telegrama</string>
+    <string name="MZGramConfirmInternalLinksInfo">Linki t.me i tg:// pokazują adres i pytają przed otwarciem, więc ukryty link nie dołączy do kanału, nie uruchomi bota ani nie doda proxy jednym dotknięciem.</string>
 </resources>

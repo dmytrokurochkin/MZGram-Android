@@ -428,4 +428,8 @@
     <string name="MZGramReliableInfo">Kalıcı bir bildirim bağlantıyı açık tutar, böylece mesajlar ve aramalar zamanında gelir. Mesajların geç geldiği telefonlar için. Daha fazla pil kullanır.</string>
     <string name="MZGramReliableNotification">MZGram bağlı</string>
     <string name="MZGramReliableSuggest">Bu telefon MZGram\'ı arka planda sınırlıyor, bu yüzden mesajlar geç gelebilir. Güvenilir teslim bağlantıyı açık tutar. Anahtarını açmak için dokunun.</string>
+    <string name="MZGramSectionPrivacy">Gizlilik</string>
+    <string name="MZGramSectionPrivacyInfo">Bağlantılar, taslaklar, önizlemeler ve sunucunun öğrendikleri</string>
+    <string name="MZGramConfirmInternalLinks">Telegram bağlantılarını onayla</string>
+    <string name="MZGramConfirmInternalLinksInfo">t.me ve tg:// bağlantıları adreslerini gösterir ve açılmadan önce sorar; böylece gizli bir bağlantı tek dokunuşla kanala katılamaz, bot başlatamaz veya proxy ekleyemez.</string>
 </resources>

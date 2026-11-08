@@ -428,4 +428,8 @@
     <string name="MZGramReliableInfo">Тұрақты хабарландыру байланысты ұстап тұрады, сонда хабарлар мен қоңыраулар уақытында келеді. Хабарлар кешігетін телефондар үшін. Батареяны көбірек жұмсайды.</string>
     <string name="MZGramReliableNotification">MZGram байланыста</string>
     <string name="MZGramReliableSuggest">Бұл телефон MZGram-ды фонда шектейді, сондықтан хабарлар кешігуі мүмкін. Сенімді жеткізу байланысты ұстап тұрады. Қосқышын ашу үшін түртіңіз.</string>
+    <string name="MZGramSectionPrivacy">Құпиялылық</string>
+    <string name="MZGramSectionPrivacyInfo">Сілтемелер, жобалар, алдын ала қарау және сервер не біледі</string>
+    <string name="MZGramConfirmInternalLinks">Telegram сілтемелерін растау</string>
+    <string name="MZGramConfirmInternalLinksInfo">t.me және tg:// сілтемелері мекенжайын көрсетіп, ашпас бұрын сұрайды, сондықтан жасырын сілтеме бір түртумен арнаға қоспайды, ботты іске қоспайды және прокси қоспайды.</string>
 </resources>

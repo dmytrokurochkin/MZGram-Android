@@ -428,4 +428,8 @@
     <string name="MZGramReliableInfo">Постоянное уведомление держит соединение, чтобы сообщения и звонки приходили вовремя. Для телефонов, где сообщения опаздывают. Больше расходует батарею.</string>
     <string name="MZGramReliableNotification">MZGram на связи</string>
     <string name="MZGramReliableSuggest">Этот телефон ограничивает MZGram в фоне, поэтому сообщения могут опаздывать. Надёжная доставка держит соединение. Коснитесь, чтобы открыть её переключатель.</string>
+    <string name="MZGramSectionPrivacy">Конфиденциальность</string>
+    <string name="MZGramSectionPrivacyInfo">Ссылки, черновики, превью и что узнаёт сервер</string>
+    <string name="MZGramConfirmInternalLinks">Подтверждать ссылки Telegram</string>
+    <string name="MZGramConfirmInternalLinksInfo">Ссылки t.me и tg:// показывают адрес и спрашивают перед открытием, поэтому скрытая ссылка не вступит в канал, не запустит бота и не добавит прокси одним нажатием.</string>
 </resources>

@@ -428,4 +428,8 @@
     <string name="MZGramReliableInfo">يُبقي إشعار دائم الاتصال قائمًا كي تصل الرسائل والمكالمات في وقتها. للهواتف التي تتأخر فيها الرسائل. يستهلك بطارية أكثر.</string>
     <string name="MZGramReliableNotification">MZGram متصل</string>
     <string name="MZGramReliableSuggest">يقيّد هذا الهاتف MZGram في الخلفية، لذا قد تتأخر الرسائل. يُبقي التسليم الموثوق الاتصال قائمًا. المس لفتح مفتاحه.</string>
+    <string name="MZGramSectionPrivacy">الخصوصية</string>
+    <string name="MZGramSectionPrivacyInfo">الروابط والمسودات والمعاينات وما يعرفه الخادم</string>
+    <string name="MZGramConfirmInternalLinks">تأكيد روابط تيليجرام</string>
+    <string name="MZGramConfirmInternalLinksInfo">تعرض روابط t.me وtg:// عنوانها وتسأل قبل الفتح، حتى لا يتمكن رابط مخفي من الانضمام إلى قناة أو تشغيل بوت أو إضافة وكيل بلمسة واحدة.</string>
 </resources>

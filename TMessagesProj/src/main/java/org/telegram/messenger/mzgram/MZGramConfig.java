@@ -100,6 +100,10 @@ public class MZGramConfig {
     // viewing does not mark the story as seen for the other side.
     public static boolean offerGhostModeBeforeStories = false;
 
+    // Settings > MZGram > Privacy (MZGramPrivacy); all off by default.
+    // t.me and tg:// links ask before they open.
+    public static boolean confirmInternalLinks = false;
+
     // Settings > MZGram > Interface > Show ID (MZGramPeerId): hidden by
     // default, as in Telegram API or as in Bot API.
     public static int peerIdMode = MZGramPeerId.HIDDEN;
@@ -207,6 +211,7 @@ public class MZGramConfig {
             ghostAutoDelaySend = preferences.getBoolean("ghostAutoDelaySend", false);
             ghostSilentSend = preferences.getBoolean("ghostSilentSend", false);
             offerGhostModeBeforeStories = preferences.getBoolean("offerGhostModeBeforeStories", false);
+            confirmInternalLinks = preferences.getBoolean("confirmInternalLinks", false);
             // The removed "hide own online status" and "hide own phone
             // number" switches: Telegram's own privacy settings do this.
             if (preferences.contains("hideOwnOnlineStatus") || preferences.contains("savedLastSeenPrivacyState") || preferences.contains("hideOwnPhoneNumber")) {
@@ -480,6 +485,11 @@ public class MZGramConfig {
     public static void toggleOfferGhostModeBeforeStories() {
         offerGhostModeBeforeStories = !offerGhostModeBeforeStories;
         putBoolean("offerGhostModeBeforeStories", offerGhostModeBeforeStories);
+    }
+
+    public static void toggleConfirmInternalLinks() {
+        confirmInternalLinks = !confirmInternalLinks;
+        putBoolean("confirmInternalLinks", confirmInternalLinks);
     }
 
     public static void toggleGhostMode() {

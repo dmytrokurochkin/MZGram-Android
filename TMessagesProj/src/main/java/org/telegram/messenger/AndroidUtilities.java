@@ -5515,6 +5515,10 @@ public class AndroidUtilities {
     }
 
     public static boolean shouldShowUrlInAlert(String url) {
+        // MZGram: confirm internal links (MZGramPrivacy).
+        if (org.telegram.messenger.mzgram.MZGramPrivacy.confirmInternalLink(url)) {
+            return true;
+        }
         try {
             Uri uri = Uri.parse(url);
             url = uri.getHost();

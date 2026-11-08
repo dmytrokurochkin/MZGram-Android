@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">Sesli mesaj kaydederken telefonun kendi gürültü bastırma ve otomatik kazanç kontrolünü, varsa, açar. Hiçbir şey gönderilmez.</string>
     <string name="MZGramShowRegistrationDate">Yaklaşık kayıt tarihi</string>
     <string name="MZGramShowRegistrationDateInfo">Kullanıcı profilinde ID’nin yanında hesabın oluşturulduğu yaklaşık ay ve yılı gösterir. Uygulamadaki bir tabloyla ID’den tahmin edilir, birkaç ay sapabilir. ID satırının gösterilmesi gerekir.</string>
+    <string name="MZGramScheduleSlider">Zamanlamada varsayılan gecikme</string>
+    <string name="MZGramScheduleSliderInfo">Zamanlama penceresi, kaydırıcıyla seçtiğiniz (5 dakikadan 7 güne) «şimdi artı gecikme» saatiyle açılır ve hızlı düğmeler içerir: 15 dakika sonra, 1 saat sonra, yarın sabah. Daha önce seçtiğiniz tarih asla değiştirilmez.</string>
+    <string name="MZGramSilentDefault">Varsayılan olarak sessiz gönder</string>
+    <string name="MZGramSilentDefaultInfo">Yeni mesajlar alıcıya bildirim sesi olmadan gönderilir. Zamanlanmış mesajlar ve Kayıtlı Mesajlar (hatırlatıcılar) etkilenmez. Bu açıkken mesaj sesli gönderilemez.</string>
+    <string name="MZGramScheduleDelay">Varsayılan gecikme</string>
+    <string name="MZGramScheduleIn15">15 dk sonra</string>
+    <string name="MZGramScheduleIn1Hour">1 saat sonra</string>
+    <string name="MZGramScheduleTomorrowMorning">Yarın 09:00</string>
 </resources>

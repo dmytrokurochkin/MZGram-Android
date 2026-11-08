@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">Ao gravar uma mensagem de voz, ativa a supressão de ruído e o controle automático de ganho do próprio telefone, se houver. Nada é enviado.</string>
     <string name="MZGramShowRegistrationDate">Data aproximada de registro</string>
     <string name="MZGramShowRegistrationDateInfo">No perfil do usuário, ao lado do ID, mostra o mês e o ano aproximados de criação da conta. É estimado pelo ID com uma tabela guardada no app, então pode variar alguns meses. Exige mostrar a linha do ID.</string>
+    <string name="MZGramScheduleSlider">Atraso padrão ao agendar</string>
+    <string name="MZGramScheduleSliderInfo">A caixa de agendamento abre com o horário «agora mais um atraso» escolhido num controle deslizante (de 5 minutos a 7 dias) e tem botões rápidos: em 15 minutos, em 1 hora, amanhã de manhã. Uma data já escolhida nunca é substituída.</string>
+    <string name="MZGramSilentDefault">Enviar sem som por padrão</string>
+    <string name="MZGramSilentDefaultInfo">As novas mensagens são enviadas sem som de notificação para o destinatário. Mensagens agendadas e Mensagens salvas (lembretes) não são afetadas. Enquanto estiver ativado, não é possível enviar uma mensagem com som.</string>
+    <string name="MZGramScheduleDelay">Atraso padrão</string>
+    <string name="MZGramScheduleIn15">Em 15 min</string>
+    <string name="MZGramScheduleIn1Hour">Em 1 hora</string>
+    <string name="MZGramScheduleTomorrowMorning">Amanhã 9:00</string>
 </resources>

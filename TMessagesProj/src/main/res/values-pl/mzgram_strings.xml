@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">Podczas nagrywania wiadomości głosowej włącza wbudowaną w telefon redukcję szumów i automatyczną regulację głośności, jeśli są dostępne. Nic nie jest wysyłane.</string>
     <string name="MZGramShowRegistrationDate">Przybliżona data rejestracji</string>
     <string name="MZGramShowRegistrationDateInfo">W profilu użytkownika obok ID pokazuje przybliżony miesiąc i rok utworzenia konta. Szacowane z ID za pomocą tabeli w aplikacji, więc może się różnić o kilka miesięcy. Wymaga wyświetlania wiersza ID.</string>
+    <string name="MZGramScheduleSlider">Domyślne opóźnienie przy planowaniu</string>
+    <string name="MZGramScheduleSliderInfo">Okno planowania otwiera się z godziną „teraz plus opóźnienie”, które ustawiasz suwakiem (od 5 minut do 7 dni), i ma szybkie przyciski: za 15 minut, za 1 godzinę, jutro rano. Wybrana wcześniej data nigdy nie jest zastępowana.</string>
+    <string name="MZGramSilentDefault">Domyślnie wysyłaj bez dźwięku</string>
+    <string name="MZGramSilentDefaultInfo">Nowe wiadomości są wysyłane bez dźwięku powiadomienia dla odbiorcy. Zaplanowane wiadomości i Zapisane wiadomości (przypomnienia) nie są objęte. Gdy opcja jest włączona, nie można wysłać wiadomości z dźwiękiem.</string>
+    <string name="MZGramScheduleDelay">Domyślne opóźnienie</string>
+    <string name="MZGramScheduleIn15">Za 15 min</string>
+    <string name="MZGramScheduleIn1Hour">Za 1 godz.</string>
+    <string name="MZGramScheduleTomorrowMorning">Jutro 9:00</string>
 </resources>

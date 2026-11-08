@@ -562,4 +562,12 @@
     <string name="MZGramAudioEnhanceInfo">Під час запису голосового повідомлення вмикає вбудоване в телефон шумозаглушення та автоматичне регулювання гучності, якщо вони є. Нічого нікуди не надсилається.</string>
     <string name="MZGramShowRegistrationDate">Приблизна дата реєстрації</string>
     <string name="MZGramShowRegistrationDateInfo">У профілі користувача поруч із ID показує приблизний місяць і рік створення акаунта. Оцінка за ID за таблицею всередині застосунку, тому може відхилятися на кілька місяців. Потрібен показ рядка ID.</string>
+    <string name="MZGramScheduleSlider">Затримка за замовчуванням у плануванні</string>
+    <string name="MZGramScheduleSliderInfo">Діалог планування відкривається з часом «зараз плюс затримка», яку ви обираєте повзунком (від 5 хвилин до 7 днів), і має швидкі кнопки: за 15 хвилин, за 1 годину, завтра вранці. Раніше обрана вами дата ніколи не замінюється.</string>
+    <string name="MZGramSilentDefault">Надсилати без звуку за замовчуванням</string>
+    <string name="MZGramSilentDefaultInfo">Нові повідомлення надсилаються без звукового сповіщення для отримувача. Заплановані повідомлення та Збережені (нагадування) не змінюються. Поки перемикач увімкнено, надіслати повідомлення зі звуком не можна.</string>
+    <string name="MZGramScheduleDelay">Затримка за замовчуванням</string>
+    <string name="MZGramScheduleIn15">Через 15 хв</string>
+    <string name="MZGramScheduleIn1Hour">Через 1 год</string>
+    <string name="MZGramScheduleTomorrowMorning">Завтра о 9:00</string>
 </resources>

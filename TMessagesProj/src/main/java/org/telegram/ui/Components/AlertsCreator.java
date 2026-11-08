@@ -4565,6 +4565,11 @@ public class AlertsCreator {
         linearLayout.addView(minutePicker, LayoutHelper.createLinear(0, 54 * 5, 0.3f));
         minutePicker.setOnValueChangedListener(onValueChangeListener);
 
+        // MZGram: default delay slider and quick presets (off by default; only for a dialog opened without a chosen date)
+        org.telegram.ui.mzgram.MZGramSchedulePresets.attach(context, container, resourcesProvider, currentDate, datePickerColors.textColor, datePickerColors.backgroundColor,
+            dayPicker, hourPicker, minutePicker,
+            () -> checkScheduleDate(buttonTextView, null, forcedTitle != null ? 3 : selfUserId == dialogId ? 1 : 0, dayPicker, hourPicker, minutePicker));
+
         if (currentDate > 0 && currentDate != 0x7FFFFFFE) {
             currentDate *= 1000;
             calendar.setTimeInMillis(System.currentTimeMillis());

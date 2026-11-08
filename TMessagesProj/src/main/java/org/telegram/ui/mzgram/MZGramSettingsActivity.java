@@ -163,6 +163,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_SCHEDULE_SLIDER = 127;
+    private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
     private static final int BUTTON_FAB_SHAPE = 123;
@@ -612,6 +614,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Typing, sending and search in chats (domain messages)
     private void fillChats(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_SCHEDULE_SLIDER, getString(R.string.MZGramScheduleSlider)).setChecked(MZGramConfig.scheduleSlider));
+        items.add(UItem.asShadow(getString(R.string.MZGramScheduleSliderInfo)));
+        items.add(UItem.asCheck(BUTTON_SILENT_DEFAULT, getString(R.string.MZGramSilentDefault)).setChecked(MZGramConfig.sendSilentByDefault));
+        items.add(UItem.asShadow(getString(R.string.MZGramSilentDefaultInfo)));
         items.add(UItem.asCheck(BUTTON_CAMERA_STABILIZATION, getString(R.string.MZGramCameraStabilization)).setChecked(MZGramConfig.cameraStabilization));
         items.add(UItem.asShadow(getString(R.string.MZGramCameraStabilizationInfo)));
         items.add(UItem.asCheck(BUTTON_PAUSE_ROUND, getString(R.string.MZGramPauseRound)).setChecked(MZGramConfig.pauseRoundOnLeave));
@@ -798,6 +804,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_INLINE_MATH) {
             MZGramConfig.toggleInlineMath();
             ((TextCheckCell) view).setChecked(MZGramConfig.inlineMath);
+        } else if (item.id == BUTTON_SILENT_DEFAULT) {
+            MZGramConfig.toggleSendSilentByDefault();
+            ((TextCheckCell) view).setChecked(MZGramConfig.sendSilentByDefault);
+        } else if (item.id == BUTTON_SCHEDULE_SLIDER) {
+            MZGramConfig.toggleScheduleSlider();
+            ((TextCheckCell) view).setChecked(MZGramConfig.scheduleSlider);
         } else if (item.id == BUTTON_PANGU) {
             MZGramConfig.togglePanguSpacing();
             ((TextCheckCell) view).setChecked(MZGramConfig.panguSpacing);

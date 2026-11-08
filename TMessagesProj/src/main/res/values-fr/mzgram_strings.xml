@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">Pendant l’enregistrement d’un message vocal, active la réduction de bruit et le contrôle automatique du gain du téléphone, s’il en dispose. Rien n’est envoyé.</string>
     <string name="MZGramShowRegistrationDate">Date d’inscription approximative</string>
     <string name="MZGramShowRegistrationDateInfo">Dans le profil d’un utilisateur, à côté de l’ID, affiche le mois et l’année approximatifs de création du compte. Estimé à partir de l’ID avec une table stockée dans l’app, il peut y avoir quelques mois d’écart. La ligne ID doit être affichée.</string>
+    <string name="MZGramScheduleSlider">Délai par défaut de la programmation</string>
+    <string name="MZGramScheduleSliderInfo">La boîte de programmation s’ouvre avec l’heure « maintenant plus un délai » réglé par un curseur (de 5 minutes à 7 jours) et propose des boutons rapides : dans 15 minutes, dans 1 heure, demain matin. Une date déjà choisie n’est jamais remplacée.</string>
+    <string name="MZGramSilentDefault">Envoyer sans son par défaut</string>
+    <string name="MZGramSilentDefaultInfo">Les nouveaux messages sont envoyés sans son de notification pour le destinataire. Les messages programmés et Messages enregistrés (rappels) ne sont pas concernés. Tant que c’est activé, un message ne peut pas être envoyé avec son.</string>
+    <string name="MZGramScheduleDelay">Délai par défaut</string>
+    <string name="MZGramScheduleIn15">Dans 15 min</string>
+    <string name="MZGramScheduleIn1Hour">Dans 1 h</string>
+    <string name="MZGramScheduleTomorrowMorning">Demain 9 h</string>
 </resources>

@@ -4464,6 +4464,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 && org.telegram.messenger.mzgram.MZGramConfig.ghostSilentSend) {
             sendMessageParams.notify = false;
         }
+        // MZGram: send without sound by default (off by default; not scheduled, not Saved Messages)
+        org.telegram.messenger.mzgram.MZGramSilentSend.apply(currentAccount, sendMessageParams);
         // MZGram: a reply to a deleted message kept in the archive goes as a quote of it.
         org.telegram.messenger.mzgram.MZGramDeletedReplies.rewriteSend(currentAccount, sendMessageParams);
         final SendMessageChatArguments sendMessageChatArguments = sendMessageParams.sendMessageChatArguments != null ?

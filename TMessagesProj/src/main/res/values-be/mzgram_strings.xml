@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">Падчас запісу галасавога паведамлення ўключае ўбудаванае ў тэлефон шумапрыгнечанне і аўтаматычную рэгуліроўку гучнасці, калі яны ёсць. Нічога нікуды не адпраўляецца.</string>
     <string name="MZGramShowRegistrationDate">Прыблізная дата рэгістрацыі</string>
     <string name="MZGramShowRegistrationDateInfo">У профілі карыстальніка побач з ID паказвае прыблізны месяц і год стварэння акаўнта. Ацэнка па ID па табліцы ўнутры праграмы, таму можа адрознівацца на некалькі месяцаў. Патрэбны паказ радка ID.</string>
+    <string name="MZGramScheduleSlider">Затрымка па змаўчанні пры планаванні</string>
+    <string name="MZGramScheduleSliderInfo">Дыялог планавання адкрываецца з часам «зараз плюс затрымка», якую вы выбіраеце паўзункам (ад 5 хвілін да 7 дзён), і мае хуткія кнопкі: праз 15 хвілін, праз 1 гадзіну, заўтра раніцай. Раней выбраная вамі дата ніколі не замяняецца.</string>
+    <string name="MZGramSilentDefault">Адпраўляць без гуку па змаўчанні</string>
+    <string name="MZGramSilentDefaultInfo">Новыя паведамленні адпраўляюцца без гуказвестку для атрымальніка. Запланаваныя паведамленні і Захаваныя (напамінкі) не змяняюцца. Пакуль перамыкач уключаны, адправіць паведамленне з гукам нельга.</string>
+    <string name="MZGramScheduleDelay">Затрымка па змаўчанні</string>
+    <string name="MZGramScheduleIn15">Праз 15 хв</string>
+    <string name="MZGramScheduleIn1Hour">Праз 1 гадз</string>
+    <string name="MZGramScheduleTomorrowMorning">Заўтра ў 9:00</string>
 </resources>

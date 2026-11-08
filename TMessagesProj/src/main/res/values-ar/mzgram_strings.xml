@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">أثناء تسجيل رسالة صوتية يفعّل كتم الضوضاء والتحكم التلقائي في الكسب المدمجين في الهاتف إن وُجدا. لا يُرسل أي شيء.</string>
     <string name="MZGramShowRegistrationDate">تاريخ التسجيل التقريبي</string>
     <string name="MZGramShowRegistrationDateInfo">في ملف المستخدم يعرض بجانب المعرّف الشهر والسنة التقريبيين لإنشاء الحساب. يُقدَّر من المعرّف بجدول داخل التطبيق، فقد يختلف ببضعة أشهر. يلزم عرض سطر المعرّف.</string>
+    <string name="MZGramScheduleSlider">التأخير الافتراضي عند الجدولة</string>
+    <string name="MZGramScheduleSliderInfo">يفتح مربع الجدولة بالوقت «الآن زائد تأخير» تختاره بمنزلق (من 5 دقائق إلى 7 أيام) وفيه أزرار سريعة: بعد 15 دقيقة، بعد ساعة، صباح الغد. لا يُستبدل أبدًا تاريخ اخترته سابقًا.</string>
+    <string name="MZGramSilentDefault">الإرسال بدون صوت افتراضيًا</string>
+    <string name="MZGramSilentDefaultInfo">تُرسل الرسائل الجديدة دون صوت إشعار للمستلم. لا تتأثر الرسائل المجدولة والرسائل المحفوظة (التذكيرات). وما دام هذا الخيار مفعّلًا لا يمكن إرسال رسالة بصوت.</string>
+    <string name="MZGramScheduleDelay">التأخير الافتراضي</string>
+    <string name="MZGramScheduleIn15">بعد 15 د</string>
+    <string name="MZGramScheduleIn1Hour">بعد ساعة</string>
+    <string name="MZGramScheduleTomorrowMorning">غدًا 9:00</string>
 </resources>

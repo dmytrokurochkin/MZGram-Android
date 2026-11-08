@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">While recording a voice message, turns on the phone’s own noise suppressor and automatic gain control, if it has them. Nothing is sent anywhere.</string>
     <string name="MZGramShowRegistrationDate">Approximate registration date</string>
     <string name="MZGramShowRegistrationDateInfo">In a user profile, next to the ID, shows the approximate month and year the account was created. It is estimated from the ID with a table stored in the app, so it can be off by a few months. Needs the ID row to be shown.</string>
+    <string name="MZGramScheduleSlider">Default delay in the schedule dialog</string>
+    <string name="MZGramScheduleSliderInfo">The schedule dialog opens with the time set to now plus a delay you choose with a slider (5 minutes to 7 days) and has quick buttons: in 15 minutes, in 1 hour, tomorrow morning. A date you picked earlier is never replaced.</string>
+    <string name="MZGramSilentDefault">Send without sound by default</string>
+    <string name="MZGramSilentDefaultInfo">New messages are sent without a notification sound for the recipient. Scheduled messages and Saved Messages (reminders) are not affected. While this is on, a message cannot be sent with sound.</string>
+    <string name="MZGramScheduleDelay">Default delay</string>
+    <string name="MZGramScheduleIn15">In 15 min</string>
+    <string name="MZGramScheduleIn1Hour">In 1 hour</string>
+    <string name="MZGramScheduleTomorrowMorning">Tomorrow 9:00</string>
 </resources>

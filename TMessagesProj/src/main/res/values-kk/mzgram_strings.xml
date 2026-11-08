@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">Дауыстық хабарды жазу кезінде телефонның кірістірілген шуды басуы мен автоматты күшейту реттегішін, бар болса, қосады. Ешнәрсе жіберілмейді.</string>
     <string name="MZGramShowRegistrationDate">Шамамен тіркелу күні</string>
     <string name="MZGramShowRegistrationDateInfo">Пайдаланушы профилінде ID жанында аккаунт құрылған шамамен ай мен жылды көрсетеді. Қолданбадағы кесте бойынша ID-ден бағаланады, сондықтан бірнеше айға ауытқуы мүмкін. ID жолы көрсетілуі керек.</string>
+    <string name="MZGramScheduleSlider">Жоспарлаудағы әдепкі кідіріс</string>
+    <string name="MZGramScheduleSliderInfo">Жоспарлау терезесі «қазір және кідіріс» уақытымен ашылады, оны жүгірткімен таңдайсыз (5 минуттан 7 күнге дейін), және жылдам түймелері бар: 15 минуттан кейін, 1 сағаттан кейін, ертең таңертең. Бұрын таңдалған күн ешқашан ауыстырылмайды.</string>
+    <string name="MZGramSilentDefault">Әдепкіде дыбыссыз жіберу</string>
+    <string name="MZGramSilentDefaultInfo">Жаңа хабарламалар алушыға хабарландыру дыбысынсыз жіберіледі. Жоспарланған хабарламалар мен Сақталған хабарламалар (еске салғыштар) өзгермейді. Қосулы кезде хабарламаны дыбыспен жіберу мүмкін емес.</string>
+    <string name="MZGramScheduleDelay">Әдепкі кідіріс</string>
+    <string name="MZGramScheduleIn15">15 мин кейін</string>
+    <string name="MZGramScheduleIn1Hour">1 сағ кейін</string>
+    <string name="MZGramScheduleTomorrowMorning">Ертең 9:00</string>
 </resources>

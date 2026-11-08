@@ -223,6 +223,12 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // scheduleSlider
+    public static boolean scheduleSlider = false;
+
+    // sendSilentByDefault
+    public static boolean sendSilentByDefault = false;
+
     // showRegistrationDate
     public static boolean showRegistrationDate = false;
 
@@ -252,6 +258,9 @@ public class MZGramConfig {
 
     // Shape of the chat-list new-chat button: 0 circle, 1 rounded square, 2 squircle (MZGramFabShape).
     public static int fabShape = 0;
+
+    // Default delay (minutes) offered by the schedule dialog while scheduleSlider is on.
+    public static int scheduleDefaultMinutes = 60;
 
     // Double tap on other people's messages, same values.
     public static int doubleTapOther = 0;
@@ -383,6 +392,8 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            scheduleSlider = preferences.getBoolean("scheduleSlider", false);
+            sendSilentByDefault = preferences.getBoolean("sendSilentByDefault", false);
             showRegistrationDate = preferences.getBoolean("showRegistrationDate", false);
             audioEnhance = preferences.getBoolean("audioEnhance", false);
             cameraStabilization = preferences.getBoolean("cameraStabilization", false);
@@ -393,6 +404,7 @@ public class MZGramConfig {
             panguSpacing = preferences.getBoolean("panguSpacing", false);
             doubleTapOwn = preferences.getInt("doubleTapOwn", 0);
             fabShape = preferences.getInt("fabShape", 0);
+            scheduleDefaultMinutes = preferences.getInt("scheduleDefaultMinutes", 60);
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
         }
@@ -856,6 +868,11 @@ public class MZGramConfig {
         putBoolean("cameraStabilization", cameraStabilization);
     }
 
+    public static void setScheduleDefaultMinutes(int value) {
+        scheduleDefaultMinutes = value;
+        preferences().edit().putInt("scheduleDefaultMinutes", value).apply();
+    }
+
     public static void setFabShape(int value) {
         fabShape = value;
         preferences().edit().putInt("fabShape", value).apply();
@@ -869,6 +886,16 @@ public class MZGramConfig {
     public static void toggleShowRegistrationDate() {
         showRegistrationDate = !showRegistrationDate;
         putBoolean("showRegistrationDate", showRegistrationDate);
+    }
+
+    public static void toggleSendSilentByDefault() {
+        sendSilentByDefault = !sendSilentByDefault;
+        putBoolean("sendSilentByDefault", sendSilentByDefault);
+    }
+
+    public static void toggleScheduleSlider() {
+        scheduleSlider = !scheduleSlider;
+        putBoolean("scheduleSlider", scheduleSlider);
     }
 
     public static void toggleInlineMath() {

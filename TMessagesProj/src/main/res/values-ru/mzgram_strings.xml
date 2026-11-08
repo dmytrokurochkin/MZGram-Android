@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">Во время записи голосового сообщения включает встроенное в телефон шумоподавление и автоматическую регулировку громкости, если они есть. Ничего никуда не отправляется.</string>
     <string name="MZGramShowRegistrationDate">Примерная дата регистрации</string>
     <string name="MZGramShowRegistrationDateInfo">В профиле пользователя рядом с ID показывает примерный месяц и год создания аккаунта. Оценка по ID по таблице внутри приложения, поэтому может отличаться на несколько месяцев. Нужен показ строки ID.</string>
+    <string name="MZGramScheduleSlider">Задержка по умолчанию при планировании</string>
+    <string name="MZGramScheduleSliderInfo">Диалог планирования открывается со временем «сейчас плюс задержка», которую вы выбираете ползунком (от 5 минут до 7 дней), и содержит быстрые кнопки: через 15 минут, через 1 час, завтра утром. Уже выбранная вами дата не заменяется.</string>
+    <string name="MZGramSilentDefault">Отправлять без звука по умолчанию</string>
+    <string name="MZGramSilentDefaultInfo">Новые сообщения отправляются без звукового уведомления для получателя. Запланированные сообщения и Избранное (напоминания) не затрагиваются. Пока переключатель включён, отправить сообщение со звуком нельзя.</string>
+    <string name="MZGramScheduleDelay">Задержка по умолчанию</string>
+    <string name="MZGramScheduleIn15">Через 15 мин</string>
+    <string name="MZGramScheduleIn1Hour">Через 1 час</string>
+    <string name="MZGramScheduleTomorrowMorning">Завтра в 9:00</string>
 </resources>

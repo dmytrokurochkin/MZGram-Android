@@ -561,4 +561,12 @@
     <string name="MZGramAudioEnhanceInfo">Schaltet beim Aufnehmen einer Sprachnachricht die im Telefon vorhandene Rauschunterdrückung und automatische Pegelregelung ein. Es wird nichts versendet.</string>
     <string name="MZGramShowRegistrationDate">Ungefähres Registrierungsdatum</string>
     <string name="MZGramShowRegistrationDateInfo">Zeigt im Benutzerprofil neben der ID den ungefähren Monat und das Jahr der Kontoerstellung. Geschätzt aus der ID mit einer Tabelle in der App, kann also um einige Monate abweichen. Die ID-Zeile muss angezeigt werden.</string>
+    <string name="MZGramScheduleSlider">Standardverzögerung beim Planen</string>
+    <string name="MZGramScheduleSliderInfo">Der Planungsdialog öffnet sich mit der Zeit „jetzt plus Verzögerung“, die Sie per Schieberegler wählen (5 Minuten bis 7 Tage), und hat Schnellwahl: in 15 Minuten, in 1 Stunde, morgen früh. Ein bereits gewähltes Datum wird nie ersetzt.</string>
+    <string name="MZGramSilentDefault">Standardmäßig ohne Ton senden</string>
+    <string name="MZGramSilentDefaultInfo">Neue Nachrichten werden ohne Benachrichtigungston für den Empfänger gesendet. Geplante Nachrichten und Gespeicherte Nachrichten (Erinnerungen) sind nicht betroffen. Solange dies aktiv ist, kann keine Nachricht mit Ton gesendet werden.</string>
+    <string name="MZGramScheduleDelay">Standardverzögerung</string>
+    <string name="MZGramScheduleIn15">In 15 Min.</string>
+    <string name="MZGramScheduleIn1Hour">In 1 Std.</string>
+    <string name="MZGramScheduleTomorrowMorning">Morgen 9:00</string>
 </resources>

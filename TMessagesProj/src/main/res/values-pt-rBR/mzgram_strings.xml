@@ -453,4 +453,10 @@
     <string name="MZGramKeepGroupReads">Guardar quem leu minhas mensagens em grupos</string>
     <string name="MZGramKeepGroupReadsInfo">O Telegram mostra quem leu sua mensagem só em grupos pequenos e só por cerca de uma semana. Sempre que o menu da mensagem mostra essa lista, ela é guardada neste aparelho, e menu da mensagem &gt; Detalhes mostra os leitores e os horários depois também.</string>
     <string name="MZGramDetailsReadBy">Lida por</string>
+    <string name="MZGramBotStartConfirm">Perguntar antes de iniciar bots</string>
+    <string name="MZGramBotStartConfirmInfo">Um link como t.me/bot?start=code diz ao bot qual link trouxe você, e o Telegram o envia sozinho quando você já tem uma conversa com o bot. Isto pergunta primeiro: iniciar com o código, sem ele ou a partir de outra conta sua, para que o bot nunca veja esta. Uma repetição do mesmo início em poucos segundos é descartada.</string>
+    <string name="MZGramBotStartTitle">%1$s inicia com o código «%2$s»</string>
+    <string name="MZGramBotStartWithCode">Iniciar com o código</string>
+    <string name="MZGramBotStartWithoutCode">Iniciar sem o código</string>
+    <string name="MZGramBotStartFromAccount">Iniciar a partir de %1$s</string>
 </resources>

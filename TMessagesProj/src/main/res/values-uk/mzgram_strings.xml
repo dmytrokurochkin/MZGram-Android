@@ -454,4 +454,10 @@
     <string name="MZGramKeepGroupReads">Зберігати, хто прочитав мої повідомлення в групах</string>
     <string name="MZGramKeepGroupReadsInfo">Telegram показує, хто прочитав ваше повідомлення, лише в малих групах і лише близько тижня. Щоразу, коли меню повідомлення показує цей список, він зберігається на цьому пристрої, і меню повідомлення &gt; Деталі показує читачів і час і пізніше.</string>
     <string name="MZGramDetailsReadBy">Прочитали</string>
+    <string name="MZGramBotStartConfirm">Питати перед запуском ботів</string>
+    <string name="MZGramBotStartConfirmInfo">Посилання на кшталт t.me/bot?start=code повідомляє боту, яке посилання вас привело, а Telegram надсилає його сам, якщо чат із ботом уже є. Перемикач спершу питає: запустити з кодом, без нього або з іншого вашого акаунта, щоб бот не побачив цей. Повтор того самого запуску протягом кількох секунд відкидається.</string>
+    <string name="MZGramBotStartTitle">%1$s запускається з кодом «%2$s»</string>
+    <string name="MZGramBotStartWithCode">Запустити з кодом</string>
+    <string name="MZGramBotStartWithoutCode">Запустити без коду</string>
+    <string name="MZGramBotStartFromAccount">Запустити з акаунта %1$s</string>
 </resources>

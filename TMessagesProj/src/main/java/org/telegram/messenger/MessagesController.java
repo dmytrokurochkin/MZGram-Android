@@ -15717,6 +15717,10 @@ public class MessagesController extends BaseController implements NotificationCe
         if (user == null) {
             return;
         }
+        // MZGram: a start code asks first, a quick repeat is dropped (MZGramBotStartGuard).
+        if (org.telegram.ui.mzgram.MZGramBotStartGuard.intercept(currentAccount, user, botHash)) {
+            return;
+        }
         TLRPC.TL_messages_startBot req = new TLRPC.TL_messages_startBot();
         req.bot = getInputUser(user);
         req.peer = getInputPeer(user.id);

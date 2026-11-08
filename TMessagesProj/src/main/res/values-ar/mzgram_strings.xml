@@ -453,4 +453,10 @@
     <string name="MZGramKeepGroupReads">حفظ من قرأ رسائلي في المجموعات</string>
     <string name="MZGramKeepGroupReadsInfo">يعرض تيليجرام من قرأ رسالتك فقط في المجموعات الصغيرة ولمدة أسبوع تقريبًا. في كل مرة تعرض قائمة الرسالة هذه القائمة تُحفظ على هذا الجهاز، وتعرض قائمة الرسالة &gt; التفاصيل القرّاء والأوقات لاحقًا أيضًا.</string>
     <string name="MZGramDetailsReadBy">قرأها</string>
+    <string name="MZGramBotStartConfirm">السؤال قبل تشغيل البوتات</string>
+    <string name="MZGramBotStartConfirmInfo">رابط مثل t.me/bot?start=code يخبر البوت بالرابط الذي جاء بك، ويرسله تيليجرام بنفسه إذا كانت لديك محادثة مع البوت مسبقًا. يسأل هذا أولًا: التشغيل بالرمز أو بدونه أو من حساب آخر لك، حتى لا يرى البوت هذا الحساب أبدًا. يُتجاهل تكرار التشغيل نفسه خلال ثوانٍ قليلة.</string>
+    <string name="MZGramBotStartTitle">يبدأ %1$s بالرمز «%2$s»</string>
+    <string name="MZGramBotStartWithCode">التشغيل بالرمز</string>
+    <string name="MZGramBotStartWithoutCode">التشغيل بدون الرمز</string>
+    <string name="MZGramBotStartFromAccount">التشغيل من %1$s</string>
 </resources>

@@ -453,4 +453,10 @@
     <string name="MZGramKeepGroupReads">Gruplarda mesajlarımı kimin okuduğunu sakla</string>
     <string name="MZGramKeepGroupReadsInfo">Telegram mesajınızı kimin okuduğunu yalnızca küçük gruplarda ve yalnızca yaklaşık bir hafta boyunca gösterir. Mesaj menüsü bu listeyi her gösterdiğinde liste bu cihazda saklanır ve mesaj menüsü &gt; Ayrıntılar okuyanları ve zamanları sonra da gösterir.</string>
     <string name="MZGramDetailsReadBy">Okuyanlar</string>
+    <string name="MZGramBotStartConfirm">Botları başlatmadan önce sor</string>
+    <string name="MZGramBotStartConfirmInfo">t.me/bot?start=code gibi bir bağlantı bota sizi hangi bağlantının getirdiğini söyler ve botla zaten bir sohbetiniz varsa Telegram bunu kendisi gönderir. Bu önce sorar: kodla, kodsuz veya diğer hesaplarınızdan biriyle başlat, böylece bot bu hesabı hiç görmez. Aynı başlatmanın birkaç saniye içinde tekrarı yok sayılır.</string>
+    <string name="MZGramBotStartTitle">%1$s «%2$s» koduyla başlıyor</string>
+    <string name="MZGramBotStartWithCode">Kodla başlat</string>
+    <string name="MZGramBotStartWithoutCode">Kodsuz başlat</string>
+    <string name="MZGramBotStartFromAccount">%1$s hesabından başlat</string>
 </resources>

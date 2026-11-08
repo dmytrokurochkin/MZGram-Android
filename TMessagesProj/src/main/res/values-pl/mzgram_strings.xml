@@ -459,4 +459,6 @@
     <string name="MZGramBotStartWithCode">Uruchom z kodem</string>
     <string name="MZGramBotStartWithoutCode">Uruchom bez kodu</string>
     <string name="MZGramBotStartFromAccount">Uruchom z konta %1$s</string>
+    <string name="MZGramReduceNetworkTracking">Ogranicz śledzenie w sieci</string>
+    <string name="MZGramReduceNetworkTrackingInfo">Serwery CDN Telegrama znają tylko stały klucz twojego konta, więc każdy plik z nich niesie ten sam identyfikator klucza, po którym obserwator sieci może powiązać twoje pobrania. Zamiast tego pliki są pobierane z głównych serwerów Telegrama. Duże pliki mogą pobierać się wolniej.</string>
 </resources>

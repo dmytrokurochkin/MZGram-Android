@@ -138,6 +138,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_OWN_LAST_SEEN_VALUE = 92;
     private static final int BUTTON_KEEP_GROUP_READS = 93;
     private static final int BUTTON_BOT_START_CONFIRM = 94;
+    private static final int BUTTON_REDUCE_NETWORK_TRACKING = 95;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -518,6 +519,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramKeepGroupReadsInfo)));
         items.add(UItem.asCheck(BUTTON_BOT_START_CONFIRM, getString(R.string.MZGramBotStartConfirm)).setChecked(MZGramConfig.botStartConfirm));
         items.add(UItem.asShadow(getString(R.string.MZGramBotStartConfirmInfo)));
+        items.add(UItem.asCheck(BUTTON_REDUCE_NETWORK_TRACKING, getString(R.string.MZGramReduceNetworkTracking)).setChecked(MZGramConfig.reduceNetworkTracking));
+        items.add(UItem.asShadow(getString(R.string.MZGramReduceNetworkTrackingInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_READ_STICKERS, getString(R.string.MZGramDisableReadStickers)).setChecked(MZGramConfig.disableReadStickers));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableReadStickersInfo)));
     }
@@ -687,6 +690,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_BOT_START_CONFIRM) {
             MZGramConfig.toggleBotStartConfirm();
             ((TextCheckCell) view).setChecked(MZGramConfig.botStartConfirm);
+        } else if (item.id == BUTTON_REDUCE_NETWORK_TRACKING) {
+            MZGramConfig.toggleReduceNetworkTracking();
+            ((TextCheckCell) view).setChecked(MZGramConfig.reduceNetworkTracking);
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);

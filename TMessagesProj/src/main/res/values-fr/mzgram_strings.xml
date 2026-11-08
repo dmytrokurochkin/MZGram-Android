@@ -459,4 +459,6 @@
     <string name="MZGramBotStartWithCode">Lancer avec le code</string>
     <string name="MZGramBotStartWithoutCode">Lancer sans le code</string>
     <string name="MZGramBotStartFromAccount">Lancer depuis %1$s</string>
+    <string name="MZGramReduceNetworkTracking">Réduire le pistage réseau</string>
+    <string name="MZGramReduceNetworkTrackingInfo">Les serveurs CDN de Telegram ne connaissent que la clé permanente de votre compte, donc chaque fichier venant d\'eux porte le même identifiant de clé, qu\'un observateur du réseau peut utiliser pour relier vos téléchargements. Les fichiers sont demandés aux serveurs principaux de Telegram à la place. Les gros fichiers peuvent se télécharger plus lentement.</string>
 </resources>

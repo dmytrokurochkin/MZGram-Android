@@ -459,4 +459,6 @@
     <string name="MZGramBotStartWithCode">Kodla başlat</string>
     <string name="MZGramBotStartWithoutCode">Kodsuz başlat</string>
     <string name="MZGramBotStartFromAccount">%1$s hesabından başlat</string>
+    <string name="MZGramReduceNetworkTracking">Ağ izlemesini azalt</string>
+    <string name="MZGramReduceNetworkTrackingInfo">Telegram\'ın CDN sunucuları yalnızca hesabınızın kalıcı anahtarını bilir; bu yüzden oradan gelen her dosya, ağı izleyen birinin indirmelerinizi ilişkilendirebileceği aynı anahtar kimliğini taşır. Bunun yerine dosyalar Telegram\'ın ana sunucularından istenir. Büyük dosyalar daha yavaş inebilir.</string>
 </resources>

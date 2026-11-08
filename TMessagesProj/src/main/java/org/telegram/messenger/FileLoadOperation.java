@@ -250,6 +250,8 @@ public class FileLoadOperation {
     private byte[] cdnToken;
     private int cdnDatacenterId;
     private boolean reuploadingCdn;
+    // MZGram: CDN redirects this download refused (MZGramPrivacy.refuseCdnRedirect).
+    private int mzgramCdnRefusals;
     protected boolean requestingReference;
     private boolean requestedReference;
     private RandomAccessFile fileReadStream;
@@ -2449,7 +2451,8 @@ public class FileLoadOperation {
                     req.location = location;
                     req.offset = downloadOffset;
                     req.limit = currentDownloadChunkSize;
-                    req.cdn_supported = true;
+                    // MZGram: after a refused CDN redirect the file comes from the main DC.
+                    req.cdn_supported = mzgramCdnRefusals == 0;
                     request = req;
                 }
             }
@@ -2572,7 +2575,13 @@ public class FileLoadOperation {
                         }
                     }
                 }
-                if (response instanceof TLRPC.TL_upload_fileCdnRedirect) {
+                if (response instanceof TLRPC.TL_upload_fileCdnRedirect && org.telegram.messenger.mzgram.MZGramPrivacy.refuseCdnRedirect(mzgramCdnRefusals)) {
+                    // MZGram: CDN uses the permanent auth key; ask the main DC again without CDN.
+                    mzgramCdnRefusals++;
+                    isCdn = false;
+                    clearOperation(requestInfo, false, false);
+                    startDownloadRequest(connectionType);
+                } else if (response instanceof TLRPC.TL_upload_fileCdnRedirect) {
                     TLRPC.TL_upload_fileCdnRedirect res = (TLRPC.TL_upload_fileCdnRedirect) response;
                     if (!res.file_hashes.isEmpty()) {
                         if (cdnHashes == null) {

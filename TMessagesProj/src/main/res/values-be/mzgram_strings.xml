@@ -459,4 +459,6 @@
     <string name="MZGramBotStartWithCode">Запусціць з кодам</string>
     <string name="MZGramBotStartWithoutCode">Запусціць без кода</string>
     <string name="MZGramBotStartFromAccount">Запусціць з акаўнта %1$s</string>
+    <string name="MZGramReduceNetworkTracking">Менш сеткавага сачэння</string>
+    <string name="MZGramReduceNetworkTrackingInfo">CDN-серверы Telegram ведаюць толькі пастаянны ключ вашага акаўнта, таму кожны файл адтуль нясе той самы ідэнтыфікатар ключа, па якім назіральнік у сетцы можа звязаць вашы загрузкі. Замест гэтага файлы запытваюцца з асноўных сервераў Telegram. Вялікія файлы могуць загружацца павольней.</string>
 </resources>

@@ -459,4 +459,6 @@
     <string name="MZGramBotStartWithCode">Iniciar con el código</string>
     <string name="MZGramBotStartWithoutCode">Iniciar sin el código</string>
     <string name="MZGramBotStartFromAccount">Iniciar desde %1$s</string>
+    <string name="MZGramReduceNetworkTracking">Reducir el rastreo en la red</string>
+    <string name="MZGramReduceNetworkTrackingInfo">Los servidores CDN de Telegram solo conocen la clave permanente de tu cuenta, así que cada archivo de ellos lleva el mismo id de clave con el que alguien que observe la red puede vincular tus descargas. En su lugar, los archivos se piden a los servidores principales de Telegram. Los archivos grandes pueden descargarse más despacio.</string>
 </resources>

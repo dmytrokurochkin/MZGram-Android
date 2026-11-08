@@ -23,6 +23,9 @@
  * org/telegram/messenger/MediaController.java (playMessage),
  * MusicPlayerService.java (setVisibility) and AndroidUtilities.java
  * (isKeyguardLocked).
+ *
+ * CDN refusal: ported from Mercurygram (GPL-2.0),
+ * org/telegram/messenger/FileLoadOperation.java (mgRefusedCdnRedirect).
  */
 
 package org.telegram.messenger.mzgram;
@@ -91,6 +94,18 @@ public final class MZGramPrivacy {
             return Notification.VISIBILITY_PRIVATE;
         }
         return Notification.VISIBILITY_PUBLIC;
+    }
+
+    // Telegram's CDN servers only know the account's permanent key, so every
+    // CDN frame carries the same auth_key_id and a network observer can link
+    // downloads across networks. A CDN redirect is refused and the file is
+    // asked again from the main datacenter, without CDN (cdn_supported off).
+    // The few requests already on the way may be redirected too; if the
+    // server still insists, the download goes through the CDN after all.
+    public static final int MAX_CDN_REFUSALS = 16;
+
+    public static boolean refuseCdnRedirect(int refusedSoFar) {
+        return MZGramConfig.reduceNetworkTracking && refusedSoFar < MAX_CDN_REFUSALS;
     }
 
     public static boolean isKeyguardLocked() {

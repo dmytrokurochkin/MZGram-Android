@@ -459,4 +459,6 @@
     <string name="MZGramBotStartWithCode">Кодпен іске қосу</string>
     <string name="MZGramBotStartWithoutCode">Кодсыз іске қосу</string>
     <string name="MZGramBotStartFromAccount">%1$s аккаунтынан іске қосу</string>
+    <string name="MZGramReduceNetworkTracking">Желілік бақылауды азайту</string>
+    <string name="MZGramReduceNetworkTrackingInfo">Telegram-ның CDN серверлері тек аккаунтыңыздың тұрақты кілтін біледі, сондықтан олардан келетін әр файл бірдей кілт идентификаторын алып жүреді, оны желіні бақылаушы жүктеулеріңізді байланыстыру үшін пайдалана алады. Оның орнына файлдар Telegram-ның негізгі серверлерінен сұралады. Үлкен файлдар баяуырақ жүктелуі мүмкін.</string>
 </resources>

@@ -122,6 +122,9 @@ public class MZGramConfig {
     public static boolean keepGroupReads = false;
     // A bot start link with a start code asks first (MZGramBotStartGuard).
     public static boolean botStartConfirm = false;
+    // Files come from the main datacenter instead of a CDN, which only
+    // knows the permanent auth key (MZGramPrivacy.refuseCdnRedirect).
+    public static boolean reduceNetworkTracking = false;
 
     // Settings > MZGram > Interface > Show ID (MZGramPeerId): hidden by
     // default, as in Telegram API or as in Bot API.
@@ -239,6 +242,7 @@ public class MZGramConfig {
             ownLastSeen = preferences.getBoolean("ownLastSeen", false);
             keepGroupReads = preferences.getBoolean("keepGroupReads", false);
             botStartConfirm = preferences.getBoolean("botStartConfirm", false);
+            reduceNetworkTracking = preferences.getBoolean("reduceNetworkTracking", false);
             // The removed "hide own online status" and "hide own phone
             // number" switches: Telegram's own privacy settings do this.
             if (preferences.contains("hideOwnOnlineStatus") || preferences.contains("savedLastSeenPrivacyState") || preferences.contains("hideOwnPhoneNumber")) {
@@ -557,6 +561,11 @@ public class MZGramConfig {
     public static void toggleBotStartConfirm() {
         botStartConfirm = !botStartConfirm;
         putBoolean("botStartConfirm", botStartConfirm);
+    }
+
+    public static void toggleReduceNetworkTracking() {
+        reduceNetworkTracking = !reduceNetworkTracking;
+        putBoolean("reduceNetworkTracking", reduceNetworkTracking);
     }
 
     public static void toggleGhostMode() {

@@ -459,4 +459,6 @@
     <string name="MZGramBotStartWithCode">Start with the code</string>
     <string name="MZGramBotStartWithoutCode">Start without the code</string>
     <string name="MZGramBotStartFromAccount">Start from %1$s</string>
+    <string name="MZGramReduceNetworkTracking">Reduce network tracking</string>
+    <string name="MZGramReduceNetworkTrackingInfo">Telegram\'s CDN servers only know your account\'s permanent key, so every file from them carries the same key id that someone watching the network can use to link your downloads. Files are asked from Telegram\'s main servers instead. Large files can download slower.</string>
 </resources>

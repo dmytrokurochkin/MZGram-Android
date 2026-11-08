@@ -459,4 +459,6 @@
     <string name="MZGramBotStartWithCode">التشغيل بالرمز</string>
     <string name="MZGramBotStartWithoutCode">التشغيل بدون الرمز</string>
     <string name="MZGramBotStartFromAccount">التشغيل من %1$s</string>
+    <string name="MZGramReduceNetworkTracking">تقليل التتبع عبر الشبكة</string>
+    <string name="MZGramReduceNetworkTrackingInfo">تعرف خوادم CDN في تيليجرام المفتاح الدائم لحسابك فقط، لذا يحمل كل ملف منها معرّف المفتاح نفسه الذي يمكن لمراقب الشبكة استخدامه لربط تنزيلاتك. تُطلب الملفات من خوادم تيليجرام الرئيسية بدلًا من ذلك. قد تُنزَّل الملفات الكبيرة أبطأ.</string>
 </resources>

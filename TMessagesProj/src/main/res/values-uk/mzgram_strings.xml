@@ -846,4 +846,14 @@
     <string name="MZGramPills">Пілюлі</string>
     <string name="MZGramPillsInfo">Дотик показує або ховає пілюлю. Утримайте рядок і перетягніть, щоб пересунути. Числа в пілюлях завжди короткі, як-от 4.8K, навіть коли увімкнено точні числа.</string>
     <string name="MZGramPillsReset">Скинути пілюлі</string>
+    <string name="MZGramPillGhostOn">Привид увімк.</string>
+    <string name="MZGramPillGhostOff">Привид вимк.</string>
+    <string name="MZGramPillGhostTurnedOn">Режим привида ввімкнено: інші не бачать, що ви прочитали чи друкуєте.</string>
+    <string name="MZGramPillGhostTurnedOff">Режим привида вимкнено.</string>
+    <string name="MZGramPillLastSeen">Мій останній візит</string>
+    <string name="MZGramPillProxy">Проксі-сервер</string>
+    <string name="MZGramPillProxyOn">Проксі ввімк.</string>
+    <string name="MZGramPillProxyConnecting">Проксі: з\'єднання</string>
+    <string name="MZGramPillProxyOff">Без проксі</string>
+    <string name="MZGramPillCache">Розмір кешу</string>
 </resources>

@@ -845,4 +845,14 @@
     <string name="MZGramPills">Pigułki</string>
     <string name="MZGramPillsInfo">Dotknięcie pokazuje lub ukrywa pigułkę. Przytrzymaj wiersz i przeciągnij, aby go przesunąć. Liczby w pigułkach są zawsze krótkie, np. 4.8K, także przy włączonych dokładnych liczbach.</string>
     <string name="MZGramPillsReset">Przywróć pigułki</string>
+    <string name="MZGramPillGhostOn">Duch wł.</string>
+    <string name="MZGramPillGhostOff">Duch wył.</string>
+    <string name="MZGramPillGhostTurnedOn">Tryb ducha włączony: inni nie widzą, że czytasz ani piszesz.</string>
+    <string name="MZGramPillGhostTurnedOff">Tryb ducha wyłączony.</string>
+    <string name="MZGramPillLastSeen">Moja ostatnia aktywność</string>
+    <string name="MZGramPillProxy">Serwer proxy</string>
+    <string name="MZGramPillProxyOn">Proxy wł.</string>
+    <string name="MZGramPillProxyConnecting">Proxy: łączenie</string>
+    <string name="MZGramPillProxyOff">Bez proxy</string>
+    <string name="MZGramPillCache">Rozmiar pamięci podręcznej</string>
 </resources>

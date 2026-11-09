@@ -845,4 +845,14 @@
     <string name="MZGramPills">Пілюлялар</string>
     <string name="MZGramPillsInfo">Түрту пілюляны көрсетеді не жасырады. Жылжыту үшін жолды басып тұрып сүйреңіз. Пілюлялардағы сандар әрдайым қысқа, мысалы 4.8K, нақты сандар қосулы болса да.</string>
     <string name="MZGramPillsReset">Пілюляларды қалпына келтіру</string>
+    <string name="MZGramPillGhostOn">Елес қосулы</string>
+    <string name="MZGramPillGhostOff">Елес өшірулі</string>
+    <string name="MZGramPillGhostTurnedOn">Елес режимі қосулы: басқалар оқығаныңызды не жазып жатқаныңызды көрмейді.</string>
+    <string name="MZGramPillGhostTurnedOff">Елес режимі өшірулі.</string>
+    <string name="MZGramPillLastSeen">Менің соңғы кіруім</string>
+    <string name="MZGramPillProxy">Прокси-сервер</string>
+    <string name="MZGramPillProxyOn">Прокси қосулы</string>
+    <string name="MZGramPillProxyConnecting">Прокси: қосылуда</string>
+    <string name="MZGramPillProxyOff">Проксисіз</string>
+    <string name="MZGramPillCache">Кэш өлшемі</string>
 </resources>

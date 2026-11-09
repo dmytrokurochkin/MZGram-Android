@@ -17,7 +17,6 @@ import static org.telegram.messenger.AndroidUtilities.dp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,7 +42,6 @@ public abstract class MZGramPill extends FrameLayout {
     protected final LinearLayout layout;
     protected final ImageView iconView;
     protected final AnimatedTextView textView;
-    private final GradientDrawable background = new GradientDrawable();
 
     private boolean selected;
     private final Runnable refresh = new Runnable() {
@@ -65,8 +63,6 @@ public abstract class MZGramPill extends FrameLayout {
         layout.setGravity(Gravity.CENTER);
         layout.setMinimumWidth(dp(44));
         layout.setPadding(dp(8), 0, dp(10), 0);
-        background.setCornerRadius(dp(HEIGHT_DP / 2f));
-        layout.setBackground(background);
         addView(layout, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, HEIGHT_DP,
                 (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL));
 
@@ -113,11 +109,16 @@ public abstract class MZGramPill extends FrameLayout {
         textView.setText(text, animated && isLaidOut());
     }
 
+    /** The colour of the pill's text and icon; the oval is a light tint of it. */
+    protected int accentColor() {
+        return Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider);
+    }
+
     public void updateColors() {
-        int text = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider);
-        background.setColor(Theme.multAlpha(text, 0.08f));
-        textView.setTextColor(text);
-        iconView.setColorFilter(new android.graphics.PorterDuffColorFilter(text, android.graphics.PorterDuff.Mode.SRC_IN));
+        int color = accentColor();
+        layout.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp(HEIGHT_DP / 2), Theme.multAlpha(color, 0.09f), Theme.multAlpha(color, 0.18f)));
+        textView.setTextColor(color);
+        iconView.setColorFilter(new android.graphics.PorterDuffColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN));
     }
 
     /** The long press of the pill bar. */

@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.mzgram.MZGramConfig;
 import org.telegram.messenger.mzgram.MZGramPills;
 import org.telegram.ui.ActionBar.Theme;
@@ -59,6 +60,14 @@ public final class MZGramPillStack implements NotificationCenter.NotificationCen
     /** A pill by its id, or null when MZGram has no such pill. */
     public static MZGramPill create(int id, Context context, Theme.ResourcesProvider resourcesProvider) {
         switch (id) {
+            case MZGramPills.GHOST:
+                return new MZGramGhostPill(context, resourcesProvider);
+            case MZGramPills.LAST_SEEN:
+                return new MZGramLastSeenPill(context, resourcesProvider);
+            case MZGramPills.PROXY:
+                return new MZGramProxyPill(context, resourcesProvider);
+            case MZGramPills.CACHE:
+                return new MZGramCachePill(context, resourcesProvider);
             default:
                 return null;
         }
@@ -67,6 +76,14 @@ public final class MZGramPillStack implements NotificationCenter.NotificationCen
     /** The title of a pill for the choice of pills, or null. */
     public static String titleOf(int id) {
         switch (id) {
+            case MZGramPills.GHOST:
+                return LocaleController.getString(R.string.MZGramGhostMode);
+            case MZGramPills.LAST_SEEN:
+                return LocaleController.getString(R.string.MZGramPillLastSeen);
+            case MZGramPills.PROXY:
+                return LocaleController.getString(R.string.MZGramPillProxy);
+            case MZGramPills.CACHE:
+                return LocaleController.getString(R.string.MZGramPillCache);
             default:
                 return null;
         }

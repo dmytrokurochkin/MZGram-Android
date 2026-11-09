@@ -845,4 +845,14 @@
     <string name="MZGramPills">Pastilles</string>
     <string name="MZGramPillsInfo">Un appui affiche ou masque une pastille. Maintenez une ligne et faites-la glisser pour la déplacer. Les nombres des pastilles restent toujours courts, comme 4.8K, même avec les nombres exacts activés.</string>
     <string name="MZGramPillsReset">Réinitialiser les pastilles</string>
+    <string name="MZGramPillGhostOn">Fantôme actif</string>
+    <string name="MZGramPillGhostOff">Fantôme inactif</string>
+    <string name="MZGramPillGhostTurnedOn">Le mode fantôme est activé : les autres ne voient pas vos lectures ni votre saisie.</string>
+    <string name="MZGramPillGhostTurnedOff">Le mode fantôme est désactivé.</string>
+    <string name="MZGramPillLastSeen">Ma dernière connexion</string>
+    <string name="MZGramPillProxy">Serveur proxy</string>
+    <string name="MZGramPillProxyOn">Proxy actif</string>
+    <string name="MZGramPillProxyConnecting">Proxy : connexion</string>
+    <string name="MZGramPillProxyOff">Sans proxy</string>
+    <string name="MZGramPillCache">Taille du cache</string>
 </resources>

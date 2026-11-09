@@ -34,8 +34,14 @@ import java.util.List;
 
 public final class MZGramPills {
 
-    /** Every pill MZGram has, in the order of a fresh install. Filled by the pill features. */
-    public static final int[] ALL = {};
+    // Status pills (navigation.pills-status)
+    public static final int GHOST = 1;
+    public static final int LAST_SEEN = 2;
+    public static final int PROXY = 3;
+    public static final int CACHE = 4;
+
+    /** Every pill MZGram has, in the order of a fresh install. */
+    public static final int[] ALL = {GHOST, LAST_SEEN, PROXY, CACHE};
 
     private static final String PREFS = "mzgram_pills";
     private static final String KEY_ORDER = "order";

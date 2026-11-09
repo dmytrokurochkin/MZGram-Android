@@ -845,4 +845,14 @@
     <string name="MZGramPills">Пілюлі</string>
     <string name="MZGramPillsInfo">Дотык паказвае або хавае пілюлю. Утрымлівайце радок і перацягніце, каб перасунуць. Лікі ў пілюлях заўсёды кароткія, напрыклад 4.8K, нават калі ўключаны дакладныя лікі.</string>
     <string name="MZGramPillsReset">Скінуць пілюлі</string>
+    <string name="MZGramPillGhostOn">Прывід укл.</string>
+    <string name="MZGramPillGhostOff">Прывід выкл.</string>
+    <string name="MZGramPillGhostTurnedOn">Рэжым прывіда ўключаны: іншыя не бачаць, што вы прачыталі ці друкуеце.</string>
+    <string name="MZGramPillGhostTurnedOff">Рэжым прывіда выключаны.</string>
+    <string name="MZGramPillLastSeen">Мой апошні візіт</string>
+    <string name="MZGramPillProxy">Проксі-сервер</string>
+    <string name="MZGramPillProxyOn">Проксі ўкл.</string>
+    <string name="MZGramPillProxyConnecting">Проксі: злучэнне</string>
+    <string name="MZGramPillProxyOff">Без проксі</string>
+    <string name="MZGramPillCache">Памер кэшу</string>
 </resources>

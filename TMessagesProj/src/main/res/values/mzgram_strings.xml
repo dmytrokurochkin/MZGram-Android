@@ -845,4 +845,14 @@
     <string name="MZGramPills">Pills</string>
     <string name="MZGramPillsInfo">A tap shows or hides a pill. Hold a row and drag it to move it. Numbers in pills are always short, like 4.8K, also with exact numbers turned on.</string>
     <string name="MZGramPillsReset">Reset pills</string>
+    <string name="MZGramPillGhostOn">Ghost on</string>
+    <string name="MZGramPillGhostOff">Ghost off</string>
+    <string name="MZGramPillGhostTurnedOn">Ghost mode is on: others do not see your reads and typing.</string>
+    <string name="MZGramPillGhostTurnedOff">Ghost mode is off.</string>
+    <string name="MZGramPillLastSeen">My last seen</string>
+    <string name="MZGramPillProxy">Proxy server</string>
+    <string name="MZGramPillProxyOn">Proxy on</string>
+    <string name="MZGramPillProxyConnecting">Proxy: connecting</string>
+    <string name="MZGramPillProxyOff">No proxy</string>
+    <string name="MZGramPillCache">Cache size</string>
 </resources>

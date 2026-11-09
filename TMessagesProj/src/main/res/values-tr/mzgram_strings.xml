@@ -845,4 +845,14 @@
     <string name="MZGramPills">Haplar</string>
     <string name="MZGramPillsInfo">Dokunmak bir hapı gösterir ya da gizler. Taşımak için bir satırı basılı tutup sürükle. Haplardaki sayılar, tam sayılar açıkken bile her zaman kısadır, örneğin 4.8K.</string>
     <string name="MZGramPillsReset">Hapları sıfırla</string>
+    <string name="MZGramPillGhostOn">Hayalet açık</string>
+    <string name="MZGramPillGhostOff">Hayalet kapalı</string>
+    <string name="MZGramPillGhostTurnedOn">Hayalet modu açık: diğerleri okuduğunu ve yazdığını görmez.</string>
+    <string name="MZGramPillGhostTurnedOff">Hayalet modu kapalı.</string>
+    <string name="MZGramPillLastSeen">Son görülmem</string>
+    <string name="MZGramPillProxy">Proxy sunucusu</string>
+    <string name="MZGramPillProxyOn">Proxy açık</string>
+    <string name="MZGramPillProxyConnecting">Proxy: bağlanıyor</string>
+    <string name="MZGramPillProxyOff">Proxy yok</string>
+    <string name="MZGramPillCache">Önbellek boyutu</string>
 </resources>

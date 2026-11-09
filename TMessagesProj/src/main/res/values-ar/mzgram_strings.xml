@@ -845,4 +845,14 @@
     <string name="MZGramPills">الحبوب</string>
     <string name="MZGramPillsInfo">النقر يُظهر حبة أو يخفيها. اضغط مطولًا على صف واسحبه لنقله. الأرقام في الحبوب قصيرة دائمًا مثل 4.8K، حتى مع تفعيل الأرقام الدقيقة.</string>
     <string name="MZGramPillsReset">إعادة ضبط الحبوب</string>
+    <string name="MZGramPillGhostOn">الشبح مفعّل</string>
+    <string name="MZGramPillGhostOff">الشبح معطّل</string>
+    <string name="MZGramPillGhostTurnedOn">وضع الشبح مفعّل: لا يرى الآخرون قراءتك ولا كتابتك.</string>
+    <string name="MZGramPillGhostTurnedOff">وضع الشبح معطّل.</string>
+    <string name="MZGramPillLastSeen">آخر ظهور لي</string>
+    <string name="MZGramPillProxy">الخادم الوكيل</string>
+    <string name="MZGramPillProxyOn">الوكيل مفعّل</string>
+    <string name="MZGramPillProxyConnecting">الوكيل: جارٍ الاتصال</string>
+    <string name="MZGramPillProxyOff">بلا وكيل</string>
+    <string name="MZGramPillCache">حجم ذاكرة التخزين المؤقت</string>
 </resources>

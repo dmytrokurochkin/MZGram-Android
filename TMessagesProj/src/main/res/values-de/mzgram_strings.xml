@@ -845,4 +845,14 @@
     <string name="MZGramPills">Pillen</string>
     <string name="MZGramPillsInfo">Tippen blendet eine Pille ein oder aus. Halte eine Zeile und ziehe sie, um sie zu verschieben. Zahlen in Pillen sind immer kurz, etwa 4.8K, auch mit eingeschalteten genauen Zahlen.</string>
     <string name="MZGramPillsReset">Pillen zurücksetzen</string>
+    <string name="MZGramPillGhostOn">Geist an</string>
+    <string name="MZGramPillGhostOff">Geist aus</string>
+    <string name="MZGramPillGhostTurnedOn">Geistmodus ist an: Andere sehen nicht, dass du liest oder tippst.</string>
+    <string name="MZGramPillGhostTurnedOff">Geistmodus ist aus.</string>
+    <string name="MZGramPillLastSeen">Mein Zuletzt online</string>
+    <string name="MZGramPillProxy">Proxyserver</string>
+    <string name="MZGramPillProxyOn">Proxy an</string>
+    <string name="MZGramPillProxyConnecting">Proxy: verbindet</string>
+    <string name="MZGramPillProxyOff">Kein Proxy</string>
+    <string name="MZGramPillCache">Cache-Größe</string>
 </resources>

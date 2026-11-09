@@ -845,4 +845,14 @@
     <string name="MZGramPills">Пилюли</string>
     <string name="MZGramPillsInfo">Нажатие показывает или скрывает пилюлю. Удерживайте строку и перетащите, чтобы передвинуть. Числа в пилюлях всегда короткие, например 4.8K, даже когда включены точные числа.</string>
     <string name="MZGramPillsReset">Сбросить пилюли</string>
+    <string name="MZGramPillGhostOn">Призрак вкл.</string>
+    <string name="MZGramPillGhostOff">Призрак выкл.</string>
+    <string name="MZGramPillGhostTurnedOn">Режим призрака включён: другие не видят, что вы прочитали или печатаете.</string>
+    <string name="MZGramPillGhostTurnedOff">Режим призрака выключен.</string>
+    <string name="MZGramPillLastSeen">Мой последний визит</string>
+    <string name="MZGramPillProxy">Прокси-сервер</string>
+    <string name="MZGramPillProxyOn">Прокси вкл.</string>
+    <string name="MZGramPillProxyConnecting">Прокси: соединение</string>
+    <string name="MZGramPillProxyOff">Без прокси</string>
+    <string name="MZGramPillCache">Размер кэша</string>
 </resources>

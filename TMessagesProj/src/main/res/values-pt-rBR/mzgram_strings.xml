@@ -845,4 +845,14 @@
     <string name="MZGramPills">Pílulas</string>
     <string name="MZGramPillsInfo">Um toque mostra ou oculta uma pílula. Segure uma linha e arraste para movê-la. Os números nas pílulas são sempre curtos, como 4.8K, mesmo com os números exatos ativados.</string>
     <string name="MZGramPillsReset">Redefinir pílulas</string>
+    <string name="MZGramPillGhostOn">Fantasma ligado</string>
+    <string name="MZGramPillGhostOff">Fantasma desligado</string>
+    <string name="MZGramPillGhostTurnedOn">O modo fantasma está ligado: os outros não veem suas leituras nem que você digita.</string>
+    <string name="MZGramPillGhostTurnedOff">O modo fantasma está desligado.</string>
+    <string name="MZGramPillLastSeen">Meu visto por último</string>
+    <string name="MZGramPillProxy">Servidor proxy</string>
+    <string name="MZGramPillProxyOn">Proxy ligado</string>
+    <string name="MZGramPillProxyConnecting">Proxy: conectando</string>
+    <string name="MZGramPillProxyOff">Sem proxy</string>
+    <string name="MZGramPillCache">Tamanho do cache</string>
 </resources>

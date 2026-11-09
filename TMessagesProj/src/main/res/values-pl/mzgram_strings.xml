@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">Czcionka nazw, tytułów oraz pogrubionego i pochylonego tekstu: czcionka Telegrama, czcionka telefonu albo plik czcionki TTF lub OTF. Plik czcionki zmienia też zwykły tekst, jeśli Android na to pozwala. Działa po ponownym uruchomieniu.</string>
     <string name="MZGramAppFontRestart">Uruchom ponownie MZGram, aby zastosować czcionkę</string>
     <string name="MZGramAppFontInvalid">Ten plik nie jest czcionką TTF ani OTF</string>
+    <string name="MZGramVoiceQuality">Jakość wiadomości głosowych</string>
+    <string name="MZGramVoiceQualityTelegram">Jak w Telegramie (30 kbit/s)</string>
+    <string name="MZGramVoiceQualityHigh">Wysoka (64 kbit/s)</string>
+    <string name="MZGramVoiceQualityHighest">Najwyższa (128 kbit/s)</string>
+    <string name="MZGramVoiceQualityInfo">Przepływność nagrywanych wiadomości głosowych. Wyższa brzmi czyściej, a plik jest dwa lub cztery razy większy. Wszyscy odsłuchują je jak zwykle.</string>
 </resources>

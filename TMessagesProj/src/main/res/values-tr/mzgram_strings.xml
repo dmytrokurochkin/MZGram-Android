@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">Adların, başlıkların, kalın ve italik metnin yazı tipi: Telegram\'ın kendi yazı tipi, telefonunuzun yazı tipi ya da bir TTF veya OTF yazı tipi dosyası. Yazı tipi dosyası, Android\'in izin verdiği yerde normal metni de değiştirir. Yeniden başlatınca geçerli olur.</string>
     <string name="MZGramAppFontRestart">Yazı tipini uygulamak için MZGram\'ı yeniden başlatın</string>
     <string name="MZGramAppFontInvalid">Bu dosya bir TTF veya OTF yazı tipi değil</string>
+    <string name="MZGramVoiceQuality">Sesli mesaj kalitesi</string>
+    <string name="MZGramVoiceQualityTelegram">Telegram\'daki gibi (30 kbit/sn)</string>
+    <string name="MZGramVoiceQualityHigh">Yüksek (64 kbit/sn)</string>
+    <string name="MZGramVoiceQualityHighest">En yüksek (128 kbit/sn)</string>
+    <string name="MZGramVoiceQualityInfo">Kaydettiğiniz sesli mesajların bit hızı. Daha yüksek olan daha net duyulur, dosya ise iki ya da dört kat büyür. Herkes onları her zamanki gibi dinleyebilir.</string>
 </resources>

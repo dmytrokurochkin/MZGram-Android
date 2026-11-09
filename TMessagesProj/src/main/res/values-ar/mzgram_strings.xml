@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">خط الأسماء والعناوين والنص الغامق والمائل: خط Telegram نفسه أو خط هاتفك أو ملف خط TTF أو OTF. يغيّر ملف الخط النص العادي أيضًا حيث يسمح Android بذلك. يسري بعد إعادة التشغيل.</string>
     <string name="MZGramAppFontRestart">أعد تشغيل MZGram لتطبيق الخط</string>
     <string name="MZGramAppFontInvalid">هذا الملف ليس خط TTF أو OTF</string>
+    <string name="MZGramVoiceQuality">جودة الرسائل الصوتية</string>
+    <string name="MZGramVoiceQualityTelegram">مثل Telegram (30 كيلوبت/ث)</string>
+    <string name="MZGramVoiceQualityHigh">عالية (64 كيلوبت/ث)</string>
+    <string name="MZGramVoiceQualityHighest">الأعلى (128 كيلوبت/ث)</string>
+    <string name="MZGramVoiceQualityInfo">معدل البت للرسائل الصوتية التي تسجلها. المعدل الأعلى أوضح صوتًا، والملف أكبر بمرتين أو أربع مرات. يستمع إليها الجميع كالمعتاد.</string>
 </resources>

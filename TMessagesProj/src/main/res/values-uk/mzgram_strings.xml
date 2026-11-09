@@ -658,4 +658,9 @@
     <string name="MZGramAppFontInfo">Шрифт імен, заголовків, жирного й курсивного тексту: власний шрифт Telegram, шрифт телефона або файл шрифту TTF чи OTF. Файл шрифту змінює і звичайний текст, якщо це дозволяє Android. Діє після перезапуску.</string>
     <string name="MZGramAppFontRestart">Перезапустіть MZGram, щоб застосувати шрифт</string>
     <string name="MZGramAppFontInvalid">Цей файл не шрифт TTF чи OTF</string>
+    <string name="MZGramVoiceQuality">Якість голосових</string>
+    <string name="MZGramVoiceQualityTelegram">Як у Telegram (30 кбіт/с)</string>
+    <string name="MZGramVoiceQualityHigh">Висока (64 кбіт/с)</string>
+    <string name="MZGramVoiceQualityHighest">Найвища (128 кбіт/с)</string>
+    <string name="MZGramVoiceQualityInfo">Бітрейт голосових повідомлень, які ви записуєте. Вищий звучить чистіше, а файл більший у два чи чотири рази. Усі слухають їх як завжди.</string>
 </resources>

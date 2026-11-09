@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">Шрыфт імёнаў, загалоўкаў, тлустага і курсіўнага тэксту: уласны шрыфт Telegram, шрыфт тэлефона або файл шрыфту TTF ці OTF. Файл шрыфту змяняе і звычайны тэкст, калі гэта дазваляе Android. Пачынае дзейнічаць пасля перазапуску.</string>
     <string name="MZGramAppFontRestart">Перазапусціце MZGram, каб ужыць шрыфт</string>
     <string name="MZGramAppFontInvalid">Гэты файл не шрыфт TTF ці OTF</string>
+    <string name="MZGramVoiceQuality">Якасць галасавых</string>
+    <string name="MZGramVoiceQualityTelegram">Як у Telegram (30 кбіт/с)</string>
+    <string name="MZGramVoiceQualityHigh">Высокая (64 кбіт/с)</string>
+    <string name="MZGramVoiceQualityHighest">Найвышэйшая (128 кбіт/с)</string>
+    <string name="MZGramVoiceQualityInfo">Бітрэйт галасавых паведамленняў, якія вы запісваеце. Вышэйшы гучыць чысцей, а файл большы ў два ці чатыры разы. Усе слухаюць іх як звычайна.</string>
 </resources>

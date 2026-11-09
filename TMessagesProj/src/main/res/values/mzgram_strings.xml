@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">The font of names, titles and bold and italic text: Telegram\'s own, the font of your phone, or a TTF or OTF font file. A font file also changes the regular text where Android allows it. Takes effect after a restart.</string>
     <string name="MZGramAppFontRestart">Restart MZGram to apply the font</string>
     <string name="MZGramAppFontInvalid">This file is not a TTF or OTF font</string>
+    <string name="MZGramVoiceQuality">Voice message quality</string>
+    <string name="MZGramVoiceQualityTelegram">Same as Telegram (30 kbit/s)</string>
+    <string name="MZGramVoiceQualityHigh">High (64 kbit/s)</string>
+    <string name="MZGramVoiceQualityHighest">Highest (128 kbit/s)</string>
+    <string name="MZGramVoiceQualityInfo">Bitrate of the voice messages you record. A higher one sounds clearer, and the file is two or four times bigger. Everyone can play them as usual.</string>
 </resources>

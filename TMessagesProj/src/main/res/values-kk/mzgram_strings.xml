@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">Аттардың, тақырыптардың, жуан және көлбеу мәтіннің қарпі: Telegram-ның өз қарпі, телефон қарпі немесе TTF не OTF қаріп файлы. Android рұқсат етсе, қаріп файлы қарапайым мәтінді де өзгертеді. Қайта іске қосқаннан кейін күшіне енеді.</string>
     <string name="MZGramAppFontRestart">Қаріпті қолдану үшін MZGram-ды қайта іске қосыңыз</string>
     <string name="MZGramAppFontInvalid">Бұл файл TTF не OTF қарпі емес</string>
+    <string name="MZGramVoiceQuality">Дауыстық хабарлар сапасы</string>
+    <string name="MZGramVoiceQualityTelegram">Telegram-дағыдай (30 кбит/с)</string>
+    <string name="MZGramVoiceQualityHigh">Жоғары (64 кбит/с)</string>
+    <string name="MZGramVoiceQualityHighest">Ең жоғары (128 кбит/с)</string>
+    <string name="MZGramVoiceQualityInfo">Сіз жазатын дауыстық хабарлардың битрейті. Жоғарысы анығырақ естіледі, ал файл екі не төрт есе үлкен болады. Барлығы оларды әдеттегідей тыңдайды.</string>
 </resources>

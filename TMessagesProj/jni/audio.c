@@ -223,6 +223,12 @@ static int writeOggPage(ogg_page *page, FILE *os) {
 }
 
 const opus_int32 bitrate = 30 * 1024;
+// MZGram: bitrate of voice messages from the settings (MZGramVoiceQuality), 0 keeps Telegram's
+static volatile opus_int32 mzgram_voice_bitrate = 0;
+
+JNIEXPORT void Java_org_telegram_messenger_mzgram_MZGramVoiceQuality_nSetVoiceBitrate(JNIEnv *env, jclass clazz, jint value) {
+    mzgram_voice_bitrate = value >= 6000 && value <= 256000 ? value : 0;
+}
 static const int opus_application = OPUS_APPLICATION_AUDIO;
 const opus_int32 frame_size = 960;
 const int with_cvbr = 1;
@@ -353,7 +359,7 @@ int initRecorder(const char *path, opus_int32 sampleRate) {
     min_bytes = max_frame_bytes = (1275 * 3 + 7) * header.nb_streams;
     _packet = malloc(max_frame_bytes);
     
-    result = opus_encoder_ctl(_encoder, OPUS_SET_BITRATE(bitrate));
+    result = opus_encoder_ctl(_encoder, OPUS_SET_BITRATE(mzgram_voice_bitrate > 0 ? mzgram_voice_bitrate : bitrate)); // MZGram: voice quality
     //result = opus_encoder_ctl(_encoder, OPUS_SET_COMPLEXITY(10));
     if (result != OPUS_OK) {
         LOGE("Error OPUS_SET_BITRATE returned: %s", opus_strerror(result));
@@ -1334,7 +1340,7 @@ static AudioRecorderContext *createAudioRecorderContext(const char *path, opus_i
         return NULL;
     }
 
-    result = opus_encoder_ctl(recorder->encoder, OPUS_SET_BITRATE(bitrate));
+    result = opus_encoder_ctl(recorder->encoder, OPUS_SET_BITRATE(mzgram_voice_bitrate > 0 ? mzgram_voice_bitrate : bitrate)); // MZGram: voice quality
     //result = opus_encoder_ctl(_encoder, OPUS_SET_COMPLEXITY(10));
     if (result != OPUS_OK) {
         LOGE("Error OPUS_SET_BITRATE returned: %s", opus_strerror(result));

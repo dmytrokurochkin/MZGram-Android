@@ -174,6 +174,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_GLASS_OUTLINE = 148;
     private static final int BUTTON_FOLDER_TAB_ICONS = 149;
     private static final int BUTTON_APP_FONT = 150;
+    private static final int BUTTON_VOICE_QUALITY = 151;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -729,6 +730,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_AUDIO_ENHANCE, getString(R.string.MZGramAudioEnhance)).setChecked(MZGramConfig.audioEnhance));
         items.add(UItem.asShadow(getString(R.string.MZGramAudioEnhanceInfo)));
+        items.add(UItem.asButton(BUTTON_VOICE_QUALITY, getString(R.string.MZGramVoiceQuality), getString(org.telegram.messenger.mzgram.MZGramVoiceQuality.TITLES[org.telegram.messenger.mzgram.MZGramVoiceQuality.mode()])));
+        items.add(UItem.asShadow(getString(R.string.MZGramVoiceQualityInfo)));
         items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
         items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
@@ -1051,6 +1054,25 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     listView.adapter.update(true);
                 }
             });
+        } else if (item.id == BUTTON_VOICE_QUALITY) {
+            if (getParentActivity() == null) {
+                return;
+            }
+            final int[] titles = org.telegram.messenger.mzgram.MZGramVoiceQuality.TITLES;
+            final CharSequence[] names = new CharSequence[titles.length];
+            for (int i = 0; i < names.length; i++) {
+                names[i] = getString(titles[i]);
+            }
+            org.telegram.ui.ActionBar.AlertDialog.Builder builder = new org.telegram.ui.ActionBar.AlertDialog.Builder(getParentActivity());
+            builder.setTitle(getString(R.string.MZGramVoiceQuality));
+            builder.setItems(names, (dialog, which) -> {
+                MZGramConfig.setVoiceQuality(which);
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            });
+            builder.setNegativeButton(getString(R.string.Cancel), null);
+            showDialog(builder.create());
         } else if (item.id == BUTTON_APP_FONT) {
             MZGramAppFont.choose(this, () -> {
                 if (listView != null && listView.adapter != null) {

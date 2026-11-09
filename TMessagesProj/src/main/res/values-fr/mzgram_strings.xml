@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">La police des noms, des titres et du texte gras et italique : celle de Telegram, celle de votre téléphone ou un fichier de police TTF ou OTF. Un fichier de police change aussi le texte normal là où Android le permet. Prend effet après un redémarrage.</string>
     <string name="MZGramAppFontRestart">Redémarrez MZGram pour appliquer la police</string>
     <string name="MZGramAppFontInvalid">Ce fichier n\'est pas une police TTF ou OTF</string>
+    <string name="MZGramVoiceQuality">Qualité des messages vocaux</string>
+    <string name="MZGramVoiceQualityTelegram">Comme Telegram (30 kbit/s)</string>
+    <string name="MZGramVoiceQualityHigh">Haute (64 kbit/s)</string>
+    <string name="MZGramVoiceQualityHighest">Maximale (128 kbit/s)</string>
+    <string name="MZGramVoiceQualityInfo">Débit des messages vocaux que vous enregistrez. Un débit plus élevé sonne plus clair, et le fichier est deux ou quatre fois plus gros. Tout le monde peut les écouter comme d\'habitude.</string>
 </resources>

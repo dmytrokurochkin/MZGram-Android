@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">A fonte dos nomes, títulos e texto em negrito e itálico: a do Telegram, a do seu telefone ou um arquivo de fonte TTF ou OTF. Um arquivo de fonte também muda o texto normal onde o Android permite. Vale após reiniciar.</string>
     <string name="MZGramAppFontRestart">Reinicie o MZGram para aplicar a fonte</string>
     <string name="MZGramAppFontInvalid">Este arquivo não é uma fonte TTF ou OTF</string>
+    <string name="MZGramVoiceQuality">Qualidade das mensagens de voz</string>
+    <string name="MZGramVoiceQualityTelegram">Igual ao Telegram (30 kbit/s)</string>
+    <string name="MZGramVoiceQualityHigh">Alta (64 kbit/s)</string>
+    <string name="MZGramVoiceQualityHighest">Máxima (128 kbit/s)</string>
+    <string name="MZGramVoiceQualityInfo">Taxa de bits das mensagens de voz que você grava. Uma maior soa mais clara, e o arquivo fica duas ou quatro vezes maior. Todos ouvem como sempre.</string>
 </resources>

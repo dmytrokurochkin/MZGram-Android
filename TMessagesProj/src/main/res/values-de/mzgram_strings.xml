@@ -657,4 +657,9 @@
     <string name="MZGramAppFontInfo">Die Schrift von Namen, Titeln sowie fettem und kursivem Text: die von Telegram, die deines Telefons oder eine TTF- oder OTF-Schriftdatei. Eine Schriftdatei ändert auch den normalen Text, wo Android es erlaubt. Wirkt nach einem Neustart.</string>
     <string name="MZGramAppFontRestart">Starte MZGram neu, um die Schrift anzuwenden</string>
     <string name="MZGramAppFontInvalid">Diese Datei ist keine TTF- oder OTF-Schrift</string>
+    <string name="MZGramVoiceQuality">Qualität von Sprachnachrichten</string>
+    <string name="MZGramVoiceQualityTelegram">Wie Telegram (30 kbit/s)</string>
+    <string name="MZGramVoiceQualityHigh">Hoch (64 kbit/s)</string>
+    <string name="MZGramVoiceQualityHighest">Am höchsten (128 kbit/s)</string>
+    <string name="MZGramVoiceQualityInfo">Bitrate der Sprachnachrichten, die du aufnimmst. Eine höhere klingt klarer, die Datei ist dafür zwei- oder viermal so groß. Alle können sie wie gewohnt abspielen.</string>
 </resources>

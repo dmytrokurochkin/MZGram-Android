@@ -362,6 +362,8 @@ public class ApplicationLoader extends Application {
         applicationHandler = new Handler(applicationContext.getMainLooper());
         // MZGram: app font from a file also as the default font (MZGramFonts)
         org.telegram.messenger.mzgram.MZGramFonts.applyDefault();
+        // MZGram: bitrate of voice messages (MZGramVoiceQuality)
+        org.telegram.messenger.mzgram.MZGramVoiceQuality.apply();
 
         AndroidUtilities.runOnUIThread(ApplicationLoader::startPushService);
 

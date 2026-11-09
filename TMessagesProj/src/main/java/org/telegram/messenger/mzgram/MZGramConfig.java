@@ -223,6 +223,12 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // plainCodeBlocks
+    public static boolean plainCodeBlocks = false;
+
+    // hexColorSwatch
+    public static boolean hexColorSwatch = false;
+
     // scheduleSlider
     public static boolean scheduleSlider = false;
 
@@ -398,6 +404,8 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            plainCodeBlocks = preferences.getBoolean("plainCodeBlocks", false);
+            hexColorSwatch = preferences.getBoolean("hexColorSwatch", false);
             scheduleSlider = preferences.getBoolean("scheduleSlider", false);
             sendSilentByDefault = preferences.getBoolean("sendSilentByDefault", false);
             showRegistrationDate = preferences.getBoolean("showRegistrationDate", false);
@@ -920,6 +928,16 @@ public class MZGramConfig {
     public static void toggleScheduleSlider() {
         scheduleSlider = !scheduleSlider;
         putBoolean("scheduleSlider", scheduleSlider);
+    }
+
+    public static void toggleHexColorSwatch() {
+        hexColorSwatch = !hexColorSwatch;
+        putBoolean("hexColorSwatch", hexColorSwatch);
+    }
+
+    public static void togglePlainCodeBlocks() {
+        plainCodeBlocks = !plainCodeBlocks;
+        putBoolean("plainCodeBlocks", plainCodeBlocks);
     }
 
     public static void toggleInlineMath() {

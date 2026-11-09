@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">%d реакцияға дейін бекітуге болады.</string>
     <string name="MZGramPinnedReactionsUnsupported">Бұл эмодзиді мұнда бекітуге болмайды.</string>
     <string name="MZGramPinnedReactionsApply">Бекітілген реакцияларды сақтау</string>
+    <string name="MZGramHexColorSwatch">Hex хэштегтері үшін түсті көрсету</string>
+    <string name="MZGramHexColorSwatchInfo">#FF5722 немесе #80FF5722 сияқты хэштегтерден кейін кішкентай түс шаршысын көрсетеді. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
+    <string name="MZGramPlainCode">Түссіз код блоктары</string>
+    <string name="MZGramPlainCodeInfo">Код блоктарындағы синтаксисті бөлектеуді өшіреді: код бір түспен көрсетіледі. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
 </resources>

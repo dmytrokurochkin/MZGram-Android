@@ -7841,6 +7841,10 @@ public class MessageObject {
                                 uri = uri.replaceAll("∕|⁄|%E2%81%84|%E2%88%95", "/");
                             }
                             url = new URLSpanNoUnderline(uri);
+                            // MZGram: colour square after #RRGGBB hashtags (only while the switch is on)
+                            if (charSequence.charAt(start) == '#') {
+                                org.telegram.ui.mzgram.MZGramColorSwatchSpan.apply(spannable, start, end, null);
+                            }
                         }
                     }
                 }
@@ -8334,6 +8338,10 @@ public class MessageObject {
                 if (linksCount >= MediaDataController.MAX_LINKS_COUNT) continue;
                 linksCount++;
                 spannable.setSpan(new URLSpanNoUnderline(url, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                // MZGram: colour square after #RRGGBB hashtags (only while the switch is on)
+                if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag) {
+                    org.telegram.ui.mzgram.MZGramColorSwatchSpan.apply(spannable, run.start, run.end, run);
+                }
             } else if (run.urlEntity instanceof TLRPC.TL_messageEntityEmail) {
                 if (linksCount >= MediaDataController.MAX_LINKS_COUNT) continue;
                 linksCount++;

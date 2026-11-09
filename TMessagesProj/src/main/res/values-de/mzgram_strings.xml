@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">Du kannst bis zu %d Reaktionen anheften.</string>
     <string name="MZGramPinnedReactionsUnsupported">Dieses Emoji kann hier nicht angeheftet werden.</string>
     <string name="MZGramPinnedReactionsApply">Angeheftete Reaktionen speichern</string>
+    <string name="MZGramHexColorSwatch">Farbvorschau für Hex-Hashtags</string>
+    <string name="MZGramHexColorSwatchInfo">Zeigt nach Hashtags wie #FF5722 oder #80FF5722 ein kleines Farbquadrat. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
+    <string name="MZGramPlainCode">Codeblöcke ohne Farben</string>
+    <string name="MZGramPlainCodeInfo">Schaltet die Syntaxhervorhebung in Codeblöcken aus: Der Code wird einfarbig angezeigt. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
 </resources>

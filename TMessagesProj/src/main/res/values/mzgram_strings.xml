@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">You can pin up to %d reactions.</string>
     <string name="MZGramPinnedReactionsUnsupported">This emoji can\'t be pinned here.</string>
     <string name="MZGramPinnedReactionsApply">Save pinned reactions</string>
+    <string name="MZGramHexColorSwatch">Colour preview for hex hashtags</string>
+    <string name="MZGramHexColorSwatchInfo">Shows a small square of the colour after hashtags like #FF5722 or #80FF5722. Applies to messages shown after the change.</string>
+    <string name="MZGramPlainCode">Code blocks without colours</string>
+    <string name="MZGramPlainCodeInfo">Turns off syntax highlighting in code blocks: the code is shown in one colour. Applies to messages shown after the change.</string>
 </resources>

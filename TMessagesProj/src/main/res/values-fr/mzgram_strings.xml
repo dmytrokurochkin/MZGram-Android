@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">Vous pouvez épingler jusqu\'à %d réactions.</string>
     <string name="MZGramPinnedReactionsUnsupported">Cet emoji ne peut pas être épinglé ici.</string>
     <string name="MZGramPinnedReactionsApply">Enregistrer les réactions épinglées</string>
+    <string name="MZGramHexColorSwatch">Aperçu de la couleur des hashtags hex</string>
+    <string name="MZGramHexColorSwatchInfo">Affiche un petit carré de la couleur après les hashtags comme #FF5722 ou #80FF5722. S\'applique aux messages affichés après la modification.</string>
+    <string name="MZGramPlainCode">Blocs de code sans couleurs</string>
+    <string name="MZGramPlainCodeInfo">Désactive la coloration syntaxique des blocs de code : le code s\'affiche d\'une seule couleur. S\'applique aux messages affichés après la modification.</string>
 </resources>

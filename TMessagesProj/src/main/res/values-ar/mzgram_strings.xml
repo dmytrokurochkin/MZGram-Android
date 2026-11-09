@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">يمكنك تثبيت ما يصل إلى %d تفاعلات.</string>
     <string name="MZGramPinnedReactionsUnsupported">لا يمكن تثبيت هذا الرمز التعبيري هنا.</string>
     <string name="MZGramPinnedReactionsApply">حفظ التفاعلات المثبتة</string>
+    <string name="MZGramHexColorSwatch">معاينة اللون لوسوم hex</string>
+    <string name="MZGramHexColorSwatchInfo">يعرض مربعًا صغيرًا باللون بعد الوسوم مثل #FF5722 أو #80FF5722. يسري على الرسائل المعروضة بعد التغيير.</string>
+    <string name="MZGramPlainCode">كتل الشيفرة بلا ألوان</string>
+    <string name="MZGramPlainCodeInfo">يوقف تلوين الصياغة في كتل الشيفرة: تُعرض الشيفرة بلون واحد. يسري على الرسائل المعروضة بعد التغيير.</string>
 </resources>

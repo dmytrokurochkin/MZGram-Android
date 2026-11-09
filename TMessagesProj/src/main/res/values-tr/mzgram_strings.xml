@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">En fazla %d tepki sabitleyebilirsiniz.</string>
     <string name="MZGramPinnedReactionsUnsupported">Bu emoji burada sabitlenemez.</string>
     <string name="MZGramPinnedReactionsApply">Sabitlenmiş tepkileri kaydet</string>
+    <string name="MZGramHexColorSwatch">Hex etiketleri için renk önizlemesi</string>
+    <string name="MZGramHexColorSwatchInfo">#FF5722 veya #80FF5722 gibi etiketlerden sonra küçük bir renk karesi gösterir. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
+    <string name="MZGramPlainCode">Renksiz kod blokları</string>
+    <string name="MZGramPlainCodeInfo">Kod bloklarında sözdizimi renklendirmesini kapatır: kod tek renkte gösterilir. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
 </resources>

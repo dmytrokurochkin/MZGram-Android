@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">Você pode fixar até %d reações.</string>
     <string name="MZGramPinnedReactionsUnsupported">Este emoji não pode ser fixado aqui.</string>
     <string name="MZGramPinnedReactionsApply">Salvar reações fixadas</string>
+    <string name="MZGramHexColorSwatch">Prévia da cor em hashtags hex</string>
+    <string name="MZGramHexColorSwatchInfo">Mostra um pequeno quadrado da cor depois de hashtags como #FF5722 ou #80FF5722. Vale para mensagens exibidas após a mudança.</string>
+    <string name="MZGramPlainCode">Blocos de código sem cores</string>
+    <string name="MZGramPlainCodeInfo">Desativa o realce de sintaxe nos blocos de código: o código aparece em uma só cor. Vale para mensagens exibidas após a mudança.</string>
 </resources>

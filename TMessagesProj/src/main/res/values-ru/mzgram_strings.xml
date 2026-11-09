@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">Можно закрепить до %d реакций.</string>
     <string name="MZGramPinnedReactionsUnsupported">Этот эмодзи нельзя закрепить здесь.</string>
     <string name="MZGramPinnedReactionsApply">Сохранить закреплённые реакции</string>
+    <string name="MZGramHexColorSwatch">Показ цвета для hex-хештегов</string>
+    <string name="MZGramHexColorSwatchInfo">Показывает маленький квадрат цвета после хештегов вроде #FF5722 или #80FF5722. Действует на сообщения, показанные после изменения.</string>
+    <string name="MZGramPlainCode">Блоки кода без цветов</string>
+    <string name="MZGramPlainCodeInfo">Отключает подсветку синтаксиса в блоках кода: код показывается одним цветом. Действует на сообщения, показанные после изменения.</string>
 </resources>

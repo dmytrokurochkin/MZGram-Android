@@ -578,4 +578,8 @@
     <string name="MZGramPinnedReactionsLimit">Możesz przypiąć do %d reakcji.</string>
     <string name="MZGramPinnedReactionsUnsupported">Tego emoji nie można tu przypiąć.</string>
     <string name="MZGramPinnedReactionsApply">Zapisz przypięte reakcje</string>
+    <string name="MZGramHexColorSwatch">Podgląd koloru dla hashtagów hex</string>
+    <string name="MZGramHexColorSwatchInfo">Pokazuje mały kwadrat koloru po hashtagach takich jak #FF5722 lub #80FF5722. Dotyczy wiadomości wyświetlonych po zmianie.</string>
+    <string name="MZGramPlainCode">Bloki kodu bez kolorów</string>
+    <string name="MZGramPlainCodeInfo">Wyłącza podświetlanie składni w blokach kodu: kod jest wyświetlany jednym kolorem. Dotyczy wiadomości wyświetlonych po zmianie.</string>
 </resources>

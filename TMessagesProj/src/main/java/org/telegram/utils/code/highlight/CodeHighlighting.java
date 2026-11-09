@@ -323,6 +323,8 @@ public class CodeHighlighting {
 
     public static SpannableString getHighlighted(CharSequence text, String language) {
         CharSequence source = text == null ? "" : text;
+        // MZGram: code blocks without colours (only while the switch is on)
+        if (org.telegram.messenger.mzgram.MZGramConfig.plainCodeBlocks) return new SpannableString(source);
         String normalized = PrismaHighlightingService.normalizeLanguage(language);
         if (normalized.isEmpty() || source.length() == 0) return new SpannableString(source);
         CacheKey key = new CacheKey(normalized, source.toString());
@@ -358,7 +360,8 @@ public class CodeHighlighting {
         if (whenDone == null) return;
         SpannableString result = new SpannableString(text == null ? "" : text);
         String normalized = PrismaHighlightingService.normalizeLanguage(language);
-        if (normalized.isEmpty() || result.length() == 0) {
+        // MZGram: code blocks without colours (only while the switch is on)
+        if (normalized.isEmpty() || result.length() == 0 || org.telegram.messenger.mzgram.MZGramConfig.plainCodeBlocks) {
             AndroidUtilities.runOnUIThread(() -> whenDone.run(result));
             return;
         }
@@ -428,6 +431,8 @@ public class CodeHighlighting {
             boolean smallerSize) {
         if (text == null) return;
         if (start < 0 || end < start || end > text.length()) throw new IndexOutOfBoundsException();
+        // MZGram: code blocks without colours (only while the switch is on)
+        if (org.telegram.messenger.mzgram.MZGramConfig.plainCodeBlocks) return;
         Pending pending = new Pending(text.subSequence(start, end).toString());
         long range = ((long) start << 32) | (end & 0xffffffffL);
         TargetRequests target;

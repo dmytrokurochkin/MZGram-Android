@@ -582,4 +582,6 @@
     <string name="MZGramHexColorSwatchInfo">#FF5722 veya #80FF5722 gibi etiketlerden sonra küçük bir renk karesi gösterir. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
     <string name="MZGramPlainCode">Renksiz kod blokları</string>
     <string name="MZGramPlainCodeInfo">Kod bloklarında sözdizimi renklendirmesini kapatır: kod tek renkte gösterilir. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
+    <string name="MZGramTextStyleMenu">Biçimlendirme menüsü</string>
+    <string name="MZGramTextStyleMenuInfo">Mesaj alanında metin seçtiğinizde menünün hangi stilleri göstereceğini seçin ve sırayı değiştirmek için sürükleyin.</string>
 </resources>

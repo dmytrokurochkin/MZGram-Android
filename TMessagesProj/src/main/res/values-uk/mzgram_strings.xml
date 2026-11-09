@@ -583,4 +583,6 @@
     <string name="MZGramHexColorSwatchInfo">Показує маленький квадрат кольору після хештегів на кшталт #FF5722 або #80FF5722. Діє на повідомлення, показані після зміни.</string>
     <string name="MZGramPlainCode">Блоки коду без кольорів</string>
     <string name="MZGramPlainCodeInfo">Вимикає підсвічування синтаксису в блоках коду: код показується одним кольором. Діє на повідомлення, показані після зміни.</string>
+    <string name="MZGramTextStyleMenu">Меню форматування</string>
+    <string name="MZGramTextStyleMenuInfo">Виберіть, які стилі показує меню під час виділення тексту в полі повідомлення, і перетягніть їх, щоб змінити порядок.</string>
 </resources>

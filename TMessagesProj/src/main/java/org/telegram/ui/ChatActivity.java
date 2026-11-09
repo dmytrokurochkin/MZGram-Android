@@ -28121,6 +28121,8 @@ public class ChatActivity extends BaseFragment implements
 //            menu.add(R.id.menu_groupbolditalic, R.id.menu_translate, order++, "Translate");
 //        }
         menu.add(R.id.menu_groupbolditalic, R.id.menu_regular, order++, LocaleController.getString(R.string.Regular));
+        // MZGram: own order and hidden styles (does nothing while the menu is not customised)
+        org.telegram.ui.mzgram.MZGramTextStyleMenu.apply(menu);
     }
 
     private void updateScheduledInterface(boolean animated) {

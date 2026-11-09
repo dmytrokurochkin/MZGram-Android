@@ -273,6 +273,9 @@ public class MZGramConfig {
     public static boolean usePinnedReactionsChannels = false;
     public static String pinnedReactionsChats = "[]";
     public static String pinnedReactionsChannels = "[]";
+    // Formatting menu of the input field: custom order and hidden styles (comma-separated keys, empty = Telegram default)
+    public static String textStyleOrder = "";
+    public static String textStyleHidden = "";
 
     // Double tap on other people's messages, same values.
     public static int doubleTapOther = 0;
@@ -423,6 +426,8 @@ public class MZGramConfig {
             usePinnedReactionsChannels = preferences.getBoolean("usePinnedReactionsChannels", false);
             pinnedReactionsChats = preferences.getString("pinnedReactionsChats", "[]");
             pinnedReactionsChannels = preferences.getString("pinnedReactionsChannels", "[]");
+            textStyleOrder = preferences.getString("textStyleOrder", "");
+            textStyleHidden = preferences.getString("textStyleHidden", "");
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
         }
@@ -884,6 +889,15 @@ public class MZGramConfig {
     public static void toggleCameraStabilization() {
         cameraStabilization = !cameraStabilization;
         putBoolean("cameraStabilization", cameraStabilization);
+    }
+
+    public static void setTextStyleMenu(String order, String hidden) {
+        textStyleOrder = order == null ? "" : order;
+        textStyleHidden = hidden == null ? "" : hidden;
+        preferences().edit()
+            .putString("textStyleOrder", textStyleOrder)
+            .putString("textStyleHidden", textStyleHidden)
+            .apply();
     }
 
     public static void setPinnedReactions(boolean channels, boolean enabled, String json) {

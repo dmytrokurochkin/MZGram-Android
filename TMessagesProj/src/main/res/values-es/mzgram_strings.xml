@@ -582,4 +582,6 @@
     <string name="MZGramHexColorSwatchInfo">Muestra un pequeño cuadrado del color después de hashtags como #FF5722 o #80FF5722. Se aplica a los mensajes mostrados después del cambio.</string>
     <string name="MZGramPlainCode">Bloques de código sin colores</string>
     <string name="MZGramPlainCodeInfo">Desactiva el resaltado de sintaxis en los bloques de código: el código se muestra en un solo color. Se aplica a los mensajes mostrados después del cambio.</string>
+    <string name="MZGramTextStyleMenu">Menú de formato</string>
+    <string name="MZGramTextStyleMenuInfo">Elige qué estilos muestra el menú al seleccionar texto en el campo del mensaje y arrástralos para cambiar el orden.</string>
 </resources>

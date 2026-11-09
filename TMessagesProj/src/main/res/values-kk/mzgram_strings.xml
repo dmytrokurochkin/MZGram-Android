@@ -582,4 +582,6 @@
     <string name="MZGramHexColorSwatchInfo">#FF5722 немесе #80FF5722 сияқты хэштегтерден кейін кішкентай түс шаршысын көрсетеді. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
     <string name="MZGramPlainCode">Түссіз код блоктары</string>
     <string name="MZGramPlainCodeInfo">Код блоктарындағы синтаксисті бөлектеуді өшіреді: код бір түспен көрсетіледі. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
+    <string name="MZGramTextStyleMenu">Пішімдеу мәзірі</string>
+    <string name="MZGramTextStyleMenuInfo">Хабарлама өрісінде мәтінді белгілегенде мәзір қандай стильдерді көрсететінін таңдаңыз және ретін өзгерту үшін оларды сүйреңіз.</string>
 </resources>

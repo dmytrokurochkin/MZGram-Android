@@ -167,6 +167,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HEX_COLOR = 129;
     private static final int BUTTON_SCHEDULE_SLIDER = 127;
     private static final int BUTTON_PINNED_REACTIONS = 128;
+    private static final int BUTTON_TEXT_STYLE_MENU = 131;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -627,6 +628,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramSilentDefaultInfo)));
         items.add(UItem.asButton(BUTTON_PINNED_REACTIONS, getString(R.string.MZGramPinnedReactions), MZGramPinnedReactions.getRowDescription()));
         items.add(UItem.asShadow(getString(R.string.MZGramPinnedReactionsInfo)));
+        items.add(UItem.asButton(BUTTON_TEXT_STYLE_MENU, getString(R.string.MZGramTextStyleMenu)));
+        items.add(UItem.asShadow(getString(R.string.MZGramTextStyleMenuInfo)));
         items.add(UItem.asCheck(BUTTON_CAMERA_STABILIZATION, getString(R.string.MZGramCameraStabilization)).setChecked(MZGramConfig.cameraStabilization));
         items.add(UItem.asShadow(getString(R.string.MZGramCameraStabilizationInfo)));
         items.add(UItem.asCheck(BUTTON_PAUSE_ROUND, getString(R.string.MZGramPauseRound)).setChecked(MZGramConfig.pauseRoundOnLeave));
@@ -816,6 +819,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SILENT_DEFAULT) {
             MZGramConfig.toggleSendSilentByDefault();
             ((TextCheckCell) view).setChecked(MZGramConfig.sendSilentByDefault);
+        } else if (item.id == BUTTON_TEXT_STYLE_MENU) {
+            if (getParentActivity() != null) {
+                showDialog(MZGramTextStyleMenu.createDialog(getParentActivity()));
+            }
         } else if (item.id == BUTTON_PINNED_REACTIONS) {
             presentFragment(new MZGramPinnedReactionsActivity());
         } else if (item.id == BUTTON_HEX_COLOR) {

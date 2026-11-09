@@ -1393,7 +1393,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 matrix.postTranslate(AndroidUtilities.rectTmp.left, AndroidUtilities.rectTmp.top);
                 canvas.drawRoundRect(AndroidUtilities.rectTmp, r, r, paint);
 
-                if (border) {
+                if (border && org.telegram.ui.mzgram.MZGramGlassOutline.isGlare()) { // MZGram: the glare follows the glass outline
                     final float sw = dp(1);
                     strokePaint.setStrokeWidth(sw);
                     matrix.reset();

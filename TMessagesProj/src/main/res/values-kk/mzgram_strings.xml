@@ -639,4 +639,9 @@
     <string name="MZGramAppIconSunset">Күн батуы</string>
     <string name="MZGramAvatarShape">Аватар пішіні</string>
     <string name="MZGramAvatarShapeInfo">Бүкіл қолданбадағы аватарлардың дөңгелектігі: оң жақта Telegram-дағыдай шеңбер, сол жақта шаршы, арасында бұрыштары дөңгелектенген шаршы. Әңгіме сақиналары пішінді қайталайды. «Созылмалы» анимация кезінде профиль аватары қайтадан шеңберге айналады.</string>
+    <string name="MZGramGlassOutline">Шыны контуры</string>
+    <string name="MZGramGlassOutlineGlare">Жылтыр</string>
+    <string name="MZGramGlassOutlineSolid">Тұтас сызық</string>
+    <string name="MZGramGlassOutlineHidden">Контурсыз</string>
+    <string name="MZGramGlassOutlineInfo">Шыны панельдердің, түймелер мен мәзірлердің жиегі. Жылтыр: Telegram-дағыдай жоғарыда ашық, төменде күңгірт сызық. Тұтас сызық: бүкіл жиек бойымен бір жіңішке сызық, көлеңкесіз. Контурсыз: сызық та, көлеңке де жоқ.</string>
 </resources>

@@ -639,4 +639,9 @@
     <string name="MZGramAppIconSunset">Zachód słońca</string>
     <string name="MZGramAvatarShape">Kształt awatarów</string>
     <string name="MZGramAvatarShapeInfo">Jak okrągłe są awatary w całej aplikacji: po prawej koło jak w Telegramie, po lewej kwadrat, pomiędzy kwadrat z zaokrąglonymi rogami. Pierścienie relacji podążają za kształtem. Podczas animacji „ciągnącej się” awatar profilu znów staje się kołem.</string>
+    <string name="MZGramGlassOutline">Obrys szkła</string>
+    <string name="MZGramGlassOutlineGlare">Odblask</string>
+    <string name="MZGramGlassOutlineSolid">Linia ciągła</string>
+    <string name="MZGramGlassOutlineHidden">Bez obrysu</string>
+    <string name="MZGramGlassOutlineInfo">Krawędź szklanych paneli, przycisków i menu. Odblask: jasna linia u góry i ciemna u dołu, jak w Telegramie. Linia ciągła: jedna cienka linia wzdłuż całej krawędzi, bez cienia. Bez obrysu: ani linii, ani cienia.</string>
 </resources>

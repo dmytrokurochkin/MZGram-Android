@@ -640,4 +640,9 @@
     <string name="MZGramAppIconSunset">Захід сонця</string>
     <string name="MZGramAvatarShape">Форма аватарів</string>
     <string name="MZGramAvatarShapeInfo">Наскільки круглі аватари в усьому застосунку: праворуч коло, як у Telegram, ліворуч квадрат, між ними квадрат із заокругленими кутами. Кільця історій повторюють форму. Під час «тягучої» анімації аватар профілю знову стає колом.</string>
+    <string name="MZGramGlassOutline">Контур скла</string>
+    <string name="MZGramGlassOutlineGlare">Відблиск</string>
+    <string name="MZGramGlassOutlineSolid">Суцільна лінія</string>
+    <string name="MZGramGlassOutlineHidden">Без контуру</string>
+    <string name="MZGramGlassOutlineInfo">Край скляних панелей, кнопок і меню. Відблиск: світла лінія згори й темна знизу, як у Telegram. Суцільна лінія: одна тонка лінія по всьому краю, без тіні. Без контуру: ні лінії, ні тіні.</string>
 </resources>

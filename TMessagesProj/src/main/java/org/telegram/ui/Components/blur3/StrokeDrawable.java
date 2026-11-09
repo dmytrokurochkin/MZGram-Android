@@ -41,6 +41,7 @@ public class StrokeDrawable extends Drawable {
 
     public void setColorProvider(BlurredBackgroundColorProvider colorProvider) {
         this.colorProvider = colorProvider;
+        org.telegram.ui.mzgram.MZGramGlassOutline.track(this); // MZGram: recolored on a change of the glass outline
 
         paintStrokeTop.setStyle(Paint.Style.STROKE);
         paintStrokeBottom.setStyle(Paint.Style.STROKE);
@@ -53,6 +54,11 @@ public class StrokeDrawable extends Drawable {
 
         strokeColorTop = Theme.multAlpha(colorProvider.getStrokeColorTop(), alpha);
         strokeColorBottom = Theme.multAlpha(colorProvider.getStrokeColorBottom(), alpha);
+        // MZGram: glass outline style; the glare of Telegram stays as it is
+        if (!org.telegram.ui.mzgram.MZGramGlassOutline.isGlare()) {
+            strokeColorTop = 0;
+            strokeColorBottom = 0;
+        }
 
         paintStrokeTop.setColor(strokeColorTop);
         paintStrokeTop.setStrokeWidth(dpf2(1));
@@ -62,6 +68,7 @@ public class StrokeDrawable extends Drawable {
 
     public boolean nonRound;
     public float radius;
+    private final float[] mzgramRadii = new float[8];
 
     @Override
     public void draw(@NonNull Canvas canvas) {
@@ -77,6 +84,12 @@ public class StrokeDrawable extends Drawable {
 
         if (Color.alpha(paintFill.getColor()) > 0) {
             canvas.drawCircle(cx, cy, radius, paintFill);
+        }
+        // MZGram: solid glass outline
+        if (org.telegram.ui.mzgram.MZGramGlassOutline.isSolid()) {
+            java.util.Arrays.fill(mzgramRadii, radius);
+            org.telegram.ui.mzgram.MZGramGlassOutline.drawSolid(canvas, rect.left, rect.top, rect.right, rect.bottom, mzgramRadii,
+                    org.telegram.ui.mzgram.MZGramGlassOutline.solidColorOnMedia(), alpha);
         }
         if (strokeColorTop != 0) {
             BlurredBackgroundDrawable.drawStroke(canvas, rect, radius, dpf2(1), true, paintStrokeTop);

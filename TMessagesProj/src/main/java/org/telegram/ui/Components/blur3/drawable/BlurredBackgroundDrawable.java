@@ -186,9 +186,12 @@ public abstract class BlurredBackgroundDrawable extends Drawable {
 
     protected BlurredBackgroundColorProvider colorProvider;
     protected int shadowColor, backgroundColor, strokeColorTop, strokeColorBottom;
+    // MZGram: color of the solid glass outline (MZGramGlassOutline)
+    protected int mzgramSolidColor;
 
     public BlurredBackgroundDrawable setColorProvider(BlurredBackgroundColorProvider colorProvider) {
         this.colorProvider = colorProvider;
+        org.telegram.ui.mzgram.MZGramGlassOutline.track(this); // MZGram: recolored on a change of the glass outline
         updateColors();
 
         if (colorProvider instanceof BlurredBackgroundProvider) {
@@ -224,6 +227,13 @@ public abstract class BlurredBackgroundDrawable extends Drawable {
         shadowColor = colorProvider.getShadowColor();
         strokeColorTop = colorProvider.getStrokeColorTop();
         strokeColorBottom = colorProvider.getStrokeColorBottom();
+        // MZGram: glass outline style; the glare of Telegram stays as it is
+        mzgramSolidColor = org.telegram.ui.mzgram.MZGramGlassOutline.solidColor(backgroundColor);
+        if (!org.telegram.ui.mzgram.MZGramGlassOutline.isGlare()) {
+            shadowColor = 0;
+            strokeColorTop = 0;
+            strokeColorBottom = 0;
+        }
     }
 
 
@@ -674,6 +684,10 @@ public abstract class BlurredBackgroundDrawable extends Drawable {
         );
         ninePatchDrawable.setAlpha(alpha);
         ninePatchDrawable.draw(canvas);
+        // MZGram: solid glass outline
+        if (org.telegram.ui.mzgram.MZGramGlassOutline.isSolid()) {
+            org.telegram.ui.mzgram.MZGramGlassOutline.drawSolid(canvas, boundProps.boundsWithPadding, boundProps.radii, mzgramSolidColor, alpha / 255f);
+        }
     }
 
     private void drawSourceBitmap(Canvas canvas, BlurredBackgroundSourceBitmap source) {
@@ -720,6 +734,10 @@ public abstract class BlurredBackgroundDrawable extends Drawable {
     }
 
     private void drawStrokeInternalIfNeeded(Canvas canvas) {
+        // MZGram: solid glass outline
+        if (org.telegram.ui.mzgram.MZGramGlassOutline.isSolid()) {
+            org.telegram.ui.mzgram.MZGramGlassOutline.drawSolid(canvas, boundProps.boundsWithPadding, boundProps.radii, mzgramSolidColor, alpha / 255f);
+        }
         final int strokeColorTop = Theme.multAlpha(this.strokeColorTop, alpha / 255f);
         final int strokeColorBottom = Theme.multAlpha(this.strokeColorBottom, alpha / 255f);
 

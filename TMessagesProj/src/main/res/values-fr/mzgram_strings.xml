@@ -639,4 +639,9 @@
     <string name="MZGramAppIconSunset">Coucher de soleil</string>
     <string name="MZGramAvatarShape">Forme des avatars</string>
     <string name="MZGramAvatarShapeInfo">Degré d\'arrondi des avatars dans toute l\'app : à droite un cercle comme dans Telegram, à gauche un carré, entre les deux un carré aux coins arrondis. Les anneaux des stories suivent la forme. Pendant l\'animation « fondante », l\'avatar du profil redevient un cercle.</string>
+    <string name="MZGramGlassOutline">Contour du verre</string>
+    <string name="MZGramGlassOutlineGlare">Reflet</string>
+    <string name="MZGramGlassOutlineSolid">Ligne continue</string>
+    <string name="MZGramGlassOutlineHidden">Aucun contour</string>
+    <string name="MZGramGlassOutlineInfo">Bord des panneaux, boutons et menus en verre. Reflet : une ligne claire en haut et une sombre en bas, comme dans Telegram. Ligne continue : une seule ligne fine sur tout le bord, sans ombre. Aucun contour : ni ligne ni ombre.</string>
 </resources>

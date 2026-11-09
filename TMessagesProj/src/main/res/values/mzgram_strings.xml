@@ -639,4 +639,9 @@
     <string name="MZGramAppIconSunset">Sunset</string>
     <string name="MZGramAvatarShape">Avatar shape</string>
     <string name="MZGramAvatarShapeInfo">How round avatars are across the app: on the right a circle as in Telegram, on the left a square, in between a rounded square. Story rings follow the shape. While the gooey animation runs, the profile avatar turns back into a circle.</string>
+    <string name="MZGramGlassOutline">Glass outline</string>
+    <string name="MZGramGlassOutlineGlare">Glare</string>
+    <string name="MZGramGlassOutlineSolid">Solid line</string>
+    <string name="MZGramGlassOutlineHidden">None</string>
+    <string name="MZGramGlassOutlineInfo">Edge of the glass panels, buttons and menus. Glare: a light line on top and a dark one at the bottom, as in Telegram. Solid line: one thin line around the whole edge, without the shadow. None: no line and no shadow.</string>
 </resources>

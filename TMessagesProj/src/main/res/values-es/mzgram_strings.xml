@@ -639,4 +639,9 @@
     <string name="MZGramAppIconSunset">Atardecer</string>
     <string name="MZGramAvatarShape">Forma de los avatares</string>
     <string name="MZGramAvatarShapeInfo">Qué tan redondos son los avatares en toda la app: a la derecha un círculo como en Telegram, a la izquierda un cuadrado y, entre ambos, un cuadrado con esquinas redondeadas. Los anillos de historias siguen la forma. Durante la animación «gelatinosa», el avatar del perfil vuelve a ser un círculo.</string>
+    <string name="MZGramGlassOutline">Contorno del cristal</string>
+    <string name="MZGramGlassOutlineGlare">Reflejo</string>
+    <string name="MZGramGlassOutlineSolid">Línea continua</string>
+    <string name="MZGramGlassOutlineHidden">Sin contorno</string>
+    <string name="MZGramGlassOutlineInfo">Borde de los paneles, botones y menús de cristal. Reflejo: una línea clara arriba y una oscura abajo, como en Telegram. Línea continua: una línea fina por todo el borde, sin sombra. Sin contorno: ni línea ni sombra.</string>
 </resources>

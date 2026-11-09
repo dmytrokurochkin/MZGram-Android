@@ -639,4 +639,9 @@
     <string name="MZGramAppIconSunset">Закат</string>
     <string name="MZGramAvatarShape">Форма аватаров</string>
     <string name="MZGramAvatarShapeInfo">Насколько круглые аватары во всём приложении: справа круг, как в Telegram, слева квадрат, между ними квадрат со скруглёнными углами. Кольца историй повторяют форму. Во время «тягучей» анимации аватар профиля снова становится кругом.</string>
+    <string name="MZGramGlassOutline">Контур стекла</string>
+    <string name="MZGramGlassOutlineGlare">Блик</string>
+    <string name="MZGramGlassOutlineSolid">Сплошная линия</string>
+    <string name="MZGramGlassOutlineHidden">Без контура</string>
+    <string name="MZGramGlassOutlineInfo">Край стеклянных панелей, кнопок и меню. Блик: светлая линия сверху и тёмная снизу, как в Telegram. Сплошная линия: одна тонкая линия по всему краю, без тени. Без контура: ни линии, ни тени.</string>
 </resources>

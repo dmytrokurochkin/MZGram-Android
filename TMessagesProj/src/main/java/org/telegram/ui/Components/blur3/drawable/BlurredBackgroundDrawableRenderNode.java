@@ -152,6 +152,11 @@ public class BlurredBackgroundDrawableRenderNode extends BlurredBackgroundDrawab
                     boundProps.boundsWithPadding.height(), boundProps.radii,
                     boundProps.strokeWidthBottom, false, paintStrokeBottom);
         }
+        // MZGram: solid glass outline (the node alpha applies on top)
+        if (org.telegram.ui.mzgram.MZGramGlassOutline.isSolid()) {
+            org.telegram.ui.mzgram.MZGramGlassOutline.drawSolid(c, 0, 0, boundProps.boundsWithPadding.width(),
+                    boundProps.boundsWithPadding.height(), boundProps.radii, mzgramSolidColor, 1f);
+        }
         renderNode.endRecording();
     }
 

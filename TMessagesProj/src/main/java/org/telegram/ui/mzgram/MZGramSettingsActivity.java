@@ -170,6 +170,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_WIDE_CHANNEL_POSTS = 145;
     private static final int BUTTON_ACCOUNT_ORDER = 146;
     private static final int BUTTON_RECENT_CHATS_ON_BACK = 147;
+    private static final int BUTTON_GLASS_OUTLINE = 148;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -797,6 +798,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     }
                 }));
         items.add(UItem.asShadow(getString(R.string.MZGramAvatarShapeInfo)));
+        items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
+        items.add(UItem.asShadow(getString(R.string.MZGramGlassOutlineInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHideRowsTitle)));
         java.util.List<org.telegram.messenger.mzgram.MZGramSettingsRows.Row> rows = org.telegram.messenger.mzgram.MZGramSettingsRows.rows();
         for (int i = 0; i < rows.size(); i++) {
@@ -1031,6 +1034,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
             chooseLanguage();
         } else if (item.id == BUTTON_LAUNCH_FOLDER) {
             MZGramLaunchFolder.choose(this, currentAccount, () -> {
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            });
+        } else if (item.id == BUTTON_GLASS_OUTLINE) {
+            MZGramGlassOutline.choose(this, () -> {
                 if (listView != null && listView.adapter != null) {
                     listView.adapter.update(true);
                 }

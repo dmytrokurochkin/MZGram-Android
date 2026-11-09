@@ -639,4 +639,9 @@
     <string name="MZGramAppIconSunset">Sonnenuntergang</string>
     <string name="MZGramAvatarShape">Form der Profilbilder</string>
     <string name="MZGramAvatarShapeInfo">Wie rund Profilbilder in der ganzen App sind: rechts ein Kreis wie in Telegram, links ein Quadrat, dazwischen ein Quadrat mit abgerundeten Ecken. Story-Ringe folgen der Form. Während der „zähflüssigen“ Animation wird das Profilbild wieder zum Kreis.</string>
+    <string name="MZGramGlassOutline">Glasrand</string>
+    <string name="MZGramGlassOutlineGlare">Lichtreflex</string>
+    <string name="MZGramGlassOutlineSolid">Durchgehende Linie</string>
+    <string name="MZGramGlassOutlineHidden">Kein Rand</string>
+    <string name="MZGramGlassOutlineInfo">Rand der Glasflächen, Schaltflächen und Menüs. Lichtreflex: oben eine helle und unten eine dunkle Linie wie in Telegram. Durchgehende Linie: eine dünne Linie um den ganzen Rand, ohne Schatten. Kein Rand: weder Linie noch Schatten.</string>
 </resources>

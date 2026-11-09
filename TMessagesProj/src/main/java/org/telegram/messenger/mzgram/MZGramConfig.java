@@ -68,6 +68,8 @@ public class MZGramConfig {
     public static boolean gooeyAvatarAnimation = true;
     // Avatar shape (MZGramAvatarShape): MAX is the circle of Telegram, 0 a square
     public static int avatarCorners = MZGramAvatarShape.MAX;
+    // Outline of the glass surfaces: 0 glare as in Telegram, 1 solid, 2 hidden (MZGramGlassOutline)
+    public static int glassOutline = 0;
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
@@ -362,6 +364,7 @@ public class MZGramConfig {
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             avatarCorners = Math.max(MZGramAvatarShape.MIN, Math.min(MZGramAvatarShape.MAX, preferences.getInt("avatarCorners", MZGramAvatarShape.MAX)));
             MZGramAvatarShape.changed();
+            glassOutline = preferences.getInt("glassOutline", 0);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
@@ -665,6 +668,11 @@ public class MZGramConfig {
         avatarCorners = Math.max(MZGramAvatarShape.MIN, Math.min(MZGramAvatarShape.MAX, corners));
         preferences().edit().putInt("avatarCorners", avatarCorners).apply();
         MZGramAvatarShape.changed();
+    }
+
+    public static void setGlassOutline(int style) {
+        glassOutline = style == 1 || style == 2 ? style : 0;
+        preferences().edit().putInt("glassOutline", glassOutline).apply();
     }
 
     public static void toggleHideBottomNavigationBar() {

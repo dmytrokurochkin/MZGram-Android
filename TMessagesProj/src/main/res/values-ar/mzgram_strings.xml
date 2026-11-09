@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">يوقف تلوين الصياغة في كتل الشيفرة: تُعرض الشيفرة بلون واحد. يسري على الرسائل المعروضة بعد التغيير.</string>
     <string name="MZGramTextStyleMenu">قائمة التنسيق</string>
     <string name="MZGramTextStyleMenuInfo">اختر الأنماط التي تعرضها القائمة عند تحديد نص في حقل الرسالة، واسحبها لتغيير الترتيب.</string>
+    <string name="MZGramReactionFilter">فلتر التفاعلات</string>
+    <string name="MZGramHideReactionsPrivate">إخفاء التفاعلات في المحادثات الخاصة</string>
+    <string name="MZGramHideReactionsGroups">إخفاء التفاعلات في المجموعات</string>
+    <string name="MZGramHideReactionsChannels">إخفاء التفاعلات في القنوات</string>
+    <string name="MZGramHiddenReactions">التفاعلات المخفية</string>
+    <string name="MZGramReactionFilterInfo">لا تظهر التفاعلات المخفية تحت الرسائل. وحيث تكون كل التفاعلات مخفية، تتوقف أيضًا لوحة التفاعلات والتفاعل بالنقر المزدوج. في «التفاعلات المخفية» اكتب الرموز التعبيرية التي تريد إخفاءها. تبقى تفاعلاتك أنت ووسوم الرسائل المحفوظة. يتغير ما تراه أنت فقط.</string>
 </resources>

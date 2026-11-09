@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Wyłącza podświetlanie składni w blokach kodu: kod jest wyświetlany jednym kolorem. Dotyczy wiadomości wyświetlonych po zmianie.</string>
     <string name="MZGramTextStyleMenu">Menu formatowania</string>
     <string name="MZGramTextStyleMenuInfo">Wybierz, które style menu pokazuje po zaznaczeniu tekstu w polu wiadomości, i przeciągnij je, aby zmienić kolejność.</string>
+    <string name="MZGramReactionFilter">Filtr reakcji</string>
+    <string name="MZGramHideReactionsPrivate">Ukrywaj reakcje w czatach prywatnych</string>
+    <string name="MZGramHideReactionsGroups">Ukrywaj reakcje w grupach</string>
+    <string name="MZGramHideReactionsChannels">Ukrywaj reakcje na kanałach</string>
+    <string name="MZGramHiddenReactions">Ukryte reakcje</string>
+    <string name="MZGramReactionFilterInfo">Ukryte reakcje nie są pokazywane pod wiadomościami. Tam, gdzie ukryto wszystkie reakcje, wyłączone są też panel reakcji i reakcja podwójnym dotknięciem. W „Ukryte reakcje” wpisz emoji do ukrycia. Twoje własne reakcje i tagi w Zapisanych zostają. Zmienia się tylko to, co widzisz ty.</string>
 </resources>

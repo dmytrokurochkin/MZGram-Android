@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Désactive la coloration syntaxique des blocs de code : le code s\'affiche d\'une seule couleur. S\'applique aux messages affichés après la modification.</string>
     <string name="MZGramTextStyleMenu">Menu de mise en forme</string>
     <string name="MZGramTextStyleMenuInfo">Choisissez les styles affichés par le menu lorsque vous sélectionnez du texte dans le champ du message, et faites-les glisser pour changer l\'ordre.</string>
+    <string name="MZGramReactionFilter">Filtre de réactions</string>
+    <string name="MZGramHideReactionsPrivate">Masquer les réactions dans les discussions privées</string>
+    <string name="MZGramHideReactionsGroups">Masquer les réactions dans les groupes</string>
+    <string name="MZGramHideReactionsChannels">Masquer les réactions dans les chaînes</string>
+    <string name="MZGramHiddenReactions">Réactions masquées</string>
+    <string name="MZGramReactionFilterInfo">Les réactions masquées ne s\'affichent pas sous les messages. Là où toutes les réactions sont masquées, le panneau de réactions et la réaction par double appui sont aussi désactivés. Dans Réactions masquées, saisissez les emoji à masquer. Vos propres réactions et les étiquettes des Messages enregistrés restent. Seul ce que vous voyez change.</string>
 </resources>

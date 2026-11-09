@@ -1982,6 +1982,10 @@ public class ChatActivity extends BaseFragment implements
             if (mzgramAction != org.telegram.ui.mzgram.MZGramDoubleTap.REACTION) {
                 return org.telegram.ui.mzgram.MZGramDoubleTap.available(ChatActivity.this, view, mzgramAction);
             }
+            // MZGram: no double tap reaction where reactions are hidden
+            if (view instanceof ChatMessageCell && org.telegram.messenger.mzgram.MZGramReactionFilter.isHidden(((ChatMessageCell) view).getMessageObject())) {
+                return false;
+            }
             String reactionStringSetting = getMediaDataController().getDoubleTapReaction();
             TLRPC.TL_availableReaction reaction = getMediaDataController().getReactionsMap().get(reactionStringSetting);
             if (reaction == null && (reactionStringSetting == null || !reactionStringSetting.startsWith("animated_"))) {
@@ -31521,7 +31525,8 @@ public class ChatActivity extends BaseFragment implements
             final boolean showPrivateMessageEdit = !suggestEdit && !isEphemeral && (currentUser == null || !UserObject.isReplyUser(currentUser) && !UserObject.isAnonymous(currentUser)) && !isInScheduleMode() && message.isEdited() && !(message.messageOwner.action instanceof TLRPC.TL_messageActionChatJoinedByRequest);
             final boolean showPrivateMessageFwdOriginal = !suggestEdit && !isEphemeral && false && (currentUser == null || !UserObject.isReplyUser(currentUser) && !UserObject.isAnonymous(currentUser)) && !isInScheduleMode() && message.isForwarded() && !(message.messageOwner.action instanceof TLRPC.TL_messageActionChatJoinedByRequest);
             final boolean showSponsorInfo = !suggestEdit && !isEphemeral && selectedObject != null && selectedObject.isSponsored() && (selectedObject.sponsoredInfo != null || selectedObject.sponsoredAdditionalInfo != null || selectedObject.sponsoredUrl != null && !selectedObject.sponsoredUrl.startsWith("https://" + getMessagesController().linkPrefix));
-            final boolean isReactionsAvailableFinal = !suggestEdit && isReactionsAvailable;
+            final boolean isReactionsAvailableFinal = !suggestEdit && isReactionsAvailable
+                && !org.telegram.messenger.mzgram.MZGramReactionFilter.isHidden(primaryMessage); // MZGram: reactions hidden for this kind of chat
 
             int flags = 0;
             if (isReactionsViewAvailable || showMessageSeen || showSponsorInfo) {

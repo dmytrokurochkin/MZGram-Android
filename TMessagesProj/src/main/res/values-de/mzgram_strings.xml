@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Schaltet die Syntaxhervorhebung in Codeblöcken aus: Der Code wird einfarbig angezeigt. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
     <string name="MZGramTextStyleMenu">Formatierungsmenü</string>
     <string name="MZGramTextStyleMenuInfo">Wähle, welche Stile das Menü beim Markieren von Text im Nachrichtenfeld zeigt, und ziehe sie, um die Reihenfolge zu ändern.</string>
+    <string name="MZGramReactionFilter">Reaktionsfilter</string>
+    <string name="MZGramHideReactionsPrivate">Reaktionen in privaten Chats ausblenden</string>
+    <string name="MZGramHideReactionsGroups">Reaktionen in Gruppen ausblenden</string>
+    <string name="MZGramHideReactionsChannels">Reaktionen in Kanälen ausblenden</string>
+    <string name="MZGramHiddenReactions">Ausgeblendete Reaktionen</string>
+    <string name="MZGramReactionFilterInfo">Ausgeblendete Reaktionen werden unter Nachrichten nicht angezeigt. Wo alle Reaktionen ausgeblendet sind, sind auch die Reaktionsleiste und die Reaktion per Doppeltippen aus. Gib unter „Ausgeblendete Reaktionen“ die Emojis ein, die ausgeblendet werden sollen. Deine eigenen Reaktionen und Tags in „Gespeichert“ bleiben. Nur deine Ansicht ändert sich.</string>
 </resources>

@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Desativa o realce de sintaxe nos blocos de código: o código aparece em uma só cor. Vale para mensagens exibidas após a mudança.</string>
     <string name="MZGramTextStyleMenu">Menu de formatação</string>
     <string name="MZGramTextStyleMenuInfo">Escolha quais estilos o menu mostra ao selecionar texto no campo da mensagem e arraste-os para mudar a ordem.</string>
+    <string name="MZGramReactionFilter">Filtro de reações</string>
+    <string name="MZGramHideReactionsPrivate">Ocultar reações em conversas privadas</string>
+    <string name="MZGramHideReactionsGroups">Ocultar reações em grupos</string>
+    <string name="MZGramHideReactionsChannels">Ocultar reações em canais</string>
+    <string name="MZGramHiddenReactions">Reações ocultas</string>
+    <string name="MZGramReactionFilterInfo">As reações ocultas não aparecem sob as mensagens. Onde todas as reações estão ocultas, o painel de reações e a reação com toque duplo também ficam desativados. Em Reações ocultas, digite os emojis que deseja ocultar. Suas próprias reações e as etiquetas das Mensagens Salvas permanecem. Só muda o que você vê.</string>
 </resources>

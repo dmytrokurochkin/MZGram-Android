@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Kod bloklarında sözdizimi renklendirmesini kapatır: kod tek renkte gösterilir. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
     <string name="MZGramTextStyleMenu">Biçimlendirme menüsü</string>
     <string name="MZGramTextStyleMenuInfo">Mesaj alanında metin seçtiğinizde menünün hangi stilleri göstereceğini seçin ve sırayı değiştirmek için sürükleyin.</string>
+    <string name="MZGramReactionFilter">Tepki filtresi</string>
+    <string name="MZGramHideReactionsPrivate">Özel sohbetlerde tepkileri gizle</string>
+    <string name="MZGramHideReactionsGroups">Gruplarda tepkileri gizle</string>
+    <string name="MZGramHideReactionsChannels">Kanallarda tepkileri gizle</string>
+    <string name="MZGramHiddenReactions">Gizli tepkiler</string>
+    <string name="MZGramReactionFilterInfo">Gizli tepkiler mesajların altında gösterilmez. Tüm tepkilerin gizlendiği yerlerde tepki paneli ve çift dokunma tepkisi de kapalıdır. Gizli tepkiler bölümüne gizlenecek emojileri yazın. Kendi tepkileriniz ve Kayıtlı Mesajlar etiketleri kalır. Yalnızca sizin gördüğünüz değişir.</string>
 </resources>

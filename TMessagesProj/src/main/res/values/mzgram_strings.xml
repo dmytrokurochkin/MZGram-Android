@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Turns off syntax highlighting in code blocks: the code is shown in one colour. Applies to messages shown after the change.</string>
     <string name="MZGramTextStyleMenu">Formatting menu</string>
     <string name="MZGramTextStyleMenuInfo">Choose which styles the menu shows when you select text in the message field, and drag them to change the order.</string>
+    <string name="MZGramReactionFilter">Reaction filter</string>
+    <string name="MZGramHideReactionsPrivate">Hide reactions in private chats</string>
+    <string name="MZGramHideReactionsGroups">Hide reactions in groups</string>
+    <string name="MZGramHideReactionsChannels">Hide reactions in channels</string>
+    <string name="MZGramHiddenReactions">Hidden reactions</string>
+    <string name="MZGramReactionFilterInfo">Hidden reactions are not shown under messages. Where all reactions are hidden, the reaction panel and the double tap reaction are off too. In Hidden reactions, type the emoji to hide. Your own reactions and tags in Saved Messages stay. Only what you see changes.</string>
 </resources>

@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Код блоктарындағы синтаксисті бөлектеуді өшіреді: код бір түспен көрсетіледі. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
     <string name="MZGramTextStyleMenu">Пішімдеу мәзірі</string>
     <string name="MZGramTextStyleMenuInfo">Хабарлама өрісінде мәтінді белгілегенде мәзір қандай стильдерді көрсететінін таңдаңыз және ретін өзгерту үшін оларды сүйреңіз.</string>
+    <string name="MZGramReactionFilter">Реакция сүзгісі</string>
+    <string name="MZGramHideReactionsPrivate">Жеке чаттарда реакцияларды жасыру</string>
+    <string name="MZGramHideReactionsGroups">Топтарда реакцияларды жасыру</string>
+    <string name="MZGramHideReactionsChannels">Арналарда реакцияларды жасыру</string>
+    <string name="MZGramHiddenReactions">Жасырын реакциялар</string>
+    <string name="MZGramReactionFilterInfo">Жасырын реакциялар хабарламалардың астында көрсетілмейді. Барлық реакциялар жасырылған жерде реакция панелі мен екі рет түрту реакциясы да өшіріледі. «Жасырын реакциялар» бөлімінде жасыратын emoji-ді енгізіңіз. Өз реакцияларыңыз бен Сақталғандардағы тегтер қалады. Тек сіз көретін нәрсе ғана өзгереді.</string>
 </resources>

@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Отключает подсветку синтаксиса в блоках кода: код показывается одним цветом. Действует на сообщения, показанные после изменения.</string>
     <string name="MZGramTextStyleMenu">Меню форматирования</string>
     <string name="MZGramTextStyleMenuInfo">Выберите, какие стили показывает меню при выделении текста в поле сообщения, и перетащите их, чтобы изменить порядок.</string>
+    <string name="MZGramReactionFilter">Фильтр реакций</string>
+    <string name="MZGramHideReactionsPrivate">Скрывать реакции в личных чатах</string>
+    <string name="MZGramHideReactionsGroups">Скрывать реакции в группах</string>
+    <string name="MZGramHideReactionsChannels">Скрывать реакции в каналах</string>
+    <string name="MZGramHiddenReactions">Скрытые реакции</string>
+    <string name="MZGramReactionFilterInfo">Скрытые реакции не показываются под сообщениями. Где скрыты все реакции, отключены также панель реакций и реакция двойным касанием. В «Скрытые реакции» введите emoji, которые нужно скрывать. Ваши собственные реакции и теги в Избранном остаются. Меняется только то, что видите вы.</string>
 </resources>

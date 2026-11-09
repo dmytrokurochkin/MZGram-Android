@@ -223,6 +223,12 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // Reaction filter: hide all reactions by kind of chat, or only the listed emoji (space-separated)
+    public static boolean hideReactionsPrivate = false;
+    public static boolean hideReactionsGroups = false;
+    public static boolean hideReactionsChannels = false;
+    public static String hiddenReactions = "";
+
     // plainCodeBlocks
     public static boolean plainCodeBlocks = false;
 
@@ -407,6 +413,10 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            hideReactionsPrivate = preferences.getBoolean("hideReactionsPrivate", false);
+            hideReactionsGroups = preferences.getBoolean("hideReactionsGroups", false);
+            hideReactionsChannels = preferences.getBoolean("hideReactionsChannels", false);
+            hiddenReactions = preferences.getString("hiddenReactions", "");
             plainCodeBlocks = preferences.getBoolean("plainCodeBlocks", false);
             hexColorSwatch = preferences.getBoolean("hexColorSwatch", false);
             scheduleSlider = preferences.getBoolean("scheduleSlider", false);
@@ -889,6 +899,26 @@ public class MZGramConfig {
     public static void toggleCameraStabilization() {
         cameraStabilization = !cameraStabilization;
         putBoolean("cameraStabilization", cameraStabilization);
+    }
+
+    public static void toggleHideReactionsPrivate() {
+        hideReactionsPrivate = !hideReactionsPrivate;
+        putBoolean("hideReactionsPrivate", hideReactionsPrivate);
+    }
+
+    public static void toggleHideReactionsGroups() {
+        hideReactionsGroups = !hideReactionsGroups;
+        putBoolean("hideReactionsGroups", hideReactionsGroups);
+    }
+
+    public static void toggleHideReactionsChannels() {
+        hideReactionsChannels = !hideReactionsChannels;
+        putBoolean("hideReactionsChannels", hideReactionsChannels);
+    }
+
+    public static void setHiddenReactions(String list) {
+        hiddenReactions = list == null ? "" : list;
+        preferences().edit().putString("hiddenReactions", hiddenReactions).apply();
     }
 
     public static void setTextStyleMenu(String order, String hidden) {

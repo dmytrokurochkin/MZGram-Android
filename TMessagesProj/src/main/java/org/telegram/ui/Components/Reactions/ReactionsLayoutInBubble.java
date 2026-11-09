@@ -238,6 +238,10 @@ public class ReactionsLayoutInBubble {
                         reactionCount.count = 0;
                     } else {
                         reactionCount = messageObject.messageOwner.reactions.results.get(i);
+                        // MZGram: emoji from the hidden list (own reactions stay)
+                        if (org.telegram.messenger.mzgram.MZGramReactionFilter.isEmojiHidden(messageObject, reactionCount)) {
+                            continue;
+                        }
                     }
                     ReactionButton old = null;
                     for (int j = 0; j < oldButtons.size(); ++j) {

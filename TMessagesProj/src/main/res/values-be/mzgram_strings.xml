@@ -584,4 +584,10 @@
     <string name="MZGramPlainCodeInfo">Адключае падсвятленне сінтаксісу ў блоках кода: код паказваецца адным колерам. Дзейнічае на паведамленні, паказаныя пасля змены.</string>
     <string name="MZGramTextStyleMenu">Меню фарматавання</string>
     <string name="MZGramTextStyleMenuInfo">Выберыце, якія стылі паказвае меню пры вылучэнні тэксту ў полі паведамлення, і перацягніце іх, каб змяніць парадак.</string>
+    <string name="MZGramReactionFilter">Фільтр рэакцый</string>
+    <string name="MZGramHideReactionsPrivate">Хаваць рэакцыі ў асабістых чатах</string>
+    <string name="MZGramHideReactionsGroups">Хаваць рэакцыі ў групах</string>
+    <string name="MZGramHideReactionsChannels">Хаваць рэакцыі ў каналах</string>
+    <string name="MZGramHiddenReactions">Схаваныя рэакцыі</string>
+    <string name="MZGramReactionFilterInfo">Схаваныя рэакцыі не паказваюцца пад паведамленнямі. Дзе схаваны ўсе рэакцыі, адключаны таксама панэль рэакцый і рэакцыя падвойным дотыкам. У «Схаваныя рэакцыі» увядзіце emoji, якія трэба хаваць. Вашы ўласныя рэакцыі і тэгі ў Захаваным застаюцца. Змяняецца толькі тое, што бачыце вы.</string>
 </resources>

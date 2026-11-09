@@ -708,6 +708,10 @@ public class MessageObject {
         if (isRepostPreview) {
             return false;
         }
+        // MZGram: reactions hidden for this kind of chat
+        if (org.telegram.messenger.mzgram.MZGramReactionFilter.isHidden(this)) {
+            return false;
+        }
         return true;
     }
 

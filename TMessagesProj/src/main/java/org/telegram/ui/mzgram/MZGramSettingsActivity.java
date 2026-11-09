@@ -168,6 +168,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SCHEDULE_SLIDER = 127;
     private static final int BUTTON_PINNED_REACTIONS = 128;
     private static final int BUTTON_TEXT_STYLE_MENU = 131;
+    private static final int BUTTON_HIDE_REACTIONS_PRIVATE = 132;
+    private static final int BUTTON_HIDE_REACTIONS_GROUPS = 133;
+    private static final int BUTTON_HIDE_REACTIONS_CHANNELS = 134;
+    private static final int BUTTON_HIDDEN_REACTIONS = 135;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -758,6 +762,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramDisableSponsoredMessagesInfo)));
         items.add(UItem.asCheck(BUTTON_STRIP_ZALGO_TEXT, getString(R.string.MZGramStripZalgoText)).setChecked(MZGramConfig.stripZalgoText));
         items.add(UItem.asShadow(getString(R.string.MZGramStripZalgoTextInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramReactionFilter)));
+        items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_PRIVATE, getString(R.string.MZGramHideReactionsPrivate)).setChecked(MZGramConfig.hideReactionsPrivate));
+        items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_GROUPS, getString(R.string.MZGramHideReactionsGroups)).setChecked(MZGramConfig.hideReactionsGroups));
+        items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_CHANNELS, getString(R.string.MZGramHideReactionsChannels)).setChecked(MZGramConfig.hideReactionsChannels));
+        items.add(UItem.asButton(BUTTON_HIDDEN_REACTIONS, getString(R.string.MZGramHiddenReactions), android.text.TextUtils.isEmpty(MZGramConfig.hiddenReactions) ? getString(R.string.ReactionsOff) : MZGramConfig.hiddenReactions));
+        items.add(UItem.asShadow(getString(R.string.MZGramReactionFilterInfo)));
     }
 
     private void fillAi(ArrayList<UItem> items) {
@@ -1186,6 +1196,17 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 // immediately, not just future ones.
                 getMessagesController().hidePromoDialog();
             }
+        } else if (item.id == BUTTON_HIDE_REACTIONS_PRIVATE) {
+            MZGramConfig.toggleHideReactionsPrivate();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideReactionsPrivate);
+        } else if (item.id == BUTTON_HIDE_REACTIONS_GROUPS) {
+            MZGramConfig.toggleHideReactionsGroups();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideReactionsGroups);
+        } else if (item.id == BUTTON_HIDE_REACTIONS_CHANNELS) {
+            MZGramConfig.toggleHideReactionsChannels();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideReactionsChannels);
+        } else if (item.id == BUTTON_HIDDEN_REACTIONS) {
+            editMark(getString(R.string.MZGramHiddenReactions), MZGramConfig.hiddenReactions, org.telegram.messenger.mzgram.MZGramReactionFilter::setHiddenList);
         } else if (item.id == BUTTON_STRIP_ZALGO_TEXT) {
             MZGramConfig.toggleStripZalgoText();
             ((TextCheckCell) view).setChecked(MZGramConfig.stripZalgoText);

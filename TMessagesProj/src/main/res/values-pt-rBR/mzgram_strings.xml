@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">Em grupos onde você tem restrições, a aba GIF e os resultados de bots inline seguem as permissões de GIF e bots inline em vez da de figurinhas. Desligado: como no Telegram, a proibição de figurinhas também os oculta.</string>
     <string name="MZGramWideChannelPosts">Publicações largas de canais</string>
     <string name="MZGramWideChannelPostsInfo">As publicações de canais ocupam quase toda a largura da tela, com o avatar do canal ao lado do nome. Vale para mensagens exibidas após a mudança.</string>
+    <string name="MZGramAccountOrder">Ordem das contas</string>
+    <string name="MZGramAccountOrderButtonInfo">Coloque suas contas na ordem que preferir. As configurações, o seletor de contas e as contas no menu seguem essa ordem.</string>
+    <string name="MZGramAccountOrderInfo">Segure uma conta e arraste-a para um novo lugar. A ordem é salva quando você solta.</string>
 </resources>

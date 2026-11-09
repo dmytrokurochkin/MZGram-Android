@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">Сені шектеген топтарда GIF қойындысы мен инлайн-боттардың нәтижелері стикерлерге емес, GIF пен инлайн-боттарға берілген рұқсатқа байланысты. Өшірулі: Telegram-дағыдай, стикерлерге тыйым оларды да жасырады.</string>
     <string name="MZGramWideChannelPosts">Арналардың кең посттары</string>
     <string name="MZGramWideChannelPostsInfo">Арна посттары экранның бүкіл енін дерлік алады, арна аватары атауының жанында. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
+    <string name="MZGramAccountOrder">Аккаунттар реті</string>
+    <string name="MZGramAccountOrderButtonInfo">Аккаунттарды ыңғайлы ретпен орналастыр. Баптаулар, аккаунт ауыстырғыш және мәзірдегі аккаунттар осы ретті ұстанады.</string>
+    <string name="MZGramAccountOrderInfo">Аккаунтты басып тұрып, жаңа орынға сүйре. Жібергенде рет сақталады.</string>
 </resources>

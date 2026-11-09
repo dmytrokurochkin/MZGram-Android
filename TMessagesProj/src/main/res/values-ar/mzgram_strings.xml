@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">في المجموعات التي تم تقييدك فيها، يتبع تبويب GIF ونتائج البوتات المضمنة أذونات GIF والبوتات المضمنة بدلًا من إذن الملصقات. عند الإيقاف: كما في Telegram، يخفيها حظر الملصقات أيضًا.</string>
     <string name="MZGramWideChannelPosts">منشورات القنوات العريضة</string>
     <string name="MZGramWideChannelPostsInfo">تشغل منشورات القنوات عرض الشاشة تقريبًا، مع صورة القناة بجانب اسمها. ينطبق على الرسائل المعروضة بعد التغيير.</string>
+    <string name="MZGramAccountOrder">ترتيب الحسابات</string>
+    <string name="MZGramAccountOrderButtonInfo">رتّب حساباتك كما تحب. تتبع الإعدادات ومبدّل الحسابات والحسابات في القائمة هذا الترتيب.</string>
+    <string name="MZGramAccountOrderInfo">اضغط مطولًا على حساب واسحبه إلى مكان جديد. يُحفظ الترتيب عند الإفلات.</string>
 </resources>

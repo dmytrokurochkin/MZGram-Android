@@ -168,6 +168,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_GRANULAR_PERMISSIONS = 141;
     private static final int BUTTON_SPLIT_GIF_INLINE = 144;
     private static final int BUTTON_WIDE_CHANNEL_POSTS = 145;
+    private static final int BUTTON_ACCOUNT_ORDER = 146;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -758,6 +759,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramHideBottomNavigationBarInfo)));
         items.add(UItem.asCheck(BUTTON_ACCOUNTS_IN_MENU, getString(R.string.MZGramAccountsInMenu)).setChecked(MZGramConfig.accountsInMenu));
         items.add(UItem.asShadow(getString(R.string.MZGramAccountsInMenuInfo)));
+        items.add(UItem.asButton(BUTTON_ACCOUNT_ORDER, getString(R.string.MZGramAccountOrder)));
+        items.add(UItem.asShadow(getString(R.string.MZGramAccountOrderButtonInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
         items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
         items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramOpenArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
@@ -1083,6 +1086,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
             MZGramConfig.toggleHideBottomNavigationBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
+        } else if (item.id == BUTTON_ACCOUNT_ORDER) {
+            presentFragment(new MZGramAccountOrderActivity());
         } else if (item.id == BUTTON_ACCOUNTS_IN_MENU) {
             MZGramConfig.toggleAccountsInMenu();
             ((TextCheckCell) view).setChecked(MZGramConfig.accountsInMenu);

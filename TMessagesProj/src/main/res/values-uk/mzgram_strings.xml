@@ -622,4 +622,7 @@
     <string name="MZGramSplitGifInlineInfo">У групах, де тебе обмежили, вкладка GIF і результати інлайн-ботів залежать від дозволів на GIF та інлайн-ботів, а не на стікери. Вимкнено: як у Telegram, заборона стікерів ховає й їх.</string>
     <string name="MZGramWideChannelPosts">Широкі пости каналів</string>
     <string name="MZGramWideChannelPostsInfo">Пости каналів займають майже всю ширину екрана, аватар каналу поруч із назвою. Діє на повідомлення, показані після зміни.</string>
+    <string name="MZGramAccountOrder">Порядок акаунтів</string>
+    <string name="MZGramAccountOrderButtonInfo">Розстав акаунти в зручному порядку. Налаштування, перемикач акаунтів і акаунти в меню показують їх у ньому.</string>
+    <string name="MZGramAccountOrderInfo">Утримуй акаунт і перетягни його на нове місце. Порядок зберігається, коли відпускаєш.</string>
 </resources>

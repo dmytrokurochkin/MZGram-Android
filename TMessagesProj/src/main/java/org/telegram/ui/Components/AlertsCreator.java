@@ -7719,7 +7719,8 @@ public class AlertsCreator {
 
         final LinearLayout linearLayout = new LinearLayout(parentActivity);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+        // MZGram: after the accounts were put in a new order, the dialog follows it
+        for (int a : org.telegram.ui.mzgram.MZGramAccountOrderActivity.slotOrder()) {
             // MZGram: hidden accounts are left out (MZGramPasscodeAccounts)
             if (!org.telegram.messenger.mzgram.MZGramPasscodeAccounts.isListed(a, UserConfig.selectedAccount)) continue;
             TLRPC.User u = UserConfig.getInstance(a).getCurrentUser();

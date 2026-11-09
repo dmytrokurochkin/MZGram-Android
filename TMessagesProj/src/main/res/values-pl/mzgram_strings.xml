@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">W grupach, w których masz ograniczenia, karta GIF i wyniki botów inline zależą od uprawnień do GIF-ów i botów inline, a nie do naklejek. Wyłączone: jak w Telegramie, zakaz naklejek ukrywa też je.</string>
     <string name="MZGramWideChannelPosts">Szerokie posty kanałów</string>
     <string name="MZGramWideChannelPostsInfo">Posty kanałów zajmują prawie całą szerokość ekranu, a awatar kanału jest obok nazwy. Dotyczy wiadomości wyświetlonych po zmianie.</string>
+    <string name="MZGramAccountOrder">Kolejność kont</string>
+    <string name="MZGramAccountOrderButtonInfo">Ustaw konta w wygodnej kolejności. Ustawienia, przełącznik kont i konta w menu pokazują je w tej kolejności.</string>
+    <string name="MZGramAccountOrderInfo">Przytrzymaj konto i przeciągnij je w nowe miejsce. Kolejność zapisuje się po puszczeniu.</string>
 </resources>

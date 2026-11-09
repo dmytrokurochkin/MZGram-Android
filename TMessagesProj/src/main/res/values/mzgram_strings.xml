@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">In groups where you are restricted, the GIF tab and inline-bot results follow the GIF and inline-bot permissions instead of the sticker one. Off: as in Telegram, a sticker ban also hides them.</string>
     <string name="MZGramWideChannelPosts">Wide channel posts</string>
     <string name="MZGramWideChannelPostsInfo">Posts of channels take almost the whole screen width, with the channel avatar next to its name. Applies to messages shown after the change.</string>
+    <string name="MZGramAccountOrder">Account order</string>
+    <string name="MZGramAccountOrderButtonInfo">Put your accounts in the order you like. Settings, the account switcher and accounts in the menu follow it.</string>
+    <string name="MZGramAccountOrderInfo">Hold an account and drag it to a new place. The order is saved when you let go.</string>
 </resources>

@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">В группах, где тебя ограничили, вкладка GIF и результаты инлайн-ботов зависят от разрешений на GIF и инлайн-ботов, а не на стикеры. Выключено: как в Telegram, запрет стикеров скрывает и их.</string>
     <string name="MZGramWideChannelPosts">Широкие посты каналов</string>
     <string name="MZGramWideChannelPostsInfo">Посты каналов занимают почти всю ширину экрана, аватар канала рядом с названием. Действует на сообщения, показанные после изменения.</string>
+    <string name="MZGramAccountOrder">Порядок аккаунтов</string>
+    <string name="MZGramAccountOrderButtonInfo">Расставь аккаунты в удобном порядке. Настройки, переключатель аккаунтов и аккаунты в меню показывают их в нём.</string>
+    <string name="MZGramAccountOrderInfo">Удерживай аккаунт и перетащи его на новое место. Порядок сохраняется, когда отпускаешь.</string>
 </resources>

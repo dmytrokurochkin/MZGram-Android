@@ -69,6 +69,8 @@ public class MZGramConfig {
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
+    // Set once the accounts were put in a new order (MZGramAccountOrderActivity)
+    public static boolean accountOrderCustomised = false;
     // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
     // the phone's, otherwise one of its codes
     public static String language = "";
@@ -356,6 +358,7 @@ public class MZGramConfig {
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
+            accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
             language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
@@ -475,6 +478,13 @@ public class MZGramConfig {
             textStyleHidden = preferences.getString("textStyleHidden", "");
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
+        }
+    }
+
+    public static void setAccountOrderCustomised() {
+        if (!accountOrderCustomised) {
+            accountOrderCustomised = true;
+            putBoolean("accountOrderCustomised", true);
         }
     }
 

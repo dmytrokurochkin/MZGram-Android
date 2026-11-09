@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">Kısıtlandığın gruplarda GIF sekmesi ve satır içi bot sonuçları çıkartma izni yerine GIF ve satır içi bot izinlerine bağlıdır. Kapalı: Telegram\'daki gibi, çıkartma yasağı bunları da gizler.</string>
     <string name="MZGramWideChannelPosts">Geniş kanal gönderileri</string>
     <string name="MZGramWideChannelPostsInfo">Kanal gönderileri neredeyse tüm ekran genişliğini kaplar, kanal avatarı adının yanında olur. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
+    <string name="MZGramAccountOrder">Hesap sırası</string>
+    <string name="MZGramAccountOrderButtonInfo">Hesaplarını istediğin sıraya koy. Ayarlar, hesap değiştirici ve menüdeki hesaplar bu sırayı izler.</string>
+    <string name="MZGramAccountOrderInfo">Bir hesaba basılı tut ve yeni bir yere sürükle. Bıraktığında sıra kaydedilir.</string>
 </resources>

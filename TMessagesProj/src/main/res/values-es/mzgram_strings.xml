@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">En los grupos donde tienes restricciones, la pestaña GIF y los resultados de bots en línea siguen los permisos de GIF y bots en línea en lugar del de stickers. Desactivado: como en Telegram, prohibir stickers también los oculta.</string>
     <string name="MZGramWideChannelPosts">Publicaciones anchas de canales</string>
     <string name="MZGramWideChannelPostsInfo">Las publicaciones de canales ocupan casi todo el ancho de la pantalla, con el avatar del canal junto a su nombre. Se aplica a los mensajes mostrados después del cambio.</string>
+    <string name="MZGramAccountOrder">Orden de las cuentas</string>
+    <string name="MZGramAccountOrderButtonInfo">Ordena tus cuentas como prefieras. Los ajustes, el selector de cuentas y las cuentas del menú siguen ese orden.</string>
+    <string name="MZGramAccountOrderInfo">Mantén pulsada una cuenta y arrástrala a otro lugar. El orden se guarda al soltarla.</string>
 </resources>

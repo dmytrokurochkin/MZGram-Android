@@ -621,4 +621,7 @@
     <string name="MZGramSplitGifInlineInfo">In Gruppen, in denen du eingeschränkt bist, richten sich der GIF-Tab und die Ergebnisse von Inline-Bots nach den Berechtigungen für GIFs und Inline-Bots statt nach der für Sticker. Aus: wie in Telegram, ein Sticker-Verbot blendet auch sie aus.</string>
     <string name="MZGramWideChannelPosts">Breite Kanalbeiträge</string>
     <string name="MZGramWideChannelPostsInfo">Kanalbeiträge nehmen fast die ganze Bildschirmbreite ein, das Kanalbild steht neben dem Namen. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
+    <string name="MZGramAccountOrder">Reihenfolge der Konten</string>
+    <string name="MZGramAccountOrderButtonInfo">Ordne deine Konten wie gewünscht an. Die Einstellungen, der Kontowechsler und die Konten im Menü folgen dieser Reihenfolge.</string>
+    <string name="MZGramAccountOrderInfo">Halte ein Konto gedrückt und ziehe es an eine neue Stelle. Die Reihenfolge wird beim Loslassen gespeichert.</string>
 </resources>

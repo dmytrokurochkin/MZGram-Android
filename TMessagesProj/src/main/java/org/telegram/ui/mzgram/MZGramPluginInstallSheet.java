@@ -40,6 +40,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginGrants;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginPermissions;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
 import org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -221,6 +222,14 @@ public class MZGramPluginInstallSheet extends BottomSheet {
                 cell.setBackground(Theme.getSelectorDrawable(false));
                 cell.setText(MZGramPluginTexts.permissionName(offered.get(i)), "", checked[i], false);
                 cell.setOnClickListener(v -> {
+                    if (!checked[index] && MZGramPluginPermissions.isDangerous(offered.get(index))) {
+                        // Full control: asked once more
+                        MZGramPluginDenialNotice.confirmDangerous(getContext(), resources, meta.name, offered.get(index), () -> {
+                            checked[index] = true;
+                            cell.setChecked(true, true);
+                        });
+                        return;
+                    }
                     checked[index] = !checked[index];
                     cell.setChecked(checked[index], true);
                 });
@@ -285,11 +294,8 @@ public class MZGramPluginInstallSheet extends BottomSheet {
             }
         }
         dismiss();
-        MZGramPlugins.install(picked, meta, ok -> {
-            if (ok) {
-                // After install(): a new plugin starts with no record, an update keeps only declared keys
-                MZGramPluginGrants.setGranted(meta.id, granted);
-            }
+        // Recorded by install() before the plugin starts, so its first start has them
+        MZGramPlugins.install(picked, meta, null, granted, ok -> {
             if (fragment.isFinishing() || fragment.getParentActivity() == null) {
                 return;
             }

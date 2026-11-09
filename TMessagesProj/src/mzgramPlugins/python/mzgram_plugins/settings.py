@@ -29,6 +29,7 @@ import inspect
 import json
 import threading
 
+from mzgram_plugins import permissions
 from ui import settings as ui_settings
 
 STORE_CLASS = "org.telegram.messenger.mzgram.plugins.MZGramPluginSettingsStore"
@@ -341,7 +342,8 @@ def settings_json(plugin_id):
     if page is None:
         return _reply(ok=False, error="the plugin has no settings page")
     try:
-        items = page.create_settings()
+        with permissions.plugin_context(plugin_id):
+            items = page.create_settings()
     except Exception as e:
         summary = "create_settings() failed: %s: %s" % (type(e).__name__, e)
         _log(page, summary)
@@ -397,7 +399,8 @@ def setting_changed_json(raw):
             callback = page.change_callbacks.get(key) if page is not None else None
         if callback is not None:
             try:
-                _call(callback, value)
+                with permissions.plugin_context(plugin_id):
+                    _call(callback, value)
             except Exception as e:
                 # The value is kept even when the plugin's callback fails
                 _log(page, "on_change of %s failed: %s: %s" % (key, type(e).__name__, e))
@@ -426,7 +429,8 @@ def setting_click_json(raw):
         if callback is None:
             return _reply(ok=True, handled=False)
         try:
-            _call(callback, None)
+            with permissions.plugin_context(plugin_id):
+                _call(callback, None)
         except Exception as e:
             _log(page, "click callback failed: %s: %s" % (type(e).__name__, e))
             return _reply(ok=False, handled=True, error="%s: %s" % (type(e).__name__, e))

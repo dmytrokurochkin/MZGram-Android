@@ -1008,4 +1008,13 @@
     <string name="MZGramPluginHooksRetry">Réessayer les hooks</string>
     <string name="MZGramPluginHooksBroken">Les hooks des plugins sont désactivés : MZGram s\'est fermé deux fois en les démarrant. Les plugins fonctionnent sans hooks. MZGram réessaiera après une mise à jour ou quand vous toucherez le bouton ci-dessus.</string>
     <string name="MZGramPluginHooksRetryDone">Les hooks essaieront de démarrer au prochain lancement de MZGram.</string>
+    <string name="MZGramPluginJournalPermissionDenied">Bloqué sans l\'autorisation : %1$s (%2$s)</string>
+    <string name="MZGramPluginJournalPermissionDeniedNoAction">Bloqué sans l\'autorisation : %1$s</string>
+    <string name="MZGramPluginDeniedNotice">%1$s a besoin d\'une autorisation : %2$s</string>
+    <string name="MZGramPluginDeniedUndeclared">%1$s a tenté une action qu\'il ne demande pas : %2$s</string>
+    <string name="MZGramPluginDeniedAllow">Autoriser</string>
+    <string name="MZGramPluginDeniedOpen">Ouvrir</string>
+    <string name="MZGramPluginDeniedGranted">%1$s a maintenant l\'autorisation : %2$s</string>
+    <string name="MZGramPluginDangerousConfirm">Cela donne à %1$s le contrôle total de MZGram : il peut contourner les autres autorisations et protections. Autorisez-le seulement pour un plugin de confiance.</string>
+    <string name="MZGramPluginPermissionsRestartInfo">Un plugin en cours redémarre quand ses autorisations changent.</string>
 </resources>

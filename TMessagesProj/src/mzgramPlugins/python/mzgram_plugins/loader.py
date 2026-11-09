@@ -15,7 +15,10 @@
 # MZGramPluginEngine on the Java side decides when (the "Run plugins" switch
 # and the switch of each plugin) and keeps the state shown on the screens.
 # Everything Java calls takes and returns one JSON string and never raises;
-# all of it runs on the one Python thread of MZGramPythonRuntime.
+# all of it runs on the one Python thread of MZGramPythonRuntime. Every call
+# into plugin code (its module, its class, on_plugin_load/unload,
+# on_app_event) runs inside permissions.plugin_context, so the permission
+# checks know whose code it is.
 #
 # A plugin that fails in on_plugin_load() is unloaded again at once, with
 # what it had added. Packages are never fetched: a plugin whose
@@ -46,6 +49,7 @@ import traceback
 from mzgram_plugins import hooks
 from mzgram_plugins import menus
 from mzgram_plugins import metadata
+from mzgram_plugins import permissions
 from mzgram_plugins import settings
 
 ENGINE_CLASS = "org.telegram.messenger.mzgram.plugins.MZGramPluginEngine"
@@ -230,7 +234,9 @@ def _import(path, plugin_id):
     # dataclasses and pickle inside the plugin look the module up here
     sys.modules[name] = module
     try:
-        spec.loader.exec_module(module)
+        # The module's own code is the plugin's code
+        with permissions.plugin_context(plugin_id):
+            spec.loader.exec_module(module)
     except BaseException:
         sys.modules.pop(name, None)
         raise
@@ -291,7 +297,8 @@ def _unload(plugin_id, call_unload):
     error = None
     try:
         if call_unload and record.instance is not None and overrides(type(record.instance), "on_plugin_unload"):
-            record.instance.on_plugin_unload()
+            with permissions.plugin_context(plugin_id):
+                record.instance.on_plugin_unload()
     except Exception as e:
         error = error_text(e, record.path)
     finally:
@@ -323,7 +330,8 @@ def load(plugin_id, path):
     record = _Record(plugin_id, path, module, name, None)
     try:
         plugin_class = find_plugin_class(module)
-        instance = plugin_class()
+        with permissions.plugin_context(plugin_id):
+            instance = plugin_class()
         instance._mzgram_attach(plugin_id, meta)
         record.instance = instance
         with _lock:
@@ -332,7 +340,8 @@ def load(plugin_id, path):
         if has_settings:
             settings.register(plugin_id, instance.create_settings, instance.log)
         if overrides(plugin_class, "on_plugin_load"):
-            instance.on_plugin_load()
+            with permissions.plugin_context(plugin_id):
+                instance.on_plugin_load()
     except BaseException:
         with _lock:
             if _plugins.get(plugin_id) is record:
@@ -384,7 +393,8 @@ def app_event_json(raw):
             if instance is None or not overrides(type(instance), "on_app_event"):
                 continue
             try:
-                instance.on_app_event(event)
+                with permissions.plugin_context(record.plugin_id):
+                    instance.on_app_event(event)
             except BaseException as e:
                 errors.append({"id": record.plugin_id, "error": error_text(e, record.path)})
         return _reply(ok=True, errors=errors)

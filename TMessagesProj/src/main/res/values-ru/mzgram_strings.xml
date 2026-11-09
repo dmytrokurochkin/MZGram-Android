@@ -1008,4 +1008,13 @@
     <string name="MZGramPluginHooksRetry">Попробовать хуки снова</string>
     <string name="MZGramPluginHooksBroken">Хуки плагинов отключены: MZGram дважды закрылся, когда запускал их. Плагины работают без хуков. MZGram попробует снова после обновления или когда вы нажмёте кнопку выше.</string>
     <string name="MZGramPluginHooksRetryDone">Хуки попробуют запуститься при следующем запуске MZGram.</string>
+    <string name="MZGramPluginJournalPermissionDenied">Заблокировано без разрешения: %1$s (%2$s)</string>
+    <string name="MZGramPluginJournalPermissionDeniedNoAction">Заблокировано без разрешения: %1$s</string>
+    <string name="MZGramPluginDeniedNotice">Плагину %1$s нужно разрешение: %2$s</string>
+    <string name="MZGramPluginDeniedUndeclared">Плагин %1$s попытался сделать то, о чём не просит: %2$s</string>
+    <string name="MZGramPluginDeniedAllow">Разрешить</string>
+    <string name="MZGramPluginDeniedOpen">Открыть</string>
+    <string name="MZGramPluginDeniedGranted">У плагина %1$s теперь есть разрешение: %2$s</string>
+    <string name="MZGramPluginDangerousConfirm">Это даёт плагину %1$s полный контроль над MZGram: он может обойти другие разрешения и защиту. Разрешайте только плагину, которому доверяете.</string>
+    <string name="MZGramPluginPermissionsRestartInfo">Запущенный плагин перезапускается, когда меняются его разрешения.</string>
 </resources>

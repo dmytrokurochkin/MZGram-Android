@@ -1008,4 +1008,13 @@
     <string name="MZGramPluginHooksRetry">إعادة محاولة الخطّافات</string>
     <string name="MZGramPluginHooksBroken">خطّافات الإضافات متوقفة: أُغلق MZGram مرتين أثناء تشغيلها. تعمل الإضافات دون خطّافات. سيحاول MZGram مجددًا بعد تحديث أو عند الضغط على الزر أعلاه.</string>
     <string name="MZGramPluginHooksRetryDone">ستحاول الخطّافات البدء عند تشغيل MZGram في المرة القادمة.</string>
+    <string name="MZGramPluginJournalPermissionDenied">حُظر دون الإذن: %1$s (%2$s)</string>
+    <string name="MZGramPluginJournalPermissionDeniedNoAction">حُظر دون الإذن: %1$s</string>
+    <string name="MZGramPluginDeniedNotice">يحتاج %1$s إلى إذن: %2$s</string>
+    <string name="MZGramPluginDeniedUndeclared">حاول %1$s فعل ما لا يطلبه: %2$s</string>
+    <string name="MZGramPluginDeniedAllow">سماح</string>
+    <string name="MZGramPluginDeniedOpen">فتح</string>
+    <string name="MZGramPluginDeniedGranted">أصبح لدى %1$s الإذن: %2$s</string>
+    <string name="MZGramPluginDangerousConfirm">يمنح هذا %1$s تحكمًا كاملًا في MZGram: يمكنه تجاوز الأذونات والحمايات الأخرى. اسمح بذلك فقط لإضافة تثق بها.</string>
+    <string name="MZGramPluginPermissionsRestartInfo">تُعاد تشغيل الإضافة العاملة عند تغيّر أذوناتها.</string>
 </resources>

@@ -290,6 +290,15 @@ public final class MZGramPlugins {
 
     /** source: MZGramPluginAuditJournal.SOURCE_DEV_SERVER or null, for the activity log. */
     public static void install(File picked, MZGramPluginFormat.Meta meta, String source, Utilities.Callback<Boolean> onDone) {
+        install(picked, meta, source, null, onDone);
+    }
+
+    /**
+     * granted: the permissions the user chose in the prompt, recorded before
+     * the plugin starts (so its first start already has them); null keeps
+     * the record (less what an update no longer declares).
+     */
+    public static void install(File picked, MZGramPluginFormat.Meta meta, String source, List<String> granted, Utilities.Callback<Boolean> onDone) {
         Utilities.globalQueue.postRunnable(() -> {
             boolean ok = false;
             final Plugin before = meta != null ? get(meta.id) : null;
@@ -322,6 +331,9 @@ public final class MZGramPlugins {
                                 meta.version, null, source, MZGramPluginAuditJournal.LEVEL_INFO);
                         // A new plugin with an old id never gets what was granted before
                         MZGramPluginGrants.clear(meta.id);
+                    }
+                    if (granted != null && !MZGramPluginGrants.setGranted(meta.id, granted, false)) {
+                        FileLog.e("MZGramPlugins: cannot keep the permissions of " + meta.id);
                     }
                 } else {
                     part.delete();

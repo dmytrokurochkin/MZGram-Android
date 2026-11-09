@@ -33,6 +33,8 @@ import threading
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Optional
 
+from mzgram_plugins import permissions
+
 MENUS_CLASS = "org.telegram.messenger.mzgram.plugins.MZGramPluginMenus"
 
 # Longest text of an item; longer is cut
@@ -212,10 +214,12 @@ def menu_click_json(raw):
             callback = _callbacks.get((data["plugin"], data["item"]))
         if callback is None:
             return _reply(ok=True, handled=False)
-        if _takes_argument(callback):
-            callback(context)
-        else:
-            callback()
+        # The plugin's code: the permission checks know whose it is
+        with permissions.plugin_context(data["plugin"]):
+            if _takes_argument(callback):
+                callback(context)
+            else:
+                callback()
         return _reply(ok=True, handled=True)
     except Exception as e:
         return _reply(ok=False, error="%s: %s" % (type(e).__name__, e))

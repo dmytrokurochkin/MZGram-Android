@@ -1008,4 +1008,13 @@
     <string name="MZGramPluginHooksRetry">Kancaları yeniden dene</string>
     <string name="MZGramPluginHooksBroken">Eklenti kancaları kapalı: MZGram bunları başlatırken iki kez kapandı. Eklentiler kancasız çalışır. MZGram bir güncellemeden sonra veya yukarıdaki düğmeye dokunduğunuzda yeniden dener.</string>
     <string name="MZGramPluginHooksRetryDone">Kancalar MZGram bir sonraki açılışında başlamayı deneyecek.</string>
+    <string name="MZGramPluginJournalPermissionDenied">İzin olmadan engellendi: %1$s (%2$s)</string>
+    <string name="MZGramPluginJournalPermissionDeniedNoAction">İzin olmadan engellendi: %1$s</string>
+    <string name="MZGramPluginDeniedNotice">%1$s bir izne ihtiyaç duyuyor: %2$s</string>
+    <string name="MZGramPluginDeniedUndeclared">%1$s istemediği bir şeyi denedi: %2$s</string>
+    <string name="MZGramPluginDeniedAllow">İzin ver</string>
+    <string name="MZGramPluginDeniedOpen">Aç</string>
+    <string name="MZGramPluginDeniedGranted">%1$s artık şu izne sahip: %2$s</string>
+    <string name="MZGramPluginDangerousConfirm">Bu, %1$s eklentisine MZGram üzerinde tam denetim verir: diğer izinleri ve korumaları aşabilir. Yalnızca güvendiğiniz bir eklentiye izin verin.</string>
+    <string name="MZGramPluginPermissionsRestartInfo">Çalışan bir eklenti, izinleri değişince yeniden başlar.</string>
 </resources>

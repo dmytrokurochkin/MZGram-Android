@@ -71,6 +71,11 @@ public final class MZGramPluginAuditJournal {
     public static final String EVENT_HOOK_PROTECTED = "hook_protected";
     public static final String EVENT_HOOK_NO_PERMISSION = "hook_no_permission";
     public static final String EVENT_HOOK_FAILED = "hook_failed";
+    /**
+     * detail: the permission key a running plugin lacked; previous: what it
+     * tried (MZGramPluginPermissions.check).
+     */
+    public static final String EVENT_PERMISSION_DENIED = "permission_denied";
     /** detail: the class and method a running plugin hooked (MZGramPluginHooks). */
     public static final String EVENT_HOOKED = "hooked";
     public static final String EVENT_STARTED = "started";

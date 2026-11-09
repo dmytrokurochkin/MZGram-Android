@@ -10,6 +10,8 @@
  * switch: whether the plugin runs (MZGramPluginEngine) or why it did not
  * start, its settings page while it runs, and a restart; a running plugin
  * with hooks also says how many methods it hooks (MZGramPluginHookGate).
+ * Turning on "hooks" or "native" asks once more (full control); a running
+ * plugin starts again when its permissions change.
  *
  * Based on exteraless plugins/ui/PluginsActivity.java and PluginCell.java
  * (GPL-3.0): what a plugin shows and the actions on it; written anew for
@@ -33,6 +35,7 @@ import org.telegram.messenger.mzgram.plugins.MZGramPluginEngine;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginGrants;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginHookGate;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginPermissions;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.Components.BulletinFactory;
@@ -152,7 +155,7 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
                 final String key = offered.get(i);
                 items.add(UItem.asCheck(PERMISSION_ROW + i, MZGramPluginTexts.permissionName(key)).setChecked(granted.contains(key)));
             }
-            final String info = getString(R.string.MZGramPluginPermissionsInfo);
+            final String info = getString(R.string.MZGramPluginPermissionsInfo) + " " + getString(R.string.MZGramPluginPermissionsRestartInfo);
             items.add(UItem.asShadow(meta.permissionsDeclared ? info : getString(R.string.MZGramPluginPermissionsMissing) + " " + info));
         } else {
             items.add(UItem.asShadow(getString(R.string.MZGramPluginNoPermissions)));
@@ -214,11 +217,13 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
             BulletinFactory.of(this).createCopyBulletin(getString(R.string.MZGramTextCopied)).show();
         } else if (item.id >= PERMISSION_ROW && item.id < PERMISSION_ROW + offered.size()) {
             final String key = offered.get(item.id - PERMISSION_ROW);
-            final boolean ok = item.checked ? MZGramPluginGrants.revoke(pluginId, key) : MZGramPluginGrants.grant(pluginId, key);
-            if (!ok) {
-                BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsSaveFailed)).show();
+            if (!item.checked && MZGramPluginPermissions.isDangerous(key) && getParentActivity() != null) {
+                // Full control: asked once more
+                MZGramPluginDenialNotice.confirmDangerous(getParentActivity(), getResourceProvider(), plugin.meta.name, key,
+                        () -> setPermission(key, true));
+            } else {
+                setPermission(key, !item.checked);
             }
-            refresh();
         } else if (item.id == BUTTON_SOURCE) {
             presentFragment(new MZGramPluginSourceActivity(pluginId));
         } else if (item.id == BUTTON_SHARE) {
@@ -228,6 +233,15 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DELETE) {
             confirmDelete();
         }
+    }
+
+    // A running plugin starts again with what it has now (MZGramPluginGrants)
+    private void setPermission(String key, boolean on) {
+        final boolean ok = on ? MZGramPluginGrants.grant(pluginId, key) : MZGramPluginGrants.revoke(pluginId, key);
+        if (!ok) {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsSaveFailed)).show();
+        }
+        refresh();
     }
 
     @Override

@@ -1008,4 +1008,13 @@
     <string name="MZGramPluginHooksRetry">Ponów hooki</string>
     <string name="MZGramPluginHooksBroken">Hooki wtyczek są wyłączone: MZGram dwa razy zamknął się podczas ich uruchamiania. Wtyczki działają bez hooków. MZGram spróbuje ponownie po aktualizacji lub gdy naciśniesz przycisk powyżej.</string>
     <string name="MZGramPluginHooksRetryDone">Hooki spróbują się uruchomić przy następnym uruchomieniu MZGram.</string>
+    <string name="MZGramPluginJournalPermissionDenied">Zablokowano bez uprawnienia: %1$s (%2$s)</string>
+    <string name="MZGramPluginJournalPermissionDeniedNoAction">Zablokowano bez uprawnienia: %1$s</string>
+    <string name="MZGramPluginDeniedNotice">%1$s potrzebuje uprawnienia: %2$s</string>
+    <string name="MZGramPluginDeniedUndeclared">%1$s próbował zrobić coś, o co nie prosi: %2$s</string>
+    <string name="MZGramPluginDeniedAllow">Zezwól</string>
+    <string name="MZGramPluginDeniedOpen">Otwórz</string>
+    <string name="MZGramPluginDeniedGranted">%1$s ma teraz uprawnienie: %2$s</string>
+    <string name="MZGramPluginDangerousConfirm">To daje %1$s pełną kontrolę nad MZGram: może obejść inne uprawnienia i zabezpieczenia. Zezwalaj tylko wtyczce, której ufasz.</string>
+    <string name="MZGramPluginPermissionsRestartInfo">Uruchomiona wtyczka startuje ponownie, gdy zmienią się jej uprawnienia.</string>
 </resources>

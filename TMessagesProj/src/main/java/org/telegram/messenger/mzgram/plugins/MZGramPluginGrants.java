@@ -18,7 +18,11 @@
  *
  * Gates that check permissions (the permission model, hooks, network) and
  * the prompt before installing read and write through this class; it has no
- * screen of its own.
+ * screen of its own. The checks go through MZGramPluginPermissions, which
+ * keeps the effective keys and is told of every change here. Plugin code
+ * can't change permissions: every write refuses while a plugin's code runs
+ * on the thread. When the user changes what a running plugin has, the
+ * plugin starts again, so it has exactly what the screen shows.
  *
  * Based on exteraless plugins/PluginGrantStore.java,
  * SignedGrantPreferences.java and PluginPermissions.java (GPL-3.0): the
@@ -150,6 +154,7 @@ public final class MZGramPluginGrants {
             }
         }
         editor.putBoolean(KEY_SEALED, true).commit();
+        MZGramPluginPermissions.invalidate(null);
         if (wasSealed || count > 0) {
             FileLog.e("MZGramPluginGrants: the signing key is new, dropped " + count + " records");
         }
@@ -207,6 +212,7 @@ public final class MZGramPluginGrants {
             if (!ok) {
                 FileLog.e("MZGramPluginGrants: the record " + name + " is unsigned or was changed; dropping it");
                 prefs.edit().remove(name).remove(KEY_SIGNATURE + name).commit();
+                MZGramPluginPermissions.invalidate(null);
                 disable(pluginId);
                 return null;
             }
@@ -221,6 +227,7 @@ public final class MZGramPluginGrants {
             if (prefs == null) {
                 return false;
             }
+            MZGramPluginPermissions.invalidate(null);
             if (value == null) {
                 return prefs.edit().remove(name).remove(KEY_SIGNATURE + name).commit();
             }
@@ -236,6 +243,16 @@ public final class MZGramPluginGrants {
             verified.put(payload(name, value) + '\u0000' + signature, true);
             return prefs.edit().putString(name, value).putString(KEY_SIGNATURE + name, signature).commit();
         }
+    }
+
+    // Plugin code may not change what plugins are allowed
+    private static boolean refused(String what, String pluginId) {
+        if (!MZGramPluginPermissions.insidePlugin()) {
+            return false;
+        }
+        FileLog.w("MZGramPluginGrants: refused " + what + " of " + pluginId + " from the code of the plugin "
+                + MZGramPluginPermissions.current());
+        return true;
     }
 
     private static void disable(String pluginId) {
@@ -289,10 +306,16 @@ public final class MZGramPluginGrants {
     /**
      * Records the user's decision; the record is kept even when empty, which
      * tells "granted nothing" from "not asked yet". "ui" is implied and not
-     * stored. False when it couldn't be kept.
+     * stored. False when it couldn't be kept or plugin code asked. A
+     * running plugin starts again when what it has changed.
      */
     public static boolean setGranted(String pluginId, Collection<String> permissions) {
-        if (!MZGramPluginSettingsStore.isValidId(pluginId)) {
+        return setGranted(pluginId, permissions, true);
+    }
+
+    /** restart false: the caller starts the plugin itself (installing). */
+    static boolean setGranted(String pluginId, Collection<String> permissions, boolean restart) {
+        if (!MZGramPluginSettingsStore.isValidId(pluginId) || refused("a change of permissions", pluginId)) {
             return false;
         }
         final List<String> clean = sanitize(permissions);
@@ -302,8 +325,10 @@ public final class MZGramPluginGrants {
             return false;
         }
         // The activity log gets each permission given or taken back
+        boolean changed = before == null;
         for (String key : clean) {
             if (before == null || !before.contains(key)) {
+                changed = true;
                 MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_GRANTED,
                         MZGramPluginAuditJournal.CATEGORY_PERMISSIONS, key, MZGramPluginAuditJournal.LEVEL_INFO);
             }
@@ -311,10 +336,14 @@ public final class MZGramPluginGrants {
         if (before != null) {
             for (String key : before) {
                 if (!clean.contains(key)) {
+                    changed = true;
                     MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_REVOKED,
                             MZGramPluginAuditJournal.CATEGORY_PERMISSIONS, key, MZGramPluginAuditJournal.LEVEL_INFO);
                 }
             }
+        }
+        if (changed) {
+            MZGramPluginPermissions.changed(pluginId, restart);
         }
         return true;
     }
@@ -353,14 +382,16 @@ public final class MZGramPluginGrants {
         final ArrayList<String> kept = new ArrayList<>(stored);
         kept.retainAll(declared);
         if (kept.size() != stored.size()) {
-            setGranted(pluginId, kept);
+            // Called while installing, which starts the plugin itself
+            setGranted(pluginId, kept, false);
         }
     }
 
     /** Removes the record (when the plugin is deleted). */
     public static void clear(String pluginId) {
-        if (MZGramPluginSettingsStore.isValidId(pluginId)) {
+        if (MZGramPluginSettingsStore.isValidId(pluginId) && !refused("removing the permissions", pluginId)) {
             putSigned(KEY_PERMS + pluginId, null);
+            MZGramPluginPermissions.forget(pluginId);
         }
     }
 }

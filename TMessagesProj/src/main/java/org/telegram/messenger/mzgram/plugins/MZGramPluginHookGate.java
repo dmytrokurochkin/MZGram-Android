@@ -132,7 +132,9 @@ public final class MZGramPluginHookGate {
         if (isProtected(className, memberName)) {
             return deny(pluginId, target, DENIED_PROTECTED);
         }
-        if (!MZGramPluginGrants.isGranted(pluginId, MZGramPluginGrants.HOOKS)) {
+        if (!MZGramPluginPermissions.has(pluginId, MZGramPluginGrants.HOOKS)) {
+            // The user is told once, with a button that grants it
+            MZGramPluginPermissions.noteDenied(pluginId, MZGramPluginGrants.HOOKS);
             return deny(pluginId, target, DENIED_NO_PERMISSION);
         }
         return ALLOWED;

@@ -30,6 +30,13 @@
     public static *;
 }
 
+# mzgram_plugins/permissions.py marks the running plugin and checks its
+# permissions through this class by its name (jclass), so R8 must keep its
+# static methods.
+-keep class org.telegram.messenger.mzgram.plugins.MZGramPluginPermissions {
+    public static *;
+}
+
 # Aliuhook: its native part calls back into these classes by name, plugins
 # read MethodHookParam (thisObject, args, method, getResult, setResult) from
 # Python, MZGramPluginMethodHook reads its returnEarly field, and the guard on

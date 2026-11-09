@@ -1008,4 +1008,13 @@
     <string name="MZGramPluginHooksRetry">Try hooks again</string>
     <string name="MZGramPluginHooksBroken">Plugin hooks are off: MZGram closed twice while starting them. Plugins run without hooks. MZGram tries them again after an update or when you tap the button above.</string>
     <string name="MZGramPluginHooksRetryDone">Hooks will try to start the next time MZGram starts.</string>
+    <string name="MZGramPluginJournalPermissionDenied">Blocked without the permission: %1$s (%2$s)</string>
+    <string name="MZGramPluginJournalPermissionDeniedNoAction">Blocked without the permission: %1$s</string>
+    <string name="MZGramPluginDeniedNotice">%1$s needs a permission: %2$s</string>
+    <string name="MZGramPluginDeniedUndeclared">%1$s tried to do what it does not ask for: %2$s</string>
+    <string name="MZGramPluginDeniedAllow">Allow</string>
+    <string name="MZGramPluginDeniedOpen">Open</string>
+    <string name="MZGramPluginDeniedGranted">%1$s now has the permission: %2$s</string>
+    <string name="MZGramPluginDangerousConfirm">This gives %1$s full control over MZGram: it can get around the other permissions and protections. Allow it only for a plugin you trust.</string>
+    <string name="MZGramPluginPermissionsRestartInfo">A running plugin starts again when its permissions change.</string>
 </resources>

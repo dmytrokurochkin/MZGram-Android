@@ -23,6 +23,13 @@
 # runs and the user granted it "hooks" (mzgram_plugins.hooks); they come off
 # when it stops.
 #
+# Permissions: a plugin declares the keys it needs in __permissions__ and
+# gets only what the user granted (always "ui"). has_permission() asks
+# quietly; check_permission() is the check before an action, whose refusal
+# is written to the activity log and told to the user with a button that
+# grants it (mzgram_plugins.permissions). A plugin that starts with new
+# permissions is started again by MZGram.
+#
 # Names and signatures follow the exteraless plugin SDK, base_plugin.py
 # (GPL-3.0), so plugins written for it fit. Hooks of requests, updates and
 # sent messages (add_hook, add_on_send_message_hook) are accepted but do
@@ -38,6 +45,7 @@ from typing import Any, Optional
 from mzgram_plugins import hooks as _hooks
 from mzgram_plugins import loader as _loader
 from mzgram_plugins import menus as _menus
+from mzgram_plugins import permissions as _permissions
 from mzgram_plugins import settings as _settings
 from mzgram_plugins.hooks import (BaseHook, HookFilter, HookParam, MethodHook, MethodReplacement,
                                   UnhookId, UnhookIdList, XposedHook, hook_filters)
@@ -154,6 +162,21 @@ class BasePlugin:
     def log(self, msg):
         """A line in the activity log of the plugin (MZGram → Plugins → Activity log)."""
         _loader.log(self.plugin_id or "?", msg)
+
+    # ---------- permissions ----------
+
+    def has_permission(self, permission: str) -> bool:
+        """Whether the user granted the key ("network", "hooks", ...); "ui" always."""
+        if not self.plugin_id:
+            return False
+        return _permissions.has(permission, self.plugin_id)
+
+    def check_permission(self, permission: str, what: str = "") -> bool:
+        """has_permission() before an action: a refusal goes to the activity
+        log and the user is told once, with a button that grants it."""
+        if not self.plugin_id:
+            return False
+        return _permissions.check(permission, what, self.plugin_id)
 
     # ---------- settings values ----------
 

@@ -229,6 +229,25 @@ public final class MZGramPluginEngine {
         return true;
     }
 
+    /**
+     * The permissions of the plugin changed: a running plugin starts again
+     * (its hooks and menu items go with the old start), one that is not
+     * running stays as it is. Any thread.
+     */
+    public static void restartIfRunning(String pluginId) {
+        onUi(() -> {
+            if (!isRunning(pluginId)) {
+                return;
+            }
+            final MZGramPlugins.Plugin plugin = MZGramPlugins.get(pluginId);
+            if (plugin != null && plugin.enabled && isOn()) {
+                load(plugin);
+            } else {
+                unload(pluginId);
+            }
+        });
+    }
+
     // Running, starting or with an answer still to come
     private static boolean isRunning(String pluginId) {
         final State state = states.get(pluginId);

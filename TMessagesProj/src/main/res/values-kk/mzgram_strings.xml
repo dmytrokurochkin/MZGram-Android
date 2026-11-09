@@ -1008,4 +1008,13 @@
     <string name="MZGramPluginHooksRetry">Хуктарды қайта байқап көру</string>
     <string name="MZGramPluginHooksBroken">Плагин хуктары өшірілді: MZGram оларды іске қосқанда екі рет жабылды. Плагиндер хуктарсыз жұмыс істейді. MZGram жаңартудан кейін немесе жоғарыдағы түймені басқанда қайта байқап көреді.</string>
     <string name="MZGramPluginHooksRetryDone">Хуктар MZGram келесі рет іске қосылғанда іске қосылып көреді.</string>
+    <string name="MZGramPluginJournalPermissionDenied">Рұқсатсыз бұғатталды: %1$s (%2$s)</string>
+    <string name="MZGramPluginJournalPermissionDeniedNoAction">Рұқсатсыз бұғатталды: %1$s</string>
+    <string name="MZGramPluginDeniedNotice">%1$s плагиніне рұқсат керек: %2$s</string>
+    <string name="MZGramPluginDeniedUndeclared">%1$s плагині сұрамаған әрекетті жасамақ болды: %2$s</string>
+    <string name="MZGramPluginDeniedAllow">Рұқсат беру</string>
+    <string name="MZGramPluginDeniedOpen">Ашу</string>
+    <string name="MZGramPluginDeniedGranted">%1$s плагинінде енді рұқсат бар: %2$s</string>
+    <string name="MZGramPluginDangerousConfirm">Бұл %1$s плагиніне MZGram-ды толық басқаруға мүмкіндік береді: ол басқа рұқсаттар мен қорғаныстан айналып өте алады. Тек сенетін плагинге рұқсат беріңіз.</string>
+    <string name="MZGramPluginPermissionsRestartInfo">Іске қосылған плагин рұқсаттары өзгергенде қайта іске қосылады.</string>
 </resources>

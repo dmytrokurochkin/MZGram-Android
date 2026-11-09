@@ -1008,4 +1008,13 @@
     <string name="MZGramPluginHooksRetry">Tentar os hooks de novo</string>
     <string name="MZGramPluginHooksBroken">Os hooks dos plugins estão desativados: o MZGram fechou duas vezes ao iniciá-los. Os plugins funcionam sem hooks. O MZGram tentará de novo após uma atualização ou quando você tocar no botão acima.</string>
     <string name="MZGramPluginHooksRetryDone">Os hooks tentarão iniciar na próxima vez que o MZGram abrir.</string>
+    <string name="MZGramPluginJournalPermissionDenied">Bloqueado sem a permissão: %1$s (%2$s)</string>
+    <string name="MZGramPluginJournalPermissionDeniedNoAction">Bloqueado sem a permissão: %1$s</string>
+    <string name="MZGramPluginDeniedNotice">%1$s precisa de uma permissão: %2$s</string>
+    <string name="MZGramPluginDeniedUndeclared">%1$s tentou algo que não solicita: %2$s</string>
+    <string name="MZGramPluginDeniedAllow">Permitir</string>
+    <string name="MZGramPluginDeniedOpen">Abrir</string>
+    <string name="MZGramPluginDeniedGranted">%1$s agora tem a permissão: %2$s</string>
+    <string name="MZGramPluginDangerousConfirm">Isso dá a %1$s controle total do MZGram: ele pode contornar as outras permissões e proteções. Permita apenas para um plugin em que você confia.</string>
+    <string name="MZGramPluginPermissionsRestartInfo">Um plugin em execução reinicia quando suas permissões mudam.</string>
 </resources>

@@ -157,6 +157,8 @@ final class MZGramPluginMethodHook extends XC_MethodHook {
     // The plugin's Python; an error is told and undone
     private PyObject call(PyObject callable, MethodHookParam param) {
         inside.set(Boolean.TRUE);
+        // The plugin's code runs on this thread (for the permission checks)
+        final String previous = MZGramPluginPermissions.enter(pluginId);
         final long start = System.nanoTime();
         try {
             return callable.call(param);
@@ -164,6 +166,7 @@ final class MZGramPluginMethodHook extends XC_MethodHook {
             failed(firstLine(t));
             throw new Undone(pluginId);
         } finally {
+            MZGramPluginPermissions.exit(previous);
             inside.remove();
             counter.record(System.nanoTime() - start);
         }

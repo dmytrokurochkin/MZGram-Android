@@ -979,4 +979,9 @@
     <string name="MZGramSettingsImportConfirm">Dosyadaki ayarlar: %1$d. Geçerli ayarların yerini alacaklar; dosyada olmayan ayarlar olduğu gibi kalır.</string>
     <string name="MZGramSettingsImported">Geri yüklenen ayarlar: %1$d. Hepsinin geçerli olması için MZGram\'ı yeniden başlat.</string>
     <string name="MZGramSettingsImportFailed">Ayarlar içe aktarılamadı</string>
+    <string name="MZGramProxyAutoDisable">Proxy otomatik olarak kapatılsın</string>
+    <string name="MZGramProxyOffVpn">VPN açıkken</string>
+    <string name="MZGramProxyOffMobile">Mobil veride</string>
+    <string name="MZGramProxyOffWifi">Wi-Fi ağında</string>
+    <string name="MZGramProxyAutoDisableInfo">Yukarıda seçilen ağlarda proxy kendiliğinden kapanır, telefon bu ağlardan çıkınca yeniden açılır. Elle açtığın proxy ağ değişene kadar açık kalır. Hiçbir yere bir şey gönderilmez.</string>
 </resources>

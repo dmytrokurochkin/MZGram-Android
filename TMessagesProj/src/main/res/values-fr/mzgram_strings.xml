@@ -979,4 +979,9 @@
     <string name="MZGramSettingsImportConfirm">Réglages dans le fichier : %1$d. Ils remplaceront les actuels ; les réglages absents du fichier restent tels quels.</string>
     <string name="MZGramSettingsImported">Réglages restaurés : %1$d. Redémarrez MZGram pour qu\'ils s\'appliquent tous.</string>
     <string name="MZGramSettingsImportFailed">Impossible d\'importer les réglages</string>
+    <string name="MZGramProxyAutoDisable">Désactiver le proxy automatiquement</string>
+    <string name="MZGramProxyOffVpn">Quand un VPN est actif</string>
+    <string name="MZGramProxyOffMobile">Sur les données mobiles</string>
+    <string name="MZGramProxyOffWifi">En Wi-Fi</string>
+    <string name="MZGramProxyAutoDisableInfo">Sur les réseaux choisis ci-dessus, le proxy se désactive tout seul et se réactive quand le téléphone les quitte. Un proxy activé à la main reste actif jusqu\'au changement de réseau. Rien n\'est envoyé nulle part.</string>
 </resources>

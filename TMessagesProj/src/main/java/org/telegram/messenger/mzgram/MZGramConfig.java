@@ -107,6 +107,8 @@ public class MZGramConfig {
     // The Material 3 music player (MZGramMusicPlayer) and its bar above the chat
     public static boolean musicPlayer = false;
     public static boolean musicPlayerBar = true;
+    // MZGramProxyAutoDisable: mask of VPN, MOBILE_DATA, WIFI; 0 = the proxy is never turned off by itself
+    public static int proxyDisableConditions = 0;
     // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
     // the phone's, otherwise one of its codes
     public static String language = "";
@@ -432,6 +434,7 @@ public class MZGramConfig {
             cameraXZoomSlider = preferences.getBoolean("cameraXZoomSlider", true);
             musicPlayer = preferences.getBoolean("musicPlayer", false);
             musicPlayerBar = preferences.getBoolean("musicPlayerBar", true);
+            proxyDisableConditions = preferences.getInt("proxyDisableConditions", 0) & MZGramProxyAutoDisable.ALL;
             language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
@@ -600,6 +603,11 @@ public class MZGramConfig {
     public static void toggleCameraXZoomSlider() {
         cameraXZoomSlider = !cameraXZoomSlider;
         putBoolean("cameraXZoomSlider", cameraXZoomSlider);
+    }
+
+    public static void setProxyDisableConditions(int mask) {
+        proxyDisableConditions = mask & MZGramProxyAutoDisable.ALL;
+        preferences().edit().putInt("proxyDisableConditions", proxyDisableConditions).apply();
     }
 
     public static void toggleMusicPlayer() {

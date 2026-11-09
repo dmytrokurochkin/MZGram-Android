@@ -151,6 +151,8 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "fabShape", 0, 2);
         // MZGramSchedulePresets picks the closest step; up to a year
         integer(CONFIG, "scheduleDefaultMinutes", 1, 366 * 24 * 60);
+        // MZGramProxyAutoDisable.ALL; the mark "turned off here" is device state (mzgram_proxy)
+        integer(CONFIG, "proxyDisableConditions", 0, 7);
         texts(CONFIG, TEXT_MAX,
                 "aiProvider", "language", "deletedMark", "editedMark", "hiddenReactions",
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",

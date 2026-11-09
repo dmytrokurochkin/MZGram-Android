@@ -979,4 +979,9 @@
     <string name="MZGramSettingsImportConfirm">Настроек в файле: %1$d. Они заменят текущие; настройки, которых нет в файле, останутся как есть.</string>
     <string name="MZGramSettingsImported">Восстановлено настроек: %1$d. Перезапустите MZGram, чтобы все они заработали.</string>
     <string name="MZGramSettingsImportFailed">Не удалось импортировать настройки</string>
+    <string name="MZGramProxyAutoDisable">Отключать прокси автоматически</string>
+    <string name="MZGramProxyOffVpn">Когда включён VPN</string>
+    <string name="MZGramProxyOffMobile">В мобильном интернете</string>
+    <string name="MZGramProxyOffWifi">В сети Wi-Fi</string>
+    <string name="MZGramProxyAutoDisableInfo">В выбранных выше сетях прокси отключается сам и снова включается, когда телефон из них выходит. Прокси, который вы включили вручную, остаётся включённым до смены сети. Ничего никуда не отправляется.</string>
 </resources>

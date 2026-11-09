@@ -979,4 +979,9 @@
     <string name="MZGramSettingsImportConfirm">Файлдағы баптаулар: %1$d. Олар ағымдағы баптаулардың орнына келеді; файлда жоқ баптаулар өзгеріссіз қалады.</string>
     <string name="MZGramSettingsImported">Қалпына келтірілген баптаулар: %1$d. Барлығы іске асуы үшін MZGram-ды қайта іске қосыңыз.</string>
     <string name="MZGramSettingsImportFailed">Баптауларды импорттау мүмкін болмады</string>
+    <string name="MZGramProxyAutoDisable">Проксиді автоматты түрде өшіру</string>
+    <string name="MZGramProxyOffVpn">VPN қосулы кезде</string>
+    <string name="MZGramProxyOffMobile">Мобильді интернетте</string>
+    <string name="MZGramProxyOffWifi">Wi-Fi желісінде</string>
+    <string name="MZGramProxyAutoDisableInfo">Жоғарыда таңдалған желілерде прокси өзі өшеді және телефон олардан шыққанда қайта қосылады. Қолмен қосқан прокси желі өзгергенше қосулы қалады. Ешқайда ештеңе жіберілмейді.</string>
 </resources>

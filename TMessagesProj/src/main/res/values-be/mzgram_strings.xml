@@ -979,4 +979,9 @@
     <string name="MZGramSettingsImportConfirm">Налад у файле: %1$d. Яны заменяць бягучыя; налады, якіх няма ў файле, застануцца як ёсць.</string>
     <string name="MZGramSettingsImported">Адноўлена налад: %1$d. Перазапусціце MZGram, каб усе яны запрацавалі.</string>
     <string name="MZGramSettingsImportFailed">Не ўдалося імпартаваць налады</string>
+    <string name="MZGramProxyAutoDisable">Адключаць проксі аўтаматычна</string>
+    <string name="MZGramProxyOffVpn">Калі ўключаны VPN</string>
+    <string name="MZGramProxyOffMobile">У мабільным інтэрнэце</string>
+    <string name="MZGramProxyOffWifi">У сетцы Wi-Fi</string>
+    <string name="MZGramProxyAutoDisableInfo">У выбраных вышэй сетках проксі адключаецца сам і зноў уключаецца, калі тэлефон з іх выходзіць. Проксі, які вы ўключылі ўручную, застаецца ўключаным да змены сеткі. Нічога нікуды не адпраўляецца.</string>
 </resources>

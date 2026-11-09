@@ -979,4 +979,9 @@
     <string name="MZGramSettingsImportConfirm">الإعدادات في الملف: %1$d. ستحل محل الإعدادات الحالية، أما الإعدادات غير الموجودة في الملف فتبقى كما هي.</string>
     <string name="MZGramSettingsImported">الإعدادات المستعادة: %1$d. أعد تشغيل MZGram لتُطبق كلها.</string>
     <string name="MZGramSettingsImportFailed">تعذر استيراد الإعدادات</string>
+    <string name="MZGramProxyAutoDisable">إيقاف البروكسي تلقائيًا</string>
+    <string name="MZGramProxyOffVpn">عند تشغيل VPN</string>
+    <string name="MZGramProxyOffMobile">عند استخدام بيانات الجوال</string>
+    <string name="MZGramProxyOffWifi">عند الاتصال بشبكة Wi-Fi</string>
+    <string name="MZGramProxyAutoDisableInfo">في الشبكات المحددة أعلاه يتوقف البروكسي تلقائيًا ثم يعود للعمل عندما يغادرها الهاتف. يبقى البروكسي الذي تشغّله يدويًا قيد التشغيل حتى تتغير الشبكة. لا يُرسل أي شيء إلى أي مكان.</string>
 </resources>

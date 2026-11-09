@@ -7133,6 +7133,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         // MZGram: MZGramMonet.refreshIfChanged, the Monet themes follow a new wallpaper.
         org.telegram.messenger.mzgram.MZGramMonet.refreshIfChanged();
+        // MZGram: MZGramProxyAutoDisable.start, the proxy goes off by itself on the networks picked (off by default).
+        org.telegram.messenger.mzgram.MZGramProxyAutoDisable.start();
         checkWasMutedByAdmin(true);
         //FileLog.d("UI resume time = " + (SystemClock.elapsedRealtime() - ApplicationLoader.startTime));
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 4096);

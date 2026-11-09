@@ -224,6 +224,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_MUSIC_PLAYER_STYLE = 182;
     private static final int BUTTON_SETTINGS_EXPORT = 183;
     private static final int BUTTON_SETTINGS_IMPORT = 184;
+    private static final int BUTTON_PROXY_OFF_VPN = 185;
+    private static final int BUTTON_PROXY_OFF_MOBILE = 186;
+    private static final int BUTTON_PROXY_OFF_WIFI = 187;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -647,6 +650,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramBotStartConfirmInfo)));
         items.add(UItem.asCheck(BUTTON_REDUCE_NETWORK_TRACKING, getString(R.string.MZGramReduceNetworkTracking)).setChecked(MZGramConfig.reduceNetworkTracking));
         items.add(UItem.asShadow(getString(R.string.MZGramReduceNetworkTrackingInfo)));
+        if (org.telegram.messenger.mzgram.MZGramProxyAutoDisable.available()) {
+            items.add(UItem.asHeader(getString(R.string.MZGramProxyAutoDisable)));
+            items.add(UItem.asCheck(BUTTON_PROXY_OFF_VPN, getString(R.string.MZGramProxyOffVpn))
+                    .setChecked(org.telegram.messenger.mzgram.MZGramProxyAutoDisable.isOn(org.telegram.messenger.mzgram.MZGramProxyAutoDisable.VPN)));
+            items.add(UItem.asCheck(BUTTON_PROXY_OFF_MOBILE, getString(R.string.MZGramProxyOffMobile))
+                    .setChecked(org.telegram.messenger.mzgram.MZGramProxyAutoDisable.isOn(org.telegram.messenger.mzgram.MZGramProxyAutoDisable.MOBILE_DATA)));
+            items.add(UItem.asCheck(BUTTON_PROXY_OFF_WIFI, getString(R.string.MZGramProxyOffWifi))
+                    .setChecked(org.telegram.messenger.mzgram.MZGramProxyAutoDisable.isOn(org.telegram.messenger.mzgram.MZGramProxyAutoDisable.WIFI)));
+            items.add(UItem.asShadow(getString(R.string.MZGramProxyAutoDisableInfo)));
+        }
         items.add(UItem.asCheck(BUTTON_PASSCODE_ACCOUNTS, getString(R.string.MZGramPasscodeAccounts)).setChecked(MZGramConfig.passcodeAccounts));
         if (MZGramConfig.passcodeAccounts) {
             items.add(UItem.asButton(BUTTON_PASSCODE_ACCOUNTS_SETUP, getString(R.string.MZGramPasscodeAccountsSetup)));
@@ -1222,6 +1235,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_BOT_START_CONFIRM) {
             MZGramConfig.toggleBotStartConfirm();
             ((TextCheckCell) view).setChecked(MZGramConfig.botStartConfirm);
+        } else if (item.id == BUTTON_PROXY_OFF_VPN || item.id == BUTTON_PROXY_OFF_MOBILE || item.id == BUTTON_PROXY_OFF_WIFI) {
+            final int condition = item.id == BUTTON_PROXY_OFF_VPN ? org.telegram.messenger.mzgram.MZGramProxyAutoDisable.VPN
+                    : item.id == BUTTON_PROXY_OFF_MOBILE ? org.telegram.messenger.mzgram.MZGramProxyAutoDisable.MOBILE_DATA
+                    : org.telegram.messenger.mzgram.MZGramProxyAutoDisable.WIFI;
+            final boolean on = !org.telegram.messenger.mzgram.MZGramProxyAutoDisable.isOn(condition);
+            org.telegram.messenger.mzgram.MZGramProxyAutoDisable.set(condition, on);
+            ((TextCheckCell) view).setChecked(on);
         } else if (item.id == BUTTON_REDUCE_NETWORK_TRACKING) {
             MZGramConfig.toggleReduceNetworkTracking();
             ((TextCheckCell) view).setChecked(MZGramConfig.reduceNetworkTracking);

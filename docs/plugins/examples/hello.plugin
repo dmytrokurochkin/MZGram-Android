@@ -1,0 +1,22 @@
+# The smallest MZGram plugin: a message when it is turned on or off.
+# See docs/plugins/README.md. Runs once the plugin engine and the SDK are in
+# MZGram; the metadata below can be read already.
+
+from base_plugin import BasePlugin
+from ui.bulletin import BulletinHelper
+
+__id__ = "hello_mzgram"
+__name__ = "Hello"
+__description__ = "Shows a message when the plugin is turned on or off."
+__author__ = "MZGram"
+__version__ = "1.0.0"
+__permissions__ = ["ui"]
+
+
+class HelloPlugin(BasePlugin):
+
+    def on_plugin_load(self):
+        BulletinHelper.show_info("Hello is on")
+
+    def on_plugin_unload(self):
+        BulletinHelper.show_info("Hello is off")

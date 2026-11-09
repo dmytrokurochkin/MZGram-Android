@@ -1,0 +1,29 @@
+# Replaces :shrug: in outgoing messages with ¯\_(ツ)_/¯.
+# See docs/plugins/README.md. Runs once the plugin engine and the SDK are in
+# MZGram; the metadata below can be read already.
+
+from base_plugin import BasePlugin, HookResult, HookStrategy
+
+__id__ = "shrug_mzgram"
+__name__ = "Shrug"
+__description__ = "Replaces :shrug: in your messages with ¯\\_(ツ)_/¯ before they are sent."
+__author__ = "MZGram"
+__version__ = "1.0.0"
+__permissions__ = ["messages.send", "hooks"]
+
+SHORTCODE = ":shrug:"
+SHRUG = "¯\\_(ツ)_/¯"
+
+
+class ShrugPlugin(BasePlugin):
+
+    def on_plugin_load(self):
+        # on_send_message_hook is called for every message this account sends
+        self.add_on_send_message_hook()
+
+    def on_send_message_hook(self, account, params):
+        text = getattr(params, "message", None)
+        if not isinstance(text, str) or SHORTCODE not in text:
+            return HookResult()
+        params.message = text.replace(SHORTCODE, SHRUG)
+        return HookResult(strategy=HookStrategy.MODIFY, params=params)

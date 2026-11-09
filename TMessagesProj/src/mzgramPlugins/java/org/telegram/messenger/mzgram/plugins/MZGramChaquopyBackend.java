@@ -13,6 +13,7 @@ package org.telegram.messenger.mzgram.plugins;
 
 import android.content.Context;
 
+import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
@@ -32,5 +33,11 @@ public final class MZGramChaquopyBackend implements MZGramPythonRuntime.Backend 
     public String describe() {
         // src/mzgramPlugins/python/mzgram_runtime.py
         return Python.getInstance().getModule("mzgram_runtime").callAttr("describe").toString();
+    }
+
+    @Override
+    public String call(String module, String function, String argument) {
+        final PyObject result = Python.getInstance().getModule(module).callAttr(function, argument);
+        return result != null ? result.toString() : null;
     }
 }

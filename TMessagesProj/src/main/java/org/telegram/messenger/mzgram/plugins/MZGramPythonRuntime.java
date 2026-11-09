@@ -35,6 +35,9 @@ public final class MZGramPythonRuntime {
 
         /** "Python 3.11.x" and the versions of the bundled packages, one line each. */
         String describe() throws Throwable;
+
+        /** module.function(argument) of the bundled Python code, its result as a string (null for None). */
+        String call(String module, String function, String argument) throws Throwable;
     }
 
     private static final String BACKEND_CLASS = "org.telegram.messenger.mzgram.plugins.MZGramChaquopyBackend";
@@ -124,6 +127,43 @@ public final class MZGramPythonRuntime {
             }
             finish(onDone, ok);
         });
+    }
+
+    /**
+     * Calls module.function(argument) of the bundled Python code (src/mzgramPlugins/python)
+     * on the Python thread, starting the interpreter first when it is not running.
+     * onResult gets the string result on the UI thread, or null when Python is not
+     * in this build, failed to start or the call raised (getLastError() says why).
+     */
+    public static void call(String module, String function, String argument, Utilities.Callback<String> onResult) {
+        final Backend runtime = backend();
+        if (runtime == null) {
+            lastError = "no Python runtime in this build";
+            deliver(onResult, null);
+            return;
+        }
+        start(ok -> {
+            if (!ok) {
+                deliver(onResult, null);
+                return;
+            }
+            queue().postRunnable(() -> {
+                String result = null;
+                try {
+                    result = runtime.call(module, function, argument);
+                } catch (Throwable e) {
+                    lastError = e.getClass().getSimpleName() + (e.getMessage() != null ? ": " + e.getMessage() : "");
+                    FileLog.e(e);
+                }
+                deliver(onResult, result);
+            });
+        });
+    }
+
+    private static void deliver(Utilities.Callback<String> onResult, String result) {
+        if (onResult != null) {
+            AndroidUtilities.runOnUIThread(() -> onResult.run(result));
+        }
     }
 
     /**

@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">بعد 15 د</string>
     <string name="MZGramScheduleIn1Hour">بعد ساعة</string>
     <string name="MZGramScheduleTomorrowMorning">غدًا 9:00</string>
+    <string name="MZGramPinnedReactions">التفاعلات المثبتة</string>
+    <string name="MZGramPinnedReactionsInfo">تفاعلاتك الخاصة التي تظهر أولًا في لوحة التفاعلات فوق الرسالة، بشكل منفصل للدردشات والقنوات.</string>
+    <string name="MZGramPinnedReactionsStatusChats">التفاعلات المثبتة في الدردشات</string>
+    <string name="MZGramPinnedReactionsStatusChannels">التفاعلات المثبتة في القنوات</string>
+    <string name="MZGramPinnedReactionsInfoChats">تظهر هذه التفاعلات أولًا في لوحة التفاعلات في الدردشات إذا سمحت بها الدردشة. لا تظهر الرموز التعبيرية المخصصة إلا مع Telegram Premium.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">تظهر هذه التفاعلات أولًا في لوحة التفاعلات في القنوات إذا سمحت بها القناة. يمكن هنا تثبيت التفاعلات القياسية فقط.</string>
+    <string name="MZGramPinnedReactionsLimit">يمكنك تثبيت ما يصل إلى %d تفاعلات.</string>
+    <string name="MZGramPinnedReactionsUnsupported">لا يمكن تثبيت هذا الرمز التعبيري هنا.</string>
+    <string name="MZGramPinnedReactionsApply">حفظ التفاعلات المثبتة</string>
 </resources>

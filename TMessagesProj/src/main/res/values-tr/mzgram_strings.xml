@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">15 dk sonra</string>
     <string name="MZGramScheduleIn1Hour">1 saat sonra</string>
     <string name="MZGramScheduleTomorrowMorning">Yarın 09:00</string>
+    <string name="MZGramPinnedReactions">Sabitlenmiş tepkiler</string>
+    <string name="MZGramPinnedReactionsInfo">Bir mesajın üstündeki tepki panelinde ilk sırada çıkan kendi tepkileriniz; sohbetler ve kanallar için ayrı ayrı.</string>
+    <string name="MZGramPinnedReactionsStatusChats">Sohbetlerde sabitlenmiş tepkiler</string>
+    <string name="MZGramPinnedReactionsStatusChannels">Kanallarda sabitlenmiş tepkiler</string>
+    <string name="MZGramPinnedReactionsInfoChats">Bu tepkiler, sohbet izin veriyorsa sohbetlerdeki tepki panelinde ilk sırada çıkar. Özel emojiler yalnızca Telegram Premium ile gösterilir.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">Bu tepkiler, kanal izin veriyorsa kanallardaki tepki panelinde ilk sırada çıkar. Burada yalnızca standart tepkiler sabitlenebilir.</string>
+    <string name="MZGramPinnedReactionsLimit">En fazla %d tepki sabitleyebilirsiniz.</string>
+    <string name="MZGramPinnedReactionsUnsupported">Bu emoji burada sabitlenemez.</string>
+    <string name="MZGramPinnedReactionsApply">Sabitlenmiş tepkileri kaydet</string>
 </resources>

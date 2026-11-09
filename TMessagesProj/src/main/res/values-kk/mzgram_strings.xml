@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">15 мин кейін</string>
     <string name="MZGramScheduleIn1Hour">1 сағ кейін</string>
     <string name="MZGramScheduleTomorrowMorning">Ертең 9:00</string>
+    <string name="MZGramPinnedReactions">Бекітілген реакциялар</string>
+    <string name="MZGramPinnedReactionsInfo">Хабарлама үстіндегі реакциялар панелінде бірінші тұратын өз реакцияларыңыз, чаттар мен арналар үшін бөлек.</string>
+    <string name="MZGramPinnedReactionsStatusChats">Чаттардағы бекітілген реакциялар</string>
+    <string name="MZGramPinnedReactionsStatusChannels">Арналардағы бекітілген реакциялар</string>
+    <string name="MZGramPinnedReactionsInfoChats">Бұл реакциялар чат рұқсат етсе, чаттардағы реакциялар панелінде бірінші тұрады. Өз эмодзилері тек Telegram Premium арқылы көрсетіледі.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">Бұл реакциялар арна рұқсат етсе, арналардағы реакциялар панелінде бірінші тұрады. Мұнда тек стандартты реакцияларды бекітуге болады.</string>
+    <string name="MZGramPinnedReactionsLimit">%d реакцияға дейін бекітуге болады.</string>
+    <string name="MZGramPinnedReactionsUnsupported">Бұл эмодзиді мұнда бекітуге болмайды.</string>
+    <string name="MZGramPinnedReactionsApply">Бекітілген реакцияларды сақтау</string>
 </resources>

@@ -530,13 +530,13 @@
     <string name="MZGramDoubleTapCopy">Copier le texte</string>
     <string name="MZGramDoubleTapNothing">Rien</string>
     <string name="MZGramCopyPlain">Copier sans mise en forme</string>
-    <string name="MZGramCopyPlainInfo">Ajoute Copier sans mise en forme au menu du message : seulement le texte brut, sans gras, liens ni style d'emoji.</string>
+    <string name="MZGramCopyPlainInfo">Ajoute Copier sans mise en forme au menu du message : seulement le texte brut, sans gras, liens ni style d\'emoji.</string>
     <string name="MZGramInlineMath">Calculatrice intégrée</string>
-    <string name="MZGramInlineMathInfo">Saisissez une expression et "=" dans le champ du message (25*40=) et le résultat s'ajoute après (25*40=1000). Fonctionne hors ligne, avec + - * / ^ % et les parenthèses ; pas de taux de change.</string>
+    <string name="MZGramInlineMathInfo">Saisissez une expression et "=" dans le champ du message (25*40=) et le résultat s\'ajoute après (25*40=1000). Fonctionne hors ligne, avec + - * / ^ % et les parenthèses ; pas de taux de change.</string>
     <string name="MZGramOpenById">Ouvrir un profil par numéro</string>
-    <string name="MZGramOpenByIdHint">Numéro d'utilisateur, de groupe ou de canal</string>
-    <string name="MZGramOpenByIdNotFound">L'application ne connaît pas encore ce numéro</string>
-    <string name="MZGramOpenByIdInfo">Ouvre le profil d'un utilisateur, d'un groupe ou d'un canal par son numéro, par exemple pris dans un bot. Telegram n'affiche que les comptes déjà connus de l'application, donc un numéro jamais vu est introuvable.</string>
+    <string name="MZGramOpenByIdHint">Numéro d\'utilisateur, de groupe ou de canal</string>
+    <string name="MZGramOpenByIdNotFound">L\'application ne connaît pas encore ce numéro</string>
+    <string name="MZGramOpenByIdInfo">Ouvre le profil d\'un utilisateur, d\'un groupe ou d\'un canal par son numéro, par exemple pris dans un bot. Telegram n\'affiche que les comptes déjà connus de l\'application, donc un numéro jamais vu est introuvable.</string>
     <string name="MZGramPangu">Espace entre CJK et caractères latins</string>
     <string name="MZGramPanguInfo">Pendant la saisie, ajoute une espace entre les caractères chinois, japonais ou coréens et les lettres latines ou chiffres.</string>
     <string name="MZGramStaticInputIcons">Icônes statiques du champ de saisie</string>
@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">Dans 15 min</string>
     <string name="MZGramScheduleIn1Hour">Dans 1 h</string>
     <string name="MZGramScheduleTomorrowMorning">Demain 9 h</string>
+    <string name="MZGramPinnedReactions">Réactions épinglées</string>
+    <string name="MZGramPinnedReactionsInfo">Vos propres réactions, affichées en premier dans le panneau de réactions au-dessus d\'un message, séparément pour les discussions et les chaînes.</string>
+    <string name="MZGramPinnedReactionsStatusChats">Réactions épinglées dans les discussions</string>
+    <string name="MZGramPinnedReactionsStatusChannels">Réactions épinglées dans les chaînes</string>
+    <string name="MZGramPinnedReactionsInfoChats">Ces réactions apparaissent en premier dans le panneau de réactions des discussions, si la discussion les autorise. Les emojis personnalisés ne s\'affichent qu\'avec Telegram Premium.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">Ces réactions apparaissent en premier dans le panneau de réactions des chaînes, si la chaîne les autorise. Seules les réactions standard peuvent être épinglées ici.</string>
+    <string name="MZGramPinnedReactionsLimit">Vous pouvez épingler jusqu\'à %d réactions.</string>
+    <string name="MZGramPinnedReactionsUnsupported">Cet emoji ne peut pas être épinglé ici.</string>
+    <string name="MZGramPinnedReactionsApply">Enregistrer les réactions épinglées</string>
 </resources>

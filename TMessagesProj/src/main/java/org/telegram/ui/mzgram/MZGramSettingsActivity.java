@@ -164,6 +164,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
     private static final int BUTTON_SCHEDULE_SLIDER = 127;
+    private static final int BUTTON_PINNED_REACTIONS = 128;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -618,6 +619,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramScheduleSliderInfo)));
         items.add(UItem.asCheck(BUTTON_SILENT_DEFAULT, getString(R.string.MZGramSilentDefault)).setChecked(MZGramConfig.sendSilentByDefault));
         items.add(UItem.asShadow(getString(R.string.MZGramSilentDefaultInfo)));
+        items.add(UItem.asButton(BUTTON_PINNED_REACTIONS, getString(R.string.MZGramPinnedReactions), MZGramPinnedReactions.getRowDescription()));
+        items.add(UItem.asShadow(getString(R.string.MZGramPinnedReactionsInfo)));
         items.add(UItem.asCheck(BUTTON_CAMERA_STABILIZATION, getString(R.string.MZGramCameraStabilization)).setChecked(MZGramConfig.cameraStabilization));
         items.add(UItem.asShadow(getString(R.string.MZGramCameraStabilizationInfo)));
         items.add(UItem.asCheck(BUTTON_PAUSE_ROUND, getString(R.string.MZGramPauseRound)).setChecked(MZGramConfig.pauseRoundOnLeave));
@@ -807,6 +810,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SILENT_DEFAULT) {
             MZGramConfig.toggleSendSilentByDefault();
             ((TextCheckCell) view).setChecked(MZGramConfig.sendSilentByDefault);
+        } else if (item.id == BUTTON_PINNED_REACTIONS) {
+            presentFragment(new MZGramPinnedReactionsActivity());
         } else if (item.id == BUTTON_SCHEDULE_SLIDER) {
             MZGramConfig.toggleScheduleSlider();
             ((TextCheckCell) view).setChecked(MZGramConfig.scheduleSlider);

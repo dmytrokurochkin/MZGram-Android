@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">In 15 Min.</string>
     <string name="MZGramScheduleIn1Hour">In 1 Std.</string>
     <string name="MZGramScheduleTomorrowMorning">Morgen 9:00</string>
+    <string name="MZGramPinnedReactions">Angeheftete Reaktionen</string>
+    <string name="MZGramPinnedReactionsInfo">Eigene Reaktionen, die in der Reaktionsleiste über einer Nachricht zuerst erscheinen, getrennt für Chats und Kanäle.</string>
+    <string name="MZGramPinnedReactionsStatusChats">Angeheftete Reaktionen in Chats</string>
+    <string name="MZGramPinnedReactionsStatusChannels">Angeheftete Reaktionen in Kanälen</string>
+    <string name="MZGramPinnedReactionsInfoChats">Diese Reaktionen erscheinen in Chats zuerst in der Reaktionsleiste, sofern der Chat sie erlaubt. Eigene Emojis werden nur mit Telegram Premium angezeigt.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">Diese Reaktionen erscheinen in Kanälen zuerst in der Reaktionsleiste, sofern der Kanal sie erlaubt. Hier lassen sich nur Standardreaktionen anheften.</string>
+    <string name="MZGramPinnedReactionsLimit">Du kannst bis zu %d Reaktionen anheften.</string>
+    <string name="MZGramPinnedReactionsUnsupported">Dieses Emoji kann hier nicht angeheftet werden.</string>
+    <string name="MZGramPinnedReactionsApply">Angeheftete Reaktionen speichern</string>
 </resources>

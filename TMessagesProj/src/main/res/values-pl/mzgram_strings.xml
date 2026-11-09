@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">Za 15 min</string>
     <string name="MZGramScheduleIn1Hour">Za 1 godz.</string>
     <string name="MZGramScheduleTomorrowMorning">Jutro 9:00</string>
+    <string name="MZGramPinnedReactions">Przypięte reakcje</string>
+    <string name="MZGramPinnedReactionsInfo">Własne reakcje wyświetlane jako pierwsze w panelu reakcji nad wiadomością, osobno dla czatów i kanałów.</string>
+    <string name="MZGramPinnedReactionsStatusChats">Przypięte reakcje w czatach</string>
+    <string name="MZGramPinnedReactionsStatusChannels">Przypięte reakcje w kanałach</string>
+    <string name="MZGramPinnedReactionsInfoChats">Te reakcje są wyświetlane jako pierwsze w panelu reakcji w czatach, jeśli czat na nie pozwala. Własne emoji są widoczne tylko z Telegram Premium.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">Te reakcje są wyświetlane jako pierwsze w panelu reakcji w kanałach, jeśli kanał na nie pozwala. Tutaj można przypiąć tylko standardowe reakcje.</string>
+    <string name="MZGramPinnedReactionsLimit">Możesz przypiąć do %d reakcji.</string>
+    <string name="MZGramPinnedReactionsUnsupported">Tego emoji nie można tu przypiąć.</string>
+    <string name="MZGramPinnedReactionsApply">Zapisz przypięte reakcje</string>
 </resources>

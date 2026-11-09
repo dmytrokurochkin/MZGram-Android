@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">En 15 min</string>
     <string name="MZGramScheduleIn1Hour">En 1 hora</string>
     <string name="MZGramScheduleTomorrowMorning">Mañana 9:00</string>
+    <string name="MZGramPinnedReactions">Reacciones fijadas</string>
+    <string name="MZGramPinnedReactionsInfo">Tus propias reacciones, que aparecen primero en el panel de reacciones sobre un mensaje, por separado para chats y canales.</string>
+    <string name="MZGramPinnedReactionsStatusChats">Reacciones fijadas en chats</string>
+    <string name="MZGramPinnedReactionsStatusChannels">Reacciones fijadas en canales</string>
+    <string name="MZGramPinnedReactionsInfoChats">Estas reacciones aparecen primero en el panel de reacciones de los chats, si el chat las permite. Los emojis personalizados solo se muestran con Telegram Premium.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">Estas reacciones aparecen primero en el panel de reacciones de los canales, si el canal las permite. Aquí solo se pueden fijar reacciones estándar.</string>
+    <string name="MZGramPinnedReactionsLimit">Puedes fijar hasta %d reacciones.</string>
+    <string name="MZGramPinnedReactionsUnsupported">Este emoji no se puede fijar aquí.</string>
+    <string name="MZGramPinnedReactionsApply">Guardar reacciones fijadas</string>
 </resources>

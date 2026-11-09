@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">In 15 min</string>
     <string name="MZGramScheduleIn1Hour">In 1 hour</string>
     <string name="MZGramScheduleTomorrowMorning">Tomorrow 9:00</string>
+    <string name="MZGramPinnedReactions">Pinned reactions</string>
+    <string name="MZGramPinnedReactionsInfo">Your own reactions that go first in the reaction panel above a message, separately for chats and channels.</string>
+    <string name="MZGramPinnedReactionsStatusChats">Pinned reactions in chats</string>
+    <string name="MZGramPinnedReactionsStatusChannels">Pinned reactions in channels</string>
+    <string name="MZGramPinnedReactionsInfoChats">These reactions go first in the reaction panel in chats, if the chat allows them. Custom emoji are shown only with Telegram Premium.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">These reactions go first in the reaction panel in channels, if the channel allows them. Only standard reactions can be pinned here.</string>
+    <string name="MZGramPinnedReactionsLimit">You can pin up to %d reactions.</string>
+    <string name="MZGramPinnedReactionsUnsupported">This emoji can\'t be pinned here.</string>
+    <string name="MZGramPinnedReactionsApply">Save pinned reactions</string>
 </resources>

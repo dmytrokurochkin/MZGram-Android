@@ -569,4 +569,13 @@
     <string name="MZGramScheduleIn15">Через 15 мин</string>
     <string name="MZGramScheduleIn1Hour">Через 1 час</string>
     <string name="MZGramScheduleTomorrowMorning">Завтра в 9:00</string>
+    <string name="MZGramPinnedReactions">Закреплённые реакции</string>
+    <string name="MZGramPinnedReactionsInfo">Собственные реакции, которые идут первыми в панели реакций над сообщением, отдельно для чатов и каналов.</string>
+    <string name="MZGramPinnedReactionsStatusChats">Закреплённые реакции в чатах</string>
+    <string name="MZGramPinnedReactionsStatusChannels">Закреплённые реакции в каналах</string>
+    <string name="MZGramPinnedReactionsInfoChats">Эти реакции идут первыми в панели реакций в чатах, если чат их разрешает. Свои эмодзи показываются только с Telegram Premium.</string>
+    <string name="MZGramPinnedReactionsInfoChannels">Эти реакции идут первыми в панели реакций в каналах, если канал их разрешает. Здесь можно закрепить только стандартные реакции.</string>
+    <string name="MZGramPinnedReactionsLimit">Можно закрепить до %d реакций.</string>
+    <string name="MZGramPinnedReactionsUnsupported">Этот эмодзи нельзя закрепить здесь.</string>
+    <string name="MZGramPinnedReactionsApply">Сохранить закреплённые реакции</string>
 </resources>

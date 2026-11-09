@@ -6299,12 +6299,15 @@ public class EmojiView extends FrameLayout implements
         }
     }
 
+    private long mzgramChatId;
+
     public void setStickersBanned(boolean emojiBanned, boolean stickersBanned, long chatId) {
         if (typeTabs == null) {
             return;
         }
         this.emojiBanned = emojiBanned;
         this.stickersBanned = stickersBanned;
+        mzgramChatId = chatId; // MZGram: GIF tab by its own permission
         if (stickersBanned || emojiBanned) {
             currentChatId = chatId;
         } else {
@@ -8581,6 +8584,13 @@ public class EmojiView extends FrameLayout implements
 
         @Override
         public boolean canScrollToTab(int position) {
+            // MZGram: with the option on, the GIF tab follows send_gifs instead of the sticker permission
+            if (position >= 0 && position < currentTabs.size() && currentTabs.get(position).type == TAB_GIFS) {
+                Boolean mzgramGifs = org.telegram.ui.mzgram.MZGramGroupPermissions.gifTabAllowed(currentAccount, mzgramChatId, stickersBanned, fragment);
+                if (mzgramGifs != null) {
+                    return mzgramGifs;
+                }
+            }
             if ((position == 1 || position == 2) && stickersBanned) {
                 showStickerBanHint(true, false, position == 1);
                 return false;

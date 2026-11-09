@@ -617,4 +617,6 @@
     <string name="MZGramStickerRound">Rounded sticker corners</string>
     <string name="MZGramStickerTime">Hide time on stickers</string>
     <string name="MZGramStickersInfo">The slider sets the size of stickers in chats, 100% as in Telegram. With the time hidden, it appears while a sticker is sending, failed or selected. Applies to messages shown after the change.</string>
+    <string name="MZGramSplitGifInline">GIFs and inline bots by their own permission</string>
+    <string name="MZGramSplitGifInlineInfo">In groups where you are restricted, the GIF tab and inline-bot results follow the GIF and inline-bot permissions instead of the sticker one. Off: as in Telegram, a sticker ban also hides them.</string>
 </resources>

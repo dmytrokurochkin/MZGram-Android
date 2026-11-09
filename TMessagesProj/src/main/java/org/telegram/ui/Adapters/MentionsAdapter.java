@@ -495,7 +495,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         if (!inlineMediaEnabled && foundContextBot != null && parentFragment != null) {
             TLRPC.Chat chat = parentFragment.getCurrentChat();
             if (chat != null) {
-                inlineMediaEnabled = ChatObject.canSendStickers(chat);
+                inlineMediaEnabled = org.telegram.ui.mzgram.MZGramGroupPermissions.canSendInline(chat); // MZGram: send_inline with the option on
                 if (inlineMediaEnabled) {
                     searchResultUsernames = null;
                     notifyDataSetChanged();
@@ -569,7 +569,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             if (parentFragment != null) {
                 TLRPC.Chat chat = parentFragment.getCurrentChat();
                 if (chat != null) {
-                    inlineMediaEnabled = ChatObject.canSendStickers(chat);
+                    inlineMediaEnabled = org.telegram.ui.mzgram.MZGramGroupPermissions.canSendInline(chat); // MZGram: send_inline with the option on
                     if (!inlineMediaEnabled) {
                         notifyDataSetChanged();
                         delegate.needChangePanelVisibility(true);

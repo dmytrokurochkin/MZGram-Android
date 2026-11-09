@@ -617,4 +617,6 @@
     <string name="MZGramStickerRound">Закругленыя вуглы стыкераў</string>
     <string name="MZGramStickerTime">Хаваць час на стыкерах</string>
     <string name="MZGramStickersInfo">Паўзунок задае памер стыкераў у чатах, 100% як у Telegram. Схаваны час з\'яўляецца, пакуль стыкер адпраўляецца, не адправіўся або вылучаны. Дзейнічае на паведамленні, паказаныя пасля змены.</string>
+    <string name="MZGramSplitGifInline">GIF і інлайн-боты па ўласным дазволе</string>
+    <string name="MZGramSplitGifInlineInfo">У групах, дзе цябе абмежавалі, укладка GIF і вынікі інлайн-ботаў залежаць ад дазволаў на GIF і інлайн-ботаў, а не на стыкеры. Выключана: як у Telegram, забарона стыкераў хавае і іх.</string>
 </resources>

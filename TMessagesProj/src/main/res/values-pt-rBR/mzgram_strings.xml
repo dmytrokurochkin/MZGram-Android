@@ -617,4 +617,6 @@
     <string name="MZGramStickerRound">Cantos arredondados nas figurinhas</string>
     <string name="MZGramStickerTime">Ocultar horário nas figurinhas</string>
     <string name="MZGramStickersInfo">O controle define o tamanho das figurinhas nos chats, 100% como no Telegram. O horário oculto aparece enquanto a figurinha é enviada, falha ou está selecionada. Vale para mensagens exibidas após a mudança.</string>
+    <string name="MZGramSplitGifInline">GIFs e bots inline pela própria permissão</string>
+    <string name="MZGramSplitGifInlineInfo">Em grupos onde você tem restrições, a aba GIF e os resultados de bots inline seguem as permissões de GIF e bots inline em vez da de figurinhas. Desligado: como no Telegram, a proibição de figurinhas também os oculta.</string>
 </resources>

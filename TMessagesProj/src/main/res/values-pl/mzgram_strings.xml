@@ -617,4 +617,6 @@
     <string name="MZGramStickerRound">Zaokrąglone rogi naklejek</string>
     <string name="MZGramStickerTime">Ukrywaj godzinę na naklejkach</string>
     <string name="MZGramStickersInfo">Suwak ustawia rozmiar naklejek w czatach, 100% jak w Telegramie. Ukryta godzina pojawia się, gdy naklejka jest wysyłana, nie została wysłana lub jest zaznaczona. Dotyczy wiadomości wyświetlonych po zmianie.</string>
+    <string name="MZGramSplitGifInline">GIF-y i boty inline według własnego uprawnienia</string>
+    <string name="MZGramSplitGifInlineInfo">W grupach, w których masz ograniczenia, karta GIF i wyniki botów inline zależą od uprawnień do GIF-ów i botów inline, a nie do naklejek. Wyłączone: jak w Telegramie, zakaz naklejek ukrywa też je.</string>
 </resources>

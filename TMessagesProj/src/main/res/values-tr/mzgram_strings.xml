@@ -617,4 +617,6 @@
     <string name="MZGramStickerRound">Yuvarlatılmış çıkartma köşeleri</string>
     <string name="MZGramStickerTime">Çıkartmalarda saati gizle</string>
     <string name="MZGramStickersInfo">Kaydırıcı sohbetlerdeki çıkartmaların boyutunu ayarlar, %100 Telegram\'daki gibi. Gizli saat, çıkartma gönderilirken, gönderilemediğinde veya seçiliyken görünür. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
+    <string name="MZGramSplitGifInline">GIF ve satır içi botlar kendi izinleriyle</string>
+    <string name="MZGramSplitGifInlineInfo">Kısıtlandığın gruplarda GIF sekmesi ve satır içi bot sonuçları çıkartma izni yerine GIF ve satır içi bot izinlerine bağlıdır. Kapalı: Telegram\'daki gibi, çıkartma yasağı bunları da gizler.</string>
 </resources>

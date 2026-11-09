@@ -230,6 +230,8 @@ public class MZGramConfig {
 
     // granularGroupPermissions
     public static boolean granularGroupPermissions = false;
+    // GIF tab and inline results in a member's chat by send_gifs / send_inline
+    public static boolean splitGifInlineRights = false;
 
     // linkedCustomEmoji
     public static boolean linkedCustomEmoji = false;
@@ -436,6 +438,7 @@ public class MZGramConfig {
             stickerRoundCorners = preferences.getBoolean("stickerRoundCorners", false);
             hideStickerTime = preferences.getBoolean("hideStickerTime", false);
             granularGroupPermissions = preferences.getBoolean("granularGroupPermissions", false);
+            splitGifInlineRights = preferences.getBoolean("splitGifInlineRights", false);
             linkedCustomEmoji = preferences.getBoolean("linkedCustomEmoji", false);
             linkTypeface = preferences.getBoolean("linkTypeface", false);
             hideReactionsPrivate = preferences.getBoolean("hideReactionsPrivate", false);
@@ -1035,6 +1038,11 @@ public class MZGramConfig {
     public static void toggleLinkedCustomEmoji() {
         linkedCustomEmoji = !linkedCustomEmoji;
         putBoolean("linkedCustomEmoji", linkedCustomEmoji);
+    }
+
+    public static void toggleSplitGifInlineRights() {
+        splitGifInlineRights = !splitGifInlineRights;
+        putBoolean("splitGifInlineRights", splitGifInlineRights);
     }
 
     public static void toggleGranularGroupPermissions() {

@@ -166,6 +166,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_STICKER_ROUND = 142;
     private static final int BUTTON_STICKER_TIME = 143;
     private static final int BUTTON_GRANULAR_PERMISSIONS = 141;
+    private static final int BUTTON_SPLIT_GIF_INLINE = 144;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -638,6 +639,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramStickersInfo)));
         items.add(UItem.asCheck(BUTTON_GRANULAR_PERMISSIONS, getString(R.string.MZGramGranularPermissions)).setChecked(MZGramConfig.granularGroupPermissions));
         items.add(UItem.asShadow(getString(R.string.MZGramGranularPermissionsInfo)));
+        items.add(UItem.asCheck(BUTTON_SPLIT_GIF_INLINE, getString(R.string.MZGramSplitGifInline)).setChecked(MZGramConfig.splitGifInlineRights));
+        items.add(UItem.asShadow(getString(R.string.MZGramSplitGifInlineInfo)));
         items.add(UItem.asCheck(BUTTON_LINKED_EMOJI, getString(R.string.MZGramLinkedEmoji)).setChecked(MZGramConfig.linkedCustomEmoji));
         items.add(UItem.asShadow(getString(R.string.MZGramLinkedEmojiInfo)));
         items.add(UItem.asCheck(BUTTON_LINK_TYPEFACE, getString(R.string.MZGramLinkTypeface)).setChecked(MZGramConfig.linkTypeface));
@@ -871,6 +874,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_LINKED_EMOJI) {
             MZGramConfig.toggleLinkedCustomEmoji();
             ((TextCheckCell) view).setChecked(MZGramConfig.linkedCustomEmoji);
+        } else if (item.id == BUTTON_SPLIT_GIF_INLINE) {
+            MZGramConfig.toggleSplitGifInlineRights();
+            ((TextCheckCell) view).setChecked(MZGramConfig.splitGifInlineRights);
         } else if (item.id == BUTTON_GRANULAR_PERMISSIONS) {
             MZGramConfig.toggleGranularGroupPermissions();
             ((TextCheckCell) view).setChecked(MZGramConfig.granularGroupPermissions);

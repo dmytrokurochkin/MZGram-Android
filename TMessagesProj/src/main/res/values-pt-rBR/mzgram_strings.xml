@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">Conversas recentes</string>
     <string name="MZGramRecentChatsClear">Limpar conversas recentes</string>
     <string name="MZGramRecentChatsClearInfo">Remover todas as conversas desta lista? As conversas em si continuam.</string>
+    <string name="MZGramQrLoginTile">Entrar por QR</string>
+    <string name="MZGramTileOn">Ligado</string>
+    <string name="MZGramTileOff">Desligado</string>
+    <string name="MZGramQuickTilesInfo">As configurações rápidas do celular podem receber dois blocos do MZGram: Modo fantasma (liga ou desliga) e Entrar por QR (abre o leitor para entrar em outro aparelho). Adicione-os no modo de edição do painel de notificações.</string>
 </resources>

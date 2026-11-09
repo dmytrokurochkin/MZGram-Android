@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">Letzte Chats</string>
     <string name="MZGramRecentChatsClear">Letzte Chats leeren</string>
     <string name="MZGramRecentChatsClearInfo">Alle Chats aus dieser Liste entfernen? Die Chats selbst bleiben erhalten.</string>
+    <string name="MZGramQrLoginTile">Anmelden per QR</string>
+    <string name="MZGramTileOn">An</string>
+    <string name="MZGramTileOff">Aus</string>
+    <string name="MZGramQuickTilesInfo">Die Schnelleinstellungen deines Telefons können zwei MZGram-Kacheln erhalten: Geistermodus (schaltet ihn ein oder aus) und Anmelden per QR (öffnet den Scanner zum Anmelden auf einem anderen Gerät). Füge sie im Bearbeitungsmodus der Benachrichtigungsleiste hinzu.</string>
 </resources>

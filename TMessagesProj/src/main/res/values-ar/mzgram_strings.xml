@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">المحادثات الأخيرة</string>
     <string name="MZGramRecentChatsClear">مسح المحادثات الأخيرة</string>
     <string name="MZGramRecentChatsClearInfo">إزالة كل المحادثات من هذه القائمة؟ تبقى المحادثات نفسها.</string>
+    <string name="MZGramQrLoginTile">تسجيل الدخول برمز QR</string>
+    <string name="MZGramTileOn">مفعّل</string>
+    <string name="MZGramTileOff">متوقف</string>
+    <string name="MZGramQuickTilesInfo">يمكن إضافة بلاطتين من MZGram إلى الإعدادات السريعة في هاتفك: وضع الشبح (يفعّله أو يوقفه) وتسجيل الدخول برمز QR (يفتح الماسح لتسجيل الدخول على جهاز آخر). أضفهما في وضع تعديل لوحة الإشعارات.</string>
 </resources>

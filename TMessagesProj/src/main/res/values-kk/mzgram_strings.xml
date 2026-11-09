@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">Соңғы чаттар</string>
     <string name="MZGramRecentChatsClear">Соңғы чаттарды тазалау</string>
     <string name="MZGramRecentChatsClearInfo">Барлық чаттарды осы тізімнен алып тастау керек пе? Чаттардың өздері қалады.</string>
+    <string name="MZGramQrLoginTile">QR арқылы кіру</string>
+    <string name="MZGramTileOn">Қосулы</string>
+    <string name="MZGramTileOff">Өшірулі</string>
+    <string name="MZGramQuickTilesInfo">Телефонның жылдам баптауларына екі MZGram тақтасын қосуға болады: «Елес режимі» (оны қосады не өшіреді) және «QR арқылы кіру» (басқа құрылғыда кіру үшін сканерді ашады). Оларды хабарландыру тақтасын өңдеу режимінде қос.</string>
 </resources>

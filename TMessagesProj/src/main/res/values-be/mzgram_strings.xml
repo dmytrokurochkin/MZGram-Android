@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">Нядаўнія чаты</string>
     <string name="MZGramRecentChatsClear">Ачысціць нядаўнія чаты</string>
     <string name="MZGramRecentChatsClearInfo">Прыбраць усе чаты з гэтага спіса? Самі чаты застануцца.</string>
+    <string name="MZGramQrLoginTile">Уваход па QR</string>
+    <string name="MZGramTileOn">Уключана</string>
+    <string name="MZGramTileOff">Выключана</string>
+    <string name="MZGramQuickTilesInfo">У хуткія налады тэлефона можна дадаць дзве пліткі MZGram: «Рэжым прывіда» (уключае або выключае яго) і «Уваход па QR» (адкрывае сканер для ўваходу на іншай прыладзе). Дадай іх у рэжыме рэдагавання шторкі апавяшчэнняў.</string>
 </resources>

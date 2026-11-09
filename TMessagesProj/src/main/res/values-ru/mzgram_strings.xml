@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">Недавние чаты</string>
     <string name="MZGramRecentChatsClear">Очистить недавние чаты</string>
     <string name="MZGramRecentChatsClearInfo">Убрать все чаты из этого списка? Сами чаты останутся.</string>
+    <string name="MZGramQrLoginTile">Вход по QR</string>
+    <string name="MZGramTileOn">Включено</string>
+    <string name="MZGramTileOff">Выключено</string>
+    <string name="MZGramQuickTilesInfo">В быстрые настройки телефона можно добавить две плитки MZGram: «Режим призрака» (включает или выключает его) и «Вход по QR» (открывает сканер для входа на другом устройстве). Добавь их в режиме редактирования шторки уведомлений.</string>
 </resources>

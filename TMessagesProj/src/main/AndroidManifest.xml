@@ -486,6 +486,29 @@
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <!-- MZGram: quick settings tiles, shown only once added to the shade by hand -->
+        <service
+            android:name="org.telegram.messenger.mzgram.MZGramGhostTile"
+            android:exported="true"
+            android:icon="@drawable/ghost"
+            android:label="@string/MZGramGhostMode"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="org.telegram.messenger.mzgram.MZGramQrLoginTile"
+            android:exported="true"
+            android:icon="@drawable/msg_qr_scan"
+            android:label="@string/MZGramQrLoginTile"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <service
             android:name="org.telegram.messenger.mzgram.MZGramUnifiedPushService"
             android:exported="false">

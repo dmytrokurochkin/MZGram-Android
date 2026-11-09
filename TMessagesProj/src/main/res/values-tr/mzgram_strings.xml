@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">Son sohbetler</string>
     <string name="MZGramRecentChatsClear">Son sohbetleri temizle</string>
     <string name="MZGramRecentChatsClearInfo">Tüm sohbetler bu listeden kaldırılsın mı? Sohbetlerin kendisi kalır.</string>
+    <string name="MZGramQrLoginTile">QR ile giriş</string>
+    <string name="MZGramTileOn">Açık</string>
+    <string name="MZGramTileOff">Kapalı</string>
+    <string name="MZGramQuickTilesInfo">Telefonunun hızlı ayarlarına iki MZGram kutucuğu eklenebilir: Hayalet modu (açar veya kapatır) ve QR ile giriş (başka bir cihazda giriş için tarayıcıyı açar). Bildirim panelinin düzenleme modunda ekle.</string>
 </resources>

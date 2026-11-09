@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">Recent chats</string>
     <string name="MZGramRecentChatsClear">Clear recent chats</string>
     <string name="MZGramRecentChatsClearInfo">Remove all chats from this list? The chats themselves stay.</string>
+    <string name="MZGramQrLoginTile">Log in by QR</string>
+    <string name="MZGramTileOn">On</string>
+    <string name="MZGramTileOff">Off</string>
+    <string name="MZGramQuickTilesInfo">Quick settings of your phone can get two MZGram tiles: Ghost mode (turns it on or off) and Log in by QR (opens the scanner to log in on another device). Add them in the edit mode of the notification shade.</string>
 </resources>

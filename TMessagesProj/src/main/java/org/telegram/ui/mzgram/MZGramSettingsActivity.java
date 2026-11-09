@@ -573,6 +573,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE, getString(R.string.MZGramGhostMode)).setChecked(MZGramConfig.ghostMode));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostModeInfo)));
+        items.add(UItem.asShadow(getString(R.string.MZGramQuickTilesInfo)));
         items.add(UItem.asCheck(BUTTON_GHOST_AUTO_DELAY_SEND, getString(R.string.MZGramGhostAutoDelaySend)).setChecked(MZGramConfig.ghostAutoDelaySend));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostAutoDelaySendInfo)));
         items.add(UItem.asCheck(BUTTON_GHOST_SILENT_SEND, getString(R.string.MZGramGhostSilentSend)).setChecked(MZGramConfig.ghostSilentSend));

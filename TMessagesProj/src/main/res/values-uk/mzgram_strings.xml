@@ -630,4 +630,8 @@
     <string name="MZGramRecentChats">Недавні чати</string>
     <string name="MZGramRecentChatsClear">Очистити недавні чати</string>
     <string name="MZGramRecentChatsClearInfo">Прибрати всі чати з цього списку? Самі чати залишаться.</string>
+    <string name="MZGramQrLoginTile">Вхід за QR</string>
+    <string name="MZGramTileOn">Увімкнено</string>
+    <string name="MZGramTileOff">Вимкнено</string>
+    <string name="MZGramQuickTilesInfo">У швидкі налаштування телефона можна додати дві плитки MZGram: «Режим привида» (вмикає або вимикає його) і «Вхід за QR» (відкриває сканер для входу на іншому пристрої). Додай їх у режимі редагування шторки сповіщень.</string>
 </resources>

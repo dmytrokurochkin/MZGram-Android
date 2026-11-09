@@ -629,4 +629,8 @@
     <string name="MZGramRecentChats">Ostatnie czaty</string>
     <string name="MZGramRecentChatsClear">Wyczyść ostatnie czaty</string>
     <string name="MZGramRecentChatsClearInfo">Usunąć wszystkie czaty z tej listy? Same czaty pozostaną.</string>
+    <string name="MZGramQrLoginTile">Logowanie kodem QR</string>
+    <string name="MZGramTileOn">Włączone</string>
+    <string name="MZGramTileOff">Wyłączone</string>
+    <string name="MZGramQuickTilesInfo">Do szybkich ustawień telefonu można dodać dwa kafelki MZGram: Tryb ducha (włącza go lub wyłącza) i Logowanie kodem QR (otwiera skaner do logowania na innym urządzeniu). Dodaj je w trybie edycji panelu powiadomień.</string>
 </resources>

@@ -2573,6 +2573,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     finishFragment();
+                } else if (org.telegram.ui.mzgram.MZGramPluginMenuUi.onProfileItem(ProfileActivity.this, id, userId, chatId, currentAccount)) {
+                    // MZGram: a menu item of a plugin
                 } else if (id == mzgram_shadow_ban) {
                     // MZGram: shadow ban on or off for this user
                     boolean mzgramBan = !org.telegram.messenger.mzgram.MZGramShadowBan.contains(userId);
@@ -12439,6 +12441,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 leaveAction = true;
             }
         }
+        // MZGram: menu items of plugins (none while no plugin has added any)
+        org.telegram.ui.mzgram.MZGramPluginMenuUi.addProfileItems(otherItem);
 
         if (imageUpdater != null) {
             otherItem.addSubItem(set_as_main, R.drawable.msg_openprofile, LocaleController.getString(R.string.SetAsMain));

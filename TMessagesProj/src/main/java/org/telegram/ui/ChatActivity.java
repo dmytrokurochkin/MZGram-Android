@@ -4034,6 +4034,8 @@ public class ChatActivity extends BaseFragment implements
                 } else if (id == mzgram_deleted_messages) {
                     // MZGram: the list of this chat's kept deleted messages.
                     presentFragment(new org.telegram.ui.mzgram.MZGramDeletedMessagesActivity(ChatActivity.this, getDialogId()));
+                } else if (org.telegram.ui.mzgram.MZGramPluginMenuUi.onChatItem(ChatActivity.this, id, getDialogId(), currentAccount)) {
+                    // MZGram: a menu item of a plugin
                 } else if (id == add_shortcut) {
                     try {
                         getMediaDataController().installShortcut(currentUser.id, MediaDataController.SHORTCUT_TYPE_USER_OR_CHAT);
@@ -4599,6 +4601,8 @@ public class ChatActivity extends BaseFragment implements
             if (org.telegram.ui.mzgram.MZGramDeletedMessagesActivity.isAvailable(currentUser, chatMode)) {
                 headerItem.lazilyAddSubItem(mzgram_deleted_messages, R.drawable.msg_delete, LocaleController.getString(R.string.MZGramDeletedMessages));
             }
+            // MZGram: menu items of plugins (none while no plugin has added any)
+            org.telegram.ui.mzgram.MZGramPluginMenuUi.addChatItems(headerItem);
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {
                 headerItem.lazilyAddSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));
             }
@@ -35006,6 +35010,8 @@ public class ChatActivity extends BaseFragment implements
                 break;
             }
         }
+        // MZGram: a menu item of a plugin (options no case above knows)
+        org.telegram.ui.mzgram.MZGramPluginMenuUi.onMessageOption(this, option, selectedObject, currentAccount);
         selectedObject = null;
         selectedObjectGroup = null;
         selectedObjectToEditCaption = null;
@@ -47070,6 +47076,10 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.MZGramShadowBanAdd));
                     options.add(OPTION_MZGRAM_SHADOW_BAN);
                     icons.add(R.drawable.msg_block2);
+                }
+                // MZGram: menu items of plugins (none while no plugin has added any)
+                if (chatMode != MODE_SCHEDULED) {
+                    org.telegram.ui.mzgram.MZGramPluginMenuUi.fillMessageMenu(items, options, icons);
                 }
                 if (allowUnpin) {
                     items.add(LocaleController.getString(R.string.UnpinMessage));

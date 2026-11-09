@@ -140,6 +140,45 @@ def create_settings(self):
 Values are saved on the device in one file per plugin and keep their JSON
 type.
 
+## Menu items
+
+A plugin can add items to Telegram's menus with `MenuItemData`, named as in
+the exteraless SDK:
+
+```python
+from mzgram_plugins.menus import MenuItemData, MenuItemType
+
+MenuItemData(
+    menu_type=MenuItemType.MESSAGE_CONTEXT_MENU,
+    text="Translate locally",
+    icon="msg_language",
+    on_click=lambda context: self.log(f"message {context['message_id']}"),
+)
+```
+
+| `menu_type` | Where | `context` of a tap |
+|---|---|---|
+| `MESSAGE_CONTEXT_MENU` | menu of a message | `account`, `dialog_id`, `message_id`, `from_id`, `out`, `date`, `text` |
+| `CHAT_ACTION_MENU` | three dots of a chat | `account`, `dialog_id` |
+| `PROFILE_ACTION_MENU` | three dots of a profile | `account`, `user_id`, `chat_id`, `dialog_id` |
+| `MAIN_MENU`, `DRAWER_MENU` | menu of the chat list (MZGram has no side drawer) | `account` |
+
+- `context` is a dict of ids and texts, not Java objects as in exteraless.
+- When a menu has more than two items of plugins, they are folded into one
+  **Plugins** item that opens their list, so the menu doesn't grow past the
+  screen.
+- Higher `priority` comes first. `text` is one line of at most 64
+  characters. A plugin can add up to 16 items; adding an item with the same
+  `item_id` replaces it.
+- `condition` (an MVEL expression in exteraless) is accepted and not
+  evaluated: the item always shows, so `on_click` should check `context`.
+- Only items of plugins that are turned on show. The menu of a chat and of
+  a profile take items when they are opened.
+
+The engine will add `add_menu_item()` and `remove_menu_item()` to
+`BasePlugin`; until then they are in `mzgram_plugins.menus`, taking the
+plugin id first.
+
 ## Examples
 
 [`examples/hello.plugin`](examples/hello.plugin) is the smallest plugin. It
@@ -163,6 +202,7 @@ exteraless SDK and may still change.
 | Plugin list in MZGram settings, adding from a file, plugin screen, code viewer | done |
 | Running plugins (the on/off switch is kept until then) | planned |
 | Settings rows (`ui.settings`) and the settings screen | done; opened from the plugin screen once plugins run |
-| SDK: `base_plugin`, menus, hooks, UI components | planned |
+| Menu items of plugins (`mzgram_plugins.menus`) in the menus of messages, chats, profiles and the chat list | done; shown once plugins run |
+| SDK: `base_plugin`, hooks, UI components | planned |
 | Permissions, prompt before installing, local audit log, safe mode after crashes | planned |
 | Installing packages with pip on the device | not planned (it would make network calls to PyPI) |

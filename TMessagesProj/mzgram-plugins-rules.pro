@@ -11,3 +11,9 @@
 -keep class org.telegram.messenger.mzgram.plugins.MZGramPluginSettingsStore {
     public static *;
 }
+
+# mzgram_plugins/menus.py hands menu items of plugins to this class by its
+# name (jclass), so R8 must keep its static methods.
+-keep class org.telegram.messenger.mzgram.plugins.MZGramPluginMenus {
+    public static *;
+}

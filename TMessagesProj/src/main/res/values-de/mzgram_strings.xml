@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Großes Profilbild</string>
     <string name="MZGramDrawerFullMenu">Gesamtes Menü</string>
     <string name="MZGramDrawerAccounts">Konten anzeigen</string>
+    <string name="MZGramDrawerHeader">Hintergrund der Kopfzeile</string>
+    <string name="MZGramDrawerHeaderTheme">Farbe des Designs</string>
+    <string name="MZGramDrawerHeaderNone">Kein Hintergrund</string>
+    <string name="MZGramDrawerHeaderAvatar">Verschwommenes Profilbild</string>
+    <string name="MZGramDrawerHeaderWallpaper">Chat-Hintergrund</string>
+    <string name="MZGramDrawerGlass">Glasfeld</string>
+    <string name="MZGramDrawerLookInfo">Durch das Glasfeld scheint die Chatliste verschwommen durch. Ohne Foto oder Hintergrund behält die Kopfzeile die Farbe des Designs.</string>
 </resources>

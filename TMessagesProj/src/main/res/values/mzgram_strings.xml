@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Large avatar</string>
     <string name="MZGramDrawerFullMenu">Full menu</string>
     <string name="MZGramDrawerAccounts">Show the accounts</string>
+    <string name="MZGramDrawerHeader">Header background</string>
+    <string name="MZGramDrawerHeaderTheme">Theme colour</string>
+    <string name="MZGramDrawerHeaderNone">No background</string>
+    <string name="MZGramDrawerHeaderAvatar">Blurred avatar</string>
+    <string name="MZGramDrawerHeaderWallpaper">Chat wallpaper</string>
+    <string name="MZGramDrawerGlass">Glass panel</string>
+    <string name="MZGramDrawerLookInfo">Through the glass panel the chat list shows blurred. Without a photo or a wallpaper the header keeps the theme colour.</string>
 </resources>

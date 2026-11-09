@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Duży awatar</string>
     <string name="MZGramDrawerFullMenu">Pełne menu</string>
     <string name="MZGramDrawerAccounts">Pokaż konta</string>
+    <string name="MZGramDrawerHeader">Tło nagłówka</string>
+    <string name="MZGramDrawerHeaderTheme">Kolor motywu</string>
+    <string name="MZGramDrawerHeaderNone">Bez tła</string>
+    <string name="MZGramDrawerHeaderAvatar">Rozmyty awatar</string>
+    <string name="MZGramDrawerHeaderWallpaper">Tapeta czatu</string>
+    <string name="MZGramDrawerGlass">Szklany panel</string>
+    <string name="MZGramDrawerLookInfo">Przez szklany panel widać rozmytą listę czatów. Bez zdjęcia lub tapety nagłówek zostaje w kolorze motywu.</string>
 </resources>

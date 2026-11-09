@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Вялікая аватарка</string>
     <string name="MZGramDrawerFullMenu">Усё меню</string>
     <string name="MZGramDrawerAccounts">Паказаць акаўнты</string>
+    <string name="MZGramDrawerHeader">Фон шапкі</string>
+    <string name="MZGramDrawerHeaderTheme">Колер тэмы</string>
+    <string name="MZGramDrawerHeaderNone">Без фону</string>
+    <string name="MZGramDrawerHeaderAvatar">Размытая аватарка</string>
+    <string name="MZGramDrawerHeaderWallpaper">Шпалеры чата</string>
+    <string name="MZGramDrawerGlass">Шкляная панэль</string>
+    <string name="MZGramDrawerLookInfo">Праз шкляную панэль відаць размыты спіс чатаў. Без фота ці шпалер шапка застаецца колеру тэмы.</string>
 </resources>

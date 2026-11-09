@@ -286,6 +286,9 @@ public class MZGramConfig {
     public static boolean customDrawer = false;
     public static boolean drawerShowQr = true;
     public static boolean drawerLargeAvatar = false;
+    // Its look: the background of the header (MZGramDrawer.HEADER_*) and the glass panel
+    public static int drawerHeaderStyle = 0;
+    public static boolean drawerGlass = false;
 
     // plainCodeBlocks
     public static boolean plainCodeBlocks = false;
@@ -504,6 +507,8 @@ public class MZGramConfig {
             customDrawer = preferences.getBoolean("customDrawer", false);
             drawerShowQr = preferences.getBoolean("drawerShowQr", true);
             drawerLargeAvatar = preferences.getBoolean("drawerLargeAvatar", false);
+            drawerHeaderStyle = preferences.getInt("drawerHeaderStyle", 0);
+            drawerGlass = preferences.getBoolean("drawerGlass", false);
             plainCodeBlocks = preferences.getBoolean("plainCodeBlocks", false);
             hexColorSwatch = preferences.getBoolean("hexColorSwatch", false);
             scheduleSlider = preferences.getBoolean("scheduleSlider", false);
@@ -1098,6 +1103,16 @@ public class MZGramConfig {
     public static void toggleDrawerLargeAvatar() {
         drawerLargeAvatar = !drawerLargeAvatar;
         putBoolean("drawerLargeAvatar", drawerLargeAvatar);
+    }
+
+    public static void setDrawerHeaderStyle(int value) {
+        drawerHeaderStyle = value;
+        preferences().edit().putInt("drawerHeaderStyle", value).apply();
+    }
+
+    public static void toggleDrawerGlass() {
+        drawerGlass = !drawerGlass;
+        putBoolean("drawerGlass", drawerGlass);
     }
 
     public static void toggleShadowBan() {

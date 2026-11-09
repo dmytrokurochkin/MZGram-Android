@@ -13,7 +13,12 @@
  * hand. A tap beside the panel, Back or a swipe toward the edge closes it.
  * The archive and the community lists keep the popup menu.
  *
- * Idea from exteraless DrawerContainer, DrawerHeaderView,
+ * Its look (appearance.drawer-appearance): the background of the header
+ * (the theme colour, none, the blurred avatar of the account or the chat
+ * wallpaper) and the glass panel, through which the chat list shows
+ * blurred; the blur is taken once when the panel opens.
+ *
+ * Idea from exteraless DrawerContainer, DrawerHeaderView, PreviewBackgroundDrawable,
  * DrawerAccountPickerView and DrawerMenuView (GPL-3.0); written anew for
  * MZGram, as a panel over the chat list without a new edge gesture.
  */
@@ -30,8 +35,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -50,6 +60,8 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
@@ -57,6 +69,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.mzgram.MZGramConfig;
 import org.telegram.messenger.mzgram.MZGramDrawerItems;
@@ -78,6 +91,8 @@ import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.SettingsActivity;
 import org.telegram.ui.ThemeActivity;
 
+import androidx.core.graphics.ColorUtils;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -88,6 +103,21 @@ public final class MZGramDrawer {
     private static final long DURATION = 220;
     private static final int DIM_COLOR = 0x66000000;
 
+    // The background of the header (MZGramConfig.drawerHeaderStyle)
+    public static final int HEADER_THEME = 0;
+    public static final int HEADER_NONE = 1;
+    public static final int HEADER_AVATAR = 2;
+    public static final int HEADER_WALLPAPER = 3;
+    public static final int[] HEADER_TITLES = {
+            R.string.MZGramDrawerHeaderTheme,
+            R.string.MZGramDrawerHeaderNone,
+            R.string.MZGramDrawerHeaderAvatar,
+            R.string.MZGramDrawerHeaderWallpaper
+    };
+    // How much of the colour of the menu lies over the blurred chat list
+    private static final int GLASS_ALPHA = 0xB8;
+    private static final int PICTURE_SHADE = 0x4D000000;
+
     private static WeakReference<MZGramDrawer> shown;
 
     private final DialogsActivity fragment;
@@ -95,9 +125,10 @@ public final class MZGramDrawer {
     private final FrameLayout container;
     private final Root root;
     private final View dim;
-    private final FrameLayout panel;
+    private final Panel panel;
     private final LinearLayout accountsList;
     private ImageView arrowView;
+    private boolean onPicture;
     private final int panelWidth;
     private final boolean rtl = LocaleController.isRTL;
 
@@ -121,8 +152,10 @@ public final class MZGramDrawer {
         dim.setOnClickListener(v -> close(true, null));
         root.addView(dim, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
-        panel = new FrameLayout(context);
-        panel.setBackgroundColor(Theme.getColor(Theme.key_chats_menuBackground));
+        panel = new Panel(context);
+        if (MZGramConfig.drawerGlass) {
+            panel.takeGlass(fragment.getFragmentView(), container);
+        }
         panel.setClickable(true);
         panel.setPadding(0, 0, 0, AndroidUtilities.navigationBarHeight);
         ScrollView scroll = new ScrollView(context);
@@ -207,6 +240,9 @@ public final class MZGramDrawer {
         progress = Math.max(0f, Math.min(1f, value));
         panel.setTranslationX((rtl ? 1 : -1) * panelWidth * (1f - progress));
         dim.setAlpha(progress);
+        if (panel.glass != null) {
+            panel.invalidate();
+        }
     }
 
     private void animateTo(float target, Runnable after) {
@@ -268,6 +304,7 @@ public final class MZGramDrawer {
         if (root.getParent() instanceof ViewGroup) {
             ((ViewGroup) root.getParent()).removeView(root);
         }
+        panel.releaseGlass();
     }
 
     // ---- the header and the accounts ----
@@ -277,10 +314,38 @@ public final class MZGramDrawer {
         boolean large = MZGramConfig.drawerLargeAvatar;
         int avatarSize = large ? 72 : 56;
 
+        FrameLayout frame = new FrameLayout(context);
+        int style = MZGramConfig.drawerHeaderStyle;
+        ImageLocation photo = user != null ? ImageLocation.getForUserOrChat(user, ImageLocation.TYPE_SMALL) : null;
+        Drawable wallpaper = style == HEADER_WALLPAPER ? Theme.getCachedWallpaperNonBlocking() : null;
+        if (style == HEADER_AVATAR && photo == null || style == HEADER_WALLPAPER && wallpaper == null) {
+            // No photo or no wallpaper yet: the colour of the theme
+            style = HEADER_THEME;
+        }
+        onPicture = style == HEADER_AVATAR || style == HEADER_WALLPAPER;
+        if (style == HEADER_THEME) {
+            int color = Theme.getColor(Theme.key_chats_menuTopBackground);
+            frame.setBackgroundColor(panel.glass != null ? ColorUtils.setAlphaComponent(color, GLASS_ALPHA) : color);
+        } else if (style == HEADER_AVATAR) {
+            BackupImageView cover = new BackupImageView(context);
+            cover.getImageReceiver().setCurrentAccount(currentAccount);
+            cover.setImage(photo, "50_50_b", (Drawable) null, user);
+            frame.addView(cover, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        } else if (style == HEADER_WALLPAPER) {
+            frame.addView(new CoverView(context, wallpaper), LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        }
+        if (onPicture) {
+            View shade = new View(context);
+            shade.setBackgroundColor(PICTURE_SHADE);
+            frame.addView(shade, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        }
+        int nameColor = onPicture ? 0xFFFFFFFF : Theme.getColor(Theme.key_chats_menuName);
+        int subtitleColor = onPicture ? 0xD9FFFFFF : Theme.getColor(Theme.key_chats_menuPhone);
+
         LinearLayout header = new LinearLayout(context);
         header.setOrientation(LinearLayout.VERTICAL);
-        header.setBackgroundColor(Theme.getColor(Theme.key_chats_menuTopBackground));
         header.setPadding(0, AndroidUtilities.statusBarHeight, 0, 0);
+        frame.addView(header, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         FrameLayout top = new FrameLayout(context);
         BackupImageView avatar = new BackupImageView(context);
@@ -303,7 +368,7 @@ public final class MZGramDrawer {
             ImageView qr = new ImageView(context);
             qr.setScaleType(ImageView.ScaleType.CENTER);
             qr.setImageResource(R.drawable.msg_qrcode);
-            qr.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuName), PorterDuff.Mode.SRC_IN));
+            qr.setColorFilter(new PorterDuffColorFilter(nameColor, PorterDuff.Mode.SRC_IN));
             qr.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 1, dp(20)));
             // Telegram's own text: the name of Telegram's own QR login screen
             qr.setContentDescription(getString(R.string.AuthAnotherClient));
@@ -319,7 +384,7 @@ public final class MZGramDrawer {
         TextView name = new TextView(context);
         name.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         name.setTypeface(AndroidUtilities.bold());
-        name.setTextColor(Theme.getColor(Theme.key_chats_menuName));
+        name.setTextColor(nameColor);
         name.setSingleLine(true);
         name.setEllipsize(TextUtils.TruncateAt.END);
         name.setGravity(rtl ? Gravity.RIGHT : Gravity.LEFT);
@@ -330,7 +395,7 @@ public final class MZGramDrawer {
         if (!TextUtils.isEmpty(username)) {
             TextView subtitle = new TextView(context);
             subtitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
-            subtitle.setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
+            subtitle.setTextColor(subtitleColor);
             subtitle.setSingleLine(true);
             subtitle.setEllipsize(TextUtils.TruncateAt.END);
             subtitle.setGravity(rtl ? Gravity.RIGHT : Gravity.LEFT);
@@ -342,12 +407,12 @@ public final class MZGramDrawer {
         arrowView = new ImageView(context);
         arrowView.setScaleType(ImageView.ScaleType.CENTER);
         arrowView.setImageResource(R.drawable.arrow_more);
-        arrowView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuName), PorterDuff.Mode.SRC_IN));
+        arrowView.setColorFilter(new PorterDuffColorFilter(nameColor, PorterDuff.Mode.SRC_IN));
         bottom.addView(arrowView, LayoutHelper.createFrame(48, 48, Gravity.CENTER_VERTICAL | (rtl ? Gravity.LEFT : Gravity.RIGHT), 4, 0, 4, 0));
         bottom.setContentDescription(getString(R.string.MZGramDrawerAccounts));
         bottom.setOnClickListener(v -> toggleAccounts());
         header.addView(bottom, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 4, 0, 0));
-        return header;
+        return frame;
     }
 
     private void toggleAccounts() {
@@ -605,6 +670,144 @@ public final class MZGramDrawer {
         }
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, false, position, -1, toDark, null, null, null, true);
         Theme.turnOffAutoNight(BulletinFactory.of(fragment), () -> fragment.presentFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_NIGHT)));
+    }
+
+    // ---- the look ----
+
+    /** Lets the background of the header be chosen (Settings > MZGram > Interface). */
+    public static void chooseHeaderStyle(org.telegram.ui.ActionBar.BaseFragment fragment, Runnable onChanged) {
+        Context context = fragment.getParentActivity();
+        if (context == null) {
+            return;
+        }
+        CharSequence[] names = new CharSequence[HEADER_TITLES.length];
+        for (int i = 0; i < names.length; i++) {
+            names[i] = getString(HEADER_TITLES[i]);
+        }
+        org.telegram.ui.ActionBar.AlertDialog.Builder builder = new org.telegram.ui.ActionBar.AlertDialog.Builder(context);
+        builder.setTitle(getString(R.string.MZGramDrawerHeader));
+        builder.setItems(names, (dialog, which) -> {
+            MZGramConfig.setDrawerHeaderStyle(which);
+            if (onChanged != null) {
+                onChanged.run();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.MZGramCancel), null);
+        fragment.showDialog(builder.create());
+    }
+
+    /** The name of the chosen background of the header. */
+    public static String headerStyleTitle() {
+        int style = MZGramConfig.drawerHeaderStyle;
+        return getString(HEADER_TITLES[style >= 0 && style < HEADER_TITLES.length ? style : HEADER_THEME]);
+    }
+
+    // The panel: the colour of the menu, or glass over the blurred chat list
+    private static class Panel extends FrameLayout {
+
+        Bitmap glass;
+        private final Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        private float glassLeft;
+        private float glassTop;
+        private float glassWidth;
+        private float glassHeight;
+
+        Panel(Context context) {
+            super(context);
+            setWillNotDraw(false);
+        }
+
+        // The chat list as it is now, small and blurred, as DialogsActivity.prepareBlurBitmap does
+        void takeGlass(View view, View container) {
+            if (view == null || view.getWidth() <= 0 || view.getHeight() <= 0) {
+                return;
+            }
+            try {
+                int w = Math.max(1, view.getWidth() / 9);
+                int h = Math.max(1, view.getHeight() / 9);
+                Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                bitmap.eraseColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                Canvas canvas = new Canvas(bitmap);
+                canvas.scale(w / (float) view.getWidth(), h / (float) view.getHeight());
+                view.draw(canvas);
+                Utilities.stackBlurBitmap(bitmap, Math.max(9, Math.max(w, h) / 180));
+                int[] viewPosition = new int[2];
+                int[] containerPosition = new int[2];
+                view.getLocationInWindow(viewPosition);
+                container.getLocationInWindow(containerPosition);
+                glassLeft = viewPosition[0] - containerPosition[0];
+                glassTop = viewPosition[1] - containerPosition[1];
+                glassWidth = view.getWidth();
+                glassHeight = view.getHeight();
+                glass = bitmap;
+            } catch (Throwable e) {
+                FileLog.e(e);
+                glass = null;
+            }
+        }
+
+        void releaseGlass() {
+            if (glass != null) {
+                Bitmap bitmap = glass;
+                glass = null;
+                bitmap.recycle();
+            }
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            int color = Theme.getColor(Theme.key_chats_menuBackground);
+            if (glass == null || glass.isRecycled()) {
+                canvas.drawColor(color);
+                return;
+            }
+            // The blurred list keeps its place on the screen while the panel slides
+            canvas.save();
+            canvas.translate(glassLeft - getX(), glassTop - getY());
+            canvas.scale(glassWidth / glass.getWidth(), glassHeight / glass.getHeight());
+            canvas.drawBitmap(glass, 0, 0, paint);
+            canvas.restore();
+            canvas.drawColor(ColorUtils.setAlphaComponent(color, GLASS_ALPHA));
+        }
+    }
+
+    // The chat wallpaper, filling the header as a cover; the wallpaper's own bounds are put back
+    private static class CoverView extends View {
+
+        private final Drawable drawable;
+        private final Rect bounds = new Rect();
+
+        CoverView(Context context, Drawable drawable) {
+            super(context);
+            this.drawable = drawable;
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            int w = getWidth();
+            int h = getHeight();
+            if (w <= 0 || h <= 0) {
+                return;
+            }
+            drawable.copyBounds(bounds);
+            int dw = drawable.getIntrinsicWidth();
+            int dh = drawable.getIntrinsicHeight();
+            if (dw <= 0 || dh <= 0) {
+                drawable.setBounds(0, 0, w, h);
+            } else {
+                float scale = Math.max(w / (float) dw, h / (float) dh);
+                int sw = (int) Math.ceil(dw * scale);
+                int sh = (int) Math.ceil(dh * scale);
+                int left = (w - sw) / 2;
+                int top = (h - sh) / 2;
+                drawable.setBounds(left, top, left + sw, top + sh);
+            }
+            canvas.save();
+            canvas.clipRect(0, 0, w, h);
+            drawable.draw(canvas);
+            canvas.restore();
+            drawable.setBounds(bounds);
+        }
     }
 
     // ---- the swipe that closes the panel ----

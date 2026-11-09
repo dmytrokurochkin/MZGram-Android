@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Foto grande</string>
     <string name="MZGramDrawerFullMenu">Menú completo</string>
     <string name="MZGramDrawerAccounts">Mostrar las cuentas</string>
+    <string name="MZGramDrawerHeader">Fondo de la cabecera</string>
+    <string name="MZGramDrawerHeaderTheme">Color del tema</string>
+    <string name="MZGramDrawerHeaderNone">Sin fondo</string>
+    <string name="MZGramDrawerHeaderAvatar">Foto desenfocada</string>
+    <string name="MZGramDrawerHeaderWallpaper">Fondo de chat</string>
+    <string name="MZGramDrawerGlass">Panel de cristal</string>
+    <string name="MZGramDrawerLookInfo">A través del panel de cristal se ve la lista de chats desenfocada. Sin foto ni fondo, la cabecera mantiene el color del tema.</string>
 </resources>

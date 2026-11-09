@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Büyük profil fotoğrafı</string>
     <string name="MZGramDrawerFullMenu">Tüm menü</string>
     <string name="MZGramDrawerAccounts">Hesapları göster</string>
+    <string name="MZGramDrawerHeader">Başlık arka planı</string>
+    <string name="MZGramDrawerHeaderTheme">Tema rengi</string>
+    <string name="MZGramDrawerHeaderNone">Arka plan yok</string>
+    <string name="MZGramDrawerHeaderAvatar">Bulanık profil fotoğrafı</string>
+    <string name="MZGramDrawerHeaderWallpaper">Sohbet duvar kâğıdı</string>
+    <string name="MZGramDrawerGlass">Cam panel</string>
+    <string name="MZGramDrawerLookInfo">Cam panelin ardında sohbet listesi bulanık görünür. Fotoğraf ya da duvar kâğıdı yoksa başlık tema renginde kalır.</string>
 </resources>

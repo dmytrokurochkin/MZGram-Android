@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Grande photo</string>
     <string name="MZGramDrawerFullMenu">Menu complet</string>
     <string name="MZGramDrawerAccounts">Afficher les comptes</string>
+    <string name="MZGramDrawerHeader">Fond de l\'en-tête</string>
+    <string name="MZGramDrawerHeaderTheme">Couleur du thème</string>
+    <string name="MZGramDrawerHeaderNone">Sans fond</string>
+    <string name="MZGramDrawerHeaderAvatar">Photo floutée</string>
+    <string name="MZGramDrawerHeaderWallpaper">Fond d\'écran des discussions</string>
+    <string name="MZGramDrawerGlass">Panneau en verre</string>
+    <string name="MZGramDrawerLookInfo">À travers le panneau en verre, la liste des discussions apparaît floutée. Sans photo ni fond d\'écran, l\'en-tête garde la couleur du thème.</string>
 </resources>

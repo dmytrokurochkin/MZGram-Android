@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Foto grande</string>
     <string name="MZGramDrawerFullMenu">Menu completo</string>
     <string name="MZGramDrawerAccounts">Mostrar as contas</string>
+    <string name="MZGramDrawerHeader">Fundo do cabeçalho</string>
+    <string name="MZGramDrawerHeaderTheme">Cor do tema</string>
+    <string name="MZGramDrawerHeaderNone">Sem fundo</string>
+    <string name="MZGramDrawerHeaderAvatar">Foto desfocada</string>
+    <string name="MZGramDrawerHeaderWallpaper">Papel de parede do chat</string>
+    <string name="MZGramDrawerGlass">Painel de vidro</string>
+    <string name="MZGramDrawerLookInfo">Pelo painel de vidro a lista de chats aparece desfocada. Sem foto ou papel de parede, o cabeçalho fica com a cor do tema.</string>
 </resources>

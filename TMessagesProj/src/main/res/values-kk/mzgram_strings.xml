@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">Үлкен аватар</string>
     <string name="MZGramDrawerFullMenu">Толық мәзір</string>
     <string name="MZGramDrawerAccounts">Аккаунттарды көрсету</string>
+    <string name="MZGramDrawerHeader">Тақырыпша фоны</string>
+    <string name="MZGramDrawerHeaderTheme">Тақырып түсі</string>
+    <string name="MZGramDrawerHeaderNone">Фонсыз</string>
+    <string name="MZGramDrawerHeaderAvatar">Бұлдыр аватар</string>
+    <string name="MZGramDrawerHeaderWallpaper">Чат тұсқағазы</string>
+    <string name="MZGramDrawerGlass">Шыны панель</string>
+    <string name="MZGramDrawerLookInfo">Шыны панель арқылы чаттар тізімі бұлдыр көрінеді. Фото не тұсқағаз болмаса, тақырыпша тақырып түсінде қалады.</string>
 </resources>

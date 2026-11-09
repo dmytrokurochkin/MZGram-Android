@@ -831,4 +831,11 @@
     <string name="MZGramDrawerLargeAvatar">صورة كبيرة</string>
     <string name="MZGramDrawerFullMenu">القائمة الكاملة</string>
     <string name="MZGramDrawerAccounts">إظهار الحسابات</string>
+    <string name="MZGramDrawerHeader">خلفية الترويسة</string>
+    <string name="MZGramDrawerHeaderTheme">لون السمة</string>
+    <string name="MZGramDrawerHeaderNone">بلا خلفية</string>
+    <string name="MZGramDrawerHeaderAvatar">صورة ضبابية</string>
+    <string name="MZGramDrawerHeaderWallpaper">خلفية المحادثة</string>
+    <string name="MZGramDrawerGlass">لوحة زجاجية</string>
+    <string name="MZGramDrawerLookInfo">تظهر قائمة المحادثات ضبابية عبر اللوحة الزجاجية. وبلا صورة أو خلفية تبقى الترويسة بلون السمة.</string>
 </resources>

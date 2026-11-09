@@ -204,6 +204,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DRAWER_ITEMS = 164;
     private static final int BUTTON_DRAWER_SHOW_QR = 165;
     private static final int BUTTON_DRAWER_LARGE_AVATAR = 166;
+    private static final int BUTTON_DRAWER_HEADER = 167;
+    private static final int BUTTON_DRAWER_GLASS = 168;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -796,8 +798,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(BUTTON_DRAWER_ITEMS, getString(R.string.MZGramDrawerItems)));
             items.add(UItem.asCheck(BUTTON_DRAWER_SHOW_QR, getString(R.string.MZGramDrawerShowQr)).setChecked(MZGramConfig.drawerShowQr));
             items.add(UItem.asCheck(BUTTON_DRAWER_LARGE_AVATAR, getString(R.string.MZGramDrawerLargeAvatar)).setChecked(MZGramConfig.drawerLargeAvatar));
+            items.add(UItem.asButton(BUTTON_DRAWER_HEADER, getString(R.string.MZGramDrawerHeader), MZGramDrawer.headerStyleTitle()));
+            items.add(UItem.asCheck(BUTTON_DRAWER_GLASS, getString(R.string.MZGramDrawerGlass)).setChecked(MZGramConfig.drawerGlass));
+            items.add(UItem.asShadow(getString(R.string.MZGramDrawerInfo) + " " + getString(R.string.MZGramDrawerLookInfo)));
+        } else {
+            items.add(UItem.asShadow(getString(R.string.MZGramDrawerInfo)));
         }
-        items.add(UItem.asShadow(getString(R.string.MZGramDrawerInfo)));
         items.add(UItem.asCheck(BUTTON_RECENT_CHATS_ON_BACK, getString(R.string.MZGramRecentChatsOnBack)).setChecked(MZGramConfig.recentChatsOnBack));
         items.add(UItem.asShadow(getString(R.string.MZGramRecentChatsOnBackInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
@@ -1348,6 +1354,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DRAWER_SHOW_QR) {
             MZGramConfig.toggleDrawerShowQr();
             ((TextCheckCell) view).setChecked(MZGramConfig.drawerShowQr);
+        } else if (item.id == BUTTON_DRAWER_HEADER) {
+            MZGramDrawer.chooseHeaderStyle(this, () -> {
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            });
+        } else if (item.id == BUTTON_DRAWER_GLASS) {
+            MZGramConfig.toggleDrawerGlass();
+            ((TextCheckCell) view).setChecked(MZGramConfig.drawerGlass);
         } else if (item.id == BUTTON_DRAWER_LARGE_AVATAR) {
             MZGramConfig.toggleDrawerLargeAvatar();
             ((TextCheckCell) view).setChecked(MZGramConfig.drawerLargeAvatar);

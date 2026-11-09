@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Taxa de bits das mensagens de voz que você grava. Uma maior soa mais clara, e o arquivo fica duas ou quatro vezes maior. Todos ouvem como sempre.</string>
     <string name="MZGramLosslessPhotoCrop">Cortar fotos em resolução total</string>
     <string name="MZGramLosslessPhotoCropInfo">Quando você corta uma foto antes de enviar, o corte sai da foto original, e não de uma cópia já reduzida ao tamanho de envio, então até um corte pequeno continua nítido. Usa mais memória ao salvar.</string>
+    <string name="MZGramDiagnostics">Diagnóstico</string>
+    <string name="MZGramCrashReports">Mostrar um relatório de falha</string>
+    <string name="MZGramJankProfiler">Perfilador de quedas de quadros</string>
+    <string name="MZGramJankProfilerShare">Compartilhar o relatório de quadros</string>
+    <string name="MZGramJankProfilerStarted">Perfilador de quadros iniciado. Use o app normalmente e depois pare-o aqui.</string>
+    <string name="MZGramEnergyProfiler">Perfilador de bateria</string>
+    <string name="MZGramEnergyProfilerShare">Compartilhar o relatório de bateria</string>
+    <string name="MZGramEnergyProfilerStarted">Perfilador de bateria iniciado. Ele continua contando após reiniciar até você pará-lo aqui.</string>
+    <string name="MZGramProfilerStart">Iniciar</string>
+    <string name="MZGramProfilerStop">Parar</string>
+    <string name="MZGramProfilerSaved">Relatório salvo neste telefone</string>
+    <string name="MZGramProfilerFailed">Não foi possível gravar o relatório</string>
+    <string name="MZGramDiagnosticsInfo">Tudo aqui fica neste telefone e o MZGram nunca envia nada. O relatório de falha aparece uma vez na próxima abertura após uma falha, para ler ou copiar. Os perfiladores gravam relatórios de texto para desenvolvedores; você decide se compartilha um.</string>
+    <string name="MZGramCrashReportTitle">O MZGram travou</string>
+    <string name="MZGramCrashReportText">Este é o relatório da última falha. Ele fica neste telefone; copie-o se quiser mostrá-lo aos desenvolvedores.</string>
 </resources>

@@ -1,0 +1,706 @@
+/*
+ * This is the source code of MZGram for Android,
+ * a fork of Telegram for Android.
+ *
+ * Battery profiler. Started by hand from the MZGram settings, it samples
+ * every 30 seconds (and on screen and foreground changes) the app's CPU time
+ * per thread, its network traffic and the phone's battery charge, split into
+ * three states: in the foreground, in the background with the screen on, and
+ * with the screen off. The counters survive an app restart until the user
+ * stops it, then a text report goes to the logs folder on the phone. Nothing
+ * is sent; the user may share the file from the settings if they want to.
+ *
+ * Ported from exteraless EnergyProfiler (GPL-3.0). Wake lock tracking needs
+ * Xposed hooks there and plugin hook statistics need plugins; both are left
+ * out, the report says so.
+ */
+
+package org.telegram.messenger.mzgram;
+
+import android.app.Activity;
+import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.net.TrafficStats;
+import android.os.BatteryManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.PowerManager;
+import android.os.Process;
+import android.os.SystemClock;
+import android.system.Os;
+import android.system.OsConstants;
+
+import androidx.annotation.NonNull;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildConfig;
+import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.Utilities;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+
+public final class MZGramEnergyProfiler {
+
+    private static final String PREFS = "mzgram_energy_profiler";
+    private static final String KEY_RUNNING = "running";
+    private static final String STATE_FILE = "mzgram-energy-profiler-state.json";
+    static final String REPORT_PREFIX = "mzgram-energy-";
+    private static final long SAMPLE_INTERVAL_MS = 30_000;
+    private static final long SAVE_INTERVAL_MS = 120_000;
+    private static final int REPORT_TOP = 30;
+
+    private static final int FOREGROUND = 0;
+    private static final int BACKGROUND = 1;
+    private static final int SCREEN_OFF = 2;
+    private static final String[] STATE_NAMES = {"foreground", "background, screen on", "screen off"};
+
+    private static MZGramEnergyProfiler instance;
+
+    public static synchronized boolean isRunning() {
+        return instance != null;
+    }
+
+    public static void start(Context context) {
+        if (context == null) {
+            return;
+        }
+        final Context app = context.getApplicationContext();
+        synchronized (MZGramEnergyProfiler.class) {
+            if (instance != null) {
+                return;
+            }
+            try {
+                prefs(app).edit().putBoolean(KEY_RUNNING, true).commit();
+                stateFile(app).delete();
+                instance = new MZGramEnergyProfiler(app, null);
+            } catch (Throwable t) {
+                FileLog.e(t);
+                instance = null;
+            }
+        }
+    }
+
+    /** At app start: carries on a session the user has not stopped. Does nothing otherwise. */
+    public static void resumeIfEnabled(Context context) {
+        try {
+            if (context == null) {
+                return;
+            }
+            final Context app = context.getApplicationContext();
+            if (!prefs(app).getBoolean(KEY_RUNNING, false)) {
+                return;
+            }
+            synchronized (MZGramEnergyProfiler.class) {
+                if (instance == null) {
+                    instance = new MZGramEnergyProfiler(app, readState(app));
+                }
+            }
+        } catch (Throwable t) {
+            FileLog.e(t);
+        }
+    }
+
+    /** Stops and writes the report; onReady gets it on the UI thread (the last one when not running). */
+    public static void stop(Utilities.Callback<File> onReady) {
+        final MZGramEnergyProfiler profiler;
+        synchronized (MZGramEnergyProfiler.class) {
+            profiler = instance;
+            instance = null;
+        }
+        if (profiler == null) {
+            onReady.run(getLastReport());
+            return;
+        }
+        prefs(profiler.context).edit().putBoolean(KEY_RUNNING, false).commit();
+        profiler.report(true, onReady);
+    }
+
+    /** Writes a report of the running session without stopping it. */
+    public static void shareCurrent(Utilities.Callback<File> onReady) {
+        final MZGramEnergyProfiler profiler;
+        synchronized (MZGramEnergyProfiler.class) {
+            profiler = instance;
+        }
+        if (profiler == null) {
+            onReady.run(getLastReport());
+            return;
+        }
+        profiler.report(false, onReady);
+    }
+
+    public static File getLastReport() {
+        return MZGramProfilerReports.last(REPORT_PREFIX);
+    }
+
+    private static SharedPreferences prefs(Context context) {
+        return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+    }
+
+    private static File stateFile(Context context) {
+        return new File(context.getFilesDir(), STATE_FILE);
+    }
+
+    private static JSONObject readState(Context context) {
+        final File file = stateFile(context);
+        if (!file.exists()) {
+            return null;
+        }
+        try {
+            return new JSONObject(readSmall(file));
+        } catch (Throwable t) {
+            FileLog.e(t);
+            return null;
+        }
+    }
+
+    private static final class Bucket {
+        long wallMs;
+        long awakeMs;
+        long cpuTicks;
+        long rxBytes;
+        long txBytes;
+        long dischargeUah;
+        long dischargeMs;
+        long currentSumUa;
+        long currentSamples;
+        final HashMap<String, Long> threads = new HashMap<>();
+
+        JSONObject toJson() throws Exception {
+            final JSONObject out = new JSONObject();
+            out.put("wall", wallMs);
+            out.put("awake", awakeMs);
+            out.put("cpu", cpuTicks);
+            out.put("rx", rxBytes);
+            out.put("tx", txBytes);
+            out.put("dischargeUah", dischargeUah);
+            out.put("dischargeMs", dischargeMs);
+            out.put("currentSum", currentSumUa);
+            out.put("currentSamples", currentSamples);
+            final JSONObject threadsJson = new JSONObject();
+            for (Map.Entry<String, Long> entry : threads.entrySet()) {
+                threadsJson.put(entry.getKey(), entry.getValue());
+            }
+            out.put("threads", threadsJson);
+            return out;
+        }
+
+        void fromJson(JSONObject in) {
+            wallMs = in.optLong("wall");
+            awakeMs = in.optLong("awake");
+            cpuTicks = in.optLong("cpu");
+            rxBytes = in.optLong("rx");
+            txBytes = in.optLong("tx");
+            dischargeUah = in.optLong("dischargeUah");
+            dischargeMs = in.optLong("dischargeMs");
+            currentSumUa = in.optLong("currentSum");
+            currentSamples = in.optLong("currentSamples");
+            final JSONObject threadsJson = in.optJSONObject("threads");
+            if (threadsJson != null) {
+                for (Iterator<String> it = threadsJson.keys(); it.hasNext(); ) {
+                    final String key = it.next();
+                    threads.put(key, threadsJson.optLong(key));
+                }
+            }
+        }
+    }
+
+    private final Context context;
+    private final HandlerThread thread;
+    private final Handler handler;
+    private final long clockTicks;
+    private final int uid;
+    private final Bucket[] buckets = {new Bucket(), new Bucket(), new Bucket()};
+    private final long sessionStart;
+    private final long previousWallMs;
+    private long samples;
+    private final HashMap<Integer, Long> threadTicks = new HashMap<>();
+    private boolean haveBaseline;
+    private long lastRealtime;
+    private long lastUptime;
+    private long lastProcessTicks;
+    private long lastRx = TrafficStats.UNSUPPORTED;
+    private long lastTx = TrafficStats.UNSUPPORTED;
+    private long lastCharge = Long.MIN_VALUE;
+    private boolean lastCharging;
+    private long lastSave;
+    private volatile int lastState;
+    private volatile int resumedActivities;
+    private volatile boolean stopped;
+    private final BroadcastReceiver screenReceiver;
+    private final Application.ActivityLifecycleCallbacks lifecycleCallbacks;
+    private final Runnable tick = this::tick;
+
+    private MZGramEnergyProfiler(Context context, JSONObject saved) {
+        this.context = context;
+        long ticks = 100;
+        try {
+            ticks = Os.sysconf(OsConstants._SC_CLK_TCK);
+        } catch (Throwable ignored) {
+        }
+        clockTicks = ticks > 0 ? ticks : 100;
+        uid = Process.myUid();
+        long start = System.currentTimeMillis();
+        long previous = 0;
+        if (saved != null) {
+            start = saved.optLong("start", start);
+            samples = saved.optLong("samples");
+            final JSONArray savedBuckets = saved.optJSONArray("buckets");
+            if (savedBuckets != null) {
+                for (int i = 0; i < buckets.length && i < savedBuckets.length(); i++) {
+                    final JSONObject bucket = savedBuckets.optJSONObject(i);
+                    if (bucket != null) {
+                        buckets[i].fromJson(bucket);
+                        previous += buckets[i].wallMs;
+                    }
+                }
+            }
+        }
+        sessionStart = start;
+        previousWallMs = previous;
+        resumedActivities = ApplicationLoader.mainInterfacePaused ? 0 : 1;
+        lastState = currentState();
+
+        thread = new HandlerThread("MZGramEnergyProfiler", Process.THREAD_PRIORITY_BACKGROUND);
+        thread.start();
+        handler = new Handler(thread.getLooper());
+
+        screenReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context c, Intent intent) {
+                sampleSoon();
+            }
+        };
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        try {
+            context.registerReceiver(screenReceiver, filter);
+        } catch (Throwable t) {
+            FileLog.e(t);
+        }
+
+        lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityResumed(@NonNull Activity activity) {
+                if (resumedActivities++ == 0) {
+                    sampleSoon();
+                }
+            }
+
+            @Override
+            public void onActivityPaused(@NonNull Activity activity) {
+                if (resumedActivities > 0 && --resumedActivities == 0) {
+                    sampleSoon();
+                }
+            }
+
+            @Override
+            public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
+            }
+
+            @Override
+            public void onActivityStarted(@NonNull Activity activity) {
+            }
+
+            @Override
+            public void onActivityStopped(@NonNull Activity activity) {
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+            }
+
+            @Override
+            public void onActivityDestroyed(@NonNull Activity activity) {
+            }
+        };
+        if (context instanceof Application) {
+            ((Application) context).registerActivityLifecycleCallbacks(lifecycleCallbacks);
+        }
+        handler.post(this::tick);
+    }
+
+    private void sampleSoon() {
+        if (stopped) {
+            return;
+        }
+        handler.post(this::sample);
+    }
+
+    private void tick() {
+        if (stopped) {
+            return;
+        }
+        sample();
+        handler.removeCallbacks(tick);
+        handler.postDelayed(tick, SAMPLE_INTERVAL_MS);
+    }
+
+    private int currentState() {
+        boolean interactive = true;
+        try {
+            final PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            interactive = pm == null || pm.isInteractive();
+        } catch (Throwable ignored) {
+        }
+        if (!interactive) {
+            return SCREEN_OFF;
+        }
+        return resumedActivities > 0 ? FOREGROUND : BACKGROUND;
+    }
+
+    private void sample() {
+        if (stopped) {
+            return;
+        }
+        try {
+            sampleInternal();
+        } catch (Throwable t) {
+            FileLog.e(t);
+        }
+    }
+
+    private void sampleInternal() {
+        final long realtime = SystemClock.elapsedRealtime();
+        final long uptime = SystemClock.uptimeMillis();
+        final int state = currentState();
+        final Bucket interval = buckets[lastState];
+        if (haveBaseline) {
+            interval.wallMs += Math.max(0, realtime - lastRealtime);
+            interval.awakeMs += Math.max(0, uptime - lastUptime);
+        }
+
+        final long processTicks = readProcessTicks();
+        if (haveBaseline && processTicks >= lastProcessTicks && lastProcessTicks > 0) {
+            interval.cpuTicks += processTicks - lastProcessTicks;
+        }
+        if (processTicks > 0) {
+            lastProcessTicks = processTicks;
+        }
+        readThreads(interval);
+
+        final long rx = TrafficStats.getUidRxBytes(uid);
+        final long tx = TrafficStats.getUidTxBytes(uid);
+        if (haveBaseline && rx != TrafficStats.UNSUPPORTED && lastRx != TrafficStats.UNSUPPORTED && rx >= lastRx) {
+            interval.rxBytes += rx - lastRx;
+        }
+        if (haveBaseline && tx != TrafficStats.UNSUPPORTED && lastTx != TrafficStats.UNSUPPORTED && tx >= lastTx) {
+            interval.txBytes += tx - lastTx;
+        }
+        lastRx = rx;
+        lastTx = tx;
+
+        long charge = Long.MIN_VALUE;
+        boolean charging = false;
+        int current = Integer.MIN_VALUE;
+        try {
+            final BatteryManager bm = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+            if (bm != null) {
+                charge = bm.getLongProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
+                charging = bm.isCharging();
+                current = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
+            }
+        } catch (Throwable ignored) {
+        }
+        if (haveBaseline && !charging && !lastCharging && charge > 0 && lastCharge > 0 && lastCharge >= charge) {
+            interval.dischargeUah += lastCharge - charge;
+            interval.dischargeMs += Math.max(0, realtime - lastRealtime);
+        }
+        if (!charging && current != Integer.MIN_VALUE && current != 0) {
+            buckets[state].currentSumUa += Math.abs((long) current);
+            buckets[state].currentSamples++;
+        }
+        lastCharge = charge;
+        lastCharging = charging;
+
+        lastRealtime = realtime;
+        lastUptime = uptime;
+        lastState = state;
+        haveBaseline = true;
+        samples++;
+        if (realtime - lastSave >= SAVE_INTERVAL_MS) {
+            lastSave = realtime;
+            save();
+        }
+    }
+
+    private long readProcessTicks() {
+        try {
+            return parseTicks(readSmall(new File("/proc/self/stat")));
+        } catch (Throwable t) {
+            return 0;
+        }
+    }
+
+    private static long parseTicks(String stat) {
+        final int close = stat.lastIndexOf(')');
+        if (close < 0 || close + 2 > stat.length()) {
+            return -1;
+        }
+        final String[] fields = stat.substring(close + 2).split(" ");
+        if (fields.length < 13) {
+            return -1;
+        }
+        try {
+            return Long.parseLong(fields[11]) + Long.parseLong(fields[12]);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private static String parseComm(String stat) {
+        final int open = stat.indexOf('(');
+        final int close = stat.lastIndexOf(')');
+        if (open < 0 || close <= open) {
+            return "?";
+        }
+        return stat.substring(open + 1, close);
+    }
+
+    private void readThreads(Bucket interval) {
+        final File[] tasks = new File("/proc/self/task").listFiles();
+        if (tasks == null) {
+            return;
+        }
+        final HashSet<Integer> seen = new HashSet<>();
+        for (File task : tasks) {
+            final int tid;
+            try {
+                tid = Integer.parseInt(task.getName());
+            } catch (NumberFormatException e) {
+                continue;
+            }
+            final String stat;
+            try {
+                stat = readSmall(new File(task, "stat"));
+            } catch (Throwable t) {
+                continue;
+            }
+            final long ticks = parseTicks(stat);
+            if (ticks < 0) {
+                continue;
+            }
+            seen.add(tid);
+            final Long previous = threadTicks.put(tid, ticks);
+            final long delta;
+            if (previous == null) {
+                delta = haveBaseline ? ticks : 0;
+            } else {
+                delta = ticks >= previous ? ticks - previous : ticks;
+            }
+            if (delta > 0) {
+                final String name = normalizeThreadName(parseComm(stat));
+                final Long total = interval.threads.get(name);
+                interval.threads.put(name, total == null ? delta : total + delta);
+            }
+        }
+        threadTicks.keySet().retainAll(seen);
+    }
+
+    private static String normalizeThreadName(String name) {
+        final StringBuilder out = new StringBuilder(name.length());
+        boolean digits = false;
+        for (int i = 0; i < name.length(); i++) {
+            final char c = name.charAt(i);
+            if (c >= '0' && c <= '9') {
+                if (!digits) {
+                    out.append('#');
+                    digits = true;
+                }
+            } else {
+                out.append(c);
+                digits = false;
+            }
+        }
+        return out.toString().trim();
+    }
+
+    private JSONObject stateJson() throws Exception {
+        final JSONObject out = new JSONObject();
+        out.put("start", sessionStart);
+        out.put("samples", samples);
+        final JSONArray array = new JSONArray();
+        for (Bucket bucket : buckets) {
+            array.put(bucket.toJson());
+        }
+        out.put("buckets", array);
+        return out;
+    }
+
+    private void save() {
+        try {
+            final File file = stateFile(context);
+            final File tmp = new File(file.getPath() + ".tmp");
+            try (Writer writer = new OutputStreamWriter(new FileOutputStream(tmp), StandardCharsets.UTF_8)) {
+                writer.write(stateJson().toString());
+            }
+            if (!tmp.renameTo(file)) {
+                FileLog.e("MZGramEnergyProfiler: cannot save state");
+            }
+        } catch (Throwable t) {
+            FileLog.e(t);
+        }
+    }
+
+    private void report(boolean finish, Utilities.Callback<File> onReady) {
+        handler.post(() -> {
+            sample();
+            File file = null;
+            try {
+                file = writeReport();
+            } catch (Throwable t) {
+                FileLog.e(t);
+            }
+            if (finish) {
+                shutdown();
+            } else {
+                save();
+            }
+            final File result = file;
+            AndroidUtilities.runOnUIThread(() -> onReady.run(result));
+        });
+    }
+
+    private void shutdown() {
+        stopped = true;
+        handler.removeCallbacks(tick);
+        try {
+            context.unregisterReceiver(screenReceiver);
+        } catch (Throwable ignored) {
+        }
+        if (context instanceof Application) {
+            ((Application) context).unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+        }
+        stateFile(context).delete();
+        thread.quitSafely();
+    }
+
+    private File writeReport() throws Exception {
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        final StringBuilder out = new StringBuilder();
+        out.append("MZGram energy profile\n");
+        out.append("app ").append(BuildVars.BUILD_VERSION_STRING).append(" (").append(BuildConfig.VERSION_CODE).append(")")
+                .append(", ").append(Build.MANUFACTURER).append(' ').append(Build.MODEL)
+                .append(", Android ").append(Build.VERSION.RELEASE).append(" (API ").append(Build.VERSION.SDK_INT).append(")\n");
+        out.append("started ").append(format.format(new Date(sessionStart)))
+                .append(", report ").append(format.format(new Date())).append('\n');
+        long totalWall = 0;
+        long totalCpu = 0;
+        for (Bucket bucket : buckets) {
+            totalWall += bucket.wallMs;
+            totalCpu += bucket.cpuTicks;
+        }
+        out.append(String.format(Locale.US, "tracked %s in %d samples (%s before the last app restart), clock %d ticks/s\n",
+                duration(totalWall), samples, duration(previousWallMs), clockTicks));
+        out.append("wake locks: not tracked\n");
+
+        out.append("\n== summary ==\n");
+        out.append("state                    wall        awake     cpu s   cpu %   net rx MB  tx MB   battery mAh  mAh/h   avg mA\n");
+        for (int i = 0; i < buckets.length; i++) {
+            final Bucket b = buckets[i];
+            final double cpuSeconds = b.cpuTicks / (double) clockTicks;
+            final double cpuPercent = b.wallMs > 0 ? cpuSeconds * 100_000.0 / b.wallMs : 0;
+            final double mah = b.dischargeUah / 1000.0;
+            final double mahPerHour = b.dischargeMs > 0 ? mah * 3_600_000.0 / b.dischargeMs : 0;
+            final double avgMa = b.currentSamples > 0 ? b.currentSumUa / 1000.0 / b.currentSamples : 0;
+            out.append(String.format(Locale.US, "%-22s %10s %10s %9.1f %7.2f %10.2f %6.2f %12.1f %7.1f %8.1f\n",
+                    STATE_NAMES[i], duration(b.wallMs), duration(b.awakeMs), cpuSeconds, cpuPercent,
+                    b.rxBytes / 1048576.0, b.txBytes / 1048576.0, mah, mahPerHour, avgMa));
+        }
+        out.append(String.format(Locale.US, "total cpu %.1f s; battery numbers are for the whole phone while unplugged\n",
+                totalCpu / (double) clockTicks));
+
+        final HashMap<String, Long> overall = new HashMap<>();
+        for (Bucket bucket : buckets) {
+            for (Map.Entry<String, Long> entry : bucket.threads.entrySet()) {
+                final Long value = overall.get(entry.getKey());
+                overall.put(entry.getKey(), value == null ? entry.getValue() : value + entry.getValue());
+            }
+        }
+        appendThreads(out, "all states", overall);
+        for (int i = 0; i < buckets.length; i++) {
+            appendThreads(out, STATE_NAMES[i], buckets[i].threads);
+        }
+
+        final File dir = AndroidUtilities.getLogsDir();
+        if (dir == null) {
+            return null;
+        }
+        final File file = new File(dir, REPORT_PREFIX
+                + new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(new Date()) + ".txt");
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)) {
+            writer.write(out.toString());
+        }
+        return file;
+    }
+
+    private void appendThreads(StringBuilder out, String title, HashMap<String, Long> threads) {
+        long total = 0;
+        for (Long value : threads.values()) {
+            total += value;
+        }
+        out.append("\n== threads, ").append(title).append(String.format(Locale.US, " (%.1f s cpu) ==\n", total / (double) clockTicks));
+        if (total == 0) {
+            out.append("no cpu time recorded\n");
+            return;
+        }
+        final ArrayList<Map.Entry<String, Long>> entries = new ArrayList<>(threads.entrySet());
+        entries.sort((a, b) -> Long.compare(b.getValue(), a.getValue()));
+        out.append("     cpu s      %  thread\n");
+        int shown = 0;
+        long rest = 0;
+        for (Map.Entry<String, Long> entry : entries) {
+            if (shown++ < REPORT_TOP) {
+                out.append(String.format(Locale.US, "%10.1f %6.1f  %s\n",
+                        entry.getValue() / (double) clockTicks, entry.getValue() * 100.0 / total, entry.getKey()));
+            } else {
+                rest += entry.getValue();
+            }
+        }
+        if (rest > 0) {
+            out.append(String.format(Locale.US, "%10.1f %6.1f  (%d more)\n", rest / (double) clockTicks, rest * 100.0 / total, entries.size() - REPORT_TOP));
+        }
+    }
+
+    private static String duration(long ms) {
+        final long minutes = ms / 60_000;
+        if (minutes >= 60) {
+            return String.format(Locale.US, "%dh %02dm", minutes / 60, minutes % 60);
+        }
+        return String.format(Locale.US, "%dm %02ds", minutes, (ms / 1000) % 60);
+    }
+
+    private static String readSmall(File file) throws Exception {
+        try (FileInputStream in = new FileInputStream(file)) {
+            final byte[] buffer = new byte[4096];
+            final StringBuilder out = new StringBuilder();
+            int read;
+            while ((read = in.read(buffer)) > 0) {
+                out.append(new String(buffer, 0, read, StandardCharsets.UTF_8));
+            }
+            return out.toString();
+        }
+    }
+}

@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Przepływność nagrywanych wiadomości głosowych. Wyższa brzmi czyściej, a plik jest dwa lub cztery razy większy. Wszyscy odsłuchują je jak zwykle.</string>
     <string name="MZGramLosslessPhotoCrop">Przycinaj zdjęcia w pełnej rozdzielczości</string>
     <string name="MZGramLosslessPhotoCropInfo">Gdy przycinasz zdjęcie przed wysłaniem, wycinek powstaje z oryginalnego zdjęcia, a nie z kopii już zmniejszonej do rozmiaru wysyłki, więc nawet mały wycinek zostaje ostry. Podczas zapisywania zużywa więcej pamięci.</string>
+    <string name="MZGramDiagnostics">Diagnostyka</string>
+    <string name="MZGramCrashReports">Pokazuj raport o awarii</string>
+    <string name="MZGramJankProfiler">Profiler spadków klatek</string>
+    <string name="MZGramJankProfilerShare">Udostępnij raport o klatkach</string>
+    <string name="MZGramJankProfilerStarted">Profiler klatek uruchomiony. Korzystaj z aplikacji jak zwykle, a potem zatrzymaj go tutaj.</string>
+    <string name="MZGramEnergyProfiler">Profiler baterii</string>
+    <string name="MZGramEnergyProfilerShare">Udostępnij raport o baterii</string>
+    <string name="MZGramEnergyProfilerStarted">Profiler baterii uruchomiony. Liczy także po ponownym uruchomieniu, dopóki go tu nie zatrzymasz.</string>
+    <string name="MZGramProfilerStart">Uruchom</string>
+    <string name="MZGramProfilerStop">Zatrzymaj</string>
+    <string name="MZGramProfilerSaved">Raport zapisany na tym telefonie</string>
+    <string name="MZGramProfilerFailed">Nie udało się zapisać raportu</string>
+    <string name="MZGramDiagnosticsInfo">Wszystko tutaj zostaje na tym telefonie, MZGram niczego nie wysyła. Raport o awarii pokazuje się raz przy następnym uruchomieniu po awarii, aby go przeczytać lub skopiować. Profilery zapisują raporty tekstowe dla programistów; to ty decydujesz, czy je udostępnić.</string>
+    <string name="MZGramCrashReportTitle">MZGram uległ awarii</string>
+    <string name="MZGramCrashReportText">To raport z ostatniej awarii. Zostaje na tym telefonie; skopiuj go, jeśli chcesz pokazać go programistom.</string>
 </resources>

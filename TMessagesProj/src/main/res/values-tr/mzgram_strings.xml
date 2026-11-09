@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Kaydettiğiniz sesli mesajların bit hızı. Daha yüksek olan daha net duyulur, dosya ise iki ya da dört kat büyür. Herkes onları her zamanki gibi dinleyebilir.</string>
     <string name="MZGramLosslessPhotoCrop">Fotoğrafları tam çözünürlükte kırp</string>
     <string name="MZGramLosslessPhotoCropInfo">Bir fotoğrafı göndermeden önce kırptığınızda kırpma, gönderim boyutuna zaten küçültülmüş bir kopyadan değil özgün fotoğraftan kesilir; böylece küçük bir kırpma da net kalır. Kaydederken daha fazla bellek kullanır.</string>
+    <string name="MZGramDiagnostics">Tanılama</string>
+    <string name="MZGramCrashReports">Çökme raporunu göster</string>
+    <string name="MZGramJankProfiler">Kare düşüşü profilleyici</string>
+    <string name="MZGramJankProfilerShare">Kare raporunu paylaş</string>
+    <string name="MZGramJankProfilerStarted">Kare profilleyici başlatıldı. Uygulamayı her zamanki gibi kullanın, sonra burada durdurun.</string>
+    <string name="MZGramEnergyProfiler">Pil profilleyici</string>
+    <string name="MZGramEnergyProfilerShare">Pil raporunu paylaş</string>
+    <string name="MZGramEnergyProfilerStarted">Pil profilleyici başlatıldı. Siz burada durdurana kadar yeniden başlatmadan sonra da saymaya devam eder.</string>
+    <string name="MZGramProfilerStart">Başlat</string>
+    <string name="MZGramProfilerStop">Durdur</string>
+    <string name="MZGramProfilerSaved">Rapor bu telefona kaydedildi</string>
+    <string name="MZGramProfilerFailed">Rapor yazılamadı</string>
+    <string name="MZGramDiagnosticsInfo">Buradaki her şey bu telefonda kalır, MZGram hiçbir şey göndermez. Çökme raporu, çökmeden sonraki ilk açılışta okumanız ya da kopyalamanız için bir kez gösterilir. Profilleyiciler geliştiriciler için metin raporları yazar; paylaşıp paylaşmamaya siz karar verirsiniz.</string>
+    <string name="MZGramCrashReportTitle">MZGram çöktü</string>
+    <string name="MZGramCrashReportText">Bu, son çökmenin raporudur. Bu telefonda kalır; geliştiricilere göstermek isterseniz kopyalayın.</string>
 </resources>

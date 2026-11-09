@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Tasa de bits de los mensajes de voz que grabas. Una más alta suena más clara y el archivo es dos o cuatro veces más grande. Todos pueden escucharlos como siempre.</string>
     <string name="MZGramLosslessPhotoCrop">Recortar fotos a resolución completa</string>
     <string name="MZGramLosslessPhotoCropInfo">Cuando recortas una foto antes de enviarla, el recorte se saca de la foto original y no de una copia ya reducida al tamaño de envío, así que incluso un recorte pequeño sigue nítido. Usa más memoria al guardar.</string>
+    <string name="MZGramDiagnostics">Diagnóstico</string>
+    <string name="MZGramCrashReports">Mostrar un informe de fallo</string>
+    <string name="MZGramJankProfiler">Perfilador de caídas de fotogramas</string>
+    <string name="MZGramJankProfilerShare">Compartir el informe de fotogramas</string>
+    <string name="MZGramJankProfilerStarted">Perfilador de fotogramas iniciado. Usa la app como siempre y luego detenlo aquí.</string>
+    <string name="MZGramEnergyProfiler">Perfilador de batería</string>
+    <string name="MZGramEnergyProfilerShare">Compartir el informe de batería</string>
+    <string name="MZGramEnergyProfilerStarted">Perfilador de batería iniciado. Sigue contando tras reiniciar hasta que lo detengas aquí.</string>
+    <string name="MZGramProfilerStart">Iniciar</string>
+    <string name="MZGramProfilerStop">Detener</string>
+    <string name="MZGramProfilerSaved">Informe guardado en este teléfono</string>
+    <string name="MZGramProfilerFailed">No se pudo escribir el informe</string>
+    <string name="MZGramDiagnosticsInfo">Todo aquí se queda en este teléfono y MZGram nunca lo envía. El informe de fallo se muestra una vez en el siguiente inicio tras un fallo, para leerlo o copiarlo. Los perfiladores escriben informes de texto para desarrolladores; tú decides si compartir uno.</string>
+    <string name="MZGramCrashReportTitle">MZGram se cerró por un fallo</string>
+    <string name="MZGramCrashReportText">Este es el informe del último fallo. Se queda en este teléfono; cópialo si quieres mostrárselo a los desarrolladores.</string>
 </resources>

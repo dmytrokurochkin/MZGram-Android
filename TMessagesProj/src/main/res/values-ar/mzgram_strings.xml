@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">معدل البت للرسائل الصوتية التي تسجلها. المعدل الأعلى أوضح صوتًا، والملف أكبر بمرتين أو أربع مرات. يستمع إليها الجميع كالمعتاد.</string>
     <string name="MZGramLosslessPhotoCrop">قص الصور بالدقة الكاملة</string>
     <string name="MZGramLosslessPhotoCropInfo">عندما تقص صورة قبل إرسالها، يُقتطع الجزء من الصورة الأصلية لا من نسخة صُغّرت مسبقًا إلى حجم الإرسال، فيبقى حتى القص الصغير واضحًا. يستخدم ذاكرة أكثر أثناء الحفظ.</string>
+    <string name="MZGramDiagnostics">التشخيص</string>
+    <string name="MZGramCrashReports">عرض تقرير الانهيار</string>
+    <string name="MZGramJankProfiler">محلل انخفاض الإطارات</string>
+    <string name="MZGramJankProfilerShare">مشاركة تقرير الإطارات</string>
+    <string name="MZGramJankProfilerStarted">بدأ محلل الإطارات. استخدم التطبيق كالمعتاد، ثم أوقفه من هنا.</string>
+    <string name="MZGramEnergyProfiler">محلل البطارية</string>
+    <string name="MZGramEnergyProfilerShare">مشاركة تقرير البطارية</string>
+    <string name="MZGramEnergyProfilerStarted">بدأ محلل البطارية. يواصل العد بعد إعادة التشغيل حتى توقفه من هنا.</string>
+    <string name="MZGramProfilerStart">بدء</string>
+    <string name="MZGramProfilerStop">إيقاف</string>
+    <string name="MZGramProfilerSaved">حُفظ التقرير على هذا الهاتف</string>
+    <string name="MZGramProfilerFailed">تعذّرت كتابة التقرير</string>
+    <string name="MZGramDiagnosticsInfo">كل ما هنا يبقى على هذا الهاتف ولا يرسله MZGram أبدًا. يظهر تقرير الانهيار مرة واحدة عند التشغيل التالي بعد الانهيار لقراءته أو نسخه. تكتب المحللات تقارير نصية للمطورين، وأنت من يقرر مشاركتها.</string>
+    <string name="MZGramCrashReportTitle">توقف MZGram بسبب خطأ</string>
+    <string name="MZGramCrashReportText">هذا تقرير آخر انهيار. يبقى على هذا الهاتف؛ انسخه إذا أردت عرضه على المطورين.</string>
 </resources>

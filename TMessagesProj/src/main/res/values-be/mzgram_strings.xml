@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Бітрэйт галасавых паведамленняў, якія вы запісваеце. Вышэйшы гучыць чысцей, а файл большы ў два ці чатыры разы. Усе слухаюць іх як звычайна.</string>
     <string name="MZGramLosslessPhotoCrop">Абразаць фота ў поўнай раздзяляльнасці</string>
     <string name="MZGramLosslessPhotoCropInfo">Калі вы абразаеце фота перад адпраўкай, абрэзка выразаецца з арыгінальнага фота, а не з копіі, ужо паменшанай да памеру адпраўкі, таму нават малая абрэзка застаецца выразнай. Падчас захавання выкарыстоўвае больш памяці.</string>
+    <string name="MZGramDiagnostics">Дыягностыка</string>
+    <string name="MZGramCrashReports">Паказваць справаздачу пра збой</string>
+    <string name="MZGramJankProfiler">Прафайлер прасядання кадраў</string>
+    <string name="MZGramJankProfilerShare">Падзяліцца справаздачай пра кадры</string>
+    <string name="MZGramJankProfilerStarted">Прафайлер кадраў запушчаны. Карыстайцеся праграмай як звычайна, потым спыніце яго тут.</string>
+    <string name="MZGramEnergyProfiler">Прафайлер батарэі</string>
+    <string name="MZGramEnergyProfilerShare">Падзяліцца справаздачай пра батарэю</string>
+    <string name="MZGramEnergyProfilerStarted">Прафайлер батарэі запушчаны. Ён лічыць і пасля перазапуску, пакуль вы не спыніце яго тут.</string>
+    <string name="MZGramProfilerStart">Запусціць</string>
+    <string name="MZGramProfilerStop">Спыніць</string>
+    <string name="MZGramProfilerSaved">Справаздача захавана на гэтым тэлефоне</string>
+    <string name="MZGramProfilerFailed">Не ўдалося запісаць справаздачу</string>
+    <string name="MZGramDiagnosticsInfo">Усё тут застаецца на гэтым тэлефоне, MZGram нічога не адпраўляе. Справаздача пра збой паказваецца адзін раз пры наступным запуску пасля збою, каб прачытаць ці скапіяваць яе. Прафайлеры пішуць тэкставыя справаздачы для распрацоўшчыкаў; дзяліцца імі ці не, вырашаеце вы.</string>
+    <string name="MZGramCrashReportTitle">MZGram аварыйна завяршыўся</string>
+    <string name="MZGramCrashReportText">Гэта справаздача пра апошні збой. Яна застаецца на гэтым тэлефоне; скапіюйце яе, калі хочаце паказаць распрацоўшчыкам.</string>
 </resources>

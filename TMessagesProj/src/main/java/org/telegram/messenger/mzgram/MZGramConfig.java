@@ -79,6 +79,8 @@ public class MZGramConfig {
     public static int voiceQuality = 0;
     // Crop photos out of the source at full resolution (MZGramPhotoCrop)
     public static boolean losslessPhotoCrop = false;
+    // Write uncaught exceptions to a local file and show it on the next launch (MZGramCrashLog)
+    public static boolean crashReports = false;
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
@@ -379,6 +381,7 @@ public class MZGramConfig {
             appFontName = preferences.getString("appFontName", "");
             voiceQuality = preferences.getInt("voiceQuality", 0);
             losslessPhotoCrop = preferences.getBoolean("losslessPhotoCrop", false);
+            crashReports = preferences.getBoolean("crashReports", false);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
@@ -698,6 +701,16 @@ public class MZGramConfig {
         appFont = mode == 1 || mode == 2 ? mode : 0;
         appFontName = appFont == 2 && name != null ? name : "";
         preferences().edit().putInt("appFont", appFont).putString("appFontName", appFontName).apply();
+    }
+
+    public static void toggleCrashReports() {
+        crashReports = !crashReports;
+        putBoolean("crashReports", crashReports);
+        if (crashReports) {
+            MZGramCrashLog.install();
+        } else {
+            MZGramCrashLog.clear();
+        }
     }
 
     public static void toggleLosslessPhotoCrop() {

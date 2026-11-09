@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Bitrate der Sprachnachrichten, die du aufnimmst. Eine höhere klingt klarer, die Datei ist dafür zwei- oder viermal so groß. Alle können sie wie gewohnt abspielen.</string>
     <string name="MZGramLosslessPhotoCrop">Fotos in voller Auflösung zuschneiden</string>
     <string name="MZGramLosslessPhotoCropInfo">Wenn du ein Foto vor dem Senden zuschneidest, wird der Ausschnitt aus dem Originalfoto geschnitten, nicht aus einer schon auf die Sendegröße verkleinerten Kopie, sodass auch ein kleiner Ausschnitt scharf bleibt. Braucht beim Speichern mehr Arbeitsspeicher.</string>
+    <string name="MZGramDiagnostics">Diagnose</string>
+    <string name="MZGramCrashReports">Absturzbericht anzeigen</string>
+    <string name="MZGramJankProfiler">Profiler für Ruckler</string>
+    <string name="MZGramJankProfilerShare">Ruckler-Bericht teilen</string>
+    <string name="MZGramJankProfilerStarted">Ruckler-Profiler gestartet. Nutze die App wie gewohnt und stoppe ihn dann hier.</string>
+    <string name="MZGramEnergyProfiler">Akku-Profiler</string>
+    <string name="MZGramEnergyProfilerShare">Akku-Bericht teilen</string>
+    <string name="MZGramEnergyProfilerStarted">Akku-Profiler gestartet. Er zählt auch nach einem Neustart weiter, bis du ihn hier stoppst.</string>
+    <string name="MZGramProfilerStart">Starten</string>
+    <string name="MZGramProfilerStop">Stoppen</string>
+    <string name="MZGramProfilerSaved">Bericht auf diesem Telefon gespeichert</string>
+    <string name="MZGramProfilerFailed">Bericht konnte nicht geschrieben werden</string>
+    <string name="MZGramDiagnosticsInfo">Alles hier bleibt auf diesem Telefon, MZGram sendet nichts. Ein Absturzbericht wird nach einem Absturz beim nächsten Start einmal angezeigt, zum Lesen oder Kopieren. Die Profiler schreiben Textberichte für Entwickler; ob du einen teilst, entscheidest du.</string>
+    <string name="MZGramCrashReportTitle">MZGram ist abgestürzt</string>
+    <string name="MZGramCrashReportText">Das ist der Bericht zum letzten Absturz. Er bleibt auf diesem Telefon; kopiere ihn, wenn du ihn den Entwicklern zeigen willst.</string>
 </resources>

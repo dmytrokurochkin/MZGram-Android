@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Сіз жазатын дауыстық хабарлардың битрейті. Жоғарысы анығырақ естіледі, ал файл екі не төрт есе үлкен болады. Барлығы оларды әдеттегідей тыңдайды.</string>
     <string name="MZGramLosslessPhotoCrop">Фотоны толық ажыратымдылықта қию</string>
     <string name="MZGramLosslessPhotoCropInfo">Фотоны жібермес бұрын қиғанда, қиынды жіберу өлшеміне дейін кішірейтілген көшірмеден емес, түпнұсқа фотодан кесіледі, сондықтан кішкене қиынды да анық қалады. Сақтау кезінде көбірек жад пайдаланады.</string>
+    <string name="MZGramDiagnostics">Диагностика</string>
+    <string name="MZGramCrashReports">Ақау туралы есепті көрсету</string>
+    <string name="MZGramJankProfiler">Кадр түсуі профайлері</string>
+    <string name="MZGramJankProfilerShare">Кадрлар туралы есеппен бөлісу</string>
+    <string name="MZGramJankProfilerStarted">Кадр профайлері іске қосылды. Қолданбаны әдеттегідей пайдаланыңыз, кейін оны осы жерде тоқтатыңыз.</string>
+    <string name="MZGramEnergyProfiler">Батарея профайлері</string>
+    <string name="MZGramEnergyProfilerShare">Батарея туралы есеппен бөлісу</string>
+    <string name="MZGramEnergyProfilerStarted">Батарея профайлері іске қосылды. Оны осы жерде тоқтатпайынша, қайта іске қосылғаннан кейін де санай береді.</string>
+    <string name="MZGramProfilerStart">Іске қосу</string>
+    <string name="MZGramProfilerStop">Тоқтату</string>
+    <string name="MZGramProfilerSaved">Есеп осы телефонда сақталды</string>
+    <string name="MZGramProfilerFailed">Есепті жазу мүмкін болмады</string>
+    <string name="MZGramDiagnosticsInfo">Мұндағының бәрі осы телефонда қалады, MZGram ештеңе жібермейді. Ақау туралы есеп ақаудан кейінгі келесі іске қосуда бір рет көрсетіледі, оны оқуға не көшіруге болады. Профайлерлер әзірлеушілерге арналған мәтіндік есептер жазады; олармен бөлісу-бөліспеуді өзіңіз шешесіз.</string>
+    <string name="MZGramCrashReportTitle">MZGram апатты түрде жабылды</string>
+    <string name="MZGramCrashReportText">Бұл соңғы ақау туралы есеп. Ол осы телефонда қалады; әзірлеушілерге көрсеткіңіз келсе, көшіріп алыңыз.</string>
 </resources>

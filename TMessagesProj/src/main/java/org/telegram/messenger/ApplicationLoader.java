@@ -364,6 +364,9 @@ public class ApplicationLoader extends Application {
         org.telegram.messenger.mzgram.MZGramFonts.applyDefault();
         // MZGram: bitrate of voice messages (MZGramVoiceQuality)
         org.telegram.messenger.mzgram.MZGramVoiceQuality.apply();
+        // MZGram: local crash log (MZGramCrashLog), a battery profile left running (MZGramEnergyProfiler)
+        org.telegram.messenger.mzgram.MZGramCrashLog.installIfEnabled();
+        org.telegram.messenger.mzgram.MZGramEnergyProfiler.resumeIfEnabled(applicationContext);
 
         AndroidUtilities.runOnUIThread(ApplicationLoader::startPushService);
 

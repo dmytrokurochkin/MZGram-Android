@@ -665,4 +665,19 @@
     <string name="MZGramVoiceQualityInfo">Бітрейт голосових повідомлень, які ви записуєте. Вищий звучить чистіше, а файл більший у два чи чотири рази. Усі слухають їх як завжди.</string>
     <string name="MZGramLosslessPhotoCrop">Обрізати фото в повній роздільності</string>
     <string name="MZGramLosslessPhotoCropInfo">Коли ви обрізаєте фото перед надсиланням, обрізка вирізається з оригінального фото, а не з копії, вже зменшеної до розміру надсилання, тож навіть мала обрізка лишається чіткою. Під час збереження використовує більше пам\'яті.</string>
+    <string name="MZGramDiagnostics">Діагностика</string>
+    <string name="MZGramCrashReports">Показувати звіт про збій</string>
+    <string name="MZGramJankProfiler">Профайлер просідання кадрів</string>
+    <string name="MZGramJankProfilerShare">Поділитися звітом про кадри</string>
+    <string name="MZGramJankProfilerStarted">Профайлер кадрів запущено. Користуйтеся застосунком як завжди, потім зупиніть його тут.</string>
+    <string name="MZGramEnergyProfiler">Профайлер батареї</string>
+    <string name="MZGramEnergyProfilerShare">Поділитися звітом про батарею</string>
+    <string name="MZGramEnergyProfilerStarted">Профайлер батареї запущено. Він рахує й після перезапуску, поки ви не зупините його тут.</string>
+    <string name="MZGramProfilerStart">Запустити</string>
+    <string name="MZGramProfilerStop">Зупинити</string>
+    <string name="MZGramProfilerSaved">Звіт збережено на цьому телефоні</string>
+    <string name="MZGramProfilerFailed">Не вдалося записати звіт</string>
+    <string name="MZGramDiagnosticsInfo">Усе тут лишається на цьому телефоні, MZGram нічого не надсилає. Звіт про збій показується один раз під час наступного запуску після збою, щоб прочитати чи скопіювати його. Профайлери пишуть текстові звіти для розробників; ділитися ними чи ні, вирішуєте ви.</string>
+    <string name="MZGramCrashReportTitle">MZGram аварійно завершився</string>
+    <string name="MZGramCrashReportText">Це звіт про останній збій. Він лишається на цьому телефоні; скопіюйте його, якщо хочете показати розробникам.</string>
 </resources>

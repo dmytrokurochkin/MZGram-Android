@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Bitrate of the voice messages you record. A higher one sounds clearer, and the file is two or four times bigger. Everyone can play them as usual.</string>
     <string name="MZGramLosslessPhotoCrop">Crop photos at full resolution</string>
     <string name="MZGramLosslessPhotoCropInfo">When you crop a photo before sending, the crop is cut out of the original photo, not out of a copy already reduced to the send size, so a small crop stays sharp. Uses more memory while saving.</string>
+    <string name="MZGramDiagnostics">Diagnostics</string>
+    <string name="MZGramCrashReports">Show a crash report</string>
+    <string name="MZGramJankProfiler">Frame drop profiler</string>
+    <string name="MZGramJankProfilerShare">Share the frame drop report</string>
+    <string name="MZGramJankProfilerStarted">Frame drop profiler started. Use the app as usual, then stop it here.</string>
+    <string name="MZGramEnergyProfiler">Battery profiler</string>
+    <string name="MZGramEnergyProfilerShare">Share the battery report</string>
+    <string name="MZGramEnergyProfilerStarted">Battery profiler started. It keeps counting after a restart until you stop it here.</string>
+    <string name="MZGramProfilerStart">Start</string>
+    <string name="MZGramProfilerStop">Stop</string>
+    <string name="MZGramProfilerSaved">Report saved on this phone</string>
+    <string name="MZGramProfilerFailed">Could not write the report</string>
+    <string name="MZGramDiagnosticsInfo">Everything here stays on this phone and is never sent by MZGram. A crash report is shown once on the next launch after a crash, to read or copy. The profilers write text reports for developers; you choose whether to share one.</string>
+    <string name="MZGramCrashReportTitle">MZGram crashed</string>
+    <string name="MZGramCrashReportText">This is the report of the last crash. It stays on this phone; copy it if you want to show it to the developers.</string>
 </resources>

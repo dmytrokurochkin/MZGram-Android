@@ -176,6 +176,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_APP_FONT = 150;
     private static final int BUTTON_VOICE_QUALITY = 151;
     private static final int BUTTON_LOSSLESS_PHOTO_CROP = 152;
+    private static final int BUTTON_CRASH_REPORTS = 153;
+    private static final int BUTTON_JANK_PROFILER = 154;
+    private static final int BUTTON_JANK_REPORT = 155;
+    private static final int BUTTON_ENERGY_PROFILER = 156;
+    private static final int BUTTON_ENERGY_REPORT = 157;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -884,6 +889,53 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_CHECK_UPDATES, getString(R.string.MZGramCheckUpdates)).setChecked(MZGramConfig.checkUpdates));
         items.add(UItem.asButton(BUTTON_CHECK_UPDATES_NOW, getString(R.string.MZGramUpdateCheckNow)));
         items.add(UItem.asShadow(getString(R.string.MZGramCheckUpdatesInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramDiagnostics)));
+        items.add(UItem.asCheck(BUTTON_CRASH_REPORTS, getString(R.string.MZGramCrashReports)).setChecked(MZGramConfig.crashReports));
+        final boolean jankRunning = org.telegram.messenger.mzgram.MZGramJankProfiler.isRunning();
+        items.add(UItem.asButton(BUTTON_JANK_PROFILER, getString(R.string.MZGramJankProfiler), getString(jankRunning ? R.string.MZGramProfilerStop : R.string.MZGramProfilerStart)));
+        if (!jankRunning && org.telegram.messenger.mzgram.MZGramJankProfiler.getLastReport() != null) {
+            items.add(UItem.asButton(BUTTON_JANK_REPORT, getString(R.string.MZGramJankProfilerShare)));
+        }
+        final boolean energyRunning = org.telegram.messenger.mzgram.MZGramEnergyProfiler.isRunning();
+        items.add(UItem.asButton(BUTTON_ENERGY_PROFILER, getString(R.string.MZGramEnergyProfiler), getString(energyRunning ? R.string.MZGramProfilerStop : R.string.MZGramProfilerStart)));
+        if (energyRunning || org.telegram.messenger.mzgram.MZGramEnergyProfiler.getLastReport() != null) {
+            items.add(UItem.asButton(BUTTON_ENERGY_REPORT, getString(R.string.MZGramEnergyProfilerShare)));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramDiagnosticsInfo)));
+    }
+
+    private void onProfilerStarted(boolean running, int startedText) {
+        if (running) {
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(startedText)).show();
+        } else {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramProfilerFailed)).show();
+        }
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
+        }
+    }
+
+    private void onProfilerStopped(java.io.File file) {
+        if (isFinishing() || getParentActivity() == null) {
+            return;
+        }
+        if (file != null && file.exists()) {
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramProfilerSaved)).show();
+        } else {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramProfilerFailed)).show();
+        }
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
+        }
+    }
+
+    private void shareProfilerReport(java.io.File file) {
+        if (isFinishing() || getParentActivity() == null) {
+            return;
+        }
+        if (!org.telegram.messenger.mzgram.MZGramProfilerReports.share(getParentActivity(), file)) {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramProfilerFailed)).show();
+        }
     }
 
     @Override
@@ -1114,6 +1166,31 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.mzgram.MZGramArchiveLimits.resetCounters();
             if (listView != null && listView.adapter != null) {
                 listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_CRASH_REPORTS) {
+            MZGramConfig.toggleCrashReports();
+            ((TextCheckCell) view).setChecked(MZGramConfig.crashReports);
+        } else if (item.id == BUTTON_JANK_PROFILER) {
+            if (org.telegram.messenger.mzgram.MZGramJankProfiler.isRunning()) {
+                org.telegram.messenger.mzgram.MZGramJankProfiler.stop(file -> onProfilerStopped(file));
+            } else if (getParentActivity() != null) {
+                org.telegram.messenger.mzgram.MZGramJankProfiler.start(getParentActivity());
+                onProfilerStarted(org.telegram.messenger.mzgram.MZGramJankProfiler.isRunning(), R.string.MZGramJankProfilerStarted);
+            }
+        } else if (item.id == BUTTON_JANK_REPORT) {
+            shareProfilerReport(org.telegram.messenger.mzgram.MZGramJankProfiler.getLastReport());
+        } else if (item.id == BUTTON_ENERGY_PROFILER) {
+            if (org.telegram.messenger.mzgram.MZGramEnergyProfiler.isRunning()) {
+                org.telegram.messenger.mzgram.MZGramEnergyProfiler.stop(file -> onProfilerStopped(file));
+            } else if (getParentActivity() != null) {
+                org.telegram.messenger.mzgram.MZGramEnergyProfiler.start(getParentActivity());
+                onProfilerStarted(org.telegram.messenger.mzgram.MZGramEnergyProfiler.isRunning(), R.string.MZGramEnergyProfilerStarted);
+            }
+        } else if (item.id == BUTTON_ENERGY_REPORT) {
+            if (org.telegram.messenger.mzgram.MZGramEnergyProfiler.isRunning()) {
+                org.telegram.messenger.mzgram.MZGramEnergyProfiler.shareCurrent(file -> shareProfilerReport(file));
+            } else {
+                shareProfilerReport(org.telegram.messenger.mzgram.MZGramEnergyProfiler.getLastReport());
             }
         } else if (item.id == BUTTON_CHECK_UPDATES_NOW) {
             MZGramUpdateBanner.checkByHand(this, null);

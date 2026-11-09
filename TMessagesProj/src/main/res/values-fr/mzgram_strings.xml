@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Débit des messages vocaux que vous enregistrez. Un débit plus élevé sonne plus clair, et le fichier est deux ou quatre fois plus gros. Tout le monde peut les écouter comme d\'habitude.</string>
     <string name="MZGramLosslessPhotoCrop">Recadrer les photos en pleine résolution</string>
     <string name="MZGramLosslessPhotoCropInfo">Quand vous recadrez une photo avant de l\'envoyer, le recadrage est découpé dans la photo d\'origine et non dans une copie déjà réduite à la taille d\'envoi : même un petit recadrage reste net. Utilise plus de mémoire pendant l\'enregistrement.</string>
+    <string name="MZGramDiagnostics">Diagnostic</string>
+    <string name="MZGramCrashReports">Afficher un rapport de plantage</string>
+    <string name="MZGramJankProfiler">Profileur de saccades</string>
+    <string name="MZGramJankProfilerShare">Partager le rapport de saccades</string>
+    <string name="MZGramJankProfilerStarted">Profileur de saccades lancé. Utilisez l\'application comme d\'habitude, puis arrêtez-le ici.</string>
+    <string name="MZGramEnergyProfiler">Profileur de batterie</string>
+    <string name="MZGramEnergyProfilerShare">Partager le rapport de batterie</string>
+    <string name="MZGramEnergyProfilerStarted">Profileur de batterie lancé. Il continue de compter après un redémarrage jusqu\'à ce que vous l\'arrêtiez ici.</string>
+    <string name="MZGramProfilerStart">Lancer</string>
+    <string name="MZGramProfilerStop">Arrêter</string>
+    <string name="MZGramProfilerSaved">Rapport enregistré sur ce téléphone</string>
+    <string name="MZGramProfilerFailed">Impossible d\'écrire le rapport</string>
+    <string name="MZGramDiagnosticsInfo">Tout ici reste sur ce téléphone et MZGram n\'envoie rien. Un rapport de plantage s\'affiche une fois au lancement suivant un plantage, pour le lire ou le copier. Les profileurs écrivent des rapports texte pour les développeurs ; c\'est vous qui décidez de les partager.</string>
+    <string name="MZGramCrashReportTitle">MZGram a planté</string>
+    <string name="MZGramCrashReportText">Voici le rapport du dernier plantage. Il reste sur ce téléphone ; copiez-le si vous voulez le montrer aux développeurs.</string>
 </resources>

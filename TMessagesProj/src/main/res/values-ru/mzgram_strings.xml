@@ -664,4 +664,19 @@
     <string name="MZGramVoiceQualityInfo">Битрейт голосовых сообщений, которые вы записываете. Более высокий звучит чище, а файл больше в два или четыре раза. Все слушают их как обычно.</string>
     <string name="MZGramLosslessPhotoCrop">Обрезать фото в полном разрешении</string>
     <string name="MZGramLosslessPhotoCropInfo">Когда вы обрезаете фото перед отправкой, обрезка вырезается из оригинального фото, а не из копии, уже уменьшенной до размера отправки, поэтому даже маленькая обрезка остаётся чёткой. При сохранении использует больше памяти.</string>
+    <string name="MZGramDiagnostics">Диагностика</string>
+    <string name="MZGramCrashReports">Показывать отчёт о сбое</string>
+    <string name="MZGramJankProfiler">Профайлер просадок кадров</string>
+    <string name="MZGramJankProfilerShare">Поделиться отчётом о кадрах</string>
+    <string name="MZGramJankProfilerStarted">Профайлер кадров запущен. Пользуйтесь приложением как обычно, потом остановите его здесь.</string>
+    <string name="MZGramEnergyProfiler">Профайлер батареи</string>
+    <string name="MZGramEnergyProfilerShare">Поделиться отчётом о батарее</string>
+    <string name="MZGramEnergyProfilerStarted">Профайлер батареи запущен. Он считает и после перезапуска, пока вы не остановите его здесь.</string>
+    <string name="MZGramProfilerStart">Запустить</string>
+    <string name="MZGramProfilerStop">Остановить</string>
+    <string name="MZGramProfilerSaved">Отчёт сохранён на этом телефоне</string>
+    <string name="MZGramProfilerFailed">Не удалось записать отчёт</string>
+    <string name="MZGramDiagnosticsInfo">Всё здесь остаётся на этом телефоне, MZGram ничего не отправляет. Отчёт о сбое показывается один раз при следующем запуске после сбоя, чтобы прочитать или скопировать его. Профайлеры пишут текстовые отчёты для разработчиков; делиться ими или нет, решаете вы.</string>
+    <string name="MZGramCrashReportTitle">MZGram аварийно завершился</string>
+    <string name="MZGramCrashReportText">Это отчёт о последнем сбое. Он остаётся на этом телефоне; скопируйте его, если хотите показать разработчикам.</string>
 </resources>

@@ -7119,6 +7119,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         super.onResume();
         isResumed = true;
         pipActivityHandler.onResume();
+        // MZGram: report of the last crash, once (MZGramCrashReport)
+        org.telegram.ui.mzgram.MZGramCrashReport.showIfPending(this);
         if (onResumeStaticCallback != null) {
             onResumeStaticCallback.run();
             onResumeStaticCallback = null;

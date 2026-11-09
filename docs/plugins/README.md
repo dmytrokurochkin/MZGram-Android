@@ -68,6 +68,25 @@ comes with the permission model, which is not done yet.
 
 Archives (`.elyx`, `.eaf`) are not supported.
 
+## The plugin list
+
+In the build with plugins, MZGram → Other → **Plugins** lists the added
+plugins, each with its version, author and an on/off switch.
+
+- **Add plugin file** picks a `.plugin` file. MZGram reads its metadata
+  without running it and shows its name, description and permissions before
+  it keeps the file. A file with the id of an added plugin updates it; the
+  plugin's settings and on/off state stay.
+- Tapping a plugin opens its screen: the on/off switch, version, author,
+  id, the app and SDK versions it needs, its permissions and Python
+  packages, and buttons to view its code (read-only, coloured as Python),
+  share the file and delete the plugin with its settings.
+- An added plugin is off. MZGram doesn't run plugins yet, and the screen
+  says so; the on/off state is kept for when it does.
+
+Added files are kept in the app's own folder (`files/mzgram_plugins`), out
+of reach of other apps.
+
 The format and the metadata reader are based on the exteraless plugin SDK
 (GPL-3.0).
 
@@ -141,8 +160,9 @@ exteraless SDK and may still change.
 |---|---|
 | Python runtime (Chaquopy) in a separate build | done |
 | `.plugin` format and metadata reader | done |
-| Plugin list in MZGram settings, installing, turning plugins on and off | planned |
-| Settings rows (`ui.settings`) and the settings screen | done; opened from the plugin list, once it exists |
+| Plugin list in MZGram settings, adding from a file, plugin screen, code viewer | done |
+| Running plugins (the on/off switch is kept until then) | planned |
+| Settings rows (`ui.settings`) and the settings screen | done; opened from the plugin screen once plugins run |
 | SDK: `base_plugin`, menus, hooks, UI components | planned |
 | Permissions, prompt before installing, local audit log, safe mode after crashes | planned |
 | Installing packages with pip on the device | not planned (it would make network calls to PyPI) |

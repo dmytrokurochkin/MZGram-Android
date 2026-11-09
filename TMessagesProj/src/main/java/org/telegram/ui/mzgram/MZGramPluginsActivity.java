@@ -1,0 +1,235 @@
+/*
+ * This is the source code of MZGram for Android,
+ * a fork of Telegram for Android.
+ *
+ * MZGram → Other → Plugins (only in a build with -PmzgramPlugins=true):
+ * the added plugins, each with its version, author and an on/off switch;
+ * a tap on the row opens the plugin's own screen. "Add plugin file" picks a
+ * .plugin file, reads its metadata without running it and asks before the
+ * file is kept, showing the permissions it declares.
+ *
+ * MZGram does not run plugins yet; the screen says so, and the on/off
+ * state is kept for the plugin engine.
+ *
+ * Based on exteraless plugins/ui/PluginsActivity.java (GPL-3.0): the list
+ * of plugins with switches and adding from a file; written anew for MZGram.
+ */
+
+package org.telegram.ui.mzgram;
+
+import static org.telegram.messenger.AndroidUtilities.dp;
+import static org.telegram.messenger.LocaleController.getString;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.text.TextUtils;
+import android.util.SparseArray;
+import android.view.View;
+
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
+import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
+import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.UItem;
+import org.telegram.ui.Components.UniversalAdapter;
+import org.telegram.ui.Components.UniversalFragment;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MZGramPluginsActivity extends UniversalFragment {
+
+    private static final int BUTTON_ADD = 1;
+    // Rows of the plugins: PLUGIN_ROW + their place in the list
+    private static final int PLUGIN_ROW = 1000;
+    private static final int REQUEST_CODE_PICK_PLUGIN = 8846;
+
+    private List<MZGramPlugins.Plugin> plugins = new ArrayList<>();
+    private final SparseArray<String> idsByRow = new SparseArray<>();
+    private AlertDialog progress;
+
+    @Override
+    public boolean onFragmentCreate() {
+        plugins = MZGramPlugins.list();
+        return super.onFragmentCreate();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // A plugin may have been turned on, updated or deleted on its own screen
+        reload();
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        dismissProgress();
+    }
+
+    private void reload() {
+        plugins = MZGramPlugins.list();
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
+        }
+    }
+
+    @Override
+    protected CharSequence getTitle() {
+        return getString(R.string.MZGramPlugins);
+    }
+
+    @Override
+    protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
+        idsByRow.clear();
+        items.add(UItem.asShadow(getString(R.string.MZGramPluginsNotRunning)));
+        if (!plugins.isEmpty()) {
+            items.add(UItem.asHeader(getString(R.string.MZGramPlugins)));
+            for (int i = 0; i < plugins.size(); i++) {
+                final MZGramPlugins.Plugin plugin = plugins.get(i);
+                final int row = PLUGIN_ROW + i;
+                idsByRow.put(row, plugin.meta.id);
+                items.add(UItem.asButtonCheck(row, plugin.meta.name, MZGramPluginTexts.subtitle(plugin.meta)).setChecked(plugin.enabled));
+            }
+        }
+        items.add(UItem.asButton(BUTTON_ADD, R.drawable.msg_add, getString(R.string.MZGramPluginsAddFile)).accent());
+        items.add(UItem.asShadow(plugins.isEmpty() ? getString(R.string.MZGramPluginsEmpty) : null));
+    }
+
+    @Override
+    protected void onClick(UItem item, View view, int position, float x, float y) {
+        if (item.id == BUTTON_ADD) {
+            pickFile();
+            return;
+        }
+        final String pluginId = idsByRow.get(item.id);
+        if (pluginId == null) {
+            return;
+        }
+        // The switch sits at the end of the row, as in Telegram's notification rows
+        final boolean onSwitch = LocaleController.isRTL ? x <= dp(76) : x >= view.getMeasuredWidth() - dp(76);
+        if (onSwitch) {
+            MZGramPlugins.setEnabled(pluginId, !item.checked);
+            reload();
+        } else {
+            presentFragment(new MZGramPluginInfoActivity(pluginId));
+        }
+    }
+
+    @Override
+    protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
+        return false;
+    }
+
+    private void pickFile() {
+        final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        // .plugin files have no media type of their own
+        intent.setType("*/*");
+        try {
+            startActivityForResult(intent, REQUEST_CODE_PICK_PLUGIN);
+        } catch (Exception e) {
+            FileLog.e("MZGramPluginsActivity.pickFile", e);
+        }
+    }
+
+    @Override
+    public void onActivityResultFragment(int requestCode, int resultCode, Intent data) {
+        if (requestCode != REQUEST_CODE_PICK_PLUGIN || resultCode != Activity.RESULT_OK || data == null || data.getData() == null) {
+            return;
+        }
+        showProgress();
+        // The first read starts Python, which takes a few seconds
+        MZGramPlugins.readPicked(data.getData(), (picked, result) -> {
+            dismissProgress();
+            if (isFinishing() || getParentActivity() == null) {
+                MZGramPlugins.discard(picked);
+                return;
+            }
+            if (picked == null || !result.isOk()) {
+                showReadError(result.error);
+            } else {
+                confirmInstall(picked, result.meta);
+            }
+        });
+    }
+
+    private void showReadError(String error) {
+        if (MZGramPlugins.ERROR_TOO_LARGE.equals(error)) {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsTooLarge)).show();
+        } else if (TextUtils.isEmpty(error) || MZGramPlugins.ERROR_READ.equals(error)) {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsAddFailed)).show();
+        } else {
+            // The reason from the metadata reader, such as a missing __id__
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.error, getString(R.string.MZGramPluginsAddFailed), error).show();
+        }
+    }
+
+    private void confirmInstall(File picked, MZGramPluginFormat.Meta meta) {
+        final MZGramPlugins.Plugin installed = MZGramPlugins.get(meta.id);
+        final StringBuilder message = new StringBuilder();
+        message.append(meta.name).append('\n').append(MZGramPluginTexts.subtitle(meta));
+        if (!TextUtils.isEmpty(meta.description)) {
+            message.append("\n\n").append(meta.description);
+        }
+        message.append("\n\n").append(MZGramPluginTexts.permissionsText(meta));
+        message.append("\n\n").append(installed != null
+                ? LocaleController.formatString(R.string.MZGramPluginsUpdateInfo, installed.meta.version)
+                : getString(R.string.MZGramPluginsAddInfo));
+
+        final boolean[] kept = {false};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setTitle(getString(installed != null ? R.string.MZGramPluginsUpdateTitle : R.string.MZGramPluginsAddTitle));
+        builder.setMessage(message.toString());
+        builder.setPositiveButton(getString(installed != null ? R.string.MZGramPluginsUpdate : R.string.MZGramPluginsAdd), (dialog, which) -> {
+            kept[0] = true;
+            MZGramPlugins.install(picked, meta, ok -> {
+                if (isFinishing() || getParentActivity() == null) {
+                    return;
+                }
+                if (ok) {
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check,
+                            getString(installed != null ? R.string.MZGramPluginsUpdated : R.string.MZGramPluginsAdded)).show();
+                } else {
+                    BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsSaveFailed)).show();
+                }
+                reload();
+            });
+        });
+        builder.setNegativeButton(getString(R.string.MZGramCancel), null);
+        // The button's action runs before the dialog closes, so kept is set by then
+        final android.app.Dialog shown = showDialog(builder.create(), dialog -> {
+            if (!kept[0]) {
+                MZGramPlugins.discard(picked);
+            }
+        });
+        if (shown == null) {
+            MZGramPlugins.discard(picked);
+        }
+    }
+
+    private void showProgress() {
+        dismissProgress();
+        if (getParentActivity() == null) {
+            return;
+        }
+        progress = new AlertDialog(getParentActivity(), AlertDialog.ALERT_TYPE_SPINNER);
+        progress.setCanCancel(false);
+        progress.show();
+    }
+
+    private void dismissProgress() {
+        if (progress != null) {
+            try {
+                progress.dismiss();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            progress = null;
+        }
+    }
+}

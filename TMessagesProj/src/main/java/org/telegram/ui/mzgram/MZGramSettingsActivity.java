@@ -182,6 +182,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_ENERGY_PROFILER = 156;
     private static final int BUTTON_ENERGY_REPORT = 157;
     private static final int BUTTON_PYTHON_RUNTIME = 158;
+    private static final int BUTTON_PLUGINS = 159;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -908,6 +909,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     getString(org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isStarted() ? R.string.MZGramPythonRuntimeReady : R.string.MZGramProfilerStart)));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramDiagnosticsInfo)));
+        if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
+            // Only in a build with the Python runtime (-PmzgramPlugins=true)
+            final int plugins = org.telegram.messenger.mzgram.plugins.MZGramPlugins.count();
+            items.add(UItem.asHeader(getString(R.string.MZGramPlugins)));
+            items.add(UItem.asButton(BUTTON_PLUGINS, R.drawable.msg_bots, getString(R.string.MZGramPlugins), plugins > 0 ? org.telegram.messenger.LocaleController.formatNumber(plugins, ' ') : null));
+            items.add(UItem.asShadow(getString(R.string.MZGramPluginsSettingsInfo)));
+        }
     }
 
     private void onProfilerStarted(boolean running, int startedText) {
@@ -1232,6 +1240,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(R.string.MZGramPythonRuntimeStarting)).show();
                 org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.start(this::showPythonRuntime);
             }
+        } else if (item.id == BUTTON_PLUGINS) {
+            presentFragment(new MZGramPluginsActivity());
         } else if (item.id == BUTTON_CHECK_UPDATES_NOW) {
             MZGramUpdateBanner.checkByHand(this, null);
         } else if (item.id == BUTTON_HIDE_CAMERA_TILE) {

@@ -840,4 +840,9 @@
     <string name="MZGramDrawerLookInfo">Durch das Glasfeld scheint die Chatliste verschwommen durch. Ohne Foto oder Hintergrund behält die Kopfzeile die Farbe des Designs.</string>
     <string name="MZGramExtendedPins">Bis zu 100 angeheftete Chats</string>
     <string name="MZGramExtendedPinsInfo">Über das Limit des Servers hinaus heftet MZGram Chats auf diesem Gerät an: bis zu 100 in der Chatliste und im Archiv statt 10. Der Server und deine anderen Geräte bekommen nur die Chats, die der Server erlaubt. In MZGram angeheftete Chats lassen sich untereinander verschieben. Ausgeschaltet bleiben die angehefteten Chats, neue nur bis 10.</string>
+    <string name="MZGramPillStack">Pillen in der Suchleiste</string>
+    <string name="MZGramPillStackInfo">Kleine Pillen am Ende der Suchleiste der Chatliste. Ein Wischen nach oben oder unten auf einer Pille zeigt die nächste, Tippen führt sie aus, langes Drücken öffnet ihre Optionen. Während du tippst, treten sie zurück.</string>
+    <string name="MZGramPills">Pillen</string>
+    <string name="MZGramPillsInfo">Tippen blendet eine Pille ein oder aus. Halte eine Zeile und ziehe sie, um sie zu verschieben. Zahlen in Pillen sind immer kurz, etwa 4.8K, auch mit eingeschalteten genauen Zahlen.</string>
+    <string name="MZGramPillsReset">Pillen zurücksetzen</string>
 </resources>

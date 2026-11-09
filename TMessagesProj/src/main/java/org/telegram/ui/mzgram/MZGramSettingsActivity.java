@@ -207,6 +207,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DRAWER_HEADER = 167;
     private static final int BUTTON_DRAWER_GLASS = 168;
     private static final int BUTTON_EXTENDED_PINS = 169;
+    private static final int BUTTON_PILL_STACK = 170;
+    private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -807,6 +809,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
         items.add(UItem.asCheck(BUTTON_EXTENDED_PINS, getString(R.string.MZGramExtendedPins)).setChecked(MZGramConfig.extendedPins));
         items.add(UItem.asShadow(getString(R.string.MZGramExtendedPinsInfo)));
+        items.add(UItem.asCheck(BUTTON_PILL_STACK, getString(R.string.MZGramPillStack)).setChecked(MZGramConfig.pillStack));
+        if (MZGramConfig.pillStack) {
+            items.add(UItem.asButton(BUTTON_PILLS, getString(R.string.MZGramPills)));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramPillStackInfo)));
         items.add(UItem.asCheck(BUTTON_RECENT_CHATS_ON_BACK, getString(R.string.MZGramRecentChatsOnBack)).setChecked(MZGramConfig.recentChatsOnBack));
         items.add(UItem.asShadow(getString(R.string.MZGramRecentChatsOnBackInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
@@ -1346,6 +1353,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 MZGramRecentChats.clearAll();
             }
             ((TextCheckCell) view).setChecked(MZGramConfig.recentChatsOnBack);
+        } else if (item.id == BUTTON_PILL_STACK) {
+            MZGramConfig.togglePillStack();
+            ((TextCheckCell) view).setChecked(MZGramConfig.pillStack);
+            org.telegram.messenger.mzgram.MZGramPills.changed();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_PILLS) {
+            presentFragment(new MZGramPillsActivity());
         } else if (item.id == BUTTON_EXTENDED_PINS) {
             MZGramConfig.toggleExtendedPins();
             ((TextCheckCell) view).setChecked(MZGramConfig.extendedPins);

@@ -840,4 +840,9 @@
     <string name="MZGramDrawerLookInfo">Through the glass panel the chat list shows blurred. Without a photo or a wallpaper the header keeps the theme colour.</string>
     <string name="MZGramExtendedPins">Up to 100 pinned chats</string>
     <string name="MZGramExtendedPinsInfo">Past the server\'s limit, MZGram pins chats on this device: up to 100 in the chat list and in the archive instead of 10. The server and your other devices get only the chats the server allows. Chats pinned in MZGram can be dragged among themselves. Turned off, the pinned chats stay, new ones only up to 10.</string>
+    <string name="MZGramPillStack">Pills in the search bar</string>
+    <string name="MZGramPillStackInfo">Small pills at the end of the chat list\'s search bar. A swipe up or down on a pill shows the next one, a tap runs it, a long press opens its options. They step aside while you type.</string>
+    <string name="MZGramPills">Pills</string>
+    <string name="MZGramPillsInfo">A tap shows or hides a pill. Hold a row and drag it to move it. Numbers in pills are always short, like 4.8K, also with exact numbers turned on.</string>
+    <string name="MZGramPillsReset">Reset pills</string>
 </resources>

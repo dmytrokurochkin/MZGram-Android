@@ -3380,6 +3380,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             fragmentSearchField.addAdditionalIcon(speedItem);
             fragmentSearchField.updateColors();
         }
+        // MZGram: the pill bar at the end of the search bar (MZGramPillStack), only in the main chat list
+        if (initialDialogsType == DIALOGS_TYPE_DEFAULT && !onlySelect) {
+            org.telegram.ui.mzgram.pills.MZGramPillStack.attach(fragmentSearchField, fragmentSearchField.editText, resourceProvider);
+        }
 
         fragmentSearchField.setCloseButtonOnClickListener(() -> {
             if (searchViewPager != null && searchViewPager.actionModeShowing()) {

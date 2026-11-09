@@ -840,4 +840,9 @@
     <string name="MZGramDrawerLookInfo">À travers le panneau en verre, la liste des discussions apparaît floutée. Sans photo ni fond d\'écran, l\'en-tête garde la couleur du thème.</string>
     <string name="MZGramExtendedPins">Jusqu\'à 100 discussions épinglées</string>
     <string name="MZGramExtendedPinsInfo">Au-delà de la limite du serveur, MZGram épingle les discussions sur cet appareil : jusqu\'à 100 dans la liste des discussions et dans les archives au lieu de 10. Le serveur et vos autres appareils ne reçoivent que les discussions que le serveur autorise. Les discussions épinglées dans MZGram se déplacent entre elles. Désactivé, les discussions épinglées restent, les nouvelles seulement jusqu\'à 10.</string>
+    <string name="MZGramPillStack">Pastilles dans la barre de recherche</string>
+    <string name="MZGramPillStackInfo">De petites pastilles au bout de la barre de recherche de la liste des discussions. Un balayage vers le haut ou le bas sur une pastille affiche la suivante, un appui l\'exécute, un appui long ouvre ses options. Pendant la saisie, elles s\'écartent.</string>
+    <string name="MZGramPills">Pastilles</string>
+    <string name="MZGramPillsInfo">Un appui affiche ou masque une pastille. Maintenez une ligne et faites-la glisser pour la déplacer. Les nombres des pastilles restent toujours courts, comme 4.8K, même avec les nombres exacts activés.</string>
+    <string name="MZGramPillsReset">Réinitialiser les pastilles</string>
 </resources>

@@ -840,4 +840,9 @@
     <string name="MZGramDrawerLookInfo">Pelo painel de vidro a lista de chats aparece desfocada. Sem foto ou papel de parede, o cabeçalho fica com a cor do tema.</string>
     <string name="MZGramExtendedPins">Até 100 chats fixados</string>
     <string name="MZGramExtendedPinsInfo">Além do limite do servidor, o MZGram fixa chats neste dispositivo: até 100 na lista de chats e no arquivo em vez de 10. O servidor e seus outros dispositivos recebem só os chats que o servidor permite. Os chats fixados no MZGram podem ser arrastados entre si. Desativado, os fixados ficam, os novos só até 10.</string>
+    <string name="MZGramPillStack">Pílulas na barra de pesquisa</string>
+    <string name="MZGramPillStackInfo">Pequenas pílulas no fim da barra de pesquisa da lista de chats. Deslizar para cima ou para baixo numa pílula mostra a próxima, um toque a executa e segurar abre as opções dela. Enquanto você digita, elas saem do caminho.</string>
+    <string name="MZGramPills">Pílulas</string>
+    <string name="MZGramPillsInfo">Um toque mostra ou oculta uma pílula. Segure uma linha e arraste para movê-la. Os números nas pílulas são sempre curtos, como 4.8K, mesmo com os números exatos ativados.</string>
+    <string name="MZGramPillsReset">Redefinir pílulas</string>
 </resources>

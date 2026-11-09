@@ -840,4 +840,9 @@
     <string name="MZGramDrawerLookInfo">Cam panelin ardında sohbet listesi bulanık görünür. Fotoğraf ya da duvar kâğıdı yoksa başlık tema renginde kalır.</string>
     <string name="MZGramExtendedPins">En fazla 100 sabitlenmiş sohbet</string>
     <string name="MZGramExtendedPinsInfo">Sunucunun sınırının ötesinde MZGram sohbetleri bu cihazda sabitler: sohbet listesinde ve arşivde 10 yerine en fazla 100. Sunucu ve diğer cihazların yalnızca sunucunun izin verdiği sohbetleri alır. MZGram\'da sabitlenen sohbetler kendi aralarında sürüklenebilir. Kapatılınca sabitlenenler kalır, yenileri yalnızca 10\'a kadar.</string>
+    <string name="MZGramPillStack">Arama çubuğunda haplar</string>
+    <string name="MZGramPillStackInfo">Sohbet listesinin arama çubuğunun sonunda küçük haplar. Bir hapın üzerinde yukarı ya da aşağı kaydırmak sonrakini gösterir, dokunmak onu çalıştırır, basılı tutmak seçeneklerini açar. Sen yazarken kenara çekilirler.</string>
+    <string name="MZGramPills">Haplar</string>
+    <string name="MZGramPillsInfo">Dokunmak bir hapı gösterir ya da gizler. Taşımak için bir satırı basılı tutup sürükle. Haplardaki sayılar, tam sayılar açıkken bile her zaman kısadır, örneğin 4.8K.</string>
+    <string name="MZGramPillsReset">Hapları sıfırla</string>
 </resources>

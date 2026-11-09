@@ -183,6 +183,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_ENERGY_REPORT = 157;
     private static final int BUTTON_PYTHON_RUNTIME = 158;
     private static final int BUTTON_PLUGINS = 159;
+    private static final int BUTTON_STORIES_NO_BACKGROUND_LOAD = 160;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -788,6 +789,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramRecentChatsOnBackInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
         items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
+        items.add(UItem.asCheck(BUTTON_STORIES_NO_BACKGROUND_LOAD, getString(R.string.MZGramStoriesNoBackgroundLoad)).setChecked(MZGramConfig.storiesNoBackgroundLoad));
+        items.add(UItem.asShadow(getString(R.string.MZGramStoriesNoBackgroundLoadInfo)));
         items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramOpenArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
         items.add(UItem.asShadow(getString(R.string.MZGramOpenArchiveOnPullInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
@@ -1114,6 +1117,17 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_ASK_BEFORE_CALL) {
             MZGramConfig.toggleAskBeforeCall();
             ((TextCheckCell) view).setChecked(MZGramConfig.askBeforeCall);
+        } else if (item.id == BUTTON_STORIES_NO_BACKGROUND_LOAD) {
+            MZGramConfig.toggleStoriesNoBackgroundLoad();
+            ((TextCheckCell) view).setChecked(MZGramConfig.storiesNoBackgroundLoad);
+            if (!MZGramConfig.storiesNoBackgroundLoad) {
+                // Loading is allowed again: fetch what was skipped
+                for (int a = 0; a < org.telegram.messenger.UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                    if (org.telegram.messenger.UserConfig.getInstance(a).isClientActivated()) {
+                        org.telegram.messenger.MessagesController.getInstance(a).getStoriesController().loadStories();
+                    }
+                }
+            }
         } else if (item.id == BUTTON_HIDE_STORIES) {
             MZGramConfig.toggleHideStories();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideStories);

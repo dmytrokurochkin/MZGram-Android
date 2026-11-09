@@ -193,6 +193,10 @@ public class StoriesController {
     }
 
     private void loadStoriesRead() {
+        // MZGram: MZGramConfig.skipStoriesLoad.
+        if (org.telegram.messenger.mzgram.MZGramConfig.skipStoriesLoad()) {
+            return;
+        }
         if (storiesReadLoaded) {
             return;
         }
@@ -377,6 +381,10 @@ public class StoriesController {
     }
 
     private void loadFromServer(boolean hidden) {
+        // MZGram: MZGramConfig.skipStoriesLoad.
+        if (org.telegram.messenger.mzgram.MZGramConfig.skipStoriesLoad()) {
+            return;
+        }
         if ((hidden && loadingFromServerHidden) || (!hidden && loadingFromServer) || loadingFromDatabase) {
             return;
         }
@@ -578,6 +586,10 @@ public class StoriesController {
     }
 
     private void preloadStory(long dialogId, TL_stories.StoryItem storyItem) {
+        // MZGram: MZGramConfig.skipStoriesLoad.
+        if (org.telegram.messenger.mzgram.MZGramConfig.skipStoriesLoad()) {
+            return;
+        }
         if (storyItem.attachPath != null) {
             return;
         }

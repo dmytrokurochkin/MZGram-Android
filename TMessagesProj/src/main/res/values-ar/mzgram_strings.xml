@@ -748,4 +748,6 @@
     <string name="MZGramPluginsDevAddress">العنوان</string>
     <string name="MZGramPluginsDevInfo">يتيح لك تثبيت الإضافات وتحديثها من الحاسوب أثناء كتابتها. صِل الهاتف عبر adb ونفّذ adb forward tcp:42690 tcp:42690. كل أمر يحتاج إلى الرمز، اضغط عليه لنسخه. لا يصل إلى الخادم إلا تطبيقات هذا الهاتف وadb. يتوقف الخادم عند إغلاق MZGram وبعد 20 رمزًا خاطئًا.</string>
     <string name="MZGramPluginsDevFailed">تعذّر تشغيل الخادم. ربما يستخدم تطبيق آخر المنفذ 42690.</string>
+    <string name="MZGramStoriesNoBackgroundLoad">عدم تحميل القصص المخفية</string>
+    <string name="MZGramStoriesNoBackgroundLoadInfo">يعمل عند تفعيل «إخفاء القصص»: لا يُحمَّل شريط القصص ومعايناتها في الخلفية، مما يوفر البيانات والبطارية. تظل القصص في الملفات الشخصية تفتح، لكن أبطأ قليلًا.</string>
 </resources>

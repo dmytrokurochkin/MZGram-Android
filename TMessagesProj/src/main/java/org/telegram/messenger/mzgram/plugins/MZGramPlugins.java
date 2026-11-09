@@ -325,6 +325,7 @@ public final class MZGramPlugins {
         prefs().edit().remove(KEY_META + pluginId).remove(KEY_ENABLED + pluginId).remove(KEY_ADDED + pluginId).apply();
         MZGramPluginSettingsStore.clear(pluginId);
         MZGramPluginGrants.clear(pluginId);
+        MZGramPluginHookGate.forget(pluginId);
     }
 
     /**

@@ -25,6 +25,8 @@ public class MZGramConfig {
     public static boolean formatTimeWithSeconds = false;
     public static boolean askBeforeCall = false;
     public static boolean hideStories = false;
+    // With hideStories: no background loading of the stories list and story previews
+    public static boolean storiesNoBackgroundLoad = false;
     public static boolean disableGreetingSticker = false;
     public static boolean hideChannelBottomButtons = false;
     public static boolean openArchiveOnPull = false;
@@ -347,6 +349,7 @@ public class MZGramConfig {
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             askBeforeCall = preferences.getBoolean("askBeforeCall", false);
             hideStories = preferences.getBoolean("hideStories", false);
+            storiesNoBackgroundLoad = preferences.getBoolean("storiesNoBackgroundLoad", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
             hideChannelBottomButtons = preferences.getBoolean("hideChannelBottomButtons", false);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
@@ -542,6 +545,16 @@ public class MZGramConfig {
     public static void toggleHideStories() {
         hideStories = !hideStories;
         putBoolean("hideStories", hideStories);
+    }
+
+    public static void toggleStoriesNoBackgroundLoad() {
+        storiesNoBackgroundLoad = !storiesNoBackgroundLoad;
+        putBoolean("storiesNoBackgroundLoad", storiesNoBackgroundLoad);
+    }
+
+    /** Stories are hidden and must not load in the background (fix 1.2). */
+    public static boolean skipStoriesLoad() {
+        return hideStories && storiesNoBackgroundLoad;
     }
 
     public static void toggleDisableGreetingSticker() {

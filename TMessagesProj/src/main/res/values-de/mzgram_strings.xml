@@ -748,4 +748,6 @@
     <string name="MZGramPluginsDevAddress">Adresse</string>
     <string name="MZGramPluginsDevInfo">Damit kannst du Plugins vom Computer aus hinzufügen und aktualisieren, während du sie schreibst. Verbinde das Telefon per adb und führe adb forward tcp:42690 tcp:42690 aus. Jeder Befehl braucht das Token; tippe darauf, um es zu kopieren. Nur Apps auf diesem Telefon und adb erreichen den Server. Er schaltet sich aus, wenn MZGram geschlossen wird, und nach 20 falschen Tokens.</string>
     <string name="MZGramPluginsDevFailed">Der Server konnte nicht gestartet werden. Vielleicht belegt eine andere App den Port 42690.</string>
+    <string name="MZGramStoriesNoBackgroundLoad">Ausgeblendete Storys nicht laden</string>
+    <string name="MZGramStoriesNoBackgroundLoadInfo">Wirkt, wenn „Storys ausblenden“ an ist: Die Storyleiste und Story-Vorschauen werden nicht im Hintergrund geladen, das spart Datenvolumen und Akku. Storys in Profilen öffnen sich weiterhin, etwas langsamer.</string>
 </resources>

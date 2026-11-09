@@ -76,6 +76,16 @@ without a record has nothing else. Updating a plugin takes back the granted
 permissions it no longer declares, and a new plugin never gets what an
 earlier plugin with the same id had.
 
+A plugin may hook a method of the app only with `hooks` granted. Some
+parts are never hooked, whatever was granted: the passcode screens and
+checks, the MTProto keys, two-step verification, secret chat keys, the
+push keys, the update installer, the MZGram plugin classes, and Java
+reflection, crypto, the Keystore, class loaders and the hook framework.
+While Hide Stories is on, hooks on stories classes are skipped and the
+app runs as if they were not there. The gate also counts how often and
+how long each hook ran (off by default) for the crash log and the
+profiler reports.
+
 Archives (`.elyx`, `.eaf`) are not supported.
 
 ## The plugin list
@@ -264,5 +274,6 @@ exteraless SDK and may still change.
 | Developer server on `127.0.0.1:42690` (add, update, turn on or off, delete plugins from a computer through adb) | done; reloading waits for plugins to run |
 | SDK: `base_plugin`, hooks, UI components | planned |
 | Signed record of granted permissions | done; the prompt and the gates that read it are planned |
+| Hook gate: `hooks` permission, parts never hooked, hooks on stories skipped while stories are hidden, hook counters | done; used once hooks run |
 | Permissions, prompt before installing, local audit log, safe mode after crashes | planned |
 | Installing packages with pip on the device | not planned (it would make network calls to PyPI) |

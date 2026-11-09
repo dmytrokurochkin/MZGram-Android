@@ -748,4 +748,6 @@
     <string name="MZGramPluginsDevAddress">Adres</string>
     <string name="MZGramPluginsDevInfo">Pozwala dodawać i aktualizować wtyczki z komputera, gdy je piszesz. Podłącz telefon przez adb i uruchom adb forward tcp:42690 tcp:42690. Każde polecenie wymaga tokenu; dotknij go, aby skopiować. Do serwera mają dostęp tylko aplikacje na tym telefonie i adb. Wyłącza się, gdy MZGram zostanie zamknięty, oraz po 20 błędnych tokenach.</string>
     <string name="MZGramPluginsDevFailed">Nie udało się uruchomić serwera. Port 42690 może być zajęty przez inną aplikację.</string>
+    <string name="MZGramStoriesNoBackgroundLoad">Nie wczytuj ukrytych relacji</string>
+    <string name="MZGramStoriesNoBackgroundLoadInfo">Działa, gdy włączono „Ukryj relacje”: pasek relacji i ich podglądy nie są wczytywane w tle, co oszczędza transfer i baterię. Relacje w profilach nadal się otwierają, trochę wolniej.</string>
 </resources>

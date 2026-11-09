@@ -748,4 +748,6 @@
     <string name="MZGramPluginsDevAddress">Adres</string>
     <string name="MZGramPluginsDevInfo">Eklentileri yazarken bilgisayardan eklemenizi ve güncellemenizi sağlar. Telefonu adb ile bağlayın ve adb forward tcp:42690 tcp:42690 komutunu çalıştırın. Her komut belirteç ister; kopyalamak için belirtece dokunun. Sunucuya yalnızca bu telefondaki uygulamalar ve adb erişebilir. MZGram kapandığında ve 20 yanlış belirteçten sonra kapanır.</string>
     <string name="MZGramPluginsDevFailed">Sunucu başlatılamadı. 42690 numaralı bağlantı noktasını başka bir uygulama kullanıyor olabilir.</string>
+    <string name="MZGramStoriesNoBackgroundLoad">Gizli hikayeleri yükleme</string>
+    <string name="MZGramStoriesNoBackgroundLoadInfo">Hikayeleri gizle açıkken çalışır: hikaye şeridi ve önizlemeleri arka planda yüklenmez, bu da veri ve pil tasarrufu sağlar. Profillerdeki hikayeler yine açılır, biraz daha yavaş.</string>
 </resources>

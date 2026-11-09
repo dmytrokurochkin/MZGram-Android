@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">لقد غيّرت التفاعلات المثبتة. هل تريد تطبيق التغييرات؟</string>
     <string name="MZGramApply">تطبيق</string>
     <string name="MZGramDiscard">تجاهل</string>
+    <string name="MZGramPluginSettingsEmpty">لا توجد إعدادات لهذه الإضافة.</string>
+    <string name="MZGramPluginSettingsFailed">تعذّر تحميل إعدادات هذه الإضافة.</string>
+    <string name="MZGramPluginSettingsUnsupported">يستخدم هذا الصف من الإضافة عرضًا خاصًا لا يعرضه MZGram بعد.</string>
+    <string name="MZGramPluginSettingsEnterValue">أدخل قيمة</string>
+    <string name="MZGramPluginSettingsActionFailed">تعذّر على الإضافة معالجة ذلك.</string>
 </resources>

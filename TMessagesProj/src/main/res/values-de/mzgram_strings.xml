@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">Du hast die angehefteten Reaktionen geändert. Änderungen übernehmen?</string>
     <string name="MZGramApply">Übernehmen</string>
     <string name="MZGramDiscard">Verwerfen</string>
+    <string name="MZGramPluginSettingsEmpty">Dieses Plugin hat keine Einstellungen.</string>
+    <string name="MZGramPluginSettingsFailed">Die Einstellungen dieses Plugins konnten nicht geladen werden.</string>
+    <string name="MZGramPluginSettingsUnsupported">Diese Zeile des Plugins nutzt eine eigene Ansicht, die MZGram noch nicht anzeigt.</string>
+    <string name="MZGramPluginSettingsEnterValue">Gib einen Wert ein</string>
+    <string name="MZGramPluginSettingsActionFailed">Das Plugin konnte das nicht verarbeiten.</string>
 </resources>

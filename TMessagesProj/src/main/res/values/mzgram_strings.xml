@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">You have changed the pinned reactions. Apply the changes?</string>
     <string name="MZGramApply">Apply</string>
     <string name="MZGramDiscard">Discard</string>
+    <string name="MZGramPluginSettingsEmpty">This plugin has no settings.</string>
+    <string name="MZGramPluginSettingsFailed">The settings of this plugin could not be loaded.</string>
+    <string name="MZGramPluginSettingsUnsupported">This row of the plugin uses its own view, which MZGram does not show yet.</string>
+    <string name="MZGramPluginSettingsEnterValue">Enter a value</string>
+    <string name="MZGramPluginSettingsActionFailed">The plugin could not handle this.</string>
 </resources>

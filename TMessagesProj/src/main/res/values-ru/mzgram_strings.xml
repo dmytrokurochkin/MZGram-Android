@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">Вы изменили закреплённые реакции. Применить изменения?</string>
     <string name="MZGramApply">Применить</string>
     <string name="MZGramDiscard">Отменить</string>
+    <string name="MZGramPluginSettingsEmpty">У этого плагина нет настроек.</string>
+    <string name="MZGramPluginSettingsFailed">Не удалось загрузить настройки этого плагина.</string>
+    <string name="MZGramPluginSettingsUnsupported">Эта строка плагина использует собственный вид, который MZGram пока не показывает.</string>
+    <string name="MZGramPluginSettingsEnterValue">Введите значение</string>
+    <string name="MZGramPluginSettingsActionFailed">Плагин не справился с этим.</string>
 </resources>

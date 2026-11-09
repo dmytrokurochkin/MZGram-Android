@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">Cambiaste las reacciones fijadas. ¿Aplicar los cambios?</string>
     <string name="MZGramApply">Aplicar</string>
     <string name="MZGramDiscard">Descartar</string>
+    <string name="MZGramPluginSettingsEmpty">Este complemento no tiene ajustes.</string>
+    <string name="MZGramPluginSettingsFailed">No se pudieron cargar los ajustes de este complemento.</string>
+    <string name="MZGramPluginSettingsUnsupported">Esta fila del complemento usa una vista propia que MZGram aún no muestra.</string>
+    <string name="MZGramPluginSettingsEnterValue">Escribe un valor</string>
+    <string name="MZGramPluginSettingsActionFailed">El complemento no pudo procesarlo.</string>
 </resources>

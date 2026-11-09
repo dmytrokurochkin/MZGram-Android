@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">Você alterou as reações fixadas. Aplicar as alterações?</string>
     <string name="MZGramApply">Aplicar</string>
     <string name="MZGramDiscard">Descartar</string>
+    <string name="MZGramPluginSettingsEmpty">Este plugin não tem configurações.</string>
+    <string name="MZGramPluginSettingsFailed">Não foi possível carregar as configurações deste plugin.</string>
+    <string name="MZGramPluginSettingsUnsupported">Esta linha do plugin usa uma visualização própria, que o MZGram ainda não mostra.</string>
+    <string name="MZGramPluginSettingsEnterValue">Digite um valor</string>
+    <string name="MZGramPluginSettingsActionFailed">O plugin não conseguiu processar isso.</string>
 </resources>

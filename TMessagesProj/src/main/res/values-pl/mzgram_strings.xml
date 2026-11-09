@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">Zmieniono przypięte reakcje. Zastosować zmiany?</string>
     <string name="MZGramApply">Zastosuj</string>
     <string name="MZGramDiscard">Odrzuć</string>
+    <string name="MZGramPluginSettingsEmpty">Ta wtyczka nie ma ustawień.</string>
+    <string name="MZGramPluginSettingsFailed">Nie udało się wczytać ustawień tej wtyczki.</string>
+    <string name="MZGramPluginSettingsUnsupported">Ten wiersz wtyczki ma własny widok, którego MZGram jeszcze nie pokazuje.</string>
+    <string name="MZGramPluginSettingsEnterValue">Wpisz wartość</string>
+    <string name="MZGramPluginSettingsActionFailed">Wtyczka nie poradziła sobie z tym.</string>
 </resources>

@@ -5,3 +5,9 @@
     public <init>();
     public *;
 }
+
+# mzgram_plugins/settings.py reads and writes plugin settings through this
+# class by its name (jclass), so R8 must keep its static methods.
+-keep class org.telegram.messenger.mzgram.plugins.MZGramPluginSettingsStore {
+    public static *;
+}

@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">Sabitlenmiş tepkileri değiştirdiniz. Değişiklikler uygulansın mı?</string>
     <string name="MZGramApply">Uygula</string>
     <string name="MZGramDiscard">Vazgeç</string>
+    <string name="MZGramPluginSettingsEmpty">Bu eklentinin ayarı yok.</string>
+    <string name="MZGramPluginSettingsFailed">Bu eklentinin ayarları yüklenemedi.</string>
+    <string name="MZGramPluginSettingsUnsupported">Eklentinin bu satırı kendi görünümünü kullanıyor; MZGram bunu henüz göstermiyor.</string>
+    <string name="MZGramPluginSettingsEnterValue">Bir değer girin</string>
+    <string name="MZGramPluginSettingsActionFailed">Eklenti bunu işleyemedi.</string>
 </resources>

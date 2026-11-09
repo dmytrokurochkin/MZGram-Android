@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">Vous avez modifié les réactions épinglées. Appliquer les modifications ?</string>
     <string name="MZGramApply">Appliquer</string>
     <string name="MZGramDiscard">Abandonner</string>
+    <string name="MZGramPluginSettingsEmpty">Ce plugin n\'a pas de réglages.</string>
+    <string name="MZGramPluginSettingsFailed">Impossible de charger les réglages de ce plugin.</string>
+    <string name="MZGramPluginSettingsUnsupported">Cette ligne du plugin utilise sa propre vue, que MZGram n\'affiche pas encore.</string>
+    <string name="MZGramPluginSettingsEnterValue">Saisissez une valeur</string>
+    <string name="MZGramPluginSettingsActionFailed">Le plugin n\'a pas pu traiter cela.</string>
 </resources>

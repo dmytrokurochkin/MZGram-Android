@@ -695,4 +695,9 @@
     <string name="MZGramPinnedReactionsApplyChanges">Бекітілген реакцияларды өзгерттіңіз. Өзгерістерді қолдану керек пе?</string>
     <string name="MZGramApply">Қолдану</string>
     <string name="MZGramDiscard">Бас тарту</string>
+    <string name="MZGramPluginSettingsEmpty">Бұл плагиннің баптаулары жоқ.</string>
+    <string name="MZGramPluginSettingsFailed">Бұл плагиннің баптауларын жүктеу мүмкін болмады.</string>
+    <string name="MZGramPluginSettingsUnsupported">Плагиннің бұл жолы өз көрінісін пайдаланады, MZGram оны әзірге көрсетпейді.</string>
+    <string name="MZGramPluginSettingsEnterValue">Мәнді енгізіңіз</string>
+    <string name="MZGramPluginSettingsActionFailed">Плагин мұны өңдей алмады.</string>
 </resources>

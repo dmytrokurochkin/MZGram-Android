@@ -969,4 +969,14 @@
     <string name="MZGramPlayerMoveDown">Ніжэй</string>
     <string name="MZGramPlayerPreviewTitle">Назва трэка</string>
     <string name="MZGramPlayerPreviewArtist">Выканаўца</string>
+    <string name="MZGramSettingsBackup">Рэзервовая копія налад</string>
+    <string name="MZGramSettingsExport">Экспартаваць налады</string>
+    <string name="MZGramSettingsImport">Імпартаваць налады</string>
+    <string name="MZGramSettingsBackupInfo">Файл з наладамі MZGram, захаваны туды, куды вы выберыце. Ключоў push, убудоў, акаўнтаў з паролем і шрыфту праграмы ў ім няма. Нічога нікуды не адпраўляецца.</string>
+    <string name="MZGramSettingsExported">Налады экспартаваны</string>
+    <string name="MZGramSettingsExportFailed">Не ўдалося экспартаваць налады</string>
+    <string name="MZGramSettingsImportEmpty">У гэтым файле няма налад MZGram</string>
+    <string name="MZGramSettingsImportConfirm">Налад у файле: %1$d. Яны заменяць бягучыя; налады, якіх няма ў файле, застануцца як ёсць.</string>
+    <string name="MZGramSettingsImported">Адноўлена налад: %1$d. Перазапусціце MZGram, каб усе яны запрацавалі.</string>
+    <string name="MZGramSettingsImportFailed">Не ўдалося імпартаваць налады</string>
 </resources>

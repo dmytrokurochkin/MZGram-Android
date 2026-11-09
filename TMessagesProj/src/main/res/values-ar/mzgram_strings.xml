@@ -969,4 +969,14 @@
     <string name="MZGramPlayerMoveDown">نقل لأسفل</string>
     <string name="MZGramPlayerPreviewTitle">عنوان المقطع</string>
     <string name="MZGramPlayerPreviewArtist">الفنان</string>
+    <string name="MZGramSettingsBackup">نسخة احتياطية للإعدادات</string>
+    <string name="MZGramSettingsExport">تصدير الإعدادات</string>
+    <string name="MZGramSettingsImport">استيراد الإعدادات</string>
+    <string name="MZGramSettingsBackupInfo">ملف بإعدادات MZGram يُحفظ في المكان الذي تختاره. لا يتضمن مفاتيح push ولا الإضافات ولا الحسابات المحمية برمز ولا خط التطبيق. لا يُرسل أي شيء إلى أي مكان.</string>
+    <string name="MZGramSettingsExported">تم تصدير الإعدادات</string>
+    <string name="MZGramSettingsExportFailed">تعذر تصدير الإعدادات</string>
+    <string name="MZGramSettingsImportEmpty">لا يحتوي هذا الملف على إعدادات MZGram</string>
+    <string name="MZGramSettingsImportConfirm">الإعدادات في الملف: %1$d. ستحل محل الإعدادات الحالية، أما الإعدادات غير الموجودة في الملف فتبقى كما هي.</string>
+    <string name="MZGramSettingsImported">الإعدادات المستعادة: %1$d. أعد تشغيل MZGram لتُطبق كلها.</string>
+    <string name="MZGramSettingsImportFailed">تعذر استيراد الإعدادات</string>
 </resources>

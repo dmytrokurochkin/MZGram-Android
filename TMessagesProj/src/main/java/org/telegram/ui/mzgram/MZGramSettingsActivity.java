@@ -82,6 +82,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int REQUEST_CODE_EXPORT_ARCHIVE = 8843;
     private static final int REQUEST_CODE_IMPORT_FOREIGN_ARCHIVE = 8844;
     private static final int REQUEST_CODE_APP_FONT = 8845;
+    private static final int REQUEST_CODE_EXPORT_SETTINGS = 8848;
+    private static final int REQUEST_CODE_IMPORT_SETTINGS = 8849;
     private static final String EXPORT_FILE_NAME = "mzgram_archive_export.db";
     private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
@@ -220,6 +222,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_MUSIC_PLAYER = 180;
     private static final int BUTTON_MUSIC_PLAYER_BAR = 181;
     private static final int BUTTON_MUSIC_PLAYER_STYLE = 182;
+    private static final int BUTTON_SETTINGS_EXPORT = 183;
+    private static final int BUTTON_SETTINGS_IMPORT = 184;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -987,6 +991,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_CHECK_UPDATES, getString(R.string.MZGramCheckUpdates)).setChecked(MZGramConfig.checkUpdates));
         items.add(UItem.asButton(BUTTON_CHECK_UPDATES_NOW, getString(R.string.MZGramUpdateCheckNow)));
         items.add(UItem.asShadow(getString(R.string.MZGramCheckUpdatesInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramSettingsBackup)));
+        items.add(UItem.asButton(BUTTON_SETTINGS_EXPORT, getString(R.string.MZGramSettingsExport)));
+        items.add(UItem.asButton(BUTTON_SETTINGS_IMPORT, getString(R.string.MZGramSettingsImport)));
+        items.add(UItem.asShadow(getString(R.string.MZGramSettingsBackupInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramDiagnostics)));
         items.add(UItem.asCheck(BUTTON_CRASH_REPORTS, getString(R.string.MZGramCrashReports)).setChecked(MZGramConfig.crashReports));
         final boolean jankRunning = org.telegram.messenger.mzgram.MZGramJankProfiler.isRunning();
@@ -1710,6 +1718,26 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 org.telegram.messenger.FileLog.e("MZGramSettingsActivity.exportArchive", e);
                 BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramArchiveExportFailed)).show();
             }
+        } else if (item.id == BUTTON_SETTINGS_EXPORT) {
+            // Android's "save as", as for the archive: the user picks where the file goes
+            android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(android.content.Intent.CATEGORY_OPENABLE);
+            intent.setType(org.telegram.messenger.mzgram.MZGramSettingsBackup.MIME_TYPE);
+            intent.putExtra(android.content.Intent.EXTRA_TITLE, org.telegram.messenger.mzgram.MZGramSettingsBackup.FILE_NAME);
+            try {
+                startActivityForResult(intent, REQUEST_CODE_EXPORT_SETTINGS);
+            } catch (Exception e) {
+                org.telegram.messenger.FileLog.e("MZGramSettingsActivity.exportSettings", e);
+                BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramSettingsExportFailed)).show();
+            }
+        } else if (item.id == BUTTON_SETTINGS_IMPORT) {
+            android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            try {
+                startActivityForResult(intent, REQUEST_CODE_IMPORT_SETTINGS);
+            } catch (Exception e) {
+                org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importSettings", e);
+            }
         } else if (item.id == BUTTON_IMPORT_FOREIGN_ARCHIVE) {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
                     .setTitle(getString(R.string.MZGramImportForeignArchive))
@@ -1743,6 +1771,46 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
     }
 
+    // The settings of a backup file: how many, then written over the current ones (MZGramSettingsBackup)
+    private void confirmSettingsImport(java.util.LinkedHashMap<String, java.util.LinkedHashMap<String, Object>> backup) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        final int count = org.telegram.messenger.mzgram.MZGramSettingsBackup.count(backup);
+        if (count == 0) {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramSettingsImportEmpty)).show();
+            return;
+        }
+        new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.MZGramSettingsImport))
+                .setMessage(org.telegram.messenger.LocaleController.formatString(R.string.MZGramSettingsImportConfirm, count))
+                .setPositiveButton(getString(R.string.MZGramContinue), (dialog, which) -> org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                    int written = 0;
+                    try {
+                        written = org.telegram.messenger.mzgram.MZGramSettingsBackup.restore(backup);
+                    } catch (Exception e) {
+                        org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importSettings", e);
+                    }
+                    final int restored = written;
+                    AndroidUtilities.runOnUIThread(() -> {
+                        if (getParentActivity() == null) {
+                            return;
+                        }
+                        if (restored > 0) {
+                            BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check,
+                                    org.telegram.messenger.LocaleController.formatString(R.string.MZGramSettingsImported, restored)).show();
+                        } else {
+                            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramSettingsImportFailed)).show();
+                        }
+                        if (listView != null && listView.adapter != null) {
+                            listView.adapter.update(true);
+                        }
+                    });
+                }))
+                .setNegativeButton(getString(R.string.MZGramCancel), null)
+                .show();
+    }
+
     @Override
     public void onActivityResultFragment(int requestCode, int resultCode, android.content.Intent data) {
         if (resultCode != android.app.Activity.RESULT_OK || data == null || data.getData() == null) {
@@ -1750,7 +1818,49 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
         android.net.Uri uri = data.getData();
         android.content.ContentResolver resolver = org.telegram.messenger.ApplicationLoader.applicationContext.getContentResolver();
-        if (requestCode == REQUEST_CODE_APP_FONT) {
+        if (requestCode == REQUEST_CODE_EXPORT_SETTINGS) {
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                boolean done = false;
+                try {
+                    String text = org.telegram.messenger.mzgram.MZGramSettingsBackup.export();
+                    if (text != null) {
+                        try (java.io.OutputStream out = resolver.openOutputStream(uri, "wt")) {
+                            if (out == null) {
+                                throw new java.io.IOException("no output for " + uri);
+                            }
+                            out.write(text.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                        }
+                        done = true;
+                    }
+                } catch (Exception e) {
+                    org.telegram.messenger.FileLog.e("MZGramSettingsActivity.exportSettings", e);
+                }
+                final boolean exported = done;
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (getParentActivity() == null) {
+                        return;
+                    }
+                    if (exported) {
+                        BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramSettingsExported)).show();
+                    } else {
+                        BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramSettingsExportFailed)).show();
+                    }
+                });
+            });
+        } else if (requestCode == REQUEST_CODE_IMPORT_SETTINGS) {
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                java.util.LinkedHashMap<String, java.util.LinkedHashMap<String, Object>> values = null;
+                try (java.io.InputStream input = resolver.openInputStream(uri)) {
+                    if (input != null) {
+                        values = org.telegram.messenger.mzgram.MZGramSettingsBackup.parse(org.telegram.messenger.mzgram.MZGramSettingsBackup.read(input));
+                    }
+                } catch (Exception e) {
+                    org.telegram.messenger.FileLog.e("MZGramSettingsActivity.importSettings", e);
+                }
+                final java.util.LinkedHashMap<String, java.util.LinkedHashMap<String, Object>> backup = values;
+                AndroidUtilities.runOnUIThread(() -> confirmSettingsImport(backup));
+            });
+        } else if (requestCode == REQUEST_CODE_APP_FONT) {
             org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
                 final String name = org.telegram.messenger.mzgram.MZGramFonts.importFont(uri);
                 AndroidUtilities.runOnUIThread(() -> {

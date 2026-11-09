@@ -969,4 +969,14 @@
     <string name="MZGramPlayerMoveDown">Төмен</string>
     <string name="MZGramPlayerPreviewTitle">Трек атауы</string>
     <string name="MZGramPlayerPreviewArtist">Орындаушы</string>
+    <string name="MZGramSettingsBackup">Баптаулардың сақтық көшірмесі</string>
+    <string name="MZGramSettingsExport">Баптауларды экспорттау</string>
+    <string name="MZGramSettingsImport">Баптауларды импорттау</string>
+    <string name="MZGramSettingsBackupInfo">MZGram баптаулары бар, өзіңіз таңдаған жерге сақталатын файл. Онда push кілттері, плагиндер, кодпен қорғалған аккаунттар және қолданба қарпі жоқ. Ешқайда ештеңе жіберілмейді.</string>
+    <string name="MZGramSettingsExported">Баптаулар экспортталды</string>
+    <string name="MZGramSettingsExportFailed">Баптауларды экспорттау мүмкін болмады</string>
+    <string name="MZGramSettingsImportEmpty">Бұл файлда MZGram баптаулары жоқ</string>
+    <string name="MZGramSettingsImportConfirm">Файлдағы баптаулар: %1$d. Олар ағымдағы баптаулардың орнына келеді; файлда жоқ баптаулар өзгеріссіз қалады.</string>
+    <string name="MZGramSettingsImported">Қалпына келтірілген баптаулар: %1$d. Барлығы іске асуы үшін MZGram-ды қайта іске қосыңыз.</string>
+    <string name="MZGramSettingsImportFailed">Баптауларды импорттау мүмкін болмады</string>
 </resources>

@@ -969,4 +969,14 @@
     <string name="MZGramPlayerMoveDown">Move down</string>
     <string name="MZGramPlayerPreviewTitle">Track title</string>
     <string name="MZGramPlayerPreviewArtist">Artist</string>
+    <string name="MZGramSettingsBackup">Settings backup</string>
+    <string name="MZGramSettingsExport">Export settings</string>
+    <string name="MZGramSettingsImport">Import settings</string>
+    <string name="MZGramSettingsBackupInfo">A file with the MZGram settings, saved where you choose. Push keys, plugins, passcode accounts and the app font are not in it. Nothing is sent anywhere.</string>
+    <string name="MZGramSettingsExported">Settings exported</string>
+    <string name="MZGramSettingsExportFailed">Could not export the settings</string>
+    <string name="MZGramSettingsImportEmpty">This file has no MZGram settings</string>
+    <string name="MZGramSettingsImportConfirm">Settings in the file: %1$d. They will replace the current ones; the settings that are not in the file stay as they are.</string>
+    <string name="MZGramSettingsImported">Settings restored: %1$d. Restart MZGram so that all of them apply.</string>
+    <string name="MZGramSettingsImportFailed">Could not import the settings</string>
 </resources>

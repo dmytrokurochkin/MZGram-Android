@@ -969,4 +969,14 @@
     <string name="MZGramPlayerMoveDown">Ниже</string>
     <string name="MZGramPlayerPreviewTitle">Название трека</string>
     <string name="MZGramPlayerPreviewArtist">Исполнитель</string>
+    <string name="MZGramSettingsBackup">Резервная копия настроек</string>
+    <string name="MZGramSettingsExport">Экспортировать настройки</string>
+    <string name="MZGramSettingsImport">Импортировать настройки</string>
+    <string name="MZGramSettingsBackupInfo">Файл с настройками MZGram, сохранённый туда, куда вы выберете. Ключей push, плагинов, аккаунтов с паролем и шрифта приложения в нём нет. Ничего никуда не отправляется.</string>
+    <string name="MZGramSettingsExported">Настройки экспортированы</string>
+    <string name="MZGramSettingsExportFailed">Не удалось экспортировать настройки</string>
+    <string name="MZGramSettingsImportEmpty">В этом файле нет настроек MZGram</string>
+    <string name="MZGramSettingsImportConfirm">Настроек в файле: %1$d. Они заменят текущие; настройки, которых нет в файле, останутся как есть.</string>
+    <string name="MZGramSettingsImported">Восстановлено настроек: %1$d. Перезапустите MZGram, чтобы все они заработали.</string>
+    <string name="MZGramSettingsImportFailed">Не удалось импортировать настройки</string>
 </resources>

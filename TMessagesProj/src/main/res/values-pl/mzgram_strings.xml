@@ -969,4 +969,14 @@
     <string name="MZGramPlayerMoveDown">W dół</string>
     <string name="MZGramPlayerPreviewTitle">Tytuł utworu</string>
     <string name="MZGramPlayerPreviewArtist">Wykonawca</string>
+    <string name="MZGramSettingsBackup">Kopia ustawień</string>
+    <string name="MZGramSettingsExport">Eksportuj ustawienia</string>
+    <string name="MZGramSettingsImport">Importuj ustawienia</string>
+    <string name="MZGramSettingsBackupInfo">Plik z ustawieniami MZGram zapisany tam, gdzie wybierzesz. Nie ma w nim kluczy push, wtyczek, kont z kodem ani czcionki aplikacji. Nic nie jest nigdzie wysyłane.</string>
+    <string name="MZGramSettingsExported">Ustawienia wyeksportowane</string>
+    <string name="MZGramSettingsExportFailed">Nie udało się wyeksportować ustawień</string>
+    <string name="MZGramSettingsImportEmpty">Ten plik nie zawiera ustawień MZGram</string>
+    <string name="MZGramSettingsImportConfirm">Ustawień w pliku: %1$d. Zastąpią obecne; ustawienia, których nie ma w pliku, zostaną bez zmian.</string>
+    <string name="MZGramSettingsImported">Przywrócono ustawień: %1$d. Uruchom ponownie MZGram, aby wszystkie zadziałały.</string>
+    <string name="MZGramSettingsImportFailed">Nie udało się zaimportować ustawień</string>
 </resources>

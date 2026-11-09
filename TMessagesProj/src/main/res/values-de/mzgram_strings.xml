@@ -969,4 +969,14 @@
     <string name="MZGramPlayerMoveDown">Nach unten</string>
     <string name="MZGramPlayerPreviewTitle">Titelname</string>
     <string name="MZGramPlayerPreviewArtist">Künstler</string>
+    <string name="MZGramSettingsBackup">Einstellungen sichern</string>
+    <string name="MZGramSettingsExport">Einstellungen exportieren</string>
+    <string name="MZGramSettingsImport">Einstellungen importieren</string>
+    <string name="MZGramSettingsBackupInfo">Eine Datei mit den MZGram-Einstellungen, gespeichert, wo du willst. Push-Schlüssel, Plugins, Konten mit Code und die App-Schrift sind nicht enthalten. Nichts wird irgendwohin gesendet.</string>
+    <string name="MZGramSettingsExported">Einstellungen exportiert</string>
+    <string name="MZGramSettingsExportFailed">Einstellungen konnten nicht exportiert werden</string>
+    <string name="MZGramSettingsImportEmpty">Diese Datei enthält keine MZGram-Einstellungen</string>
+    <string name="MZGramSettingsImportConfirm">Einstellungen in der Datei: %1$d. Sie ersetzen die aktuellen; Einstellungen, die nicht in der Datei sind, bleiben unverändert.</string>
+    <string name="MZGramSettingsImported">Wiederhergestellte Einstellungen: %1$d. Starte MZGram neu, damit alle wirken.</string>
+    <string name="MZGramSettingsImportFailed">Einstellungen konnten nicht importiert werden</string>
 </resources>

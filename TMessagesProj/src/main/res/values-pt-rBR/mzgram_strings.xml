@@ -969,4 +969,14 @@
     <string name="MZGramPlayerMoveDown">Mover para baixo</string>
     <string name="MZGramPlayerPreviewTitle">Título da faixa</string>
     <string name="MZGramPlayerPreviewArtist">Artista</string>
+    <string name="MZGramSettingsBackup">Backup das configurações</string>
+    <string name="MZGramSettingsExport">Exportar configurações</string>
+    <string name="MZGramSettingsImport">Importar configurações</string>
+    <string name="MZGramSettingsBackupInfo">Um arquivo com as configurações do MZGram, salvo onde você escolher. Ele não inclui as chaves push, os plugins, as contas com código nem a fonte do app. Nada é enviado para lugar nenhum.</string>
+    <string name="MZGramSettingsExported">Configurações exportadas</string>
+    <string name="MZGramSettingsExportFailed">Não foi possível exportar as configurações</string>
+    <string name="MZGramSettingsImportEmpty">Este arquivo não tem configurações do MZGram</string>
+    <string name="MZGramSettingsImportConfirm">Configurações no arquivo: %1$d. Elas vão substituir as atuais; as que não estão no arquivo ficam como estão.</string>
+    <string name="MZGramSettingsImported">Configurações restauradas: %1$d. Reinicie o MZGram para que todas sejam aplicadas.</string>
+    <string name="MZGramSettingsImportFailed">Não foi possível importar as configurações</string>
 </resources>

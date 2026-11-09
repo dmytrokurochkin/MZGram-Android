@@ -2951,6 +2951,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         if (push_msg_id == 0) {
                             push_msg_id = intent.getIntExtra("message_id", 0);
                         }
+                        // MZGram: a chat opened from a notification is not hidden under the music player
+                        org.telegram.ui.mzgram.player.MZGramMusicPlayer.dismissSheets();
                         if (storyId != -1) {
                             NotificationCenter.getInstance(intentAccount[0]).postNotificationName(NotificationCenter.closeChats);
                             push_chat_id = chatId;
@@ -3101,7 +3103,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else if (showPlayer) {
                 if (!actionBarLayout.getFragmentStack().isEmpty()) {
                     BaseFragment fragment = actionBarLayout.getFragmentStack().get(0);
-                    fragment.showDialog(new AudioPlayerAlert(this, null));
+                    // MZGram: the Material 3 music player for a music track when its switch is on, Telegram's player otherwise
+                    fragment.showDialog(org.telegram.ui.mzgram.player.MZGramMusicPlayer.create(this, null));
                 }
                 pushOpened = false;
             } else if (showLocations) {

@@ -4006,6 +4006,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         if (Math.abs(currentMusicPlaybackSpeed - 1.0f) > 0.001f) {
                             audioPlayer.setPlaybackSpeed(Math.round(currentMusicPlaybackSpeed * 10f) / 10f);
                         }
+                    } else if (org.telegram.ui.mzgram.player.MZGramMusicPlayer.enabled() && Math.abs(currentMusicPlaybackSpeed - 1.0f) > 0.001f) {
+                        // MZGram: the Material 3 music player keeps its speed for short tracks too
+                        audioPlayer.setPlaybackSpeed(Math.round(currentMusicPlaybackSpeed * 10f) / 10f);
                     }
                 }
                 if (messageObject.forceSeekTo >= 0) {

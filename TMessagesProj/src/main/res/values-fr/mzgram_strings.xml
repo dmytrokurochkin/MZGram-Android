@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">Démarrer sur l’ultra grand-angle</string>
     <string name="MZGramCameraXZoom">Curseur de zoom avec objectifs</string>
     <string name="MZGramCameraXInfo">Enregistre les vidéos rondes avec Jetpack CameraX au lieu de la caméra de Telegram : passage de la caméra avant à l’arrière sans pause quand le téléphone le permet, un curseur de zoom avec les objectifs du téléphone et la stabilisation de l’interrupteur ci-dessus. La caméra ne s’ouvre que pendant l’enregistrement d’une vidéo ronde.</string>
+    <string name="MZGramMusicPlayer">Lecteur de musique Material 3</string>
+    <string name="MZGramMusicPlayerBar">Barre du lecteur au-dessus du chat</string>
+    <string name="MZGramMusicPlayerInfo">Les morceaux s’ouvrent dans un lecteur plein écran aux couleurs de la pochette, avec une barre de progression ondulée, la vitesse de lecture et les paroles du fichier. Les messages vocaux restent dans le lecteur de Telegram, et le menu du lecteur ouvre le lecteur classique.</string>
+    <string name="MZGramPlayerFromChat">Du chat</string>
+    <string name="MZGramPlayerFromProfile">Du profil</string>
+    <string name="MZGramPlayerFromSearch">De la recherche</string>
+    <string name="MZGramPlayerMusic">Musique</string>
+    <string name="MZGramPlayerLyrics">Paroles</string>
+    <string name="MZGramPlayerSpeed">Vitesse de lecture</string>
+    <string name="MZGramPlayerSeek">Avancer ou reculer</string>
+    <string name="MZGramPlayerOpen">Ouvrir le lecteur</string>
+    <string name="MZGramPlayerClassic">Lecteur classique</string>
+    <string name="MZGramPlayerPlaybackOrder">Ordre de lecture</string>
+    <string name="MZGramPlayerNoLyrics">Pas de paroles dans le fichier</string>
+    <string name="MZGramPlayerInstrumental">Morceau instrumental</string>
+    <string name="MZGramPlayerInstrumentalText">Ce morceau n’a pas de paroles.</string>
+    <string name="MZGramPlayerSyncedLyrics">Paroles synchronisées du fichier</string>
+    <string name="MZGramPlayerPlainLyrics">Paroles du fichier</string>
 </resources>

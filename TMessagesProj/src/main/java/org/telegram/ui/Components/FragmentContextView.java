@@ -766,9 +766,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     if (messageObject.isMusic()) {
                         final Activity activity = AndroidUtilities.findActivity(getContext());
                         if (activity instanceof LaunchActivity) {
-                            new AudioPlayerAlert(activity, resourcesProvider).show();
+                            // MZGram: the Material 3 music player for a music track when its switch is on, Telegram's player otherwise
+                            org.telegram.ui.mzgram.player.MZGramMusicPlayer.create(activity, resourcesProvider).show();
                         } else if (AndroidUtilities.isContextSafe(LaunchActivity.instance)) {
-                            new AudioPlayerAlert(LaunchActivity.instance, resourcesProvider).show();
+                            org.telegram.ui.mzgram.player.MZGramMusicPlayer.create(LaunchActivity.instance, resourcesProvider).show();
                         }
                     } else {
                         long dialogId = 0;
@@ -1172,6 +1173,16 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
         }
         currentStyle = style;
+        // MZGram: the Material 3 player bar only for a music track
+        mzgramMusicBar = mzgramComputeMusicBar();
+        if (!mzgramMusicBar) {
+            if (mzgramBar != null) {
+                mzgramBar.setVisibility(GONE);
+            }
+            if (mzgramStockHidden) {
+                titleTextView.setVisibility(VISIBLE);
+            }
+        }
         frameLayout.setWillNotDraw(currentStyle != STYLE_INACTIVE_GROUP_CALL);
         if (style != STYLE_INACTIVE_GROUP_CALL) {
             notifyButtonEnabled = false;
@@ -1608,7 +1619,52 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     float micAmplitude;
 
     public int getStyleHeight() {
-        return currentStyle == STYLE_INACTIVE_GROUP_CALL ? 48 : 36;
+        // MZGram: the Material 3 player bar is taller
+        return currentStyle == STYLE_INACTIVE_GROUP_CALL ? 48 : mzgramMusicBar ? org.telegram.ui.mzgram.player.MZGramPlayerBarView.HEIGHT_DP : 36;
+    }
+
+    // MZGram: the Material 3 player bar (MZGramPlayerBarView) over the stock
+    // row for a music track, with MZGramMusicPlayer.barEnabled()
+    private org.telegram.ui.mzgram.player.MZGramPlayerBarView mzgramBar;
+    private boolean mzgramMusicBar;
+    private boolean mzgramStockHidden;
+
+    private boolean mzgramComputeMusicBar() {
+        MessageObject messageObject = MediaController.getInstance().getPlayingMessageObject();
+        return currentStyle == STYLE_AUDIO_PLAYER && org.telegram.ui.mzgram.player.MZGramMusicPlayer.barEnabled() && messageObject != null && messageObject.isMusic();
+    }
+
+    private void mzgramCheckMusicBar() {
+        boolean value = mzgramComputeMusicBar();
+        boolean changed = value != mzgramMusicBar;
+        mzgramMusicBar = value;
+        if (value && mzgramBar == null) {
+            mzgramBar = new org.telegram.ui.mzgram.player.MZGramPlayerBarView(getContext(), resourcesProvider, this::performClick, () -> closeButton.performClick());
+            addView(mzgramBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, org.telegram.ui.mzgram.player.MZGramPlayerBarView.HEIGHT_DP, Gravity.TOP | Gravity.LEFT));
+        }
+        if (mzgramBar != null) {
+            mzgramBar.setVisibility(value ? VISIBLE : GONE);
+        }
+        if (currentStyle == STYLE_AUDIO_PLAYER && (value || mzgramStockHidden)) {
+            int stock = value ? INVISIBLE : VISIBLE;
+            playButton.setVisibility(stock);
+            titleTextView.setVisibility(stock);
+            closeButton.setVisibility(stock);
+            if (playbackSpeedButton != null) {
+                playbackSpeedButton.setVisibility(stock);
+            }
+            mzgramStockHidden = value;
+        }
+        if (changed) {
+            frameLayout.setLayoutParams(LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, getStyleHeight(), Gravity.TOP | Gravity.LEFT, 0, 0, 0, 0));
+            if (topPadding > 0 && topPadding != AndroidUtilities.dp2(getStyleHeight())) {
+                setTopPadding(AndroidUtilities.dp2(getStyleHeight()));
+            }
+            requestLayout();
+        }
+        if (value) {
+            mzgramBar.update();
+        }
     }
 
     public boolean isCallTypeVisible() {
@@ -1902,6 +1958,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
             int prevStyle = currentStyle;
             updateStyle(STYLE_AUDIO_PLAYER);
+            // MZGram: the Material 3 player bar
+            mzgramCheckMusicBar();
             if (create && topPadding == 0) {
                 setTopPadding(AndroidUtilities.dp2(getStyleHeight()));
                 if (delegate != null) {
@@ -2659,7 +2717,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         }
         super.dispatchDraw(canvas);
 
-        if (currentStyle == STYLE_AUDIO_PLAYER) {
+        // MZGram: the Material 3 player bar draws its own progress
+        if (currentStyle == STYLE_AUDIO_PLAYER && !mzgramMusicBar) {
             MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
             if (playingMessageObject != null) {
                 final float left = -dpf2(1);

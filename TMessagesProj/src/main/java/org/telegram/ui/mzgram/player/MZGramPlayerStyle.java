@@ -1,0 +1,202 @@
+/*
+ * This is the source code of MZGram for Android,
+ * a fork of Telegram for Android.
+ *
+ * The look of the music player: cover, title, blocks, buttons, colors.
+ * The values are saved in the "mzgram_player_style" preferences; until the
+ * style editor comes (media.player-styling-queue) the player uses the
+ * defaults below.
+ *
+ * Port of exteraless PlayerStyle (GPL-3.0), from exteraGram.
+ * Changed for MZGram: own preferences instead of AppearanceConfig; the
+ * mini player settings are left for the floating mini player.
+ */
+
+package org.telegram.ui.mzgram.player;
+
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+
+import org.telegram.messenger.ApplicationLoader;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public final class MZGramPlayerStyle {
+
+    public static final int COVER_CARD = 0;
+    public static final int COVER_WIDE = 1;
+    public static final int COVER_FULL = 2;
+    public static final int COVER_DISC = 3;
+
+    public static final int BLOCK_PROGRESS = 0;
+    public static final int BLOCK_CONTROLS = 1;
+    public static final int BLOCK_ACTIONS = 2;
+
+    public static final int ACTIONS_BUTTONS = 0;
+    public static final int ACTIONS_ISLAND = 1;
+
+    public static final int COLORS_COVER = 0;
+    public static final int COLORS_THEME = 1;
+
+    public static final int BACKGROUND_SOLID = 0;
+    public static final int BACKGROUND_GRADIENT = 1;
+    public static final int BACKGROUND_BLUR = 2;
+
+    public static final int COVER_SIZE_MIN = 60;
+    public static final int COVER_SIZE_MAX = 100;
+    public static final int COVER_RADIUS_MAX = 48;
+
+    public static final String PREFERENCES = "mzgram_player_style";
+
+    private static final int[] DEFAULT_ORDER = {BLOCK_PROGRESS, BLOCK_CONTROLS, BLOCK_ACTIONS};
+
+    private MZGramPlayerStyle() {
+    }
+
+    private static SharedPreferences preferences() {
+        return ApplicationLoader.applicationContext.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);
+    }
+
+    private static int getInt(String key, int def) {
+        return preferences().getInt(key, def);
+    }
+
+    private static boolean getBoolean(String key, boolean def) {
+        return preferences().getBoolean(key, def);
+    }
+
+    public static int coverStyle() {
+        int value = getInt("coverStyle", COVER_CARD);
+        return value < COVER_CARD || value > COVER_DISC ? COVER_CARD : value;
+    }
+
+    public static float coverSize() {
+        int value = getInt("coverSize", COVER_SIZE_MAX);
+        return Math.max(COVER_SIZE_MIN, Math.min(COVER_SIZE_MAX, value)) / 100f;
+    }
+
+    public static int coverRadiusDp() {
+        int value = getInt("coverRadius", 28);
+        return Math.max(0, Math.min(COVER_RADIUS_MAX, value));
+    }
+
+    public static boolean discSpin() {
+        return getBoolean("discSpin", true);
+    }
+
+    public static boolean coverSwipe() {
+        return getBoolean("coverSwipe", true);
+    }
+
+    public static boolean coverExtend() {
+        return getBoolean("coverExtend", true);
+    }
+
+    public static boolean titleCentered() {
+        return getInt("titleAlign", 0) == 1;
+    }
+
+    public static int titleSize() {
+        int value = getInt("titleSize", 1);
+        return Math.max(0, Math.min(2, value));
+    }
+
+    public static boolean titleAbove() {
+        int style = coverStyle();
+        return (style == COVER_CARD || style == COVER_DISC) && getBoolean("titleAbove", false);
+    }
+
+    public static int[] order() {
+        return parseOrder(preferences().getString("order", ""));
+    }
+
+    // Public for the tests: unknown and repeated blocks are skipped, the
+    // missing ones go to the end in their usual order.
+    public static int[] parseOrder(String raw) {
+        if (TextUtils.isEmpty(raw)) {
+            return DEFAULT_ORDER.clone();
+        }
+        List<Integer> result = new ArrayList<>(3);
+        for (String part : raw.split(",")) {
+            try {
+                int block = Integer.parseInt(part.trim());
+                if (block >= BLOCK_PROGRESS && block <= BLOCK_ACTIONS && !result.contains(block)) {
+                    result.add(block);
+                }
+            } catch (NumberFormatException ignore) {
+            }
+        }
+        for (int block : DEFAULT_ORDER) {
+            if (!result.contains(block)) {
+                result.add(block);
+            }
+        }
+        int[] out = new int[result.size()];
+        for (int i = 0; i < out.length; i++) {
+            out[i] = result.get(i);
+        }
+        return out;
+    }
+
+    public static void setOrder(int[] order) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < order.length; i++) {
+            if (i > 0) {
+                sb.append(',');
+            }
+            sb.append(order[i]);
+        }
+        String value = sb.toString();
+        preferences().edit().putString("order", "0,1,2".equals(value) ? "" : value).apply();
+    }
+
+    public static boolean showActions() {
+        return getBoolean("showActions", true);
+    }
+
+    public static boolean actionsIsland() {
+        return getInt("actionsStyle", ACTIONS_BUTTONS) == ACTIONS_ISLAND;
+    }
+
+    public static boolean showModes() {
+        return getBoolean("showModes", true);
+    }
+
+    public static boolean showLike() {
+        return getBoolean("showLike", true);
+    }
+
+    public static boolean showSource() {
+        return getBoolean("showSource", true);
+    }
+
+    public static boolean wavy() {
+        return getBoolean("wavy", true);
+    }
+
+    public static float controlsScale() {
+        switch (getInt("controlsSize", 1)) {
+            case 0:
+                return 0.84f;
+            case 2:
+                return 1.14f;
+            default:
+                return 1f;
+        }
+    }
+
+    public static boolean themeColors() {
+        return getInt("colors", COLORS_COVER) == COLORS_THEME;
+    }
+
+    public static int background() {
+        int value = getInt("background", BACKGROUND_SOLID);
+        return value < BACKGROUND_SOLID || value > BACKGROUND_BLUR ? BACKGROUND_SOLID : value;
+    }
+
+    public static void reset() {
+        preferences().edit().clear().apply();
+    }
+}

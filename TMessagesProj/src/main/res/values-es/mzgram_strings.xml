@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">Empezar con el ultra gran angular</string>
     <string name="MZGramCameraXZoom">Control de zoom con lentes</string>
     <string name="MZGramCameraXInfo">Graba los videomensajes con Jetpack CameraX en lugar de la cámara de Telegram: cambio entre la cámara frontal y la trasera sin pausa donde el teléfono lo permite, un control de zoom con las lentes del teléfono y estabilización desde el interruptor de arriba. La cámara solo se abre mientras se graba un videomensaje.</string>
+    <string name="MZGramMusicPlayer">Reproductor de música Material 3</string>
+    <string name="MZGramMusicPlayerBar">Barra del reproductor sobre el chat</string>
+    <string name="MZGramMusicPlayerInfo">Las pistas de música se abren en un reproductor a pantalla completa con los colores de la portada, una barra de progreso ondulada, velocidad de reproducción y la letra del archivo. Los mensajes de voz siguen en el reproductor de Telegram, y el menú del reproductor abre el clásico.</string>
+    <string name="MZGramPlayerFromChat">Del chat</string>
+    <string name="MZGramPlayerFromProfile">Del perfil</string>
+    <string name="MZGramPlayerFromSearch">De la búsqueda</string>
+    <string name="MZGramPlayerMusic">Música</string>
+    <string name="MZGramPlayerLyrics">Letra</string>
+    <string name="MZGramPlayerSpeed">Velocidad de reproducción</string>
+    <string name="MZGramPlayerSeek">Buscar posición</string>
+    <string name="MZGramPlayerOpen">Abrir reproductor</string>
+    <string name="MZGramPlayerClassic">Reproductor clásico</string>
+    <string name="MZGramPlayerPlaybackOrder">Orden de reproducción</string>
+    <string name="MZGramPlayerNoLyrics">El archivo no tiene letra</string>
+    <string name="MZGramPlayerInstrumental">Pieza instrumental</string>
+    <string name="MZGramPlayerInstrumentalText">Esta pista no tiene letra.</string>
+    <string name="MZGramPlayerSyncedLyrics">Letra sincronizada del archivo</string>
+    <string name="MZGramPlayerPlainLyrics">Letra del archivo</string>
 </resources>

@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">Ультракең объективтен бастау</string>
     <string name="MZGramCameraXZoom">Объективтері бар масштаб жүгірткісі</string>
     <string name="MZGramCameraXInfo">Дөңгелек бейнені Telegram камерасының орнына Jetpack CameraX арқылы жазады: телефон рұқсат еткен жерде алдыңғы және артқы камера арасында үзіліссіз ауысу, телефон объективтері бар масштаб жүгірткісі және жоғарыдағы қосқыштан тұрақтандыру. Камера тек дөңгелек бейне жазылып жатқанда ашылады.</string>
+    <string name="MZGramMusicPlayer">Material 3 музыка ойнатқышы</string>
+    <string name="MZGramMusicPlayerBar">Чат үстіндегі ойнатқыш панелі</string>
+    <string name="MZGramMusicPlayerInfo">Музыкалық тректер мұқаба түстері, толқынды жүгірткі, ойнату жылдамдығы және файлдағы ән мәтіні бар толық экранды ойнатқышта ашылады. Дауыстық хабарлар Telegram ойнатқышында қалады, ал ойнатқыш мәзірі классикалық ойнатқышты ашады.</string>
+    <string name="MZGramPlayerFromChat">Чаттан</string>
+    <string name="MZGramPlayerFromProfile">Профильден</string>
+    <string name="MZGramPlayerFromSearch">Іздеуден</string>
+    <string name="MZGramPlayerMusic">Музыка</string>
+    <string name="MZGramPlayerLyrics">Мәтін</string>
+    <string name="MZGramPlayerSpeed">Ойнату жылдамдығы</string>
+    <string name="MZGramPlayerSeek">Айналдыру</string>
+    <string name="MZGramPlayerOpen">Ойнатқышты ашу</string>
+    <string name="MZGramPlayerClassic">Классикалық ойнатқыш</string>
+    <string name="MZGramPlayerPlaybackOrder">Ойнату реті</string>
+    <string name="MZGramPlayerNoLyrics">Файлда ән мәтіні жоқ</string>
+    <string name="MZGramPlayerInstrumental">Аспаптық әуен</string>
+    <string name="MZGramPlayerInstrumentalText">Бұл тректе сөз жоқ.</string>
+    <string name="MZGramPlayerSyncedLyrics">Файлдан синхрондалған мәтін</string>
+    <string name="MZGramPlayerPlainLyrics">Файлдағы ән мәтіні</string>
 </resources>

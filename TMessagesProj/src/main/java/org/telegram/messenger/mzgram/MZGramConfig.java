@@ -104,6 +104,9 @@ public class MZGramConfig {
     public static boolean cameraX = false;
     public static boolean cameraXWideLens = false;
     public static boolean cameraXZoomSlider = true;
+    // The Material 3 music player (MZGramMusicPlayer) and its bar above the chat
+    public static boolean musicPlayer = false;
+    public static boolean musicPlayerBar = true;
     // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
     // the phone's, otherwise one of its codes
     public static String language = "";
@@ -427,6 +430,8 @@ public class MZGramConfig {
             cameraX = preferences.getBoolean("useCameraX", false);
             cameraXWideLens = preferences.getBoolean("cameraXWideLens", false);
             cameraXZoomSlider = preferences.getBoolean("cameraXZoomSlider", true);
+            musicPlayer = preferences.getBoolean("musicPlayer", false);
+            musicPlayerBar = preferences.getBoolean("musicPlayerBar", true);
             language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
@@ -595,6 +600,16 @@ public class MZGramConfig {
     public static void toggleCameraXZoomSlider() {
         cameraXZoomSlider = !cameraXZoomSlider;
         putBoolean("cameraXZoomSlider", cameraXZoomSlider);
+    }
+
+    public static void toggleMusicPlayer() {
+        musicPlayer = !musicPlayer;
+        putBoolean("musicPlayer", musicPlayer);
+    }
+
+    public static void toggleMusicPlayerBar() {
+        musicPlayerBar = !musicPlayerBar;
+        putBoolean("musicPlayerBar", musicPlayerBar);
     }
 
     public static void toggleRecentChatsOnBack() {

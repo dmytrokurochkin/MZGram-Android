@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">Mit dem Ultraweitwinkel starten</string>
     <string name="MZGramCameraXZoom">Zoom-Regler mit Objektiven</string>
     <string name="MZGramCameraXInfo">Nimmt runde Videos mit Jetpack CameraX statt mit der Kamera von Telegram auf: Wechsel zwischen Front- und Rückkamera ohne Pause, wo das Telefon es erlaubt, ein Zoom-Regler mit den Objektiven des Telefons und Stabilisierung über den Schalter oben. Die Kamera öffnet sich nur während der Aufnahme eines runden Videos.</string>
+    <string name="MZGramMusicPlayer">Musikplayer im Material-3-Stil</string>
+    <string name="MZGramMusicPlayerBar">Player-Leiste über dem Chat</string>
+    <string name="MZGramMusicPlayerInfo">Musiktitel öffnen sich in einem Vollbild-Player mit den Farben des Covers, einer welligen Fortschrittsleiste, Wiedergabegeschwindigkeit und dem Liedtext aus der Datei. Sprachnachrichten bleiben im Player von Telegram, und das Menü des Players öffnet den klassischen.</string>
+    <string name="MZGramPlayerFromChat">Aus dem Chat</string>
+    <string name="MZGramPlayerFromProfile">Aus dem Profil</string>
+    <string name="MZGramPlayerFromSearch">Aus der Suche</string>
+    <string name="MZGramPlayerMusic">Musik</string>
+    <string name="MZGramPlayerLyrics">Liedtext</string>
+    <string name="MZGramPlayerSpeed">Wiedergabegeschwindigkeit</string>
+    <string name="MZGramPlayerSeek">Spulen</string>
+    <string name="MZGramPlayerOpen">Player öffnen</string>
+    <string name="MZGramPlayerClassic">Klassischer Player</string>
+    <string name="MZGramPlayerPlaybackOrder">Wiedergabereihenfolge</string>
+    <string name="MZGramPlayerNoLyrics">Kein Liedtext in der Datei</string>
+    <string name="MZGramPlayerInstrumental">Instrumentalstück</string>
+    <string name="MZGramPlayerInstrumentalText">Dieser Titel hat keinen Text.</string>
+    <string name="MZGramPlayerSyncedLyrics">Synchronisierter Liedtext aus der Datei</string>
+    <string name="MZGramPlayerPlainLyrics">Liedtext aus der Datei</string>
 </resources>

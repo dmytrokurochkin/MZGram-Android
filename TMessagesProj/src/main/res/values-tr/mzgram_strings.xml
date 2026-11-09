@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">Ultra geniş açılı lensle başla</string>
     <string name="MZGramCameraXZoom">Lensli yakınlaştırma kaydırıcısı</string>
     <string name="MZGramCameraXInfo">Yuvarlak videoları Telegram kamerası yerine Jetpack CameraX ile kaydeder: telefonun izin verdiği yerde ön ve arka kamera arasında duraksamadan geçiş, telefonun lensleriyle bir yakınlaştırma kaydırıcısı ve yukarıdaki anahtardan sabitleme. Kamera yalnızca yuvarlak video kaydedilirken açılır.</string>
+    <string name="MZGramMusicPlayer">Material 3 müzik çalar</string>
+    <string name="MZGramMusicPlayerBar">Sohbetin üstünde çalar çubuğu</string>
+    <string name="MZGramMusicPlayerInfo">Müzik parçaları kapak renkleri, dalgalı ilerleme çubuğu, oynatma hızı ve dosyadaki şarkı sözleriyle tam ekran bir çalarda açılır. Sesli mesajlar Telegram çalarında kalır, çaların menüsü klasik çaları açar.</string>
+    <string name="MZGramPlayerFromChat">Sohbetten</string>
+    <string name="MZGramPlayerFromProfile">Profilden</string>
+    <string name="MZGramPlayerFromSearch">Aramadan</string>
+    <string name="MZGramPlayerMusic">Müzik</string>
+    <string name="MZGramPlayerLyrics">Sözler</string>
+    <string name="MZGramPlayerSpeed">Oynatma hızı</string>
+    <string name="MZGramPlayerSeek">Sarma</string>
+    <string name="MZGramPlayerOpen">Çaları aç</string>
+    <string name="MZGramPlayerClassic">Klasik çalar</string>
+    <string name="MZGramPlayerPlaybackOrder">Oynatma sırası</string>
+    <string name="MZGramPlayerNoLyrics">Dosyada şarkı sözü yok</string>
+    <string name="MZGramPlayerInstrumental">Enstrümantal</string>
+    <string name="MZGramPlayerInstrumentalText">Bu parçanın sözleri yok.</string>
+    <string name="MZGramPlayerSyncedLyrics">Dosyadan eşzamanlı sözler</string>
+    <string name="MZGramPlayerPlainLyrics">Dosyadaki şarkı sözleri</string>
 </resources>

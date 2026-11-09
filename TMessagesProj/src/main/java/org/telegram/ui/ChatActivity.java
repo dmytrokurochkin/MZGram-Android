@@ -37360,7 +37360,8 @@ public class ChatActivity extends BaseFragment implements
                     cell.resetPressedLink(-1);
                 }
                 if (!messageObject.isVoice()) {
-                    showDialog(new AudioPlayerAlert(getContext(), themeDelegate));
+                    // MZGram: the Material 3 music player for a music track when its switch is on, Telegram's player otherwise
+                    showDialog(org.telegram.ui.mzgram.player.MZGramMusicPlayer.create(getContext(), themeDelegate));
                 }
             } else if (str.startsWith("tonaddress:")) {
                 didPressTonAddress(cell, url, str.substring(11));

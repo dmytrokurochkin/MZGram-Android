@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">Zaczynaj od obiektywu ultraszerokokątnego</string>
     <string name="MZGramCameraXZoom">Suwak zoomu z obiektywami</string>
     <string name="MZGramCameraXInfo">Nagrywa okrągłe wideo przez Jetpack CameraX zamiast kamery Telegrama: przełączanie między przednim a tylnym aparatem bez przerwy, gdzie telefon na to pozwala, suwak zoomu z obiektywami telefonu i stabilizacja z przełącznika powyżej. Aparat włącza się tylko podczas nagrywania okrągłego wideo.</string>
+    <string name="MZGramMusicPlayer">Odtwarzacz muzyki Material 3</string>
+    <string name="MZGramMusicPlayerBar">Pasek odtwarzacza nad czatem</string>
+    <string name="MZGramMusicPlayerInfo">Utwory muzyczne otwierają się w pełnoekranowym odtwarzaczu z kolorami okładki, falistym paskiem postępu, prędkością odtwarzania i tekstem piosenki z pliku. Wiadomości głosowe zostają w odtwarzaczu Telegrama, a menu odtwarzacza otwiera klasyczny.</string>
+    <string name="MZGramPlayerFromChat">Z czatu</string>
+    <string name="MZGramPlayerFromProfile">Z profilu</string>
+    <string name="MZGramPlayerFromSearch">Z wyszukiwania</string>
+    <string name="MZGramPlayerMusic">Muzyka</string>
+    <string name="MZGramPlayerLyrics">Tekst</string>
+    <string name="MZGramPlayerSpeed">Prędkość odtwarzania</string>
+    <string name="MZGramPlayerSeek">Przewijanie</string>
+    <string name="MZGramPlayerOpen">Otwórz odtwarzacz</string>
+    <string name="MZGramPlayerClassic">Klasyczny odtwarzacz</string>
+    <string name="MZGramPlayerPlaybackOrder">Kolejność odtwarzania</string>
+    <string name="MZGramPlayerNoLyrics">Brak tekstu piosenki w pliku</string>
+    <string name="MZGramPlayerInstrumental">Utwór instrumentalny</string>
+    <string name="MZGramPlayerInstrumentalText">Ten utwór nie ma tekstu.</string>
+    <string name="MZGramPlayerSyncedLyrics">Zsynchronizowany tekst z pliku</string>
+    <string name="MZGramPlayerPlainLyrics">Tekst piosenki z pliku</string>
 </resources>

@@ -217,6 +217,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CAMERA_X = 177;
     private static final int BUTTON_CAMERA_X_WIDE = 178;
     private static final int BUTTON_CAMERA_X_ZOOM = 179;
+    private static final int BUTTON_MUSIC_PLAYER = 180;
+    private static final int BUTTON_MUSIC_PLAYER_BAR = 181;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -706,6 +708,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asCheck(BUTTON_CAMERA_X_ZOOM, getString(R.string.MZGramCameraXZoom)).setChecked(MZGramConfig.cameraXZoomSlider));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramCameraXInfo)));
+        items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER, getString(R.string.MZGramMusicPlayer)).setChecked(MZGramConfig.musicPlayer));
+        if (MZGramConfig.musicPlayer) {
+            items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER_BAR, getString(R.string.MZGramMusicPlayerBar)).setChecked(MZGramConfig.musicPlayerBar));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramMusicPlayerInfo)));
         items.add(UItem.asCheck(BUTTON_PAUSE_ROUND, getString(R.string.MZGramPauseRound)).setChecked(MZGramConfig.pauseRoundOnLeave));
         items.add(UItem.asShadow(getString(R.string.MZGramPauseRoundInfo)));
         items.add(UItem.asCheck(BUTTON_ALWAYS_SEND_HD, getString(R.string.MZGramAlwaysSendHd)).setChecked(MZGramConfig.alwaysSendHd));
@@ -1141,6 +1148,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CAMERA_X_ZOOM) {
             MZGramConfig.toggleCameraXZoomSlider();
             ((TextCheckCell) view).setChecked(MZGramConfig.cameraXZoomSlider);
+        } else if (item.id == BUTTON_MUSIC_PLAYER) {
+            MZGramConfig.toggleMusicPlayer();
+            ((TextCheckCell) view).setChecked(MZGramConfig.musicPlayer);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_MUSIC_PLAYER_BAR) {
+            MZGramConfig.toggleMusicPlayerBar();
+            ((TextCheckCell) view).setChecked(MZGramConfig.musicPlayerBar);
         } else if (item.id == BUTTON_AUDIO_ENHANCE) {
             MZGramConfig.toggleAudioEnhance();
             ((TextCheckCell) view).setChecked(MZGramConfig.audioEnhance);

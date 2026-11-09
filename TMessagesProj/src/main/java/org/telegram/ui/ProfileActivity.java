@@ -3923,7 +3923,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     MediaController.getInstance().getPlaylist().clear();
                     MediaController.getInstance().getPlaylist().addAll(savedMusicList.list);
                     if (!sameList) MediaController.getInstance().playMessage(savedMusicList.list.get(0));
-                    showDialog(new AudioPlayerAlert(getContext(), getResourceProvider()));
+                    // MZGram: the Material 3 music player for a music track when its switch is on, Telegram's player otherwise
+                    showDialog(org.telegram.ui.mzgram.player.MZGramMusicPlayer.create(getContext(), getResourceProvider()));
                 }
             });
 

@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">Começar na lente ultra-angular</string>
     <string name="MZGramCameraXZoom">Controle de zoom com lentes</string>
     <string name="MZGramCameraXInfo">Grava vídeos redondos com o Jetpack CameraX em vez da câmera do Telegram: troca entre a câmera frontal e a traseira sem pausa quando o celular permite, um controle de zoom com as lentes do celular e estabilização pela chave acima. A câmera só abre enquanto um vídeo redondo é gravado.</string>
+    <string name="MZGramMusicPlayer">Player de música Material 3</string>
+    <string name="MZGramMusicPlayerBar">Barra do player acima do chat</string>
+    <string name="MZGramMusicPlayerInfo">As faixas de música abrem em um player de tela cheia com as cores da capa, uma barra de progresso ondulada, velocidade de reprodução e a letra do arquivo. As mensagens de voz continuam no player do Telegram, e o menu do player abre o clássico.</string>
+    <string name="MZGramPlayerFromChat">Do chat</string>
+    <string name="MZGramPlayerFromProfile">Do perfil</string>
+    <string name="MZGramPlayerFromSearch">Da busca</string>
+    <string name="MZGramPlayerMusic">Música</string>
+    <string name="MZGramPlayerLyrics">Letra</string>
+    <string name="MZGramPlayerSpeed">Velocidade de reprodução</string>
+    <string name="MZGramPlayerSeek">Avançar ou voltar</string>
+    <string name="MZGramPlayerOpen">Abrir player</string>
+    <string name="MZGramPlayerClassic">Player clássico</string>
+    <string name="MZGramPlayerPlaybackOrder">Ordem de reprodução</string>
+    <string name="MZGramPlayerNoLyrics">O arquivo não tem letra</string>
+    <string name="MZGramPlayerInstrumental">Faixa instrumental</string>
+    <string name="MZGramPlayerInstrumentalText">Esta faixa não tem letra.</string>
+    <string name="MZGramPlayerSyncedLyrics">Letra sincronizada do arquivo</string>
+    <string name="MZGramPlayerPlainLyrics">Letra do arquivo</string>
 </resources>

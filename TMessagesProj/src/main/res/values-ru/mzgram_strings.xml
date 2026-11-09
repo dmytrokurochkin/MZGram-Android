@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">Начинать со сверхширокого объектива</string>
     <string name="MZGramCameraXZoom">Ползунок зума с объективами</string>
     <string name="MZGramCameraXInfo">Записывает круглое видео через Jetpack CameraX вместо камеры Telegram: переключение между фронтальной и основной камерой без паузы, где телефон это позволяет, ползунок зума с объективами телефона и стабилизация из переключателя выше. Камера открывается только во время записи круглого видео.</string>
+    <string name="MZGramMusicPlayer">Музыкальный плеер Material 3</string>
+    <string name="MZGramMusicPlayerBar">Панель плеера над чатом</string>
+    <string name="MZGramMusicPlayerInfo">Музыкальные треки открываются в полноэкранном плеере с цветами обложки, волнистым ползунком, скоростью воспроизведения и текстом песни из файла. Голосовые сообщения остаются в плеере Telegram, а меню плеера открывает классический.</string>
+    <string name="MZGramPlayerFromChat">Из чата</string>
+    <string name="MZGramPlayerFromProfile">Из профиля</string>
+    <string name="MZGramPlayerFromSearch">Из поиска</string>
+    <string name="MZGramPlayerMusic">Музыка</string>
+    <string name="MZGramPlayerLyrics">Текст</string>
+    <string name="MZGramPlayerSpeed">Скорость воспроизведения</string>
+    <string name="MZGramPlayerSeek">Перемотка</string>
+    <string name="MZGramPlayerOpen">Открыть плеер</string>
+    <string name="MZGramPlayerClassic">Классический плеер</string>
+    <string name="MZGramPlayerPlaybackOrder">Порядок воспроизведения</string>
+    <string name="MZGramPlayerNoLyrics">В файле нет текста песни</string>
+    <string name="MZGramPlayerInstrumental">Инструментал</string>
+    <string name="MZGramPlayerInstrumentalText">У этого трека нет слов.</string>
+    <string name="MZGramPlayerSyncedLyrics">Синхронизированный текст из файла</string>
+    <string name="MZGramPlayerPlainLyrics">Текст песни из файла</string>
 </resources>

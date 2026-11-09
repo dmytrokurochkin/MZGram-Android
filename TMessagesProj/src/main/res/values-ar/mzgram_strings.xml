@@ -900,4 +900,22 @@
     <string name="MZGramCameraXWide">البدء بالعدسة فائقة الاتساع</string>
     <string name="MZGramCameraXZoom">شريط التكبير مع العدسات</string>
     <string name="MZGramCameraXInfo">يسجّل الفيديو الدائري عبر Jetpack CameraX بدلًا من كاميرا Telegram: التبديل بين الكاميرا الأمامية والخلفية دون توقف حيث يسمح الهاتف بذلك، وشريط تكبير بعدسات الهاتف، والتثبيت من المفتاح أعلاه. لا تُفتح الكاميرا إلا أثناء تسجيل فيديو دائري.</string>
+    <string name="MZGramMusicPlayer">مشغل موسيقى Material 3</string>
+    <string name="MZGramMusicPlayerBar">شريط المشغل فوق الدردشة</string>
+    <string name="MZGramMusicPlayerInfo">تُفتح المقاطع الموسيقية في مشغل بملء الشاشة بألوان الغلاف وشريط تقدم متموج وسرعة التشغيل وكلمات الأغنية من الملف. تبقى الرسائل الصوتية في مشغل Telegram، وتفتح قائمة المشغل المشغل الكلاسيكي.</string>
+    <string name="MZGramPlayerFromChat">من الدردشة</string>
+    <string name="MZGramPlayerFromProfile">من الملف الشخصي</string>
+    <string name="MZGramPlayerFromSearch">من البحث</string>
+    <string name="MZGramPlayerMusic">الموسيقى</string>
+    <string name="MZGramPlayerLyrics">الكلمات</string>
+    <string name="MZGramPlayerSpeed">سرعة التشغيل</string>
+    <string name="MZGramPlayerSeek">التقديم والترجيع</string>
+    <string name="MZGramPlayerOpen">فتح المشغل</string>
+    <string name="MZGramPlayerClassic">المشغل الكلاسيكي</string>
+    <string name="MZGramPlayerPlaybackOrder">ترتيب التشغيل</string>
+    <string name="MZGramPlayerNoLyrics">لا توجد كلمات في الملف</string>
+    <string name="MZGramPlayerInstrumental">مقطوعة موسيقية</string>
+    <string name="MZGramPlayerInstrumentalText">لا توجد كلمات لهذا المقطع.</string>
+    <string name="MZGramPlayerSyncedLyrics">كلمات متزامنة من الملف</string>
+    <string name="MZGramPlayerPlainLyrics">كلمات الأغنية من الملف</string>
 </resources>

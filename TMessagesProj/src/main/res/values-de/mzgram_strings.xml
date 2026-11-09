@@ -815,4 +815,11 @@
     <string name="MZGramRegexFilterFull">Diese Liste hat bereits 200 Regeln.</string>
     <string name="MZGramRegexFilterDelete">Löschen</string>
     <string name="MZGramRegexFilterAddFromMessage">Zu Filtern hinzufügen</string>
+    <string name="MZGramRegexFiltersExclude">Diesen Chat nicht filtern</string>
+    <string name="MZGramRegexFiltersInclude">Diesen Chat wieder filtern</string>
+    <string name="MZGramRegexFiltersExcludeInfo">Solange das aktiv ist, blenden hier weder die allgemeinen Regeln noch die Regeln dieses Chats etwas aus.</string>
+    <string name="MZGramRegexFiltersExcluded">Chats ohne Filter</string>
+    <string name="MZGramRegexFiltersExcludedInfo">In diesen Chats blendet keine Regel Nachrichten aus. Ein Chat lässt sich auch über das Menü seines Profils hinzufügen. Tippen öffnet die Regeln des Chats, langes Tippen filtert ihn wieder.</string>
+    <string name="MZGramRegexFiltersExcludedDone">Nachrichtenfilter gelten in diesem Chat nicht.</string>
+    <string name="MZGramRegexFiltersIncludedDone">Nachrichtenfilter gelten in diesem Chat wieder.</string>
 </resources>

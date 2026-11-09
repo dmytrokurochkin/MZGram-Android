@@ -815,4 +815,11 @@
     <string name="MZGramRegexFilterFull">Бұл тізімде 200 ереже бар.</string>
     <string name="MZGramRegexFilterDelete">Жою</string>
     <string name="MZGramRegexFilterAddFromMessage">Сүзгілерге қосу</string>
+    <string name="MZGramRegexFiltersExclude">Бұл чатты сүзбеу</string>
+    <string name="MZGramRegexFiltersInclude">Бұл чатты қайта сүзу</string>
+    <string name="MZGramRegexFiltersExcludeInfo">Бұл қосулы тұрғанда, мұнда жалпы ережелер де, осы чаттың ережелері де ештеңе жасырмайды.</string>
+    <string name="MZGramRegexFiltersExcluded">Сүзгісіз чаттар</string>
+    <string name="MZGramRegexFiltersExcludedInfo">Бұл чаттарда ешбір ереже хабарларды жасырмайды. Чатты оның профиль мәзірінен де қосуға болады. Түрту чат ережелерін ашады, ұзақ түрту оны қайта сүзеді.</string>
+    <string name="MZGramRegexFiltersExcludedDone">Хабар сүзгілері бұл чатта әрекет етпейді.</string>
+    <string name="MZGramRegexFiltersIncludedDone">Хабар сүзгілері бұл чатта қайта әрекет етеді.</string>
 </resources>

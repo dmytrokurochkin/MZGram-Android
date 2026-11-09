@@ -815,4 +815,11 @@
     <string name="MZGramRegexFilterFull">تحتوي هذه القائمة بالفعل على 200 قاعدة.</string>
     <string name="MZGramRegexFilterDelete">حذف</string>
     <string name="MZGramRegexFilterAddFromMessage">إضافة إلى المرشحات</string>
+    <string name="MZGramRegexFiltersExclude">عدم تصفية هذه المحادثة</string>
+    <string name="MZGramRegexFiltersInclude">تصفية هذه المحادثة مجددًا</string>
+    <string name="MZGramRegexFiltersExcludeInfo">ما دام هذا مفعّلًا، لا تخفي هنا القواعد العامة ولا قواعد هذه المحادثة أي شيء.</string>
+    <string name="MZGramRegexFiltersExcluded">محادثات بلا مرشحات</string>
+    <string name="MZGramRegexFiltersExcludedInfo">في هذه المحادثات لا تخفي أي قاعدة الرسائل. يمكن أيضًا إضافة محادثة من قائمة ملفها الشخصي. النقر يفتح قواعد المحادثة، والنقر المطوّل يعيد تصفيتها.</string>
+    <string name="MZGramRegexFiltersExcludedDone">مرشحات الرسائل لا تعمل في هذه المحادثة.</string>
+    <string name="MZGramRegexFiltersIncludedDone">مرشحات الرسائل تعمل مجددًا في هذه المحادثة.</string>
 </resources>

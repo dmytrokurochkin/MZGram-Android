@@ -815,4 +815,11 @@
     <string name="MZGramRegexFilterFull">Ta lista ma już 200 reguł.</string>
     <string name="MZGramRegexFilterDelete">Usuń</string>
     <string name="MZGramRegexFilterAddFromMessage">Dodaj do filtrów</string>
+    <string name="MZGramRegexFiltersExclude">Nie filtruj tego czatu</string>
+    <string name="MZGramRegexFiltersInclude">Znów filtruj ten czat</string>
+    <string name="MZGramRegexFiltersExcludeInfo">Dopóki to jest włączone, ani wspólne reguły, ani reguły tego czatu niczego tu nie ukrywają.</string>
+    <string name="MZGramRegexFiltersExcluded">Czaty bez filtrów</string>
+    <string name="MZGramRegexFiltersExcludedInfo">W tych czatach żadna reguła nie ukrywa wiadomości. Czat można też dodać z menu jego profilu. Dotknięcie otwiera reguły czatu, długie dotknięcie znów go filtruje.</string>
+    <string name="MZGramRegexFiltersExcludedDone">Filtry wiadomości nie działają w tym czacie.</string>
+    <string name="MZGramRegexFiltersIncludedDone">Filtry wiadomości znów działają w tym czacie.</string>
 </resources>

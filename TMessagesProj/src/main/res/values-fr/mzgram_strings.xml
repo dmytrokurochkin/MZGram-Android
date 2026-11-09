@@ -815,4 +815,11 @@
     <string name="MZGramRegexFilterFull">Cette liste contient déjà 200 règles.</string>
     <string name="MZGramRegexFilterDelete">Supprimer</string>
     <string name="MZGramRegexFilterAddFromMessage">Ajouter aux filtres</string>
+    <string name="MZGramRegexFiltersExclude">Ne pas filtrer cette discussion</string>
+    <string name="MZGramRegexFiltersInclude">Filtrer à nouveau cette discussion</string>
+    <string name="MZGramRegexFiltersExcludeInfo">Tant que c\'est activé, ni les règles communes ni celles de cette discussion ne masquent quoi que ce soit ici.</string>
+    <string name="MZGramRegexFiltersExcluded">Discussions sans filtres</string>
+    <string name="MZGramRegexFiltersExcludedInfo">Dans ces discussions, aucune règle ne masque de messages. Une discussion peut aussi être ajoutée depuis le menu de son profil. Un appui ouvre ses règles, un appui long la filtre à nouveau.</string>
+    <string name="MZGramRegexFiltersExcludedDone">Les filtres de messages ne s\'appliquent pas à cette discussion.</string>
+    <string name="MZGramRegexFiltersIncludedDone">Les filtres de messages s\'appliquent à nouveau à cette discussion.</string>
 </resources>

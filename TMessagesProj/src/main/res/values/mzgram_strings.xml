@@ -815,4 +815,11 @@
     <string name="MZGramRegexFilterFull">This list already has 200 rules.</string>
     <string name="MZGramRegexFilterDelete">Delete</string>
     <string name="MZGramRegexFilterAddFromMessage">Add to filters</string>
+    <string name="MZGramRegexFiltersExclude">Do not filter this chat</string>
+    <string name="MZGramRegexFiltersInclude">Filter this chat again</string>
+    <string name="MZGramRegexFiltersExcludeInfo">While this is on, neither the common rules nor the rules of this chat hide anything here.</string>
+    <string name="MZGramRegexFiltersExcluded">Chats without filters</string>
+    <string name="MZGramRegexFiltersExcludedInfo">No rule hides messages in these chats. A chat can also be added from the menu of its profile. A tap opens the chat\'s rules, a long tap filters it again.</string>
+    <string name="MZGramRegexFiltersExcludedDone">Message filters do not work in this chat.</string>
+    <string name="MZGramRegexFiltersIncludedDone">Message filters work in this chat again.</string>
 </resources>

@@ -815,4 +815,11 @@
     <string name="MZGramRegexFilterFull">У гэтым спісе ўжо 200 правілаў.</string>
     <string name="MZGramRegexFilterDelete">Выдаліць</string>
     <string name="MZGramRegexFilterAddFromMessage">Дадаць у фільтры</string>
+    <string name="MZGramRegexFiltersExclude">Не фільтраваць гэты чат</string>
+    <string name="MZGramRegexFiltersInclude">Зноў фільтраваць гэты чат</string>
+    <string name="MZGramRegexFiltersExcludeInfo">Пакуль гэта ўключана, тут нічога не хаваюць ні агульныя правілы, ні правілы гэтага чата.</string>
+    <string name="MZGramRegexFiltersExcluded">Чаты без фільтраў</string>
+    <string name="MZGramRegexFiltersExcludedInfo">У гэтых чатах ніводнае правіла не хавае паведамленні. Чат можна дадаць і з меню яго профілю. Дотык адкрывае правілы чата, доўгі дотык зноў уключае для яго фільтры.</string>
+    <string name="MZGramRegexFiltersExcludedDone">Фільтры паведамленняў не дзейнічаюць у гэтым чаце.</string>
+    <string name="MZGramRegexFiltersIncludedDone">Фільтры паведамленняў зноў дзейнічаюць у гэтым чаце.</string>
 </resources>

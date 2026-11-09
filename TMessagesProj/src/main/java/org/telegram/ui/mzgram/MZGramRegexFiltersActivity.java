@@ -5,7 +5,10 @@
  * Message filter rules (MZGramRegexFilters). Without a chat: the switches
  * of the filters, the common rules and the chats that have rules of their
  * own; with a chat: the rules of that chat only. A tap on a rule opens the
- * editor (MZGramRegexFilterEditor), a long tap turns it off or on.
+ * editor (MZGramRegexFilterEditor), a long tap turns it off or on. The main
+ * screen also lists the chats left out of all filters (filters.minor, dialog
+ * exclusions; also from the profile menu of a chat), a chat's screen has the
+ * switch for it.
  *
  * Idea from Nagram / Nekogram RegexFiltersSettingActivity and
  * RegexChatFiltersListActivity (GPL-3.0); written anew for MZGram.
@@ -39,13 +42,17 @@ public class MZGramRegexFiltersActivity extends UniversalFragment {
     private static final int ROW_NO_DOWNLOAD = 2;
     private static final int ROW_ADD_RULE = 3;
     private static final int ROW_ADD_CHAT = 4;
+    private static final int ROW_CHAT_EXCLUDED = 5;
+    private static final int ROW_ADD_EXCLUDED = 6;
     private static final int RULE_ROW = 1000;
     private static final int CHAT_ROW = 2000;
+    private static final int EXCLUDED_ROW = 100000;
     private static final int SHOWN_PATTERN = 80;
 
     private final long dialogId;
     private final ArrayList<MZGramRegexFilters.Rule> rules = new ArrayList<>();
     private final ArrayList<Long> chats = new ArrayList<>();
+    private final ArrayList<Long> excluded = new ArrayList<>();
 
     /** The screen of the switches, the common rules and the chats with rules. */
     public MZGramRegexFiltersActivity() {
@@ -93,6 +100,8 @@ public class MZGramRegexFiltersActivity extends UniversalFragment {
             items.add(UItem.asShadow(getString(R.string.MZGramRegexFiltersSwitchesInfo)));
             items.add(UItem.asHeader(getString(R.string.MZGramRegexFiltersCommon)));
         } else {
+            items.add(UItem.asCheck(ROW_CHAT_EXCLUDED, getString(R.string.MZGramRegexFiltersExclude)).setChecked(MZGramRegexFilters.isExcluded(dialogId)));
+            items.add(UItem.asShadow(getString(R.string.MZGramRegexFiltersExcludeInfo)));
             items.add(UItem.asHeader(getString(R.string.MZGramRegexFiltersChatRules)));
         }
         items.add(UItem.asButton(ROW_ADD_RULE, R.drawable.msg_add, getString(R.string.MZGramRegexFilterAdd)).accent());
@@ -115,6 +124,15 @@ public class MZGramRegexFiltersActivity extends UniversalFragment {
             items.add(UItem.asButton(CHAT_ROW + i, nameOf(chat), String.valueOf(MZGramRegexFilters.count(chat))));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramRegexFiltersChatsInfo)));
+        excluded.clear();
+        excluded.addAll(MZGramRegexFilters.excluded());
+        Collections.sort(excluded);
+        items.add(UItem.asHeader(getString(R.string.MZGramRegexFiltersExcluded)));
+        items.add(UItem.asButton(ROW_ADD_EXCLUDED, R.drawable.msg_add, getString(R.string.MZGramRegexFiltersAddChat)).accent());
+        for (int i = 0, N = excluded.size(); i < N; i++) {
+            items.add(UItem.asButton(EXCLUDED_ROW + i, nameOf(excluded.get(i)), ""));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramRegexFiltersExcludedInfo)));
     }
 
     private void update() {
@@ -123,7 +141,8 @@ public class MZGramRegexFiltersActivity extends UniversalFragment {
         }
     }
 
-    private void pickChat() {
+    /** Picks a chat: for its own rules, or (exclude) to leave it out of the filters. */
+    private void pickChat(boolean exclude) {
         Bundle args = new Bundle();
         args.putBoolean("onlySelect", true);
         args.putBoolean("allowGlobalSearch", false);
@@ -137,7 +156,13 @@ public class MZGramRegexFiltersActivity extends UniversalFragment {
             if (chosen == 0 || chosen == getUserConfig().getClientUserId()) {
                 return false;
             }
-            presentFragment(new MZGramRegexFiltersActivity(chosen), true);
+            if (exclude) {
+                MZGramRegexFilters.setExcluded(chosen, true);
+                fragment.finishFragment();
+                update();
+            } else {
+                presentFragment(new MZGramRegexFiltersActivity(chosen), true);
+            }
             return true;
         });
         presentFragment(picker);
@@ -153,8 +178,15 @@ public class MZGramRegexFiltersActivity extends UniversalFragment {
             ((TextCheckCell) view).setChecked(MZGramConfig.regexFiltersNoDownload);
         } else if (item.id == ROW_ADD_RULE) {
             MZGramRegexFilterEditor.show(this, dialogId, -1, null, 0, this::update);
+        } else if (item.id == ROW_CHAT_EXCLUDED) {
+            MZGramRegexFilters.setExcluded(dialogId, !MZGramRegexFilters.isExcluded(dialogId));
+            ((TextCheckCell) view).setChecked(MZGramRegexFilters.isExcluded(dialogId));
         } else if (item.id == ROW_ADD_CHAT) {
-            pickChat();
+            pickChat(false);
+        } else if (item.id == ROW_ADD_EXCLUDED) {
+            pickChat(true);
+        } else if (item.id >= EXCLUDED_ROW && item.id < EXCLUDED_ROW + excluded.size()) {
+            presentFragment(new MZGramRegexFiltersActivity(excluded.get(item.id - EXCLUDED_ROW)));
         } else if (item.id >= RULE_ROW && item.id < RULE_ROW + rules.size()) {
             MZGramRegexFilterEditor.show(this, dialogId, item.id - RULE_ROW, null, 0, this::update);
         } else if (item.id >= CHAT_ROW && item.id < CHAT_ROW + chats.size()) {
@@ -168,6 +200,11 @@ public class MZGramRegexFiltersActivity extends UniversalFragment {
             int index = item.id - RULE_ROW;
             MZGramRegexFilters.Rule rule = rules.get(index);
             MZGramRegexFilters.replaceRule(dialogId, index, rule.withEnabled(!rule.enabled));
+            update();
+            return true;
+        }
+        if (item.id >= EXCLUDED_ROW && item.id < EXCLUDED_ROW + excluded.size()) {
+            MZGramRegexFilters.setExcluded(excluded.get(item.id - EXCLUDED_ROW), false);
             update();
             return true;
         }

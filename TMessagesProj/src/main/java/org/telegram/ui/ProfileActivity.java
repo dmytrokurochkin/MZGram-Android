@@ -609,6 +609,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private final static int disable_no_forwards = 47;
     private final static int send_money = 48;
     private final static int mzgram_shadow_ban = 1014; // MZGram: shadow ban
+    private final static int mzgram_filters_excluded = 1015; // MZGram: chat left out of the message filters
 
     private Rect rect = new Rect();
 
@@ -2575,6 +2576,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     finishFragment();
                 } else if (org.telegram.ui.mzgram.MZGramPluginMenuUi.onProfileItem(ProfileActivity.this, id, userId, chatId, currentAccount)) {
                     // MZGram: a menu item of a plugin
+                } else if (id == mzgram_filters_excluded) {
+                    // MZGram: this chat left out of the message filters, or filtered again
+                    long mzgramDialog = chatId != 0 ? -chatId : userId;
+                    boolean mzgramExclude = !org.telegram.messenger.mzgram.MZGramRegexFilters.isExcluded(mzgramDialog);
+                    org.telegram.messenger.mzgram.MZGramRegexFilters.setExcluded(mzgramDialog, mzgramExclude);
+                    createActionBarMenu(true);
+                    BulletinFactory.of(ProfileActivity.this).createSimpleBulletin(R.raw.done, getString(mzgramExclude ? R.string.MZGramRegexFiltersExcludedDone : R.string.MZGramRegexFiltersIncludedDone)).show();
                 } else if (id == mzgram_shadow_ban) {
                     // MZGram: shadow ban on or off for this user
                     boolean mzgramBan = !org.telegram.messenger.mzgram.MZGramShadowBan.contains(userId);
@@ -12440,6 +12448,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 otherItem.addSubItem(leave_group, R.drawable.msg_leave, LocaleController.getString(R.string.DeleteAndExit));
                 leaveAction = true;
             }
+        }
+        // MZGram: leave this chat out of the message filters (Settings > MZGram > Ads and filters > Message filters)
+        long mzgramFilterDialog = chatId != 0 ? -chatId : userId;
+        if (org.telegram.messenger.mzgram.MZGramConfig.regexFilters && mzgramFilterDialog != 0 && mzgramFilterDialog != getUserConfig().getClientUserId()) {
+            boolean mzgramExcluded = org.telegram.messenger.mzgram.MZGramRegexFilters.isExcluded(mzgramFilterDialog);
+            otherItem.addSubItem(mzgram_filters_excluded, mzgramExcluded ? R.drawable.msg_spoiler : R.drawable.msg_spoiler_off, getString(mzgramExcluded ? R.string.MZGramRegexFiltersInclude : R.string.MZGramRegexFiltersExclude));
         }
         // MZGram: menu items of plugins (none while no plugin has added any)
         org.telegram.ui.mzgram.MZGramPluginMenuUi.addProfileItems(otherItem);

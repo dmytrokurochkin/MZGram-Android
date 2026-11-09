@@ -815,4 +815,11 @@
     <string name="MZGramRegexFilterFull">Bu listede zaten 200 kural var.</string>
     <string name="MZGramRegexFilterDelete">Sil</string>
     <string name="MZGramRegexFilterAddFromMessage">Filtrelere ekle</string>
+    <string name="MZGramRegexFiltersExclude">Bu sohbeti filtreleme</string>
+    <string name="MZGramRegexFiltersInclude">Bu sohbeti yeniden filtrele</string>
+    <string name="MZGramRegexFiltersExcludeInfo">Bu açıkken burada ne ortak kurallar ne de bu sohbetin kuralları bir şey gizler.</string>
+    <string name="MZGramRegexFiltersExcluded">Filtresiz sohbetler</string>
+    <string name="MZGramRegexFiltersExcludedInfo">Bu sohbetlerde hiçbir kural mesaj gizlemez. Bir sohbet profil menüsünden de eklenebilir. Dokunmak sohbetin kurallarını açar, uzun dokunmak yeniden filtreler.</string>
+    <string name="MZGramRegexFiltersExcludedDone">Mesaj filtreleri bu sohbette çalışmıyor.</string>
+    <string name="MZGramRegexFiltersIncludedDone">Mesaj filtreleri bu sohbette yeniden çalışıyor.</string>
 </resources>

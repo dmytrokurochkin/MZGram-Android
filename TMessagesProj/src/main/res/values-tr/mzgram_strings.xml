@@ -1003,4 +1003,9 @@
     <string name="MZGramPluginJournalStopped">Durduruldu</string>
     <string name="MZGramPluginJournalError">Hata: %1$s</string>
     <string name="MZGramPluginJournalLog">Kayıt: %1$s</string>
+    <string name="MZGramPluginJournalHooked">Kanca eklendi: %1$s</string>
+    <string name="MZGramPluginHooksActive">Yakalanan yöntemler: %1$d.</string>
+    <string name="MZGramPluginHooksRetry">Kancaları yeniden dene</string>
+    <string name="MZGramPluginHooksBroken">Eklenti kancaları kapalı: MZGram bunları başlatırken iki kez kapandı. Eklentiler kancasız çalışır. MZGram bir güncellemeden sonra veya yukarıdaki düğmeye dokunduğunuzda yeniden dener.</string>
+    <string name="MZGramPluginHooksRetryDone">Kancalar MZGram bir sonraki açılışında başlamayı deneyecek.</string>
 </resources>

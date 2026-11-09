@@ -1003,4 +1003,9 @@
     <string name="MZGramPluginJournalStopped">Zatrzymano</string>
     <string name="MZGramPluginJournalError">Błąd: %1$s</string>
     <string name="MZGramPluginJournalLog">Wpis wtyczki: %1$s</string>
+    <string name="MZGramPluginJournalHooked">Dodano hook: %1$s</string>
+    <string name="MZGramPluginHooksActive">Przechwycone metody: %1$d.</string>
+    <string name="MZGramPluginHooksRetry">Ponów hooki</string>
+    <string name="MZGramPluginHooksBroken">Hooki wtyczek są wyłączone: MZGram dwa razy zamknął się podczas ich uruchamiania. Wtyczki działają bez hooków. MZGram spróbuje ponownie po aktualizacji lub gdy naciśniesz przycisk powyżej.</string>
+    <string name="MZGramPluginHooksRetryDone">Hooki spróbują się uruchomić przy następnym uruchomieniu MZGram.</string>
 </resources>

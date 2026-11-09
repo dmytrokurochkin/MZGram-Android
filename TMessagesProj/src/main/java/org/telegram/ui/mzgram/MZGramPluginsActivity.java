@@ -11,7 +11,9 @@
  *
  * "Run plugins" (off by default, asks first) lets the plugins that are on
  * run (MZGramPluginEngine); each row then says whether its plugin runs,
- * starts or failed.
+ * starts or failed. When the hook engine killed MZGram twice while it
+ * started (MZGramPluginHookGate), the hooks are off and a button under the
+ * switch tries them again with the next start.
  *
  * "For developers" turns on the developer server (MZGramPluginDevServer):
  * off by default and on only while the app runs, with its address and
@@ -40,6 +42,7 @@ import org.telegram.messenger.mzgram.MZGramConfig;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginDevServer;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginEngine;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginHookGate;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.Components.BulletinFactory;
@@ -59,6 +62,7 @@ public class MZGramPluginsActivity extends UniversalFragment {
     private static final int DEV_TOKEN = 4;
     private static final int BUTTON_JOURNAL = 5;
     private static final int BUTTON_RUN = 6;
+    private static final int BUTTON_HOOKS_RETRY = 7;
     // Rows of the plugins: PLUGIN_ROW + their place in the list
     private static final int PLUGIN_ROW = 1000;
     private static final int REQUEST_CODE_PICK_PLUGIN = 8846;
@@ -115,6 +119,10 @@ public class MZGramPluginsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_RUN, getString(R.string.MZGramPluginsRun)).setChecked(MZGramConfig.pluginsRun));
         items.add(UItem.asShadow(getString(R.string.MZGramPluginsRunInfo)));
+        if (MZGramConfig.pluginsRun && MZGramPluginHookGate.isEngineBroken()) {
+            items.add(UItem.asButton(BUTTON_HOOKS_RETRY, R.drawable.msg_retry, getString(R.string.MZGramPluginHooksRetry)));
+            items.add(UItem.asShadow(getString(R.string.MZGramPluginHooksBroken)));
+        }
         if (!plugins.isEmpty()) {
             items.add(UItem.asHeader(getString(R.string.MZGramPlugins)));
             for (int i = 0; i < plugins.size(); i++) {
@@ -163,6 +171,12 @@ public class MZGramPluginsActivity extends UniversalFragment {
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (item.id == BUTTON_RUN) {
             toggleRun();
+            return;
+        }
+        if (item.id == BUTTON_HOOKS_RETRY) {
+            MZGramPluginHookGate.retryEngine();
+            reload();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(R.string.MZGramPluginHooksRetryDone)).show();
             return;
         }
         if (item.id == BUTTON_ADD) {

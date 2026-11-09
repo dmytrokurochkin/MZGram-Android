@@ -8,7 +8,8 @@
  * read its code, share its file and delete it. Everything comes from the
  * metadata kept by MZGramPlugins; nothing of the plugin runs here. Under the
  * switch: whether the plugin runs (MZGramPluginEngine) or why it did not
- * start, its settings page while it runs, and a restart.
+ * start, its settings page while it runs, and a restart; a running plugin
+ * with hooks also says how many methods it hooks (MZGramPluginHookGate).
  *
  * Based on exteraless plugins/ui/PluginsActivity.java and PluginCell.java
  * (GPL-3.0): what a plugin shows and the actions on it; written anew for
@@ -31,6 +32,7 @@ import org.telegram.messenger.mzgram.plugins.MZGramPluginDevServer;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginEngine;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginGrants;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginHookGate;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.Components.BulletinFactory;
@@ -180,8 +182,11 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
             return getString(R.string.MZGramPluginStoppedInfo);
         }
         switch (MZGramPluginEngine.getState(pluginId)) {
-            case MZGramPluginEngine.STATE_RUNNING:
-                return getString(R.string.MZGramPluginRunningInfo);
+            case MZGramPluginEngine.STATE_RUNNING: {
+                final int hooks = MZGramPluginHookGate.count(pluginId);
+                final String running = getString(R.string.MZGramPluginRunningInfo);
+                return hooks > 0 ? running + " " + LocaleController.formatString(R.string.MZGramPluginHooksActive, hooks) : running;
+            }
             case MZGramPluginEngine.STATE_FAILED: {
                 final String error = MZGramPluginEngine.getError(pluginId);
                 return LocaleController.formatString(R.string.MZGramPluginFailedInfo, TextUtils.isEmpty(error) ? "?" : error);

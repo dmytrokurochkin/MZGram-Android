@@ -18,11 +18,15 @@
 # STOP while it runs, and on_plugin_unload() runs when it is turned off,
 # updated or deleted. Menu items and the settings page go away with it.
 #
+# Hooks of Java methods (hook_method, hook_all_methods, hook_all_constructors,
+# with MethodHook, MethodReplacement and HookFilter) work while the plugin
+# runs and the user granted it "hooks" (mzgram_plugins.hooks); they come off
+# when it stops.
+#
 # Names and signatures follow the exteraless plugin SDK, base_plugin.py
-# (GPL-3.0), so plugins written for it fit. Hooks of requests, of sent
-# messages and of Java methods are accepted but do nothing yet: they come
-# with plugins.runtime.xposed-hooks; a plugin that adds one gets a line in
-# its log.
+# (GPL-3.0), so plugins written for it fit. Hooks of requests, updates and
+# sent messages (add_hook, add_on_send_message_hook) are accepted but do
+# nothing yet; a plugin that adds one gets a line in its log.
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -31,14 +35,18 @@
 
 from typing import Any, Optional
 
+from mzgram_plugins import hooks as _hooks
 from mzgram_plugins import loader as _loader
 from mzgram_plugins import menus as _menus
 from mzgram_plugins import settings as _settings
+from mzgram_plugins.hooks import (BaseHook, HookFilter, HookParam, MethodHook, MethodReplacement,
+                                  UnhookId, UnhookIdList, XposedHook, hook_filters)
 from mzgram_plugins.menus import MenuItemData, MenuItemType
 
 __all__ = [
     "BasePlugin", "AppEvent", "MenuItemData", "MenuItemType", "HookStrategy", "HookResult",
-    "MethodHook", "MethodReplacement",
+    "BaseHook", "MethodHook", "MethodReplacement", "XposedHook", "HookFilter", "HookParam",
+    "hook_filters", "UnhookId", "UnhookIdList",
 ]
 
 
@@ -51,7 +59,7 @@ class AppEvent:
 
 
 class HookStrategy:
-    """What a request hook returns (used with plugins.runtime.xposed-hooks)."""
+    """What a request hook returns (request hooks do not run yet)."""
     DEFAULT = "DEFAULT"
     CANCEL = "CANCEL"
     MODIFY = "MODIFY"
@@ -73,24 +81,7 @@ class HookResult:
         return "HookResult(strategy=%r)" % (self.strategy,)
 
 
-class MethodHook:
-    """A hook of a Java method (used with plugins.runtime.xposed-hooks)."""
-
-    def before_hooked_method(self, param):
-        pass
-
-    def after_hooked_method(self, param):
-        pass
-
-
-class MethodReplacement:
-    """A replacement of a Java method (used with plugins.runtime.xposed-hooks)."""
-
-    def replace_hooked_method(self, param):
-        return None
-
-
-_HOOKS_LATER = "hooks are not available in this version of MZGram yet: "
+_REQUEST_HOOKS_LATER = "hooks of requests, updates and sent messages are not available in this version of MZGram yet: "
 
 
 class BasePlugin:
@@ -204,33 +195,60 @@ class BasePlugin:
         if self.plugin_id:
             _menus.remove_menu_item(self.plugin_id, item_id)
 
-    # ---------- hooks: accepted, not working yet ----------
+    # ---------- request hooks: accepted, not working yet ----------
 
     def add_hook(self, name: str, match_substring: bool = False, priority: int = 0):
-        self.log(_HOOKS_LATER + "add_hook(%r)" % (name,))
+        self.log(_REQUEST_HOOKS_LATER + "add_hook(%r)" % (name,))
 
     def remove_hook(self, name: str):
         pass
 
     def add_on_send_message_hook(self, priority: int = 0):
-        self.log(_HOOKS_LATER + "add_on_send_message_hook()")
+        self.log(_REQUEST_HOOKS_LATER + "add_on_send_message_hook()")
 
-    def hook_method(self, method, handler=None, priority: int = 50, filters=None,
+    # ---------- hooks of Java methods ----------
+
+    def hook_method(self, method, handler=None, priority: int = _hooks.DEFAULT_PRIORITY, filters=None,
                     before=None, after=None, before_filters=None, after_filters=None):
-        self.log(_HOOKS_LATER + "hook_method()")
-        return None
+        """Hooks a Java method or constructor (java.lang.reflect.Method or
+        Constructor), or with (clazz, "name") every method of that name
+        declared in the class. An UnhookId, an UnhookIdList for several
+        methods, or None when nothing was hooked (the reason is in the log)."""
+        if not self.plugin_id:
+            return None
+        if isinstance(method, (tuple, list)) and len(method) == 2:
+            ids = _hooks.install(self.plugin_id, _hooks.KIND_METHODS, method[0], str(method[1]), handler,
+                                 before, after, priority, filters, before_filters, after_filters, self.log)
+            if len(ids) > 1:
+                return UnhookIdList(ids, self)
+        else:
+            ids = _hooks.install(self.plugin_id, _hooks.KIND_MEMBER, method, None, handler,
+                                 before, after, priority, filters, before_filters, after_filters, self.log)
+        return UnhookId(ids[0], self) if ids else None
 
-    def hook_all_methods(self, clazz, method_name, handler=None, priority: int = 50,
+    def hook_all_methods(self, clazz, method_name, handler=None, priority: int = _hooks.DEFAULT_PRIORITY,
                          filters=None, before=None, after=None,
                          before_filters=None, after_filters=None) -> list:
-        self.log(_HOOKS_LATER + "hook_all_methods(%r)" % (method_name,))
-        return []
+        """Hooks every method of this name declared in the class; the ids."""
+        if not self.plugin_id:
+            return UnhookIdList((), self)
+        ids = _hooks.install(self.plugin_id, _hooks.KIND_METHODS, clazz, str(method_name), handler,
+                             before, after, priority, filters, before_filters, after_filters, self.log)
+        return UnhookIdList(ids, self)
 
-    def hook_all_constructors(self, clazz, handler=None, priority: int = 50,
+    def hook_all_constructors(self, clazz, handler=None, priority: int = _hooks.DEFAULT_PRIORITY,
                               filters=None, before=None, after=None,
                               before_filters=None, after_filters=None) -> list:
-        self.log(_HOOKS_LATER + "hook_all_constructors()")
-        return []
+        """Hooks every constructor of the class; the ids."""
+        if not self.plugin_id:
+            return UnhookIdList((), self)
+        ids = _hooks.install(self.plugin_id, _hooks.KIND_CONSTRUCTORS, clazz, None, handler,
+                             before, after, priority, filters, before_filters, after_filters, self.log)
+        return UnhookIdList(ids, self)
 
     def unhook_method(self, unhook_obj):
-        pass
+        """Takes off a hook by its id, or several by a list of ids."""
+        if unhook_obj is None or not self.plugin_id:
+            return
+        ids = [unhook_obj] if isinstance(unhook_obj, str) else list(unhook_obj)
+        _hooks.unhook(self.plugin_id, ids, self.log)

@@ -293,9 +293,15 @@ preBuild.dependsOn checkVisibility
 //   - ndk.abiFilters (Chaquopy needs them) with the same four ABIs as before;
 //   - src/mzgramPlugins/java (MZGramChaquopyBackend) and src/mzgramPlugins/python;
 //   - the bundled packages below, installed at build time; nothing is fetched on
-//     the device. Optional: -PmzgramPluginsBuildPython=<path to python 3.11>.
+//     the device. Optional: -PmzgramPluginsBuildPython=<path to python 3.11>;
+//   - Aliuhook (LSPlant, native) for the hooks of plugins (MZGramPluginHooks),
+//     from the Aliucord repository added in the root build.gradle.
 if (project.findProperty('mzgramPlugins')?.toString()?.toBoolean()) {
     apply plugin: 'com.chaquo.python'
+
+    dependencies {
+        implementation 'com.aliucord:Aliuhook:1.1.4'
+    }
 
     android {
         defaultConfig {

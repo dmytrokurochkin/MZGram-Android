@@ -268,6 +268,9 @@ public class MZGramPluginJournalActivity extends UniversalFragment {
             case MZGramPluginAuditJournal.EVENT_HOOK_FAILED:
                 text = LocaleController.formatString(R.string.MZGramPluginJournalHookFailed, detail);
                 break;
+            case MZGramPluginAuditJournal.EVENT_HOOKED:
+                text = LocaleController.formatString(R.string.MZGramPluginJournalHooked, detail);
+                break;
             case MZGramPluginAuditJournal.EVENT_STARTED:
                 text = getString(R.string.MZGramPluginJournalStarted);
                 break;

@@ -1003,4 +1003,9 @@
     <string name="MZGramPluginJournalStopped">توقّف</string>
     <string name="MZGramPluginJournalError">خطأ: %1$s</string>
     <string name="MZGramPluginJournalLog">سجل: %1$s</string>
+    <string name="MZGramPluginJournalHooked">أُضيف خطّاف: %1$s</string>
+    <string name="MZGramPluginHooksActive">الدوال المعترَضة: %1$d.</string>
+    <string name="MZGramPluginHooksRetry">إعادة محاولة الخطّافات</string>
+    <string name="MZGramPluginHooksBroken">خطّافات الإضافات متوقفة: أُغلق MZGram مرتين أثناء تشغيلها. تعمل الإضافات دون خطّافات. سيحاول MZGram مجددًا بعد تحديث أو عند الضغط على الزر أعلاه.</string>
+    <string name="MZGramPluginHooksRetryDone">ستحاول الخطّافات البدء عند تشغيل MZGram في المرة القادمة.</string>
 </resources>

@@ -9,8 +9,8 @@
 #                               page and calls on_plugin_load();
 #   app_event_json({"event"})   calls on_app_event() of every running plugin;
 #   unload_json({"id"})         calls on_plugin_unload() and takes back what
-#                               the plugin added (menu items, settings page,
-#                               its module).
+#                               the plugin added (hooks, menu items,
+#                               settings page, its module).
 #
 # MZGramPluginEngine on the Java side decides when (the "Run plugins" switch
 # and the switch of each plugin) and keeps the state shown on the screens.
@@ -43,6 +43,7 @@ import sys
 import threading
 import traceback
 
+from mzgram_plugins import hooks
 from mzgram_plugins import menus
 from mzgram_plugins import metadata
 from mzgram_plugins import settings
@@ -268,6 +269,8 @@ def _take_back(record):
             instance.enabled = False
         except Exception:
             pass
+    # Hooks first: the app goes on without the plugin's code at once
+    hooks.unhook_all(plugin_id)
     try:
         menus.remove_all(plugin_id)
     except Exception:

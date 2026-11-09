@@ -18,6 +18,15 @@
  * stories row is not on screen, so a plugin that expects it would only
  * fail (fix 1.2 of the knowledge base).
  *
+ * What a hook gives back to the app passes coerce() first: a number from
+ * Python becomes the exact type the method has, and a value that cannot
+ * fit is refused, so the app keeps its own value instead of crashing.
+ *
+ * The hook engine (MZGramPluginHooks, a build with plugins) starts a native
+ * library; beginEngineStart() and endEngineStart() remember a start that
+ * killed the process, and after two of them in a row the hooks stay off
+ * until the user tries again (retryEngine()) or MZGram is updated.
+ *
  * Based on exteraless plugins/xposed/HookGate.java and HookStats.java
  * (GPL-3.0): the gate in front of every hook and the per hook counters;
  * the rules and the code are written anew for MZGram.
@@ -25,8 +34,11 @@
 
 package org.telegram.messenger.mzgram.plugins;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Looper;
 
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.mzgram.MZGramConfig;
 
@@ -310,6 +322,29 @@ public final class MZGramPluginHookGate {
         return counter;
     }
 
+    /** The hook of this counter was taken off. */
+    public static void release(Counter counter) {
+        synchronized (counters) {
+            counters.remove(counter);
+        }
+    }
+
+    /** How many hooks the plugin has on now. */
+    public static int count(String pluginId) {
+        if (pluginId == null) {
+            return 0;
+        }
+        int count = 0;
+        synchronized (counters) {
+            for (Counter counter : counters) {
+                if (counter.pluginId.equals(pluginId)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
     /** Drops the counters of a plugin that was turned off or deleted. */
     public static void forget(String pluginId) {
         if (pluginId == null) {
@@ -377,5 +412,181 @@ public final class MZGramPluginHookGate {
 
     private static String shortClass(String className) {
         return className.substring(className.lastIndexOf('.') + 1);
+    }
+
+    // ---------- values a hook gives back to the app ----------
+
+    /** What coerce() returns for a value that cannot be of the type. */
+    public static final Object INVALID = new Object();
+
+    /**
+     * The value as the type wants it: the same object when it fits, a number
+     * in the box of the type (a Python int arrives as a Long; an int too
+     * large wraps the way a Java cast does, so 0xFF000000 stays a colour), a
+     * text of one character for a char, or INVALID. For void anything goes
+     * and null comes back. A whole number never takes a fraction.
+     */
+    public static Object coerce(Object value, Class<?> type) {
+        if (type == null || type == void.class || type == Void.class) {
+            return null;
+        }
+        final boolean primitive = type.isPrimitive();
+        if (value == null) {
+            return primitive ? INVALID : null;
+        }
+        final Class<?> boxed = primitive ? box(type) : type;
+        if (boxed.isInstance(value)) {
+            return value;
+        }
+        if (boxed == Character.class) {
+            if (value instanceof CharSequence && ((CharSequence) value).length() == 1) {
+                return ((CharSequence) value).charAt(0);
+            }
+            return INVALID;
+        }
+        if (!(value instanceof Number)) {
+            return INVALID;
+        }
+        final Number number = (Number) value;
+        final boolean fraction = (value instanceof Double || value instanceof Float)
+                && number.doubleValue() != Math.rint(number.doubleValue());
+        if (boxed == Integer.class) {
+            return fraction ? INVALID : (Object) number.intValue();
+        } else if (boxed == Long.class) {
+            return fraction ? INVALID : (Object) number.longValue();
+        } else if (boxed == Short.class) {
+            return fraction ? INVALID : (Object) number.shortValue();
+        } else if (boxed == Byte.class) {
+            return fraction ? INVALID : (Object) number.byteValue();
+        } else if (boxed == Float.class) {
+            return number.floatValue();
+        } else if (boxed == Double.class) {
+            return number.doubleValue();
+        }
+        return INVALID;
+    }
+
+    /** Coerces the values in place to the types; false when one cannot fit or the counts differ. */
+    public static boolean coerceAll(Object[] values, Class<?>[] types) {
+        if (values == null || types == null) {
+            return values == null && (types == null || types.length == 0);
+        }
+        if (values.length != types.length) {
+            return false;
+        }
+        for (int i = 0; i < values.length; i++) {
+            final Object value = coerce(values[i], types[i]);
+            if (value == INVALID) {
+                return false;
+            }
+            values[i] = value;
+        }
+        return true;
+    }
+
+    static Class<?> box(Class<?> type) {
+        if (type == int.class) {
+            return Integer.class;
+        } else if (type == long.class) {
+            return Long.class;
+        } else if (type == boolean.class) {
+            return Boolean.class;
+        } else if (type == float.class) {
+            return Float.class;
+        } else if (type == double.class) {
+            return Double.class;
+        } else if (type == char.class) {
+            return Character.class;
+        } else if (type == short.class) {
+            return Short.class;
+        } else if (type == byte.class) {
+            return Byte.class;
+        }
+        return type;
+    }
+
+    // ---------- the start of the hook engine ----------
+
+    /** Starts that killed the process in a row before the hooks stay off. */
+    public static final int ENGINE_STRIKES = 2;
+
+    private static final String ENGINE_PREFS = "mzgram_plugin_hooks";
+    private static final String KEY_STARTING = "starting";
+    private static final String KEY_STRIKES = "strikes";
+    private static final String KEY_BROKEN = "broken";
+    private static final String KEY_BROKEN_INSTALL = "broken_install";
+
+    private static SharedPreferences enginePrefs() {
+        final Context context = ApplicationLoader.applicationContext;
+        return context != null ? context.getSharedPreferences(ENGINE_PREFS, Context.MODE_PRIVATE) : null;
+    }
+
+    // When this version of MZGram was installed; a new version tries the hooks again
+    private static long installTime() {
+        try {
+            final Context context = ApplicationLoader.applicationContext;
+            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).lastUpdateTime;
+        } catch (Throwable t) {
+            return 0;
+        }
+    }
+
+    /** True when the hooks are off because their start killed MZGram twice. */
+    public static boolean isEngineBroken() {
+        final SharedPreferences prefs = enginePrefs();
+        return prefs != null && prefs.getBoolean(KEY_BROKEN, false)
+                && prefs.getLong(KEY_BROKEN_INSTALL, 0) == installTime();
+    }
+
+    /** The user asked to try the hooks again; they start with the next start of MZGram. */
+    public static void retryEngine() {
+        final SharedPreferences prefs = enginePrefs();
+        if (prefs != null) {
+            prefs.edit().clear().commit();
+        }
+    }
+
+    /**
+     * Called right before the native part starts; false means do not start
+     * it. Marks the start on disk (commit, it must be there if the process
+     * dies), so the next process sees a start that never ended.
+     */
+    public static boolean beginEngineStart() {
+        final SharedPreferences prefs = enginePrefs();
+        if (prefs == null) {
+            return true;
+        }
+        final long install = installTime();
+        if (prefs.getBoolean(KEY_BROKEN, false)) {
+            if (prefs.getLong(KEY_BROKEN_INSTALL, 0) == install) {
+                return false;
+            }
+            prefs.edit().clear().commit();
+        }
+        int strikes = prefs.getInt(KEY_STRIKES, 0);
+        if (prefs.getBoolean(KEY_STARTING, false)) {
+            strikes++;
+            if (strikes >= ENGINE_STRIKES) {
+                prefs.edit().remove(KEY_STARTING).remove(KEY_STRIKES)
+                        .putBoolean(KEY_BROKEN, true).putLong(KEY_BROKEN_INSTALL, install).commit();
+                FileLog.e("MZGramPluginHookGate: the hook engine killed the process " + strikes + " times, hooks are off");
+                return false;
+            }
+        }
+        prefs.edit().putBoolean(KEY_STARTING, true).putInt(KEY_STRIKES, strikes).commit();
+        return true;
+    }
+
+    /** The native part started (or failed with an error, which is not a crash). */
+    public static void endEngineStart(boolean ok) {
+        final SharedPreferences prefs = enginePrefs();
+        if (prefs == null) {
+            return;
+        }
+        final SharedPreferences.Editor editor = prefs.edit().remove(KEY_STARTING);
+        if (ok) {
+            editor.remove(KEY_STRIKES);
+        }
+        editor.commit();
     }
 }

@@ -1003,4 +1003,9 @@
     <string name="MZGramPluginJournalStopped">Остановлен</string>
     <string name="MZGramPluginJournalError">Ошибка: %1$s</string>
     <string name="MZGramPluginJournalLog">Запись плагина: %1$s</string>
+    <string name="MZGramPluginJournalHooked">Добавлен хук: %1$s</string>
+    <string name="MZGramPluginHooksActive">Перехвачено методов: %1$d.</string>
+    <string name="MZGramPluginHooksRetry">Попробовать хуки снова</string>
+    <string name="MZGramPluginHooksBroken">Хуки плагинов отключены: MZGram дважды закрылся, когда запускал их. Плагины работают без хуков. MZGram попробует снова после обновления или когда вы нажмёте кнопку выше.</string>
+    <string name="MZGramPluginHooksRetryDone">Хуки попробуют запуститься при следующем запуске MZGram.</string>
 </resources>

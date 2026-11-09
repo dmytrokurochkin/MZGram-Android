@@ -62,8 +62,20 @@ subprojects {
 // MZGram: a build with -PmzgramPlugins=true has Python (Chaquopy) in TMessagesProj,
 // which needs minSdk 24, so the apps built with it start from Android 7 too.
 // Without the property nothing here runs and the apps keep minSdk 23.
+// The hooks of plugins (Aliuhook, TMessagesProj) come from the Maven repository
+// of Aliucord; every project that packs TMessagesProj resolves them, so each
+// gets the repository, and only for the two groups of Aliuhook.
 if (findProperty('mzgramPlugins')?.toString()?.toBoolean()) {
     subprojects {
+        repositories {
+            maven {
+                url 'https://maven.aliucord.com/releases'
+                content {
+                    includeGroup 'com.aliucord'
+                    includeGroup 'com.aliucord.lsplant'
+                }
+            }
+        }
         afterEvaluate {
             if (plugins.hasPlugin('com.android.application')) {
                 def minSdk = android.defaultConfig.minSdk

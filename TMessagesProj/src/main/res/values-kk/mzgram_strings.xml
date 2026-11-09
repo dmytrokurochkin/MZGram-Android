@@ -1003,4 +1003,9 @@
     <string name="MZGramPluginJournalStopped">Тоқтатылды</string>
     <string name="MZGramPluginJournalError">Қате: %1$s</string>
     <string name="MZGramPluginJournalLog">Плагин жазбасы: %1$s</string>
+    <string name="MZGramPluginJournalHooked">Хук қосылды: %1$s</string>
+    <string name="MZGramPluginHooksActive">Ұсталған әдістер: %1$d.</string>
+    <string name="MZGramPluginHooksRetry">Хуктарды қайта байқап көру</string>
+    <string name="MZGramPluginHooksBroken">Плагин хуктары өшірілді: MZGram оларды іске қосқанда екі рет жабылды. Плагиндер хуктарсыз жұмыс істейді. MZGram жаңартудан кейін немесе жоғарыдағы түймені басқанда қайта байқап көреді.</string>
+    <string name="MZGramPluginHooksRetryDone">Хуктар MZGram келесі рет іске қосылғанда іске қосылып көреді.</string>
 </resources>

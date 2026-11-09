@@ -1003,4 +1003,9 @@
     <string name="MZGramPluginJournalStopped">Stopped</string>
     <string name="MZGramPluginJournalError">Error: %1$s</string>
     <string name="MZGramPluginJournalLog">Log: %1$s</string>
+    <string name="MZGramPluginJournalHooked">Added a hook: %1$s</string>
+    <string name="MZGramPluginHooksActive">Hooked methods: %1$d.</string>
+    <string name="MZGramPluginHooksRetry">Try hooks again</string>
+    <string name="MZGramPluginHooksBroken">Plugin hooks are off: MZGram closed twice while starting them. Plugins run without hooks. MZGram tries them again after an update or when you tap the button above.</string>
+    <string name="MZGramPluginHooksRetryDone">Hooks will try to start the next time MZGram starts.</string>
 </resources>

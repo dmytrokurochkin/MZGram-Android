@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Аккаунттар реті</string>
     <string name="MZGramAccountOrderButtonInfo">Аккаунттарды ыңғайлы ретпен орналастыр. Баптаулар, аккаунт ауыстырғыш және мәзірдегі аккаунттар осы ретті ұстанады.</string>
     <string name="MZGramAccountOrderInfo">Аккаунтты басып тұрып, жаңа орынға сүйре. Жібергенде рет сақталады.</string>
+    <string name="MZGramRecentChatsOnBack">«Артқа» батырмасындағы соңғы чаттар</string>
+    <string name="MZGramRecentChatsOnBackInfo">Соңғы ашқан чаттарыңның біріне өту үшін чаттағы «Артқа» көрсеткісін басып тұр. Опция қосулы кезде тек осы құрылғыда сақталады; құпия чаттар сақталмайды. Өшіру тізімді өшіреді.</string>
+    <string name="MZGramRecentChats">Соңғы чаттар</string>
+    <string name="MZGramRecentChatsClear">Соңғы чаттарды тазалау</string>
+    <string name="MZGramRecentChatsClearInfo">Барлық чаттарды осы тізімнен алып тастау керек пе? Чаттардың өздері қалады.</string>
 </resources>

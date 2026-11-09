@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Ordre des comptes</string>
     <string name="MZGramAccountOrderButtonInfo">Classez vos comptes dans l\'ordre de votre choix. Les paramètres, le sélecteur de comptes et les comptes du menu suivent cet ordre.</string>
     <string name="MZGramAccountOrderInfo">Maintenez un compte appuyé et faites-le glisser vers une nouvelle place. L\'ordre est enregistré quand vous le relâchez.</string>
+    <string name="MZGramRecentChatsOnBack">Discussions récentes sur le bouton Retour</string>
+    <string name="MZGramRecentChatsOnBackInfo">Maintenez la flèche Retour dans une discussion pour passer à l\'une des discussions ouvertes en dernier. Conservé uniquement sur cet appareil tant que l\'option est activée ; les discussions secrètes ne sont pas conservées. La désactiver efface la liste.</string>
+    <string name="MZGramRecentChats">Discussions récentes</string>
+    <string name="MZGramRecentChatsClear">Effacer les discussions récentes</string>
+    <string name="MZGramRecentChatsClearInfo">Retirer toutes les discussions de cette liste ? Les discussions elles-mêmes restent.</string>
 </resources>

@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Hesap sırası</string>
     <string name="MZGramAccountOrderButtonInfo">Hesaplarını istediğin sıraya koy. Ayarlar, hesap değiştirici ve menüdeki hesaplar bu sırayı izler.</string>
     <string name="MZGramAccountOrderInfo">Bir hesaba basılı tut ve yeni bir yere sürükle. Bıraktığında sıra kaydedilir.</string>
+    <string name="MZGramRecentChatsOnBack">Geri düğmesinde son sohbetler</string>
+    <string name="MZGramRecentChatsOnBackInfo">Son açtığın sohbetlerden birine geçmek için sohbette Geri okuna basılı tut. Seçenek açıkken yalnızca bu cihazda tutulur; gizli sohbetler tutulmaz. Kapatmak listeyi siler.</string>
+    <string name="MZGramRecentChats">Son sohbetler</string>
+    <string name="MZGramRecentChatsClear">Son sohbetleri temizle</string>
+    <string name="MZGramRecentChatsClearInfo">Tüm sohbetler bu listeden kaldırılsın mı? Sohbetlerin kendisi kalır.</string>
 </resources>

@@ -4226,7 +4226,11 @@ public class ChatActivity extends BaseFragment implements
         backButton.setOnTouchListener(new LongPressListenerWithMovingGesture() {
             @Override
             public void onLongPress() {
-                scrimPopupWindow = BackButtonMenu.show(ChatActivity.this, backButton, dialog_id, getTopicId(), themeDelegate);
+                // MZGram: recent chats with the option on, else Telegram's Back menu
+                scrimPopupWindow = org.telegram.ui.mzgram.MZGramRecentChats.show(ChatActivity.this, backButton, dialog_id, themeDelegate);
+                if (scrimPopupWindow == null) {
+                    scrimPopupWindow = BackButtonMenu.show(ChatActivity.this, backButton, dialog_id, getTopicId(), themeDelegate);
+                }
                 if (scrimPopupWindow != null) {
                     setSubmenu(scrimPopupWindow);
                     scrimPopupWindow.setOnDismissListener(() -> {
@@ -9008,6 +9012,10 @@ public class ChatActivity extends BaseFragment implements
                 updateReactionsMentionButton(false);
                 updatePollVotesMentionButton(false);
             }
+        }
+
+        if (chatMode == 0 && currentEncryptedChat == null) {
+            org.telegram.ui.mzgram.MZGramRecentChats.record(currentAccount, dialog_id); // MZGram: recent chats on Back
         }
 
         if (getDialogId() == getUserConfig().getClientUserId() && chatMode != MODE_SAVED) {

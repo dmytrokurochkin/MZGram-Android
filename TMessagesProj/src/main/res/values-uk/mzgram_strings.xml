@@ -625,4 +625,9 @@
     <string name="MZGramAccountOrder">Порядок акаунтів</string>
     <string name="MZGramAccountOrderButtonInfo">Розстав акаунти в зручному порядку. Налаштування, перемикач акаунтів і акаунти в меню показують їх у ньому.</string>
     <string name="MZGramAccountOrderInfo">Утримуй акаунт і перетягни його на нове місце. Порядок зберігається, коли відпускаєш.</string>
+    <string name="MZGramRecentChatsOnBack">Недавні чати на кнопці «Назад»</string>
+    <string name="MZGramRecentChatsOnBackInfo">Утримуй стрілку «Назад» у чаті, щоб перейти до одного з чатів, які ти відкривав останніми. Зберігається лише на цьому пристрої, поки опція увімкнена; секретні чати не зберігаються. Вимкнення стирає список.</string>
+    <string name="MZGramRecentChats">Недавні чати</string>
+    <string name="MZGramRecentChatsClear">Очистити недавні чати</string>
+    <string name="MZGramRecentChatsClearInfo">Прибрати всі чати з цього списку? Самі чати залишаться.</string>
 </resources>

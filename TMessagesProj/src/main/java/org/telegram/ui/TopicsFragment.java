@@ -1506,6 +1506,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
         updateChatInfo();
         updateColors();
+        org.telegram.ui.mzgram.MZGramRecentChats.record(currentAccount, -chatId); // MZGram: recent chats on Back
 
         if (ChatObject.isBoostSupported(getCurrentChat())) {
             getMessagesController().getBoostsController().getBoostsStats(-chatId, boostsStatus -> this.boostsStatus = boostsStatus);

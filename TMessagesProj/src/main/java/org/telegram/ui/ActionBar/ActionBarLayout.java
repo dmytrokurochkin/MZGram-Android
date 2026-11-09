@@ -1532,6 +1532,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     private boolean predictiveInput;
     private boolean predictiveBackInProgress;
+
+    // MZGram: menus on the Back arrow stay closed during a predictive Back gesture
+    public boolean mzgramIsPredictiveBackInProgress() {
+        return predictiveBackInProgress;
+    }
     private boolean predictiveBackHasProgress;
     private float predictiveBackY;
     private boolean predictiveBackLeft;

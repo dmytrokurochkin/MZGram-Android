@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">ترتيب الحسابات</string>
     <string name="MZGramAccountOrderButtonInfo">رتّب حساباتك كما تحب. تتبع الإعدادات ومبدّل الحسابات والحسابات في القائمة هذا الترتيب.</string>
     <string name="MZGramAccountOrderInfo">اضغط مطولًا على حساب واسحبه إلى مكان جديد. يُحفظ الترتيب عند الإفلات.</string>
+    <string name="MZGramRecentChatsOnBack">المحادثات الأخيرة على زر الرجوع</string>
+    <string name="MZGramRecentChatsOnBackInfo">اضغط مطولًا على سهم الرجوع في محادثة للانتقال إلى إحدى المحادثات التي فتحتها مؤخرًا. تُحفظ على هذا الجهاز فقط ما دام الخيار مفعّلًا، ولا تُحفظ المحادثات السرية. إيقافه يمسح القائمة.</string>
+    <string name="MZGramRecentChats">المحادثات الأخيرة</string>
+    <string name="MZGramRecentChatsClear">مسح المحادثات الأخيرة</string>
+    <string name="MZGramRecentChatsClearInfo">إزالة كل المحادثات من هذه القائمة؟ تبقى المحادثات نفسها.</string>
 </resources>

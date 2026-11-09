@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Ordem das contas</string>
     <string name="MZGramAccountOrderButtonInfo">Coloque suas contas na ordem que preferir. As configurações, o seletor de contas e as contas no menu seguem essa ordem.</string>
     <string name="MZGramAccountOrderInfo">Segure uma conta e arraste-a para um novo lugar. A ordem é salva quando você solta.</string>
+    <string name="MZGramRecentChatsOnBack">Conversas recentes no botão Voltar</string>
+    <string name="MZGramRecentChatsOnBackInfo">Segure a seta Voltar em uma conversa para ir a uma das conversas abertas por último. Fica salvo só neste aparelho enquanto a opção estiver ligada; conversas secretas não são salvas. Desligar apaga a lista.</string>
+    <string name="MZGramRecentChats">Conversas recentes</string>
+    <string name="MZGramRecentChatsClear">Limpar conversas recentes</string>
+    <string name="MZGramRecentChatsClearInfo">Remover todas as conversas desta lista? As conversas em si continuam.</string>
 </resources>

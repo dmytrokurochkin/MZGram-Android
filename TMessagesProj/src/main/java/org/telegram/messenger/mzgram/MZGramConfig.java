@@ -71,6 +71,8 @@ public class MZGramConfig {
     public static boolean accountsInMenu = true;
     // Set once the accounts were put in a new order (MZGramAccountOrderActivity)
     public static boolean accountOrderCustomised = false;
+    // Holding Back in a chat shows the chats opened last (MZGramRecentChats)
+    public static boolean recentChatsOnBack = false;
     // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
     // the phone's, otherwise one of its codes
     public static String language = "";
@@ -359,6 +361,7 @@ public class MZGramConfig {
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
+            recentChatsOnBack = preferences.getBoolean("recentChatsOnBack", false);
             language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
@@ -479,6 +482,11 @@ public class MZGramConfig {
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             configLoaded = true;
         }
+    }
+
+    public static void toggleRecentChatsOnBack() {
+        recentChatsOnBack = !recentChatsOnBack;
+        putBoolean("recentChatsOnBack", recentChatsOnBack);
     }
 
     public static void setAccountOrderCustomised() {

@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Парадак акаўнтаў</string>
     <string name="MZGramAccountOrderButtonInfo">Расстаў акаўнты ў зручным парадку. Налады, пераключальнік акаўнтаў і акаўнты ў меню паказваюць іх у ім.</string>
     <string name="MZGramAccountOrderInfo">Утрымлівай акаўнт і перацягні яго на новае месца. Парадак захоўваецца, калі адпускаеш.</string>
+    <string name="MZGramRecentChatsOnBack">Нядаўнія чаты на кнопцы «Назад»</string>
+    <string name="MZGramRecentChatsOnBackInfo">Утрымлівай стрэлку «Назад» у чаце, каб перайсці да аднаго з чатаў, якія ты адкрываў апошнімі. Захоўваецца толькі на гэтай прыладзе, пакуль опцыя ўключана; сакрэтныя чаты не захоўваюцца. Выключэнне сцірае спіс.</string>
+    <string name="MZGramRecentChats">Нядаўнія чаты</string>
+    <string name="MZGramRecentChatsClear">Ачысціць нядаўнія чаты</string>
+    <string name="MZGramRecentChatsClearInfo">Прыбраць усе чаты з гэтага спіса? Самі чаты застануцца.</string>
 </resources>

@@ -459,6 +459,7 @@ public class UserConfig extends BaseController {
     }
 
     public void clearConfig() {
+        org.telegram.ui.mzgram.MZGramRecentChats.clear(currentAccount); // MZGram: the signed-out user's recent chats
         getPreferences().edit().clear().apply();
 
         sharingMyLocationUntil = 0;

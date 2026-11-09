@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Orden de las cuentas</string>
     <string name="MZGramAccountOrderButtonInfo">Ordena tus cuentas como prefieras. Los ajustes, el selector de cuentas y las cuentas del menú siguen ese orden.</string>
     <string name="MZGramAccountOrderInfo">Mantén pulsada una cuenta y arrástrala a otro lugar. El orden se guarda al soltarla.</string>
+    <string name="MZGramRecentChatsOnBack">Chats recientes en el botón Atrás</string>
+    <string name="MZGramRecentChatsOnBackInfo">Mantén pulsada la flecha Atrás en un chat para saltar a uno de los chats que abriste por última vez. Solo se guarda en este dispositivo mientras la opción está activada; los chats secretos no se guardan. Desactivarla borra la lista.</string>
+    <string name="MZGramRecentChats">Chats recientes</string>
+    <string name="MZGramRecentChatsClear">Borrar chats recientes</string>
+    <string name="MZGramRecentChatsClearInfo">¿Quitar todos los chats de esta lista? Los chats en sí se conservan.</string>
 </resources>

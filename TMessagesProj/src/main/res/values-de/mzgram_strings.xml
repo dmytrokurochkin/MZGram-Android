@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Reihenfolge der Konten</string>
     <string name="MZGramAccountOrderButtonInfo">Ordne deine Konten wie gewünscht an. Die Einstellungen, der Kontowechsler und die Konten im Menü folgen dieser Reihenfolge.</string>
     <string name="MZGramAccountOrderInfo">Halte ein Konto gedrückt und ziehe es an eine neue Stelle. Die Reihenfolge wird beim Loslassen gespeichert.</string>
+    <string name="MZGramRecentChatsOnBack">Letzte Chats auf der Zurück-Taste</string>
+    <string name="MZGramRecentChatsOnBackInfo">Halte den Zurück-Pfeil in einem Chat gedrückt, um zu einem der zuletzt geöffneten Chats zu springen. Wird nur auf diesem Gerät gespeichert, solange die Option an ist; geheime Chats werden nicht gespeichert. Ausschalten löscht die Liste.</string>
+    <string name="MZGramRecentChats">Letzte Chats</string>
+    <string name="MZGramRecentChatsClear">Letzte Chats leeren</string>
+    <string name="MZGramRecentChatsClearInfo">Alle Chats aus dieser Liste entfernen? Die Chats selbst bleiben erhalten.</string>
 </resources>

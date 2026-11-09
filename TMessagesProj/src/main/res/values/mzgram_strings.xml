@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Account order</string>
     <string name="MZGramAccountOrderButtonInfo">Put your accounts in the order you like. Settings, the account switcher and accounts in the menu follow it.</string>
     <string name="MZGramAccountOrderInfo">Hold an account and drag it to a new place. The order is saved when you let go.</string>
+    <string name="MZGramRecentChatsOnBack">Recent chats on Back</string>
+    <string name="MZGramRecentChatsOnBackInfo">Hold the Back arrow in a chat to jump to one of the chats you opened last. Only kept on this device while the option is on; secret chats are not kept. Turning it off erases the list.</string>
+    <string name="MZGramRecentChats">Recent chats</string>
+    <string name="MZGramRecentChatsClear">Clear recent chats</string>
+    <string name="MZGramRecentChatsClearInfo">Remove all chats from this list? The chats themselves stay.</string>
 </resources>

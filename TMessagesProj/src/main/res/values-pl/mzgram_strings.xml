@@ -624,4 +624,9 @@
     <string name="MZGramAccountOrder">Kolejność kont</string>
     <string name="MZGramAccountOrderButtonInfo">Ustaw konta w wygodnej kolejności. Ustawienia, przełącznik kont i konta w menu pokazują je w tej kolejności.</string>
     <string name="MZGramAccountOrderInfo">Przytrzymaj konto i przeciągnij je w nowe miejsce. Kolejność zapisuje się po puszczeniu.</string>
+    <string name="MZGramRecentChatsOnBack">Ostatnie czaty pod przyciskiem Wstecz</string>
+    <string name="MZGramRecentChatsOnBackInfo">Przytrzymaj strzałkę Wstecz w czacie, aby przejść do jednego z ostatnio otwartych czatów. Przechowywane tylko na tym urządzeniu, gdy opcja jest włączona; czaty tajne nie są przechowywane. Wyłączenie usuwa listę.</string>
+    <string name="MZGramRecentChats">Ostatnie czaty</string>
+    <string name="MZGramRecentChatsClear">Wyczyść ostatnie czaty</string>
+    <string name="MZGramRecentChatsClearInfo">Usunąć wszystkie czaty z tej listy? Same czaty pozostaną.</string>
 </resources>

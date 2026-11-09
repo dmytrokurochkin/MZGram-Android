@@ -169,6 +169,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SPLIT_GIF_INLINE = 144;
     private static final int BUTTON_WIDE_CHANNEL_POSTS = 145;
     private static final int BUTTON_ACCOUNT_ORDER = 146;
+    private static final int BUTTON_RECENT_CHATS_ON_BACK = 147;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -761,6 +762,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramAccountsInMenuInfo)));
         items.add(UItem.asButton(BUTTON_ACCOUNT_ORDER, getString(R.string.MZGramAccountOrder)));
         items.add(UItem.asShadow(getString(R.string.MZGramAccountOrderButtonInfo)));
+        items.add(UItem.asCheck(BUTTON_RECENT_CHATS_ON_BACK, getString(R.string.MZGramRecentChatsOnBack)).setChecked(MZGramConfig.recentChatsOnBack));
+        items.add(UItem.asShadow(getString(R.string.MZGramRecentChatsOnBackInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
         items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
         items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramOpenArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
@@ -1086,6 +1089,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
             MZGramConfig.toggleHideBottomNavigationBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
+        } else if (item.id == BUTTON_RECENT_CHATS_ON_BACK) {
+            MZGramConfig.toggleRecentChatsOnBack();
+            if (!MZGramConfig.recentChatsOnBack) {
+                MZGramRecentChats.clearAll();
+            }
+            ((TextCheckCell) view).setChecked(MZGramConfig.recentChatsOnBack);
         } else if (item.id == BUTTON_ACCOUNT_ORDER) {
             presentFragment(new MZGramAccountOrderActivity());
         } else if (item.id == BUTTON_ACCOUNTS_IN_MENU) {

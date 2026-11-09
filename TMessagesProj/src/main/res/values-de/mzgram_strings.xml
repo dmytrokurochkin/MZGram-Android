@@ -613,4 +613,8 @@
     <string name="MZGramPermissionGifs">GIFs</string>
     <string name="MZGramPermissionGames">Spiele</string>
     <string name="MZGramPermissionInline">Inline-Bots</string>
+    <string name="MZGramStickers">Sticker in Chats</string>
+    <string name="MZGramStickerRound">Abgerundete Sticker-Ecken</string>
+    <string name="MZGramStickerTime">Uhrzeit auf Stickern ausblenden</string>
+    <string name="MZGramStickersInfo">Der Regler legt die Größe von Stickern in Chats fest, 100 % wie in Telegram. Die ausgeblendete Uhrzeit erscheint, während ein Sticker gesendet wird, fehlgeschlagen oder ausgewählt ist. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
 </resources>

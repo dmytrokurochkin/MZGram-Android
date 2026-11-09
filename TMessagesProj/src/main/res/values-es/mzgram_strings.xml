@@ -613,4 +613,8 @@
     <string name="MZGramPermissionGifs">GIF</string>
     <string name="MZGramPermissionGames">Juegos</string>
     <string name="MZGramPermissionInline">Bots inline</string>
+    <string name="MZGramStickers">Stickers en chats</string>
+    <string name="MZGramStickerRound">Esquinas redondeadas en stickers</string>
+    <string name="MZGramStickerTime">Ocultar la hora en stickers</string>
+    <string name="MZGramStickersInfo">El control deslizante fija el tamaño de los stickers en los chats, 100 % como en Telegram. La hora oculta aparece mientras un sticker se envía, falla o está seleccionado. Se aplica a los mensajes mostrados después del cambio.</string>
 </resources>

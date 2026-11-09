@@ -9685,6 +9685,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     } else {
                         maxHeight = maxWidth = (int) (Math.min(getParentWidth(), AndroidUtilities.displaySize.y) * 0.5f);
                     }
+                    // MZGram: sticker size (Settings > MZGram > Chats > Stickers)
+                    float mzgramStickerSize = org.telegram.ui.mzgram.MZGramStickers.sizeFactor(messageObject);
+                    if (mzgramStickerSize != 1f) {
+                        maxHeight = maxWidth = (int) (maxWidth * mzgramStickerSize);
+                    }
                     String filter;
                     if (messageObject.isAnimatedEmoji() || messageObject.isDice()) {
                         float zoom = MessagesController.getInstance(currentAccount).animatedEmojisZoom;
@@ -9766,7 +9771,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     availableTimeWidth = photoWidth - dp(14);
                     backgroundWidth = photoWidth + dp(12);
 
-                    photoImage.setRoundRadius(0);
+                    // MZGram: rounded corners of stickers (0 as in Telegram unless turned on)
+                    photoImage.setRoundRadius(org.telegram.ui.mzgram.MZGramStickers.roundRadius());
                     canChangeRadius = false;
                     if (!messageObject.isOutOwner() && MessageObject.isPremiumSticker(messageObject.getDocument())) {
                         flipImage = true;
@@ -23926,6 +23932,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             return;
         }
         if (currentMessageObject != null && currentMessageObject.type == MessageObject.TYPE_JOINED_CHANNEL) {
+            return;
+        }
+        // MZGram: no time over sent stickers; shown again while the message is selected
+        if (org.telegram.ui.mzgram.MZGramStickers.isTimeHidden(currentMessageObject) && !isDrawSelectionBackground()) {
             return;
         }
         for (int i = 0; i < 2; i++) {

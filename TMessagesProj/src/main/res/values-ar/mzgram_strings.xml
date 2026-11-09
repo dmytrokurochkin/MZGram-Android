@@ -613,4 +613,8 @@
     <string name="MZGramPermissionGifs">صور GIF</string>
     <string name="MZGramPermissionGames">الألعاب</string>
     <string name="MZGramPermissionInline">البوتات المضمنة</string>
+    <string name="MZGramStickers">الملصقات في الدردشات</string>
+    <string name="MZGramStickerRound">زوايا مستديرة للملصقات</string>
+    <string name="MZGramStickerTime">إخفاء الوقت على الملصقات</string>
+    <string name="MZGramStickersInfo">يحدد شريط التمرير حجم الملصقات في الدردشات، و100% كما في Telegram. يظهر الوقت المخفي أثناء إرسال الملصق أو فشل إرساله أو تحديده. ينطبق على الرسائل المعروضة بعد التغيير.</string>
 </resources>

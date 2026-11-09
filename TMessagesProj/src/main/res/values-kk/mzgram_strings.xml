@@ -613,4 +613,8 @@
     <string name="MZGramPermissionGifs">GIF</string>
     <string name="MZGramPermissionGames">Ойындар</string>
     <string name="MZGramPermissionInline">Инлайн-боттар</string>
+    <string name="MZGramStickers">Чаттардағы стикерлер</string>
+    <string name="MZGramStickerRound">Стикерлердің дөңгеленген бұрыштары</string>
+    <string name="MZGramStickerTime">Стикерлердегі уақытты жасыру</string>
+    <string name="MZGramStickersInfo">Сырғытпа чаттардағы стикерлердің өлшемін береді, 100% Telegram-дағыдай. Жасырылған уақыт стикер жіберіліп жатқанда, жіберілмегенде немесе таңдалғанда көрінеді. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
 </resources>

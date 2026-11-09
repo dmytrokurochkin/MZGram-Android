@@ -163,6 +163,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_STICKER_ROUND = 142;
+    private static final int BUTTON_STICKER_TIME = 143;
     private static final int BUTTON_GRANULAR_PERMISSIONS = 141;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
@@ -628,6 +630,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Typing, sending and search in chats (domain messages)
     private void fillChats(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asHeader(getString(R.string.MZGramStickers)));
+        items.add(UItem.asIntSlideView(1, MZGramStickers.SIZE_MIN, MZGramConfig.stickerSize, MZGramStickers.SIZE_MAX,
+                val -> val + "%", MZGramConfig::setStickerSize));
+        items.add(UItem.asCheck(BUTTON_STICKER_ROUND, getString(R.string.MZGramStickerRound)).setChecked(MZGramConfig.stickerRoundCorners));
+        items.add(UItem.asCheck(BUTTON_STICKER_TIME, getString(R.string.MZGramStickerTime)).setChecked(MZGramConfig.hideStickerTime));
+        items.add(UItem.asShadow(getString(R.string.MZGramStickersInfo)));
         items.add(UItem.asCheck(BUTTON_GRANULAR_PERMISSIONS, getString(R.string.MZGramGranularPermissions)).setChecked(MZGramConfig.granularGroupPermissions));
         items.add(UItem.asShadow(getString(R.string.MZGramGranularPermissionsInfo)));
         items.add(UItem.asCheck(BUTTON_LINKED_EMOJI, getString(R.string.MZGramLinkedEmoji)).setChecked(MZGramConfig.linkedCustomEmoji));
@@ -866,6 +874,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_GRANULAR_PERMISSIONS) {
             MZGramConfig.toggleGranularGroupPermissions();
             ((TextCheckCell) view).setChecked(MZGramConfig.granularGroupPermissions);
+        } else if (item.id == BUTTON_STICKER_ROUND) {
+            MZGramConfig.toggleStickerRoundCorners();
+            ((TextCheckCell) view).setChecked(MZGramConfig.stickerRoundCorners);
+        } else if (item.id == BUTTON_STICKER_TIME) {
+            MZGramConfig.toggleHideStickerTime();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideStickerTime);
         } else if (item.id == BUTTON_PLAIN_CODE) {
             MZGramConfig.togglePlainCodeBlocks();
             ((TextCheckCell) view).setChecked(MZGramConfig.plainCodeBlocks);

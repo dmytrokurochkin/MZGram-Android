@@ -223,6 +223,11 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // Stickers in chats: size in percent (100 as in Telegram), rounded corners, no time over stickers
+    public static int stickerSize = 100;
+    public static boolean stickerRoundCorners = false;
+    public static boolean hideStickerTime = false;
+
     // granularGroupPermissions
     public static boolean granularGroupPermissions = false;
 
@@ -427,6 +432,9 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            stickerSize = preferences.getInt("stickerSize", 100);
+            stickerRoundCorners = preferences.getBoolean("stickerRoundCorners", false);
+            hideStickerTime = preferences.getBoolean("hideStickerTime", false);
             granularGroupPermissions = preferences.getBoolean("granularGroupPermissions", false);
             linkedCustomEmoji = preferences.getBoolean("linkedCustomEmoji", false);
             linkTypeface = preferences.getBoolean("linkTypeface", false);
@@ -1032,6 +1040,21 @@ public class MZGramConfig {
     public static void toggleGranularGroupPermissions() {
         granularGroupPermissions = !granularGroupPermissions;
         putBoolean("granularGroupPermissions", granularGroupPermissions);
+    }
+
+    public static void setStickerSize(int size) {
+        stickerSize = size;
+        preferences().edit().putInt("stickerSize", size).apply();
+    }
+
+    public static void toggleStickerRoundCorners() {
+        stickerRoundCorners = !stickerRoundCorners;
+        putBoolean("stickerRoundCorners", stickerRoundCorners);
+    }
+
+    public static void toggleHideStickerTime() {
+        hideStickerTime = !hideStickerTime;
+        putBoolean("hideStickerTime", hideStickerTime);
     }
 
     public static void toggleInlineMath() {

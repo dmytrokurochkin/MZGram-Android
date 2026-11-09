@@ -97,6 +97,18 @@ public final class MZGramShadowBan {
 
     /** Whether this message is hidden: groups only, own messages and date rows never. */
     public static boolean isHidden(MessageObject message) {
+        return isHidden(message, null);
+    }
+
+    /**
+     * As isHidden(message), and also hidden by the message filters
+     * (MZGramRegexFilters), which share this layer and check the album of
+     * the message (group, may be null) as a whole.
+     */
+    public static boolean isHidden(MessageObject message, MessageObject.GroupedMessages group) {
+        if (MZGramRegexFilters.isFiltered(message, group)) {
+            return true;
+        }
         if (message == null || !isActive() || message.isDateObject || message.messageOwner == null || message.isOutOwner() || message.isSponsored()) {
             return false;
         }

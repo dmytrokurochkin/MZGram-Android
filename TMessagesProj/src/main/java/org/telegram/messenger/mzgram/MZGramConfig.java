@@ -274,6 +274,14 @@ public class MZGramConfig {
     public static boolean hideBlockedInGroups = false;
     public static String shadowBanList = "";
 
+    // Message filters: rules with regular expressions hide other people's
+    // messages (MZGramRegexFilters, rules in prefs mzgram_regex_filters);
+    // the common rules also in private chats, media of hidden messages not
+    // downloaded on its own.
+    public static boolean regexFilters = false;
+    public static boolean regexFiltersInPrivate = false;
+    public static boolean regexFiltersNoDownload = false;
+
     // plainCodeBlocks
     public static boolean plainCodeBlocks = false;
 
@@ -485,6 +493,9 @@ public class MZGramConfig {
             shadowBan = preferences.getBoolean("shadowBan", false);
             hideBlockedInGroups = preferences.getBoolean("hideBlockedInGroups", false);
             shadowBanList = preferences.getString("shadowBanList", "");
+            regexFilters = preferences.getBoolean("regexFilters", false);
+            regexFiltersInPrivate = preferences.getBoolean("regexFiltersInPrivate", false);
+            regexFiltersNoDownload = preferences.getBoolean("regexFiltersNoDownload", false);
             plainCodeBlocks = preferences.getBoolean("plainCodeBlocks", false);
             hexColorSwatch = preferences.getBoolean("hexColorSwatch", false);
             scheduleSlider = preferences.getBoolean("scheduleSlider", false);
@@ -1047,6 +1058,23 @@ public class MZGramConfig {
     public static void toggleHideReactionsChannels() {
         hideReactionsChannels = !hideReactionsChannels;
         putBoolean("hideReactionsChannels", hideReactionsChannels);
+    }
+
+    public static void toggleRegexFilters() {
+        regexFilters = !regexFilters;
+        putBoolean("regexFilters", regexFilters);
+        MZGramRegexFilters.clearCache();
+    }
+
+    public static void toggleRegexFiltersInPrivate() {
+        regexFiltersInPrivate = !regexFiltersInPrivate;
+        putBoolean("regexFiltersInPrivate", regexFiltersInPrivate);
+        MZGramRegexFilters.clearCache();
+    }
+
+    public static void toggleRegexFiltersNoDownload() {
+        regexFiltersNoDownload = !regexFiltersNoDownload;
+        putBoolean("regexFiltersNoDownload", regexFiltersNoDownload);
     }
 
     public static void toggleShadowBan() {

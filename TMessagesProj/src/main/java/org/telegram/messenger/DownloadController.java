@@ -687,6 +687,8 @@ public class DownloadController extends BaseController implements NotificationCe
 
     private int canDownloadMediaInternal(MessageObject message) {
         if (message == null || message.messageOwner == null) return 0;
+        // MZGram: media of a message hidden by the message filters is not downloaded on its own
+        if (org.telegram.messenger.mzgram.MZGramRegexFilters.blocksAutoDownload(message)) return 0;
         if (message.messageOwner.media instanceof TLRPC.TL_messageMediaStory) {
             return canPreloadStories() ? 2 : 0;
         }
@@ -777,6 +779,8 @@ public class DownloadController extends BaseController implements NotificationCe
 
     private int canDownloadMediaInternal(MessageObject message, long overrideSize) {
         if (message == null || message.messageOwner == null) return 0;
+        // MZGram: media of a message hidden by the message filters is not downloaded on its own
+        if (org.telegram.messenger.mzgram.MZGramRegexFilters.blocksAutoDownload(message)) return 0;
         if (message.messageOwner.media instanceof TLRPC.TL_messageMediaStory) {
             return canPreloadStories() ? 2 : 0;
         }
@@ -859,6 +863,8 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public int canDownloadMedia(TLRPC.Message message) {
+        // MZGram: media of a message hidden by the message filters is not downloaded on its own
+        if (org.telegram.messenger.mzgram.MZGramRegexFilters.blocksAutoDownload(currentAccount, message)) return 0;
         if (message == null || message.media instanceof TLRPC.TL_messageMediaStory) {
             return canPreloadStories() ? 2 : 0;
         }

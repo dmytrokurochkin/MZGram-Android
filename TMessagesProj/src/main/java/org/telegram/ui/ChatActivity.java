@@ -38772,8 +38772,8 @@ public class ChatActivity extends BaseFragment implements
                     messages = ChatActivity.this.messages;
                 }
                 MessageObject mzgramMessage = messages.get(position - messagesStartRow);
-                // MZGram: a message hidden by the shadow ban gets an empty row
-                if (org.telegram.messenger.mzgram.MZGramShadowBan.isHidden(mzgramMessage)) {
+                // MZGram: a message hidden by the shadow ban or the message filters gets an empty row
+                if (org.telegram.messenger.mzgram.MZGramShadowBan.isHidden(mzgramMessage, mzgramMessage == null ? null : getGroup(mzgramMessage.getGroupId()))) {
                     return org.telegram.messenger.mzgram.MZGramShadowBan.VIEW_TYPE;
                 }
                 return mzgramMessage.contentType;

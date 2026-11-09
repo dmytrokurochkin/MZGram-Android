@@ -163,6 +163,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_LINKED_EMOJI = 139;
+    private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
     private static final int BUTTON_HEX_COLOR = 129;
     private static final int BUTTON_SCHEDULE_SLIDER = 127;
@@ -625,6 +627,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Typing, sending and search in chats (domain messages)
     private void fillChats(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_LINKED_EMOJI, getString(R.string.MZGramLinkedEmoji)).setChecked(MZGramConfig.linkedCustomEmoji));
+        items.add(UItem.asShadow(getString(R.string.MZGramLinkedEmojiInfo)));
+        items.add(UItem.asCheck(BUTTON_LINK_TYPEFACE, getString(R.string.MZGramLinkTypeface)).setChecked(MZGramConfig.linkTypeface));
+        items.add(UItem.asShadow(getString(R.string.MZGramLinkTypefaceInfo)));
         items.add(UItem.asCheck(BUTTON_PLAIN_CODE, getString(R.string.MZGramPlainCode)).setChecked(MZGramConfig.plainCodeBlocks));
         items.add(UItem.asShadow(getString(R.string.MZGramPlainCodeInfo)));
         items.add(UItem.asCheck(BUTTON_HEX_COLOR, getString(R.string.MZGramHexColorSwatch)).setChecked(MZGramConfig.hexColorSwatch));
@@ -848,6 +854,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HEX_COLOR) {
             MZGramConfig.toggleHexColorSwatch();
             ((TextCheckCell) view).setChecked(MZGramConfig.hexColorSwatch);
+        } else if (item.id == BUTTON_LINK_TYPEFACE) {
+            MZGramConfig.toggleLinkTypeface();
+            ((TextCheckCell) view).setChecked(MZGramConfig.linkTypeface);
+        } else if (item.id == BUTTON_LINKED_EMOJI) {
+            MZGramConfig.toggleLinkedCustomEmoji();
+            ((TextCheckCell) view).setChecked(MZGramConfig.linkedCustomEmoji);
         } else if (item.id == BUTTON_PLAIN_CODE) {
             MZGramConfig.togglePlainCodeBlocks();
             ((TextCheckCell) view).setChecked(MZGramConfig.plainCodeBlocks);

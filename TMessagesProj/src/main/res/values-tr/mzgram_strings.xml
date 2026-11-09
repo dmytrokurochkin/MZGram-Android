@@ -603,4 +603,8 @@
     <string name="MZGramShadowBanListInfo">Mesajlarını yeniden göstermek için bir kişiye dokunun.</string>
     <string name="MZGramShadowBanRemoveConfirm">Bu kişinin mesajları gruplarda yeniden gösterilsin mi?</string>
     <string name="MZGramShadowBanOpenProfile">Profili aç</string>
+    <string name="MZGramLinkedEmoji">Emoji bağlantılarını özel emoji olarak göster</string>
+    <string name="MZGramLinkedEmojiInfo">Bazı uygulamalar özel emojiyi sıradan bir emojinin üzerinde bağlantı olarak gönderir. Bu bağlantılar özel emojinin kendisi olarak gösterilir. Yalnızca görünüm değişir: mesaj bağlantıyı korur ve özel emoji göndermek yine Telegram Premium gerektirir. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
+    <string name="MZGramLinkTypeface">Kalın ve italik bağlantıları sığdır</string>
+    <string name="MZGramLinkTypefaceInfo">Kalın veya italik bağlantılar ve bahsetmeler kendi yazı tipiyle ölçülür, böylece çevresindeki metin üst üste binmez ve boşluk bırakmaz. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
 </resources>

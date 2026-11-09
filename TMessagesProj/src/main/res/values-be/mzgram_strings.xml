@@ -603,4 +603,8 @@
     <string name="MZGramShadowBanListInfo">Дакраніцеся да чалавека, каб зноў паказваць яго паведамленні.</string>
     <string name="MZGramShadowBanRemoveConfirm">Зноў паказваць паведамленні гэтага чалавека ў групах?</string>
     <string name="MZGramShadowBanOpenProfile">Адкрыць профіль</string>
+    <string name="MZGramLinkedEmoji">Паказваць эмодзі-спасылкі як уласныя эмодзі</string>
+    <string name="MZGramLinkedEmojiInfo">Некаторыя праграмы адпраўляюць уласнае эмодзі як спасылку на звычайным эмодзі. Такія спасылкі паказваюцца як само ўласнае эмодзі. Мяняецца толькі паказ: паведамленне захоўвае спасылку, а адпраўляць уласныя эмодзі, як і раней, можна толькі з Telegram Premium. Дзейнічае на паведамленні, паказаныя пасля змены.</string>
+    <string name="MZGramLinkTypeface">Дакладная шырыня тоўстых і курсіўных спасылак</string>
+    <string name="MZGramLinkTypefaceInfo">Тоўстыя і курсіўныя спасылкі і згадкі вымяраюцца сваім шрыфтам, таму тэкст побач не накладваецца і не пакідае прамежкаў. Дзейнічае на паведамленні, паказаныя пасля змены.</string>
 </resources>

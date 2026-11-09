@@ -223,6 +223,12 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // linkedCustomEmoji
+    public static boolean linkedCustomEmoji = false;
+
+    // linkTypeface
+    public static boolean linkTypeface = false;
+
     // Reaction filter: hide all reactions by kind of chat, or only the listed emoji (space-separated)
     public static boolean hideReactionsPrivate = false;
     public static boolean hideReactionsGroups = false;
@@ -418,6 +424,8 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            linkedCustomEmoji = preferences.getBoolean("linkedCustomEmoji", false);
+            linkTypeface = preferences.getBoolean("linkTypeface", false);
             hideReactionsPrivate = preferences.getBoolean("hideReactionsPrivate", false);
             hideReactionsGroups = preferences.getBoolean("hideReactionsGroups", false);
             hideReactionsChannels = preferences.getBoolean("hideReactionsChannels", false);
@@ -1005,6 +1013,16 @@ public class MZGramConfig {
     public static void togglePlainCodeBlocks() {
         plainCodeBlocks = !plainCodeBlocks;
         putBoolean("plainCodeBlocks", plainCodeBlocks);
+    }
+
+    public static void toggleLinkTypeface() {
+        linkTypeface = !linkTypeface;
+        putBoolean("linkTypeface", linkTypeface);
+    }
+
+    public static void toggleLinkedCustomEmoji() {
+        linkedCustomEmoji = !linkedCustomEmoji;
+        putBoolean("linkedCustomEmoji", linkedCustomEmoji);
     }
 
     public static void toggleInlineMath() {

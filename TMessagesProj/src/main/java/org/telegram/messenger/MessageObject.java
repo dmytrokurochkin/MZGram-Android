@@ -6655,7 +6655,7 @@ public class MessageObject {
         if (messageOwner == null || messageOwner.entities == null)
             return false;
         for (int i = 0; i < messageOwner.entities.size(); ++i)
-            if (!(messageOwner.entities.get(i) instanceof TLRPC.TL_messageEntityCustomEmoji))
+            if (!(messageOwner.entities.get(i) instanceof TLRPC.TL_messageEntityCustomEmoji) && !org.telegram.messenger.mzgram.MZGramLinkedEmoji.isLinkedEmoji(messageOwner.message, messageOwner.entities.get(i)))
                 return true;
         return false;
     }
@@ -7699,7 +7699,7 @@ public class MessageObject {
         }
         if (!isMediaEmpty() && !(getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) && !TextUtils.isEmpty(text)) {
             caption = Emoji.replaceEmoji(text, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
-            caption = replaceAnimatedEmoji(caption, entities, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
+            caption = replaceAnimatedEmoji(caption, org.telegram.messenger.mzgram.MZGramLinkedEmoji.forDisplay(caption, entities), Theme.chat_msgTextPaint.getFontMetricsInt(), false);
 
             boolean hasEntities;
             if (messageOwner.send_state != MESSAGE_SEND_STATE_SENT) {
@@ -7995,7 +7995,8 @@ public class MessageObject {
             entities.add(entityItalic);
             return addEntitiesToText(text, entities, isOutOwner(), true, photoViewer, useManualParse);
         } else {
-            return addEntitiesToText(text, getEntities(), isOutOwner(), true, photoViewer, useManualParse);
+            // MZGram: emoji links tg://emoji?id= shown as custom emoji (display only)
+            return addEntitiesToText(text, org.telegram.messenger.mzgram.MZGramLinkedEmoji.forDisplay(text, getEntities()), isOutOwner(), true, photoViewer, useManualParse);
         }
     }
 
@@ -8051,7 +8052,8 @@ public class MessageObject {
     }
 
     public Spannable replaceAnimatedEmoji(CharSequence text, Paint.FontMetricsInt fontMetricsInt) {
-        return replaceAnimatedEmoji(text, getEntities(), fontMetricsInt, false);
+        // MZGram: emoji links tg://emoji?id= shown as custom emoji (display only)
+        return replaceAnimatedEmoji(text, org.telegram.messenger.mzgram.MZGramLinkedEmoji.forDisplay(text, getEntities()), fontMetricsInt, false);
     }
 
     public static Spannable replaceAnimatedEmoji(CharSequence text, ArrayList<TLRPC.MessageEntity> entities, Paint.FontMetricsInt fontMetricsInt) {
@@ -8396,6 +8398,10 @@ public class MessageObject {
             } else {
                 setRun = true;
                 spannable.setSpan(new TextStyleSpan(run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            if (!setRun) {
+                // MZGram: bold or italic links measured with their typeface
+                org.telegram.messenger.mzgram.MZGramLinkedEmoji.applyLinkTypeface(spannable, run);
             }
             if (!setRun && (run.flags & TextStyleSpan.FLAG_STYLE_SPOILER) != 0) {
                 if (spoilersCount >= SpoilerEffect.MAX_SPOILERS_COUNT) continue;

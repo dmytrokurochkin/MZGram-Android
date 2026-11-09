@@ -7276,6 +7276,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         return orientationController;
     }
 
+    // MZGram: MZGramIconsResources.wrap swaps icons for the icon packs when they are on.
+    @Override
+    public android.content.res.Resources getResources() {
+        return org.telegram.ui.mzgram.MZGramIconsResources.wrap(super.getResources());
+    }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         AndroidUtilities.checkDisplaySize(this, newConfig);

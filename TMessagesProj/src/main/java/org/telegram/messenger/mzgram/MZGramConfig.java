@@ -94,6 +94,8 @@ public class MZGramConfig {
     public static boolean extendedPins = false;
     // The pill bar of the chat list's search bar (MZGramPills, ui/mzgram/pills)
     public static boolean pillStack = false;
+    // Icon packs and the built-in icon sets (MZGramIconPacks)
+    public static boolean iconPacks = false;
     // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
     // the phone's, otherwise one of its codes
     public static String language = "";
@@ -411,6 +413,7 @@ public class MZGramConfig {
             recentChatsOnBack = preferences.getBoolean("recentChatsOnBack", false);
             extendedPins = preferences.getBoolean("extendedPins", false);
             pillStack = preferences.getBoolean("pillStack", false);
+            iconPacks = preferences.getBoolean("iconPacks", false);
             language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
@@ -549,6 +552,11 @@ public class MZGramConfig {
     public static void togglePillStack() {
         pillStack = !pillStack;
         putBoolean("pillStack", pillStack);
+    }
+
+    public static void toggleIconPacks() {
+        iconPacks = !iconPacks;
+        putBoolean("iconPacks", iconPacks);
     }
 
     public static void toggleRecentChatsOnBack() {

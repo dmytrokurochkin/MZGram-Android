@@ -42352,6 +42352,10 @@ public class ChatActivity extends BaseFragment implements
                 if (org.telegram.ui.mzgram.MZGramPluginInstallSheet.openFromChat(ChatActivity.this, message)) {
                     return;
                 }
+                // MZGram: MZGramIconPacksActivity.openFromChat.
+                if (org.telegram.ui.mzgram.MZGramIconPacksActivity.openFromChat(ChatActivity.this, message)) {
+                    return;
+                }
                 boolean handled = false;
                 if (message.canPreviewDocument()) {
                     PhotoViewer.getInstance().setParentActivity(ChatActivity.this, themeDelegate);

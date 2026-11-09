@@ -66,6 +66,16 @@ The permission keys are `ui`, `messages.read`, `messages.send`, `network`,
 `files`, `intents`, `settings`, `hooks` and `native`. What each one allows
 comes with the permission model, which is not done yet.
 
+Declaring a permission doesn't grant it. MZGram keeps the permissions the
+user granted to each plugin in a record signed with a key from the Android
+Keystore, which can't be read from the app's files. A record that was
+changed outside MZGram, or whose key is gone (as after restoring a backup
+on another phone), is dropped and the plugin is turned off, so its
+permissions have to be granted again. Every plugin has `ui`; a plugin
+without a record has nothing else. Updating a plugin takes back the granted
+permissions it no longer declares, and a new plugin never gets what an
+earlier plugin with the same id had.
+
 Archives (`.elyx`, `.eaf`) are not supported.
 
 ## The plugin list
@@ -253,5 +263,6 @@ exteraless SDK and may still change.
 | Menu items of plugins (`mzgram_plugins.menus`) in the menus of messages, chats, profiles and the chat list | done; shown once plugins run |
 | Developer server on `127.0.0.1:42690` (add, update, turn on or off, delete plugins from a computer through adb) | done; reloading waits for plugins to run |
 | SDK: `base_plugin`, hooks, UI components | planned |
+| Signed record of granted permissions | done; the prompt and the gates that read it are planned |
 | Permissions, prompt before installing, local audit log, safe mode after crashes | planned |
 | Installing packages with pip on the device | not planned (it would make network calls to PyPI) |

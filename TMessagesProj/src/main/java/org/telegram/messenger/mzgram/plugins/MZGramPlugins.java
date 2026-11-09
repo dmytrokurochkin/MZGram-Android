@@ -289,10 +289,18 @@ public final class MZGramPlugins {
                 if (ok) {
                     final SharedPreferences prefs = prefs();
                     final SharedPreferences.Editor editor = prefs.edit().putString(KEY_META + meta.id, meta.json);
-                    if (!prefs.contains(KEY_ADDED + meta.id)) {
+                    final boolean update = prefs.contains(KEY_ADDED + meta.id);
+                    if (!update) {
                         editor.putLong(KEY_ADDED + meta.id, System.currentTimeMillis());
                     }
                     editor.apply();
+                    if (update) {
+                        // Granted keys the new version no longer declares are taken back
+                        MZGramPluginGrants.retainDeclared(meta.id, meta.permissionsDeclared ? meta.permissions : null);
+                    } else {
+                        // A new plugin with an old id never gets what was granted before
+                        MZGramPluginGrants.clear(meta.id);
+                    }
                 } else {
                     part.delete();
                 }
@@ -316,6 +324,7 @@ public final class MZGramPlugins {
         }
         prefs().edit().remove(KEY_META + pluginId).remove(KEY_ENABLED + pluginId).remove(KEY_ADDED + pluginId).apply();
         MZGramPluginSettingsStore.clear(pluginId);
+        MZGramPluginGrants.clear(pluginId);
     }
 
     /**

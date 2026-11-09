@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">Включено</string>
     <string name="MZGramTileOff">Выключено</string>
     <string name="MZGramQuickTilesInfo">В быстрые настройки телефона можно добавить две плитки MZGram: «Режим призрака» (включает или выключает его) и «Вход по QR» (открывает сканер для входа на другом устройстве). Добавь их в режиме редактирования шторки уведомлений.</string>
+    <string name="MZGramAppIconNight">Ночь</string>
+    <string name="MZGramAppIconLight">Светлая</string>
+    <string name="MZGramAppIconMint">Мята</string>
+    <string name="MZGramAppIconSunset">Закат</string>
 </resources>

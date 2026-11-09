@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MZGram: own colour variant of the MZGram launcher icon (Light) -->
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@mipmap/icon_foreground_sa"
+    android:tint="#7A33E0" />

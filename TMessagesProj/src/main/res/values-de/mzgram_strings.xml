@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">An</string>
     <string name="MZGramTileOff">Aus</string>
     <string name="MZGramQuickTilesInfo">Die Schnelleinstellungen deines Telefons können zwei MZGram-Kacheln erhalten: Geistermodus (schaltet ihn ein oder aus) und Anmelden per QR (öffnet den Scanner zum Anmelden auf einem anderen Gerät). Füge sie im Bearbeitungsmodus der Benachrichtigungsleiste hinzu.</string>
+    <string name="MZGramAppIconNight">Nacht</string>
+    <string name="MZGramAppIconLight">Hell</string>
+    <string name="MZGramAppIconMint">Minze</string>
+    <string name="MZGramAppIconSunset">Sonnenuntergang</string>
 </resources>

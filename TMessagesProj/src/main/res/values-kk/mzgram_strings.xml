@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">Қосулы</string>
     <string name="MZGramTileOff">Өшірулі</string>
     <string name="MZGramQuickTilesInfo">Телефонның жылдам баптауларына екі MZGram тақтасын қосуға болады: «Елес режимі» (оны қосады не өшіреді) және «QR арқылы кіру» (басқа құрылғыда кіру үшін сканерді ашады). Оларды хабарландыру тақтасын өңдеу режимінде қос.</string>
+    <string name="MZGramAppIconNight">Түн</string>
+    <string name="MZGramAppIconLight">Ашық</string>
+    <string name="MZGramAppIconMint">Жалбыз</string>
+    <string name="MZGramAppIconSunset">Күн батуы</string>
 </resources>

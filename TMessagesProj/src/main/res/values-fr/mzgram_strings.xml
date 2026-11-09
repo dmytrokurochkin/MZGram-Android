@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">Activé</string>
     <string name="MZGramTileOff">Désactivé</string>
     <string name="MZGramQuickTilesInfo">Les réglages rapides du téléphone peuvent recevoir deux tuiles MZGram : Mode fantôme (l\'active ou le désactive) et Connexion par QR (ouvre le scanner pour se connecter sur un autre appareil). Ajoutez-les dans le mode d\'édition du volet des notifications.</string>
+    <string name="MZGramAppIconNight">Nuit</string>
+    <string name="MZGramAppIconLight">Claire</string>
+    <string name="MZGramAppIconMint">Menthe</string>
+    <string name="MZGramAppIconSunset">Coucher de soleil</string>
 </resources>

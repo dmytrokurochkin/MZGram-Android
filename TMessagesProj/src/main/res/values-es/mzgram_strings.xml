@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">Activado</string>
     <string name="MZGramTileOff">Desactivado</string>
     <string name="MZGramQuickTilesInfo">Los ajustes rápidos del teléfono pueden tener dos mosaicos de MZGram: Modo fantasma (lo activa o desactiva) e Iniciar sesión con QR (abre el escáner para iniciar sesión en otro dispositivo). Añádelos en el modo de edición del panel de notificaciones.</string>
+    <string name="MZGramAppIconNight">Noche</string>
+    <string name="MZGramAppIconLight">Clara</string>
+    <string name="MZGramAppIconMint">Menta</string>
+    <string name="MZGramAppIconSunset">Atardecer</string>
 </resources>

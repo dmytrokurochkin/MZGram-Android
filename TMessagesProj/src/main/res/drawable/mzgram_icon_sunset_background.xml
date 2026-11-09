@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MZGram: own colour variant of the MZGram launcher icon (Sunset) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="linear"
+        android:angle="45"
+        android:startColor="#D9406F"
+        android:endColor="#F5A04A" />
+</shape>

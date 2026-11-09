@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">Açık</string>
     <string name="MZGramTileOff">Kapalı</string>
     <string name="MZGramQuickTilesInfo">Telefonunun hızlı ayarlarına iki MZGram kutucuğu eklenebilir: Hayalet modu (açar veya kapatır) ve QR ile giriş (başka bir cihazda giriş için tarayıcıyı açar). Bildirim panelinin düzenleme modunda ekle.</string>
+    <string name="MZGramAppIconNight">Gece</string>
+    <string name="MZGramAppIconLight">Açık</string>
+    <string name="MZGramAppIconMint">Nane</string>
+    <string name="MZGramAppIconSunset">Gün batımı</string>
 </resources>

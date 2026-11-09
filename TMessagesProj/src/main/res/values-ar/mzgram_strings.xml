@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">مفعّل</string>
     <string name="MZGramTileOff">متوقف</string>
     <string name="MZGramQuickTilesInfo">يمكن إضافة بلاطتين من MZGram إلى الإعدادات السريعة في هاتفك: وضع الشبح (يفعّله أو يوقفه) وتسجيل الدخول برمز QR (يفتح الماسح لتسجيل الدخول على جهاز آخر). أضفهما في وضع تعديل لوحة الإشعارات.</string>
+    <string name="MZGramAppIconNight">ليل</string>
+    <string name="MZGramAppIconLight">فاتحة</string>
+    <string name="MZGramAppIconMint">نعناع</string>
+    <string name="MZGramAppIconSunset">غروب</string>
 </resources>

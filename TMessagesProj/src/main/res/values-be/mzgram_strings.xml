@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">Уключана</string>
     <string name="MZGramTileOff">Выключана</string>
     <string name="MZGramQuickTilesInfo">У хуткія налады тэлефона можна дадаць дзве пліткі MZGram: «Рэжым прывіда» (уключае або выключае яго) і «Уваход па QR» (адкрывае сканер для ўваходу на іншай прыладзе). Дадай іх у рэжыме рэдагавання шторкі апавяшчэнняў.</string>
+    <string name="MZGramAppIconNight">Ноч</string>
+    <string name="MZGramAppIconLight">Светлая</string>
+    <string name="MZGramAppIconMint">Мята</string>
+    <string name="MZGramAppIconSunset">Захад сонца</string>
 </resources>

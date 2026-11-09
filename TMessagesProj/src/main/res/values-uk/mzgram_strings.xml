@@ -634,4 +634,8 @@
     <string name="MZGramTileOn">Увімкнено</string>
     <string name="MZGramTileOff">Вимкнено</string>
     <string name="MZGramQuickTilesInfo">У швидкі налаштування телефона можна додати дві плитки MZGram: «Режим привида» (вмикає або вимикає його) і «Вхід за QR» (відкриває сканер для входу на іншому пристрої). Додай їх у режимі редагування шторки сповіщень.</string>
+    <string name="MZGramAppIconNight">Ніч</string>
+    <string name="MZGramAppIconLight">Світла</string>
+    <string name="MZGramAppIconMint">М\'ята</string>
+    <string name="MZGramAppIconSunset">Захід сонця</string>
 </resources>

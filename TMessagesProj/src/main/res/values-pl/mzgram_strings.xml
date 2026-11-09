@@ -633,4 +633,8 @@
     <string name="MZGramTileOn">Włączone</string>
     <string name="MZGramTileOff">Wyłączone</string>
     <string name="MZGramQuickTilesInfo">Do szybkich ustawień telefonu można dodać dwa kafelki MZGram: Tryb ducha (włącza go lub wyłącza) i Logowanie kodem QR (otwiera skaner do logowania na innym urządzeniu). Dodaj je w trybie edycji panelu powiadomień.</string>
+    <string name="MZGramAppIconNight">Noc</string>
+    <string name="MZGramAppIconLight">Jasna</string>
+    <string name="MZGramAppIconMint">Mięta</string>
+    <string name="MZGramAppIconSunset">Zachód słońca</string>
 </resources>

@@ -39,7 +39,12 @@ public class LauncherIconController {
         AQUA("AquaIcon", R.drawable.icon_4_background_sa, R.mipmap.icon_foreground_sa, R.string.AppIconAqua),
         PREMIUM("PremiumIcon", R.drawable.icon_3_background_sa, R.mipmap.icon_3_foreground_sa, R.string.AppIconPremium, true),
         TURBO("TurboIcon", R.drawable.icon_5_background_sa, R.mipmap.icon_5_foreground_sa, R.string.AppIconTurbo, true),
-        NOX("NoxIcon", R.mipmap.icon_2_background_sa, R.mipmap.icon_foreground_sa, R.string.AppIconNox, true);
+        NOX("NoxIcon", R.mipmap.icon_2_background_sa, R.mipmap.icon_foreground_sa, R.string.AppIconNox, true),
+        // MZGram: own colour variants of the MZGram icon (aliases in AndroidManifest.xml)
+        MZGRAM_NIGHT("MZGramNightIcon", R.drawable.mzgram_icon_night_background, R.mipmap.icon_foreground_sa, R.string.MZGramAppIconNight),
+        MZGRAM_LIGHT("MZGramLightIcon", R.drawable.mzgram_icon_light_background, R.drawable.mzgram_icon_light_foreground, R.string.MZGramAppIconLight),
+        MZGRAM_MINT("MZGramMintIcon", R.drawable.mzgram_icon_mint_background, R.mipmap.icon_foreground_sa, R.string.MZGramAppIconMint),
+        MZGRAM_SUNSET("MZGramSunsetIcon", R.drawable.mzgram_icon_sunset_background, R.mipmap.icon_foreground_sa, R.string.MZGramAppIconSunset);
 
         public final String key;
         public final int background;

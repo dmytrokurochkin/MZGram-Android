@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">Kanallarda tepkileri gizle</string>
     <string name="MZGramHiddenReactions">Gizli tepkiler</string>
     <string name="MZGramReactionFilterInfo">Gizli tepkiler mesajların altında gösterilmez. Tüm tepkilerin gizlendiği yerlerde tepki paneli ve çift dokunma tepkisi de kapalıdır. Gizli tepkiler bölümüne gizlenecek emojileri yazın. Kendi tepkileriniz ve Kayıtlı Mesajlar etiketleri kalır. Yalnızca sizin gördüğünüz değişir.</string>
+    <string name="MZGramShadowBan">Gölge yasak</string>
+    <string name="MZGramShadowBanEnable">Seçilen kişilerin mesajlarını gizle</string>
+    <string name="MZGramShadowBanList">Gizlenen kişiler</string>
+    <string name="MZGramHideBlockedInGroups">Gruplarda engellenen kullanıcıların mesajlarını gizle</string>
+    <string name="MZGramShadowBanInfo">Gruplarda bu kişilerin mesajları ve onlara verilen yanıtlar gösterilmez ve bildirim göndermez. Kişileri profil menüsünden veya mesaj menüsünden ekleyin. Onlara bildirilmez, diğer herkes mesajlarını her zamanki gibi görür.</string>
+    <string name="MZGramShadowBanAdd">Gruplarda mesajları gizle</string>
+    <string name="MZGramShadowBanRemove">Mesajları yeniden göster</string>
+    <string name="MZGramShadowBanAdded">Bu göndericinin mesajları gruplarda gizlendi</string>
+    <string name="MZGramShadowBanRemoved">Bu kullanıcının mesajları yeniden gösteriliyor</string>
+    <string name="MZGramShadowBanEmpty">Henüz kimse yok. Kişileri profil menüsünden veya bir gruptaki mesaj menüsünden ekleyin.</string>
+    <string name="MZGramShadowBanListInfo">Mesajlarını yeniden göstermek için bir kişiye dokunun.</string>
+    <string name="MZGramShadowBanRemoveConfirm">Bu kişinin mesajları gruplarda yeniden gösterilsin mi?</string>
+    <string name="MZGramShadowBanOpenProfile">Profili aç</string>
 </resources>

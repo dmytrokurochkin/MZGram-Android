@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">Ukrywaj reakcje na kanałach</string>
     <string name="MZGramHiddenReactions">Ukryte reakcje</string>
     <string name="MZGramReactionFilterInfo">Ukryte reakcje nie są pokazywane pod wiadomościami. Tam, gdzie ukryto wszystkie reakcje, wyłączone są też panel reakcji i reakcja podwójnym dotknięciem. W „Ukryte reakcje” wpisz emoji do ukrycia. Twoje własne reakcje i tagi w Zapisanych zostają. Zmienia się tylko to, co widzisz ty.</string>
+    <string name="MZGramShadowBan">Cichy ban</string>
+    <string name="MZGramShadowBanEnable">Ukrywaj wiadomości wybranych osób</string>
+    <string name="MZGramShadowBanList">Ukryte osoby</string>
+    <string name="MZGramHideBlockedInGroups">Ukrywaj wiadomości zablokowanych w grupach</string>
+    <string name="MZGramShadowBanInfo">W grupach wiadomości tych osób i odpowiedzi na nie nie są pokazywane i nie powiadamiają. Dodawaj osoby z menu profilu lub menu wiadomości. Nie są o tym informowane, a wszyscy inni widzą ich wiadomości jak zwykle.</string>
+    <string name="MZGramShadowBanAdd">Ukrywaj wiadomości w grupach</string>
+    <string name="MZGramShadowBanRemove">Znów pokazuj wiadomości</string>
+    <string name="MZGramShadowBanAdded">Wiadomości tego nadawcy są ukryte w grupach</string>
+    <string name="MZGramShadowBanRemoved">Wiadomości tego użytkownika są znów pokazywane</string>
+    <string name="MZGramShadowBanEmpty">Na razie nikogo tu nie ma. Dodawaj osoby z menu profilu lub menu wiadomości w grupie.</string>
+    <string name="MZGramShadowBanListInfo">Dotknij osoby, aby znów pokazywać jej wiadomości.</string>
+    <string name="MZGramShadowBanRemoveConfirm">Znów pokazywać wiadomości tej osoby w grupach?</string>
+    <string name="MZGramShadowBanOpenProfile">Otwórz profil</string>
 </resources>

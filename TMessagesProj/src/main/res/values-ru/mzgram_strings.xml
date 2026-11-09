@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">Скрывать реакции в каналах</string>
     <string name="MZGramHiddenReactions">Скрытые реакции</string>
     <string name="MZGramReactionFilterInfo">Скрытые реакции не показываются под сообщениями. Где скрыты все реакции, отключены также панель реакций и реакция двойным касанием. В «Скрытые реакции» введите emoji, которые нужно скрывать. Ваши собственные реакции и теги в Избранном остаются. Меняется только то, что видите вы.</string>
+    <string name="MZGramShadowBan">Теневой бан</string>
+    <string name="MZGramShadowBanEnable">Скрывать сообщения выбранных людей</string>
+    <string name="MZGramShadowBanList">Скрытые люди</string>
+    <string name="MZGramHideBlockedInGroups">Скрывать сообщения заблокированных в группах</string>
+    <string name="MZGramShadowBanInfo">В группах сообщения этих людей и ответы на них не показываются и не уведомляют. Добавляйте людей через меню профиля или меню сообщения. Им об этом не сообщается, а все остальные видят их сообщения как обычно.</string>
+    <string name="MZGramShadowBanAdd">Скрывать сообщения в группах</string>
+    <string name="MZGramShadowBanRemove">Снова показывать сообщения</string>
+    <string name="MZGramShadowBanAdded">Сообщения этого отправителя скрыты в группах</string>
+    <string name="MZGramShadowBanRemoved">Сообщения этого пользователя снова показываются</string>
+    <string name="MZGramShadowBanEmpty">Здесь пока никого нет. Добавляйте людей через меню профиля или меню сообщения в группе.</string>
+    <string name="MZGramShadowBanListInfo">Коснитесь человека, чтобы снова показывать его сообщения.</string>
+    <string name="MZGramShadowBanRemoveConfirm">Снова показывать сообщения этого человека в группах?</string>
+    <string name="MZGramShadowBanOpenProfile">Открыть профиль</string>
 </resources>

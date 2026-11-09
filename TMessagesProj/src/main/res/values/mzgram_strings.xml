@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">Hide reactions in channels</string>
     <string name="MZGramHiddenReactions">Hidden reactions</string>
     <string name="MZGramReactionFilterInfo">Hidden reactions are not shown under messages. Where all reactions are hidden, the reaction panel and the double tap reaction are off too. In Hidden reactions, type the emoji to hide. Your own reactions and tags in Saved Messages stay. Only what you see changes.</string>
+    <string name="MZGramShadowBan">Shadow ban</string>
+    <string name="MZGramShadowBanEnable">Hide messages of chosen people</string>
+    <string name="MZGramShadowBanList">Hidden people</string>
+    <string name="MZGramHideBlockedInGroups">Hide messages of blocked users in groups</string>
+    <string name="MZGramShadowBanInfo">In groups, messages of these people and replies to them are not shown and do not notify. Add people from the profile menu or the message menu. They are not told about it, and everyone else sees their messages as usual.</string>
+    <string name="MZGramShadowBanAdd">Hide messages in groups</string>
+    <string name="MZGramShadowBanRemove">Show messages again</string>
+    <string name="MZGramShadowBanAdded">Messages of this sender are hidden in groups</string>
+    <string name="MZGramShadowBanRemoved">Messages of this user are shown again</string>
+    <string name="MZGramShadowBanEmpty">No one here yet. Add people from the profile menu or from the message menu in a group.</string>
+    <string name="MZGramShadowBanListInfo">Tap a person to show their messages again.</string>
+    <string name="MZGramShadowBanRemoveConfirm">Show messages of this person in groups again?</string>
+    <string name="MZGramShadowBanOpenProfile">Open profile</string>
 </resources>

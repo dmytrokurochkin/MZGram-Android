@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">إخفاء التفاعلات في القنوات</string>
     <string name="MZGramHiddenReactions">التفاعلات المخفية</string>
     <string name="MZGramReactionFilterInfo">لا تظهر التفاعلات المخفية تحت الرسائل. وحيث تكون كل التفاعلات مخفية، تتوقف أيضًا لوحة التفاعلات والتفاعل بالنقر المزدوج. في «التفاعلات المخفية» اكتب الرموز التعبيرية التي تريد إخفاءها. تبقى تفاعلاتك أنت ووسوم الرسائل المحفوظة. يتغير ما تراه أنت فقط.</string>
+    <string name="MZGramShadowBan">الحظر الخفي</string>
+    <string name="MZGramShadowBanEnable">إخفاء رسائل أشخاص مختارين</string>
+    <string name="MZGramShadowBanList">الأشخاص المخفيون</string>
+    <string name="MZGramHideBlockedInGroups">إخفاء رسائل المستخدمين المحظورين في المجموعات</string>
+    <string name="MZGramShadowBanInfo">في المجموعات لا تظهر رسائل هؤلاء الأشخاص والردود عليها ولا تصل عنها إشعارات. أضف الأشخاص من قائمة الملف الشخصي أو قائمة الرسالة. لا يُبلَّغون بذلك، ويرى الآخرون رسائلهم كالمعتاد.</string>
+    <string name="MZGramShadowBanAdd">إخفاء الرسائل في المجموعات</string>
+    <string name="MZGramShadowBanRemove">إظهار الرسائل مجددًا</string>
+    <string name="MZGramShadowBanAdded">رسائل هذا المرسل مخفية في المجموعات</string>
+    <string name="MZGramShadowBanRemoved">تظهر رسائل هذا المستخدم مجددًا</string>
+    <string name="MZGramShadowBanEmpty">لا أحد هنا بعد. أضف الأشخاص من قائمة الملف الشخصي أو من قائمة الرسالة في مجموعة.</string>
+    <string name="MZGramShadowBanListInfo">اضغط على شخص لإظهار رسائله مجددًا.</string>
+    <string name="MZGramShadowBanRemoveConfirm">هل تريد إظهار رسائل هذا الشخص في المجموعات مجددًا؟</string>
+    <string name="MZGramShadowBanOpenProfile">فتح الملف الشخصي</string>
 </resources>

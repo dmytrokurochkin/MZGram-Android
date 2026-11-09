@@ -606,6 +606,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private final static int enable_no_forwards = 46;
     private final static int disable_no_forwards = 47;
     private final static int send_money = 48;
+    private final static int mzgram_shadow_ban = 1014; // MZGram: shadow ban
 
     private Rect rect = new Rect();
 
@@ -2570,6 +2571,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     finishFragment();
+                } else if (id == mzgram_shadow_ban) {
+                    // MZGram: shadow ban on or off for this user
+                    boolean mzgramBan = !org.telegram.messenger.mzgram.MZGramShadowBan.contains(userId);
+                    org.telegram.messenger.mzgram.MZGramShadowBan.set(userId, mzgramBan);
+                    createActionBarMenu(true);
+                    BulletinFactory.of(ProfileActivity.this).createSimpleBulletin(mzgramBan ? R.raw.ic_ban : R.raw.ic_unban, getString(mzgramBan ? R.string.MZGramShadowBanAdded : R.string.MZGramShadowBanRemoved)).show();
                 } else if (id == block_contact) {
                     onBlockContactClicked(false);
                 } else if (id == add_contact) {
@@ -12267,6 +12274,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     otherItem.addSubItem(block_contact, !userBlocked ? R.drawable.msg_block : R.drawable.msg_block, !userBlocked ? LocaleController.getString(R.string.BlockContact) : LocaleController.getString(R.string.Unblock));
                     otherItem.addSubItem(edit_contact, R.drawable.msg_edit, LocaleController.getString(R.string.EditContact));
                     otherItem.addSubItem(delete_contact, R.drawable.msg_delete, LocaleController.getString(R.string.DeleteContact));
+                }
+                // MZGram: hide this user's messages in groups (Settings > MZGram > Ads and filters > Shadow ban)
+                if (org.telegram.messenger.mzgram.MZGramConfig.shadowBan && !UserObject.isDeleted(user)) {
+                    boolean mzgramBanned = org.telegram.messenger.mzgram.MZGramShadowBan.contains(userId);
+                    otherItem.addSubItem(mzgram_shadow_ban, mzgramBanned ? R.drawable.msg_views : R.drawable.msg_block2, getString(mzgramBanned ? R.string.MZGramShadowBanRemove : R.string.MZGramShadowBanAdd));
                 }
                 if (!UserObject.isDeleted(user) && !isBot && currentEncryptedChat == null && !userBlocked && userId != 333000 && userId != 777000 && userId != 42777) {
                     if (!BuildVars.IS_BILLING_UNAVAILABLE && !user.self && !user.bot && !MessagesController.isSupportUser(user) && !getMessagesController().premiumPurchaseBlocked()) {

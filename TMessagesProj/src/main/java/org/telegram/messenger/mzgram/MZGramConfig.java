@@ -229,6 +229,11 @@ public class MZGramConfig {
     public static boolean hideReactionsChannels = false;
     public static String hiddenReactions = "";
 
+    // Shadow ban: hide messages of the listed peers (comma-separated ids) and, separately, of blocked users in groups
+    public static boolean shadowBan = false;
+    public static boolean hideBlockedInGroups = false;
+    public static String shadowBanList = "";
+
     // plainCodeBlocks
     public static boolean plainCodeBlocks = false;
 
@@ -417,6 +422,9 @@ public class MZGramConfig {
             hideReactionsGroups = preferences.getBoolean("hideReactionsGroups", false);
             hideReactionsChannels = preferences.getBoolean("hideReactionsChannels", false);
             hiddenReactions = preferences.getString("hiddenReactions", "");
+            shadowBan = preferences.getBoolean("shadowBan", false);
+            hideBlockedInGroups = preferences.getBoolean("hideBlockedInGroups", false);
+            shadowBanList = preferences.getString("shadowBanList", "");
             plainCodeBlocks = preferences.getBoolean("plainCodeBlocks", false);
             hexColorSwatch = preferences.getBoolean("hexColorSwatch", false);
             scheduleSlider = preferences.getBoolean("scheduleSlider", false);
@@ -914,6 +922,21 @@ public class MZGramConfig {
     public static void toggleHideReactionsChannels() {
         hideReactionsChannels = !hideReactionsChannels;
         putBoolean("hideReactionsChannels", hideReactionsChannels);
+    }
+
+    public static void toggleShadowBan() {
+        shadowBan = !shadowBan;
+        putBoolean("shadowBan", shadowBan);
+    }
+
+    public static void toggleHideBlockedInGroups() {
+        hideBlockedInGroups = !hideBlockedInGroups;
+        putBoolean("hideBlockedInGroups", hideBlockedInGroups);
+    }
+
+    public static void setShadowBanList(String list) {
+        shadowBanList = list == null ? "" : list;
+        preferences().edit().putString("shadowBanList", shadowBanList).apply();
     }
 
     public static void setHiddenReactions(String list) {

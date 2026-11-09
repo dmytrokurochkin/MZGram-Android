@@ -172,6 +172,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_REACTIONS_GROUPS = 133;
     private static final int BUTTON_HIDE_REACTIONS_CHANNELS = 134;
     private static final int BUTTON_HIDDEN_REACTIONS = 135;
+    private static final int BUTTON_SHADOW_BAN = 136;
+    private static final int BUTTON_HIDE_BLOCKED_IN_GROUPS = 137;
+    private static final int BUTTON_SHADOW_BAN_LIST = 138;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -768,6 +771,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_CHANNELS, getString(R.string.MZGramHideReactionsChannels)).setChecked(MZGramConfig.hideReactionsChannels));
         items.add(UItem.asButton(BUTTON_HIDDEN_REACTIONS, getString(R.string.MZGramHiddenReactions), android.text.TextUtils.isEmpty(MZGramConfig.hiddenReactions) ? getString(R.string.ReactionsOff) : MZGramConfig.hiddenReactions));
         items.add(UItem.asShadow(getString(R.string.MZGramReactionFilterInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramShadowBan)));
+        items.add(UItem.asCheck(BUTTON_SHADOW_BAN, getString(R.string.MZGramShadowBanEnable)).setChecked(MZGramConfig.shadowBan));
+        if (MZGramConfig.shadowBan) {
+            items.add(UItem.asButton(BUTTON_SHADOW_BAN_LIST, getString(R.string.MZGramShadowBanList), String.valueOf(org.telegram.messenger.mzgram.MZGramShadowBan.count())));
+        }
+        items.add(UItem.asCheck(BUTTON_HIDE_BLOCKED_IN_GROUPS, getString(R.string.MZGramHideBlockedInGroups)).setChecked(MZGramConfig.hideBlockedInGroups));
+        items.add(UItem.asShadow(getString(R.string.MZGramShadowBanInfo)));
     }
 
     private void fillAi(ArrayList<UItem> items) {
@@ -1205,6 +1215,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_REACTIONS_CHANNELS) {
             MZGramConfig.toggleHideReactionsChannels();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideReactionsChannels);
+        } else if (item.id == BUTTON_SHADOW_BAN) {
+            MZGramConfig.toggleShadowBan();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_HIDE_BLOCKED_IN_GROUPS) {
+            MZGramConfig.toggleHideBlockedInGroups();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideBlockedInGroups);
+        } else if (item.id == BUTTON_SHADOW_BAN_LIST) {
+            presentFragment(new MZGramShadowBanActivity());
         } else if (item.id == BUTTON_HIDDEN_REACTIONS) {
             editMark(getString(R.string.MZGramHiddenReactions), MZGramConfig.hiddenReactions, org.telegram.messenger.mzgram.MZGramReactionFilter::setHiddenList);
         } else if (item.id == BUTTON_STRIP_ZALGO_TEXT) {

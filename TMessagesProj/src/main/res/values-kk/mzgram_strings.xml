@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">Арналарда реакцияларды жасыру</string>
     <string name="MZGramHiddenReactions">Жасырын реакциялар</string>
     <string name="MZGramReactionFilterInfo">Жасырын реакциялар хабарламалардың астында көрсетілмейді. Барлық реакциялар жасырылған жерде реакция панелі мен екі рет түрту реакциясы да өшіріледі. «Жасырын реакциялар» бөлімінде жасыратын emoji-ді енгізіңіз. Өз реакцияларыңыз бен Сақталғандардағы тегтер қалады. Тек сіз көретін нәрсе ғана өзгереді.</string>
+    <string name="MZGramShadowBan">Көлеңкелі бан</string>
+    <string name="MZGramShadowBanEnable">Таңдалған адамдардың хабарламаларын жасыру</string>
+    <string name="MZGramShadowBanList">Жасырылған адамдар</string>
+    <string name="MZGramHideBlockedInGroups">Топтарда бұғатталғандардың хабарламаларын жасыру</string>
+    <string name="MZGramShadowBanInfo">Топтарда бұл адамдардың хабарламалары мен оларға жауаптар көрсетілмейді және хабарландырмайды. Адамдарды профиль мәзірі немесе хабарлама мәзірі арқылы қосыңыз. Оларға бұл туралы хабарланбайды, ал басқалардың бәрі олардың хабарламаларын әдеттегідей көреді.</string>
+    <string name="MZGramShadowBanAdd">Топтарда хабарламаларды жасыру</string>
+    <string name="MZGramShadowBanRemove">Хабарламаларды қайта көрсету</string>
+    <string name="MZGramShadowBanAdded">Бұл жіберушінің хабарламалары топтарда жасырылды</string>
+    <string name="MZGramShadowBanRemoved">Бұл пайдаланушының хабарламалары қайта көрсетіледі</string>
+    <string name="MZGramShadowBanEmpty">Мұнда әзірге ешкім жоқ. Адамдарды профиль мәзірі немесе топтағы хабарлама мәзірі арқылы қосыңыз.</string>
+    <string name="MZGramShadowBanListInfo">Адамның хабарламаларын қайта көрсету үшін оны түртіңіз.</string>
+    <string name="MZGramShadowBanRemoveConfirm">Бұл адамның хабарламалары топтарда қайта көрсетілсін бе?</string>
+    <string name="MZGramShadowBanOpenProfile">Профильді ашу</string>
 </resources>

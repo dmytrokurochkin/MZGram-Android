@@ -1134,6 +1134,10 @@ public class NotificationsController extends BaseController implements Notificat
                     }
                     continue;
                 }
+                // MZGram: no notification for messages hidden by the shadow ban
+                if (org.telegram.messenger.mzgram.MZGramShadowBan.isHidden(messageObject)) {
+                    continue;
+                }
                 if (messageObject.isStoryPush) {
                     long date = messageObject.messageOwner == null ? System.currentTimeMillis() : messageObject.messageOwner.date * 1000L;
                     long dialogId = messageObject.getDialogId();
@@ -1601,6 +1605,10 @@ public class NotificationsController extends BaseController implements Notificat
                         continue;
                     }
                     MessageObject messageObject = new MessageObject(currentAccount, message, false, false);
+                    // MZGram: no notification for messages hidden by the shadow ban
+                    if (org.telegram.messenger.mzgram.MZGramShadowBan.isHidden(messageObject)) {
+                        continue;
+                    }
                     if (isPersonalMessage(messageObject)) {
                         personalCount++;
                     }
@@ -1673,6 +1681,10 @@ public class NotificationsController extends BaseController implements Notificat
                     MessageObject messageObject = push.get(a);
                     int mid = messageObject.getId();
                     if (pushMessagesDict.indexOfKey(mid) >= 0) {
+                        continue;
+                    }
+                    // MZGram: no notification for messages hidden by the shadow ban
+                    if (org.telegram.messenger.mzgram.MZGramShadowBan.isHidden(messageObject)) {
                         continue;
                     }
                     if (isPersonalMessage(messageObject)) {

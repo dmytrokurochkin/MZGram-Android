@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">Reaktionen in Kanälen ausblenden</string>
     <string name="MZGramHiddenReactions">Ausgeblendete Reaktionen</string>
     <string name="MZGramReactionFilterInfo">Ausgeblendete Reaktionen werden unter Nachrichten nicht angezeigt. Wo alle Reaktionen ausgeblendet sind, sind auch die Reaktionsleiste und die Reaktion per Doppeltippen aus. Gib unter „Ausgeblendete Reaktionen“ die Emojis ein, die ausgeblendet werden sollen. Deine eigenen Reaktionen und Tags in „Gespeichert“ bleiben. Nur deine Ansicht ändert sich.</string>
+    <string name="MZGramShadowBan">Schattenbann</string>
+    <string name="MZGramShadowBanEnable">Nachrichten ausgewählter Personen ausblenden</string>
+    <string name="MZGramShadowBanList">Ausgeblendete Personen</string>
+    <string name="MZGramHideBlockedInGroups">Nachrichten blockierter Nutzer in Gruppen ausblenden</string>
+    <string name="MZGramShadowBanInfo">In Gruppen werden Nachrichten dieser Personen und Antworten darauf nicht angezeigt und lösen keine Benachrichtigung aus. Füge Personen über das Profilmenü oder das Nachrichtenmenü hinzu. Sie erfahren davon nichts, und alle anderen sehen ihre Nachrichten wie gewohnt.</string>
+    <string name="MZGramShadowBanAdd">Nachrichten in Gruppen ausblenden</string>
+    <string name="MZGramShadowBanRemove">Nachrichten wieder anzeigen</string>
+    <string name="MZGramShadowBanAdded">Nachrichten dieses Absenders sind in Gruppen ausgeblendet</string>
+    <string name="MZGramShadowBanRemoved">Nachrichten dieses Nutzers werden wieder angezeigt</string>
+    <string name="MZGramShadowBanEmpty">Noch niemand hier. Füge Personen über das Profilmenü oder das Nachrichtenmenü in einer Gruppe hinzu.</string>
+    <string name="MZGramShadowBanListInfo">Tippe auf eine Person, um ihre Nachrichten wieder anzuzeigen.</string>
+    <string name="MZGramShadowBanRemoveConfirm">Nachrichten dieser Person in Gruppen wieder anzeigen?</string>
+    <string name="MZGramShadowBanOpenProfile">Profil öffnen</string>
 </resources>

@@ -1287,6 +1287,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_HISTORY = 1010;
     public final static int OPTION_MZGRAM_ASK_AI = 1011;
     public final static int OPTION_MZGRAM_COPY_PLAIN = 1012;
+    public final static int OPTION_MZGRAM_SHADOW_BAN = 1013;
 
     // MZGram: set by Forward without sender so the next forward panel starts
     // with sender names hidden; passed on when the target is another chat.
@@ -34185,6 +34186,17 @@ public class ChatActivity extends BaseFragment implements
                 });
                 break;
             }
+            case OPTION_MZGRAM_SHADOW_BAN: {
+                // MZGram: shadow ban of the sender; the chat hides the messages at once
+                if (selectedObject != null) {
+                    org.telegram.messenger.mzgram.MZGramShadowBan.set(selectedObject.getFromChatId(), true);
+                    if (chatAdapter != null) {
+                        chatAdapter.notifyDataSetChanged(false);
+                    }
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_ban, LocaleController.getString(R.string.MZGramShadowBanAdded)).show();
+                }
+                break;
+            }
             case OPTION_MZGRAM_COPY_PLAIN: {
                 // MZGram: the text or caption without formatting, links and emoji spans.
                 CharSequence plainText = getMessageCaption(selectedObject, selectedObjectGroup);
@@ -38111,6 +38123,9 @@ public class ChatActivity extends BaseFragment implements
                 ChatMessageUnsupportedCell cell = new ChatMessageUnsupportedCell(mContext, themeDelegate);
                 cell.setDelegate(getChatMessageCellDelegate());
                 view = cell;
+            } else if (viewType == org.telegram.messenger.mzgram.MZGramShadowBan.VIEW_TYPE) {
+                // MZGram: empty row of zero height for a message hidden by the shadow ban
+                view = new View(mContext);
             }
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
@@ -38742,7 +38757,12 @@ public class ChatActivity extends BaseFragment implements
                 } else {
                     messages = ChatActivity.this.messages;
                 }
-                return messages.get(position - messagesStartRow).contentType;
+                MessageObject mzgramMessage = messages.get(position - messagesStartRow);
+                // MZGram: a message hidden by the shadow ban gets an empty row
+                if (org.telegram.messenger.mzgram.MZGramShadowBan.isHidden(mzgramMessage)) {
+                    return org.telegram.messenger.mzgram.MZGramShadowBan.VIEW_TYPE;
+                }
+                return mzgramMessage.contentType;
             } else if (position == botInfoRow) {
                 return 3;
             } else if (position == userInfoRow) {
@@ -47036,6 +47056,12 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.MZGramMessageHistory));
                     options.add(OPTION_MZGRAM_HISTORY);
                     icons.add(R.drawable.msg_edit);
+                }
+                // MZGram: hide the sender's messages in groups (Settings > MZGram > Ads and filters > Shadow ban)
+                if (chatMode != MODE_SCHEDULED && org.telegram.messenger.mzgram.MZGramShadowBan.canBan(selectedObject)) {
+                    items.add(LocaleController.getString(R.string.MZGramShadowBanAdd));
+                    options.add(OPTION_MZGRAM_SHADOW_BAN);
+                    icons.add(R.drawable.msg_block2);
                 }
                 if (allowUnpin) {
                     items.add(LocaleController.getString(R.string.UnpinMessage));

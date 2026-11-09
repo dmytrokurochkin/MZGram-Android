@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">Masquer les réactions dans les chaînes</string>
     <string name="MZGramHiddenReactions">Réactions masquées</string>
     <string name="MZGramReactionFilterInfo">Les réactions masquées ne s\'affichent pas sous les messages. Là où toutes les réactions sont masquées, le panneau de réactions et la réaction par double appui sont aussi désactivés. Dans Réactions masquées, saisissez les emoji à masquer. Vos propres réactions et les étiquettes des Messages enregistrés restent. Seul ce que vous voyez change.</string>
+    <string name="MZGramShadowBan">Bannissement fantôme</string>
+    <string name="MZGramShadowBanEnable">Masquer les messages de personnes choisies</string>
+    <string name="MZGramShadowBanList">Personnes masquées</string>
+    <string name="MZGramHideBlockedInGroups">Masquer les messages des utilisateurs bloqués dans les groupes</string>
+    <string name="MZGramShadowBanInfo">Dans les groupes, les messages de ces personnes et les réponses à ceux-ci ne s\'affichent pas et ne notifient pas. Ajoutez des personnes depuis le menu du profil ou le menu du message. Elles n\'en sont pas informées, et tous les autres voient leurs messages comme d\'habitude.</string>
+    <string name="MZGramShadowBanAdd">Masquer les messages dans les groupes</string>
+    <string name="MZGramShadowBanRemove">Afficher à nouveau les messages</string>
+    <string name="MZGramShadowBanAdded">Les messages de cet expéditeur sont masqués dans les groupes</string>
+    <string name="MZGramShadowBanRemoved">Les messages de cet utilisateur s\'affichent à nouveau</string>
+    <string name="MZGramShadowBanEmpty">Personne pour l\'instant. Ajoutez des personnes depuis le menu du profil ou le menu du message dans un groupe.</string>
+    <string name="MZGramShadowBanListInfo">Touchez une personne pour afficher à nouveau ses messages.</string>
+    <string name="MZGramShadowBanRemoveConfirm">Afficher à nouveau les messages de cette personne dans les groupes ?</string>
+    <string name="MZGramShadowBanOpenProfile">Ouvrir le profil</string>
 </resources>

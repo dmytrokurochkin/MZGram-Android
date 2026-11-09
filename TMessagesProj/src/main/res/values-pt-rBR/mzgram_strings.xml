@@ -590,4 +590,17 @@
     <string name="MZGramHideReactionsChannels">Ocultar reações em canais</string>
     <string name="MZGramHiddenReactions">Reações ocultas</string>
     <string name="MZGramReactionFilterInfo">As reações ocultas não aparecem sob as mensagens. Onde todas as reações estão ocultas, o painel de reações e a reação com toque duplo também ficam desativados. Em Reações ocultas, digite os emojis que deseja ocultar. Suas próprias reações e as etiquetas das Mensagens Salvas permanecem. Só muda o que você vê.</string>
+    <string name="MZGramShadowBan">Banimento invisível</string>
+    <string name="MZGramShadowBanEnable">Ocultar mensagens de pessoas escolhidas</string>
+    <string name="MZGramShadowBanList">Pessoas ocultas</string>
+    <string name="MZGramHideBlockedInGroups">Ocultar mensagens de usuários bloqueados em grupos</string>
+    <string name="MZGramShadowBanInfo">Nos grupos, as mensagens dessas pessoas e as respostas a elas não aparecem nem notificam. Adicione pessoas pelo menu do perfil ou da mensagem. Elas não são avisadas, e todos os outros veem as mensagens delas normalmente.</string>
+    <string name="MZGramShadowBanAdd">Ocultar mensagens em grupos</string>
+    <string name="MZGramShadowBanRemove">Mostrar mensagens novamente</string>
+    <string name="MZGramShadowBanAdded">As mensagens deste remetente estão ocultas nos grupos</string>
+    <string name="MZGramShadowBanRemoved">As mensagens deste usuário voltaram a aparecer</string>
+    <string name="MZGramShadowBanEmpty">Ninguém aqui ainda. Adicione pessoas pelo menu do perfil ou da mensagem em um grupo.</string>
+    <string name="MZGramShadowBanListInfo">Toque em uma pessoa para mostrar as mensagens dela novamente.</string>
+    <string name="MZGramShadowBanRemoveConfirm">Mostrar novamente as mensagens desta pessoa nos grupos?</string>
+    <string name="MZGramShadowBanOpenProfile">Abrir perfil</string>
 </resources>

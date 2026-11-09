@@ -662,4 +662,6 @@
     <string name="MZGramVoiceQualityHigh">Alta (64 kbit/s)</string>
     <string name="MZGramVoiceQualityHighest">Máxima (128 kbit/s)</string>
     <string name="MZGramVoiceQualityInfo">Tasa de bits de los mensajes de voz que grabas. Una más alta suena más clara y el archivo es dos o cuatro veces más grande. Todos pueden escucharlos como siempre.</string>
+    <string name="MZGramLosslessPhotoCrop">Recortar fotos a resolución completa</string>
+    <string name="MZGramLosslessPhotoCropInfo">Cuando recortas una foto antes de enviarla, el recorte se saca de la foto original y no de una copia ya reducida al tamaño de envío, así que incluso un recorte pequeño sigue nítido. Usa más memoria al guardar.</string>
 </resources>

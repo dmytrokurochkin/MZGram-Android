@@ -662,4 +662,6 @@
     <string name="MZGramVoiceQualityHigh">Hoch (64 kbit/s)</string>
     <string name="MZGramVoiceQualityHighest">Am höchsten (128 kbit/s)</string>
     <string name="MZGramVoiceQualityInfo">Bitrate der Sprachnachrichten, die du aufnimmst. Eine höhere klingt klarer, die Datei ist dafür zwei- oder viermal so groß. Alle können sie wie gewohnt abspielen.</string>
+    <string name="MZGramLosslessPhotoCrop">Fotos in voller Auflösung zuschneiden</string>
+    <string name="MZGramLosslessPhotoCropInfo">Wenn du ein Foto vor dem Senden zuschneidest, wird der Ausschnitt aus dem Originalfoto geschnitten, nicht aus einer schon auf die Sendegröße verkleinerten Kopie, sodass auch ein kleiner Ausschnitt scharf bleibt. Braucht beim Speichern mehr Arbeitsspeicher.</string>
 </resources>

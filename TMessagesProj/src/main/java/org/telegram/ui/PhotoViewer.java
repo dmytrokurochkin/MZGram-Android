@@ -11532,7 +11532,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                 } else {
                     if (!isCurrentVideo || entry.isLivePhoto()) {
-                        TLRPC.PhotoSize size = ImageLoader.scaleAndSaveImage(croppedBitmap, getCompressFormat(), AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101);
+                        // MZGram: crop out of the photo at full resolution (MZGramPhotoCrop); null keeps Telegram's crop
+                        final Bitmap mzgramCrop = isCurrentVideo ? null : org.telegram.ui.mzgram.MZGramPhotoCrop.render(entry, AndroidUtilities.getPhotoSize(), orientation);
+                        TLRPC.PhotoSize size = ImageLoader.scaleAndSaveImage(mzgramCrop != null ? mzgramCrop : croppedBitmap, getCompressFormat(), AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101);
+                        if (mzgramCrop != null) {
+                            mzgramCrop.recycle();
+                        }
                         entry.imagePath = currentImagePath = FileLoader.getInstance(currentAccount).getPathToAttach(size, true).toString();
                     }
                     TLRPC.PhotoSize size = ImageLoader.scaleAndSaveImage(croppedBitmap, thumbSize, thumbSize, 70, false, 101, 101);

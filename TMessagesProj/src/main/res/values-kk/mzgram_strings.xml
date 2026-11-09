@@ -662,4 +662,6 @@
     <string name="MZGramVoiceQualityHigh">Жоғары (64 кбит/с)</string>
     <string name="MZGramVoiceQualityHighest">Ең жоғары (128 кбит/с)</string>
     <string name="MZGramVoiceQualityInfo">Сіз жазатын дауыстық хабарлардың битрейті. Жоғарысы анығырақ естіледі, ал файл екі не төрт есе үлкен болады. Барлығы оларды әдеттегідей тыңдайды.</string>
+    <string name="MZGramLosslessPhotoCrop">Фотоны толық ажыратымдылықта қию</string>
+    <string name="MZGramLosslessPhotoCropInfo">Фотоны жібермес бұрын қиғанда, қиынды жіберу өлшеміне дейін кішірейтілген көшірмеден емес, түпнұсқа фотодан кесіледі, сондықтан кішкене қиынды да анық қалады. Сақтау кезінде көбірек жад пайдаланады.</string>
 </resources>

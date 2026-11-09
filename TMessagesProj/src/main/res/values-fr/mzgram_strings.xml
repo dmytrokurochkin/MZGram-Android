@@ -662,4 +662,6 @@
     <string name="MZGramVoiceQualityHigh">Haute (64 kbit/s)</string>
     <string name="MZGramVoiceQualityHighest">Maximale (128 kbit/s)</string>
     <string name="MZGramVoiceQualityInfo">Débit des messages vocaux que vous enregistrez. Un débit plus élevé sonne plus clair, et le fichier est deux ou quatre fois plus gros. Tout le monde peut les écouter comme d\'habitude.</string>
+    <string name="MZGramLosslessPhotoCrop">Recadrer les photos en pleine résolution</string>
+    <string name="MZGramLosslessPhotoCropInfo">Quand vous recadrez une photo avant de l\'envoyer, le recadrage est découpé dans la photo d\'origine et non dans une copie déjà réduite à la taille d\'envoi : même un petit recadrage reste net. Utilise plus de mémoire pendant l\'enregistrement.</string>
 </resources>

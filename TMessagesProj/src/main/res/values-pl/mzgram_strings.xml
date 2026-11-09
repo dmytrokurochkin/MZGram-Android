@@ -662,4 +662,6 @@
     <string name="MZGramVoiceQualityHigh">Wysoka (64 kbit/s)</string>
     <string name="MZGramVoiceQualityHighest">Najwyższa (128 kbit/s)</string>
     <string name="MZGramVoiceQualityInfo">Przepływność nagrywanych wiadomości głosowych. Wyższa brzmi czyściej, a plik jest dwa lub cztery razy większy. Wszyscy odsłuchują je jak zwykle.</string>
+    <string name="MZGramLosslessPhotoCrop">Przycinaj zdjęcia w pełnej rozdzielczości</string>
+    <string name="MZGramLosslessPhotoCropInfo">Gdy przycinasz zdjęcie przed wysłaniem, wycinek powstaje z oryginalnego zdjęcia, a nie z kopii już zmniejszonej do rozmiaru wysyłki, więc nawet mały wycinek zostaje ostry. Podczas zapisywania zużywa więcej pamięci.</string>
 </resources>

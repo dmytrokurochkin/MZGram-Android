@@ -662,4 +662,6 @@
     <string name="MZGramVoiceQualityHigh">عالية (64 كيلوبت/ث)</string>
     <string name="MZGramVoiceQualityHighest">الأعلى (128 كيلوبت/ث)</string>
     <string name="MZGramVoiceQualityInfo">معدل البت للرسائل الصوتية التي تسجلها. المعدل الأعلى أوضح صوتًا، والملف أكبر بمرتين أو أربع مرات. يستمع إليها الجميع كالمعتاد.</string>
+    <string name="MZGramLosslessPhotoCrop">قص الصور بالدقة الكاملة</string>
+    <string name="MZGramLosslessPhotoCropInfo">عندما تقص صورة قبل إرسالها، يُقتطع الجزء من الصورة الأصلية لا من نسخة صُغّرت مسبقًا إلى حجم الإرسال، فيبقى حتى القص الصغير واضحًا. يستخدم ذاكرة أكثر أثناء الحفظ.</string>
 </resources>

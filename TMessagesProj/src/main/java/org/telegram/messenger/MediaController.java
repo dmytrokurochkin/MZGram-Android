@@ -805,7 +805,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
             Bitmap b;
             if (cropState != null) {
-                b = PhotoViewer.createCroppedBitmap(bitmap, cropState, new int[] { orientation.first, orientation.second }, true);
+                // MZGram: crop out of the photo at full resolution (MZGramPhotoCrop); null keeps Telegram's crop
+                b = fullPaintPath != null ? null : org.telegram.ui.mzgram.MZGramPhotoCrop.render(this, AndroidUtilities.getPhotoSize(highQuality), new int[] { orientation.first, orientation.second });
+                if (b == null) {
+                    b = PhotoViewer.createCroppedBitmap(bitmap, cropState, new int[] { orientation.first, orientation.second }, true);
+                }
                 bitmap.recycle();
             } else {
                 if (orientation.first != 0) {

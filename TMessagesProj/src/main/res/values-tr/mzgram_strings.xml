@@ -662,4 +662,6 @@
     <string name="MZGramVoiceQualityHigh">Yüksek (64 kbit/sn)</string>
     <string name="MZGramVoiceQualityHighest">En yüksek (128 kbit/sn)</string>
     <string name="MZGramVoiceQualityInfo">Kaydettiğiniz sesli mesajların bit hızı. Daha yüksek olan daha net duyulur, dosya ise iki ya da dört kat büyür. Herkes onları her zamanki gibi dinleyebilir.</string>
+    <string name="MZGramLosslessPhotoCrop">Fotoğrafları tam çözünürlükte kırp</string>
+    <string name="MZGramLosslessPhotoCropInfo">Bir fotoğrafı göndermeden önce kırptığınızda kırpma, gönderim boyutuna zaten küçültülmüş bir kopyadan değil özgün fotoğraftan kesilir; böylece küçük bir kırpma da net kalır. Kaydederken daha fazla bellek kullanır.</string>
 </resources>

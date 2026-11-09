@@ -175,6 +175,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FOLDER_TAB_ICONS = 149;
     private static final int BUTTON_APP_FONT = 150;
     private static final int BUTTON_VOICE_QUALITY = 151;
+    private static final int BUTTON_LOSSLESS_PHOTO_CROP = 152;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -740,6 +741,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramHideCameraTileInfo)));
         items.add(UItem.asCheck(BUTTON_PREFER_ORIGINAL_QUALITY, getString(R.string.MZGramPreferOriginalQuality)).setChecked(MZGramConfig.preferOriginalQuality));
         items.add(UItem.asShadow(getString(R.string.MZGramPreferOriginalQualityInfo)));
+        items.add(UItem.asCheck(BUTTON_LOSSLESS_PHOTO_CROP, getString(R.string.MZGramLosslessPhotoCrop)).setChecked(MZGramConfig.losslessPhotoCrop));
+        items.add(UItem.asShadow(getString(R.string.MZGramLosslessPhotoCropInfo)));
         items.add(UItem.asCheck(BUTTON_AUTO_PAUSE_VIDEO, getString(R.string.MZGramAutoPauseVideo)).setChecked(MZGramConfig.autoPauseVideo));
         items.add(UItem.asShadow(getString(R.string.MZGramAutoPauseVideoInfo)));
         items.add(UItem.asCheck(BUTTON_CONFIRM_AV_MESSAGE, getString(R.string.MZGramConfirmAVMessage)).setChecked(MZGramConfig.confirmAVMessage));
@@ -1054,6 +1057,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     listView.adapter.update(true);
                 }
             });
+        } else if (item.id == BUTTON_LOSSLESS_PHOTO_CROP) {
+            MZGramConfig.toggleLosslessPhotoCrop();
+            ((TextCheckCell) view).setChecked(MZGramConfig.losslessPhotoCrop);
         } else if (item.id == BUTTON_VOICE_QUALITY) {
             if (getParentActivity() == null) {
                 return;

@@ -77,6 +77,8 @@ public class MZGramConfig {
     public static String appFontName = "";
     // Voice messages: 0 Telegram's bitrate, 1 64 kbit/s, 2 128 kbit/s (MZGramVoiceQuality)
     public static int voiceQuality = 0;
+    // Crop photos out of the source at full resolution (MZGramPhotoCrop)
+    public static boolean losslessPhotoCrop = false;
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
@@ -376,6 +378,7 @@ public class MZGramConfig {
             appFont = preferences.getInt("appFont", 0);
             appFontName = preferences.getString("appFontName", "");
             voiceQuality = preferences.getInt("voiceQuality", 0);
+            losslessPhotoCrop = preferences.getBoolean("losslessPhotoCrop", false);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
@@ -695,6 +698,11 @@ public class MZGramConfig {
         appFont = mode == 1 || mode == 2 ? mode : 0;
         appFontName = appFont == 2 && name != null ? name : "";
         preferences().edit().putInt("appFont", appFont).putString("appFontName", appFontName).apply();
+    }
+
+    public static void toggleLosslessPhotoCrop() {
+        losslessPhotoCrop = !losslessPhotoCrop;
+        putBoolean("losslessPhotoCrop", losslessPhotoCrop);
     }
 
     public static void setVoiceQuality(int mode) {

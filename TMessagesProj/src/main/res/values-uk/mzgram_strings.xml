@@ -663,4 +663,6 @@
     <string name="MZGramVoiceQualityHigh">Висока (64 кбіт/с)</string>
     <string name="MZGramVoiceQualityHighest">Найвища (128 кбіт/с)</string>
     <string name="MZGramVoiceQualityInfo">Бітрейт голосових повідомлень, які ви записуєте. Вищий звучить чистіше, а файл більший у два чи чотири рази. Усі слухають їх як завжди.</string>
+    <string name="MZGramLosslessPhotoCrop">Обрізати фото в повній роздільності</string>
+    <string name="MZGramLosslessPhotoCropInfo">Коли ви обрізаєте фото перед надсиланням, обрізка вирізається з оригінального фото, а не з копії, вже зменшеної до розміру надсилання, тож навіть мала обрізка лишається чіткою. Під час збереження використовує більше пам\'яті.</string>
 </resources>

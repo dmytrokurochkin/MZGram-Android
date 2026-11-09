@@ -838,4 +838,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Чат тұсқағазы</string>
     <string name="MZGramDrawerGlass">Шыны панель</string>
     <string name="MZGramDrawerLookInfo">Шыны панель арқылы чаттар тізімі бұлдыр көрінеді. Фото не тұсқағаз болмаса, тақырыпша тақырып түсінде қалады.</string>
+    <string name="MZGramExtendedPins">100 бекітілген чатқа дейін</string>
+    <string name="MZGramExtendedPinsInfo">Сервер шегінен тыс MZGram чаттарды осы құрылғыда бекітеді: чаттар тізімінде және мұрағатта 10 орнына 100-ге дейін. Сервер мен басқа құрылғыларыңыз тек сервер рұқсат еткен чаттарды алады. MZGram-да бекітілген чаттарды өзара сүйреуге болады. Өшірсеңіз, бекітілгендер қалады, жаңалары тек 10-ға дейін.</string>
 </resources>

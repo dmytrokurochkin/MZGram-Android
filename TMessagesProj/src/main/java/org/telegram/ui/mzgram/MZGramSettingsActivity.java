@@ -206,6 +206,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DRAWER_LARGE_AVATAR = 166;
     private static final int BUTTON_DRAWER_HEADER = 167;
     private static final int BUTTON_DRAWER_GLASS = 168;
+    private static final int BUTTON_EXTENDED_PINS = 169;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -804,6 +805,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else {
             items.add(UItem.asShadow(getString(R.string.MZGramDrawerInfo)));
         }
+        items.add(UItem.asCheck(BUTTON_EXTENDED_PINS, getString(R.string.MZGramExtendedPins)).setChecked(MZGramConfig.extendedPins));
+        items.add(UItem.asShadow(getString(R.string.MZGramExtendedPinsInfo)));
         items.add(UItem.asCheck(BUTTON_RECENT_CHATS_ON_BACK, getString(R.string.MZGramRecentChatsOnBack)).setChecked(MZGramConfig.recentChatsOnBack));
         items.add(UItem.asShadow(getString(R.string.MZGramRecentChatsOnBackInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
@@ -1343,6 +1346,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 MZGramRecentChats.clearAll();
             }
             ((TextCheckCell) view).setChecked(MZGramConfig.recentChatsOnBack);
+        } else if (item.id == BUTTON_EXTENDED_PINS) {
+            MZGramConfig.toggleExtendedPins();
+            ((TextCheckCell) view).setChecked(MZGramConfig.extendedPins);
         } else if (item.id == BUTTON_CUSTOM_DRAWER) {
             MZGramConfig.toggleCustomDrawer();
             ((TextCheckCell) view).setChecked(MZGramConfig.customDrawer);

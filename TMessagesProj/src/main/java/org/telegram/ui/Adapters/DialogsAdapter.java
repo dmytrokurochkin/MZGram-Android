@@ -1218,6 +1218,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             int idx2 = filter.pinnedDialogs.get(toDialog.id);
             filter.pinnedDialogs.put(fromDialog.id, idx2);
             filter.pinnedDialogs.put(toDialog.id, idx1);
+        } else if (org.telegram.messenger.mzgram.MZGramLocalPins.getInstance(currentAccount).isLocalOnly(fromDialog) && org.telegram.messenger.mzgram.MZGramLocalPins.getInstance(currentAccount).isLocalOnly(toDialog)) {
+            // MZGram: two chats pinned in MZGram only swap their places in MZGramLocalPins
+            org.telegram.messenger.mzgram.MZGramLocalPins.getInstance(currentAccount).swap(fromDialog.id, toDialog.id, fromDialog.folder_id);
         } else {
             int oldNum = fromDialog.pinnedNum;
             fromDialog.pinnedNum = toDialog.pinnedNum;

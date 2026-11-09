@@ -838,4 +838,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Tapeta czatu</string>
     <string name="MZGramDrawerGlass">Szklany panel</string>
     <string name="MZGramDrawerLookInfo">Przez szklany panel widać rozmytą listę czatów. Bez zdjęcia lub tapety nagłówek zostaje w kolorze motywu.</string>
+    <string name="MZGramExtendedPins">Do 100 przypiętych czatów</string>
+    <string name="MZGramExtendedPinsInfo">Ponad limit serwera MZGram przypina czaty na tym urządzeniu: do 100 na liście czatów i w archiwum zamiast 10. Serwer i twoje inne urządzenia dostają tylko czaty, na które pozwala serwer. Czaty przypięte w MZGram można przeciągać między sobą. Po wyłączeniu przypięte zostają, nowe tylko do 10.</string>
 </resources>

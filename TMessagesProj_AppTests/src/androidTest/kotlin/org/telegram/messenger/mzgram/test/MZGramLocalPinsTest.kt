@@ -126,6 +126,38 @@ class MZGramLocalPinsTest {
         assertEquals(10, MZGramLocalPins.MAX_TOTAL)
     }
 
+    // Up to 100 pinned chats (MZGramConfig.extendedPins): the same rule with the higher limit, off by default.
+    @Test
+    fun rule_extendedPins_upToHundred() {
+        assertEquals(100, MZGramLocalPins.MAX_EXTENDED)
+        assertTrue(MZGramLocalPins.pinsLocally(5, 94, 5, MZGramLocalPins.MAX_EXTENDED))
+        assertFalse("a hundred in all", MZGramLocalPins.pinsLocally(5, 95, 5, MZGramLocalPins.MAX_EXTENDED))
+        assertFalse("below the server limit the server pins", MZGramLocalPins.pinsLocally(4, 0, 5, MZGramLocalPins.MAX_EXTENDED))
+        val saved = org.telegram.messenger.mzgram.MZGramConfig.extendedPins
+        try {
+            org.telegram.messenger.mzgram.MZGramConfig.extendedPins = false
+            assertEquals("off: ten in all", MZGramLocalPins.MAX_TOTAL, MZGramLocalPins.maxTotal())
+            org.telegram.messenger.mzgram.MZGramConfig.extendedPins = true
+            assertEquals(MZGramLocalPins.MAX_EXTENDED, MZGramLocalPins.maxTotal())
+        } finally {
+            org.telegram.messenger.mzgram.MZGramConfig.extendedPins = saved
+        }
+    }
+
+    // Dragging two chats pinned in MZGram only swaps their places and keeps them after a restart.
+    @Test
+    fun localPins_swap_keepsTheNewOrder() {
+        pins.pin(baseId + 1, 0)
+        pins.pin(baseId + 2, 0)
+        pins.pin(baseId + 3, 0)
+        assertTrue(pins.swap(baseId + 1, baseId + 3, 0))
+        pins.reload()
+        assertEquals(listOf(baseId + 3, baseId + 2, baseId + 1), pins.get(0))
+        assertFalse("a chat not pinned locally", pins.swap(baseId + 1, baseId + 9, 0))
+        assertFalse("another list", pins.swap(baseId + 1, baseId + 2, 1))
+        assertEquals(listOf(baseId + 3, baseId + 2, baseId + 1), pins.get(0))
+    }
+
     // Kept on the device: a restart (a fresh read from the storage) keeps the pins and their order.
     @Test
     fun localPins_surviveARestart_inTheirOrder() {

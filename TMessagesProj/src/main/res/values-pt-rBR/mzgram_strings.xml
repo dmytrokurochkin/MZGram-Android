@@ -838,4 +838,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Papel de parede do chat</string>
     <string name="MZGramDrawerGlass">Painel de vidro</string>
     <string name="MZGramDrawerLookInfo">Pelo painel de vidro a lista de chats aparece desfocada. Sem foto ou papel de parede, o cabeçalho fica com a cor do tema.</string>
+    <string name="MZGramExtendedPins">Até 100 chats fixados</string>
+    <string name="MZGramExtendedPinsInfo">Além do limite do servidor, o MZGram fixa chats neste dispositivo: até 100 na lista de chats e no arquivo em vez de 10. O servidor e seus outros dispositivos recebem só os chats que o servidor permite. Os chats fixados no MZGram podem ser arrastados entre si. Desativado, os fixados ficam, os novos só até 10.</string>
 </resources>

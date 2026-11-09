@@ -838,4 +838,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Sohbet duvar kâğıdı</string>
     <string name="MZGramDrawerGlass">Cam panel</string>
     <string name="MZGramDrawerLookInfo">Cam panelin ardında sohbet listesi bulanık görünür. Fotoğraf ya da duvar kâğıdı yoksa başlık tema renginde kalır.</string>
+    <string name="MZGramExtendedPins">En fazla 100 sabitlenmiş sohbet</string>
+    <string name="MZGramExtendedPinsInfo">Sunucunun sınırının ötesinde MZGram sohbetleri bu cihazda sabitler: sohbet listesinde ve arşivde 10 yerine en fazla 100. Sunucu ve diğer cihazların yalnızca sunucunun izin verdiği sohbetleri alır. MZGram\'da sabitlenen sohbetler kendi aralarında sürüklenebilir. Kapatılınca sabitlenenler kalır, yenileri yalnızca 10\'a kadar.</string>
 </resources>

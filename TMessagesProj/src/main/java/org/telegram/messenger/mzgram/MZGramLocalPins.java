@@ -15,6 +15,11 @@
  *
  * Custom chat folders keep their own pinned chats on the server with a much
  * higher limit; local pins are only for the main list and the archive.
+ *
+ * With MZGramConfig.extendedPins (off by default) the list holds up to
+ * MAX_EXTENDED pinned chats. The server still gets only its own slice: the
+ * chats it allows, reordered with messages.reorderPinnedDialogs as before.
+ * Locally pinned chats can be dragged among themselves (swap()).
  */
 
 package org.telegram.messenger.mzgram;
@@ -33,6 +38,8 @@ public class MZGramLocalPins {
 
     // Server pins and local pins together, in one list
     public static final int MAX_TOTAL = 10;
+    // The same with MZGramConfig.extendedPins
+    public static final int MAX_EXTENDED = 100;
 
     private static final String PREFERENCES_NAME = "mzgram_local_pins";
     private static final MZGramLocalPins[] instances = new MZGramLocalPins[UserConfig.MAX_ACCOUNT_COUNT];
@@ -108,6 +115,22 @@ public class MZGramLocalPins {
         }
     }
 
+    // Swaps two locally pinned chats of a list (dragging); false when one of them is not pinned locally
+    public synchronized boolean swap(long dialogId1, long dialogId2, int folderId) {
+        ArrayList<Long> list = list(folderId);
+        int index1 = list.indexOf(dialogId1);
+        int index2 = list.indexOf(dialogId2);
+        if (index1 < 0 || index2 < 0) {
+            return false;
+        }
+        if (index1 != index2) {
+            list.set(index1, dialogId2);
+            list.set(index2, dialogId1);
+            save(folderId, list);
+        }
+        return true;
+    }
+
     public synchronized void unpin(long dialogId, int folderId) {
         ArrayList<Long> list = list(folderId);
         if (list.remove(dialogId)) {
@@ -134,6 +157,21 @@ public class MZGramLocalPins {
     // Whether pinning one more chat in a list goes locally: the server's limit
     // is reached, and server and local pins together stay within MAX_TOTAL.
     public static boolean pinsLocally(int serverPinned, int localPinned, int serverLimit) {
-        return serverPinned >= serverLimit && serverPinned + localPinned < MAX_TOTAL;
+        return pinsLocally(serverPinned, localPinned, serverLimit, MAX_TOTAL);
+    }
+
+    // The same with another limit of pinned chats in all
+    public static boolean pinsLocally(int serverPinned, int localPinned, int serverLimit, int maxTotal) {
+        return serverPinned >= serverLimit && serverPinned + localPinned < maxTotal;
+    }
+
+    // Pinned chats in all of a list: MAX_EXTENDED with MZGramConfig.extendedPins, else MAX_TOTAL
+    public static int maxTotal() {
+        return MZGramConfig.extendedPins ? MAX_EXTENDED : MAX_TOTAL;
+    }
+
+    // Whether a chat of a list is pinned in MZGram only (not on the server)
+    public boolean isLocalOnly(org.telegram.tgnet.TLRPC.Dialog dialog) {
+        return dialog != null && !dialog.pinned && isPinned(dialog.id, dialog.folder_id);
     }
 }

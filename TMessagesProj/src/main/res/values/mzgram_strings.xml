@@ -838,4 +838,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Chat wallpaper</string>
     <string name="MZGramDrawerGlass">Glass panel</string>
     <string name="MZGramDrawerLookInfo">Through the glass panel the chat list shows blurred. Without a photo or a wallpaper the header keeps the theme colour.</string>
+    <string name="MZGramExtendedPins">Up to 100 pinned chats</string>
+    <string name="MZGramExtendedPinsInfo">Past the server\'s limit, MZGram pins chats on this device: up to 100 in the chat list and in the archive instead of 10. The server and your other devices get only the chats the server allows. Chats pinned in MZGram can be dragged among themselves. Turned off, the pinned chats stay, new ones only up to 10.</string>
 </resources>

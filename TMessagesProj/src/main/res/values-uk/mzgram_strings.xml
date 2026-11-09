@@ -839,4 +839,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Шпалери чату</string>
     <string name="MZGramDrawerGlass">Скляна панель</string>
     <string name="MZGramDrawerLookInfo">Крізь скляну панель видно розмитий список чатів. Без фото чи шпалер шапка лишається кольору теми.</string>
+    <string name="MZGramExtendedPins">До 100 закріплених чатів</string>
+    <string name="MZGramExtendedPinsInfo">Понад ліміт сервера MZGram закріплює чати на цьому пристрої: до 100 у списку чатів і в архіві замість 10. Сервер і ваші інші пристрої отримують лише ті чати, які дозволяє сервер. Закріплені в MZGram чати можна перетягувати між собою. Якщо вимкнути, закріплені лишаються, нові лише до 10.</string>
 </resources>

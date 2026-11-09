@@ -838,4 +838,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Шпалеры чата</string>
     <string name="MZGramDrawerGlass">Шкляная панэль</string>
     <string name="MZGramDrawerLookInfo">Праз шкляную панэль відаць размыты спіс чатаў. Без фота ці шпалер шапка застаецца колеру тэмы.</string>
+    <string name="MZGramExtendedPins">Да 100 замацаваных чатаў</string>
+    <string name="MZGramExtendedPinsInfo">Звыш ліміту сервера MZGram замацоўвае чаты на гэтай прыладзе: да 100 у спісе чатаў і ў архіве замест 10. Сервер і вашы іншыя прылады атрымліваюць толькі тыя чаты, якія дазваляе сервер. Замацаваныя ў MZGram чаты можна перацягваць паміж сабой. Калі выключыць, замацаваныя застаюцца, новыя толькі да 10.</string>
 </resources>

@@ -838,4 +838,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Chat-Hintergrund</string>
     <string name="MZGramDrawerGlass">Glasfeld</string>
     <string name="MZGramDrawerLookInfo">Durch das Glasfeld scheint die Chatliste verschwommen durch. Ohne Foto oder Hintergrund behält die Kopfzeile die Farbe des Designs.</string>
+    <string name="MZGramExtendedPins">Bis zu 100 angeheftete Chats</string>
+    <string name="MZGramExtendedPinsInfo">Über das Limit des Servers hinaus heftet MZGram Chats auf diesem Gerät an: bis zu 100 in der Chatliste und im Archiv statt 10. Der Server und deine anderen Geräte bekommen nur die Chats, die der Server erlaubt. In MZGram angeheftete Chats lassen sich untereinander verschieben. Ausgeschaltet bleiben die angehefteten Chats, neue nur bis 10.</string>
 </resources>

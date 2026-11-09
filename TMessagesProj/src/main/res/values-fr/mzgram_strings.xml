@@ -838,4 +838,6 @@
     <string name="MZGramDrawerHeaderWallpaper">Fond d\'écran des discussions</string>
     <string name="MZGramDrawerGlass">Panneau en verre</string>
     <string name="MZGramDrawerLookInfo">À travers le panneau en verre, la liste des discussions apparaît floutée. Sans photo ni fond d\'écran, l\'en-tête garde la couleur du thème.</string>
+    <string name="MZGramExtendedPins">Jusqu\'à 100 discussions épinglées</string>
+    <string name="MZGramExtendedPinsInfo">Au-delà de la limite du serveur, MZGram épingle les discussions sur cet appareil : jusqu\'à 100 dans la liste des discussions et dans les archives au lieu de 10. Le serveur et vos autres appareils ne reçoivent que les discussions que le serveur autorise. Les discussions épinglées dans MZGram se déplacent entre elles. Désactivé, les discussions épinglées restent, les nouvelles seulement jusqu\'à 10.</string>
 </resources>

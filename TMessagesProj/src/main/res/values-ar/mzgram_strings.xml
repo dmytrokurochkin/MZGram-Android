@@ -750,4 +750,6 @@
     <string name="MZGramPluginsDevFailed">تعذّر تشغيل الخادم. ربما يستخدم تطبيق آخر المنفذ 42690.</string>
     <string name="MZGramStoriesNoBackgroundLoad">عدم تحميل القصص المخفية</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">يعمل عند تفعيل «إخفاء القصص»: لا يُحمَّل شريط القصص ومعايناتها في الخلفية، مما يوفر البيانات والبطارية. تظل القصص في الملفات الشخصية تفتح، لكن أبطأ قليلًا.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">تحصل الإضافة على الأذونات المحددة فقط. يمكنك تغييرها لاحقًا من شاشة الإضافة.</string>
+    <string name="MZGramPluginPermissionsInfo">لدى الإضافة الأذونات المفعّلة فقط. إيقاف أحدها يسحبه منها؛ ويُسمح لها دائمًا بعرض نوافذها وتنبيهاتها الخاصة.</string>
 </resources>

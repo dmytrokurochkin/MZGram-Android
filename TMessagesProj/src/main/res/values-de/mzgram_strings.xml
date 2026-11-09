@@ -750,4 +750,6 @@
     <string name="MZGramPluginsDevFailed">Der Server konnte nicht gestartet werden. Vielleicht belegt eine andere App den Port 42690.</string>
     <string name="MZGramStoriesNoBackgroundLoad">Ausgeblendete Storys nicht laden</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">Wirkt, wenn „Storys ausblenden“ an ist: Die Storyleiste und Story-Vorschauen werden nicht im Hintergrund geladen, das spart Datenvolumen und Akku. Storys in Profilen öffnen sich weiterhin, etwas langsamer.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">Das Plugin bekommt nur die markierten Berechtigungen. Du kannst sie später auf der Seite des Plugins ändern.</string>
+    <string name="MZGramPluginPermissionsInfo">Das Plugin hat nur die eingeschalteten Berechtigungen. Ausschalten entzieht sie; eigene Fenster und Hinweise darf es immer zeigen.</string>
 </resources>

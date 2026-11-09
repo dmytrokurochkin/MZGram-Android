@@ -42335,6 +42335,10 @@ public class ChatActivity extends BaseFragment implements
                         scrollToPositionOnRecreate = -1;
                     }
                 }
+                // MZGram: MZGramPluginInstallSheet.openFromChat.
+                if (org.telegram.ui.mzgram.MZGramPluginInstallSheet.openFromChat(ChatActivity.this, message)) {
+                    return;
+                }
                 boolean handled = false;
                 if (message.canPreviewDocument()) {
                     PhotoViewer.getInstance().setParentActivity(ChatActivity.this, themeDelegate);

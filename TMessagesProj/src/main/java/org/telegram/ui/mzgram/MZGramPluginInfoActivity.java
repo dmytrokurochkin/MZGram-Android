@@ -27,6 +27,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.mzgram.MZGramProfilerReports;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginDevServer;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginGrants;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.Components.BulletinFactory;
@@ -36,6 +37,7 @@ import org.telegram.ui.Components.UniversalFragment;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MZGramPluginInfoActivity extends UniversalFragment {
 
@@ -54,6 +56,8 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
 
     private final String pluginId;
     private MZGramPlugins.Plugin plugin;
+    // The permissions shown as switches, in row order
+    private List<String> offered = new ArrayList<>();
 
     public MZGramPluginInfoActivity(String pluginId) {
         this.pluginId = pluginId;
@@ -125,14 +129,17 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         items.add(UItem.asShadow(TextUtils.isEmpty(meta.description) ? null : meta.description));
 
         items.add(UItem.asHeader(getString(R.string.MZGramPluginPermissions)));
-        if (meta.permissionsDeclared && !meta.permissions.isEmpty()) {
-            for (int i = 0; i < meta.permissions.size(); i++) {
-                final String key = meta.permissions.get(i);
-                items.add(UItem.asButton(PERMISSION_ROW + i, MZGramPluginTexts.permissionIcon(key), MZGramPluginTexts.permissionName(key)));
+        offered = MZGramPluginTexts.offeredPermissions(meta);
+        if (!offered.isEmpty()) {
+            final List<String> granted = MZGramPluginGrants.getEffective(pluginId);
+            for (int i = 0; i < offered.size(); i++) {
+                final String key = offered.get(i);
+                items.add(UItem.asCheck(PERMISSION_ROW + i, MZGramPluginTexts.permissionName(key)).setChecked(granted.contains(key)));
             }
-            items.add(UItem.asShadow(null));
+            final String info = getString(R.string.MZGramPluginPermissionsInfo);
+            items.add(UItem.asShadow(meta.permissionsDeclared ? info : getString(R.string.MZGramPluginPermissionsMissing) + " " + info));
         } else {
-            items.add(UItem.asShadow(getString(meta.permissionsDeclared ? R.string.MZGramPluginNoPermissions : R.string.MZGramPluginPermissionsMissing)));
+            items.add(UItem.asShadow(getString(R.string.MZGramPluginNoPermissions)));
         }
 
         if (!meta.requirements.isEmpty()) {
@@ -160,6 +167,13 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         } else if (item.id == BUTTON_ID) {
             AndroidUtilities.addToClipboard(pluginId);
             BulletinFactory.of(this).createCopyBulletin(getString(R.string.MZGramTextCopied)).show();
+        } else if (item.id >= PERMISSION_ROW && item.id < PERMISSION_ROW + offered.size()) {
+            final String key = offered.get(item.id - PERMISSION_ROW);
+            final boolean ok = item.checked ? MZGramPluginGrants.revoke(pluginId, key) : MZGramPluginGrants.grant(pluginId, key);
+            if (!ok) {
+                BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsSaveFailed)).show();
+            }
+            refresh();
         } else if (item.id == BUTTON_SOURCE) {
             presentFragment(new MZGramPluginSourceActivity(pluginId));
         } else if (item.id == BUTTON_SHARE) {

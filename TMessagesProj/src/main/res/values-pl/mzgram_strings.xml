@@ -750,4 +750,6 @@
     <string name="MZGramPluginsDevFailed">Nie udało się uruchomić serwera. Port 42690 może być zajęty przez inną aplikację.</string>
     <string name="MZGramStoriesNoBackgroundLoad">Nie wczytuj ukrytych relacji</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">Działa, gdy włączono „Ukryj relacje”: pasek relacji i ich podglądy nie są wczytywane w tle, co oszczędza transfer i baterię. Relacje w profilach nadal się otwierają, trochę wolniej.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">Wtyczka dostanie tylko zaznaczone uprawnienia. Możesz je później zmienić na ekranie wtyczki.</string>
+    <string name="MZGramPluginPermissionsInfo">Wtyczka ma tylko włączone uprawnienia. Wyłączenie odbiera uprawnienie; pokazywanie własnych okien i komunikatów jest zawsze dozwolone.</string>
 </resources>

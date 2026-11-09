@@ -94,12 +94,18 @@ In the build with plugins, MZGram → Other → **Plugins** lists the added
 plugins, each with its version, author and an on/off switch.
 
 - **Add plugin file** picks a `.plugin` file. MZGram reads its metadata
-  without running it and shows its name, description and permissions before
-  it keeps the file. A file with the id of an added plugin updates it; the
+  without running it and, before it keeps the file, shows a prompt with the
+  name, version, author, description, a check box for each permission and
+  a button to view the code. The plugin gets only the checked permissions:
+  boxes start unchecked for a new plugin and as granted before for an
+  update. A plugin that doesn't list its permissions is offered all of
+  them, unchecked. A file with the id of an added plugin updates it; the
   plugin's settings and on/off state stay.
+- Tapping a downloaded `.plugin` file in a chat opens the same prompt
+  instead of opening the file in another app.
 - Tapping a plugin opens its screen: the on/off switch, version, author,
-  id, the app and SDK versions it needs, its permissions and Python
-  packages, and buttons to view its code (read-only, coloured as Python),
+  id, the app and SDK versions it needs, a switch for each permission
+  (grant or take back), its Python packages, and buttons to view its code (read-only, coloured as Python),
   share the file and delete the plugin with its settings.
 - An added plugin is off. MZGram doesn't run plugins yet, and the screen
   says so; the on/off state is kept for when it does.
@@ -275,5 +281,6 @@ exteraless SDK and may still change.
 | SDK: `base_plugin`, hooks, UI components | planned |
 | Signed record of granted permissions | done; the prompt and the gates that read it are planned |
 | Hook gate: `hooks` permission, parts never hooked, hooks on stories skipped while stories are hidden, hook counters | done; used once hooks run |
-| Permissions, prompt before installing, local audit log, safe mode after crashes | planned |
+| Prompt before adding with a check box per permission, adding from a chat, permission switches on the plugin screen | done |
+| What each permission allows, trust levels, local audit log, safe mode after crashes | planned |
 | Installing packages with pip on the device | not planned (it would make network calls to PyPI) |

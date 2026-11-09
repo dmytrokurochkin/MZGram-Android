@@ -750,4 +750,6 @@
     <string name="MZGramPluginsDevFailed">Серверді іске қосу мүмкін болмады. 42690 портын басқа қолданба пайдаланып жатқан болуы мүмкін.</string>
     <string name="MZGramStoriesNoBackgroundLoad">Жасырын стористерді жүктемеу</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">«Стористі жасыру» қосулы болғанда әрекет етеді: сторис жолағы мен алдын ала көріністері фонда жүктелмейді, бұл трафик пен зарядты үнемдейді. Профильдердегі сторис бұрынғыдай ашылады, сәл баяуырақ.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">Плагин тек белгіленген рұқсаттарды алады. Оларды кейін плагин экранында өзгертуге болады.</string>
+    <string name="MZGramPluginPermissionsInfo">Плагинде тек қосулы рұқсаттар бар. Өшірілген рұқсат алынып тасталады; өз терезелері мен хабарламаларын көрсетуге әрқашан рұқсат етіледі.</string>
 </resources>

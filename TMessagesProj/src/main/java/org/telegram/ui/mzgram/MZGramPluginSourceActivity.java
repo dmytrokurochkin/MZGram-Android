@@ -5,7 +5,8 @@
  * The code of an added plugin, read-only: the .plugin file as text in a
  * fixed-width font, coloured as Python by Telegram's own code highlighting
  * (the one of code blocks in messages), scrolling both ways. The menu
- * copies the whole code. Reading the code never runs it.
+ * copies the whole code. Reading the code never runs it. It also shows
+ * a file that is not added yet, from the prompt before adding.
  *
  * Based on exteraless plugins/ui/components/PluginFileViewer.java (GPL-3.0):
  * the idea of a built-in viewer of the plugin's code; written anew for
@@ -39,6 +40,8 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.utils.code.highlight.CodeHighlighting;
 
+import java.io.File;
+
 public class MZGramPluginSourceActivity extends BaseFragment {
 
     private static final int MENU_COPY = 1;
@@ -47,11 +50,29 @@ public class MZGramPluginSourceActivity extends BaseFragment {
     private static final String LANGUAGE = "python";
 
     private final String pluginId;
+    // A file not added yet, or null for the added plugin
+    private final File file;
+    private final Runnable onClose;
     private TextView textView;
     private String source;
 
     public MZGramPluginSourceActivity(String pluginId) {
+        this(pluginId, null, null);
+    }
+
+    /** The code of a file not added yet; onClose runs when the screen is closed. */
+    public MZGramPluginSourceActivity(String pluginId, File file, Runnable onClose) {
         this.pluginId = pluginId;
+        this.file = file;
+        this.onClose = onClose;
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        if (onClose != null) {
+            AndroidUtilities.runOnUIThread(onClose);
+        }
     }
 
     @Override
@@ -97,7 +118,7 @@ public class MZGramPluginSourceActivity extends BaseFragment {
 
     private void load() {
         Utilities.globalQueue.postRunnable(() -> {
-            final String text = MZGramPlugins.readSource(pluginId);
+            final String text = file != null ? MZGramPlugins.readSource(file) : MZGramPlugins.readSource(pluginId);
             AndroidUtilities.runOnUIThread(() -> show(text));
         });
     }

@@ -750,4 +750,6 @@
     <string name="MZGramPluginsDevFailed">No se pudo iniciar el servidor. Puede que otra app esté usando el puerto 42690.</string>
     <string name="MZGramStoriesNoBackgroundLoad">No cargar las historias ocultas</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">Funciona con Ocultar historias activado: la fila de historias y sus vistas previas no se cargan en segundo plano, lo que ahorra datos y batería. Las historias de los perfiles se siguen abriendo, algo más despacio.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">El complemento solo recibe los permisos marcados. Puedes cambiarlos más tarde en la pantalla del complemento.</string>
+    <string name="MZGramPluginPermissionsInfo">El complemento solo tiene los permisos activados. Desactivar uno se lo retira; mostrar sus propias ventanas y avisos siempre está permitido.</string>
 </resources>

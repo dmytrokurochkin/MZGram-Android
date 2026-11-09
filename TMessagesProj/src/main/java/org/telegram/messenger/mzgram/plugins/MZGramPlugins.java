@@ -333,7 +333,11 @@ public final class MZGramPlugins {
      * not text. Reads the file, so not on the UI thread.
      */
     public static String readSource(String pluginId) {
-        final File file = fileOf(pluginId);
+        return readSource(fileOf(pluginId));
+    }
+
+    /** The same for any .plugin file, such as one picked and not added yet. */
+    public static String readSource(File file) {
         if (file == null || !file.isFile() || file.length() > MAX_FILE_BYTES) {
             return null;
         }

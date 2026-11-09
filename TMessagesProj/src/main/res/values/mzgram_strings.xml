@@ -750,4 +750,6 @@
     <string name="MZGramPluginsDevFailed">Couldn\'t start the server. Another app may be using port 42690.</string>
     <string name="MZGramStoriesNoBackgroundLoad">Don\'t load hidden stories</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">Works with Hide Stories on: the stories row and story previews are not loaded in the background, which saves traffic and battery. Stories in profiles still open, a bit slower.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">The plugin gets only the checked permissions. You can change them later on the plugin\'s screen.</string>
+    <string name="MZGramPluginPermissionsInfo">The plugin has only the permissions that are on. Turning one off takes it away; showing its own windows and notices is always allowed.</string>
 </resources>

@@ -751,4 +751,6 @@
     <string name="MZGramPluginsDevFailed">Не вдалося запустити сервер. Можливо, порт 42690 зайнятий іншим застосунком.</string>
     <string name="MZGramStoriesNoBackgroundLoad">Не завантажувати приховані історії</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">Діє, коли ввімкнено «Приховати історії»: рядок історій і їхні прев\'ю не завантажуються у фоні, це заощаджує трафік і заряд. Історії в профілях і далі відкриваються, трохи повільніше.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">Плагін отримає лише позначені дозволи. Змінити їх можна пізніше на екрані плагіна.</string>
+    <string name="MZGramPluginPermissionsInfo">Плагін має лише ввімкнені дозволи. Вимкнений дозвіл забирається; показувати власні вікна і сповіщення плагіну дозволено завжди.</string>
 </resources>

@@ -750,4 +750,6 @@
     <string name="MZGramPluginsDevFailed">Sunucu başlatılamadı. 42690 numaralı bağlantı noktasını başka bir uygulama kullanıyor olabilir.</string>
     <string name="MZGramStoriesNoBackgroundLoad">Gizli hikayeleri yükleme</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">Hikayeleri gizle açıkken çalışır: hikaye şeridi ve önizlemeleri arka planda yüklenmez, bu da veri ve pil tasarrufu sağlar. Profillerdeki hikayeler yine açılır, biraz daha yavaş.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">Eklenti yalnızca işaretli izinleri alır. Bunları daha sonra eklentinin ekranında değiştirebilirsiniz.</string>
+    <string name="MZGramPluginPermissionsInfo">Eklenti yalnızca açık izinlere sahiptir. Bir izni kapatmak onu geri alır; kendi pencerelerini ve bildirimlerini göstermesine her zaman izin verilir.</string>
 </resources>

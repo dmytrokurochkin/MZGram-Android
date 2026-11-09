@@ -15,6 +15,9 @@ import android.text.TextUtils;
 
 import org.telegram.messenger.R;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginGrants;
+
+import java.util.List;
 
 final class MZGramPluginTexts {
 
@@ -74,6 +77,16 @@ final class MZGramPluginTexts {
             version = version + " (" + getString(R.string.MZGramPluginBeta) + ")";
         }
         return TextUtils.isEmpty(meta.author) ? version : version + " · " + meta.author;
+    }
+
+    /**
+     * The permissions the user may grant, without "ui" (always granted):
+     * the declared ones, or all of them when the plugin declares none.
+     */
+    static List<String> offeredPermissions(MZGramPluginFormat.Meta meta) {
+        final List<String> out = MZGramPluginGrants.sanitize(meta.permissionsDeclared ? meta.permissions : MZGramPluginGrants.ALL);
+        out.remove(MZGramPluginGrants.UI);
+        return out;
     }
 
     /** The permissions as lines, for a dialog. */

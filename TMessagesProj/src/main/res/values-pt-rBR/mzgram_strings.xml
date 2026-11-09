@@ -750,4 +750,6 @@
     <string name="MZGramPluginsDevFailed">Não foi possível iniciar o servidor. Talvez outro app esteja usando a porta 42690.</string>
     <string name="MZGramStoriesNoBackgroundLoad">Não carregar stories ocultos</string>
     <string name="MZGramStoriesNoBackgroundLoadInfo">Funciona com Ocultar stories ativado: a faixa de stories e as prévias não são carregadas em segundo plano, o que economiza dados e bateria. Os stories nos perfis continuam abrindo, um pouco mais devagar.</string>
+    <string name="MZGramPluginInstallPermissionsInfo">O plugin recebe apenas as permissões marcadas. Você pode alterá-las depois na tela do plugin.</string>
+    <string name="MZGramPluginPermissionsInfo">O plugin tem apenas as permissões ativadas. Desativar uma a retira; mostrar janelas e avisos próprios é sempre permitido.</string>
 </resources>

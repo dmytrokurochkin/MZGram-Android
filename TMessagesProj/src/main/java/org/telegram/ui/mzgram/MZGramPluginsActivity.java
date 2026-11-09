@@ -6,7 +6,8 @@
  * the added plugins, each with its version, author and an on/off switch;
  * a tap on the row opens the plugin's own screen. "Add plugin file" picks a
  * .plugin file, reads its metadata without running it and asks before the
- * file is kept, showing the permissions it declares.
+ * file is kept (MZGramPluginInstallSheet), with a check box for each
+ * permission.
  *
  * MZGram does not run plugins yet; the screen says so, and the on/off
  * state is kept for the plugin engine.
@@ -214,57 +215,11 @@ public class MZGramPluginsActivity extends UniversalFragment {
     }
 
     private void showReadError(String error) {
-        if (MZGramPlugins.ERROR_TOO_LARGE.equals(error)) {
-            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsTooLarge)).show();
-        } else if (TextUtils.isEmpty(error) || MZGramPlugins.ERROR_READ.equals(error)) {
-            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsAddFailed)).show();
-        } else {
-            // The reason from the metadata reader, such as a missing __id__
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.error, getString(R.string.MZGramPluginsAddFailed), error).show();
-        }
+        MZGramPluginInstallSheet.showReadError(this, error);
     }
 
     private void confirmInstall(File picked, MZGramPluginFormat.Meta meta) {
-        final MZGramPlugins.Plugin installed = MZGramPlugins.get(meta.id);
-        final StringBuilder message = new StringBuilder();
-        message.append(meta.name).append('\n').append(MZGramPluginTexts.subtitle(meta));
-        if (!TextUtils.isEmpty(meta.description)) {
-            message.append("\n\n").append(meta.description);
-        }
-        message.append("\n\n").append(MZGramPluginTexts.permissionsText(meta));
-        message.append("\n\n").append(installed != null
-                ? LocaleController.formatString(R.string.MZGramPluginsUpdateInfo, installed.meta.version)
-                : getString(R.string.MZGramPluginsAddInfo));
-
-        final boolean[] kept = {false};
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(installed != null ? R.string.MZGramPluginsUpdateTitle : R.string.MZGramPluginsAddTitle));
-        builder.setMessage(message.toString());
-        builder.setPositiveButton(getString(installed != null ? R.string.MZGramPluginsUpdate : R.string.MZGramPluginsAdd), (dialog, which) -> {
-            kept[0] = true;
-            MZGramPlugins.install(picked, meta, ok -> {
-                if (isFinishing() || getParentActivity() == null) {
-                    return;
-                }
-                if (ok) {
-                    BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check,
-                            getString(installed != null ? R.string.MZGramPluginsUpdated : R.string.MZGramPluginsAdded)).show();
-                } else {
-                    BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsSaveFailed)).show();
-                }
-                reload();
-            });
-        });
-        builder.setNegativeButton(getString(R.string.MZGramCancel), null);
-        // The button's action runs before the dialog closes, so kept is set by then
-        final android.app.Dialog shown = showDialog(builder.create(), dialog -> {
-            if (!kept[0]) {
-                MZGramPlugins.discard(picked);
-            }
-        });
-        if (shown == null) {
-            MZGramPlugins.discard(picked);
-        }
+        MZGramPluginInstallSheet.show(this, picked, meta, this::reload);
     }
 
     private void showProgress() {

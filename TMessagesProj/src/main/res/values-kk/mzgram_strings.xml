@@ -607,4 +607,10 @@
     <string name="MZGramLinkedEmojiInfo">Кейбір қолданбалар жеке эмодзиді қарапайым эмодзидегі сілтеме ретінде жібереді. Мұндай сілтемелер жеке эмодзидің өзі ретінде көрсетіледі. Тек көрсету өзгереді: хабарлама сілтемені сақтайды, ал жеке эмодзи жіберу бұрынғыдай тек Telegram Premium арқылы мүмкін. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
     <string name="MZGramLinkTypeface">Қалың және көлбеу сілтемелердің дәл ені</string>
     <string name="MZGramLinkTypefaceInfo">Қалың және көлбеу сілтемелер мен атаулар өз қаріпімен өлшенеді, сондықтан қасындағы мәтін қабаттаспайды және бос орын қалдырмайды. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
+    <string name="MZGramGranularPermissions">Стикер, GIF, ойын және инлайн-боттарға бөлек рұқсаттар</string>
+    <string name="MZGramGranularPermissionsInfo">Топ рұқсаттары мен қатысушы шектеулерінде «Стикерлер мен GIF» жолы төртке бөлінеді: стикерлер, GIF, ойындар және инлайн-боттар. Telegram оларды бөлек сақтайды; басқа қолданбалар оларды әлі бір жолмен көрсетуі мүмкін.</string>
+    <string name="MZGramPermissionStickers">Стикерлер</string>
+    <string name="MZGramPermissionGifs">GIF</string>
+    <string name="MZGramPermissionGames">Ойындар</string>
+    <string name="MZGramPermissionInline">Инлайн-боттар</string>
 </resources>

@@ -139,6 +139,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     private int sendMediaPhotosRow;
     private int sendMediaVideosRow;
     private int sendMediaStickerGifsRow;
+    // MZGram: separate GIFs, games and inline bots rows (Settings > MZGram > Chats)
+    private int sendMediaGifsRow = -1;
+    private int sendMediaGamesRow = -1;
+    private int sendMediaInlineRow = -1;
     private int sendMediaMusicRow;
     private int sendMediaFilesRow;
     private int sendMediaVoiceMessagesRow;
@@ -385,6 +389,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         sendMediaPhotosRow = -1;
         sendMediaVideosRow = -1;
         sendMediaStickerGifsRow = -1;
+        sendMediaGifsRow = -1;
+        sendMediaGamesRow = -1;
+        sendMediaInlineRow = -1;
         sendMediaMusicRow = -1;
         sendMediaFilesRow = -1;
         sendMediaVoiceMessagesRow = -1;
@@ -407,6 +414,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     sendMediaPhotosRow = rowCount++;
                     sendMediaVideosRow = rowCount++;
                     sendMediaStickerGifsRow = rowCount++;
+                    if (org.telegram.ui.mzgram.MZGramGroupPermissions.isOn()) {
+                        sendMediaGifsRow = rowCount++;
+                        sendMediaGamesRow = rowCount++;
+                        sendMediaInlineRow = rowCount++;
+                    }
                     sendMediaMusicRow = rowCount++;
                     sendMediaFilesRow = rowCount++;
                     sendMediaVoiceMessagesRow = rowCount++;
@@ -869,6 +881,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         defaultBannedRights.send_photos = !defaultBannedRights.send_photos;
                     } else if (position == sendMediaVideosRow) {
                         defaultBannedRights.send_videos = !defaultBannedRights.send_videos;
+                    } else if (position == sendMediaStickerGifsRow && org.telegram.ui.mzgram.MZGramGroupPermissions.isOn()) {
+                        defaultBannedRights.send_stickers = !defaultBannedRights.send_stickers;
+                    } else if (position == sendMediaGifsRow) {
+                        defaultBannedRights.send_gifs = !defaultBannedRights.send_gifs;
+                    } else if (position == sendMediaGamesRow) {
+                        defaultBannedRights.send_games = !defaultBannedRights.send_games;
+                    } else if (position == sendMediaInlineRow) {
+                        defaultBannedRights.send_inline = !defaultBannedRights.send_inline;
                     } else if (position == sendMediaStickerGifsRow) {
                         defaultBannedRights.send_stickers = defaultBannedRights.send_games = defaultBannedRights.send_gifs = defaultBannedRights.send_inline = !defaultBannedRights.send_stickers;
                     } else if (position == sendMediaMusicRow) {
@@ -3680,7 +3700,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     } else if (position == sendMediaRow) {
                         int sentMediaCount = getSendMediaSelectedCount();
                         checkCell.setTextAndCheck(getString("UserRestrictionsSendMedia", R.string.UserRestrictionsSendMedia), sentMediaCount > 0, true, animated);
-                        checkCell.setCollapseArrow(String.format(Locale.US, "%d/10", sentMediaCount), !sendMediaExpanded, new Runnable() {
+                        checkCell.setCollapseArrow(String.format(Locale.US, "%d/%d", sentMediaCount, org.telegram.ui.mzgram.MZGramGroupPermissions.mediaTotal()), !sendMediaExpanded, new Runnable() {
                             @Override
                             public void run() {
                                 boolean checked = !checkCell.isChecked();
@@ -3763,7 +3783,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     } else if (position == sendMediaVideosRow) {
                         checkBoxCell.setText(getString("SendMediaPermissionVideos", R.string.SendMediaPermissionVideos), "", !defaultBannedRights.send_videos, true, animated);
                     } else if (position == sendMediaStickerGifsRow) {
-                        checkBoxCell.setText(getString("SendMediaPermissionStickersGifs", R.string.SendMediaPermissionStickersGifs), "", !defaultBannedRights.send_stickers, true, animated);
+                        checkBoxCell.setText(getString(org.telegram.ui.mzgram.MZGramGroupPermissions.stickersTitle()), "", !defaultBannedRights.send_stickers, true, animated);
+                    } else if (position == sendMediaGifsRow) {
+                        checkBoxCell.setText(getString(R.string.MZGramPermissionGifs), "", !defaultBannedRights.send_gifs, true, animated);
+                    } else if (position == sendMediaGamesRow) {
+                        checkBoxCell.setText(getString(R.string.MZGramPermissionGames), "", !defaultBannedRights.send_games, true, animated);
+                    } else if (position == sendMediaInlineRow) {
+                        checkBoxCell.setText(getString(R.string.MZGramPermissionInline), "", !defaultBannedRights.send_inline, true, animated);
                     } else if (position == sendMediaMusicRow) {
                         checkBoxCell.setText(getString("SendMediaPermissionMusic", R.string.SendMediaPermissionMusic), "", !defaultBannedRights.send_audios, true, animated);
                     } else if (position == sendMediaFilesRow) {
@@ -3892,6 +3918,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     private boolean isExpandableSendMediaRow(int position) {
         return position == sendMediaPhotosRow || position == sendMediaVideosRow || position == sendMediaStickerGifsRow ||
+                position == sendMediaGifsRow || position == sendMediaGamesRow || position == sendMediaInlineRow ||
                 position == sendMediaMusicRow || position == sendMediaFilesRow || position == sendMediaVoiceMessagesRow ||
                 position == sendReactionsRow ||
                 position == sendMediaVideoMessagesRow || position == sendMediaEmbededLinksRow || position == sendPollsRow;
@@ -4090,6 +4117,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         if (!bannedRights.send_reactions) {
             i++;
         }
+        i += org.telegram.ui.mzgram.MZGramGroupPermissions.extraCount(bannedRights, null); // MZGram
         return i;
     }
 

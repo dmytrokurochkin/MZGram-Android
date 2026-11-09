@@ -223,6 +223,9 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
+    // granularGroupPermissions
+    public static boolean granularGroupPermissions = false;
+
     // linkedCustomEmoji
     public static boolean linkedCustomEmoji = false;
 
@@ -424,6 +427,7 @@ public class MZGramConfig {
             doubleTapActions = preferences.getBoolean("doubleTapActions", false);
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
+            granularGroupPermissions = preferences.getBoolean("granularGroupPermissions", false);
             linkedCustomEmoji = preferences.getBoolean("linkedCustomEmoji", false);
             linkTypeface = preferences.getBoolean("linkTypeface", false);
             hideReactionsPrivate = preferences.getBoolean("hideReactionsPrivate", false);
@@ -1023,6 +1027,11 @@ public class MZGramConfig {
     public static void toggleLinkedCustomEmoji() {
         linkedCustomEmoji = !linkedCustomEmoji;
         putBoolean("linkedCustomEmoji", linkedCustomEmoji);
+    }
+
+    public static void toggleGranularGroupPermissions() {
+        granularGroupPermissions = !granularGroupPermissions;
+        putBoolean("granularGroupPermissions", granularGroupPermissions);
     }
 
     public static void toggleInlineMath() {

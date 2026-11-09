@@ -607,4 +607,10 @@
     <string name="MZGramLinkedEmojiInfo">Bazı uygulamalar özel emojiyi sıradan bir emojinin üzerinde bağlantı olarak gönderir. Bu bağlantılar özel emojinin kendisi olarak gösterilir. Yalnızca görünüm değişir: mesaj bağlantıyı korur ve özel emoji göndermek yine Telegram Premium gerektirir. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
     <string name="MZGramLinkTypeface">Kalın ve italik bağlantıları sığdır</string>
     <string name="MZGramLinkTypefaceInfo">Kalın veya italik bağlantılar ve bahsetmeler kendi yazı tipiyle ölçülür, böylece çevresindeki metin üst üste binmez ve boşluk bırakmaz. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
+    <string name="MZGramGranularPermissions">Çıkartma, GIF, oyun ve satır içi bot izinleri ayrı</string>
+    <string name="MZGramGranularPermissionsInfo">Grup izinlerinde ve üye kısıtlamalarında “Çıkartmalar ve GIF\'ler” satırı dörde ayrılır: çıkartmalar, GIF\'ler, oyunlar ve satır içi botlar. Telegram bunları ayrı saklar; diğer uygulamalar yine tek satır gösterebilir.</string>
+    <string name="MZGramPermissionStickers">Çıkartmalar</string>
+    <string name="MZGramPermissionGifs">GIF\'ler</string>
+    <string name="MZGramPermissionGames">Oyunlar</string>
+    <string name="MZGramPermissionInline">Satır içi botlar</string>
 </resources>

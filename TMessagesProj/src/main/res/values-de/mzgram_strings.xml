@@ -607,4 +607,10 @@
     <string name="MZGramLinkedEmojiInfo">Manche Apps senden ein eigenes Emoji als Link über einem normalen Emoji. Solche Links werden als das eigene Emoji selbst angezeigt. Nur die Anzeige ändert sich: Die Nachricht behält den Link, und eigene Emojis senden erfordert weiterhin Telegram Premium. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
     <string name="MZGramLinkTypeface">Fette und kursive Links genau einpassen</string>
     <string name="MZGramLinkTypefaceInfo">Fette und kursive Links und Erwähnungen werden mit ihrer eigenen Schrift gemessen, damit der Text daneben nicht überlappt oder Lücken lässt. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
+    <string name="MZGramGranularPermissions">Getrennte Rechte für Sticker, GIFs, Spiele und Inline-Bots</string>
+    <string name="MZGramGranularPermissionsInfo">In den Gruppenberechtigungen und Mitgliederbeschränkungen wird die Zeile „Sticker und GIFs“ in vier geteilt: Sticker, GIFs, Spiele und Inline-Bots. Telegram speichert sie getrennt; andere Apps zeigen sie eventuell weiter als eine Zeile.</string>
+    <string name="MZGramPermissionStickers">Sticker</string>
+    <string name="MZGramPermissionGifs">GIFs</string>
+    <string name="MZGramPermissionGames">Spiele</string>
+    <string name="MZGramPermissionInline">Inline-Bots</string>
 </resources>

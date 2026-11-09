@@ -607,4 +607,10 @@
     <string name="MZGramLinkedEmojiInfo">ترسل بعض التطبيقات الرمز التعبيري المخصص كرابط فوق رمز تعبيري عادي. تُعرض هذه الروابط كالرمز المخصص نفسه. يتغير العرض فقط: تحتفظ الرسالة بالرابط، ولا يزال إرسال الرموز المخصصة يتطلب Telegram Premium. ينطبق على الرسائل المعروضة بعد التغيير.</string>
     <string name="MZGramLinkTypeface">ضبط عرض الروابط الغامقة والمائلة</string>
     <string name="MZGramLinkTypefaceInfo">تُقاس الروابط والإشارات الغامقة أو المائلة بخطها الخاص، فلا يتداخل النص حولها ولا يترك فراغات. ينطبق على الرسائل المعروضة بعد التغيير.</string>
+    <string name="MZGramGranularPermissions">أذونات منفصلة للملصقات وصور GIF والألعاب والبوتات المضمنة</string>
+    <string name="MZGramGranularPermissionsInfo">في أذونات المجموعة وقيود الأعضاء، ينقسم سطر «الملصقات وصور GIF» إلى أربعة: الملصقات وصور GIF والألعاب والبوتات المضمنة. يحفظها Telegram بشكل منفصل؛ وقد تستمر تطبيقات أخرى في عرضها كسطر واحد.</string>
+    <string name="MZGramPermissionStickers">الملصقات</string>
+    <string name="MZGramPermissionGifs">صور GIF</string>
+    <string name="MZGramPermissionGames">الألعاب</string>
+    <string name="MZGramPermissionInline">البوتات المضمنة</string>
 </resources>

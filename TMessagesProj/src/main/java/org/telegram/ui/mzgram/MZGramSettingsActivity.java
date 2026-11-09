@@ -163,6 +163,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
+    private static final int BUTTON_GRANULAR_PERMISSIONS = 141;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -627,6 +628,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Typing, sending and search in chats (domain messages)
     private void fillChats(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_GRANULAR_PERMISSIONS, getString(R.string.MZGramGranularPermissions)).setChecked(MZGramConfig.granularGroupPermissions));
+        items.add(UItem.asShadow(getString(R.string.MZGramGranularPermissionsInfo)));
         items.add(UItem.asCheck(BUTTON_LINKED_EMOJI, getString(R.string.MZGramLinkedEmoji)).setChecked(MZGramConfig.linkedCustomEmoji));
         items.add(UItem.asShadow(getString(R.string.MZGramLinkedEmojiInfo)));
         items.add(UItem.asCheck(BUTTON_LINK_TYPEFACE, getString(R.string.MZGramLinkTypeface)).setChecked(MZGramConfig.linkTypeface));
@@ -860,6 +863,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_LINKED_EMOJI) {
             MZGramConfig.toggleLinkedCustomEmoji();
             ((TextCheckCell) view).setChecked(MZGramConfig.linkedCustomEmoji);
+        } else if (item.id == BUTTON_GRANULAR_PERMISSIONS) {
+            MZGramConfig.toggleGranularGroupPermissions();
+            ((TextCheckCell) view).setChecked(MZGramConfig.granularGroupPermissions);
         } else if (item.id == BUTTON_PLAIN_CODE) {
             MZGramConfig.togglePlainCodeBlocks();
             ((TextCheckCell) view).setChecked(MZGramConfig.plainCodeBlocks);

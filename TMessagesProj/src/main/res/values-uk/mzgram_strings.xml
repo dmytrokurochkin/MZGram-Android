@@ -608,4 +608,10 @@
     <string name="MZGramLinkedEmojiInfo">Деякі застосунки надсилають власне емодзі як посилання на звичайному емодзі. Такі посилання показуються як саме власне емодзі. Змінюється лише показ: повідомлення зберігає посилання, а надсилати власні емодзі, як і раніше, можна лише з Telegram Premium. Діє на повідомлення, показані після зміни.</string>
     <string name="MZGramLinkTypeface">Точна ширина жирних і курсивних посилань</string>
     <string name="MZGramLinkTypefaceInfo">Жирні й курсивні посилання та згадки вимірюються власним шрифтом, тож текст поруч не накладається і не лишає проміжків. Діє на повідомлення, показані після зміни.</string>
+    <string name="MZGramGranularPermissions">Окремі дозволи на стікери, GIF, ігри та інлайн-ботів</string>
+    <string name="MZGramGranularPermissionsInfo">У дозволах групи й обмеженнях учасника рядок «Стікери та GIF» розділяється на чотири: стікери, GIF, ігри та інлайн-боти. Telegram зберігає їх окремо; інші застосунки можуть і далі показувати їх одним рядком.</string>
+    <string name="MZGramPermissionStickers">Стікери</string>
+    <string name="MZGramPermissionGifs">GIF</string>
+    <string name="MZGramPermissionGames">Ігри</string>
+    <string name="MZGramPermissionInline">Інлайн-боти</string>
 </resources>

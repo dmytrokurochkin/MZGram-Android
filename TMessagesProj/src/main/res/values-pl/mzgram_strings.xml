@@ -607,4 +607,10 @@
     <string name="MZGramLinkedEmojiInfo">Niektóre aplikacje wysyłają własne emoji jako link na zwykłym emoji. Takie linki są pokazywane jako samo własne emoji. Zmienia się tylko wyświetlanie: wiadomość zachowuje link, a wysyłanie własnych emoji nadal wymaga Telegram Premium. Dotyczy wiadomości wyświetlonych po zmianie.</string>
     <string name="MZGramLinkTypeface">Dokładna szerokość pogrubionych i pochylonych linków</string>
     <string name="MZGramLinkTypefaceInfo">Pogrubione i pochylone linki oraz wzmianki są mierzone własną czcionką, więc tekst obok nie nachodzi na nie ani nie zostawia przerw. Dotyczy wiadomości wyświetlonych po zmianie.</string>
+    <string name="MZGramGranularPermissions">Osobne uprawnienia do naklejek, GIF-ów, gier i botów inline</string>
+    <string name="MZGramGranularPermissionsInfo">W uprawnieniach grupy i ograniczeniach członka wiersz „Naklejki i GIF-y” dzieli się na cztery: naklejki, GIF-y, gry i boty inline. Telegram przechowuje je osobno; inne aplikacje mogą nadal pokazywać je w jednym wierszu.</string>
+    <string name="MZGramPermissionStickers">Naklejki</string>
+    <string name="MZGramPermissionGifs">GIF-y</string>
+    <string name="MZGramPermissionGames">Gry</string>
+    <string name="MZGramPermissionInline">Boty inline</string>
 </resources>

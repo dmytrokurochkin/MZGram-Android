@@ -896,4 +896,8 @@
     <string name="MZGramMonetLight">Monet açık</string>
     <string name="MZGramMonetDark">Monet koyu</string>
     <string name="MZGramMonetBlack">Monet siyah</string>
+    <string name="MZGramCameraX">CameraX ile yuvarlak videolar</string>
+    <string name="MZGramCameraXWide">Ultra geniş açılı lensle başla</string>
+    <string name="MZGramCameraXZoom">Lensli yakınlaştırma kaydırıcısı</string>
+    <string name="MZGramCameraXInfo">Yuvarlak videoları Telegram kamerası yerine Jetpack CameraX ile kaydeder: telefonun izin verdiği yerde ön ve arka kamera arasında duraksamadan geçiş, telefonun lensleriyle bir yakınlaştırma kaydırıcısı ve yukarıdaki anahtardan sabitleme. Kamera yalnızca yuvarlak video kaydedilirken açılır.</string>
 </resources>

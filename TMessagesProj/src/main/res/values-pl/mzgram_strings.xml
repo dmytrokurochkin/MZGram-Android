@@ -896,4 +896,8 @@
     <string name="MZGramMonetLight">Monet jasny</string>
     <string name="MZGramMonetDark">Monet ciemny</string>
     <string name="MZGramMonetBlack">Monet czarny</string>
+    <string name="MZGramCameraX">Okrągłe wideo przez CameraX</string>
+    <string name="MZGramCameraXWide">Zaczynaj od obiektywu ultraszerokokątnego</string>
+    <string name="MZGramCameraXZoom">Suwak zoomu z obiektywami</string>
+    <string name="MZGramCameraXInfo">Nagrywa okrągłe wideo przez Jetpack CameraX zamiast kamery Telegrama: przełączanie między przednim a tylnym aparatem bez przerwy, gdzie telefon na to pozwala, suwak zoomu z obiektywami telefonu i stabilizacja z przełącznika powyżej. Aparat włącza się tylko podczas nagrywania okrągłego wideo.</string>
 </resources>

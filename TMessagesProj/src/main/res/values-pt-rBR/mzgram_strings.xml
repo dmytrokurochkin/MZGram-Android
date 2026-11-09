@@ -896,4 +896,8 @@
     <string name="MZGramMonetLight">Monet claro</string>
     <string name="MZGramMonetDark">Monet escuro</string>
     <string name="MZGramMonetBlack">Monet preto</string>
+    <string name="MZGramCameraX">Vídeos redondos com CameraX</string>
+    <string name="MZGramCameraXWide">Começar na lente ultra-angular</string>
+    <string name="MZGramCameraXZoom">Controle de zoom com lentes</string>
+    <string name="MZGramCameraXInfo">Grava vídeos redondos com o Jetpack CameraX em vez da câmera do Telegram: troca entre a câmera frontal e a traseira sem pausa quando o celular permite, um controle de zoom com as lentes do celular e estabilização pela chave acima. A câmera só abre enquanto um vídeo redondo é gravado.</string>
 </resources>

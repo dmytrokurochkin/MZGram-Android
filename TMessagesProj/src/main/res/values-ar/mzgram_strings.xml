@@ -896,4 +896,8 @@
     <string name="MZGramMonetLight">Monet فاتحة</string>
     <string name="MZGramMonetDark">Monet داكنة</string>
     <string name="MZGramMonetBlack">Monet سوداء</string>
+    <string name="MZGramCameraX">الفيديو الدائري عبر CameraX</string>
+    <string name="MZGramCameraXWide">البدء بالعدسة فائقة الاتساع</string>
+    <string name="MZGramCameraXZoom">شريط التكبير مع العدسات</string>
+    <string name="MZGramCameraXInfo">يسجّل الفيديو الدائري عبر Jetpack CameraX بدلًا من كاميرا Telegram: التبديل بين الكاميرا الأمامية والخلفية دون توقف حيث يسمح الهاتف بذلك، وشريط تكبير بعدسات الهاتف، والتثبيت من المفتاح أعلاه. لا تُفتح الكاميرا إلا أثناء تسجيل فيديو دائري.</string>
 </resources>

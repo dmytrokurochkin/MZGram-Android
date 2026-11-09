@@ -896,4 +896,8 @@
     <string name="MZGramMonetLight">Monet ашық</string>
     <string name="MZGramMonetDark">Monet қараңғы</string>
     <string name="MZGramMonetBlack">Monet қара</string>
+    <string name="MZGramCameraX">Дөңгелек бейне CameraX арқылы</string>
+    <string name="MZGramCameraXWide">Ультракең объективтен бастау</string>
+    <string name="MZGramCameraXZoom">Объективтері бар масштаб жүгірткісі</string>
+    <string name="MZGramCameraXInfo">Дөңгелек бейнені Telegram камерасының орнына Jetpack CameraX арқылы жазады: телефон рұқсат еткен жерде алдыңғы және артқы камера арасында үзіліссіз ауысу, телефон объективтері бар масштаб жүгірткісі және жоғарыдағы қосқыштан тұрақтандыру. Камера тек дөңгелек бейне жазылып жатқанда ашылады.</string>
 </resources>

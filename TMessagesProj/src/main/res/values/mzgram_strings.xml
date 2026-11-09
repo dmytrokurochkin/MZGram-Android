@@ -896,4 +896,8 @@
     <string name="MZGramMonetLight">Monet Light</string>
     <string name="MZGramMonetDark">Monet Dark</string>
     <string name="MZGramMonetBlack">Monet Black</string>
+    <string name="MZGramCameraX">Round videos on CameraX</string>
+    <string name="MZGramCameraXWide">Start on the ultra-wide lens</string>
+    <string name="MZGramCameraXZoom">Zoom slider with lenses</string>
+    <string name="MZGramCameraXInfo">Records round videos through Jetpack CameraX instead of Telegram’s camera: switching between the front and back camera without a pause where the phone allows it, a zoom slider with the phone’s lenses and stabilization from the switch above. The camera opens only while a round video is being recorded.</string>
 </resources>

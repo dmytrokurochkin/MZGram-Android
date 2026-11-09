@@ -896,4 +896,8 @@
     <string name="MZGramMonetLight">Monet светлая</string>
     <string name="MZGramMonetDark">Monet тёмная</string>
     <string name="MZGramMonetBlack">Monet чёрная</string>
+    <string name="MZGramCameraX">Круглое видео через CameraX</string>
+    <string name="MZGramCameraXWide">Начинать со сверхширокого объектива</string>
+    <string name="MZGramCameraXZoom">Ползунок зума с объективами</string>
+    <string name="MZGramCameraXInfo">Записывает круглое видео через Jetpack CameraX вместо камеры Telegram: переключение между фронтальной и основной камерой без паузы, где телефон это позволяет, ползунок зума с объективами телефона и стабилизация из переключателя выше. Камера открывается только во время записи круглого видео.</string>
 </resources>

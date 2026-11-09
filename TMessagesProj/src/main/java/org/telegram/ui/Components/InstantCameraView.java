@@ -183,7 +183,15 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     private Size aspectRatio = SharedConfig.roundCamera16to9 ? new Size(16, 9) : new Size(4, 3);
     private TextureView textureView;
     private BackupImageView textureOverlayView;
-    private final boolean useCamera2 = SharedConfig.isUsingCamera2(currentAccount);
+    // MZGram: the round video camera on CameraX (MZGramCameraX) in place of
+    // Camera1 and Camera2 while its switch is on; Camera2 is then not used
+    private final boolean mzgramCameraX = org.telegram.messenger.mzgram.MZGramCameraX.isOn();
+    private final boolean useCamera2 = !mzgramCameraX && SharedConfig.isUsingCamera2(currentAccount);
+    private volatile org.telegram.messenger.mzgram.MZGramCameraX mzgramCameraXSession;
+    private org.telegram.ui.mzgram.MZGramRoundZoomSlider mzgramZoomSlider;
+    // MZGram: the zoom the slider set (NaN until it does); a pinch returns to it
+    private float mzgramBaseZoom = Float.NaN;
+    private float mzgramPinchStartZoom = 1f;
     private CameraSession cameraSession;
     private boolean bothCameras;
     private Camera2Session[] camera2Sessions = new Camera2Session[2];
@@ -196,6 +204,11 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     private volatile String legacyCameraSwitchPath;
 
     private boolean isCameraSessionInitiated() {
+        // MZGram: the CameraX session (MZGramCameraX)
+        if (mzgramCameraX) {
+            final org.telegram.messenger.mzgram.MZGramCameraX session = mzgramCameraXSession;
+            return session != null && session.isReady();
+        }
         if (useCamera2) {
             return camera2SessionCurrent != null && camera2SessionCurrent.isInitiated();
         } else {
@@ -322,6 +335,13 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
 
         addView(cameraContainer, new LayoutParams(AndroidUtilities.roundPlayingMessageSize, AndroidUtilities.roundPlayingMessageSize, Gravity.CENTER));
         addView(flashViews.foregroundView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.FILL));
+        // MZGram: the zoom slider of the CameraX round camera (MZGramRoundZoomSlider)
+        if (mzgramCameraX) {
+            mzgramZoomSlider = new org.telegram.ui.mzgram.MZGramRoundZoomSlider(context, resourcesProvider);
+            mzgramZoomSlider.setOpenAlpha(0f);
+            mzgramZoomSlider.setOnCameraZoomChangeListener(this::mzgramOnSliderZoom);
+            addView(mzgramZoomSlider, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+        }
 
 
         buttonsLayout = new LinearLayout(context);
@@ -442,6 +462,10 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         drawable.setPadding(dp(6));
         drawable.setRadius(dp(21));
         buttonsLayout.setBackground(drawable);
+        // MZGram: the zoom slider gets the same glass as the buttons
+        if (mzgramZoomSlider != null) {
+            mzgramZoomSlider.setBlurBackground(factory.create(mzgramZoomSlider, colorProvider));
+        }
     }
 
     private Boolean wasFlashing;
@@ -457,7 +481,13 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             }
         }
 
-        if (useCamera2) {
+        if (mzgramCameraX) {
+            // MZGram: the CameraX session keeps the front camera dark itself
+            final org.telegram.messenger.mzgram.MZGramCameraX session = mzgramCameraXSession;
+            if (session != null) {
+                session.setTorchEnabled(flashing && recording);
+            }
+        } else if (useCamera2) {
             if (camera2Sessions[1] != null) {
                 camera2Sessions[1].setFlash(flashing && !isFrontface && recording);
             }
@@ -527,6 +557,10 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                 ((LayoutParams) muteImageView.getLayoutParams()).topMargin = textureViewSize / 2 - dp(24);
                 textureOverlayView.setRoundRadius(textureViewSize / 2);
                 cameraContainer.invalidateOutline();
+                // MZGram: the zoom slider stays under the round video
+                if (mzgramZoomSlider != null) {
+                    mzgramZoomSlider.setTextureViewSize(textureViewSize);
+                }
             }
             updateTextureViewSize = false;
         }
@@ -599,6 +633,11 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     }
 
     public void destroy(boolean async) {
+        // MZGram: CameraX is unbound at once, nothing stays warm (conflict rule 2.1)
+        if (mzgramCameraX) {
+            mzgramReleaseCameraX();
+            return;
+        }
         if (useCamera2) {
             for (int a = 0; a < camera2Sessions.length; ++a) {
                 if (camera2Sessions[a] != null) {
@@ -641,6 +680,9 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         super.setVisibility(visibility);
 
         buttonsLayout.setAlpha(0.0f);
+        if (mzgramZoomSlider != null) { // MZGram: the zoom slider with the buttons
+            mzgramZoomSlider.setOpenAlpha(0.0f);
+        }
         cameraContainer.setAlpha(0.0f);
         textureOverlayView.setAlpha(0.0f);
         muteImageView.setAlpha(0.0f);
@@ -780,7 +822,19 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             FileLog.d("InstantCamera show round camera " + cameraFile.getAbsolutePath());
         }
 
-        if (useCamera2) {
+        if (mzgramCameraX) {
+            // MZGram: CameraX tells the preview size only after binding; until
+            // then the GL thread gets a square of the round video size
+            bothCameras = org.telegram.messenger.mzgram.MZGramCameraX.isRoundDualAvailable(getContext());
+            surfaceIndex = (!bothCameras || isFrontface) ? 0 : 1;
+            if (previewSize[0] == null) {
+                final int side = MessagesController.getInstance(currentAccount).roundVideoSize;
+                previewSize[0] = new Size(side, side);
+            }
+            if (previewSize[1] == null) {
+                previewSize[1] = previewSize[0];
+            }
+        } else if (useCamera2) {
             bothCameras = DualCameraView.roundDualAvailableStatic(getContext());
             if (bothCameras) {
                 for (int a = 0; a < 2; ++a) {
@@ -844,7 +898,10 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                     cameraThread.shutdown(0, true, 0, 0, 0, 0);
                     cameraThread = null;
                 }
-                if (useCamera2) {
+                if (mzgramCameraX) {
+                    // MZGram: the CameraX session goes with the surface
+                    mzgramReleaseCameraX();
+                } else if (useCamera2) {
                     for (int a = 0; a < camera2Sessions.length; ++a) {
                         if (camera2Sessions[a] != null) {
                             camera2Sessions[a].destroy(false);
@@ -923,6 +980,10 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                 ObjectAnimator.ofFloat(textureOverlayView, View.TRANSLATION_X, toX),
                 translationYAnimator
         );
+        // MZGram: the zoom slider shows and hides with the buttons
+        if (mzgramZoomSlider != null) {
+            animatorSet.playTogether(ObjectAnimator.ofFloat(mzgramZoomSlider, org.telegram.ui.mzgram.MZGramRoundZoomSlider.OPEN_ALPHA, open ? 1.0f : 0.0f));
+        }
         if (!open) {
             animatorSet.addListener(new AnimatorListenerAdapter() {
                 @Override
@@ -945,6 +1006,10 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     private void updateTranslationY() {
         textureOverlayView.setTranslationY(animationTranslationY + panTranslationY);
         cameraContainer.setTranslationY(animationTranslationY + panTranslationY);
+        // MZGram: the zoom slider moves with the round video
+        if (mzgramZoomSlider != null) {
+            mzgramZoomSlider.setBaseTranslationY(animationTranslationY + panTranslationY);
+        }
     }
 
     public RectF getCameraRect() {
@@ -1143,6 +1208,11 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     }
 
     private void switchCamera() {
+        // MZGram: the CameraX round camera switches on its own
+        if (mzgramCameraX) {
+            mzgramSwitchCameraX();
+            return;
+        }
         legacyCameraSwitchStartedNs = SystemClock.elapsedRealtimeNanos();
         legacyCameraSwitchSequence++;
         legacyCameraSwitchTargetSurface = useCamera2 && bothCameras
@@ -1215,7 +1285,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     // Old Camera1 API
     @Deprecated
     private boolean initCamera() {
-        if (useCamera2) {
+        if (useCamera2 || mzgramCameraX) { // MZGram: CameraX needs no Camera1 list
             return true;
         }
         ArrayList<CameraInfo> cameraInfos = CameraController.getInstance().getCameras();
@@ -1378,7 +1448,10 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                 logLegacyCameraSwitchStage("camera open submitted: surface=" + index);
             }
 
-            if (useCamera2) {
+            if (mzgramCameraX) {
+                // MZGram: the CameraX session (MZGramCameraX)
+                mzgramCreateCameraX(index, surfaceTexture);
+            } else if (useCamera2) {
                 if (bothCameras) {
                     if (camera2Sessions[index] != null) {
                         camera2Sessions[index].open(surfaceTexture);
@@ -1535,6 +1608,8 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         private final int DO_REINIT_MESSAGE = 2;
         private final int DO_SETSESSION_MESSAGE = 3;
         private final int DO_FLIP = 4;
+        private final int DO_MZGRAM_ORIENTATION = 100; // MZGram: CameraX
+        private final int DO_MZGRAM_PREVIEW_SIZE = 101; // MZGram: CameraX
 
         private int drawProgram;
         private int vertexMatrixHandle;
@@ -1813,6 +1888,42 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             }
         }
 
+        // MZGram: CameraX has no world angle, the turn comes from the display
+        public void mzgramSetOrientation() {
+            Handler handler = getHandler();
+            if (handler != null) {
+                sendMessage(handler.obtainMessage(DO_MZGRAM_ORIENTATION), 0);
+            }
+        }
+
+        // MZGram: the CameraX preview size comes after binding and may be refined
+        public void mzgramSetPreviewSize(int index, int width, int height) {
+            if (index < 0 || index >= previewSize.length || width <= 0 || height <= 0) {
+                return;
+            }
+            Handler handler = getHandler();
+            if (handler != null) {
+                sendMessage(handler.obtainMessage(DO_MZGRAM_PREVIEW_SIZE, index, 0, new Size(width, height)), 0);
+            }
+        }
+
+        private void mzgramUpdateTextureBuffer() {
+            updateScale();
+
+            float tX = 1.0f / scaleX / 2.0f;
+            float tY = 1.0f / scaleY / 2.0f;
+
+            float[] texData = {
+                    0.5f - tX, 0.5f - tY,
+                    0.5f + tX, 0.5f - tY,
+                    0.5f - tX, 0.5f + tY,
+                    0.5f + tX, 0.5f + tY
+            };
+
+            textureBuffer = ByteBuffer.allocateDirect(texData.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+            textureBuffer.put(texData).position(0);
+        }
+
         public void flipSurfaces() {
             Handler handler = getHandler();
             if (handler != null) {
@@ -2018,6 +2129,24 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                         }
                     } else {
                         currentSession = newSession;
+                    }
+                    break;
+                }
+                case DO_MZGRAM_ORIENTATION: {
+                    // MZGram: the CameraX turn from the display
+                    final int rotationAngle = org.telegram.messenger.mzgram.MZGramCameraX.getDisplayOrientation();
+                    android.opengl.Matrix.setIdentityM(mMVPMatrix, 0);
+                    if (rotationAngle != 0) {
+                        android.opengl.Matrix.rotateM(mMVPMatrix, 0, rotationAngle, 0, 0, 1);
+                    }
+                    break;
+                }
+                case DO_MZGRAM_PREVIEW_SIZE: {
+                    // MZGram: the CameraX preview size
+                    final int index = inputMessage.arg1;
+                    previewSize[index] = (Size) inputMessage.obj;
+                    if (index == surfaceIndex) {
+                        mzgramUpdateTextureBuffer();
                     }
                     break;
                 }
@@ -2417,6 +2546,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             }
 
             keyframeThumbs.clear();
+            mzgramClockOffsetNs = Long.MIN_VALUE; // MZGram: CameraX clock, taken again
             frameCount = 0;
             if (generateKeyframeThumbsQueue != null) {
                 generateKeyframeThumbsQueue.cleanupQueue();
@@ -2442,6 +2572,8 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         }
 
         long prevTimestamp;
+        // MZGram: the difference between the CameraX frame clock and System.nanoTime
+        private long mzgramClockOffsetNs = Long.MIN_VALUE;
         public void frameAvailable(SurfaceTexture st, Integer cameraId, long timestampInternal) {
             synchronized (sync) {
                 if (!ready) {
@@ -2462,6 +2594,16 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                 }
             } else {
                 zeroTimeStamps = 0;
+            }
+            // MZGram: CameraX may stamp frames on the boot clock while the
+            // audio is on System.nanoTime; the difference is taken once
+            if (mzgramCameraX && zeroTimeStamps == 0) {
+                if (mzgramClockOffsetNs == Long.MIN_VALUE) {
+                    final long bootNs = SystemClock.elapsedRealtimeNanos();
+                    final long monotonicNs = System.nanoTime();
+                    mzgramClockOffsetNs = Math.abs(timestamp - bootNs) < Math.abs(timestamp - monotonicNs) ? bootNs - monotonicNs : 0;
+                }
+                timestamp -= mzgramClockOffsetNs;
             }
             prevTimestamp = timestamp;
             handler.sendMessage(handler.obtainMessage(MSG_VIDEOFRAME_AVAILABLE, (int) (timestamp >> 32), (int) timestamp, cameraId));
@@ -2914,6 +3056,10 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                     ObjectAnimator.ofFloat(buttonsLayout, View.ALPHA, 0.0f),
                     ObjectAnimator.ofInt(paint, AnimationProperties.PAINT_ALPHA, 0),
                     ObjectAnimator.ofFloat(muteImageView, View.ALPHA, 1.0f));
+            // MZGram: no zoom slider over the recorded video
+            if (mzgramZoomSlider != null) {
+                animatorSet.playTogether(ObjectAnimator.ofFloat(mzgramZoomSlider, org.telegram.ui.mzgram.MZGramRoundZoomSlider.OPEN_ALPHA, 0.0f));
+            }
             animatorSet.setDuration(180);
             animatorSet.setInterpolator(new DecelerateInterpolator());
             animatorSet.start();
@@ -3828,6 +3974,14 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                 pinchStartDistance = (float) Math.hypot(ev.getX(1) - ev.getX(0), ev.getY(1) - ev.getY(0));
 
                 pinchScale = 1f;
+                // MZGram: CameraX zooms from where it is
+                if (mzgramCameraX) {
+                    final org.telegram.messenger.mzgram.MZGramCameraX session = mzgramCameraXSession;
+                    mzgramPinchStartZoom = session != null ? session.getZoomRatio() : 1f;
+                    if (mzgramZoomSlider != null) {
+                        mzgramZoomSlider.beginPinchZoomGesture();
+                    }
+                }
 
                 pointerId1 = ev.getPointerId(0);
                 pointerId2 = ev.getPointerId(1);
@@ -3856,7 +4010,9 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                 return false;
             }
             pinchScale = (float) Math.hypot(ev.getX(index2) - ev.getX(index1), ev.getY(index2) - ev.getY(index1)) / pinchStartDistance;
-            if (useCamera2) {
+            if (mzgramCameraX) {
+                mzgramPinchZoom(pinchScale); // MZGram: CameraX
+            } else if (useCamera2) {
                 if (camera2SessionCurrent != null) {
                     float zoom = Utilities.clamp(pinchScale, camera2SessionCurrent.getMaxZoom(), camera2SessionCurrent.getMinZoom());
                     camera2SessionCurrent.setZoom(zoom);
@@ -3876,6 +4032,11 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
 
     public void finishZoom() {
         if (finishZoomTransition != null) {
+            return;
+        }
+        // MZGram: CameraX returns to the slider's zoom, or to its start zoom
+        if (mzgramCameraX) {
+            mzgramFinishZoom();
             return;
         }
 
@@ -3913,6 +4074,179 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             finishZoomTransition.setInterpolator(CubicBezierInterpolator.DEFAULT);
             finishZoomTransition.start();
         }
+    }
+
+    // ---- MZGram: the round video camera on CameraX (MZGramCameraX) ----
+
+    private void mzgramCreateCameraX(int index, SurfaceTexture surfaceTexture) {
+        final androidx.camera.core.Preview.SurfaceProvider provider = org.telegram.messenger.mzgram.MZGramCameraX.createSurfaceProvider(getContext(), surfaceTexture, (width, height) -> {
+            if (cameraThread != null) {
+                cameraThread.mzgramSetPreviewSize(index, width, height);
+            }
+        });
+        if (index == 0) {
+            final org.telegram.messenger.mzgram.MZGramCameraX old = mzgramCameraXSession;
+            if (old != null) {
+                old.closeCamera();
+            }
+            final org.telegram.messenger.mzgram.MZGramCameraX session = new org.telegram.messenger.mzgram.MZGramCameraX(provider, MessagesController.getInstance(currentAccount).roundVideoSize);
+            mzgramCameraXSession = session;
+            mzgramBaseZoom = Float.NaN;
+            session.initCamera(getContext(), isFrontface, bothCameras, () -> {
+                if (mzgramCameraXSession != session) {
+                    return;
+                }
+                // The phone may not give both lenses at once: then the second
+                // surface is not needed and the order goes back to one camera
+                final boolean dual = session.isDualMode();
+                if (!dual && bothCameras && surfaceIndex != 0 && cameraThread != null) {
+                    cameraThread.flipSurfaces();
+                }
+                bothCameras = dual;
+                if (cameraThread != null) {
+                    cameraThread.mzgramSetOrientation();
+                }
+                updateFlash();
+                mzgramBindZoomSlider();
+            });
+            updateFlash();
+        } else if (bothCameras && mzgramCameraXSession != null) {
+            mzgramCameraXSession.setSecondSurfaceProvider(provider);
+        }
+    }
+
+    private void mzgramReleaseCameraX() {
+        if (mzgramZoomSlider != null) {
+            mzgramZoomSlider.unbindSession();
+        }
+        if (finishZoomTransition != null) {
+            finishZoomTransition.cancel();
+            finishZoomTransition = null;
+        }
+        mzgramBaseZoom = Float.NaN;
+        final org.telegram.messenger.mzgram.MZGramCameraX session = mzgramCameraXSession;
+        mzgramCameraXSession = null;
+        if (session != null) {
+            try {
+                session.closeCamera();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+    }
+
+    /**
+     * With both lenses bound the session is not rebuilt: the active camera
+     * and the order of the surfaces change, and the picture does not go dark.
+     * With one lens the camera is bound again, behind the last frame.
+     */
+    private void mzgramSwitchCameraX() {
+        if (finishZoomTransition != null) {
+            finishZoomTransition.cancel();
+            finishZoomTransition = null;
+        }
+        if (mzgramZoomSlider != null) {
+            mzgramZoomSlider.beginCameraSwitch();
+        }
+        mzgramBaseZoom = Float.NaN;
+        final org.telegram.messenger.mzgram.MZGramCameraX session = mzgramCameraXSession;
+        final boolean dual = session != null && session.isDualMode();
+        if (!dual) {
+            saveLastCameraBitmap();
+            if (lastBitmap != null) {
+                needDrawFlickerStub = false;
+                textureOverlayView.setImageBitmap(lastBitmap);
+                textureOverlayView.setAlpha(1f);
+            }
+        }
+        isFrontface = !isFrontface;
+        updateFlash();
+        if (dual) {
+            if (cameraThread != null) {
+                cameraThread.flipSurfaces();
+            }
+            session.switchCamera();
+            mzgramBindZoomSlider();
+            return;
+        }
+        cameraReady = false;
+        if (session == null) {
+            if (cameraThread != null) {
+                cameraThread.reinitForNewCamera();
+            }
+        } else {
+            session.switchCamera();
+            updateFlash();
+            mzgramBindZoomSlider();
+        }
+    }
+
+    private void mzgramBindZoomSlider() {
+        if (mzgramZoomSlider != null) {
+            mzgramZoomSlider.bindSession(mzgramCameraXSession);
+        }
+    }
+
+    /** The slider set a zoom: it stays after a pinch. */
+    private void mzgramOnSliderZoom(float zoom, boolean fromUser) {
+        if (!fromUser) {
+            return;
+        }
+        if (finishZoomTransition != null) {
+            finishZoomTransition.cancel();
+            finishZoomTransition = null;
+        }
+        mzgramBaseZoom = zoom;
+    }
+
+    private void mzgramPinchZoom(float scale) {
+        final org.telegram.messenger.mzgram.MZGramCameraX session = mzgramCameraXSession;
+        if (session == null) {
+            return;
+        }
+        final float zoom = Utilities.clamp(mzgramPinchStartZoom * scale, session.getMaxZoomRatio(), session.getMinZoomRatio());
+        session.setZoomRatio(zoom);
+        if (mzgramZoomSlider != null) {
+            mzgramZoomSlider.syncZoom(zoom);
+        }
+    }
+
+    private void mzgramFinishZoom() {
+        if (mzgramZoomSlider != null) {
+            mzgramZoomSlider.endPinchZoomGesture();
+        }
+        final org.telegram.messenger.mzgram.MZGramCameraX session = mzgramCameraXSession;
+        if (session == null) {
+            return;
+        }
+        final float from = session.getZoomRatio();
+        final float to = Utilities.clamp(Float.isNaN(mzgramBaseZoom) ? session.resetZoom() : mzgramBaseZoom,
+                session.getMaxZoomRatio(), session.getMinZoomRatio());
+        if (Math.abs(from - to) < 0.001f) {
+            return;
+        }
+        finishZoomTransition = ValueAnimator.ofFloat(from, to);
+        finishZoomTransition.addUpdateListener(valueAnimator -> {
+            final float zoom = (float) valueAnimator.getAnimatedValue();
+            final org.telegram.messenger.mzgram.MZGramCameraX current = mzgramCameraXSession;
+            if (current != null) {
+                current.setZoomRatio(zoom);
+            }
+            if (mzgramZoomSlider != null) {
+                mzgramZoomSlider.syncZoom(zoom);
+            }
+        });
+        finishZoomTransition.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (finishZoomTransition == animation) {
+                    finishZoomTransition = null;
+                }
+            }
+        });
+        finishZoomTransition.setDuration(350);
+        finishZoomTransition.setInterpolator(CubicBezierInterpolator.DEFAULT);
+        finishZoomTransition.start();
     }
 
     public interface Delegate {

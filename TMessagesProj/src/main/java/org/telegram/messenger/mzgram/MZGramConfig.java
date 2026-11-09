@@ -99,6 +99,11 @@ public class MZGramConfig {
     // The Monet themes in the theme list (MZGramMonet, Android 12+) and their style
     public static boolean monetThemes = false;
     public static int monetStyle = 0;
+    // The round video camera on CameraX (MZGramCameraX), its start on the
+    // ultra-wide lens and its zoom slider (MZGramRoundZoomSlider)
+    public static boolean cameraX = false;
+    public static boolean cameraXWideLens = false;
+    public static boolean cameraXZoomSlider = true;
     // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
     // the phone's, otherwise one of its codes
     public static String language = "";
@@ -419,6 +424,9 @@ public class MZGramConfig {
             iconPacks = preferences.getBoolean("iconPacks", false);
             monetThemes = preferences.getBoolean("monetThemes", false);
             monetStyle = preferences.getInt("monetStyle", 0) == 1 ? 1 : 0;
+            cameraX = preferences.getBoolean("useCameraX", false);
+            cameraXWideLens = preferences.getBoolean("cameraXWideLens", false);
+            cameraXZoomSlider = preferences.getBoolean("cameraXZoomSlider", true);
             language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
@@ -572,6 +580,21 @@ public class MZGramConfig {
     public static void setMonetStyle(int style) {
         monetStyle = style == 1 ? 1 : 0;
         preferences().edit().putInt("monetStyle", monetStyle).apply();
+    }
+
+    public static void toggleCameraX() {
+        cameraX = !cameraX;
+        putBoolean("useCameraX", cameraX);
+    }
+
+    public static void toggleCameraXWideLens() {
+        cameraXWideLens = !cameraXWideLens;
+        putBoolean("cameraXWideLens", cameraXWideLens);
+    }
+
+    public static void toggleCameraXZoomSlider() {
+        cameraXZoomSlider = !cameraXZoomSlider;
+        putBoolean("cameraXZoomSlider", cameraXZoomSlider);
     }
 
     public static void toggleRecentChatsOnBack() {

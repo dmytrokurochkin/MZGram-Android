@@ -214,6 +214,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_MONET_THEMES = 174;
     private static final int BUTTON_MONET_STYLE = 175;
     private static final int BUTTON_MONET_PICK = 176;
+    private static final int BUTTON_CAMERA_X = 177;
+    private static final int BUTTON_CAMERA_X_WIDE = 178;
+    private static final int BUTTON_CAMERA_X_ZOOM = 179;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -697,6 +700,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramTextStyleMenuInfo)));
         items.add(UItem.asCheck(BUTTON_CAMERA_STABILIZATION, getString(R.string.MZGramCameraStabilization)).setChecked(MZGramConfig.cameraStabilization));
         items.add(UItem.asShadow(getString(R.string.MZGramCameraStabilizationInfo)));
+        items.add(UItem.asCheck(BUTTON_CAMERA_X, getString(R.string.MZGramCameraX)).setChecked(MZGramConfig.cameraX));
+        if (MZGramConfig.cameraX) {
+            items.add(UItem.asCheck(BUTTON_CAMERA_X_WIDE, getString(R.string.MZGramCameraXWide)).setChecked(MZGramConfig.cameraXWideLens));
+            items.add(UItem.asCheck(BUTTON_CAMERA_X_ZOOM, getString(R.string.MZGramCameraXZoom)).setChecked(MZGramConfig.cameraXZoomSlider));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramCameraXInfo)));
         items.add(UItem.asCheck(BUTTON_PAUSE_ROUND, getString(R.string.MZGramPauseRound)).setChecked(MZGramConfig.pauseRoundOnLeave));
         items.add(UItem.asShadow(getString(R.string.MZGramPauseRoundInfo)));
         items.add(UItem.asCheck(BUTTON_ALWAYS_SEND_HD, getString(R.string.MZGramAlwaysSendHd)).setChecked(MZGramConfig.alwaysSendHd));
@@ -1120,6 +1129,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CAMERA_STABILIZATION) {
             MZGramConfig.toggleCameraStabilization();
             ((TextCheckCell) view).setChecked(MZGramConfig.cameraStabilization);
+        } else if (item.id == BUTTON_CAMERA_X) {
+            MZGramConfig.toggleCameraX();
+            ((TextCheckCell) view).setChecked(MZGramConfig.cameraX);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_CAMERA_X_WIDE) {
+            MZGramConfig.toggleCameraXWideLens();
+            ((TextCheckCell) view).setChecked(MZGramConfig.cameraXWideLens);
+        } else if (item.id == BUTTON_CAMERA_X_ZOOM) {
+            MZGramConfig.toggleCameraXZoomSlider();
+            ((TextCheckCell) view).setChecked(MZGramConfig.cameraXZoomSlider);
         } else if (item.id == BUTTON_AUDIO_ENHANCE) {
             MZGramConfig.toggleAudioEnhance();
             ((TextCheckCell) view).setChecked(MZGramConfig.audioEnhance);

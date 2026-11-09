@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">W tych czatach żadna reguła nie ukrywa wiadomości. Czat można też dodać z menu jego profilu. Dotknięcie otwiera reguły czatu, długie dotknięcie znów go filtruje.</string>
     <string name="MZGramRegexFiltersExcludedDone">Filtry wiadomości nie działają w tym czacie.</string>
     <string name="MZGramRegexFiltersIncludedDone">Filtry wiadomości znów działają w tym czacie.</string>
+    <string name="MZGramDrawer">Menu boczne</string>
+    <string name="MZGramDrawerInfo">Trzy kropki listy czatów otwierają panel z boku: twój awatar i imię, konta pod strzałką i wybrane przez ciebie pozycje. Pełne menu otwiera zwykłe menu z całą resztą.</string>
+    <string name="MZGramDrawerItems">Pozycje menu</string>
+    <string name="MZGramDrawerItemsInfo">Dotknięcie ukrywa lub pokazuje pozycję. Przytrzymaj wiersz i przeciągnij, aby go przesunąć. Pełne menu zostaje zawsze: jest w nim cała reszta zwykłego menu.</string>
+    <string name="MZGramDrawerItemsReset">Przywróć pozycje menu</string>
+    <string name="MZGramDrawerShowQr">Przycisk QR w nagłówku</string>
+    <string name="MZGramDrawerLargeAvatar">Duży awatar</string>
+    <string name="MZGramDrawerFullMenu">Pełne menu</string>
+    <string name="MZGramDrawerAccounts">Pokaż konta</string>
 </resources>

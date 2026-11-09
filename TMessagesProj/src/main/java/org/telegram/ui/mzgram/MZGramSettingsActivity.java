@@ -200,6 +200,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SHADOW_BAN_LIST = 138;
     private static final int BUTTON_REGEX_FILTERS = 161;
     private static final int BUTTON_REGEX_FILTERS_RULES = 162;
+    private static final int BUTTON_CUSTOM_DRAWER = 163;
+    private static final int BUTTON_DRAWER_ITEMS = 164;
+    private static final int BUTTON_DRAWER_SHOW_QR = 165;
+    private static final int BUTTON_DRAWER_LARGE_AVATAR = 166;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -787,6 +791,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramAccountsInMenuInfo)));
         items.add(UItem.asButton(BUTTON_ACCOUNT_ORDER, getString(R.string.MZGramAccountOrder)));
         items.add(UItem.asShadow(getString(R.string.MZGramAccountOrderButtonInfo)));
+        items.add(UItem.asCheck(BUTTON_CUSTOM_DRAWER, getString(R.string.MZGramDrawer)).setChecked(MZGramConfig.customDrawer));
+        if (MZGramConfig.customDrawer) {
+            items.add(UItem.asButton(BUTTON_DRAWER_ITEMS, getString(R.string.MZGramDrawerItems)));
+            items.add(UItem.asCheck(BUTTON_DRAWER_SHOW_QR, getString(R.string.MZGramDrawerShowQr)).setChecked(MZGramConfig.drawerShowQr));
+            items.add(UItem.asCheck(BUTTON_DRAWER_LARGE_AVATAR, getString(R.string.MZGramDrawerLargeAvatar)).setChecked(MZGramConfig.drawerLargeAvatar));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramDrawerInfo)));
         items.add(UItem.asCheck(BUTTON_RECENT_CHATS_ON_BACK, getString(R.string.MZGramRecentChatsOnBack)).setChecked(MZGramConfig.recentChatsOnBack));
         items.add(UItem.asShadow(getString(R.string.MZGramRecentChatsOnBackInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
@@ -1326,6 +1337,20 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 MZGramRecentChats.clearAll();
             }
             ((TextCheckCell) view).setChecked(MZGramConfig.recentChatsOnBack);
+        } else if (item.id == BUTTON_CUSTOM_DRAWER) {
+            MZGramConfig.toggleCustomDrawer();
+            ((TextCheckCell) view).setChecked(MZGramConfig.customDrawer);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_DRAWER_ITEMS) {
+            presentFragment(new MZGramDrawerItemsActivity());
+        } else if (item.id == BUTTON_DRAWER_SHOW_QR) {
+            MZGramConfig.toggleDrawerShowQr();
+            ((TextCheckCell) view).setChecked(MZGramConfig.drawerShowQr);
+        } else if (item.id == BUTTON_DRAWER_LARGE_AVATAR) {
+            MZGramConfig.toggleDrawerLargeAvatar();
+            ((TextCheckCell) view).setChecked(MZGramConfig.drawerLargeAvatar);
         } else if (item.id == BUTTON_ACCOUNT_ORDER) {
             presentFragment(new MZGramAccountOrderActivity());
         } else if (item.id == BUTTON_ACCOUNTS_IN_MENU) {

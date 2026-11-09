@@ -7328,6 +7328,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     @Override
     public void onPause() {
         super.onPause();
+        // MZGram: no MZGram side menu left over the chat list
+        org.telegram.ui.mzgram.MZGramDrawer.close(false);
         if (storiesBulletin != null) {
             storiesBulletin.hide();
             storiesBulletin = null;
@@ -7355,6 +7357,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public boolean onBackPressed(boolean invoked) {
+        // MZGram: Back closes the MZGram side menu first
+        if (org.telegram.ui.mzgram.MZGramDrawer.isOpen()) {
+            if (invoked) {
+                org.telegram.ui.mzgram.MZGramDrawer.close(true);
+            }
+            return false;
+        }
         if (hasShownSheet()) {
             if (invoked) closeSheet();
             return false;
@@ -13857,7 +13866,23 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    // MZGram: the popup menu itself, for "Full menu" of the MZGram side menu
+    private boolean mzgramMenuFromDrawer;
+
+    public void mzgramShowItemOptions() {
+        mzgramMenuFromDrawer = true;
+        try {
+            showItemOptions();
+        } finally {
+            mzgramMenuFromDrawer = false;
+        }
+    }
+
     private void showItemOptions() {
+        // MZGram: the MZGram side menu in place of this menu (Settings > MZGram > Interface), not in the archive or a community
+        if (!mzgramMenuFromDrawer && communityId == 0 && !isArchive() && org.telegram.ui.mzgram.MZGramDrawer.open(this)) {
+            return;
+        }
         ItemOptions io = ItemOptions.makeOptions(this, optionsItem);
         io.setColors(getThemedColor(Theme.key_actionBarDefaultTitle), getThemedColor(Theme.key_actionBarDefaultTitle));
         io.setDimAlpha(0x08);

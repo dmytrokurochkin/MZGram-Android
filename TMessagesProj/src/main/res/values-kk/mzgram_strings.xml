@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">Бұл чаттарда ешбір ереже хабарларды жасырмайды. Чатты оның профиль мәзірінен де қосуға болады. Түрту чат ережелерін ашады, ұзақ түрту оны қайта сүзеді.</string>
     <string name="MZGramRegexFiltersExcludedDone">Хабар сүзгілері бұл чатта әрекет етпейді.</string>
     <string name="MZGramRegexFiltersIncludedDone">Хабар сүзгілері бұл чатта қайта әрекет етеді.</string>
+    <string name="MZGramDrawer">Бүйір мәзірі</string>
+    <string name="MZGramDrawerInfo">Чаттар тізімінің үш нүктесі бүйірден панель ашады: аватарыңыз бен атыңыз, көрсеткі артындағы аккаунттар және өзіңіз таңдаған тармақтар. Ондағы «Толық мәзір» қалғанының бәрі бар әдеттегі мәзірді ашады.</string>
+    <string name="MZGramDrawerItems">Мәзір тармақтары</string>
+    <string name="MZGramDrawerItemsInfo">Түрту тармақты жасырады не көрсетеді. Жылжыту үшін жолды басып тұрып сүйреңіз. «Толық мәзір» әрдайым қалады: әдеттегі мәзірдің қалғаны соның ішінде.</string>
+    <string name="MZGramDrawerItemsReset">Мәзір тармақтарын қалпына келтіру</string>
+    <string name="MZGramDrawerShowQr">Тақырыпшадағы QR түймесі</string>
+    <string name="MZGramDrawerLargeAvatar">Үлкен аватар</string>
+    <string name="MZGramDrawerFullMenu">Толық мәзір</string>
+    <string name="MZGramDrawerAccounts">Аккаунттарды көрсету</string>
 </resources>

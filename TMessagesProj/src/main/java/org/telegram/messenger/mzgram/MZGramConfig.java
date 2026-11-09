@@ -281,6 +281,11 @@ public class MZGramConfig {
     public static boolean regexFilters = false;
     public static boolean regexFiltersInPrivate = false;
     public static boolean regexFiltersNoDownload = false;
+    // The MZGram side menu (MZGramDrawer) in place of the popup menu of the
+    // three dots of the chat list; its QR button and the larger avatar.
+    public static boolean customDrawer = false;
+    public static boolean drawerShowQr = true;
+    public static boolean drawerLargeAvatar = false;
 
     // plainCodeBlocks
     public static boolean plainCodeBlocks = false;
@@ -496,6 +501,9 @@ public class MZGramConfig {
             regexFilters = preferences.getBoolean("regexFilters", false);
             regexFiltersInPrivate = preferences.getBoolean("regexFiltersInPrivate", false);
             regexFiltersNoDownload = preferences.getBoolean("regexFiltersNoDownload", false);
+            customDrawer = preferences.getBoolean("customDrawer", false);
+            drawerShowQr = preferences.getBoolean("drawerShowQr", true);
+            drawerLargeAvatar = preferences.getBoolean("drawerLargeAvatar", false);
             plainCodeBlocks = preferences.getBoolean("plainCodeBlocks", false);
             hexColorSwatch = preferences.getBoolean("hexColorSwatch", false);
             scheduleSlider = preferences.getBoolean("scheduleSlider", false);
@@ -1075,6 +1083,21 @@ public class MZGramConfig {
     public static void toggleRegexFiltersNoDownload() {
         regexFiltersNoDownload = !regexFiltersNoDownload;
         putBoolean("regexFiltersNoDownload", regexFiltersNoDownload);
+    }
+
+    public static void toggleCustomDrawer() {
+        customDrawer = !customDrawer;
+        putBoolean("customDrawer", customDrawer);
+    }
+
+    public static void toggleDrawerShowQr() {
+        drawerShowQr = !drawerShowQr;
+        putBoolean("drawerShowQr", drawerShowQr);
+    }
+
+    public static void toggleDrawerLargeAvatar() {
+        drawerLargeAvatar = !drawerLargeAvatar;
+        putBoolean("drawerLargeAvatar", drawerLargeAvatar);
     }
 
     public static void toggleShadowBan() {

@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">In diesen Chats blendet keine Regel Nachrichten aus. Ein Chat lässt sich auch über das Menü seines Profils hinzufügen. Tippen öffnet die Regeln des Chats, langes Tippen filtert ihn wieder.</string>
     <string name="MZGramRegexFiltersExcludedDone">Nachrichtenfilter gelten in diesem Chat nicht.</string>
     <string name="MZGramRegexFiltersIncludedDone">Nachrichtenfilter gelten in diesem Chat wieder.</string>
+    <string name="MZGramDrawer">Seitenmenü</string>
+    <string name="MZGramDrawerInfo">Die drei Punkte der Chatliste öffnen ein Feld von der Seite: dein Profilbild und dein Name, die Konten hinter dem Pfeil und die Einträge deiner Wahl. Gesamtes Menü darin öffnet das gewohnte Menü mit allem Übrigen.</string>
+    <string name="MZGramDrawerItems">Menüeinträge</string>
+    <string name="MZGramDrawerItemsInfo">Tippen blendet einen Eintrag aus oder ein. Halte eine Zeile und ziehe sie, um sie zu verschieben. Gesamtes Menü bleibt immer: Darin ist alles Übrige des gewohnten Menüs.</string>
+    <string name="MZGramDrawerItemsReset">Menüeinträge zurücksetzen</string>
+    <string name="MZGramDrawerShowQr">QR-Taste in der Kopfzeile</string>
+    <string name="MZGramDrawerLargeAvatar">Großes Profilbild</string>
+    <string name="MZGramDrawerFullMenu">Gesamtes Menü</string>
+    <string name="MZGramDrawerAccounts">Konten anzeigen</string>
 </resources>

@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">Dans ces discussions, aucune règle ne masque de messages. Une discussion peut aussi être ajoutée depuis le menu de son profil. Un appui ouvre ses règles, un appui long la filtre à nouveau.</string>
     <string name="MZGramRegexFiltersExcludedDone">Les filtres de messages ne s\'appliquent pas à cette discussion.</string>
     <string name="MZGramRegexFiltersIncludedDone">Les filtres de messages s\'appliquent à nouveau à cette discussion.</string>
+    <string name="MZGramDrawer">Menu latéral</string>
+    <string name="MZGramDrawerInfo">Les trois points de la liste des discussions ouvrent un panneau sur le côté : votre photo et votre nom, les comptes derrière la flèche et les éléments de votre choix. Menu complet ouvre le menu habituel avec tout le reste.</string>
+    <string name="MZGramDrawerItems">Éléments du menu</string>
+    <string name="MZGramDrawerItemsInfo">Un appui masque ou affiche un élément. Maintenez une ligne et faites-la glisser pour la déplacer. Menu complet reste toujours : il contient tout le reste du menu habituel.</string>
+    <string name="MZGramDrawerItemsReset">Réinitialiser les éléments du menu</string>
+    <string name="MZGramDrawerShowQr">Bouton QR dans l\'en-tête</string>
+    <string name="MZGramDrawerLargeAvatar">Grande photo</string>
+    <string name="MZGramDrawerFullMenu">Menu complet</string>
+    <string name="MZGramDrawerAccounts">Afficher les comptes</string>
 </resources>

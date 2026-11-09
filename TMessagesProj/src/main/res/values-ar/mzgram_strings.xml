@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">في هذه المحادثات لا تخفي أي قاعدة الرسائل. يمكن أيضًا إضافة محادثة من قائمة ملفها الشخصي. النقر يفتح قواعد المحادثة، والنقر المطوّل يعيد تصفيتها.</string>
     <string name="MZGramRegexFiltersExcludedDone">مرشحات الرسائل لا تعمل في هذه المحادثة.</string>
     <string name="MZGramRegexFiltersIncludedDone">مرشحات الرسائل تعمل مجددًا في هذه المحادثة.</string>
+    <string name="MZGramDrawer">القائمة الجانبية</string>
+    <string name="MZGramDrawerInfo">تفتح النقاط الثلاث في قائمة المحادثات لوحة من الجانب: صورتك واسمك، والحسابات خلف السهم، والعناصر التي تختارها. يفتح «القائمة الكاملة» فيها القائمة المعتادة بكل ما تبقى.</string>
+    <string name="MZGramDrawerItems">عناصر القائمة</string>
+    <string name="MZGramDrawerItemsInfo">النقر يخفي عنصرًا أو يظهره. اضغط مطولًا على صف واسحبه لنقله. تبقى «القائمة الكاملة» دائمًا: ففيها بقية القائمة المعتادة.</string>
+    <string name="MZGramDrawerItemsReset">إعادة ضبط عناصر القائمة</string>
+    <string name="MZGramDrawerShowQr">زر QR في الترويسة</string>
+    <string name="MZGramDrawerLargeAvatar">صورة كبيرة</string>
+    <string name="MZGramDrawerFullMenu">القائمة الكاملة</string>
+    <string name="MZGramDrawerAccounts">إظهار الحسابات</string>
 </resources>

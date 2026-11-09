@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">В этих чатах ни одно правило не скрывает сообщения. Чат можно добавить и из меню его профиля. Нажатие открывает правила чата, долгое нажатие снова включает для него фильтры.</string>
     <string name="MZGramRegexFiltersExcludedDone">Фильтры сообщений не действуют в этом чате.</string>
     <string name="MZGramRegexFiltersIncludedDone">Фильтры сообщений снова действуют в этом чате.</string>
+    <string name="MZGramDrawer">Боковое меню</string>
+    <string name="MZGramDrawerInfo">Три точки списка чатов открывают панель сбоку: ваша аватарка и имя, аккаунты за стрелкой и выбранные вами пункты. «Всё меню» в ней открывает привычное меню с остальными пунктами.</string>
+    <string name="MZGramDrawerItems">Пункты меню</string>
+    <string name="MZGramDrawerItemsInfo">Нажатие скрывает или показывает пункт. Удерживайте строку и перетащите, чтобы передвинуть. «Всё меню» остаётся всегда: в нём остальное из привычного меню.</string>
+    <string name="MZGramDrawerItemsReset">Сбросить пункты меню</string>
+    <string name="MZGramDrawerShowQr">Кнопка QR в шапке</string>
+    <string name="MZGramDrawerLargeAvatar">Большая аватарка</string>
+    <string name="MZGramDrawerFullMenu">Всё меню</string>
+    <string name="MZGramDrawerAccounts">Показать аккаунты</string>
 </resources>

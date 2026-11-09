@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">Bu sohbetlerde hiçbir kural mesaj gizlemez. Bir sohbet profil menüsünden de eklenebilir. Dokunmak sohbetin kurallarını açar, uzun dokunmak yeniden filtreler.</string>
     <string name="MZGramRegexFiltersExcludedDone">Mesaj filtreleri bu sohbette çalışmıyor.</string>
     <string name="MZGramRegexFiltersIncludedDone">Mesaj filtreleri bu sohbette yeniden çalışıyor.</string>
+    <string name="MZGramDrawer">Yan menü</string>
+    <string name="MZGramDrawerInfo">Sohbet listesinin üç noktası yandan bir panel açar: profil fotoğrafın ve adın, okun arkasındaki hesaplar ve seçtiğin öğeler. İçindeki Tüm menü, geri kalan her şeyle alışılmış menüyü açar.</string>
+    <string name="MZGramDrawerItems">Menü öğeleri</string>
+    <string name="MZGramDrawerItemsInfo">Dokunmak bir öğeyi gizler ya da gösterir. Taşımak için bir satırı basılı tutup sürükle. Tüm menü her zaman kalır: alışılmış menünün geri kalanı onun içindedir.</string>
+    <string name="MZGramDrawerItemsReset">Menü öğelerini sıfırla</string>
+    <string name="MZGramDrawerShowQr">Başlıkta QR düğmesi</string>
+    <string name="MZGramDrawerLargeAvatar">Büyük profil fotoğrafı</string>
+    <string name="MZGramDrawerFullMenu">Tüm menü</string>
+    <string name="MZGramDrawerAccounts">Hesapları göster</string>
 </resources>

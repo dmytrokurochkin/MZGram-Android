@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">En estos chats ninguna regla oculta mensajes. También puedes añadir un chat desde el menú de su perfil. Un toque abre las reglas del chat; un toque largo vuelve a filtrarlo.</string>
     <string name="MZGramRegexFiltersExcludedDone">Los filtros de mensajes no funcionan en este chat.</string>
     <string name="MZGramRegexFiltersIncludedDone">Los filtros de mensajes vuelven a funcionar en este chat.</string>
+    <string name="MZGramDrawer">Menú lateral</string>
+    <string name="MZGramDrawerInfo">Los tres puntos de la lista de chats abren un panel lateral: tu foto y tu nombre, las cuentas tras la flecha y los elementos que elijas. Menú completo abre el menú de siempre con todo lo demás.</string>
+    <string name="MZGramDrawerItems">Elementos del menú</string>
+    <string name="MZGramDrawerItemsInfo">Un toque oculta o muestra un elemento. Mantén pulsada una fila y arrástrala para moverla. Menú completo siempre se queda: en él está todo lo demás del menú de siempre.</string>
+    <string name="MZGramDrawerItemsReset">Restablecer los elementos del menú</string>
+    <string name="MZGramDrawerShowQr">Botón QR en la cabecera</string>
+    <string name="MZGramDrawerLargeAvatar">Foto grande</string>
+    <string name="MZGramDrawerFullMenu">Menú completo</string>
+    <string name="MZGramDrawerAccounts">Mostrar las cuentas</string>
 </resources>

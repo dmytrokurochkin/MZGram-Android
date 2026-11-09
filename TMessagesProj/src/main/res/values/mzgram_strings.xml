@@ -822,4 +822,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">No rule hides messages in these chats. A chat can also be added from the menu of its profile. A tap opens the chat\'s rules, a long tap filters it again.</string>
     <string name="MZGramRegexFiltersExcludedDone">Message filters do not work in this chat.</string>
     <string name="MZGramRegexFiltersIncludedDone">Message filters work in this chat again.</string>
+    <string name="MZGramDrawer">Side menu</string>
+    <string name="MZGramDrawerInfo">The three dots of the chat list open a panel from the side: your avatar and name, the accounts behind the arrow and the items you choose. Full menu in it opens the usual menu with everything else.</string>
+    <string name="MZGramDrawerItems">Menu items</string>
+    <string name="MZGramDrawerItemsInfo">A tap hides or shows an item. Hold a row and drag it to move it. Full menu always stays: everything else of the usual menu is in it.</string>
+    <string name="MZGramDrawerItemsReset">Reset menu items</string>
+    <string name="MZGramDrawerShowQr">QR button in the header</string>
+    <string name="MZGramDrawerLargeAvatar">Large avatar</string>
+    <string name="MZGramDrawerFullMenu">Full menu</string>
+    <string name="MZGramDrawerAccounts">Show the accounts</string>
 </resources>

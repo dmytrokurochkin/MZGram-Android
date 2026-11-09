@@ -823,4 +823,13 @@
     <string name="MZGramRegexFiltersExcludedInfo">У цих чатах жодне правило не ховає повідомлень. Чат можна додати й з меню його профілю. Дотик відкриває правила чату, довгий дотик знову вмикає для нього фільтри.</string>
     <string name="MZGramRegexFiltersExcludedDone">Фільтри повідомлень не діють у цьому чаті.</string>
     <string name="MZGramRegexFiltersIncludedDone">Фільтри повідомлень знову діють у цьому чаті.</string>
+    <string name="MZGramDrawer">Бічне меню</string>
+    <string name="MZGramDrawerInfo">Три крапки списку чатів відкривають панель збоку: ваша аватарка й ім\'я, акаунти за стрілкою і вибрані вами пункти. «Усе меню» в ній відкриває звичне меню з рештою пунктів.</string>
+    <string name="MZGramDrawerItems">Пункти меню</string>
+    <string name="MZGramDrawerItemsInfo">Дотик ховає або показує пункт. Утримайте рядок і перетягніть, щоб пересунути. «Усе меню» лишається завжди: у ньому решта звичного меню.</string>
+    <string name="MZGramDrawerItemsReset">Скинути пункти меню</string>
+    <string name="MZGramDrawerShowQr">Кнопка QR у шапці</string>
+    <string name="MZGramDrawerLargeAvatar">Велика аватарка</string>
+    <string name="MZGramDrawerFullMenu">Усе меню</string>
+    <string name="MZGramDrawerAccounts">Показати акаунти</string>
 </resources>

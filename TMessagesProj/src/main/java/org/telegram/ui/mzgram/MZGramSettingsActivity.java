@@ -167,6 +167,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_STICKER_TIME = 143;
     private static final int BUTTON_GRANULAR_PERMISSIONS = 141;
     private static final int BUTTON_SPLIT_GIF_INLINE = 144;
+    private static final int BUTTON_WIDE_CHANNEL_POSTS = 145;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -637,6 +638,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_STICKER_ROUND, getString(R.string.MZGramStickerRound)).setChecked(MZGramConfig.stickerRoundCorners));
         items.add(UItem.asCheck(BUTTON_STICKER_TIME, getString(R.string.MZGramStickerTime)).setChecked(MZGramConfig.hideStickerTime));
         items.add(UItem.asShadow(getString(R.string.MZGramStickersInfo)));
+        items.add(UItem.asCheck(BUTTON_WIDE_CHANNEL_POSTS, getString(R.string.MZGramWideChannelPosts)).setChecked(MZGramConfig.wideChannelPosts));
+        items.add(UItem.asShadow(getString(R.string.MZGramWideChannelPostsInfo)));
         items.add(UItem.asCheck(BUTTON_GRANULAR_PERMISSIONS, getString(R.string.MZGramGranularPermissions)).setChecked(MZGramConfig.granularGroupPermissions));
         items.add(UItem.asShadow(getString(R.string.MZGramGranularPermissionsInfo)));
         items.add(UItem.asCheck(BUTTON_SPLIT_GIF_INLINE, getString(R.string.MZGramSplitGifInline)).setChecked(MZGramConfig.splitGifInlineRights));
@@ -874,6 +877,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_LINKED_EMOJI) {
             MZGramConfig.toggleLinkedCustomEmoji();
             ((TextCheckCell) view).setChecked(MZGramConfig.linkedCustomEmoji);
+        } else if (item.id == BUTTON_WIDE_CHANNEL_POSTS) {
+            MZGramConfig.toggleWideChannelPosts();
+            ((TextCheckCell) view).setChecked(MZGramConfig.wideChannelPosts);
         } else if (item.id == BUTTON_SPLIT_GIF_INLINE) {
             MZGramConfig.toggleSplitGifInlineRights();
             ((TextCheckCell) view).setChecked(MZGramConfig.splitGifInlineRights);

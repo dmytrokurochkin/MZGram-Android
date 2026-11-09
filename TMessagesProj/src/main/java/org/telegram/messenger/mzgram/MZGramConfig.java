@@ -228,6 +228,9 @@ public class MZGramConfig {
     public static boolean stickerRoundCorners = false;
     public static boolean hideStickerTime = false;
 
+    // Wide channel posts: posts of broadcast channels across the screen
+    public static boolean wideChannelPosts = false;
+
     // granularGroupPermissions
     public static boolean granularGroupPermissions = false;
     // GIF tab and inline results in a member's chat by send_gifs / send_inline
@@ -437,6 +440,7 @@ public class MZGramConfig {
             stickerSize = preferences.getInt("stickerSize", 100);
             stickerRoundCorners = preferences.getBoolean("stickerRoundCorners", false);
             hideStickerTime = preferences.getBoolean("hideStickerTime", false);
+            wideChannelPosts = preferences.getBoolean("wideChannelPosts", false);
             granularGroupPermissions = preferences.getBoolean("granularGroupPermissions", false);
             splitGifInlineRights = preferences.getBoolean("splitGifInlineRights", false);
             linkedCustomEmoji = preferences.getBoolean("linkedCustomEmoji", false);
@@ -1058,6 +1062,11 @@ public class MZGramConfig {
     public static void toggleStickerRoundCorners() {
         stickerRoundCorners = !stickerRoundCorners;
         putBoolean("stickerRoundCorners", stickerRoundCorners);
+    }
+
+    public static void toggleWideChannelPosts() {
+        wideChannelPosts = !wideChannelPosts;
+        putBoolean("wideChannelPosts", wideChannelPosts);
     }
 
     public static void toggleHideStickerTime() {

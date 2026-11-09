@@ -354,6 +354,7 @@ public class MessageObject {
     private int generatedWithMinSize;
     private float generatedWithDensity;
     private float generatedWithFontSize;
+    private boolean generatedWithWideChannelPosts; // MZGram: wide channel posts
     public boolean wasJustSent;
     public boolean isBotPendingDraft;
 
@@ -1280,6 +1281,9 @@ public class MessageObject {
         }
 
         private int maxSizeWidth = 800;
+        // MZGram: wide channel posts, what the last calculate() was made for
+        private boolean calculatedForWideChannelPosts;
+        private int calculatedForWideChannelPostsSpanCount;
 
         public final TransitionParams transitionParams = new TransitionParams();
 
@@ -1315,15 +1319,23 @@ public class MessageObject {
         public boolean reversed;
 
         public void calculate() {
+            calculate(0);
+        }
+
+        private void calculate(int groupedMediaViewportWidth) {
             posArray.clear();
             positions.clear();
             positionsArray.clear();
             captionMessage = null;
 
-            maxSizeWidth = 800;
-            int firstSpanAdditionalSize = 200;
-
             int count = messages.size();
+            // MZGram: wide channel posts take more of the 1000 spans; 800 and 200 as in Telegram otherwise
+            MessageObject mzgramFirst = count > 0 ? messages.get(reversed ? count - 1 : 0) : null;
+            boolean wideChannelPost = mzgramFirst != null && mzgramFirst.isWideChannelPost();
+            calculatedForWideChannelPosts = wideChannelPost;
+            maxSizeWidth = org.telegram.ui.mzgram.MZGramWidePosts.spanCount(wideChannelPost, groupedMediaViewportWidth);
+            calculatedForWideChannelPostsSpanCount = maxSizeWidth;
+            int firstSpanAdditionalSize = 1000 - maxSizeWidth;
             if (count == 1) {
                 captionMessage = messages.get(0);
                 return;
@@ -1427,7 +1439,7 @@ public class MessageObject {
                 return;
             }
 
-            if (needShare) {
+            if (needShare && !wideChannelPost) {
                 maxSizeWidth -= 50;
                 firstSpanAdditionalSize += 50;
             }
@@ -1692,6 +1704,10 @@ public class MessageObject {
                     y += lineHeight;
                 }
             }
+            if (wideChannelPost && hasSibling) {
+                fillWideSiblingLayout(maxSizeWidth, isOut); // MZGram: wide channel posts
+            }
+
             int avatarOffset = 108;
             for (int a = 0; a < count; a++) {
                 GroupedMessagePosition pos = posArray.get(a);
@@ -1711,7 +1727,7 @@ public class MessageObject {
                     }
                 }
                 MessageObject messageObject = messages.get(a);
-                if (!isOut && messageObject.needDrawAvatarInternal()) {
+                if (!wideChannelPost && !isOut && messageObject.needDrawAvatarInternal()) {
                     if (pos.edge) {
                         if (pos.spanSize != 1000) {
                             pos.spanSize += avatarOffset;
@@ -1725,6 +1741,59 @@ public class MessageObject {
                         }
                     }
                 }
+            }
+        }
+
+        // MZGram: wide channel posts. Port of exteraless (GPL-3.0): stretch the side
+        // column of a group with a sibling layout to the wide span count.
+        private void fillWideSiblingLayout(int targetWidth, boolean isOut) {
+            GroupedMessagePosition sibling = null;
+            for (int i = 0; i < posArray.size(); i++) {
+                GroupedMessagePosition position = posArray.get(i);
+                if (position.siblingHeights != null) {
+                    sibling = position;
+                    break;
+                }
+            }
+            if (sibling == null) {
+                return;
+            }
+            int adjacentWidth = 0;
+            for (int i = 0; i < posArray.size(); i++) {
+                GroupedMessagePosition position = posArray.get(i);
+                if (position != sibling) {
+                    adjacentWidth = Math.max(adjacentWidth, position.pw);
+                }
+            }
+            int remaining = targetWidth - sibling.pw - adjacentWidth;
+            if (remaining <= 0) {
+                return;
+            }
+            if (isOut) {
+                sibling.pw += remaining;
+            } else {
+                for (int i = 0; i < posArray.size(); i++) {
+                    GroupedMessagePosition position = posArray.get(i);
+                    if (position != sibling) {
+                        position.pw += remaining;
+                    }
+                }
+            }
+        }
+
+        // MZGram: wide channel posts. Recalculates a group made for another width; groups never
+        // made wide are left exactly as Telegram calculated them.
+        public void ensureLayoutFor(MessageObject messageObject, int groupedMediaViewportWidth) {
+            if (messageObject == null) {
+                return;
+            }
+            boolean wide = messageObject.isWideChannelPost();
+            if (!wide && !calculatedForWideChannelPosts) {
+                return;
+            }
+            if (calculatedForWideChannelPosts != wide
+                    || calculatedForWideChannelPostsSpanCount != org.telegram.ui.mzgram.MZGramWidePosts.spanCount(wide, groupedMediaViewportWidth)) {
+                calculate(groupedMediaViewportWidth);
             }
         }
 
@@ -6858,7 +6927,8 @@ public class MessageObject {
         if (layoutCreated) {
             int newMinSize = AndroidUtilities.isTablet() ? AndroidUtilities.getMinTabletSide() : AndroidUtilities.displaySize.x;
             float newFontSize = Theme.chat_msgTextPaint != null ? Theme.chat_msgTextPaint.getTextSize() : 0;
-            if (Math.abs(generatedWithMinSize - newMinSize) > dp(52) || generatedWithDensity != AndroidUtilities.density || generatedWithFontSize != newFontSize) {
+            if (Math.abs(generatedWithMinSize - newMinSize) > dp(52) || generatedWithDensity != AndroidUtilities.density || generatedWithFontSize != newFontSize
+                    || generatedWithWideChannelPosts != isWideChannelPost()) { // MZGram: wide channel posts
                 layoutCreated = false;
             }
         }
@@ -8544,7 +8614,15 @@ public class MessageObject {
         }
         generatedWithDensity = AndroidUtilities.density;
         generatedWithFontSize = Theme.chat_msgTextPaint != null ? Theme.chat_msgTextPaint.getTextSize() : 0;
-        if (hasCode && !isSaved) {
+        // MZGram: wide channel posts
+        final boolean wideChannelPost = isWideChannelPost();
+        generatedWithWideChannelPosts = wideChannelPost;
+        if (wideChannelPost) {
+            int leadingInset = sideMenuEnabled
+                    ? dp(64)
+                    : needDrawAvatarInternal() && !isOutOwner() && !messageOwner.isThreadMessage ? dp(52) : 0;
+            maxWidth = org.telegram.ui.mzgram.MZGramWidePosts.messageTextWidth(generatedWithMinSize, leadingInset);
+        } else if (hasCode && !isSaved) {
             maxWidth = generatedWithMinSize - dp(45 + 15);
             if (sideMenuEnabled) {
                 maxWidth -= dp(64);
@@ -8579,7 +8657,7 @@ public class MessageObject {
                 maxWidth -= dp(10);
             }
         }
-        if (emojiOnlyCount >= 1 && totalAnimatedEmojiCount <= 100 && (emojiOnlyCount - totalAnimatedEmojiCount) < (SharedConfig.getDevicePerformanceClass() >= SharedConfig.PERFORMANCE_CLASS_HIGH ? 100 : 50) && (hasValidReplyMessageObject() || isForwarded())) {
+        if (!wideChannelPost && emojiOnlyCount >= 1 && totalAnimatedEmojiCount <= 100 && (emojiOnlyCount - totalAnimatedEmojiCount) < (SharedConfig.getDevicePerformanceClass() >= SharedConfig.PERFORMANCE_CLASS_HIGH ? 100 : 50) && (hasValidReplyMessageObject() || isForwarded())) {
             maxWidth = Math.min(maxWidth, (int) (generatedWithMinSize * .65f));
         }
         return maxWidth;
@@ -9913,6 +9991,15 @@ public class MessageObject {
             return true;
         }
         return false;
+    }
+
+    // MZGram: wide channel posts (Settings > MZGram > Chats), false with the option off
+    public boolean isWideChannelPost() {
+        return org.telegram.ui.mzgram.MZGramWidePosts.isWide(this);
+    }
+
+    public boolean hasWideChannelPostHeader() {
+        return org.telegram.ui.mzgram.MZGramWidePosts.hasHeader(this);
     }
 
     public boolean isFromGroup() {

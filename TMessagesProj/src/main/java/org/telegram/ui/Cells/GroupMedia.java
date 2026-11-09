@@ -91,17 +91,20 @@ public class GroupMedia {
         }
         layout.medias.clear();
         layout.medias.addAll(paidMedia.extended_media);
-        layout.calculate();
+        layout.calculate(messageObject.isWideChannelPost()); // MZGram: wide channel posts
 
         if (overrideWidth > 0) {
             maxWidth = overrideWidth;
         } else {
-            if (AndroidUtilities.isTablet()) {
+            int wideChannelWidth = cell.getWideChannelPostMediaWidth(messageObject); // MZGram: wide channel posts
+            if (wideChannelWidth != 0) {
+                maxWidth = wideChannelWidth;
+            } else if (AndroidUtilities.isTablet()) {
                 maxWidth = AndroidUtilities.getMinTabletSide() - AndroidUtilities.dp(122);
             } else {
                 maxWidth = Math.min(cell.getParentWidth(), AndroidUtilities.displaySize.y) - AndroidUtilities.dp(64 + (cell.checkNeedDrawShareButton(messageObject) ? 10 : 0));
             }
-            if (cell.needDrawAvatar()) {
+            if (wideChannelWidth == 0 && cell.needDrawAvatar()) {
                 maxWidth -= dp(52);
             }
         }
@@ -208,12 +211,15 @@ public class GroupMedia {
             f = 1000f / layout.width;
             maxWidth = overrideWidth;
         } else {
-            if (AndroidUtilities.isTablet()) {
+            int wideChannelWidth = cell.getWideChannelPostMediaWidth(messageObject); // MZGram: wide channel posts
+            if (wideChannelWidth != 0) {
+                maxWidth = wideChannelWidth;
+            } else if (AndroidUtilities.isTablet()) {
                 maxWidth = AndroidUtilities.getMinTabletSide() - AndroidUtilities.dp(122);
             } else {
                 maxWidth = Math.min(cell.getParentWidth(), AndroidUtilities.displaySize.y) - AndroidUtilities.dp(64 + (cell.checkNeedDrawShareButton(messageObject) ? 10 : 0));
             }
-            if (cell.needDrawAvatar()) {
+            if (wideChannelWidth == 0 && cell.needDrawAvatar()) {
                 maxWidth -= dp(52);
             }
         }
@@ -894,6 +900,7 @@ public class GroupMedia {
         }
 
         public int maxSizeWidth = 800;
+        private boolean wideChannelPost; // MZGram: wide channel posts
         public float maxSizeHeight = 814;
 
         public final GroupedMessages.TransitionParams transitionParams = new GroupedMessages.TransitionParams();
@@ -928,6 +935,11 @@ public class GroupMedia {
         }
 
         public void calculate() {
+            calculate(false);
+        }
+
+        public void calculate(boolean wideChannelPost) {
+            this.wideChannelPost = wideChannelPost; // MZGram: wide channel posts
             posArray.clear();
             positions.clear();
 
@@ -939,8 +951,8 @@ public class GroupMedia {
                 maxY = 0;
                 return;
             }
-            maxSizeWidth = 800;
-            int firstSpanAdditionalSize = 200;
+            maxSizeWidth = wideChannelPost ? 1000 : 800;
+            int firstSpanAdditionalSize = 1000 - maxSizeWidth;
 
             StringBuilder proportions = new StringBuilder();
             float averageAspectRatio = 1.0f;
@@ -1019,7 +1031,10 @@ public class GroupMedia {
             if (count == 1) {
                 GroupedMessagePosition position1 = posArray.get(0);
                 float w, h;
-                if (position1.aspectRatio >= 1) {
+                if (wideChannelPost) {
+                    w = maxSizeWidth;
+                    h = Math.min(maxSizeHeight, w / position1.aspectRatio);
+                } else if (position1.aspectRatio >= 1) {
                     w = maxSizeWidth;
                     h = w / position1.aspectRatio / maxSizeWidth * maxSizeHeight;
                 } else {
@@ -1293,7 +1308,7 @@ public class GroupMedia {
                     }
                 }
                 TLRPC.MessageExtendedMedia media = medias.get(a);
-                if (!isOut && true /* media.needDrawAvatarInternal()*/) {
+                if (!wideChannelPost && !isOut && true /* media.needDrawAvatarInternal()*/) {
                     if (pos.edge) {
                         if (pos.spanSize != 1000) {
                             pos.spanSize += avatarOffset;
@@ -1414,7 +1429,7 @@ public class GroupMedia {
 
         public TLRPC.MessageExtendedMedia findMediaWithFlags(int flags) {
             if (!medias.isEmpty() && positions.isEmpty()) {
-                calculate();
+                calculate(wideChannelPost);
             }
             for (int i = 0; i < medias.size(); i++) {
                 TLRPC.MessageExtendedMedia media = medias.get(i);

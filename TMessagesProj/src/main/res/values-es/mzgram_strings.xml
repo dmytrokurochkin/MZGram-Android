@@ -619,4 +619,6 @@
     <string name="MZGramStickersInfo">El control deslizante fija el tamaño de los stickers en los chats, 100 % como en Telegram. La hora oculta aparece mientras un sticker se envía, falla o está seleccionado. Se aplica a los mensajes mostrados después del cambio.</string>
     <string name="MZGramSplitGifInline">GIF y bots en línea con su propio permiso</string>
     <string name="MZGramSplitGifInlineInfo">En los grupos donde tienes restricciones, la pestaña GIF y los resultados de bots en línea siguen los permisos de GIF y bots en línea en lugar del de stickers. Desactivado: como en Telegram, prohibir stickers también los oculta.</string>
+    <string name="MZGramWideChannelPosts">Publicaciones anchas de canales</string>
+    <string name="MZGramWideChannelPostsInfo">Las publicaciones de canales ocupan casi todo el ancho de la pantalla, con el avatar del canal junto a su nombre. Se aplica a los mensajes mostrados después del cambio.</string>
 </resources>

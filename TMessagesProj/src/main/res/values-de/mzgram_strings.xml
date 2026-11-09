@@ -619,4 +619,6 @@
     <string name="MZGramStickersInfo">Der Regler legt die Größe von Stickern in Chats fest, 100 % wie in Telegram. Die ausgeblendete Uhrzeit erscheint, während ein Sticker gesendet wird, fehlgeschlagen oder ausgewählt ist. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
     <string name="MZGramSplitGifInline">GIFs und Inline-Bots mit eigener Berechtigung</string>
     <string name="MZGramSplitGifInlineInfo">In Gruppen, in denen du eingeschränkt bist, richten sich der GIF-Tab und die Ergebnisse von Inline-Bots nach den Berechtigungen für GIFs und Inline-Bots statt nach der für Sticker. Aus: wie in Telegram, ein Sticker-Verbot blendet auch sie aus.</string>
+    <string name="MZGramWideChannelPosts">Breite Kanalbeiträge</string>
+    <string name="MZGramWideChannelPostsInfo">Kanalbeiträge nehmen fast die ganze Bildschirmbreite ein, das Kanalbild steht neben dem Namen. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
 </resources>

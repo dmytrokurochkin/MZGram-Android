@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Орнату</string>
     <string name="MZGramIconPacksInstalledDone">Белгішелер жинағы орнатылды</string>
     <string name="MZGramIconPacksInstallFailed">Белгішелер жинағын орнату мүмкін болмады.</string>
+    <string name="MZGramMonetThemes">Monet тақырыптары</string>
+    <string name="MZGramMonetThemesInfo">Тұсқағазыңыздың түстеріндегі үш тақырып (Material You), ашық, қараңғы және қара, чат баптауларындағы стандарт тақырыптардың қасында. Тұсқағаз өзгерсе, тақырып та өзгереді.</string>
+    <string name="MZGramMonetStyle">Monet стилі</string>
+    <string name="MZGramMonetStyleAndroid">Android сияқты</string>
+    <string name="MZGramMonetStyleTelegram">Telegram сияқты</string>
+    <string name="MZGramMonetPick">Тақырып таңдау</string>
+    <string name="MZGramMonetLight">Monet ашық</string>
+    <string name="MZGramMonetDark">Monet қараңғы</string>
+    <string name="MZGramMonetBlack">Monet қара</string>
 </resources>

@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Yükle</string>
     <string name="MZGramIconPacksInstalledDone">Simge paketi yüklendi</string>
     <string name="MZGramIconPacksInstallFailed">Simge paketi yüklenemedi.</string>
+    <string name="MZGramMonetThemes">Monet temaları</string>
+    <string name="MZGramMonetThemesInfo">Duvar kâğıdınızın renklerinde üç tema (Material You), açık, koyu ve siyah, sohbet ayarlarındaki standart temaların yanında. Duvar kâğıdı değişince tema da değişir.</string>
+    <string name="MZGramMonetStyle">Monet stili</string>
+    <string name="MZGramMonetStyleAndroid">Android gibi</string>
+    <string name="MZGramMonetStyleTelegram">Telegram gibi</string>
+    <string name="MZGramMonetPick">Tema seç</string>
+    <string name="MZGramMonetLight">Monet açık</string>
+    <string name="MZGramMonetDark">Monet koyu</string>
+    <string name="MZGramMonetBlack">Monet siyah</string>
 </resources>

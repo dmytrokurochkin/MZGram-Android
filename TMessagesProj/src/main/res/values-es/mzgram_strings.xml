@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Instalar</string>
     <string name="MZGramIconPacksInstalledDone">Paquete de iconos instalado</string>
     <string name="MZGramIconPacksInstallFailed">No se pudo instalar el paquete de iconos.</string>
+    <string name="MZGramMonetThemes">Temas Monet</string>
+    <string name="MZGramMonetThemesInfo">Tres temas con los colores de tu fondo de pantalla (Material You), claro, oscuro y negro, junto a los estándar en Ajustes de chats. Cuando cambia el fondo, el tema lo sigue.</string>
+    <string name="MZGramMonetStyle">Estilo Monet</string>
+    <string name="MZGramMonetStyleAndroid">Como Android</string>
+    <string name="MZGramMonetStyleTelegram">Como Telegram</string>
+    <string name="MZGramMonetPick">Elegir un tema</string>
+    <string name="MZGramMonetLight">Monet claro</string>
+    <string name="MZGramMonetDark">Monet oscuro</string>
+    <string name="MZGramMonetBlack">Monet negro</string>
 </resources>

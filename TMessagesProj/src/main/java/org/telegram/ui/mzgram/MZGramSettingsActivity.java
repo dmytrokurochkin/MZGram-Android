@@ -211,6 +211,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
     private static final int BUTTON_ICON_PACKS = 173;
+    private static final int BUTTON_MONET_THEMES = 174;
+    private static final int BUTTON_MONET_STYLE = 175;
+    private static final int BUTTON_MONET_PICK = 176;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -821,6 +824,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(BUTTON_ICON_PACKS, getString(R.string.MZGramIconPacks)));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramIconPacksOnInfo)));
+        if (org.telegram.messenger.mzgram.MZGramMonet.available()) {
+            items.add(UItem.asCheck(BUTTON_MONET_THEMES, getString(R.string.MZGramMonetThemes)).setChecked(MZGramConfig.monetThemes));
+            if (MZGramConfig.monetThemes) {
+                items.add(UItem.asButton(BUTTON_MONET_STYLE, getString(R.string.MZGramMonetStyle), org.telegram.messenger.mzgram.MZGramMonet.styleTitle(MZGramConfig.monetStyle)));
+                items.add(UItem.asButton(BUTTON_MONET_PICK, getString(R.string.MZGramMonetPick)));
+            }
+            items.add(UItem.asShadow(getString(R.string.MZGramMonetThemesInfo)));
+        }
         items.add(UItem.asCheck(BUTTON_RECENT_CHATS_ON_BACK, getString(R.string.MZGramRecentChatsOnBack)).setChecked(MZGramConfig.recentChatsOnBack));
         items.add(UItem.asShadow(getString(R.string.MZGramRecentChatsOnBackInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
@@ -910,6 +921,28 @@ public class MZGramSettingsActivity extends UniversalFragment {
     }
 
     // The five AI sites, each by its name; the choice applies at once.
+    // The style of the Monet themes: Android's surfaces or Telegram's layout
+    private void chooseMonetStyle() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        int[] styles = {org.telegram.messenger.mzgram.MZGramMonet.STYLE_ANDROID, org.telegram.messenger.mzgram.MZGramMonet.STYLE_TELEGRAM};
+        CharSequence[] names = new CharSequence[styles.length];
+        for (int i = 0; i < styles.length; i++) {
+            names[i] = org.telegram.messenger.mzgram.MZGramMonet.styleTitle(styles[i]);
+        }
+        org.telegram.ui.ActionBar.AlertDialog.Builder builder = new org.telegram.ui.ActionBar.AlertDialog.Builder(getParentActivity());
+        builder.setTitle(getString(R.string.MZGramMonetStyle));
+        builder.setItems(names, (dialog, which) -> {
+            org.telegram.messenger.mzgram.MZGramMonet.setStyle(styles[which]);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        });
+        builder.setNegativeButton(getString(R.string.MZGramCancel), null);
+        showDialog(builder.create());
+    }
+
     private void chooseAiProvider() {
         if (getParentActivity() == null) {
             return;
@@ -1379,6 +1412,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
             }
         } else if (item.id == BUTTON_ICON_PACKS) {
             presentFragment(new MZGramIconPacksActivity());
+        } else if (item.id == BUTTON_MONET_THEMES) {
+            MZGramConfig.toggleMonetThemes();
+            ((TextCheckCell) view).setChecked(MZGramConfig.monetThemes);
+            if (MZGramConfig.monetThemes) {
+                org.telegram.messenger.mzgram.MZGramMonet.addThemes();
+            } else {
+                org.telegram.messenger.mzgram.MZGramMonet.removeThemes();
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_MONET_STYLE) {
+            chooseMonetStyle();
+        } else if (item.id == BUTTON_MONET_PICK) {
+            presentFragment(new org.telegram.ui.ThemeActivity(org.telegram.ui.ThemeActivity.THEME_TYPE_BASIC));
         } else if (item.id == BUTTON_EXTENDED_PINS) {
             MZGramConfig.toggleExtendedPins();
             ((TextCheckCell) view).setChecked(MZGramConfig.extendedPins);

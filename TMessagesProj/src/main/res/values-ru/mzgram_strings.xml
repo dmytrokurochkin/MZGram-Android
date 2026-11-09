@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Установить</string>
     <string name="MZGramIconPacksInstalledDone">Набор значков установлен</string>
     <string name="MZGramIconPacksInstallFailed">Не удалось установить набор значков.</string>
+    <string name="MZGramMonetThemes">Темы Monet</string>
+    <string name="MZGramMonetThemesInfo">Три темы в цветах ваших обоев (Material You), светлая, тёмная и чёрная, рядом со стандартными в настройках чатов. Когда обои меняются, тема меняется следом.</string>
+    <string name="MZGramMonetStyle">Стиль Monet</string>
+    <string name="MZGramMonetStyleAndroid">Как в Android</string>
+    <string name="MZGramMonetStyleTelegram">Как в Telegram</string>
+    <string name="MZGramMonetPick">Выбрать тему</string>
+    <string name="MZGramMonetLight">Monet светлая</string>
+    <string name="MZGramMonetDark">Monet тёмная</string>
+    <string name="MZGramMonetBlack">Monet чёрная</string>
 </resources>

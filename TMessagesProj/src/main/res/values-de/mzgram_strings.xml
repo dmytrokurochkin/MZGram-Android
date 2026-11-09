@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Installieren</string>
     <string name="MZGramIconPacksInstalledDone">Symbolpaket installiert</string>
     <string name="MZGramIconPacksInstallFailed">Das Symbolpaket konnte nicht installiert werden.</string>
+    <string name="MZGramMonetThemes">Monet-Designs</string>
+    <string name="MZGramMonetThemesInfo">Drei Designs in den Farben deines Hintergrundbilds (Material You), hell, dunkel und schwarz, neben den Standarddesigns in den Chat-Einstellungen. Ändert sich das Hintergrundbild, folgt das Design.</string>
+    <string name="MZGramMonetStyle">Monet-Stil</string>
+    <string name="MZGramMonetStyleAndroid">Wie Android</string>
+    <string name="MZGramMonetStyleTelegram">Wie Telegram</string>
+    <string name="MZGramMonetPick">Design wählen</string>
+    <string name="MZGramMonetLight">Monet hell</string>
+    <string name="MZGramMonetDark">Monet dunkel</string>
+    <string name="MZGramMonetBlack">Monet schwarz</string>
 </resources>

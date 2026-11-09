@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Zainstaluj</string>
     <string name="MZGramIconPacksInstalledDone">Zainstalowano paczkę ikon</string>
     <string name="MZGramIconPacksInstallFailed">Nie udało się zainstalować paczki ikon.</string>
+    <string name="MZGramMonetThemes">Motywy Monet</string>
+    <string name="MZGramMonetThemesInfo">Trzy motywy w kolorach Twojej tapety (Material You), jasny, ciemny i czarny, obok standardowych w ustawieniach czatów. Gdy tapeta się zmienia, motyw zmienia się za nią.</string>
+    <string name="MZGramMonetStyle">Styl Monet</string>
+    <string name="MZGramMonetStyleAndroid">Jak Android</string>
+    <string name="MZGramMonetStyleTelegram">Jak Telegram</string>
+    <string name="MZGramMonetPick">Wybierz motyw</string>
+    <string name="MZGramMonetLight">Monet jasny</string>
+    <string name="MZGramMonetDark">Monet ciemny</string>
+    <string name="MZGramMonetBlack">Monet czarny</string>
 </resources>

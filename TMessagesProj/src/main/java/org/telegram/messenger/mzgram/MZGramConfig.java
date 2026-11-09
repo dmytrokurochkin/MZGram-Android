@@ -96,6 +96,9 @@ public class MZGramConfig {
     public static boolean pillStack = false;
     // Icon packs and the built-in icon sets (MZGramIconPacks)
     public static boolean iconPacks = false;
+    // The Monet themes in the theme list (MZGramMonet, Android 12+) and their style
+    public static boolean monetThemes = false;
+    public static int monetStyle = 0;
     // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
     // the phone's, otherwise one of its codes
     public static String language = "";
@@ -414,6 +417,8 @@ public class MZGramConfig {
             extendedPins = preferences.getBoolean("extendedPins", false);
             pillStack = preferences.getBoolean("pillStack", false);
             iconPacks = preferences.getBoolean("iconPacks", false);
+            monetThemes = preferences.getBoolean("monetThemes", false);
+            monetStyle = preferences.getInt("monetStyle", 0) == 1 ? 1 : 0;
             language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
@@ -557,6 +562,16 @@ public class MZGramConfig {
     public static void toggleIconPacks() {
         iconPacks = !iconPacks;
         putBoolean("iconPacks", iconPacks);
+    }
+
+    public static void toggleMonetThemes() {
+        monetThemes = !monetThemes;
+        putBoolean("monetThemes", monetThemes);
+    }
+
+    public static void setMonetStyle(int style) {
+        monetStyle = style == 1 ? 1 : 0;
+        preferences().edit().putInt("monetStyle", monetStyle).apply();
     }
 
     public static void toggleRecentChatsOnBack() {

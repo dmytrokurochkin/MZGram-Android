@@ -1520,6 +1520,11 @@ public class Theme {
         }
 
         public String getName() {
+            // MZGram: MZGramMonet.title names the Monet themes.
+            String mzgramTitle = org.telegram.messenger.mzgram.MZGramMonet.title(name);
+            if (mzgramTitle != null) {
+                return mzgramTitle;
+            }
             if ("Blue".equals(name)) {
                 return getString(R.string.ThemeClassic);
             } else if ("Dark Blue".equals(name)) {
@@ -1650,6 +1655,10 @@ public class Theme {
                 isDark = DARK;
             } else if ("Blue".equals(name) || "Arctic Blue".equals(name) || "Day".equals(name)) {
                 isDark = LIGHT;
+            }
+            // MZGram: MZGramMonet, the Monet themes are built in and have no file to read it from.
+            if (isDark == UNKNOWN && org.telegram.messenger.mzgram.MZGramMonet.isMonet(name)) {
+                isDark = org.telegram.messenger.mzgram.MZGramMonet.isMonetDark(name) ? DARK : LIGHT;
             }
             if (isDark == UNKNOWN) {
                 String[] wallpaperLink = new String[1];
@@ -4016,6 +4025,9 @@ public class Theme {
         themes.add(themeInfo);
         themesDict.put("Night", themeInfo);
 
+        // MZGram: MZGramMonet.addThemes adds the Monet themes when they are on (Android 12+).
+        org.telegram.messenger.mzgram.MZGramMonet.addThemes();
+
         String themesString = themeConfig.getString("themes2", null);
 
         int remoteVersion = themeConfig.getInt("remote_version", 0);
@@ -5614,6 +5626,45 @@ public class Theme {
 
     public static ThemeInfo getTheme(String key) {
         return themesDict.get(key);
+    }
+
+    // MZGram: the Monet themes of MZGramMonet (Android 12+, off by default), beside the built-in ones.
+    public static ThemeInfo mzgramCreateTheme(String name, String assetName, int sortIndex) {
+        ThemeInfo info = new ThemeInfo();
+        info.name = name;
+        info.assetName = assetName;
+        info.sortIndex = sortIndex;
+        return info;
+    }
+
+    public static void mzgramAddTheme(ThemeInfo info) {
+        if (themesDict.get(info.getKey()) != null) {
+            return;
+        }
+        themes.add(info);
+        themesDict.put(info.getKey(), info);
+        info.loadWallpapers(ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", Activity.MODE_PRIVATE));
+    }
+
+    // A Monet theme in use gives way to the standard day or night theme, as a deleted theme does
+    public static void mzgramRemoveTheme(ThemeInfo info) {
+        if (themesDict.get(info.getKey()) != info) {
+            return;
+        }
+        themes.remove(info);
+        themesDict.remove(info.getKey());
+        boolean wasNight = currentTheme == currentNightTheme;
+        if (currentDayTheme == info) {
+            currentDayTheme = defaultTheme;
+        }
+        if (currentNightTheme == info) {
+            currentNightTheme = themesDict.get("Dark Blue");
+        }
+        if (currentTheme == info) {
+            ThemeInfo next = wasNight ? currentNightTheme : currentDayTheme;
+            applyTheme(next, true, wasNight);
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, next, wasNight, null, -1);
+        }
     }
 
     public static void applyTheme(ThemeInfo themeInfo) {
@@ -7600,7 +7651,9 @@ public class Theme {
                                         value = Utilities.parseInt(param);
                                     }
                                 } else {
-                                    value = Utilities.parseInt(param);
+                                    // MZGram: MZGramMonet.color reads the palette tokens, only in the files of the Monet themes.
+                                    Integer mzgramColor = org.telegram.messenger.mzgram.MZGramMonet.color(assetName, param, key);
+                                    value = mzgramColor != null ? mzgramColor : Utilities.parseInt(param);
                                 }
                                 int keyFromString = ThemeColors.stringKeyToInt(key);
                                 if (keyFromString >= 0) {

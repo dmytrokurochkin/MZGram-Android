@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">تثبيت</string>
     <string name="MZGramIconPacksInstalledDone">تم تثبيت حزمة الأيقونات</string>
     <string name="MZGramIconPacksInstallFailed">تعذّر تثبيت حزمة الأيقونات.</string>
+    <string name="MZGramMonetThemes">سمات Monet</string>
+    <string name="MZGramMonetThemesInfo">ثلاث سمات بألوان خلفية جهازك (Material You)، فاتحة وداكنة وسوداء، بجانب السمات القياسية في إعدادات الدردشات. عندما تتغير الخلفية تتبعها السمة.</string>
+    <string name="MZGramMonetStyle">نمط Monet</string>
+    <string name="MZGramMonetStyleAndroid">مثل Android</string>
+    <string name="MZGramMonetStyleTelegram">مثل Telegram</string>
+    <string name="MZGramMonetPick">اختيار سمة</string>
+    <string name="MZGramMonetLight">Monet فاتحة</string>
+    <string name="MZGramMonetDark">Monet داكنة</string>
+    <string name="MZGramMonetBlack">Monet سوداء</string>
 </resources>

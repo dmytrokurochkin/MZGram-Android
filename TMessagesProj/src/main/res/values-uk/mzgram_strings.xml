@@ -888,4 +888,13 @@
     <string name="MZGramIconPacksInstallButton">Встановити</string>
     <string name="MZGramIconPacksInstalledDone">Набір іконок встановлено</string>
     <string name="MZGramIconPacksInstallFailed">Не вдалося встановити набір іконок.</string>
+    <string name="MZGramMonetThemes">Теми Monet</string>
+    <string name="MZGramMonetThemesInfo">Три теми в кольорах ваших шпалер (Material You), світла, темна й чорна, поряд зі стандартними в налаштуваннях чатів. Коли шпалери змінюються, тема змінюється слідом.</string>
+    <string name="MZGramMonetStyle">Стиль Monet</string>
+    <string name="MZGramMonetStyleAndroid">Як в Android</string>
+    <string name="MZGramMonetStyleTelegram">Як у Telegram</string>
+    <string name="MZGramMonetPick">Вибрати тему</string>
+    <string name="MZGramMonetLight">Monet світла</string>
+    <string name="MZGramMonetDark">Monet темна</string>
+    <string name="MZGramMonetBlack">Monet чорна</string>
 </resources>

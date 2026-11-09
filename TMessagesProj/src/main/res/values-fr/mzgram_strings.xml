@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Installer</string>
     <string name="MZGramIconPacksInstalledDone">Pack d\'icônes installé</string>
     <string name="MZGramIconPacksInstallFailed">Impossible d\'installer le pack d\'icônes.</string>
+    <string name="MZGramMonetThemes">Thèmes Monet</string>
+    <string name="MZGramMonetThemesInfo">Trois thèmes aux couleurs de votre fond d’écran (Material You), clair, sombre et noir, à côté des thèmes standard dans les paramètres des discussions. Quand le fond d’écran change, le thème suit.</string>
+    <string name="MZGramMonetStyle">Style Monet</string>
+    <string name="MZGramMonetStyleAndroid">Comme Android</string>
+    <string name="MZGramMonetStyleTelegram">Comme Telegram</string>
+    <string name="MZGramMonetPick">Choisir un thème</string>
+    <string name="MZGramMonetLight">Monet clair</string>
+    <string name="MZGramMonetDark">Monet sombre</string>
+    <string name="MZGramMonetBlack">Monet noir</string>
 </resources>

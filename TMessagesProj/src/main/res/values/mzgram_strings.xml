@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Install</string>
     <string name="MZGramIconPacksInstalledDone">Icon pack installed</string>
     <string name="MZGramIconPacksInstallFailed">Could not install the icon pack.</string>
+    <string name="MZGramMonetThemes">Monet themes</string>
+    <string name="MZGramMonetThemesInfo">Three themes in the colors of your wallpaper (Material You), light, dark and black, beside the standard ones in Chat Settings. When the wallpaper changes, the theme follows it.</string>
+    <string name="MZGramMonetStyle">Monet style</string>
+    <string name="MZGramMonetStyleAndroid">Like Android</string>
+    <string name="MZGramMonetStyleTelegram">Like Telegram</string>
+    <string name="MZGramMonetPick">Choose a theme</string>
+    <string name="MZGramMonetLight">Monet Light</string>
+    <string name="MZGramMonetDark">Monet Dark</string>
+    <string name="MZGramMonetBlack">Monet Black</string>
 </resources>

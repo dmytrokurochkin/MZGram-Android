@@ -887,4 +887,13 @@
     <string name="MZGramIconPacksInstallButton">Instalar</string>
     <string name="MZGramIconPacksInstalledDone">Pacote de ícones instalado</string>
     <string name="MZGramIconPacksInstallFailed">Não foi possível instalar o pacote de ícones.</string>
+    <string name="MZGramMonetThemes">Temas Monet</string>
+    <string name="MZGramMonetThemesInfo">Três temas nas cores do seu papel de parede (Material You), claro, escuro e preto, ao lado dos padrão nas configurações de conversas. Quando o papel de parede muda, o tema acompanha.</string>
+    <string name="MZGramMonetStyle">Estilo Monet</string>
+    <string name="MZGramMonetStyleAndroid">Como o Android</string>
+    <string name="MZGramMonetStyleTelegram">Como o Telegram</string>
+    <string name="MZGramMonetPick">Escolher um tema</string>
+    <string name="MZGramMonetLight">Monet claro</string>
+    <string name="MZGramMonetDark">Monet escuro</string>
+    <string name="MZGramMonetBlack">Monet preto</string>
 </resources>

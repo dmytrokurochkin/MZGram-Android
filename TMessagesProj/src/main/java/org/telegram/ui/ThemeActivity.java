@@ -2162,6 +2162,9 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                                 FileLog.e(e);
                             }
                         }
+                    } else if (org.telegram.messenger.mzgram.MZGramMonet.isMonetAsset(themeInfo.assetName)) {
+                        // MZGram: MZGramMonet.exportFile, the Monet theme with its colors in place of the palette tokens.
+                        currentFile = org.telegram.messenger.mzgram.MZGramMonet.exportFile(themeInfo);
                     } else if (themeInfo.assetName != null) {
                         currentFile = Theme.getAssetFile(themeInfo.assetName);
                     } else {

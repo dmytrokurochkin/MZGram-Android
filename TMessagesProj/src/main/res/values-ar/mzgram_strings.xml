@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">عند استخدام بيانات الجوال</string>
     <string name="MZGramProxyOffWifi">عند الاتصال بشبكة Wi-Fi</string>
     <string name="MZGramProxyAutoDisableInfo">في الشبكات المحددة أعلاه يتوقف البروكسي تلقائيًا ثم يعود للعمل عندما يغادرها الهاتف. يبقى البروكسي الذي تشغّله يدويًا قيد التشغيل حتى تتغير الشبكة. لا يُرسل أي شيء إلى أي مكان.</string>
+    <string name="MZGramPluginsRun">تشغيل الإضافات</string>
+    <string name="MZGramPluginsRunInfo">تبدأ الإضافات المفعّلة مع MZGram. تعمل الإضافة بصلاحيات MZGram، لذا فعّل فقط ما تثق به. في هذا الإصدار لا تصل الإضافات إلى الشبكة.</string>
+    <string name="MZGramPluginsRunConfirm">تشغّل الإضافة شيفرتها الخاصة داخل MZGram وترى ما يراه MZGram: محادثاتك وحسابك. فعّل فقط إضافات أشخاص تثق بهم.</string>
+    <string name="MZGramPluginsRunTurnOn">تفعيل</string>
+    <string name="MZGramPluginsRunOffInfo">لا تعمل الإضافات ما دام خيار «تشغيل الإضافات» معطّلًا في شاشة الإضافات.</string>
+    <string name="MZGramPluginStateRunning">يعمل</string>
+    <string name="MZGramPluginStateStarting">قيد البدء</string>
+    <string name="MZGramPluginStateFailed">تعذّر البدء</string>
+    <string name="MZGramPluginRunningInfo">الإضافة تعمل.</string>
+    <string name="MZGramPluginStartingInfo">الإضافة قيد البدء.</string>
+    <string name="MZGramPluginStoppedInfo">الإضافة معطّلة ولا تعمل.</string>
+    <string name="MZGramPluginFailedInfo">تعذّر بدء الإضافة: %1$s</string>
+    <string name="MZGramPluginSettings">إعدادات الإضافة</string>
+    <string name="MZGramPluginRestart">إعادة تشغيل الإضافة</string>
+    <string name="MZGramPluginJournalStarted">بدأ</string>
+    <string name="MZGramPluginJournalStartFailed">تعذّر البدء: %1$s</string>
+    <string name="MZGramPluginJournalStopped">توقّف</string>
+    <string name="MZGramPluginJournalError">خطأ: %1$s</string>
+    <string name="MZGramPluginJournalLog">سجل: %1$s</string>
 </resources>

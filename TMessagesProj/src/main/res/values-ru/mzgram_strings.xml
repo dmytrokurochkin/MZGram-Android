@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">В мобильном интернете</string>
     <string name="MZGramProxyOffWifi">В сети Wi-Fi</string>
     <string name="MZGramProxyAutoDisableInfo">В выбранных выше сетях прокси отключается сам и снова включается, когда телефон из них выходит. Прокси, который вы включили вручную, остаётся включённым до смены сети. Ничего никуда не отправляется.</string>
+    <string name="MZGramPluginsRun">Запускать плагины</string>
+    <string name="MZGramPluginsRunInfo">Включённые плагины запускаются вместе с MZGram. Плагин работает с правами MZGram, поэтому включайте только те, которым доверяете. В этой версии у плагинов нет доступа к сети.</string>
+    <string name="MZGramPluginsRunConfirm">Плагин выполняет собственный код внутри MZGram и видит то же, что MZGram: ваши чаты и аккаунт. Включайте только плагины от людей, которым доверяете.</string>
+    <string name="MZGramPluginsRunTurnOn">Включить</string>
+    <string name="MZGramPluginsRunOffInfo">Плагины не запускаются, пока на экране «Плагины» выключено «Запускать плагины».</string>
+    <string name="MZGramPluginStateRunning">работает</string>
+    <string name="MZGramPluginStateStarting">запускается</string>
+    <string name="MZGramPluginStateFailed">не запустился</string>
+    <string name="MZGramPluginRunningInfo">Плагин работает.</string>
+    <string name="MZGramPluginStartingInfo">Плагин запускается.</string>
+    <string name="MZGramPluginStoppedInfo">Плагин выключен и не работает.</string>
+    <string name="MZGramPluginFailedInfo">Не удалось запустить плагин: %1$s</string>
+    <string name="MZGramPluginSettings">Настройки плагина</string>
+    <string name="MZGramPluginRestart">Перезапустить плагин</string>
+    <string name="MZGramPluginJournalStarted">Запущен</string>
+    <string name="MZGramPluginJournalStartFailed">Не запустился: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Остановлен</string>
+    <string name="MZGramPluginJournalError">Ошибка: %1$s</string>
+    <string name="MZGramPluginJournalLog">Запись плагина: %1$s</string>
 </resources>

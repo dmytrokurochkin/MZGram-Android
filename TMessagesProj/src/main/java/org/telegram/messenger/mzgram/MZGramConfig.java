@@ -109,6 +109,8 @@ public class MZGramConfig {
     public static boolean musicPlayerBar = true;
     // MZGramProxyAutoDisable: mask of VPN, MOBILE_DATA, WIFI; 0 = the proxy is never turned off by itself
     public static int proxyDisableConditions = 0;
+    // MZGramPluginEngine: plugins that are on run only while this is on; outside the settings backup
+    public static boolean pluginsRun = false;
     // MZGramLanguage: "" follows Telegram's language, MZGramLanguage.SYSTEM
     // the phone's, otherwise one of its codes
     public static String language = "";
@@ -435,6 +437,7 @@ public class MZGramConfig {
             musicPlayer = preferences.getBoolean("musicPlayer", false);
             musicPlayerBar = preferences.getBoolean("musicPlayerBar", true);
             proxyDisableConditions = preferences.getInt("proxyDisableConditions", 0) & MZGramProxyAutoDisable.ALL;
+            pluginsRun = preferences.getBoolean("pluginsRun", false);
             language = preferences.getString("language", "");
             folderTabsAtBottom = preferences.getBoolean("folderTabsAtBottom", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
@@ -608,6 +611,11 @@ public class MZGramConfig {
     public static void setProxyDisableConditions(int mask) {
         proxyDisableConditions = mask & MZGramProxyAutoDisable.ALL;
         preferences().edit().putInt("proxyDisableConditions", proxyDisableConditions).apply();
+    }
+
+    public static void togglePluginsRun() {
+        pluginsRun = !pluginsRun;
+        putBoolean("pluginsRun", pluginsRun);
     }
 
     public static void toggleMusicPlayer() {

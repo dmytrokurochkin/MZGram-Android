@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">Sur les données mobiles</string>
     <string name="MZGramProxyOffWifi">En Wi-Fi</string>
     <string name="MZGramProxyAutoDisableInfo">Sur les réseaux choisis ci-dessus, le proxy se désactive tout seul et se réactive quand le téléphone les quitte. Un proxy activé à la main reste actif jusqu\'au changement de réseau. Rien n\'est envoyé nulle part.</string>
+    <string name="MZGramPluginsRun">Exécuter les plugins</string>
+    <string name="MZGramPluginsRunInfo">Les plugins activés démarrent avec MZGram. Un plugin fonctionne avec les droits de MZGram : n’activez que ceux en qui vous avez confiance. Dans cette version, les plugins n’ont pas accès au réseau.</string>
+    <string name="MZGramPluginsRunConfirm">Un plugin exécute son propre code dans MZGram et voit ce que voit MZGram : vos discussions et votre compte. N’activez que les plugins de personnes de confiance.</string>
+    <string name="MZGramPluginsRunTurnOn">Activer</string>
+    <string name="MZGramPluginsRunOffInfo">Les plugins ne s’exécutent pas tant que « Exécuter les plugins » est désactivé sur l’écran Plugins.</string>
+    <string name="MZGramPluginStateRunning">en cours</string>
+    <string name="MZGramPluginStateStarting">démarrage</string>
+    <string name="MZGramPluginStateFailed">échec du démarrage</string>
+    <string name="MZGramPluginRunningInfo">Le plugin est en cours d’exécution.</string>
+    <string name="MZGramPluginStartingInfo">Le plugin démarre.</string>
+    <string name="MZGramPluginStoppedInfo">Le plugin est désactivé et ne s’exécute pas.</string>
+    <string name="MZGramPluginFailedInfo">Le plugin n’a pas pu démarrer : %1$s</string>
+    <string name="MZGramPluginSettings">Réglages du plugin</string>
+    <string name="MZGramPluginRestart">Redémarrer le plugin</string>
+    <string name="MZGramPluginJournalStarted">Démarré</string>
+    <string name="MZGramPluginJournalStartFailed">Échec du démarrage : %1$s</string>
+    <string name="MZGramPluginJournalStopped">Arrêté</string>
+    <string name="MZGramPluginJournalError">Erreur : %1$s</string>
+    <string name="MZGramPluginJournalLog">Journal : %1$s</string>
 </resources>

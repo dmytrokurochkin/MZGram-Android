@@ -8,7 +8,8 @@
  * "mzgram_plugins", so the list can be shown without starting Python.
  * Whether a plugin is turned on is kept here too (off when added).
  *
- * Nothing here runs a plugin: running them is the job of the plugin engine.
+ * Nothing here runs a plugin: running them is the job of the plugin engine
+ * (MZGramPluginEngine), told here of every change of a plugin.
  * A file name only ever comes from a valid plugin id
  * (MZGramPluginSettingsStore.isValidId, the rule of __id__).
  *
@@ -155,6 +156,7 @@ public final class MZGramPlugins {
         if (plugin.enabled != enabled) {
             MZGramPluginAuditJournal.record(pluginId, enabled ? MZGramPluginAuditJournal.EVENT_ENABLED : MZGramPluginAuditJournal.EVENT_DISABLED,
                     MZGramPluginAuditJournal.CATEGORY_MANAGE, "", null, source, MZGramPluginAuditJournal.LEVEL_INFO);
+            MZGramPluginEngine.apply(pluginId);
         }
     }
 
@@ -327,6 +329,10 @@ public final class MZGramPlugins {
             }
             discard(picked);
             final boolean done = ok;
+            if (done) {
+                // A plugin that is on starts again from its new file
+                MZGramPluginEngine.apply(meta.id);
+            }
             if (onDone != null) {
                 AndroidUtilities.runOnUIThread(() -> onDone.run(done));
             }
@@ -345,6 +351,7 @@ public final class MZGramPlugins {
             return;
         }
         final boolean existed = get(pluginId) != null;
+        MZGramPluginEngine.forget(pluginId);
         if (file.exists() && !file.delete()) {
             FileLog.e("MZGramPlugins: cannot delete " + file);
         }

@@ -985,4 +985,23 @@
     <string name="MZGramProxyOffMobile">У мобільному інтернеті</string>
     <string name="MZGramProxyOffWifi">У мережі Wi-Fi</string>
     <string name="MZGramProxyAutoDisableInfo">У вибраних вище мережах проксі вимикається сам і знову вмикається, коли телефон із них виходить. Проксі, який ви ввімкнули вручну, лишається ввімкненим до зміни мережі. Нічого нікуди не надсилається.</string>
+    <string name="MZGramPluginsRun">Запускати плагіни</string>
+    <string name="MZGramPluginsRunInfo">Увімкнені плагіни запускаються разом із MZGram. Плагін працює з правами MZGram, тож вмикайте лише ті, яким довіряєте. У цій версії плагіни не мають доступу до мережі.</string>
+    <string name="MZGramPluginsRunConfirm">Плагін виконує власний код усередині MZGram і бачить те, що бачить MZGram: ваші чати й акаунт. Вмикайте лише плагіни від людей, яким довіряєте.</string>
+    <string name="MZGramPluginsRunTurnOn">Увімкнути</string>
+    <string name="MZGramPluginsRunOffInfo">Плагіни не запускаються, поки на екрані «Плагіни» вимкнено «Запускати плагіни».</string>
+    <string name="MZGramPluginStateRunning">працює</string>
+    <string name="MZGramPluginStateStarting">запускається</string>
+    <string name="MZGramPluginStateFailed">не запустився</string>
+    <string name="MZGramPluginRunningInfo">Плагін працює.</string>
+    <string name="MZGramPluginStartingInfo">Плагін запускається.</string>
+    <string name="MZGramPluginStoppedInfo">Плагін вимкнено, він не працює.</string>
+    <string name="MZGramPluginFailedInfo">Не вдалося запустити плагін: %1$s</string>
+    <string name="MZGramPluginSettings">Налаштування плагіна</string>
+    <string name="MZGramPluginRestart">Перезапустити плагін</string>
+    <string name="MZGramPluginJournalStarted">Запущено</string>
+    <string name="MZGramPluginJournalStartFailed">Не запустився: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Зупинено</string>
+    <string name="MZGramPluginJournalError">Помилка: %1$s</string>
+    <string name="MZGramPluginJournalLog">Запис плагіна: %1$s</string>
 </resources>

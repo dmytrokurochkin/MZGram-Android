@@ -6,7 +6,9 @@
  * (description, version, author, id, the versions it needs), the
  * permissions it declares, the Python packages it asks for, and buttons to
  * read its code, share its file and delete it. Everything comes from the
- * metadata kept by MZGramPlugins; nothing of the plugin runs here.
+ * metadata kept by MZGramPlugins; nothing of the plugin runs here. Under the
+ * switch: whether the plugin runs (MZGramPluginEngine) or why it did not
+ * start, its settings page while it runs, and a restart.
  *
  * Based on exteraless plugins/ui/PluginsActivity.java and PluginCell.java
  * (GPL-3.0): what a plugin shows and the actions on it; written anew for
@@ -26,6 +28,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.mzgram.MZGramProfilerReports;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginDevServer;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginEngine;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginGrants;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
@@ -51,6 +54,8 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
     private static final int BUTTON_SHARE = 8;
     private static final int BUTTON_DELETE = 9;
     private static final int BUTTON_JOURNAL = 10;
+    private static final int BUTTON_SETTINGS = 11;
+    private static final int BUTTON_RESTART = 12;
     // Rows of the permissions and the packages, by their place
     private static final int PERMISSION_ROW = 100;
     private static final int REQUIREMENT_ROW = 300;
@@ -77,6 +82,7 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
     public void onResume() {
         super.onResume();
         MZGramPluginDevServer.addListener(devServerListener);
+        MZGramPluginEngine.addListener(devServerListener);
         refresh();
     }
 
@@ -84,6 +90,7 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
     public void onPause() {
         super.onPause();
         MZGramPluginDevServer.removeListener(devServerListener);
+        MZGramPluginEngine.removeListener(devServerListener);
     }
 
     private void refresh() {
@@ -112,7 +119,13 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         final MZGramPluginFormat.Meta meta = plugin.meta;
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_ENABLED, getString(R.string.MZGramPluginEnabled)).setChecked(plugin.enabled));
-        items.add(UItem.asShadow(getString(R.string.MZGramPluginsNotRunning)));
+        if (MZGramPluginEngine.hasSettings(pluginId)) {
+            items.add(UItem.asButton(BUTTON_SETTINGS, R.drawable.msg_settings, getString(R.string.MZGramPluginSettings)));
+        }
+        if (plugin.enabled && MZGramPluginEngine.isOn()) {
+            items.add(UItem.asButton(BUTTON_RESTART, R.drawable.msg_retry, getString(R.string.MZGramPluginRestart)));
+        }
+        items.add(UItem.asShadow(stateText()));
 
         items.add(UItem.asHeader(getString(R.string.MZGramPluginAbout)));
         items.add(UItem.asButton(BUTTON_VERSION, getString(R.string.MZGramPluginVersion), meta.beta
@@ -158,6 +171,26 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
     }
 
+    // Whether the plugin runs, or why not
+    private String stateText() {
+        if (!MZGramPluginEngine.isOn()) {
+            return getString(R.string.MZGramPluginsRunOffInfo);
+        }
+        if (!plugin.enabled) {
+            return getString(R.string.MZGramPluginStoppedInfo);
+        }
+        switch (MZGramPluginEngine.getState(pluginId)) {
+            case MZGramPluginEngine.STATE_RUNNING:
+                return getString(R.string.MZGramPluginRunningInfo);
+            case MZGramPluginEngine.STATE_FAILED: {
+                final String error = MZGramPluginEngine.getError(pluginId);
+                return LocaleController.formatString(R.string.MZGramPluginFailedInfo, TextUtils.isEmpty(error) ? "?" : error);
+            }
+            default:
+                return getString(R.string.MZGramPluginStartingInfo);
+        }
+    }
+
     @Override
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (plugin == null) {
@@ -165,6 +198,11 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         }
         if (item.id == BUTTON_ENABLED) {
             MZGramPlugins.setEnabled(pluginId, !item.checked);
+            refresh();
+        } else if (item.id == BUTTON_SETTINGS) {
+            presentFragment(new MZGramPluginSettingsActivity(pluginId, plugin.meta.name));
+        } else if (item.id == BUTTON_RESTART) {
+            MZGramPluginEngine.restart(pluginId);
             refresh();
         } else if (item.id == BUTTON_ID) {
             AndroidUtilities.addToClipboard(pluginId);

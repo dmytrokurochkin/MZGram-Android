@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">Nos dados móveis</string>
     <string name="MZGramProxyOffWifi">No Wi-Fi</string>
     <string name="MZGramProxyAutoDisableInfo">Nas redes escolhidas acima o proxy se desativa sozinho e volta a ativar quando o telefone sai delas. Um proxy que você ativar manualmente fica ativo até a rede mudar. Nada é enviado para lugar nenhum.</string>
+    <string name="MZGramPluginsRun">Executar plugins</string>
+    <string name="MZGramPluginsRunInfo">Os plugins ativados iniciam junto com o MZGram. Um plugin roda com as permissões do MZGram, então ative apenas os que você confia. Nesta versão os plugins não têm acesso à rede.</string>
+    <string name="MZGramPluginsRunConfirm">Um plugin executa o próprio código dentro do MZGram e vê o que o MZGram vê: suas conversas e sua conta. Ative apenas plugins de pessoas em quem você confia.</string>
+    <string name="MZGramPluginsRunTurnOn">Ativar</string>
+    <string name="MZGramPluginsRunOffInfo">Os plugins não rodam enquanto “Executar plugins” estiver desativado na tela Plugins.</string>
+    <string name="MZGramPluginStateRunning">em execução</string>
+    <string name="MZGramPluginStateStarting">iniciando</string>
+    <string name="MZGramPluginStateFailed">falha ao iniciar</string>
+    <string name="MZGramPluginRunningInfo">O plugin está em execução.</string>
+    <string name="MZGramPluginStartingInfo">O plugin está iniciando.</string>
+    <string name="MZGramPluginStoppedInfo">O plugin está desativado e não roda.</string>
+    <string name="MZGramPluginFailedInfo">Não foi possível iniciar o plugin: %1$s</string>
+    <string name="MZGramPluginSettings">Configurações do plugin</string>
+    <string name="MZGramPluginRestart">Reiniciar plugin</string>
+    <string name="MZGramPluginJournalStarted">Iniciado</string>
+    <string name="MZGramPluginJournalStartFailed">Falha ao iniciar: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Parado</string>
+    <string name="MZGramPluginJournalError">Erro: %1$s</string>
+    <string name="MZGramPluginJournalLog">Registro: %1$s</string>
 </resources>

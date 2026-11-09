@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">Мобильді интернетте</string>
     <string name="MZGramProxyOffWifi">Wi-Fi желісінде</string>
     <string name="MZGramProxyAutoDisableInfo">Жоғарыда таңдалған желілерде прокси өзі өшеді және телефон олардан шыққанда қайта қосылады. Қолмен қосқан прокси желі өзгергенше қосулы қалады. Ешқайда ештеңе жіберілмейді.</string>
+    <string name="MZGramPluginsRun">Плагиндерді іске қосу</string>
+    <string name="MZGramPluginsRunInfo">Қосулы плагиндер MZGram-мен бірге іске қосылады. Плагин MZGram құқықтарымен жұмыс істейді, сондықтан тек сенетіндеріңізді қосыңыз. Бұл нұсқада плагиндердің желіге қолжетімділігі жоқ.</string>
+    <string name="MZGramPluginsRunConfirm">Плагин MZGram ішінде өз кодын орындайды және MZGram көретінді көреді: чаттарыңыз бен аккаунтыңыз. Тек сенетін адамдардың плагиндерін қосыңыз.</string>
+    <string name="MZGramPluginsRunTurnOn">Қосу</string>
+    <string name="MZGramPluginsRunOffInfo">«Плагиндер» экранында «Плагиндерді іске қосу» өшірулі тұрғанда плагиндер іске қосылмайды.</string>
+    <string name="MZGramPluginStateRunning">жұмыс істеп тұр</string>
+    <string name="MZGramPluginStateStarting">іске қосылуда</string>
+    <string name="MZGramPluginStateFailed">іске қосылмады</string>
+    <string name="MZGramPluginRunningInfo">Плагин жұмыс істеп тұр.</string>
+    <string name="MZGramPluginStartingInfo">Плагин іске қосылуда.</string>
+    <string name="MZGramPluginStoppedInfo">Плагин өшірулі, ол жұмыс істемейді.</string>
+    <string name="MZGramPluginFailedInfo">Плагинді іске қосу мүмкін болмады: %1$s</string>
+    <string name="MZGramPluginSettings">Плагин баптаулары</string>
+    <string name="MZGramPluginRestart">Плагинді қайта іске қосу</string>
+    <string name="MZGramPluginJournalStarted">Іске қосылды</string>
+    <string name="MZGramPluginJournalStartFailed">Іске қосылмады: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Тоқтатылды</string>
+    <string name="MZGramPluginJournalError">Қате: %1$s</string>
+    <string name="MZGramPluginJournalLog">Плагин жазбасы: %1$s</string>
 </resources>

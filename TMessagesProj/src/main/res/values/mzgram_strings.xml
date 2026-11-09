@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">On mobile data</string>
     <string name="MZGramProxyOffWifi">On Wi-Fi</string>
     <string name="MZGramProxyAutoDisableInfo">On the networks picked above the proxy turns off by itself, and it turns back on when the phone leaves them. A proxy you turn on by hand stays on until the network changes. Nothing is sent anywhere.</string>
+    <string name="MZGramPluginsRun">Run plugins</string>
+    <string name="MZGramPluginsRunInfo">Plugins that are on start together with MZGram. A plugin runs with the rights of MZGram, so turn on only the ones you trust. Plugins have no network access in this version.</string>
+    <string name="MZGramPluginsRunConfirm">A plugin runs its own code inside MZGram and can see what MZGram sees: your chats and your account. Turn on only plugins from people you trust.</string>
+    <string name="MZGramPluginsRunTurnOn">Turn on</string>
+    <string name="MZGramPluginsRunOffInfo">Plugins do not run while Run plugins is off on the Plugins screen.</string>
+    <string name="MZGramPluginStateRunning">running</string>
+    <string name="MZGramPluginStateStarting">starting</string>
+    <string name="MZGramPluginStateFailed">failed to start</string>
+    <string name="MZGramPluginRunningInfo">The plugin is running.</string>
+    <string name="MZGramPluginStartingInfo">The plugin is starting.</string>
+    <string name="MZGramPluginStoppedInfo">The plugin is off and does not run.</string>
+    <string name="MZGramPluginFailedInfo">The plugin could not start: %1$s</string>
+    <string name="MZGramPluginSettings">Plugin settings</string>
+    <string name="MZGramPluginRestart">Restart plugin</string>
+    <string name="MZGramPluginJournalStarted">Started</string>
+    <string name="MZGramPluginJournalStartFailed">Failed to start: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Stopped</string>
+    <string name="MZGramPluginJournalError">Error: %1$s</string>
+    <string name="MZGramPluginJournalLog">Log: %1$s</string>
 </resources>

@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">У мабільным інтэрнэце</string>
     <string name="MZGramProxyOffWifi">У сетцы Wi-Fi</string>
     <string name="MZGramProxyAutoDisableInfo">У выбраных вышэй сетках проксі адключаецца сам і зноў уключаецца, калі тэлефон з іх выходзіць. Проксі, які вы ўключылі ўручную, застаецца ўключаным да змены сеткі. Нічога нікуды не адпраўляецца.</string>
+    <string name="MZGramPluginsRun">Запускаць плагіны</string>
+    <string name="MZGramPluginsRunInfo">Уключаныя плагіны запускаюцца разам з MZGram. Плагін працуе з правамі MZGram, таму ўключайце толькі тыя, якім давяраеце. У гэтай версіі плагіны не маюць доступу да сеткі.</string>
+    <string name="MZGramPluginsRunConfirm">Плагін выконвае ўласны код унутры MZGram і бачыць тое, што бачыць MZGram: вашы чаты і акаўнт. Уключайце толькі плагіны ад людзей, якім давяраеце.</string>
+    <string name="MZGramPluginsRunTurnOn">Уключыць</string>
+    <string name="MZGramPluginsRunOffInfo">Плагіны не запускаюцца, пакуль на экране «Плагіны» выключана «Запускаць плагіны».</string>
+    <string name="MZGramPluginStateRunning">працуе</string>
+    <string name="MZGramPluginStateStarting">запускаецца</string>
+    <string name="MZGramPluginStateFailed">не запусціўся</string>
+    <string name="MZGramPluginRunningInfo">Плагін працуе.</string>
+    <string name="MZGramPluginStartingInfo">Плагін запускаецца.</string>
+    <string name="MZGramPluginStoppedInfo">Плагін выключаны і не працуе.</string>
+    <string name="MZGramPluginFailedInfo">Не ўдалося запусціць плагін: %1$s</string>
+    <string name="MZGramPluginSettings">Налады плагіна</string>
+    <string name="MZGramPluginRestart">Перазапусціць плагін</string>
+    <string name="MZGramPluginJournalStarted">Запушчаны</string>
+    <string name="MZGramPluginJournalStartFailed">Не запусціўся: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Спынены</string>
+    <string name="MZGramPluginJournalError">Памылка: %1$s</string>
+    <string name="MZGramPluginJournalLog">Запіс плагіна: %1$s</string>
 </resources>

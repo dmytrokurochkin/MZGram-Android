@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">Bei mobilen Daten</string>
     <string name="MZGramProxyOffWifi">Im WLAN</string>
     <string name="MZGramProxyAutoDisableInfo">In den oben gewählten Netzen schaltet sich der Proxy selbst aus und wieder ein, sobald das Telefon sie verlässt. Ein Proxy, den du von Hand einschaltest, bleibt an, bis sich das Netz ändert. Nichts wird irgendwohin gesendet.</string>
+    <string name="MZGramPluginsRun">Plugins ausführen</string>
+    <string name="MZGramPluginsRunInfo">Eingeschaltete Plugins starten zusammen mit MZGram. Ein Plugin läuft mit den Rechten von MZGram, schalten Sie also nur vertrauenswürdige ein. In dieser Version haben Plugins keinen Netzwerkzugriff.</string>
+    <string name="MZGramPluginsRunConfirm">Ein Plugin führt eigenen Code in MZGram aus und sieht, was MZGram sieht: Ihre Chats und Ihr Konto. Schalten Sie nur Plugins von Personen ein, denen Sie vertrauen.</string>
+    <string name="MZGramPluginsRunTurnOn">Einschalten</string>
+    <string name="MZGramPluginsRunOffInfo">Plugins laufen nicht, solange „Plugins ausführen“ auf dem Bildschirm „Plugins“ aus ist.</string>
+    <string name="MZGramPluginStateRunning">läuft</string>
+    <string name="MZGramPluginStateStarting">startet</string>
+    <string name="MZGramPluginStateFailed">Start fehlgeschlagen</string>
+    <string name="MZGramPluginRunningInfo">Das Plugin läuft.</string>
+    <string name="MZGramPluginStartingInfo">Das Plugin startet.</string>
+    <string name="MZGramPluginStoppedInfo">Das Plugin ist aus und läuft nicht.</string>
+    <string name="MZGramPluginFailedInfo">Das Plugin konnte nicht starten: %1$s</string>
+    <string name="MZGramPluginSettings">Plugin-Einstellungen</string>
+    <string name="MZGramPluginRestart">Plugin neu starten</string>
+    <string name="MZGramPluginJournalStarted">Gestartet</string>
+    <string name="MZGramPluginJournalStartFailed">Start fehlgeschlagen: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Beendet</string>
+    <string name="MZGramPluginJournalError">Fehler: %1$s</string>
+    <string name="MZGramPluginJournalLog">Protokoll: %1$s</string>
 </resources>

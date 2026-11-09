@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">Mobil veride</string>
     <string name="MZGramProxyOffWifi">Wi-Fi ağında</string>
     <string name="MZGramProxyAutoDisableInfo">Yukarıda seçilen ağlarda proxy kendiliğinden kapanır, telefon bu ağlardan çıkınca yeniden açılır. Elle açtığın proxy ağ değişene kadar açık kalır. Hiçbir yere bir şey gönderilmez.</string>
+    <string name="MZGramPluginsRun">Eklentileri çalıştır</string>
+    <string name="MZGramPluginsRunInfo">Açık eklentiler MZGram ile birlikte başlar. Bir eklenti MZGram yetkileriyle çalışır, bu yüzden yalnızca güvendiklerinizi açın. Bu sürümde eklentilerin ağ erişimi yoktur.</string>
+    <string name="MZGramPluginsRunConfirm">Bir eklenti kendi kodunu MZGram içinde çalıştırır ve MZGram ne görüyorsa onu görür: sohbetleriniz ve hesabınız. Yalnızca güvendiğiniz kişilerin eklentilerini açın.</string>
+    <string name="MZGramPluginsRunTurnOn">Aç</string>
+    <string name="MZGramPluginsRunOffInfo">Eklentiler ekranında “Eklentileri çalıştır” kapalıyken eklentiler çalışmaz.</string>
+    <string name="MZGramPluginStateRunning">çalışıyor</string>
+    <string name="MZGramPluginStateStarting">başlatılıyor</string>
+    <string name="MZGramPluginStateFailed">başlatılamadı</string>
+    <string name="MZGramPluginRunningInfo">Eklenti çalışıyor.</string>
+    <string name="MZGramPluginStartingInfo">Eklenti başlatılıyor.</string>
+    <string name="MZGramPluginStoppedInfo">Eklenti kapalı ve çalışmıyor.</string>
+    <string name="MZGramPluginFailedInfo">Eklenti başlatılamadı: %1$s</string>
+    <string name="MZGramPluginSettings">Eklenti ayarları</string>
+    <string name="MZGramPluginRestart">Eklentiyi yeniden başlat</string>
+    <string name="MZGramPluginJournalStarted">Başlatıldı</string>
+    <string name="MZGramPluginJournalStartFailed">Başlatılamadı: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Durduruldu</string>
+    <string name="MZGramPluginJournalError">Hata: %1$s</string>
+    <string name="MZGramPluginJournalLog">Kayıt: %1$s</string>
 </resources>

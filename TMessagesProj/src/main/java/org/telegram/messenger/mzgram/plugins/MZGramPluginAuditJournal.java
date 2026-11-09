@@ -55,6 +55,8 @@ public final class MZGramPluginAuditJournal {
     public static final String CATEGORY_PERMISSIONS = "permissions";
     /** Hooks of a running plugin; memory only. */
     public static final String CATEGORY_HOOKS = "hooks";
+    /** A plugin started, stopped, failed or wrote to its log (MZGramPluginEngine); memory only. */
+    public static final String CATEGORY_RUNTIME = "runtime";
 
     public static final String EVENT_ADDED = "added";
     public static final String EVENT_UPDATED = "updated";
@@ -69,6 +71,14 @@ public final class MZGramPluginAuditJournal {
     public static final String EVENT_HOOK_PROTECTED = "hook_protected";
     public static final String EVENT_HOOK_NO_PERMISSION = "hook_no_permission";
     public static final String EVENT_HOOK_FAILED = "hook_failed";
+    public static final String EVENT_STARTED = "started";
+    /** detail: why the plugin did not start. */
+    public static final String EVENT_START_FAILED = "start_failed";
+    public static final String EVENT_STOPPED = "stopped";
+    /** detail: the callback and its error. */
+    public static final String EVENT_ERROR = "error";
+    /** detail: a line of BasePlugin.log. */
+    public static final String EVENT_LOG = "log";
 
     /** The source of an action done through MZGramPluginDevServer. */
     public static final String SOURCE_DEV_SERVER = "dev_server";

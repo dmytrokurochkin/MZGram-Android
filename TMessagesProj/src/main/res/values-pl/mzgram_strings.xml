@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">Na danych komórkowych</string>
     <string name="MZGramProxyOffWifi">W sieci Wi-Fi</string>
     <string name="MZGramProxyAutoDisableInfo">W wybranych wyżej sieciach proxy wyłącza się samo i włącza ponownie, gdy telefon je opuści. Proxy włączone ręcznie zostaje włączone do zmiany sieci. Nic nie jest nigdzie wysyłane.</string>
+    <string name="MZGramPluginsRun">Uruchamiaj wtyczki</string>
+    <string name="MZGramPluginsRunInfo">Włączone wtyczki uruchamiają się razem z MZGram. Wtyczka działa z uprawnieniami MZGram, więc włączaj tylko te, którym ufasz. W tej wersji wtyczki nie mają dostępu do sieci.</string>
+    <string name="MZGramPluginsRunConfirm">Wtyczka uruchamia własny kod wewnątrz MZGram i widzi to, co MZGram: Twoje czaty i konto. Włączaj tylko wtyczki od osób, którym ufasz.</string>
+    <string name="MZGramPluginsRunTurnOn">Włącz</string>
+    <string name="MZGramPluginsRunOffInfo">Wtyczki nie działają, dopóki na ekranie „Wtyczki” wyłączona jest opcja „Uruchamiaj wtyczki”.</string>
+    <string name="MZGramPluginStateRunning">działa</string>
+    <string name="MZGramPluginStateStarting">uruchamia się</string>
+    <string name="MZGramPluginStateFailed">nie uruchomiła się</string>
+    <string name="MZGramPluginRunningInfo">Wtyczka działa.</string>
+    <string name="MZGramPluginStartingInfo">Wtyczka się uruchamia.</string>
+    <string name="MZGramPluginStoppedInfo">Wtyczka jest wyłączona i nie działa.</string>
+    <string name="MZGramPluginFailedInfo">Nie udało się uruchomić wtyczki: %1$s</string>
+    <string name="MZGramPluginSettings">Ustawienia wtyczki</string>
+    <string name="MZGramPluginRestart">Uruchom wtyczkę ponownie</string>
+    <string name="MZGramPluginJournalStarted">Uruchomiono</string>
+    <string name="MZGramPluginJournalStartFailed">Nie uruchomiono: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Zatrzymano</string>
+    <string name="MZGramPluginJournalError">Błąd: %1$s</string>
+    <string name="MZGramPluginJournalLog">Wpis wtyczki: %1$s</string>
 </resources>

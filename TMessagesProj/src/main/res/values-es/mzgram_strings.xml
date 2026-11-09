@@ -984,4 +984,23 @@
     <string name="MZGramProxyOffMobile">Con datos móviles</string>
     <string name="MZGramProxyOffWifi">Con wifi</string>
     <string name="MZGramProxyAutoDisableInfo">En las redes elegidas arriba el proxy se desactiva solo y se vuelve a activar cuando el teléfono sale de ellas. Un proxy que actives a mano sigue activo hasta que cambie la red. No se envía nada a ningún sitio.</string>
+    <string name="MZGramPluginsRun">Ejecutar complementos</string>
+    <string name="MZGramPluginsRunInfo">Los complementos activados se inician junto con MZGram. Un complemento funciona con los permisos de MZGram, así que activa solo los que sean de confianza. En esta versión los complementos no tienen acceso a la red.</string>
+    <string name="MZGramPluginsRunConfirm">Un complemento ejecuta su propio código dentro de MZGram y ve lo que ve MZGram: tus chats y tu cuenta. Activa solo complementos de personas de confianza.</string>
+    <string name="MZGramPluginsRunTurnOn">Activar</string>
+    <string name="MZGramPluginsRunOffInfo">Los complementos no se ejecutan mientras «Ejecutar complementos» esté desactivado en la pantalla Complementos.</string>
+    <string name="MZGramPluginStateRunning">en ejecución</string>
+    <string name="MZGramPluginStateStarting">iniciando</string>
+    <string name="MZGramPluginStateFailed">no se pudo iniciar</string>
+    <string name="MZGramPluginRunningInfo">El complemento está en ejecución.</string>
+    <string name="MZGramPluginStartingInfo">El complemento se está iniciando.</string>
+    <string name="MZGramPluginStoppedInfo">El complemento está desactivado y no se ejecuta.</string>
+    <string name="MZGramPluginFailedInfo">No se pudo iniciar el complemento: %1$s</string>
+    <string name="MZGramPluginSettings">Ajustes del complemento</string>
+    <string name="MZGramPluginRestart">Reiniciar complemento</string>
+    <string name="MZGramPluginJournalStarted">Iniciado</string>
+    <string name="MZGramPluginJournalStartFailed">No se pudo iniciar: %1$s</string>
+    <string name="MZGramPluginJournalStopped">Detenido</string>
+    <string name="MZGramPluginJournalError">Error del complemento: %1$s</string>
+    <string name="MZGramPluginJournalLog">Registro: %1$s</string>
 </resources>

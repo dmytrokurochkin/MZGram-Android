@@ -18,7 +18,7 @@
  * one line {"#": id, "ok": true|false, ...} with "error" when ok is false.
  * Commands: ping, get_plugins, enable_plugin, disable_plugin, write_plugin
  * (plugin_id, content: the .plugin file in base64), remove_plugin,
- * reload_plugin (refused while MZGram doesn't run plugins). A file sent
+ * reload_plugin (refused while "Run plugins" or the plugin is off). A file sent
  * with write_plugin goes through the same metadata check as a picked file
  * and is kept the same way (MZGramPlugins.install): a new plugin is off.
  *
@@ -423,7 +423,11 @@ public final class MZGramPluginDevServer {
                 if (MZGramPlugins.get(pluginId) == null) {
                     return unknown(pluginId);
                 }
-                return "MZGram does not run plugins yet; write_plugin has kept the new file";
+                if (!MZGramPluginEngine.restart(pluginId)) {
+                    return MZGramPluginEngine.isOn() ? "the plugin is off; enable_plugin starts it"
+                            : "Run plugins is off in MZGram; write_plugin has kept the new file";
+                }
+                return null;
             }
             case COMMAND_START_DEBUGGER:
             case COMMAND_STOP_DEBUGGER:
@@ -447,10 +451,10 @@ public final class MZGramPluginDevServer {
             item.put("version", plugin.meta.version);
             item.put("author", plugin.meta.author.isEmpty() ? JSONObject.NULL : plugin.meta.author);
             item.put("enabled", plugin.enabled);
-            // MZGram doesn't run plugins yet
-            item.put("loaded", false);
-            item.put("has_settings", false);
-            item.put(KEY_ERROR, JSONObject.NULL);
+            final String error = MZGramPluginEngine.getError(plugin.meta.id);
+            item.put("loaded", MZGramPluginEngine.getState(plugin.meta.id) == MZGramPluginEngine.STATE_RUNNING);
+            item.put("has_settings", MZGramPluginEngine.hasSettings(plugin.meta.id));
+            item.put(KEY_ERROR, error != null ? error : JSONObject.NULL);
             array.put(item);
         }
         return array;

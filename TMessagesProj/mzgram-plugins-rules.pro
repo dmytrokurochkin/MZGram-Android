@@ -17,3 +17,9 @@
 -keep class org.telegram.messenger.mzgram.plugins.MZGramPluginMenus {
     public static *;
 }
+
+# mzgram_plugins/loader.py hands the log lines of plugins to this class by
+# its name (jclass), so R8 must keep its static methods.
+-keep class org.telegram.messenger.mzgram.plugins.MZGramPluginEngine {
+    public static *;
+}

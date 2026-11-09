@@ -6884,6 +6884,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         super.onPause();
         isResumed = false;
         pipActivityHandler.onPause();
+        // MZGram: MZGramPluginEngine.onPause, running plugins get the PAUSE event.
+        org.telegram.messenger.mzgram.plugins.MZGramPluginEngine.onPause();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 4096);
         ApplicationLoader.mainInterfacePaused = true;
         int account = currentAccount;
@@ -7135,6 +7137,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         org.telegram.messenger.mzgram.MZGramMonet.refreshIfChanged();
         // MZGram: MZGramProxyAutoDisable.start, the proxy goes off by itself on the networks picked (off by default).
         org.telegram.messenger.mzgram.MZGramProxyAutoDisable.start();
+        // MZGram: MZGramPluginEngine.onResume, the first one starts the plugins that are on ("Run plugins", off by default).
+        org.telegram.messenger.mzgram.plugins.MZGramPluginEngine.onResume();
         checkWasMutedByAdmin(true);
         //FileLog.d("UI resume time = " + (SystemClock.elapsedRealtime() - ApplicationLoader.startTime));
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 4096);

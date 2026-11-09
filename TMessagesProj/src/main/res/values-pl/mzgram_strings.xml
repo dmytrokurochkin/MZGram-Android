@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Linia ciągła</string>
     <string name="MZGramGlassOutlineHidden">Bez obrysu</string>
     <string name="MZGramGlassOutlineInfo">Krawędź szklanych paneli, przycisków i menu. Odblask: jasna linia u góry i ciemna u dołu, jak w Telegramie. Linia ciągła: jedna cienka linia wzdłuż całej krawędzi, bez cienia. Bez obrysu: ani linii, ani cienia.</string>
+    <string name="MZGramFolderTabs">Karty folderów</string>
+    <string name="MZGramFolderTabsTitles">Tylko nazwy</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Ikony i nazwy</string>
+    <string name="MZGramFolderTabsIcons">Tylko ikony</string>
+    <string name="MZGramFolderTabsInfo">Co pokazują karty folderów nad listą czatów. Ikona to ta wybrana dla folderu w Telegram Desktop lub na iOS; bez niej ikona jest dobierana według typu czatów w folderze.</string>
 </resources>

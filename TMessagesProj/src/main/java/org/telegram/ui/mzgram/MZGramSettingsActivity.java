@@ -171,6 +171,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_ACCOUNT_ORDER = 146;
     private static final int BUTTON_RECENT_CHATS_ON_BACK = 147;
     private static final int BUTTON_GLASS_OUTLINE = 148;
+    private static final int BUTTON_FOLDER_TAB_ICONS = 149;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -758,6 +759,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramFabShapeInfo)));
         items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramPeerIdInfo)));
+        items.add(UItem.asButton(BUTTON_FOLDER_TAB_ICONS, getString(R.string.MZGramFolderTabs), getString(MZGramFolderIcons.MODE_TITLES[MZGramFolderIcons.mode()])));
+        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsInfo)));
         items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
         items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
@@ -1034,6 +1037,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
             chooseLanguage();
         } else if (item.id == BUTTON_LAUNCH_FOLDER) {
             MZGramLaunchFolder.choose(this, currentAccount, () -> {
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            });
+        } else if (item.id == BUTTON_FOLDER_TAB_ICONS) {
+            MZGramFolderIcons.choose(this, () -> {
                 if (listView != null && listView.adapter != null) {
                     listView.adapter.update(true);
                 }

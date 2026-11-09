@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Ligne continue</string>
     <string name="MZGramGlassOutlineHidden">Aucun contour</string>
     <string name="MZGramGlassOutlineInfo">Bord des panneaux, boutons et menus en verre. Reflet : une ligne claire en haut et une sombre en bas, comme dans Telegram. Ligne continue : une seule ligne fine sur tout le bord, sans ombre. Aucun contour : ni ligne ni ombre.</string>
+    <string name="MZGramFolderTabs">Onglets des dossiers</string>
+    <string name="MZGramFolderTabsTitles">Noms uniquement</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Icônes et noms</string>
+    <string name="MZGramFolderTabsIcons">Icônes uniquement</string>
+    <string name="MZGramFolderTabsInfo">Ce qu\'affichent les onglets des dossiers au-dessus de la liste des chats. L\'icône est celle choisie pour le dossier dans Telegram Desktop ou sur iOS ; sans elle, une icône est choisie selon le type de chats du dossier.</string>
 </resources>

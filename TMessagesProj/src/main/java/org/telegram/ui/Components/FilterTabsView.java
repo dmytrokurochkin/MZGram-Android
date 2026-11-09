@@ -168,6 +168,10 @@ public class FilterTabsView extends FrameLayout {
             title = Emoji.replaceEmoji(title, textPaint.getFontMetricsInt(), false);
 //            MessageObject.addEntitiesToText(title, newEntities, false, false, false, true);
             title = MessageObject.replaceAnimatedEmoji(title, newEntities, textPaint.getFontMetricsInt());
+            // MZGram: icon of the "All chats" tab (MZGramFolderIcons); names only keeps the title
+            if (isDefault) {
+                title = org.telegram.ui.mzgram.MZGramFolderIcons.defaultTabTitle(title, newTitle);
+            }
             this.noanimate = noanimate;
             return true;
         }

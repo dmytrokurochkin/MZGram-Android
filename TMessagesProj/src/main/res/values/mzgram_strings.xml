@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Solid line</string>
     <string name="MZGramGlassOutlineHidden">None</string>
     <string name="MZGramGlassOutlineInfo">Edge of the glass panels, buttons and menus. Glare: a light line on top and a dark one at the bottom, as in Telegram. Solid line: one thin line around the whole edge, without the shadow. None: no line and no shadow.</string>
+    <string name="MZGramFolderTabs">Folder tabs</string>
+    <string name="MZGramFolderTabsTitles">Names only</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Icons and names</string>
+    <string name="MZGramFolderTabsIcons">Icons only</string>
+    <string name="MZGramFolderTabsInfo">What the folder tabs above the chat list show. The icon is the one chosen for the folder in Telegram Desktop or on iOS; without it, an icon is picked from the chat types of the folder.</string>
 </resources>

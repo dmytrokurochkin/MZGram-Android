@@ -70,6 +70,8 @@ public class MZGramConfig {
     public static int avatarCorners = MZGramAvatarShape.MAX;
     // Outline of the glass surfaces: 0 glare as in Telegram, 1 solid, 2 hidden (MZGramGlassOutline)
     public static int glassOutline = 0;
+    // Folder tabs: 0 names only as in Telegram, 1 icons and names, 2 icons only (MZGramFolderIcons)
+    public static int folderTabIcons = 0;
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
@@ -365,6 +367,7 @@ public class MZGramConfig {
             avatarCorners = Math.max(MZGramAvatarShape.MIN, Math.min(MZGramAvatarShape.MAX, preferences.getInt("avatarCorners", MZGramAvatarShape.MAX)));
             MZGramAvatarShape.changed();
             glassOutline = preferences.getInt("glassOutline", 0);
+            folderTabIcons = preferences.getInt("folderTabIcons", 0);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
@@ -673,6 +676,11 @@ public class MZGramConfig {
     public static void setGlassOutline(int style) {
         glassOutline = style == 1 || style == 2 ? style : 0;
         preferences().edit().putInt("glassOutline", glassOutline).apply();
+    }
+
+    public static void setFolderTabIcons(int mode) {
+        folderTabIcons = mode == 1 || mode == 2 ? mode : 0;
+        preferences().edit().putInt("folderTabIcons", folderTabIcons).apply();
     }
 
     public static void toggleHideBottomNavigationBar() {

@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Сплошная линия</string>
     <string name="MZGramGlassOutlineHidden">Без контура</string>
     <string name="MZGramGlassOutlineInfo">Край стеклянных панелей, кнопок и меню. Блик: светлая линия сверху и тёмная снизу, как в Telegram. Сплошная линия: одна тонкая линия по всему краю, без тени. Без контура: ни линии, ни тени.</string>
+    <string name="MZGramFolderTabs">Вкладки папок</string>
+    <string name="MZGramFolderTabsTitles">Только названия</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Значки и названия</string>
+    <string name="MZGramFolderTabsIcons">Только значки</string>
+    <string name="MZGramFolderTabsInfo">Что показывают вкладки папок над списком чатов. Значок тот, что выбран для папки в Telegram Desktop или на iOS; если его нет, значок подбирается по типу чатов в папке.</string>
 </resources>

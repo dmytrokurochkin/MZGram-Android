@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">خط متصل</string>
     <string name="MZGramGlassOutlineHidden">بلا حدود</string>
     <string name="MZGramGlassOutlineInfo">حافة اللوحات والأزرار والقوائم الزجاجية. لمعان: خط فاتح في الأعلى وخط داكن في الأسفل كما في Telegram. خط متصل: خط رفيع واحد على طول الحافة كلها دون ظل. بلا حدود: لا خط ولا ظل.</string>
+    <string name="MZGramFolderTabs">ألسنة المجلدات</string>
+    <string name="MZGramFolderTabsTitles">الأسماء فقط</string>
+    <string name="MZGramFolderTabsIconsAndTitles">الأيقونات والأسماء</string>
+    <string name="MZGramFolderTabsIcons">الأيقونات فقط</string>
+    <string name="MZGramFolderTabsInfo">ما تعرضه ألسنة المجلدات فوق قائمة الدردشات. الأيقونة هي التي اختيرت للمجلد في Telegram Desktop أو على iOS، وإن لم توجد تُختار أيقونة حسب نوع الدردشات في المجلد.</string>
 </resources>

@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Linha contínua</string>
     <string name="MZGramGlassOutlineHidden">Sem contorno</string>
     <string name="MZGramGlassOutlineInfo">Borda dos painéis, botões e menus de vidro. Reflexo: uma linha clara em cima e uma escura embaixo, como no Telegram. Linha contínua: uma linha fina em toda a borda, sem sombra. Sem contorno: nem linha nem sombra.</string>
+    <string name="MZGramFolderTabs">Abas de pastas</string>
+    <string name="MZGramFolderTabsTitles">Só nomes</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Ícones e nomes</string>
+    <string name="MZGramFolderTabsIcons">Só ícones</string>
+    <string name="MZGramFolderTabsInfo">O que as abas de pastas acima da lista de conversas mostram. O ícone é o escolhido para a pasta no Telegram Desktop ou no iOS; sem ele, um ícone é escolhido pelo tipo de conversas da pasta.</string>
 </resources>

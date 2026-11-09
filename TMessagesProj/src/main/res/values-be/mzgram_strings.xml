@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Суцэльная лінія</string>
     <string name="MZGramGlassOutlineHidden">Без контуру</string>
     <string name="MZGramGlassOutlineInfo">Край шкляных панэляў, кнопак і меню. Блік: светлая лінія зверху і цёмная знізу, як у Telegram. Суцэльная лінія: адна тонкая лінія па ўсім краі, без ценю. Без контуру: ні лініі, ні ценю.</string>
+    <string name="MZGramFolderTabs">Укладкі папак</string>
+    <string name="MZGramFolderTabsTitles">Толькі назвы</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Значкі і назвы</string>
+    <string name="MZGramFolderTabsIcons">Толькі значкі</string>
+    <string name="MZGramFolderTabsInfo">Што паказваюць укладкі папак над спісам чатаў. Значок той, што выбралі для папкі ў Telegram Desktop або на iOS; калі яго няма, значок падбіраецца паводле тыпу чатаў у папцы.</string>
 </resources>

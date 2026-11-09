@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Durchgehende Linie</string>
     <string name="MZGramGlassOutlineHidden">Kein Rand</string>
     <string name="MZGramGlassOutlineInfo">Rand der Glasflächen, Schaltflächen und Menüs. Lichtreflex: oben eine helle und unten eine dunkle Linie wie in Telegram. Durchgehende Linie: eine dünne Linie um den ganzen Rand, ohne Schatten. Kein Rand: weder Linie noch Schatten.</string>
+    <string name="MZGramFolderTabs">Ordner-Tabs</string>
+    <string name="MZGramFolderTabsTitles">Nur Namen</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Symbole und Namen</string>
+    <string name="MZGramFolderTabsIcons">Nur Symbole</string>
+    <string name="MZGramFolderTabsInfo">Was die Ordner-Tabs über der Chatliste zeigen. Das Symbol ist das, das in Telegram Desktop oder unter iOS für den Ordner gewählt wurde; ohne es wird ein Symbol nach der Art der Chats im Ordner gewählt.</string>
 </resources>

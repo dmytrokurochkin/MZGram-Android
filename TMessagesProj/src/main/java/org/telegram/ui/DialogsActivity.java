@@ -6953,7 +6953,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 filterTabsView.removeTabs();
                 for (int a = 0, N = filters.size(); a < N; a++) {
-                    if (filters.get(a).isDefault()) {
+                    // MZGram: folder icons on the tabs (MZGramFolderIcons); names only keeps Telegram's calls below
+                    final CharSequence mzgramTitle = org.telegram.ui.mzgram.MZGramFolderIcons.tabTitle(filterTabsView, currentAccount, filters.get(a));
+                    if (mzgramTitle != null) {
+                        final boolean mzgramDefault = filters.get(a).isDefault();
+                        filterTabsView.addTab(a, mzgramDefault ? 0 : filters.get(a).localId, mzgramTitle, !mzgramDefault && filters.get(a).title_noanimate, mzgramDefault, filters.get(a).locked);
+                    } else if (filters.get(a).isDefault()) {
                         filterTabsView.addTab(a, 0, LocaleController.getString(R.string.FilterAllChats), null, false, true, filters.get(a).locked);
                     } else {
                         final MessagesController.DialogFilter filter = filters.get(a);

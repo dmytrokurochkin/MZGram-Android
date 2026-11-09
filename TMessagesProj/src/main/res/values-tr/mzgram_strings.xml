@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Düz çizgi</string>
     <string name="MZGramGlassOutlineHidden">Kenarsız</string>
     <string name="MZGramGlassOutlineInfo">Cam panellerin, düğmelerin ve menülerin kenarı. Parlama: Telegram\'daki gibi üstte açık, altta koyu bir çizgi. Düz çizgi: tüm kenar boyunca tek ince çizgi, gölgesiz. Kenarsız: ne çizgi ne gölge.</string>
+    <string name="MZGramFolderTabs">Klasör sekmeleri</string>
+    <string name="MZGramFolderTabsTitles">Yalnızca adlar</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Simgeler ve adlar</string>
+    <string name="MZGramFolderTabsIcons">Yalnızca simgeler</string>
+    <string name="MZGramFolderTabsInfo">Sohbet listesinin üstündeki klasör sekmelerinin ne gösterdiği. Simge, klasör için Telegram Desktop\'ta veya iOS\'ta seçilen simgedir; yoksa klasördeki sohbet türüne göre bir simge seçilir.</string>
 </resources>

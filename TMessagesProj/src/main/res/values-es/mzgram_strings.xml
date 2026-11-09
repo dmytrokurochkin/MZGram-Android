@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Línea continua</string>
     <string name="MZGramGlassOutlineHidden">Sin contorno</string>
     <string name="MZGramGlassOutlineInfo">Borde de los paneles, botones y menús de cristal. Reflejo: una línea clara arriba y una oscura abajo, como en Telegram. Línea continua: una línea fina por todo el borde, sin sombra. Sin contorno: ni línea ni sombra.</string>
+    <string name="MZGramFolderTabs">Pestañas de carpetas</string>
+    <string name="MZGramFolderTabsTitles">Solo nombres</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Iconos y nombres</string>
+    <string name="MZGramFolderTabsIcons">Solo iconos</string>
+    <string name="MZGramFolderTabsInfo">Qué muestran las pestañas de carpetas sobre la lista de chats. El icono es el elegido para la carpeta en Telegram Desktop o en iOS; si no lo hay, se elige según el tipo de chats de la carpeta.</string>
 </resources>

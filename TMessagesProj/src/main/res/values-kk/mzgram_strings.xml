@@ -644,4 +644,9 @@
     <string name="MZGramGlassOutlineSolid">Тұтас сызық</string>
     <string name="MZGramGlassOutlineHidden">Контурсыз</string>
     <string name="MZGramGlassOutlineInfo">Шыны панельдердің, түймелер мен мәзірлердің жиегі. Жылтыр: Telegram-дағыдай жоғарыда ашық, төменде күңгірт сызық. Тұтас сызық: бүкіл жиек бойымен бір жіңішке сызық, көлеңкесіз. Контурсыз: сызық та, көлеңке де жоқ.</string>
+    <string name="MZGramFolderTabs">Бума қойындылары</string>
+    <string name="MZGramFolderTabsTitles">Тек атаулар</string>
+    <string name="MZGramFolderTabsIconsAndTitles">Белгішелер мен атаулар</string>
+    <string name="MZGramFolderTabsIcons">Тек белгішелер</string>
+    <string name="MZGramFolderTabsInfo">Чаттар тізімінің үстіндегі бума қойындылары не көрсетеді. Белгіше — бумаға Telegram Desktop-та немесе iOS-та таңдалған белгіше; ол болмаса, белгіше бумадағы чаттардың түріне қарай таңдалады.</string>
 </resources>

@@ -240,6 +240,8 @@ public final class MZGramPluginGrants {
 
     private static void disable(String pluginId) {
         if (pluginId != null) {
+            MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_GRANTS_DROPPED,
+                    MZGramPluginAuditJournal.CATEGORY_PERMISSIONS, "", MZGramPluginAuditJournal.LEVEL_ERROR);
             MZGramPlugins.setEnabled(pluginId, false);
         }
     }
@@ -295,7 +297,26 @@ public final class MZGramPluginGrants {
         }
         final List<String> clean = sanitize(permissions);
         clean.remove(UI);
-        return putSigned(KEY_PERMS + pluginId, TextUtils.join(",", clean));
+        final List<String> before = getStored(pluginId);
+        if (!putSigned(KEY_PERMS + pluginId, TextUtils.join(",", clean))) {
+            return false;
+        }
+        // The activity log gets each permission given or taken back
+        for (String key : clean) {
+            if (before == null || !before.contains(key)) {
+                MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_GRANTED,
+                        MZGramPluginAuditJournal.CATEGORY_PERMISSIONS, key, MZGramPluginAuditJournal.LEVEL_INFO);
+            }
+        }
+        if (before != null) {
+            for (String key : before) {
+                if (!clean.contains(key)) {
+                    MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_REVOKED,
+                            MZGramPluginAuditJournal.CATEGORY_PERMISSIONS, key, MZGramPluginAuditJournal.LEVEL_INFO);
+                }
+            }
+        }
+        return true;
     }
 
     public static boolean grant(String pluginId, String permission) {

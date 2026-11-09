@@ -50,6 +50,7 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
     private static final int BUTTON_SOURCE = 7;
     private static final int BUTTON_SHARE = 8;
     private static final int BUTTON_DELETE = 9;
+    private static final int BUTTON_JOURNAL = 10;
     // Rows of the permissions and the packages, by their place
     private static final int PERMISSION_ROW = 100;
     private static final int REQUIREMENT_ROW = 300;
@@ -152,6 +153,7 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
 
         items.add(UItem.asButton(BUTTON_SOURCE, R.drawable.msg_view_file, getString(R.string.MZGramPluginSource)));
         items.add(UItem.asButton(BUTTON_SHARE, R.drawable.msg_share, getString(R.string.MZGramPluginShare)));
+        items.add(UItem.asButton(BUTTON_JOURNAL, R.drawable.msg_log, getString(R.string.MZGramPluginJournal)));
         items.add(UItem.asButton(BUTTON_DELETE, R.drawable.msg_delete, getString(R.string.MZGramPluginDelete)).red());
         items.add(UItem.asShadow(null));
     }
@@ -178,6 +180,8 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
             presentFragment(new MZGramPluginSourceActivity(pluginId));
         } else if (item.id == BUTTON_SHARE) {
             share();
+        } else if (item.id == BUTTON_JOURNAL) {
+            presentFragment(new MZGramPluginJournalActivity(pluginId));
         } else if (item.id == BUTTON_DELETE) {
             confirmDelete();
         }

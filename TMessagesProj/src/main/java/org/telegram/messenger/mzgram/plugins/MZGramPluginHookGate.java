@@ -186,6 +186,11 @@ public final class MZGramPluginHookGate {
         if (first) {
             FileLog.w("MZGramPluginHookGate: " + pluginId + " may not hook " + target + " (" + reasonName(reason) + ")");
         }
+        // Every refusal, repeats counted (the journal ignores an invalid id)
+        MZGramPluginAuditJournal.record(pluginId, reason == DENIED_PROTECTED ? MZGramPluginAuditJournal.EVENT_HOOK_PROTECTED
+                        : reason == DENIED_NO_PERMISSION ? MZGramPluginAuditJournal.EVENT_HOOK_NO_PERMISSION
+                        : MZGramPluginAuditJournal.EVENT_HOOK_DENIED,
+                MZGramPluginAuditJournal.CATEGORY_HOOKS, target, MZGramPluginAuditJournal.LEVEL_DENIED);
         return reason;
     }
 
@@ -271,6 +276,8 @@ public final class MZGramPluginHookGate {
         /** A call whose hook body threw (always counted, the watchdog reads it). */
         public void fail() {
             failures.incrementAndGet();
+            MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_HOOK_FAILED,
+                    MZGramPluginAuditJournal.CATEGORY_HOOKS, target, MZGramPluginAuditJournal.LEVEL_ERROR);
         }
 
         public long getFailures() {

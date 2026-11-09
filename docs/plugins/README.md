@@ -106,7 +106,17 @@ plugins, each with its version, author and an on/off switch.
 - Tapping a plugin opens its screen: the on/off switch, version, author,
   id, the app and SDK versions it needs, a switch for each permission
   (grant or take back), its Python packages, and buttons to view its code (read-only, coloured as Python),
-  share the file and delete the plugin with its settings.
+  share the file, open its activity log and delete the plugin with its
+  settings.
+- **Activity log** (on the plugin list for all plugins, and on each
+  plugin's screen) shows what was done with plugins and what they did:
+  added, updated, deleted, turned on or off (also from the developer
+  server), permissions given or taken back, hooks blocked by the hook gate
+  and hook errors. Blocked actions and errors are red and can be shown
+  alone; a row opens to the full entry, a long tap copies it; the log can
+  be searched, shared as a text file and cleared. It stays on the phone:
+  the last 100 changes made to plugins are kept after a restart, the last
+  200 things plugins did while running only until the app is closed.
 - An added plugin is off. MZGram doesn't run plugins yet, and the screen
   says so; the on/off state is kept for when it does.
 
@@ -282,5 +292,6 @@ exteraless SDK and may still change.
 | Signed record of granted permissions | done; the prompt and the gates that read it are planned |
 | Hook gate: `hooks` permission, parts never hooked, hooks on stories skipped while stories are hidden, hook counters | done; used once hooks run |
 | Prompt before adding with a check box per permission, adding from a chat, permission switches on the plugin screen | done |
-| What each permission allows, trust levels, local audit log, safe mode after crashes | planned |
+| Local activity log of plugins | done; what running plugins do is logged once they run |
+| What each permission allows, trust levels, safe mode after crashes | planned |
 | Installing packages with pip on the device | not planned (it would make network calls to PyPI) |

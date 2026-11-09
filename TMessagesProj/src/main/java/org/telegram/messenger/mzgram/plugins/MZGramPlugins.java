@@ -142,10 +142,20 @@ public final class MZGramPlugins {
     }
 
     public static void setEnabled(String pluginId, boolean enabled) {
-        if (get(pluginId) == null) {
+        setEnabled(pluginId, enabled, null);
+    }
+
+    /** source: MZGramPluginAuditJournal.SOURCE_DEV_SERVER or null, for the activity log. */
+    public static void setEnabled(String pluginId, boolean enabled, String source) {
+        final Plugin plugin = get(pluginId);
+        if (plugin == null) {
             return;
         }
         prefs().edit().putBoolean(KEY_ENABLED + pluginId, enabled).apply();
+        if (plugin.enabled != enabled) {
+            MZGramPluginAuditJournal.record(pluginId, enabled ? MZGramPluginAuditJournal.EVENT_ENABLED : MZGramPluginAuditJournal.EVENT_DISABLED,
+                    MZGramPluginAuditJournal.CATEGORY_MANAGE, "", null, source, MZGramPluginAuditJournal.LEVEL_INFO);
+        }
     }
 
     /**
@@ -273,8 +283,14 @@ public final class MZGramPlugins {
      * on the UI thread when the file is in place.
      */
     public static void install(File picked, MZGramPluginFormat.Meta meta, Utilities.Callback<Boolean> onDone) {
+        install(picked, meta, null, onDone);
+    }
+
+    /** source: MZGramPluginAuditJournal.SOURCE_DEV_SERVER or null, for the activity log. */
+    public static void install(File picked, MZGramPluginFormat.Meta meta, String source, Utilities.Callback<Boolean> onDone) {
         Utilities.globalQueue.postRunnable(() -> {
             boolean ok = false;
+            final Plugin before = meta != null ? get(meta.id) : null;
             final File target = meta != null ? fileOf(meta.id) : null;
             if (picked != null && picked.isFile() && target != null) {
                 final File part = new File(target.getParentFile(), target.getName() + ".part");
@@ -295,9 +311,13 @@ public final class MZGramPlugins {
                     }
                     editor.apply();
                     if (update) {
+                        MZGramPluginAuditJournal.record(meta.id, MZGramPluginAuditJournal.EVENT_UPDATED, MZGramPluginAuditJournal.CATEGORY_MANAGE,
+                                meta.version, before != null ? before.meta.version : "", source, MZGramPluginAuditJournal.LEVEL_INFO);
                         // Granted keys the new version no longer declares are taken back
                         MZGramPluginGrants.retainDeclared(meta.id, meta.permissionsDeclared ? meta.permissions : null);
                     } else {
+                        MZGramPluginAuditJournal.record(meta.id, MZGramPluginAuditJournal.EVENT_ADDED, MZGramPluginAuditJournal.CATEGORY_MANAGE,
+                                meta.version, null, source, MZGramPluginAuditJournal.LEVEL_INFO);
                         // A new plugin with an old id never gets what was granted before
                         MZGramPluginGrants.clear(meta.id);
                     }
@@ -315,10 +335,16 @@ public final class MZGramPlugins {
 
     /** Removes the plugin: its file, its state and its settings values. */
     public static void delete(String pluginId) {
+        delete(pluginId, null);
+    }
+
+    /** source: MZGramPluginAuditJournal.SOURCE_DEV_SERVER or null, for the activity log. */
+    public static void delete(String pluginId, String source) {
         final File file = fileOf(pluginId);
         if (file == null) {
             return;
         }
+        final boolean existed = get(pluginId) != null;
         if (file.exists() && !file.delete()) {
             FileLog.e("MZGramPlugins: cannot delete " + file);
         }
@@ -326,6 +352,10 @@ public final class MZGramPlugins {
         MZGramPluginSettingsStore.clear(pluginId);
         MZGramPluginGrants.clear(pluginId);
         MZGramPluginHookGate.forget(pluginId);
+        MZGramPluginAuditJournal.forget(pluginId);
+        if (existed) {
+            MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_DELETED, MZGramPluginAuditJournal.CATEGORY_MANAGE, "", null, source, MZGramPluginAuditJournal.LEVEL_INFO);
+        }
     }
 
     /**

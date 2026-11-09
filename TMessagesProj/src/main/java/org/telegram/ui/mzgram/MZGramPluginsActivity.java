@@ -54,6 +54,7 @@ public class MZGramPluginsActivity extends UniversalFragment {
     private static final int BUTTON_DEV_SERVER = 2;
     private static final int DEV_ADDRESS = 3;
     private static final int DEV_TOKEN = 4;
+    private static final int BUTTON_JOURNAL = 5;
     // Rows of the plugins: PLUGIN_ROW + their place in the list
     private static final int PLUGIN_ROW = 1000;
     private static final int REQUEST_CODE_PICK_PLUGIN = 8846;
@@ -116,6 +117,7 @@ public class MZGramPluginsActivity extends UniversalFragment {
             }
         }
         items.add(UItem.asButton(BUTTON_ADD, R.drawable.msg_add, getString(R.string.MZGramPluginsAddFile)).accent());
+        items.add(UItem.asButton(BUTTON_JOURNAL, R.drawable.msg_log, getString(R.string.MZGramPluginJournal)));
         items.add(UItem.asShadow(plugins.isEmpty() ? getString(R.string.MZGramPluginsEmpty) : null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramPluginsDevHeader)));
@@ -132,6 +134,10 @@ public class MZGramPluginsActivity extends UniversalFragment {
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (item.id == BUTTON_ADD) {
             pickFile();
+            return;
+        }
+        if (item.id == BUTTON_JOURNAL) {
+            presentFragment(new MZGramPluginJournalActivity(null));
             return;
         }
         if (item.id == BUTTON_DEV_SERVER) {

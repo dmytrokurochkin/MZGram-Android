@@ -403,7 +403,7 @@ public final class MZGramPluginDevServer {
                 if (MZGramPlugins.get(pluginId) == null) {
                     return unknown(pluginId);
                 }
-                MZGramPlugins.setEnabled(pluginId, COMMAND_ENABLE.equals(command));
+                MZGramPlugins.setEnabled(pluginId, COMMAND_ENABLE.equals(command), MZGramPluginAuditJournal.SOURCE_DEV_SERVER);
                 notifyListeners();
                 return null;
             }
@@ -414,7 +414,7 @@ public final class MZGramPluginDevServer {
                 if (MZGramPlugins.get(pluginId) == null) {
                     return unknown(pluginId);
                 }
-                MZGramPlugins.delete(pluginId);
+                MZGramPlugins.delete(pluginId, MZGramPluginAuditJournal.SOURCE_DEV_SERVER);
                 notifyListeners();
                 return null;
             }
@@ -500,7 +500,7 @@ public final class MZGramPluginDevServer {
         final boolean updated = MZGramPlugins.get(meta.id) != null;
         final boolean[] kept = {false};
         final CountDownLatch installed = new CountDownLatch(1);
-        MZGramPlugins.install(file, meta, ok -> {
+        MZGramPlugins.install(file, meta, MZGramPluginAuditJournal.SOURCE_DEV_SERVER, ok -> {
             kept[0] = ok != null && ok;
             installed.countDown();
         });

@@ -54,8 +54,11 @@ public final class MZGramPluginFormat {
         public final List<String> permissions;
         /** False when the file has no __permissions__ at all (not the same as an empty list). */
         public final boolean permissionsDeclared;
+        /** The metadata as JSON, as read_metadata_json gave them; MZGramPlugins keeps it. */
+        public final String json;
 
         Meta(JSONObject json) {
+            this.json = json.toString();
             id = json.optString("id", "");
             name = json.optString("name", "");
             description = json.optString("description", "");
@@ -130,6 +133,19 @@ public final class MZGramPluginFormat {
             return new Result(null, object.optString("error", "invalid metadata"));
         } catch (Exception e) {
             return new Result(null, "invalid metadata: " + e.getMessage());
+        }
+    }
+
+    /** Metadata kept earlier as Meta.json; null when the text is not valid any more. */
+    public static Meta metaFromJson(String json) {
+        if (json == null) {
+            return null;
+        }
+        try {
+            final JSONObject object = new JSONObject(json);
+            return object.optString("id", "").length() > 0 ? new Meta(object) : null;
+        } catch (Exception e) {
+            return null;
         }
     }
 

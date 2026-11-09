@@ -181,6 +181,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_JANK_REPORT = 155;
     private static final int BUTTON_ENERGY_PROFILER = 156;
     private static final int BUTTON_ENERGY_REPORT = 157;
+    private static final int BUTTON_PYTHON_RUNTIME = 158;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -901,6 +902,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
         if (energyRunning || org.telegram.messenger.mzgram.MZGramEnergyProfiler.getLastReport() != null) {
             items.add(UItem.asButton(BUTTON_ENERGY_REPORT, getString(R.string.MZGramEnergyProfilerShare)));
         }
+        if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
+            // Only in a build with the Python runtime (-PmzgramPlugins=true)
+            items.add(UItem.asButton(BUTTON_PYTHON_RUNTIME, getString(R.string.MZGramPythonRuntime),
+                    getString(org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isStarted() ? R.string.MZGramPythonRuntimeReady : R.string.MZGramProfilerStart)));
+        }
         items.add(UItem.asShadow(getString(R.string.MZGramDiagnosticsInfo)));
     }
 
@@ -923,6 +929,33 @@ public class MZGramSettingsActivity extends UniversalFragment {
             BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramProfilerSaved)).show();
         } else {
             BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramProfilerFailed)).show();
+        }
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
+        }
+    }
+
+    private void showPythonRuntime(boolean ok) {
+        if (isFinishing() || getParentActivity() == null) {
+            return;
+        }
+        if (ok) {
+            // "Python 3.11.x" on the first line, the bundled packages after it
+            final String description = org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.getDescription();
+            String text = getString(R.string.MZGramPythonRuntime);
+            if (!android.text.TextUtils.isEmpty(description)) {
+                final int firstLine = description.indexOf('\n');
+                text = firstLine < 0 ? description
+                        : description.substring(0, firstLine) + "\n" + description.substring(firstLine + 1).replace("\n", ", ");
+            }
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.info, text, 4).show();
+        } else {
+            final String error = org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.getLastError();
+            if (android.text.TextUtils.isEmpty(error)) {
+                BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPythonRuntimeFailed)).show();
+            } else {
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.error, getString(R.string.MZGramPythonRuntimeFailed), error).show();
+            }
         }
         if (listView != null && listView.adapter != null) {
             listView.adapter.update(true);
@@ -1191,6 +1224,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 org.telegram.messenger.mzgram.MZGramEnergyProfiler.shareCurrent(file -> shareProfilerReport(file));
             } else {
                 shareProfilerReport(org.telegram.messenger.mzgram.MZGramEnergyProfiler.getLastReport());
+            }
+        } else if (item.id == BUTTON_PYTHON_RUNTIME) {
+            if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isStarted()) {
+                showPythonRuntime(true);
+            } else {
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(R.string.MZGramPythonRuntimeStarting)).show();
+                org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.start(this::showPythonRuntime);
             }
         } else if (item.id == BUTTON_CHECK_UPDATES_NOW) {
             MZGramUpdateBanner.checkByHand(this, null);

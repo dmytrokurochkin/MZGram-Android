@@ -280,3 +280,52 @@ task checkVisibility {
 }
 
 preBuild.dependsOn checkVisibility
+
+// MZGram: Python runtime for plugins (Chaquopy, CPython 3.11), only in a build
+// with -PmzgramPlugins=true. The default build stays exactly as it was: no
+// Chaquopy plugin, no Python, minSdk 23, the same APK. With the property:
+//   - minSdk 24 (Chaquopy 16+), the apps follow (root build.gradle);
+//   - ndk.abiFilters (Chaquopy needs them) with the same four ABIs as before;
+//   - src/mzgramPlugins/java (MZGramChaquopyBackend) and src/mzgramPlugins/python;
+//   - the bundled packages below, installed at build time; nothing is fetched on
+//     the device. Optional: -PmzgramPluginsBuildPython=<path to python 3.11>.
+if (project.findProperty('mzgramPlugins')?.toString()?.toBoolean()) {
+    apply plugin: 'com.chaquo.python'
+
+    android {
+        defaultConfig {
+            minSdkVersion 24
+            ndk {
+                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            }
+            consumerProguardFiles 'mzgram-plugins-rules.pro'
+        }
+        sourceSets {
+            main {
+                java.srcDirs += 'src/mzgramPlugins/java'
+            }
+        }
+    }
+
+    def mzgramBuildPython = project.findProperty('mzgramPluginsBuildPython')
+    chaquopy {
+        defaultConfig {
+            version = '3.11'
+            if (mzgramBuildPython) {
+                buildPython(mzgramBuildPython.toString())
+            }
+            pip {
+                install 'requests'
+                install 'beautifulsoup4'
+                install 'pillow'
+                install 'PyYAML'
+                install 'packaging'
+            }
+        }
+        sourceSets {
+            main {
+                srcDir 'src/mzgramPlugins/python'
+            }
+        }
+    }
+}

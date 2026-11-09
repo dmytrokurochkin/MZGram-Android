@@ -11,6 +11,11 @@ buildscript {
         classpath 'com.huawei.agconnect:agcp:1.9.1.301'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0"
+        // MZGram: Chaquopy (Python runtime for plugins) only in a build with
+        // -PmzgramPlugins=true; the default build doesn't even download it
+        if (project.findProperty('mzgramPlugins')?.toString()?.toBoolean()) {
+            classpath "com.chaquo.python:gradle:${project.findProperty('mzgramChaquopyVersion') ?: '16.1.0'}"
+        }
     }
 }
 repositories {
@@ -48,6 +53,22 @@ subprojects {
                             namespace manifestPackage
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+// MZGram: a build with -PmzgramPlugins=true has Python (Chaquopy) in TMessagesProj,
+// which needs minSdk 24, so the apps built with it start from Android 7 too.
+// Without the property nothing here runs and the apps keep minSdk 23.
+if (findProperty('mzgramPlugins')?.toString()?.toBoolean()) {
+    subprojects {
+        afterEvaluate {
+            if (plugins.hasPlugin('com.android.application')) {
+                def minSdk = android.defaultConfig.minSdk
+                if (minSdk != null && minSdk < 24) {
+                    android.defaultConfig.minSdk = 24
                 }
             }
         }

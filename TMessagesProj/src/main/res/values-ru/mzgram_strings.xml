@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">Всё здесь остаётся на этом телефоне, MZGram ничего не отправляет. Отчёт о сбое показывается один раз при следующем запуске после сбоя, чтобы прочитать или скопировать его. Профайлеры пишут текстовые отчёты для разработчиков; делиться ими или нет, решаете вы.</string>
     <string name="MZGramCrashReportTitle">MZGram аварийно завершился</string>
     <string name="MZGramCrashReportText">Это отчёт о последнем сбое. Он остаётся на этом телефоне; скопируйте его, если хотите показать разработчикам.</string>
+    <string name="MZGramPythonRuntime">Python для плагинов</string>
+    <string name="MZGramPythonRuntimeReady">Готово</string>
+    <string name="MZGramPythonRuntimeStarting">Запуск Python…</string>
+    <string name="MZGramPythonRuntimeFailed">Не удалось запустить Python</string>
 </resources>

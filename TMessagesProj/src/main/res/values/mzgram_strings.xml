@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">Everything here stays on this phone and is never sent by MZGram. A crash report is shown once on the next launch after a crash, to read or copy. The profilers write text reports for developers; you choose whether to share one.</string>
     <string name="MZGramCrashReportTitle">MZGram crashed</string>
     <string name="MZGramCrashReportText">This is the report of the last crash. It stays on this phone; copy it if you want to show it to the developers.</string>
+    <string name="MZGramPythonRuntime">Python for plugins</string>
+    <string name="MZGramPythonRuntimeReady">Ready</string>
+    <string name="MZGramPythonRuntimeStarting">Starting Python…</string>
+    <string name="MZGramPythonRuntimeFailed">Python couldn\'t start</string>
 </resources>

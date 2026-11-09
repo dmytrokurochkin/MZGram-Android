@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">Мұндағының бәрі осы телефонда қалады, MZGram ештеңе жібермейді. Ақау туралы есеп ақаудан кейінгі келесі іске қосуда бір рет көрсетіледі, оны оқуға не көшіруге болады. Профайлерлер әзірлеушілерге арналған мәтіндік есептер жазады; олармен бөлісу-бөліспеуді өзіңіз шешесіз.</string>
     <string name="MZGramCrashReportTitle">MZGram апатты түрде жабылды</string>
     <string name="MZGramCrashReportText">Бұл соңғы ақау туралы есеп. Ол осы телефонда қалады; әзірлеушілерге көрсеткіңіз келсе, көшіріп алыңыз.</string>
+    <string name="MZGramPythonRuntime">Плагиндерге арналған Python</string>
+    <string name="MZGramPythonRuntimeReady">Дайын</string>
+    <string name="MZGramPythonRuntimeStarting">Python іске қосылуда…</string>
+    <string name="MZGramPythonRuntimeFailed">Python іске қосылмады</string>
 </resources>

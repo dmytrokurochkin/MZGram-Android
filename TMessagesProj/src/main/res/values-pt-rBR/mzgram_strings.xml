@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">Tudo aqui fica neste telefone e o MZGram nunca envia nada. O relatório de falha aparece uma vez na próxima abertura após uma falha, para ler ou copiar. Os perfiladores gravam relatórios de texto para desenvolvedores; você decide se compartilha um.</string>
     <string name="MZGramCrashReportTitle">O MZGram travou</string>
     <string name="MZGramCrashReportText">Este é o relatório da última falha. Ele fica neste telefone; copie-o se quiser mostrá-lo aos desenvolvedores.</string>
+    <string name="MZGramPythonRuntime">Python para plugins</string>
+    <string name="MZGramPythonRuntimeReady">Pronto</string>
+    <string name="MZGramPythonRuntimeStarting">Iniciando o Python…</string>
+    <string name="MZGramPythonRuntimeFailed">Não foi possível iniciar o Python</string>
 </resources>

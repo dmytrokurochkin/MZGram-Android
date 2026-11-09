@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">Alles hier bleibt auf diesem Telefon, MZGram sendet nichts. Ein Absturzbericht wird nach einem Absturz beim nächsten Start einmal angezeigt, zum Lesen oder Kopieren. Die Profiler schreiben Textberichte für Entwickler; ob du einen teilst, entscheidest du.</string>
     <string name="MZGramCrashReportTitle">MZGram ist abgestürzt</string>
     <string name="MZGramCrashReportText">Das ist der Bericht zum letzten Absturz. Er bleibt auf diesem Telefon; kopiere ihn, wenn du ihn den Entwicklern zeigen willst.</string>
+    <string name="MZGramPythonRuntime">Python für Plugins</string>
+    <string name="MZGramPythonRuntimeReady">Bereit</string>
+    <string name="MZGramPythonRuntimeStarting">Python wird gestartet…</string>
+    <string name="MZGramPythonRuntimeFailed">Python konnte nicht gestartet werden</string>
 </resources>

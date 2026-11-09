@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">Tout ici reste sur ce téléphone et MZGram n\'envoie rien. Un rapport de plantage s\'affiche une fois au lancement suivant un plantage, pour le lire ou le copier. Les profileurs écrivent des rapports texte pour les développeurs ; c\'est vous qui décidez de les partager.</string>
     <string name="MZGramCrashReportTitle">MZGram a planté</string>
     <string name="MZGramCrashReportText">Voici le rapport du dernier plantage. Il reste sur ce téléphone ; copiez-le si vous voulez le montrer aux développeurs.</string>
+    <string name="MZGramPythonRuntime">Python pour les plugins</string>
+    <string name="MZGramPythonRuntimeReady">Prêt</string>
+    <string name="MZGramPythonRuntimeStarting">Démarrage de Python…</string>
+    <string name="MZGramPythonRuntimeFailed">Impossible de démarrer Python</string>
 </resources>

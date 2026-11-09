@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">كل ما هنا يبقى على هذا الهاتف ولا يرسله MZGram أبدًا. يظهر تقرير الانهيار مرة واحدة عند التشغيل التالي بعد الانهيار لقراءته أو نسخه. تكتب المحللات تقارير نصية للمطورين، وأنت من يقرر مشاركتها.</string>
     <string name="MZGramCrashReportTitle">توقف MZGram بسبب خطأ</string>
     <string name="MZGramCrashReportText">هذا تقرير آخر انهيار. يبقى على هذا الهاتف؛ انسخه إذا أردت عرضه على المطورين.</string>
+    <string name="MZGramPythonRuntime">بايثون للإضافات</string>
+    <string name="MZGramPythonRuntimeReady">جاهز</string>
+    <string name="MZGramPythonRuntimeStarting">جارٍ تشغيل بايثون…</string>
+    <string name="MZGramPythonRuntimeFailed">تعذّر تشغيل بايثون</string>
 </resources>

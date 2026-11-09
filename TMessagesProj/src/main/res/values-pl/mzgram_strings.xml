@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">Wszystko tutaj zostaje na tym telefonie, MZGram niczego nie wysyła. Raport o awarii pokazuje się raz przy następnym uruchomieniu po awarii, aby go przeczytać lub skopiować. Profilery zapisują raporty tekstowe dla programistów; to ty decydujesz, czy je udostępnić.</string>
     <string name="MZGramCrashReportTitle">MZGram uległ awarii</string>
     <string name="MZGramCrashReportText">To raport z ostatniej awarii. Zostaje na tym telefonie; skopiuj go, jeśli chcesz pokazać go programistom.</string>
+    <string name="MZGramPythonRuntime">Python dla wtyczek</string>
+    <string name="MZGramPythonRuntimeReady">Gotowe</string>
+    <string name="MZGramPythonRuntimeStarting">Uruchamianie Pythona…</string>
+    <string name="MZGramPythonRuntimeFailed">Nie udało się uruchomić Pythona</string>
 </resources>

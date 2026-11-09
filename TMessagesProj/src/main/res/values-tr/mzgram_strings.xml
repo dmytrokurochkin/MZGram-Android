@@ -679,4 +679,8 @@
     <string name="MZGramDiagnosticsInfo">Buradaki her şey bu telefonda kalır, MZGram hiçbir şey göndermez. Çökme raporu, çökmeden sonraki ilk açılışta okumanız ya da kopyalamanız için bir kez gösterilir. Profilleyiciler geliştiriciler için metin raporları yazar; paylaşıp paylaşmamaya siz karar verirsiniz.</string>
     <string name="MZGramCrashReportTitle">MZGram çöktü</string>
     <string name="MZGramCrashReportText">Bu, son çökmenin raporudur. Bu telefonda kalır; geliştiricilere göstermek isterseniz kopyalayın.</string>
+    <string name="MZGramPythonRuntime">Eklentiler için Python</string>
+    <string name="MZGramPythonRuntimeReady">Hazır</string>
+    <string name="MZGramPythonRuntimeStarting">Python başlatılıyor…</string>
+    <string name="MZGramPythonRuntimeFailed">Python başlatılamadı</string>
 </resources>

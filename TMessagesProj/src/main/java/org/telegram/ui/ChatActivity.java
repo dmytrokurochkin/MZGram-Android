@@ -1288,6 +1288,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_ASK_AI = 1011;
     public final static int OPTION_MZGRAM_COPY_PLAIN = 1012;
     public final static int OPTION_MZGRAM_SHADOW_BAN = 1013;
+    public final static int OPTION_MZGRAM_ADD_FILTER = 1014;
 
     // MZGram: set by Forward without sender so the next forward panel starts
     // with sender names hidden; passed on when the target is another chat.
@@ -34198,6 +34199,18 @@ public class ChatActivity extends BaseFragment implements
                 });
                 break;
             }
+            case OPTION_MZGRAM_ADD_FILTER: {
+                // MZGram: a message filter rule from this message; the chat hides matching messages at once
+                if (selectedObject != null) {
+                    org.telegram.ui.mzgram.MZGramRegexFilterEditor.show(this, org.telegram.messenger.mzgram.MZGramRegexFilters.COMMON, -1,
+                            org.telegram.ui.mzgram.MZGramRegexFilterEditor.prefillFrom(selectedObject), getDialogId(), () -> {
+                                if (chatAdapter != null) {
+                                    chatAdapter.notifyDataSetChanged(false);
+                                }
+                            });
+                }
+                break;
+            }
             case OPTION_MZGRAM_SHADOW_BAN: {
                 // MZGram: shadow ban of the sender; the chat hides the messages at once
                 if (selectedObject != null) {
@@ -47080,6 +47093,12 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.MZGramShadowBanAdd));
                     options.add(OPTION_MZGRAM_SHADOW_BAN);
                     icons.add(R.drawable.msg_block2);
+                }
+                // MZGram: a message filter rule from this message (Settings > MZGram > Ads and filters > Message filters)
+                if (chatMode != MODE_SCHEDULED && org.telegram.ui.mzgram.MZGramRegexFilterEditor.canAddFrom(selectedObject)) {
+                    items.add(LocaleController.getString(R.string.MZGramRegexFilterAddFromMessage));
+                    options.add(OPTION_MZGRAM_ADD_FILTER);
+                    icons.add(R.drawable.msg_spoiler);
                 }
                 // MZGram: menu items of plugins (none while no plugin has added any)
                 if (chatMode != MODE_SCHEDULED) {

@@ -198,6 +198,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SHADOW_BAN = 136;
     private static final int BUTTON_HIDE_BLOCKED_IN_GROUPS = 137;
     private static final int BUTTON_SHADOW_BAN_LIST = 138;
+    private static final int BUTTON_REGEX_FILTERS = 161;
+    private static final int BUTTON_REGEX_FILTERS_RULES = 162;
     private static final int BUTTON_SILENT_DEFAULT = 126;
     private static final int BUTTON_SHOW_REGISTRATION_DATE = 125;
     private static final int BUTTON_AUDIO_ENHANCE = 124;
@@ -850,6 +852,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
         items.add(UItem.asCheck(BUTTON_HIDE_BLOCKED_IN_GROUPS, getString(R.string.MZGramHideBlockedInGroups)).setChecked(MZGramConfig.hideBlockedInGroups));
         items.add(UItem.asShadow(getString(R.string.MZGramShadowBanInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramRegexFilters)));
+        items.add(UItem.asCheck(BUTTON_REGEX_FILTERS, getString(R.string.MZGramRegexFiltersEnable)).setChecked(MZGramConfig.regexFilters));
+        if (MZGramConfig.regexFilters) {
+            items.add(UItem.asButton(BUTTON_REGEX_FILTERS_RULES, getString(R.string.MZGramRegexFiltersRules), String.valueOf(org.telegram.messenger.mzgram.MZGramRegexFilters.count(org.telegram.messenger.mzgram.MZGramRegexFilters.COMMON))));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramRegexFiltersInfo)));
     }
 
     private void fillAi(ArrayList<UItem> items) {
@@ -1504,6 +1512,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_BLOCKED_IN_GROUPS) {
             MZGramConfig.toggleHideBlockedInGroups();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideBlockedInGroups);
+        } else if (item.id == BUTTON_REGEX_FILTERS) {
+            MZGramConfig.toggleRegexFilters();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_REGEX_FILTERS_RULES) {
+            presentFragment(new MZGramRegexFiltersActivity());
         } else if (item.id == BUTTON_SHADOW_BAN_LIST) {
             presentFragment(new MZGramShadowBanActivity());
         } else if (item.id == BUTTON_HIDDEN_REACTIONS) {

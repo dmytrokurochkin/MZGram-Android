@@ -855,4 +855,10 @@
     <string name="MZGramPillProxyConnecting">الوكيل: جارٍ الاتصال</string>
     <string name="MZGramPillProxyOff">بلا وكيل</string>
     <string name="MZGramPillCache">حجم ذاكرة التخزين المؤقت</string>
+    <string name="MZGramPillCpu">حمل المعالج من MZGram</string>
+    <string name="MZGramPillRam">الذاكرة المستخدمة</string>
+    <string name="MZGramPillNetSpeed">سرعة شبكة MZGram في الثانية</string>
+    <string name="MZGramPillPing">زمن الاستجابة مع Telegram</string>
+    <string name="MZGramPillPingValue">الاستجابة %1$d م.ث</string>
+    <string name="MZGramPillUnsupported">غير متاح</string>
 </resources>

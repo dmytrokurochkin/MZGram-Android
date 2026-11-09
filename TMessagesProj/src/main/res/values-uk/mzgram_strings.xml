@@ -856,4 +856,10 @@
     <string name="MZGramPillProxyConnecting">Проксі: з\'єднання</string>
     <string name="MZGramPillProxyOff">Без проксі</string>
     <string name="MZGramPillCache">Розмір кешу</string>
+    <string name="MZGramPillCpu">Навантаження процесора від MZGram</string>
+    <string name="MZGramPillRam">Зайнята пам\'ять</string>
+    <string name="MZGramPillNetSpeed">Швидкість мережі MZGram за секунду</string>
+    <string name="MZGramPillPing">Пінг до Telegram</string>
+    <string name="MZGramPillPingValue">Пінг %1$d мс</string>
+    <string name="MZGramPillUnsupported">Недоступно</string>
 </resources>

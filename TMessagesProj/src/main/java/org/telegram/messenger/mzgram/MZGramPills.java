@@ -39,9 +39,14 @@ public final class MZGramPills {
     public static final int LAST_SEEN = 2;
     public static final int PROXY = 3;
     public static final int CACHE = 4;
+    // Telemetry pills (navigation.pills-telemetry)
+    public static final int CPU = 5;
+    public static final int RAM = 6;
+    public static final int NET_SPEED = 7;
+    public static final int DC_PING = 8;
 
     /** Every pill MZGram has, in the order of a fresh install. */
-    public static final int[] ALL = {GHOST, LAST_SEEN, PROXY, CACHE};
+    public static final int[] ALL = {GHOST, LAST_SEEN, PROXY, CACHE, CPU, RAM, NET_SPEED, DC_PING};
 
     private static final String PREFS = "mzgram_pills";
     private static final String KEY_ORDER = "order";

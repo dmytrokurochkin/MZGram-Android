@@ -855,4 +855,10 @@
     <string name="MZGramPillProxyConnecting">Proxy: verbindet</string>
     <string name="MZGramPillProxyOff">Kein Proxy</string>
     <string name="MZGramPillCache">Cache-Größe</string>
+    <string name="MZGramPillCpu">Prozessorlast durch MZGram</string>
+    <string name="MZGramPillRam">Belegter Speicher</string>
+    <string name="MZGramPillNetSpeed">Netzwerktempo von MZGram pro Sekunde</string>
+    <string name="MZGramPillPing">Latenz zu Telegram</string>
+    <string name="MZGramPillPingValue">Latenz %1$d ms</string>
+    <string name="MZGramPillUnsupported">Nicht verfügbar</string>
 </resources>

@@ -68,6 +68,14 @@ public final class MZGramPillStack implements NotificationCenter.NotificationCen
                 return new MZGramProxyPill(context, resourcesProvider);
             case MZGramPills.CACHE:
                 return new MZGramCachePill(context, resourcesProvider);
+            case MZGramPills.CPU:
+                return new MZGramTelemetryPill.Cpu(context, resourcesProvider);
+            case MZGramPills.RAM:
+                return new MZGramTelemetryPill.Ram(context, resourcesProvider);
+            case MZGramPills.NET_SPEED:
+                return new MZGramTelemetryPill.NetSpeed(context, resourcesProvider);
+            case MZGramPills.DC_PING:
+                return new MZGramTelemetryPill.DcPing(context, resourcesProvider);
             default:
                 return null;
         }
@@ -84,6 +92,14 @@ public final class MZGramPillStack implements NotificationCenter.NotificationCen
                 return LocaleController.getString(R.string.MZGramPillProxy);
             case MZGramPills.CACHE:
                 return LocaleController.getString(R.string.MZGramPillCache);
+            case MZGramPills.CPU:
+                return LocaleController.getString(R.string.MZGramPillCpu);
+            case MZGramPills.RAM:
+                return LocaleController.getString(R.string.MZGramPillRam);
+            case MZGramPills.NET_SPEED:
+                return LocaleController.getString(R.string.MZGramPillNetSpeed);
+            case MZGramPills.DC_PING:
+                return LocaleController.getString(R.string.MZGramPillPing);
             default:
                 return null;
         }

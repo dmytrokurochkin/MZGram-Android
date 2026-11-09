@@ -7,6 +7,7 @@ import org.junit.Test
 import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.messenger.mzgram.MZGramPills
 import org.telegram.ui.mzgram.pills.MZGramPillStackView
+import org.telegram.ui.mzgram.pills.MZGramTelemetryPill
 
 // The pill bar of the search bar: short numbers (conflict rule 5.2), the
 // swipe angle (rule 1.3) and the saved choice of pills.
@@ -42,6 +43,15 @@ class MZGramPillsTest {
         assertTrue("30 degrees", MZGramPillStackView.isSwipe(100f, 58f))
         assertFalse("20 degrees: left to the folders", MZGramPillStackView.isSwipe(100f, 36f))
         assertFalse("flat", MZGramPillStackView.isSwipe(60f, 0f))
+    }
+
+    @Test
+    fun telemetry_cpuShareAndSpeed() {
+        assertEquals("one of four cores busy", 25, MZGramTelemetryPill.cpuShare(500, 500, 4))
+        assertEquals(100, MZGramTelemetryPill.cpuShare(5000, 500, 1))
+        assertEquals("no time passed", 0, MZGramTelemetryPill.cpuShare(10, 0, 4))
+        assertEquals(2048L, MZGramTelemetryPill.perSecond(0, 4096, 2000))
+        assertEquals("a counter reset", 0L, MZGramTelemetryPill.perSecond(4096, 10, 2000))
     }
 
     @Test

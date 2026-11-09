@@ -743,4 +743,9 @@
     <string name="MZGramPluginDeleteConfirm">¿Eliminar el complemento %1$s? Sus ajustes se eliminan con él.</string>
     <string name="MZGramPluginFileFailed">No se pudo leer el archivo de este complemento.</string>
     <string name="MZGramPluginCopyFailed">El código es demasiado largo para copiarlo.</string>
+    <string name="MZGramPluginsDevHeader">Para desarrolladores</string>
+    <string name="MZGramPluginsDevServer">Servidor de desarrollo</string>
+    <string name="MZGramPluginsDevAddress">Dirección</string>
+    <string name="MZGramPluginsDevInfo">Te permite añadir y actualizar complementos desde un ordenador mientras los escribes. Conecta el teléfono con adb y ejecuta adb forward tcp:42690 tcp:42690. Cada comando necesita el token; tócalo para copiarlo. Solo las apps de este teléfono y adb llegan al servidor. Se apaga cuando MZGram se cierra y tras 20 tokens incorrectos.</string>
+    <string name="MZGramPluginsDevFailed">No se pudo iniciar el servidor. Puede que otra app esté usando el puerto 42690.</string>
 </resources>

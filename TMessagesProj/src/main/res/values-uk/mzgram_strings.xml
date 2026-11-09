@@ -744,4 +744,9 @@
     <string name="MZGramPluginDeleteConfirm">Видалити плагін %1$s? Його налаштування буде видалено разом з ним.</string>
     <string name="MZGramPluginFileFailed">Не вдалося прочитати файл цього плагіна.</string>
     <string name="MZGramPluginCopyFailed">Код задовгий, щоб його скопіювати.</string>
+    <string name="MZGramPluginsDevHeader">Для розробників</string>
+    <string name="MZGramPluginsDevServer">Сервер розробника</string>
+    <string name="MZGramPluginsDevAddress">Адреса</string>
+    <string name="MZGramPluginsDevInfo">Дає змогу додавати й оновлювати плагіни з комп\'ютера, поки ви їх пишете. Під\'єднайте телефон через adb і виконайте adb forward tcp:42690 tcp:42690. Кожна команда потребує токена; торкніться його, щоб скопіювати. До сервера мають доступ лише застосунки на цьому телефоні та adb. Він вимикається, коли MZGram закривається, і після 20 неправильних токенів.</string>
+    <string name="MZGramPluginsDevFailed">Не вдалося запустити сервер. Можливо, порт 42690 зайнятий іншим застосунком.</string>
 </resources>

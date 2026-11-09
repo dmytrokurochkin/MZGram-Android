@@ -11,6 +11,10 @@
  * MZGram does not run plugins yet; the screen says so, and the on/off
  * state is kept for the plugin engine.
  *
+ * "For developers" turns on the developer server (MZGramPluginDevServer):
+ * off by default and on only while the app runs, with its address and
+ * token shown here.
+ *
  * Based on exteraless plugins/ui/PluginsActivity.java (GPL-3.0): the list
  * of plugins with switches and adding from a file; written anew for MZGram.
  */
@@ -26,9 +30,11 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
 
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginDevServer;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -44,6 +50,9 @@ import java.util.List;
 public class MZGramPluginsActivity extends UniversalFragment {
 
     private static final int BUTTON_ADD = 1;
+    private static final int BUTTON_DEV_SERVER = 2;
+    private static final int DEV_ADDRESS = 3;
+    private static final int DEV_TOKEN = 4;
     // Rows of the plugins: PLUGIN_ROW + their place in the list
     private static final int PLUGIN_ROW = 1000;
     private static final int REQUEST_CODE_PICK_PLUGIN = 8846;
@@ -51,6 +60,8 @@ public class MZGramPluginsActivity extends UniversalFragment {
     private List<MZGramPlugins.Plugin> plugins = new ArrayList<>();
     private final SparseArray<String> idsByRow = new SparseArray<>();
     private AlertDialog progress;
+    // The developer server started, stopped or changed the plugins
+    private final Runnable devServerListener = this::reload;
 
     @Override
     public boolean onFragmentCreate() {
@@ -61,8 +72,15 @@ public class MZGramPluginsActivity extends UniversalFragment {
     @Override
     public void onResume() {
         super.onResume();
+        MZGramPluginDevServer.addListener(devServerListener);
         // A plugin may have been turned on, updated or deleted on its own screen
         reload();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MZGramPluginDevServer.removeListener(devServerListener);
     }
 
     @Override
@@ -98,12 +116,32 @@ public class MZGramPluginsActivity extends UniversalFragment {
         }
         items.add(UItem.asButton(BUTTON_ADD, R.drawable.msg_add, getString(R.string.MZGramPluginsAddFile)).accent());
         items.add(UItem.asShadow(plugins.isEmpty() ? getString(R.string.MZGramPluginsEmpty) : null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramPluginsDevHeader)));
+        final String token = MZGramPluginDevServer.getToken();
+        items.add(UItem.asCheck(BUTTON_DEV_SERVER, getString(R.string.MZGramPluginsDevServer)).setChecked(token != null));
+        if (token != null) {
+            items.add(UItem.asButton(DEV_ADDRESS, getString(R.string.MZGramPluginsDevAddress), MZGramPluginDevServer.HOST + ":" + MZGramPluginDevServer.PORT));
+            items.add(UItem.asButton(DEV_TOKEN, R.drawable.msg_copy, token));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramPluginsDevInfo)));
     }
 
     @Override
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (item.id == BUTTON_ADD) {
             pickFile();
+            return;
+        }
+        if (item.id == BUTTON_DEV_SERVER) {
+            toggleDevServer();
+            return;
+        }
+        if (item.id == DEV_TOKEN) {
+            final String token = MZGramPluginDevServer.getToken();
+            if (token != null && AndroidUtilities.addToClipboard(token)) {
+                BulletinFactory.of(this).createCopyBulletin(getString(R.string.MZGramTextCopied)).show();
+            }
             return;
         }
         final String pluginId = idsByRow.get(item.id);
@@ -123,6 +161,23 @@ public class MZGramPluginsActivity extends UniversalFragment {
     @Override
     protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
         return false;
+    }
+
+    private void toggleDevServer() {
+        if (MZGramPluginDevServer.isRunning()) {
+            MZGramPluginDevServer.stop();
+            reload();
+            return;
+        }
+        MZGramPluginDevServer.start(ok -> {
+            if (isFinishing() || getParentActivity() == null) {
+                return;
+            }
+            if (!ok) {
+                BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsDevFailed)).show();
+            }
+            reload();
+        });
     }
 
     private void pickFile() {

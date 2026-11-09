@@ -219,6 +219,32 @@ public final class MZGramPlugins {
         }
     }
 
+    /**
+     * Writes a .plugin file sent by the developer server into the folder of
+     * picked files, so it goes to readMetadata() and then install() or
+     * discard() like a picked one; null when it is too large or can't be
+     * written. Not on the UI thread.
+     */
+    public static File writeIncoming(byte[] data) {
+        final Context context = ApplicationLoader.applicationContext;
+        if (data == null || data.length > MAX_FILE_BYTES || context == null) {
+            return null;
+        }
+        final File folder = new File(context.getCacheDir(), PICKED_DIR);
+        if (!folder.isDirectory() && !folder.mkdirs()) {
+            return null;
+        }
+        final File target = new File(folder, "incoming_" + System.nanoTime() + MZGramPluginFormat.EXTENSION);
+        try (OutputStream out = new FileOutputStream(target)) {
+            out.write(data);
+            return target;
+        } catch (Exception e) {
+            FileLog.e(e);
+            target.delete();
+            return null;
+        }
+    }
+
     // False when the stream is longer than limit
     private static boolean copy(InputStream in, OutputStream out, long limit) throws IOException {
         final byte[] buffer = new byte[8192];

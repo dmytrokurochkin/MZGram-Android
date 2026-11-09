@@ -743,4 +743,9 @@
     <string name="MZGramPluginDeleteConfirm">%1$s плагинін жою керек пе? Оның баптаулары да бірге жойылады.</string>
     <string name="MZGramPluginFileFailed">Бұл плагиннің файлын оқу мүмкін болмады.</string>
     <string name="MZGramPluginCopyFailed">Код көшіруге тым ұзын.</string>
+    <string name="MZGramPluginsDevHeader">Әзірлеушілерге</string>
+    <string name="MZGramPluginsDevServer">Әзірлеуші сервері</string>
+    <string name="MZGramPluginsDevAddress">Мекенжай</string>
+    <string name="MZGramPluginsDevInfo">Плагиндерді жазып жатқанда оларды компьютерден қосуға және жаңартуға мүмкіндік береді. Телефонды adb арқылы қосып, adb forward tcp:42690 tcp:42690 командасын орындаңыз. Әр командаға токен керек; көшіру үшін оны түртіңіз. Серверге тек осы телефондағы қолданбалар мен adb қол жеткізе алады. MZGram жабылғанда және 20 қате токеннен кейін ол өшеді.</string>
+    <string name="MZGramPluginsDevFailed">Серверді іске қосу мүмкін болмады. 42690 портын басқа қолданба пайдаланып жатқан болуы мүмкін.</string>
 </resources>

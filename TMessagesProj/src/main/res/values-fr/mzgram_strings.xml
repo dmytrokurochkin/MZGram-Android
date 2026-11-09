@@ -743,4 +743,9 @@
     <string name="MZGramPluginDeleteConfirm">Supprimer le plugin %1$s ? Ses réglages sont supprimés avec lui.</string>
     <string name="MZGramPluginFileFailed">Impossible de lire le fichier de ce plugin.</string>
     <string name="MZGramPluginCopyFailed">Le code est trop long pour être copié.</string>
+    <string name="MZGramPluginsDevHeader">Pour les développeurs</string>
+    <string name="MZGramPluginsDevServer">Serveur de développement</string>
+    <string name="MZGramPluginsDevAddress">Adresse</string>
+    <string name="MZGramPluginsDevInfo">Permet d\'ajouter et de mettre à jour des plugins depuis un ordinateur pendant que vous les écrivez. Connectez le téléphone avec adb et lancez adb forward tcp:42690 tcp:42690. Chaque commande demande le jeton, touchez-le pour le copier. Seules les applis de ce téléphone et adb atteignent le serveur. Il s\'arrête quand MZGram se ferme et après 20 jetons erronés.</string>
+    <string name="MZGramPluginsDevFailed">Impossible de démarrer le serveur. Une autre appli utilise peut-être le port 42690.</string>
 </resources>

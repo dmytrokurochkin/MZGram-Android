@@ -743,4 +743,9 @@
     <string name="MZGramPluginDeleteConfirm">Delete the plugin %1$s? Its settings are deleted with it.</string>
     <string name="MZGramPluginFileFailed">The file of this plugin could not be read.</string>
     <string name="MZGramPluginCopyFailed">The code is too long to copy.</string>
+    <string name="MZGramPluginsDevHeader">For developers</string>
+    <string name="MZGramPluginsDevServer">Developer server</string>
+    <string name="MZGramPluginsDevAddress">Address</string>
+    <string name="MZGramPluginsDevInfo">Lets you add and update plugins from a computer while you write them. Connect the phone with adb and run adb forward tcp:42690 tcp:42690. Each command needs the token; tap it to copy it. Only apps on this phone and adb can reach the server. It turns off when MZGram closes and after 20 wrong tokens.</string>
+    <string name="MZGramPluginsDevFailed">Couldn\'t start the server. Another app may be using port 42690.</string>
 </resources>

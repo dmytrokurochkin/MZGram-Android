@@ -25,6 +25,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.mzgram.MZGramProfilerReports;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginDevServer;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -64,10 +65,20 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         return plugin != null && super.onFragmentCreate();
     }
 
+    // The developer server may update, turn on or off, or delete the plugin
+    private final Runnable devServerListener = this::refresh;
+
     @Override
     public void onResume() {
         super.onResume();
+        MZGramPluginDevServer.addListener(devServerListener);
         refresh();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MZGramPluginDevServer.removeListener(devServerListener);
     }
 
     private void refresh() {

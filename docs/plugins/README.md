@@ -179,6 +179,54 @@ The engine will add `add_menu_item()` and `remove_menu_item()` to
 `BasePlugin`; until then they are in `mzgram_plugins.menus`, taking the
 plugin id first.
 
+## Developer server
+
+While you write a plugin, the developer server lets a computer add and
+update it without picking the file on the phone each time. Turn it on in
+MZGram → Other → Plugins → **Developer server**. It is off by default, it
+stays on only while MZGram runs, and it never starts by itself.
+
+- It listens on `127.0.0.1:42690` only, the address and port of the
+  exteraless developer server, so nothing outside the phone reaches it.
+  From a computer, connect the phone with adb and forward the port:
+  `adb forward tcp:42690 tcp:42690`.
+- Other apps on the phone can reach `127.0.0.1` too, so every command but
+  `ping` needs the **token** shown under the switch (tap it to copy it). Each
+  start makes a new token. A wrong token closes the connection, and after 20
+  wrong tokens the server turns off.
+- The protocol is one UTF-8 JSON object per line, as in exteraless: `"@"` is
+  the command, `"#"` an id of yours that comes back in the reply, and
+  `"token"` the token. Each reply is one line
+  `{"#": ..., "ok": true}` or `{"#": ..., "ok": false, "error": "..."}`.
+
+| Command | Fields | Does |
+|---|---|---|
+| `ping` | none, no token | replies `{"pong": true}` |
+| `get_plugins` | none | lists the added plugins: `id`, `name`, `version`, `author`, `enabled` |
+| `write_plugin` | `plugin_id`, `content` (the `.plugin` file in base64, up to 2 MB) | checks the metadata as for a picked file and keeps the file; `__id__` must be `plugin_id`. A new plugin is off; an update keeps its settings and on/off state. The reply has `"updated"`. |
+| `enable_plugin`, `disable_plugin` | `plugin_id` | turns the plugin on or off |
+| `remove_plugin` | `plugin_id` | deletes the plugin and its settings |
+| `reload_plugin` | `plugin_id` | refused until MZGram runs plugins |
+
+```sh
+adb forward tcp:42690 tcp:42690
+python3 - <<'PY'
+import base64, json, socket
+token = "paste the token here"
+source = open("hello.plugin", "rb").read()
+with socket.create_connection(("127.0.0.1", 42690)) as s:
+    f = s.makefile("rwb")
+    request = {"@": "write_plugin", "#": 1, "token": token,
+               "plugin_id": "hello_mzgram", "content": base64.b64encode(source).decode()}
+    f.write(json.dumps(request).encode() + b"\n")
+    f.flush()
+    print(f.readline().decode())
+PY
+```
+
+`start_debugger` and `stop_debugger` reply that debugpy is not available:
+MZGram has no debugger for plugins.
+
 ## Examples
 
 [`examples/hello.plugin`](examples/hello.plugin) is the smallest plugin. It
@@ -203,6 +251,7 @@ exteraless SDK and may still change.
 | Running plugins (the on/off switch is kept until then) | planned |
 | Settings rows (`ui.settings`) and the settings screen | done; opened from the plugin screen once plugins run |
 | Menu items of plugins (`mzgram_plugins.menus`) in the menus of messages, chats, profiles and the chat list | done; shown once plugins run |
+| Developer server on `127.0.0.1:42690` (add, update, turn on or off, delete plugins from a computer through adb) | done; reloading waits for plugins to run |
 | SDK: `base_plugin`, hooks, UI components | planned |
 | Permissions, prompt before installing, local audit log, safe mode after crashes | planned |
 | Installing packages with pip on the device | not planned (it would make network calls to PyPI) |

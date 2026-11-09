@@ -743,4 +743,9 @@
     <string name="MZGramPluginDeleteConfirm">Das Plugin %1$s löschen? Seine Einstellungen werden mit gelöscht.</string>
     <string name="MZGramPluginFileFailed">Die Datei dieses Plugins konnte nicht gelesen werden.</string>
     <string name="MZGramPluginCopyFailed">Der Code ist zu lang zum Kopieren.</string>
+    <string name="MZGramPluginsDevHeader">Für Entwickler</string>
+    <string name="MZGramPluginsDevServer">Entwicklerserver</string>
+    <string name="MZGramPluginsDevAddress">Adresse</string>
+    <string name="MZGramPluginsDevInfo">Damit kannst du Plugins vom Computer aus hinzufügen und aktualisieren, während du sie schreibst. Verbinde das Telefon per adb und führe adb forward tcp:42690 tcp:42690 aus. Jeder Befehl braucht das Token; tippe darauf, um es zu kopieren. Nur Apps auf diesem Telefon und adb erreichen den Server. Er schaltet sich aus, wenn MZGram geschlossen wird, und nach 20 falschen Tokens.</string>
+    <string name="MZGramPluginsDevFailed">Der Server konnte nicht gestartet werden. Vielleicht belegt eine andere App den Port 42690.</string>
 </resources>

@@ -6,10 +6,10 @@
  * controls, speed, lyrics from the file and the track menu.
  *
  * Port of exteraless PlayerSheet (GPL-3.0), from exteraGram.
- * Changed for MZGram: without the style editor and the queue (they come
- * with media.player-styling-queue), lyrics only from the file (no online
- * search), the opening animation from a mini player goes through
- * TransitionSource.
+ * Changed for MZGram: lyrics only from the file (no online search), the
+ * opening animation from a mini player goes through TransitionSource.
+ * The style editor (MZGramPlayerStyleEditor) opens under a small copy of
+ * the player; without a playing track the sheet shows a sample track.
  */
 
 package org.telegram.ui.mzgram.player;
@@ -158,11 +158,20 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
     private final View titleSpacer;
     private final CoverScrim coverScrim;
     private final boolean previewMode;
-    // The style editor comes with media.player-styling-queue
-    private final boolean editing = false;
+    private FrameLayout editorPanel;
+    private MZGramPlayerStyleEditor styleEditor;
+    private final GradientDrawable editorBackground = new GradientDrawable();
+    private final GradientDrawable editorDoneBackground = new GradientDrawable();
+    private TextView editorTitle;
+    private TextView editorReset;
+    private TextView editorDone;
+    private boolean editing;
     private boolean islandActions;
     private final GradientDrawable islandBackground = new GradientDrawable();
-    private final float editorFraction = 0f;
+    private float editorFraction;
+    private float editScale = 1f;
+    private float editTop;
+    private ValueAnimator editorAnimator;
     private int coverStyle = MZGramPlayerStyle.COVER_CARD;
     private int[] blockOrder = MZGramPlayerStyle.order();
     private ValueAnimator spinAnimator;
@@ -325,6 +334,17 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
                 backgroundPaint.setColor(editorFraction > 0f ? ColorUtils.blendARGB(colors.surface, colors.surfaceLow, editorFraction) : colors.surface);
                 backgroundRect.set(0, 0, getWidth(), getHeight() + r);
                 canvas.drawRoundRect(backgroundRect, r, r, backgroundPaint);
+            }
+
+            @Override
+            protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+                super.onSizeChanged(w, h, oldw, oldh);
+                if (editorPanel != null) {
+                    post(() -> {
+                        measureEditor();
+                        setEditorFraction(editorFraction);
+                    });
+                }
             }
 
             @Override
@@ -552,9 +572,9 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
         lyricsButton.setOnClickListener(v -> setLyricsMode(!lyricsMode, true));
         group.addView(lyricsButton, LayoutHelper.createLinear(0, 52, 1f, 4, 0, 4, 0));
         queueButton = new MZGramMorphButton(context, MZGramPlayerIcon.stroke(MZGramPlayerIcon.QUEUE, 20));
+        queueButton.setText(getString(R.string.MZGramPlayerQueue));
         queueButton.setRadius(dp(8), dp(26), false);
-        // The queue comes with media.player-styling-queue
-        queueButton.setVisibility(View.GONE);
+        queueButton.setOnClickListener(v -> openQueue());
         group.addView(queueButton, LayoutHelper.createLinear(0, 52, 1f));
         layout.addView(group);
 
@@ -571,7 +591,9 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
 
         applyStyle(false);
         applyColors(colors);
-        if (!previewMode) {
+        if (previewMode) {
+            bindPreview();
+        } else {
             bind(playing, false);
         }
     }
@@ -634,6 +656,28 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
     @Override
     protected void onInsetsChanged() {
         insetsReady = true;
+        padEditorPanel();
+    }
+
+    private void padEditorPanel() {
+        if (editorPanel != null) {
+            editorPanel.setPadding(super.getLeftInset(), 0, super.getRightInset(), 0);
+        }
+    }
+
+    // The style editor from the settings: over the open player, or over a
+    // sample track when no music plays
+    public static void openStyleEditor(org.telegram.ui.ActionBar.BaseFragment fragment) {
+        if (fragment == null || fragment.getParentActivity() == null) {
+            return;
+        }
+        if (instance != null && !instance.isDismissed()) {
+            instance.openEditor();
+            return;
+        }
+        MZGramPlayerSheet sheet = new MZGramPlayerSheet(fragment.getParentActivity(), fragment.getResourceProvider());
+        fragment.showDialog(sheet);
+        sheet.root.post(sheet::openEditor);
     }
 
     @Override
@@ -658,6 +702,10 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
     @Override
     public void dismiss() {
         if (closing) {
+            return;
+        }
+        if (editing && !skipMorph && !isDismissed()) {
+            closeEditor();
             return;
         }
         if (!skipMorph && miniSource != null && !isDismissed()) {
@@ -1608,12 +1656,20 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
                 o.dismiss();
                 setLyricsMode(!lyricsMode, true);
             });
+            o.add(R.drawable.msg_list, getString(R.string.MZGramPlayerQueue), () -> {
+                o.dismiss();
+                openQueue();
+            });
             o.add(R.drawable.msg_speed, getString(R.string.MZGramPlayerSpeed), () -> {
                 o.dismiss();
                 cycleSpeed();
             });
         }
         o.addGap();
+        o.add(R.drawable.msg_customize, getString(R.string.MZGramPlayerCustomize), () -> {
+            o.dismiss();
+            openEditor();
+        });
         o.add(R.drawable.msg_filled_data_music, getString(R.string.MZGramPlayerClassic), () -> {
             o.dismiss();
             openClassic();
@@ -1739,6 +1795,10 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
         smallCover.setColors(c.primaryContainer, c.onPrimaryContainer);
         coverScrim.invalidate();
         layout.invalidate();
+        if (styleEditor != null) {
+            styleEditor.setColors(c);
+            bindEditorColors(c);
+        }
         if (Build.VERSION.SDK_INT >= 28) {
             cover.setOutlineSpotShadowColor(c.shadow());
             cover.setOutlineAmbientShadowColor(c.shadow());
@@ -1786,6 +1846,199 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
             AndroidUtilities.setLightStatusBar(container, lightStatus);
             AndroidUtilities.setLightNavigationBar(container, lightNav);
         }
+    }
+
+    private void openQueue() {
+        new MZGramPlayerQueueSheet(getContext(), colors, resourcesProvider).show();
+    }
+
+    // A sample track for the style editor opened with no music playing
+    private void bindPreview() {
+        titleView.setText(getString(R.string.MZGramPlayerPreviewTitle));
+        artistView.setText(getString(R.string.MZGramPlayerPreviewArtist));
+        smallTitle.setText(getString(R.string.MZGramPlayerPreviewTitle));
+        smallArtist.setText(getString(R.string.MZGramPlayerPreviewArtist));
+        headerLabel.setText(getString(R.string.MZGramPlayerFromChat));
+        headerTitle.setText(getString(R.string.SavedMessages)); // Telegram's own text: the name of the chat in the sample
+        likeButton.setVisibility(MZGramPlayerStyle.showLike() ? View.VISIBLE : View.GONE);
+        titleSpacer.setVisibility(MZGramPlayerStyle.showLike() && MZGramPlayerStyle.titleCentered() ? View.VISIBLE : View.GONE);
+        seekBar.setProgress(0.36f);
+        timeNow.setText(formatTime(78));
+        timeLeft.setText("\u2212" + formatTime(139));
+        controls.setPlaying(true, false);
+        updateModes(false);
+        updateSpeed();
+        layout.setEnabled(false);
+    }
+
+    public void openEditor() {
+        if (editing || closing) {
+            return;
+        }
+        if (lyricsMode) {
+            setLyricsMode(false, false);
+        }
+        if (editorPanel == null) {
+            buildEditor();
+        } else {
+            styleEditor.refresh();
+        }
+        editing = true;
+        editorPanel.setVisibility(View.VISIBLE);
+        root.post(() -> {
+            measureEditor();
+            animateEditor(1f);
+        });
+    }
+
+    public void closeEditor() {
+        if (!editing) {
+            return;
+        }
+        editing = false;
+        if (previewMode) {
+            skipMorph = true;
+            dismiss();
+            return;
+        }
+        animateEditor(0f);
+    }
+
+    private void animateEditor(float target) {
+        if (editorAnimator != null) {
+            editorAnimator.cancel();
+        }
+        editorAnimator = ValueAnimator.ofFloat(editorFraction, target);
+        editorAnimator.addUpdateListener(a -> setEditorFraction((float) a.getAnimatedValue()));
+        editorAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                editorAnimator = null;
+                setEditorFraction(target);
+                if (target == 0f && editorPanel != null) {
+                    editorPanel.setVisibility(View.GONE);
+                }
+            }
+        });
+        editorAnimator.setDuration(420);
+        editorAnimator.setInterpolator(EMPHASIZED);
+        editorAnimator.start();
+    }
+
+    private void measureEditor() {
+        if (editorPanel == null) {
+            return;
+        }
+        int width = root.getWidth();
+        int height = root.getHeight();
+        if (width == 0 || height == 0) {
+            return;
+        }
+        int top = getStatusBarHeight();
+        int panelHeight = Math.max(dp(320), Math.min(height - dp(240), Math.round(height * 0.5f)));
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) editorPanel.getLayoutParams();
+        if (lp.height != panelHeight) {
+            lp.height = panelHeight;
+            editorPanel.setLayoutParams(lp);
+        }
+        float previewHeight = height - panelHeight - top - dp(20);
+        editScale = Math.max(0.2f, Math.min(previewHeight / height, (width - dp(32)) / (float) width));
+        editTop = top + dp(8);
+    }
+
+    private void setEditorFraction(float f) {
+        editorFraction = f;
+        int width = root.getWidth();
+        float s = 1f + (editScale - 1f) * f;
+        if (morphProgress < 0f) {
+            layout.setPivotX(0);
+            layout.setPivotY(0);
+            layout.setScaleX(s);
+            layout.setScaleY(s);
+            layout.setTranslationX((width - width * s) / 2f);
+            layout.setTranslationY(editTop * f);
+        }
+        if (editorPanel != null) {
+            int h = editorPanel.getHeight() > 0 ? editorPanel.getHeight() : editorPanel.getLayoutParams().height;
+            editorPanel.setTranslationY(h * (1f - f));
+        }
+        root.invalidate();
+        layout.invalidate();
+    }
+
+    private void buildEditor() {
+        Context context = getContext();
+        editorPanel = new FrameLayout(context);
+        editorPanel.setClickable(true);
+        float r = dp(28);
+        editorBackground.setCornerRadii(new float[]{r, r, r, r, 0, 0, 0, 0});
+        editorPanel.setBackground(editorBackground);
+
+        FrameLayout bar = new FrameLayout(context);
+        editorTitle = new TextView(context);
+        editorTitle.setText(getString(R.string.MZGramPlayerStyleTitle));
+        editorTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        editorTitle.setTypeface(AndroidUtilities.bold());
+        editorTitle.setSingleLine(true);
+        editorTitle.setEllipsize(TextUtils.TruncateAt.END);
+        bar.addView(editorTitle, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL | Gravity.LEFT, 24, 0, 200, 0));
+        editorDone = new TextView(context);
+        editorDone.setText(getString(R.string.Done)); // Telegram's own text: the usual button that closes an editor
+        editorDone.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        editorDone.setTypeface(AndroidUtilities.bold());
+        editorDone.setGravity(Gravity.CENTER);
+        editorDone.setPadding(dp(18), 0, dp(18), 0);
+        editorDoneBackground.setCornerRadius(dp(20));
+        editorDone.setBackground(editorDoneBackground);
+        editorDone.setOnClickListener(v -> closeEditor());
+        bar.addView(editorDone, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 40, Gravity.CENTER_VERTICAL | Gravity.RIGHT, 0, 0, 16, 0));
+        editorReset = new TextView(context);
+        editorReset.setText(getString(R.string.MZGramPlayerStyleReset));
+        editorReset.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        editorReset.setTypeface(AndroidUtilities.bold());
+        editorReset.setGravity(Gravity.CENTER);
+        editorReset.setPadding(dp(14), 0, dp(14), 0);
+        editorReset.setOnClickListener(v -> {
+            MZGramPlayerStyle.reset();
+            styleEditor.refresh();
+            applyStyle(true);
+        });
+        bar.addView(editorReset, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 40, Gravity.CENTER_VERTICAL | Gravity.RIGHT, 0, 0, 112, 0));
+        editorPanel.addView(bar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 64, Gravity.TOP, 0, 4, 0, 0));
+
+        ScrollView scroll = new ScrollView(context) {
+            @Override
+            public boolean dispatchTouchEvent(MotionEvent ev) {
+                if (ev.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    container.requestDisallowInterceptTouchEvent(true);
+                }
+                return super.dispatchTouchEvent(ev);
+            }
+        };
+        scroll.setVerticalScrollBarEnabled(false);
+        scroll.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        styleEditor = new MZGramPlayerStyleEditor(context, colors, () -> applyStyle(true));
+        scroll.addView(styleEditor, new ScrollView.LayoutParams(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        scroll.setClipToPadding(false);
+        scroll.setPadding(0, 0, 0, getBottomInset());
+        editorPanel.addView(scroll, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP, 0, 68, 0, 0));
+
+        root.addView(editorPanel, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 320, Gravity.BOTTOM));
+        padEditorPanel();
+        editorPanel.setTranslationY(dp(2000));
+        bindEditorColors(colors);
+    }
+
+    private void bindEditorColors(MZGramPlayerColors c) {
+        if (editorPanel == null) {
+            return;
+        }
+        editorBackground.setColor(c.surfaceContainer);
+        editorTitle.setTextColor(c.onSurface);
+        editorDoneBackground.setColor(c.primary);
+        editorDone.setTextColor(c.onPrimary);
+        editorReset.setTextColor(c.primary);
+        editorReset.setBackground(Theme.createSelectorDrawable(c.ripple(), Theme.RIPPLE_MASK_ROUNDRECT_6DP));
     }
 
     private void applyStyle(boolean animated) {
@@ -2241,6 +2494,9 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
         private int lastHeight;
         private int padLeft = dp(24);
         private int padRight = dp(24);
+        private float tapX;
+        private float tapY;
+        private int tapTarget = MZGramPlayerStyleEditor.TARGET_NONE;
 
         PlayerLayout(Context context) {
             super(context);
@@ -2280,10 +2536,63 @@ public class MZGramPlayerSheet extends BottomSheet implements NotificationCenter
 
         @Override
         public boolean dispatchTouchEvent(MotionEvent ev) {
+            if (editing && styleEditor != null && editorFraction >= 1f) {
+                return handleEditorTap(ev);
+            }
             if (editing || editorFraction > 0f || (previewMode && !isEnabled())) {
                 return false;
             }
             return super.dispatchTouchEvent(ev);
+        }
+
+        private boolean handleEditorTap(MotionEvent ev) {
+            switch (ev.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    tapX = ev.getX();
+                    tapY = ev.getY();
+                    tapTarget = editorTargetAt(tapX, tapY);
+                    return tapTarget != MZGramPlayerStyleEditor.TARGET_NONE;
+                case MotionEvent.ACTION_MOVE:
+                    float slop = ViewConfiguration.get(getContext()).getScaledTouchSlop() / Math.max(0.2f, getScaleX());
+                    if (Math.abs(ev.getX() - tapX) > slop || Math.abs(ev.getY() - tapY) > slop) {
+                        tapTarget = MZGramPlayerStyleEditor.TARGET_NONE;
+                    }
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    if (tapTarget != MZGramPlayerStyleEditor.TARGET_NONE) {
+                        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                        styleEditor.focus(tapTarget);
+                    }
+                    tapTarget = MZGramPlayerStyleEditor.TARGET_NONE;
+                    return true;
+                default:
+                    tapTarget = MZGramPlayerStyleEditor.TARGET_NONE;
+                    return true;
+            }
+        }
+
+        private int editorTargetAt(float x, float y) {
+            if (hit(group, x, y)) {
+                return MZGramPlayerStyleEditor.TARGET_ACTIONS;
+            }
+            if (hit(controls, x, y)) {
+                return MZGramPlayerStyleEditor.TARGET_CONTROLS;
+            }
+            if (hit(seekBar, x, y) || hit(timeRow, x, y)) {
+                return MZGramPlayerStyleEditor.TARGET_PROGRESS;
+            }
+            if (hit(titleRow, x, y)) {
+                return MZGramPlayerStyleEditor.TARGET_TITLE;
+            }
+            if (hit(cover, x, y)) {
+                return MZGramPlayerStyleEditor.TARGET_COVER;
+            }
+            return MZGramPlayerStyleEditor.TARGET_NONE;
+        }
+
+        private boolean hit(View view, float x, float y) {
+            return view.getVisibility() == VISIBLE && x >= view.getLeft() && x < view.getRight()
+                    && y >= view.getTop() && y < view.getBottom();
         }
 
         @Override

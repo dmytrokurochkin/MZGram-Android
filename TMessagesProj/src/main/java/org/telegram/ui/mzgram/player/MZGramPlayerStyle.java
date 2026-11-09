@@ -3,9 +3,8 @@
  * a fork of Telegram for Android.
  *
  * The look of the music player: cover, title, blocks, buttons, colors.
- * The values are saved in the "mzgram_player_style" preferences; until the
- * style editor comes (media.player-styling-queue) the player uses the
- * defaults below.
+ * The values are saved in the "mzgram_player_style" preferences and are
+ * changed in the style editor (MZGramPlayerStyleEditor).
  *
  * Port of exteraless PlayerStyle (GPL-3.0), from exteraGram.
  * Changed for MZGram: own preferences instead of AppearanceConfig; the
@@ -50,6 +49,25 @@ public final class MZGramPlayerStyle {
 
     public static final String PREFERENCES = "mzgram_player_style";
 
+    public static final String KEY_COVER_STYLE = "coverStyle";
+    public static final String KEY_COVER_SIZE = "coverSize";
+    public static final String KEY_COVER_RADIUS = "coverRadius";
+    public static final String KEY_DISC_SPIN = "discSpin";
+    public static final String KEY_COVER_SWIPE = "coverSwipe";
+    public static final String KEY_COVER_EXTEND = "coverExtend";
+    public static final String KEY_TITLE_ALIGN = "titleAlign";
+    public static final String KEY_TITLE_SIZE = "titleSize";
+    public static final String KEY_TITLE_ABOVE = "titleAbove";
+    public static final String KEY_SHOW_ACTIONS = "showActions";
+    public static final String KEY_ACTIONS_STYLE = "actionsStyle";
+    public static final String KEY_SHOW_MODES = "showModes";
+    public static final String KEY_SHOW_LIKE = "showLike";
+    public static final String KEY_SHOW_SOURCE = "showSource";
+    public static final String KEY_WAVY = "wavy";
+    public static final String KEY_CONTROLS_SIZE = "controlsSize";
+    public static final String KEY_COLORS = "colors";
+    public static final String KEY_BACKGROUND = "background";
+
     private static final int[] DEFAULT_ORDER = {BLOCK_PROGRESS, BLOCK_CONTROLS, BLOCK_ACTIONS};
 
     private MZGramPlayerStyle() {
@@ -65,6 +83,15 @@ public final class MZGramPlayerStyle {
 
     private static boolean getBoolean(String key, boolean def) {
         return preferences().getBoolean(key, def);
+    }
+
+    // The style editor saves its values here
+    public static void set(String key, int value) {
+        preferences().edit().putInt(key, value).apply();
+    }
+
+    public static void set(String key, boolean value) {
+        preferences().edit().putBoolean(key, value).apply();
     }
 
     public static int coverStyle() {
@@ -106,6 +133,11 @@ public final class MZGramPlayerStyle {
     public static boolean titleAbove() {
         int style = coverStyle();
         return (style == COVER_CARD || style == COVER_DISC) && getBoolean("titleAbove", false);
+    }
+
+    // The saved choice itself: titleAbove() also looks at the cover style
+    public static boolean titleAboveSaved() {
+        return getBoolean("titleAbove", false);
     }
 
     public static int[] order() {
@@ -174,6 +206,11 @@ public final class MZGramPlayerStyle {
 
     public static boolean wavy() {
         return getBoolean("wavy", true);
+    }
+
+    public static int controlsSize() {
+        int value = getInt("controlsSize", 1);
+        return value < 0 || value > 2 ? 1 : value;
     }
 
     public static float controlsScale() {

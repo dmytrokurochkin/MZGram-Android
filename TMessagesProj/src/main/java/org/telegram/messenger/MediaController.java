@@ -1727,6 +1727,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         loadingPlaylist = false;
         playlistGlobalSearchParams = null;
         savedMusicPlaylistState = null;
+        // MZGram: a new list starts in Telegram's order
+        mzgramPlaylistReordered = false;
     }
 
     public void startMediaObserver() {
@@ -2925,7 +2927,31 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return playMessage(current);
     }
 
+    // MZGram: the queue of the Material 3 music player (MZGramPlayerQueueSheet)
+    // moves a track; after that the list keeps the user's order
+    private boolean mzgramPlaylistReordered;
+
+    public boolean mzgramMovePlaylistItem(int from, int to) {
+        if (SharedConfig.shuffleMusic || from == to || from < 0 || to < 0 || from >= playlist.size() || to >= playlist.size()) {
+            return false;
+        }
+        MessageObject current = currentPlaylistNum >= 0 && currentPlaylistNum < playlist.size() ? playlist.get(currentPlaylistNum) : null;
+        playlist.add(to, playlist.remove(from));
+        mzgramPlaylistReordered = true;
+        if (current != null) {
+            int index = playlist.indexOf(current);
+            if (index >= 0) {
+                currentPlaylistNum = index;
+            }
+        }
+        return true;
+    }
+
     private void sortPlaylist() {
+        // MZGram: the order set in the queue of the Material 3 music player is kept
+        if (mzgramPlaylistReordered) {
+            return;
+        }
         Collections.sort(playlist, (o1, o2) -> {
             int mid1 = o1.getId();
             int mid2 = o2.getId();

@@ -637,4 +637,6 @@
     <string name="MZGramAppIconLight">Ашық</string>
     <string name="MZGramAppIconMint">Жалбыз</string>
     <string name="MZGramAppIconSunset">Күн батуы</string>
+    <string name="MZGramAvatarShape">Аватар пішіні</string>
+    <string name="MZGramAvatarShapeInfo">Бүкіл қолданбадағы аватарлардың дөңгелектігі: оң жақта Telegram-дағыдай шеңбер, сол жақта шаршы, арасында бұрыштары дөңгелектенген шаршы. Әңгіме сақиналары пішінді қайталайды. «Созылмалы» анимация кезінде профиль аватары қайтадан шеңберге айналады.</string>
 </resources>

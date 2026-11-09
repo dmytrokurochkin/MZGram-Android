@@ -662,10 +662,12 @@ public class StoriesUtilities {
     private static final RectF forumRect = new RectF();
 
     private static void drawCircleInternal(Canvas canvas, View view, AvatarStoryParams params, Paint paint, boolean isForum) {
-        if (isForum) {
+        if (isForum || org.telegram.messenger.mzgram.MZGramAvatarShape.isOn()) {
             forumRect.set(rectTmp);
             forumRect.inset(dp(0.5f), dp(0.5f));
-            canvas.drawRoundRect(forumRect, dp(18), dp(18), paint);
+            // MZGram: the story ring follows the avatar shape (MZGramAvatarShape)
+            final float r = org.telegram.messenger.mzgram.MZGramAvatarShape.isOn() ? org.telegram.messenger.mzgram.MZGramAvatarShape.ringRadius(forumRect, params.originalAvatarRect, isForum ? dp(18) : 0) : dp(18);
+            canvas.drawRoundRect(forumRect, r, r, paint);
             return;
         }
         if (params.progressToArc == 0) {
@@ -681,8 +683,9 @@ public class StoriesUtilities {
     private static final Path forumSegmentPath = new Path();
 
     private static void drawSegment(Canvas canvas, RectF rectTmp, Paint paint, float startAngle, float endAngle, AvatarStoryParams params, boolean isForum) {
-        if (isForum) {
-            float r = rectTmp.height() * 0.32f;
+        if (isForum || org.telegram.messenger.mzgram.MZGramAvatarShape.isOn()) {
+            // MZGram: the story ring follows the avatar shape (MZGramAvatarShape)
+            float r = org.telegram.messenger.mzgram.MZGramAvatarShape.isOn() ? org.telegram.messenger.mzgram.MZGramAvatarShape.ringRadius(rectTmp, params.originalAvatarRect, isForum ? rectTmp.height() * 0.32f : 0) : rectTmp.height() * 0.32f;
             float rotateAngle = (((int)(startAngle)) / 90) * 90 + 90;
             float pathAngleStart = -199 + rotateAngle;
             float percentFrom = (startAngle - pathAngleStart) / 360;

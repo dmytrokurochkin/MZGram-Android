@@ -637,4 +637,6 @@
     <string name="MZGramAppIconLight">Clara</string>
     <string name="MZGramAppIconMint">Menta</string>
     <string name="MZGramAppIconSunset">Atardecer</string>
+    <string name="MZGramAvatarShape">Forma de los avatares</string>
+    <string name="MZGramAvatarShapeInfo">Qué tan redondos son los avatares en toda la app: a la derecha un círculo como en Telegram, a la izquierda un cuadrado y, entre ambos, un cuadrado con esquinas redondeadas. Los anillos de historias siguen la forma. Durante la animación «gelatinosa», el avatar del perfil vuelve a ser un círculo.</string>
 </resources>

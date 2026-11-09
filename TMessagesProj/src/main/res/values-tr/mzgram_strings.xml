@@ -637,4 +637,6 @@
     <string name="MZGramAppIconLight">Açık</string>
     <string name="MZGramAppIconMint">Nane</string>
     <string name="MZGramAppIconSunset">Gün batımı</string>
+    <string name="MZGramAvatarShape">Profil resmi şekli</string>
+    <string name="MZGramAvatarShapeInfo">Uygulama genelinde profil resimlerinin ne kadar yuvarlak olduğu: sağda Telegram\'daki gibi bir daire, solda bir kare, arası köşeleri yuvarlatılmış bir kare. Hikâye halkaları şekli izler. “Akışkan” animasyon sırasında profil resmi yeniden daireye döner.</string>
 </resources>

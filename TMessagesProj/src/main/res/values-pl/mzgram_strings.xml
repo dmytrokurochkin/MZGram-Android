@@ -637,4 +637,6 @@
     <string name="MZGramAppIconLight">Jasna</string>
     <string name="MZGramAppIconMint">Mięta</string>
     <string name="MZGramAppIconSunset">Zachód słońca</string>
+    <string name="MZGramAvatarShape">Kształt awatarów</string>
+    <string name="MZGramAvatarShapeInfo">Jak okrągłe są awatary w całej aplikacji: po prawej koło jak w Telegramie, po lewej kwadrat, pomiędzy kwadrat z zaokrąglonymi rogami. Pierścienie relacji podążają za kształtem. Podczas animacji „ciągnącej się” awatar profilu znów staje się kołem.</string>
 </resources>

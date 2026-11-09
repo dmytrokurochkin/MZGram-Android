@@ -324,6 +324,15 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private boolean forceCrossfade;
     private boolean useRoundRadius = true;
     private final int[] roundRadius = new int[4];
+    // MZGram: avatar shape (MZGramAvatarShape). The radius asked for is kept to
+    // recompute the shape when the slider or the avatar size changes.
+    private final int[] mzgramAskedRadius = new int[4];
+    private final int[] mzgramShapedRadius = new int[4];
+    private boolean mzgramAvatar;
+    private boolean mzgramKeepAvatar;
+    private boolean mzgramShapeManual;
+    private float mzgramShapeWidth;
+    private int mzgramShapeGeneration;
     private int[] emptyRoundRadius;
     private boolean isRoundRect = true;
     private Object mark;
@@ -510,7 +519,28 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 }
             }
         }
+        // MZGram: this receiver shows an avatar, it gets the avatar shape
+        mzgramSetAvatar(true);
+    }
 
+    // MZGram: avatar shape (MZGramAvatarShape)
+    private void mzgramSetAvatar(boolean avatar) {
+        if (mzgramAvatar != avatar) {
+            mzgramAvatar = avatar;
+            mzgramApplyShape();
+        }
+    }
+
+    private void mzgramApplyShape() {
+        setRoundRadius(mzgramAskedRadius);
+    }
+
+    // MZGram: the caller shapes the radius itself (MZGramAvatarShape), no second scaling here
+    public void mzgramSetShapeManual(boolean manual) {
+        if (mzgramShapeManual != manual) {
+            mzgramShapeManual = manual;
+            mzgramApplyShape();
+        }
     }
 
     public static File getAvatarLocalFile(int currentAccount, TLObject obj) {
@@ -570,6 +600,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public void setImage(ImageLocation mediaLocation, String mediaFilter, ImageLocation imageLocation, String imageFilter, ImageLocation thumbLocation, String thumbFilter, Drawable thumb, long size, String ext, Object parentObject, int cacheType) {
+        // MZGram: a receiver used again for another image loses the avatar shape
+        if (!mzgramKeepAvatar) {
+            mzgramSetAvatar(thumb instanceof AvatarDrawable);
+        }
         if (allowLoadingOnAttachedOnly && !attachedToWindow) {
             if (setImageBackup == null) {
                 setImageBackup = new SetImageBackup();
@@ -878,6 +912,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public void setImageBitmap(Drawable bitmap) {
+        // MZGram: a receiver used again for another image loses the avatar shape
+        if (!mzgramKeepAvatar) {
+            mzgramSetAvatar(bitmap instanceof AvatarDrawable);
+        }
         ImageLoader.getInstance().cancelLoadingForImageReceiver(this, true);
 
         if (crossfadeWithOldImage) {
@@ -1170,7 +1208,9 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     temp.thumb = null;
                 }
             }
+            mzgramKeepAvatar = true; // MZGram: the same image again, the avatar shape stays
             setImage(temp.mediaLocation, temp.mediaFilter, temp.imageLocation, temp.imageFilter, temp.thumbLocation, temp.thumbFilter, temp.thumb, temp.size, temp.ext, temp.parentObject, temp.cacheType);
+            mzgramKeepAvatar = false;
             temp.clear();
             setImageBackup = temp;
             RLottieDrawable lottieDrawable = getLottieAnimation();
@@ -1829,7 +1869,9 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             ImageLoader.getInstance().removeImage(currentThumbKey);
             currentThumbKey = null;
         }
+        mzgramKeepAvatar = true; // MZGram: the same image again, the avatar shape stays
         setImage(currentMediaLocation, currentMediaFilter, currentImageLocation, currentImageFilter, currentThumbLocation, currentThumbFilter, currentThumbDrawable, currentSize, currentExt, currentParentObject, currentCacheType);
+        mzgramKeepAvatar = false;
     }
 
     private void checkAlphaAnimation(boolean skip, BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
@@ -1880,6 +1922,12 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public boolean draw(Canvas canvas, BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
+        // MZGram: the avatar shape follows the slider and the avatar size
+        if (mzgramAvatar && !mzgramShapeManual && backgroundThreadDrawHolder == null
+                && (mzgramShapeGeneration != org.telegram.messenger.mzgram.MZGramAvatarShape.generation()
+                || org.telegram.messenger.mzgram.MZGramAvatarShape.isOn() && Math.abs(mzgramShapeWidth - imageW) >= 1f)) {
+            mzgramApplyShape();
+        }
         boolean result = false;
         if (gradientBitmap != null && currentImageKey != null) {
             canvas.save();
@@ -2544,6 +2592,15 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public void setRoundRadius(int[] value) {
+        // MZGram: avatar shape (MZGramAvatarShape); the radius asked for is kept
+        if (value != mzgramAskedRadius) {
+            System.arraycopy(value, 0, mzgramAskedRadius, 0, Math.min(4, value.length));
+        }
+        mzgramShapeGeneration = org.telegram.messenger.mzgram.MZGramAvatarShape.generation();
+        mzgramShapeWidth = imageW;
+        if (mzgramAvatar && !mzgramShapeManual) {
+            value = org.telegram.messenger.mzgram.MZGramAvatarShape.apply(mzgramAskedRadius, imageW, mzgramShapedRadius);
+        }
         boolean changed = false;
         int firstValue = value[0];
         isRoundRect = true;

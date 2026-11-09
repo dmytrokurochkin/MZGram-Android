@@ -637,4 +637,6 @@
     <string name="MZGramAppIconLight">فاتحة</string>
     <string name="MZGramAppIconMint">نعناع</string>
     <string name="MZGramAppIconSunset">غروب</string>
+    <string name="MZGramAvatarShape">شكل الصور الشخصية</string>
+    <string name="MZGramAvatarShapeInfo">مدى استدارة الصور الشخصية في التطبيق كله: في اليمين دائرة كما في Telegram، وفي اليسار مربع، وما بينهما مربع بزوايا مستديرة. تتبع حلقات القصص الشكل. أثناء حركة «الذوبان» تعود صورة الملف الشخصي دائرة.</string>
 </resources>

@@ -637,4 +637,6 @@
     <string name="MZGramAppIconLight">Claire</string>
     <string name="MZGramAppIconMint">Menthe</string>
     <string name="MZGramAppIconSunset">Coucher de soleil</string>
+    <string name="MZGramAvatarShape">Forme des avatars</string>
+    <string name="MZGramAvatarShapeInfo">Degré d\'arrondi des avatars dans toute l\'app : à droite un cercle comme dans Telegram, à gauche un carré, entre les deux un carré aux coins arrondis. Les anneaux des stories suivent la forme. Pendant l\'animation « fondante », l\'avatar du profil redevient un cercle.</string>
 </resources>

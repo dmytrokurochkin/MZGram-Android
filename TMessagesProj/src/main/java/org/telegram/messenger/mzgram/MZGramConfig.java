@@ -66,6 +66,8 @@ public class MZGramConfig {
     public static boolean predictiveBackAnimation = true;
     // On by default: upstream always has this animation, the switch only turns it off.
     public static boolean gooeyAvatarAnimation = true;
+    // Avatar shape (MZGramAvatarShape): MAX is the circle of Telegram, 0 a square
+    public static int avatarCorners = MZGramAvatarShape.MAX;
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
@@ -358,6 +360,8 @@ public class MZGramConfig {
             deleteForAllByDefault = preferences.getBoolean("deleteForAllByDefault", false);
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
             gooeyAvatarAnimation = preferences.getBoolean("gooeyAvatarAnimation", true);
+            avatarCorners = Math.max(MZGramAvatarShape.MIN, Math.min(MZGramAvatarShape.MAX, preferences.getInt("avatarCorners", MZGramAvatarShape.MAX)));
+            MZGramAvatarShape.changed();
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
@@ -655,6 +659,12 @@ public class MZGramConfig {
     public static void toggleGooeyAvatarAnimation() {
         gooeyAvatarAnimation = !gooeyAvatarAnimation;
         putBoolean("gooeyAvatarAnimation", gooeyAvatarAnimation);
+    }
+
+    public static void setAvatarCorners(int corners) {
+        avatarCorners = Math.max(MZGramAvatarShape.MIN, Math.min(MZGramAvatarShape.MAX, corners));
+        preferences().edit().putInt("avatarCorners", avatarCorners).apply();
+        MZGramAvatarShape.changed();
     }
 
     public static void toggleHideBottomNavigationBar() {

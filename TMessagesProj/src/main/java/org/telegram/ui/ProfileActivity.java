@@ -524,6 +524,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private float avatarY;
     private float avatarScale;
     private float pullUpProgress;
+    // MZGram: how much the avatar shape turned back into a circle for the gooey animation
+    private float mzgramShapeCircle;
     private float nameX;
     private float nameY;
     private float onlineX;
@@ -5397,6 +5399,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         };
         avatarImage.createBlurEffect(getActionsExtraHeight());
         avatarImage.getImageReceiver().setAllowDecodeSingleFrame(true);
+        // MZGram: the profile shapes its avatar itself (getSmallAvatarRoundRadius)
+        avatarImage.getImageReceiver().mzgramSetShapeManual(true);
+        avatarImage.foregroundImageReceiver.mzgramSetShapeManual(true);
         avatarImage.setRoundRadiusForExpand(getSmallAvatarRoundRadius());
         avatarImage.setPivotX(0);
         avatarImage.setPivotY(0);
@@ -6073,6 +6078,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             storyView.setAlpha(pullUpProgress > 0 ? lerp(1.0f, 0.0f, ilerp(pullUpProgress, 0, 0.5f)) : 1.0f);
         }
         avatarGooey.setVisibility(pullUpProgress >= 1.0f ? View.GONE : View.VISIBLE);
+        // MZGram: conflict 1.4, the avatar shape turns into a circle before the gooey melt
+        float mzgramCircle = org.telegram.messenger.mzgram.MZGramAvatarShape.gooeyCircle(!isTopic, pullUpProgress);
+        if (mzgramCircle != mzgramShapeCircle && avatarImage != null) {
+            mzgramShapeCircle = mzgramCircle;
+            avatarImage.setRoundRadiusForExpand(getSmallAvatarRoundRadius());
+        }
     }
 
     private int getHeaderOnlyExtraHeight() {
@@ -6489,10 +6500,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (chatId != 0) {
             TLRPC.Chat chatLocal = getMessagesController().getChat(chatId);
             if (ChatObject.isForum(chatLocal)) {
-                return dp(needInsetForStories() ? 24 : 38);
+                // MZGram: avatar shape (MZGramAvatarShape)
+                return org.telegram.messenger.mzgram.MZGramAvatarShape.scaleRadius(dp(needInsetForStories() ? 24 : 38), mzgramShapeCircle);
             }
         }
-        return dp(50);
+        // MZGram: avatar shape (MZGramAvatarShape)
+        return org.telegram.messenger.mzgram.MZGramAvatarShape.scaleRadius(dp(50), mzgramShapeCircle);
     }
 
     private void updateTtlIcon() {

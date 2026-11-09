@@ -637,4 +637,6 @@
     <string name="MZGramAppIconLight">Light</string>
     <string name="MZGramAppIconMint">Mint</string>
     <string name="MZGramAppIconSunset">Sunset</string>
+    <string name="MZGramAvatarShape">Avatar shape</string>
+    <string name="MZGramAvatarShapeInfo">How round avatars are across the app: on the right a circle as in Telegram, on the left a square, in between a rounded square. Story rings follow the shape. While the gooey animation runs, the profile avatar turns back into a circle.</string>
 </resources>

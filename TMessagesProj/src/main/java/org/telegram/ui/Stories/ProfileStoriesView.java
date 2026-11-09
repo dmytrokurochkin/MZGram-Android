@@ -608,8 +608,9 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                 paint.setStrokeWidth(AndroidUtilities.dp(2));
                 paint.setAlpha((int) (255 * segmentsAlpha));
                 boolean isForum = ChatObject.isForum(UserConfig.selectedAccount, dialogId);
-                if (isForum) {
-                    float r = rect2.height() * 0.32f;
+                if (isForum || mzgramShapedRing()) {
+                    // MZGram: the story ring follows the avatar shape (MZGramAvatarShape)
+                    float r = mzgramShapedRing() ? org.telegram.messenger.mzgram.MZGramAvatarShape.ringRadius(rect2, rect1, isForum ? rect2.height() * 0.32f : 0) : rect2.height() * 0.32f;
                     canvas.drawRoundRect(rect2, r, r, paint);
                 } else {
                     canvas.drawCircle(rect2.centerX(), rect2.centerY(), rect2.width() / 2f, paint);
@@ -899,10 +900,17 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     private final PathMeasure forumRoundRectPathMeasure = new PathMeasure();
     private final Path forumSegmentPath = new Path();
 
+    // MZGram: the ring around the small profile avatar follows the avatar shape;
+    // the opened photo is a rectangle, so the ring is Telegram's while it opens
+    private boolean mzgramShapedRing() {
+        return org.telegram.messenger.mzgram.MZGramAvatarShape.isOn() && expandProgress < 0.2f;
+    }
+
     private void drawArc(Canvas canvas, RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint) {
         boolean isForum = ChatObject.isForum(UserConfig.selectedAccount, dialogId);
-        if (isForum) {
-            float r = oval.height() * 0.32f;
+        if (isForum || mzgramShapedRing()) {
+            // MZGram: the story ring follows the avatar shape (MZGramAvatarShape)
+            float r = mzgramShapedRing() ? org.telegram.messenger.mzgram.MZGramAvatarShape.ringRadius(oval, rect1, isForum ? oval.height() * 0.32f : 0) : oval.height() * 0.32f;
             if (Math.abs(sweepAngle) == 360) {
                 canvas.drawRoundRect(oval, r, r, paint);
                 return;

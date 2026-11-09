@@ -637,4 +637,6 @@
     <string name="MZGramAppIconLight">Светлая</string>
     <string name="MZGramAppIconMint">Мята</string>
     <string name="MZGramAppIconSunset">Захад сонца</string>
+    <string name="MZGramAvatarShape">Форма аватараў</string>
+    <string name="MZGramAvatarShapeInfo">Наколькі круглыя аватары ва ўсёй праграме: справа кола, як у Telegram, злева квадрат, паміж імі квадрат з закругленымі кутамі. Кольцы гісторый паўтараюць форму. Падчас «цягучай» анімацыі аватар профілю зноў становіцца колам.</string>
 </resources>

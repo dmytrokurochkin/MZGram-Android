@@ -591,6 +591,11 @@ public class AvatarDrawable extends Drawable {
             if (roundRadius > 0) {
                 AndroidUtilities.rectTmp.set(0, 0, size, size);
                 canvas.drawRoundRect(AndroidUtilities.rectTmp, roundRadius, roundRadius, backgroundPaint);
+            } else if (org.telegram.messenger.mzgram.MZGramAvatarShape.isOn()) {
+                // MZGram: avatar shape (MZGramAvatarShape)
+                final float r = org.telegram.messenger.mzgram.MZGramAvatarShape.circleRadius(size);
+                AndroidUtilities.rectTmp.set(0, 0, size, size);
+                canvas.drawRoundRect(AndroidUtilities.rectTmp, r, r, backgroundPaint);
             } else {
                 canvas.drawCircle(size / 2.0f, size / 2.0f, size / 2.0f, backgroundPaint);
             }
@@ -602,7 +607,15 @@ public class AvatarDrawable extends Drawable {
         if (avatarType == AVATAR_TYPE_ARCHIVED) {
             if (archivedAvatarProgress != 0) {
                 backgroundPaint.setColor(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_avatar_backgroundArchived), alpha));
-                canvas.drawCircle(size / 2.0f, size / 2.0f, size / 2.0f * archivedAvatarProgress, backgroundPaint);
+                if (org.telegram.messenger.mzgram.MZGramAvatarShape.isOn()) {
+                    // MZGram: avatar shape, the archive background grows in the same shape
+                    final float inset = size / 2.0f * (1f - archivedAvatarProgress);
+                    final float r = (roundRadius > 0 ? roundRadius : org.telegram.messenger.mzgram.MZGramAvatarShape.circleRadius(size)) * archivedAvatarProgress;
+                    AndroidUtilities.rectTmp.set(inset, inset, size - inset, size - inset);
+                    canvas.drawRoundRect(AndroidUtilities.rectTmp, r, r, backgroundPaint);
+                } else {
+                    canvas.drawCircle(size / 2.0f, size / 2.0f, size / 2.0f * archivedAvatarProgress, backgroundPaint);
+                }
                 if (Theme.dialogs_archiveAvatarDrawableRecolored) {
                     Theme.dialogs_archiveAvatarDrawable.beginApplyLayerColors();
                     Theme.dialogs_archiveAvatarDrawable.setLayerColor("Arrow1", Theme.getNonAnimatedColor(Theme.key_avatar_backgroundArchived));

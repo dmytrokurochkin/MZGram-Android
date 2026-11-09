@@ -350,6 +350,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
     }
 
+    private MZGramAvatarShapePreview avatarShapePreview;
+
     private void fillArchive(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
         if (sizeView == null) {
@@ -781,6 +783,20 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackAnimationInfo)));
         items.add(UItem.asCheck(BUTTON_GOOEY_AVATAR_ANIMATION, getString(R.string.MZGramGooeyAvatarAnimation)).setChecked(MZGramConfig.gooeyAvatarAnimation));
         items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramAvatarShape)));
+        if (avatarShapePreview == null) {
+            // The page can be filled before the fragment has a context (tests)
+            avatarShapePreview = new MZGramAvatarShapePreview(getContext() != null ? getContext() : org.telegram.messenger.ApplicationLoader.applicationContext, currentAccount);
+        }
+        items.add(UItem.asCustom(avatarShapePreview, MZGramAvatarShapePreview.HEIGHT_DP));
+        items.add(UItem.asIntSlideView(1, org.telegram.messenger.mzgram.MZGramAvatarShape.MIN, MZGramConfig.avatarCorners, org.telegram.messenger.mzgram.MZGramAvatarShape.MAX,
+                val -> Math.round(val * 100f / org.telegram.messenger.mzgram.MZGramAvatarShape.MAX) + "%", val -> {
+                    MZGramConfig.setAvatarCorners(val);
+                    if (avatarShapePreview != null) {
+                        avatarShapePreview.update();
+                    }
+                }));
+        items.add(UItem.asShadow(getString(R.string.MZGramAvatarShapeInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHideRowsTitle)));
         java.util.List<org.telegram.messenger.mzgram.MZGramSettingsRows.Row> rows = org.telegram.messenger.mzgram.MZGramSettingsRows.rows();
         for (int i = 0; i < rows.size(); i++) {

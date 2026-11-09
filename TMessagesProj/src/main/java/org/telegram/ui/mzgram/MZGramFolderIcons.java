@@ -176,6 +176,7 @@ public final class MZGramFolderIcons {
         }
         MZGramFolderEmoticons.ensureLoaded(account);
         if (filter.isDefault()) {
+            // Telegram's own text: the name Telegram's folder tabs give All Chats
             final String name = LocaleController.getString(R.string.FilterAllChats);
             return defaultTabTitle(tabs.text(name, null), name);
         }
@@ -229,7 +230,7 @@ public final class MZGramFolderIcons {
                 onChanged.run();
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.MZGramCancel), null);
         fragment.showDialog(builder.create());
     }
 }

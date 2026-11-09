@@ -188,7 +188,7 @@ public class MZGramPinnedReactionsActivity extends BaseFragment {
         frameLayout.addView(actionBarContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL));
 
         tabsView = new FilledTabsView(context);
-        tabsView.setTabs(getString(R.string.FilterChats), getString(R.string.FilterChannels));
+        tabsView.setTabs(getString(R.string.MZGramTabChats), getString(R.string.MZGramTabChannels));
         tabsView.onTabSelected(tab -> {
             if (viewPager != null) {
                 viewPager.scrollToPosition(tab);
@@ -271,11 +271,11 @@ public class MZGramPinnedReactionsActivity extends BaseFragment {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), getResourceProvider());
-        builder.setTitle(getString(R.string.UnsavedChanges));
-        String text = getString(R.string.ReactionApplyChangesDialog);
+        builder.setTitle(getString(R.string.MZGramUnsavedChanges));
+        String text = getString(R.string.MZGramPinnedReactionsApplyChanges);
         builder.setMessage(text);
-        builder.setPositiveButton(getString(R.string.ApplyTheme), (dialogInterface, i) -> buttonClick());
-        builder.setNegativeButton(getString(R.string.Discard), (dialogInterface, i) -> finishFragment());
+        builder.setPositiveButton(getString(R.string.MZGramApply), (dialogInterface, i) -> buttonClick());
+        builder.setNegativeButton(getString(R.string.MZGramDiscard), (dialogInterface, i) -> finishFragment());
 
         AlertDialog dialog = builder.show();
         TextView button = (TextView) dialog.getButton(DialogInterface.BUTTON_POSITIVE);

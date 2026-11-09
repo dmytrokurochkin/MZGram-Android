@@ -555,7 +555,7 @@
     <string name="MZGramFabShape">Yeni sohbet düğmesinin şekli</string>
     <string name="MZGramFabShapeCircle">Daire</string>
     <string name="MZGramFabShapeSquare">Yuvarlatılmış kare</string>
-    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeSquircle">Süperelips</string>
     <string name="MZGramFabShapeInfo">Sohbet listesindeki yuvarlak düğmenin şekli. Liste yeniden açıldığında uygulanır.</string>
     <string name="MZGramAudioEnhance">Sesli mesajlarda gürültü bastırma</string>
     <string name="MZGramAudioEnhanceInfo">Sesli mesaj kaydederken telefonun kendi gürültü bastırma ve otomatik kazanç kontrolünü, varsa, açar. Hiçbir şey gönderilmez.</string>
@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Hazır</string>
     <string name="MZGramPythonRuntimeStarting">Python başlatılıyor…</string>
     <string name="MZGramPythonRuntimeFailed">Python başlatılamadı</string>
+    <string name="MZGramLoading">Yükleniyor…</string>
+    <string name="MZGramSearch">Ara</string>
+    <string name="MZGramOff">Kapalı</string>
+    <string name="MZGramOnline">çevrimiçi</string>
+    <string name="MZGramLastSeenAt">son görülme %1$s</string>
+    <string name="MZGramPasscodeLock">Şifre Kilidi</string>
+    <string name="MZGramTabChats">Sohbetler</string>
+    <string name="MZGramTabChannels">Kanallar</string>
+    <string name="MZGramUnsavedChanges">Kaydedilmemiş değişiklikler</string>
+    <string name="MZGramPinnedReactionsApplyChanges">Sabitlenmiş tepkileri değiştirdiniz. Değişiklikler uygulansın mı?</string>
+    <string name="MZGramApply">Uygula</string>
+    <string name="MZGramDiscard">Vazgeç</string>
 </resources>

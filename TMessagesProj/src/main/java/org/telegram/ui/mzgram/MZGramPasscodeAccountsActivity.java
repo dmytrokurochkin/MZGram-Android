@@ -79,7 +79,7 @@ public class MZGramPasscodeAccountsActivity extends UniversalFragment {
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         if (TextUtils.isEmpty(SharedConfig.passcodeHash)) {
             items.add(UItem.asShadow(null));
-            items.add(UItem.asButton(BUTTON_APP_PASSCODE, getString(R.string.Passcode)));
+            items.add(UItem.asButton(BUTTON_APP_PASSCODE, getString(R.string.MZGramPasscodeLock)));
             items.add(UItem.asShadow(getString(R.string.MZGramPasscodeAccountsNeedApp)));
             return;
         }

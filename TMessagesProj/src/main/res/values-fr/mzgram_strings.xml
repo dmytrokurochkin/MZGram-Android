@@ -555,7 +555,7 @@
     <string name="MZGramFabShape">Forme du bouton nouveau chat</string>
     <string name="MZGramFabShapeCircle">Cercle</string>
     <string name="MZGramFabShapeSquare">Carré arrondi</string>
-    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeSquircle">Superellipse</string>
     <string name="MZGramFabShapeInfo">Forme du bouton rond de la liste des chats. S’applique à la réouverture de la liste.</string>
     <string name="MZGramAudioEnhance">Réduction du bruit pour les messages vocaux</string>
     <string name="MZGramAudioEnhanceInfo">Pendant l’enregistrement d’un message vocal, active la réduction de bruit et le contrôle automatique du gain du téléphone, s’il en dispose. Rien n’est envoyé.</string>
@@ -609,7 +609,7 @@
     <string name="MZGramLinkTypefaceInfo">Les liens et mentions en gras ou en italique sont mesurés avec leur propre police, pour que le texte autour ne se chevauche pas et ne laisse pas d\'espaces. S\'applique aux messages affichés après le changement.</string>
     <string name="MZGramGranularPermissions">Permissions séparées pour stickers, GIF, jeux et bots inline</string>
     <string name="MZGramGranularPermissionsInfo">Dans les permissions du groupe et les restrictions des membres, la ligne « Stickers et GIF » est divisée en quatre : stickers, GIF, jeux et bots inline. Telegram les enregistre séparément ; d\'autres applications peuvent encore les afficher sur une seule ligne.</string>
-    <string name="MZGramPermissionStickers">Stickers</string>
+    <string name="MZGramPermissionStickers">Autocollants</string>
     <string name="MZGramPermissionGifs">GIF</string>
     <string name="MZGramPermissionGames">Jeux</string>
     <string name="MZGramPermissionInline">Bots inline</string>
@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Prêt</string>
     <string name="MZGramPythonRuntimeStarting">Démarrage de Python…</string>
     <string name="MZGramPythonRuntimeFailed">Impossible de démarrer Python</string>
+    <string name="MZGramLoading">Chargement…</string>
+    <string name="MZGramSearch">Rechercher</string>
+    <string name="MZGramOff">Désactivé</string>
+    <string name="MZGramOnline">en ligne</string>
+    <string name="MZGramLastSeenAt">vu(e) %1$s</string>
+    <string name="MZGramPasscodeLock">Verrouillage par code</string>
+    <string name="MZGramTabChats">Discussions</string>
+    <string name="MZGramTabChannels">Chaînes</string>
+    <string name="MZGramUnsavedChanges">Modifications non enregistrées</string>
+    <string name="MZGramPinnedReactionsApplyChanges">Vous avez modifié les réactions épinglées. Appliquer les modifications ?</string>
+    <string name="MZGramApply">Appliquer</string>
+    <string name="MZGramDiscard">Abandonner</string>
 </resources>

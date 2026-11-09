@@ -67,6 +67,7 @@ public final class MZGramGroupPermissions {
 
     /** Title of the stickers row: "Stickers" alone with the option on. */
     public static int stickersTitle() {
+        // Telegram's own text: the title of Telegram's own permission row
         return isOn() ? R.string.MZGramPermissionStickers : R.string.SendMediaPermissionStickersGifs;
     }
 
@@ -126,10 +127,13 @@ public final class MZGramGroupPermissions {
         if (!stickersBanned && fragment != null) {
             String text;
             if (chat.default_banned_rights != null && chat.default_banned_rights.send_gifs) {
+                // Telegram's own text: Telegram's notice about banned GIFs in its chat
                 text = LocaleController.getString(R.string.GlobalAttachGifRestricted);
             } else if (AndroidUtilities.isBannedForever(chat.banned_rights)) {
+                // Telegram's own text: Telegram's notice about banned GIFs in its chat
                 text = LocaleController.formatString(R.string.AttachGifRestrictedForever);
             } else {
+                // Telegram's own text: Telegram's notice about banned GIFs in its chat, with its date
                 text = LocaleController.formatString(R.string.AttachGifRestricted, LocaleController.formatDateForBan(chat.banned_rights.until_date));
             }
             BulletinFactory.of(fragment).createErrorBulletin(text).show();

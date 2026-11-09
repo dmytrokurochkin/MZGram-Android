@@ -837,7 +837,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_PRIVATE, getString(R.string.MZGramHideReactionsPrivate)).setChecked(MZGramConfig.hideReactionsPrivate));
         items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_GROUPS, getString(R.string.MZGramHideReactionsGroups)).setChecked(MZGramConfig.hideReactionsGroups));
         items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_CHANNELS, getString(R.string.MZGramHideReactionsChannels)).setChecked(MZGramConfig.hideReactionsChannels));
-        items.add(UItem.asButton(BUTTON_HIDDEN_REACTIONS, getString(R.string.MZGramHiddenReactions), android.text.TextUtils.isEmpty(MZGramConfig.hiddenReactions) ? getString(R.string.ReactionsOff) : MZGramConfig.hiddenReactions));
+        items.add(UItem.asButton(BUTTON_HIDDEN_REACTIONS, getString(R.string.MZGramHiddenReactions), android.text.TextUtils.isEmpty(MZGramConfig.hiddenReactions) ? getString(R.string.MZGramOff) : MZGramConfig.hiddenReactions));
         items.add(UItem.asShadow(getString(R.string.MZGramReactionFilterInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramShadowBan)));
         items.add(UItem.asCheck(BUTTON_SHADOW_BAN, getString(R.string.MZGramShadowBanEnable)).setChecked(MZGramConfig.shadowBan));
@@ -1162,7 +1162,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     listView.adapter.update(true);
                 }
             });
-            builder.setNegativeButton(getString(R.string.Cancel), null);
+            builder.setNegativeButton(getString(R.string.MZGramCancel), null);
             showDialog(builder.create());
         } else if (item.id == BUTTON_APP_FONT) {
             MZGramAppFont.choose(this, () -> {

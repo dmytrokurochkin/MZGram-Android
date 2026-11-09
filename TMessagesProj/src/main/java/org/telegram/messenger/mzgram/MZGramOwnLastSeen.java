@@ -43,8 +43,8 @@ public final class MZGramOwnLastSeen {
         }
         boolean offline = prefs.getBoolean("offline", true);
         if (!offline && now - at < ONLINE_WINDOW) {
-            return LocaleController.getString(R.string.Online);
+            return LocaleController.getString(R.string.MZGramOnline);
         }
-        return LocaleController.formatDateOnline(Math.min(at, now), null);
+        return LocaleController.formatString(R.string.MZGramLastSeenAt, MZGramLanguage.formatDateTime(Math.min(at, now) * 1000L, false));
     }
 }

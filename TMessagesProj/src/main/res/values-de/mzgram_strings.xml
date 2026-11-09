@@ -511,7 +511,7 @@
     <string name="MZGramImportForeignArchiveFailed">Diese Datei ist keine Nachrichtendatenbank, die das Archiv lesen kann</string>
     <string name="MZGramForwardDeletedAsCopy">Gelöschte Nachrichten als Kopie weiterleiten</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Eine im Chat behaltene gelöschte Nachricht hat kein Original auf dem Server, daher kann Telegram sie nicht weiterleiten. Sie wird als neue Nachricht mit ihrem Text und der Datei auf diesem Gerät gesendet; fehlt die Datei, wird nur der Text gesendet und nichts vom Server angefragt.</string>
-    <string name="MZGramSectionChats">Chats</string>
+    <string name="MZGramSectionChats">Unterhaltungen</string>
     <string name="MZGramSectionChatsInfo">Eingabe, Senden und Suche</string>
     <string name="MZGramFoldFancyFonts">Namen in Zierschriften finden</string>
     <string name="MZGramFoldFancyFontsInfo">Die Suche behandelt Buchstaben aus Unicode-Zierschriften (fett, Schreibschrift, eingekreist, vollbreit und ähnlich aussehende Zeichen) wie normale, sodass chat eine Gruppe namens ⓒⓗⓐⓣ findet. Kyrillisch, Griechisch, CJK und andere echte Schriften bleiben unverändert. Nur der Suchvergleich ändert sich, Namen sehen gleich aus.</string>
@@ -555,7 +555,7 @@
     <string name="MZGramFabShape">Form der Neuer-Chat-Taste</string>
     <string name="MZGramFabShapeCircle">Kreis</string>
     <string name="MZGramFabShapeSquare">Abgerundetes Quadrat</string>
-    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeSquircle">Superellipse</string>
     <string name="MZGramFabShapeInfo">Form der runden Taste in der Chatliste. Wird nach erneutem Öffnen der Liste übernommen.</string>
     <string name="MZGramAudioEnhance">Rauschunterdrückung für Sprachnachrichten</string>
     <string name="MZGramAudioEnhanceInfo">Schaltet beim Aufnehmen einer Sprachnachricht die im Telefon vorhandene Rauschunterdrückung und automatische Pegelregelung ein. Es wird nichts versendet.</string>
@@ -610,7 +610,7 @@
     <string name="MZGramGranularPermissions">Getrennte Rechte für Sticker, GIFs, Spiele und Inline-Bots</string>
     <string name="MZGramGranularPermissionsInfo">In den Gruppenberechtigungen und Mitgliederbeschränkungen wird die Zeile „Sticker und GIFs“ in vier geteilt: Sticker, GIFs, Spiele und Inline-Bots. Telegram speichert sie getrennt; andere Apps zeigen sie eventuell weiter als eine Zeile.</string>
     <string name="MZGramPermissionStickers">Sticker</string>
-    <string name="MZGramPermissionGifs">GIFs</string>
+    <string name="MZGramPermissionGifs">GIF-Animationen</string>
     <string name="MZGramPermissionGames">Spiele</string>
     <string name="MZGramPermissionInline">Inline-Bots</string>
     <string name="MZGramStickers">Sticker in Chats</string>
@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Bereit</string>
     <string name="MZGramPythonRuntimeStarting">Python wird gestartet…</string>
     <string name="MZGramPythonRuntimeFailed">Python konnte nicht gestartet werden</string>
+    <string name="MZGramLoading">Wird geladen…</string>
+    <string name="MZGramSearch">Suchen</string>
+    <string name="MZGramOff">Aus</string>
+    <string name="MZGramOnline">jetzt online</string>
+    <string name="MZGramLastSeenAt">zuletzt online %1$s</string>
+    <string name="MZGramPasscodeLock">Code-Sperre</string>
+    <string name="MZGramTabChats">Unterhaltungen</string>
+    <string name="MZGramTabChannels">Kanäle</string>
+    <string name="MZGramUnsavedChanges">Nicht gespeicherte Änderungen</string>
+    <string name="MZGramPinnedReactionsApplyChanges">Du hast die angehefteten Reaktionen geändert. Änderungen übernehmen?</string>
+    <string name="MZGramApply">Übernehmen</string>
+    <string name="MZGramDiscard">Verwerfen</string>
 </resources>

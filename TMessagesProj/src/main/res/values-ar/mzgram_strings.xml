@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">جاهز</string>
     <string name="MZGramPythonRuntimeStarting">جارٍ تشغيل بايثون…</string>
     <string name="MZGramPythonRuntimeFailed">تعذّر تشغيل بايثون</string>
+    <string name="MZGramLoading">جارٍ التحميل…</string>
+    <string name="MZGramSearch">بحث</string>
+    <string name="MZGramOff">متوقف</string>
+    <string name="MZGramOnline">متصل</string>
+    <string name="MZGramLastSeenAt">آخر ظهور %1$s</string>
+    <string name="MZGramPasscodeLock">قفل رمز المرور</string>
+    <string name="MZGramTabChats">الدردشات</string>
+    <string name="MZGramTabChannels">القنوات</string>
+    <string name="MZGramUnsavedChanges">تغييرات غير محفوظة</string>
+    <string name="MZGramPinnedReactionsApplyChanges">لقد غيّرت التفاعلات المثبتة. هل تريد تطبيق التغييرات؟</string>
+    <string name="MZGramApply">تطبيق</string>
+    <string name="MZGramDiscard">تجاهل</string>
 </resources>

@@ -555,7 +555,7 @@
     <string name="MZGramFabShape">Formato do botão de novo chat</string>
     <string name="MZGramFabShapeCircle">Círculo</string>
     <string name="MZGramFabShapeSquare">Quadrado arredondado</string>
-    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeSquircle">Superelipse</string>
     <string name="MZGramFabShapeInfo">Formato do botão redondo na lista de chats. Vale após reabrir a lista.</string>
     <string name="MZGramAudioEnhance">Supressão de ruído em mensagens de voz</string>
     <string name="MZGramAudioEnhanceInfo">Ao gravar uma mensagem de voz, ativa a supressão de ruído e o controle automático de ganho do próprio telefone, se houver. Nada é enviado.</string>
@@ -610,7 +610,7 @@
     <string name="MZGramGranularPermissions">Permissões separadas para figurinhas, GIFs, jogos e bots inline</string>
     <string name="MZGramGranularPermissionsInfo">Nas permissões do grupo e restrições de membros, a linha “Figurinhas e GIFs” é dividida em quatro: figurinhas, GIFs, jogos e bots inline. O Telegram as guarda separadamente; outros apps podem continuar mostrando em uma linha.</string>
     <string name="MZGramPermissionStickers">Figurinhas</string>
-    <string name="MZGramPermissionGifs">GIFs</string>
+    <string name="MZGramPermissionGifs">GIFs animados</string>
     <string name="MZGramPermissionGames">Jogos</string>
     <string name="MZGramPermissionInline">Bots inline</string>
     <string name="MZGramStickers">Figurinhas nos chats</string>
@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Pronto</string>
     <string name="MZGramPythonRuntimeStarting">Iniciando o Python…</string>
     <string name="MZGramPythonRuntimeFailed">Não foi possível iniciar o Python</string>
+    <string name="MZGramLoading">Carregando…</string>
+    <string name="MZGramSearch">Pesquisar</string>
+    <string name="MZGramOff">Desativado</string>
+    <string name="MZGramOnline">online agora</string>
+    <string name="MZGramLastSeenAt">visto por último %1$s</string>
+    <string name="MZGramPasscodeLock">Bloqueio com senha</string>
+    <string name="MZGramTabChats">Conversas</string>
+    <string name="MZGramTabChannels">Canais</string>
+    <string name="MZGramUnsavedChanges">Alterações não salvas</string>
+    <string name="MZGramPinnedReactionsApplyChanges">Você alterou as reações fixadas. Aplicar as alterações?</string>
+    <string name="MZGramApply">Aplicar</string>
+    <string name="MZGramDiscard">Descartar</string>
 </resources>

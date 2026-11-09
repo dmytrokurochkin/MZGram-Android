@@ -94,11 +94,11 @@ public final class MZGramCrashReport {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString(R.string.MZGramCrashReportTitle));
         builder.setView(container);
-        builder.setPositiveButton(LocaleController.getString(R.string.Copy), (dialog, which) -> {
+        builder.setPositiveButton(LocaleController.getString(R.string.MZGramCopy), (dialog, which) -> {
             copy(context, report);
             dialog.dismiss();
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Close), (dialog, which) -> dialog.dismiss());
+        builder.setNegativeButton(LocaleController.getString(R.string.MZGramUpdateClose), (dialog, which) -> dialog.dismiss());
         try {
             builder.show();
         } catch (Throwable ignore) {
@@ -117,7 +117,7 @@ public final class MZGramCrashReport {
         }
         final BaseFragment fragment = LaunchActivity.getLastFragment();
         if (fragment != null) {
-            BulletinFactory.of(fragment).createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
+            BulletinFactory.of(fragment).createCopyBulletin(LocaleController.getString(R.string.MZGramTextCopied)).show();
         }
     }
 }

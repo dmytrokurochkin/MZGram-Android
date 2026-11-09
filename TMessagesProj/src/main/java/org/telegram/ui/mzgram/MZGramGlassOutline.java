@@ -174,7 +174,7 @@ public final class MZGramGlassOutline {
                 onChanged.run();
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.MZGramCancel), null);
         fragment.showDialog(builder.create());
     }
 }

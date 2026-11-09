@@ -520,7 +520,7 @@
     <string name="MZGramSearchOperators">Аператары пошуку</string>
     <string name="MZGramSearchOperatorsInfo">У пошуку чата: from:username, date:2026-01-31 (або today, yesterday), after:, before: і type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention ці pinned разам са звычайнымі словамі. Нераспазнанае шукаецца як тэкст.</string>
     <string name="MZGramCleanLinks">Ачышчаць спасылкі ад сачэння</string>
-    <string name="MZGramCleanLinksInfo">Параметры сачэння (utm_source, fbclid, gclid, si і іншыя) прыбіраюцца са спасылкі, калі вы яе адкрываеце і калі ўстаўляеце ў паведамленне. Правілы — убудаваны ў праграму фільтр AdGuard URL Tracking; ён ніколі не спампоўваецца і не абнаўляецца з інтэрнэту.</string>
+    <string name="MZGramCleanLinksInfo">Параметры сачэння (utm_source, fbclid, gclid, si і іншыя) прыбіраюцца са спасылкі, калі вы яе адкрываеце і калі ўстаўляеце ў паведамленне. Правілы: убудаваны ў праграму фільтр AdGuard URL Tracking; ён ніколі не спампоўваецца і не абнаўляецца з інтэрнэту.</string>
     <string name="MZGramDoubleTapActions">Дзеянні падвойнага націску</string>
     <string name="MZGramDoubleTapActionsInfo">Абярыце, што робіць падвойны націск на паведамленне, асобна для вашых паведамленняў і для чужых: хуткая рэакцыя Telegram, адказ, капіраванне тэксту або нічога.</string>
     <string name="MZGramDoubleTapOwn">На маіх паведамленнях</string>
@@ -610,7 +610,7 @@
     <string name="MZGramGranularPermissions">Асобныя дазволы на стыкеры, GIF, гульні і інлайн-ботаў</string>
     <string name="MZGramGranularPermissionsInfo">У дазволах групы і абмежаваннях удзельніка радок «Стыкеры і GIF» дзеліцца на чатыры: стыкеры, GIF, гульні і інлайн-боты. Telegram захоўвае іх асобна; іншыя праграмы могуць і далей паказваць іх адным радком.</string>
     <string name="MZGramPermissionStickers">Стыкеры</string>
-    <string name="MZGramPermissionGifs">GIF</string>
+    <string name="MZGramPermissionGifs">GIF-анімацыі</string>
     <string name="MZGramPermissionGames">Гульні</string>
     <string name="MZGramPermissionInline">Інлайн-боты</string>
     <string name="MZGramStickers">Стыкеры ў чатах</string>
@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Гатова</string>
     <string name="MZGramPythonRuntimeStarting">Запуск Python…</string>
     <string name="MZGramPythonRuntimeFailed">Не ўдалося запусціць Python</string>
+    <string name="MZGramLoading">Загрузка…</string>
+    <string name="MZGramSearch">Пошук</string>
+    <string name="MZGramOff">Выключана</string>
+    <string name="MZGramOnline">у сетцы</string>
+    <string name="MZGramLastSeenAt">быў(-ла) %1$s</string>
+    <string name="MZGramPasscodeLock">Код-пароль</string>
+    <string name="MZGramTabChats">Чаты</string>
+    <string name="MZGramTabChannels">Каналы</string>
+    <string name="MZGramUnsavedChanges">Незахаваныя змены</string>
+    <string name="MZGramPinnedReactionsApplyChanges">Вы змянілі замацаваныя рэакцыі. Ужыць змены?</string>
+    <string name="MZGramApply">Ужыць</string>
+    <string name="MZGramDiscard">Адкінуць</string>
 </resources>

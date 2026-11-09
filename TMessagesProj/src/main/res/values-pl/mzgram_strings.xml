@@ -555,7 +555,7 @@
     <string name="MZGramFabShape">Kształt przycisku nowego czatu</string>
     <string name="MZGramFabShapeCircle">Koło</string>
     <string name="MZGramFabShapeSquare">Zaokrąglony kwadrat</string>
-    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeSquircle">Superelipsa</string>
     <string name="MZGramFabShapeInfo">Kształt okrągłego przycisku na liście czatów. Zastosuje się po ponownym otwarciu listy.</string>
     <string name="MZGramAudioEnhance">Redukcja szumów w wiadomościach głosowych</string>
     <string name="MZGramAudioEnhanceInfo">Podczas nagrywania wiadomości głosowej włącza wbudowaną w telefon redukcję szumów i automatyczną regulację głośności, jeśli są dostępne. Nic nie jest wysyłane.</string>
@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Gotowe</string>
     <string name="MZGramPythonRuntimeStarting">Uruchamianie Pythona…</string>
     <string name="MZGramPythonRuntimeFailed">Nie udało się uruchomić Pythona</string>
+    <string name="MZGramLoading">Ładowanie…</string>
+    <string name="MZGramSearch">Szukaj</string>
+    <string name="MZGramOff">Wyłączone</string>
+    <string name="MZGramOnline">w sieci</string>
+    <string name="MZGramLastSeenAt">ostatnio %1$s</string>
+    <string name="MZGramPasscodeLock">Blokada kodem</string>
+    <string name="MZGramTabChats">Czaty</string>
+    <string name="MZGramTabChannels">Kanały</string>
+    <string name="MZGramUnsavedChanges">Niezapisane zmiany</string>
+    <string name="MZGramPinnedReactionsApplyChanges">Zmieniono przypięte reakcje. Zastosować zmiany?</string>
+    <string name="MZGramApply">Zastosuj</string>
+    <string name="MZGramDiscard">Odrzuć</string>
 </resources>

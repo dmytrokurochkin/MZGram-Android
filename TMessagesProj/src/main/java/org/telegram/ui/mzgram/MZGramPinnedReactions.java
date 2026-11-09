@@ -69,7 +69,7 @@ public final class MZGramPinnedReactions {
     /** The subtitle of the settings row: the number of pinned reactions or "Off". */
     public static String getRowDescription() {
         int count = getFavoriteReactionsCount();
-        return count > 0 ? String.valueOf(count) : getString(R.string.ReactionsOff);
+        return count > 0 ? String.valueOf(count) : getString(R.string.MZGramOff);
     }
 
     /** Two emoji are the same reaction when they differ at most by the variation selector. */

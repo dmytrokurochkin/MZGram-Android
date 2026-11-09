@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Ready</string>
     <string name="MZGramPythonRuntimeStarting">Starting Python…</string>
     <string name="MZGramPythonRuntimeFailed">Python couldn\'t start</string>
+    <string name="MZGramLoading">Loading…</string>
+    <string name="MZGramSearch">Search</string>
+    <string name="MZGramOff">Off</string>
+    <string name="MZGramOnline">online</string>
+    <string name="MZGramLastSeenAt">last seen %1$s</string>
+    <string name="MZGramPasscodeLock">Passcode Lock</string>
+    <string name="MZGramTabChats">Chats</string>
+    <string name="MZGramTabChannels">Channels</string>
+    <string name="MZGramUnsavedChanges">Unsaved changes</string>
+    <string name="MZGramPinnedReactionsApplyChanges">You have changed the pinned reactions. Apply the changes?</string>
+    <string name="MZGramApply">Apply</string>
+    <string name="MZGramDiscard">Discard</string>
 </resources>

@@ -520,7 +520,7 @@
     <string name="MZGramSearchOperators">Іздеу операторлары</string>
     <string name="MZGramSearchOperatorsInfo">Чат іздеуінде: from:username, date:2026-01-31 (немесе today, yesterday), after:, before: және type:photo, video, voice, round, music, gif, file, link, contact, location, poll, mention не pinned, қарапайым сөздермен бірге. Танылмаған бөлік мәтін ретінде ізделеді.</string>
     <string name="MZGramCleanLinks">Сілтемелерді бақылаудан тазарту</string>
-    <string name="MZGramCleanLinksInfo">Бақылау параметрлері (utm_source, fbclid, gclid, si және басқалар) сілтемені ашқанда және хабарламаға қойғанда алынып тасталады. Ережелер — қолданбаға енгізілген AdGuard URL Tracking сүзгісі; ол ешқашан интернеттен жүктелмейді және жаңартылмайды.</string>
+    <string name="MZGramCleanLinksInfo">Бақылау параметрлері (utm_source, fbclid, gclid, si және басқалар) сілтемені ашқанда және хабарламаға қойғанда алынып тасталады. Ережелер: қолданбаға енгізілген AdGuard URL Tracking сүзгісі; ол ешқашан интернеттен жүктелмейді және жаңартылмайды.</string>
     <string name="MZGramDoubleTapActions">Қос түрту әрекеттері</string>
     <string name="MZGramDoubleTapActionsInfo">Хабарламаға қос түрту не істейтінін өз хабарламаларыңыз бен басқалардікі үшін бөлек таңдаңыз: Telegram-ның жылдам реакциясы, жауап беру, мәтінді көшіру немесе ештеңе.</string>
     <string name="MZGramDoubleTapOwn">Менің хабарламаларымда</string>
@@ -610,7 +610,7 @@
     <string name="MZGramGranularPermissions">Стикер, GIF, ойын және инлайн-боттарға бөлек рұқсаттар</string>
     <string name="MZGramGranularPermissionsInfo">Топ рұқсаттары мен қатысушы шектеулерінде «Стикерлер мен GIF» жолы төртке бөлінеді: стикерлер, GIF, ойындар және инлайн-боттар. Telegram оларды бөлек сақтайды; басқа қолданбалар оларды әлі бір жолмен көрсетуі мүмкін.</string>
     <string name="MZGramPermissionStickers">Стикерлер</string>
-    <string name="MZGramPermissionGifs">GIF</string>
+    <string name="MZGramPermissionGifs">GIF анимациялары</string>
     <string name="MZGramPermissionGames">Ойындар</string>
     <string name="MZGramPermissionInline">Инлайн-боттар</string>
     <string name="MZGramStickers">Чаттардағы стикерлер</string>
@@ -648,7 +648,7 @@
     <string name="MZGramFolderTabsTitles">Тек атаулар</string>
     <string name="MZGramFolderTabsIconsAndTitles">Белгішелер мен атаулар</string>
     <string name="MZGramFolderTabsIcons">Тек белгішелер</string>
-    <string name="MZGramFolderTabsInfo">Чаттар тізімінің үстіндегі бума қойындылары не көрсетеді. Белгіше — бумаға Telegram Desktop-та немесе iOS-та таңдалған белгіше; ол болмаса, белгіше бумадағы чаттардың түріне қарай таңдалады.</string>
+    <string name="MZGramFolderTabsInfo">Чаттар тізімінің үстіндегі бума қойындылары не көрсетеді. Белгіше: бумаға Telegram Desktop-та немесе iOS-та таңдалған белгіше; ол болмаса, белгіше бумадағы чаттардың түріне қарай таңдалады.</string>
     <string name="MZGramAppFont">Қолданба қарпі</string>
     <string name="MZGramAppFontTelegram">Telegram-дағыдай</string>
     <string name="MZGramAppFontSystem">Телефон қарпі</string>
@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Дайын</string>
     <string name="MZGramPythonRuntimeStarting">Python іске қосылуда…</string>
     <string name="MZGramPythonRuntimeFailed">Python іске қосылмады</string>
+    <string name="MZGramLoading">Жүктелуде…</string>
+    <string name="MZGramSearch">Іздеу</string>
+    <string name="MZGramOff">Өшірулі</string>
+    <string name="MZGramOnline">желіде</string>
+    <string name="MZGramLastSeenAt">соңғы рет %1$s</string>
+    <string name="MZGramPasscodeLock">Кодтық құлып</string>
+    <string name="MZGramTabChats">Чаттар</string>
+    <string name="MZGramTabChannels">Арналар</string>
+    <string name="MZGramUnsavedChanges">Сақталмаған өзгерістер</string>
+    <string name="MZGramPinnedReactionsApplyChanges">Бекітілген реакцияларды өзгерттіңіз. Өзгерістерді қолдану керек пе?</string>
+    <string name="MZGramApply">Қолдану</string>
+    <string name="MZGramDiscard">Бас тарту</string>
 </resources>

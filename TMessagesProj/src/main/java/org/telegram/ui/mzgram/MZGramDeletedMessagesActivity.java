@@ -89,7 +89,7 @@ public class MZGramDeletedMessagesActivity extends UniversalFragment {
     public View createView(Context context) {
         View view = super.createView(context);
         ActionBarMenuItem searchItem = actionBar.createMenu().addItem(SEARCH_ITEM, R.drawable.outline_header_search).setIsSearchField(true);
-        searchItem.setSearchFieldHint(getString(R.string.Search));
+        searchItem.setSearchFieldHint(getString(R.string.MZGramSearch));
         searchItem.setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() {
             @Override
             public void onSearchCollapse() {
@@ -131,7 +131,7 @@ public class MZGramDeletedMessagesActivity extends UniversalFragment {
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         if (loading) {
-            items.add(UItem.asShadow(getString(R.string.Loading)));
+            items.add(UItem.asShadow(getString(R.string.MZGramLoading)));
             return;
         }
         int shown = 0;

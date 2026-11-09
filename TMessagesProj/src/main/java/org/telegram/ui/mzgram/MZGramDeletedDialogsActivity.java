@@ -100,7 +100,7 @@ public class MZGramDeletedDialogsActivity extends UniversalFragment {
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         if (loading) {
-            items.add(UItem.asShadow(getString(R.string.Loading)));
+            items.add(UItem.asShadow(getString(R.string.MZGramLoading)));
             return;
         }
         if (dialogs.isEmpty()) {

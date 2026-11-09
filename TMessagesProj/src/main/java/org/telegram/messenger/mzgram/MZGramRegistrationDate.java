@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.LocaleController;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -86,10 +85,8 @@ public class MZGramRegistrationDate {
         if (seconds < 0) {
             return null;
         }
-        Locale locale = LocaleController.getInstance().getCurrentLocale();
-        if (locale == null) {
-            locale = Locale.getDefault();
-        }
+        // The row's label is MZGram's, so the month follows the MZGram language
+        Locale locale = MZGramLanguage.locale();
         String date = new SimpleDateFormat("LLL yyyy", locale).format(new Date(seconds * 1000L));
         return "~ " + date;
     }

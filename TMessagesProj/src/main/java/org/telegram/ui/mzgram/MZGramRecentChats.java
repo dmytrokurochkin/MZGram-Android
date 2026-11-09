@@ -219,14 +219,14 @@ public final class MZGramRecentChats {
         clearView.setOnClickListener(v -> new AlertDialog.Builder(context, resourcesProvider)
                 .setTitle(getString(R.string.MZGramRecentChatsClear))
                 .setMessage(getString(R.string.MZGramRecentChatsClearInfo))
-                .setPositiveButton(getString(R.string.ClearButton), (dialogInterface, i) -> {
+                .setPositiveButton(getString(R.string.MZGramClear), (dialogInterface, i) -> {
                     ActionBarPopupWindow popup = popupRef.getAndSet(null);
                     if (popup != null) {
                         popup.dismiss();
                     }
                     clear(account);
                 })
-                .setNegativeButton(getString(R.string.Cancel), null)
+                .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .makeRed(AlertDialog.BUTTON_POSITIVE)
                 .show());
         headerView.addView(clearView, LayoutHelper.createFrameRelatively(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
@@ -269,14 +269,17 @@ public final class MZGramRecentChats {
                     thumb = user.photo.strippedBitmap;
                 }
                 if (UserObject.isUserSelf(user)) {
+                    // Telegram's own text: the chat's name as Telegram's chat list shows it
                     name = getString(R.string.SavedMessages);
                     avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_SAVED);
                     imageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isReplyUser(user)) {
+                    // Telegram's own text: the chat's name as Telegram's chat list shows it
                     name = getString(R.string.RepliesTitle);
                     avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_REPLIES);
                     imageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isDeleted(user)) {
+                    // Telegram's own text: the chat's name as Telegram's chat list shows it
                     name = getString(R.string.HiddenName);
                     avatarDrawable.setInfo(account, user);
                     imageView.setImage(ImageLocation.getForUser(account, user, ImageLocation.TYPE_SMALL), "50_50", avatarDrawable, user);

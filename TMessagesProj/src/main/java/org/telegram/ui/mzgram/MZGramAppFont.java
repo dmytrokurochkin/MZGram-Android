@@ -73,7 +73,7 @@ public final class MZGramAppFont {
                 showRestart(fragment);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.MZGramCancel), null);
         fragment.showDialog(builder.create());
     }
 

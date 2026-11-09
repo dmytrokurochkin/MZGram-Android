@@ -88,6 +88,7 @@ public class MZGramLaunchFolder {
             return LocaleController.getString(R.string.MZGramLaunchFolderOff);
         }
         MessagesController.DialogFilter filter = MessagesController.getInstance(account).getDialogFilters().get(index);
+        // Telegram's own text: the folder's name, as Telegram's folder tabs show it
         return filter.isDefault() ? LocaleController.getString(R.string.FilterAllChats) : filter.name;
     }
 
@@ -103,6 +104,7 @@ public class MZGramLaunchFolder {
         names.add(LocaleController.getString(R.string.MZGramLaunchFolderOff));
         ids.add(0);
         for (MessagesController.DialogFilter filter : filters) {
+            // Telegram's own text: the folder's name, as Telegram's folder tabs show it
             names.add(filter.isDefault() ? LocaleController.getString(R.string.FilterAllChats) : filter.name);
             ids.add(filter.id);
         }
@@ -114,7 +116,7 @@ public class MZGramLaunchFolder {
                 onChanged.run();
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.MZGramCancel), null);
         fragment.showDialog(builder.create());
     }
 }

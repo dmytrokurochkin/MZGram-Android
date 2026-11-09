@@ -129,25 +129,25 @@ public final class MZGramTextStyleMenu {
     private static CharSequence title(String key) {
         switch (key) {
             case "quote":
-                return getString(R.string.Quote);
+                return getString(R.string.Quote);  // Telegram's own text: the name of Telegram's formatting menu item
             case "spoiler":
-                return getString(R.string.Spoiler);
+                return getString(R.string.Spoiler);  // Telegram's own text: the name of Telegram's formatting menu item
             case "bold":
-                return styled(getString(R.string.Bold), new TypefaceSpan(AndroidUtilities.bold()));
+                return styled(getString(R.string.Bold), new TypefaceSpan(AndroidUtilities.bold()));  // Telegram's own text: the name of Telegram's formatting menu item
             case "italic":
-                return styled(getString(R.string.Italic), new TypefaceSpan(AndroidUtilities.getTypeface("fonts/ritalic.ttf")));
+                return styled(getString(R.string.Italic), new TypefaceSpan(AndroidUtilities.getTypeface("fonts/ritalic.ttf")));  // Telegram's own text: the name of Telegram's formatting menu item
             case "mono":
-                return styled(getString(R.string.Mono), new TypefaceSpan(Typeface.MONOSPACE));
+                return styled(getString(R.string.Mono), new TypefaceSpan(Typeface.MONOSPACE));  // Telegram's own text: the name of Telegram's formatting menu item
             case "strike":
-                return styled(getString(R.string.Strike), styleSpan(TextStyleSpan.FLAG_STYLE_STRIKE));
+                return styled(getString(R.string.Strike), styleSpan(TextStyleSpan.FLAG_STYLE_STRIKE));  // Telegram's own text: the name of Telegram's formatting menu item
             case "underline":
-                return styled(getString(R.string.Underline), styleSpan(TextStyleSpan.FLAG_STYLE_UNDERLINE));
+                return styled(getString(R.string.Underline), styleSpan(TextStyleSpan.FLAG_STYLE_UNDERLINE));  // Telegram's own text: the name of Telegram's formatting menu item
             case "link":
-                return getString(R.string.CreateLink);
+                return getString(R.string.CreateLink);  // Telegram's own text: the name of Telegram's formatting menu item
             case "date":
-                return getString(R.string.FormattedDate);
+                return getString(R.string.FormattedDate);  // Telegram's own text: the name of Telegram's formatting menu item
             default:
-                return getString(R.string.Regular);
+                return getString(R.string.Regular);  // Telegram's own text: the name of Telegram's formatting menu item
         }
     }
 
@@ -239,7 +239,7 @@ public final class MZGramTextStyleMenu {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(getString(R.string.MZGramTextStyleMenu));
         builder.setView(listView);
-        builder.setPositiveButton(getString(R.string.OK), (dialog, which) -> {
+        builder.setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
             boolean defaultOrder = ordered.equals(Arrays.asList(KEYS));
             ArrayList<String> hiddenList = new ArrayList<>();
             for (String key : ordered) {
@@ -250,7 +250,7 @@ public final class MZGramTextStyleMenu {
             MZGramConfig.setTextStyleMenu(defaultOrder ? "" : TextUtils.join(",", ordered), TextUtils.join(",", hiddenList));
         });
         builder.setNegativeButton(getString(R.string.MZGramCancel), null);
-        builder.setNeutralButton(getString(R.string.Reset), (dialog, which) -> MZGramConfig.setTextStyleMenu("", ""));
+        builder.setNeutralButton(getString(R.string.MZGramReset), (dialog, which) -> MZGramConfig.setTextStyleMenu("", ""));
         return builder.create();
     }
 }

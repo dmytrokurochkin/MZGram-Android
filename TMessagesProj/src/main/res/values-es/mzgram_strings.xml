@@ -511,7 +511,7 @@
     <string name="MZGramImportForeignArchiveFailed">Este archivo no es una base de mensajes que el archivo pueda leer</string>
     <string name="MZGramForwardDeletedAsCopy">Reenviar mensajes eliminados como copias</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Un mensaje eliminado guardado en el chat no tiene original en el servidor, así que Telegram no puede reenviarlo. Se envía como mensaje nuevo con su texto y el archivo de este dispositivo; si el archivo ya no está, solo se envía el texto y no se pide nada al servidor.</string>
-    <string name="MZGramSectionChats">Chats</string>
+    <string name="MZGramSectionChats">Conversaciones</string>
     <string name="MZGramSectionChatsInfo">Escritura, envío y búsqueda</string>
     <string name="MZGramFoldFancyFonts">Buscar nombres con fuentes decorativas</string>
     <string name="MZGramFoldFancyFontsInfo">La búsqueda trata las letras de fuentes Unicode decorativas (negrita, cursiva, en círculo, de ancho completo y letras parecidas) como normales, así que chat encuentra un grupo llamado ⓒⓗⓐⓣ. El cirílico, el griego, el CJK y otras escrituras reales no cambian. Solo cambia lo que compara la búsqueda; los nombres se ven igual.</string>
@@ -555,7 +555,7 @@
     <string name="MZGramFabShape">Forma del botón de nuevo chat</string>
     <string name="MZGramFabShapeCircle">Círculo</string>
     <string name="MZGramFabShapeSquare">Cuadrado redondeado</string>
-    <string name="MZGramFabShapeSquircle">Squircle</string>
+    <string name="MZGramFabShapeSquircle">Superelipse</string>
     <string name="MZGramFabShapeInfo">Forma del botón redondo de la lista de chats. Se aplica al volver a abrir la lista.</string>
     <string name="MZGramAudioEnhance">Supresión de ruido en mensajes de voz</string>
     <string name="MZGramAudioEnhanceInfo">Al grabar un mensaje de voz, activa la supresión de ruido y el control automático de ganancia del propio teléfono, si los tiene. No se envía nada.</string>
@@ -609,7 +609,7 @@
     <string name="MZGramLinkTypefaceInfo">Los enlaces y menciones en negrita o cursiva se miden con su propia fuente, así el texto a su alrededor no se superpone ni deja huecos. Se aplica a los mensajes mostrados después del cambio.</string>
     <string name="MZGramGranularPermissions">Permisos separados para stickers, GIF, juegos y bots inline</string>
     <string name="MZGramGranularPermissionsInfo">En los permisos del grupo y las restricciones de miembros, la fila «Stickers y GIF» se divide en cuatro: stickers, GIF, juegos y bots inline. Telegram los guarda por separado; otras apps pueden seguir mostrándolos en una sola fila.</string>
-    <string name="MZGramPermissionStickers">Stickers</string>
+    <string name="MZGramPermissionStickers">Pegatinas</string>
     <string name="MZGramPermissionGifs">GIF</string>
     <string name="MZGramPermissionGames">Juegos</string>
     <string name="MZGramPermissionInline">Bots inline</string>
@@ -683,4 +683,16 @@
     <string name="MZGramPythonRuntimeReady">Listo</string>
     <string name="MZGramPythonRuntimeStarting">Iniciando Python…</string>
     <string name="MZGramPythonRuntimeFailed">No se pudo iniciar Python</string>
+    <string name="MZGramLoading">Cargando…</string>
+    <string name="MZGramSearch">Buscar</string>
+    <string name="MZGramOff">Desactivado</string>
+    <string name="MZGramOnline">en línea</string>
+    <string name="MZGramLastSeenAt">últ. vez %1$s</string>
+    <string name="MZGramPasscodeLock">Bloqueo con código</string>
+    <string name="MZGramTabChats">Conversaciones</string>
+    <string name="MZGramTabChannels">Canales</string>
+    <string name="MZGramUnsavedChanges">Cambios sin guardar</string>
+    <string name="MZGramPinnedReactionsApplyChanges">Cambiaste las reacciones fijadas. ¿Aplicar los cambios?</string>
+    <string name="MZGramApply">Aplicar</string>
+    <string name="MZGramDiscard">Descartar</string>
 </resources>

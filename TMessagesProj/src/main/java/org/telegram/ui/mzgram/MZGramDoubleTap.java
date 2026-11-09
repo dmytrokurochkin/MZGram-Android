@@ -116,6 +116,7 @@ public final class MZGramDoubleTap {
         MessageObject message = messageOf(view);
         if (action == COPY) {
             AndroidUtilities.addToClipboard(textOf(message));
+            // Telegram's own text: the bulletin Telegram's own Copy shows in this chat
             BulletinFactory.of(chat).createCopyBulletin(getString(R.string.MessageCopied)).show();
         } else {
             chat.showFieldPanelForReply(message);

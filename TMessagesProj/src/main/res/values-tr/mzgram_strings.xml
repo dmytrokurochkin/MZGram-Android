@@ -649,4 +649,12 @@
     <string name="MZGramFolderTabsIconsAndTitles">Simgeler ve adlar</string>
     <string name="MZGramFolderTabsIcons">Yalnızca simgeler</string>
     <string name="MZGramFolderTabsInfo">Sohbet listesinin üstündeki klasör sekmelerinin ne gösterdiği. Simge, klasör için Telegram Desktop\'ta veya iOS\'ta seçilen simgedir; yoksa klasördeki sohbet türüne göre bir simge seçilir.</string>
+    <string name="MZGramAppFont">Uygulama yazı tipi</string>
+    <string name="MZGramAppFontTelegram">Telegram\'daki gibi</string>
+    <string name="MZGramAppFontSystem">Telefonun yazı tipi</string>
+    <string name="MZGramAppFontFile">Dosyadan…</string>
+    <string name="MZGramAppFontFileShort">Yazı tipi dosyası</string>
+    <string name="MZGramAppFontInfo">Adların, başlıkların, kalın ve italik metnin yazı tipi: Telegram\'ın kendi yazı tipi, telefonunuzun yazı tipi ya da bir TTF veya OTF yazı tipi dosyası. Yazı tipi dosyası, Android\'in izin verdiği yerde normal metni de değiştirir. Yeniden başlatınca geçerli olur.</string>
+    <string name="MZGramAppFontRestart">Yazı tipini uygulamak için MZGram\'ı yeniden başlatın</string>
+    <string name="MZGramAppFontInvalid">Bu dosya bir TTF veya OTF yazı tipi değil</string>
 </resources>

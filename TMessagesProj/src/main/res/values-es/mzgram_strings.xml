@@ -649,4 +649,12 @@
     <string name="MZGramFolderTabsIconsAndTitles">Iconos y nombres</string>
     <string name="MZGramFolderTabsIcons">Solo iconos</string>
     <string name="MZGramFolderTabsInfo">Qué muestran las pestañas de carpetas sobre la lista de chats. El icono es el elegido para la carpeta en Telegram Desktop o en iOS; si no lo hay, se elige según el tipo de chats de la carpeta.</string>
+    <string name="MZGramAppFont">Fuente de la app</string>
+    <string name="MZGramAppFontTelegram">Igual que Telegram</string>
+    <string name="MZGramAppFontSystem">Fuente del teléfono</string>
+    <string name="MZGramAppFontFile">Desde un archivo…</string>
+    <string name="MZGramAppFontFileShort">Archivo de fuente</string>
+    <string name="MZGramAppFontInfo">La fuente de los nombres, títulos y texto en negrita y cursiva: la de Telegram, la de tu teléfono o un archivo de fuente TTF u OTF. Un archivo de fuente también cambia el texto normal donde Android lo permite. Se aplica tras reiniciar.</string>
+    <string name="MZGramAppFontRestart">Reinicia MZGram para aplicar la fuente</string>
+    <string name="MZGramAppFontInvalid">Este archivo no es una fuente TTF u OTF</string>
 </resources>

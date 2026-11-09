@@ -649,4 +649,12 @@
     <string name="MZGramFolderTabsIconsAndTitles">Белгішелер мен атаулар</string>
     <string name="MZGramFolderTabsIcons">Тек белгішелер</string>
     <string name="MZGramFolderTabsInfo">Чаттар тізімінің үстіндегі бума қойындылары не көрсетеді. Белгіше — бумаға Telegram Desktop-та немесе iOS-та таңдалған белгіше; ол болмаса, белгіше бумадағы чаттардың түріне қарай таңдалады.</string>
+    <string name="MZGramAppFont">Қолданба қарпі</string>
+    <string name="MZGramAppFontTelegram">Telegram-дағыдай</string>
+    <string name="MZGramAppFontSystem">Телефон қарпі</string>
+    <string name="MZGramAppFontFile">Файлдан…</string>
+    <string name="MZGramAppFontFileShort">Қаріп файлы</string>
+    <string name="MZGramAppFontInfo">Аттардың, тақырыптардың, жуан және көлбеу мәтіннің қарпі: Telegram-ның өз қарпі, телефон қарпі немесе TTF не OTF қаріп файлы. Android рұқсат етсе, қаріп файлы қарапайым мәтінді де өзгертеді. Қайта іске қосқаннан кейін күшіне енеді.</string>
+    <string name="MZGramAppFontRestart">Қаріпті қолдану үшін MZGram-ды қайта іске қосыңыз</string>
+    <string name="MZGramAppFontInvalid">Бұл файл TTF не OTF қарпі емес</string>
 </resources>

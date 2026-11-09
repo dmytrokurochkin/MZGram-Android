@@ -261,6 +261,9 @@ public class AndroidUtilities {
 
     public static Typeface bold() {
         if (mediumTypeface == null) {
+            mediumTypeface = org.telegram.messenger.mzgram.MZGramFonts.typeface(TYPEFACE_ROBOTO_MEDIUM); // MZGram: app font, null keeps Telegram's
+        }
+        if (mediumTypeface == null) {
             if (SharedConfig.useSystemBoldFont && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 mediumTypeface = Typeface.create(null, 500, false);
             } else {
@@ -2390,6 +2393,11 @@ public class AndroidUtilities {
     }
 
     public static Typeface getTypeface(String assetPath) {
+        // MZGram: app font (MZGramFonts); null keeps Telegram's own font
+        final Typeface mzgramTypeface = org.telegram.messenger.mzgram.MZGramFonts.typeface(assetPath);
+        if (mzgramTypeface != null) {
+            return mzgramTypeface;
+        }
         synchronized (typefaceCache) {
             if (!typefaceCache.containsKey(assetPath)) {
                 try {

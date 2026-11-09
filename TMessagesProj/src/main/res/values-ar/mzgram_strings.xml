@@ -649,4 +649,12 @@
     <string name="MZGramFolderTabsIconsAndTitles">الأيقونات والأسماء</string>
     <string name="MZGramFolderTabsIcons">الأيقونات فقط</string>
     <string name="MZGramFolderTabsInfo">ما تعرضه ألسنة المجلدات فوق قائمة الدردشات. الأيقونة هي التي اختيرت للمجلد في Telegram Desktop أو على iOS، وإن لم توجد تُختار أيقونة حسب نوع الدردشات في المجلد.</string>
+    <string name="MZGramAppFont">خط التطبيق</string>
+    <string name="MZGramAppFontTelegram">مثل Telegram</string>
+    <string name="MZGramAppFontSystem">خط الهاتف</string>
+    <string name="MZGramAppFontFile">من ملف…</string>
+    <string name="MZGramAppFontFileShort">ملف الخط</string>
+    <string name="MZGramAppFontInfo">خط الأسماء والعناوين والنص الغامق والمائل: خط Telegram نفسه أو خط هاتفك أو ملف خط TTF أو OTF. يغيّر ملف الخط النص العادي أيضًا حيث يسمح Android بذلك. يسري بعد إعادة التشغيل.</string>
+    <string name="MZGramAppFontRestart">أعد تشغيل MZGram لتطبيق الخط</string>
+    <string name="MZGramAppFontInvalid">هذا الملف ليس خط TTF أو OTF</string>
 </resources>

@@ -649,4 +649,12 @@
     <string name="MZGramFolderTabsIconsAndTitles">Symbole und Namen</string>
     <string name="MZGramFolderTabsIcons">Nur Symbole</string>
     <string name="MZGramFolderTabsInfo">Was die Ordner-Tabs über der Chatliste zeigen. Das Symbol ist das, das in Telegram Desktop oder unter iOS für den Ordner gewählt wurde; ohne es wird ein Symbol nach der Art der Chats im Ordner gewählt.</string>
+    <string name="MZGramAppFont">Schrift der App</string>
+    <string name="MZGramAppFontTelegram">Wie Telegram</string>
+    <string name="MZGramAppFontSystem">Schrift des Telefons</string>
+    <string name="MZGramAppFontFile">Aus einer Datei…</string>
+    <string name="MZGramAppFontFileShort">Schriftdatei</string>
+    <string name="MZGramAppFontInfo">Die Schrift von Namen, Titeln sowie fettem und kursivem Text: die von Telegram, die deines Telefons oder eine TTF- oder OTF-Schriftdatei. Eine Schriftdatei ändert auch den normalen Text, wo Android es erlaubt. Wirkt nach einem Neustart.</string>
+    <string name="MZGramAppFontRestart">Starte MZGram neu, um die Schrift anzuwenden</string>
+    <string name="MZGramAppFontInvalid">Diese Datei ist keine TTF- oder OTF-Schrift</string>
 </resources>

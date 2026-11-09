@@ -649,4 +649,12 @@
     <string name="MZGramFolderTabsIconsAndTitles">Icônes et noms</string>
     <string name="MZGramFolderTabsIcons">Icônes uniquement</string>
     <string name="MZGramFolderTabsInfo">Ce qu\'affichent les onglets des dossiers au-dessus de la liste des chats. L\'icône est celle choisie pour le dossier dans Telegram Desktop ou sur iOS ; sans elle, une icône est choisie selon le type de chats du dossier.</string>
+    <string name="MZGramAppFont">Police de l\'app</string>
+    <string name="MZGramAppFontTelegram">Comme Telegram</string>
+    <string name="MZGramAppFontSystem">Police du téléphone</string>
+    <string name="MZGramAppFontFile">Depuis un fichier…</string>
+    <string name="MZGramAppFontFileShort">Fichier de police</string>
+    <string name="MZGramAppFontInfo">La police des noms, des titres et du texte gras et italique : celle de Telegram, celle de votre téléphone ou un fichier de police TTF ou OTF. Un fichier de police change aussi le texte normal là où Android le permet. Prend effet après un redémarrage.</string>
+    <string name="MZGramAppFontRestart">Redémarrez MZGram pour appliquer la police</string>
+    <string name="MZGramAppFontInvalid">Ce fichier n\'est pas une police TTF ou OTF</string>
 </resources>

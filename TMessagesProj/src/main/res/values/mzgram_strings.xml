@@ -649,4 +649,12 @@
     <string name="MZGramFolderTabsIconsAndTitles">Icons and names</string>
     <string name="MZGramFolderTabsIcons">Icons only</string>
     <string name="MZGramFolderTabsInfo">What the folder tabs above the chat list show. The icon is the one chosen for the folder in Telegram Desktop or on iOS; without it, an icon is picked from the chat types of the folder.</string>
+    <string name="MZGramAppFont">App font</string>
+    <string name="MZGramAppFontTelegram">Same as Telegram</string>
+    <string name="MZGramAppFontSystem">Phone font</string>
+    <string name="MZGramAppFontFile">From a file…</string>
+    <string name="MZGramAppFontFileShort">Font file</string>
+    <string name="MZGramAppFontInfo">The font of names, titles and bold and italic text: Telegram\'s own, the font of your phone, or a TTF or OTF font file. A font file also changes the regular text where Android allows it. Takes effect after a restart.</string>
+    <string name="MZGramAppFontRestart">Restart MZGram to apply the font</string>
+    <string name="MZGramAppFontInvalid">This file is not a TTF or OTF font</string>
 </resources>

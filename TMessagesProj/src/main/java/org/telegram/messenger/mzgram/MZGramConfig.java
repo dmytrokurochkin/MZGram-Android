@@ -72,6 +72,9 @@ public class MZGramConfig {
     public static int glassOutline = 0;
     // Folder tabs: 0 names only as in Telegram, 1 icons and names, 2 icons only (MZGramFolderIcons)
     public static int folderTabIcons = 0;
+    // App font: 0 as in Telegram, 1 the font of the phone, 2 a font file (MZGramFonts)
+    public static int appFont = 0;
+    public static String appFontName = "";
     public static boolean hideBottomNavigationBar = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
@@ -368,6 +371,8 @@ public class MZGramConfig {
             MZGramAvatarShape.changed();
             glassOutline = preferences.getInt("glassOutline", 0);
             folderTabIcons = preferences.getInt("folderTabIcons", 0);
+            appFont = preferences.getInt("appFont", 0);
+            appFontName = preferences.getString("appFontName", "");
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
@@ -681,6 +686,12 @@ public class MZGramConfig {
     public static void setFolderTabIcons(int mode) {
         folderTabIcons = mode == 1 || mode == 2 ? mode : 0;
         preferences().edit().putInt("folderTabIcons", folderTabIcons).apply();
+    }
+
+    public static void setAppFont(int mode, String name) {
+        appFont = mode == 1 || mode == 2 ? mode : 0;
+        appFontName = appFont == 2 && name != null ? name : "";
+        preferences().edit().putInt("appFont", appFont).putString("appFontName", appFontName).apply();
     }
 
     public static void toggleHideBottomNavigationBar() {

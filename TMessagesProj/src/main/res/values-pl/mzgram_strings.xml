@@ -649,4 +649,12 @@
     <string name="MZGramFolderTabsIconsAndTitles">Ikony i nazwy</string>
     <string name="MZGramFolderTabsIcons">Tylko ikony</string>
     <string name="MZGramFolderTabsInfo">Co pokazują karty folderów nad listą czatów. Ikona to ta wybrana dla folderu w Telegram Desktop lub na iOS; bez niej ikona jest dobierana według typu czatów w folderze.</string>
+    <string name="MZGramAppFont">Czcionka aplikacji</string>
+    <string name="MZGramAppFontTelegram">Jak w Telegramie</string>
+    <string name="MZGramAppFontSystem">Czcionka telefonu</string>
+    <string name="MZGramAppFontFile">Z pliku…</string>
+    <string name="MZGramAppFontFileShort">Plik czcionki</string>
+    <string name="MZGramAppFontInfo">Czcionka nazw, tytułów oraz pogrubionego i pochylonego tekstu: czcionka Telegrama, czcionka telefonu albo plik czcionki TTF lub OTF. Plik czcionki zmienia też zwykły tekst, jeśli Android na to pozwala. Działa po ponownym uruchomieniu.</string>
+    <string name="MZGramAppFontRestart">Uruchom ponownie MZGram, aby zastosować czcionkę</string>
+    <string name="MZGramAppFontInvalid">Ten plik nie jest czcionką TTF ani OTF</string>
 </resources>

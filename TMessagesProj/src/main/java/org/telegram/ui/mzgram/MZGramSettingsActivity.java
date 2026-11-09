@@ -81,6 +81,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int REQUEST_CODE_IMPORT_ARCHIVE = 8842;
     private static final int REQUEST_CODE_EXPORT_ARCHIVE = 8843;
     private static final int REQUEST_CODE_IMPORT_FOREIGN_ARCHIVE = 8844;
+    private static final int REQUEST_CODE_APP_FONT = 8845;
     private static final String EXPORT_FILE_NAME = "mzgram_archive_export.db";
     private static final int BUTTON_DISABLE_SPONSORED_MESSAGES = 37;
     private static final int BUTTON_STRIP_ZALGO_TEXT = 38;
@@ -172,6 +173,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_RECENT_CHATS_ON_BACK = 147;
     private static final int BUTTON_GLASS_OUTLINE = 148;
     private static final int BUTTON_FOLDER_TAB_ICONS = 149;
+    private static final int BUTTON_APP_FONT = 150;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
     private static final int BUTTON_PLAIN_CODE = 130;
@@ -803,6 +805,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramAvatarShapeInfo)));
         items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
         items.add(UItem.asShadow(getString(R.string.MZGramGlassOutlineInfo)));
+        items.add(UItem.asButton(BUTTON_APP_FONT, getString(R.string.MZGramAppFont), MZGramAppFont.title()));
+        items.add(UItem.asShadow(getString(R.string.MZGramAppFontInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHideRowsTitle)));
         java.util.List<org.telegram.messenger.mzgram.MZGramSettingsRows.Row> rows = org.telegram.messenger.mzgram.MZGramSettingsRows.rows();
         for (int i = 0; i < rows.size(); i++) {
@@ -1045,6 +1049,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
             MZGramFolderIcons.choose(this, () -> {
                 if (listView != null && listView.adapter != null) {
                     listView.adapter.update(true);
+                }
+            });
+        } else if (item.id == BUTTON_APP_FONT) {
+            MZGramAppFont.choose(this, () -> {
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            }, () -> {
+                android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_GET_CONTENT);
+                intent.addCategory(android.content.Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                try {
+                    startActivityForResult(intent, REQUEST_CODE_APP_FONT);
+                } catch (Exception e) {
+                    org.telegram.messenger.FileLog.e("MZGramSettingsActivity.pickAppFont", e);
                 }
             });
         } else if (item.id == BUTTON_GLASS_OUTLINE) {
@@ -1379,7 +1398,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
         android.net.Uri uri = data.getData();
         android.content.ContentResolver resolver = org.telegram.messenger.ApplicationLoader.applicationContext.getContentResolver();
-        if (requestCode == REQUEST_CODE_EXPORT_ARCHIVE) {
+        if (requestCode == REQUEST_CODE_APP_FONT) {
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                final String name = org.telegram.messenger.mzgram.MZGramFonts.importFont(uri);
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (getParentActivity() == null) {
+                        return;
+                    }
+                    MZGramAppFont.fileImported(this, name, () -> {
+                        if (listView != null && listView.adapter != null) {
+                            listView.adapter.update(true);
+                        }
+                    });
+                });
+            });
+        } else if (requestCode == REQUEST_CODE_EXPORT_ARCHIVE) {
             org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
                 boolean done = false;
                 java.io.File file = null;

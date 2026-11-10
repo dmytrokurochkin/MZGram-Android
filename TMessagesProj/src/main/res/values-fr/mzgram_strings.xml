@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">Avertissement : Les paquets de PyPI seront téléchargés et exécutés dans l\'environnement Python. Les paquets binaires natifs ne sont pas pris en charge.</string>
     <string name="MZGramPipInstallSuccess">Paquets Python installés avec succès.</string>
     <string name="MZGramPipInstallFailed">Échec de l\'installation des paquets Python : %1</string>
+    <string name="MZGramPluginsCatalog">Catalogue de plugins</string>
+    <string name="MZGramPluginsCatalogNotConnected">Catalogue non connecté</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">Entrez l\'URL d\'un dépôt de catalogue hébergeant index.json pour parcourir et installer des plugins.</string>
+    <string name="MZGramPluginsCatalogUrl">URL du catalogue</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">Entrez l\'URL directe vers index.json du catalogue :</string>
+    <string name="MZGramPluginsCatalogConnect">Connecter le catalogue</string>
+    <string name="MZGramPluginsCatalogDisconnect">Déconnecter le catalogue</string>
+    <string name="MZGramPluginsCatalogRefresh">Actualiser le catalogue</string>
+    <string name="MZGramPluginsCatalogLoading">Chargement du catalogue...</string>
+    <string name="MZGramPluginsCatalogEmpty">Aucun plugin trouvé dans ce catalogue.</string>
+    <string name="MZGramPluginsCatalogInstalled">Installé</string>
+    <string name="MZGramPluginsCatalogInstall">Installer</string>
+    <string name="MZGramPluginsCatalogDownloading">Téléchargement du plugin...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">Échec du contrôle de sécurité : la somme de contrôle SHA-256 ne correspond pas.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">Échec du chargement du catalogue : %1</string>
 </resources>

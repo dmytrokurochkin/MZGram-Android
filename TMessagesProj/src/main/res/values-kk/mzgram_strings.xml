@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">Ескерту: PyPI дестелері жүктеліп, Python ортасында орындалады. Жергілікті екілік дестелерге қолдау көрсетілмейді.</string>
     <string name="MZGramPipInstallSuccess">Python дестелері сәтті орнатылды.</string>
     <string name="MZGramPipInstallFailed">Python дестелерін орнату сәтсіз аяқталды: %1</string>
+    <string name="MZGramPluginsCatalog">Плагиндер каталогы</string>
+    <string name="MZGramPluginsCatalogNotConnected">Каталог қосылмаған</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">Плагиндерді қарап шығу және орнату үшін index.json бар каталог репозиторийінің сілтемесін енгізіңіз.</string>
+    <string name="MZGramPluginsCatalogUrl">Каталог сілтемесі</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">Каталогтың index.json файлына тікелей сілтемені енгізіңіз:</string>
+    <string name="MZGramPluginsCatalogConnect">Каталогты қосу</string>
+    <string name="MZGramPluginsCatalogDisconnect">Каталогты ажырату</string>
+    <string name="MZGramPluginsCatalogRefresh">Каталогты жаңарту</string>
+    <string name="MZGramPluginsCatalogLoading">Каталог жүктелуде...</string>
+    <string name="MZGramPluginsCatalogEmpty">Бұл каталогта ешбір плагин табылмады.</string>
+    <string name="MZGramPluginsCatalogInstalled">Орнатылды</string>
+    <string name="MZGramPluginsCatalogInstall">Орнату</string>
+    <string name="MZGramPluginsCatalogDownloading">Плагин жүктелуде...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">Қауіпсіздікті тексеру сәтсіз аяқталды: SHA-256 тексеру қосындысы сәйкес келмейді.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">Каталогты жүктеу сәтсіз аяқталды: %1</string>
 </resources>

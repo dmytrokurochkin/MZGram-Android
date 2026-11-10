@@ -162,7 +162,7 @@ public final class MZGramSettingsBackup {
         texts(CONFIG, TEXT_MAX,
                 "aiProvider", "language", "deletedMark", "editedMark", "hiddenReactions",
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",
-                "textStyleOrder", "textStyleHidden");
+                "textStyleOrder", "textStyleHidden", "pluginsCatalogUrl");
         textSets(CONFIG, "aiMenuButtons", "hiddenSettingsRows");
 
         // MZGramDrawerItems, MZGramPills: comma-separated ids, unknown ids are dropped when read

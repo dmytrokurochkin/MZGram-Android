@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">Uyarı: PyPI paketleri indirilip Python ortamında çalıştırılacaktır. Yerel ikili paketler desteklenmez.</string>
     <string name="MZGramPipInstallSuccess">Python paketleri başarıyla yüklendi.</string>
     <string name="MZGramPipInstallFailed">Python paketleri yüklenemedi: %1</string>
+    <string name="MZGramPluginsCatalog">Eklenti kataloğu</string>
+    <string name="MZGramPluginsCatalogNotConnected">Katalog bağlı değil</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">Eklentilere göz atmak ve yüklemek için index.json içeren bir katalog deposunun URL adresini girin.</string>
+    <string name="MZGramPluginsCatalogUrl">Katalog URL\'si</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">Katalog index.json doğrudan URL adresini girin:</string>
+    <string name="MZGramPluginsCatalogConnect">Kataloğu bağla</string>
+    <string name="MZGramPluginsCatalogDisconnect">Katalog bağlantısını kes</string>
+    <string name="MZGramPluginsCatalogRefresh">Kataloğu yenile</string>
+    <string name="MZGramPluginsCatalogLoading">Katalog yükleniyor...</string>
+    <string name="MZGramPluginsCatalogEmpty">Bu katalogda eklenti bulunamadı.</string>
+    <string name="MZGramPluginsCatalogInstalled">Yüklendi</string>
+    <string name="MZGramPluginsCatalogInstall">Yükle</string>
+    <string name="MZGramPluginsCatalogDownloading">Eklenti indiriliyor...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">Güvenlik kontrolü başarısız: SHA-256 sağlama toplamı eşleşmiyor.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">Katalog yüklenemedi: %1</string>
 </resources>

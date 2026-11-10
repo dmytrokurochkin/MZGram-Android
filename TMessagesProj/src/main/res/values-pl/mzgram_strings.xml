@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">Ostrzeżenie: Pakiety z PyPI zostaną pobrane i wykonane w środowisku Python. Pakiety z natywnym kodem binarnym nie są obsługiwane.</string>
     <string name="MZGramPipInstallSuccess">Pakiety Python zostały pomyślnie zainstalowane.</string>
     <string name="MZGramPipInstallFailed">Nie udało się zainstalować pakietów Python: %1</string>
+    <string name="MZGramPluginsCatalog">Katalog wtyczek</string>
+    <string name="MZGramPluginsCatalogNotConnected">Katalog nie jest podłączony</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">Wprowadź adres URL repozytorium katalogu z index.json, aby przeglądać i instalować wtyczki.</string>
+    <string name="MZGramPluginsCatalogUrl">Adres URL katalogu</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">Wprowadź bezpośredni adres URL do pliku index.json katalogu:</string>
+    <string name="MZGramPluginsCatalogConnect">Podłącz katalog</string>
+    <string name="MZGramPluginsCatalogDisconnect">Odłącz katalog</string>
+    <string name="MZGramPluginsCatalogRefresh">Odśwież katalog</string>
+    <string name="MZGramPluginsCatalogLoading">Ładowanie katalogu...</string>
+    <string name="MZGramPluginsCatalogEmpty">Nie znaleziono wtyczek w tym katalogu.</string>
+    <string name="MZGramPluginsCatalogInstalled">Zainstalowano</string>
+    <string name="MZGramPluginsCatalogInstall">Zainstaluj</string>
+    <string name="MZGramPluginsCatalogDownloading">Pobieranie wtyczki...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">Kontrola bezpieczeństwa nie powiodła się: suma kontrolna SHA-256 nie zgadza się.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">Nie udało się załadować katalogu: %1</string>
 </resources>

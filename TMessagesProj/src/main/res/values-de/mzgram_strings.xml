@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">Warnung: Pakete von PyPI werden heruntergeladen und in der Python-Umgebung ausgeführt. Native Binärpakete werden nicht unterstützt.</string>
     <string name="MZGramPipInstallSuccess">Python-Pakete erfolgreich installiert.</string>
     <string name="MZGramPipInstallFailed">Python-Pakete konnten nicht installiert werden: %1</string>
+    <string name="MZGramPluginsCatalog">Plugins-Katalog</string>
+    <string name="MZGramPluginsCatalogNotConnected">Katalog nicht verbunden</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">Geben Sie die URL eines Katalog-Repositorys mit index.json ein, um Plugins zu durchsuchen und zu installieren.</string>
+    <string name="MZGramPluginsCatalogUrl">Katalog-URL</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">Geben Sie die direkte URL zu index.json des Katalogs ein:</string>
+    <string name="MZGramPluginsCatalogConnect">Katalog verbinden</string>
+    <string name="MZGramPluginsCatalogDisconnect">Katalog trennen</string>
+    <string name="MZGramPluginsCatalogRefresh">Katalog aktualisieren</string>
+    <string name="MZGramPluginsCatalogLoading">Katalog wird geladen...</string>
+    <string name="MZGramPluginsCatalogEmpty">Keine Plugins in diesem Katalog gefunden.</string>
+    <string name="MZGramPluginsCatalogInstalled">Installiert</string>
+    <string name="MZGramPluginsCatalogInstall">Installieren</string>
+    <string name="MZGramPluginsCatalogDownloading">Plugin wird heruntergeladen...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">Sicherheitsprüfung fehlgeschlagen: SHA-256-Prüfsumme stimmt nicht überein.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">Katalog konnte nicht geladen werden: %1</string>
 </resources>

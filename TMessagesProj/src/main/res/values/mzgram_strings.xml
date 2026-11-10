@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">Warning: Packages from PyPI will be downloaded and executed inside the Python environment. Native binary packages are not supported.</string>
     <string name="MZGramPipInstallSuccess">Python packages installed successfully.</string>
     <string name="MZGramPipInstallFailed">Failed to install Python packages: %1</string>
+    <string name="MZGramPluginsCatalog">Plugins catalog</string>
+    <string name="MZGramPluginsCatalogNotConnected">Catalog not connected</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">Enter the URL of a catalog repository hosting index.json to browse and install plugins.</string>
+    <string name="MZGramPluginsCatalogUrl">Catalog URL</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">Enter raw URL to catalog index.json:</string>
+    <string name="MZGramPluginsCatalogConnect">Connect catalog</string>
+    <string name="MZGramPluginsCatalogDisconnect">Disconnect catalog</string>
+    <string name="MZGramPluginsCatalogRefresh">Refresh catalog</string>
+    <string name="MZGramPluginsCatalogLoading">Loading catalog...</string>
+    <string name="MZGramPluginsCatalogEmpty">No plugins found in this catalog.</string>
+    <string name="MZGramPluginsCatalogInstalled">Installed</string>
+    <string name="MZGramPluginsCatalogInstall">Install</string>
+    <string name="MZGramPluginsCatalogDownloading">Downloading plugin...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">Security check failed: SHA-256 checksum does not match.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">Failed to load catalog: %1</string>
 </resources>

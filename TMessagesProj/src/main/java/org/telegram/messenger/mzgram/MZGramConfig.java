@@ -235,6 +235,8 @@ public class MZGramConfig {
     public static boolean openFreeMapPreview = false;
     // Python plugins: allow pip packages to be downloaded from PyPI on device
     public static boolean pipEnabled = false;
+    // Plugins catalog: raw URL of index.json repository; empty = not connected
+    public static String pluginsCatalogUrl = "";
     // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
@@ -523,6 +525,7 @@ public class MZGramConfig {
             dohProvider = preferences.getInt("dohProvider", 0);
             openFreeMapPreview = preferences.getBoolean("openFreeMapPreview", false);
             pipEnabled = preferences.getBoolean("pipEnabled", false);
+            pluginsCatalogUrl = preferences.getString("pluginsCatalogUrl", "");
             forwardDeletedAsCopy = preferences.getBoolean("forwardDeletedAsCopy", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
@@ -1129,6 +1132,11 @@ public class MZGramConfig {
     public static void setPipEnabled(boolean value) {
         pipEnabled = value;
         putBoolean("pipEnabled", pipEnabled);
+    }
+
+    public static void setPluginsCatalogUrl(String url) {
+        pluginsCatalogUrl = url != null ? url.trim() : "";
+        putString("pluginsCatalogUrl", pluginsCatalogUrl);
     }
 
     public static void toggleForwardDeletedAsCopy() {

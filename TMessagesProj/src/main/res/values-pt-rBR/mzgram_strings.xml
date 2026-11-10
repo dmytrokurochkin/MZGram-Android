@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">Aviso: Os pacotes do PyPI serão baixados e executados no ambiente Python. Pacotes binários nativos não são suportados.</string>
     <string name="MZGramPipInstallSuccess">Pacotes Python instalados com sucesso.</string>
     <string name="MZGramPipInstallFailed">Falha ao instalar pacotes Python: %1</string>
+    <string name="MZGramPluginsCatalog">Catálogo de plugins</string>
+    <string name="MZGramPluginsCatalogNotConnected">Catálogo não conectado</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">Insira a URL de um repositório de catálogo com index.json para navegar e instalar plugins.</string>
+    <string name="MZGramPluginsCatalogUrl">URL do catálogo</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">Insira a URL direta para o index.json do catálogo:</string>
+    <string name="MZGramPluginsCatalogConnect">Conectar catálogo</string>
+    <string name="MZGramPluginsCatalogDisconnect">Desconectar catálogo</string>
+    <string name="MZGramPluginsCatalogRefresh">Atualizar catálogo</string>
+    <string name="MZGramPluginsCatalogLoading">Carregando catálogo...</string>
+    <string name="MZGramPluginsCatalogEmpty">Nenhum plugin encontrado neste catálogo.</string>
+    <string name="MZGramPluginsCatalogInstalled">Instalado</string>
+    <string name="MZGramPluginsCatalogInstall">Instalar</string>
+    <string name="MZGramPluginsCatalogDownloading">Baixando plugin...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">Falha na verificação de segurança: a soma de verificação SHA-256 não coincide.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">Falha ao carregar o catálogo: %1</string>
 </resources>

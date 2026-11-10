@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">تحذير: سيتم تنزيل الحزم من PyPI وتشغيلها في بيئة Python. الحزم الثنائية الأصلية غير مدعومة.</string>
     <string name="MZGramPipInstallSuccess">تم تثبيت حزم Python بنجاح.</string>
     <string name="MZGramPipInstallFailed">فشل تثبيت حزم Python: %1</string>
+    <string name="MZGramPluginsCatalog">كتالوج الإضافات</string>
+    <string name="MZGramPluginsCatalogNotConnected">الكتالوج غير متصل</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">أدخل عنوان URL لمستودع الكتالوج الذي يحتوي على index.json لتصفح وتثبيت الإضافات.</string>
+    <string name="MZGramPluginsCatalogUrl">عنوان URL للكتالوج</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">أدخل رابط URL المباشر لملف index.json الخاص بالكتالوج:</string>
+    <string name="MZGramPluginsCatalogConnect">ربط الكتالوج</string>
+    <string name="MZGramPluginsCatalogDisconnect">قطع اتصال الكتالوج</string>
+    <string name="MZGramPluginsCatalogRefresh">تحديث الكتالوج</string>
+    <string name="MZGramPluginsCatalogLoading">جار تحميل الكتالوج...</string>
+    <string name="MZGramPluginsCatalogEmpty">لم يتم العثور على إضافات في هذا الكتالوج.</string>
+    <string name="MZGramPluginsCatalogInstalled">مثبت</string>
+    <string name="MZGramPluginsCatalogInstall">تثبيت</string>
+    <string name="MZGramPluginsCatalogDownloading">جار تنزيل الإضافة...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">فشل التحقق الأمني: المجموع الاختباري SHA-256 غير متطابق.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">فشل تحميل الكتالوج: %1</string>
 </resources>

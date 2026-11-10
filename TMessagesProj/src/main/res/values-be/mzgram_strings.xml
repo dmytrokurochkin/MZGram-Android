@@ -1079,4 +1079,19 @@
     <string name="MZGramPipInstallWarning">Увага: Пакеты з PyPI будуць спампаваны і выкананы ў асяроддзі Python. Пакеты з натыўным бінарным кодам не падтрымліваюцца.</string>
     <string name="MZGramPipInstallSuccess">Пакеты Python паспяхова ўсталяваны.</string>
     <string name="MZGramPipInstallFailed">Не ўдалося ўсталяваць пакеты Python: %1</string>
+    <string name="MZGramPluginsCatalog">Каталог плагінаў</string>
+    <string name="MZGramPluginsCatalogNotConnected">Каталог не падключаны</string>
+    <string name="MZGramPluginsCatalogNotConnectedInfo">Пакажыце URL рэпазіторыя каталога з index.json для прагляду і ўстаноўкі плагінаў.</string>
+    <string name="MZGramPluginsCatalogUrl">URL каталога</string>
+    <string name="MZGramPluginsCatalogUrlPrompt">Увядзіце спасылку на index.json каталога:</string>
+    <string name="MZGramPluginsCatalogConnect">Падключыць каталог</string>
+    <string name="MZGramPluginsCatalogDisconnect">Адключыць каталог</string>
+    <string name="MZGramPluginsCatalogRefresh">Абнавіць каталог</string>
+    <string name="MZGramPluginsCatalogLoading">Загрузка каталога...</string>
+    <string name="MZGramPluginsCatalogEmpty">У гэтым каталогу не знойдзена плагінаў.</string>
+    <string name="MZGramPluginsCatalogInstalled">Усталявана</string>
+    <string name="MZGramPluginsCatalogInstall">Усталяваць</string>
+    <string name="MZGramPluginsCatalogDownloading">Спампоўка плагіна...</string>
+    <string name="MZGramPluginsCatalogSha256Mismatch">Памылка бяспекі: кантрольная сума SHA-256 не супадае.</string>
+    <string name="MZGramPluginsCatalogLoadFailed">Не ўдалося загрузіць каталог: %1</string>
 </resources>

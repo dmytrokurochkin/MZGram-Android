@@ -1059,4 +1059,6 @@
     <string name="MZGramM3SwitchesInfo">Use modern Material 3 switch styling across the app.</string>
     <string name="MZGramCardsDesign">Cards</string>
     <string name="MZGramCardsDesignInfo">Group list items into rounded cards with elevation shadows.</string>
+    <string name="MZGramProfileMusicCard">Profile music card</string>
+    <string name="MZGramProfileMusicCardInfo">Display saved or currently playing music as a stylish card in user profiles.</string>
 </resources>

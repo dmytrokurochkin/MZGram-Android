@@ -1059,4 +1059,6 @@
     <string name="MZGramM3SwitchesInfo">Użyj nowoczesnego stylu przełączników Material 3 w całej aplikacji.</string>
     <string name="MZGramCardsDesign">Karty</string>
     <string name="MZGramCardsDesignInfo">Grupuj elementy list w zaokrąglone karty z miękkim cieniem.</string>
+    <string name="MZGramProfileMusicCard">Karta muzyczna profilu</string>
+    <string name="MZGramProfileMusicCardInfo">Wyświetlaj zapisaną lub aktualnie odtwarzaną muzykę jako stylową kartę w profilu.</string>
 </resources>

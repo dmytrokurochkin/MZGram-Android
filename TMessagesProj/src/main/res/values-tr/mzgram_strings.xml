@@ -1059,4 +1059,6 @@
     <string name="MZGramM3SwitchesInfo">Uygulama genelinde modern Material 3 anahtar stilini kullanın.</string>
     <string name="MZGramCardsDesign">Kartlar</string>
     <string name="MZGramCardsDesignInfo">Liste öğelerini hafif gölgeli yuvarlak kartlar halinde gruplayın.</string>
+    <string name="MZGramProfileMusicCard">Profil müzik kartı</string>
+    <string name="MZGramProfileMusicCardInfo">Kaydedilen veya çalan müziği kullanıcı profillerinde şık bir kart olarak gösterin.</string>
 </resources>

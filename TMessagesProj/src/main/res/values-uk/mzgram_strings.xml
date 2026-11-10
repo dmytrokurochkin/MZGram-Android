@@ -1060,4 +1060,6 @@
     <string name="MZGramM3SwitchesInfo">Використовувати сучасний стиль перемикачів Material 3 у застосунку.</string>
     <string name="MZGramCardsDesign">Картки</string>
     <string name="MZGramCardsDesignInfo">Групувати пункти списків у скруглені картки з м\'якою тінню.</string>
+    <string name="MZGramProfileMusicCard">Музична картка профілю</string>
+    <string name="MZGramProfileMusicCardInfo">Відображати збережену або поточну музику у вигляді стильної картки у профілі.</string>
 </resources>

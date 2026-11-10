@@ -1059,4 +1059,6 @@
     <string name="MZGramM3SwitchesInfo">Usar estilo moderno de interruptores Material 3 em todo o aplicativo.</string>
     <string name="MZGramCardsDesign">Cartões</string>
     <string name="MZGramCardsDesignInfo">Agrupar itens de listas em cartões arredondados com sombras suaves.</string>
+    <string name="MZGramProfileMusicCard">Cartão de música do perfil</string>
+    <string name="MZGramProfileMusicCardInfo">Exibir música salva ou em reprodução como um cartão elegante no perfil.</string>
 </resources>

@@ -1059,4 +1059,6 @@
     <string name="MZGramM3SwitchesInfo">Utiliser le style moderne d\'interrupteur Material 3 dans toute l\'application.</string>
     <string name="MZGramCardsDesign">Cartes</string>
     <string name="MZGramCardsDesignInfo">Grouper les éléments de listes en cartes arrondies avec des ombres douces.</string>
+    <string name="MZGramProfileMusicCard">Carte musicale du profil</string>
+    <string name="MZGramProfileMusicCardInfo">Afficher la musique enregistrée ou en cours de lecture sous forme de carte élégante dans les profils.</string>
 </resources>

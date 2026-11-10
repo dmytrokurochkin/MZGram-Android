@@ -1059,4 +1059,6 @@
     <string name="MZGramM3SwitchesInfo">استخدام نمط مفاتيح Material 3 الحديث في جميع أنحاء التطبيق.</string>
     <string name="MZGramCardsDesign">بطاقات</string>
     <string name="MZGramCardsDesignInfo">تجميع عناصر القوائم في بطاقات مستديرة ذات ظلال ناعمة.</string>
+    <string name="MZGramProfileMusicCard">بطاقة موسيقى الملف الشخصي</string>
+    <string name="MZGramProfileMusicCardInfo">عرض الموسيقى المحفوظة أو قيد التشغيل كبطاقة أنيقة في الملفات الشخصية.</string>
 </resources>

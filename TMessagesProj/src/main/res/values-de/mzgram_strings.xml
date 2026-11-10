@@ -1059,4 +1059,6 @@
     <string name="MZGramM3SwitchesInfo">Modernen Material 3 Schalterstil in der gesamten App verwenden.</string>
     <string name="MZGramCardsDesign">Karten</string>
     <string name="MZGramCardsDesignInfo">Listenelemente in abgerundete Karten mit Schatten gruppieren.</string>
+    <string name="MZGramProfileMusicCard">Profil-Musikkarte</string>
+    <string name="MZGramProfileMusicCardInfo">Gespeicherte oder aktuelle Musik als stilvolle Karte in Benutzerprofilen anzeigen.</string>
 </resources>

@@ -117,7 +117,7 @@ public final class MZGramSettingsBackup {
                 "reliableDelivery", "saveFormatting", "saveReactions", "saveFromUsers", "saveForBots",
                 "saveInGroups", "saveInChannels", "saveExclusions", "keptReplyPreviews",
                 "replyToDeletedAsQuote", "deletedMessagesList", "deletedDialogsList", "deletedDialogsInMainList",
-                "m3Switches", "cardsDesign",
+                "m3Switches", "cardsDesign", "profileMusicCard",
                 "forwardDeletedAsCopy", "semiTransparentDeleted", "disableSponsoredMessages",
                 "stripZalgoText", "foldFancyFontsInSearch", "characterCounter", "searchOperators",
                 "cleanLinks", "doubleTapActions", "copyPlainText", "inlineMath", "stickerRoundCorners",

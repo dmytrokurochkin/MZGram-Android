@@ -159,6 +159,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Appearance: Material 3 switches and card-based lists
     private static final int BUTTON_M3_SWITCHES = 194;
     private static final int BUTTON_CARDS_DESIGN = 195;
+    // Media: profile music card
+    private static final int BUTTON_PROFILE_MUSIC_CARD = 196;
     // Archive: import another client's message database (MZGramForeignArchiveImport)
     private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
     // Archive: forward kept deleted messages as copies (MZGramProtectedContent)
@@ -851,6 +853,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramConfirmAVMessageInfo)));
         items.add(UItem.asCheck(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, getString(R.string.MZGramMediaPreviewOnLongPress)).setChecked(MZGramConfig.mediaPreviewOnLongPress));
         items.add(UItem.asShadow(getString(R.string.MZGramMediaPreviewOnLongPressInfo)));
+        items.add(UItem.asCheck(BUTTON_PROFILE_MUSIC_CARD, getString(R.string.MZGramProfileMusicCard)).setChecked(MZGramConfig.profileMusicCard));
+        items.add(UItem.asShadow(getString(R.string.MZGramProfileMusicCardInfo)));
     }
 
     private void fillInterface(ArrayList<UItem> items) {
@@ -1488,6 +1492,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS) {
             MZGramConfig.toggleMediaPreviewOnLongPress();
             ((TextCheckCell) view).setChecked(MZGramConfig.mediaPreviewOnLongPress);
+        } else if (item.id == BUTTON_PROFILE_MUSIC_CARD) {
+            MZGramConfig.toggleProfileMusicCard();
+            ((TextCheckCell) view).setChecked(MZGramConfig.profileMusicCard);
         } else if (item.id == BUTTON_SHOW_COPY_PHOTO) {
             MZGramConfig.toggleShowCopyPhoto();
             ((TextCheckCell) view).setChecked(MZGramConfig.showCopyPhoto);

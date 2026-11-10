@@ -1059,4 +1059,6 @@
     <string name="MZGramM3SwitchesInfo">Қолданба бойынша заманауи Material 3 қосқыш стилін қолдану.</string>
     <string name="MZGramCardsDesign">Карталар</string>
     <string name="MZGramCardsDesignInfo">Тізім элементтерін жұмсақ көлеңкесі бар дөңгеленген карталарға топтастыру.</string>
+    <string name="MZGramProfileMusicCard">Профиль музыкалық картасы</string>
+    <string name="MZGramProfileMusicCardInfo">Сақталған немесе ойнатылып жатқан музыканы профильде сәнді карта түрінде көрсету.</string>
 </resources>

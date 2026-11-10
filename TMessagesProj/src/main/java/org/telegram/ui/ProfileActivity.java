@@ -729,6 +729,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int blockedUsersRow;
     private int membersSectionRow;
     private boolean hasMusic;
+    private boolean hasMusicCard;
+    private int musicCardRow = -1;
+    private int musicCardSectionRow = -1;
     private boolean hasBalance;
 
     private int sharedMediaRow;
@@ -2325,6 +2328,43 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return true;
     }
 
+    private void openSavedMusic() {
+        if (savedMusicList == null) {
+            if (
+                MediaController.getInstance().currentSavedMusicList != null &&
+                MediaController.getInstance().currentSavedMusicList.currentAccount == currentAccount &&
+                MediaController.getInstance().currentSavedMusicList.dialogId == getDialogId()) {
+                savedMusicList = MediaController.getInstance().currentSavedMusicList;
+            } else {
+                savedMusicList = new MessagesController.SavedMusicList(currentAccount, getDialogId());
+                TLRPC.Document musicDoc = userInfo != null ? userInfo.saved_music : null;
+                if (musicDoc == null && myProfile && MediaController.getInstance().getPlayingMessageObject() != null && MediaController.getInstance().getPlayingMessageObject().isMusic()) {
+                    musicDoc = MediaController.getInstance().getPlayingMessageObject().getDocument();
+                }
+                if (musicDoc != null) {
+                    savedMusicList.setup(musicDoc);
+                }
+            }
+        }
+        if (savedMusicList != null && !savedMusicList.list.isEmpty()) {
+            boolean sameList = false;
+            if (
+                MediaController.getInstance().currentSavedMusicList != savedMusicList ||
+                !MediaController.getInstance().isPlayingMessage(savedMusicList.list.get(0))
+            ) {
+                MediaController.getInstance().cleanup();
+            } else {
+                sameList = true;
+            }
+            MediaController.getInstance().currentSavedMusicList = savedMusicList;
+            MediaController.getInstance().getPlaylist().clear();
+            MediaController.getInstance().getPlaylist().addAll(savedMusicList.list);
+            if (!sameList) MediaController.getInstance().playMessage(savedMusicList.list.get(0));
+            // MZGram: the Material 3 music player for a music track when its switch is on, Telegram's player otherwise
+            showDialog(org.telegram.ui.mzgram.player.MZGramMusicPlayer.create(getContext(), getResourceProvider()));
+        }
+    }
+
     private void setActionsMode() {
         if (actionsView == null) return;
 
@@ -3895,38 +3935,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (userInfo != null && userInfo.saved_music != null) {
                 musicView.setMusicDocument(userInfo.saved_music);
             }
-            musicView.setOnClickListener(v -> {
-                if (savedMusicList == null) {
-                    if (
-                        MediaController.getInstance().currentSavedMusicList != null &&
-                        MediaController.getInstance().currentSavedMusicList.currentAccount == currentAccount &&
-                        MediaController.getInstance().currentSavedMusicList.dialogId == getDialogId()) {
-                        savedMusicList = MediaController.getInstance().currentSavedMusicList;
-                    } else {
-                        savedMusicList = new MessagesController.SavedMusicList(currentAccount, getDialogId());
-                        if (userInfo != null && userInfo.saved_music != null) {
-                            savedMusicList.setup(userInfo.saved_music);
-                        }
-                    }
-                }
-                if (!savedMusicList.list.isEmpty()) {
-                    boolean sameList = false;
-                    if (
-                        MediaController.getInstance().currentSavedMusicList != savedMusicList ||
-                        !MediaController.getInstance().isPlayingMessage(savedMusicList.list.get(0))
-                    ) {
-                        MediaController.getInstance().cleanup();
-                    } else {
-                        sameList = true;
-                    }
-                    MediaController.getInstance().currentSavedMusicList = savedMusicList;
-                    MediaController.getInstance().getPlaylist().clear();
-                    MediaController.getInstance().getPlaylist().addAll(savedMusicList.list);
-                    if (!sameList) MediaController.getInstance().playMessage(savedMusicList.list.get(0));
-                    // MZGram: the Material 3 music player for a music track when its switch is on, Telegram's player otherwise
-                    showDialog(org.telegram.ui.mzgram.player.MZGramMusicPlayer.create(getContext(), getResourceProvider()));
-                }
-            });
+            musicView.setOnClickListener(v -> openSavedMusic());
 
             actionsView = new ProfileActionsView(context, dp(74));
             setActionsMode();
@@ -10616,6 +10625,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         addToContactsRow = -1;
         emptyRow = -1;
         emptyRow2 = -1;
+        musicCardRow = -1;
+        musicCardSectionRow = -1;
         infoHeaderRow = -1;
         infoHeaderRowEmpty = -1;
         infoEndRowEmpty = -1;
@@ -10661,6 +10672,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         channelBalanceRow = -1;
         balanceDividerRow = -1;
         hasMusic = false;
+        hasMusicCard = false;
         hasBalance = userId != 0 && userInfo != null && userInfo.wallet_card != null
                 && (imageUpdater == null || myProfile);
 
@@ -10708,7 +10720,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         if (userId != 0) {
             TLRPC.User user = getMessagesController().getUser(userId);
-            if (userInfo != null && userInfo.saved_music != null && (imageUpdater == null || myProfile)) {
+            TLRPC.Document musicDoc = userInfo != null ? userInfo.saved_music : null;
+            if (musicDoc == null && myProfile && MediaController.getInstance().getPlayingMessageObject() != null && MediaController.getInstance().getPlayingMessageObject().isMusic()) {
+                musicDoc = MediaController.getInstance().getPlayingMessageObject().getDocument();
+            }
+            if (org.telegram.messenger.mzgram.MZGramConfig.profileMusicCard && musicDoc != null && (imageUpdater == null || myProfile)) {
+                hasMusicCard = true;
+            } else if (userInfo != null && userInfo.saved_music != null && (imageUpdater == null || myProfile)) {
                 hasMusic = true;
             }
 
@@ -10718,6 +10736,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else {
                     emptyRow = rowCount++;
                 }
+            }
+
+            if (hasMusicCard) {
+                musicCardRow = rowCount++;
+                musicCardSectionRow = rowCount++;
             }
 
             if (UserObject.isUserSelf(user) && !myProfile) {
@@ -13420,6 +13443,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     view.setTag(RecyclerListView.TAG_NOT_SECTION);
                     break;
                 }
+                case VIEW_TYPE_MUSIC: {
+                    org.telegram.ui.mzgram.ProfileMusicCard card = new org.telegram.ui.mzgram.ProfileMusicCard(mContext, resourcesProvider);
+                    card.setOnCardClickListener(ProfileActivity.this::openSavedMusic);
+                    view = card;
+                    view.setTag(RecyclerListView.TAG_NOT_SECTION);
+                    break;
+                }
                 case VIEW_TYPE_SHARED_MEDIA: {
                     if (sharedMediaLayout.getParent() != null) {
                         ((ViewGroup) sharedMediaLayout.getParent()).removeView(sharedMediaLayout);
@@ -14314,8 +14344,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     break;
                 case VIEW_TYPE_BOT_APP:
                     break;
-                case VIEW_TYPE_MUSIC:
+                case VIEW_TYPE_MUSIC: {
+                    TLRPC.Document musicDoc = userInfo != null ? userInfo.saved_music : null;
+                    if (musicDoc == null && myProfile && MediaController.getInstance().getPlayingMessageObject() != null && MediaController.getInstance().getPlayingMessageObject().isMusic()) {
+                        musicDoc = MediaController.getInstance().getPlayingMessageObject().getDocument();
+                    }
+                    if (musicDoc != null) {
+                        TLRPC.User musicUser = getMessagesController().getUser(userId);
+                        long emojiId = musicUser != null && musicUser.profile_color != null ? musicUser.profile_color.background_emoji_id : 0;
+                        ((org.telegram.ui.mzgram.ProfileMusicCard) holder.itemView).set(musicDoc, emojiId);
+                    }
                     break;
+                }
             }
         }
 
@@ -14446,7 +14486,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             int type = holder.getItemViewType();
             return type != VIEW_TYPE_HEADER && type != VIEW_TYPE_DIVIDER && type != VIEW_TYPE_SHADOW &&
                     type != VIEW_TYPE_EMPTY && type != VIEW_TYPE_EMPTY2 && type != VIEW_TYPE_HEADER_EMPTY && type != VIEW_TYPE_BOTTOM_PADDING && type != VIEW_TYPE_SHARED_MEDIA &&
-                    type != 9 && type != 10 && type != VIEW_TYPE_BOT_APP && type != VIEW_TYPE_TEXT2; // These are legacy ones, left for compatibility
+                    type != 9 && type != 10 && type != VIEW_TYPE_BOT_APP && type != VIEW_TYPE_TEXT2 && type != VIEW_TYPE_MUSIC; // These are legacy ones, left for compatibility
         }
 
         @Override
@@ -14496,6 +14536,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return VIEW_TYPE_SHADOW;
             } else if (position >= membersStartRow && position < membersEndRow) {
                 return VIEW_TYPE_USER;
+            } else if (position == musicCardRow) {
+                return VIEW_TYPE_MUSIC;
+            } else if (position == musicCardSectionRow) {
+                return VIEW_TYPE_SHADOW;
             } else if (position == emptyRow) {
                 return VIEW_TYPE_EMPTY;
             } else if (position == emptyRow2) {
@@ -15866,6 +15910,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, clearLogsRow, sparseIntArray);
             put(++pointer, switchBackendRow, sparseIntArray);
             put(++pointer, versionRow, sparseIntArray);
+            put(++pointer, musicCardRow, sparseIntArray);
+            put(++pointer, musicCardSectionRow, sparseIntArray);
             put(++pointer, emptyRow, sparseIntArray);
             put(++pointer, emptyRow2, sparseIntArray);
             put(++pointer, bottomPaddingRow, sparseIntArray);

@@ -228,6 +228,8 @@ public class MZGramConfig {
     // Appearance: Material 3 switches and card-based list layout.
     public static boolean m3Switches = false;
     public static boolean cardsDesign = false;
+    // Profile: display saved or currently playing music as a card
+    public static boolean profileMusicCard = false;
     // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
@@ -512,6 +514,7 @@ public class MZGramConfig {
             deletedDialogsInMainList = preferences.getBoolean("deletedDialogsInMainList", false);
             m3Switches = preferences.getBoolean("m3Switches", false);
             cardsDesign = preferences.getBoolean("cardsDesign", false);
+            profileMusicCard = preferences.getBoolean("profileMusicCard", false);
             forwardDeletedAsCopy = preferences.getBoolean("forwardDeletedAsCopy", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
@@ -1092,6 +1095,11 @@ public class MZGramConfig {
     public static void toggleCardsDesign() {
         cardsDesign = !cardsDesign;
         putBoolean("cardsDesign", cardsDesign);
+    }
+
+    public static void toggleProfileMusicCard() {
+        profileMusicCard = !profileMusicCard;
+        putBoolean("profileMusicCard", profileMusicCard);
     }
 
     public static void toggleForwardDeletedAsCopy() {

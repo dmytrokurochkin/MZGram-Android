@@ -68,6 +68,8 @@ subprojects {
 if (findProperty('mzgramPlugins')?.toString()?.toBoolean()) {
     subprojects {
         repositories {
+            google()
+            mavenCentral()
             maven {
                 url 'https://maven.aliucord.com/releases'
                 content {

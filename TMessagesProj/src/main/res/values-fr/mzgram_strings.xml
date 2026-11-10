@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">ID utilisateur</string>
     <string name="MZGramDeletedDialogsInMainList">Afficher dans la liste principale des discussions</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Garder les discussions supprimées visibles dans la liste principale avec leur dernier message conservé.</string>
+    <string name="MZGramSectionAppearance">Apparence</string>
+    <string name="MZGramSectionAppearanceInfo">Interrupteurs Material 3, listes de cartes et style visuel</string>
+    <string name="MZGramM3Switches">Interrupteurs Material 3</string>
+    <string name="MZGramM3SwitchesInfo">Utiliser le style moderne d\'interrupteur Material 3 dans toute l\'application.</string>
+    <string name="MZGramCardsDesign">Cartes</string>
+    <string name="MZGramCardsDesignInfo">Grouper les éléments de listes en cartes arrondies avec des ombres douces.</string>
 </resources>

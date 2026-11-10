@@ -67,6 +67,9 @@ public abstract class UniversalFragment extends BaseFragment {
                 savedScrollPosition = -1;
             }
         };
+        if (org.telegram.messenger.mzgram.MZGramConfig.cardsDesign) {
+            listView.setSections();
+        }
         contentView.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         return fragmentView = contentView;

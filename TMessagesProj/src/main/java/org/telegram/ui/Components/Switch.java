@@ -51,6 +51,7 @@ public class Switch extends View {
     private boolean isChecked;
     private Paint paint;
     private Paint paint2;
+    private Paint outlinePaint;
 
     private int drawIconType;
     private float iconProgress = 1.0f;
@@ -196,7 +197,7 @@ public class Switch extends View {
             );
             rippleDrawable = new BaseCell.RippleDrawableSafe(colorStateList, null, maskDrawable);
             if (Build.VERSION.SDK_INT >= 23) {
-                rippleDrawable.setRadius(AndroidUtilities.dp(18));
+                rippleDrawable.setRadius(org.telegram.messenger.mzgram.MZGramConfig.m3Switches ? org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.stateLayerRadius() : AndroidUtilities.dp(18));
             }
             rippleDrawable.setCallback(this);
         }
@@ -376,6 +377,10 @@ public class Switch extends View {
         if (getVisibility() != VISIBLE) {
             return;
         }
+        if (org.telegram.messenger.mzgram.MZGramConfig.m3Switches) {
+            drawMaterial3Switch(canvas);
+            return;
+        }
 
         int width = AndroidUtilities.dp(31);
         int thumb = AndroidUtilities.dp(20);
@@ -546,6 +551,129 @@ public class Switch extends View {
             }
             if (a == 1) {
                 canvasToDraw.drawBitmap(overlayMaskBitmap, 0, 0, overlayMaskPaint);
+            }
+        }
+        if (overrideColorProgress != 0) {
+            canvas.drawBitmap(overlayBitmap[1], 0, 0, null);
+        }
+    }
+
+    private void drawMaterial3Switch(Canvas canvas) {
+        final int width = getMeasuredWidth();
+        final int height = getMeasuredHeight();
+        final int stateLayer = org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.stateLayerRadius();
+        if (outlinePaint == null) {
+            outlinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            outlinePaint.setStyle(Paint.Style.STROKE);
+        }
+        final float cx = org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.thumbCenterX(width, progress);
+        final float cy = height / 2f;
+        final int trackOff = processColor(org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.unselectedTrackColor(trackColorKey, resourcesProvider));
+        final int trackOn = processColor(Theme.getColor(trackCheckedColorKey, resourcesProvider));
+        final int thumbOff = processColor(org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.unselectedThumbColor(trackColorKey, resourcesProvider));
+        final int thumbOn = processColor(org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.selectedThumbColor(thumbCheckedColorKey, resourcesProvider));
+
+        for (int a = 0; a < 2; a++) {
+            if (a == 1 && overrideColorProgress == 0) {
+                continue;
+            }
+            final Canvas target = a == 0 ? canvas : overlayCanvas[0];
+            if (a == 1) {
+                overlayBitmap[0].eraseColor(0);
+                paint.setColor(0xff000000);
+                overlayMaskCanvas.drawRect(0, 0, overlayMaskBitmap.getWidth(), overlayMaskBitmap.getHeight(), paint);
+                overlayMaskCanvas.drawCircle(overlayCx - getX(), overlayCy - getY(), overlayRad, overlayEraserPaint);
+            }
+            final float colorProgress;
+            if (overrideColorProgress == 1) {
+                colorProgress = a == 0 ? 0 : 1;
+            } else if (overrideColorProgress == 2) {
+                colorProgress = a == 0 ? 1 : 0;
+            } else {
+                colorProgress = progress;
+            }
+            if (a == 0 && iconDrawable != null && lastIconColor != (isChecked ? trackOn : trackOff)) {
+                iconDrawable.setColorFilter(new PorterDuffColorFilter(lastIconColor = (isChecked ? trackOn : trackOff), PorterDuff.Mode.MULTIPLY));
+            }
+            final int trackColor = androidx.core.graphics.ColorUtils.blendARGB(trackOff, trackOn, colorProgress);
+            paint.setColor(trackColor);
+            paint2.setColor(trackColor);
+            org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.setTrackBounds(rectF, width, height);
+            final float trackRadius = rectF.height() / 2f;
+            target.drawRoundRect(rectF, trackRadius, trackRadius, paint);
+            final float outlineAlpha = 1f - colorProgress;
+            if (outlineAlpha > 0f) {
+                final float stroke = org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.trackOutlineWidth();
+                outlinePaint.setColor(Theme.multAlpha(thumbOff, outlineAlpha));
+                outlinePaint.setStrokeWidth(stroke);
+                rectF.inset(stroke / 2f, stroke / 2f);
+                target.drawRoundRect(rectF, trackRadius - stroke / 2f, trackRadius - stroke / 2f, outlinePaint);
+            }
+            if (a == 0 && rippleDrawable != null) {
+                rippleDrawable.setBounds((int) cx - stateLayer, (int) cy - stateLayer, (int) cx + stateLayer, (int) cy + stateLayer);
+                rippleDrawable.draw(target);
+            } else if (a == 1) {
+                target.drawBitmap(overlayMaskBitmap, 0, 0, overlayMaskPaint);
+            }
+        }
+        if (overrideColorProgress != 0) {
+            canvas.drawBitmap(overlayBitmap[0], 0, 0, null);
+        }
+
+        for (int a = 0; a < 2; a++) {
+            if (a == 1 && overrideColorProgress == 0) {
+                continue;
+            }
+            final Canvas target = a == 0 ? canvas : overlayCanvas[1];
+            if (a == 1) {
+                overlayBitmap[1].eraseColor(0);
+            }
+            final float colorProgress;
+            if (overrideColorProgress == 1) {
+                colorProgress = a == 0 ? 0 : 1;
+            } else if (overrideColorProgress == 2) {
+                colorProgress = a == 0 ? 1 : 0;
+            } else {
+                colorProgress = progress;
+            }
+            paint.setColor(androidx.core.graphics.ColorUtils.blendARGB(thumbOff, thumbOn, colorProgress));
+            final float iconFactor = drawIconType == 1 || drawIconType == 2 || iconAnimator != null
+                    ? 1f
+                    : (iconDrawable != null ? animatorIconVisibility.getFloatValue() : 0f);
+            org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.setThumbBounds(rectF, cx, cy, progress, isChecked, iconFactor, 0f);
+            final float thumbRadius = rectF.height() / 2f;
+            target.drawRoundRect(rectF, thumbRadius, thumbRadius, paint);
+            if (a == 0) {
+                if (iconDrawable != null) {
+                    final float visibility = animatorIconVisibility.getFloatValue();
+                    if (visibility > 0f) {
+                        final int iconWidth = iconDrawable.getIntrinsicWidth();
+                        final int iconHeight = iconDrawable.getIntrinsicHeight();
+                        final float scale = visibility * org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.thumbIconScale(iconWidth, iconHeight);
+                        canvas.save();
+                        canvas.translate(cx - iconWidth / 2f, cy - iconHeight / 2f);
+                        canvas.scale(scale, scale, iconWidth / 2f, iconHeight / 2f);
+                        iconDrawable.setBounds(0, 0, iconWidth, iconHeight);
+                        iconDrawable.draw(canvas);
+                        canvas.restore();
+                    }
+                } else if (drawIconType == 1) {
+                    paint2.setStrokeWidth(org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.iconStrokeWidth());
+                    float[] lines = new float[8];
+                    org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.setCheckIconLines(lines, cx, cy, progress);
+                    target.drawLines(lines, paint2);
+                } else if (drawIconType == 2 || iconAnimator != null) {
+                    paint2.setAlpha((int) (255 * (1f - iconProgress)));
+                    paint2.setStrokeWidth(org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.iconStrokeWidth());
+                    target.drawLine(cx, cy, cx, cy - org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.clockHandLength(true), paint2);
+                    target.save();
+                    target.rotate(-90f * iconProgress, cx, cy);
+                    target.drawLine(cx, cy, cx + org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.clockHandLength(false), cy, paint2);
+                    target.restore();
+                }
+            }
+            if (a == 1) {
+                target.drawBitmap(overlayMaskBitmap, 0, 0, overlayMaskPaint);
             }
         }
         if (overrideColorProgress != 0) {

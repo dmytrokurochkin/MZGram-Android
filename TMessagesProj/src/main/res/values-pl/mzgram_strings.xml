@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">ID użytkownika</string>
     <string name="MZGramDeletedDialogsInMainList">Pokaż na głównej liście czatów</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Utrzymuj usunięte czaty widoczne na głównej liście czatów z ich ostatnią zachowaną wiadomością.</string>
+    <string name="MZGramSectionAppearance">Wygląd</string>
+    <string name="MZGramSectionAppearanceInfo">Przełączniki Material 3, listy kart i styl wizualny</string>
+    <string name="MZGramM3Switches">Przełączniki Material 3</string>
+    <string name="MZGramM3SwitchesInfo">Użyj nowoczesnego stylu przełączników Material 3 w całej aplikacji.</string>
+    <string name="MZGramCardsDesign">Karty</string>
+    <string name="MZGramCardsDesignInfo">Grupuj elementy list w zaokrąglone karty z miękkim cieniem.</string>
 </resources>

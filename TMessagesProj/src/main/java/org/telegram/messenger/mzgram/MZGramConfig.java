@@ -225,6 +225,9 @@ public class MZGramConfig {
     public static final String DEFAULT_EDITED_MARK = "\u270F\uFE0F";
     public static String deletedMark = DEFAULT_DELETED_MARK;
     public static String editedMark = DEFAULT_EDITED_MARK;
+    // Appearance: Material 3 switches and card-based list layout.
+    public static boolean m3Switches = false;
+    public static boolean cardsDesign = false;
     // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
@@ -507,6 +510,8 @@ public class MZGramConfig {
             deletedMessagesList = preferences.getBoolean("deletedMessagesList", false);
             deletedDialogsList = preferences.getBoolean("deletedDialogsList", false);
             deletedDialogsInMainList = preferences.getBoolean("deletedDialogsInMainList", false);
+            m3Switches = preferences.getBoolean("m3Switches", false);
+            cardsDesign = preferences.getBoolean("cardsDesign", false);
             forwardDeletedAsCopy = preferences.getBoolean("forwardDeletedAsCopy", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
@@ -1077,6 +1082,16 @@ public class MZGramConfig {
     public static void toggleDeletedDialogsInMainList() {
         deletedDialogsInMainList = !deletedDialogsInMainList;
         putBoolean("deletedDialogsInMainList", deletedDialogsInMainList);
+    }
+
+    public static void toggleM3Switches() {
+        m3Switches = !m3Switches;
+        putBoolean("m3Switches", m3Switches);
+    }
+
+    public static void toggleCardsDesign() {
+        cardsDesign = !cardsDesign;
+        putBoolean("cardsDesign", cardsDesign);
     }
 
     public static void toggleForwardDeletedAsCopy() {

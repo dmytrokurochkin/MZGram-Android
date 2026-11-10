@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">Kullanıcı Kimliği</string>
     <string name="MZGramDeletedDialogsInMainList">Ana sohbet listesinde göster</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Silinen sohbetleri son kaydedilen mesajlarıyla ana sohbet listesinde görünür tutun.</string>
+    <string name="MZGramSectionAppearance">Görünüm</string>
+    <string name="MZGramSectionAppearanceInfo">Material 3 anahtarları, kart listeleri ve görsel stil</string>
+    <string name="MZGramM3Switches">Material 3 anahtarları</string>
+    <string name="MZGramM3SwitchesInfo">Uygulama genelinde modern Material 3 anahtar stilini kullanın.</string>
+    <string name="MZGramCardsDesign">Kartlar</string>
+    <string name="MZGramCardsDesignInfo">Liste öğelerini hafif gölgeli yuvarlak kartlar halinde gruplayın.</string>
 </resources>

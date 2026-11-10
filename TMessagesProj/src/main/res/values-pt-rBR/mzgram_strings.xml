@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">ID de usuário</string>
     <string name="MZGramDeletedDialogsInMainList">Mostrar na lista principal de conversas</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Manter as conversas excluídas visíveis na lista principal com a última mensagem mantida.</string>
+    <string name="MZGramSectionAppearance">Aparência</string>
+    <string name="MZGramSectionAppearanceInfo">Interruptores Material 3, listas de cartões e estilo visual</string>
+    <string name="MZGramM3Switches">Interruptores Material 3</string>
+    <string name="MZGramM3SwitchesInfo">Usar estilo moderno de interruptores Material 3 em todo o aplicativo.</string>
+    <string name="MZGramCardsDesign">Cartões</string>
+    <string name="MZGramCardsDesignInfo">Agrupar itens de listas em cartões arredondados com sombras suaves.</string>
 </resources>

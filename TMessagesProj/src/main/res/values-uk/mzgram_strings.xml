@@ -1054,4 +1054,10 @@
     <string name="MZGramMenuMentionUserId">ID користувача</string>
     <string name="MZGramDeletedDialogsInMainList">Показувати в головному списку чатів</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Залишати видалені чати видимими в головному списку чатів з останнім збереженим повідомленням.</string>
+    <string name="MZGramSectionAppearance">Вигляд</string>
+    <string name="MZGramSectionAppearanceInfo">M3-перемикачі, картковий дизайн та візуальний стиль</string>
+    <string name="MZGramM3Switches">M3-перемикачі</string>
+    <string name="MZGramM3SwitchesInfo">Використовувати сучасний стиль перемикачів Material 3 у застосунку.</string>
+    <string name="MZGramCardsDesign">Картки</string>
+    <string name="MZGramCardsDesignInfo">Групувати пункти списків у скруглені картки з м\'якою тінню.</string>
 </resources>

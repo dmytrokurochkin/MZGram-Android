@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">معرف المستخدم</string>
     <string name="MZGramDeletedDialogsInMainList">إظهار في قائمة المحادثات الرئيسية</string>
     <string name="MZGramDeletedDialogsInMainListInfo">إبقاء المحادثات المحذوفة مرئية في قائمة المحادثات الرئيسية مع آخر رسالة محفوظة لها.</string>
+    <string name="MZGramSectionAppearance">المظهر</string>
+    <string name="MZGramSectionAppearanceInfo">مفاتيح Material 3، قوائم البطاقات والنمط المرئي</string>
+    <string name="MZGramM3Switches">مفاتيح Material 3</string>
+    <string name="MZGramM3SwitchesInfo">استخدام نمط مفاتيح Material 3 الحديث في جميع أنحاء التطبيق.</string>
+    <string name="MZGramCardsDesign">بطاقات</string>
+    <string name="MZGramCardsDesignInfo">تجميع عناصر القوائم في بطاقات مستديرة ذات ظلال ناعمة.</string>
 </resources>

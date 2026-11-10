@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">Benutzer-ID</string>
     <string name="MZGramDeletedDialogsInMainList">In der Haupt-Chatliste anzeigen</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Gelöschte Chats mit ihrer letzten gespeicherten Nachricht in der Haupt-Chatliste sichtbar halten.</string>
+    <string name="MZGramSectionAppearance">Erscheinungsbild</string>
+    <string name="MZGramSectionAppearanceInfo">Material 3 Schalter, Kartenlisten und visuelles Design</string>
+    <string name="MZGramM3Switches">Material 3 Schalter</string>
+    <string name="MZGramM3SwitchesInfo">Modernen Material 3 Schalterstil in der gesamten App verwenden.</string>
+    <string name="MZGramCardsDesign">Karten</string>
+    <string name="MZGramCardsDesignInfo">Listenelemente in abgerundete Karten mit Schatten gruppieren.</string>
 </resources>

@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">ID de usuario</string>
     <string name="MZGramDeletedDialogsInMainList">Mostrar en la lista principal de chats</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Mantener visibles los chats eliminados en la lista principal de chats con su último mensaje guardado.</string>
+    <string name="MZGramSectionAppearance">Apariencia</string>
+    <string name="MZGramSectionAppearanceInfo">Interruptores Material 3, listas de tarjetas y estilo visual</string>
+    <string name="MZGramM3Switches">Interruptores Material 3</string>
+    <string name="MZGramM3SwitchesInfo">Usar estilo de interruptores Material 3 moderno en toda la aplicación.</string>
+    <string name="MZGramCardsDesign">Tarjetas</string>
+    <string name="MZGramCardsDesignInfo">Agrupar elementos de listas en tarjetas redondeadas con sombras suaves.</string>
 </resources>

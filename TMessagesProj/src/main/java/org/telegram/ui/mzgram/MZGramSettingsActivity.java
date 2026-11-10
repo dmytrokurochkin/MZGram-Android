@@ -156,6 +156,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DELETED_DIALOGS_LIST = 102;
     private static final int BUTTON_DELETED_DIALOGS_OPEN = 103;
     private static final int BUTTON_DELETED_DIALOGS_IN_MAIN_LIST = 193;
+    // Appearance: Material 3 switches and card-based lists
+    private static final int BUTTON_M3_SWITCHES = 194;
+    private static final int BUTTON_CARDS_DESIGN = 195;
     // Archive: import another client's message database (MZGramForeignArchiveImport)
     private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
     // Archive: forward kept deleted messages as copies (MZGramProtectedContent)
@@ -288,7 +291,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     public static final int SECTION_OTHER = 7;
     public static final int SECTION_PRIVACY = 8;
     public static final int SECTION_CHATS = 9;
-    public static final int SECTIONS_COUNT = 10;
+    public static final int SECTION_APPEARANCE = 10;
+    public static final int SECTIONS_COUNT = 11;
     // Row ids of the topics on the main page; clear of the BUTTON_ ids,
     // which stay below it.
     public static final int SECTION_ROW_ID = 1000;
@@ -301,6 +305,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             SECTION_MESSAGE_MENU,
             SECTION_MEDIA_AND_CALLS,
             SECTION_INTERFACE,
+            SECTION_APPEARANCE,
             SECTION_ADS_AND_FILTERS,
             SECTION_AI,
             SECTION_OTHER,
@@ -317,6 +322,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.string.MZGramSectionOther,
             R.string.MZGramSectionPrivacy,
             R.string.MZGramSectionChats,
+            R.string.MZGramSectionAppearance,
     };
     private static final int[] SECTION_INFOS = {
             R.string.MZGramSectionArchiveInfo,
@@ -329,6 +335,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.string.MZGramSectionOtherInfo,
             R.string.MZGramSectionPrivacyInfo,
             R.string.MZGramSectionChatsInfo,
+            R.string.MZGramSectionAppearanceInfo,
     };
     private static final int[] SECTION_ICONS = {
             R.drawable.settings_data,
@@ -341,6 +348,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.drawable.settings_faq,
             R.drawable.settings_privacy,
             R.drawable.settings_channel,
+            R.drawable.msg_theme,
     };
     private static final IconBackgroundColors[] SECTION_COLORS = {
             IconBackgroundColors.BLUE_DEEP,
@@ -353,6 +361,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             IconBackgroundColors.BLUE_LIGHT,
             IconBackgroundColors.ORANGE_DEEP,
             IconBackgroundColors.BLUE,
+            IconBackgroundColors.PURPLE,
     };
 
     private final int section;
@@ -385,6 +394,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             case SECTION_OTHER: fillOther(items); break;
             case SECTION_PRIVACY: fillPrivacy(items); break;
             case SECTION_CHATS: fillChats(items); break;
+            case SECTION_APPEARANCE: fillAppearance(items); break;
             default: fillMain(items); break;
         }
     }
@@ -783,6 +793,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramSearchOperatorsInfo)));
         items.add(UItem.asCheck(BUTTON_FOLD_FANCY_FONTS, getString(R.string.MZGramFoldFancyFonts)).setChecked(MZGramConfig.foldFancyFontsInSearch));
         items.add(UItem.asShadow(getString(R.string.MZGramFoldFancyFontsInfo)));
+    }
+
+    private void fillAppearance(ArrayList<UItem> items) {
+        items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_M3_SWITCHES, getString(R.string.MZGramM3Switches)).setChecked(MZGramConfig.m3Switches));
+        items.add(UItem.asShadow(getString(R.string.MZGramM3SwitchesInfo)));
+        items.add(UItem.asCheck(BUTTON_CARDS_DESIGN, getString(R.string.MZGramCardsDesign)).setChecked(MZGramConfig.cardsDesign));
+        items.add(UItem.asShadow(getString(R.string.MZGramCardsDesignInfo)));
     }
 
     private void fillMessageMenu(ArrayList<UItem> items) {
@@ -1703,6 +1721,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_SEMI_TRANSPARENT_DELETED) {
             MZGramConfig.toggleSemiTransparentDeleted();
             ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);
+        } else if (item.id == BUTTON_M3_SWITCHES) {
+            MZGramConfig.toggleM3Switches();
+            ((TextCheckCell) view).setChecked(MZGramConfig.m3Switches);
+            if (listView != null) {
+                listView.invalidate();
+            }
+        } else if (item.id == BUTTON_CARDS_DESIGN) {
+            MZGramConfig.toggleCardsDesign();
+            ((TextCheckCell) view).setChecked(MZGramConfig.cardsDesign);
+            if (listView != null && listView.adapter != null) {
+                if (MZGramConfig.cardsDesign) {
+                    listView.setSections();
+                }
+                listView.adapter.update(true);
+            }
         } else if (item.id == BUTTON_ERASE_LOCAL_DATABASE) {
             new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
                     .setTitle(getString(R.string.MZGramEraseLocalDatabase))

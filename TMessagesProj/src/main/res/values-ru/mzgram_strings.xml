@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">ID пользователя</string>
     <string name="MZGramDeletedDialogsInMainList">Показывать в основном списке чатов</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Оставлять удаленные чаты видимыми в основном списке чатов с последним сохраненным сообщением.</string>
+    <string name="MZGramSectionAppearance">Внешний вид</string>
+    <string name="MZGramSectionAppearanceInfo">M3-переключатели, карточный дизайн и визуальный стиль</string>
+    <string name="MZGramM3Switches">M3-переключатели</string>
+    <string name="MZGramM3SwitchesInfo">Использовать современный стиль переключателей Material 3 в приложении.</string>
+    <string name="MZGramCardsDesign">Карточки</string>
+    <string name="MZGramCardsDesignInfo">Группировать пункты списков в скругленные карточки с мягкой тенью.</string>
 </resources>

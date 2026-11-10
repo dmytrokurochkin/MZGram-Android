@@ -1053,4 +1053,10 @@
     <string name="MZGramMenuMentionUserId">Пайдаланушы ID</string>
     <string name="MZGramDeletedDialogsInMainList">Негізгі чат тізімінде көрсету</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Жойылған чаттарды соңғы сақталған хабарламасымен негізгі чат тізімінде көрінетін етіп қалдыру.</string>
+    <string name="MZGramSectionAppearance">Сыртқы түрі</string>
+    <string name="MZGramSectionAppearanceInfo">Material 3 қосқыштары, карта тізімдері және визуалды стиль</string>
+    <string name="MZGramM3Switches">Material 3 қосқыштары</string>
+    <string name="MZGramM3SwitchesInfo">Қолданба бойынша заманауи Material 3 қосқыш стилін қолдану.</string>
+    <string name="MZGramCardsDesign">Карталар</string>
+    <string name="MZGramCardsDesignInfo">Тізім элементтерін жұмсақ көлеңкесі бар дөңгеленген карталарға топтастыру.</string>
 </resources>

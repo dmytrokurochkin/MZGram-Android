@@ -1035,4 +1035,7 @@
     <string name="MZGramPluginSafeModeActive">المكونات الإضافية محظورة حتى الخروج من الوضع الآمن.</string>
     <string name="MZGramPluginCrashed">تم تعطيل المكون الإضافي "%1$s" بعد الأعطال المتكررة.</string>
     <string name="MZGramPluginNotResponding">المكون الإضافي "%1$s" لا يستجيب.</string>
+    <string name="MZGramFolderLocal">مجلد محلي</string>
+    <string name="MZGramFolderLocalInfo">يظهر فقط في MZGram ولا يُرسل أبدًا إلى خوادم تيليجرام، مما يزيل قيود المجلدات والمحادثات. تتم المزامنة عبر الرسائل المحفوظة.</string>
+    <string name="MZGramFolderLocalTag">على الجهاز</string>
 </resources>

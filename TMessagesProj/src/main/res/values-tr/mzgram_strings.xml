@@ -1035,4 +1035,7 @@
     <string name="MZGramPluginSafeModeActive">Güvenli moddan çıkılana kadar eklentiler engellendi.</string>
     <string name="MZGramPluginCrashed">"%1$s" eklentisi tekrarlanan çökmelerden sonra devre dışı bırakıldı.</string>
     <string name="MZGramPluginNotResponding">"%1$s" eklentisi yanıt vermiyor.</string>
+    <string name="MZGramFolderLocal">Yerel klasör</string>
+    <string name="MZGramFolderLocalInfo">Yalnızca MZGram içinde gösterilir ve Telegram sunucularına gönderilmez, klasör ve sohbet sınırlarını kaldırır. Kayıtlı Mesajlar aracılığıyla eşitlenir.</string>
+    <string name="MZGramFolderLocalTag">bu cihazda</string>
 </resources>

@@ -4011,7 +4011,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 currentCount = 0;
                             }
                             int totalCount = currentCount + alwaysShow.size();
-                            if ((totalCount > getMessagesController().dialogFiltersChatsLimitDefault && !getUserConfig().isPremium()) || totalCount > getMessagesController().dialogFiltersChatsLimitPremium) {
+                            // MZGram: folders with a negative id have no chats-per-folder limit (MZGramLocalFolders)
+                            if (!org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter) && ((totalCount > getMessagesController().dialogFiltersChatsLimitDefault && !getUserConfig().isPremium()) || totalCount > getMessagesController().dialogFiltersChatsLimitPremium)) {
                                 showDialog(new LimitReachedBottomSheet(DialogsActivity.this, fragmentView.getContext(), LimitReachedBottomSheet.TYPE_CHATS_IN_FOLDER, currentAccount, null));
                                 return;
                             }
@@ -8819,7 +8820,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             int maxPinnedCount;
             if (containsFilter && filter != null) {
-                maxPinnedCount = 100 - filter.alwaysShow.size();
+                if (org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter)) {
+                    maxPinnedCount = org.telegram.messenger.mzgram.MZGramLocalFolders.maxPinned(getMessagesController(), getUserConfig().isPremium(), filter, pinnedCount);
+                } else {
+                    maxPinnedCount = 100 - filter.alwaysShow.size();
+                }
             } else if (folderId != 0 || filter != null) {
                 if (getUserConfig().isPremium()) {
                     maxPinnedCount = getMessagesController().maxFolderPinnedDialogsCountPremium;
@@ -9403,7 +9408,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             int maxPinnedCount;
             if (containsFilter) {
-                maxPinnedCount = 100 - filter.alwaysShow.size();
+                if (filter != null && org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter)) {
+                    maxPinnedCount = org.telegram.messenger.mzgram.MZGramLocalFolders.maxPinned(getMessagesController(), getUserConfig().isPremium(), filter, pinnedCount);
+                } else {
+                    maxPinnedCount = 100 - (filter != null ? filter.alwaysShow.size() : 0);
+                }
             } else if (folderId != 0 || filter != null) {
                 if (UserConfig.getInstance(currentAccount).isPremium()) {
                     maxPinnedCount = getMessagesController().maxFolderPinnedDialogsCountPremium;

@@ -1035,4 +1035,7 @@
     <string name="MZGramPluginSafeModeActive">Праца плагінаў заблакіравана да выхаду з бяспечнага рэжыму.</string>
     <string name="MZGramPluginCrashed">Плагін "%1$s" адключаны пасля паўторных збояў.</string>
     <string name="MZGramPluginNotResponding">Плагін "%1$s" не адказвае.</string>
+    <string name="MZGramFolderLocal">Лакальная папка</string>
+    <string name="MZGramFolderLocalInfo">Адлюстроўваецца толькі ў MZGram і не адпраўляецца на серверы Telegram, здымаючы ліміты папак і чатаў. Сінхранізуецца паміж прыладамі праз Захаванае.</string>
+    <string name="MZGramFolderLocalTag">на прыладзе</string>
 </resources>

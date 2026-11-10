@@ -1035,4 +1035,7 @@
     <string name="MZGramPluginSafeModeActive">Wtyczki są zablokowane do momentu wyjścia z trybu bezpiecznego.</string>
     <string name="MZGramPluginCrashed">Wtyczka "%1$s" została wyłączona po powtarzających się awariach.</string>
     <string name="MZGramPluginNotResponding">Wtyczka "%1$s" nie odpowiada.</string>
+    <string name="MZGramFolderLocal">Folder lokalny</string>
+    <string name="MZGramFolderLocalInfo">Widoczny tylko w MZGram i nigdy nie wysyłany na serwery Telegrama, usuwając limity folderów i czatów. Synchronizowany przez Zapisane wiadomości.</string>
+    <string name="MZGramFolderLocalTag">na urządzeniu</string>
 </resources>

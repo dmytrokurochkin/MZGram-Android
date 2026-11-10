@@ -1035,4 +1035,7 @@
     <string name="MZGramPluginSafeModeActive">Қауіпсіз режимнен шыққанша плагиндер жұмысы бұғатталған.</string>
     <string name="MZGramPluginCrashed">"%1$s" плагині қайталанған ақаулардан кейін өшірілді.</string>
     <string name="MZGramPluginNotResponding">"%1$s" плагині жауап бермейді.</string>
+    <string name="MZGramFolderLocal">Жергілікті қалта</string>
+    <string name="MZGramFolderLocalInfo">Тек MZGram-да көрсетіледі және Telegram серверлеріне жіберілмейді, қалталар мен чаттар шектеулерін алып тастайды. Сақталған хабарламалар арқылы синхрондалады.</string>
+    <string name="MZGramFolderLocalTag">құрылғыда</string>
 </resources>

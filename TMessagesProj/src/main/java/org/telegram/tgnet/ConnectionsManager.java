@@ -396,6 +396,10 @@ public class ConnectionsManager extends BaseController {
     }
 
     private void sendRequestInternal(TLObject object, RequestDelegate onComplete, RequestDelegateTimestamp onCompleteTimestamp, QuickAckDelegate onQuickAck, WriteToSocketDelegate onWriteToSocket, int flags, int datacenterId, int connectionType, boolean immediate, int requestToken) {
+        // MZGram: local folders with a negative id never reach the server (MZGramLocalFolders)
+        if (org.telegram.messenger.mzgram.MZGramLocalFolders.dropIfLocal(object, onComplete)) {
+            return;
+        }
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("send request " + object + " with token = " + requestToken);
         }

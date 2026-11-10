@@ -470,6 +470,10 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             if (info.length() == 0) {
                 info.append(LocaleController.getString(R.string.FilterNoChats));
             }
+            // MZGram: tag for local folders (MZGramLocalFolders)
+            if (org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter)) {
+                info.append(", ").append(LocaleController.getString(R.string.MZGramFolderLocalTag));
+            }
 
             String name = filter.name;
             if (filter.isDefault()) {
@@ -732,14 +736,9 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     }
 
     public void createFolder(INavigationLayout navigationLayout) {
-        final int count = getMessagesController().getDialogFilters().size();
-        if (
-            count - 1 >= getMessagesController().dialogFiltersLimitDefault && !getUserConfig().isPremium() ||
-            count >= getMessagesController().dialogFiltersLimitPremium
-        ) {
-            showDialog(new LimitReachedBottomSheet(this, getContext(), LimitReachedBottomSheet.TYPE_FOLDERS, currentAccount, null));
-        } else if (navigationLayout != null) {
-            navigationLayout.presentFragment(new FilterCreateActivity());
+        // MZGram: only server folders count against the limit, reaching it creates a local folder (MZGramLocalFolders)
+        if (navigationLayout != null) {
+            navigationLayout.presentFragment(new FilterCreateActivity().mzgramSetFolder(org.telegram.messenger.mzgram.MZGramLocalFolders.serverFull(getAccountInstance())));
         }
     }
 

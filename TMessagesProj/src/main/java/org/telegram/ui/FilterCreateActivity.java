@@ -215,6 +215,32 @@ public class FilterCreateActivity extends BaseFragment {
         }
         newNeverShow = new ArrayList<>(filter.neverShow);
         newPinned = filter.pinnedDialogs.clone();
+        mzgramFolder = org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter);
+    }
+
+    private boolean mzgramFolder;
+
+    public FilterCreateActivity mzgramSetFolder(boolean local) {
+        mzgramFolder = local;
+        return this;
+    }
+
+    private void mzgramToggleFolder(org.telegram.ui.Cells.TextCheckCell cell) {
+        if (mzgramFolder) {
+            final MessagesController mc = getMessagesController();
+            final int chatsLimit = getUserConfig().isPremium() ? mc.dialogFiltersChatsLimitPremium : mc.dialogFiltersChatsLimitDefault;
+            if (org.telegram.messenger.mzgram.MZGramLocalFolders.serverFull(getAccountInstance())) {
+                showDialog(new org.telegram.ui.Components.Premium.LimitReachedBottomSheet(this, getContext(), org.telegram.ui.Components.Premium.LimitReachedBottomSheet.TYPE_FOLDERS, currentAccount, null));
+                return;
+            }
+            if (newAlwaysShow.size() > chatsLimit || newNeverShow.size() > chatsLimit) {
+                showDialog(new org.telegram.ui.Components.Premium.LimitReachedBottomSheet(this, getContext(), org.telegram.ui.Components.Premium.LimitReachedBottomSheet.TYPE_CHATS_IN_FOLDER, currentAccount, null));
+                return;
+            }
+        }
+        mzgramFolder = !mzgramFolder;
+        cell.setChecked(mzgramFolder);
+        checkDoneButton(true);
     }
 
     private int requestingInvitesReqId;
@@ -291,7 +317,11 @@ public class FilterCreateActivity extends BaseFragment {
         }));
         nameRow = items.size();
         items.add(ItemInner.asEdit());
-        items.add(ItemInner.asShadow(null));
+        final boolean localFolderRow = creatingNew || (filter != null && !filter.isChatlist() && invites.isEmpty());
+        if (localFolderRow) {
+            items.add(ItemInner.asCheck(LocaleController.getString(R.string.MZGramFolderLocal), mzgramFolder).whenClicked(v -> mzgramToggleFolder((org.telegram.ui.Cells.TextCheckCell) v)));
+        }
+        items.add(ItemInner.asShadow(localFolderRow ? LocaleController.getString(R.string.MZGramFolderLocalInfo) : null));
         items.add(ItemInner.asHeader(LocaleController.getString(R.string.FilterInclude)));
         items.add(ItemInner.asButton(R.drawable.msg2_chats_add, LocaleController.getString(R.string.FilterAddChats), false).whenClicked(v -> selectChatsFor(true)));
 
@@ -869,6 +899,7 @@ public class FilterCreateActivity extends BaseFragment {
         ArrayList<Long> arrayList = include ? newAlwaysShow : newNeverShow;
         UsersSelectActivity fragment = new UsersSelectActivity(include, arrayList, newFilterFlags);
         fragment.noChatTypes = filter.isChatlist();
+        fragment.mzgramNoLimit = mzgramFolder;
         fragment.setDelegate((ids, flags) -> {
             newFilterFlags = flags;
             if (include) {
@@ -1062,6 +1093,14 @@ public class FilterCreateActivity extends BaseFragment {
     }
 
     private void save(boolean progress, Runnable after) {
+        // MZGram: apply local/server id before saving (MZGramLocalFolders)
+        if (mzgramFolder != org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter)) {
+            if (creatingNew) {
+                filter.id = org.telegram.messenger.mzgram.MZGramLocalFolders.newId(getMessagesController(), mzgramFolder);
+            } else {
+                org.telegram.messenger.mzgram.MZGramLocalFolders.move(getAccountInstance(), filter, mzgramFolder);
+            }
+        }
         final CharSequence[] parsedTitle = new CharSequence[] { newFilterName };
         final ArrayList<TLRPC.MessageEntity> entities = getMediaDataController().getEntities(parsedTitle, false);
         saveFilterToServer(filter, newFilterFlags, parsedTitle[0].toString(), entities, !newFilterAnimations, newFilterColor, newAlwaysShow, newNeverShow, newPinned, creatingNew, false, hasUserChanged, true, progress, this, () -> {
@@ -1094,6 +1133,10 @@ public class FilterCreateActivity extends BaseFragment {
         filter.alwaysShow = newAlwaysShow;
         filter.title_noanimate = newFilterNoanimate;
         if (creatingNew) {
+            // MZGram: ensure default filter "All chats" exists when adding first local folder (MZGramLocalFolders)
+            if (org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter)) {
+                org.telegram.messenger.mzgram.MZGramLocalFolders.ensureDefaultFilter(fragment.getAccountInstance());
+            }
             fragment.getMessagesController().addFilter(filter, atBegin);
         } else {
             fragment.getMessagesController().onFilterUpdate(filter);
@@ -1240,6 +1283,10 @@ public class FilterCreateActivity extends BaseFragment {
 
     private boolean hasChanges() {
         hasUserChanged = false;
+        // MZGram: changing folder locality counts as change (MZGramLocalFolders)
+        if (mzgramFolder != org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter)) {
+            return true;
+        }
         if (filter.alwaysShow.size() != newAlwaysShow.size()) {
             hasUserChanged = true;
         }

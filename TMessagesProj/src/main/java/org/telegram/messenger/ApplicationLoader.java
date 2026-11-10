@@ -368,6 +368,8 @@ public class ApplicationLoader extends Application {
         org.telegram.messenger.mzgram.MZGramCrashLog.installIfEnabled();
         org.telegram.messenger.mzgram.plugins.MZGramPluginWatchdog.install();
         org.telegram.messenger.mzgram.MZGramEnergyProfiler.resumeIfEnabled(applicationContext);
+        // MZGram: local folders sync via Saved Messages (MZGramFolderSync)
+        org.telegram.messenger.mzgram.MZGramFolderSync.startAll();
 
         AndroidUtilities.runOnUIThread(ApplicationLoader::startPushService);
 

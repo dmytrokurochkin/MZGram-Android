@@ -1035,4 +1035,7 @@
     <string name="MZGramPluginSafeModeActive">Plugins are blocked until Safe Mode is exited.</string>
     <string name="MZGramPluginCrashed">Plugin "%1$s" was disabled after repeated crashes.</string>
     <string name="MZGramPluginNotResponding">Plugin "%1$s" is not responding.</string>
+    <string name="MZGramFolderLocal">Local folder</string>
+    <string name="MZGramFolderLocalInfo">Shown only in MZGram and never sent to Telegram servers, removing folder and chat limits. Synced between your devices through Saved Messages.</string>
+    <string name="MZGramFolderLocalTag">on this device</string>
 </resources>

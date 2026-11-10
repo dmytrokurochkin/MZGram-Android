@@ -878,9 +878,11 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public void lockFiltersInternal() {
         boolean changed = false;
-        if (!getUserConfig().isPremium() && dialogFilters.size() - 1 > dialogFiltersLimitDefault) {
-            int n = dialogFilters.size() - 1 - dialogFiltersLimitDefault;
-            ArrayList<DialogFilter> filtersSortedById = new ArrayList<>(dialogFilters);
+        // MZGram: folders with a negative id count against no limit (MZGramLocalFolders)
+        final int remoteCount = org.telegram.messenger.mzgram.MZGramLocalFolders.remoteCount(dialogFilters);
+        if (!getUserConfig().isPremium() && remoteCount - 1 > dialogFiltersLimitDefault) {
+            int n = remoteCount - 1 - dialogFiltersLimitDefault;
+            ArrayList<DialogFilter> filtersSortedById = org.telegram.messenger.mzgram.MZGramLocalFolders.remote(dialogFilters);
             Collections.reverse(filtersSortedById);
             for (int i = 0; i < filtersSortedById.size(); i++) {
                 if (i < n) {

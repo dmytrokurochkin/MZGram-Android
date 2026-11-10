@@ -1035,4 +1035,7 @@
     <string name="MZGramPluginSafeModeActive">Les plugins sont bloqués jusqu\'à la sortie du mode sans échec.</string>
     <string name="MZGramPluginCrashed">Le plugin "%1$s" a été désactivé après des plantages répétés.</string>
     <string name="MZGramPluginNotResponding">Le plugin "%1$s" ne répond pas.</string>
+    <string name="MZGramFolderLocal">Dossier local</string>
+    <string name="MZGramFolderLocalInfo">Affiché uniquement dans MZGram et jamais envoyé aux serveurs de Telegram, supprimant les limites de dossiers et d\'échanges. Synchronisé via Messages enregistrés.</string>
+    <string name="MZGramFolderLocalTag">sur cet appareil</string>
 </resources>

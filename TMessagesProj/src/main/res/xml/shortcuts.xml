@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="mzgram_ghost_mode"
+        android:enabled="true"
+        android:icon="@drawable/ghost"
+        android:shortcutShortLabel="@string/MZGramGhostMode"
+        android:shortcutLongLabel="@string/MZGramGhostMode">
+        <intent
+            android:action="org.telegram.messenger.mzgram.ACTION_TOGGLE_GHOST_MODE"
+            android:targetClass="org.telegram.messenger.mzgram.MZGramShortcutActivity" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="mzgram_scan_qr"
+        android:enabled="true"
+        android:icon="@drawable/msg_qr_scan"
+        android:shortcutShortLabel="@string/MZGramShortcutScanQr"
+        android:shortcutLongLabel="@string/MZGramShortcutScanQr">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="org.telegram.ui.LaunchActivity"
+            android:data="tg://scanqr" />
+    </shortcut>
+
     <share-target android:targetClass="org.telegram.ui.LaunchActivity">
         <data android:mimeType="*/*" />
         <category android:name="org.telegram.messenger.SHORTCUT_SHARE" />

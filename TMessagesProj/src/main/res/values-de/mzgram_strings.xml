@@ -1046,4 +1046,5 @@
     <string name="MZGramRoundVideoAdvanced">Erweiterte Rekorder-Einstellungen</string>
     <string name="MZGramCompactChatHeader">Kompakter Chat-Header</string>
     <string name="MZGramCompactChatHeaderInfo">Verkleinert Avatar und Abstände in der Chat-Titelleiste, um Platz zu sparen.</string>
+    <string name="MZGramShortcutScanQr">QR-Anmeldung</string>
 </resources>

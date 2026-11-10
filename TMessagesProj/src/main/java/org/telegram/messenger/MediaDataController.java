@@ -5012,15 +5012,25 @@ public class MediaDataController extends BaseController {
         if (Build.VERSION.SDK_INT < 23) {
             return;
         }
-        int maxShortcuts = ShortcutManagerCompat.getMaxShortcutCountPerActivity(ApplicationLoader.applicationContext) - 2;
-        if (maxShortcuts <= 0) {
-            maxShortcuts = 5;
+        int totalMax = ShortcutManagerCompat.getMaxShortcutCountPerActivity(ApplicationLoader.applicationContext);
+        int staticCount = 0;
+        if (Build.VERSION.SDK_INT >= 25) {
+            try {
+                android.content.pm.ShortcutManager sm = ApplicationLoader.applicationContext.getSystemService(android.content.pm.ShortcutManager.class);
+                if (sm != null) {
+                    staticCount = sm.getManifestShortcuts().size();
+                }
+            } catch (Throwable ignore) {
+                staticCount = 2;
+            }
         }
+        int maxShortcuts = Math.max(1, totalMax - staticCount);
         ArrayList<TLRPC.TL_topPeer> hintsFinal = new ArrayList<>();
         if (SharedConfig.passcodeHash.length() <= 0) {
+            int maxHints = Math.max(0, maxShortcuts - 1);
             for (int a = 0; a < hints.size(); a++) {
                 hintsFinal.add(hints.get(a));
-                if (hintsFinal.size() == maxShortcuts - 2) {
+                if (hintsFinal.size() >= maxHints) {
                     break;
                 }
             }
@@ -5184,10 +5194,14 @@ public class MediaDataController extends BaseController {
                         ShortcutManagerCompat.pushDynamicShortcut(ApplicationLoader.applicationContext, builder.build());
                     } else {
                         arrayList.add(builder.build());
-                        if (shortcutsToUpdate.contains(id)) {
-                            ShortcutManagerCompat.updateShortcuts(ApplicationLoader.applicationContext, arrayList);
-                        } else {
-                            ShortcutManagerCompat.addDynamicShortcuts(ApplicationLoader.applicationContext, arrayList);
+                        try {
+                            if (shortcutsToUpdate.contains(id)) {
+                                ShortcutManagerCompat.updateShortcuts(ApplicationLoader.applicationContext, arrayList);
+                            } else {
+                                ShortcutManagerCompat.addDynamicShortcuts(ApplicationLoader.applicationContext, arrayList);
+                            }
+                        } catch (Throwable e) {
+                            FileLog.e(e);
                         }
                         arrayList.clear();
                     }

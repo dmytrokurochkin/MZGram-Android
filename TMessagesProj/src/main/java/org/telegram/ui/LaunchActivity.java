@@ -1526,6 +1526,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (AndroidUtilities.handleProxyIntent(this, intent, true)) {
             return true;
         }
+        if (intent != null && org.telegram.messenger.mzgram.MZGramShortcutActivity.ACTION_TOGGLE_GHOST_MODE.equals(intent.getAction())) {
+            org.telegram.messenger.mzgram.MZGramConfig.toggleGhostMode();
+            boolean on = org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled();
+            String text = LocaleController.getString(R.string.MZGramGhostMode) + ": " +
+                    LocaleController.getString(on ? R.string.MZGramTileOn : R.string.MZGramTileOff);
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (intent == null || !Intent.ACTION_MAIN.equals(intent.getAction())) {
             if (PhotoViewer.hasInstance() && PhotoViewer.getInstance().isVisible()) {
                 PhotoViewer.getInstance().closePhoto(false, true);

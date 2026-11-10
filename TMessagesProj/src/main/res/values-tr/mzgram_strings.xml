@@ -1046,4 +1046,5 @@
     <string name="MZGramRoundVideoAdvanced">Gelişmiş kaydedici ayarları</string>
     <string name="MZGramCompactChatHeader">Kompakt sohbet başlığı</string>
     <string name="MZGramCompactChatHeaderInfo">Ekran alanından tasarruf etmek için sohbet başlığındaki avatar boyutunu ve boşlukları küçültür.</string>
+    <string name="MZGramShortcutScanQr">QR ile Giriş</string>
 </resources>

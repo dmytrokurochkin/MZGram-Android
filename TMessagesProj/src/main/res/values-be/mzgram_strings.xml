@@ -1046,4 +1046,5 @@
     <string name="MZGramRoundVideoAdvanced">Пашыраныя налады рэкордэра</string>
     <string name="MZGramCompactChatHeader">Кампактная шапка чата</string>
     <string name="MZGramCompactChatHeaderInfo">Памяншае памер аватаркі і водступы ў шапцы чата для эканоміі месца на экране.</string>
+    <string name="MZGramShortcutScanQr">Уваход па QR</string>
 </resources>

@@ -574,6 +574,21 @@
             </intent-filter>
         </service>
 
+        <!-- MZGram: launcher static shortcut target for quick actions -->
+        <activity
+            android:name="org.telegram.messenger.mzgram.MZGramShortcutActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.telegram.messenger.mzgram.ACTION_TOGGLE_GHOST_MODE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.telegram.messenger.mzgram.ACTION_SCAN_QR" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name="org.telegram.messenger.mzgram.MZGramUnifiedPushService"
             android:exported="false">

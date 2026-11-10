@@ -1046,4 +1046,5 @@
     <string name="MZGramRoundVideoAdvanced">Zaawansowane ustawienia rejestratora</string>
     <string name="MZGramCompactChatHeader">Kompaktowy nagłówek czatu</string>
     <string name="MZGramCompactChatHeaderInfo">Zmniejsza rozmiar awatara i odstępy w nagłówku czatu, aby zaoszczędzić miejsce.</string>
+    <string name="MZGramShortcutScanQr">Logowanie QR</string>
 </resources>

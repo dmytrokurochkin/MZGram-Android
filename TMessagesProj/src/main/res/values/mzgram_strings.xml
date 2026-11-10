@@ -1046,4 +1046,5 @@
     <string name="MZGramRoundVideoAdvanced">Advanced recorder settings</string>
     <string name="MZGramCompactChatHeader">Compact chat header</string>
     <string name="MZGramCompactChatHeaderInfo">Reduces avatar size and spacing in the chat title bar to save screen space.</string>
+    <string name="MZGramShortcutScanQr">QR Login</string>
 </resources>

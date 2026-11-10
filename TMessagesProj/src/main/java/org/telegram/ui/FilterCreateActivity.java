@@ -128,6 +128,7 @@ public class FilterCreateActivity extends BaseFragment {
     private boolean newFilterAnimations = true;
     private int newFilterFlags;
     private int newFilterColor;
+    private String newFilterEmoticon;
     private ArrayList<Long> newAlwaysShow;
     private ArrayList<Long> newNeverShow;
     private LongSparseIntArray newPinned;
@@ -216,6 +217,10 @@ public class FilterCreateActivity extends BaseFragment {
         newNeverShow = new ArrayList<>(filter.neverShow);
         newPinned = filter.pinnedDialogs.clone();
         mzgramFolder = org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter);
+        newFilterEmoticon = filter.emoticon;
+        if (android.text.TextUtils.isEmpty(newFilterEmoticon)) {
+            newFilterEmoticon = org.telegram.messenger.mzgram.MZGramFolderEmoticons.get(currentAccount, filter.id);
+        }
     }
 
     private boolean mzgramFolder;
@@ -1132,6 +1137,13 @@ public class FilterCreateActivity extends BaseFragment {
         filter.neverShow = newNeverShow;
         filter.alwaysShow = newAlwaysShow;
         filter.title_noanimate = newFilterNoanimate;
+        // MZGram: preserve folder emoticon when editing/saving folder (folders.emoticon-preserve)
+        if (filter != null && android.text.TextUtils.isEmpty(filter.emoticon) && fragment != null) {
+            String saved = org.telegram.messenger.mzgram.MZGramFolderEmoticons.get(fragment.getCurrentAccount(), filter.id);
+            if (!android.text.TextUtils.isEmpty(saved)) {
+                filter.emoticon = saved;
+            }
+        }
         if (creatingNew) {
             // MZGram: ensure default filter "All chats" exists when adding first local folder (MZGramLocalFolders)
             if (org.telegram.messenger.mzgram.MZGramLocalFolders.isLocal(filter)) {
@@ -1190,6 +1202,24 @@ public class FilterCreateActivity extends BaseFragment {
         } else {
             req.filter.flags |= 134217728;
             req.filter.color = newFilterColor;
+        }
+        // MZGram: preserve folder emoticon when editing/saving folder (folders.emoticon-preserve)
+        String preservedEmoticon = null;
+        if (filter != null) {
+            preservedEmoticon = filter.emoticon;
+            if (android.text.TextUtils.isEmpty(preservedEmoticon) && fragment != null) {
+                preservedEmoticon = org.telegram.messenger.mzgram.MZGramFolderEmoticons.get(fragment.getCurrentAccount(), filter.id);
+            }
+        }
+        if (!android.text.TextUtils.isEmpty(preservedEmoticon)) {
+            req.filter.flags |= (1 << 25);
+            req.filter.emoticon = preservedEmoticon;
+            if (filter != null) {
+                filter.emoticon = preservedEmoticon;
+            }
+            if (fragment != null) {
+                org.telegram.messenger.mzgram.MZGramFolderEmoticons.remember(fragment.getCurrentAccount(), filter.id, preservedEmoticon);
+            }
         }
         MessagesController messagesController = fragment.getMessagesController();
         ArrayList<Long> pinArray = new ArrayList<>();

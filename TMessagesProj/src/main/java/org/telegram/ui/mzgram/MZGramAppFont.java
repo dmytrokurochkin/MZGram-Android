@@ -12,6 +12,8 @@ package org.telegram.ui.mzgram;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
+
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.mzgram.MZGramConfig;
@@ -31,6 +33,12 @@ public final class MZGramAppFont {
         if (mode == MZGramFonts.SYSTEM) {
             return LocaleController.getString(R.string.MZGramAppFontSystem);
         }
+        if (mode == MZGramFonts.INTER) {
+            return "Inter";
+        }
+        if (mode == MZGramFonts.FIRA_SANS) {
+            return "Fira Sans";
+        }
         if (mode == MZGramFonts.FILE) {
             final String name = MZGramConfig.appFontName;
             return TextUtils.isEmpty(name) ? LocaleController.getString(R.string.MZGramAppFontFileShort) : name;
@@ -48,28 +56,37 @@ public final class MZGramAppFont {
             return;
         }
         final boolean file = MZGramFonts.fileSupported();
-        final CharSequence[] names = new CharSequence[file ? 3 : 2];
-        names[0] = LocaleController.getString(R.string.MZGramAppFontTelegram);
-        names[1] = LocaleController.getString(R.string.MZGramAppFontSystem);
+        final ArrayList<CharSequence> names = new ArrayList<>();
+        final ArrayList<Integer> modes = new ArrayList<>();
+        names.add(LocaleController.getString(R.string.MZGramAppFontTelegram));
+        modes.add(MZGramFonts.TELEGRAM);
+        names.add(LocaleController.getString(R.string.MZGramAppFontSystem));
+        modes.add(MZGramFonts.SYSTEM);
+        names.add("Inter");
+        modes.add(MZGramFonts.INTER);
+        names.add("Fira Sans");
+        modes.add(MZGramFonts.FIRA_SANS);
         if (file) {
-            names[2] = LocaleController.getString(R.string.MZGramAppFontFile);
+            names.add(LocaleController.getString(R.string.MZGramAppFontFile));
+            modes.add(MZGramFonts.FILE);
         }
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString(R.string.MZGramAppFont));
-        builder.setItems(names, (dialog, which) -> {
-            if (which == MZGramFonts.FILE) {
+        builder.setItems(names.toArray(new CharSequence[0]), (dialog, which) -> {
+            final int selectedMode = modes.get(which);
+            if (selectedMode == MZGramFonts.FILE) {
                 if (pickFile != null) {
                     pickFile.run();
                 }
                 return;
             }
             final int before = MZGramFonts.mode();
-            MZGramConfig.setAppFont(which, null);
+            MZGramConfig.setAppFont(selectedMode, null);
             MZGramFonts.deleteFile();
             if (onChanged != null) {
                 onChanged.run();
             }
-            if (before != which) {
+            if (before != selectedMode) {
                 showRestart(fragment);
             }
         });

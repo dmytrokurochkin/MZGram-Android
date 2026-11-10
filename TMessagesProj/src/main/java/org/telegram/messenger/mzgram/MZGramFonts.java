@@ -46,6 +46,8 @@ public final class MZGramFonts {
     public static final int TELEGRAM = 0;
     public static final int SYSTEM = 1;
     public static final int FILE = 2;
+    public static final int INTER = 3;
+    public static final int FIRA_SANS = 4;
 
     private static final String FILE_NAME = "mzgram_app_font";
     private static final long MAX_SIZE = 32L * 1024 * 1024;
@@ -79,7 +81,7 @@ public final class MZGramFonts {
     /** The chosen mode, as the settings show it. */
     public static int mode() {
         final int mode = MZGramConfig.appFont;
-        return mode == SYSTEM || mode == FILE && fileSupported() ? mode : TELEGRAM;
+        return mode == SYSTEM || mode == INTER || mode == FIRA_SANS || (mode == FILE && fileSupported()) ? mode : TELEGRAM;
     }
 
     private static File fontFile() {
@@ -103,8 +105,8 @@ public final class MZGramFonts {
     private static int resolveMode() {
         try {
             final int mode = mode();
-            if (mode == SYSTEM) {
-                return SYSTEM;
+            if (mode == SYSTEM || mode == INTER || mode == FIRA_SANS) {
+                return mode;
             }
             if (mode == FILE) {
                 final File file = fontFile();
@@ -156,7 +158,15 @@ public final class MZGramFonts {
             Typeface typeface = cache.get(assetPath);
             if (typeface == null) {
                 try {
-                    typeface = mode == FILE ? fromFile(kind) : fromSystem(kind);
+                    if (mode == FILE) {
+                        typeface = fromFile(kind);
+                    } else if (mode == INTER) {
+                        typeface = fromAsset("fonts/inter_", kind);
+                    } else if (mode == FIRA_SANS) {
+                        typeface = fromAsset("fonts/firasans_", kind);
+                    } else {
+                        typeface = fromSystem(kind);
+                    }
                 } catch (Throwable e) {
                     FileLog.e("MZGramFonts.typeface", e);
                 }
@@ -166,6 +176,44 @@ public final class MZGramFonts {
             }
             return typeface;
         }
+    }
+
+    private static Typeface fromAsset(String prefix, int kind) {
+        try {
+            android.content.res.AssetManager am = ApplicationLoader.applicationContext.getAssets();
+            if ("fonts/inter_".equals(prefix)) {
+                switch (kind) {
+                    case KIND_MEDIUM:
+                    case KIND_CONDENSED_BOLD:
+                    case KIND_EXTRA_BOLD:
+                        return Typeface.createFromAsset(am, "fonts/inter_medium.otf");
+                    case KIND_MEDIUM_ITALIC:
+                        return Typeface.createFromAsset(am, "fonts/inter_bolditalic.otf");
+                    case KIND_ITALIC:
+                        return Typeface.createFromAsset(am, "fonts/inter_italic.otf");
+                    default:
+                        return Typeface.createFromAsset(am, "fonts/inter_regular.otf");
+                }
+            } else if ("fonts/firasans_".equals(prefix)) {
+                switch (kind) {
+                    case KIND_MEDIUM:
+                        return Typeface.createFromAsset(am, "fonts/firasans_medium.ttf");
+                    case KIND_MEDIUM_ITALIC:
+                        Typeface med = Typeface.createFromAsset(am, "fonts/firasans_medium.ttf");
+                        return Typeface.create(med, Typeface.ITALIC);
+                    case KIND_ITALIC:
+                        return Typeface.createFromAsset(am, "fonts/firasans_italic.ttf");
+                    case KIND_CONDENSED_BOLD:
+                    case KIND_EXTRA_BOLD:
+                        return Typeface.createFromAsset(am, "fonts/firasans_bold.ttf");
+                    default:
+                        return Typeface.createFromAsset(am, "fonts/firasans_regular.ttf");
+                }
+            }
+        } catch (Throwable e) {
+            FileLog.e("MZGramFonts.fromAsset", e);
+        }
+        return null;
     }
 
     private static Typeface fromFile(int kind) {
@@ -252,16 +300,37 @@ public final class MZGramFonts {
      */
     public static void applyDefault() {
         try {
-            if (activeMode() != FILE) {
+            final int mode = activeMode();
+            if (mode == TELEGRAM || mode == SYSTEM) {
                 return;
             }
-            final Typeface regular = fileTypeface;
-            if (regular == null) {
+            final Typeface regular;
+            final Typeface bold;
+            final Typeface italic;
+            final Typeface boldItalic;
+            if (mode == INTER) {
+                android.content.res.AssetManager am = ApplicationLoader.applicationContext.getAssets();
+                regular = Typeface.createFromAsset(am, "fonts/inter_regular.otf");
+                bold = Typeface.createFromAsset(am, "fonts/inter_medium.otf");
+                italic = Typeface.createFromAsset(am, "fonts/inter_italic.otf");
+                boldItalic = Typeface.createFromAsset(am, "fonts/inter_bolditalic.otf");
+            } else if (mode == FIRA_SANS) {
+                android.content.res.AssetManager am = ApplicationLoader.applicationContext.getAssets();
+                regular = Typeface.createFromAsset(am, "fonts/firasans_regular.ttf");
+                bold = Typeface.createFromAsset(am, "fonts/firasans_bold.ttf");
+                italic = Typeface.createFromAsset(am, "fonts/firasans_italic.ttf");
+                boldItalic = Typeface.create(bold, Typeface.ITALIC);
+            } else if (mode == FILE) {
+                regular = fileTypeface;
+                if (regular == null) {
+                    return;
+                }
+                bold = Typeface.create(regular, Typeface.BOLD);
+                italic = Typeface.create(regular, Typeface.ITALIC);
+                boldItalic = Typeface.create(regular, Typeface.BOLD_ITALIC);
+            } else {
                 return;
             }
-            final Typeface bold = Typeface.create(regular, Typeface.BOLD);
-            final Typeface italic = Typeface.create(regular, Typeface.ITALIC);
-            final Typeface boldItalic = Typeface.create(regular, Typeface.BOLD_ITALIC);
             setStatic("DEFAULT", regular);
             setStatic("SANS_SERIF", regular);
             setStatic("DEFAULT_BOLD", bold);

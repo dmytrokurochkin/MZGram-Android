@@ -108,6 +108,7 @@ Each item has its own switch.
 | Tall names in Settings | The number and the username in the own header of Settings stay below the name also when the name is taller than a line of the usual font, as a name with runes. | 1.0.9 |
 | Hide rows of Telegram's Settings | Settings > MZGram > Interface > Hide in Telegram's Settings: a switch for each of Telegram Premium, Telegram Stars, Gram Earnings, Telegram Business, Send a Gift, Wallet, Ask a Question, Telegram FAQ, Telegram Features and Privacy Policy. A hidden row is gone from Telegram's Settings and from its search; nothing else changes. All off by default. | 1.0.9 |
 | Standard color themes | The color theme row in Appearance always lists the home theme and 8 standard themes built on the device, also without a server answer and after an update; themes from the server are added after them. The theme in use stays selected after Switch to Night Mode. | 1.0.1 |
+| App font choices | Settings > MZGram > Interface > App font: choose Telegram's font, system font, embedded Inter or Fira Sans (OFL 1.1 with Cyrillic and italics), or import a custom TTF/OTF font file. | Next release |
 
 ### Ads and filters
 
@@ -328,3 +329,4 @@ Yes: present. No: absent. Partly: present in a narrower form.
 | MZGram name everywhere | Yes | Yes |
 | ARM64 builds | Yes (the APK) | Yes |
 | Plugin hooks and Aliuhook | Yes | No |
+| App font choices: Inter and Fira Sans | Yes | No |

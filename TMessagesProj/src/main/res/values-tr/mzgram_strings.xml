@@ -1038,4 +1038,10 @@
     <string name="MZGramFolderLocal">Yerel klasör</string>
     <string name="MZGramFolderLocalInfo">Yalnızca MZGram içinde gösterilir ve Telegram sunucularına gönderilmez, klasör ve sohbet sınırlarını kaldırır. Kayıtlı Mesajlar aracılığıyla eşitlenir.</string>
     <string name="MZGramFolderLocalTag">bu cihazda</string>
+    <string name="MZGramRoundVideoCamera2">Alternatif yuvarlak video kaydedici (Camera2)</string>
+    <string name="MZGramRoundVideoCamera2Info">OpenGL yuvarlak maskeleme, kesintisiz kamera değişimi ve 60 FPS desteği sunan yüksek performanslı donanım ardışık düzeni.</string>
+    <string name="MZGramRoundVideoHighFps">Yüksek kare hızı (60 FPS)</string>
+    <string name="MZGramRoundVideoHighFpsInfo">Cihazdaki her iki kamera da desteklediğinde 60 FPS kaydetmeyi dener.</string>
+    <string name="MZGramRoundVideoBitrate">Video bit hızı</string>
+    <string name="MZGramRoundVideoAdvanced">Gelişmiş kaydedici ayarları</string>
 </resources>

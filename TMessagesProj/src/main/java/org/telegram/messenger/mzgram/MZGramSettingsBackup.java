@@ -106,7 +106,8 @@ public final class MZGramSettingsBackup {
                 "saveProtectedContent", "deleteForAllByDefault", "predictiveBackAnimation",
                 "gooeyAvatarAnimation", "losslessPhotoCrop", "crashReports", "hideBottomNavigationBar",
                 "accountsInMenu", "recentChatsOnBack", "extendedPins", "pillStack", "iconPacks",
-                "monetThemes", "useCameraX", "cameraXWideLens", "cameraXZoomSlider", "musicPlayer",
+                "monetThemes", "useCameraX", "cameraXWideLens", "cameraXZoomSlider",
+                "round_video_camera2_enabled", "round_video_high_fps", "musicPlayer",
                 "musicPlayerBar", "folderTabsAtBottom", "confirmAVMessage", "mediaPreviewOnLongPress",
                 "ghostMode", "ghostAutoDelaySend", "ghostSilentSend", "offerGhostModeBeforeStories",
                 "ghostModeExclusions", "confirmInternalLinks", "disableReadStickers",
@@ -153,6 +154,8 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "scheduleDefaultMinutes", 1, 366 * 24 * 60);
         // MZGramProxyAutoDisable.ALL; the mark "turned off here" is device state (mzgram_proxy)
         integer(CONFIG, "proxyDisableConditions", 0, 7);
+        // Round video bitrate
+        integer(CONFIG, "round_video_bitrate", 100_000, 10_000_000);
         texts(CONFIG, TEXT_MAX,
                 "aiProvider", "language", "deletedMark", "editedMark", "hiddenReactions",
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",

@@ -1038,4 +1038,10 @@
     <string name="MZGramFolderLocal">Жергілікті қалта</string>
     <string name="MZGramFolderLocalInfo">Тек MZGram-да көрсетіледі және Telegram серверлеріне жіберілмейді, қалталар мен чаттар шектеулерін алып тастайды. Сақталған хабарламалар арқылы синхрондалады.</string>
     <string name="MZGramFolderLocalTag">құрылғыда</string>
+    <string name="MZGramRoundVideoCamera2">Дөңгелек бейне жазудың баламалы құралы (Camera2)</string>
+    <string name="MZGramRoundVideoCamera2Info">OpenGL дөңгелек маскасы, камераларды үзіліссіз ауыстыру және 60 FPS қолдауы бар жоғары өнімді аппараттық конвейер.</string>
+    <string name="MZGramRoundVideoHighFps">Жоғары кадр жиілігі (60 FPS)</string>
+    <string name="MZGramRoundVideoHighFpsInfo">Құрылғының екі камерасы да қолдаса, 60 FPS жылдамдықпен жазуға тырысады.</string>
+    <string name="MZGramRoundVideoBitrate">Бейне бит жылдамдығы</string>
+    <string name="MZGramRoundVideoAdvanced">Рекордердің қосымша параметрлері</string>
 </resources>

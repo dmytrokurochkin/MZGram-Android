@@ -1038,4 +1038,10 @@
     <string name="MZGramFolderLocal">Локальная папка</string>
     <string name="MZGramFolderLocalInfo">Отображается только в MZGram и не отправляется на серверы Telegram, снимая лимиты папок и чатов. Синхронизируется между устройствами через Избранное.</string>
     <string name="MZGramFolderLocalTag">на устройстве</string>
+    <string name="MZGramRoundVideoCamera2">Альтернативный рекордер круглых видео (Camera2)</string>
+    <string name="MZGramRoundVideoCamera2Info">Высокопроизводительный аппаратный конвейер с OpenGL-маской, бесшовным переключением камер и поддержкой 60 FPS.</string>
+    <string name="MZGramRoundVideoHighFps">Высокая частота кадров (60 FPS)</string>
+    <string name="MZGramRoundVideoHighFpsInfo">Выполняет попытку записи 60 FPS, если это поддерживают обе камеры устройства.</string>
+    <string name="MZGramRoundVideoBitrate">Битрейт видео</string>
+    <string name="MZGramRoundVideoAdvanced">Расширенные настройки рекордера</string>
 </resources>

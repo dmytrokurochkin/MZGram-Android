@@ -1038,4 +1038,10 @@
     <string name="MZGramFolderLocal">Local folder</string>
     <string name="MZGramFolderLocalInfo">Shown only in MZGram and never sent to Telegram servers, removing folder and chat limits. Synced between your devices through Saved Messages.</string>
     <string name="MZGramFolderLocalTag">on this device</string>
+    <string name="MZGramRoundVideoCamera2">Alternative round video recorder (Camera2)</string>
+    <string name="MZGramRoundVideoCamera2Info">High-performance hardware pipeline with OpenGL round masking, seamless camera flipping and smooth 60 FPS support.</string>
+    <string name="MZGramRoundVideoHighFps">High frame rate (60 FPS)</string>
+    <string name="MZGramRoundVideoHighFpsInfo">Attempts 60 FPS recording when supported by both front and rear cameras.</string>
+    <string name="MZGramRoundVideoBitrate">Video bitrate</string>
+    <string name="MZGramRoundVideoAdvanced">Advanced recorder settings</string>
 </resources>

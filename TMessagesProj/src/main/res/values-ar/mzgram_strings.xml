@@ -1038,4 +1038,10 @@
     <string name="MZGramFolderLocal">مجلد محلي</string>
     <string name="MZGramFolderLocalInfo">يظهر فقط في MZGram ولا يُرسل أبدًا إلى خوادم تيليجرام، مما يزيل قيود المجلدات والمحادثات. تتم المزامنة عبر الرسائل المحفوظة.</string>
     <string name="MZGramFolderLocalTag">على الجهاز</string>
+    <string name="MZGramRoundVideoCamera2">مسجل فيديو دائري بديل (Camera2)</string>
+    <string name="MZGramRoundVideoCamera2Info">مسار عتادي عالي الأداء مع قناع دائري عبر OpenGL وتبديل سلس للكاميرا ودعم 60 إطارا في الثانية.</string>
+    <string name="MZGramRoundVideoHighFps">معدل إطارات مرتفع (60 إطارا في الثانية)</string>
+    <string name="MZGramRoundVideoHighFpsInfo">يحاول التسجيل بمعدل 60 إطارا في الثانية إذا كانت كلتا الكاميرتين تدعمان ذلك.</string>
+    <string name="MZGramRoundVideoBitrate">معدل نقل بيانات الفيديو</string>
+    <string name="MZGramRoundVideoAdvanced">إعدادات المسجل المتقدمة</string>
 </resources>

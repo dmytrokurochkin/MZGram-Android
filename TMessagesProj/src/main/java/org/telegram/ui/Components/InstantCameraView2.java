@@ -379,13 +379,20 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
         showInitialPlaceholder();
         upload = new TelegramRoundVideoUpload(currentAccount, secretChat);
         activeOutputResolution = SharedSettings.roundVideoOutputResolution.get();
+        // MZGram: round_video_high_fps and round_video_bitrate
+        RoundVideoSession.FrameRate requestedFrameRate = org.telegram.messenger.mzgram.MZGramConfig.roundVideoHighFps
+                ? RoundVideoSession.FrameRate.FPS_60
+                : SharedSettings.roundVideoFrameRate.get();
+        int requestedBitrate = org.telegram.messenger.mzgram.MZGramConfig.roundVideoBitrate > 0
+                ? org.telegram.messenger.mzgram.MZGramConfig.roundVideoBitrate
+                : SharedSettings.roundVideoVideoBitrate.get();
         session = new RoundVideoSession.Builder(getContext(), textureView)
                 .setOutputDirectory(new File(ApplicationLoader.getFilesDirFixed(), "cache"))
                 .setInitialFacing(SharedSettings.roundVideoLastCamera.get())
                 .setOutputResolution(activeOutputResolution)
-                .setVideoBitrate(SharedSettings.roundVideoVideoBitrate.get())
+                .setVideoBitrate(requestedBitrate)
                 .setCameraResolution(SharedSettings.roundVideoCameraResolution.get())
-                .setFrameRate(SharedSettings.roundVideoFrameRate.get())
+                .setFrameRate(requestedFrameRate)
                 .setCompositionEnabled(SharedSettings.roundVideoComposition.get())
                 .setListener(sessionListener)
                 .setOutputListener(upload)

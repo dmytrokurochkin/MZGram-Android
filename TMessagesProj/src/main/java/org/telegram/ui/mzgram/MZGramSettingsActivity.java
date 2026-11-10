@@ -219,6 +219,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CAMERA_X = 177;
     private static final int BUTTON_CAMERA_X_WIDE = 178;
     private static final int BUTTON_CAMERA_X_ZOOM = 179;
+    private static final int BUTTON_ROUND_VIDEO_CAMERA2 = 188;
+    private static final int BUTTON_ROUND_VIDEO_HIGH_FPS = 189;
+    private static final int BUTTON_ROUND_VIDEO_BITRATE = 190;
+    private static final int BUTTON_ROUND_VIDEO_ADVANCED = 191;
     private static final int BUTTON_MUSIC_PLAYER = 180;
     private static final int BUTTON_MUSIC_PLAYER_BAR = 181;
     private static final int BUTTON_MUSIC_PLAYER_STYLE = 182;
@@ -537,6 +541,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
         return org.telegram.messenger.mzgram.MZGramLanguage.name(MZGramConfig.language);
     }
 
+    private static String formatRoundBitrate(int bitrate) {
+        if (bitrate >= 1_000_000) {
+            if (bitrate % 1_000_000 == 0) {
+                return (bitrate / 1_000_000) + " Mbps";
+            }
+            return String.format(java.util.Locale.US, "%.1f Mbps", bitrate / 1_000_000f);
+        }
+        return (bitrate / 1_000) + " kbps";
+    }
+
     // Same as Telegram, System and the languages, each by its own name; the
     // choice applies at once.
     private void chooseLanguage() {
@@ -726,6 +740,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asCheck(BUTTON_CAMERA_X_ZOOM, getString(R.string.MZGramCameraXZoom)).setChecked(MZGramConfig.cameraXZoomSlider));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramCameraXInfo)));
+        items.add(UItem.asCheck(BUTTON_ROUND_VIDEO_CAMERA2, getString(R.string.MZGramRoundVideoCamera2)).setChecked(MZGramConfig.roundVideoCamera2));
+        if (MZGramConfig.roundVideoCamera2) {
+            items.add(UItem.asCheck(BUTTON_ROUND_VIDEO_HIGH_FPS, getString(R.string.MZGramRoundVideoHighFps)).setChecked(MZGramConfig.roundVideoHighFps));
+            items.add(UItem.asButton(BUTTON_ROUND_VIDEO_BITRATE, getString(R.string.MZGramRoundVideoBitrate), formatRoundBitrate(MZGramConfig.roundVideoBitrate)));
+            items.add(UItem.asButton(BUTTON_ROUND_VIDEO_ADVANCED, getString(R.string.MZGramRoundVideoAdvanced)));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramRoundVideoCamera2Info)));
         items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER, getString(R.string.MZGramMusicPlayer)).setChecked(MZGramConfig.musicPlayer));
         if (MZGramConfig.musicPlayer) {
             items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER_BAR, getString(R.string.MZGramMusicPlayerBar)).setChecked(MZGramConfig.musicPlayerBar));
@@ -1171,6 +1192,29 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CAMERA_X_ZOOM) {
             MZGramConfig.toggleCameraXZoomSlider();
             ((TextCheckCell) view).setChecked(MZGramConfig.cameraXZoomSlider);
+        } else if (item.id == BUTTON_ROUND_VIDEO_CAMERA2) {
+            MZGramConfig.toggleRoundVideoCamera2();
+            ((TextCheckCell) view).setChecked(MZGramConfig.roundVideoCamera2);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_ROUND_VIDEO_HIGH_FPS) {
+            MZGramConfig.toggleRoundVideoHighFps();
+            ((TextCheckCell) view).setChecked(MZGramConfig.roundVideoHighFps);
+        } else if (item.id == BUTTON_ROUND_VIDEO_BITRATE) {
+            int[] bitrates = new int[]{750_000, 1_000_000, 1_200_000, 2_000_000};
+            CharSequence[] labels = new CharSequence[]{"750 kbps", "1.0 Mbps", "1.2 Mbps", "2.0 Mbps"};
+            org.telegram.ui.ActionBar.AlertDialog.Builder builder = new org.telegram.ui.ActionBar.AlertDialog.Builder(getParentActivity());
+            builder.setTitle(getString(R.string.MZGramRoundVideoBitrate));
+            builder.setItems(labels, (dialog, index) -> {
+                MZGramConfig.setRoundVideoBitrate(bitrates[index]);
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            });
+            showDialog(builder.create());
+        } else if (item.id == BUTTON_ROUND_VIDEO_ADVANCED) {
+            presentFragment(new org.telegram.ui.RoundVideoSettingsActivity());
         } else if (item.id == BUTTON_MUSIC_PLAYER) {
             MZGramConfig.toggleMusicPlayer();
             ((TextCheckCell) view).setChecked(MZGramConfig.musicPlayer);

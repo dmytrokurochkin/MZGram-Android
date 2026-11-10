@@ -1038,4 +1038,10 @@
     <string name="MZGramFolderLocal">Carpeta local</string>
     <string name="MZGramFolderLocalInfo">Se muestra solo en MZGram y nunca se envía a los servidores de Telegram, eliminando los límites de carpetas y chats. Sincronizado a través de Mensajes guardados.</string>
     <string name="MZGramFolderLocalTag">en el dispositivo</string>
+    <string name="MZGramRoundVideoCamera2">Grabador alternativo de video redondo (Camera2)</string>
+    <string name="MZGramRoundVideoCamera2Info">Pipeline de hardware de alto rendimiento con máscara redonda OpenGL, cambio fluido de cámaras y soporte de 60 FPS.</string>
+    <string name="MZGramRoundVideoHighFps">Alta tasa de fotogramas (60 FPS)</string>
+    <string name="MZGramRoundVideoHighFpsInfo">Intenta grabar a 60 FPS cuando ambas cámaras lo admiten.</string>
+    <string name="MZGramRoundVideoBitrate">Tasa de bits de video</string>
+    <string name="MZGramRoundVideoAdvanced">Ajustes avanzados del grabador</string>
 </resources>

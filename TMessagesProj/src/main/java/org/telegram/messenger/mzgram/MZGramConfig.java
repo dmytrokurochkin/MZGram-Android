@@ -104,6 +104,10 @@ public class MZGramConfig {
     public static boolean cameraX = false;
     public static boolean cameraXWideLens = false;
     public static boolean cameraXZoomSlider = true;
+    // Native round video recorder pipeline (Camera2, RoundVideoSession)
+    public static boolean roundVideoCamera2 = false;
+    public static boolean roundVideoHighFps = false;
+    public static int roundVideoBitrate = 1200000;
     // The Material 3 music player (MZGramMusicPlayer) and its bar above the chat
     public static boolean musicPlayer = false;
     public static boolean musicPlayerBar = true;
@@ -434,6 +438,9 @@ public class MZGramConfig {
             cameraX = preferences.getBoolean("useCameraX", false);
             cameraXWideLens = preferences.getBoolean("cameraXWideLens", false);
             cameraXZoomSlider = preferences.getBoolean("cameraXZoomSlider", true);
+            roundVideoCamera2 = preferences.getBoolean("round_video_camera2_enabled", false);
+            roundVideoHighFps = preferences.getBoolean("round_video_high_fps", false);
+            roundVideoBitrate = preferences.getInt("round_video_bitrate", 1200000);
             musicPlayer = preferences.getBoolean("musicPlayer", false);
             musicPlayerBar = preferences.getBoolean("musicPlayerBar", true);
             proxyDisableConditions = preferences.getInt("proxyDisableConditions", 0) & MZGramProxyAutoDisable.ALL;
@@ -606,6 +613,21 @@ public class MZGramConfig {
     public static void toggleCameraXZoomSlider() {
         cameraXZoomSlider = !cameraXZoomSlider;
         putBoolean("cameraXZoomSlider", cameraXZoomSlider);
+    }
+
+    public static void toggleRoundVideoCamera2() {
+        roundVideoCamera2 = !roundVideoCamera2;
+        putBoolean("round_video_camera2_enabled", roundVideoCamera2);
+    }
+
+    public static void toggleRoundVideoHighFps() {
+        roundVideoHighFps = !roundVideoHighFps;
+        putBoolean("round_video_high_fps", roundVideoHighFps);
+    }
+
+    public static void setRoundVideoBitrate(int bitrate) {
+        roundVideoBitrate = bitrate;
+        preferences().edit().putInt("round_video_bitrate", roundVideoBitrate).apply();
     }
 
     public static void setProxyDisableConditions(int mask) {

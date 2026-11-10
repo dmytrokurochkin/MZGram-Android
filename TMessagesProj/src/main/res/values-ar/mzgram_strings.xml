@@ -1051,4 +1051,6 @@
     <string name="MZGramMenuCodeLanguage">اللغة</string>
     <string name="MZGramMenuMention">إشارة</string>
     <string name="MZGramMenuMentionUserId">معرف المستخدم</string>
+    <string name="MZGramDeletedDialogsInMainList">إظهار في قائمة المحادثات الرئيسية</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">إبقاء المحادثات المحذوفة مرئية في قائمة المحادثات الرئيسية مع آخر رسالة محفوظة لها.</string>
 </resources>

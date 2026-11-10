@@ -1051,4 +1051,6 @@
     <string name="MZGramMenuCodeLanguage">Langue</string>
     <string name="MZGramMenuMention">Mentionner</string>
     <string name="MZGramMenuMentionUserId">ID utilisateur</string>
+    <string name="MZGramDeletedDialogsInMainList">Afficher dans la liste principale des discussions</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">Garder les discussions supprimées visibles dans la liste principale avec leur dernier message conservé.</string>
 </resources>

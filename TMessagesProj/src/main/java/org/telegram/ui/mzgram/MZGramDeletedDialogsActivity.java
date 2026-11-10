@@ -24,6 +24,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
@@ -68,6 +69,10 @@ public class MZGramDeletedDialogsActivity extends UniversalFragment {
         for (int a = 0, N = all.size(); a < N; a++) {
             TLRPC.Dialog dialog = all.get(a);
             if (dialog != null && dialog.top_message != 0) {
+                ArrayList<MessageObject> msgs = MessagesController.getInstance(account).dialogMessage.get(dialog.id);
+                if (msgs != null && !msgs.isEmpty() && msgs.get(0) != null && msgs.get(0).messageOwner != null && msgs.get(0).messageOwner.mzgramDeleted) {
+                    continue;
+                }
                 shown.add(dialog.id);
             }
         }

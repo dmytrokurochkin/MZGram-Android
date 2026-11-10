@@ -1051,4 +1051,6 @@
     <string name="MZGramMenuCodeLanguage">Тіл</string>
     <string name="MZGramMenuMention">Атап өту</string>
     <string name="MZGramMenuMentionUserId">Пайдаланушы ID</string>
+    <string name="MZGramDeletedDialogsInMainList">Негізгі чат тізімінде көрсету</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">Жойылған чаттарды соңғы сақталған хабарламасымен негізгі чат тізімінде көрінетін етіп қалдыру.</string>
 </resources>

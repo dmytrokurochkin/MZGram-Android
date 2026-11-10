@@ -1051,4 +1051,6 @@
     <string name="MZGramMenuCodeLanguage">Idioma</string>
     <string name="MZGramMenuMention">Menção</string>
     <string name="MZGramMenuMentionUserId">ID de usuário</string>
+    <string name="MZGramDeletedDialogsInMainList">Mostrar na lista principal de conversas</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">Manter as conversas excluídas visíveis na lista principal com a última mensagem mantida.</string>
 </resources>

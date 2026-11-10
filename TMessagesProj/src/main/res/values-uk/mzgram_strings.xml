@@ -1052,4 +1052,6 @@
     <string name="MZGramMenuCodeLanguage">Мова</string>
     <string name="MZGramMenuMention">Згадка</string>
     <string name="MZGramMenuMentionUserId">ID користувача</string>
+    <string name="MZGramDeletedDialogsInMainList">Показувати в головному списку чатів</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">Залишати видалені чати видимими в головному списку чатів з останнім збереженим повідомленням.</string>
 </resources>

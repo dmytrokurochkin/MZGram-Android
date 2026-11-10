@@ -1051,4 +1051,6 @@
     <string name="MZGramMenuCodeLanguage">Sprache</string>
     <string name="MZGramMenuMention">Erwähnung</string>
     <string name="MZGramMenuMentionUserId">Benutzer-ID</string>
+    <string name="MZGramDeletedDialogsInMainList">In der Haupt-Chatliste anzeigen</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">Gelöschte Chats mit ihrer letzten gespeicherten Nachricht in der Haupt-Chatliste sichtbar halten.</string>
 </resources>

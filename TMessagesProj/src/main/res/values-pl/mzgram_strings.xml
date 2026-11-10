@@ -1051,4 +1051,6 @@
     <string name="MZGramMenuCodeLanguage">Język</string>
     <string name="MZGramMenuMention">Wzmianka</string>
     <string name="MZGramMenuMentionUserId">ID użytkownika</string>
+    <string name="MZGramDeletedDialogsInMainList">Pokaż na głównej liście czatów</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">Utrzymuj usunięte czaty widoczne na głównej liście czatów z ich ostatnią zachowaną wiadomością.</string>
 </resources>

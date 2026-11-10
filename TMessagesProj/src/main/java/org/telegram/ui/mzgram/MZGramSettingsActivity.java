@@ -155,6 +155,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Archive: Deleted chats (MZGramDeletedDialogsActivity)
     private static final int BUTTON_DELETED_DIALOGS_LIST = 102;
     private static final int BUTTON_DELETED_DIALOGS_OPEN = 103;
+    private static final int BUTTON_DELETED_DIALOGS_IN_MAIN_LIST = 193;
     // Archive: import another client's message database (MZGramForeignArchiveImport)
     private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
     // Archive: forward kept deleted messages as copies (MZGramProtectedContent)
@@ -447,6 +448,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_DELETED_DIALOGS_LIST, getString(R.string.MZGramDeletedDialogsList)).setChecked(MZGramConfig.deletedDialogsList));
         if (MZGramConfig.deletedDialogsList) {
             items.add(UItem.asButton(BUTTON_DELETED_DIALOGS_OPEN, getString(R.string.MZGramDeletedDialogs)));
+            items.add(UItem.asCheck(BUTTON_DELETED_DIALOGS_IN_MAIN_LIST, getString(R.string.MZGramDeletedDialogsInMainList)).setChecked(MZGramConfig.deletedDialogsInMainList));
+            items.add(UItem.asShadow(getString(R.string.MZGramDeletedDialogsInMainListInfo)));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramDeletedDialogsListInfo)));
         items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
@@ -1679,8 +1682,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DELETED_DIALOGS_LIST) {
             MZGramConfig.toggleDeletedDialogsList();
             ((TextCheckCell) view).setChecked(MZGramConfig.deletedDialogsList);
+            if (!MZGramConfig.deletedDialogsList) {
+                org.telegram.messenger.mzgram.MZGramDeletedDialogs.removeRestored(currentAccount);
+            } else if (MZGramConfig.deletedDialogsInMainList) {
+                org.telegram.messenger.mzgram.MZGramDeletedDialogs.restore(currentAccount);
+            }
             if (listView != null && listView.adapter != null) {
                 listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_DELETED_DIALOGS_IN_MAIN_LIST) {
+            MZGramConfig.toggleDeletedDialogsInMainList();
+            ((TextCheckCell) view).setChecked(MZGramConfig.deletedDialogsInMainList);
+            if (MZGramConfig.deletedDialogsInMainList) {
+                org.telegram.messenger.mzgram.MZGramDeletedDialogs.restore(currentAccount);
+            } else {
+                org.telegram.messenger.mzgram.MZGramDeletedDialogs.removeRestored(currentAccount);
             }
         } else if (item.id == BUTTON_DELETED_DIALOGS_OPEN) {
             presentFragment(new MZGramDeletedDialogsActivity());

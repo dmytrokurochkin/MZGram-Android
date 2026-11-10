@@ -1051,4 +1051,6 @@
     <string name="MZGramMenuCodeLanguage">Dil</string>
     <string name="MZGramMenuMention">Bahsetme</string>
     <string name="MZGramMenuMentionUserId">Kullanıcı Kimliği</string>
+    <string name="MZGramDeletedDialogsInMainList">Ana sohbet listesinde göster</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">Silinen sohbetleri son kaydedilen mesajlarıyla ana sohbet listesinde görünür tutun.</string>
 </resources>

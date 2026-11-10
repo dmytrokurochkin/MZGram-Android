@@ -1051,4 +1051,6 @@
     <string name="MZGramMenuCodeLanguage">Язык</string>
     <string name="MZGramMenuMention">Упоминание</string>
     <string name="MZGramMenuMentionUserId">ID пользователя</string>
+    <string name="MZGramDeletedDialogsInMainList">Показывать в основном списке чатов</string>
+    <string name="MZGramDeletedDialogsInMainListInfo">Оставлять удаленные чаты видимыми в основном списке чатов с последним сохраненным сообщением.</string>
 </resources>

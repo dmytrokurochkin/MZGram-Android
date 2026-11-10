@@ -306,7 +306,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // which stay below it.
     public static final int SECTION_ROW_ID = 1000;
     // "Other" stays last: new topics go before it.
-    private static final int[] MAIN_PAGE_ORDER = {
+    public static final int[] MAIN_PAGE_ORDER = {
             SECTION_ARCHIVE,
             SECTION_GHOST_MODE,
             SECTION_PRIVACY,
@@ -871,6 +871,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private void fillInterface(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
+        items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
+        items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_REGISTRATION_DATE, getString(R.string.MZGramShowRegistrationDate)).setChecked(MZGramConfig.showRegistrationDate));
         items.add(UItem.asShadow(getString(R.string.MZGramShowRegistrationDateInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_CHAT_STATUS, getString(R.string.MZGramHideChatStatus)).setChecked(MZGramConfig.hideChatStatus));
@@ -879,8 +881,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramCompactChatHeaderInfo)));
         items.add(UItem.asCheck(BUTTON_STATIC_INPUT_ICONS, getString(R.string.MZGramStaticInputIcons)).setChecked(MZGramConfig.staticInputIcons));
         items.add(UItem.asShadow(getString(R.string.MZGramStaticInputIconsInfo)));
-        items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
-        items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
         items.add(UItem.asButton(BUTTON_LAUNCH_FOLDER, getString(R.string.MZGramLaunchFolder), MZGramLaunchFolder.valueFor(currentAccount)));
         items.add(UItem.asShadow(getString(R.string.MZGramLaunchFolderInfo)));
         items.add(UItem.asButton(BUTTON_FAB_SHAPE, getString(R.string.MZGramFabShape), getString(MZGramFabShape.TITLES[MZGramConfig.fabShape])));

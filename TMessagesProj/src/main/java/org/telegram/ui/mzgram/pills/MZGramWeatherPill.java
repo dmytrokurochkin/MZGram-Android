@@ -12,6 +12,7 @@ package org.telegram.ui.mzgram.pills;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -58,6 +59,10 @@ public class MZGramWeatherPill extends MZGramPill {
 
     private void fetchWeather() {
         if (fetching) {
+            return;
+        }
+        if (android.os.Looper.myLooper() == null) {
+            AndroidUtilities.runOnUIThread(this::fetchWeather);
             return;
         }
         fetching = true;

@@ -42,8 +42,8 @@ class MZGramLocalizationTest {
         "MZGramHideRowPremium", "MZGramHideRowBusiness", "MZGramHideRowWallet",
         // MIUI is a name; Autostart in Polish and German, No in Spanish
         "MZGramDeviceCheckMiui", "MZGramDeviceCheckAutostart", "MZGramDeviceCheckNo",
-        // ID everywhere; Bots in Spanish, German, French and Portuguese
-        "MZGramPeerIdLabel", "MZGramArchiveLimitBots")
+        // ID everywhere; Bots in Spanish, German, French and Portuguese; Telegram is a brand name
+        "MZGramPeerIdLabel", "MZGramArchiveLimitBots", "MZGramTranslatorTelegram")
 
     private val formatArg = Regex("%(\\d+\\$)?[sd]")
 

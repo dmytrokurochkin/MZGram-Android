@@ -936,7 +936,7 @@ public class MZGramConfig {
     }
 
     public static void setAppFont(int mode, String name) {
-        appFont = mode == 1 || mode == 2 ? mode : 0;
+        appFont = (mode >= 1 && mode <= 4) ? mode : 0;
         appFontName = appFont == 2 && name != null ? name : "";
         preferences().edit().putInt("appFont", appFont).putString("appFontName", appFontName).apply();
     }

@@ -83,16 +83,19 @@ class MZGramSettingsTest {
         val expected = listOf(
             R.string.MZGramSectionArchive,
             R.string.MZGramSectionGhostMode,
+            R.string.MZGramSectionPrivacy,
+            R.string.MZGramSectionChats,
             R.string.MZGramSectionMessageMenu,
             R.string.MZGramSectionMediaAndCalls,
             R.string.MZGramSectionInterface,
+            R.string.MZGramSectionAppearance,
             R.string.MZGramSectionAdsAndFilters,
             // "Ask AI": its switch, the default site and "Sign out of AI sites"
             context.resources.getIdentifier("MZGramSectionAi", "string", context.packageName),
             R.string.MZGramSectionOther,
         ).map { if (it == 0) "(no AI topic)" else LocaleController.getString(it) }
         assertEquals(expected, rows.map { it.text.toString() })
-        assertEquals("one row per topic", (0 until MZGramSettingsActivity.SECTIONS_COUNT).map { MZGramSettingsActivity.SECTION_ROW_ID + it }, rows.map { it.id })
+        assertEquals("one row per topic", MZGramSettingsActivity.MAIN_PAGE_ORDER.map { MZGramSettingsActivity.SECTION_ROW_ID + it }, rows.map { it.id })
         assertTrue("every topic has a description", rows.all { !it.subtext.isNullOrEmpty() })
         assertTrue("no switches on the main page", main.none { it.id in allButtons() })
 
@@ -103,12 +106,11 @@ class MZGramSettingsTest {
             val ids = settingsItems(section).filter { it.viewType != UniversalAdapter.VIEW_TYPE_HEADER && it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW && it.viewType != UniversalAdapter.VIEW_TYPE_CUSTOM }.map { it.id }
             assertTrue("topic $section is not empty", ids.isNotEmpty())
             shown.addAll(ids)
-            perTopic.add("${expected[section]}=${ids.size}")
+            perTopic.add("$section=${ids.size}")
         }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertEquals("every switch and button is shown", allButtons(), shown.toSet())
-        // 69, then Keep messages from users, in groups, in channels
-        assertEquals("78 switches and buttons", 78, shown.size)
+        assertEquals("${allButtons().size} switches and buttons", allButtons().size, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
 

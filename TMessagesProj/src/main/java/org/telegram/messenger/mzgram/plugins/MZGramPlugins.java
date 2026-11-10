@@ -369,11 +369,39 @@ public final class MZGramPlugins {
         }
         prefs().edit().remove(KEY_META + pluginId).remove(KEY_ENABLED + pluginId).remove(KEY_ADDED + pluginId).apply();
         MZGramPluginSettingsStore.clear(pluginId);
+        // The plugin's own folder (mzgram_plugins/sink_gate.py) goes with it
+        deleteTree(MZGramPluginSinkPolicy.dataDirOf(pluginId), 0);
         MZGramPluginGrants.clear(pluginId);
         MZGramPluginHookGate.forget(pluginId);
         MZGramPluginAuditJournal.forget(pluginId);
         if (existed) {
             MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_DELETED, MZGramPluginAuditJournal.CATEGORY_MANAGE, "", null, source, MZGramPluginAuditJournal.LEVEL_INFO);
+        }
+    }
+
+    // Removes a folder with what is in it; links are removed, never followed
+    private static void deleteTree(File file, int depth) {
+        if (file == null || depth > 32) {
+            return;
+        }
+        try {
+            // Against the real folder of its parent: /data/user/0 is itself a link
+            final File parent = file.getParentFile();
+            final boolean link = parent != null
+                    && !file.getCanonicalPath().equals(new File(parent.getCanonicalPath(), file.getName()).getPath());
+            if (!link && file.isDirectory()) {
+                final File[] children = file.listFiles();
+                if (children != null) {
+                    for (File child : children) {
+                        deleteTree(child, depth + 1);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        if (file.exists() && !file.delete()) {
+            FileLog.e("MZGramPlugins: cannot delete " + file);
         }
     }
 

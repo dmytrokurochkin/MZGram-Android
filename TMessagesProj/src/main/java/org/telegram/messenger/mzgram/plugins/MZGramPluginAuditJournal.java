@@ -76,6 +76,14 @@ public final class MZGramPluginAuditJournal {
      * tried (MZGramPluginPermissions.check).
      */
     public static final String EVENT_PERMISSION_DENIED = "permission_denied";
+    /**
+     * detail: what a running plugin tried that is never available to
+     * plugins (another process, a class of the plugin engine, the settings
+     * of another plugin); MZGramPluginSinkPolicy.blocked.
+     */
+    public static final String EVENT_SINK_BLOCKED = "sink_blocked";
+    /** detail: the host a running plugin connected to (only the host). */
+    public static final String EVENT_NETWORK = "network";
     /** detail: the class and method a running plugin hooked (MZGramPluginHooks). */
     public static final String EVENT_HOOKED = "hooked";
     public static final String EVENT_STARTED = "started";

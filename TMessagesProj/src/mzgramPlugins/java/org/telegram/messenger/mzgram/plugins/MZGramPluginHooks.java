@@ -126,6 +126,22 @@ public final class MZGramPluginHooks {
         }
     }
 
+    /**
+     * A hook of MZGramPluginSinkGate, past the guard on
+     * XposedBridge.hookMethod; null when it can't go on.
+     */
+    static XC_MethodHook.Unhook hookForGate(Member member, XC_MethodHook hook) {
+        installing.set(Boolean.TRUE);
+        try {
+            return XposedBridge.hookMethod(member, hook);
+        } catch (Throwable t) {
+            FileLog.e("MZGramPluginHooks: the gate cannot hook " + member, t);
+            return null;
+        } finally {
+            installing.remove();
+        }
+    }
+
     private static void guardBridge() {
         try {
             final Method hookMethod = XposedBridge.class.getDeclaredMethod("hookMethod", Member.class, XC_MethodHook.class);
@@ -231,6 +247,9 @@ public final class MZGramPluginHooks {
             if (!MZGramPluginSettingsStore.isValidId(pluginId)) {
                 return reply.error("bad plugin id").json();
             }
+            if (MZGramPluginSinkPolicy.refuseForeign(pluginId, "hooks")) {
+                return reply.error("a plugin hooks only for itself").json();
+            }
             final int state = MZGramPluginEngine.getState(pluginId);
             if (!MZGramPluginEngine.isOn() || state != MZGramPluginEngine.STATE_STARTING && state != MZGramPluginEngine.STATE_RUNNING) {
                 return reply.error("the plugin is not running").json();
@@ -309,6 +328,9 @@ public final class MZGramPluginHooks {
         if (pluginId == null || id == null) {
             return false;
         }
+        if (MZGramPluginSinkPolicy.refuseForeign(pluginId, "hooks")) {
+            return false;
+        }
         final Entry entry = hooks.get(id);
         if (entry == null || !entry.pluginId.equals(pluginId) || !hooks.remove(id, entry)) {
             return false;
@@ -319,7 +341,7 @@ public final class MZGramPluginHooks {
 
     /** Takes off every hook of the plugin (it stops); how many there were. */
     public static int unhookAll(String pluginId) {
-        if (pluginId == null) {
+        if (pluginId == null || MZGramPluginSinkPolicy.refuseForeign(pluginId, "hooks")) {
             return 0;
         }
         int count = 0;

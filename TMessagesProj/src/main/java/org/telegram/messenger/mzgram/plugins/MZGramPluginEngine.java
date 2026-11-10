@@ -403,7 +403,8 @@ public final class MZGramPluginEngine {
 
     /** BasePlugin.log of a plugin (mzgram_plugins/loader.py, by name through jclass). */
     public static void log(String pluginId, String text) {
-        if (!MZGramPluginSettingsStore.isValidId(pluginId) || text == null) {
+        if (!MZGramPluginSettingsStore.isValidId(pluginId) || text == null
+                || MZGramPluginSinkPolicy.refuseForeign(pluginId, "log")) {
             return;
         }
         MZGramPluginAuditJournal.record(pluginId, MZGramPluginAuditJournal.EVENT_LOG,

@@ -1017,4 +1017,6 @@
     <string name="MZGramPluginDeniedGranted">%1$s ma teraz uprawnienie: %2$s</string>
     <string name="MZGramPluginDangerousConfirm">To daje %1$s pełną kontrolę nad MZGram: może obejść inne uprawnienia i zabezpieczenia. Zezwalaj tylko wtyczce, której ufasz.</string>
     <string name="MZGramPluginPermissionsRestartInfo">Uruchomiona wtyczka startuje ponownie, gdy zmienią się jej uprawnienia.</string>
+    <string name="MZGramPluginJournalSinkBlocked">Zablokowano, niedostępne dla wtyczek: %1$s</string>
+    <string name="MZGramPluginJournalNetwork">Połączono z %1$s</string>
 </resources>

@@ -1017,4 +1017,6 @@
     <string name="MZGramPluginDeniedGranted">أصبح لدى %1$s الإذن: %2$s</string>
     <string name="MZGramPluginDangerousConfirm">يمنح هذا %1$s تحكمًا كاملًا في MZGram: يمكنه تجاوز الأذونات والحمايات الأخرى. اسمح بذلك فقط لإضافة تثق بها.</string>
     <string name="MZGramPluginPermissionsRestartInfo">تُعاد تشغيل الإضافة العاملة عند تغيّر أذوناتها.</string>
+    <string name="MZGramPluginJournalSinkBlocked">حُظر، غير متاح للإضافات أبدًا: %1$s</string>
+    <string name="MZGramPluginJournalNetwork">اتصل بـ %1$s</string>
 </resources>

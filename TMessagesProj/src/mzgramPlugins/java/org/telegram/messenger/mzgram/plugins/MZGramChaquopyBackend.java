@@ -37,7 +37,14 @@ public final class MZGramChaquopyBackend implements MZGramPythonRuntime.Backend 
 
     @Override
     public String call(String module, String function, String argument) {
-        final PyObject result = Python.getInstance().getModule(module).callAttr(function, argument);
-        return result != null ? result.toString() : null;
+        // Python runs on this thread now: the sink gates look for a plugin
+        // among its frames when no plugin is marked (MZGramPluginSinkGate)
+        MZGramPluginSinkGate.enterPython();
+        try {
+            final PyObject result = Python.getInstance().getModule(module).callAttr(function, argument);
+            return result != null ? result.toString() : null;
+        } finally {
+            MZGramPluginSinkGate.exitPython();
+        }
     }
 }

@@ -1017,4 +1017,6 @@
     <string name="MZGramPluginDeniedGranted">Плагін %1$s цяпер мае дазвол: %2$s</string>
     <string name="MZGramPluginDangerousConfirm">Гэта дае плагіну %1$s поўны кантроль над MZGram: ён можа абысці іншыя дазволы і абарону. Дазваляйце толькі плагіну, якому давяраеце.</string>
     <string name="MZGramPluginPermissionsRestartInfo">Запушчаны плагін перазапускаецца, калі змяняюцца яго дазволы.</string>
+    <string name="MZGramPluginJournalSinkBlocked">Заблакавана, плагінам гэта недаступна: %1$s</string>
+    <string name="MZGramPluginJournalNetwork">Падключыўся да %1$s</string>
 </resources>

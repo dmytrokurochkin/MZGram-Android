@@ -37,6 +37,18 @@
     public static *;
 }
 
+# mzgram_plugins/sink_gate.py asks the rules of the sink gates and puts the
+# Java gates on through these classes by their names (jclass), so R8 must keep
+# their static methods. The gates skip their own frames on the stack by the
+# class name, so the names of the inner classes stay too.
+-keep class org.telegram.messenger.mzgram.plugins.MZGramPluginSinkPolicy {
+    public static *;
+}
+-keep class org.telegram.messenger.mzgram.plugins.MZGramPluginSinkGate {
+    public static *;
+}
+-keepnames class org.telegram.messenger.mzgram.plugins.MZGramPluginSinkGate$*
+
 # Aliuhook: its native part calls back into these classes by name, plugins
 # read MethodHookParam (thisObject, args, method, getResult, setResult) from
 # Python, MZGramPluginMethodHook reads its returnEarly field, and the guard on

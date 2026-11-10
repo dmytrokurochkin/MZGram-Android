@@ -1017,4 +1017,6 @@
     <string name="MZGramPluginDeniedGranted">%1$s now has the permission: %2$s</string>
     <string name="MZGramPluginDangerousConfirm">This gives %1$s full control over MZGram: it can get around the other permissions and protections. Allow it only for a plugin you trust.</string>
     <string name="MZGramPluginPermissionsRestartInfo">A running plugin starts again when its permissions change.</string>
+    <string name="MZGramPluginJournalSinkBlocked">Blocked, never available to plugins: %1$s</string>
+    <string name="MZGramPluginJournalNetwork">Connected to %1$s</string>
 </resources>

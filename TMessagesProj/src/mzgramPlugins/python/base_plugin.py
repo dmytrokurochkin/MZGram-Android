@@ -47,6 +47,7 @@ from mzgram_plugins import loader as _loader
 from mzgram_plugins import menus as _menus
 from mzgram_plugins import permissions as _permissions
 from mzgram_plugins import settings as _settings
+from mzgram_plugins import sink_gate as _sink_gate
 from mzgram_plugins.hooks import (BaseHook, HookFilter, HookParam, MethodHook, MethodReplacement,
                                   UnhookId, UnhookIdList, XposedHook, hook_filters)
 from mzgram_plugins.menus import MenuItemData, MenuItemType
@@ -177,6 +178,15 @@ class BasePlugin:
         if not self.plugin_id:
             return False
         return _permissions.check(permission, what, self.plugin_id)
+
+    # ---------- files ----------
+
+    def get_data_dir(self) -> Optional[str]:
+        """The plugin's own folder: it may read and write there without the
+        permission "files"; it is deleted with the plugin."""
+        if not self.plugin_id:
+            return None
+        return _sink_gate.data_dir(self.plugin_id)
 
     # ---------- settings values ----------
 

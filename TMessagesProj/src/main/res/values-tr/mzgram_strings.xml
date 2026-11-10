@@ -1017,4 +1017,6 @@
     <string name="MZGramPluginDeniedGranted">%1$s artık şu izne sahip: %2$s</string>
     <string name="MZGramPluginDangerousConfirm">Bu, %1$s eklentisine MZGram üzerinde tam denetim verir: diğer izinleri ve korumaları aşabilir. Yalnızca güvendiğiniz bir eklentiye izin verin.</string>
     <string name="MZGramPluginPermissionsRestartInfo">Çalışan bir eklenti, izinleri değişince yeniden başlar.</string>
+    <string name="MZGramPluginJournalSinkBlocked">Engellendi, eklentiler için hiç kullanılamaz: %1$s</string>
+    <string name="MZGramPluginJournalNetwork">%1$s adresine bağlandı</string>
 </resources>

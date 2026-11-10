@@ -1017,4 +1017,6 @@
     <string name="MZGramPluginDeniedGranted">%1$s плагинінде енді рұқсат бар: %2$s</string>
     <string name="MZGramPluginDangerousConfirm">Бұл %1$s плагиніне MZGram-ды толық басқаруға мүмкіндік береді: ол басқа рұқсаттар мен қорғаныстан айналып өте алады. Тек сенетін плагинге рұқсат беріңіз.</string>
     <string name="MZGramPluginPermissionsRestartInfo">Іске қосылған плагин рұқсаттары өзгергенде қайта іске қосылады.</string>
+    <string name="MZGramPluginJournalSinkBlocked">Бұғатталды, плагиндерге қолжетімсіз: %1$s</string>
+    <string name="MZGramPluginJournalNetwork">%1$s мекенжайына қосылды</string>
 </resources>

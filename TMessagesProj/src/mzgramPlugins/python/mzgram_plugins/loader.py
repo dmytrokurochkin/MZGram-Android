@@ -23,8 +23,11 @@
 # A plugin that fails in on_plugin_load() is unloaded again at once, with
 # what it had added. Packages are never fetched: a plugin whose
 # __requirements__ are not among the packages bundled with the build does
-# not start. Until the permission gates come (plugins.security.*), Python
-# sockets are closed to plugin code, so the network stays off.
+# not start. Before the first plugin starts, the sink gates go on
+# (mzgram_plugins/sink_gate.py): the network, files, processes, native code
+# and Java classes follow the permissions of the plugin. Only if they can't
+# (an interpreter without audit hooks) Python sockets are closed instead.
+# Each plugin has its own folder (sink_gate.data_dir), free to it.
 #
 # Based on exteraless extera_utils/plugin_loader.py (load_plugin,
 # _import_module, _find_plugin_class, _unload_record; GPL-3.0): the order of
@@ -51,6 +54,7 @@ from mzgram_plugins import menus
 from mzgram_plugins import metadata
 from mzgram_plugins import permissions
 from mzgram_plugins import settings
+from mzgram_plugins import sink_gate
 
 ENGINE_CLASS = "org.telegram.messenger.mzgram.plugins.MZGramPluginEngine"
 
@@ -142,7 +146,7 @@ def _close_network():
     import socket
 
     def refuse(*args, **kwargs):
-        raise PermissionError("plugins have no network access in this version of MZGram")
+        raise PermissionError("plugins have no network access: the sink gates of MZGram did not start")
 
     socket.socket.connect = refuse
     socket.socket.connect_ex = refuse
@@ -233,12 +237,15 @@ def _import(path, plugin_id):
     module = importlib.util.module_from_spec(spec)
     # dataclasses and pickle inside the plugin look the module up here
     sys.modules[name] = module
+    # Its frames are the plugin's code for the gates
+    sink_gate.register(plugin_id, module)
     try:
         # The module's own code is the plugin's code
         with permissions.plugin_context(plugin_id):
             spec.loader.exec_module(module)
     except BaseException:
         sys.modules.pop(name, None)
+        sink_gate.unregister(plugin_id)
         raise
     return module, name
 
@@ -286,6 +293,7 @@ def _take_back(record):
     except Exception:
         pass
     sys.modules.pop(record.module_name, None)
+    sink_gate.unregister(plugin_id)
 
 
 def _unload(plugin_id, call_unload):
@@ -325,7 +333,9 @@ def load(plugin_id, path):
     if unload_error is not None:
         log(plugin_id, "on_plugin_unload() failed: " + unload_error)
 
-    _close_network()
+    if not sink_gate.install():
+        _close_network()
+    sink_gate.data_dir(plugin_id)
     module, name = _import(path, plugin_id)
     record = _Record(plugin_id, path, module, name, None)
     try:

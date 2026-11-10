@@ -96,7 +96,8 @@ public final class MZGramPluginMenus {
      * Returns the item_id, or null when the item is refused.
      */
     public static String add(String pluginId, String json) {
-        if (!MZGramPluginSettingsStore.isValidId(pluginId) || json == null) {
+        if (!MZGramPluginSettingsStore.isValidId(pluginId) || json == null
+                || MZGramPluginSinkPolicy.refuseForeign(pluginId, "menu item")) {
             return null;
         }
         try {
@@ -123,12 +124,18 @@ public final class MZGramPluginMenus {
     }
 
     public static void remove(String pluginId, String itemId) {
+        if (MZGramPluginSinkPolicy.refuseForeign(pluginId, "menu item")) {
+            return;
+        }
         synchronized (items) {
             items.remove(pluginId + "/" + itemId);
         }
     }
 
     public static void removeAll(String pluginId) {
+        if (MZGramPluginSinkPolicy.refuseForeign(pluginId, "menu items")) {
+            return;
+        }
         synchronized (items) {
             // An iterator, not removeIf: that needs API 24 and the app runs from 23
             final java.util.Iterator<Item> iterator = items.values().iterator();

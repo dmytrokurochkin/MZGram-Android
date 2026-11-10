@@ -17,9 +17,12 @@
  *   app events, menu and settings callbacks from mzgram_plugins, hooks from
  *   MZGramPluginMethodHook). checkCurrent(key, what) is the check for code
  *   of MZGram that a plugin can reach through Java: without a plugin on the
- *   thread it allows, MZGram's own code is never asked. Work a plugin puts
- *   on another thread by itself runs without the mark: the gates of the
- *   network and of Java (plugins.security.sink-gates) handle that.
+ *   thread it allows, MZGram's own code is never asked. isOnThread(pluginId) tells
+ *   whether the code of that plugin is anywhere on the thread (nested
+ *   hooks), for the refusal of one plugin acting for another. Threads a
+ *   plugin starts in Python keep its mark (mzgram_plugins/sink_gate.py);
+ *   for Java callbacks into Python the sink gates find the plugin by its
+ *   Python frames (MZGramPluginSinkGate).
  * - "hooks" and "native" are dangerous: with them a plugin can get around
  *   every other check, so the screens ask once more before granting them.
  * - Plugin code may not change permissions: the writes of
@@ -41,6 +44,7 @@ package org.telegram.messenger.mzgram.plugins;
 import org.telegram.messenger.FileLog;
 import org.telegram.ui.mzgram.MZGramPluginDenialNotice;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -53,6 +57,8 @@ public final class MZGramPluginPermissions {
     private static final int MAX_LOGGED = 500;
 
     private static final ThreadLocal<String> current = new ThreadLocal<>();
+    // Every plugin entered on the thread, innermost last (null for an invalid id)
+    private static final ThreadLocal<ArrayList<String>> entered = new ThreadLocal<>();
     // pluginId -> the effective keys, dropped on every change of a record
     private static final ConcurrentHashMap<String, Set<String>> effective = new ConcurrentHashMap<>();
     private static volatile int generation;
@@ -179,7 +185,14 @@ public final class MZGramPluginPermissions {
      */
     public static String enter(String pluginId) {
         final String previous = current.get();
-        if (MZGramPluginSettingsStore.isValidId(pluginId)) {
+        ArrayList<String> stack = entered.get();
+        if (stack == null) {
+            stack = new ArrayList<>();
+            entered.set(stack);
+        }
+        final boolean valid = MZGramPluginSettingsStore.isValidId(pluginId);
+        stack.add(valid ? pluginId : null);
+        if (valid) {
             final boolean keep = previous != null && !previous.equals(pluginId)
                     && effectiveOf(previous).size() <= effectiveOf(pluginId).size();
             if (!keep) {
@@ -193,14 +206,25 @@ public final class MZGramPluginPermissions {
     public static void exit(String previous) {
         if (previous == null) {
             current.remove();
+            entered.remove();
         } else {
             current.set(previous);
+            final ArrayList<String> stack = entered.get();
+            if (stack != null && !stack.isEmpty()) {
+                stack.remove(stack.size() - 1);
+            }
         }
     }
 
     /** The plugin whose code runs on this thread, or null. */
     public static String current() {
         return current.get();
+    }
+
+    /** Whether code of this plugin runs anywhere on this thread, nested or not. */
+    public static boolean isOnThread(String pluginId) {
+        final ArrayList<String> stack = entered.get();
+        return pluginId != null && stack != null && stack.contains(pluginId);
     }
 
     /** Whether plugin code runs on this thread (then grants may not change). */

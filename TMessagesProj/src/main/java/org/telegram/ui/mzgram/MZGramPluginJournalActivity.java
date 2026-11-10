@@ -276,6 +276,12 @@ public class MZGramPluginJournalActivity extends UniversalFragment {
             case MZGramPluginAuditJournal.EVENT_HOOKED:
                 text = LocaleController.formatString(R.string.MZGramPluginJournalHooked, detail);
                 break;
+            case MZGramPluginAuditJournal.EVENT_SINK_BLOCKED:
+                text = LocaleController.formatString(R.string.MZGramPluginJournalSinkBlocked, detail);
+                break;
+            case MZGramPluginAuditJournal.EVENT_NETWORK:
+                text = LocaleController.formatString(R.string.MZGramPluginJournalNetwork, detail);
+                break;
             case MZGramPluginAuditJournal.EVENT_STARTED:
                 text = getString(R.string.MZGramPluginJournalStarted);
                 break;

@@ -41,6 +41,10 @@ public final class MZGramPluginSettingsStore {
         if (!isValidId(pluginId) || ApplicationLoader.applicationContext == null) {
             return null;
         }
+        // The code of one plugin never reaches the settings of another
+        if (MZGramPluginSinkPolicy.refuseForeign(pluginId, "settings")) {
+            return null;
+        }
         return ApplicationLoader.applicationContext.getSharedPreferences(PREFS_PREFIX + pluginId, Context.MODE_PRIVATE);
     }
 

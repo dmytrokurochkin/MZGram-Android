@@ -1713,6 +1713,8 @@ public class ChatActivity extends BaseFragment implements
     private final static int text_spoiler = 57;
     private final static int text_quote = 58;
     private final static int text_date = 74;
+    private final static int text_code = 75;
+    private final static int text_mention = 76;
 
     private final static int view_as_topics = 59;
 
@@ -4143,6 +4145,16 @@ public class ChatActivity extends BaseFragment implements
                     if (chatActivityEnterView != null && chatActivityEnterView.getEditField() != null) {
                         chatActivityEnterView.getEditField().setSelectionOverride(editTextStart, editTextEnd);
                         chatActivityEnterView.getEditField().makeSelectedMono();
+                    }
+                } else if (id == text_code) {
+                    if (chatActivityEnterView != null && chatActivityEnterView.getEditField() != null) {
+                        chatActivityEnterView.getEditField().setSelectionOverride(editTextStart, editTextEnd);
+                        chatActivityEnterView.getEditField().makeSelectedCode();
+                    }
+                } else if (id == text_mention) {
+                    if (chatActivityEnterView != null && chatActivityEnterView.getEditField() != null) {
+                        chatActivityEnterView.getEditField().setSelectionOverride(editTextStart, editTextEnd);
+                        chatActivityEnterView.getEditField().makeSelectedMention();
                     }
                 } else if (id == text_strike) {
                     if (chatActivityEnterView != null && chatActivityEnterView.getEditField() != null) {
@@ -11076,6 +11088,8 @@ public class ChatActivity extends BaseFragment implements
         stringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Mono));
         stringBuilder.setSpan(new TypefaceSpan(Typeface.MONOSPACE), 0, stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         item.addSubItem(text_mono, stringBuilder);
+        item.addSubItem(text_code, LocaleController.getString(R.string.MZGramMenuCode));
+        item.addSubItem(text_mention, LocaleController.getString(R.string.MZGramMenuMention));
         if (currentEncryptedChat == null || AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) >= 101) {
             stringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Strike));
             TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
@@ -28119,6 +28133,8 @@ public class ChatActivity extends BaseFragment implements
             stringBuilder.setSpan(new TypefaceSpan(Typeface.MONOSPACE), 0, stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             menu.add(R.id.menu_groupbolditalic, R.id.menu_mono, order++, stringBuilder);
         }
+        menu.add(R.id.menu_groupbolditalic, R.id.menu_code, order++, LocaleController.getString(R.string.MZGramMenuCode));
+        menu.add(R.id.menu_groupbolditalic, R.id.menu_mention, order++, LocaleController.getString(R.string.MZGramMenuMention));
         if (encryptedChat == null || AndroidUtilities.getPeerLayerVersion(encryptedChat.layer) >= 101) {
             stringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Strike));
             TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();

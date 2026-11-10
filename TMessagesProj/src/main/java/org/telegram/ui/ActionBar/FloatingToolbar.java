@@ -307,6 +307,8 @@ public final class FloatingToolbar {
         R.id.menu_italic,
         R.id.menu_strike,
         R.id.menu_mono,
+        R.id.menu_code,
+        R.id.menu_mention,
         R.id.menu_underline,
         R.id.menu_spoiler,
         R.id.menu_link,
@@ -319,6 +321,8 @@ public final class FloatingToolbar {
         R.id.menu_strike,
         R.id.menu_link,
         R.id.menu_mono,
+        R.id.menu_code,
+        R.id.menu_mention,
         R.id.menu_underline,
         R.id.menu_spoiler,
         R.id.menu_quote

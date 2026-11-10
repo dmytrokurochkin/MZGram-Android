@@ -1047,4 +1047,8 @@
     <string name="MZGramCompactChatHeader">Kompaktowy nagłówek czatu</string>
     <string name="MZGramCompactChatHeaderInfo">Zmniejsza rozmiar awatara i odstępy w nagłówku czatu, aby zaoszczędzić miejsce.</string>
     <string name="MZGramShortcutScanQr">Logowanie QR</string>
+    <string name="MZGramMenuCode">Blok kodu</string>
+    <string name="MZGramMenuCodeLanguage">Język</string>
+    <string name="MZGramMenuMention">Wzmianka</string>
+    <string name="MZGramMenuMentionUserId">ID użytkownika</string>
 </resources>

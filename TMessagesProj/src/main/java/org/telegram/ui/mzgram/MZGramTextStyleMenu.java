@@ -40,9 +40,9 @@ import java.util.HashSet;
 public final class MZGramTextStyleMenu {
 
     /** Keys and menu ids in Telegram's own order. */
-    static final String[] KEYS = {"quote", "spoiler", "bold", "italic", "mono", "strike", "underline", "link", "date", "regular"};
+    static final String[] KEYS = {"quote", "spoiler", "bold", "italic", "mono", "code", "mention", "strike", "underline", "link", "date", "regular"};
     static final int[] IDS = {R.id.menu_quote, R.id.menu_spoiler, R.id.menu_bold, R.id.menu_italic, R.id.menu_mono,
-        R.id.menu_strike, R.id.menu_underline, R.id.menu_link, R.id.menu_date, R.id.menu_regular};
+        R.id.menu_code, R.id.menu_mention, R.id.menu_strike, R.id.menu_underline, R.id.menu_link, R.id.menu_date, R.id.menu_regular};
 
     private MZGramTextStyleMenu() {
     }
@@ -138,6 +138,10 @@ public final class MZGramTextStyleMenu {
                 return styled(getString(R.string.Italic), new TypefaceSpan(AndroidUtilities.getTypeface("fonts/ritalic.ttf")));  // Telegram's own text: the name of Telegram's formatting menu item
             case "mono":
                 return styled(getString(R.string.Mono), new TypefaceSpan(Typeface.MONOSPACE));  // Telegram's own text: the name of Telegram's formatting menu item
+            case "code":
+                return getString(R.string.MZGramMenuCode);
+            case "mention":
+                return getString(R.string.MZGramMenuMention);
             case "strike":
                 return styled(getString(R.string.Strike), styleSpan(TextStyleSpan.FLAG_STYLE_STRIKE));  // Telegram's own text: the name of Telegram's formatting menu item
             case "underline":

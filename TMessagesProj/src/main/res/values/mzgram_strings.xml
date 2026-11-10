@@ -1047,4 +1047,8 @@
     <string name="MZGramCompactChatHeader">Compact chat header</string>
     <string name="MZGramCompactChatHeaderInfo">Reduces avatar size and spacing in the chat title bar to save screen space.</string>
     <string name="MZGramShortcutScanQr">QR Login</string>
+    <string name="MZGramMenuCode">Code block</string>
+    <string name="MZGramMenuCodeLanguage">Language</string>
+    <string name="MZGramMenuMention">Mention</string>
+    <string name="MZGramMenuMentionUserId">User ID</string>
 </resources>

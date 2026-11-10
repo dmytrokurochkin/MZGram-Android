@@ -1047,4 +1047,8 @@
     <string name="MZGramCompactChatHeader">ترويسة محادثة مدمجة</string>
     <string name="MZGramCompactChatHeaderInfo">يقلل حجم الصورة الرمزية والمسافات في شريط المحادثة لتوفير مساحة على الشاشة.</string>
     <string name="MZGramShortcutScanQr">تسجيل الدخول عبر رمز الاستجابة السريعة</string>
+    <string name="MZGramMenuCode">كتلة برمجية</string>
+    <string name="MZGramMenuCodeLanguage">اللغة</string>
+    <string name="MZGramMenuMention">إشارة</string>
+    <string name="MZGramMenuMentionUserId">معرف المستخدم</string>
 </resources>

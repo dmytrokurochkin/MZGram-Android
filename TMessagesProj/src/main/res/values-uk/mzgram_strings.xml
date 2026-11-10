@@ -1048,4 +1048,8 @@
     <string name="MZGramCompactChatHeader">Компактна шапка чату</string>
     <string name="MZGramCompactChatHeaderInfo">Зменшує розмір аватарки та відступи у шапці чату для економії місця на екрані.</string>
     <string name="MZGramShortcutScanQr">Вхід за QR</string>
+    <string name="MZGramMenuCode">Код-блок</string>
+    <string name="MZGramMenuCodeLanguage">Мова</string>
+    <string name="MZGramMenuMention">Згадка</string>
+    <string name="MZGramMenuMentionUserId">ID користувача</string>
 </resources>

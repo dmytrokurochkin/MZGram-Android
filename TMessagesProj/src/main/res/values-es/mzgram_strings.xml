@@ -1047,4 +1047,8 @@
     <string name="MZGramCompactChatHeader">Encabezado de chat compacto</string>
     <string name="MZGramCompactChatHeaderInfo">Reduce el tamaño del avatar y los márgenes en la barra del chat para ahorrar espacio.</string>
     <string name="MZGramShortcutScanQr">Inicio por QR</string>
+    <string name="MZGramMenuCode">Bloque de código</string>
+    <string name="MZGramMenuCodeLanguage">Idioma</string>
+    <string name="MZGramMenuMention">Mención</string>
+    <string name="MZGramMenuMentionUserId">ID de usuario</string>
 </resources>

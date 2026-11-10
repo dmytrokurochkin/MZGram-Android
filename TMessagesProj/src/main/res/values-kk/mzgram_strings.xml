@@ -1047,4 +1047,8 @@
     <string name="MZGramCompactChatHeader">Ықшам чат тақырыбы</string>
     <string name="MZGramCompactChatHeaderInfo">Экран кеңістігін үнемдеу үшін чат тақырыбындағы аватар өлшемі мен шегіністерін азайтады.</string>
     <string name="MZGramShortcutScanQr">QR арқылы кіру</string>
+    <string name="MZGramMenuCode">Код блогы</string>
+    <string name="MZGramMenuCodeLanguage">Тіл</string>
+    <string name="MZGramMenuMention">Атап өту</string>
+    <string name="MZGramMenuMentionUserId">Пайдаланушы ID</string>
 </resources>

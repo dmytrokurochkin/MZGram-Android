@@ -1047,4 +1047,8 @@
     <string name="MZGramCompactChatHeader">Kompakt sohbet başlığı</string>
     <string name="MZGramCompactChatHeaderInfo">Ekran alanından tasarruf etmek için sohbet başlığındaki avatar boyutunu ve boşlukları küçültür.</string>
     <string name="MZGramShortcutScanQr">QR ile Giriş</string>
+    <string name="MZGramMenuCode">Kod bloğu</string>
+    <string name="MZGramMenuCodeLanguage">Dil</string>
+    <string name="MZGramMenuMention">Bahsetme</string>
+    <string name="MZGramMenuMentionUserId">Kullanıcı Kimliği</string>
 </resources>

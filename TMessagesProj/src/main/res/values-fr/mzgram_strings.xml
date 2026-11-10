@@ -1047,4 +1047,8 @@
     <string name="MZGramCompactChatHeader">En-tête de discussion compact</string>
     <string name="MZGramCompactChatHeaderInfo">Réduit la taille de l\'avatar et les marges dans l\'en-tête pour économiser de l\'espace.</string>
     <string name="MZGramShortcutScanQr">Connexion QR</string>
+    <string name="MZGramMenuCode">Bloc de code</string>
+    <string name="MZGramMenuCodeLanguage">Langue</string>
+    <string name="MZGramMenuMention">Mentionner</string>
+    <string name="MZGramMenuMentionUserId">ID utilisateur</string>
 </resources>

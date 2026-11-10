@@ -51,6 +51,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.CopyUtilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -351,6 +352,124 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
                 }
                 try {
                     editable.setSpan(createUrlSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                } catch (Exception ignore) {}
+                if (delegate != null) {
+                    delegate.onSpansChanged();
+                }
+                if (onApplied != null) {
+                    onApplied.run();
+                }
+            }
+        );
+    }
+
+    public void makeSelectedCode() {
+        makeSelectedCode(null);
+    }
+
+    public void makeSelectedCode(Runnable onApplied) {
+        final int start;
+        final int end;
+        if (selectionStart >= 0 && selectionEnd >= 0) {
+            start = selectionStart;
+            end = selectionEnd;
+            selectionStart = selectionEnd = -1;
+        } else {
+            start = getSelectionStart();
+            end = getSelectionEnd();
+        }
+        showInputDialog(
+            LocaleController.getString(R.string.MZGramMenuCode),
+            LocaleController.getString(R.string.MZGramMenuCodeLanguage),
+            "",
+            false,
+            lang -> {
+                Editable editable = getText();
+                if (editable == null || start < 0 || end > editable.length() || start >= end) {
+                    return;
+                }
+                CharacterStyle[] spans = editable.getSpans(start, end, CharacterStyle.class);
+                if (spans != null && spans.length > 0) {
+                    for (CharacterStyle oldSpan : spans) {
+                        if (!(oldSpan instanceof AnimatedEmojiSpan) && !(oldSpan instanceof QuoteSpan.QuoteStyleSpan)) {
+                            int spanStart = editable.getSpanStart(oldSpan);
+                            int spanEnd = editable.getSpanEnd(oldSpan);
+                            editable.removeSpan(oldSpan);
+                            if (spanStart < start) {
+                                editable.setSpan(oldSpan, spanStart, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            }
+                            if (spanEnd > end) {
+                                editable.setSpan(oldSpan, end, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            }
+                        }
+                    }
+                }
+                try {
+                    String language = lang != null ? lang.trim() : "";
+                    CharSequence sub = editable.subSequence(start, end);
+                    editable.setSpan(new CodeHighlighting.Span(true, 0, null, language, sub.toString()), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                } catch (Exception ignore) {}
+                if (delegate != null) {
+                    delegate.onSpansChanged();
+                }
+                if (onApplied != null) {
+                    onApplied.run();
+                }
+            }
+        );
+    }
+
+    public void makeSelectedMention() {
+        makeSelectedMention(null);
+    }
+
+    public void makeSelectedMention(Runnable onApplied) {
+        final int start;
+        final int end;
+        if (selectionStart >= 0 && selectionEnd >= 0) {
+            start = selectionStart;
+            end = selectionEnd;
+            selectionStart = selectionEnd = -1;
+        } else {
+            start = getSelectionStart();
+            end = getSelectionEnd();
+        }
+        showInputDialog(
+            LocaleController.getString(R.string.MZGramMenuMention),
+            LocaleController.getString(R.string.MZGramMenuMentionUserId),
+            "",
+            true,
+            userIdStr -> {
+                Editable editable = getText();
+                if (editable == null || start < 0 || end > editable.length() || start >= end) {
+                    return;
+                }
+                String cleaned = userIdStr != null ? userIdStr.trim() : "";
+                if (cleaned.startsWith("tg://user?id=")) {
+                    cleaned = cleaned.substring("tg://user?id=".length());
+                }
+                long userId = Utilities.parseLong(cleaned);
+                if (userId == 0) {
+                    return;
+                }
+                CharacterStyle[] spans = editable.getSpans(start, end, CharacterStyle.class);
+                if (spans != null && spans.length > 0) {
+                    for (CharacterStyle oldSpan : spans) {
+                        if (!(oldSpan instanceof AnimatedEmojiSpan) && !(oldSpan instanceof QuoteSpan.QuoteStyleSpan)) {
+                            int spanStart = editable.getSpanStart(oldSpan);
+                            int spanEnd = editable.getSpanEnd(oldSpan);
+                            editable.removeSpan(oldSpan);
+                            if (spanStart < start) {
+                                editable.setSpan(oldSpan, spanStart, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            }
+                            if (spanEnd > end) {
+                                editable.setSpan(oldSpan, end, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            }
+                        }
+                    }
+                }
+                try {
+                    editable.setSpan(new URLSpanUserMention("" + userId, 3), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } catch (Exception ignore) {}
                 if (delegate != null) {
                     delegate.onSpansChanged();
@@ -673,6 +792,9 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
             CodeHighlighting.Span[] code = editable.getSpans(start, end, CodeHighlighting.Span.class);
             for (int i = 0; i < code.length; ++i)
                 editable.removeSpan(code[i]);
+            URLSpanUserMention[] mentions = editable.getSpans(start, end, URLSpanUserMention.class);
+            for (int i = 0; i < mentions.length; ++i)
+                editable.removeSpan(mentions[i]);
             QuoteSpan[] quotes = editable.getSpans(start, end, QuoteSpan.class);
             for (int i = 0; i < quotes.length; ++i) {
                 editable.removeSpan(quotes[i]);
@@ -794,6 +916,12 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
             return true;
         } else if (itemId == R.id.menu_mono) {
             makeSelectedMono();
+            return true;
+        } else if (itemId == R.id.menu_code) {
+            makeSelectedCode();
+            return true;
+        } else if (itemId == R.id.menu_mention) {
+            makeSelectedMention();
             return true;
         } else if (itemId == R.id.menu_link) {
             makeSelectedUrl();
@@ -944,6 +1072,8 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_bold, LocaleController.getString(R.string.Bold)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_italic, LocaleController.getString(R.string.Italic)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_mono, LocaleController.getString(R.string.Mono)));
+            infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_code, LocaleController.getString(R.string.MZGramMenuCode)));
+            infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_mention, LocaleController.getString(R.string.MZGramMenuMention)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_strike, LocaleController.getString(R.string.Strike)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_underline, LocaleController.getString(R.string.Underline)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_link, LocaleController.getString(R.string.CreateLink)));

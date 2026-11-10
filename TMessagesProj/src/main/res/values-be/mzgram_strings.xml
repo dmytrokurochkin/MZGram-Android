@@ -1047,4 +1047,8 @@
     <string name="MZGramCompactChatHeader">Кампактная шапка чата</string>
     <string name="MZGramCompactChatHeaderInfo">Памяншае памер аватаркі і водступы ў шапцы чата для эканоміі месца на экране.</string>
     <string name="MZGramShortcutScanQr">Уваход па QR</string>
+    <string name="MZGramMenuCode">Код-блок</string>
+    <string name="MZGramMenuCodeLanguage">Мова</string>
+    <string name="MZGramMenuMention">Згадка</string>
+    <string name="MZGramMenuMentionUserId">ID карыстальніка</string>
 </resources>

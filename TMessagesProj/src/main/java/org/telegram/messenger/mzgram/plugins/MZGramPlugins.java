@@ -369,6 +369,7 @@ public final class MZGramPlugins {
         }
         prefs().edit().remove(KEY_META + pluginId).remove(KEY_ENABLED + pluginId).remove(KEY_ADDED + pluginId).apply();
         MZGramPluginSettingsStore.clear(pluginId);
+        MZGramPipInstaller.removeRequirements(pluginId);
         // The plugin's own folder (mzgram_plugins/sink_gate.py) goes with it
         deleteTree(MZGramPluginSinkPolicy.dataDirOf(pluginId), 0);
         MZGramPluginGrants.clear(pluginId);

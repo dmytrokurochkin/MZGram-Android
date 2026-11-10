@@ -1070,4 +1070,13 @@
     <string name="MZGramPillWeatherInfo">Displays current weather and temperature in the pill bar. Requests device location and contacts open-meteo.com.</string>
     <string name="MZGramPillRates">Exchange rates</string>
     <string name="MZGramPillRatesInfo">Displays currency, crypto, and gold rates in the pill bar. Requests public market data from Coinbase and gold-api.com.</string>
+    <string name="MZGramPipEnabled">Allow Python packages (pip)</string>
+    <string name="MZGramPipEnabledInfo">Allow downloading pure-Python packages from PyPI on device for plugins upon user request.</string>
+    <string name="MZGramPipEnabledPrompt">Allow installing Python packages from PyPI on this device? Packages will be downloaded only upon explicit request and executed inside the plugin environment.</string>
+    <string name="MZGramPipInstallPackages">Install packages with pip</string>
+    <string name="MZGramPipInstallPackagesInfo">Download and install required Python packages from PyPI.</string>
+    <string name="MZGramPipInstallTitle">Install Python packages</string>
+    <string name="MZGramPipInstallWarning">Warning: Packages from PyPI will be downloaded and executed inside the Python environment. Native binary packages are not supported.</string>
+    <string name="MZGramPipInstallSuccess">Python packages installed successfully.</string>
+    <string name="MZGramPipInstallFailed">Failed to install Python packages: %1</string>
 </resources>

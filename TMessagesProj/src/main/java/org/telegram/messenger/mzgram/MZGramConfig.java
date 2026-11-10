@@ -233,6 +233,8 @@ public class MZGramConfig {
     // Third-party network services (DoH, OpenFreeMap map preview)
     public static int dohProvider = 0;
     public static boolean openFreeMapPreview = false;
+    // Python plugins: allow pip packages to be downloaded from PyPI on device
+    public static boolean pipEnabled = false;
     // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
@@ -520,6 +522,7 @@ public class MZGramConfig {
             profileMusicCard = preferences.getBoolean("profileMusicCard", false);
             dohProvider = preferences.getInt("dohProvider", 0);
             openFreeMapPreview = preferences.getBoolean("openFreeMapPreview", false);
+            pipEnabled = preferences.getBoolean("pipEnabled", false);
             forwardDeletedAsCopy = preferences.getBoolean("forwardDeletedAsCopy", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
@@ -1116,6 +1119,16 @@ public class MZGramConfig {
     public static void toggleOpenFreeMapPreview() {
         openFreeMapPreview = !openFreeMapPreview;
         putBoolean("openFreeMapPreview", openFreeMapPreview);
+    }
+
+    public static void togglePipEnabled() {
+        pipEnabled = !pipEnabled;
+        putBoolean("pipEnabled", pipEnabled);
+    }
+
+    public static void setPipEnabled(boolean value) {
+        pipEnabled = value;
+        putBoolean("pipEnabled", pipEnabled);
     }
 
     public static void toggleForwardDeletedAsCopy() {

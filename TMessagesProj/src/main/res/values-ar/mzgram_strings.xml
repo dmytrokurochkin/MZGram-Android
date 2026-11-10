@@ -1070,4 +1070,13 @@
     <string name="MZGramPillWeatherInfo">يعرض الطقس الحالي ودرجة الحرارة في شريط الحبوب. يطلب موقع الجهاز ويتصل بموقع open-meteo.com.</string>
     <string name="MZGramPillRates">أسعار الصرف</string>
     <string name="MZGramPillRatesInfo">يعرض أسعار العملات والعملات المشفرة والذهب في شريط الحبوب. يطلب بيانات السوق العامة من Coinbase و gold-api.com.</string>
+    <string name="MZGramPipEnabled">السماح بحزم Python (pip)</string>
+    <string name="MZGramPipEnabledInfo">يسمح بتنزيل حزم pure-Python من PyPI على الجهاز للإضافات بناء على طلب المستخدم.</string>
+    <string name="MZGramPipEnabledPrompt">هل تريد السماح بتثبيت حزم Python من PyPI على هذا الجهاز؟ سيتم تنزيل الحزم فقط بناء على طلب صريح وتشغيلها داخل بيئة الإضافات.</string>
+    <string name="MZGramPipInstallPackages">تثبيت الحزم عبر pip</string>
+    <string name="MZGramPipInstallPackagesInfo">تنزيل وتثبيت حزم Python المطلوبة من PyPI.</string>
+    <string name="MZGramPipInstallTitle">تثبيت حزم Python</string>
+    <string name="MZGramPipInstallWarning">تحذير: سيتم تنزيل الحزم من PyPI وتشغيلها في بيئة Python. الحزم الثنائية الأصلية غير مدعومة.</string>
+    <string name="MZGramPipInstallSuccess">تم تثبيت حزم Python بنجاح.</string>
+    <string name="MZGramPipInstallFailed">فشل تثبيت حزم Python: %1</string>
 </resources>

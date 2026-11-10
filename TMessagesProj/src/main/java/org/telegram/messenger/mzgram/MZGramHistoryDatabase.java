@@ -37,6 +37,7 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     // 5: received, other people's messages as soon as they come (level 1
     // of the archive), so a deletion finds them even when Telegram's own
     // cache has no copy.
+    // 5: DB_VERSION = 5 (received table).
     // 6: group_reads. 7: deleted_dialogs, chats that left the chat list
     // while the archive keeps their deleted messages.
     // A new table or column: DB_VERSION + 1, create it in onCreate (a

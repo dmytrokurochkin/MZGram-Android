@@ -65,6 +65,7 @@ public class MZGramPluginsActivity extends UniversalFragment {
     private static final int BUTTON_RUN = 6;
     private static final int BUTTON_HOOKS_RETRY = 7;
     private static final int BUTTON_SAFE_MODE_EXIT = 8;
+    private static final int BUTTON_PIP = 9;
     // Rows of the plugins: PLUGIN_ROW + their place in the list
     private static final int PLUGIN_ROW = 1000;
     private static final int REQUEST_CODE_PICK_PLUGIN = 8846;
@@ -143,6 +144,8 @@ public class MZGramPluginsActivity extends UniversalFragment {
         items.add(UItem.asShadow(plugins.isEmpty() ? getString(R.string.MZGramPluginsEmpty) : null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramPluginsDevHeader)));
+        items.add(UItem.asCheck(BUTTON_PIP, getString(R.string.MZGramPipEnabled)).setChecked(MZGramConfig.pipEnabled));
+        items.add(UItem.asShadow(getString(R.string.MZGramPipEnabledInfo)));
         final String token = MZGramPluginDevServer.getToken();
         items.add(UItem.asCheck(BUTTON_DEV_SERVER, getString(R.string.MZGramPluginsDevServer)).setChecked(token != null));
         if (token != null) {
@@ -203,6 +206,10 @@ public class MZGramPluginsActivity extends UniversalFragment {
         }
         if (item.id == BUTTON_DEV_SERVER) {
             toggleDevServer();
+            return;
+        }
+        if (item.id == BUTTON_PIP) {
+            togglePip();
             return;
         }
         if (item.id == DEV_TOKEN) {
@@ -270,6 +277,26 @@ public class MZGramPluginsActivity extends UniversalFragment {
             }
             reload();
         });
+    }
+
+    private void togglePip() {
+        if (!MZGramConfig.pipEnabled) {
+            if (getParentActivity() == null) {
+                return;
+            }
+            new AlertDialog.Builder(getParentActivity())
+                    .setTitle(getString(R.string.MZGramPipEnabled))
+                    .setMessage(getString(R.string.MZGramPipEnabledPrompt))
+                    .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
+                        MZGramConfig.togglePipEnabled();
+                        reload();
+                    })
+                    .setNegativeButton(getString(R.string.MZGramCancel), null)
+                    .show();
+        } else {
+            MZGramConfig.togglePipEnabled();
+            reload();
+        }
     }
 
     private void pickFile() {

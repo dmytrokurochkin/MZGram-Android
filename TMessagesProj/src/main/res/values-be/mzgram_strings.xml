@@ -1070,4 +1070,13 @@
     <string name="MZGramPillWeatherInfo">Адлюстроўвае бягучае надвор\\'е і тэмпературу ў панэлі пілюль. Запытвае геапазіцыю прылады і звяртаецца да open-meteo.com.</string>
     <string name="MZGramPillRates">Курсы валют</string>
     <string name="MZGramPillRatesInfo">Адлюстроўвае курсы валют, крыптавалют і золата ў панэлі пілюль. Запытвае адкрытыя рынкавыя даныя з Coinbase і gold-api.com.</string>
+    <string name="MZGramPipEnabled">Дазволіць пакеты Python (pip)</string>
+    <string name="MZGramPipEnabledInfo">Дазваляе спампоўваць pure-Python пакеты з PyPI на прыладу для плагінаў па запыце карыстальніка.</string>
+    <string name="MZGramPipEnabledPrompt">Дазволіць устаноўку пакетаў Python з PyPI на гэтай прыладзе? Пакеты будуць спампоўвацца толькі па запыце і выконвацца ў асяроддзі плагінаў.</string>
+    <string name="MZGramPipInstallPackages">Усталяваць пакеты праз pip</string>
+    <string name="MZGramPipInstallPackagesInfo">Спампаваць і ўсталяваць неабходныя пакеты Python з PyPI.</string>
+    <string name="MZGramPipInstallTitle">Усталёўка пакетаў Python</string>
+    <string name="MZGramPipInstallWarning">Увага: Пакеты з PyPI будуць спампаваны і выкананы ў асяроддзі Python. Пакеты з натыўным бінарным кодам не падтрымліваюцца.</string>
+    <string name="MZGramPipInstallSuccess">Пакеты Python паспяхова ўсталяваны.</string>
+    <string name="MZGramPipInstallFailed">Не ўдалося ўсталяваць пакеты Python: %1</string>
 </resources>

@@ -1070,4 +1070,13 @@
     <string name="MZGramPillWeatherInfo">Hap cubugunda mevcut hava durumunu ve sicakligi gosterir. Cihaz konumunu ister ve open-meteo.com ile iletisim kurar.</string>
     <string name="MZGramPillRates">Doviz kurlari</string>
     <string name="MZGramPillRatesInfo">Hap cubugunda para birimi, kripto ve altin kurlarini gosterir. Coinbase ve gold-api.com sitelerinden kamuya acik piyasa verilerini ister.</string>
+    <string name="MZGramPipEnabled">Python paketlerine izin ver (pip)</string>
+    <string name="MZGramPipEnabledInfo">Kullanıcı isteğiyle eklentiler için cihazda PyPI\'den pure-Python paketlerinin indirilmesine izin verir.</string>
+    <string name="MZGramPipEnabledPrompt">Bu cihaza PyPI\'den Python paketlerinin yüklenmesine izin verilsin mi? Paketler yalnızca açık talep üzerine indirilecek ve eklenti ortamında çalıştırılacaktır.</string>
+    <string name="MZGramPipInstallPackages">Paketleri pip ile yükle</string>
+    <string name="MZGramPipInstallPackagesInfo">Gerekli Python paketlerini PyPI\'den indirip yükleyin.</string>
+    <string name="MZGramPipInstallTitle">Python paketlerini yükle</string>
+    <string name="MZGramPipInstallWarning">Uyarı: PyPI paketleri indirilip Python ortamında çalıştırılacaktır. Yerel ikili paketler desteklenmez.</string>
+    <string name="MZGramPipInstallSuccess">Python paketleri başarıyla yüklendi.</string>
+    <string name="MZGramPipInstallFailed">Python paketleri yüklenemedi: %1</string>
 </resources>

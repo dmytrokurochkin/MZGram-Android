@@ -214,6 +214,12 @@ def missing_requirements(requirements):
             continue
         import_name = _BUNDLED_IMPORT_NAMES.get(name.lower())
         if import_name is None:
+            try:
+                from mzgram_plugins import pip_controller
+                if pip_controller.is_installed(name):
+                    continue
+            except Exception:
+                pass
             missing.append(name)
             continue
         try:
@@ -221,6 +227,12 @@ def missing_requirements(requirements):
         except Exception:
             found = False
         if not found:
+            try:
+                from mzgram_plugins import pip_controller
+                if pip_controller.is_installed(name):
+                    continue
+            except Exception:
+                pass
             missing.append(name)
     return missing
 
@@ -324,6 +336,11 @@ def load(plugin_id, path):
     meta = metadata.read_metadata(path)
     if meta["id"] != plugin_id:
         raise PluginLoadError("the file belongs to another plugin (%s)" % meta["id"])
+    try:
+        from mzgram_plugins import pip_controller
+        pip_controller.restore_sys_path()
+    except Exception:
+        pass
     missing = missing_requirements(meta.get("requirements"))
     if missing:
         raise PluginLoadError("needs packages that MZGram does not have: " + ", ".join(missing))

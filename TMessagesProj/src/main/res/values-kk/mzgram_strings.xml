@@ -1070,4 +1070,13 @@
     <string name="MZGramPillWeatherInfo">Тумiрлер панелiнде агымдагы ауа райы мен температураны корсетедi. Курылгы геолокациясын сурайды жане open-meteo.com сайтына жугiнедi.</string>
     <string name="MZGramPillRates">Валюта багамдары</string>
     <string name="MZGramPillRatesInfo">Тумiрлер панелiнде валюта, крипто жане алтын багамдарын корсетедi. Coinbase жане gold-api.com сайттарынан ашык нарык деректерiн сурайды.</string>
+    <string name="MZGramPipEnabled">Python дестелеріне рұқсат беру (pip)</string>
+    <string name="MZGramPipEnabledInfo">Пайдаланушы сұрауы бойынша құрылғыға плагиндер үшін PyPI қызметінен pure-Python дестелерін жүктеп алуға рұқсат береді.</string>
+    <string name="MZGramPipEnabledPrompt">Бұл құрылғыға PyPI қызметінен Python дестелерін орнатуға рұқсат етілсін бе? Дестелер тек нақты сұрау бойынша жүктеліп, плагин ортасында орындалады.</string>
+    <string name="MZGramPipInstallPackages">Дестелерді pip арқылы орнату</string>
+    <string name="MZGramPipInstallPackagesInfo">Қажетті Python дестелерін PyPI қызметінен жүктеп алып орнатыңыз.</string>
+    <string name="MZGramPipInstallTitle">Python дестелерін орнату</string>
+    <string name="MZGramPipInstallWarning">Ескерту: PyPI дестелері жүктеліп, Python ортасында орындалады. Жергілікті екілік дестелерге қолдау көрсетілмейді.</string>
+    <string name="MZGramPipInstallSuccess">Python дестелері сәтті орнатылды.</string>
+    <string name="MZGramPipInstallFailed">Python дестелерін орнату сәтсіз аяқталды: %1</string>
 </resources>

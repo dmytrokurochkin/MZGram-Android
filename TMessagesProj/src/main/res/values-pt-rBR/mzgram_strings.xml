@@ -1070,4 +1070,13 @@
     <string name="MZGramPillWeatherInfo">Exibe o clima atual e a temperatura na barra de pilulas. Solicita a localizacao do dispositivo e consulta open-meteo.com.</string>
     <string name="MZGramPillRates">Taxas de cambio</string>
     <string name="MZGramPillRatesInfo">Exibe cotacoes de moedas, criptomoedas e ouro na barra de pilulas. Solicita dados publicos de mercado da Coinbase e gold-api.com.</string>
+    <string name="MZGramPipEnabled">Permitir pacotes Python (pip)</string>
+    <string name="MZGramPipEnabledInfo">Permite baixar pacotes pure-Python do PyPI no dispositivo a pedido do usuário.</string>
+    <string name="MZGramPipEnabledPrompt">Permitir a instalação de pacotes Python do PyPI neste dispositivo? Os pacotes serão baixados apenas mediante solicitação explícita e executados no ambiente de plugins.</string>
+    <string name="MZGramPipInstallPackages">Instalar pacotes com pip</string>
+    <string name="MZGramPipInstallPackagesInfo">Baixar e instalar os pacotes Python necessários do PyPI.</string>
+    <string name="MZGramPipInstallTitle">Instalar pacotes Python</string>
+    <string name="MZGramPipInstallWarning">Aviso: Os pacotes do PyPI serão baixados e executados no ambiente Python. Pacotes binários nativos não são suportados.</string>
+    <string name="MZGramPipInstallSuccess">Pacotes Python instalados com sucesso.</string>
+    <string name="MZGramPipInstallFailed">Falha ao instalar pacotes Python: %1</string>
 </resources>

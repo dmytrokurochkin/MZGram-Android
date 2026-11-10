@@ -1070,4 +1070,13 @@
     <string name="MZGramPillWeatherInfo">Affiche la meteo actuelle et la temperature dans la barre de pilules. Demande la position de l\\'appareil et contacte open-meteo.com.</string>
     <string name="MZGramPillRates">Taux de change</string>
     <string name="MZGramPillRatesInfo">Affiche les taux de devises, cryptos et or dans la barre de pilules. Demande les donnees publiques de marche a Coinbase et gold-api.com.</string>
+    <string name="MZGramPipEnabled">Autoriser les paquets Python (pip)</string>
+    <string name="MZGramPipEnabledInfo">Permet de télécharger des paquets pure-Python depuis PyPI sur l\'appareil à la demande de l\'utilisateur.</string>
+    <string name="MZGramPipEnabledPrompt">Autoriser l\'installation de paquets Python depuis PyPI sur cet appareil ? Les paquets ne seront téléchargés que sur demande expresse et exécutés dans l\'environnement de plugins.</string>
+    <string name="MZGramPipInstallPackages">Installer les paquets avec pip</string>
+    <string name="MZGramPipInstallPackagesInfo">Télécharger et installer les paquets Python requis depuis PyPI.</string>
+    <string name="MZGramPipInstallTitle">Installer les paquets Python</string>
+    <string name="MZGramPipInstallWarning">Avertissement : Les paquets de PyPI seront téléchargés et exécutés dans l\'environnement Python. Les paquets binaires natifs ne sont pas pris en charge.</string>
+    <string name="MZGramPipInstallSuccess">Paquets Python installés avec succès.</string>
+    <string name="MZGramPipInstallFailed">Échec de l\'installation des paquets Python : %1</string>
 </resources>

@@ -61,6 +61,7 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
     private static final int BUTTON_JOURNAL = 10;
     private static final int BUTTON_SETTINGS = 11;
     private static final int BUTTON_RESTART = 12;
+    private static final int BUTTON_PIP_INSTALL = 13;
     // Rows of the permissions and the packages, by their place
     private static final int PERMISSION_ROW = 100;
     private static final int REQUIREMENT_ROW = 300;
@@ -166,7 +167,12 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
             for (int i = 0; i < meta.requirements.size(); i++) {
                 items.add(UItem.asButton(REQUIREMENT_ROW + i, meta.requirements.get(i)));
             }
-            items.add(UItem.asShadow(getString(R.string.MZGramPluginRequirementsInfo)));
+            if (MZGramConfig.pipEnabled && org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
+                items.add(UItem.asButton(BUTTON_PIP_INSTALL, R.drawable.msg_download, getString(R.string.MZGramPipInstallPackages)).accent());
+                items.add(UItem.asShadow(getString(R.string.MZGramPipInstallPackagesInfo)));
+            } else {
+                items.add(UItem.asShadow(getString(R.string.MZGramPluginRequirementsInfo)));
+            }
         }
 
         items.add(UItem.asButton(BUTTON_SOURCE, R.drawable.msg_view_file, getString(R.string.MZGramPluginSource)));
@@ -230,6 +236,8 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
             share();
         } else if (item.id == BUTTON_JOURNAL) {
             presentFragment(new MZGramPluginJournalActivity(pluginId));
+        } else if (item.id == BUTTON_PIP_INSTALL) {
+            org.telegram.messenger.mzgram.plugins.MZGramPipInstaller.showInstallDialog(this, pluginId, meta.requirements, this::refresh);
         } else if (item.id == BUTTON_DELETE) {
             confirmDelete();
         }

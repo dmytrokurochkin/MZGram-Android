@@ -1070,4 +1070,13 @@
     <string name="MZGramPillWeatherInfo">Wyswietla aktualna pogode i temperature na pasku pigulek. Wymaga lokalizacji urzadzenia i laczy sie z open-meteo.com.</string>
     <string name="MZGramPillRates">Kursy walut</string>
     <string name="MZGramPillRatesInfo">Wyswietla kursy walut, kryptowalut i zlota na pasku pigulek. Pobiera publiczne dane rynkowe z Coinbase i gold-api.com.</string>
+    <string name="MZGramPipEnabled">Zezwalaj na pakiety Python (pip)</string>
+    <string name="MZGramPipEnabledInfo">Pozwala na pobieranie pakietów pure-Python z PyPI na urządzenie na żądanie użytkownika.</string>
+    <string name="MZGramPipEnabledPrompt">Czy zezwolić na instalowanie pakietów Python z PyPI na tym urządzeniu? Pakiety będą pobierane tylko na wyraźne żądanie i uruchamiane w środowisku wtyczek.</string>
+    <string name="MZGramPipInstallPackages">Zainstaluj pakiety przez pip</string>
+    <string name="MZGramPipInstallPackagesInfo">Pobierz i zainstaluj wymagane pakiety Python z PyPI.</string>
+    <string name="MZGramPipInstallTitle">Instalacja pakietów Python</string>
+    <string name="MZGramPipInstallWarning">Ostrzeżenie: Pakiety z PyPI zostaną pobrane i wykonane w środowisku Python. Pakiety z natywnym kodem binarnym nie są obsługiwane.</string>
+    <string name="MZGramPipInstallSuccess">Pakiety Python zostały pomyślnie zainstalowane.</string>
+    <string name="MZGramPipInstallFailed">Nie udało się zainstalować pakietów Python: %1</string>
 </resources>

@@ -1186,4 +1186,13 @@
     <string name="MZGramViewIconPacksCatalog">Verifizierte Pakete durchsuchen</string>
     <string name="MZGramIconCatalogApprovedTitle">Geprüfte Open-Source-Symbolpakete</string>
     <string name="MZGramIconCatalogInfo">Zugriff auf ausgewählte Symbolpakete mit verifizierten permissiven Lizenzen (Apache 2.0 und MIT).</string>
+    <string name="MZGramPluginsExportBackup">Plug-in-Sicherung exportieren</string>
+    <string name="MZGramPluginsImportBackup">Plug-in-Sicherung importieren</string>
+    <string name="MZGramPluginsBackupEmpty">Keine installierten Plug-ins zum Sichern</string>
+    <string name="MZGramPluginsBackupInvalid">Das Sicherungsarchiv ist beschädigt oder kein gültiges MZGram-Plug-in-Backup</string>
+    <string name="MZGramPluginsBackupConfirm">%1$d Plug-ins aus dem Sicherungsarchiv importieren?</string>
+    <string name="MZGramPluginsBackupDone">%1$d von %2$d Plug-ins erfolgreich importiert</string>
+    <string name="MZGramPluginsBackupImport">Importieren</string>
+    <string name="MZGramPluginsBackupSwitch">Plug-ins in Einstellungssicherung einbeziehen</string>
+    <string name="MZGramPluginsBackupSwitchInfo">Speichert installierte Plug-ins und ihre unkritischen Einstellungen in der Sicherungsdatei. Private Schlüssel, Tokens und Passwörter werden nie gespeichert.</string>
 </resources>

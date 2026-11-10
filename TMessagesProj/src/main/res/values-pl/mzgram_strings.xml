@@ -1186,4 +1186,13 @@
     <string name="MZGramViewIconPacksCatalog">Przeglądaj sprawdzone paczki</string>
     <string name="MZGramIconCatalogApprovedTitle">Sprawdzone paczki ikon open source</string>
     <string name="MZGramIconCatalogInfo">Dostęp do wyselekcjonowanych paczek ikon z licencjami open source (Apache 2.0 oraz MIT).</string>
+    <string name="MZGramPluginsExportBackup">Eksportuj kopię zapasową wtyczek</string>
+    <string name="MZGramPluginsImportBackup">Importuj kopię zapasową wtyczek</string>
+    <string name="MZGramPluginsBackupEmpty">Brak zainstalowanych wtyczek do utworzenia kopii</string>
+    <string name="MZGramPluginsBackupInvalid">Archiwum kopii zapasowej jest uszkodzone lub nieprawidłowe dla MZGram</string>
+    <string name="MZGramPluginsBackupConfirm">Zaimportować %1$d wtyczek z archiwum kopii zapasowej?</string>
+    <string name="MZGramPluginsBackupDone">Pomyślnie zaimportowano %1$d z %2$d wtyczek</string>
+    <string name="MZGramPluginsBackupImport">Importuj</string>
+    <string name="MZGramPluginsBackupSwitch">Uwzględnij wtyczki w kopii zapasowej ustawień</string>
+    <string name="MZGramPluginsBackupSwitchInfo">Zapisuje zainstalowane wtyczki i ich bezpieczne ustawienia w pliku kopii zapasowej. Klucze prywatne, tokeny i hasła nigdy nie są dołączane.</string>
 </resources>

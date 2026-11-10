@@ -1186,4 +1186,13 @@
     <string name="MZGramViewIconPacksCatalog">Browse verified packs</string>
     <string name="MZGramIconCatalogApprovedTitle">Verified open-source icon packs</string>
     <string name="MZGramIconCatalogInfo">Access curated interface icon packs with verified permissive licenses (Apache 2.0 and MIT).</string>
+    <string name="MZGramPluginsExportBackup">Export plugins backup</string>
+    <string name="MZGramPluginsImportBackup">Import plugins backup</string>
+    <string name="MZGramPluginsBackupEmpty">No installed plugins to back up</string>
+    <string name="MZGramPluginsBackupInvalid">The backup archive is corrupted or not a valid MZGram plugins backup</string>
+    <string name="MZGramPluginsBackupConfirm">Import %1$d plugins from the backup archive?</string>
+    <string name="MZGramPluginsBackupDone">Successfully imported %1$d of %2$d plugins</string>
+    <string name="MZGramPluginsBackupImport">Import</string>
+    <string name="MZGramPluginsBackupSwitch">Include plugins in settings backup</string>
+    <string name="MZGramPluginsBackupSwitchInfo">Saves installed plugins and their non-sensitive settings inside the settings backup file. Private keys, tokens, and passwords are never included.</string>
 </resources>

@@ -12048,6 +12048,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (selectedCompression > compressionsCount) {
             selectedCompression = compressionsCount;
         }
+        // MZGram: always send HD for video (pick highest quality available)
+        if (org.telegram.messenger.mzgram.MZGramConfig.alwaysSendHd && compressionsCount > 0) {
+            selectedCompression = compressionsCount;
+        }
         boolean needCompress = false;
         if (new File(videoPath).length() < 1024L * 1024L * 1000L) {
             if (selectedCompression != compressionsCount || Math.max(videoEditedInfo.originalWidth, videoEditedInfo.originalHeight) > 1280) {

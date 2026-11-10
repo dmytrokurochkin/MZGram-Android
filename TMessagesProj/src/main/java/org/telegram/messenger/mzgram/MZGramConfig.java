@@ -235,6 +235,8 @@ public class MZGramConfig {
     public static boolean openFreeMapPreview = false;
     // Python plugins: allow pip packages to be downloaded from PyPI on device
     public static boolean pipEnabled = false;
+    // Include plugins in settings backup
+    public static boolean pluginsBackup = false;
     // Plugins catalog: raw URL of index.json repository
     public static final String DEFAULT_PLUGINS_CATALOG_URL = "https://raw.githubusercontent.com/dmytrokurochkin/MZGram-Plugins/main/index.json";
     public static String pluginsCatalogUrl = DEFAULT_PLUGINS_CATALOG_URL;
@@ -553,6 +555,7 @@ public class MZGramConfig {
             dohProvider = preferences.getInt("dohProvider", 0);
             openFreeMapPreview = preferences.getBoolean("openFreeMapPreview", false);
             pipEnabled = preferences.getBoolean("pipEnabled", false);
+            pluginsBackup = preferences.getBoolean("plugins_backup", false);
             pluginsCatalogUrl = preferences.getString("pluginsCatalogUrl", DEFAULT_PLUGINS_CATALOG_URL);
             translationProvider = preferences.getInt("translationProvider", 0);
             translationTargetLang = preferences.getString("translationTargetLang", "");
@@ -1188,6 +1191,16 @@ public class MZGramConfig {
     public static void togglePipEnabled() {
         pipEnabled = !pipEnabled;
         putBoolean("pipEnabled", pipEnabled);
+    }
+
+    public static void togglePluginsBackup() {
+        pluginsBackup = !pluginsBackup;
+        putBoolean("plugins_backup", pluginsBackup);
+    }
+
+    public static void setPluginsBackup(boolean value) {
+        pluginsBackup = value;
+        putBoolean("plugins_backup", pluginsBackup);
     }
 
     public static void setPipEnabled(boolean value) {

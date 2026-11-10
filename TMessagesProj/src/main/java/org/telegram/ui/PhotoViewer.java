@@ -21776,6 +21776,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (originalSize > 1024L * 1024L * 1000L) {
             return compressionsCount - 1;
         }
+        // MZGram: always send HD for video (pick highest quality available)
+        if (org.telegram.messenger.mzgram.MZGramConfig.alwaysSendHd && compressionsCount > 0) {
+            return compressionsCount - 1;
+        }
         SharedPreferences preferences = MessagesController.getGlobalMainSettings();
         int compressionsCount = this.compressionsCount;
         int maxCompression = 2;

@@ -1186,4 +1186,13 @@
     <string name="MZGramViewIconPacksCatalog">Parcourir les packs vérifiés</string>
     <string name="MZGramIconCatalogApprovedTitle">Packs d\'icônes open source vérifiés</string>
     <string name="MZGramIconCatalogInfo">Accès à des packs d\'icônes d\'interface avec des licences permissives vérifiées (Apache 2.0 et MIT).</string>
+    <string name="MZGramPluginsExportBackup">Exporter la sauvegarde des plug-ins</string>
+    <string name="MZGramPluginsImportBackup">Importer la sauvegarde des plug-ins</string>
+    <string name="MZGramPluginsBackupEmpty">Aucun plug-in installé à sauvegarder</string>
+    <string name="MZGramPluginsBackupInvalid">L\'archive de sauvegarde est corrompue ou n\'est pas une sauvegarde MZGram valide</string>
+    <string name="MZGramPluginsBackupConfirm">Importer %1$d plug-ins depuis l\'archive de sauvegarde ?</string>
+    <string name="MZGramPluginsBackupDone">%1$d plug-ins sur %2$d importés avec succès</string>
+    <string name="MZGramPluginsBackupImport">Importer</string>
+    <string name="MZGramPluginsBackupSwitch">Inclure les plug-ins dans la sauvegarde des paramètres</string>
+    <string name="MZGramPluginsBackupSwitchInfo">Enregistre les plug-ins installés et leurs réglages non confidentiels dans le fichier de sauvegarde. Les clés privées, jetons et mots de passe ne sont jamais inclus.</string>
 </resources>

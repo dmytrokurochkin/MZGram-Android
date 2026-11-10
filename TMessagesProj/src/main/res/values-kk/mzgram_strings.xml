@@ -1186,4 +1186,13 @@
     <string name="MZGramViewIconPacksCatalog">Тексерілген топтамаларды қарау</string>
     <string name="MZGramIconCatalogApprovedTitle">Ашық лицензиясы бар тексерілген топтамалар</string>
     <string name="MZGramIconCatalogInfo">Расталған еркін лицензиялары (Apache 2.0 және MIT) бар таңдалған белгішелерге қол жеткізу.</string>
+    <string name="MZGramPluginsExportBackup">Плагиндердің сақтық көшірмесін экспорттау</string>
+    <string name="MZGramPluginsImportBackup">Плагиндердің сақтық көшірмесін импорттау</string>
+    <string name="MZGramPluginsBackupEmpty">Сақтық көшірме жасайтын орнатылған плагиндер жоқ</string>
+    <string name="MZGramPluginsBackupInvalid">Сақтық көшірме архиві бүлінген немесе жарамды MZGram плагиндер көшірмесі емес</string>
+    <string name="MZGramPluginsBackupConfirm">Сақтық көшірме архивінен %1$d плагин импортталсын ба?</string>
+    <string name="MZGramPluginsBackupDone">%1$d / %2$d плагин сәтті импортталды</string>
+    <string name="MZGramPluginsBackupImport">Импорттау</string>
+    <string name="MZGramPluginsBackupSwitch">Плагиндерді баптаулардың сақтық көшірмесіне қосу</string>
+    <string name="MZGramPluginsBackupSwitchInfo">Орнатылған плагиндерді және олардың қауіпсіз баптауларын сақтық көшірме файлында сақтайды. Жеке кілттер, токендер мен құпиясөздер ешқашан сақталмайды.</string>
 </resources>

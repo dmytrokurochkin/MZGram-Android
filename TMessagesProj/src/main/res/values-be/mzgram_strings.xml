@@ -1186,4 +1186,13 @@
     <string name="MZGramViewIconPacksCatalog">Прагледзець правераныя наборы</string>
     <string name="MZGramIconCatalogApprovedTitle">Правераныя наборы з адкрытай ліцэнзіяй</string>
     <string name="MZGramIconCatalogInfo">Доступ да адабраных набораў іконак з пацверджанымі свабоднымі ліцэнзіямі (Apache 2.0 і MIT).</string>
+    <string name="MZGramPluginsExportBackup">Экспарт рэзервовай копіі плагінаў</string>
+    <string name="MZGramPluginsImportBackup">Імпарт рэзервовай копіі плагінаў</string>
+    <string name="MZGramPluginsBackupEmpty">Няма ўсталяваных плагінаў для рэзервовай копіі</string>
+    <string name="MZGramPluginsBackupInvalid">Архіў рэзервовай копіі пашкоджаны альбо не з\'яўляецца карэктным бэкапам плагінаў MZGram</string>
+    <string name="MZGramPluginsBackupConfirm">Імпартаваць %1$d плагінаў з архіва рэзервовай копіі?</string>
+    <string name="MZGramPluginsBackupDone">Паспяхова імпартавана %1$d з %2$d плагінаў</string>
+    <string name="MZGramPluginsBackupImport">Імпартаваць</string>
+    <string name="MZGramPluginsBackupSwitch">Уключаць плагіны ў рэзервовую копію налад</string>
+    <string name="MZGramPluginsBackupSwitchInfo">Захоўвае ўсталяваныя плагіны і іх бяспечныя налады ў файле бэкапу налад. Прыватныя ключы, токены і паролі ніколі не захоўваюцца.</string>
 </resources>

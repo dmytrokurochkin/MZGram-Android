@@ -30,11 +30,15 @@ import static org.telegram.messenger.LocaleController.getString;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
 
+import androidx.core.content.FileProvider;
+
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -45,6 +49,7 @@ import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginHookGate;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginWatchdog;
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginsBackup;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.UItem;
@@ -52,6 +57,8 @@ import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalFragment;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,9 +74,12 @@ public class MZGramPluginsActivity extends UniversalFragment {
     private static final int BUTTON_SAFE_MODE_EXIT = 8;
     private static final int BUTTON_PIP = 9;
     private static final int BUTTON_CATALOG = 10;
+    private static final int MENU_EXPORT_BACKUP = 11;
+    private static final int MENU_IMPORT_BACKUP = 12;
     // Rows of the plugins: PLUGIN_ROW + their place in the list
     private static final int PLUGIN_ROW = 1000;
     private static final int REQUEST_CODE_PICK_PLUGIN = 8846;
+    private static final int REQUEST_CODE_PICK_BACKUP = 8852;
 
     private List<MZGramPlugins.Plugin> plugins = new ArrayList<>();
     private final SparseArray<String> idsByRow = new SparseArray<>();
@@ -110,6 +120,30 @@ public class MZGramPluginsActivity extends UniversalFragment {
         if (listView != null && listView.adapter != null) {
             listView.adapter.update(true);
         }
+    }
+
+    @Override
+    public View createView(android.content.Context context) {
+        View view = super.createView(context);
+        if (actionBar != null) {
+            org.telegram.ui.ActionBar.ActionBarMenu menu = actionBar.createMenu();
+            org.telegram.ui.ActionBar.ActionBarMenuItem item = menu.addItem(0, R.drawable.ic_ab_other);
+            item.addSubItem(MENU_EXPORT_BACKUP, R.drawable.msg_share, getString(R.string.MZGramPluginsExportBackup));
+            item.addSubItem(MENU_IMPORT_BACKUP, R.drawable.msg_download, getString(R.string.MZGramPluginsImportBackup));
+            actionBar.setActionBarMenuOnItemClick(new org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick() {
+                @Override
+                public void onItemClick(int id) {
+                    if (id == -1) {
+                        finishFragment();
+                    } else if (id == MENU_EXPORT_BACKUP) {
+                        exportPluginsBackup();
+                    } else if (id == MENU_IMPORT_BACKUP) {
+                        pickPluginsBackup();
+                    }
+                }
+            });
+        }
+        return view;
     }
 
     @Override
@@ -317,8 +351,96 @@ public class MZGramPluginsActivity extends UniversalFragment {
         }
     }
 
+    private void exportPluginsBackup() {
+        if (plugins.isEmpty()) {
+            BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsBackupEmpty)).show();
+            return;
+        }
+        org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+            File file = MZGramPluginsBackup.export();
+            AndroidUtilities.runOnUIThread(() -> {
+                if (file == null) {
+                    BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsBackupEmpty)).show();
+                    return;
+                }
+                Activity activity = getParentActivity();
+                if (activity != null) {
+                    Uri uri = FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", file);
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("application/zip");
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    try {
+                        activity.startActivity(Intent.createChooser(intent, getString(R.string.MZGramPluginsExportBackup)));
+                    } catch (Exception e) {
+                        FileLog.e("MZGramPluginsActivity.exportBackup", e);
+                    }
+                }
+            });
+        });
+    }
+
+    private void pickPluginsBackup() {
+        Activity activity = getParentActivity();
+        if (activity == null) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try {
+            startActivityForResult(intent, REQUEST_CODE_PICK_BACKUP);
+        } catch (Exception e) {
+            FileLog.e("MZGramPluginsActivity.pickBackup", e);
+        }
+    }
+
     @Override
     public void onActivityResultFragment(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_PICK_BACKUP && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            Activity activity = getParentActivity();
+            if (activity == null) {
+                return;
+            }
+            File cacheDir = AndroidUtilities.getCacheDir();
+            File tempArchive = new File(cacheDir, "plugins_import_" + System.currentTimeMillis() + ".zip");
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                try (InputStream in = activity.getContentResolver().openInputStream(uri);
+                     FileOutputStream out = new FileOutputStream(tempArchive)) {
+                    byte[] buf = new byte[8192];
+                    int r;
+                    while ((r = in.read(buf)) != -1) {
+                        out.write(buf, 0, r);
+                    }
+                } catch (Exception e) {
+                    FileLog.e("MZGramPluginsActivity: cannot copy backup", e);
+                    tempArchive.delete();
+                }
+                List<MZGramPluginsBackup.Entry> entries = MZGramPluginsBackup.read(tempArchive);
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (entries == null || entries.isEmpty()) {
+                        tempArchive.delete();
+                        BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramPluginsBackupInvalid)).show();
+                        return;
+                    }
+                    new AlertDialog.Builder(activity)
+                            .setTitle(getString(R.string.MZGramPluginsImportBackup))
+                            .setMessage(LocaleController.formatString(R.string.MZGramPluginsBackupConfirm, entries.size()))
+                            .setPositiveButton(getString(R.string.MZGramPluginsBackupImport), (dialog, which) -> {
+                                MZGramPluginsBackup.importAll(tempArchive, entries, (imported, total) -> {
+                                    tempArchive.delete();
+                                    reload();
+                                    BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check,
+                                            LocaleController.formatString(R.string.MZGramPluginsBackupDone, imported, total)).show();
+                                });
+                            })
+                            .setNegativeButton(getString(R.string.MZGramCancel), (dialog, which) -> tempArchive.delete())
+                            .show();
+                });
+            });
+            return;
+        }
         if (requestCode != REQUEST_CODE_PICK_PLUGIN || resultCode != Activity.RESULT_OK || data == null || data.getData() == null) {
             return;
         }

@@ -52,6 +52,7 @@ public final class MZGramSettingsBackup {
     public static final String FILE_NAME = "mzgram_settings.json";
     public static final String MIME_TYPE = "application/json";
     public static final int MAX_FILE_BYTES = 2 * 1024 * 1024;
+    public static final String KEY_PLUGINS = "plugins";
 
     static final String CONFIG = "mzgram_config";
     static final String DRAWER = "mzgram_drawer";
@@ -117,7 +118,7 @@ public final class MZGramSettingsBackup {
                 "reliableDelivery", "saveFormatting", "saveReactions", "saveFromUsers", "saveForBots",
                 "saveInGroups", "saveInChannels", "saveExclusions", "keptReplyPreviews",
                 "replyToDeletedAsQuote", "deletedMessagesList", "deletedDialogsList", "deletedDialogsInMainList",
-                "m3Switches", "cardsDesign", "profileMusicCard", "openFreeMapPreview", "pipEnabled",
+                "m3Switches", "cardsDesign", "profileMusicCard", "openFreeMapPreview", "pipEnabled", "plugins_backup",
                 "chatTranslationBar", "translateBeforeSend", "translationAutoFallback", "speechRecognitionEnabled",
                 "torCompanionEnabled", "customBadgesEnabled", "nothingGlyphEnabled", "customEmojiFontEnabled",
                 "syncedLyricsOnline", "iconPacksCatalogEnabled",
@@ -340,6 +341,16 @@ public final class MZGramSettingsBackup {
             root.put("format", FORMAT);
             root.put("version", VERSION);
             root.put("files", files);
+            if (MZGramConfig.pluginsBackup) {
+                try {
+                    JSONArray pArray = org.telegram.messenger.mzgram.plugins.MZGramPluginsBackup.exportPluginsJson();
+                    if (pArray != null && pArray.length() > 0) {
+                        root.put(KEY_PLUGINS, pArray);
+                    }
+                } catch (Exception e) {
+                    FileLog.e("MZGramSettingsBackup: failed to export plugins section", e);
+                }
+            }
             return root.toString(2);
         } catch (Exception e) {
             FileLog.e(e);
@@ -455,6 +466,11 @@ public final class MZGramSettingsBackup {
      */
     @SuppressWarnings("unchecked")
     public static int restore(Map<String, ? extends Map<String, Object>> values) {
+        return restore(values, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static int restore(Map<String, ? extends Map<String, Object>> values, String fullJson) {
         int written = 0;
         if (values == null) {
             return 0;
@@ -485,6 +501,15 @@ public final class MZGramSettingsBackup {
             }
         }
         MZGramConfig.loadConfig(true);
+
+        // Corrupted plugins section does not break import of settings
+        if (fullJson != null) {
+            try {
+                org.telegram.messenger.mzgram.plugins.MZGramPluginsBackup.restorePluginsFromJson(fullJson);
+            } catch (Exception e) {
+                FileLog.e("MZGramSettingsBackup: corrupted plugins section ignored", e);
+            }
+        }
         return written;
     }
 }

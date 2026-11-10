@@ -1186,4 +1186,13 @@
     <string name="MZGramViewIconPacksCatalog">Doğrulanmış paketlere göz at</string>
     <string name="MZGramIconCatalogApprovedTitle">Doğrulanmış açık kaynaklı simge paketleri</string>
     <string name="MZGramIconCatalogInfo">Doğrulanmış izin veren lisanslara (Apache 2.0 ve MIT) sahip seçilmiş simge paketlerine erişim.</string>
+    <string name="MZGramPluginsExportBackup">Eklenti yedeğini dışa aktar</string>
+    <string name="MZGramPluginsImportBackup">Eklenti yedeğini içe aktar</string>
+    <string name="MZGramPluginsBackupEmpty">Yedeklenecek yüklü eklenti yok</string>
+    <string name="MZGramPluginsBackupInvalid">Yedek arşivi bozuk veya geçerli bir MZGram eklenti yedeği değil</string>
+    <string name="MZGramPluginsBackupConfirm">Yedek arşivinden %1$d eklenti içe aktarılsın mı?</string>
+    <string name="MZGramPluginsBackupDone">%1$d / %2$d eklenti başarıyla içe aktarıldı</string>
+    <string name="MZGramPluginsBackupImport">İçe aktar</string>
+    <string name="MZGramPluginsBackupSwitch">Eklentileri ayarlar yedeğine dahil et</string>
+    <string name="MZGramPluginsBackupSwitchInfo">Yüklü eklentileri ve güvenli ayarlarını ayarlar yedek dosyasına kaydeder. Özel anahtarlar, belirteçler ve parolalar asla dahil edilmez.</string>
 </resources>

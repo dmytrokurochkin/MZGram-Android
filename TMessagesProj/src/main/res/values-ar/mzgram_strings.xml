@@ -1186,4 +1186,13 @@
     <string name="MZGramViewIconPacksCatalog">تصفح الحزم المعتمدة</string>
     <string name="MZGramIconCatalogApprovedTitle">حزم الأيقونات مفتوحة المصدر المعتمدة</string>
     <string name="MZGramIconCatalogInfo">الوصول إلى حزم الأيقونات المختارة ذات التراخيص المعتمدة (Apache 2.0 وMIT).</string>
+    <string name="MZGramPluginsExportBackup">تصدير نسخة احتياطية من الإضافات</string>
+    <string name="MZGramPluginsImportBackup">استيراد نسخة احتياطية من الإضافات</string>
+    <string name="MZGramPluginsBackupEmpty">لا توجد إضافات مثبتة للنسخ الاحتياطي</string>
+    <string name="MZGramPluginsBackupInvalid">أرشيف النسخة الاحتياطية تالف أو ليس نسخة احتياطية صالحة لإضافات MZGram</string>
+    <string name="MZGramPluginsBackupConfirm">هل تريد استيراد %1$d من الإضافات من أرشيف النسخة الاحتياطية؟</string>
+    <string name="MZGramPluginsBackupDone">تم بنجاح استيراد %1$d من أصل %2$d إضافات</string>
+    <string name="MZGramPluginsBackupImport">استيراد</string>
+    <string name="MZGramPluginsBackupSwitch">تضمين الإضافات في النسخة الاحتياطية للإعدادات</string>
+    <string name="MZGramPluginsBackupSwitchInfo">يحفظ الإضافات المثبتة وإعداداتها غير الحساسة داخل ملف النسخة الاحتياطية للإعدادات. لا يتم تضمين المفاتيح الخاصة أو الرموز أو كلمات المرور مطلقًا.</string>
 </resources>

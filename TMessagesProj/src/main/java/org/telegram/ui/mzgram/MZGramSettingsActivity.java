@@ -166,6 +166,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_OPENFREEMAP_PREVIEW = 198;
     // Translation and AI suite
     private static final int BUTTON_TRANSLATION_AI = 199;
+    // Extended peripherals (Point 13)
+    private static final int BUTTON_EXTENDED_PERIPHERALS = 200;
     // Archive: import another client's message database (MZGramForeignArchiveImport)
     private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
     // Archive: forward kept deleted messages as copies (MZGramProtectedContent)
@@ -1094,6 +1096,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(BUTTON_PLUGINS, R.drawable.msg_bots, getString(R.string.MZGramPlugins), plugins > 0 ? org.telegram.messenger.LocaleController.formatNumber(plugins, ' ') : null));
             items.add(UItem.asShadow(getString(R.string.MZGramPluginsSettingsInfo)));
         }
+        items.add(UItem.asHeader(getString(R.string.MZGramPeripheralsHeader)));
+        items.add(UItem.asButton(BUTTON_EXTENDED_PERIPHERALS, getString(R.string.MZGramPeripheralsTitle), getString(R.string.MZGramPeripheralsSub)));
+        items.add(UItem.asShadow(getString(R.string.MZGramPeripheralsInfo)));
     }
 
     private void onProfilerStarted(boolean running, int startedText) {
@@ -1661,6 +1666,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     .show();
         } else if (item.id == BUTTON_TRANSLATION_AI) {
             presentFragment(new MZGramTranslationAiActivity());
+        } else if (item.id == BUTTON_EXTENDED_PERIPHERALS) {
+            presentFragment(new MZGramPeripheralsActivity());
         } else if (item.id == BUTTON_SAVE_PROTECTED_CONTENT) {
             MZGramConfig.toggleSaveProtectedContent();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveProtectedContent);

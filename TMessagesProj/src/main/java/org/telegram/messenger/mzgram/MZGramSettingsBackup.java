@@ -119,6 +119,8 @@ public final class MZGramSettingsBackup {
                 "replyToDeletedAsQuote", "deletedMessagesList", "deletedDialogsList", "deletedDialogsInMainList",
                 "m3Switches", "cardsDesign", "profileMusicCard", "openFreeMapPreview", "pipEnabled",
                 "chatTranslationBar", "translateBeforeSend", "translationAutoFallback", "speechRecognitionEnabled",
+                "torCompanionEnabled", "customBadgesEnabled", "nothingGlyphEnabled", "customEmojiFontEnabled",
+                "syncedLyricsOnline", "iconPacksCatalogEnabled",
                 "forwardDeletedAsCopy", "semiTransparentDeleted", "disableSponsoredMessages",
                 "stripZalgoText", "foldFancyFontsInSearch", "characterCounter", "searchOperators",
                 "cleanLinks", "doubleTapActions", "copyPlainText", "inlineMath", "stickerRoundCorners",
@@ -164,6 +166,10 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "aiProviderType", 0, 4);
         // Speech engine 0..1
         integer(CONFIG, "speechEngine", 0, 1);
+        // Tor idle timeout minutes 1..60
+        integer(CONFIG, "torIdleTimeoutMinutes", 1, 60);
+        // Nothing glyph brightness 1..100
+        integer(CONFIG, "nothingGlyphBrightness", 1, 100);
         // Round video bitrate
         integer(CONFIG, "round_video_bitrate", 100_000, 10_000_000);
         texts(CONFIG, TEXT_MAX,
@@ -171,7 +177,8 @@ public final class MZGramSettingsBackup {
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",
                 "textStyleOrder", "textStyleHidden", "pluginsCatalogUrl",
                 "translationTargetLang", "deeplApiKey", "mozhiCustomInstance",
-                "aiApiKey", "aiCustomEndpoint", "aiCustomModel", "voskModelLang");
+                "aiApiKey", "aiCustomEndpoint", "aiCustomModel", "voskModelLang",
+                "torCompanionPackage", "nothingGlyphApiKey", "customEmojiFontPath");
         textSets(CONFIG, "aiMenuButtons", "hiddenSettingsRows");
 
         // MZGramDrawerItems, MZGramPills: comma-separated ids, unknown ids are dropped when read

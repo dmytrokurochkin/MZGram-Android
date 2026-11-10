@@ -252,6 +252,18 @@ public class MZGramConfig {
     public static boolean speechRecognitionEnabled = false;
     public static int speechEngine = 0; // 0: System, 1: Vosk
     public static String voskModelLang = "uk";
+    // Extended peripherals (Point 13 of OWNER-DECISIONS.md)
+    public static boolean torCompanionEnabled = false;
+    public static String torCompanionPackage = "org.torproject.android";
+    public static int torIdleTimeoutMinutes = 5;
+    public static boolean customBadgesEnabled = false;
+    public static boolean nothingGlyphEnabled = false;
+    public static String nothingGlyphApiKey = "";
+    public static int nothingGlyphBrightness = 100;
+    public static boolean customEmojiFontEnabled = false;
+    public static String customEmojiFontPath = "";
+    public static boolean syncedLyricsOnline = false;
+    public static boolean iconPacksCatalogEnabled = false;
     // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
@@ -555,6 +567,17 @@ public class MZGramConfig {
             speechRecognitionEnabled = preferences.getBoolean("speechRecognitionEnabled", false);
             speechEngine = preferences.getInt("speechEngine", 0);
             voskModelLang = preferences.getString("voskModelLang", "uk");
+            torCompanionEnabled = preferences.getBoolean("torCompanionEnabled", false);
+            torCompanionPackage = preferences.getString("torCompanionPackage", "org.torproject.android");
+            torIdleTimeoutMinutes = preferences.getInt("torIdleTimeoutMinutes", 5);
+            customBadgesEnabled = preferences.getBoolean("customBadgesEnabled", false);
+            nothingGlyphEnabled = preferences.getBoolean("nothingGlyphEnabled", false);
+            nothingGlyphApiKey = preferences.getString("nothingGlyphApiKey", "");
+            nothingGlyphBrightness = preferences.getInt("nothingGlyphBrightness", 100);
+            customEmojiFontEnabled = preferences.getBoolean("customEmojiFontEnabled", false);
+            customEmojiFontPath = preferences.getString("customEmojiFontPath", "");
+            syncedLyricsOnline = preferences.getBoolean("syncedLyricsOnline", false);
+            iconPacksCatalogEnabled = preferences.getBoolean("iconPacksCatalogEnabled", false);
             forwardDeletedAsCopy = preferences.getBoolean("forwardDeletedAsCopy", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
@@ -1236,6 +1259,61 @@ public class MZGramConfig {
     public static void setVoskModelLang(String lang) {
         voskModelLang = lang != null ? lang.trim() : "uk";
         putString("voskModelLang", voskModelLang);
+    }
+
+    public static void toggleTorCompanionEnabled() {
+        torCompanionEnabled = !torCompanionEnabled;
+        putBoolean("torCompanionEnabled", torCompanionEnabled);
+    }
+
+    public static void setTorCompanionPackage(String pkg) {
+        torCompanionPackage = pkg != null ? pkg : "org.torproject.android";
+        putString("torCompanionPackage", torCompanionPackage);
+    }
+
+    public static void setTorIdleTimeoutMinutes(int minutes) {
+        torIdleTimeoutMinutes = minutes;
+        preferences().edit().putInt("torIdleTimeoutMinutes", minutes).apply();
+    }
+
+    public static void toggleCustomBadgesEnabled() {
+        customBadgesEnabled = !customBadgesEnabled;
+        putBoolean("customBadgesEnabled", customBadgesEnabled);
+    }
+
+    public static void toggleNothingGlyphEnabled() {
+        nothingGlyphEnabled = !nothingGlyphEnabled;
+        putBoolean("nothingGlyphEnabled", nothingGlyphEnabled);
+    }
+
+    public static void setNothingGlyphApiKey(String key) {
+        nothingGlyphApiKey = key != null ? key.trim() : "";
+        putString("nothingGlyphApiKey", nothingGlyphApiKey);
+    }
+
+    public static void setNothingGlyphBrightness(int brightness) {
+        nothingGlyphBrightness = brightness;
+        preferences().edit().putInt("nothingGlyphBrightness", brightness).apply();
+    }
+
+    public static void toggleCustomEmojiFontEnabled() {
+        customEmojiFontEnabled = !customEmojiFontEnabled;
+        putBoolean("customEmojiFontEnabled", customEmojiFontEnabled);
+    }
+
+    public static void setCustomEmojiFontPath(String path) {
+        customEmojiFontPath = path != null ? path : "";
+        putString("customEmojiFontPath", customEmojiFontPath);
+    }
+
+    public static void toggleSyncedLyricsOnline() {
+        syncedLyricsOnline = !syncedLyricsOnline;
+        putBoolean("syncedLyricsOnline", syncedLyricsOnline);
+    }
+
+    public static void toggleIconPacksCatalogEnabled() {
+        iconPacksCatalogEnabled = !iconPacksCatalogEnabled;
+        putBoolean("iconPacksCatalogEnabled", iconPacksCatalogEnabled);
     }
 
     public static void toggleForwardDeletedAsCopy() {

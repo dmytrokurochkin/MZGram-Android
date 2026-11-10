@@ -1195,4 +1195,12 @@
     <string name="MZGramPluginsBackupImport">Importuj</string>
     <string name="MZGramPluginsBackupSwitch">Uwzględnij wtyczki w kopii zapasowej ustawień</string>
     <string name="MZGramPluginsBackupSwitchInfo">Zapisuje zainstalowane wtyczki i ich bezpieczne ustawienia w pliku kopii zapasowej. Klucze prywatne, tokeny i hasła nigdy nie są dołączane.</string>
+    <string name="MZGramVideoSubtitles">Napisy w odtwarzaczu wideo</string>
+    <string name="MZGramVideoSubtitlesInfo">Pokazuj napisy zewnętrzne i wbudowane podczas odtwarzania wideo (.srt, .vtt).</string>
+    <string name="MZGramChooseSubtitles">Wybierz napisy (.srt, .vtt)</string>
+    <string name="MZGramDisableSubtitles">Wyłącz napisy</string>
+    <string name="MZGramSubtitlesLoadError">Nie udało się wczytać pliku napisów</string>
+    <string name="MZGramSubtitlesUnsupportedFormat">Nieobsługiwany format napisów</string>
+    <string name="MZGramPersianCalendar">Kalendarz perski</string>
+    <string name="MZGramPersianCalendarInfo">Wyświetlaj daty według perskiego kalendarza słonecznego.</string>
 </resources>

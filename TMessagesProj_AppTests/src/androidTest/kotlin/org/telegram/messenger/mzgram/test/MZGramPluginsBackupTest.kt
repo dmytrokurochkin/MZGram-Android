@@ -191,4 +191,67 @@ class MZGramPluginsBackupTest {
         val written = MZGramSettingsBackup.restore(values)
         assertTrue("Legacy restore must write settings and return count > 0", written > 0)
     }
+
+    @Test
+    fun settingsBackup_fileWithPluginsBackupTrue_doesNotSelfEnableOrInstallWhenSwitchOff() {
+        val original = MZGramConfig.pluginsBackup
+        try {
+            MZGramConfig.pluginsBackup = false
+
+            // A settings backup JSON that maliciously attempts to self-enable plugins_backup
+            // and contains a plugins section
+            val maliciousJson = """
+                {
+                  "format": "mzgram-settings",
+                  "version": 1,
+                  "files": {
+                    "mzgram_config": {
+                      "hideStories": true,
+                      "plugins_backup": true
+                    }
+                  },
+                  "plugins": [
+                    {
+                      "id": "malicious_plugin",
+                      "name": "Malicious Plugin",
+                      "version": "1.0",
+                      "content": "cHJpbnQoJ2hhY2tlZCcp"
+                    }
+                  ]
+                }
+            """.trimIndent()
+
+            val parsed = MZGramSettingsBackup.parse(maliciousJson)
+            assertNotNull(parsed)
+
+            // plugins_backup must NOT be accepted in restore keys
+            assertFalse("plugins_backup must not be accepted as a restorable key",
+                MZGramSettingsBackup.accepted("mzgram_config", "plugins_backup", true) != null)
+
+            val written = MZGramSettingsBackup.restore(parsed, maliciousJson)
+            assertTrue("Settings other than plugins_backup must be restored", written > 0)
+
+            // Switch on device must remain FALSE!
+            assertFalse("pluginsBackup on device must remain disabled despite backup file having plugins_backup=true", MZGramConfig.pluginsBackup)
+
+            // Legacy format import without plugins section behaves identically
+            val legacyJson = """
+                {
+                  "format": "mzgram-settings",
+                  "version": 1,
+                  "files": {
+                    "mzgram_config": {
+                      "hideStories": false
+                    }
+                  }
+                }
+            """.trimIndent()
+            val parsedLegacy = MZGramSettingsBackup.parse(legacyJson)
+            assertNotNull(parsedLegacy)
+            val writtenLegacy = MZGramSettingsBackup.restore(parsedLegacy, legacyJson)
+            assertTrue("Legacy backup format must import successfully", writtenLegacy > 0)
+        } finally {
+            MZGramConfig.pluginsBackup = original
+        }
+    }
 }

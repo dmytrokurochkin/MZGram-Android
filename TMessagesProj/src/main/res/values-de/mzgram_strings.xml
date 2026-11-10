@@ -1195,4 +1195,12 @@
     <string name="MZGramPluginsBackupImport">Importieren</string>
     <string name="MZGramPluginsBackupSwitch">Plug-ins in Einstellungssicherung einbeziehen</string>
     <string name="MZGramPluginsBackupSwitchInfo">Speichert installierte Plug-ins und ihre unkritischen Einstellungen in der Sicherungsdatei. Private Schlüssel, Tokens und Passwörter werden nie gespeichert.</string>
+    <string name="MZGramVideoSubtitles">Untertitel im Videoplayer</string>
+    <string name="MZGramVideoSubtitlesInfo">Externe und eingebettete Untertitel beim Abspielen von Videos anzeigen (.srt, .vtt).</string>
+    <string name="MZGramChooseSubtitles">Untertitel auswählen (.srt, .vtt)</string>
+    <string name="MZGramDisableSubtitles">Untertitel deaktivieren</string>
+    <string name="MZGramSubtitlesLoadError">Untertiteldatei konnte nicht geladen werden</string>
+    <string name="MZGramSubtitlesUnsupportedFormat">Nicht unterstütztes Untertitelformat</string>
+    <string name="MZGramPersianCalendar">Iranischer Sonnenkalender</string>
+    <string name="MZGramPersianCalendarInfo">Daten nach dem persischen Sonnenkalender anzeigen.</string>
 </resources>

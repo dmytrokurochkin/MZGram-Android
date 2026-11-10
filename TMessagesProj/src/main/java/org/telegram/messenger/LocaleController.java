@@ -2122,6 +2122,15 @@ public class LocaleController {
             date *= 1000;
 
             calendar.setTimeInMillis(date);
+            // MZGram: Persian (Jalali) calendar support
+            if (org.telegram.messenger.mzgram.MZGramConfig.persianCalendar) {
+                org.telegram.messenger.mzgram.system.MZGramPersianDate persianDate = new org.telegram.messenger.mzgram.system.MZGramPersianDate(date);
+                if (checkYear && currentYear == calendar.get(Calendar.YEAR) || !checkYear && Math.abs(System.currentTimeMillis() - date) < 31536000000L) {
+                    return persianDate.getPersianMonthDay();
+                } else {
+                    return persianDate.getPersianNormalDate();
+                }
+            }
             if (checkYear && currentYear == calendar.get(Calendar.YEAR) || !checkYear && Math.abs(System.currentTimeMillis() - date) < 31536000000L) {
                 return getInstance().getChatDate().format(date);
             }
@@ -2507,6 +2516,20 @@ public class LocaleController {
             int dateDay = rightNow.get(Calendar.DAY_OF_YEAR);
             int dateYear = rightNow.get(Calendar.YEAR);
 
+            // MZGram: Persian (Jalali) calendar support
+            if (org.telegram.messenger.mzgram.MZGramConfig.persianCalendar) {
+                org.telegram.messenger.mzgram.system.MZGramPersianDate persianDate = new org.telegram.messenger.mzgram.system.MZGramPersianDate(date);
+                if (dateDay == day && year == dateYear) {
+                    return getInstance().getFormatterDay().format(new Date(date));
+                } else if (dateDay + 1 == day && year == dateYear) {
+                    return LocaleController.formatString(R.string.YesterdayAtFormatted, getInstance().getFormatterDay().format(new Date(date)));
+                } else if (Math.abs(System.currentTimeMillis() - date) < 31536000000L) {
+                    return LocaleController.formatString(R.string.formatDateAtTime, persianDate.getPersianMonthDay(), getInstance().getFormatterDay().format(new Date(date)));
+                } else {
+                    return LocaleController.formatString(R.string.formatDateAtTime, persianDate.getPersianNormalDate(), getInstance().getFormatterDay().format(new Date(date)));
+                }
+            }
+
             if (dateDay == day && year == dateYear) {
                 return getInstance().getFormatterDay().format(new Date(date));
             } else if (dateDay + 1 == day && year == dateYear) {
@@ -2644,6 +2667,30 @@ public class LocaleController {
             int dateDay = rightNow.get(Calendar.DAY_OF_YEAR);
             int dateYear = rightNow.get(Calendar.YEAR);
             int dateHour = rightNow.get(Calendar.HOUR_OF_DAY);
+
+            // MZGram: Persian (Jalali) calendar support
+            if (org.telegram.messenger.mzgram.MZGramConfig.persianCalendar) {
+                org.telegram.messenger.mzgram.system.MZGramPersianDate persianDate = new org.telegram.messenger.mzgram.system.MZGramPersianDate(date);
+                if (dateDay == day && year == dateYear) {
+                    return LocaleController.formatString(R.string.LastSeenFormatted, LocaleController.formatString("TodayAtFormatted", R.string.TodayAtFormatted, getInstance().getFormatterDay().format(new Date(date))));
+                } else if (dateDay + 1 == day && year == dateYear) {
+                    if (madeShorter != null) {
+                        madeShorter[0] = true;
+                        if (hour <= 6 && dateHour > 18 && is24HourFormat) {
+                            return LocaleController.formatString(R.string.LastSeenFormatted, getInstance().getFormatterDay().format(new Date(date)));
+                        }
+                        return LocaleController.formatString(R.string.YesterdayAtFormatted, getInstance().getFormatterDay().format(new Date(date)));
+                    } else {
+                        return LocaleController.formatString(R.string.LastSeenFormatted, LocaleController.formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted, getInstance().getFormatterDay().format(new Date(date))));
+                    }
+                } else if (Math.abs(System.currentTimeMillis() - date) < 31536000000L) {
+                    String format = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, persianDate.getPersianMonthDay(), getInstance().getFormatterDay().format(new Date(date)));
+                    return LocaleController.formatString("LastSeenDateFormatted", R.string.LastSeenDateFormatted, format);
+                } else {
+                    String format = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, persianDate.getPersianNormalDate(), getInstance().getFormatterDay().format(new Date(date)));
+                    return LocaleController.formatString("LastSeenDateFormatted", R.string.LastSeenDateFormatted, format);
+                }
+            }
 
             if (dateDay == day && year == dateYear) {
                 return LocaleController.formatString(R.string.LastSeenFormatted, LocaleController.formatString("TodayAtFormatted", R.string.TodayAtFormatted, getInstance().getFormatterDay().format(new Date(date))));
@@ -2868,6 +2915,26 @@ public class LocaleController {
     public static String stringForMessageListDate(long date) {
         try {
             date *= 1000;
+            // MZGram: Persian (Jalali) calendar support
+            if (org.telegram.messenger.mzgram.MZGramConfig.persianCalendar) {
+                if (Math.abs(System.currentTimeMillis() - date) >= 31536000000L) {
+                    return new org.telegram.messenger.mzgram.system.MZGramPersianDate(date).getPersianNormalDate();
+                } else {
+                    Calendar rightNow = Calendar.getInstance();
+                    int day = rightNow.get(Calendar.DAY_OF_YEAR);
+                    rightNow.setTimeInMillis(date);
+                    int dateDay = rightNow.get(Calendar.DAY_OF_YEAR);
+
+                    int dayDiff = dateDay - day;
+                    if (dayDiff == 0 || dayDiff == -1 && System.currentTimeMillis() - date < 60 * 60 * 8 * 1000) {
+                        return getInstance().getFormatterDay().format(new Date(date));
+                    } else if (dayDiff > -7 && dayDiff <= -1) {
+                        return getInstance().getFormatterWeek().format(new Date(date));
+                    } else {
+                        return new org.telegram.messenger.mzgram.system.MZGramPersianDate(date).getPersianMonthDay();
+                    }
+                }
+            }
             if (Math.abs(System.currentTimeMillis() - date) >= 31536000000L) {
                 return getInstance().getFormatterYear().format(new Date(date));
             } else {

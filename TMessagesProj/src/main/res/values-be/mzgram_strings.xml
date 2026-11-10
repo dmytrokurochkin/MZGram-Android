@@ -1195,4 +1195,12 @@
     <string name="MZGramPluginsBackupImport">Імпартаваць</string>
     <string name="MZGramPluginsBackupSwitch">Уключаць плагіны ў рэзервовую копію налад</string>
     <string name="MZGramPluginsBackupSwitchInfo">Захоўвае ўсталяваныя плагіны і іх бяспечныя налады ў файле бэкапу налад. Прыватныя ключы, токены і паролі ніколі не захоўваюцца.</string>
+    <string name="MZGramVideoSubtitles">Субцітры ў відэаплэеры</string>
+    <string name="MZGramVideoSubtitlesInfo">Паказваць знешнія і ўбудаваныя субцітры падчас прайгравання відэа (.srt, .vtt).</string>
+    <string name="MZGramChooseSubtitles">Абраць субцітры (.srt, .vtt)</string>
+    <string name="MZGramDisableSubtitles">Адключыць субцітры</string>
+    <string name="MZGramSubtitlesLoadError">Не ўдалося загрузіць файл субцітраў</string>
+    <string name="MZGramSubtitlesUnsupportedFormat">Непадтрыманы фармат субцітраў</string>
+    <string name="MZGramPersianCalendar">Сонечны каляндар Гіджры</string>
+    <string name="MZGramPersianCalendarInfo">Адлюстроўваць даты паводле персідскага сонечнага календара.</string>
 </resources>

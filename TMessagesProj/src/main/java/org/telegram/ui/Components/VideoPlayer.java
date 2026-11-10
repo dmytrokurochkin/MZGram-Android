@@ -144,6 +144,10 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         default void onSeekFinished(AnalyticsListener.EventTime eventTime) {
 
         }
+        // MZGram: subtitles support
+        default void onCues(androidx.media3.common.text.CueGroup cueGroup) {
+
+        }
     }
 
     public interface AudioVisualizerDelegate {
@@ -167,6 +171,32 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     private boolean triedReinit;
 
     private Uri currentUri;
+
+    // MZGram: external subtitle state
+    private org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.ExternalSubtitle currentExternalSubtitle;
+
+    public void setExternalSubtitle(org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.ExternalSubtitle externalSubtitle) {
+        currentExternalSubtitle = externalSubtitle;
+    }
+
+    public org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.ExternalSubtitle getExternalSubtitle() {
+        return currentExternalSubtitle;
+    }
+
+    // MZGram: wrap with external subtitle track if enabled
+    private MediaSource maybeWrapWithExternalSubtitle(MediaSource mediaSource) {
+        if (!org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles || currentExternalSubtitle == null) {
+            return mediaSource;
+        }
+        try {
+            return new androidx.media3.exoplayer.source.MergingMediaSource(mediaSource,
+                new androidx.media3.exoplayer.source.SingleSampleMediaSource.Factory(mediaDataSourceFactory)
+                    .createMediaSource(currentExternalSubtitle.toSubtitleConfiguration(), androidx.media3.common.C.TIME_UNSET));
+        } catch (Exception e) {
+            org.telegram.messenger.FileLog.e("MZGram: failed to wrap media source with external subtitle", e);
+            return mediaSource;
+        }
+    }
 
     private boolean videoPlayerReady;
     private boolean audioPlayerReady;
@@ -345,27 +375,33 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     private MediaSource mediaSourceFromUri(Uri uri, long videoByteOffset, String type) {
         final MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
         if (videoByteOffset != 0) {
-            return new ProgressiveMediaSource.Factory(
+            MediaSource offsetSource = new ProgressiveMediaSource.Factory(
                 () -> new OffsetDataSource(mediaDataSourceFactory.createDataSource(), videoByteOffset)
             ).createMediaSource(mediaItem);
+            return maybeWrapWithExternalSubtitle(offsetSource);
         }
+        MediaSource mediaSource;
         switch (type) {
             case "dash":
                 if (dashMediaSourceFactory == null) {
                     dashMediaSourceFactory = new DashMediaSource.Factory(mediaDataSourceFactory);
                 }
-                return dashMediaSourceFactory.createMediaSource(mediaItem);
+                mediaSource = dashMediaSourceFactory.createMediaSource(mediaItem);
+                break;
             case "hls":
                 if (hlsMediaSourceFactory == null) {
                     hlsMediaSourceFactory = new HlsMediaSource.Factory(mediaDataSourceFactory);
                 }
-                return hlsMediaSourceFactory.createMediaSource(mediaItem);
+                mediaSource = hlsMediaSourceFactory.createMediaSource(mediaItem);
+                break;
             default:
                 if (progressiveMediaSourceFactory == null) {
                     progressiveMediaSourceFactory = new ProgressiveMediaSource.Factory(mediaDataSourceFactory);
                 }
-                return progressiveMediaSourceFactory.createMediaSource(mediaItem);
+                mediaSource = progressiveMediaSourceFactory.createMediaSource(mediaItem);
+                break;
         }
+        return maybeWrapWithExternalSubtitle(mediaSource);
     }
 
     public void preparePlayer(Uri uri, String type) {
@@ -1775,6 +1811,19 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
 
+    }
+
+    // MZGram: subtitles cue listener
+    @Override
+    public void onCues(androidx.media3.common.text.CueGroup cueGroup) {
+        if (!org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles || delegate == null) {
+            return;
+        }
+        AndroidUtilities.runOnUIThread(() -> {
+            if (delegate != null) {
+                delegate.onCues(cueGroup);
+            }
+        });
     }
 
     private void maybeReportPlayerState() {

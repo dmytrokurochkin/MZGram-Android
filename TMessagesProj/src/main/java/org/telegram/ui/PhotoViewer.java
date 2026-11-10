@@ -903,6 +903,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private ActionBarMenuSubItem allMediaItem;
     private ActionBarMenuSlider.SpeedSlider speedItem;
     private ActionBarMenuSubItem loopItem;
+    // MZGram: subtitles support
+    private org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.SubtitleState currentSubtitleState;
+    private TextView videoSubtitlesView;
+    private ActionBarMenuSubItem subtitlesItem;
+    private ChooseSubtitlesLayout chooseSubtitlesLayout;
+    private androidx.media3.common.text.CueGroup lastSubtitleCueGroup;
     private ActionBarMenuSubItem galleryButton;
     private ActionBarPopupWindow.GapView galleryGap;
     private ActionBarMenuSubItem pipItem;
@@ -4167,6 +4173,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
         } else if (id == NotificationCenter.customStickerCreated) {
             closePhoto(false, false);
+        // MZGram: handle subtitle picker result
+        } else if (id == NotificationCenter.onActivityResultReceived) {
+            if (org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles && args != null && args.length >= 3) {
+                handleSubtitlePickerActivityResult((Integer) args[0], (Integer) args[1], (Intent) args[2]);
+            }
         } else if (id == NotificationCenter.fileLoaded) {
             String location = (String) args[0];
             for (int a = 0; a < 3; a++) {
@@ -5853,6 +5864,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             castItem.setEnabledByColor(false, 0xFFFFFFFF, 0xFF73B4EC);
             castItem.setSelectorColor(0x0fffffff);
             castItem.addView(castItemButton, 0, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        }
+
+        // MZGram: video subtitles menu item
+        if (org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles) {
+            setupExternalSubtitlesMenu();
         }
 
         videoItem.redrawPopup(0xf9222222);
@@ -10380,6 +10396,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (!preview) {
             currentPlayingVideoFile = uri;
             currentPlayingVideoQualityFiles = videoUrises;
+            // MZGram: restore subtitles for video if enabled
+            if (org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles) {
+                restoreSavedExternalSubtitleForCurrentItem();
+            }
         }
         if (parentActivity == null) {
             return;
@@ -10535,6 +10555,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             } else if (videoSurfaceView != null) {
                 videoPlayer.setSurfaceView(videoSurfaceView);
             }
+            // MZGram: apply external subtitle to player if enabled
+            if (org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles) {
+                videoPlayer.setExternalSubtitle(currentSubtitleState != null ? currentSubtitleState.toExternalSubtitle() : null);
+            }
 
             if (firstFrameView != null) {
                 firstFrameView.clear();
@@ -10542,6 +10566,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             videoPlayer.setDelegate(new VideoPlayer.VideoPlayerDelegate() {
 
                 private boolean firstState = true;
+
+                // MZGram: video subtitles
+                @Override
+                public void onCues(androidx.media3.common.text.CueGroup cueGroup) {
+                    if (org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles) {
+                        lastSubtitleCueGroup = cueGroup;
+                        updateVideoSubtitles(cueGroup);
+                    }
+                }
 
                 @Override
                 public void onStateChanged(boolean playWhenReady, int playbackState) {
@@ -10986,10 +11019,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             pipSource.setContentView(aspectRatioFrameLayout);
             pipSource.setPlaceholderView(pipPlaceholderView);
         }
+        // MZGram: subtitle overlay view
+        if (org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles) {
+            videoSubtitlesView = org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.createSubtitlesView(parentActivity);
+            aspectRatioFrameLayout.addView(videoSubtitlesView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 16, 0, 16, 16));
+        }
     }
 
     private void releasePlayer(boolean onClose) {
         usedSurfaceView = false;
+        // MZGram: clear subtitles on player release
+        if (videoSubtitlesView != null) {
+            clearVideoSubtitlesView();
+        }
         if (pipSource != null) {
             pipSource.destroy();
             pipSource = null;
@@ -11050,6 +11092,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             aspectRatioFrameLayout = null;
         }
+        // MZGram: clear subtitle view
+        videoSubtitlesView = null;
         cancelFlashAnimations();
         flashView = null;
         if (videoTextureView != null) {
@@ -17559,6 +17603,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         observersGroup = NotificationCenter.getInstance(currentAccount)
             .createWeakObserversGroup(this)
             .addGlobal(NotificationCenter.emojiLoaded)
+            .addGlobal(NotificationCenter.onActivityResultReceived)
             .add(NotificationCenter.fileLoadFailed)
             .add(NotificationCenter.fileLoaded)
             .add(NotificationCenter.customStickerCreated)
@@ -23847,6 +23892,265 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     invalidate();
                 }
             }
+        }
+    }
+
+    // ==========================================
+    // MZGram: Subtitles (N12)
+    // ==========================================
+
+    private void setupExternalSubtitlesMenu() {
+        if (!org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles || videoItem == null) {
+            return;
+        }
+        chooseSubtitlesLayout = new ChooseSubtitlesLayout(activityContext, videoItem.getPopupLayout().getSwipeBack(), new ChooseSubtitlesLayout.Callback() {
+            @Override
+            public void onChooseSubtitles() {
+                videoItem.closeSubMenu();
+                openSubtitlePicker();
+            }
+
+            @Override
+            public void onDisableSubtitles() {
+                videoItem.closeSubMenu();
+                disableExternalSubtitles();
+            }
+        });
+        subtitlesItem = videoItem.addSwipeBackItem(R.drawable.menu_quote_specific, null, LocaleController.getString(R.string.MZGramVideoSubtitles), chooseSubtitlesLayout.layout);
+        subtitlesItem.setColors(0xfffafafa, 0xfffafafa);
+        subtitlesItem.setSelectorColor(0x0fffffff);
+        subtitlesItem.setOnClickListener(v -> {
+            if (currentSubtitleState != null) {
+                subtitlesItem.openSwipeBack();
+            } else {
+                videoItem.closeSubMenu();
+                openSubtitlePicker();
+            }
+        });
+    }
+
+    private boolean canUseExternalSubtitlesForCurrentItem() {
+        if (!org.telegram.messenger.mzgram.MZGramConfig.videoSubtitles) {
+            return false;
+        }
+        if (currentPlayingVideoFile != null) {
+            return true;
+        }
+        if (currentMessageObject != null && currentMessageObject.isVideo()) {
+            return true;
+        }
+        if (currentBotInlineResult != null && (currentBotInlineResult.type.equals("video") || MessageObject.isVideoDocument(currentBotInlineResult.document))) {
+            return true;
+        }
+        if (pageBlocksAdapter != null && (pageBlocksAdapter.isVideo(currentIndex) || pageBlocksAdapter.isHardwarePlayer(currentIndex))) {
+            return true;
+        }
+        if (sendPhotoType == SELECT_TYPE_NO_SELECT && currentIndex >= 0 && currentIndex < imagesArrLocals.size()) {
+            Object object = imagesArrLocals.get(currentIndex);
+            return object instanceof MediaController.PhotoEntry && ((MediaController.PhotoEntry) object).isVideo;
+        }
+        return false;
+    }
+
+    private void openSubtitlePicker() {
+        if (parentActivity == null || !canUseExternalSubtitlesForCurrentItem()) {
+            return;
+        }
+        try {
+            Intent intent = org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.createPickerIntent();
+            if (parentFragment != null) {
+                parentFragment.startActivityForResult(intent, org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.SUBTITLE_PICKER_REQUEST_CODE);
+            } else {
+                parentActivity.startActivityForResult(intent, org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.SUBTITLE_PICKER_REQUEST_CODE);
+            }
+        } catch (Exception e) {
+            FileLog.e("MZGram: openSubtitlePicker error", e);
+            BulletinFactory.of(containerView, resourcesProvider).createErrorBulletin(LocaleController.getString(R.string.MZGramSubtitlesLoadError)).show();
+        }
+    }
+
+    private void handleSubtitlePickerActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.SUBTITLE_PICKER_REQUEST_CODE || !isVisibleOrAnimating || resultCode != android.app.Activity.RESULT_OK || data == null) {
+            return;
+        }
+        org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.SubtitleLoadResult result = org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.loadFromPickerIntent(data);
+        if (result.isSuccess()) {
+            applyExternalSubtitle(result.subtitleState());
+        } else {
+            int stringRes = result.error() == org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.LoadError.UNSUPPORTED_FORMAT
+                    ? R.string.MZGramSubtitlesUnsupportedFormat
+                    : R.string.MZGramSubtitlesLoadError;
+            BulletinFactory.of(containerView, resourcesProvider)
+                    .createErrorBulletin(LocaleController.getString(stringRes))
+                    .show();
+        }
+    }
+
+    private void applyExternalSubtitle(org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.SubtitleState subtitleState) {
+        if (!canUseExternalSubtitlesForCurrentItem() || subtitleState == null) {
+            return;
+        }
+        if (org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.areSame(currentSubtitleState, subtitleState)) {
+            return;
+        }
+        currentSubtitleState = subtitleState;
+        String videoKey = org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.buildVideoKey(currentMessageObject, currentPathObject, currentPlayingVideoFile, currentPageBlock);
+        if (subtitleState.isValid()) {
+            org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.save(videoKey, subtitleState);
+        }
+        long position = videoPlayer != null ? videoPlayer.getCurrentPosition() : 0;
+        boolean playWhenReady = videoPlayer != null && videoPlayer.isPlaying();
+        restartCurrentVideoWithExternalSubtitle(position, playWhenReady);
+        updateExternalSubtitlesMenuItem();
+    }
+
+    private void disableExternalSubtitles() {
+        long position = videoPlayer != null ? videoPlayer.getCurrentPosition() : 0;
+        boolean playWhenReady = videoPlayer != null && videoPlayer.isPlaying();
+        clearCurrentExternalSubtitle(false);
+        restartCurrentVideoWithExternalSubtitle(position, playWhenReady);
+        updateExternalSubtitlesMenuItem();
+    }
+
+    private void clearCurrentExternalSubtitle(boolean updateMenu) {
+        String videoKey = org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.buildVideoKey(currentMessageObject, currentPathObject, currentPlayingVideoFile, currentPageBlock);
+        org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.clear(videoKey);
+        currentSubtitleState = null;
+        lastSubtitleCueGroup = null;
+        clearVideoSubtitlesView();
+        if (videoPlayer != null) {
+            videoPlayer.setExternalSubtitle(null);
+        }
+        if (updateMenu) {
+            updateExternalSubtitlesMenuItem();
+        }
+    }
+
+    private void restartCurrentVideoWithExternalSubtitle(long position, boolean playWhenReady) {
+        if (videoPlayer == null) {
+            return;
+        }
+        videoPlayer.setExternalSubtitle(currentSubtitleState != null ? currentSubtitleState.toExternalSubtitle() : null);
+        if (currentPlayingVideoFile != null) {
+            videoPlayer.preparePlayer(currentPlayingVideoFile, "other", FileLoader.PRIORITY_HIGH, position);
+            if (playWhenReady) {
+                videoPlayer.play();
+            }
+        }
+    }
+
+    private void restoreSavedExternalSubtitleForCurrentItem() {
+        if (!canUseExternalSubtitlesForCurrentItem()) {
+            clearCurrentExternalSubtitle(true);
+            return;
+        }
+        String videoKey = org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.buildVideoKey(currentMessageObject, currentPathObject, currentPlayingVideoFile, currentPageBlock);
+        currentSubtitleState = org.telegram.messenger.mzgram.media.MZGramVideoSubtitles.restore(videoKey);
+        if (videoPlayer != null) {
+            videoPlayer.setExternalSubtitle(currentSubtitleState != null ? currentSubtitleState.toExternalSubtitle() : null);
+        }
+        updateExternalSubtitlesMenuItem();
+    }
+
+    private void updateExternalSubtitlesMenuItem() {
+        if (subtitlesItem == null) {
+            return;
+        }
+        if (!canUseExternalSubtitlesForCurrentItem()) {
+            subtitlesItem.setVisibility(View.GONE);
+            return;
+        }
+        subtitlesItem.setVisibility(View.VISIBLE);
+        subtitlesItem.setSubtext(LocaleController.getString(currentSubtitleState != null ? R.string.PasswordOn : R.string.PasswordOff));
+        subtitlesItem.setSubtextColor(0x7fffffff);
+        if (subtitlesItem.getRightIcon() != null) {
+            subtitlesItem.getRightIcon().setColorFilter(0xfffafafa);
+            subtitlesItem.getRightIcon().setVisibility(currentSubtitleState != null ? View.VISIBLE : View.GONE);
+        }
+        if (chooseSubtitlesLayout != null) {
+            chooseSubtitlesLayout.update(currentSubtitleState != null);
+        }
+    }
+
+    private void updateVideoSubtitles(androidx.media3.common.text.CueGroup cueGroup) {
+        if (videoSubtitlesView == null) {
+            return;
+        }
+        if (cueGroup == null || cueGroup.cues == null || cueGroup.cues.isEmpty()) {
+            clearVideoSubtitlesView();
+            return;
+        }
+        android.text.SpannableStringBuilder text = new android.text.SpannableStringBuilder();
+        for (int a = 0; a < cueGroup.cues.size(); a++) {
+            androidx.media3.common.text.Cue cue = cueGroup.cues.get(a);
+            if (!android.text.TextUtils.isEmpty(cue.text)) {
+                if (text.length() > 0) {
+                    text.append('\n');
+                }
+                text.append(cue.text);
+            }
+        }
+        if (text.length() == 0) {
+            clearVideoSubtitlesView();
+            return;
+        }
+        videoSubtitlesView.setText(text);
+        videoSubtitlesView.setVisibility(View.VISIBLE);
+        int parentWidth = aspectRatioFrameLayout != null ? aspectRatioFrameLayout.getMeasuredWidth() : (containerView != null ? containerView.getMeasuredWidth() : 0);
+        if (parentWidth > 0) {
+            videoSubtitlesView.setMaxWidth((int) (Math.max(AndroidUtilities.dp(160), parentWidth - AndroidUtilities.dp(32)) * 0.78f));
+        }
+    }
+
+    private void clearVideoSubtitlesView() {
+        if (videoSubtitlesView != null) {
+            videoSubtitlesView.setText(null);
+            videoSubtitlesView.setVisibility(View.GONE);
+        }
+    }
+
+    private static class ChooseSubtitlesLayout {
+
+        public interface Callback {
+            void onChooseSubtitles();
+            void onDisableSubtitles();
+        }
+
+        public final ActionBarPopupWindow.ActionBarPopupWindowLayout layout;
+        private final ActionBarMenuSubItem disableItem;
+
+        public ChooseSubtitlesLayout(Context context, org.telegram.ui.Components.PopupSwipeBackLayout swipeBackLayout, Callback callback) {
+            layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, 0, null);
+            layout.setFitItems(true);
+
+            ActionBarMenuSubItem backItem = ActionBarMenuItem.addItem(layout, R.drawable.msg_arrow_back, LocaleController.getString(R.string.Back), false, null);
+            backItem.setOnClickListener(view -> swipeBackLayout.closeForeground());
+            backItem.setColors(0xfffafafa, 0xfffafafa);
+            backItem.setSelectorColor(0x0fffffff);
+
+            FrameLayout gap = new FrameLayout(context);
+            gap.setMinimumWidth(AndroidUtilities.dp(196));
+            gap.setBackgroundColor(0xff181818);
+            layout.addView(gap);
+            LinearLayout.LayoutParams gapLayoutParams = (LinearLayout.LayoutParams) gap.getLayoutParams();
+            gapLayoutParams.gravity = LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT;
+            gapLayoutParams.width = LayoutHelper.MATCH_PARENT;
+            gapLayoutParams.height = AndroidUtilities.dp(8);
+            gap.setLayoutParams(gapLayoutParams);
+
+            ActionBarMenuSubItem chooseItem = ActionBarMenuItem.addItem(layout, R.drawable.msg_folders, LocaleController.getString(R.string.MZGramChooseSubtitles), false, null);
+            chooseItem.setColors(0xfffafafa, 0xfffafafa);
+            chooseItem.setSelectorColor(0x0fffffff);
+            chooseItem.setOnClickListener(view -> callback.onChooseSubtitles());
+
+            disableItem = ActionBarMenuItem.addItem(layout, R.drawable.msg_cancel, LocaleController.getString(R.string.MZGramDisableSubtitles), false, null);
+            disableItem.setColors(0xfffafafa, 0xfffafafa);
+            disableItem.setSelectorColor(0x0fffffff);
+            disableItem.setOnClickListener(view -> callback.onDisableSubtitles());
+        }
+
+        public void update(boolean hasSubtitles) {
+            disableItem.setVisibility(hasSubtitles ? View.VISIBLE : View.GONE);
         }
     }
 }

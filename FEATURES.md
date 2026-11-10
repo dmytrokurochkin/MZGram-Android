@@ -86,6 +86,8 @@ Each item has its own switch.
 | Hide camera tile | Removes the camera tile, so the attach gallery starts with your first photo. | 1.0.0 |
 | Original quality | Videos offered in several qualities play in the original one. | 1.0.0 |
 | Auto-pause video | A video in the media viewer pauses when the app goes to the background and resumes when you return. | 1.0.0 |
+| Always send in HD | Sends photos and videos in highest available quality without manual compression adjustments. Off by default. | Next release |
+| Subtitles in video player | Supports external (.srt, .vtt) and embedded subtitle tracks in PhotoViewer, with file picker, persistent track association per video, and clear overlay. Off by default. | Next release |
 
 ### Interface and appearance
 
@@ -109,6 +111,9 @@ Each item has its own switch.
 | Hide rows of Telegram's Settings | Settings > MZGram > Interface > Hide in Telegram's Settings: a switch for each of Telegram Premium, Telegram Stars, Gram Earnings, Telegram Business, Send a Gift, Wallet, Ask a Question, Telegram FAQ, Telegram Features and Privacy Policy. A hidden row is gone from Telegram's Settings and from its search; nothing else changes. All off by default. | 1.0.9 |
 | Standard color themes | The color theme row in Appearance always lists the home theme and 8 standard themes built on the device, also without a server answer and after an update; themes from the server are added after them. The theme in use stays selected after Switch to Night Mode. | 1.0.1 |
 | App font choices | Settings > MZGram > Interface > App font: choose Telegram's font, system font, embedded Inter or Fira Sans (OFL 1.1 with Cyrillic and italics), or import a custom TTF/OTF font file. | Next release |
+| Compact chat header | Reduces avatar and title height in the chat header to maximize visible conversation space. Off by default. | Next release |
+| Material 3 design and card lists | Optional Material 3 toggle switches and grouped card layout for settings and dialogs. Off by default. | Next release |
+| Persian (Solar Hijri) calendar | Displays dates across chat lists, messages, and call logs according to the Solar Hijri (Shamsi) calendar with localized Persian digits and month names. Off by default. | Next release |
 
 ### Ads and filters
 
@@ -148,6 +153,8 @@ Each item has its own switch.
 | Feature | What it does, and how it differs from Telegram | Since |
 |---|---|---|
 | Plugin hooks and Aliuhook | Plugins can hook methods when granted the hooks permission. In builds with `-PmzgramPlugins=true`, runtime method hooking is powered by Aliuhook (`com.aliucord:Aliuhook:1.1.4`, wrapping LSPlant; licensed under Open Software License 3.0 / OSL-3.0 and LGPL-3.0). Core security boundaries (passcode, encryption keys, and plugin security barriers) cannot be hooked. Retained with explicit attribution and licensing notes. | Next release |
+| Plugins repository catalog | Browse and install verified plugins from the official MZGram plugins repository. Features multi-language descriptions (12 languages), SHA-256 integrity verification, AST capability scanning, granular permissions sheet, and strictly enforces MZGram authorship without third-party avatars or telemetry. Off by default. | Next release |
+| Plugins backup and restore | Export installed plugins and their safe preferences into settings backup archive (.mzgram-settings) or standalone zip archives (.mzgram-plugins), with automatic secret stripping and user confirmation before restoration. Restorable only when explicitly enabled. Off by default. | Next release |
 
 ### Releases
 
@@ -330,3 +337,10 @@ Yes: present. No: absent. Partly: present in a narrower form.
 | ARM64 builds | Yes (the APK) | Yes |
 | Plugin hooks and Aliuhook | Yes | No |
 | App font choices: Inter and Fira Sans | Yes | No |
+| Compact chat header | Yes | No |
+| Always send in HD | Yes | No |
+| Material 3 switches and cards design | Yes | No |
+| Video player subtitles (.srt, .vtt) | Yes | No |
+| Persian (Solar Hijri) calendar | Yes | No |
+| Plugins repository catalog with verification | Yes | No |
+| Plugins backup and restore with secret sanitization | Yes | No |

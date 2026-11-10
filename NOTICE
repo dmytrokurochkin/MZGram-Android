@@ -1,6 +1,38 @@
 MZGram Third-Party Notices and Font Licenses
 
-This software includes font software licensed under the SIL Open Font License, Version 1.1.
+This software includes font software licensed under the SIL Open Font License, Version 1.1,
+as well as components and adaptations from third-party open-source projects under GPL-3.0,
+MIT, and OSL-3.0.
+
+==============================================================================
+Nekogram (https://github.com/Nekogram/Nekogram)
+Copyright (C) 2019-2024 Nekogram Authors
+Licensed under the GNU General Public License, Version 3 (GPLv3).
+Includes Solar Hijri (Shamsi) calendar integration, user registration date table,
+and client customization concepts.
+==============================================================================
+
+==============================================================================
+exteraGram (https://github.com/exteraGram/exteraGram)
+Copyright (C) 2020-2024 exteraGram Authors
+Licensed under the GNU General Public License, Version 3 (GPLv3).
+Includes video subtitles helper (.srt/.vtt support), camera customization,
+and media viewer utilities.
+==============================================================================
+
+==============================================================================
+Aliucord / Aliuhook (https://github.com/Aliucord/Aliucord)
+Copyright (C) 2020-2024 Aliucord Authors
+Licensed under the Open Software License, Version 3.0 (OSL-3.0).
+Used for dynamic method hooking and bytecode interception in plugin runtime.
+==============================================================================
+
+==============================================================================
+PersianDate (https://github.com/samanzarandifar/PersianDate)
+Copyright (c) 2013 Saman Zarandifar
+Licensed under the MIT License / Apache License 2.0.
+Solar Hijri / Gregorian conversion algorithms.
+==============================================================================
 
 ==============================================================================
 Inter Font Family

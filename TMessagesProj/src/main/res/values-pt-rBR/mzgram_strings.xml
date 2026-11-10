@@ -1195,4 +1195,12 @@
     <string name="MZGramPluginsBackupImport">Importar</string>
     <string name="MZGramPluginsBackupSwitch">Incluir plugins no backup de configurações</string>
     <string name="MZGramPluginsBackupSwitchInfo">Salva os plugins instalados e suas configurações não confidenciais no arquivo de backup. Chaves privadas, tokens e senhas nunca são incluídos.</string>
+    <string name="MZGramVideoSubtitles">Legendas no reprodutor de vídeo</string>
+    <string name="MZGramVideoSubtitlesInfo">Mostrar legendas externas e incorporadas ao reproduzir vídeos (.srt, .vtt).</string>
+    <string name="MZGramChooseSubtitles">Escolher legendas (.srt, .vtt)</string>
+    <string name="MZGramDisableSubtitles">Desativar legendas</string>
+    <string name="MZGramSubtitlesLoadError">Falha ao carregar o arquivo de legendas</string>
+    <string name="MZGramSubtitlesUnsupportedFormat">Formato de legendas não suportado</string>
+    <string name="MZGramPersianCalendar">Calendário solar persa</string>
+    <string name="MZGramPersianCalendarInfo">Exibir datas de acordo com o calendário solar persa.</string>
 </resources>

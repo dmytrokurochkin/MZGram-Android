@@ -170,6 +170,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_EXTENDED_PERIPHERALS = 200;
     // Plugins backup in settings
     private static final int BUTTON_PLUGINS_BACKUP = 201;
+    // Media: video player subtitles (N12)
+    private static final int BUTTON_VIDEO_SUBTITLES = 202;
+    // Interface: Solar Hijri (Persian) calendar (N14)
+    private static final int BUTTON_PERSIAN_CALENDAR = 203;
     // Archive: import another client's message database (MZGramForeignArchiveImport)
     private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
     // Archive: forward kept deleted messages as copies (MZGramProtectedContent)
@@ -869,12 +873,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramMediaPreviewOnLongPressInfo)));
         items.add(UItem.asCheck(BUTTON_PROFILE_MUSIC_CARD, getString(R.string.MZGramProfileMusicCard)).setChecked(MZGramConfig.profileMusicCard));
         items.add(UItem.asShadow(getString(R.string.MZGramProfileMusicCardInfo)));
+        items.add(UItem.asCheck(BUTTON_VIDEO_SUBTITLES, getString(R.string.MZGramVideoSubtitles)).setChecked(MZGramConfig.videoSubtitles));
+        items.add(UItem.asShadow(getString(R.string.MZGramVideoSubtitlesInfo)));
     }
 
     private void fillInterface(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
         items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
+        items.add(UItem.asCheck(BUTTON_PERSIAN_CALENDAR, getString(R.string.MZGramPersianCalendar)).setChecked(MZGramConfig.persianCalendar));
+        items.add(UItem.asShadow(getString(R.string.MZGramPersianCalendarInfo)));
         items.add(UItem.asCheck(BUTTON_SHOW_REGISTRATION_DATE, getString(R.string.MZGramShowRegistrationDate)).setChecked(MZGramConfig.showRegistrationDate));
         items.add(UItem.asShadow(getString(R.string.MZGramShowRegistrationDateInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_CHAT_STATUS, getString(R.string.MZGramHideChatStatus)).setChecked(MZGramConfig.hideChatStatus));
@@ -1888,6 +1896,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_PLUGINS_BACKUP) {
             MZGramConfig.togglePluginsBackup();
             ((TextCheckCell) view).setChecked(MZGramConfig.pluginsBackup);
+        } else if (item.id == BUTTON_VIDEO_SUBTITLES) {
+            MZGramConfig.toggleVideoSubtitles();
+            ((TextCheckCell) view).setChecked(MZGramConfig.videoSubtitles);
+        } else if (item.id == BUTTON_PERSIAN_CALENDAR) {
+            MZGramConfig.togglePersianCalendar();
+            ((TextCheckCell) view).setChecked(MZGramConfig.persianCalendar);
         } else if (item.id == BUTTON_SETTINGS_EXPORT) {
             // Android's "save as", as for the archive: the user picks where the file goes
             android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_CREATE_DOCUMENT);

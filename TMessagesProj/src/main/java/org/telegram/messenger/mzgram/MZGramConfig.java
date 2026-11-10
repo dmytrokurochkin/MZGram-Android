@@ -383,6 +383,12 @@ public class MZGramConfig {
     // pauseRoundOnLeave
     public static boolean pauseRoundOnLeave = false;
 
+    // Video subtitles (N12): external and embedded subtitles in video player
+    public static boolean videoSubtitles = false;
+
+    // Persian calendar (N14): Solar Hijri (Shamsi) calendar formatting
+    public static boolean persianCalendar = false;
+
     // alwaysSendHd
     public static boolean alwaysSendHd = false;
 
@@ -638,6 +644,8 @@ public class MZGramConfig {
             audioEnhance = preferences.getBoolean("audioEnhance", false);
             cameraStabilization = preferences.getBoolean("cameraStabilization", false);
             pauseRoundOnLeave = preferences.getBoolean("pauseRoundOnLeave", false);
+            videoSubtitles = preferences.getBoolean("videoSubtitles", false);
+            persianCalendar = preferences.getBoolean("persianCalendar", false);
             alwaysSendHd = preferences.getBoolean("alwaysSendHd", false);
             hideChatStatus = preferences.getBoolean("hideChatStatus", false);
             compactChatHeader = preferences.getBoolean("chat_header_compact", false);
@@ -1437,6 +1445,16 @@ public class MZGramConfig {
     public static void toggleAlwaysSendHd() {
         alwaysSendHd = !alwaysSendHd;
         putBoolean("alwaysSendHd", alwaysSendHd);
+    }
+
+    public static void toggleVideoSubtitles() {
+        videoSubtitles = !videoSubtitles;
+        putBoolean("videoSubtitles", videoSubtitles);
+    }
+
+    public static void togglePersianCalendar() {
+        persianCalendar = !persianCalendar;
+        putBoolean("persianCalendar", persianCalendar);
     }
 
     public static void togglePauseRoundOnLeave() {

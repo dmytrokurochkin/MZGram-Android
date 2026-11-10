@@ -1195,4 +1195,12 @@
     <string name="MZGramPluginsBackupImport">استيراد</string>
     <string name="MZGramPluginsBackupSwitch">تضمين الإضافات في النسخة الاحتياطية للإعدادات</string>
     <string name="MZGramPluginsBackupSwitchInfo">يحفظ الإضافات المثبتة وإعداداتها غير الحساسة داخل ملف النسخة الاحتياطية للإعدادات. لا يتم تضمين المفاتيح الخاصة أو الرموز أو كلمات المرور مطلقًا.</string>
+    <string name="MZGramVideoSubtitles">الترجمة في مشغل الفيديو</string>
+    <string name="MZGramVideoSubtitlesInfo">عرض الترجمات الخارجية والمضمنة أثناء تشغيل مقاطع الفيديو (.srt, .vtt).</string>
+    <string name="MZGramChooseSubtitles">اختيار ملف الترجمة (.srt, .vtt)</string>
+    <string name="MZGramDisableSubtitles">تعطيل الترجمة</string>
+    <string name="MZGramSubtitlesLoadError">فشل تحميل ملف الترجمة</string>
+    <string name="MZGramSubtitlesUnsupportedFormat">صيغة ملف الترجمة غير مدعومة</string>
+    <string name="MZGramPersianCalendar">التقويم الهجري الشمسي</string>
+    <string name="MZGramPersianCalendarInfo">عرض التواريخ وفقا للتقويم الشمسي الفارسي.</string>
 </resources>

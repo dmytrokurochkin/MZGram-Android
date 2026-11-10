@@ -1195,4 +1195,12 @@
     <string name="MZGramPluginsBackupImport">İçe aktar</string>
     <string name="MZGramPluginsBackupSwitch">Eklentileri ayarlar yedeğine dahil et</string>
     <string name="MZGramPluginsBackupSwitchInfo">Yüklü eklentileri ve güvenli ayarlarını ayarlar yedek dosyasına kaydeder. Özel anahtarlar, belirteçler ve parolalar asla dahil edilmez.</string>
+    <string name="MZGramVideoSubtitles">Video oynatıcıda altyazılar</string>
+    <string name="MZGramVideoSubtitlesInfo">Videoları oynatırken harici ve gömülü altyazıları göster (.srt, .vtt).</string>
+    <string name="MZGramChooseSubtitles">Altyazı seç (.srt, .vtt)</string>
+    <string name="MZGramDisableSubtitles">Altyazıları kapat</string>
+    <string name="MZGramSubtitlesLoadError">Altyazı dosyası yüklenemedi</string>
+    <string name="MZGramSubtitlesUnsupportedFormat">Desteklenmeyen altyazı formatı</string>
+    <string name="MZGramPersianCalendar">İran Güneş takvimi</string>
+    <string name="MZGramPersianCalendarInfo">Tarihleri İran güneş takvimine göre göster.</string>
 </resources>

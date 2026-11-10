@@ -1195,4 +1195,12 @@
     <string name="MZGramPluginsBackupImport">Импорттау</string>
     <string name="MZGramPluginsBackupSwitch">Плагиндерді баптаулардың сақтық көшірмесіне қосу</string>
     <string name="MZGramPluginsBackupSwitchInfo">Орнатылған плагиндерді және олардың қауіпсіз баптауларын сақтық көшірме файлында сақтайды. Жеке кілттер, токендер мен құпиясөздер ешқашан сақталмайды.</string>
+    <string name="MZGramVideoSubtitles">Бейне ойнатқыштағы субтитрлер</string>
+    <string name="MZGramVideoSubtitlesInfo">Бейнелерді ойнатқанда сыртқы және кірістірілген субтитрлерді көрсету (.srt, .vtt).</string>
+    <string name="MZGramChooseSubtitles">Субтитрлерді таңдау (.srt, .vtt)</string>
+    <string name="MZGramDisableSubtitles">Субтитрлерді өшіру</string>
+    <string name="MZGramSubtitlesLoadError">Субтитр файлын жүктеу сәтсіз аяқталды</string>
+    <string name="MZGramSubtitlesUnsupportedFormat">Қолдау көрсетілмейтін субтитр пішімі</string>
+    <string name="MZGramPersianCalendar">Парсы күнтізбесі</string>
+    <string name="MZGramPersianCalendarInfo">Күндерді парсының күнтізбесі бойынша көрсету.</string>
 </resources>

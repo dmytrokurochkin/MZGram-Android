@@ -118,7 +118,7 @@ public final class MZGramSettingsBackup {
                 "reliableDelivery", "saveFormatting", "saveReactions", "saveFromUsers", "saveForBots",
                 "saveInGroups", "saveInChannels", "saveExclusions", "keptReplyPreviews",
                 "replyToDeletedAsQuote", "deletedMessagesList", "deletedDialogsList", "deletedDialogsInMainList",
-                "m3Switches", "cardsDesign", "profileMusicCard", "openFreeMapPreview", "pipEnabled", "plugins_backup",
+                "m3Switches", "cardsDesign", "profileMusicCard", "openFreeMapPreview", "pipEnabled",
                 "chatTranslationBar", "translateBeforeSend", "translationAutoFallback", "speechRecognitionEnabled",
                 "torCompanionEnabled", "customBadgesEnabled", "nothingGlyphEnabled", "customEmojiFontEnabled",
                 "syncedLyricsOnline", "iconPacksCatalogEnabled",
@@ -131,7 +131,7 @@ public final class MZGramSettingsBackup {
                 "regexFilters", "regexFiltersInPrivate", "regexFiltersNoDownload", "customDrawer",
                 "drawerShowQr", "drawerLargeAvatar", "drawerGlass", "plainCodeBlocks",
                 "hexColorSwatch", "scheduleSlider", "sendSilentByDefault", "showRegistrationDate",
-                "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd",
+                "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd", "videoSubtitles", "persianCalendar",
                 "hideChatStatus", "chat_header_compact", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
                 "usePinnedReactionsChannels");
         // MZGramAvatarShape.MIN..MAX
@@ -471,6 +471,7 @@ public final class MZGramSettingsBackup {
 
     @SuppressWarnings("unchecked")
     public static int restore(Map<String, ? extends Map<String, Object>> values, String fullJson) {
+        final boolean hadPluginsBackupEnabled = MZGramConfig.pluginsBackup;
         int written = 0;
         if (values == null) {
             return 0;
@@ -503,8 +504,8 @@ public final class MZGramSettingsBackup {
         MZGramConfig.loadConfig(true);
 
         // Corrupted plugins section does not break import of settings;
-        // only restore plugins if the user has enabled the pluginsBackup switch
-        if (MZGramConfig.pluginsBackup && fullJson != null) {
+        // only restore plugins if the user had explicitly enabled pluginsBackup prior to restore
+        if (hadPluginsBackupEnabled && fullJson != null) {
             try {
                 org.telegram.messenger.mzgram.plugins.MZGramPluginsBackup.restorePluginsFromJson(fullJson);
             } catch (Exception e) {

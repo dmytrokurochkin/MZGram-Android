@@ -23,6 +23,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import org.telegram.messenger.mzgram.MZGramConfig;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
@@ -429,7 +431,7 @@ public final class MZGramPluginsBackup {
      * so it never disrupts the settings restore process.
      */
     public static int restorePluginsFromJson(String fullJson) {
-        if (TextUtils.isEmpty(fullJson)) {
+        if (!MZGramConfig.pluginsBackup || TextUtils.isEmpty(fullJson)) {
             return 0;
         }
         int restored = 0;

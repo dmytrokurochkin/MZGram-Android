@@ -152,4 +152,43 @@ class MZGramPluginsBackupTest {
         assertEquals("MZGram", catalogMeta.author)
         assertNull("Icon must be removed for catalog plugin", catalogMeta.icon)
     }
+
+    @Test
+    fun restorePluginsFromJson_onlyRestoresWhenPluginsBackupEnabled() {
+        val original = MZGramConfig.pluginsBackup
+        try {
+            val jsonWithPlugins = """
+                {
+                  "format": "mzgram-settings",
+                  "version": 1,
+                  "files": {},
+                  "plugins": [
+                    {
+                      "id": "sample_plugin",
+                      "name": "Sample",
+                      "version": "1.0",
+                      "content": "cHJpbnQoJ2hlbGxvJyk="
+                    }
+                  ]
+                }
+            """.trimIndent()
+
+            // When switch is off, restorePluginsFromJson must return 0 without restoring anything
+            MZGramConfig.pluginsBackup = false
+            val countOff = MZGramPluginsBackup.restorePluginsFromJson(jsonWithPlugins)
+            assertEquals("Must not restore plugins when pluginsBackup switch is off", 0, countOff)
+        } finally {
+            MZGramConfig.pluginsBackup = original
+        }
+    }
+
+    @Test
+    fun settingsBackup_restoreWithoutFullJson_behavesAsLegacy() {
+        val values = linkedMapOf(
+            "mzgram_config" to linkedMapOf<String, Any>("hideStories" to false)
+        )
+        // 1-arg overload restore(values) delegates to restore(values, null)
+        val written = MZGramSettingsBackup.restore(values)
+        assertTrue("Legacy restore must write settings and return count > 0", written > 0)
+    }
 }

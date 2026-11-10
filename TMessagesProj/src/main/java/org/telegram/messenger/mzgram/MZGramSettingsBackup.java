@@ -502,8 +502,9 @@ public final class MZGramSettingsBackup {
         }
         MZGramConfig.loadConfig(true);
 
-        // Corrupted plugins section does not break import of settings
-        if (fullJson != null) {
+        // Corrupted plugins section does not break import of settings;
+        // only restore plugins if the user has enabled the pluginsBackup switch
+        if (MZGramConfig.pluginsBackup && fullJson != null) {
             try {
                 org.telegram.messenger.mzgram.plugins.MZGramPluginsBackup.restorePluginsFromJson(fullJson);
             } catch (Exception e) {

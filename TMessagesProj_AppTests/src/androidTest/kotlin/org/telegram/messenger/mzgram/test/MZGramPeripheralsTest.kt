@@ -111,6 +111,26 @@ class MZGramPeripheralsTest {
     }
 
     @Test
+    fun testTorCompanion_strictSocks5NoDirectFallback() {
+        // Disabled by default
+        assertFalse(MZGramConfig.torCompanionEnabled)
+
+        // When enabled, proxy is configured strictly to TOR_SOCKS_HOST (127.0.0.1) and TOR_SOCKS_PORT (9050)
+        MZGramTorCompanion.applyTorProxySettings(true)
+        val currentProxy = org.telegram.messenger.SharedConfig.currentProxy
+        assertNotNull(currentProxy)
+        assertEquals(MZGramTorCompanion.TOR_SOCKS_HOST, currentProxy.settings.address)
+        assertEquals(MZGramTorCompanion.TOR_SOCKS_PORT, currentProxy.settings.port)
+        // Proxy type must be SOCKS5
+        assertEquals(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5, currentProxy.settings.type)
+
+        // When disabled, applyTorProxySettings does not touch proxy
+        val savedProxy = org.telegram.messenger.SharedConfig.currentProxy
+        MZGramTorCompanion.applyTorProxySettings(false)
+        assertEquals(savedProxy, org.telegram.messenger.SharedConfig.currentProxy)
+    }
+
+    @Test
     fun testBadgesSystem() {
         MZGramConfig.customBadgesEnabled = true
         MZGramBadges.setBadge(123456L, "VIP Donor", 0xFFE91E63.toInt())

@@ -4,6 +4,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -50,6 +51,16 @@ class MZGramPluginsCatalogTest {
     fun testCatalogSwitchesOffByDefault() {
         assertEquals(false, MZGramConfig.pluginsRun)
         assertEquals(false, MZGramConfig.pipEnabled)
+    }
+
+    @Test
+    fun testCatalogNetworkNotTriggeredWhenUrlEmpty() {
+        var errorDelivered = false
+        var successDelivered = false
+        MZGramPluginsCatalog.fetchCatalog("", { successDelivered = true }, { errorDelivered = true })
+        // Empty URL must immediately deliver error without making any HTTP request
+        assertTrue(errorDelivered)
+        assertFalse(successDelivered)
     }
 
     @Test

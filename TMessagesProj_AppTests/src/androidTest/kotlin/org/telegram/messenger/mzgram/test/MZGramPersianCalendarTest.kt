@@ -29,6 +29,32 @@ class MZGramPersianCalendarTest {
         assertEquals("Farvardin (Month 1)", 1, nowruz[1])
         assertEquals("Day 1", 1, nowruz[2])
 
+        // 2024-03-21 -> Farvardin 2, 1403
+        val farvardin2 = MZGramPersianDate.gregorianToJalali(2024, 3, 21)
+        assertEquals(1403, farvardin2[0])
+        assertEquals(1, farvardin2[1])
+        assertEquals(2, farvardin2[2])
+
+        // 2024-03-19 -> Esfand 29, 1402 (30 Esfand 1402 does not exist, 1402 is not a leap year)
+        val esfand29_1402 = MZGramPersianDate.gregorianToJalali(2024, 3, 19)
+        assertEquals(1402, esfand29_1402[0])
+        assertEquals(12, esfand29_1402[1])
+        assertEquals(29, esfand29_1402[2])
+        assertFalse("1402 is not a leap year in Jalali calendar", MZGramPersianDate.isLeapJalaliYear(1402))
+
+        // 2025-03-20 -> Esfand 30, 1403 (1403 is a leap year, 30 Esfand exists)
+        val esfand30_1403 = MZGramPersianDate.gregorianToJalali(2025, 3, 20)
+        assertEquals(1403, esfand30_1403[0])
+        assertEquals(12, esfand30_1403[1])
+        assertEquals(30, esfand30_1403[2])
+        assertTrue("1403 is a leap year in Jalali calendar", MZGramPersianDate.isLeapJalaliYear(1403))
+
+        // 2025-03-21 -> Farvardin 1, 1404 (Nowruz 1404)
+        val nowruz1404 = MZGramPersianDate.gregorianToJalali(2025, 3, 21)
+        assertEquals(1404, nowruz1404[0])
+        assertEquals(1, nowruz1404[1])
+        assertEquals(1, nowruz1404[2])
+
         // 2024-08-30 -> Shahrivar 9, 1403
         val shahrivar = MZGramPersianDate.gregorianToJalali(2024, 8, 30)
         assertEquals(1403, shahrivar[0])

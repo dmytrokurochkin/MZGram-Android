@@ -153,7 +153,7 @@ Each item has its own switch.
 | Feature | What it does, and how it differs from Telegram | Since |
 |---|---|---|
 | Plugin hooks and Aliuhook | Plugins can hook methods when granted the hooks permission. In builds with `-PmzgramPlugins=true`, runtime method hooking is powered by Aliuhook (`com.aliucord:Aliuhook:1.1.4`, wrapping LSPlant; licensed under Open Software License 3.0 / OSL-3.0 and LGPL-3.0). Core security boundaries (passcode, encryption keys, and plugin security barriers) cannot be hooked. Retained with explicit attribution and licensing notes. | Next release |
-| Plugins repository catalog | Browse and install verified plugins from the official MZGram plugins repository. Features multi-language descriptions (12 languages), SHA-256 integrity verification, AST capability scanning, granular permissions sheet, and strictly enforces MZGram authorship without third-party avatars or telemetry. Off by default. | Next release |
+| Plugins repository catalog | Browse and install verified plugins from the official MZGram plugins repository (438 plugins prepared in staging, catalog repository publishing pending by owner). Features multi-language descriptions (12 languages), SHA-256 integrity verification, AST capability scanning, granular permissions sheet, and strictly enforces MZGram authorship without third-party avatars or telemetry. Off by default. | Next release |
 | Plugins backup and restore | Export installed plugins and their safe preferences into settings backup archive (.mzgram-settings) or standalone zip archives (.mzgram-plugins), with automatic secret stripping and user confirmation before restoration. Restorable only when explicitly enabled. Off by default. | Next release |
 
 ### Releases

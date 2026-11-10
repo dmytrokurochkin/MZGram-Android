@@ -164,6 +164,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Third-party network services
     private static final int BUTTON_DOH_PROVIDER = 197;
     private static final int BUTTON_OPENFREEMAP_PREVIEW = 198;
+    // Translation and AI suite
+    private static final int BUTTON_TRANSLATION_AI = 199;
     // Archive: import another client's message database (MZGramForeignArchiveImport)
     private static final int BUTTON_IMPORT_FOREIGN_ARCHIVE = 104;
     // Archive: forward kept deleted messages as copies (MZGramProtectedContent)
@@ -1009,6 +1011,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramAiMenuButtonsInfo)));
         items.add(UItem.asButton(BUTTON_AI_SIGN_OUT, getString(R.string.MZGramAiSignOut)).red());
         items.add(UItem.asShadow(null));
+        items.add(UItem.asHeader(getString(R.string.MZGramTranslationAiHeader)));
+        items.add(UItem.asButton(BUTTON_TRANSLATION_AI, getString(R.string.MZGramTranslationAiSettings), getString(R.string.MZGramTranslationAiSettingsSub)));
+        items.add(UItem.asShadow(getString(R.string.MZGramTranslationAiInfo)));
     }
 
     // The five AI sites, each by its name; the choice applies at once.
@@ -1654,6 +1659,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     .setNegativeButton(getString(R.string.MZGramCancel), null)
                     .makeRed(org.telegram.ui.ActionBar.AlertDialog.BUTTON_POSITIVE)
                     .show();
+        } else if (item.id == BUTTON_TRANSLATION_AI) {
+            presentFragment(new MZGramTranslationAiActivity());
         } else if (item.id == BUTTON_SAVE_PROTECTED_CONTENT) {
             MZGramConfig.toggleSaveProtectedContent();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveProtectedContent);

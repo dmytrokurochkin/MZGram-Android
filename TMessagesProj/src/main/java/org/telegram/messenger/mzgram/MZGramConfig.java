@@ -237,6 +237,21 @@ public class MZGramConfig {
     public static boolean pipEnabled = false;
     // Plugins catalog: raw URL of index.json repository; empty = not connected
     public static String pluginsCatalogUrl = "";
+    // Translation and AI suite
+    public static int translationProvider = 0; // 0: Telegram, 1: Google, 2: DeepL, 3: AI, 4: AIDL Offline, 5: Mozhi
+    public static String translationTargetLang = "";
+    public static boolean chatTranslationBar = false;
+    public static boolean translateBeforeSend = false;
+    public static boolean translationAutoFallback = true;
+    public static String deeplApiKey = "";
+    public static String mozhiCustomInstance = "";
+    public static int aiProviderType = 0; // 0: Gemini, 1: OpenAI, 2: Anthropic, 3: DeepSeek, 4: Custom
+    public static String aiApiKey = "";
+    public static String aiCustomEndpoint = "";
+    public static String aiCustomModel = "";
+    public static boolean speechRecognitionEnabled = false;
+    public static int speechEngine = 0; // 0: System, 1: Vosk
+    public static String voskModelLang = "uk";
     // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
@@ -526,6 +541,20 @@ public class MZGramConfig {
             openFreeMapPreview = preferences.getBoolean("openFreeMapPreview", false);
             pipEnabled = preferences.getBoolean("pipEnabled", false);
             pluginsCatalogUrl = preferences.getString("pluginsCatalogUrl", "");
+            translationProvider = preferences.getInt("translationProvider", 0);
+            translationTargetLang = preferences.getString("translationTargetLang", "");
+            chatTranslationBar = preferences.getBoolean("chatTranslationBar", false);
+            translateBeforeSend = preferences.getBoolean("translateBeforeSend", false);
+            translationAutoFallback = preferences.getBoolean("translationAutoFallback", true);
+            deeplApiKey = preferences.getString("deeplApiKey", "");
+            mozhiCustomInstance = preferences.getString("mozhiCustomInstance", "");
+            aiProviderType = preferences.getInt("aiProviderType", 0);
+            aiApiKey = preferences.getString("aiApiKey", "");
+            aiCustomEndpoint = preferences.getString("aiCustomEndpoint", "");
+            aiCustomModel = preferences.getString("aiCustomModel", "");
+            speechRecognitionEnabled = preferences.getBoolean("speechRecognitionEnabled", false);
+            speechEngine = preferences.getInt("speechEngine", 0);
+            voskModelLang = preferences.getString("voskModelLang", "uk");
             forwardDeletedAsCopy = preferences.getBoolean("forwardDeletedAsCopy", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
@@ -1137,6 +1166,76 @@ public class MZGramConfig {
     public static void setPluginsCatalogUrl(String url) {
         pluginsCatalogUrl = url != null ? url.trim() : "";
         putString("pluginsCatalogUrl", pluginsCatalogUrl);
+    }
+
+    public static void setTranslationProvider(int provider) {
+        translationProvider = provider;
+        preferences().edit().putInt("translationProvider", provider).apply();
+    }
+
+    public static void setTranslationTargetLang(String lang) {
+        translationTargetLang = lang != null ? lang : "";
+        putString("translationTargetLang", translationTargetLang);
+    }
+
+    public static void toggleChatTranslationBar() {
+        chatTranslationBar = !chatTranslationBar;
+        putBoolean("chatTranslationBar", chatTranslationBar);
+    }
+
+    public static void toggleTranslateBeforeSend() {
+        translateBeforeSend = !translateBeforeSend;
+        putBoolean("translateBeforeSend", translateBeforeSend);
+    }
+
+    public static void toggleTranslationAutoFallback() {
+        translationAutoFallback = !translationAutoFallback;
+        putBoolean("translationAutoFallback", translationAutoFallback);
+    }
+
+    public static void setDeeplApiKey(String key) {
+        deeplApiKey = key != null ? key.trim() : "";
+        putString("deeplApiKey", deeplApiKey);
+    }
+
+    public static void setMozhiCustomInstance(String url) {
+        mozhiCustomInstance = url != null ? url.trim() : "";
+        putString("mozhiCustomInstance", mozhiCustomInstance);
+    }
+
+    public static void setAiProviderType(int type) {
+        aiProviderType = type;
+        preferences().edit().putInt("aiProviderType", type).apply();
+    }
+
+    public static void setAiApiKey(String key) {
+        aiApiKey = key != null ? key.trim() : "";
+        putString("aiApiKey", aiApiKey);
+    }
+
+    public static void setAiCustomEndpoint(String endpoint) {
+        aiCustomEndpoint = endpoint != null ? endpoint.trim() : "";
+        putString("aiCustomEndpoint", aiCustomEndpoint);
+    }
+
+    public static void setAiCustomModel(String model) {
+        aiCustomModel = model != null ? model.trim() : "";
+        putString("aiCustomModel", aiCustomModel);
+    }
+
+    public static void toggleSpeechRecognitionEnabled() {
+        speechRecognitionEnabled = !speechRecognitionEnabled;
+        putBoolean("speechRecognitionEnabled", speechRecognitionEnabled);
+    }
+
+    public static void setSpeechEngine(int engine) {
+        speechEngine = engine;
+        preferences().edit().putInt("speechEngine", engine).apply();
+    }
+
+    public static void setVoskModelLang(String lang) {
+        voskModelLang = lang != null ? lang.trim() : "uk";
+        putString("voskModelLang", voskModelLang);
     }
 
     public static void toggleForwardDeletedAsCopy() {

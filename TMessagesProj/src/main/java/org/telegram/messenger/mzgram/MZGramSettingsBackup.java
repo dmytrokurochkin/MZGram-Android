@@ -118,6 +118,7 @@ public final class MZGramSettingsBackup {
                 "saveInGroups", "saveInChannels", "saveExclusions", "keptReplyPreviews",
                 "replyToDeletedAsQuote", "deletedMessagesList", "deletedDialogsList", "deletedDialogsInMainList",
                 "m3Switches", "cardsDesign", "profileMusicCard", "openFreeMapPreview", "pipEnabled",
+                "chatTranslationBar", "translateBeforeSend", "translationAutoFallback", "speechRecognitionEnabled",
                 "forwardDeletedAsCopy", "semiTransparentDeleted", "disableSponsoredMessages",
                 "stripZalgoText", "foldFancyFontsInSearch", "characterCounter", "searchOperators",
                 "cleanLinks", "doubleTapActions", "copyPlainText", "inlineMath", "stickerRoundCorners",
@@ -157,12 +158,20 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "proxyDisableConditions", 0, 7);
         // MZGramDoH PROVIDERS 0..3
         integer(CONFIG, "dohProvider", 0, 3);
+        // Translation provider 0..5
+        integer(CONFIG, "translationProvider", 0, 5);
+        // AI provider type 0..4
+        integer(CONFIG, "aiProviderType", 0, 4);
+        // Speech engine 0..1
+        integer(CONFIG, "speechEngine", 0, 1);
         // Round video bitrate
         integer(CONFIG, "round_video_bitrate", 100_000, 10_000_000);
         texts(CONFIG, TEXT_MAX,
                 "aiProvider", "language", "deletedMark", "editedMark", "hiddenReactions",
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",
-                "textStyleOrder", "textStyleHidden", "pluginsCatalogUrl");
+                "textStyleOrder", "textStyleHidden", "pluginsCatalogUrl",
+                "translationTargetLang", "deeplApiKey", "mozhiCustomInstance",
+                "aiApiKey", "aiCustomEndpoint", "aiCustomModel", "voskModelLang");
         textSets(CONFIG, "aiMenuButtons", "hiddenSettingsRows");
 
         // MZGramDrawerItems, MZGramPills: comma-separated ids, unknown ids are dropped when read

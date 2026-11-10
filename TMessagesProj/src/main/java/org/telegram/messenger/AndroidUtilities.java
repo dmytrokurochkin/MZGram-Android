@@ -2859,6 +2859,14 @@ public class AndroidUtilities {
 
     public static String formapMapUrl(int account, double lat, double lon, int width, int height, boolean marker, int zoom, int provider) {
         int scale = Math.min(2, (int) Math.ceil(AndroidUtilities.density));
+        // MZGram: OpenFreeMap map preview
+        if (org.telegram.messenger.mzgram.MZGramConfig.openFreeMapPreview) {
+            if (marker) {
+                return String.format(Locale.US, "https://staticmap.openstreetmap.de/staticmap.php?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=mapnik&markers=%.6f,%.6f,ol-marker", lat, lon, zoom, width * scale, height * scale, lat, lon);
+            } else {
+                return String.format(Locale.US, "https://staticmap.openstreetmap.de/staticmap.php?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=mapnik", lat, lon, zoom, width * scale, height * scale);
+            }
+        }
         if (provider == -1) {
             provider = MessagesController.getInstance(account).mapProvider;
         }

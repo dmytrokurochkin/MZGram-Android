@@ -1061,4 +1061,13 @@
     <string name="MZGramCardsDesignInfo">Group list items into rounded cards with elevation shadows.</string>
     <string name="MZGramProfileMusicCard">Profile music card</string>
     <string name="MZGramProfileMusicCardInfo">Display saved or currently playing music as a stylish card in user profiles.</string>
+    <string name="MZGramDoHProvider">DoH provider</string>
+    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS protects DNS requests from tracking and interception. DNS queries are sent encrypted to the selected provider.</string>
+    <string name="MZGramDoHOff">Off</string>
+    <string name="MZGramOpenFreeMapPreview">OpenFreeMap map preview</string>
+    <string name="MZGramOpenFreeMapPreviewInfo">Show static map previews in chat messages using OpenFreeMap and OpenStreetMap instead of Google Maps.</string>
+    <string name="MZGramPillWeather">Weather</string>
+    <string name="MZGramPillWeatherInfo">Displays current weather and temperature in the pill bar. Requests device location and contacts open-meteo.com.</string>
+    <string name="MZGramPillRates">Exchange rates</string>
+    <string name="MZGramPillRatesInfo">Displays currency, crypto, and gold rates in the pill bar. Requests public market data from Coinbase and gold-api.com.</string>
 </resources>

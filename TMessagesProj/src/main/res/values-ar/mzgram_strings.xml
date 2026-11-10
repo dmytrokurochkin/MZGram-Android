@@ -1061,4 +1061,13 @@
     <string name="MZGramCardsDesignInfo">تجميع عناصر القوائم في بطاقات مستديرة ذات ظلال ناعمة.</string>
     <string name="MZGramProfileMusicCard">بطاقة موسيقى الملف الشخصي</string>
     <string name="MZGramProfileMusicCardInfo">عرض الموسيقى المحفوظة أو قيد التشغيل كبطاقة أنيقة في الملفات الشخصية.</string>
+    <string name="MZGramDoHProvider">مزود DoH</string>
+    <string name="MZGramDoHProviderInfo">يحمي DNS-over-HTTPS طلبات DNS من التتبع والاعتراض. يتم إرسال استعلامات DNS مشفرة إلى المزود المحدد.</string>
+    <string name="MZGramDoHOff">معطل</string>
+    <string name="MZGramOpenFreeMapPreview">معاينة خريطة OpenFreeMap</string>
+    <string name="MZGramOpenFreeMapPreviewInfo">عرض معاينات الخرائط الثابتة في رسائل المحادثة باستخدام OpenFreeMap و OpenStreetMap بدلا من خرائط Google.</string>
+    <string name="MZGramPillWeather">الطقس</string>
+    <string name="MZGramPillWeatherInfo">يعرض الطقس الحالي ودرجة الحرارة في شريط الحبوب. يطلب موقع الجهاز ويتصل بموقع open-meteo.com.</string>
+    <string name="MZGramPillRates">أسعار الصرف</string>
+    <string name="MZGramPillRatesInfo">يعرض أسعار العملات والعملات المشفرة والذهب في شريط الحبوب. يطلب بيانات السوق العامة من Coinbase و gold-api.com.</string>
 </resources>

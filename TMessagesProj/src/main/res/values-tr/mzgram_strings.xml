@@ -1061,4 +1061,13 @@
     <string name="MZGramCardsDesignInfo">Liste öğelerini hafif gölgeli yuvarlak kartlar halinde gruplayın.</string>
     <string name="MZGramProfileMusicCard">Profil müzik kartı</string>
     <string name="MZGramProfileMusicCardInfo">Kaydedilen veya çalan müziği kullanıcı profillerinde şık bir kart olarak gösterin.</string>
+    <string name="MZGramDoHProvider">DoH saglayicisi</string>
+    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS DNS isteklerini izleme ve engellemeye karsi korur. DNS sorgulari secilen saglayiciya sifreli olarak gonderilir.</string>
+    <string name="MZGramDoHOff">Kapali</string>
+    <string name="MZGramOpenFreeMapPreview">OpenFreeMap harita onizlemesi</string>
+    <string name="MZGramOpenFreeMapPreviewInfo">Sohbet iletilerinde Google Maps yerine OpenFreeMap ve OpenStreetMap kullanarak statik harita onizlemeleri gosterin.</string>
+    <string name="MZGramPillWeather">Hava Durumu</string>
+    <string name="MZGramPillWeatherInfo">Hap cubugunda mevcut hava durumunu ve sicakligi gosterir. Cihaz konumunu ister ve open-meteo.com ile iletisim kurar.</string>
+    <string name="MZGramPillRates">Doviz kurlari</string>
+    <string name="MZGramPillRatesInfo">Hap cubugunda para birimi, kripto ve altin kurlarini gosterir. Coinbase ve gold-api.com sitelerinden kamuya acik piyasa verilerini ister.</string>
 </resources>

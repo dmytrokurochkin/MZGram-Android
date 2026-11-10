@@ -1061,4 +1061,13 @@
     <string name="MZGramCardsDesignInfo">Agrupar itens de listas em cartões arredondados com sombras suaves.</string>
     <string name="MZGramProfileMusicCard">Cartão de música do perfil</string>
     <string name="MZGramProfileMusicCardInfo">Exibir música salva ou em reprodução como um cartão elegante no perfil.</string>
+    <string name="MZGramDoHProvider">Provedor DoH</string>
+    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS protege as solicitacoes DNS contra rastreamento e interceptacao. As consultas DNS sao enviadas criptografadas para o provedor selecionado.</string>
+    <string name="MZGramDoHOff">Desativado</string>
+    <string name="MZGramOpenFreeMapPreview">Previa do mapa com OpenFreeMap</string>
+    <string name="MZGramOpenFreeMapPreviewInfo">Exibir previas estaticas de mapas nas mensagens usando OpenFreeMap e OpenStreetMap em vez do Google Maps.</string>
+    <string name="MZGramPillWeather">Clima</string>
+    <string name="MZGramPillWeatherInfo">Exibe o clima atual e a temperatura na barra de pilulas. Solicita a localizacao do dispositivo e consulta open-meteo.com.</string>
+    <string name="MZGramPillRates">Taxas de cambio</string>
+    <string name="MZGramPillRatesInfo">Exibe cotacoes de moedas, criptomoedas e ouro na barra de pilulas. Solicita dados publicos de mercado da Coinbase e gold-api.com.</string>
 </resources>

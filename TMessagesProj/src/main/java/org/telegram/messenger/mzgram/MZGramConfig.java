@@ -230,6 +230,9 @@ public class MZGramConfig {
     public static boolean cardsDesign = false;
     // Profile: display saved or currently playing music as a card
     public static boolean profileMusicCard = false;
+    // Third-party network services (DoH, OpenFreeMap map preview)
+    public static int dohProvider = 0;
+    public static boolean openFreeMapPreview = false;
     // Stops sponsored
     // (ad) messages in channels from ever being requested.
     public static boolean disableSponsoredMessages = false;
@@ -515,6 +518,8 @@ public class MZGramConfig {
             m3Switches = preferences.getBoolean("m3Switches", false);
             cardsDesign = preferences.getBoolean("cardsDesign", false);
             profileMusicCard = preferences.getBoolean("profileMusicCard", false);
+            dohProvider = preferences.getInt("dohProvider", 0);
+            openFreeMapPreview = preferences.getBoolean("openFreeMapPreview", false);
             forwardDeletedAsCopy = preferences.getBoolean("forwardDeletedAsCopy", false);
             semiTransparentDeleted = preferences.getBoolean("semiTransparentDeleted", true);
             deletedMark = preferences.getString("deletedMark", DEFAULT_DELETED_MARK);
@@ -1100,6 +1105,17 @@ public class MZGramConfig {
     public static void toggleProfileMusicCard() {
         profileMusicCard = !profileMusicCard;
         putBoolean("profileMusicCard", profileMusicCard);
+    }
+
+    public static void setDohProvider(int provider) {
+        dohProvider = provider;
+        putInt("dohProvider", dohProvider);
+        MZGramDoH.clearCache();
+    }
+
+    public static void toggleOpenFreeMapPreview() {
+        openFreeMapPreview = !openFreeMapPreview;
+        putBoolean("openFreeMapPreview", openFreeMapPreview);
     }
 
     public static void toggleForwardDeletedAsCopy() {

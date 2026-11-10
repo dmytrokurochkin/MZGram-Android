@@ -76,6 +76,10 @@ public final class MZGramPillStack implements NotificationCenter.NotificationCen
                 return new MZGramTelemetryPill.NetSpeed(context, resourcesProvider);
             case MZGramPills.DC_PING:
                 return new MZGramTelemetryPill.DcPing(context, resourcesProvider);
+            case MZGramPills.WEATHER:
+                return new MZGramWeatherPill(context, resourcesProvider);
+            case MZGramPills.RATES:
+                return new MZGramRatesPill(context, resourcesProvider);
             default:
                 return null;
         }
@@ -100,6 +104,10 @@ public final class MZGramPillStack implements NotificationCenter.NotificationCen
                 return LocaleController.getString(R.string.MZGramPillNetSpeed);
             case MZGramPills.DC_PING:
                 return LocaleController.getString(R.string.MZGramPillPing);
+            case MZGramPills.WEATHER:
+                return LocaleController.getString(R.string.MZGramPillWeather);
+            case MZGramPills.RATES:
+                return LocaleController.getString(R.string.MZGramPillRates);
             default:
                 return null;
         }

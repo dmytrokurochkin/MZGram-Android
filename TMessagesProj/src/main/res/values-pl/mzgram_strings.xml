@@ -1061,4 +1061,13 @@
     <string name="MZGramCardsDesignInfo">Grupuj elementy list w zaokrąglone karty z miękkim cieniem.</string>
     <string name="MZGramProfileMusicCard">Karta muzyczna profilu</string>
     <string name="MZGramProfileMusicCardInfo">Wyświetlaj zapisaną lub aktualnie odtwarzaną muzykę jako stylową kartę w profilu.</string>
+    <string name="MZGramDoHProvider">Dostawca DoH</string>
+    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS chroni zapytania DNS przed sledzeniem i przechwytywaniem. Zapytania DNS sa wysylane w postaci zaszyfrowanej do wybranego dostawcy.</string>
+    <string name="MZGramDoHOff">Wylaczone</string>
+    <string name="MZGramOpenFreeMapPreview">Podglad mapy OpenFreeMap</string>
+    <string name="MZGramOpenFreeMapPreviewInfo">Wyswietlaj statyczne podglady map w wiadomosciach uzywajac OpenFreeMap i OpenStreetMap zamiast Google Maps.</string>
+    <string name="MZGramPillWeather">Pogoda</string>
+    <string name="MZGramPillWeatherInfo">Wyswietla aktualna pogode i temperature na pasku pigulek. Wymaga lokalizacji urzadzenia i laczy sie z open-meteo.com.</string>
+    <string name="MZGramPillRates">Kursy walut</string>
+    <string name="MZGramPillRatesInfo">Wyswietla kursy walut, kryptowalut i zlota na pasku pigulek. Pobiera publiczne dane rynkowe z Coinbase i gold-api.com.</string>
 </resources>

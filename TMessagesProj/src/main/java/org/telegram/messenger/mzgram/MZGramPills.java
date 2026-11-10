@@ -44,9 +44,12 @@ public final class MZGramPills {
     public static final int RAM = 6;
     public static final int NET_SPEED = 7;
     public static final int DC_PING = 8;
+    // Third-party network pills (navigation.pills-weather, navigation.pills-financial)
+    public static final int WEATHER = 9;
+    public static final int RATES = 10;
 
     /** Every pill MZGram has, in the order of a fresh install. */
-    public static final int[] ALL = {GHOST, LAST_SEEN, PROXY, CACHE, CPU, RAM, NET_SPEED, DC_PING};
+    public static final int[] ALL = {GHOST, LAST_SEEN, PROXY, CACHE, CPU, RAM, NET_SPEED, DC_PING, WEATHER, RATES};
 
     private static final String PREFS = "mzgram_pills";
     private static final String KEY_ORDER = "order";

@@ -1061,4 +1061,13 @@
     <string name="MZGramCardsDesignInfo">Тізім элементтерін жұмсақ көлеңкесі бар дөңгеленген карталарға топтастыру.</string>
     <string name="MZGramProfileMusicCard">Профиль музыкалық картасы</string>
     <string name="MZGramProfileMusicCardInfo">Сақталған немесе ойнатылып жатқан музыканы профильде сәнді карта түрінде көрсету.</string>
+    <string name="MZGramDoHProvider">DoH провайдерi</string>
+    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS DNS сураныстарын бакылау мен устап калудан коргайды. DNS сураулары тандалган провайдерге шифрленген турде жiберiледi.</string>
+    <string name="MZGramDoHOff">Ошiрулi</string>
+    <string name="MZGramOpenFreeMapPreview">OpenFreeMap картасын алдын ала карау</string>
+    <string name="MZGramOpenFreeMapPreviewInfo">Хаттардагы картанын статикалык алдын ала корунустерiн Google Maps орнына OpenFreeMap жане OpenStreetMap аркылы корсету.</string>
+    <string name="MZGramPillWeather">Ауа райы</string>
+    <string name="MZGramPillWeatherInfo">Тумiрлер панелiнде агымдагы ауа райы мен температураны корсетедi. Курылгы геолокациясын сурайды жане open-meteo.com сайтына жугiнедi.</string>
+    <string name="MZGramPillRates">Валюта багамдары</string>
+    <string name="MZGramPillRatesInfo">Тумiрлер панелiнде валюта, крипто жане алтын багамдарын корсетедi. Coinbase жане gold-api.com сайттарынан ашык нарык деректерiн сурайды.</string>
 </resources>

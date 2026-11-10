@@ -1061,4 +1061,13 @@
     <string name="MZGramCardsDesignInfo">Группировать пункты списков в скругленные карточки с мягкой тенью.</string>
     <string name="MZGramProfileMusicCard">Музыкальная карточка профиля</string>
     <string name="MZGramProfileMusicCardInfo">Отображать сохраненную или текущую музыку в виде стильной карточки в профиле.</string>
+    <string name="MZGramDoHProvider">Провайдер DoH</string>
+    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS защищает DNS-запросы от отслеживания и перехвата. Запросы отправляются в зашифрованном виде выбранному провайдеру.</string>
+    <string name="MZGramDoHOff">Выключено</string>
+    <string name="MZGramOpenFreeMapPreview">Превью карты через OpenFreeMap</string>
+    <string name="MZGramOpenFreeMapPreviewInfo">Показывать статические превью локаций в сообщениях с помощью OpenFreeMap и OpenStreetMap вместо Google Maps.</string>
+    <string name="MZGramPillWeather">Погода</string>
+    <string name="MZGramPillWeatherInfo">Отображает текущую погоду и температуру в панели пилюль. Запрашивает геопозицию устройства и обращается к open-meteo.com.</string>
+    <string name="MZGramPillRates">Курсы валют</string>
+    <string name="MZGramPillRatesInfo">Отображает курсы валют, криптовалют и золота в панели пилюль. Запрашивает открытые рыночные данные с Coinbase и gold-api.com.</string>
 </resources>

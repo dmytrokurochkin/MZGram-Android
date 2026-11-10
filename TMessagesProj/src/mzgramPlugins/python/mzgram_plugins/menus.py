@@ -197,6 +197,29 @@ def _takes_argument(fn):
                for p in signature.parameters.values())
 
 
+class PluginMessage(dict):
+    """Message object wrapper passed into context['message']. Supports attribute and dict access."""
+
+    def __init__(self, data=None):
+        super().__init__(data or {})
+        if "id" not in self and "message_id" in self:
+            self["id"] = self["message_id"]
+
+    def __getattr__(self, name):
+        if name in self:
+            return self[name]
+        if name == "id":
+            return self.get("message_id", 0)
+        if name == "message":
+            return self.get("text", "")
+        if name == "chat_id":
+            return self.get("dialog_id", 0)
+        raise AttributeError(f"'PluginMessage' object has no attribute {name!r}")
+
+    def __setattr__(self, name, value):
+        self[name] = value
+
+
 def menu_click_json(raw):
     """{"plugin", "item", "context"}: calls on_click(context).
 
@@ -210,6 +233,8 @@ def menu_click_json(raw):
         context = data.get("context")
         if not isinstance(context, dict):
             context = {}
+        if ("message_id" in context or "dialog_id" in context) and "message" not in context:
+            context["message"] = PluginMessage(context)
         with _lock:
             callback = _callbacks.get((data["plugin"], data["item"]))
         if callback is None:

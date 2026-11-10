@@ -55,8 +55,23 @@ from mzgram_plugins.menus import MenuItemData, MenuItemType
 __all__ = [
     "BasePlugin", "AppEvent", "MenuItemData", "MenuItemType", "HookStrategy", "HookResult",
     "BaseHook", "MethodHook", "MethodReplacement", "XposedHook", "HookFilter", "HookParam",
-    "hook_filters", "UnhookId", "UnhookIdList",
+    "hook_filters", "UnhookId", "UnhookIdList", "PluginsController", "PluginsConstants",
 ]
+
+
+class _PluginsControllerProxy:
+    def getInstance(self):
+        return self
+
+    def __getattr__(self, name):
+        try:
+            from java import jclass
+            return getattr(jclass("org.telegram.messenger.mzgram.plugins.MZGramPlugins"), name)
+        except Exception:
+            return None
+
+
+PluginsController = _PluginsControllerProxy()
 
 
 class AppEvent:
@@ -73,6 +88,23 @@ class HookStrategy:
     CANCEL = "CANCEL"
     MODIFY = "MODIFY"
     MODIFY_FINAL = "MODIFY_FINAL"
+
+
+class PluginsConstants:
+    PYTHON = "python"
+
+    class MenuItemTypes:
+        MESSAGE_CONTEXT_MENU = MenuItemType.MESSAGE_CONTEXT_MENU
+        DRAWER_MENU = MenuItemType.DRAWER_MENU
+        MAIN_MENU = MenuItemType.MAIN_MENU
+        CHAT_ACTION_MENU = MenuItemType.CHAT_ACTION_MENU
+        PROFILE_ACTION_MENU = MenuItemType.PROFILE_ACTION_MENU
+
+    class Strategy:
+        MODIFY = HookStrategy.MODIFY
+        CANCEL = HookStrategy.CANCEL
+        DEFAULT = HookStrategy.DEFAULT
+        MODIFY_FINAL = HookStrategy.MODIFY_FINAL
 
 
 class HookResult:
@@ -114,9 +146,37 @@ class BasePlugin:
 
     def on_plugin_load(self):
         """The plugin starts: it was turned on, or MZGram started."""
+        self.on_load()
+        self.on_enable()
 
     def on_plugin_unload(self):
         """The plugin stops: it was turned off, updated or deleted."""
+        self.on_disable()
+        self.on_unload()
+
+    def on_load(self):
+        """Lifecycle hook: plugin loaded."""
+
+    def on_unload(self):
+        """Lifecycle hook: plugin unloaded."""
+
+    def on_enable(self):
+        """Lifecycle hook: plugin enabled."""
+
+    def on_disable(self):
+        """Lifecycle hook: plugin disabled."""
+
+    def pre_request(self, method, params):
+        """Hook called before an RPC request."""
+        return None
+
+    def post_request(self, method, result):
+        """Hook called after an RPC request."""
+        return None
+
+    def on_update(self, update):
+        """Hook called on Telegram update."""
+        return None
 
     def on_app_event(self, event_type: str):
         """An AppEvent while the plugin runs."""

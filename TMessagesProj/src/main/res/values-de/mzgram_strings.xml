@@ -1044,4 +1044,6 @@
     <string name="MZGramRoundVideoHighFpsInfo">Versucht 60-FPS-Aufnahmen, wenn beide Kameras dies unterstützen.</string>
     <string name="MZGramRoundVideoBitrate">Video-Bitrate</string>
     <string name="MZGramRoundVideoAdvanced">Erweiterte Rekorder-Einstellungen</string>
+    <string name="MZGramCompactChatHeader">Kompakter Chat-Header</string>
+    <string name="MZGramCompactChatHeaderInfo">Verkleinert Avatar und Abstände in der Chat-Titelleiste, um Platz zu sparen.</string>
 </resources>

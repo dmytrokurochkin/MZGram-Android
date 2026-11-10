@@ -345,6 +345,9 @@ public class MZGramConfig {
     // hideChatStatus
     public static boolean hideChatStatus = false;
 
+    // Compact chat header: smaller avatar and text to save screen space
+    public static boolean compactChatHeader = false;
+
     // staticInputIcons
     public static boolean staticInputIcons = false;
 
@@ -559,6 +562,7 @@ public class MZGramConfig {
             pauseRoundOnLeave = preferences.getBoolean("pauseRoundOnLeave", false);
             alwaysSendHd = preferences.getBoolean("alwaysSendHd", false);
             hideChatStatus = preferences.getBoolean("hideChatStatus", false);
+            compactChatHeader = preferences.getBoolean("chat_header_compact", false);
             staticInputIcons = preferences.getBoolean("staticInputIcons", false);
             panguSpacing = preferences.getBoolean("panguSpacing", false);
             doubleTapOwn = preferences.getInt("doubleTapOwn", 0);
@@ -1156,6 +1160,11 @@ public class MZGramConfig {
     public static void toggleHideChatStatus() {
         hideChatStatus = !hideChatStatus;
         putBoolean("hideChatStatus", hideChatStatus);
+    }
+
+    public static void toggleCompactChatHeader() {
+        compactChatHeader = !compactChatHeader;
+        putBoolean("chat_header_compact", compactChatHeader);
     }
 
     public static void toggleAlwaysSendHd() {

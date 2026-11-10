@@ -127,7 +127,7 @@ public final class MZGramSettingsBackup {
                 "drawerShowQr", "drawerLargeAvatar", "drawerGlass", "plainCodeBlocks",
                 "hexColorSwatch", "scheduleSlider", "sendSilentByDefault", "showRegistrationDate",
                 "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd",
-                "hideChatStatus", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
+                "hideChatStatus", "chat_header_compact", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
                 "usePinnedReactionsChannels");
         // MZGramAvatarShape.MIN..MAX
         integer(CONFIG, "avatarCorners", 0, 28);

@@ -1044,4 +1044,6 @@
     <string name="MZGramRoundVideoHighFpsInfo">Tenta gravar a 60 FPS quando ambas as câmeras suportam.</string>
     <string name="MZGramRoundVideoBitrate">Taxa de bits do vídeo</string>
     <string name="MZGramRoundVideoAdvanced">Configurações avançadas do gravador</string>
+    <string name="MZGramCompactChatHeader">Cabeçalho de conversa compacto</string>
+    <string name="MZGramCompactChatHeaderInfo">Reduz o tamanho do avatar e os espaçamentos na barra do chat para economizar espaço.</string>
 </resources>

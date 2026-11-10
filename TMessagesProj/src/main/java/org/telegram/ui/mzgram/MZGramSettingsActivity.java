@@ -223,6 +223,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_ROUND_VIDEO_HIGH_FPS = 189;
     private static final int BUTTON_ROUND_VIDEO_BITRATE = 190;
     private static final int BUTTON_ROUND_VIDEO_ADVANCED = 191;
+    private static final int BUTTON_COMPACT_CHAT_HEADER = 192;
     private static final int BUTTON_MUSIC_PLAYER = 180;
     private static final int BUTTON_MUSIC_PLAYER_BAR = 181;
     private static final int BUTTON_MUSIC_PLAYER_STYLE = 182;
@@ -837,6 +838,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramShowRegistrationDateInfo)));
         items.add(UItem.asCheck(BUTTON_HIDE_CHAT_STATUS, getString(R.string.MZGramHideChatStatus)).setChecked(MZGramConfig.hideChatStatus));
         items.add(UItem.asShadow(getString(R.string.MZGramHideChatStatusInfo)));
+        items.add(UItem.asCheck(BUTTON_COMPACT_CHAT_HEADER, getString(R.string.MZGramCompactChatHeader)).setChecked(MZGramConfig.compactChatHeader));
+        items.add(UItem.asShadow(getString(R.string.MZGramCompactChatHeaderInfo)));
         items.add(UItem.asCheck(BUTTON_STATIC_INPUT_ICONS, getString(R.string.MZGramStaticInputIcons)).setChecked(MZGramConfig.staticInputIcons));
         items.add(UItem.asShadow(getString(R.string.MZGramStaticInputIconsInfo)));
         items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
@@ -1610,6 +1613,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_CHAT_STATUS) {
             MZGramConfig.toggleHideChatStatus();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideChatStatus);
+        } else if (item.id == BUTTON_COMPACT_CHAT_HEADER) {
+            MZGramConfig.toggleCompactChatHeader();
+            ((TextCheckCell) view).setChecked(MZGramConfig.compactChatHeader);
         } else if (item.id == BUTTON_SHOW_REGISTRATION_DATE) {
             MZGramConfig.toggleShowRegistrationDate();
             ((TextCheckCell) view).setChecked(MZGramConfig.showRegistrationDate);

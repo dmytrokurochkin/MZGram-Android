@@ -78,7 +78,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
 
     public boolean allowDrawStories;
     private Integer storiesForceState;
-    private int avatarSizeInDp = 42;
+    private int avatarSizeInDp = org.telegram.messenger.mzgram.MZGramConfig.compactChatHeader ? 34 : 42;
     public BackupImageView avatarImageView;
     private boolean avatarImageIsHidden;
     private SimpleTextView titleTextView;
@@ -262,7 +262,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
             }
         }
         avatarImageView.setContentDescription(getString(R.string.AccDescrProfilePicture));
-        avatarImageView.setRoundRadius(dp(21));
+        avatarImageView.setRoundRadius(dp(org.telegram.messenger.mzgram.MZGramConfig.compactChatHeader ? 17 : 21));
         addView(avatarImageView);
         if (avatarClickable) {
             final TLRPC.Chat chat = parentFragment != null ? parentFragment.getCurrentChat() : null;
@@ -279,7 +279,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         titleTextView = new SimpleTextConnectedView(context, titleTextLargerCopyView);
         titleTextView.setEllipsizeByGradient(true);
         titleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
-        titleTextView.setTextSize(18);
+        titleTextView.setTextSize(org.telegram.messenger.mzgram.MZGramConfig.compactChatHeader ? 15 : 18);
         titleTextView.setGravity(Gravity.LEFT);
         titleTextView.setTypeface(AndroidUtilities.bold());
         titleTextView.setLeftDrawableTopPadding(-dp(1.3f));
@@ -771,7 +771,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         final int subtitleTop = viewTop + dp(glassMode ? 23.66f : 24);
 
         avatarImageView.layout(1 + leftPadding, 1 + viewTop, 1 + leftPadding + avatarImageView.getMeasuredWidth(), 1 + viewTop + avatarImageView.getMeasuredHeight());
-        int l = leftPadding + (avatarImageView.getVisibility() == VISIBLE ? dp(glassMode ? 49.66f : 55) : dp(glassMode ? 13 : 1)) + rightAvatarPadding;
+        int l = leftPadding + (avatarImageView.getVisibility() == VISIBLE ? dp(org.telegram.messenger.mzgram.MZGramConfig.compactChatHeader ? 43 : (glassMode ? 49.66f : 55)) : dp(glassMode ? 13 : 1)) + rightAvatarPadding;
         SimpleTextView titleTextLargerCopyView = this.titleTextLargerCopyView.get();
         if (getSubtitleTextView().getVisibility() != GONE) {
             titleTextView.layout(l, viewTop + dp(1.66f) - titleTextView.getPaddingTop(), l + titleTextView.getMeasuredWidth(), viewTop + titleTextView.getTextHeight() + dp(1.66f) - titleTextView.getPaddingTop() + titleTextView.getPaddingBottom());

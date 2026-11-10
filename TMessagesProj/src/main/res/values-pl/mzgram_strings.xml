@@ -1044,4 +1044,6 @@
     <string name="MZGramRoundVideoHighFpsInfo">Próbuje nagrywać w 60 FPS, jeśli obie kamery to obsługują.</string>
     <string name="MZGramRoundVideoBitrate">Przepływność wideo</string>
     <string name="MZGramRoundVideoAdvanced">Zaawansowane ustawienia rejestratora</string>
+    <string name="MZGramCompactChatHeader">Kompaktowy nagłówek czatu</string>
+    <string name="MZGramCompactChatHeaderInfo">Zmniejsza rozmiar awatara i odstępy w nagłówku czatu, aby zaoszczędzić miejsce.</string>
 </resources>

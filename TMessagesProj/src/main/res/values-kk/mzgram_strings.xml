@@ -1044,4 +1044,6 @@
     <string name="MZGramRoundVideoHighFpsInfo">Құрылғының екі камерасы да қолдаса, 60 FPS жылдамдықпен жазуға тырысады.</string>
     <string name="MZGramRoundVideoBitrate">Бейне бит жылдамдығы</string>
     <string name="MZGramRoundVideoAdvanced">Рекордердің қосымша параметрлері</string>
+    <string name="MZGramCompactChatHeader">Ықшам чат тақырыбы</string>
+    <string name="MZGramCompactChatHeaderInfo">Экран кеңістігін үнемдеу үшін чат тақырыбындағы аватар өлшемі мен шегіністерін азайтады.</string>
 </resources>

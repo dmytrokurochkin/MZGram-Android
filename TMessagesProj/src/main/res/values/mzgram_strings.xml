@@ -1044,4 +1044,6 @@
     <string name="MZGramRoundVideoHighFpsInfo">Attempts 60 FPS recording when supported by both front and rear cameras.</string>
     <string name="MZGramRoundVideoBitrate">Video bitrate</string>
     <string name="MZGramRoundVideoAdvanced">Advanced recorder settings</string>
+    <string name="MZGramCompactChatHeader">Compact chat header</string>
+    <string name="MZGramCompactChatHeaderInfo">Reduces avatar size and spacing in the chat title bar to save screen space.</string>
 </resources>

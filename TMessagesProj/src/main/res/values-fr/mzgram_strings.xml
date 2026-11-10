@@ -1019,4 +1019,13 @@
     <string name="MZGramPluginPermissionsRestartInfo">Un plugin en cours redémarre quand ses autorisations changent.</string>
     <string name="MZGramPluginJournalSinkBlocked">Bloqué, jamais disponible pour les plugins : %1$s</string>
     <string name="MZGramPluginJournalNetwork">Connecté à %1$s</string>
+    <string name="MZGramPluginScanTitle">Trouvé dans le code</string>
+    <string name="MZGramPluginScanChecking">Vérification du code…</string>
+    <string name="MZGramPluginScanFailed">Impossible de vérifier le code.</string>
+    <string name="MZGramPluginScanUndeclared">Absent de la liste des autorisations du plugin, ce sera donc refusé</string>
+    <string name="MZGramPluginScanNever">Jamais disponible pour les plugins, sera bloqué : %1$s</string>
+    <string name="MZGramPluginScanDex">Contient du code Android compilé (%1$s) ; l’exécuter demande le contrôle total</string>
+    <string name="MZGramPluginScanObfuscated">Le code a été rendu difficile à lire (%1$s), on ne peut donc pas voir ce qu’il fait</string>
+    <string name="MZGramPluginScanNothing">Rien qui demande une autorisation n’a été trouvé.</string>
+    <string name="MZGramPluginScanInfo">MZGram a lu le code sans l’exécuter. Ce n’est qu’une estimation : le code peut cacher ce qu’il fait. Pendant que le plugin tourne, seul ce que vous cochez est permis.</string>
 </resources>

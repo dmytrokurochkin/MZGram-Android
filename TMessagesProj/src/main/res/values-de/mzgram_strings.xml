@@ -1019,4 +1019,13 @@
     <string name="MZGramPluginPermissionsRestartInfo">Ein laufendes Plugin startet neu, wenn sich seine Berechtigungen ändern.</string>
     <string name="MZGramPluginJournalSinkBlocked">Blockiert, für Plugins nie verfügbar: %1$s</string>
     <string name="MZGramPluginJournalNetwork">Verbunden mit %1$s</string>
+    <string name="MZGramPluginScanTitle">Im Code gefunden</string>
+    <string name="MZGramPluginScanChecking">Code wird geprüft…</string>
+    <string name="MZGramPluginScanFailed">Der Code konnte nicht geprüft werden.</string>
+    <string name="MZGramPluginScanUndeclared">Nicht in der Berechtigungsliste des Plugins, daher wird es verweigert</string>
+    <string name="MZGramPluginScanNever">Für Plugins nie verfügbar, wird blockiert: %1$s</string>
+    <string name="MZGramPluginScanDex">Enthält kompilierten Android-Code (%1$s); zum Ausführen ist volle Kontrolle nötig</string>
+    <string name="MZGramPluginScanObfuscated">Der Code wurde schwer lesbar gemacht (%1$s), daher ist nicht erkennbar, was er tut</string>
+    <string name="MZGramPluginScanNothing">Nichts gefunden, das eine Berechtigung braucht.</string>
+    <string name="MZGramPluginScanInfo">MZGram hat den Code gelesen, ohne ihn auszuführen. Das ist nur eine Vermutung: Code kann verbergen, was er tut. Während das Plugin läuft, ist nur erlaubt, was du anhakst.</string>
 </resources>

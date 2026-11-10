@@ -1019,4 +1019,13 @@
     <string name="MZGramPluginPermissionsRestartInfo">Запущенный плагин перезапускается, когда меняются его разрешения.</string>
     <string name="MZGramPluginJournalSinkBlocked">Заблокировано, плагинам это недоступно: %1$s</string>
     <string name="MZGramPluginJournalNetwork">Подключился к %1$s</string>
+    <string name="MZGramPluginScanTitle">Найдено в коде</string>
+    <string name="MZGramPluginScanChecking">Проверяем код…</string>
+    <string name="MZGramPluginScanFailed">Код не удалось проверить.</string>
+    <string name="MZGramPluginScanUndeclared">Этого нет в списке разрешений плагина, поэтому будет отказано</string>
+    <string name="MZGramPluginScanNever">Плагинам это недоступно, будет заблокировано: %1$s</string>
+    <string name="MZGramPluginScanDex">Содержит скомпилированный код Android (%1$s); для его запуска нужен полный контроль</string>
+    <string name="MZGramPluginScanObfuscated">Код намеренно сделан трудночитаемым (%1$s), поэтому что он делает, из него не видно</string>
+    <string name="MZGramPluginScanNothing">Ничего, что требует разрешения, не найдено.</string>
+    <string name="MZGramPluginScanInfo">MZGram прочитал код, не запуская его. Это лишь догадка: код может скрывать, что делает. Во время работы плагина разрешено только то, что вы отметили.</string>
 </resources>

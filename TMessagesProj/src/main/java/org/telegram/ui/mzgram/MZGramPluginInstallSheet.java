@@ -10,6 +10,11 @@
  * granted before for an update. A plugin that doesn't list its permissions
  * is offered all of them, all unchecked.
  *
+ * Below the permissions: what the code may do, read without running it
+ * (MZGramPluginCapabilityScan), with a warning for each permission the code
+ * points to that the plugin does not declare, for what MZGram never allows
+ * a plugin and for code made hard to read. The scan changes no check box.
+ *
  * Opened from the plugin list (a picked file) and from a chat: a tap on a
  * downloaded .plugin file in a build with plugins asks to add it instead of
  * opening it in another app.
@@ -38,6 +43,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
+import org.telegram.messenger.mzgram.plugins.MZGramPluginCapabilityScan;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginGrants;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginPermissions;
@@ -239,6 +245,21 @@ public class MZGramPluginInstallSheet extends BottomSheet {
                     LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 22, 4, 22, 4));
         }
 
+        // What the code may do, read without running it; filled in when the scan comes back
+        final TextView scanHeader = text(context, getString(R.string.MZGramPluginScanTitle), 15, Theme.key_dialogTextBlue2, resources);
+        scanHeader.setTypeface(AndroidUtilities.bold());
+        content.addView(scanHeader, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 22, 12, 22, 4));
+        final LinearLayout scanBox = new LinearLayout(context);
+        scanBox.setOrientation(LinearLayout.VERTICAL);
+        scanBox.addView(text(context, getString(R.string.MZGramPluginScanChecking), 14, Theme.key_dialogTextGray2, resources),
+                LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 22, 0, 22, 4));
+        content.addView(scanBox, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        MZGramPluginCapabilityScan.scan(picked, result -> {
+            if (!isDismissed()) {
+                showScan(scanBox, result);
+            }
+        });
+
         final ScrollView scroll = new ScrollView(context);
         scroll.addView(content);
         layout.addView(scroll, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 1f));
@@ -271,6 +292,48 @@ public class MZGramPluginInstallSheet extends BottomSheet {
         view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size);
         view.setTextColor(Theme.getColor(colorKey, resources));
         return view;
+    }
+
+    private void showScan(LinearLayout box, MZGramPluginCapabilityScan.Result result) {
+        final Context context = getContext();
+        final Theme.ResourcesProvider resources = fragment.getResourceProvider();
+        box.removeAllViews();
+        if (!result.isOk()) {
+            addScanLine(box, text(context, getString(R.string.MZGramPluginScanFailed), 14, Theme.key_dialogTextGray2, resources));
+            return;
+        }
+        final List<String> found = result.permissions();
+        for (String key : found) {
+            final String line = MZGramPluginTexts.permissionName(key) + ": "
+                    + MZGramPluginCapabilityScan.evidenceLine(result.evidence(key));
+            addScanLine(box, text(context, line, 14, Theme.key_dialogTextBlack, resources));
+            if (MZGramPluginCapabilityScan.isUndeclared(meta, key)) {
+                addScanLine(box, text(context, getString(R.string.MZGramPluginScanUndeclared), 13, Theme.key_text_RedRegular, resources));
+            }
+        }
+        final List<String> never = result.evidence(MZGramPluginCapabilityScan.KEY_NEVER);
+        if (!never.isEmpty()) {
+            addScanLine(box, text(context, LocaleController.formatString(R.string.MZGramPluginScanNever,
+                    MZGramPluginCapabilityScan.evidenceLine(never)), 14, Theme.key_text_RedRegular, resources));
+        }
+        final long dex = result.dexSize();
+        if (dex > 0) {
+            addScanLine(box, text(context, LocaleController.formatString(R.string.MZGramPluginScanDex,
+                    AndroidUtilities.formatFileSize(dex)), 14, Theme.key_dialogTextBlack, resources));
+        }
+        final List<String> obfuscation = result.evidence(MZGramPluginCapabilityScan.KEY_OBFUSCATION);
+        if (!obfuscation.isEmpty()) {
+            addScanLine(box, text(context, LocaleController.formatString(R.string.MZGramPluginScanObfuscated,
+                    MZGramPluginCapabilityScan.evidenceLine(obfuscation)), 14, Theme.key_text_RedRegular, resources));
+        }
+        if (found.isEmpty() && never.isEmpty() && dex == 0 && obfuscation.isEmpty()) {
+            addScanLine(box, text(context, getString(R.string.MZGramPluginScanNothing), 14, Theme.key_dialogTextBlack, resources));
+        }
+        addScanLine(box, text(context, getString(R.string.MZGramPluginScanInfo), 13, Theme.key_dialogTextGray2, resources));
+    }
+
+    private static void addScanLine(LinearLayout box, TextView line) {
+        box.addView(line, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 22, 0, 22, 4));
     }
 
     // The code screen opens over the chat or the list; the prompt comes back when it is closed

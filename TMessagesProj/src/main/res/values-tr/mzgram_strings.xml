@@ -1019,4 +1019,13 @@
     <string name="MZGramPluginPermissionsRestartInfo">Çalışan bir eklenti, izinleri değişince yeniden başlar.</string>
     <string name="MZGramPluginJournalSinkBlocked">Engellendi, eklentiler için hiç kullanılamaz: %1$s</string>
     <string name="MZGramPluginJournalNetwork">%1$s adresine bağlandı</string>
+    <string name="MZGramPluginScanTitle">Kodda bulunanlar</string>
+    <string name="MZGramPluginScanChecking">Kod denetleniyor…</string>
+    <string name="MZGramPluginScanFailed">Kod denetlenemedi.</string>
+    <string name="MZGramPluginScanUndeclared">Eklentinin izin listesinde yok, bu yüzden reddedilecek</string>
+    <string name="MZGramPluginScanNever">Eklentiler için hiç kullanılamaz, engellenecek: %1$s</string>
+    <string name="MZGramPluginScanDex">Derlenmiş Android kodu içeriyor (%1$s); çalıştırmak için tam denetim gerekir</string>
+    <string name="MZGramPluginScanObfuscated">Kod okunması zor hale getirilmiş (%1$s), bu yüzden ne yaptığı görülemiyor</string>
+    <string name="MZGramPluginScanNothing">İzin gerektiren bir şey bulunmadı.</string>
+    <string name="MZGramPluginScanInfo">MZGram kodu çalıştırmadan okudu. Bu yalnızca bir tahmin: kod ne yaptığını gizleyebilir. Eklenti çalışırken yalnızca işaretlediğiniz şeylere izin verilir.</string>
 </resources>

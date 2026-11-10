@@ -1019,4 +1019,13 @@
     <string name="MZGramPluginPermissionsRestartInfo">Uruchomiona wtyczka startuje ponownie, gdy zmienią się jej uprawnienia.</string>
     <string name="MZGramPluginJournalSinkBlocked">Zablokowano, niedostępne dla wtyczek: %1$s</string>
     <string name="MZGramPluginJournalNetwork">Połączono z %1$s</string>
+    <string name="MZGramPluginScanTitle">Znaleziono w kodzie</string>
+    <string name="MZGramPluginScanChecking">Sprawdzanie kodu…</string>
+    <string name="MZGramPluginScanFailed">Nie udało się sprawdzić kodu.</string>
+    <string name="MZGramPluginScanUndeclared">Nie ma tego na liście uprawnień wtyczki, więc zostanie odmówione</string>
+    <string name="MZGramPluginScanNever">Niedostępne dla wtyczek, zostanie zablokowane: %1$s</string>
+    <string name="MZGramPluginScanDex">Zawiera skompilowany kod Androida (%1$s); jego uruchomienie wymaga pełnej kontroli</string>
+    <string name="MZGramPluginScanObfuscated">Kod celowo utrudniono do czytania (%1$s), więc nie widać, co robi</string>
+    <string name="MZGramPluginScanNothing">Nie znaleziono niczego, co wymaga uprawnienia.</string>
+    <string name="MZGramPluginScanInfo">MZGram przeczytał kod bez uruchamiania go. To tylko przypuszczenie: kod może ukrywać, co robi. Gdy wtyczka działa, dozwolone jest tylko to, co zaznaczysz.</string>
 </resources>

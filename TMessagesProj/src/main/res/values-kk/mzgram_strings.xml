@@ -1019,4 +1019,13 @@
     <string name="MZGramPluginPermissionsRestartInfo">Іске қосылған плагин рұқсаттары өзгергенде қайта іске қосылады.</string>
     <string name="MZGramPluginJournalSinkBlocked">Бұғатталды, плагиндерге қолжетімсіз: %1$s</string>
     <string name="MZGramPluginJournalNetwork">%1$s мекенжайына қосылды</string>
+    <string name="MZGramPluginScanTitle">Кодтан табылды</string>
+    <string name="MZGramPluginScanChecking">Код тексерілуде…</string>
+    <string name="MZGramPluginScanFailed">Кодты тексеру мүмкін болмады.</string>
+    <string name="MZGramPluginScanUndeclared">Бұл плагиннің рұқсаттар тізімінде жоқ, сондықтан бас тартылады</string>
+    <string name="MZGramPluginScanNever">Плагиндерге қолжетімсіз, бұғатталады: %1$s</string>
+    <string name="MZGramPluginScanDex">Құрастырылған Android коды бар (%1$s); оны іске қосуға толық бақылау керек</string>
+    <string name="MZGramPluginScanObfuscated">Код әдейі қиын оқылатын етілген (%1$s), сондықтан оның не істейтіні көрінбейді</string>
+    <string name="MZGramPluginScanNothing">Рұқсат қажет ететін ештеңе табылмады.</string>
+    <string name="MZGramPluginScanInfo">MZGram кодты іске қоспай оқыды. Бұл тек болжам: код не істейтінін жасыра алады. Плагин жұмыс істегенде тек сіз белгілегенге ғана рұқсат етіледі.</string>
 </resources>

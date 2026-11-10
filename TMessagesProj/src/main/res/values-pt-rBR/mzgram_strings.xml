@@ -1019,4 +1019,13 @@
     <string name="MZGramPluginPermissionsRestartInfo">Um plugin em execução reinicia quando suas permissões mudam.</string>
     <string name="MZGramPluginJournalSinkBlocked">Bloqueado, nunca disponível para plugins: %1$s</string>
     <string name="MZGramPluginJournalNetwork">Conectado a %1$s</string>
+    <string name="MZGramPluginScanTitle">Encontrado no código</string>
+    <string name="MZGramPluginScanChecking">Verificando o código…</string>
+    <string name="MZGramPluginScanFailed">Não foi possível verificar o código.</string>
+    <string name="MZGramPluginScanUndeclared">Não está na lista de permissões do plugin, então será recusado</string>
+    <string name="MZGramPluginScanNever">Nunca disponível para plugins, será bloqueado: %1$s</string>
+    <string name="MZGramPluginScanDex">Contém código Android compilado (%1$s); executá-lo exige controle total</string>
+    <string name="MZGramPluginScanObfuscated">O código foi feito difícil de ler (%1$s), então não dá para ver o que ele faz</string>
+    <string name="MZGramPluginScanNothing">Nada que precise de permissão foi encontrado.</string>
+    <string name="MZGramPluginScanInfo">O MZGram leu o código sem executá-lo. É só uma suposição: o código pode esconder o que faz. Enquanto o plugin roda, só é permitido o que você marcar.</string>
 </resources>

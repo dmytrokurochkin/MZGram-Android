@@ -1203,4 +1203,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Непадтрыманы фармат субцітраў</string>
     <string name="MZGramPersianCalendar">Сонечны каляндар Гіджры</string>
     <string name="MZGramPersianCalendarInfo">Адлюстроўваць даты паводле персідскага сонечнага календара.</string>
+    <string name="MZGramSettingsImportPluginsCount">Плагінаў для аднаўлення: %1$d.</string>
 </resources>

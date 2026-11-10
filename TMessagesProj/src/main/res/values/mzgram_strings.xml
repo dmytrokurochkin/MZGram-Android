@@ -1203,4 +1203,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Unsupported subtitle format</string>
     <string name="MZGramPersianCalendar">Solar Hijri calendar</string>
     <string name="MZGramPersianCalendarInfo">Display dates according to the Persian (Shamsi) solar calendar.</string>
+    <string name="MZGramSettingsImportPluginsCount">Plugins to restore: %1$d.</string>
 </resources>

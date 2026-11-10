@@ -1203,4 +1203,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Formato de legendas não suportado</string>
     <string name="MZGramPersianCalendar">Calendário solar persa</string>
     <string name="MZGramPersianCalendarInfo">Exibir datas de acordo com o calendário solar persa.</string>
+    <string name="MZGramSettingsImportPluginsCount">Plugins para restaurar: %1$d.</string>
 </resources>

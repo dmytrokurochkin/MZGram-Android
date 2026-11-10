@@ -1203,4 +1203,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">صيغة ملف الترجمة غير مدعومة</string>
     <string name="MZGramPersianCalendar">التقويم الهجري الشمسي</string>
     <string name="MZGramPersianCalendarInfo">عرض التواريخ وفقا للتقويم الشمسي الفارسي.</string>
+    <string name="MZGramSettingsImportPluginsCount">المكونات الإضافية المراد استعادتها: %1$d.</string>
 </resources>

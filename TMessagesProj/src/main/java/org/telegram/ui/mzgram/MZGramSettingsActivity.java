@@ -1965,9 +1965,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
             BulletinFactory.of(this).createErrorBulletin(getString(R.string.MZGramSettingsImportEmpty)).show();
             return;
         }
+        final int pluginCount = org.telegram.messenger.mzgram.MZGramConfig.pluginsBackup
+                ? org.telegram.messenger.mzgram.plugins.MZGramPluginsBackup.countPluginsInJson(fullJson)
+                : 0;
+        String message = org.telegram.messenger.LocaleController.formatString(R.string.MZGramSettingsImportConfirm, count);
+        if (pluginCount > 0) {
+            message += "\n\n" + org.telegram.messenger.LocaleController.formatString(R.string.MZGramSettingsImportPluginsCount, pluginCount);
+        }
         new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext())
                 .setTitle(getString(R.string.MZGramSettingsImport))
-                .setMessage(org.telegram.messenger.LocaleController.formatString(R.string.MZGramSettingsImportConfirm, count))
+                .setMessage(message)
                 .setPositiveButton(getString(R.string.MZGramContinue), (dialog, which) -> org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
                     int written = 0;
                     try {

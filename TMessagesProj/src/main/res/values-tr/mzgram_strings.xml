@@ -1203,4 +1203,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Desteklenmeyen altyazı formatı</string>
     <string name="MZGramPersianCalendar">İran Güneş takvimi</string>
     <string name="MZGramPersianCalendarInfo">Tarihleri İran güneş takvimine göre göster.</string>
+    <string name="MZGramSettingsImportPluginsCount">Geri yüklenecek eklentiler: %1$d.</string>
 </resources>

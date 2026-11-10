@@ -426,6 +426,23 @@ public final class MZGramPluginsBackup {
     }
 
     /**
+     * Counts the number of plugins defined in a JSON backup text.
+     * Returns 0 if JSON is empty, malformed, or has no plugins.
+     */
+    public static int countPluginsInJson(String fullJson) {
+        if (TextUtils.isEmpty(fullJson)) {
+            return 0;
+        }
+        try {
+            JSONObject root = new JSONObject(fullJson);
+            JSONArray array = root.optJSONArray("plugins");
+            return array != null ? array.length() : 0;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    /**
      * Restores plugins from a JSON backup text (e.g. from MZGramSettingsBackup).
      * Any error or corruption in the plugins section is caught and logged,
      * so it never disrupts the settings restore process.

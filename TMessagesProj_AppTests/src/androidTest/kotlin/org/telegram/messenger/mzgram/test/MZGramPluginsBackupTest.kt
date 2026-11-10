@@ -254,4 +254,29 @@ class MZGramPluginsBackupTest {
             MZGramConfig.pluginsBackup = original
         }
     }
+
+    @Test
+    fun testCountPluginsInJson_validAndMalformed() {
+        val validJson = """
+            {
+              "format": "mzgram-settings",
+              "plugins": [
+                { "id": "p1" },
+                { "id": "p2" }
+              ]
+            }
+        """.trimIndent()
+        assertEquals(2, MZGramPluginsBackup.countPluginsInJson(validJson))
+
+        val emptyPluginsJson = """{ "format": "mzgram-settings", "plugins": [] }"""
+        assertEquals(0, MZGramPluginsBackup.countPluginsInJson(emptyPluginsJson))
+
+        val noPluginsJson = """{ "format": "mzgram-settings" }"""
+        assertEquals(0, MZGramPluginsBackup.countPluginsInJson(noPluginsJson))
+
+        val malformedJson = """{ "plugins": [ invalid """
+        assertEquals(0, MZGramPluginsBackup.countPluginsInJson(malformedJson))
+        assertEquals(0, MZGramPluginsBackup.countPluginsInJson(null))
+        assertEquals(0, MZGramPluginsBackup.countPluginsInJson(""))
+    }
 }

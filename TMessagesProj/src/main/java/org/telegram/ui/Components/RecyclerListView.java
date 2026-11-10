@@ -3589,6 +3589,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     private final static Path sectionBackgroundPath = new Path();
     private final static float[] radii = new float[8];
     public static void drawBackgroundRect(Canvas canvas, RectF rect, float topRadius, float bottomRadius, float alpha, Theme.ResourcesProvider resourcesProvider) {
+        // MZGram: support card-based section shadows when cardsDesign is enabled
         final boolean withShadows = SharedConfig.shadowsInSections || org.telegram.messenger.mzgram.MZGramConfig.cardsDesign;
         if (withShadows) {
             sectionBackgroundStrokePaint.setShadowLayer(dpf2(0.33f), 0, 0, multAlpha(0x0c000000, alpha));

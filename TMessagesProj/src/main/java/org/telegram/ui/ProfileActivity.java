@@ -729,6 +729,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int blockedUsersRow;
     private int membersSectionRow;
     private boolean hasMusic;
+    // MZGram: profile music card (ProfileMusicCard)
     private boolean hasMusicCard;
     private int musicCardRow = -1;
     private int musicCardSectionRow = -1;
@@ -2328,6 +2329,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return true;
     }
 
+    // MZGram: open saved music list on card click
     private void openSavedMusic() {
         if (savedMusicList == null) {
             if (
@@ -10724,6 +10726,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (musicDoc == null && myProfile && MediaController.getInstance().getPlayingMessageObject() != null && MediaController.getInstance().getPlayingMessageObject().isMusic()) {
                 musicDoc = MediaController.getInstance().getPlayingMessageObject().getDocument();
             }
+            // MZGram: display music as card when profileMusicCard is enabled
             if (org.telegram.messenger.mzgram.MZGramConfig.profileMusicCard && musicDoc != null && (imageUpdater == null || myProfile)) {
                 hasMusicCard = true;
             } else if (userInfo != null && userInfo.saved_music != null && (imageUpdater == null || myProfile)) {
@@ -10738,6 +10741,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
 
+            // MZGram: profile music card row allocation
             if (hasMusicCard) {
                 musicCardRow = rowCount++;
                 musicCardSectionRow = rowCount++;

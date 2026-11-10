@@ -242,7 +242,7 @@ public class MZGramConfig {
     public static String translationTargetLang = "";
     public static boolean chatTranslationBar = false;
     public static boolean translateBeforeSend = false;
-    public static boolean translationAutoFallback = true;
+    public static boolean translationAutoFallback = false;
     public static String deeplApiKey = "";
     public static String mozhiCustomInstance = "";
     public static int aiProviderType = 0; // 0: Gemini, 1: OpenAI, 2: Anthropic, 3: DeepSeek, 4: Custom
@@ -557,7 +557,7 @@ public class MZGramConfig {
             translationTargetLang = preferences.getString("translationTargetLang", "");
             chatTranslationBar = preferences.getBoolean("chatTranslationBar", false);
             translateBeforeSend = preferences.getBoolean("translateBeforeSend", false);
-            translationAutoFallback = preferences.getBoolean("translationAutoFallback", true);
+            translationAutoFallback = preferences.getBoolean("translationAutoFallback", false);
             deeplApiKey = preferences.getString("deeplApiKey", "");
             mozhiCustomInstance = preferences.getString("mozhiCustomInstance", "");
             aiProviderType = preferences.getInt("aiProviderType", 0);

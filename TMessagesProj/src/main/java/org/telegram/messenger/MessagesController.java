@@ -13869,6 +13869,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     reloadDialogsReadValue(dialogsToReload, 0);
                 }
                 loadUnreadDialogs();
+                // MZGram: restore deleted dialogs in main list when enabled (deletedDialogsInMainList)
                 if (loadType == DIALOGS_LOAD_TYPE_CACHE && folderId == 0) {
                     org.telegram.messenger.mzgram.MZGramDeletedDialogs.restore(currentAccount);
                 }

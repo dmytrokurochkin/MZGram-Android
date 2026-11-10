@@ -5012,6 +5012,7 @@ public class MediaDataController extends BaseController {
         if (Build.VERSION.SDK_INT < 23) {
             return;
         }
+        // MZGram: calculate dynamic shortcut slots taking static shortcuts into account
         int totalMax = ShortcutManagerCompat.getMaxShortcutCountPerActivity(ApplicationLoader.applicationContext);
         int staticCount = 0;
         if (Build.VERSION.SDK_INT >= 25) {

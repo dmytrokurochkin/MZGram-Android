@@ -1526,6 +1526,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (AndroidUtilities.handleProxyIntent(this, intent, true)) {
             return true;
         }
+        // MZGram: static launcher shortcut toggle ghost mode intent
         if (intent != null && org.telegram.messenger.mzgram.MZGramShortcutActivity.ACTION_TOGGLE_GHOST_MODE.equals(intent.getAction())) {
             org.telegram.messenger.mzgram.MZGramConfig.toggleGhostMode();
             boolean on = org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled();
@@ -6894,6 +6895,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         pipActivityHandler.onPause();
         // MZGram: MZGramPluginEngine.onPause, running plugins get the PAUSE event.
         org.telegram.messenger.mzgram.plugins.MZGramPluginEngine.onPause();
+        // MZGram: notify plugin watchdog that app went to background
         org.telegram.messenger.mzgram.plugins.MZGramPluginWatchdog.onAppBackgrounded();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 4096);
         ApplicationLoader.mainInterfacePaused = true;

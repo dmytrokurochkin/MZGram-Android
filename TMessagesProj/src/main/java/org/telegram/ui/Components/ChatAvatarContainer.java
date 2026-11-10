@@ -78,6 +78,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
 
     public boolean allowDrawStories;
     private Integer storiesForceState;
+    // MZGram: compact chat header avatar size (34dp vs 42dp)
     private int avatarSizeInDp = org.telegram.messenger.mzgram.MZGramConfig.compactChatHeader ? 34 : 42;
     public BackupImageView avatarImageView;
     private boolean avatarImageIsHidden;
@@ -262,6 +263,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
             }
         }
         avatarImageView.setContentDescription(getString(R.string.AccDescrProfilePicture));
+        // MZGram: compact chat header radius (17dp vs 21dp)
         avatarImageView.setRoundRadius(dp(org.telegram.messenger.mzgram.MZGramConfig.compactChatHeader ? 17 : 21));
         addView(avatarImageView);
         if (avatarClickable) {
@@ -279,6 +281,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         titleTextView = new SimpleTextConnectedView(context, titleTextLargerCopyView);
         titleTextView.setEllipsizeByGradient(true);
         titleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
+        // MZGram: compact chat header title text size (15sp vs 18sp)
         titleTextView.setTextSize(org.telegram.messenger.mzgram.MZGramConfig.compactChatHeader ? 15 : 18);
         titleTextView.setGravity(Gravity.LEFT);
         titleTextView.setTypeface(AndroidUtilities.bold());
@@ -771,6 +774,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         final int subtitleTop = viewTop + dp(glassMode ? 23.66f : 24);
 
         avatarImageView.layout(1 + leftPadding, 1 + viewTop, 1 + leftPadding + avatarImageView.getMeasuredWidth(), 1 + viewTop + avatarImageView.getMeasuredHeight());
+        // MZGram: compact chat header layout offset (43dp vs 49.66dp/55dp)
         int l = leftPadding + (avatarImageView.getVisibility() == VISIBLE ? dp(org.telegram.messenger.mzgram.MZGramConfig.compactChatHeader ? 43 : (glassMode ? 49.66f : 55)) : dp(glassMode ? 13 : 1)) + rightAvatarPadding;
         SimpleTextView titleTextLargerCopyView = this.titleTextLargerCopyView.get();
         if (getSubtitleTextView().getVisibility() != GONE) {

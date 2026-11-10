@@ -50,6 +50,7 @@ public abstract class InstantCameraViewBase extends FrameLayout {
             Theme.ResourcesProvider resourcesProvider,
             boolean isNewDesign
     ) {
+        // MZGram: use Camera2 round video recorder when roundVideoCamera2 is enabled
         final boolean useCamera2Impl = org.telegram.messenger.mzgram.MZGramConfig.roundVideoCamera2 || (SharedSettings.roundVideoCamera2Enabled.isSet() ?
             SharedSettings.roundVideoCamera2Enabled.get() :
             AppGlobalConfig.getInstance(UserConfig.selectedAccount).roundVideoRecorder2Allowed.get());

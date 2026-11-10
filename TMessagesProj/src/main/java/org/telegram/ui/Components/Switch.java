@@ -197,6 +197,7 @@ public class Switch extends View {
             );
             rippleDrawable = new BaseCell.RippleDrawableSafe(colorStateList, null, maskDrawable);
             if (Build.VERSION.SDK_INT >= 23) {
+                // MZGram: Material 3 switch state layer radius when m3Switches is enabled
                 rippleDrawable.setRadius(org.telegram.messenger.mzgram.MZGramConfig.m3Switches ? org.telegram.messenger.mzgram.appearance.MZGramM3SwitchHelper.stateLayerRadius() : AndroidUtilities.dp(18));
             }
             rippleDrawable.setCallback(this);
@@ -377,6 +378,7 @@ public class Switch extends View {
         if (getVisibility() != VISIBLE) {
             return;
         }
+        // MZGram: render Material 3 switch when m3Switches is enabled
         if (org.telegram.messenger.mzgram.MZGramConfig.m3Switches) {
             drawMaterial3Switch(canvas);
             return;
@@ -558,6 +560,7 @@ public class Switch extends View {
         }
     }
 
+    // MZGram: Material 3 switch renderer
     private void drawMaterial3Switch(Canvas canvas) {
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();

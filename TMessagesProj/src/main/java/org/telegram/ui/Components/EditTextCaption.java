@@ -792,6 +792,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
             CodeHighlighting.Span[] code = editable.getSpans(start, end, CodeHighlighting.Span.class);
             for (int i = 0; i < code.length; ++i)
                 editable.removeSpan(code[i]);
+            // MZGram: strip user mention formatting span
             URLSpanUserMention[] mentions = editable.getSpans(start, end, URLSpanUserMention.class);
             for (int i = 0; i < mentions.length; ++i)
                 editable.removeSpan(mentions[i]);
@@ -917,6 +918,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
         } else if (itemId == R.id.menu_mono) {
             makeSelectedMono();
             return true;
+        // MZGram: handle code block and user mention selection
         } else if (itemId == R.id.menu_code) {
             makeSelectedCode();
             return true;
@@ -1072,6 +1074,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_bold, LocaleController.getString(R.string.Bold)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_italic, LocaleController.getString(R.string.Italic)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_mono, LocaleController.getString(R.string.Mono)));
+            // MZGram: accessibility actions for code and mention
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_code, LocaleController.getString(R.string.MZGramMenuCode)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_mention, LocaleController.getString(R.string.MZGramMenuMention)));
             infoCompat.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_strike, LocaleController.getString(R.string.Strike)));

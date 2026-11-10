@@ -67,6 +67,7 @@ public abstract class UniversalFragment extends BaseFragment {
                 savedScrollPosition = -1;
             }
         };
+        // MZGram: group sections into rounded cards when cardsDesign is enabled
         if (org.telegram.messenger.mzgram.MZGramConfig.cardsDesign) {
             listView.setSections();
         }

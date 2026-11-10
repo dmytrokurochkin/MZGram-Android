@@ -770,6 +770,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_ROUND_VIDEO_CAMERA2, getString(R.string.MZGramRoundVideoCamera2)).setChecked(MZGramConfig.roundVideoCamera2));
         if (MZGramConfig.roundVideoCamera2) {
             items.add(UItem.asCheck(BUTTON_ROUND_VIDEO_HIGH_FPS, getString(R.string.MZGramRoundVideoHighFps)).setChecked(MZGramConfig.roundVideoHighFps));
+            items.add(UItem.asShadow(getString(R.string.MZGramRoundVideoHighFpsInfo)));
             items.add(UItem.asButton(BUTTON_ROUND_VIDEO_BITRATE, getString(R.string.MZGramRoundVideoBitrate), formatRoundBitrate(MZGramConfig.roundVideoBitrate)));
             items.add(UItem.asButton(BUTTON_ROUND_VIDEO_ADVANCED, getString(R.string.MZGramRoundVideoAdvanced)));
         }

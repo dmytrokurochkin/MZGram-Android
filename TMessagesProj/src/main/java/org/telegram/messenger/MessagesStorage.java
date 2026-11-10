@@ -2591,6 +2591,7 @@ public class MessagesStorage extends BaseController {
                         buff.reuse();
                     }
                     filter.title_noanimate = filtersCursor.intValue(7) == 1;
+                    // MZGram: restore folder emoticon (MZGramFolderEmoticons)
                     filter.emoticon = org.telegram.messenger.mzgram.MZGramFolderEmoticons.get(currentAccount, filter.id);
                     dialogFilters.add(filter);
                     dialogFiltersMap.put(filter.id, filter);
@@ -3348,6 +3349,7 @@ public class MessagesStorage extends BaseController {
                             filter.color = color;
                             changed = true;
                         }
+                        // MZGram: preserve folder emoticon
                         if (filter.emoticon == null || !filter.emoticon.equals(newFilter.emoticon)) {
                             filter.emoticon = newFilter.emoticon;
                         }
@@ -3488,6 +3490,7 @@ public class MessagesStorage extends BaseController {
                         filter.entities = newFilter.title.entities;
                         filter.title_noanimate = newFilter.title_noanimate;
                         filter.color = (newFilter.flags & 134217728) != 0 ? newFilter.color : -1;
+                        // MZGram: preserve folder emoticon
                         filter.emoticon = newFilter.emoticon;
                         filter.pendingUnreadCount = -1;
                         for (int c = 0; c < 2; c++) {

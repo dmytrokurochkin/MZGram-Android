@@ -1713,6 +1713,7 @@ public class ChatActivity extends BaseFragment implements
     private final static int text_spoiler = 57;
     private final static int text_quote = 58;
     private final static int text_date = 74;
+    // MZGram: text formatting code block and mention menu items
     private final static int text_code = 75;
     private final static int text_mention = 76;
 
@@ -4146,6 +4147,7 @@ public class ChatActivity extends BaseFragment implements
                         chatActivityEnterView.getEditField().setSelectionOverride(editTextStart, editTextEnd);
                         chatActivityEnterView.getEditField().makeSelectedMono();
                     }
+                // MZGram: handle code block and mention formatting
                 } else if (id == text_code) {
                     if (chatActivityEnterView != null && chatActivityEnterView.getEditField() != null) {
                         chatActivityEnterView.getEditField().setSelectionOverride(editTextStart, editTextEnd);
@@ -11088,6 +11090,7 @@ public class ChatActivity extends BaseFragment implements
         stringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Mono));
         stringBuilder.setSpan(new TypefaceSpan(Typeface.MONOSPACE), 0, stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         item.addSubItem(text_mono, stringBuilder);
+        // MZGram: add code block and user mention to formatting submenu
         item.addSubItem(text_code, LocaleController.getString(R.string.MZGramMenuCode));
         item.addSubItem(text_mention, LocaleController.getString(R.string.MZGramMenuMention));
         if (currentEncryptedChat == null || AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) >= 101) {
@@ -28133,6 +28136,7 @@ public class ChatActivity extends BaseFragment implements
             stringBuilder.setSpan(new TypefaceSpan(Typeface.MONOSPACE), 0, stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             menu.add(R.id.menu_groupbolditalic, R.id.menu_mono, order++, stringBuilder);
         }
+        // MZGram: add code block and user mention to ActionMode menu
         menu.add(R.id.menu_groupbolditalic, R.id.menu_code, order++, LocaleController.getString(R.string.MZGramMenuCode));
         menu.add(R.id.menu_groupbolditalic, R.id.menu_mention, order++, LocaleController.getString(R.string.MZGramMenuMention));
         if (encryptedChat == null || AndroidUtilities.getPeerLayerVersion(encryptedChat.layer) >= 101) {

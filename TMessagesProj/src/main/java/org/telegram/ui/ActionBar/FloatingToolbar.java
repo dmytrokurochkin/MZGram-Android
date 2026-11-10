@@ -307,6 +307,7 @@ public final class FloatingToolbar {
         R.id.menu_italic,
         R.id.menu_strike,
         R.id.menu_mono,
+        // MZGram: code block and user mention items
         R.id.menu_code,
         R.id.menu_mention,
         R.id.menu_underline,
@@ -321,6 +322,7 @@ public final class FloatingToolbar {
         R.id.menu_strike,
         R.id.menu_link,
         R.id.menu_mono,
+        // MZGram: code block and user mention items
         R.id.menu_code,
         R.id.menu_mention,
         R.id.menu_underline,

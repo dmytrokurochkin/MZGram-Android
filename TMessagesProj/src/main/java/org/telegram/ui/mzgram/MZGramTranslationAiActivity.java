@@ -84,7 +84,9 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
         }
 
         items.add(UItem.asCheck(BUTTON_CHAT_BAR, getString(R.string.MZGramChatTranslationBar)).setChecked(MZGramConfig.chatTranslationBar));
+        items.add(UItem.asShadow(getString(R.string.MZGramChatTranslationBarInfo)));
         items.add(UItem.asCheck(BUTTON_TRANSLATE_SEND, getString(R.string.MZGramTranslateBeforeSend)).setChecked(MZGramConfig.translateBeforeSend));
+        items.add(UItem.asShadow(getString(R.string.MZGramTranslateBeforeSendInfo)));
         items.add(UItem.asCheck(BUTTON_AUTO_FALLBACK, getString(R.string.MZGramTranslationAutoFallback)).setChecked(MZGramConfig.translationAutoFallback));
         items.add(UItem.asShadow(getString(R.string.MZGramTranslationAutoFallbackInfo)));
 

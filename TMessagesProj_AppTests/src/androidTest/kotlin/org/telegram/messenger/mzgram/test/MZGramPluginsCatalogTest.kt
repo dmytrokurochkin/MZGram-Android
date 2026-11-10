@@ -193,4 +193,132 @@ class MZGramPluginsCatalogTest {
         val json = MZGramSettingsBackup.exportToJson()
         assertTrue(json.contains("pluginsCatalogUrl"))
     }
+
+    @Test
+    fun testCatalogPluginLocalizedDescriptionAndNameSelection() {
+        val json = JSONObject().apply {
+            put("id", "sample_calc")
+            put("name", "Calculator")
+            put("name_i18n", JSONObject().apply {
+                put("en", "Calculator")
+                put("uk", "Калькулятор")
+                put("ru", "Калькулятор")
+            })
+            put("description", "Base English calculation description")
+            put("description_i18n", JSONObject().apply {
+                put("en", "English calculation description")
+                put("uk", "Український опис калькулятора")
+                put("ru", "Русское описание калькулятора")
+                put("pl", "Polski opis kalkulatora")
+            })
+        }
+        val plugin = MZGramPluginsCatalog.CatalogPlugin(json)
+
+        // Exact match
+        assertEquals("Український опис калькулятора", plugin.getLocalizedDescription("uk"))
+        assertEquals("Русское описание калькулятора", plugin.getLocalizedDescription("ru"))
+        assertEquals("Polski opis kalkulatora", plugin.getLocalizedDescription("pl"))
+
+        // Fallback to English when language is not in map
+        assertEquals("English calculation description", plugin.getLocalizedDescription("de"))
+        assertEquals("English calculation description", plugin.getLocalizedDescription("es"))
+
+        // Names
+        assertEquals("Калькулятор", plugin.getLocalizedName("uk"))
+        assertEquals("Calculator", plugin.getLocalizedName("de"))
+    }
+
+    @Test
+    fun testCatalogPluginBackwardCompatibilityWithoutI18n() {
+        val json = JSONObject().apply {
+            put("id", "old_plugin")
+            put("name", "Old Plugin")
+            put("description", "Legacy plugin description without i18n")
+        }
+        val plugin = MZGramPluginsCatalog.CatalogPlugin(json)
+
+        assertNotNull(plugin.descriptionI18n)
+        assertTrue(plugin.descriptionI18n.isEmpty())
+        assertNotNull(plugin.nameI18n)
+        assertTrue(plugin.nameI18n.isEmpty())
+
+        assertEquals("Legacy plugin description without i18n", plugin.getLocalizedDescription("uk"))
+        assertEquals("Legacy plugin description without i18n", plugin.getLocalizedDescription("en"))
+        assertEquals("Legacy plugin description without i18n", plugin.getLocalizedDescription("fr"))
+
+        assertEquals("Old Plugin", plugin.getLocalizedName("uk"))
+        assertEquals("Old Plugin", plugin.getLocalizedName("de"))
+    }
+
+    @Test
+    fun testCatalogPluginMalformedOrEmptyI18nValues() {
+        val json = JSONObject().apply {
+            put("id", "malformed_i18n")
+            put("name", "Safe Plugin")
+            put("description", "Default safe description")
+            put("description_i18n", JSONObject().apply {
+                put("uk", "")
+                put("ru", "   ")
+                put("pl", 12345)
+                put("es", true)
+                put("en", "Valid English")
+            })
+            put("name_i18n", JSONObject().apply {
+                put("uk", "")
+                put("en", "Safe English Name")
+            })
+        }
+        val plugin = MZGramPluginsCatalog.CatalogPlugin(json)
+
+        // Empty/whitespace/non-string skipped and falls back to English
+        assertEquals("Valid English", plugin.getLocalizedDescription("uk"))
+        assertEquals("Valid English", plugin.getLocalizedDescription("ru"))
+        assertEquals("Valid English", plugin.getLocalizedDescription("pl"))
+        assertEquals("Valid English", plugin.getLocalizedDescription("es"))
+
+        assertEquals("Safe English Name", plugin.getLocalizedName("uk"))
+    }
+
+    @Test
+    fun testMetaForCatalogWithLocalizedNameAndDescription() {
+        val fileMetaJson = JSONObject().apply {
+            put("id", "my_plugin")
+            put("name", "Raw Name")
+            put("description", "Raw Description")
+            put("author", "Raw Author")
+            put("icon", "raw_icon")
+        }
+        val rawMeta = MZGramPluginFormat.Meta(fileMetaJson)
+
+        val catalogMeta = rawMeta.forCatalog("Локалізована назва", "Локалізований опис")
+        assertEquals("MZGram", catalogMeta.author)
+        assertNull(catalogMeta.icon)
+        assertEquals("Локалізована назва", catalogMeta.name)
+        assertEquals("Локалізований опис", catalogMeta.description)
+    }
+
+    @Test
+    fun testRealStagingCatalogParsesWithClient() {
+        val stagingFile = java.io.File("C:/Users/mrmoz/Documents/My_GitHub/My_GitHub/MZGram/plugins-repo-staging/index.json")
+        if (!stagingFile.isFile) {
+            return
+        }
+        val text = stagingFile.readText(Charsets.UTF_8)
+        val root = JSONObject(text)
+        assertEquals("MZGram Plugins", root.optString("name"))
+        val arr = root.optJSONArray("plugins")
+        assertNotNull(arr)
+        assertTrue(arr!!.length() > 0)
+
+        // Parse first 10 items through client parser
+        for (i in 0 until Math.min(10, arr.length())) {
+            val itemObj = arr.getJSONObject(i)
+            val p = MZGramPluginsCatalog.CatalogPlugin(itemObj)
+            assertEquals("MZGram", p.author)
+            assertTrue(p.id.isNotEmpty())
+            assertTrue(p.name.isNotEmpty())
+            assertTrue(p.getLocalizedDescription("en").isNotEmpty())
+            assertTrue(p.getLocalizedDescription("uk").isNotEmpty())
+        }
+    }
 }

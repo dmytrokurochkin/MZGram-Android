@@ -16,6 +16,8 @@
 
 package org.telegram.messenger.mzgram.plugins;
 
+import android.text.TextUtils;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.messenger.Utilities;
@@ -74,10 +76,20 @@ public final class MZGramPluginFormat {
         }
 
         public Meta forCatalog() {
+            return forCatalog(null, null);
+        }
+
+        public Meta forCatalog(String localizedName, String localizedDesc) {
             try {
                 JSONObject obj = new JSONObject(this.json);
                 obj.put("author", "MZGram");
                 obj.remove("icon");
+                if (!TextUtils.isEmpty(localizedName)) {
+                    obj.put("name", localizedName);
+                }
+                if (!TextUtils.isEmpty(localizedDesc)) {
+                    obj.put("description", localizedDesc);
+                }
                 return new Meta(obj);
             } catch (Exception e) {
                 return this;

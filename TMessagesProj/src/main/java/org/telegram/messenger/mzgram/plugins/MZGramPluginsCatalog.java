@@ -28,8 +28,13 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import org.telegram.messenger.mzgram.MZGramLanguage;
 
 public final class MZGramPluginsCatalog {
 
@@ -53,6 +58,8 @@ public final class MZGramPluginsCatalog {
         public final String minAppVersion;
         public final List<String> requirements;
         public final List<String> permissions;
+        public final Map<String, String> descriptionI18n;
+        public final Map<String, String> nameI18n;
 
         public CatalogPlugin(JSONObject json) {
             this.id = json.optString("id", "");
@@ -90,6 +97,112 @@ public final class MZGramPluginsCatalog {
                 }
             }
             this.permissions = Collections.unmodifiableList(perms);
+
+            Map<String, String> descMap = new LinkedHashMap<>();
+            JSONObject descObj = json.optJSONObject("description_i18n");
+            if (descObj != null) {
+                Iterator<String> keys = descObj.keys();
+                while (keys.hasNext()) {
+                    String k = keys.next();
+                    if (!TextUtils.isEmpty(k)) {
+                        Object val = descObj.opt(k);
+                        if (val instanceof String) {
+                            String s = ((String) val).trim();
+                            if (!s.isEmpty()) {
+                                descMap.put(k, s);
+                            }
+                        }
+                    }
+                }
+            }
+            this.descriptionI18n = Collections.unmodifiableMap(descMap);
+
+            Map<String, String> nameMap = new LinkedHashMap<>();
+            JSONObject nameObj = json.optJSONObject("name_i18n");
+            if (nameObj != null) {
+                Iterator<String> keys = nameObj.keys();
+                while (keys.hasNext()) {
+                    String k = keys.next();
+                    if (!TextUtils.isEmpty(k)) {
+                        Object val = nameObj.opt(k);
+                        if (val instanceof String) {
+                            String s = ((String) val).trim();
+                            if (!s.isEmpty()) {
+                                nameMap.put(k, s);
+                            }
+                        }
+                    }
+                }
+            }
+            this.nameI18n = Collections.unmodifiableMap(nameMap);
+        }
+
+        public String getLocalizedDescription() {
+            return getLocalizedDescription(MZGramLanguage.current());
+        }
+
+        public String getLocalizedDescription(String lang) {
+            if (descriptionI18n != null && !TextUtils.isEmpty(lang)) {
+                String val = findInMap(descriptionI18n, lang);
+                if (!TextUtils.isEmpty(val)) {
+                    return val;
+                }
+            }
+            if (descriptionI18n != null) {
+                String enVal = findInMap(descriptionI18n, "en");
+                if (!TextUtils.isEmpty(enVal)) {
+                    return enVal;
+                }
+            }
+            return !TextUtils.isEmpty(description) ? description : "";
+        }
+
+        public String getLocalizedName() {
+            return getLocalizedName(MZGramLanguage.current());
+        }
+
+        public String getLocalizedName(String lang) {
+            if (nameI18n != null && !TextUtils.isEmpty(lang)) {
+                String val = findInMap(nameI18n, lang);
+                if (!TextUtils.isEmpty(val)) {
+                    return val;
+                }
+            }
+            if (nameI18n != null) {
+                String enVal = findInMap(nameI18n, "en");
+                if (!TextUtils.isEmpty(enVal)) {
+                    return enVal;
+                }
+            }
+            return !TextUtils.isEmpty(name) ? name : id;
+        }
+
+        private static String findInMap(Map<String, String> map, String lang) {
+            if (map == null || lang == null) {
+                return null;
+            }
+            String val = map.get(lang);
+            if (!TextUtils.isEmpty(val)) {
+                return val;
+            }
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                if (entry.getKey().equalsIgnoreCase(lang)) {
+                    if (!TextUtils.isEmpty(entry.getValue())) {
+                        return entry.getValue();
+                    }
+                }
+            }
+            if (lang.equalsIgnoreCase("pt-BR") || lang.equalsIgnoreCase("pt") || lang.equalsIgnoreCase("pt-rBR")) {
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    String k = entry.getKey();
+                    if (k.equalsIgnoreCase("pt") || k.equalsIgnoreCase("pt-BR") || k.equalsIgnoreCase("pt-rBR")) {
+                        if (!TextUtils.isEmpty(entry.getValue())) {
+                            return entry.getValue();
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 

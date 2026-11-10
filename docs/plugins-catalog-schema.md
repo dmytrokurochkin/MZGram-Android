@@ -30,8 +30,10 @@
 | :--- | :--- | :---: | :--- |
 | `id` | string | Так | Унікальний ідентифікатор плагіна (має збігатися з `__id__`). |
 | `name` | string | Так | Відображуване ім'я плагіна. |
+| `name_i18n` | object | Ні | Словник локалізованих назв (код мови -> назва) для описових найменувань. |
 | `version` | string | Так | Версія плагіна (наприклад, `"1.0.0"`). |
-| `description` | string | Ні | Опис функціональності плагіна. |
+| `description` | string | Так | Базовий опис функціональності плагіна англійською мовою. |
+| `description_i18n` | object | Ні | Словник локалізованих описів (код мови -> текст). Порядок вибору: поточна мова, en, description. |
 | `file` | string | Так | Відносний шлях або ім'я файлу (наприклад, `"plugins/calc/1.0.0/calc.plugin"`). |
 | `url` | string | Ні | Прямий URL для завантаження (якщо файл хоститься окремо від каталогу). |
 | `sha256` | string | Так | 64-символьний шістнадцятковий хеш SHA-256 файлу в нижньому регістрі. |
@@ -53,9 +55,18 @@
   "plugins": [
     {
       "id": "calculator_inline",
-      "name": "Вбудований калькулятор",
+      "name": "Inline Calculator",
+      "name_i18n": {
+        "uk": "Вбудований калькулятор",
+        "ru": "Встроенный калькулятор"
+      },
       "version": "1.2.0",
-      "description": "Швидкі математичні обчислення безпосередньо у полі вводу повідомлення",
+      "description": "Quick mathematical calculations directly in the chat message input field",
+      "description_i18n": {
+        "en": "Quick mathematical calculations directly in the chat message input field",
+        "uk": "Швидкі математичні обчислення безпосередньо у полі вводу повідомлення чату",
+        "ru": "Быстрые математические вычисления прямо в поле ввода сообщения чата"
+      },
       "file": "plugins/calculator_inline/1.2.0/calculator_inline.plugin",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size": 14250,

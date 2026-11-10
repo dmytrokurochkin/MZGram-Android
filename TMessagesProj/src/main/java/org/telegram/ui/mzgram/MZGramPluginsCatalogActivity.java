@@ -138,11 +138,13 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
             final StringBuilder sub = new StringBuilder();
             sub.append("v").append(p.version);
             sub.append(" · ").append(getString(R.string.MZGram));
-            if (!TextUtils.isEmpty(p.description)) {
-                sub.append("\n").append(p.description);
+            final String localizedName = p.getLocalizedName();
+            final String localizedDesc = p.getLocalizedDescription();
+            if (!TextUtils.isEmpty(localizedDesc)) {
+                sub.append("\n").append(localizedDesc);
             }
             final String badge = installed ? getString(R.string.MZGramPluginsCatalogInstalled) : getString(R.string.MZGramPluginsCatalogInstall);
-            UItem row = UItem.asButton(PLUGIN_ROW_BASE + i, p.name, badge);
+            UItem row = UItem.asButton(PLUGIN_ROW_BASE + i, localizedName, badge);
             row.subtext = sub.toString();
             if (!installed) {
                 row.accent();
@@ -242,7 +244,9 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
 
             MZGramPluginFormat.readMetadata(file, result -> {
                 if (result.isOk()) {
-                    final MZGramPluginFormat.Meta meta = result.meta.forCatalog();
+                    final String localizedName = plugin.getLocalizedName();
+                    final String localizedDesc = plugin.getLocalizedDescription();
+                    final MZGramPluginFormat.Meta meta = result.meta.forCatalog(localizedName, localizedDesc);
                     MZGramPluginInstallSheet.show(this, file, meta, () -> {
                         reload();
                         BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramPluginsCatalogInstalled)).show();

@@ -68,12 +68,18 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
     private static final int REQUIREMENT_ROW = 300;
 
     private final String pluginId;
+    private final boolean fromCatalog;
     private MZGramPlugins.Plugin plugin;
     // The permissions shown as switches, in row order
     private List<String> offered = new ArrayList<>();
 
     public MZGramPluginInfoActivity(String pluginId) {
+        this(pluginId, false);
+    }
+
+    public MZGramPluginInfoActivity(String pluginId, boolean fromCatalog) {
         this.pluginId = pluginId;
+        this.fromCatalog = fromCatalog;
     }
 
     @Override
@@ -137,8 +143,9 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramPluginAbout)));
         items.add(UItem.asButton(BUTTON_VERSION, getString(R.string.MZGramPluginVersion), meta.beta
                 ? meta.version + " (" + getString(R.string.MZGramPluginBeta) + ")" : meta.version));
-        if (!TextUtils.isEmpty(meta.author)) {
-            items.add(UItem.asButton(BUTTON_AUTHOR, getString(R.string.MZGramPluginAuthor), meta.author));
+        final String author = fromCatalog ? getString(R.string.MZGram) : meta.author;
+        if (!TextUtils.isEmpty(author)) {
+            items.add(UItem.asButton(BUTTON_AUTHOR, getString(R.string.MZGramPluginAuthor), author));
         }
         items.add(UItem.asButton(BUTTON_ID, getString(R.string.MZGramPeerIdLabel), meta.id));
         if (meta.appVersion != null) {

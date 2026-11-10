@@ -137,9 +137,7 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
             final boolean installed = MZGramPlugins.get(p.id) != null;
             final StringBuilder sub = new StringBuilder();
             sub.append("v").append(p.version);
-            if (!TextUtils.isEmpty(p.author)) {
-                sub.append(" · ").append(p.author);
-            }
+            sub.append(" · ").append(getString(R.string.MZGram));
             if (!TextUtils.isEmpty(p.description)) {
                 sub.append("\n").append(p.description);
             }
@@ -175,7 +173,7 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
         if (item.id >= PLUGIN_ROW_BASE && item.id < PLUGIN_ROW_BASE + plugins.size()) {
             final MZGramPluginsCatalog.CatalogPlugin plugin = plugins.get(item.id - PLUGIN_ROW_BASE);
             if (MZGramPlugins.get(plugin.id) != null) {
-                presentFragment(new MZGramPluginInfoActivity(plugin.id));
+                presentFragment(new MZGramPluginInfoActivity(plugin.id, true));
             } else {
                 installPlugin(plugin);
             }
@@ -244,7 +242,8 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
 
             MZGramPluginFormat.readMetadata(file, result -> {
                 if (result.isOk()) {
-                    MZGramPluginInstallSheet.show(this, file, result.meta, () -> {
+                    final MZGramPluginFormat.Meta meta = result.meta.forCatalog();
+                    MZGramPluginInstallSheet.show(this, file, meta, () -> {
                         reload();
                         BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramPluginsCatalogInstalled)).show();
                     });

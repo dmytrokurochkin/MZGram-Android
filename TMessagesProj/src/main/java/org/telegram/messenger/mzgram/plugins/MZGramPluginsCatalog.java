@@ -36,7 +36,11 @@ public final class MZGramPluginsCatalog {
     private static final int TIMEOUT_MS = 15000;
     private static final String PICKED_DIR = "mzgram_plugin_picked";
 
+    public static final String AUTHOR_MZGRAM = "MZGram";
+
     public static final class CatalogPlugin {
+        public static final String AUTHOR_MZGRAM = MZGramPluginsCatalog.AUTHOR_MZGRAM;
+
         public final String id;
         public final String name;
         public final String version;
@@ -55,7 +59,8 @@ public final class MZGramPluginsCatalog {
             this.name = json.optString("name", id);
             this.version = json.optString("version", "1.0");
             this.description = json.optString("description", "");
-            this.author = json.optString("author", "");
+            // In MZGram plugins catalog, author is always MZGram; any external author/avatar is ignored
+            this.author = AUTHOR_MZGRAM;
             this.file = json.optString("file", "");
             this.url = json.optString("url", "");
             this.sha256 = json.optString("sha256", "");
@@ -194,7 +199,15 @@ public final class MZGramPluginsCatalog {
                     if (!base.endsWith("/")) {
                         base += "/";
                     }
-                    downloadUrl = base + item.file;
+                    String fileRel = item.file != null ? item.file.trim() : "";
+                    if (fileRel.startsWith("/")) {
+                        fileRel = fileRel.substring(1);
+                    }
+                    downloadUrl = base + fileRel;
+                }
+                if (TextUtils.isEmpty(downloadUrl) || downloadUrl.endsWith("/")) {
+                    deliverError(onError, "empty_file_path");
+                    return;
                 }
 
                 File folder = new File(ApplicationLoader.getFilesDirFixed(), PICKED_DIR);
@@ -239,13 +252,11 @@ public final class MZGramPluginsCatalog {
                 }
                 String computedSha = hex.toString();
 
-                if (!TextUtils.isEmpty(item.sha256)) {
-                    String expected = item.sha256.trim().toLowerCase(Locale.ROOT);
-                    if (!expected.equals(computedSha.toLowerCase(Locale.ROOT))) {
-                        tempFile.delete();
-                        deliverError(onError, "sha256_mismatch");
-                        return;
-                    }
+                String expected = item.sha256 != null ? item.sha256.trim().toLowerCase(Locale.ROOT) : "";
+                if (TextUtils.isEmpty(expected) || !expected.equals(computedSha.toLowerCase(Locale.ROOT))) {
+                    tempFile.delete();
+                    deliverError(onError, "sha256_mismatch");
+                    return;
                 }
 
                 final File resultFile = tempFile;

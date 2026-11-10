@@ -235,8 +235,9 @@ public class MZGramConfig {
     public static boolean openFreeMapPreview = false;
     // Python plugins: allow pip packages to be downloaded from PyPI on device
     public static boolean pipEnabled = false;
-    // Plugins catalog: raw URL of index.json repository; empty = not connected
-    public static String pluginsCatalogUrl = "";
+    // Plugins catalog: raw URL of index.json repository
+    public static final String DEFAULT_PLUGINS_CATALOG_URL = "https://raw.githubusercontent.com/dmytrokurochkin/MZGram-Plugins/main/index.json";
+    public static String pluginsCatalogUrl = DEFAULT_PLUGINS_CATALOG_URL;
     // Translation and AI suite
     public static int translationProvider = 0; // 0: Telegram, 1: Google, 2: DeepL, 3: AI, 4: AIDL Offline, 5: Mozhi
     public static String translationTargetLang = "";
@@ -552,7 +553,7 @@ public class MZGramConfig {
             dohProvider = preferences.getInt("dohProvider", 0);
             openFreeMapPreview = preferences.getBoolean("openFreeMapPreview", false);
             pipEnabled = preferences.getBoolean("pipEnabled", false);
-            pluginsCatalogUrl = preferences.getString("pluginsCatalogUrl", "");
+            pluginsCatalogUrl = preferences.getString("pluginsCatalogUrl", DEFAULT_PLUGINS_CATALOG_URL);
             translationProvider = preferences.getInt("translationProvider", 0);
             translationTargetLang = preferences.getString("translationTargetLang", "");
             chatTranslationBar = preferences.getBoolean("chatTranslationBar", false);

@@ -57,7 +57,7 @@ public final class MZGramPluginFormat {
         /** The metadata as JSON, as read_metadata_json gave them; MZGramPlugins keeps it. */
         public final String json;
 
-        Meta(JSONObject json) {
+        public Meta(JSONObject json) {
             this.json = json.toString();
             id = json.optString("id", "");
             name = json.optString("name", "");
@@ -71,6 +71,17 @@ public final class MZGramPluginFormat {
             requirements = strings(json.optJSONArray("requirements"));
             permissions = strings(json.optJSONArray("permissions"));
             permissionsDeclared = json.optBoolean("permissions_declared", false);
+        }
+
+        public Meta forCatalog() {
+            try {
+                JSONObject obj = new JSONObject(this.json);
+                obj.put("author", "MZGram");
+                obj.remove("icon");
+                return new Meta(obj);
+            } catch (Exception e) {
+                return this;
+            }
         }
     }
 

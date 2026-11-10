@@ -37,10 +37,10 @@ import androidx.annotation.NonNull;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.LaunchActivity;
@@ -649,7 +649,7 @@ public final class MZGramJankProfiler {
         final StringBuilder out = new StringBuilder(64 * 1024);
         final long sessionMs = SystemClock.elapsedRealtime() - startedAt;
         out.append("MZGram jank profile\n");
-        out.append("app: ").append(BuildVars.BUILD_VERSION_STRING).append(" (").append(BuildConfig.VERSION_CODE).append(")\n");
+        out.append("app: ").append(BuildVars.BUILD_VERSION_STRING).append(" (").append(SharedConfig.buildVersion()).append(")\n");
         out.append("device: ").append(Build.MANUFACTURER).append(' ').append(Build.MODEL)
                 .append(", Android ").append(Build.VERSION.RELEASE).append(" (API ").append(Build.VERSION.SDK_INT).append(")")
                 .append(", refresh ").append(Math.round(refreshRate)).append(" Hz\n");

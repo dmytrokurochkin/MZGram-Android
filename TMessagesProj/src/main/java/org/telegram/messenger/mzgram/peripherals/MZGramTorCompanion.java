@@ -78,9 +78,16 @@ public final class MZGramTorCompanion {
         // When Tor companion is enabled, configure SOCKS5 proxy pointing to Tor port
         // Before daemon bootstrap completes, traffic hits local loopback stub
         try {
-            SharedConfig.ProxyInfo proxy = new SharedConfig.ProxyInfo(TOR_SOCKS_HOST, TOR_SOCKS_PORT, "", "", "");
+            org.telegram.utils.proxy.ProxySettings settings = org.telegram.utils.proxy.ProxySettings.builder()
+                    .setType(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5)
+                    .setAddress(TOR_SOCKS_HOST)
+                    .setPort(TOR_SOCKS_PORT)
+                    .setUser("")
+                    .setPassword("")
+                    .build();
+            SharedConfig.ProxyInfo proxy = new SharedConfig.ProxyInfo(settings);
             SharedConfig.currentProxy = proxy;
-            SharedConfig.setProxy(true, TOR_SOCKS_HOST, TOR_SOCKS_PORT, "", "", "");
+            org.telegram.tgnet.ConnectionsManager.setProxySettings(true, settings);
         } catch (Exception e) {
             FileLog.e(e);
         }

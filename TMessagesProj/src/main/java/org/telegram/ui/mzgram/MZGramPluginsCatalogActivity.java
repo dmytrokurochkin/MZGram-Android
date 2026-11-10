@@ -144,7 +144,8 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
                 sub.append("\n").append(p.description);
             }
             final String badge = installed ? getString(R.string.MZGramPluginsCatalogInstalled) : getString(R.string.MZGramPluginsCatalogInstall);
-            UItem row = UItem.asButton(PLUGIN_ROW_BASE + i, p.name, sub.toString(), badge);
+            UItem row = UItem.asButton(PLUGIN_ROW_BASE + i, p.name, badge);
+            row.subtext = sub.toString();
             if (!installed) {
                 row.accent();
             }
@@ -228,7 +229,7 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
 
         final AlertDialog[] progress = new AlertDialog[1];
         progress[0] = new AlertDialog(activity, 3);
-        progress[0].setCanCanceled(false);
+        progress[0].setCanceledOnTouchOutside(false);
         progress[0].setMessage(getString(R.string.MZGramPluginsCatalogDownloading));
         progress[0].show();
 
@@ -245,7 +246,7 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
                 if (result.isOk()) {
                     MZGramPluginInstallSheet.show(this, file, result.meta, () -> {
                         reload();
-                        BulletinFactory.of(this).createSimpleBulletin(R.raw.done, getString(R.string.MZGramPluginsCatalogInstalled)).show();
+                        BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramPluginsCatalogInstalled)).show();
                     });
                 } else {
                     MZGramPlugins.discard(file);
@@ -279,5 +280,10 @@ public class MZGramPluginsCatalogActivity extends UniversalFragment {
                         .show();
             }
         });
+    }
+
+    @Override
+    protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
+        return false;
     }
 }

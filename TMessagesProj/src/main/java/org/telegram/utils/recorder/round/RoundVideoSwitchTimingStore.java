@@ -7,7 +7,14 @@ import androidx.annotation.NonNull;
 
 import org.telegram.messenger.ApplicationLoader;
 
-final class RoundVideoSwitchTimingStore {
+public final class RoundVideoSwitchTimingStore {
+
+    public static String getStoreKey(
+            @NonNull RoundVideoSession.CameraFacing from,
+            @NonNull RoundVideoSession.CameraFacing to
+    ) {
+        return from == RoundVideoSession.CameraFacing.FRONT ? "front_to_back" : "back_to_front";
+    }
 
     private static final int SAMPLE_COUNT = 8;
     private static final int MIN_SAMPLE_MS = 200;

@@ -1383,6 +1383,7 @@ public class FilterCreateActivity extends BaseFragment {
     private static final int VIEW_TYPE_HEADER_COLOR_PREVIEW = 9;
     private static final int VIEW_TYPE_COLOR = 10;
     private static final int VIEW_TYPE_HEADER_ANIMATED = 11;
+    private static final int VIEW_TYPE_CHECK = 12;
 
     private static class ItemInner extends AdapterWithDiffUtils.Item {
 
@@ -1401,6 +1402,7 @@ public class FilterCreateActivity extends BaseFragment {
         private boolean isRed;
 
         private TL_chatlists.TL_exportedChatlistInvite link;
+        private boolean checked;
 
         public ItemInner(int viewType, boolean selectable) {
             super(viewType, selectable);
@@ -1471,6 +1473,13 @@ public class FilterCreateActivity extends BaseFragment {
             return new ItemInner(VIEW_TYPE_CREATE_LINK, false);
         }
 
+        public static ItemInner asCheck(CharSequence text, boolean checked) {
+            ItemInner item = new ItemInner(VIEW_TYPE_CHECK, false);
+            item.text = text;
+            item.checked = checked;
+            return item;
+        }
+
         public ItemInner whenClicked(View.OnClickListener onClickListener) {
             this.onClickListener = onClickListener;
             return this;
@@ -1490,6 +1499,9 @@ public class FilterCreateActivity extends BaseFragment {
             }
             if (viewType == VIEW_TYPE_HEADER_ANIMATED) {
                 return TextUtils.equals(text, other.text) && TextUtils.equals(subtext, other.subtext);
+            }
+            if (viewType == VIEW_TYPE_CHECK) {
+                return TextUtils.equals(text, other.text) && checked == other.checked;
             }
             if (viewType == VIEW_TYPE_HEADER || viewType == VIEW_TYPE_CHAT || viewType == VIEW_TYPE_SHADOW || viewType == VIEW_TYPE_BUTTON) {
                 if (!TextUtils.equals(text, other.text)) {
@@ -1607,6 +1619,9 @@ public class FilterCreateActivity extends BaseFragment {
                     break;
                 case VIEW_TYPE_BUTTON:
                     view = new ButtonCell(mContext);
+                    break;
+                case VIEW_TYPE_CHECK:
+                    view = new org.telegram.ui.Cells.TextCheckCell(mContext);
                     break;
                 case VIEW_TYPE_HINT:
                     view = new HintInnerCell(mContext);
@@ -1742,6 +1757,11 @@ public class FilterCreateActivity extends BaseFragment {
                     ButtonCell buttonCell = (ButtonCell) holder.itemView;
                     buttonCell.setRed(item.isRed);
                     buttonCell.set(item.iconResId, item.text, divider);
+                    break;
+                }
+                case VIEW_TYPE_CHECK: {
+                    org.telegram.ui.Cells.TextCheckCell checkCell = (org.telegram.ui.Cells.TextCheckCell) holder.itemView;
+                    checkCell.setTextAndCheck(item.text != null ? item.text.toString() : "", item.checked, divider);
                     break;
                 }
                 case VIEW_TYPE_SHADOW_TEXT: {

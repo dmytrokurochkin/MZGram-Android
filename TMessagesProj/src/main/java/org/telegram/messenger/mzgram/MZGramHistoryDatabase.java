@@ -296,6 +296,15 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         public int deletedAt;
         public int keptCount; // deleted messages the archive keeps for it
         public int lastDate; // the newest of them
+
+        public DeletedDialog() {
+        }
+
+        public DeletedDialog(long dialogId, String title, int deletedAt) {
+            this.dialogId = dialogId;
+            this.title = title;
+            this.deletedAt = deletedAt;
+        }
     }
 
     // The recorded chats that still have kept deleted messages, the most

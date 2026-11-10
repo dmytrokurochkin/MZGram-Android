@@ -15,6 +15,7 @@ import static org.telegram.messenger.LocaleController.getString;
 import android.app.Activity;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -63,9 +64,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         // Section: Tor Companion
         items.add(UItem.asHeader(getString(R.string.MZGramTorHeader)));
-        boolean torInstalled = MZGramTorCompanion.isCompanionInstalled();
-        String torStatus = torInstalled ? getString(R.string.MZGramTorCompanionInstalled) : getString(R.string.MZGramTorCompanionMissing);
-        items.add(UItem.asCheck(BUTTON_TOR_ENABLED, getString(R.string.MZGramTorCompanion)).setChecked(MZGramConfig.torCompanionEnabled).setValue(torStatus));
+        items.add(UItem.asCheck(BUTTON_TOR_ENABLED, getString(R.string.MZGramTorCompanion)).setChecked(MZGramConfig.torCompanionEnabled));
         if (MZGramConfig.torCompanionEnabled) {
             String idleVal = MZGramConfig.torIdleTimeoutMinutes + " min";
             items.add(UItem.asButton(BUTTON_TOR_IDLE, getString(R.string.MZGramTorIdleTimeout), idleVal));
@@ -85,9 +84,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
 
         // Section: Nothing Glyph
         items.add(UItem.asHeader(getString(R.string.MZGramGlyphHeader)));
-        boolean isNothing = MZGramNothingGlyph.isNothingDevice();
-        String glyphStatus = isNothing ? getString(R.string.MZGramGlyphHardwareFound) : getString(R.string.MZGramGlyphHardwareMissing);
-        items.add(UItem.asCheck(BUTTON_GLYPH_ENABLED, getString(R.string.MZGramNothingGlyph)).setChecked(MZGramConfig.nothingGlyphEnabled).setValue(glyphStatus));
+        items.add(UItem.asCheck(BUTTON_GLYPH_ENABLED, getString(R.string.MZGramNothingGlyph)).setChecked(MZGramConfig.nothingGlyphEnabled));
         if (MZGramConfig.nothingGlyphEnabled) {
             String keyMasked = TextUtils.isEmpty(MZGramConfig.nothingGlyphApiKey) ? "" : "••••••••";
             items.add(UItem.asButton(BUTTON_GLYPH_KEY, getString(R.string.MZGramNothingGlyphApiKey), keyMasked));
@@ -136,35 +133,41 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 if (MZGramConfig.torCompanionEnabled) {
                     MZGramTorCompanion.applyTorProxySettings(true);
                 }
-                adapter.update(true);
+                updateList();
             }
         } else if (item.id == BUTTON_TOR_IDLE) {
             showTorIdleDialog(activity);
         } else if (item.id == BUTTON_BADGES_ENABLED) {
             MZGramConfig.toggleCustomBadgesEnabled();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_SELF_BADGE) {
             showSelfBadgeDialog(activity);
         } else if (item.id == BUTTON_GLYPH_ENABLED) {
             MZGramConfig.toggleNothingGlyphEnabled();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_GLYPH_KEY) {
             showGlyphKeyDialog(activity);
         } else if (item.id == BUTTON_GLYPH_BRIGHTNESS) {
             showGlyphBrightnessDialog(activity);
         } else if (item.id == BUTTON_EMOJI_FONT_ENABLED) {
             MZGramConfig.toggleCustomEmojiFontEnabled();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_EMOJI_FONT_FILE) {
             showEmojiFontOptions(activity);
         } else if (item.id == BUTTON_LYRICS_ONLINE) {
             MZGramConfig.toggleSyncedLyricsOnline();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_ICON_CATALOG_ENABLED) {
             MZGramConfig.toggleIconPacksCatalogEnabled();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_ICON_CATALOG_VIEW) {
             showIconCatalogDialog(activity);
+        }
+    }
+
+    private void updateList() {
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
         }
     }
 
@@ -174,7 +177,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 .setMessage(getString(R.string.MZGramTorInstallPrompt))
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     MZGramConfig.toggleTorCompanionEnabled();
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -187,7 +190,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 .setTitle(getString(R.string.MZGramTorIdleTimeout))
                 .setItems(options, (dialog, which) -> {
                     MZGramConfig.setTorIdleTimeoutMinutes(minutes[which]);
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -211,7 +214,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                     } else {
                         MZGramBadges.setBadge(selfId, badges[which].toString(), 0xFF4CAF50);
                     }
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -226,7 +229,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
         if (!TextUtils.isEmpty(MZGramConfig.nothingGlyphApiKey)) {
             editText.setText(MZGramConfig.nothingGlyphApiKey);
         }
-        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 8, 24, 8));
+        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 24, 8, 24, 8));
 
         new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.MZGramNothingGlyphApiKey))
@@ -234,7 +237,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 .setView(container)
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     MZGramConfig.setNothingGlyphApiKey(editText.getText().toString());
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -247,7 +250,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 .setTitle(getString(R.string.MZGramNothingGlyphBrightness))
                 .setItems(options, (dialog, which) -> {
                     MZGramConfig.setNothingGlyphBrightness(vals[which]);
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -261,7 +264,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 .setTitle(getString(R.string.MZGramCustomEmojiFont))
                 .setItems(options, (dialog, which) -> {
                     MZGramEmojiFonts.removeCustomEmojiFont();
-                    adapter.update(true);
+                    updateList();
                     BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramEmojiFontResetSuccess)).show();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
@@ -280,9 +283,14 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 .setTitle(getString(R.string.MZGramIconCatalogApprovedTitle))
                 .setItems(names, (dialog, which) -> {
                     MZGramIconPacksCatalog.CatalogItem selected = packs.get(which);
-                    BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_launcher, selected.name + " (" + selected.license + ")").show();
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.info, selected.name + " (" + selected.license + ")").show();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
+    }
+
+    @Override
+    protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
+        return false;
     }
 }

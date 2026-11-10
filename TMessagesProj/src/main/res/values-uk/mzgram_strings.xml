@@ -1065,8 +1065,8 @@
     <string name="MZGramDoHProvider">Провайдер DoH</string>
     <string name="MZGramDoHProviderInfo">DNS-over-HTTPS захищає DNS-запити від відстеження та перехоплення. Запити надсилаються у зашифрованому вигляді до обраного провайдера.</string>
     <string name="MZGramDoHOff">Вимкнено</string>
-    <string name="MZGramOpenFreeMapPreview">Прев\\'ю карти через OpenFreeMap</string>
-    <string name="MZGramOpenFreeMapPreviewInfo">Показувати статичні прев\\'ю локацій у повідомленнях за допомогою OpenFreeMap та OpenStreetMap замість Google Maps.</string>
+    <string name="MZGramOpenFreeMapPreview">Прев\'ю карти через OpenFreeMap</string>
+    <string name="MZGramOpenFreeMapPreviewInfo">Показувати статичні прев\'ю локацій у повідомленнях за допомогою OpenFreeMap та OpenStreetMap замість Google Maps.</string>
     <string name="MZGramPillWeather">Погода</string>
     <string name="MZGramPillWeatherInfo">Відображає поточну погоду і температуру в панелі пілюль. Запитує геопозицію пристрою та звертається до open-meteo.com.</string>
     <string name="MZGramPillRates">Курси валют</string>

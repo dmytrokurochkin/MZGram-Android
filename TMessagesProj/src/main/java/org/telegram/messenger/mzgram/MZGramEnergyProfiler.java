@@ -42,9 +42,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 
 import java.io.File;
@@ -601,7 +601,7 @@ public final class MZGramEnergyProfiler {
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         final StringBuilder out = new StringBuilder();
         out.append("MZGram energy profile\n");
-        out.append("app ").append(BuildVars.BUILD_VERSION_STRING).append(" (").append(BuildConfig.VERSION_CODE).append(")")
+        out.append("app ").append(BuildVars.BUILD_VERSION_STRING).append(" (").append(SharedConfig.buildVersion()).append(")")
                 .append(", ").append(Build.MANUFACTURER).append(' ').append(Build.MODEL)
                 .append(", Android ").append(Build.VERSION.RELEASE).append(" (API ").append(Build.VERSION.SDK_INT).append(")\n");
         out.append("started ").append(format.format(new Date(sessionStart)))

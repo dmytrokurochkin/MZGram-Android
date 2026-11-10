@@ -47,7 +47,7 @@ public class MZGramWeatherPill extends MZGramPill {
         Weather.State state = Weather.getCached();
         if (state != null) {
             String emoji = state.getEmoji();
-            int temp = Math.round(state.celsius);
+            int temp = Math.round(state.temperature);
             String text = (emoji != null ? emoji + " " : "") + (temp > 0 ? "+" : "") + temp + "°";
             setText(text, animated);
         } else {
@@ -61,11 +61,7 @@ public class MZGramWeatherPill extends MZGramPill {
             return;
         }
         fetching = true;
-        Context ctx = ApplicationLoader.applicationContext;
-        if (ctx == null) {
-            ctx = getContext();
-        }
-        Weather.fetch(ctx, state -> {
+        Weather.fetch(false, state -> {
             fetching = false;
             if (state != null) {
                 update(true);

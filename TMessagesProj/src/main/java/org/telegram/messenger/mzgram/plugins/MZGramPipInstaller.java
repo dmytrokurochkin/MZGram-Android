@@ -38,7 +38,7 @@ public final class MZGramPipInstaller {
         public final long size;
         public final boolean installed;
 
-        PackageInfo(JSONObject json) {
+        public PackageInfo(JSONObject json) {
             this.name = json.optString("name", "");
             this.version = json.optString("version", "");
             this.filename = json.optString("filename", "");
@@ -53,7 +53,7 @@ public final class MZGramPipInstaller {
         public final long totalSize;
         public final List<PackageInfo> packages = new ArrayList<>();
 
-        QuerySummary(boolean ok, String error, long totalSize, JSONArray arr) {
+        public QuerySummary(boolean ok, String error, long totalSize, JSONArray arr) {
             this.ok = ok;
             this.error = error;
             this.totalSize = totalSize;
@@ -73,7 +73,7 @@ public final class MZGramPipInstaller {
         public final String error;
         public final List<String> installed = new ArrayList<>();
 
-        InstallResult(boolean ok, String error, JSONArray arr) {
+        public InstallResult(boolean ok, String error, JSONArray arr) {
             this.ok = ok;
             this.error = error;
             if (arr != null) {
@@ -221,7 +221,7 @@ public final class MZGramPipInstaller {
 
         final AlertDialog[] progress = new AlertDialog[1];
         progress[0] = new AlertDialog(activity, 3);
-        progress[0].setCanCanceled(false);
+        progress[0].setCanceledOnTouchOutside(false);
         progress[0].show();
 
         queryRequirements(requirements, summary -> {
@@ -273,7 +273,7 @@ public final class MZGramPipInstaller {
                     .setPositiveButton(LocaleController.getString(R.string.MZGramPipInstallPackages), (dialog, which) -> {
                         final AlertDialog[] installProgress = new AlertDialog[1];
                         installProgress[0] = new AlertDialog(activity, 3);
-                        installProgress[0].setCanCanceled(false);
+                        installProgress[0].setCanceledOnTouchOutside(false);
                         installProgress[0].show();
 
                         installRequirements(pluginId, requirements, result -> {

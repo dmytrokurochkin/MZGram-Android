@@ -29,6 +29,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.mzgram.MZGramConfig;
 import org.telegram.messenger.mzgram.MZGramProfilerReports;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginDevServer;
 import org.telegram.messenger.mzgram.plugins.MZGramPluginEngine;
@@ -237,7 +238,7 @@ public class MZGramPluginInfoActivity extends UniversalFragment {
         } else if (item.id == BUTTON_JOURNAL) {
             presentFragment(new MZGramPluginJournalActivity(pluginId));
         } else if (item.id == BUTTON_PIP_INSTALL) {
-            org.telegram.messenger.mzgram.plugins.MZGramPipInstaller.showInstallDialog(this, pluginId, meta.requirements, this::refresh);
+            org.telegram.messenger.mzgram.plugins.MZGramPipInstaller.showInstallDialog(this, pluginId, plugin.meta.requirements, this::refresh);
         } else if (item.id == BUTTON_DELETE) {
             confirmDelete();
         }

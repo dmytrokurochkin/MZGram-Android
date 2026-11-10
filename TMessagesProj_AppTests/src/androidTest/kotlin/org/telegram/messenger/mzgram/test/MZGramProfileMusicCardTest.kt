@@ -1,6 +1,5 @@
 package org.telegram.messenger.mzgram.test
 
-import androidx.test.core.app.ApplicationLoader
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

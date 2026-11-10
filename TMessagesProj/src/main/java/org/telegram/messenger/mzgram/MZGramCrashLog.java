@@ -23,9 +23,9 @@ import android.os.Process;
 import android.os.SystemClock;
 
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.LaunchActivity;
@@ -99,7 +99,7 @@ public final class MZGramCrashLog {
 
             final StringBuilder report = new StringBuilder();
             report.append("MZGram ").append(BuildVars.BUILD_VERSION_STRING)
-                    .append(" (").append(BuildConfig.VERSION_CODE).append(")\n");
+                    .append(" (").append(SharedConfig.buildVersion()).append(")\n");
             report.append("Android ").append(Build.VERSION.RELEASE)
                     .append(" (API ").append(Build.VERSION.SDK_INT).append(")\n");
             report.append(Build.MANUFACTURER).append(' ').append(Build.MODEL).append('\n');

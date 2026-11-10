@@ -54,7 +54,7 @@ public final class MZGramM3SwitchHelper {
 
     public static int unselectedThumbColor(int trackKey, Theme.ResourcesProvider resourcesProvider) {
         int thumb = trackAtTone(trackKey, resourcesProvider, 50f, 60f);
-        if (Theme.isCurrentThemeMonet()) {
+        if (isMonetTheme()) {
             return thumb;
         }
         return ColorUtils.blendARGB(trackAtTone(trackKey, resourcesProvider, 90f, 22f), thumb,
@@ -62,10 +62,15 @@ public final class MZGramM3SwitchHelper {
     }
 
     public static int selectedThumbColor(int thumbCheckedKey, Theme.ResourcesProvider resourcesProvider) {
-        if (Build.VERSION.SDK_INT >= 31 && Theme.isCurrentThemeMonet()) {
+        if (Build.VERSION.SDK_INT >= 31 && isMonetTheme()) {
             return Theme.getColor(Theme.key_switchTrackBlueThumbChecked, resourcesProvider);
         }
         return Theme.getColor(thumbCheckedKey, resourcesProvider);
+    }
+
+    private static boolean isMonetTheme() {
+        Theme.ThemeInfo active = Theme.getActiveTheme();
+        return active != null && org.telegram.messenger.mzgram.MZGramMonet.isMonet(active.name);
     }
 
     private static boolean isLightSurface(Theme.ResourcesProvider resourcesProvider) {

@@ -52,7 +52,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.telegram.messenger.mzgram.MZGramConfig;
 
 public final class MZGramPlayerActions {
 
@@ -82,7 +82,7 @@ public final class MZGramPlayerActions {
     }
 
     private static boolean silent() {
-        return !NaConfig.INSTANCE.getSilentMessageByDefault().Bool();
+        return !MZGramConfig.sendSilentByDefault;
     }
 
     private static void ensureAccount(LaunchActivity activity, int account) {

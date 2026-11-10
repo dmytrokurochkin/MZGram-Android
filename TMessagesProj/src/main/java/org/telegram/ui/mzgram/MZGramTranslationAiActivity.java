@@ -15,6 +15,7 @@ import static org.telegram.messenger.LocaleController.getString;
 import android.app.Activity;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -144,13 +145,13 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
             showMozhiUrlDialog(activity);
         } else if (item.id == BUTTON_CHAT_BAR) {
             MZGramConfig.toggleChatTranslationBar();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_TRANSLATE_SEND) {
             MZGramConfig.toggleTranslateBeforeSend();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_AUTO_FALLBACK) {
             MZGramConfig.toggleTranslationAutoFallback();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_AI_PROVIDER) {
             showAiProviderDialog(activity);
         } else if (item.id == BUTTON_AI_KEY) {
@@ -163,13 +164,24 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
             testAiConnection();
         } else if (item.id == BUTTON_SPEECH_ENABLED) {
             MZGramConfig.toggleSpeechRecognitionEnabled();
-            adapter.update(true);
+            updateList();
         } else if (item.id == BUTTON_SPEECH_ENGINE) {
             showSpeechEngineDialog(activity);
         } else if (item.id == BUTTON_SPEECH_VOSK_LANG) {
             showVoskLangDialog(activity);
         } else if (item.id == BUTTON_SPEECH_VOSK_DOWNLOAD) {
             confirmDownloadVosk(activity);
+        }
+    }
+
+    @Override
+    protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
+        return false;
+    }
+
+    private void updateList() {
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
         }
     }
 
@@ -186,7 +198,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setTitle(getString(R.string.MZGramTranslationProvider))
                 .setItems(options, (dialog, which) -> {
                     MZGramConfig.setTranslationProvider(which);
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -201,7 +213,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
         if (!TextUtils.isEmpty(MZGramConfig.deeplApiKey)) {
             editText.setText(MZGramConfig.deeplApiKey);
         }
-        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 8, 24, 8));
+        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 24, 8, 24, 8));
 
         new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.MZGramDeeplApiKey))
@@ -209,7 +221,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setView(container)
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     MZGramConfig.setDeeplApiKey(editText.getText().toString());
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -224,7 +236,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
         if (!TextUtils.isEmpty(MZGramConfig.mozhiCustomInstance)) {
             editText.setText(MZGramConfig.mozhiCustomInstance);
         }
-        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 8, 24, 8));
+        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 24, 8, 24, 8));
 
         new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.MZGramMozhiInstance))
@@ -232,7 +244,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setView(container)
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     MZGramConfig.setMozhiCustomInstance(editText.getText().toString());
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -248,7 +260,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setTitle(getString(R.string.MZGramAiDirectProvider))
                 .setItems(options, (dialog, which) -> {
                     MZGramConfig.setAiProviderType(which);
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -263,7 +275,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
         if (!TextUtils.isEmpty(MZGramConfig.aiApiKey)) {
             editText.setText(MZGramConfig.aiApiKey);
         }
-        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 8, 24, 8));
+        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 24, 8, 24, 8));
 
         new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.MZGramAiApiKey))
@@ -271,7 +283,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setView(container)
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     MZGramConfig.setAiApiKey(editText.getText().toString());
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -286,7 +298,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
         if (!TextUtils.isEmpty(MZGramConfig.aiCustomEndpoint)) {
             editText.setText(MZGramConfig.aiCustomEndpoint);
         }
-        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 8, 24, 8));
+        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 24, 8, 24, 8));
 
         new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.MZGramAiCustomEndpoint))
@@ -294,7 +306,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setView(container)
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     MZGramConfig.setAiCustomEndpoint(editText.getText().toString());
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -309,7 +321,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
         if (!TextUtils.isEmpty(MZGramConfig.aiCustomModel)) {
             editText.setText(MZGramConfig.aiCustomModel);
         }
-        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 8, 24, 8));
+        container.addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 24, 8, 24, 8));
 
         new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.MZGramAiCustomModel))
@@ -317,7 +329,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setView(container)
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     MZGramConfig.setAiCustomModel(editText.getText().toString());
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -328,7 +340,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
             return;
         }
         testingAi = true;
-        BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_launcher, getString(R.string.MZGramAiTesting)).show();
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(R.string.MZGramAiTesting)).show();
 
         MZGramAiService.askAi("Respond with OK if you receive this message.", null, response -> {
             testingAi = false;
@@ -348,7 +360,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setTitle(getString(R.string.MZGramSpeechEngine))
                 .setItems(options, (dialog, which) -> {
                     MZGramConfig.setSpeechEngine(which);
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -360,7 +372,7 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setTitle(getString(R.string.MZGramSpeechVoskLang))
                 .setItems(options, (dialog, which) -> {
                     MZGramConfig.setVoskModelLang(options[which].toString());
-                    adapter.update(true);
+                    updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)
                 .show();
@@ -376,15 +388,15 @@ public class MZGramTranslationAiActivity extends UniversalFragment {
                 .setMessage(formatString(R.string.MZGramSpeechVoskPrompt, lang.toUpperCase(java.util.Locale.ROOT)))
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     downloadingVosk = true;
-                    BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_launcher, getString(R.string.MZGramSpeechVoskDownloading)).show();
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(R.string.MZGramSpeechVoskDownloading)).show();
                     MZGramSpeechRecognizer.downloadVoskModel(lang, done -> {
                         downloadingVosk = false;
                         BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString(R.string.MZGramSpeechVoskDownloadSuccess)).show();
-                        adapter.update(true);
+                        updateList();
                     }, error -> {
                         downloadingVosk = false;
                         BulletinFactory.of(this).createSimpleBulletin(R.raw.error, error).show();
-                        adapter.update(true);
+                        updateList();
                     });
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)

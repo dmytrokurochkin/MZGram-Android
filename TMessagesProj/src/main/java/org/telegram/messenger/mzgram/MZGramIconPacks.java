@@ -855,27 +855,6 @@ public final class MZGramIconPacks {
         @Override
         public void setTintMode(PorterDuff.Mode tintMode) {
         }
-
-        @Override
-        public ConstantState getConstantState() {
-            final Bitmap bitmap = getBitmap();
-            return new ConstantState() {
-                @Override
-                public Drawable newDrawable() {
-                    return new FixedBitmapDrawable(null, bitmap);
-                }
-
-                @Override
-                public Drawable newDrawable(Resources res) {
-                    return new FixedBitmapDrawable(res, bitmap);
-                }
-
-                @Override
-                public int getChangingConfigurations() {
-                    return 0;
-                }
-            };
-        }
     }
 
     // ---- Pure helpers (tested in MZGramIconPacksTest) ----

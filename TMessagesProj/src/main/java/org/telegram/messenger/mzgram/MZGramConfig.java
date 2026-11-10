@@ -744,6 +744,14 @@ public class MZGramConfig {
         preferences().edit().putBoolean(key, value).apply();
     }
 
+    private static void putInt(String key, int value) {
+        preferences().edit().putInt(key, value).apply();
+    }
+
+    private static void putString(String key, String value) {
+        preferences().edit().putString(key, value).apply();
+    }
+
     public static void toggleDisableNumberRounding() {
         disableNumberRounding = !disableNumberRounding;
         putBoolean("disableNumberRounding", disableNumberRounding);

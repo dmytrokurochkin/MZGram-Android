@@ -430,6 +430,10 @@ public final class MZGramSettingsBackup {
         return toJson(current());
     }
 
+    public static String exportToJson() {
+        return export();
+    }
+
     /** Reads a backup file of at most MAX_FILE_BYTES; null if it is longer or unreadable. */
     public static String read(InputStream input) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

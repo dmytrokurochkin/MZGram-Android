@@ -1028,4 +1028,11 @@
     <string name="MZGramPluginScanObfuscated">The code is made hard to read (%1$s), so what it does can\'t be found from it</string>
     <string name="MZGramPluginScanNothing">Nothing that needs a permission was found.</string>
     <string name="MZGramPluginScanInfo">MZGram read the code without running it. This is only a guess: code can hide what it does. While the plugin runs, only the permissions you check are allowed.</string>
+    <string name="MZGramPluginSafeMode">Safe Mode</string>
+    <string name="MZGramPluginSafeModeSummary">MZGram started in Safe Mode due to repeated crashes. All plugins are temporarily stopped.</string>
+    <string name="MZGramPluginSafeModeExit">Exit Safe Mode</string>
+    <string name="MZGramPluginSafeModeDisableAll">Disable All Plugins</string>
+    <string name="MZGramPluginSafeModeActive">Plugins are blocked until Safe Mode is exited.</string>
+    <string name="MZGramPluginCrashed">Plugin "%1$s" was disabled after repeated crashes.</string>
+    <string name="MZGramPluginNotResponding">Plugin "%1$s" is not responding.</string>
 </resources>

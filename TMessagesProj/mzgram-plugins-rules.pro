@@ -49,6 +49,10 @@
 }
 -keepnames class org.telegram.messenger.mzgram.plugins.MZGramPluginSinkGate$*
 
+-keep class org.telegram.messenger.mzgram.plugins.MZGramPluginWatchdog {
+    public static *;
+}
+
 # Aliuhook: its native part calls back into these classes by name, plugins
 # read MethodHookParam (thisObject, args, method, getResult, setResult) from
 # Python, MZGramPluginMethodHook reads its returnEarly field, and the guard on

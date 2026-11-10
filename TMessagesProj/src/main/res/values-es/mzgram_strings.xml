@@ -1028,4 +1028,11 @@
     <string name="MZGramPluginScanObfuscated">El código se hizo difícil de leer (%1$s), así que no se ve qué hace</string>
     <string name="MZGramPluginScanNothing">No se encontró nada que necesite un permiso.</string>
     <string name="MZGramPluginScanInfo">MZGram leyó el código sin ejecutarlo. Es solo una suposición: el código puede ocultar lo que hace. Mientras el complemento funciona, solo se permite lo que marques.</string>
+    <string name="MZGramPluginSafeMode">Modo seguro</string>
+    <string name="MZGramPluginSafeModeSummary">MZGram se inició en modo seguro debido a fallos repetidos. Todos los complementos están detenidos temporalmente.</string>
+    <string name="MZGramPluginSafeModeExit">Salir del modo seguro</string>
+    <string name="MZGramPluginSafeModeDisableAll">Desactivar todos los complementos</string>
+    <string name="MZGramPluginSafeModeActive">Los complementos están bloqueados hasta salir del modo seguro.</string>
+    <string name="MZGramPluginCrashed">El complemento "%1$s" fue desactivado tras repetidos fallos.</string>
+    <string name="MZGramPluginNotResponding">El complemento "%1$s" no responde.</string>
 </resources>

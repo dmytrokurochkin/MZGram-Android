@@ -1028,4 +1028,11 @@
     <string name="MZGramPluginScanObfuscated">Kod okunması zor hale getirilmiş (%1$s), bu yüzden ne yaptığı görülemiyor</string>
     <string name="MZGramPluginScanNothing">İzin gerektiren bir şey bulunmadı.</string>
     <string name="MZGramPluginScanInfo">MZGram kodu çalıştırmadan okudu. Bu yalnızca bir tahmin: kod ne yaptığını gizleyebilir. Eklenti çalışırken yalnızca işaretlediğiniz şeylere izin verilir.</string>
+    <string name="MZGramPluginSafeMode">Güvenli mod</string>
+    <string name="MZGramPluginSafeModeSummary">MZGram yinelenen çökmeler nedeniyle Güvenli Modda başlatıldı. Tüm eklentiler geçici olarak durduruldu.</string>
+    <string name="MZGramPluginSafeModeExit">Güvenli moddan çık</string>
+    <string name="MZGramPluginSafeModeDisableAll">Tüm eklentileri devre dışı bırak</string>
+    <string name="MZGramPluginSafeModeActive">Güvenli moddan çıkılana kadar eklentiler engellendi.</string>
+    <string name="MZGramPluginCrashed">"%1$s" eklentisi tekrarlanan çökmelerden sonra devre dışı bırakıldı.</string>
+    <string name="MZGramPluginNotResponding">"%1$s" eklentisi yanıt vermiyor.</string>
 </resources>

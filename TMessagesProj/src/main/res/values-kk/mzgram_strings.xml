@@ -1028,4 +1028,11 @@
     <string name="MZGramPluginScanObfuscated">Код әдейі қиын оқылатын етілген (%1$s), сондықтан оның не істейтіні көрінбейді</string>
     <string name="MZGramPluginScanNothing">Рұқсат қажет ететін ештеңе табылмады.</string>
     <string name="MZGramPluginScanInfo">MZGram кодты іске қоспай оқыды. Бұл тек болжам: код не істейтінін жасыра алады. Плагин жұмыс істегенде тек сіз белгілегенге ғана рұқсат етіледі.</string>
+    <string name="MZGramPluginSafeMode">Қауіпсіз режим</string>
+    <string name="MZGramPluginSafeModeSummary">MZGram қайталанған ақауларға байланысты қауіпсіз режимде іске қосылды. Барлық плагиндер уақытша тоқтатылды.</string>
+    <string name="MZGramPluginSafeModeExit">Қауіпсіз режимнен шығу</string>
+    <string name="MZGramPluginSafeModeDisableAll">Барлық плагиндерді өшіру</string>
+    <string name="MZGramPluginSafeModeActive">Қауіпсіз режимнен шыққанша плагиндер жұмысы бұғатталған.</string>
+    <string name="MZGramPluginCrashed">"%1$s" плагині қайталанған ақаулардан кейін өшірілді.</string>
+    <string name="MZGramPluginNotResponding">"%1$s" плагині жауап бермейді.</string>
 </resources>

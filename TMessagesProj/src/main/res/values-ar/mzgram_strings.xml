@@ -1028,4 +1028,11 @@
     <string name="MZGramPluginScanObfuscated">جُعلت الشيفرة صعبة القراءة (%1$s)، لذا لا يمكن معرفة ما تفعله منها</string>
     <string name="MZGramPluginScanNothing">لم يُعثر على شيء يحتاج إلى إذن.</string>
     <string name="MZGramPluginScanInfo">قرأ MZGram الشيفرة دون تشغيلها. هذا مجرد تخمين: قد تخفي الشيفرة ما تفعله. أثناء عمل الإضافة، لا يُسمح إلا بما تحدده.</string>
+    <string name="MZGramPluginSafeMode">الوضع الآمن</string>
+    <string name="MZGramPluginSafeModeSummary">تم تشغيل MZGram في الوضع الآمن بسبب الأعطال المتكررة. تم إيقاف جميع المكونات الإضافية مؤقتًا.</string>
+    <string name="MZGramPluginSafeModeExit">الخروج من الوضع الآمن</string>
+    <string name="MZGramPluginSafeModeDisableAll">تعطيل جميع المكونات الإضافية</string>
+    <string name="MZGramPluginSafeModeActive">المكونات الإضافية محظورة حتى الخروج من الوضع الآمن.</string>
+    <string name="MZGramPluginCrashed">تم تعطيل المكون الإضافي "%1$s" بعد الأعطال المتكررة.</string>
+    <string name="MZGramPluginNotResponding">المكون الإضافي "%1$s" لا يستجيب.</string>
 </resources>

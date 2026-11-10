@@ -193,6 +193,7 @@ public final class MZGramPluginPermissions {
         final boolean valid = MZGramPluginSettingsStore.isValidId(pluginId);
         stack.add(valid ? pluginId : null);
         if (valid) {
+            MZGramPluginWatchdog.notePluginEnter(pluginId);
             final boolean keep = previous != null && !previous.equals(pluginId)
                     && effectiveOf(previous).size() <= effectiveOf(pluginId).size();
             if (!keep) {
@@ -207,12 +208,14 @@ public final class MZGramPluginPermissions {
         if (previous == null) {
             current.remove();
             entered.remove();
+            MZGramPluginWatchdog.notePluginExit(null);
         } else {
             current.set(previous);
             final ArrayList<String> stack = entered.get();
             if (stack != null && !stack.isEmpty()) {
                 stack.remove(stack.size() - 1);
             }
+            MZGramPluginWatchdog.notePluginExit(previous);
         }
     }
 

@@ -79,9 +79,9 @@ public final class MZGramPluginEngine {
         }
     }
 
-    /** True when plugins may run: a build with Python and "Run plugins" on. */
+    /** True when plugins may run: a build with Python, "Run plugins" on and not in Safe Mode. */
     public static boolean isOn() {
-        return MZGramConfig.pluginsRun && MZGramPythonRuntime.isAvailable();
+        return MZGramConfig.pluginsRun && MZGramPythonRuntime.isAvailable() && !MZGramPluginWatchdog.isSafeMode();
     }
 
     // ---------- what the screens and the developer server read ----------

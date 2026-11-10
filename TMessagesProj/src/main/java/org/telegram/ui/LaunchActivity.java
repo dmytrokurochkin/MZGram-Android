@@ -6886,6 +6886,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         pipActivityHandler.onPause();
         // MZGram: MZGramPluginEngine.onPause, running plugins get the PAUSE event.
         org.telegram.messenger.mzgram.plugins.MZGramPluginEngine.onPause();
+        org.telegram.messenger.mzgram.plugins.MZGramPluginWatchdog.onAppBackgrounded();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 4096);
         ApplicationLoader.mainInterfacePaused = true;
         int account = currentAccount;
@@ -7126,6 +7127,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         pipActivityHandler.onResume();
         // MZGram: report of the last crash, once (MZGramCrashReport)
         org.telegram.ui.mzgram.MZGramCrashReport.showIfPending(this);
+        // MZGram: check plugin watchdog Safe Mode or crashed plugin notification (MZGramPluginWatchdog)
+        org.telegram.messenger.mzgram.plugins.MZGramPluginWatchdog.checkStartup(this);
         if (onResumeStaticCallback != null) {
             onResumeStaticCallback.run();
             onResumeStaticCallback = null;

@@ -1028,4 +1028,11 @@
     <string name="MZGramPluginScanObfuscated">Kod celowo utrudniono do czytania (%1$s), więc nie widać, co robi</string>
     <string name="MZGramPluginScanNothing">Nie znaleziono niczego, co wymaga uprawnienia.</string>
     <string name="MZGramPluginScanInfo">MZGram przeczytał kod bez uruchamiania go. To tylko przypuszczenie: kod może ukrywać, co robi. Gdy wtyczka działa, dozwolone jest tylko to, co zaznaczysz.</string>
+    <string name="MZGramPluginSafeMode">Tryb bezpieczny</string>
+    <string name="MZGramPluginSafeModeSummary">MZGram uruchomił się w trybie bezpiecznym z powodu powtarzających się awarii. Wszystkie wtyczki zostały tymczasowo zatrzymane.</string>
+    <string name="MZGramPluginSafeModeExit">Wyjdź z trybu bezpiecznego</string>
+    <string name="MZGramPluginSafeModeDisableAll">Wyłącz wszystkie wtyczki</string>
+    <string name="MZGramPluginSafeModeActive">Wtyczki są zablokowane do momentu wyjścia z trybu bezpiecznego.</string>
+    <string name="MZGramPluginCrashed">Wtyczka "%1$s" została wyłączona po powtarzających się awariach.</string>
+    <string name="MZGramPluginNotResponding">Wtyczka "%1$s" nie odpowiada.</string>
 </resources>

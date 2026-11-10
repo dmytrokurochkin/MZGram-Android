@@ -1029,4 +1029,11 @@
     <string name="MZGramPluginScanObfuscated">Код навмисно зроблено важким для читання (%1$s), тож що він робить, з нього не видно</string>
     <string name="MZGramPluginScanNothing">Нічого, що потребує дозволу, не знайдено.</string>
     <string name="MZGramPluginScanInfo">MZGram прочитав код, не запускаючи його. Це лише здогад: код може приховувати, що робить. Під час роботи плагіна дозволено лише те, що ви позначили.</string>
+    <string name="MZGramPluginSafeMode">Безпечний режим</string>
+    <string name="MZGramPluginSafeModeSummary">MZGram запустився у безпечному режимі через повторні збої. Усі плагіни тимчасово зупинено.</string>
+    <string name="MZGramPluginSafeModeExit">Вийти з безпечного режиму</string>
+    <string name="MZGramPluginSafeModeDisableAll">Вимкнути всі плагіни</string>
+    <string name="MZGramPluginSafeModeActive">Робота плагінів заблокована до виходу з безпечного режиму.</string>
+    <string name="MZGramPluginCrashed">Плагін "%1$s" вимкнено після повторних падінь.</string>
+    <string name="MZGramPluginNotResponding">Плагін "%1$s" не відповідає.</string>
 </resources>

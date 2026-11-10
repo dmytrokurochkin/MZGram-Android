@@ -142,6 +142,12 @@ Each item has its own switch.
 | MZGram name | The app calls itself MZGram in dialogs, permission requests, call notifications, contacts and in the version line of Settings ("MZGram 1.0.2 (based on Telegram 12.10.1)"), in every language. From 1.0.9 the whole version line, with its build and the kind of APK, is in the MZGram language; before, part of it stayed in English. The Telegram service keeps its name. | 1.0.2 |
 | Own package | MZGram is org.mzgram.messenger, a separate app beside Telegram from Google Play and from telegram.org (up to 1.0.3 MZGram had the package of Telegram from telegram.org, so Android took it for that app's update and did not install it). Its content providers, permissions and contacts account are its own, and its launcher icon is violet, not Telegram's blue. tg:// and t.me links may ask which app opens them. MZGram 1.0.3 and older do not update to it: install it by hand once and sign in. The archive of the old MZGram is not moved (Export did not work in 1.0.3), so the new MZGram starts with an empty archive; files of archived messages stay in Downloads/MZGram/Saved Attachments. | 1.0.4 |
 
+### Plugins and hooks
+
+| Feature | What it does, and how it differs from Telegram | Since |
+|---|---|---|
+| Plugin hooks and Aliuhook | Plugins can hook methods when granted the hooks permission. In builds with `-PmzgramPlugins=true`, runtime method hooking is powered by Aliuhook (`com.aliucord:Aliuhook:1.1.4`, wrapping LSPlant; licensed under Open Software License 3.0 / OSL-3.0 and LGPL-3.0). Core security boundaries (passcode, encryption keys, and plugin security barriers) cannot be hooked. Retained with explicit attribution and licensing notes. | Next release |
+
 ### Releases
 
 | Feature | What it does | Since |
@@ -321,3 +327,4 @@ Yes: present. No: absent. Partly: present in a narrower form.
 | Self-update from GitHub with a SHA-256 check | Yes | Yes |
 | MZGram name everywhere | Yes | Yes |
 | ARM64 builds | Yes (the APK) | Yes |
+| Plugin hooks and Aliuhook | Yes | No |

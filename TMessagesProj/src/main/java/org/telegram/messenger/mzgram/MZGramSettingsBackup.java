@@ -172,7 +172,7 @@ public final class MZGramSettingsBackup {
         // Nothing glyph brightness 1..100
         integer(CONFIG, "nothingGlyphBrightness", 1, 100);
         // Round video bitrate
-        integer(CONFIG, "round_video_bitrate", 100_000, 10_000_000);
+        integer(CONFIG, "round_video_bitrate", 0, 10_000_000);
         texts(CONFIG, TEXT_MAX,
                 "aiProvider", "language", "deletedMark", "editedMark", "hiddenReactions",
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",

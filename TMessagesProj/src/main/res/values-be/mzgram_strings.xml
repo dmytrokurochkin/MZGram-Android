@@ -1047,6 +1047,9 @@
     <string name="MZGramRoundVideoHighFps">Высокая частата кадраў (60 FPS)</string>
     <string name="MZGramRoundVideoHighFpsInfo">Робіць спробу запісу 60 FPS, калі гэта падтрымліваюць абедзве камеры прылады.</string>
     <string name="MZGramRoundVideoBitrate">Бітрэйт відэа</string>
+    <string name="MZGramRoundBitrateTelegram">Як у Telegram</string>
+    <string name="MZGramBitrateKbps">%1$s кбіт/с</string>
+    <string name="MZGramBitrateMbps">%1$s Мбіт/с</string>
     <string name="MZGramRoundVideoAdvanced">Пашыраныя налады рэкордэра</string>
     <string name="MZGramCompactChatHeader">Кампактная шапка чата</string>
     <string name="MZGramCompactChatHeaderInfo">Памяншае памер аватаркі і водступы ў шапцы чата для эканоміі месца на экране.</string>

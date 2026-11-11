@@ -111,7 +111,8 @@ public class MZGramConfig {
     // Native round video recorder pipeline (Camera2, RoundVideoSession)
     public static boolean roundVideoCamera2 = false;
     public static boolean roundVideoHighFps = false;
-    public static int roundVideoBitrate = 1200000;
+    // 0: Telegram's own bitrate (SharedSettings.roundVideoVideoBitrate)
+    public static int roundVideoBitrate = 0;
     // The Material 3 music player (MZGramMusicPlayer) and its bar above the chat
     public static boolean musicPlayer = false;
     public static boolean musicPlayerBar = true;
@@ -499,7 +500,7 @@ public class MZGramConfig {
             cameraXZoomSlider = preferences.getBoolean("cameraXZoomSlider", true);
             roundVideoCamera2 = preferences.getBoolean("round_video_camera2_enabled", false);
             roundVideoHighFps = preferences.getBoolean("round_video_high_fps", false);
-            roundVideoBitrate = preferences.getInt("round_video_bitrate", 1200000);
+            roundVideoBitrate = preferences.getInt("round_video_bitrate", 0);
             musicPlayer = preferences.getBoolean("musicPlayer", false);
             musicPlayerBar = preferences.getBoolean("musicPlayerBar", true);
             proxyDisableConditions = preferences.getInt("proxyDisableConditions", 0) & MZGramProxyAutoDisable.ALL;

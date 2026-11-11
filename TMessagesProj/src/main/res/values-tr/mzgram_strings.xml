@@ -1047,6 +1047,9 @@
     <string name="MZGramRoundVideoHighFps">Yüksek kare hızı (60 FPS)</string>
     <string name="MZGramRoundVideoHighFpsInfo">Cihazdaki her iki kamera da desteklediğinde 60 FPS kaydetmeyi dener.</string>
     <string name="MZGramRoundVideoBitrate">Video bit hızı</string>
+    <string name="MZGramRoundBitrateTelegram">Telegram\'daki gibi</string>
+    <string name="MZGramBitrateKbps">%1$s kbit/sn</string>
+    <string name="MZGramBitrateMbps">%1$s Mbit/sn</string>
     <string name="MZGramRoundVideoAdvanced">Gelişmiş kaydedici ayarları</string>
     <string name="MZGramCompactChatHeader">Kompakt sohbet başlığı</string>
     <string name="MZGramCompactChatHeaderInfo">Ekran alanından tasarruf etmek için sohbet başlığındaki avatar boyutunu ve boşlukları küçültür.</string>

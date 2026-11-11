@@ -573,13 +573,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
     }
 
     private static String formatRoundBitrate(int bitrate) {
-        if (bitrate >= 1_000_000) {
-            if (bitrate % 1_000_000 == 0) {
-                return (bitrate / 1_000_000) + " Mbps";
-            }
-            return String.format(java.util.Locale.US, "%.1f Mbps", bitrate / 1_000_000f);
+        if (bitrate <= 0) {
+            return getString(R.string.MZGramRoundBitrateTelegram);
         }
-        return (bitrate / 1_000) + " kbps";
+        if (bitrate >= 1_000_000) {
+            final String value = bitrate % 1_000_000 == 0 ? String.valueOf(bitrate / 1_000_000)
+                    : String.format(org.telegram.messenger.mzgram.MZGramLanguage.locale(), "%.1f", bitrate / 1_000_000f);
+            return formatString(R.string.MZGramBitrateMbps, value);
+        }
+        return formatString(R.string.MZGramBitrateKbps, String.valueOf(bitrate / 1_000));
     }
 
     // Same as Telegram, System and the languages, each by its own name; the
@@ -1264,8 +1266,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
             MZGramConfig.toggleRoundVideoHighFps();
             ((TextCheckCell) view).setChecked(MZGramConfig.roundVideoHighFps);
         } else if (item.id == BUTTON_ROUND_VIDEO_BITRATE) {
-            int[] bitrates = new int[]{750_000, 1_000_000, 1_200_000, 2_000_000};
-            CharSequence[] labels = new CharSequence[]{"750 kbps", "1.0 Mbps", "1.2 Mbps", "2.0 Mbps"};
+            int[] bitrates = new int[]{0, 750_000, 1_000_000, 1_200_000, 2_000_000};
+            CharSequence[] labels = new CharSequence[bitrates.length];
+            for (int i = 0; i < bitrates.length; i++) {
+                labels[i] = formatRoundBitrate(bitrates[i]);
+            }
             org.telegram.ui.ActionBar.AlertDialog.Builder builder = new org.telegram.ui.ActionBar.AlertDialog.Builder(getParentActivity());
             builder.setTitle(getString(R.string.MZGramRoundVideoBitrate));
             builder.setItems(labels, (dialog, index) -> {

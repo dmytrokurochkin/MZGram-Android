@@ -1047,6 +1047,9 @@
     <string name="MZGramRoundVideoHighFps">Hohe Bildrate (60 FPS)</string>
     <string name="MZGramRoundVideoHighFpsInfo">Versucht 60-FPS-Aufnahmen, wenn beide Kameras dies unterstützen.</string>
     <string name="MZGramRoundVideoBitrate">Video-Bitrate</string>
+    <string name="MZGramRoundBitrateTelegram">Wie Telegram</string>
+    <string name="MZGramBitrateKbps">%1$s kbit/s</string>
+    <string name="MZGramBitrateMbps">%1$s Mbit/s</string>
     <string name="MZGramRoundVideoAdvanced">Erweiterte Rekorder-Einstellungen</string>
     <string name="MZGramCompactChatHeader">Kompakter Chat-Header</string>
     <string name="MZGramCompactChatHeaderInfo">Verkleinert Avatar und Abstände in der Chat-Titelleiste, um Platz zu sparen.</string>

@@ -1047,6 +1047,9 @@
     <string name="MZGramRoundVideoHighFps">معدل إطارات مرتفع (60 إطارا في الثانية)</string>
     <string name="MZGramRoundVideoHighFpsInfo">يحاول التسجيل بمعدل 60 إطارا في الثانية إذا كانت كلتا الكاميرتين تدعمان ذلك.</string>
     <string name="MZGramRoundVideoBitrate">معدل نقل بيانات الفيديو</string>
+    <string name="MZGramRoundBitrateTelegram">مثل Telegram</string>
+    <string name="MZGramBitrateKbps">%1$s كيلوبت/ث</string>
+    <string name="MZGramBitrateMbps">%1$s ميغابت/ث</string>
     <string name="MZGramRoundVideoAdvanced">إعدادات المسجل المتقدمة</string>
     <string name="MZGramCompactChatHeader">ترويسة محادثة مدمجة</string>
     <string name="MZGramCompactChatHeaderInfo">يقلل حجم الصورة الرمزية والمسافات في شريط المحادثة لتوفير مساحة على الشاشة.</string>

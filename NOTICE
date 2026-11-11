@@ -1,14 +1,15 @@
 MZGram Third-Party Notices and Font Licenses
 
 This software includes font software licensed under the SIL Open Font License, Version 1.1,
-as well as components and adaptations from third-party open-source projects under GPL-3.0
-and OSL-3.0.
+as well as components and adaptations from third-party open-source projects under GPL-3.0,
+LGPL-3.0 and OSL-3.0.
 
 ==============================================================================
 Nekogram (https://github.com/Nekogram/Nekogram)
 Licensed under the GNU General Public License, Version 3 (GPLv3).
 Includes Solar Hijri (Shamsi) calendar integration, user registration date table
-(id_date.json), and client customization concepts. See individual file headers in
+(id_date.json, shipped as assets/mzgram_id_date.json; its origin is not confirmed),
+and client customization concepts. See individual file headers in
 tw.nekomimi.nekogram (e.g. SyntaxHighlight.java:2 Copyright (C) 2019-2022 qwq233).
 ==============================================================================
 
@@ -16,21 +17,37 @@ tw.nekomimi.nekogram (e.g. SyntaxHighlight.java:2 Copyright (C) 2019-2022 qwq233
 NagramX (https://github.com/risin42/NagramX)
 Licensed under the GNU General Public License, Version 3 (GPLv3).
 Upstream fork of Nekogram/Nagram; base open-source platform for exteraless
-(see _source/README.md:160).
+(see the README of https://github.com/exteraless/exteraless).
 ==============================================================================
 
 ==============================================================================
 exteraGram / exteraless (https://github.com/exteraSquad/exteraGram, https://github.com/exteraless/exteraless)
 Licensed under the GNU General Public License, Version 3 (GPLv3).
 Includes video subtitles helper (.srt/.vtt support), camera customization,
-media viewer utilities, and plugin security model (see _source/LICENSE).
+media viewer utilities, and plugin security model (see the LICENSE files of the
+repositories above).
 ==============================================================================
 
 ==============================================================================
-Aliucord / Aliuhook (https://github.com/Aliucord/Aliucord)
-Copyright (C) 2020-2024 Aliucord Authors
-Licensed under the Open Software License, Version 3.0 (OSL-3.0).
-Used for dynamic method hooking and bytecode interception in plugin runtime.
+Aliuhook (https://github.com/Aliucord/hook), com.aliucord:Aliuhook:1.1.4
+Licensed under the Open Software License, Version 3.0 (OSL-3.0); copyright as
+stated in that repository.
+Used for dynamic method hooking and bytecode interception in plugin runtime,
+only in builds made with -PmzgramPlugins=true.
+==============================================================================
+
+==============================================================================
+LSPlant (https://github.com/LSPosed/LSPlant)
+Licensed under the GNU Lesser General Public License, Version 3 (LGPLv3).
+The ART hooking library that Aliuhook wraps; included with it, only in builds
+made with -PmzgramPlugins=true.
+==============================================================================
+
+==============================================================================
+AdGuard URL Tracking filter (https://github.com/AdguardTeam/AdguardFilters)
+Licensed under the GNU General Public License, Version 3 (GPLv3).
+Shipped as assets/adguard_url_tracking.txt; MZGramLinkCleaner uses its rules to
+remove tracking parameters from links on the device.
 ==============================================================================
 
 ==============================================================================

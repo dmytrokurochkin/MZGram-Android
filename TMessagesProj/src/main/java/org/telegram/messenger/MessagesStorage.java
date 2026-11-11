@@ -3350,9 +3350,7 @@ public class MessagesStorage extends BaseController {
                             changed = true;
                         }
                         // MZGram: preserve folder emoticon
-                        if (filter.emoticon == null || !filter.emoticon.equals(newFilter.emoticon)) {
-                            filter.emoticon = newFilter.emoticon;
-                        }
+                        filter.emoticon = newFilter.emoticon;
                         if (filter.flags != newFlags) {
                             filter.flags = newFlags;
                             changed = true;

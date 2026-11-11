@@ -166,6 +166,15 @@ _MARKERS = (
     ("ProcessBuilder", KEY_NEVER, "ProcessBuilder"),
     ("Runtime.getRuntime().exec", KEY_NEVER, "Runtime.exec"),
     ("addaudithook", KEY_NEVER, "sys.addaudithook"),
+    ("_posixsubprocess", KEY_NEVER, "_posixsubprocess"),
+    ("fork_exec", KEY_NEVER, "fork_exec"),
+    # ---- reaching past the gates ----
+    ("__kwdefaults__", KEY_OBFUSCATION, "function internals (__kwdefaults__)"),
+    ("__closure__", KEY_OBFUSCATION, "function internals (__closure__)"),
+    ("cell_contents", KEY_OBFUSCATION, "function internals (cell_contents)"),
+    ("get_referrers", KEY_OBFUSCATION, "object search (gc.get_referrers)"),
+    ("get_objects", KEY_OBFUSCATION, "object search (gc.get_objects)"),
+    ("mzgram_plugins.sink_gate", KEY_NEVER, "MZGram sink gates"),
     ("org.telegram.messenger.mzgram.plugins", KEY_NEVER, "MZGram plugin engine"),
     ("org.telegram.ui.mzgram.MZGramPlugin", KEY_NEVER, "MZGram plugin engine"),
 )
@@ -212,6 +221,7 @@ _IMPORTED_MODULES = {
     "shutil": (PERM_FILES, "shutil"),
     "sqlite3": (PERM_FILES, "sqlite3"),
     "subprocess": (KEY_NEVER, "subprocess"),
+    "_posixsubprocess": (KEY_NEVER, "_posixsubprocess"),
     "pty": (KEY_NEVER, "pty"),
     "multiprocessing": (KEY_NEVER, "multiprocessing"),
 }
@@ -584,9 +594,8 @@ def scan_source(source):
     except Exception:
         tree = None
     _merge(found, _scan_tree(tree) if tree is not None else _scan_imports_by_text(source))
-    obfuscation = _detect_obfuscation(source)
-    if obfuscation:
-        found[KEY_OBFUSCATION] = obfuscation
+    for evidence in _detect_obfuscation(source) or ():
+        _note(found, KEY_OBFUSCATION, evidence)
     _merge(found, _scan_embedded_dex(source))
     return {key: found[key] for key in KEYS if found.get(key)}
 

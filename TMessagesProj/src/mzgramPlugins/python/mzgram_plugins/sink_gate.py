@@ -25,7 +25,8 @@
 # What a plugin needs (the rules and the record are in
 # MZGramPluginSinkPolicy on the Java side):
 #   never      other processes (os.system, os.exec*, os.spawn*, os.fork,
-#              subprocess), its own audit hooks, tracing other code;
+#              subprocess, and _posixsubprocess.fork_exec, which has no
+#              audit event), its own audit hooks, tracing other code;
 #   network    sockets, name lookups, urllib, ftplib, smtplib and the rest;
 #              without Java (tests on a computer) the network stays closed;
 #   native     ctypes (but not the libraries of the Python runtime itself);
@@ -644,21 +645,26 @@ def _patch_java():
         original = getattr(module, "jclass", None) if module is not None else None
         if original is None or getattr(original, "_mzgram_gated", False):
             continue
-
-        def gated_jclass(name, *args, _original=original, **kwargs):
-            if isinstance(name, str):
-                plugin_id = owner()
-                if plugin_id is not None and not _allow_class(plugin_id, name):
-                    raise _class_refused(name)
-            return _original(name, *args, **kwargs)
-
-        gated_jclass._mzgram_gated = True
         try:
-            module.jclass = gated_jclass
+            module.jclass = _gated_jclass(original)
         except Exception:
             pass
     _patch_import()
     return True
+
+
+def _gated_jclass(original):
+    # The original stays in the closure: a default argument would hand it to
+    # any code through jclass.__kwdefaults__
+    def gated_jclass(name, *args, **kwargs):
+        if isinstance(name, str):
+            plugin_id = owner()
+            if plugin_id is not None and not _allow_class(plugin_id, name):
+                raise _class_refused(name)
+        return original(name, *args, **kwargs)
+
+    gated_jclass._mzgram_gated = True
+    return gated_jclass
 
 
 def _patch_import():
@@ -678,6 +684,49 @@ def _patch_import():
 
     gated_import._mzgram_gated = True
     builtins.__import__ = gated_import
+
+    # importlib.import_module does not go through builtins.__import__
+    import importlib
+    original_module = importlib.import_module
+    if getattr(original_module, "_mzgram_gated", False):
+        return
+
+    def gated_import_module(name, package=None):
+        if isinstance(name, str) and name.split(".", 1)[0] in _JAVA_ROOTS and name.rpartition(".")[2][:1].isupper():
+            plugin_id = owner()
+            if plugin_id is not None and not _allow_class(plugin_id, name):
+                raise _class_refused(name)
+        return original_module(name, package)
+
+    gated_import_module._mzgram_gated = True
+    importlib.import_module = gated_import_module
+
+
+# ---------- processes past the audit hook ----------
+
+def _patch_processes():
+    """_posixsubprocess.fork_exec starts a process without an audit event;
+    subprocess keeps its own reference to it as subprocess._fork_exec."""
+    try:
+        import _posixsubprocess
+    except ImportError:
+        return
+    original = _posixsubprocess.fork_exec
+    if getattr(original, "_mzgram_gated", False):
+        return
+
+    def fork_exec(*args, **kwargs):
+        plugin_id = owner()
+        if plugin_id is not None:
+            _blocked(plugin_id, "start a process")
+            raise _denial(PermissionError(13, "MZGram: plugins may never start a process (_posixsubprocess.fork_exec)"))
+        return original(*args, **kwargs)
+
+    fork_exec._mzgram_gated = True
+    _posixsubprocess.fork_exec = fork_exec
+    subprocess = sys.modules.get("subprocess")
+    if subprocess is not None and getattr(subprocess, "_fork_exec", None) is original:
+        subprocess._fork_exec = fork_exec
 
 
 # ---------- install ----------
@@ -728,6 +777,10 @@ def install():
         _patch_threads()
     except Exception as e:
         print("[mzgram:sink_gate] threads: %s" % e, file=sys.stderr)
+    try:
+        _patch_processes()
+    except Exception as e:
+        print("[mzgram:sink_gate] processes: %s" % e, file=sys.stderr)
     _patch_java()
     gate = None
     try:

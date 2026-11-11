@@ -21,11 +21,13 @@
  * is the app working, and refusing it would break the screen. The network
  * sockets and URL connections are checked on any call inside plugin code.
  *
- *   never      Runtime.exec, ProcessBuilder.start, the settings files of
- *              the plugin engine and of other plugins;
+ *   never      Runtime.exec, ProcessBuilder.start, ProcessImpl.start (by
+ *              reflection), Os.execv/execve, the settings files of the
+ *              plugin engine and of other plugins;
  *   native     System.load/loadLibrary (not for platform classes and
  *              static initializers, which only run inside plugin code);
- *   network    URL.openConnection, Socket.connect, DatagramSocket,
+ *   network    URL.openConnection, Socket.connect, DatagramSocket, NIO
+ *              socket and datagram channels (from the SelectorProvider),
  *              DownloadManager.enqueue, MediaPlayer.setDataSource with a
  *              remote address, WebView loads, ImageLoader.loadHttpFile;
  *   classes    Class.forName (MZGramPluginSinkPolicy.classRule);
@@ -310,7 +312,25 @@ public final class MZGramPluginSinkGate {
                 param.setThrowable(new SecurityException("MZGram: plugins may not start processes"));
             }
         };
-        return hookAll(Runtime.class, "exec", gate) + hookAll(ProcessBuilder.class, "start", gate);
+        int count = hookAll(Runtime.class, "exec", gate) + hookAll(ProcessBuilder.class, "start", gate);
+        // The same start past Runtime and ProcessBuilder: ProcessImpl by reflection, android.system.Os
+        final Gate inner = new Gate(true, "java.lang.ProcessImpl", "java.lang.ProcessBuilder", "java.lang.Runtime",
+                "android.system.Os", "libcore.io.") {
+            @Override
+            void check(String pluginId, MethodHookParam param) {
+                MZGramPluginSinkPolicy.blocked(pluginId, "run a process");
+                param.setThrowable(new SecurityException("MZGram: plugins may not start processes"));
+            }
+        };
+        final Class<?> impl = classForName("java.lang.ProcessImpl");
+        if (impl != null) {
+            count += hookAll(impl, "start", inner);
+        }
+        final Class<?> os = classForName("android.system.Os");
+        if (os != null) {
+            count += hookAll(os, "execv", inner) + hookAll(os, "execve", inner);
+        }
+        return count;
     }
 
     // ---------- native ----------
@@ -409,6 +429,23 @@ public final class MZGramPluginSinkGate {
         };
         count += hookAll(DatagramSocket.class, "connect", datagram);
         count += hookAll(DatagramSocket.class, "send", datagram);
+        // NIO channels (SocketChannel.open, DatagramChannel.open) come from the provider
+        try {
+            final Gate channels = new Gate(true, "java.nio.channels.", "sun.nio.ch.") {
+                @Override
+                void check(String pluginId, MethodHookParam param) {
+                    if (!MZGramPluginSinkPolicy.allowNetwork(pluginId, "connect", "")) {
+                        param.setThrowable(new SecurityException("MZGram: the network needs the permission 'network'"));
+                    }
+                }
+            };
+            for (Class<?> c = java.nio.channels.spi.SelectorProvider.provider().getClass();
+                 c != null && c != java.nio.channels.spi.SelectorProvider.class; c = c.getSuperclass()) {
+                count += hookAll(c, "openSocketChannel", channels) + hookAll(c, "openDatagramChannel", channels);
+            }
+        } catch (Throwable t) {
+            FileLog.e("MZGramPluginSinkGate: channels", t);
+        }
         final Class<?> downloads = classForName("android.app.DownloadManager");
         if (downloads != null) {
             count += hookAll(downloads, "enqueue", new Gate(false) {

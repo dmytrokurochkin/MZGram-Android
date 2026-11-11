@@ -79,7 +79,8 @@ public final class MZGramPluginWatchdog {
 
     /** Installs uncaught exception listener to attribute crashes and detect crash loops. */
     public static synchronized void install() {
-        if (installed) {
+        // Without the Python runtime no plugin can run: a crash of the app is never a plugin's
+        if (installed || !MZGramPythonRuntime.isAvailable()) {
             return;
         }
         installed = true;
@@ -342,7 +343,7 @@ public final class MZGramPluginWatchdog {
 
     /** Checks startup notices: Safe Mode sheet or crashed plugin notice. */
     public static void checkStartup(Activity activity) {
-        if (activity == null || activity.isFinishing()) {
+        if (activity == null || activity.isFinishing() || !MZGramPythonRuntime.isAvailable()) {
             return;
         }
         AndroidUtilities.runOnUIThread(() -> {

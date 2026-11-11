@@ -143,6 +143,61 @@ class MZGramPeripheralsTest {
     }
 
     @Test
+    fun testTorCompanion_statePersistenceAcrossProcessRestart() {
+        val initialProxy = org.telegram.messenger.SharedConfig.currentProxy
+        val initialEnabled = org.telegram.messenger.SharedConfig.isProxyEnabled()
+
+        try {
+            // Setup a mock prior proxy
+            val mockPriorSettings = org.telegram.utils.proxy.ProxySettings.builder()
+                .setType(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5)
+                .setAddress("198.51.100.1")
+                .setPort(1080)
+                .setUser("testuser")
+                .setPassword("testpass")
+                .build()
+            val mockPriorProxy = org.telegram.messenger.SharedConfig.ProxyInfo(mockPriorSettings)
+            org.telegram.messenger.SharedConfig.currentProxy = mockPriorProxy
+            org.telegram.tgnet.ConnectionsManager.setProxySettings(true, mockPriorSettings)
+
+            // Step 1: Enable Tor companion
+            MZGramTorCompanion.applyTorProxySettings(true)
+            val torProxy = org.telegram.messenger.SharedConfig.currentProxy
+            assertNotNull(torProxy)
+            assertEquals(MZGramTorCompanion.TOR_SOCKS_HOST, torProxy.settings.address)
+            assertEquals(MZGramTorCompanion.TOR_SOCKS_PORT, torProxy.settings.port)
+
+            // Step 2: Simulate process restart by resetting static memory fields via reflection
+            val prevProxyField = MZGramTorCompanion::class.java.getDeclaredField("previousProxy").apply { isAccessible = true }
+            val hadPrevField = MZGramTorCompanion::class.java.getDeclaredField("hadPreviousProxy").apply { isAccessible = true }
+            val activeField = MZGramTorCompanion::class.java.getDeclaredField("torProxyActive").apply { isAccessible = true }
+            prevProxyField.set(null, null)
+            hadPrevField.set(null, false)
+            activeField.set(null, false)
+
+            // Step 3: Disable Tor companion in the new process session
+            MZGramTorCompanion.applyTorProxySettings(false)
+
+            // Assert: Prior proxy restored cleanly from SharedPreferences
+            val restoredProxy = org.telegram.messenger.SharedConfig.currentProxy
+            assertNotNull("Prior proxy must be restored from SharedPreferences after process restart", restoredProxy)
+            assertEquals("198.51.100.1", restoredProxy.settings.address)
+            assertEquals(1080, restoredProxy.settings.port)
+            assertEquals("testuser", restoredProxy.settings.user)
+            assertEquals("testpass", restoredProxy.settings.password)
+            assertEquals(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5, restoredProxy.settings.type)
+        } finally {
+            MZGramTorCompanion.applyTorProxySettings(false)
+            org.telegram.messenger.SharedConfig.currentProxy = initialProxy
+            if (initialProxy != null && initialEnabled) {
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(true, initialProxy.settings)
+            } else {
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null)
+            }
+        }
+    }
+
+    @Test
     fun testBadgesSystem() {
         MZGramConfig.customBadgesEnabled = true
         MZGramBadges.setBadge(123456L, "VIP Donor", 0xFFE91E63.toInt())

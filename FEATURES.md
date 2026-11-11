@@ -42,6 +42,7 @@ Most switches are under **Settings > MZGram**, grouped into topic pages. This fi
 | Read time | Message details show when the other person read your message. | 1.0.0 |
 | Approximate last seen | For a person who hides their last seen, MZGram shows an estimate from what this device saw (for example, their new messages), like any last seen time; up to 1.0.3 it was marked "(approx.)". | 1.0.0 |
 | Protected content | In chats and channels that restrict saving, you can forward, save and copy messages and media and take screenshots. Messages that cannot be forwarded are sent as new copies. Off by default. | 1.0.0 |
+| Tor companion proxy | Connects to an external companion app (Orbot or Mercurygram Tor plugin) over SOCKS5 (127.0.0.1:9050) with fail-closed behavior. All MTProto traffic (messages, media, voice calls, chats, channels) is routed through Tor. Third-party direct HTTP extensions (in-app translation, direct LLM providers, plugins catalog downloads, GitHub self-update checks) bypass the proxy and use the direct network. Off by default. | Next release |
 
 ### Message menu
 
@@ -153,7 +154,7 @@ Each item has its own switch.
 | Feature | What it does, and how it differs from Telegram | Since |
 |---|---|---|
 | Plugin hooks and Aliuhook | Plugins can hook methods when granted the hooks permission. In builds with `-PmzgramPlugins=true`, runtime method hooking is powered by Aliuhook (`com.aliucord:Aliuhook:1.1.4`, wrapping LSPlant; licensed under Open Software License 3.0 / OSL-3.0 and LGPL-3.0). Core security boundaries (passcode, encryption keys, and plugin security barriers) cannot be hooked. Retained with explicit attribution and licensing notes. | Next release |
-| Plugins repository catalog | Browse and install verified plugins from the official MZGram plugins repository (438 plugins prepared in staging, catalog repository publishing pending by owner). Features multi-language descriptions (12 languages), SHA-256 integrity verification, AST capability scanning, granular permissions sheet, and strictly enforces MZGram authorship without third-party avatars or telemetry. Off by default. | Next release |
+| Plugins repository catalog | Browse and install verified plugins from the official MZGram plugins repository (437 plugins prepared in staging, catalog repository publishing pending by owner). Features multi-language descriptions (12 languages), SHA-256 integrity verification, AST capability scanning, granular permissions sheet, and strictly enforces MZGram authorship without third-party avatars or telemetry. Off by default. | Next release |
 | Plugins backup and restore | Export installed plugins and their safe preferences into settings backup archive (.mzgram-settings) or standalone zip archives (.mzgram-plugins), with automatic secret stripping and user confirmation before restoration. Restorable only when explicitly enabled. Off by default. | Next release |
 
 ### Releases
@@ -344,3 +345,4 @@ Yes: present. No: absent. Partly: present in a narrower form.
 | Persian (Solar Hijri) calendar | Yes | No |
 | Plugins repository catalog with verification | Yes | No |
 | Plugins backup and restore with secret sanitization | Yes | No |
+| Tor companion proxy | Yes | No |

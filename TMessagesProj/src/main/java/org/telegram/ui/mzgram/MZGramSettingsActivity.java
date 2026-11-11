@@ -162,7 +162,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // Media: profile music card
     private static final int BUTTON_PROFILE_MUSIC_CARD = 196;
     // Third-party network services
-    private static final int BUTTON_DOH_PROVIDER = 197;
+    // 197 was the DoH provider: no request used it, the row is gone (MZGramDoH stays for later)
     private static final int BUTTON_OPENFREEMAP_PREVIEW = 198;
     // Translation and AI suite
     private static final int BUTTON_TRANSLATION_AI = 199;
@@ -710,8 +710,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramPasscodeAccountsInfo)));
         items.add(UItem.asCheck(BUTTON_DISABLE_READ_STICKERS, getString(R.string.MZGramDisableReadStickers)).setChecked(MZGramConfig.disableReadStickers));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableReadStickersInfo)));
-        items.add(UItem.asButton(BUTTON_DOH_PROVIDER, getString(R.string.MZGramDoHProvider), org.telegram.messenger.mzgram.MZGramDoH.getProviderTitle(MZGramConfig.dohProvider)));
-        items.add(UItem.asShadow(getString(R.string.MZGramDoHProviderInfo)));
         items.add(UItem.asCheck(BUTTON_OPENFREEMAP_PREVIEW, getString(R.string.MZGramOpenFreeMapPreview)).setChecked(MZGramConfig.openFreeMapPreview));
         items.add(UItem.asShadow(getString(R.string.MZGramOpenFreeMapPreviewInfo)));
     }
@@ -1528,18 +1526,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_OPENFREEMAP_PREVIEW) {
             MZGramConfig.toggleOpenFreeMapPreview();
             ((TextCheckCell) view).setChecked(MZGramConfig.openFreeMapPreview);
-        } else if (item.id == BUTTON_DOH_PROVIDER) {
-            org.telegram.ui.Components.ItemOptions options = org.telegram.ui.Components.ItemOptions.makeOptions(this, view);
-            for (int p : org.telegram.messenger.mzgram.MZGramDoH.PROVIDERS) {
-                final int provider = p;
-                options.add(org.telegram.messenger.mzgram.MZGramDoH.getProviderTitle(provider), () -> {
-                    MZGramConfig.setDohProvider(provider);
-                    if (listView != null && listView.adapter != null) {
-                        listView.adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-            options.show();
         } else if (item.id == BUTTON_SHOW_COPY_PHOTO) {
             MZGramConfig.toggleShowCopyPhoto();
             ((TextCheckCell) view).setChecked(MZGramConfig.showCopyPhoto);

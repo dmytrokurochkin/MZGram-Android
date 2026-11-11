@@ -1,3 +1,8 @@
+/*
+ * This is the source code of MZGram for Android,
+ * a fork of Telegram for Android.
+ */
+
 package org.telegram.ui.mzgram;
 
 import android.content.Context;

@@ -3,9 +3,8 @@
  * a fork of Telegram for Android.
  *
  * Sticker display in chats: size, rounded corners and hiding the time over
- * stickers. Ideas from Nekogram stickerSize / hideTimeForSticker and
- * exteraless ChatsConfig.stickerShape (GPL-3.0); written anew for MZGram.
- * All options are off by default and change only how stickers are shown.
+ * stickers. All options are off by default and change only how stickers
+ * are shown.
  */
 
 package org.telegram.ui.mzgram;

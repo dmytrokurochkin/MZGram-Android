@@ -19,9 +19,6 @@
  * on the server, so forwarding it would only fail. It is sent as a copy the
  * same way, from the file on the device; with no file left only its text
  * goes, and nothing is requested from the server for it.
- *
- * Idea of the deleted-message part from AyuGram (GPL-3.0),
- * com/radolyn/ayugram/messages/AyuForwardLoader.java (as in exteraless).
  */
 
 package org.telegram.messenger.mzgram;

@@ -6,9 +6,6 @@
  * message does, set apart for your own messages and for other people's:
  * Telegram's quick reaction (as it is), reply, copy the text, or nothing.
  * Nothing translates or sends anything.
- *
- * Idea from Nekogram (GPL-3.0) DoubleTap; written for MZGram without the
- * translate and speak actions.
  */
 
 package org.telegram.ui.mzgram;

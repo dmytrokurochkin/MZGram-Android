@@ -13,8 +13,7 @@
  *
  * Exact statuses count too (recordStatus): while the person still shows
  * "online" or "last seen at", that time is noted, so after they hide their
- * last seen the line keeps the last time this device knew. Idea from
- * AyuGram (GPL-3.0), LastSeenHelper.onUserStatusUpdated.
+ * last seen the line keeps the last time this device knew.
  */
 
 package org.telegram.messenger.mzgram;

@@ -6,9 +6,6 @@
  * always keep other people's deleted and edited messages here, or never keep
  * them here (MZGramSaveExclusions). Shown while Settings > MZGram > Archive >
  * "Archive rules per chat" is on.
- *
- * Idea from Nekogram (GPL-3.0), tw/nekomimi/nekogram/menu/saveDeleted/
- * SaveExclusionPopupWrapper.java; written anew for MZGram.
  */
 
 package org.telegram.ui.mzgram;

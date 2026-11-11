@@ -12,10 +12,6 @@
  * The rule belongs to the chat, not to one account: the archive decides by
  * the dialog id before the account is known (MZGramHistoryController
  * .savesChat), as the reference keeps it per chat id.
- *
- * Idea from Nekogram (GPL-3.0), tw/nekomimi/nekogram/menu/saveDeleted/
- * SaveExclusionPopupWrapper.java and com/radolyn/ayugram/messages/
- * AyuSavePreferences.java; written anew for MZGram.
  */
 
 package org.telegram.messenger.mzgram;

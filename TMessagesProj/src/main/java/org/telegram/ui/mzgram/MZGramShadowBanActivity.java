@@ -5,8 +5,6 @@
  * Shadow ban list: the people whose messages are hidden in groups
  * (MZGramShadowBan). A tap offers to show their messages again or to open
  * the profile. People are added from the profile menu or the message menu.
- *
- * Idea from Nekogram ShadowBanListActivity (GPL-3.0); written anew for MZGram.
  */
 
 package org.telegram.ui.mzgram;

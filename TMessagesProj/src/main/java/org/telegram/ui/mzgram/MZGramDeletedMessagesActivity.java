@@ -7,9 +7,6 @@
  * goes to the message in the chat (shown there with the deleted mark), a
  * long press copies its text. Opened from the chat's menu while Settings >
  * MZGram > Archive > "Deleted messages in the chat menu" is on.
- *
- * Idea from AyuGram (GPL-3.0), com/radolyn/ayugram/ui/AyuViewDeleted.java
- * (as in exteraless); written anew for MZGram on UniversalFragment.
  */
 
 package org.telegram.ui.mzgram;

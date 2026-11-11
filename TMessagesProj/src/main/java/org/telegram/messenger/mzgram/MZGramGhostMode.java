@@ -13,9 +13,7 @@
  *
  * Exclusions (MZGramConfig.ghostModeExclusions): one chat can follow the
  * switch, always show reads and typing, or never show them even while ghost
- * mode is off. Set from the chat's menu, kept per account. Idea from
- * AyuGram (GPL-3.0), com/radolyn/ayugram/utils/AyuGhostUtils.java
- * (shouldBlockRead) and its GhostModeExclusionPopupWrapper menu.
+ * mode is off. Set from the chat's menu, kept per account.
  */
 
 package org.telegram.messenger.mzgram;

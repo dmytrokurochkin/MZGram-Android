@@ -8,9 +8,6 @@
  * the archive database, so message menu > Details still shows the readers
  * and their times later. Only lists the server already sent are kept:
  * nothing extra is asked.
- *
- * Idea from AyuGram (GPL-3.0), com/radolyn/ayugram/messages/AyuSpyController.java
- * (reads kept locally past the server's limit).
  */
 
 package org.telegram.messenger.mzgram;

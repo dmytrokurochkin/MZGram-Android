@@ -5,8 +5,6 @@
  * Unlimited local folders: ordinary DialogFilters with a negative id that
  * live only in this device's dialog_filter table and are never sent to Telegram
  * servers.
- *
- * Based on Mercurygram MgFolders (GPL-2.0+); written anew for MZGram.
  */
 
 package org.telegram.messenger.mzgram;

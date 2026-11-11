@@ -15,9 +15,6 @@
  *
  * Telegram's own deletion runs as usual (its tables and transactions are
  * never held back); MZGram only remembers the chat, in its own database.
- *
- * Idea from AyuGram (GPL-3.0), com/radolyn/ayugram/messages/
- * AyuDeletedDialogs.java (as in exteraless); written anew for MZGram.
  */
 
 package org.telegram.messenger.mzgram;

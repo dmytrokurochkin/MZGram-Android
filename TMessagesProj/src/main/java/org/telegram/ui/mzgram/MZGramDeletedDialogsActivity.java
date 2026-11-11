@@ -8,9 +8,6 @@
  * the kept messages show; when Telegram no longer knows the chat, the list
  * of its kept messages opens instead. A long press takes the chat off this
  * list (the messages stay in the archive).
- *
- * Idea from AyuGram (GPL-3.0), com/radolyn/ayugram/messages/
- * AyuDeletedDialogs.java (as in exteraless); written anew for MZGram.
  */
 
 package org.telegram.ui.mzgram;

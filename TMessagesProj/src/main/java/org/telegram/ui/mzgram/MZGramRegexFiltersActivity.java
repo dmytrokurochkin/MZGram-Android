@@ -9,9 +9,6 @@
  * screen also lists the chats left out of all filters (filters.minor, dialog
  * exclusions; also from the profile menu of a chat), a chat's screen has the
  * switch for it.
- *
- * Idea from Nagram / Nekogram RegexFiltersSettingActivity and
- * RegexChatFiltersListActivity (GPL-3.0); written anew for MZGram.
  */
 
 package org.telegram.ui.mzgram;

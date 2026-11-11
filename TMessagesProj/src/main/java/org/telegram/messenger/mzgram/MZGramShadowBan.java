@@ -1,9 +1,6 @@
 /*
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
- *
- * Credits to other open-source projects are in the class comment below and
- * in NOTICE.
  */
 
 package org.telegram.messenger.mzgram;
@@ -24,8 +21,7 @@ import java.util.HashSet;
  * MZGram: shadow ban. Messages of the chosen people (and, by a separate
  * switch, of blocked users) are not shown in groups and do not notify; to
  * them and to everyone else nothing changes, nothing is sent to the server.
- * Replies to such messages are hidden too, as in Nekogram AyuFilter /
- * ShadowBanListActivity (GPL-3.0), whose idea this follows; the code is MZGram's own.
+ * Replies to such messages are hidden too.
  */
 public final class MZGramShadowBan {
 

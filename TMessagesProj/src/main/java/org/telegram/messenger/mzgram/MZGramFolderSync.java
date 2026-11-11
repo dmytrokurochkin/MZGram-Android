@@ -3,8 +3,6 @@
  * a fork of Telegram for Android.
  *
  * Syncs local folders across devices via a JSON file in Saved Messages.
- *
- * Based on Mercurygram MgFolderSync (GPL-2.0+); written anew for MZGram.
  */
 
 package org.telegram.messenger.mzgram;

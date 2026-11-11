@@ -8,9 +8,6 @@
  * expression that is broken or can take very long is not saved; the editor
  * says why. Opened from the rules screen and from the message menu, where
  * it also offers to keep the rule for this chat only.
- *
- * Idea from Nagram / Nekogram RegexFilterEditActivity (GPL-3.0); written
- * anew for MZGram.
  */
 
 package org.telegram.ui.mzgram;

@@ -26,9 +26,6 @@
  * inside, like (a+)+) is refused when it is saved, the text checked is cut
  * at MAX_TEXT characters and every result is kept in a small cache keyed by
  * the message and its edit date.
- *
- * Idea from Nagram / Nekogram AyuFilter, RegexFiltersSettingActivity and
- * RegexFilterEditActivity (GPL-3.0); written anew for MZGram.
  */
 
 package org.telegram.messenger.mzgram;

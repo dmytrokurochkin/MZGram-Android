@@ -150,6 +150,12 @@ jobs:
         run: |
           unzip -l artifact/MZGram.apk | grep -iE "chaquopy|libpython|aliuhook|lsplant" | head -40
           unzip -l artifact/MZGram.apk | grep -qi "chaquopy" || { echo "::error::no Python (Chaquopy) in the APK built with plugins"; exit 1; }
+          # Plugins find these classes by name; R8 must not rename them
+          unzip -p artifact/MZGram.apk 'classes*.dex' > all.dex
+          for c in org/telegram/ui/Components/BulletinFactory org/telegram/ui/ChatActivity org/telegram/ui/ActionBar/BaseFragment org/telegram/messenger/mzgram/plugins/MZGramPlugins; do
+            grep -a -q "L$c;" all.dex || { echo "::error::$c renamed by R8 in the APK built with plugins"; exit 1; }
+          done
+          rm all.dex
 
       - name: Upload artifact.
         uses: actions/upload-artifact@v7

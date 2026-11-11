@@ -8,6 +8,7 @@
         android:shortcutLongLabel="@string/MZGramGhostMode">
         <intent
             android:action="org.telegram.messenger.mzgram.ACTION_TOGGLE_GHOST_MODE"
+            android:targetPackage="@string/mzgram_account_type"
             android:targetClass="org.telegram.messenger.mzgram.MZGramShortcutActivity" />
     </shortcut>
 
@@ -19,6 +20,7 @@
         android:shortcutLongLabel="@string/MZGramShortcutScanQr">
         <intent
             android:action="android.intent.action.VIEW"
+            android:targetPackage="@string/mzgram_account_type"
             android:targetClass="org.telegram.ui.LaunchActivity"
             android:data="tg://scanqr" />
     </shortcut>

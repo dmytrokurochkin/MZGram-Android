@@ -279,4 +279,47 @@ class MZGramPluginsBackupTest {
         assertEquals(0, MZGramPluginsBackup.countPluginsInJson(null))
         assertEquals(0, MZGramPluginsBackup.countPluginsInJson(""))
     }
+
+    @Test
+    fun testCountPluginsInJson_fromActualExport() {
+        val originalPluginsBackup = MZGramConfig.pluginsBackup
+        try {
+            // Case 1: Real export with pluginsBackup=false produces 0 plugins in countPluginsInJson
+            MZGramConfig.pluginsBackup = false
+            val exportedWithout = MZGramSettingsBackup.exportToJson()
+            assertNotNull(exportedWithout)
+            assertEquals(0, MZGramPluginsBackup.countPluginsInJson(exportedWithout))
+
+            // Case 2: Real export with pluginsBackup=true but empty plugin registry produces 0
+            MZGramConfig.pluginsBackup = true
+            val exportedWithFlag = MZGramSettingsBackup.exportToJson()
+            assertNotNull(exportedWithFlag)
+            assertEquals(0, MZGramPluginsBackup.countPluginsInJson(exportedWithFlag))
+
+            // Case 3: Verify contract with actual MZGramSettingsBackup.toJson() + KEY_PLUGINS
+            val values = mapOf(
+                "mzgram_config" to mapOf<String, Any>(
+                    "hideStories" to true,
+                    "stickerSize" to 120
+                )
+            )
+            val baseJson = MZGramSettingsBackup.toJson(values)
+            assertNotNull(baseJson)
+            assertEquals(0, MZGramPluginsBackup.countPluginsInJson(baseJson))
+
+            val root = org.json.JSONObject(baseJson)
+            val pArray = org.json.JSONArray().apply {
+                put(org.json.JSONObject().put("id", "real.plugin.one").put("name", "Plugin 1").put("version", "1.0.0"))
+                put(org.json.JSONObject().put("id", "real.plugin.two").put("name", "Plugin 2").put("version", "2.0.0"))
+                put(org.json.JSONObject().put("id", "real.plugin.three").put("name", "Plugin 3").put("version", "3.0.0"))
+            }
+            root.put(MZGramSettingsBackup.KEY_PLUGINS, pArray)
+            val jsonWithRealPlugins = root.toString(2)
+
+            // countPluginsInJson returns exact count of entries in the KEY_PLUGINS array
+            assertEquals(3, MZGramPluginsBackup.countPluginsInJson(jsonWithRealPlugins))
+        } finally {
+            MZGramConfig.pluginsBackup = originalPluginsBackup
+        }
+    }
 }

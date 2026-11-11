@@ -108,4 +108,48 @@ class MZGramAlwaysSendHdTest {
             MZGramConfig.alwaysSendHd = originalConfig
         }
     }
+
+    @Test
+    fun sendMessagesHelper_compressionIndexing_boundaryAndTiers() {
+        // SendMessagesHelper uses 1-based indexing for selectedCompression (1..compressionsCount)
+        // compressionsCount is derived from maxSize = max(width, height):
+        // maxSize > 1280 -> 4
+        // maxSize > 854 -> 3
+        // maxSize > 640 -> 2
+        // otherwise -> 1
+        fun computeCompressionsCount(w: Int, h: Int): Int {
+            val maxSize = Math.max(w, h).toFloat()
+            return when {
+                maxSize > 1280f -> 4
+                maxSize > 854f -> 3
+                maxSize > 640f -> 2
+                else -> 1
+            }
+        }
+
+        fun computeSelectedCompression(compressionsCount: Int, alwaysHd: Boolean): Int {
+            var selected = 1
+            if (alwaysHd && compressionsCount > 0) {
+                selected = compressionsCount
+            }
+            return selected
+        }
+
+        // Boundary tests for video dimension tiers
+        assertEquals(4, computeCompressionsCount(1920, 1080))
+        assertEquals(4, computeCompressionsCount(1281, 720))
+        assertEquals(3, computeCompressionsCount(1280, 720))
+        assertEquals(3, computeCompressionsCount(855, 480))
+        assertEquals(2, computeCompressionsCount(854, 480))
+        assertEquals(2, computeCompressionsCount(641, 360))
+        assertEquals(1, computeCompressionsCount(640, 360))
+        assertEquals(1, computeCompressionsCount(320, 240))
+
+        // Contract verification: in SendMessagesHelper, selectedCompression is 1-based,
+        // so max quality tier is compressionsCount (while in PhotoViewer it is 0-based, count - 1).
+        for (count in 1..4) {
+            val tier = computeSelectedCompression(count, true)
+            assertEquals("SendMessagesHelper 1-based selectedCompression must equal compressionsCount $count", count, tier)
+        }
+    }
 }

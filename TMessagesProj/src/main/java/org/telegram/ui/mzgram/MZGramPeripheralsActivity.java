@@ -130,9 +130,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 showTorInstallDialog(activity);
             } else {
                 MZGramConfig.toggleTorCompanionEnabled();
-                if (MZGramConfig.torCompanionEnabled) {
-                    MZGramTorCompanion.applyTorProxySettings(true);
-                }
+                MZGramTorCompanion.applyTorProxySettings(MZGramConfig.torCompanionEnabled);
                 updateList();
             }
         } else if (item.id == BUTTON_TOR_IDLE) {

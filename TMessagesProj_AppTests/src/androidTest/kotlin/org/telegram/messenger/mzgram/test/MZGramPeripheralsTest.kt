@@ -115,19 +115,31 @@ class MZGramPeripheralsTest {
         // Disabled by default
         assertFalse(MZGramConfig.torCompanionEnabled)
 
-        // When enabled, proxy is configured strictly to TOR_SOCKS_HOST (127.0.0.1) and TOR_SOCKS_PORT (9050)
-        MZGramTorCompanion.applyTorProxySettings(true)
-        val currentProxy = org.telegram.messenger.SharedConfig.currentProxy
-        assertNotNull(currentProxy)
-        assertEquals(MZGramTorCompanion.TOR_SOCKS_HOST, currentProxy.settings.address)
-        assertEquals(MZGramTorCompanion.TOR_SOCKS_PORT, currentProxy.settings.port)
-        // Proxy type must be SOCKS5
-        assertEquals(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5, currentProxy.settings.type)
+        val initialProxy = org.telegram.messenger.SharedConfig.currentProxy
+        val initialEnabled = org.telegram.messenger.SharedConfig.isProxyEnabled()
 
-        // When disabled, applyTorProxySettings does not touch proxy
-        val savedProxy = org.telegram.messenger.SharedConfig.currentProxy
-        MZGramTorCompanion.applyTorProxySettings(false)
-        assertEquals(savedProxy, org.telegram.messenger.SharedConfig.currentProxy)
+        try {
+            // When enabled, proxy is configured strictly to TOR_SOCKS_HOST (127.0.0.1) and TOR_SOCKS_PORT (9050)
+            MZGramTorCompanion.applyTorProxySettings(true)
+            val currentProxy = org.telegram.messenger.SharedConfig.currentProxy
+            assertNotNull(currentProxy)
+            assertEquals(MZGramTorCompanion.TOR_SOCKS_HOST, currentProxy.settings.address)
+            assertEquals(MZGramTorCompanion.TOR_SOCKS_PORT, currentProxy.settings.port)
+            // Proxy type must be SOCKS5
+            assertEquals(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5, currentProxy.settings.type)
+
+            // When disabled, applyTorProxySettings restores previous proxy state
+            MZGramTorCompanion.applyTorProxySettings(false)
+            assertEquals(initialProxy, org.telegram.messenger.SharedConfig.currentProxy)
+        } finally {
+            MZGramTorCompanion.applyTorProxySettings(false)
+            org.telegram.messenger.SharedConfig.currentProxy = initialProxy
+            if (initialProxy != null && initialEnabled) {
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(true, initialProxy.settings)
+            } else {
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null)
+            }
+        }
     }
 
     @Test

@@ -35,6 +35,10 @@ public final class MZGramTorCompanion {
     private static Runnable idleRunnable;
     private static boolean isPaused;
 
+    private static SharedConfig.ProxyInfo previousProxy;
+    private static boolean hadPreviousProxy;
+    private static boolean torProxyActive;
+
     private MZGramTorCompanion() {
     }
 
@@ -72,22 +76,38 @@ public final class MZGramTorCompanion {
     }
 
     public static void applyTorProxySettings(boolean enable) {
-        if (!enable) {
-            return;
-        }
-        // When Tor companion is enabled, configure SOCKS5 proxy pointing to Tor port
-        // Before daemon bootstrap completes, traffic hits local loopback stub
         try {
-            org.telegram.utils.proxy.ProxySettings settings = org.telegram.utils.proxy.ProxySettings.builder()
-                    .setType(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5)
-                    .setAddress(TOR_SOCKS_HOST)
-                    .setPort(TOR_SOCKS_PORT)
-                    .setUser("")
-                    .setPassword("")
-                    .build();
-            SharedConfig.ProxyInfo proxy = new SharedConfig.ProxyInfo(settings);
-            SharedConfig.currentProxy = proxy;
-            org.telegram.tgnet.ConnectionsManager.setProxySettings(true, settings);
+            if (enable) {
+                if (!torProxyActive) {
+                    previousProxy = SharedConfig.currentProxy;
+                    hadPreviousProxy = SharedConfig.isProxyEnabled();
+                }
+                torProxyActive = true;
+                org.telegram.utils.proxy.ProxySettings settings = org.telegram.utils.proxy.ProxySettings.builder()
+                        .setType(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5)
+                        .setAddress(TOR_SOCKS_HOST)
+                        .setPort(TOR_SOCKS_PORT)
+                        .setUser("")
+                        .setPassword("")
+                        .build();
+                SharedConfig.ProxyInfo proxy = new SharedConfig.ProxyInfo(settings);
+                SharedConfig.currentProxy = proxy;
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(true, settings);
+            } else {
+                if (!torProxyActive) {
+                    return;
+                }
+                torProxyActive = false;
+                if (hadPreviousProxy && previousProxy != null && previousProxy.settings != null) {
+                    SharedConfig.currentProxy = previousProxy;
+                    org.telegram.tgnet.ConnectionsManager.setProxySettings(true, previousProxy.settings);
+                } else {
+                    SharedConfig.currentProxy = null;
+                    org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
+                }
+                previousProxy = null;
+                hadPreviousProxy = false;
+            }
         } catch (Exception e) {
             FileLog.e(e);
         }

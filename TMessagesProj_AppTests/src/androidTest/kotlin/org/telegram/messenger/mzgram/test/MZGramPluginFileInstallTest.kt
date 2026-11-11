@@ -5,11 +5,14 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.telegram.messenger.ApplicationLoader
+import org.telegram.messenger.mzgram.plugins.MZGramPluginCapabilityScan
 import org.telegram.messenger.mzgram.plugins.MZGramPluginFormat
 import org.telegram.messenger.mzgram.plugins.MZGramPluginGrants
 import org.telegram.messenger.mzgram.plugins.MZGramPlugins
+import org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime
 import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.CountDownLatch
@@ -114,5 +117,29 @@ class MZGramPluginFileInstallTest {
 
         // metaFromJson on missing id must return null
         assertNull("metaFromJson without id must return null", MZGramPluginFormat.metaFromJson("""{"name": "No ID"}"""))
+    }
+
+    @Test
+    fun testCapabilityScan_withPythonRuntime_orSkippedWhenUnavailable() {
+        // Capability AST scanning requires Python runtime (present only with -PmzgramPlugins=true)
+        assumeTrue("Skipping AST scan test because Python runtime is unavailable in this build", MZGramPythonRuntime.isAvailable())
+
+        val latch = CountDownLatch(1)
+        var scanResult: MZGramPluginCapabilityScan.Result? = null
+        val temp = File(ApplicationLoader.applicationContext.cacheDir, "test_scan.plugin")
+        temp.writeText("import os\nprint('hello')\n")
+        try {
+            MZGramPluginCapabilityScan.scan(temp) { res ->
+                scanResult = res
+                latch.countDown()
+            }
+            assertTrue("Scan callback must execute", latch.await(5, TimeUnit.SECONDS))
+            assertNotNull("Scan result must be non-null", scanResult)
+            assertTrue("Valid python code must scan cleanly", scanResult!!.isOk)
+        } finally {
+            if (temp.exists()) {
+                temp.delete()
+            }
+        }
     }
 }

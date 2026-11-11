@@ -4,6 +4,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -158,6 +159,7 @@ class MZGramPeripheralsTest {
                 .build()
             val mockPriorProxy = org.telegram.messenger.SharedConfig.ProxyInfo(mockPriorSettings)
             org.telegram.messenger.SharedConfig.currentProxy = mockPriorProxy
+            org.telegram.messenger.MessagesController.getGlobalMainSettings().edit().putBoolean("proxy_enabled", true).commit()
             org.telegram.tgnet.ConnectionsManager.setProxySettings(true, mockPriorSettings)
 
             // Step 1: Enable Tor companion
@@ -167,13 +169,8 @@ class MZGramPeripheralsTest {
             assertEquals(MZGramTorCompanion.TOR_SOCKS_HOST, torProxy.settings.address)
             assertEquals(MZGramTorCompanion.TOR_SOCKS_PORT, torProxy.settings.port)
 
-            // Step 2: Simulate process restart by resetting static memory fields via reflection
-            val prevProxyField = MZGramTorCompanion::class.java.getDeclaredField("previousProxy").apply { isAccessible = true }
-            val hadPrevField = MZGramTorCompanion::class.java.getDeclaredField("hadPreviousProxy").apply { isAccessible = true }
-            val activeField = MZGramTorCompanion::class.java.getDeclaredField("torProxyActive").apply { isAccessible = true }
-            prevProxyField.set(null, null)
-            hadPrevField.set(null, false)
-            activeField.set(null, false)
+            // Step 2: Simulate process restart by resetting static memory fields without reflection
+            MZGramTorCompanion.resetTestingState()
 
             // Step 3: Disable Tor companion in the new process session
             MZGramTorCompanion.applyTorProxySettings(false)
@@ -188,7 +185,107 @@ class MZGramPeripheralsTest {
             assertEquals(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5, restoredProxy.settings.type)
         } finally {
             MZGramTorCompanion.applyTorProxySettings(false)
+            MZGramTorCompanion.resetTestingState()
             org.telegram.messenger.SharedConfig.currentProxy = initialProxy
+            org.telegram.messenger.MessagesController.getGlobalMainSettings().edit().putBoolean("proxy_enabled", initialEnabled).commit()
+            if (initialProxy != null && initialEnabled) {
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(true, initialProxy.settings)
+            } else {
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null)
+            }
+        }
+    }
+
+    @Test
+    fun testTorCompanion_disabledPriorProxyNotEnabledOnTorDisable() {
+        val initialProxy = org.telegram.messenger.SharedConfig.currentProxy
+        val initialEnabled = org.telegram.messenger.SharedConfig.isProxyEnabled()
+
+        try {
+            // Setup a mock prior proxy that is saved in currentProxy but DISABLED (proxy_enabled = false)
+            val mockPriorSettings = org.telegram.utils.proxy.ProxySettings.builder()
+                .setType(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5)
+                .setAddress("198.51.100.2")
+                .setPort(1080)
+                .build()
+            val mockPriorProxy = org.telegram.messenger.SharedConfig.ProxyInfo(mockPriorSettings)
+            org.telegram.messenger.SharedConfig.currentProxy = mockPriorProxy
+            org.telegram.messenger.MessagesController.getGlobalMainSettings().edit().putBoolean("proxy_enabled", false).commit()
+            org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null)
+
+            assertFalse("Initial proxy must be disabled", org.telegram.messenger.SharedConfig.isProxyEnabled())
+
+            // Step 1: Enable Tor companion
+            MZGramTorCompanion.applyTorProxySettings(true)
+            assertTrue("Tor proxy must be active", MZGramTorCompanion.isTorProxyActive())
+            assertFalse("hadPreviousProxy must be false when prior proxy was disabled", MZGramTorCompanion.hadPreviousProxy())
+
+            // Step 2: Disable Tor companion
+            MZGramTorCompanion.applyTorProxySettings(false)
+
+            // Assert: Disabling Tor must NOT turn on the proxy
+            assertFalse("Proxy must remain disabled after Tor is turned off", org.telegram.messenger.SharedConfig.isProxyEnabled())
+            assertNull("currentProxy must be cleared when no active prior proxy existed", org.telegram.messenger.SharedConfig.currentProxy)
+        } finally {
+            MZGramTorCompanion.applyTorProxySettings(false)
+            MZGramTorCompanion.resetTestingState()
+            org.telegram.messenger.SharedConfig.currentProxy = initialProxy
+            org.telegram.messenger.MessagesController.getGlobalMainSettings().edit().putBoolean("proxy_enabled", initialEnabled).commit()
+            if (initialProxy != null && initialEnabled) {
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(true, initialProxy.settings)
+            } else {
+                org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null)
+            }
+        }
+    }
+
+    @Test
+    fun testTorCompanion_alreadyActiveDoesNotOverwriteSavedState() {
+        val initialProxy = org.telegram.messenger.SharedConfig.currentProxy
+        val initialEnabled = org.telegram.messenger.SharedConfig.isProxyEnabled()
+
+        try {
+            // Setup a mock prior proxy
+            val mockPriorSettings = org.telegram.utils.proxy.ProxySettings.builder()
+                .setType(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5)
+                .setAddress("198.51.100.3")
+                .setPort(1080)
+                .setUser("origuser")
+                .setPassword("origpass")
+                .build()
+            val mockPriorProxy = org.telegram.messenger.SharedConfig.ProxyInfo(mockPriorSettings)
+            org.telegram.messenger.SharedConfig.currentProxy = mockPriorProxy
+            org.telegram.messenger.MessagesController.getGlobalMainSettings().edit().putBoolean("proxy_enabled", true).commit()
+            org.telegram.tgnet.ConnectionsManager.setProxySettings(true, mockPriorSettings)
+
+            // Step 1: First enable
+            MZGramTorCompanion.applyTorProxySettings(true)
+            val prefs = org.telegram.messenger.ApplicationLoader.applicationContext.getSharedPreferences("mzgram_config", android.content.Context.MODE_PRIVATE)
+            assertTrue(prefs.getBoolean("mzgram_tor_active", false))
+            assertEquals("198.51.100.3", prefs.getString("mzgram_tor_prev_ip", null))
+
+            // Step 2: Reset memory state while keeping SharedPreferences active (simulates process restart while Tor is running)
+            MZGramTorCompanion.resetTestingState()
+
+            // Step 3: Second enable call (e.g. onAppResume or redundant toggle)
+            MZGramTorCompanion.applyTorProxySettings(true)
+
+            // Assert: Saved prior state was NOT overwritten with Tor's address (127.0.0.1:9050)
+            assertEquals("Saved prior IP must remain 198.51.100.3 and not be overwritten", "198.51.100.3", prefs.getString("mzgram_tor_prev_ip", null))
+            assertEquals(1080, prefs.getInt("mzgram_tor_prev_port", 0))
+
+            // Step 4: Disable Tor companion
+            MZGramTorCompanion.applyTorProxySettings(false)
+
+            // Assert: Original proxy restored
+            val restoredProxy = org.telegram.messenger.SharedConfig.currentProxy
+            assertNotNull(restoredProxy)
+            assertEquals("198.51.100.3", restoredProxy.settings.address)
+        } finally {
+            MZGramTorCompanion.applyTorProxySettings(false)
+            MZGramTorCompanion.resetTestingState()
+            org.telegram.messenger.SharedConfig.currentProxy = initialProxy
+            org.telegram.messenger.MessagesController.getGlobalMainSettings().edit().putBoolean("proxy_enabled", initialEnabled).commit()
             if (initialProxy != null && initialEnabled) {
                 org.telegram.tgnet.ConnectionsManager.setProxySettings(true, initialProxy.settings)
             } else {

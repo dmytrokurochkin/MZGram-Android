@@ -73,6 +73,37 @@ class MZGramSettingsTest {
         .map { it.isAccessible = true; it.getInt(null) }
         .toSet()
 
+    private fun button(name: String): Int = MZGramSettingsActivity::class.java.getDeclaredField(name)
+        .let { it.isAccessible = true; it.getInt(null) }
+
+    // Rows that appear only under a switch that is off by default; each new
+    // one goes here by name, so a row that is never shown cannot slip through.
+    private val underSwitch = listOf(
+        "BUTTON_CAMERA_X_WIDE", "BUTTON_CAMERA_X_ZOOM",
+        "BUTTON_DELETED_DIALOGS_IN_MAIN_LIST", "BUTTON_DELETED_DIALOGS_OPEN",
+        "BUTTON_DOUBLE_TAP_OWN", "BUTTON_DOUBLE_TAP_OTHER",
+        "BUTTON_DRAWER_GLASS", "BUTTON_DRAWER_HEADER", "BUTTON_DRAWER_ITEMS", "BUTTON_DRAWER_LARGE_AVATAR", "BUTTON_DRAWER_SHOW_QR",
+        "BUTTON_ICON_PACKS", "BUTTON_MONET_PICK", "BUTTON_MONET_STYLE",
+        "BUTTON_MUSIC_PLAYER_BAR", "BUTTON_MUSIC_PLAYER_STYLE",
+        "BUTTON_OWN_LAST_SEEN_VALUE", "BUTTON_PASSCODE_ACCOUNTS_SETUP", "BUTTON_PILLS", "BUTTON_REGEX_FILTERS_RULES",
+        "BUTTON_ROUND_VIDEO_ADVANCED", "BUTTON_ROUND_VIDEO_BITRATE", "BUTTON_ROUND_VIDEO_HIGH_FPS", "BUTTON_SHADOW_BAN_LIST",
+    )
+
+    // Rows this build or device does not offer at all, and reports shown only once there is one
+    private fun notOffered(): Set<Int> {
+        val names = mutableListOf("BUTTON_ENERGY_REPORT", "BUTTON_JANK_REPORT")
+        if (!org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
+            names += listOf("BUTTON_PLUGINS", "BUTTON_PYTHON_RUNTIME")
+        }
+        if (!org.telegram.messenger.mzgram.MZGramMonet.available()) {
+            names += "BUTTON_MONET_THEMES"
+        }
+        if (!org.telegram.messenger.mzgram.MZGramProxyAutoDisable.available()) {
+            names += listOf("BUTTON_PROXY_OFF_VPN", "BUTTON_PROXY_OFF_MOBILE", "BUTTON_PROXY_OFF_WIFI")
+        }
+        return names.map { button(it) }.toSet()
+    }
+
     // Settings > MZGram lists the topics, in this order, each with a short
     // description; every switch and button is on exactly one topic's page --
     // none lost.
@@ -115,6 +146,9 @@ class MZGramSettingsTest {
         }
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertTrue("every switch and button is defined", allButtons().containsAll(shown))
+        // None lost: every switch and button is shown, but those under an off switch and those not offered here
+        val maybe = notOffered()
+        assertEquals("every switch and button is shown", allButtons() - underSwitch.map { button(it) }.toSet() - maybe, shown.toSet() - maybe)
         // 78 in base, plus added switches and buttons in features 68-85, N16, N12 (subtitles) and N14 (Persian calendar),
         // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen
         assertEquals("170 switches and buttons", 170, shown.size)

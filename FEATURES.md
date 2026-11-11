@@ -30,6 +30,12 @@ Most switches are under **Settings > MZGram**, grouped into topic pages. This fi
 | Export, import and wipe | Export the archive database to a file, import it back (replacing the current archive), or delete the whole archive and its saved media after a confirmation. From 1.0.9 the Delete button shows progress while the files go, then a message at the bottom of the screen says the archive is cleared and how much was freed. | 1.0.0 |
 | Export with Save as | Export opens Android's Save as, so the archive file goes where you choose (Downloads, a file manager, a cloud drive), and says when it is saved. Import takes only an MZGram archive file and keeps the current archive otherwise. Up to 1.0.4 Export closed the app, so the archive of 1.0.3 and older cannot be moved. | 1.0.5 |
 | Clear the local database | Clears Telegram's cache on the device (messages, chat list); it loads again from the server. The MZGram archive is kept. | 1.0.0 |
+| Archive rules per chat | Settings > MZGram > Archive > Archive rules per chat adds Archive in this chat to a chat's menu: follow Keep messages from, always keep other people's deleted and edited messages there, or never keep them there. Off by default. | Next release |
+| Replies to deleted messages | A reply whose original was deleted shows the copy kept in the archive instead of "Deleted message". A second switch sends your reply to a kept deleted message with a quote of it, since the server has no original to reply to. Off by default. | Next release |
+| Forward deleted messages as copies | A kept deleted message has no original on the server, so Telegram cannot forward it; it is sent as a new message with its text and the file on this device, or only the text when the file is gone. Off by default. | Next release |
+| Deleted messages in the chat menu | Adds Deleted messages to a chat's menu: the messages other people deleted there that the archive keeps, newest first, with search. A tap goes to the message, a long press copies its text. Off by default. | Next release |
+| Deleted chats | A chat that leaves the chat list (deleted by either side, or left) or loses all its messages while the archive keeps some of them is listed in Settings > MZGram > Archive > Deleted chats; Telegram deletes the chat as usual. A second switch keeps such chats in the main chat list with their last kept message. Off by default. | Next release |
+| Import from another client | Adds deleted and edited messages, deleted chats and last seen times from another client's message database (an SQLite file). What the archive has stays, and your own messages are left out. | Next release |
 
 ### Privacy and ghost mode
 
@@ -42,7 +48,22 @@ Most switches are under **Settings > MZGram**, grouped into topic pages. This fi
 | Read time | Message details show when the other person read your message. | 1.0.0 |
 | Approximate last seen | For a person who hides their last seen, MZGram shows an estimate from what this device saw (for example, their new messages), like any last seen time; up to 1.0.3 it was marked "(approx.)". | 1.0.0 |
 | Protected content | In chats and channels that restrict saving, you can forward, save and copy messages and media and take screenshots. Messages that cannot be forwarded are sent as new copies. Off by default. | 1.0.0 |
-| Tor companion proxy | Connects to an external companion app (Orbot or external Tor provider) over SOCKS5 (127.0.0.1:9050) with fail-closed behavior. All MTProto traffic (messages, media, voice calls, chats, channels) is routed through Tor. Third-party direct HTTP extensions (in-app translation, direct LLM providers, plugins catalog downloads, GitHub self-update checks) bypass the proxy and use the direct network. Off by default. | Next release |
+| Ghost mode per chat | Adds Ghost mode in this chat to a chat's menu: follow the main switch, always show reads and typing there, or never show them there even while ghost mode is off. Delayed and silent sending follow the same choice. Off by default. | Next release |
+| Quick settings tiles and shortcuts | Two tiles for the phone's quick settings and two shortcuts on a long press of the app icon: Ghost mode (turns it on or off) and Log in by QR (opens the scanner to log in on another device). Other apps cannot start them. | Next release |
+| Confirm Telegram links | Settings > MZGram > Privacy. t.me and tg:// links show their address and ask before they open, so a hidden link cannot join a channel, start a bot or add a proxy in one tap. Off by default. | Next release |
+| No link preview while typing | A link you type or paste is not sent to Telegram for a preview, so the server does not open it before you send; such messages go without a preview. Previews in received messages still show. Off by default. | Next release |
+| Drafts on this device only | Text you typed but did not send is not uploaded to Telegram and does not show on your other devices. Off by default. | Next release |
+| Voice messages on the lock screen | While the phone is locked, voice messages and round videos do not start or resume from the lock screen player or headset buttons, and their player hides the sender's name and photo. Music plays as usual. Off by default. | Next release |
+| Own last seen | Telegram does not show you your own last seen. This device notes when it last told Telegram you are online or offline and shows it, for each account. Off by default. | Next release |
+| Exact last seen times | While a person shows online or an exact last seen time, this device notes it, so after they hide their last seen MZGram still shows the last time it knew. Off by default: then only signs of activity (messages, typing) are noted, as before. | Next release |
+| Readers in groups | Telegram lists who read your message only in small groups and only for about a week. Each time the message menu shows that list, it is kept on this device, and Details shows the readers and times later too. Off by default. | Next release |
+| Ask before starting bots | A link like t.me/bot?start=code tells the bot which link brought you. MZGram asks first: start with the code, without it, or from another of your accounts. Off by default. | Next release |
+| Reduce network tracking | Files are asked from Telegram's main servers instead of its CDN servers, so the downloads do not all carry the same key id that someone watching the network could use to link them. Off by default. | Next release |
+| Turn off the proxy automatically | The proxy turns off by itself on the networks you pick (while a VPN is on, on mobile data, on Wi-Fi) and back on when the phone leaves them. Off by default. | Next release |
+| Account passcodes | Each account can have its own passcode for the app lock: entering it unlocks the app and opens that account. An account with its own passcode can be hidden from the account lists and notifications. | Next release |
+| Trending stickers not marked viewed | The server is not told which trending sticker and emoji packs you looked at; they are marked viewed on this device only. Off by default. | Next release |
+| OpenFreeMap map preview | Map previews of locations in chats are loaded from staticmap.openstreetmap.de (OpenStreetMap) instead of Google Maps; the app asks that service directly. Off by default. | Next release |
+| Tor companion proxy | Settings > MZGram > Other > Extended peripherals. Messages and media go through the SOCKS5 proxy of a Tor app (Orbot, 127.0.0.1:9050) from the first connection after every start; while the Tor app is not running, MZGram does not connect. Calls, web pages, mini apps and MZGram extras that use other services connect directly, not through Tor. Off by default. | Next release |
 
 ### Message menu
 
@@ -59,6 +80,7 @@ Each item has its own switch.
 | Details | Ids, sender, dates, forward source, file, media and data center of a message; a long press copies a value. | 1.0.0 |
 | QR Code | When a photo holds a QR code, shows its link or text. The photo is scanned on the device. | 1.0.0 |
 | Forward without sender | Opens the forward screen with the sender's name already hidden. | 1.0.0 |
+| Copy without formatting | Only the plain text of a message, without bold, links or emoji styling. Its switch is in Settings > MZGram > Chats. Off by default. | Next release |
 
 ### Ask AI
 
@@ -76,6 +98,36 @@ Each item has its own switch.
 | Open archive on pull | Pulling the chat list down past the archive row opens the archive. | 1.0.0 |
 | Media preview | A long press on a chat's avatar shows its last photo or video instead of the chat preview. | 1.0.0 |
 | Delete for everyone by default | A switch: the Delete box of messages comes with deleting them for the other side too already ticked, and it can be unticked before deleting. Telegram leaves it unticked. | 1.0.8 |
+| Up to 100 pinned chats | Past the server's limit, MZGram pins chats on this device: up to 100 in the chat list and in the archive instead of 10. The server and your other devices get only the chats the server allows. Off by default. | Next release |
+| Local folders | Folders kept only on this device, without the server limits on folders and on chats in a folder. The folder editor gets a Local folder switch, and at the server limit a new folder becomes local instead of the Premium offer. They sync between your devices through a file (mzgram-folders.json) that MZGram keeps in Saved Messages. Off by default. | Next release |
+| Folder on launch | The chosen folder opens when the app starts, separately for each account; Back from another folder returns to it first. Until a folder is chosen, the app opens as in Telegram. | Next release |
+| Recent chats on Back | Holding the Back arrow in a chat lists the chats you opened last, to jump to one. The list is kept only on this device, without secret chats, and is erased when the option is turned off. Off by default. | Next release |
+| Open profile by number | Settings > MZGram > Chats opens the profile of a user, group or channel by its number. A number the app has never seen is not found. | Next release |
+| Search operators | In a chat's search: from:, date: (also today, yesterday), after:, before: and type: (photo, video, voice, round, music, gif, file, link, contact, location, poll, mention, pinned), together with plain words. Off by default. | Next release |
+| Find names in fancy fonts | Search treats letters from decorated Unicode fonts (bold, script, circled, fullwidth and lookalike letters) as plain ones. Cyrillic, Greek, CJK and other real scripts are not changed. Off by default. | Next release |
+
+### Messages in chats
+
+Settings > MZGram > Chats.
+
+| Feature | What it does, and how it differs from Telegram | Since |
+|---|---|---|
+| Stickers in chats | A slider for the size of stickers (100% as in Telegram), rounded corners, and hiding the time on stickers. | Next release |
+| Wide channel posts | Channel posts take almost the whole width of the screen, with the channel avatar next to its name. Off by default. | Next release |
+| Separate permissions | In group permissions and member restrictions, Stickers and GIFs is split into Stickers, GIFs, Games and Inline bots, which Telegram stores apart. A second switch makes the GIF tab and inline results in a group where you are restricted follow their own permission. Off by default. | Next release |
+| Emoji links as custom emoji | A custom emoji that some apps send as a link over an ordinary emoji is shown as the custom emoji itself; the message keeps the link. Off by default. | Next release |
+| Fit bold and italic links | Links and mentions in bold or italic are measured with their own font, so the text around them does not overlap or leave gaps. Off by default. | Next release |
+| Code blocks without colours | Turns off syntax highlighting in code blocks. Off by default. | Next release |
+| Colour preview for hex hashtags | A small square of the colour after hashtags like #FF5722. Off by default. | Next release |
+| Default delay in the schedule dialog | The schedule dialog opens at now plus a delay set with a slider (5 minutes to 7 days) and has buttons for in 15 minutes, in 1 hour and tomorrow morning. A date picked earlier is not replaced. Off by default. | Next release |
+| Send without sound by default | New messages are sent without a notification sound; scheduled messages and Saved Messages are not affected. Off by default. | Next release |
+| Pinned reactions | Your own reactions that go first in the reaction panel above a message, separately for chats and channels. | Next release |
+| Formatting menu | Which styles the menu shows when you select text in the message field, in the order you drag them to; Code block and Mention can be added to it. Until you change it the menu is as in Telegram. | Next release |
+| Space between CJK and Latin | While typing, adds a space between Chinese, Japanese or Korean characters and Latin letters or digits. Off by default. | Next release |
+| Character counter | Shows how many characters are typed, counted as the Bot API counts them. Off by default. | Next release |
+| Inline calculator | An expression typed with "=" in the message field (25*40=) gets its result added (25*40=1000). It works offline, with + - * / ^ % and brackets. Off by default. | Next release |
+| Double tap actions | What a double tap on a message does, separately for your own messages and other people's: Telegram's quick reaction, reply, copy the text, or nothing. Off by default. | Next release |
+| Clean tracking from links | Tracking parameters (utm_source, fbclid, gclid, si and others) are removed from a link when you open it and when you paste it into a message. The rules are the AdGuard URL Tracking filter built into the app; it is never downloaded. Off by default. | Next release |
 
 ### Media and calls
 
@@ -87,8 +139,15 @@ Each item has its own switch.
 | Hide camera tile | Removes the camera tile, so the attach gallery starts with your first photo. | 1.0.0 |
 | Original quality | Videos offered in several qualities play in the original one. | 1.0.0 |
 | Auto-pause video | A video in the media viewer pauses when the app goes to the background and resumes when you return. | 1.0.0 |
-| Always send in HD | Sends photos and videos in highest available quality without manual compression adjustments. Off by default. | Next release |
-| Subtitles in video player | Supports external (.srt, .vtt) and embedded subtitle tracks in PhotoViewer, with file picker, persistent track association per video, and clear overlay. Off by default. | Next release |
+| Always send photos in HD | The HD switch for photos you send is on from the start; it can still be turned off for a single photo. Off by default. | Next release |
+| Subtitles in video player | A video in the media viewer can get a subtitle file (.srt or .vtt) from the file picker, and the choice stays with that video. Off by default. | Next release |
+| Noise suppression for voice messages | While recording a voice message, turns on the phone's own noise suppressor and automatic gain control, if it has them. Off by default. | Next release |
+| Voice message quality | Bitrate of the voice messages you record: a higher one sounds clearer and makes the file two or four times bigger. | Next release |
+| Crop photos at full resolution | A crop is cut out of the original photo, not out of a copy already reduced to the send size, so a small crop stays sharp. Off by default. | Next release |
+| Round video recording | Stabilization while recording a round video, if the camera has it; recording through Jetpack CameraX (switching cameras without a pause where the phone allows it, a zoom slider with the phone's lenses); or another Camera2 recorder with 60 FPS where both cameras allow it and its own bitrate, Telegram's by default. Each is off by default. | Next release |
+| Pause round video on leaving the chat | A round video message stops playing when you switch to another chat or screen. Off by default. | Next release |
+| Material 3 music player | Music opens in a full screen player with the cover colours, a wavy progress bar, playback speed, a queue and the lyrics from the file; voice messages keep Telegram's player. Off by default. | Next release |
+| Profile music card | The saved or playing music of a user shows as a card in their profile. Off by default. | Next release |
 
 ### Interface and appearance
 
@@ -111,10 +170,23 @@ Each item has its own switch.
 | Tall names in Settings | The number and the username in the own header of Settings stay below the name also when the name is taller than a line of the usual font, as a name with runes. | 1.0.9 |
 | Hide rows of Telegram's Settings | Settings > MZGram > Interface > Hide in Telegram's Settings: a switch for each of Telegram Premium, Telegram Stars, Gram Earnings, Telegram Business, Send a Gift, Wallet, Ask a Question, Telegram FAQ, Telegram Features and Privacy Policy. A hidden row is gone from Telegram's Settings and from its search; nothing else changes. All off by default. | 1.0.9 |
 | Standard color themes | The color theme row in Appearance always lists the home theme and 8 standard themes built on the device, also without a server answer and after an update; themes from the server are added after them. The theme in use stays selected after Switch to Night Mode. | 1.0.1 |
-| App font choices | Settings > MZGram > Interface > App font: choose Telegram's font, system font, embedded Inter or Fira Sans (OFL 1.1 with Cyrillic and italics), or import a custom TTF/OTF font file. | Next release |
-| Compact chat header | Reduces avatar and title height in the chat header to maximize visible conversation space. Off by default. | Next release |
-| Material 3 design and card lists | Optional Material 3 toggle switches and grouped card layout for settings and dialogs. Off by default. | Next release |
-| Persian (Solar Hijri) calendar | Displays dates across chat lists, messages, and call logs according to the Solar Hijri (Shamsi) calendar with localized Persian digits and month names. Off by default. | Next release |
+| App font choices | Settings > MZGram > Interface > App font, for names, titles and bold and italic text: Telegram's font (the default), the phone's font, the built-in Inter or Fira Sans (OFL 1.1), or a TTF or OTF file, which also changes the regular text where Android allows it. Takes effect after a restart. | Next release |
+| Compact chat header | A smaller avatar and less spacing in the title bar of a chat. Off by default. | Next release |
+| Material 3 switches and cards | Settings > MZGram > Appearance: Material 3 switches across the app, and list items grouped into rounded cards. Each is off by default. | Next release |
+| Persian (Solar Hijri) calendar | Dates in the chat list, date headers in chats, the call log and last seen follow the Solar Hijri calendar, with Persian month names and digits. Off by default. | Next release |
+| Approximate registration date | In a user profile, next to the ID, the approximate month and year the account was made, estimated from the ID with a table in the app, so it can be off by a few months. Needs Show ID. Off by default. | Next release |
+| Hide status in chat header | Hides the line under the chat name (last seen, online, members or subscribers); "typing" stays. Off by default. | Next release |
+| Static input field icons | The microphone, camera and emoji buttons of the message field change without animation. Off by default. | Next release |
+| New chat button shape | The shape of the round button of the chat list. | Next release |
+| Folder tabs | What the folder tabs above the chat list show. The icon is the one set for the folder in Telegram Desktop or on iOS; without it, one is picked from the chat types of the folder. | Next release |
+| Account order | Your accounts in the order you choose; Settings, the account switcher and the accounts in the menu follow it. | Next release |
+| Side menu | The three dots of the chat list open a panel from the side: your avatar and name, the accounts and the items you choose, with options for a QR button, a large avatar, the header background and a glass panel. Full menu in it opens the usual menu. Off by default. | Next release |
+| Pills in the search bar | Small pills at the end of the search bar of the chat list, one at a time: ghost mode, last seen, proxy, cache, CPU, RAM, network speed, data center ping, weather and exchange rates. The weather pill uses Telegram's own weather (with the location permission); the rates pill asks Coinbase and gold-api.com directly. Off by default, with no pill chosen. | Next release |
+| Icon packs | Other icons in place of Telegram's own: a built-in set or packs from .icons files. MZGram does not download packs. Off by default. | Next release |
+| Monet themes | Three themes in the colours of your wallpaper (Material You), light, dark and black, beside the standard ones; they follow a new wallpaper. Off by default. | Next release |
+| Don't load hidden stories | With Hide stories on, the stories row and story previews are not loaded in the background, which saves traffic and battery. Off by default. | Next release |
+| Avatar shape | A slider for how round avatars are across the app, from a circle as in Telegram through a rounded square to a square. | Next release |
+| Glass outline | The edge of glass panels, buttons and menus: glare as in Telegram, one thin solid line, or none. | Next release |
 
 ### Ads and filters
 
@@ -122,6 +194,9 @@ Each item has its own switch.
 |---|---|---|
 | No sponsored messages | Sponsored messages in channels and the promo or proxy banner in the chat list are neither requested nor shown. | 1.0.0 |
 | Zalgo filter | Removes stacked Unicode combining marks (corrupted "Zalgo" text) from names, chat titles and message text. | 1.0.0 |
+| Reaction filter | Hides all reactions or chosen emoji under messages, separately in private chats, groups and channels. Only what you see changes. Off by default. | Next release |
+| Shadow ban | In groups, messages of the people you choose and replies to them are not shown and do not notify; they are not told. A second switch hides messages of blocked users in groups. Off by default. | Next release |
+| Message filters | Messages from other people that match your rules (regular expressions) are not shown and do not notify. Nothing is sent anywhere. Off by default. | Next release |
 
 ### Notifications
 
@@ -138,6 +213,8 @@ Each item has its own switch.
 | Feature | What it does, and how it differs from Telegram | Since |
 |---|---|---|
 | 1 GB cache limit | Maximum cache size can be set to 1 GB (Telegram starts at 5 GB); a lower limit clears the cache at once. | 1.0.1 |
+| Settings backup | Settings > MZGram > Other: export the MZGram settings to a file you choose and import them back. API keys, push keys, plugins, passcode accounts and the app font are not in it. Nothing is sent anywhere. | Next release |
+| Diagnostics | Settings > MZGram > Other > Diagnostics: a crash report shown once on the next launch after a crash, and a frame drop profiler and a battery profiler that write text reports you may share. Nothing is sent by MZGram. | Next release |
 
 ### Updates and branding
 
@@ -151,11 +228,15 @@ Each item has its own switch.
 
 ### Plugins and hooks
 
+Only in builds made with -PmzgramPlugins=true; the usual build has no plugins.
+
 | Feature | What it does, and how it differs from Telegram | Since |
 |---|---|---|
-| Plugin hooks and Aliuhook | Plugins can hook methods when granted the hooks permission. In builds with `-PmzgramPlugins=true`, runtime method hooking is powered by Aliuhook (`com.aliucord:Aliuhook:1.1.4`, wrapping LSPlant; licensed under Open Software License 3.0 / OSL-3.0 and LGPL-3.0). Core security boundaries (passcode, encryption keys, and plugin security barriers) cannot be hooked. Retained with explicit attribution and licensing notes. | Next release |
-| Plugins repository catalog | Browse and install verified plugins from the official MZGram plugins repository (437 plugins prepared in staging, catalog repository publishing pending by owner). Features multi-language descriptions (12 languages), SHA-256 integrity verification, AST capability scanning, granular permissions sheet, and strictly enforces MZGram authorship without third-party avatars or telemetry. Off by default. | Next release |
-| Plugins backup and restore | Export installed plugins and their safe preferences into settings backup archive (.mzgram-settings) or standalone zip archives (.mzgram-plugins), with automatic secret stripping and user confirmation before restoration. Restorable only when explicitly enabled. Off by default. | Next release |
+| Plugins | Settings > MZGram > Other > Plugins: single-file Python plugins (.plugin, CPython 3.11). Before a plugin is added, a sheet shows the permissions it asks for and what an offline scan of its code found; its code can be read, an activity log keeps what plugins did, and plugins that crash the app at start are stopped by Safe Mode. A plugin runs with the rights of MZGram: the checks on network, files, processes and sending are not a sandbox, so turn on only plugins you trust. | Next release |
+| Plugin hooks and Aliuhook | With the hooks permission a plugin can hook Java methods of the app through Aliuhook (com.aliucord:Aliuhook:1.1.4, OSL-3.0), which wraps LSPlant (LGPL-3.0). Such a plugin has full control over the app, also over the checks above. | Next release |
+| Python packages and plugin development | A switch allows installing pure-Python packages from PyPI for a plugin when it asks; off by default. Another switch lets you add and update plugins from a computer over adb, each command with a token. | Next release |
+| Plugins catalog | Opens a catalog (index.json) from a URL and installs a plugin only when the SHA-256 of its file matches the catalog. The default URL is the MZGram-Plugins repository, which is not published yet. The catalog loads only when its screen is opened. | Next release |
+| Plugins backup and restore | Plugins and their settings, without keys, tokens and passwords, go into the settings backup (Include plugins in settings backup, off by default) or a .plugins.zip file. Restored plugins come back turned off and without permissions. | Next release |
 
 ### Releases
 
@@ -336,13 +417,35 @@ Yes: present. No: absent. Partly: present in a narrower form.
 | Self-update from GitHub with a SHA-256 check | Yes | Yes |
 | MZGram name everywhere | Yes | Yes |
 | ARM64 builds | Yes (the APK) | Yes |
-| Plugin hooks and Aliuhook | Yes | No |
-| App font choices: Inter and Fira Sans | Yes | No |
-| Compact chat header | Yes | No |
-| Always send in HD | Yes | No |
-| Material 3 switches and cards design | Yes | No |
+| Archive rules per chat, deleted messages list, deleted chats | Yes | No |
+| Replies to and forwards of kept deleted messages | Yes | No |
+| Import from another client's database | Yes | No |
+| Ghost mode per chat, quick settings tiles and shortcuts | Yes | No |
+| Confirm links, no link preview, local drafts, lock screen voice, bot start | Yes | No |
+| Own last seen, exact last seen, readers in groups | Yes | No |
+| Reduce network tracking, proxy auto-off, trending stickers | Yes | No |
+| Account passcodes | Yes | No |
+| OpenStreetMap map preview | Yes | No |
+| Tor companion proxy (messages and media) | Yes | No |
+| Up to 100 pinned chats, local folders | Yes | No |
+| Folder on launch, recent chats on Back, account order | Yes | No |
+| Search operators, fancy fonts in search, open profile by number | Yes | No |
+| Sticker size and shape, wide channel posts, link and code display | Yes | No |
+| Separate sticker, GIF, game and inline permissions | Yes | No |
+| Schedule delay, silent by default, pinned reactions, formatting menu | Yes | No |
+| Character counter, inline calculator, CJK spacing, double tap actions | Yes | No |
+| Clean tracking from links, copy without formatting | Yes | No |
+| Voice messages: noise suppression and quality | Yes | No |
+| Round videos: stabilization, CameraX, Camera2 recorder, pause | Yes | No |
+| Photos: full resolution crop, always HD | Yes | No |
+| Material 3 music player, profile music card | Yes | No |
 | Video player subtitles (.srt, .vtt) | Yes | No |
-| Persian (Solar Hijri) calendar | Yes | No |
-| Plugins repository catalog with verification | Yes | No |
-| Plugins backup and restore with secret sanitization | Yes | No |
-| Tor companion proxy | Yes | No |
+| App font: Inter, Fira Sans or a file | Yes | No |
+| Compact chat header, hide chat status, static input icons | Yes | No |
+| Side menu, pills, folder tabs, new chat button shape | Yes | No |
+| Icon packs, Monet themes, avatar shape, glass outline | Yes | No |
+| Material 3 switches and cards | Yes | No |
+| Persian (Solar Hijri) calendar, registration date | Yes | No |
+| Reaction filter, shadow ban, message filters | Yes | No |
+| Settings backup, diagnostics | Yes | No |
+| Plugins (builds with -PmzgramPlugins=true) | Yes | No |

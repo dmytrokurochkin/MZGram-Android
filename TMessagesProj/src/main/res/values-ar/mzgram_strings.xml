@@ -1154,8 +1154,7 @@
     <string name="MZGramTorCompanion">التكامل مع شبكة Tor</string>
     <string name="MZGramTorCompanionInstalled">التطبيق المساعد مثبت</string>
     <string name="MZGramTorCompanionMissing">لم يتم العثور على التطبيق المساعد</string>
-    <string name="MZGramTorIdleTimeout">مهلة الخمول قبل الإيقاف المؤقت</string>
-    <string name="MZGramTorInfo">توجيه حركة المرور عبر تطبيق Tor خارجي مع حماية من التسرب عند البدء وإيقاف مؤقت عند الخمول.</string>
+    <string name="MZGramTorInfo">تمر الرسائل والوسائط عبر وكيل SOCKS5 لتطبيق Tor (Orbot، 127.0.0.1:9050) منذ أول اتصال بعد كل تشغيل. ما دام تطبيق Tor لا يعمل، لا يتصل MZGram. أما المكالمات وصفحات الويب والتطبيقات المصغرة وإضافات MZGram التي تستخدم خدمات أخرى فتتصل مباشرة، وليس عبر Tor.</string>
     <string name="MZGramTorInstallPrompt">لم يتم العثور على تطبيق Tor المساعد (مثل Orbot). يُرجى تثبيت Orbot لتوجيه حركة المرور بأمان.</string>
     <string name="MZGramBadgesHeader">شارات الملف الشخصي والرسائل</string>
     <string name="MZGramCustomBadges">شارات المستخدم المخصصة</string>

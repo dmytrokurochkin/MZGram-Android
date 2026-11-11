@@ -1154,8 +1154,7 @@
     <string name="MZGramTorCompanion">Tor network integration</string>
     <string name="MZGramTorCompanionInstalled">Companion installed</string>
     <string name="MZGramTorCompanionMissing">Companion not detected</string>
-    <string name="MZGramTorIdleTimeout">Idle timeout before pause</string>
-    <string name="MZGramTorInfo">Routes client traffic through an external Tor companion app with pre-bind leak protection and background idle pause.</string>
+    <string name="MZGramTorInfo">Messages and media go through the SOCKS5 proxy of a Tor app (Orbot, 127.0.0.1:9050) from the first connection after every start. While the Tor app is not running, MZGram does not connect. Calls, web pages, mini apps and MZGram extras that use other services connect directly, not through Tor.</string>
     <string name="MZGramTorInstallPrompt">Tor companion app (e.g. Orbot) was not detected. Please install Orbot from F-Droid or Google Play to route traffic through Tor.</string>
     <string name="MZGramBadgesHeader">Profile and message badges</string>
     <string name="MZGramCustomBadges">Custom user badges</string>

@@ -1154,8 +1154,7 @@
     <string name="MZGramTorCompanion">Tor ağı entegrasyonu</string>
     <string name="MZGramTorCompanionInstalled">Yardımcı uygulama yüklendi</string>
     <string name="MZGramTorCompanionMissing">Yardımcı uygulama bulunamadı</string>
-    <string name="MZGramTorIdleTimeout">Duraklatmadan önceki boşta kalma süresi</string>
-    <string name="MZGramTorInfo">Trafiği başlangıçta sızıntı koruması ve boşta duraklatma özellikli harici bir Tor uygulaması üzerinden yönlendirir.</string>
+    <string name="MZGramTorInfo">Mesajlar ve medya, her açılıştan sonraki ilk bağlantıdan itibaren bir Tor uygulamasının SOCKS5 proxy sunucusu (Orbot, 127.0.0.1:9050) üzerinden gider. Tor uygulaması çalışmadığı sürece MZGram bağlanmaz. Aramalar, web sayfaları, mini uygulamalar ve başka hizmetleri kullanan MZGram ekleri Tor üzerinden değil, doğrudan bağlanır.</string>
     <string name="MZGramTorInstallPrompt">Tor yardımcı uygulaması (ör. Orbot) bulunamadı. Lütfen trafiği yönlendirmek için Orbot uygulamasını yükleyin.</string>
     <string name="MZGramBadgesHeader">Profil ve mesaj rozetleri</string>
     <string name="MZGramCustomBadges">Özel kullanıcı rozetleri</string>

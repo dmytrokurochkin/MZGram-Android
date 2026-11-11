@@ -1154,8 +1154,7 @@
     <string name="MZGramTorCompanion">Маршрутызацыя праз сетку Tor</string>
     <string name="MZGramTorCompanionInstalled">Кампаньён усталяваны</string>
     <string name="MZGramTorCompanionMissing">Кампаньён не выяўлены</string>
-    <string name="MZGramTorIdleTimeout">Час бяздзейнасці да паўзы</string>
-    <string name="MZGramTorInfo">Накіроўвае трафік праз знешні дадатак Tor з абаронай ад уцечак на старце і прыпыненнем у прастоі.</string>
+    <string name="MZGramTorInfo">Паведамленні і медыя ідуць праз SOCKS5-проксі праграмы Tor (Orbot, 127.0.0.1:9050) з першага злучэння пасля кожнага запуску. Пакуль праграма Tor не працуе, MZGram не падключаецца. Званкі, вэб-старонкі, міні-праграмы і дадаткі MZGram, якія звяртаюцца да іншых сэрвісаў, падключаюцца напрамую, не праз Tor.</string>
     <string name="MZGramTorInstallPrompt">Кампаньён Tor (напрыклад Orbot) не знойдзены. Усталюйце Orbot з F-Droid ці Google Play для бяспечнага злучэння.</string>
     <string name="MZGramBadgesHeader">Значкі профілю і паведамленняў</string>
     <string name="MZGramCustomBadges">Карыстальніцкія значкі ўдзельнікаў</string>

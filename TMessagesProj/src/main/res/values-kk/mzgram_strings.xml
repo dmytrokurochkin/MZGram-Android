@@ -1154,8 +1154,7 @@
     <string name="MZGramTorCompanion">Tor желісі арқылы бағыттау</string>
     <string name="MZGramTorCompanionInstalled">Серіктес орнатылған</string>
     <string name="MZGramTorCompanionMissing">Серіктес анықталмады</string>
-    <string name="MZGramTorIdleTimeout">Кідіртуге дейінгі әрекетсіздік уақыты</string>
-    <string name="MZGramTorInfo">Трафикті іске қосу кезіндегі ағып кетуден қорғау және әрекетсіздікте кідіртуі бар сыртқы Tor қолданбасы арқылы бағыттайды.</string>
+    <string name="MZGramTorInfo">Хабарлар мен медиа әр іске қосудан кейінгі алғашқы қосылымнан бастап Tor қолданбасының SOCKS5 проксиі (Orbot, 127.0.0.1:9050) арқылы өтеді. Tor қолданбасы жұмыс істемей тұрғанда MZGram қосылмайды. Қоңыраулар, веб-беттер, шағын қолданбалар және басқа қызметтерді пайдаланатын MZGram қосымшалары Tor арқылы емес, тікелей қосылады.</string>
     <string name="MZGramTorInstallPrompt">Tor серіктес қолданбасы (мысалы Orbot) анықталмады. Қорғалған байланыс үшін Orbot орнатыңыз.</string>
     <string name="MZGramBadgesHeader">Профиль және хабарлама белгішелері</string>
     <string name="MZGramCustomBadges">Пайдаланушылық қатысушы белгішелері</string>

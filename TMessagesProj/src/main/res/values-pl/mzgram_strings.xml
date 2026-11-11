@@ -1154,8 +1154,7 @@
     <string name="MZGramTorCompanion">Integracja z siecią Tor</string>
     <string name="MZGramTorCompanionInstalled">Aplikacja towarzysząca zainstalowana</string>
     <string name="MZGramTorCompanionMissing">Nie wykryto aplikacji towarzyszącej</string>
-    <string name="MZGramTorIdleTimeout">Czas bezczynności przed wstrzymaniem</string>
-    <string name="MZGramTorInfo">Kieruje ruch przez zewnętrzną aplikację Tor z ochroną przed wyciekiem danych i pauzą przy bezczynności.</string>
+    <string name="MZGramTorInfo">Wiadomości i multimedia idą przez proxy SOCKS5 aplikacji Tor (Orbot, 127.0.0.1:9050) od pierwszego połączenia po każdym uruchomieniu. Dopóki aplikacja Tor nie działa, MZGram się nie łączy. Rozmowy głosowe, strony internetowe, miniaplikacje i dodatki MZGram korzystające z innych usług łączą się bezpośrednio, nie przez Tor.</string>
     <string name="MZGramTorInstallPrompt">Nie wykryto aplikacji Tor (np. Orbot). Zainstaluj Orbot z F-Droid lub Google Play, aby przekierować ruch.</string>
     <string name="MZGramBadgesHeader">Odznaki profilu i wiadomości</string>
     <string name="MZGramCustomBadges">Własne odznaki użytkowników</string>

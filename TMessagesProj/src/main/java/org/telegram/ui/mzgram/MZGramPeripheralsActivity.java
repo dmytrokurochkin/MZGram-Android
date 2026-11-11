@@ -43,7 +43,6 @@ import java.util.List;
 public class MZGramPeripheralsActivity extends UniversalFragment {
 
     private static final int BUTTON_TOR_ENABLED = 1;
-    private static final int BUTTON_TOR_IDLE = 2;
     private static final int BUTTON_BADGES_ENABLED = 10;
     private static final int BUTTON_SELF_BADGE = 11;
     private static final int BUTTON_GLYPH_ENABLED = 20;
@@ -65,10 +64,6 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
         // Section: Tor Companion
         items.add(UItem.asHeader(getString(R.string.MZGramTorHeader)));
         items.add(UItem.asCheck(BUTTON_TOR_ENABLED, getString(R.string.MZGramTorCompanion)).setChecked(MZGramConfig.torCompanionEnabled));
-        if (MZGramConfig.torCompanionEnabled) {
-            String idleVal = MZGramConfig.torIdleTimeoutMinutes + " min";
-            items.add(UItem.asButton(BUTTON_TOR_IDLE, getString(R.string.MZGramTorIdleTimeout), idleVal));
-        }
         items.add(UItem.asShadow(getString(R.string.MZGramTorInfo)));
 
         // Section: Custom Badges
@@ -133,8 +128,6 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 MZGramTorCompanion.applyTorProxySettings(MZGramConfig.torCompanionEnabled);
                 updateList();
             }
-        } else if (item.id == BUTTON_TOR_IDLE) {
-            showTorIdleDialog(activity);
         } else if (item.id == BUTTON_BADGES_ENABLED) {
             MZGramConfig.toggleCustomBadgesEnabled();
             updateList();
@@ -175,19 +168,7 @@ public class MZGramPeripheralsActivity extends UniversalFragment {
                 .setMessage(getString(R.string.MZGramTorInstallPrompt))
                 .setPositiveButton(getString(R.string.MZGramOk), (dialog, which) -> {
                     MZGramConfig.toggleTorCompanionEnabled();
-                    updateList();
-                })
-                .setNegativeButton(getString(R.string.MZGramCancel), null)
-                .show();
-    }
-
-    private void showTorIdleDialog(Activity activity) {
-        CharSequence[] options = new CharSequence[]{"1 min", "5 min", "15 min", "30 min"};
-        int[] minutes = new int[]{1, 5, 15, 30};
-        new AlertDialog.Builder(activity)
-                .setTitle(getString(R.string.MZGramTorIdleTimeout))
-                .setItems(options, (dialog, which) -> {
-                    MZGramConfig.setTorIdleTimeoutMinutes(minutes[which]);
+                    MZGramTorCompanion.applyTorProxySettings(MZGramConfig.torCompanionEnabled);
                     updateList();
                 })
                 .setNegativeButton(getString(R.string.MZGramCancel), null)

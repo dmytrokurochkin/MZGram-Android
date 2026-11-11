@@ -1154,8 +1154,7 @@
     <string name="MZGramTorCompanion">Tor-Netzwerkintegration</string>
     <string name="MZGramTorCompanionInstalled">Begleiter installiert</string>
     <string name="MZGramTorCompanionMissing">Begleiter nicht gefunden</string>
-    <string name="MZGramTorIdleTimeout">Inaktivitäts-Timeout vor Pause</string>
-    <string name="MZGramTorInfo">Leitet den Datenverkehr über eine externe Tor-App mit Leckschutz beim Start und Leerlaufpause.</string>
+    <string name="MZGramTorInfo">Nachrichten und Medien laufen ab der ersten Verbindung nach jedem Start über den SOCKS5-Proxy einer Tor-App (Orbot, 127.0.0.1:9050). Solange die Tor-App nicht läuft, verbindet sich MZGram nicht. Anrufe, Webseiten, Mini-Apps und MZGram-Extras, die andere Dienste nutzen, verbinden sich direkt, nicht über Tor.</string>
     <string name="MZGramTorInstallPrompt">Tor-Begleit-App (z. B. Orbot) wurde nicht erkannt. Bitte installieren Sie Orbot von F-Droid oder Google Play.</string>
     <string name="MZGramBadgesHeader">Profil- und Nachrichtenabzeichen</string>
     <string name="MZGramCustomBadges">Benutzerdefinierte Benutzerabzeichen</string>

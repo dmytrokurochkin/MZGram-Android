@@ -3,9 +3,16 @@
  * a fork of Telegram for Android.
  *
  * Tor companion integration (privacy.tor-idle-plugin).
- * Connects to an external companion APK (e.g. Orbot or Mercurygram Tor plugin)
- * via SOCKS5 proxy without bundling native Tor binaries in the main APK.
- * Implements pre-bind blocking stub (127.0.0.1:1) and auto-idle shutdown.
+ * Connects to an external companion APK (e.g. Orbot) via its SOCKS5 proxy
+ * without bundling native Tor binaries in the main APK.
+ *
+ * Only the connections of tgnet (messages, media) use the proxy. It is set
+ * before the first connection of every account (applyOnConnectionsInit, from
+ * ConnectionsManager.init), so after a restart or a push wake-up nothing goes
+ * out directly: while the companion is not running, the connection to
+ * 127.0.0.1:9050 is refused and Telegram stays offline. Calls, WebView pages
+ * and MZGram extras that use other services do not go through Tor.
+ * There is no idle pause.
  */
 
 package org.telegram.messenger.mzgram.peripherals;
@@ -13,8 +20,6 @@ package org.telegram.messenger.mzgram.peripherals;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -30,11 +35,8 @@ public final class MZGramTorCompanion {
 
     public static final String TOR_SOCKS_HOST = "127.0.0.1";
     public static final int TOR_SOCKS_PORT = 9050;
+    // Not used: a companion that is not running refuses 127.0.0.1:9050 itself
     public static final int BLOCKING_STUB_PORT = 1;
-
-    private static final Handler idleHandler = new Handler(Looper.getMainLooper());
-    private static Runnable idleRunnable;
-    private static boolean isPaused;
 
     private static SharedConfig.ProxyInfo previousProxy;
     private static boolean hadPreviousProxy;
@@ -81,6 +83,19 @@ public final class MZGramTorCompanion {
             return ApplicationLoader.applicationContext.getSharedPreferences("mzgram_config", Context.MODE_PRIVATE);
         }
         return null;
+    }
+
+    /**
+     * Called by ConnectionsManager.init before the first connection of the
+     * account: with the companion on, its SOCKS5 proxy instead of Telegram's
+     * own proxy settings (those stay as they are). True when it set the proxy.
+     */
+    public static boolean applyOnConnectionsInit(int account) {
+        if (!MZGramConfig.torCompanionEnabled) {
+            return false;
+        }
+        org.telegram.tgnet.ConnectionsManager.native_setProxySettings(account, TOR_SOCKS_HOST, TOR_SOCKS_PORT, "", "", "");
+        return true;
     }
 
     public static void applyTorProxySettings(boolean enable) {
@@ -132,6 +147,11 @@ public final class MZGramTorCompanion {
             } else {
                 boolean wasActive = torActiveInPrefs || torProxyActive;
                 if (!wasActive) {
+                    // On without a saved state (after a restart the proxy came from
+                    // applyOnConnectionsInit): Telegram's own proxy settings were never
+                    // replaced, so they apply again.
+                    SharedConfig.ProxyInfo current = SharedConfig.currentProxy;
+                    org.telegram.tgnet.ConnectionsManager.setProxySettings(SharedConfig.isProxyEnabled(), current != null ? current.settings : null);
                     return;
                 }
                 torProxyActive = false;
@@ -257,34 +277,5 @@ public final class MZGramTorCompanion {
         torProxyActive = false;
         hadPreviousProxy = false;
         previousProxy = null;
-    }
-
-    public static void onAppPause() {
-        if (!MZGramConfig.torCompanionEnabled) {
-            return;
-        }
-        isPaused = true;
-        int idleMinutes = Math.max(1, MZGramConfig.torIdleTimeoutMinutes);
-        if (idleRunnable != null) {
-            idleHandler.removeCallbacks(idleRunnable);
-        }
-        idleRunnable = () -> {
-            if (isPaused && MZGramConfig.torCompanionEnabled) {
-                // Suspend Tor traffic while idle in background
-                FileLog.d("MZGramTorCompanion: idle timeout reached, pausing Tor");
-            }
-        };
-        idleHandler.postDelayed(idleRunnable, idleMinutes * 60_000L);
-    }
-
-    public static void onAppResume() {
-        isPaused = false;
-        if (idleRunnable != null) {
-            idleHandler.removeCallbacks(idleRunnable);
-            idleRunnable = null;
-        }
-        if (MZGramConfig.torCompanionEnabled) {
-            applyTorProxySettings(true);
-        }
     }
 }

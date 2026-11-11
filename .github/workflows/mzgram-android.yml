@@ -12,6 +12,13 @@ on:
       - mzgram
       - 'mzgram/**'
   workflow_dispatch:
+    inputs:
+      # MZGram: a test build with plugins (Python and hooks), only when asked
+      # for by hand; pushes and the default run build without them.
+      plugins:
+        description: 'Build with plugins (-PmzgramPlugins=true), for testing'
+        type: boolean
+        default: false
 
 jobs:
   android:
@@ -89,6 +96,22 @@ jobs:
           FLOOR=$(sed -n 's/^APP_VERSION_CODE=//p' gradle.properties)
           git ls-remote --tags origin 'refs/tags/v*' | python3 .github/scripts/mzgram_version.py dev --upstream "$UPSTREAM" --floor "$FLOOR" | tee -a "$GITHUB_OUTPUT"
 
+      # Plugins: Chaquopy needs a build Python of its own version (3.11). The
+      # Gradle properties go through the environment, so every Gradle call
+      # of the job gets them.
+      - name: Set up Python for plugins.
+        if: ${{ inputs.plugins }}
+        id: plugins-python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build with plugins.
+        if: ${{ inputs.plugins }}
+        run: |
+          echo "ORG_GRADLE_PROJECT_mzgramPlugins=true" >> "$GITHUB_ENV"
+          echo "ORG_GRADLE_PROJECT_mzgramPluginsBuildPython=${{ steps.plugins-python.outputs.python-path }}" >> "$GITHUB_ENV"
+
       # The module has no 'release' buildType: signing and minification live on
       # 'standalone'. assembleAfatRelease produces an unsigned APK that will not install.
       - name: Build.
@@ -122,10 +145,16 @@ jobs:
           grep -q "name='org.mzgram.messenger'" <<<"$BADGING" || { echo "::error::package name is not org.mzgram.messenger"; exit 1; }
           ls -lh artifact/
 
+      - name: Check Python and hooks in the APK.
+        if: ${{ inputs.plugins }}
+        run: |
+          unzip -l artifact/MZGram.apk | grep -iE "chaquopy|libpython|aliuhook|lsplant" | head -40
+          unzip -l artifact/MZGram.apk | grep -qi "chaquopy" || { echo "::error::no Python (Chaquopy) in the APK built with plugins"; exit 1; }
+
       - name: Upload artifact.
         uses: actions/upload-artifact@v7
         with:
-          name: ${{ steps.sign.outputs.signed == 'true' && 'MZGram-Android' || 'MZGram-Android-debugkey' }}
+          name: ${{ format('{0}{1}', steps.sign.outputs.signed == 'true' && 'MZGram-Android' || 'MZGram-Android-debugkey', inputs.plugins && '-plugins' || '') }}
           path: artifact/
 
   # MZGram instrumented tests (TMessagesProj_AppTests, package
@@ -183,6 +212,22 @@ jobs:
           else
             echo "::warning::No API credentials set. The live E2E test will be skipped."
           fi
+
+      # Plugins (run by hand with "plugins"): the test APKs get Python and
+      # hooks too, so the plugin tests run with the runtime; before the 3.12
+      # below, which stays the python3 of the job.
+      - name: Set up Python for plugins.
+        if: ${{ inputs.plugins }}
+        id: plugins-python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build with plugins.
+        if: ${{ inputs.plugins }}
+        run: |
+          echo "ORG_GRADLE_PROJECT_mzgramPlugins=true" >> "$GITHUB_ENV"
+          echo "ORG_GRADLE_PROJECT_mzgramPluginsBuildPython=${{ steps.plugins-python.outputs.python-path }}" >> "$GITHUB_ENV"
 
       - name: Set up Python.
         uses: actions/setup-python@v5

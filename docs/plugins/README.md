@@ -50,7 +50,7 @@ A plugin is a single UTF-8 Python file with the extension `.plugin`, up to
 
 | Constant | Required | Meaning |
 |---|---|---|
-| `__id__` | yes | 2–32 characters: a Latin letter first, then Latin letters, digits, `_` or `-`. It must not be the name of a Python standard library module. |
+| `__id__` | yes | 2-32 characters: a Latin letter first, then Latin letters, digits, `_` or `-`. It must not be the name of a Python standard library module. |
 | `__name__` | yes | Name shown to the user. |
 | `__description__` | no | Short description. |
 | `__author__` | no | Author. |

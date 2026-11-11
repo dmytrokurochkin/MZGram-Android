@@ -225,7 +225,7 @@ class MZGramPeripheralsTest {
 
             // Assert: Disabling Tor must NOT turn on the proxy
             assertFalse("Proxy must remain disabled after Tor is turned off", org.telegram.messenger.SharedConfig.isProxyEnabled())
-            assertNull("currentProxy must be cleared when no active prior proxy existed", org.telegram.messenger.SharedConfig.currentProxy)
+            assertEquals("currentProxy after toggle cycle must equal the initial proxy object", mockPriorProxy, org.telegram.messenger.SharedConfig.currentProxy)
         } finally {
             MZGramTorCompanion.applyTorProxySettings(false)
             MZGramTorCompanion.resetTestingState()
@@ -236,6 +236,30 @@ class MZGramPeripheralsTest {
             } else {
                 org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null)
             }
+        }
+    }
+
+    @Test
+    fun testTorCompanion_safeReadProxyType_stringOrInt() {
+        val prefs = org.telegram.messenger.ApplicationLoader.applicationContext.getSharedPreferences("mzgram_config_test_type", android.content.Context.MODE_PRIVATE)
+        try {
+            // Case 1: Stored as Integer
+            prefs.edit().putInt("mzgram_tor_prev_type", 1).commit()
+            assertEquals(1, MZGramTorCompanion.readSafeProxyType(prefs))
+
+            // Case 2: Stored as String integer
+            prefs.edit().putString("mzgram_tor_prev_type", "2").commit()
+            assertEquals(2, MZGramTorCompanion.readSafeProxyType(prefs))
+
+            // Case 3: Stored as String enum name (e.g. SOCKS5)
+            prefs.edit().putString("mzgram_tor_prev_type", "SOCKS5").commit()
+            assertEquals(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5.ordinal, MZGramTorCompanion.readSafeProxyType(prefs))
+
+            // Case 4: Missing or invalid key defaults to 0 without exception
+            prefs.edit().remove("mzgram_tor_prev_type").commit()
+            assertEquals(0, MZGramTorCompanion.readSafeProxyType(prefs))
+        } finally {
+            prefs.edit().clear().commit()
         }
     }
 

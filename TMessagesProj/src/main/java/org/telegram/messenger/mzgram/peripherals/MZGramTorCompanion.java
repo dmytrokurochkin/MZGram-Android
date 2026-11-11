@@ -91,19 +91,22 @@ public final class MZGramTorCompanion {
                 // (б) Do not overwrite saved prior state if Tor was already active in memory or prefs
                 if (!torProxyActive && !torActiveInPrefs) {
                     hadPreviousProxy = SharedConfig.isProxyEnabled();
-                    previousProxy = hadPreviousProxy ? SharedConfig.currentProxy : null;
+                    previousProxy = SharedConfig.currentProxy;
                     if (p != null) {
                         android.content.SharedPreferences.Editor editor = p.edit();
                         editor.putBoolean("mzgram_tor_active", true);
                         editor.putBoolean("mzgram_tor_had_prev", hadPreviousProxy);
-                        if (hadPreviousProxy && previousProxy != null && previousProxy.settings != null) {
-                            editor.putString("mzgram_tor_prev_ip", previousProxy.settings.getAddress() != null ? previousProxy.settings.getAddress() : "");
-                            editor.putInt("mzgram_tor_prev_port", previousProxy.settings.getPort());
-                            editor.putString("mzgram_tor_prev_user", previousProxy.settings.getUser() != null ? previousProxy.settings.getUser() : "");
-                            editor.putString("mzgram_tor_prev_pass", previousProxy.settings.getPassword() != null ? previousProxy.settings.getPassword() : "");
-                            editor.putString("mzgram_tor_prev_secret", previousProxy.settings.getSecret() != null ? previousProxy.settings.getSecret() : "");
-                            editor.putInt("mzgram_tor_prev_type", previousProxy.settings.getType() != null ? previousProxy.settings.getType().ordinal() : 0);
+                        SharedConfig.ProxyInfo prev = previousProxy;
+                        if (prev != null && prev.settings != null) {
+                            editor.putBoolean("mzgram_tor_has_settings", true);
+                            editor.putString("mzgram_tor_prev_ip", prev.settings.getAddress() != null ? prev.settings.getAddress() : "");
+                            editor.putInt("mzgram_tor_prev_port", prev.settings.getPort());
+                            editor.putString("mzgram_tor_prev_user", prev.settings.getUser() != null ? prev.settings.getUser() : "");
+                            editor.putString("mzgram_tor_prev_pass", prev.settings.getPassword() != null ? prev.settings.getPassword() : "");
+                            editor.putString("mzgram_tor_prev_secret", prev.settings.getSecret() != null ? prev.settings.getSecret() : "");
+                            editor.putInt("mzgram_tor_prev_type", prev.settings.getType() != null ? prev.settings.getType().ordinal() : 0);
                         } else {
+                            editor.putBoolean("mzgram_tor_has_settings", false);
                             editor.remove("mzgram_tor_prev_ip")
                                   .remove("mzgram_tor_prev_port")
                                   .remove("mzgram_tor_prev_user")
@@ -134,13 +137,14 @@ public final class MZGramTorCompanion {
                 boolean restoredFromPrefs = false;
                 if (torActiveInPrefs && p != null) {
                     boolean hadPrevInPrefs = p.getBoolean("mzgram_tor_had_prev", false);
-                    if (hadPrevInPrefs) {
+                    boolean hasSettingsInPrefs = p.getBoolean("mzgram_tor_has_settings", hadPrevInPrefs || p.contains("mzgram_tor_prev_ip"));
+                    if (hasSettingsInPrefs) {
                         String ip = p.getString("mzgram_tor_prev_ip", "");
                         int port = p.getInt("mzgram_tor_prev_port", 1080);
                         String user = p.getString("mzgram_tor_prev_user", "");
                         String pass = p.getString("mzgram_tor_prev_pass", "");
                         String secret = p.getString("mzgram_tor_prev_secret", "");
-                        int typeOrd = p.getInt("mzgram_tor_prev_type", 0);
+                        int typeOrd = readSafeProxyType(p);
                         org.telegram.utils.proxy.ProxySettings.Type[] types = org.telegram.utils.proxy.ProxySettings.Type.values();
                         org.telegram.utils.proxy.ProxySettings.Type type = types[Math.max(0, Math.min(typeOrd, types.length - 1))];
 
@@ -154,7 +158,11 @@ public final class MZGramTorCompanion {
                                 .build();
                         SharedConfig.ProxyInfo restored = new SharedConfig.ProxyInfo(settings);
                         SharedConfig.currentProxy = restored;
-                        org.telegram.tgnet.ConnectionsManager.setProxySettings(true, settings);
+                        if (hadPrevInPrefs) {
+                            org.telegram.tgnet.ConnectionsManager.setProxySettings(true, settings);
+                        } else {
+                            org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
+                        }
                     } else {
                         SharedConfig.currentProxy = null;
                         org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
@@ -163,6 +171,7 @@ public final class MZGramTorCompanion {
                     p.edit()
                             .remove("mzgram_tor_active")
                             .remove("mzgram_tor_had_prev")
+                            .remove("mzgram_tor_has_settings")
                             .remove("mzgram_tor_prev_ip")
                             .remove("mzgram_tor_prev_port")
                             .remove("mzgram_tor_prev_user")
@@ -172,9 +181,13 @@ public final class MZGramTorCompanion {
                             .apply();
                 }
                 if (!restoredFromPrefs) {
-                    if (hadPreviousProxy && previousProxy != null && previousProxy.settings != null) {
+                    if (previousProxy != null && previousProxy.settings != null) {
                         SharedConfig.currentProxy = previousProxy;
-                        org.telegram.tgnet.ConnectionsManager.setProxySettings(true, previousProxy.settings);
+                        if (hadPreviousProxy) {
+                            org.telegram.tgnet.ConnectionsManager.setProxySettings(true, previousProxy.settings);
+                        } else {
+                            org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
+                        }
                     } else {
                         SharedConfig.currentProxy = null;
                         org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
@@ -189,6 +202,33 @@ public final class MZGramTorCompanion {
     }
 
     // Testing state helpers to allow testing without reflection
+    public static int readSafeProxyType(android.content.SharedPreferences p) {
+        if (p == null) {
+            return 0;
+        }
+        try {
+            java.util.Map<String, ?> all = p.getAll();
+            if (all != null) {
+                Object val = all.get("mzgram_tor_prev_type");
+                if (val instanceof Number) {
+                    return ((Number) val).intValue();
+                } else if (val instanceof String) {
+                    String str = (String) val;
+                    try {
+                        return Integer.parseInt(str);
+                    } catch (NumberFormatException e) {
+                        for (org.telegram.utils.proxy.ProxySettings.Type t : org.telegram.utils.proxy.ProxySettings.Type.values()) {
+                            if (t.name().equalsIgnoreCase(str)) {
+                                return t.ordinal();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return 0;
+    }
     public static boolean isTorProxyActive() {
         return torProxyActive;
     }

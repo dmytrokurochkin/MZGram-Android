@@ -42,7 +42,7 @@ Most switches are under **Settings > MZGram**, grouped into topic pages. This fi
 | Read time | Message details show when the other person read your message. | 1.0.0 |
 | Approximate last seen | For a person who hides their last seen, MZGram shows an estimate from what this device saw (for example, their new messages), like any last seen time; up to 1.0.3 it was marked "(approx.)". | 1.0.0 |
 | Protected content | In chats and channels that restrict saving, you can forward, save and copy messages and media and take screenshots. Messages that cannot be forwarded are sent as new copies. Off by default. | 1.0.0 |
-| Tor companion proxy | Connects to an external companion app (Orbot or Mercurygram Tor plugin) over SOCKS5 (127.0.0.1:9050) with fail-closed behavior. All MTProto traffic (messages, media, voice calls, chats, channels) is routed through Tor. Third-party direct HTTP extensions (in-app translation, direct LLM providers, plugins catalog downloads, GitHub self-update checks) bypass the proxy and use the direct network. Off by default. | Next release |
+| Tor companion proxy | Connects to an external companion app (Orbot or external Tor provider) over SOCKS5 (127.0.0.1:9050) with fail-closed behavior. All MTProto traffic (messages, media, voice calls, chats, channels) is routed through Tor. Third-party direct HTTP extensions (in-app translation, direct LLM providers, plugins catalog downloads, GitHub self-update checks) bypass the proxy and use the direct network. Off by default. | Next release |
 
 ### Message menu
 

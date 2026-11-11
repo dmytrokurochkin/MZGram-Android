@@ -55,9 +55,17 @@ class MZGramPluginsCatalogTest {
 
     @Test
     fun testCatalogNetworkNotTriggeredWhenUrlEmpty() {
+        val latch = CountDownLatch(1)
         var errorDelivered = false
         var successDelivered = false
-        MZGramPluginsCatalog.fetchCatalog("", { successDelivered = true }, { errorDelivered = true })
+        MZGramPluginsCatalog.fetchCatalog("", {
+            successDelivered = true
+            latch.countDown()
+        }, {
+            errorDelivered = true
+            latch.countDown()
+        })
+        assertTrue("Callback must fire within timeout", latch.await(2, TimeUnit.SECONDS))
         // Empty URL must immediately deliver error without making any HTTP request
         assertTrue(errorDelivered)
         assertFalse(successDelivered)

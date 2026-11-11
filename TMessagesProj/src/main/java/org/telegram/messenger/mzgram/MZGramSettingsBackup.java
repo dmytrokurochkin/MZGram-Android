@@ -173,13 +173,15 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "nothingGlyphBrightness", 1, 100);
         // Round video bitrate
         integer(CONFIG, "round_video_bitrate", 0, 10_000_000);
+        // Never in the file: API keys (deeplApiKey, aiApiKey, nothingGlyphApiKey) and the
+        // servers that get the user's texts (aiCustomEndpoint, mozhiCustomInstance), so a
+        // file from someone else cannot send them elsewhere
         texts(CONFIG, TEXT_MAX,
                 "aiProvider", "language", "deletedMark", "editedMark", "hiddenReactions",
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",
                 "textStyleOrder", "textStyleHidden", "pluginsCatalogUrl",
-                "translationTargetLang", "deeplApiKey", "mozhiCustomInstance",
-                "aiApiKey", "aiCustomEndpoint", "aiCustomModel", "voskModelLang",
-                "torCompanionPackage", "nothingGlyphApiKey", "customEmojiFontPath");
+                "translationTargetLang", "aiCustomModel", "voskModelLang",
+                "torCompanionPackage", "customEmojiFontPath");
         textSets(CONFIG, "aiMenuButtons", "hiddenSettingsRows");
 
         // MZGramDrawerItems, MZGramPills: comma-separated ids, unknown ids are dropped when read

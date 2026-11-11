@@ -45,7 +45,9 @@ class MZGramSettingsBackupTest {
 
     @Test
     fun secretsAndDeviceStateStayOut() {
-        for (key in listOf("unifiedPushVapidKey", "unifiedPushGateway", "useUnifiedPush", "passcodeAccounts", "aiWarned", "appFontName")) {
+        // API keys and the servers that get the user's texts never come from a file either
+        for (key in listOf("unifiedPushVapidKey", "unifiedPushGateway", "useUnifiedPush", "passcodeAccounts", "aiWarned", "appFontName",
+                "aiApiKey", "deeplApiKey", "nothingGlyphApiKey", "aiCustomEndpoint", "mozhiCustomInstance")) {
             assertNull(key, MZGramSettingsBackup.accepted(config, key, "x"))
             assertNull(key, MZGramSettingsBackup.accepted(config, key, true))
         }

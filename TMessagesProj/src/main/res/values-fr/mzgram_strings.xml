@@ -1189,7 +1189,7 @@
     <string name="MZGramPluginsImportBackup">Importer la sauvegarde des plug-ins</string>
     <string name="MZGramPluginsBackupEmpty">Aucun plug-in installé à sauvegarder</string>
     <string name="MZGramPluginsBackupInvalid">L\'archive de sauvegarde est corrompue ou n\'est pas une sauvegarde MZGram valide</string>
-    <string name="MZGramPluginsBackupConfirm">Importer %1$d plug-ins depuis l\'archive de sauvegarde ?</string>
+    <string name="MZGramPluginsBackupConfirm">Importer %1$d plug-ins depuis l\'archive de sauvegarde ? Ils reviennent désactivés et sans autorisations : activez et autorisez chacun vous-même.</string>
     <string name="MZGramPluginsBackupDone">%1$d plug-ins sur %2$d importés avec succès</string>
     <string name="MZGramPluginsBackupImport">Importer</string>
     <string name="MZGramPluginsBackupSwitch">Inclure les plug-ins dans la sauvegarde des paramètres</string>
@@ -1202,5 +1202,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Format de sous-titres non pris en charge</string>
     <string name="MZGramPersianCalendar">Calendrier persan solaire</string>
     <string name="MZGramPersianCalendarInfo">Afficher les dates selon le calendrier solaire persan.</string>
-    <string name="MZGramSettingsImportPluginsCount">Plugins à restaurer : %1$d.</string>
+    <string name="MZGramSettingsImportPluginsCount">Plugins à restaurer : %1$d. Ils reviennent désactivés et sans autorisations.</string>
 </resources>

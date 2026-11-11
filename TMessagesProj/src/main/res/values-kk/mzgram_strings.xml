@@ -1189,7 +1189,7 @@
     <string name="MZGramPluginsImportBackup">Плагиндердің сақтық көшірмесін импорттау</string>
     <string name="MZGramPluginsBackupEmpty">Сақтық көшірме жасайтын орнатылған плагиндер жоқ</string>
     <string name="MZGramPluginsBackupInvalid">Сақтық көшірме архиві бүлінген немесе жарамды MZGram плагиндер көшірмесі емес</string>
-    <string name="MZGramPluginsBackupConfirm">Сақтық көшірме архивінен %1$d плагин импортталсын ба?</string>
+    <string name="MZGramPluginsBackupConfirm">Сақтық көшірме архивінен %1$d плагин импортталсын ба? Олар өшірулі және рұқсатсыз қайтады: әрқайсысын өзіңіз қосып, рұқсат беріңіз.</string>
     <string name="MZGramPluginsBackupDone">%1$d / %2$d плагин сәтті импортталды</string>
     <string name="MZGramPluginsBackupImport">Импорттау</string>
     <string name="MZGramPluginsBackupSwitch">Плагиндерді баптаулардың сақтық көшірмесіне қосу</string>
@@ -1202,5 +1202,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Қолдау көрсетілмейтін субтитр пішімі</string>
     <string name="MZGramPersianCalendar">Парсы күнтізбесі</string>
     <string name="MZGramPersianCalendarInfo">Күндерді парсының күнтізбесі бойынша көрсету.</string>
-    <string name="MZGramSettingsImportPluginsCount">Қалпына келтірілетін плагиндер: %1$d.</string>
+    <string name="MZGramSettingsImportPluginsCount">Қалпына келтірілетін плагиндер: %1$d. Олар өшірулі және рұқсатсыз қайтады.</string>
 </resources>

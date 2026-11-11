@@ -1189,7 +1189,7 @@
     <string name="MZGramPluginsImportBackup">Eklenti yedeğini içe aktar</string>
     <string name="MZGramPluginsBackupEmpty">Yedeklenecek yüklü eklenti yok</string>
     <string name="MZGramPluginsBackupInvalid">Yedek arşivi bozuk veya geçerli bir MZGram eklenti yedeği değil</string>
-    <string name="MZGramPluginsBackupConfirm">Yedek arşivinden %1$d eklenti içe aktarılsın mı?</string>
+    <string name="MZGramPluginsBackupConfirm">Yedek arşivinden %1$d eklenti içe aktarılsın mı? Kapalı ve izinsiz geri gelirler: her birini kendiniz açıp izin verin.</string>
     <string name="MZGramPluginsBackupDone">%1$d / %2$d eklenti başarıyla içe aktarıldı</string>
     <string name="MZGramPluginsBackupImport">İçe aktar</string>
     <string name="MZGramPluginsBackupSwitch">Eklentileri ayarlar yedeğine dahil et</string>
@@ -1202,5 +1202,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Desteklenmeyen altyazı formatı</string>
     <string name="MZGramPersianCalendar">İran Güneş takvimi</string>
     <string name="MZGramPersianCalendarInfo">Tarihleri İran güneş takvimine göre göster.</string>
-    <string name="MZGramSettingsImportPluginsCount">Geri yüklenecek eklentiler: %1$d.</string>
+    <string name="MZGramSettingsImportPluginsCount">Geri yüklenecek eklentiler: %1$d. Kapalı ve izinsiz geri gelirler.</string>
 </resources>

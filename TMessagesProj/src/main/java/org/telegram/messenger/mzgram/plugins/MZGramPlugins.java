@@ -300,55 +300,64 @@ public final class MZGramPlugins {
      */
     public static void install(File picked, MZGramPluginFormat.Meta meta, String source, List<String> granted, Utilities.Callback<Boolean> onDone) {
         Utilities.globalQueue.postRunnable(() -> {
-            boolean ok = false;
-            final Plugin before = meta != null ? get(meta.id) : null;
-            final File target = meta != null ? fileOf(meta.id) : null;
-            if (picked != null && picked.isFile() && target != null) {
-                final File part = new File(target.getParentFile(), target.getName() + ".part");
-                try (InputStream in = new FileInputStream(picked); OutputStream out = new FileOutputStream(part)) {
-                    ok = copy(in, out, MAX_FILE_BYTES);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-                if (ok && !part.renameTo(target)) {
-                    ok = target.delete() && part.renameTo(target);
-                }
-                if (ok) {
-                    final SharedPreferences prefs = prefs();
-                    final SharedPreferences.Editor editor = prefs.edit().putString(KEY_META + meta.id, meta.json);
-                    final boolean update = prefs.contains(KEY_ADDED + meta.id);
-                    if (!update) {
-                        editor.putLong(KEY_ADDED + meta.id, System.currentTimeMillis());
-                    }
-                    editor.apply();
-                    if (update) {
-                        MZGramPluginAuditJournal.record(meta.id, MZGramPluginAuditJournal.EVENT_UPDATED, MZGramPluginAuditJournal.CATEGORY_MANAGE,
-                                meta.version, before != null ? before.meta.version : "", source, MZGramPluginAuditJournal.LEVEL_INFO);
-                        // Granted keys the new version no longer declares are taken back
-                        MZGramPluginGrants.retainDeclared(meta.id, meta.permissionsDeclared ? meta.permissions : null);
-                    } else {
-                        MZGramPluginAuditJournal.record(meta.id, MZGramPluginAuditJournal.EVENT_ADDED, MZGramPluginAuditJournal.CATEGORY_MANAGE,
-                                meta.version, null, source, MZGramPluginAuditJournal.LEVEL_INFO);
-                        // A new plugin with an old id never gets what was granted before
-                        MZGramPluginGrants.clear(meta.id);
-                    }
-                    if (granted != null && !MZGramPluginGrants.setGranted(meta.id, granted, false)) {
-                        FileLog.e("MZGramPlugins: cannot keep the permissions of " + meta.id);
-                    }
-                } else {
-                    part.delete();
-                }
-            }
-            discard(picked);
-            final boolean done = ok;
-            if (done) {
-                // A plugin that is on starts again from its new file
-                MZGramPluginEngine.apply(meta.id);
-            }
+            final boolean done = installNow(picked, meta, source, granted);
             if (onDone != null) {
                 AndroidUtilities.runOnUIThread(() -> onDone.run(done));
             }
         });
+    }
+
+    /**
+     * What install() does, on the calling thread: for code that already runs
+     * on the global queue (a backup restore), so it does not wait for itself.
+     * True when the file is in place.
+     */
+    static boolean installNow(File picked, MZGramPluginFormat.Meta meta, String source, List<String> granted) {
+        boolean ok = false;
+        final Plugin before = meta != null ? get(meta.id) : null;
+        final File target = meta != null ? fileOf(meta.id) : null;
+        if (picked != null && picked.isFile() && target != null) {
+            final File part = new File(target.getParentFile(), target.getName() + ".part");
+            try (InputStream in = new FileInputStream(picked); OutputStream out = new FileOutputStream(part)) {
+                ok = copy(in, out, MAX_FILE_BYTES);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            if (ok && !part.renameTo(target)) {
+                ok = target.delete() && part.renameTo(target);
+            }
+            if (ok) {
+                final SharedPreferences prefs = prefs();
+                final SharedPreferences.Editor editor = prefs.edit().putString(KEY_META + meta.id, meta.json);
+                final boolean update = prefs.contains(KEY_ADDED + meta.id);
+                if (!update) {
+                    editor.putLong(KEY_ADDED + meta.id, System.currentTimeMillis());
+                }
+                editor.apply();
+                if (update) {
+                    MZGramPluginAuditJournal.record(meta.id, MZGramPluginAuditJournal.EVENT_UPDATED, MZGramPluginAuditJournal.CATEGORY_MANAGE,
+                            meta.version, before != null ? before.meta.version : "", source, MZGramPluginAuditJournal.LEVEL_INFO);
+                    // Granted keys the new version no longer declares are taken back
+                    MZGramPluginGrants.retainDeclared(meta.id, meta.permissionsDeclared ? meta.permissions : null);
+                } else {
+                    MZGramPluginAuditJournal.record(meta.id, MZGramPluginAuditJournal.EVENT_ADDED, MZGramPluginAuditJournal.CATEGORY_MANAGE,
+                            meta.version, null, source, MZGramPluginAuditJournal.LEVEL_INFO);
+                    // A new plugin with an old id never gets what was granted before
+                    MZGramPluginGrants.clear(meta.id);
+                }
+                if (granted != null && !MZGramPluginGrants.setGranted(meta.id, granted, false)) {
+                    FileLog.e("MZGramPlugins: cannot keep the permissions of " + meta.id);
+                }
+            } else {
+                part.delete();
+            }
+        }
+        discard(picked);
+        if (ok) {
+            // A plugin that is on starts again from its new file
+            MZGramPluginEngine.apply(meta.id);
+        }
+        return ok;
     }
 
     /** Removes the plugin: its file, its state and its settings values. */

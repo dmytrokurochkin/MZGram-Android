@@ -1189,7 +1189,7 @@
     <string name="MZGramPluginsImportBackup">Імпарт рэзервовай копіі плагінаў</string>
     <string name="MZGramPluginsBackupEmpty">Няма ўсталяваных плагінаў для рэзервовай копіі</string>
     <string name="MZGramPluginsBackupInvalid">Архіў рэзервовай копіі пашкоджаны альбо не з\'яўляецца карэктным бэкапам плагінаў MZGram</string>
-    <string name="MZGramPluginsBackupConfirm">Імпартаваць %1$d плагінаў з архіва рэзервовай копіі?</string>
+    <string name="MZGramPluginsBackupConfirm">Імпартаваць %1$d плагінаў з архіва рэзервовай копіі? Яны вернуцца выключанымі і без дазволаў: уключыце і дазвольце кожны самі.</string>
     <string name="MZGramPluginsBackupDone">Паспяхова імпартавана %1$d з %2$d плагінаў</string>
     <string name="MZGramPluginsBackupImport">Імпартаваць</string>
     <string name="MZGramPluginsBackupSwitch">Уключаць плагіны ў рэзервовую копію налад</string>
@@ -1202,5 +1202,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Непадтрыманы фармат субцітраў</string>
     <string name="MZGramPersianCalendar">Сонечны каляндар Гіджры</string>
     <string name="MZGramPersianCalendarInfo">Адлюстроўваць даты паводле персідскага сонечнага календара.</string>
-    <string name="MZGramSettingsImportPluginsCount">Плагінаў для аднаўлення: %1$d.</string>
+    <string name="MZGramSettingsImportPluginsCount">Плагінаў для аднаўлення: %1$d. Яны вернуцца выключанымі і без дазволаў.</string>
 </resources>

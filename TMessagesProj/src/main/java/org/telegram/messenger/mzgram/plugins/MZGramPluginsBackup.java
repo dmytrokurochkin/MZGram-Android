@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -52,6 +53,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -64,6 +67,9 @@ public final class MZGramPluginsBackup {
     public static final String MANIFEST = "manifest.json";
     public static final long MAX_ENTRY_SIZE = 32L * 1024 * 1024;
     public static final long MAX_MANIFEST_SIZE = 4L * 1024 * 1024;
+    private static final String SOURCE_BACKUP = "backup_import";
+    // The first read starts Python, which can take a while
+    private static final long METADATA_TIMEOUT_SECONDS = 60;
 
     private MZGramPluginsBackup() {
     }
@@ -304,63 +310,15 @@ public final class MZGramPluginsBackup {
                             copy(in, out, MAX_ENTRY_SIZE);
                         }
 
-                        MZGramPluginFormat.Meta meta = null;
-                        if (!TextUtils.isEmpty(entry.metaJson)) {
-                            meta = MZGramPluginFormat.metaFromJson(entry.metaJson);
-                        }
-                        if (meta == null) {
-                            JSONObject fallbackMeta = new JSONObject();
-                            fallbackMeta.put("id", entry.id);
-                            fallbackMeta.put("name", entry.name);
-                            fallbackMeta.put("version", entry.version);
-                            meta = new MZGramPluginFormat.Meta(fallbackMeta);
-                        }
-
-                        if (entry.fromCatalog || "MZGram".equals(meta.author)) {
-                            meta = meta.forCatalog();
-                        }
-
-                        // Restore non-secret settings
+                        JSONObject settings = null;
                         if (!TextUtils.isEmpty(entry.settings)) {
                             try {
-                                JSONObject setObj = new JSONObject(entry.settings);
-                                Iterator<String> sKeys = setObj.keys();
-                                while (sKeys.hasNext()) {
-                                    String sk = sKeys.next();
-                                    if (!isSecretKey(sk)) {
-                                        MZGramPluginSettingsStore.set(meta.id, sk, setObj.optString(sk));
-                                    }
-                                }
+                                settings = new JSONObject(entry.settings);
                             } catch (Exception e) {
                                 FileLog.e(e);
                             }
                         }
-
-                        // Install plugin with granted permissions
-                        final Object lock = new Object();
-                        final boolean[] success = new boolean[1];
-                        final boolean[] done = new boolean[1];
-                        List<String> grants = entry.grants != null && !entry.grants.isEmpty() ? entry.grants : (meta.permissionsDeclared ? meta.permissions : null);
-                        MZGramPlugins.install(tempFile, meta, "backup_import", grants, ok -> {
-                            synchronized (lock) {
-                                success[0] = ok != null && ok;
-                                done[0] = true;
-                                lock.notifyAll();
-                            }
-                        });
-                        synchronized (lock) {
-                            while (!done[0]) {
-                                try {
-                                    lock.wait(5000);
-                                    break;
-                                } catch (InterruptedException ignored) {
-                                }
-                            }
-                        }
-                        if (success[0]) {
-                            if (entry.enabled) {
-                                MZGramPlugins.setEnabled(meta.id, true);
-                            }
+                        if (restoreOne(tempFile, entry.id, entry.fromCatalog, settings)) {
                             imported++;
                         }
                     } catch (Exception e) {
@@ -485,73 +443,7 @@ public final class MZGramPluginsBackup {
                         out.write(bytes);
                     }
 
-                    MZGramPluginFormat.Meta meta = null;
-                    String metaJson = item.optString("meta_json", null);
-                    if (!TextUtils.isEmpty(metaJson)) {
-                        meta = MZGramPluginFormat.metaFromJson(metaJson);
-                    }
-                    if (meta == null) {
-                        JSONObject fallbackMeta = new JSONObject();
-                        fallbackMeta.put("id", id);
-                        fallbackMeta.put("name", item.optString("name", id));
-                        fallbackMeta.put("version", item.optString("version", "1.0"));
-                        meta = new MZGramPluginFormat.Meta(fallbackMeta);
-                    }
-
-                    boolean fromCatalog = item.optBoolean("from_catalog", false) || "MZGram".equals(meta.author);
-                    if (fromCatalog) {
-                        meta = meta.forCatalog();
-                    }
-
-                    // Restore non-secret settings
-                    JSONObject setObj = item.optJSONObject("settings");
-                    if (setObj != null) {
-                        Iterator<String> sKeys = setObj.keys();
-                        while (sKeys.hasNext()) {
-                            String sk = sKeys.next();
-                            if (!isSecretKey(sk)) {
-                                MZGramPluginSettingsStore.set(meta.id, sk, setObj.optString(sk));
-                            }
-                        }
-                    }
-
-                    List<String> grants = new ArrayList<>();
-                    JSONArray gArray = item.optJSONArray("grants");
-                    if (gArray != null) {
-                        for (int g = 0; g < gArray.length(); g++) {
-                            String gr = gArray.optString(g);
-                            if (!TextUtils.isEmpty(gr)) {
-                                grants.add(gr);
-                            }
-                        }
-                    }
-                    if (grants.isEmpty() && meta.permissionsDeclared) {
-                        grants = meta.permissions;
-                    }
-
-                    final Object lock = new Object();
-                    final boolean[] success = new boolean[1];
-                    final boolean[] done = new boolean[1];
-                    MZGramPlugins.install(tempFile, meta, "backup_import", grants, ok -> {
-                        synchronized (lock) {
-                            success[0] = ok != null && ok;
-                            done[0] = true;
-                            lock.notifyAll();
-                        }
-                    });
-                    synchronized (lock) {
-                        while (!done[0]) {
-                            try {
-                                lock.wait(5000);
-                                break;
-                            } catch (InterruptedException ignored) {
-                            }
-                        }
-                    }
-                    if (success[0]) {
-                        if (item.optBoolean("enabled", false)) {
-                            MZGramPlugins.setEnabled(meta.id, true);
-                        }
+                    if (restoreOne(tempFile, id, item.optBoolean("from_catalog", false), item.optJSONObject("settings"))) {
                         restored++;
                     }
                 } catch (Exception e) {
@@ -564,6 +456,63 @@ public final class MZGramPluginsBackup {
             FileLog.e("MZGramPluginsBackup.restorePluginsFromJson: corrupted plugins section", e);
         }
         return restored;
+    }
+
+    /**
+     * Puts back one plugin file of a backup the way a picked file is read:
+     * the metadata come from its code, not from the backup, and it comes back
+     * switched off with no permission, whatever the backup says, so a changed
+     * backup can neither start code nor give it permissions. An installed
+     * plugin of the same id is switched off first. Runs on the global queue,
+     * the queue of install(), so it installs right here instead of waiting.
+     * True when the file is in place.
+     */
+    private static boolean restoreOne(File tempFile, String id, boolean fromCatalog, JSONObject settings) {
+        MZGramPluginFormat.Meta meta = readMetadataNow(tempFile);
+        if (meta == null || !id.equals(meta.id)) {
+            FileLog.e("MZGramPluginsBackup: the code of " + id + " does not read as that plugin, skipped");
+            MZGramPlugins.discard(tempFile);
+            return false;
+        }
+        if (fromCatalog) {
+            meta = meta.forCatalog();
+        }
+        MZGramPlugins.setEnabled(id, false, SOURCE_BACKUP);
+        if (!MZGramPlugins.installNow(tempFile, meta, SOURCE_BACKUP, new ArrayList<>())) {
+            return false;
+        }
+        // Settings that are not secrets
+        if (settings != null) {
+            Iterator<String> keys = settings.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                if (!isSecretKey(key)) {
+                    MZGramPluginSettingsStore.set(id, key, settings.optString(key));
+                }
+            }
+        }
+        return true;
+    }
+
+    /** The metadata of a plugin file as its code gives them; null on a read error or off the UI thread wait. */
+    private static MZGramPluginFormat.Meta readMetadataNow(File file) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            return null;  // the result comes on this thread: it could never be waited for
+        }
+        final CountDownLatch latch = new CountDownLatch(1);
+        final MZGramPluginFormat.Result[] result = new MZGramPluginFormat.Result[1];
+        MZGramPluginFormat.readMetadata(file, r -> {
+            result[0] = r;
+            latch.countDown();
+        });
+        try {
+            if (!latch.await(METADATA_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+                return null;
+            }
+        } catch (InterruptedException e) {
+            return null;
+        }
+        return result[0] != null && result[0].isOk() ? result[0].meta : null;
     }
 
     private static byte[] readFileBytes(File file) {

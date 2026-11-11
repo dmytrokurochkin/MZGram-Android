@@ -1189,7 +1189,7 @@
     <string name="MZGramPluginsImportBackup">استيراد نسخة احتياطية من الإضافات</string>
     <string name="MZGramPluginsBackupEmpty">لا توجد إضافات مثبتة للنسخ الاحتياطي</string>
     <string name="MZGramPluginsBackupInvalid">أرشيف النسخة الاحتياطية تالف أو ليس نسخة احتياطية صالحة لإضافات MZGram</string>
-    <string name="MZGramPluginsBackupConfirm">هل تريد استيراد %1$d من الإضافات من أرشيف النسخة الاحتياطية؟</string>
+    <string name="MZGramPluginsBackupConfirm">هل تريد استيراد %1$d من الإضافات من أرشيف النسخة الاحتياطية؟ تعود الإضافات متوقفة ومن دون أذونات: شغّل كل إضافة وامنحها الأذونات بنفسك.</string>
     <string name="MZGramPluginsBackupDone">تم بنجاح استيراد %1$d من أصل %2$d إضافات</string>
     <string name="MZGramPluginsBackupImport">استيراد</string>
     <string name="MZGramPluginsBackupSwitch">تضمين الإضافات في النسخة الاحتياطية للإعدادات</string>
@@ -1202,5 +1202,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">صيغة ملف الترجمة غير مدعومة</string>
     <string name="MZGramPersianCalendar">التقويم الهجري الشمسي</string>
     <string name="MZGramPersianCalendarInfo">عرض التواريخ وفقا للتقويم الشمسي الفارسي.</string>
-    <string name="MZGramSettingsImportPluginsCount">المكونات الإضافية المراد استعادتها: %1$d.</string>
+    <string name="MZGramSettingsImportPluginsCount">المكونات الإضافية المراد استعادتها: %1$d. تعود متوقفة ومن دون أذونات.</string>
 </resources>

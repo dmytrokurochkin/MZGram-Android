@@ -1189,7 +1189,7 @@
     <string name="MZGramPluginsImportBackup">Importuj kopię zapasową wtyczek</string>
     <string name="MZGramPluginsBackupEmpty">Brak zainstalowanych wtyczek do utworzenia kopii</string>
     <string name="MZGramPluginsBackupInvalid">Archiwum kopii zapasowej jest uszkodzone lub nieprawidłowe dla MZGram</string>
-    <string name="MZGramPluginsBackupConfirm">Zaimportować %1$d wtyczek z archiwum kopii zapasowej?</string>
+    <string name="MZGramPluginsBackupConfirm">Zaimportować %1$d wtyczek z archiwum kopii zapasowej? Wrócą wyłączone i bez uprawnień: każdą włącz i zezwól na nią samodzielnie.</string>
     <string name="MZGramPluginsBackupDone">Pomyślnie zaimportowano %1$d z %2$d wtyczek</string>
     <string name="MZGramPluginsBackupImport">Importuj</string>
     <string name="MZGramPluginsBackupSwitch">Uwzględnij wtyczki w kopii zapasowej ustawień</string>
@@ -1202,5 +1202,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Nieobsługiwany format napisów</string>
     <string name="MZGramPersianCalendar">Kalendarz perski</string>
     <string name="MZGramPersianCalendarInfo">Wyświetlaj daty według perskiego kalendarza słonecznego.</string>
-    <string name="MZGramSettingsImportPluginsCount">Wtyczki do przywrócenia: %1$d.</string>
+    <string name="MZGramSettingsImportPluginsCount">Wtyczki do przywrócenia: %1$d. Wrócą wyłączone i bez uprawnień.</string>
 </resources>

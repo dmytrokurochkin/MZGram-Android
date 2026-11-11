@@ -1189,7 +1189,7 @@
     <string name="MZGramPluginsImportBackup">Import plugins backup</string>
     <string name="MZGramPluginsBackupEmpty">No installed plugins to back up</string>
     <string name="MZGramPluginsBackupInvalid">The backup archive is corrupted or not a valid MZGram plugins backup</string>
-    <string name="MZGramPluginsBackupConfirm">Import %1$d plugins from the backup archive?</string>
+    <string name="MZGramPluginsBackupConfirm">Import %1$d plugins from the backup archive? They come back switched off and without permissions: turn on and allow each one yourself.</string>
     <string name="MZGramPluginsBackupDone">Successfully imported %1$d of %2$d plugins</string>
     <string name="MZGramPluginsBackupImport">Import</string>
     <string name="MZGramPluginsBackupSwitch">Include plugins in settings backup</string>
@@ -1202,5 +1202,5 @@
     <string name="MZGramSubtitlesUnsupportedFormat">Unsupported subtitle format</string>
     <string name="MZGramPersianCalendar">Solar Hijri calendar</string>
     <string name="MZGramPersianCalendarInfo">Display dates according to the Persian (Shamsi) solar calendar.</string>
-    <string name="MZGramSettingsImportPluginsCount">Plugins to restore: %1$d.</string>
+    <string name="MZGramSettingsImportPluginsCount">Plugins to restore: %1$d. They come back switched off and without permissions.</string>
 </resources>

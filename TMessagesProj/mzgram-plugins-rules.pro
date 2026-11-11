@@ -53,6 +53,14 @@
     public static *;
 }
 
+# Plugins reach the classes of the app by their names: jclass and find_class
+# in Python (the bundled ui.bulletin and ui.alert too) and the hooks of
+# methods. R8 renamed BulletinFactory, ChatActivity, BaseFragment and
+# MZGramPlugins in a build with plugins, so those calls failed there. In a
+# build with plugins the classes of the app keep their names and members, as
+# in the source; the default build is not affected.
+-keep class org.telegram.** { *; }
+
 # Aliuhook: its native part calls back into these classes by name, plugins
 # read MethodHookParam (thisObject, args, method, getResult, setResult) from
 # Python, MZGramPluginMethodHook reads its returnEarly field, and the guard on

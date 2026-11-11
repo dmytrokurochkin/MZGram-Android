@@ -22,7 +22,7 @@ class MZGramPluginFileInstallTest {
 
     @Test
     fun testInstall_validPluginFile() {
-        val pluginId = "test.install.valid"
+        val pluginId = "test_install_valid"
         val metaJson = """
             {
                 "id": "$pluginId",
@@ -139,6 +139,31 @@ class MZGramPluginFileInstallTest {
         } finally {
             if (temp.exists()) {
                 temp.delete()
+            }
+        }
+    }
+
+    @Test
+    fun testReadMetadata_defaultBuildWithoutPythonRuntime_returnsHonestError() {
+        if (!MZGramPythonRuntime.isAvailable()) {
+            val cacheDir = ApplicationLoader.applicationContext.cacheDir
+            val tempFile = File(cacheDir, "sample_test.plugin")
+            tempFile.writeText("# Test plugin code\n")
+            val latch = CountDownLatch(1)
+            var errorResult: MZGramPluginFormat.Result? = null
+            try {
+                MZGramPluginFormat.readMetadata(tempFile) { res ->
+                    errorResult = res
+                    latch.countDown()
+                }
+                assertTrue("Callback must execute within timeout", latch.await(5, TimeUnit.SECONDS))
+                assertNotNull("Result must not be null", errorResult)
+                assertFalse("Metadata read must fail without Python runtime", errorResult!!.isOk)
+                assertEquals("no Python runtime in this build", errorResult!!.error)
+            } finally {
+                if (tempFile.exists()) {
+                    tempFile.delete()
+                }
             }
         }
     }

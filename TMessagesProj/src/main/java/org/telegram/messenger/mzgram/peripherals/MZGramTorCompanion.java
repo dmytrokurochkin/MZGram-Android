@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -134,8 +135,14 @@ public final class MZGramTorCompanion {
                     return;
                 }
                 torProxyActive = false;
-                boolean restoredFromPrefs = false;
-                if (torActiveInPrefs && p != null) {
+                if (previousProxy != null) {
+                    SharedConfig.currentProxy = previousProxy;
+                    if (hadPreviousProxy && previousProxy.settings != null) {
+                        org.telegram.tgnet.ConnectionsManager.setProxySettings(true, previousProxy.settings);
+                    } else {
+                        org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
+                    }
+                } else if (torActiveInPrefs && p != null) {
                     boolean hadPrevInPrefs = p.getBoolean("mzgram_tor_had_prev", false);
                     boolean hasSettingsInPrefs = p.getBoolean("mzgram_tor_has_settings", hadPrevInPrefs || p.contains("mzgram_tor_prev_ip"));
                     if (hasSettingsInPrefs) {
@@ -156,7 +163,21 @@ public final class MZGramTorCompanion {
                                 .setPassword(pass)
                                 .setSecret(secret)
                                 .build();
-                        SharedConfig.ProxyInfo restored = new SharedConfig.ProxyInfo(settings);
+                        SharedConfig.ProxyInfo restored = null;
+                        if (SharedConfig.proxyList != null) {
+                            for (SharedConfig.ProxyInfo pi : SharedConfig.proxyList) {
+                                if (pi != null && pi.settings != null
+                                        && TextUtils.equals(pi.settings.getAddress(), ip)
+                                        && pi.settings.getPort() == port
+                                        && pi.settings.getType() == type) {
+                                    restored = pi;
+                                    break;
+                                }
+                            }
+                        }
+                        if (restored == null) {
+                            restored = new SharedConfig.ProxyInfo(settings);
+                        }
                         SharedConfig.currentProxy = restored;
                         if (hadPrevInPrefs) {
                             org.telegram.tgnet.ConnectionsManager.setProxySettings(true, settings);
@@ -167,7 +188,11 @@ public final class MZGramTorCompanion {
                         SharedConfig.currentProxy = null;
                         org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
                     }
-                    restoredFromPrefs = true;
+                } else {
+                    SharedConfig.currentProxy = null;
+                    org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
+                }
+                if (p != null) {
                     p.edit()
                             .remove("mzgram_tor_active")
                             .remove("mzgram_tor_had_prev")
@@ -179,19 +204,6 @@ public final class MZGramTorCompanion {
                             .remove("mzgram_tor_prev_secret")
                             .remove("mzgram_tor_prev_type")
                             .apply();
-                }
-                if (!restoredFromPrefs) {
-                    if (previousProxy != null && previousProxy.settings != null) {
-                        SharedConfig.currentProxy = previousProxy;
-                        if (hadPreviousProxy) {
-                            org.telegram.tgnet.ConnectionsManager.setProxySettings(true, previousProxy.settings);
-                        } else {
-                            org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
-                        }
-                    } else {
-                        SharedConfig.currentProxy = null;
-                        org.telegram.tgnet.ConnectionsManager.setProxySettings(false, null);
-                    }
                 }
                 previousProxy = null;
                 hadPreviousProxy = false;

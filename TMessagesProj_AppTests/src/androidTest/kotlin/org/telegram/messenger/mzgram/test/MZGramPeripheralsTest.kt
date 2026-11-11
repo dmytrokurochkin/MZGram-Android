@@ -198,6 +198,8 @@ class MZGramPeripheralsTest {
 
     @Test
     fun testTorCompanion_disabledPriorProxyNotEnabledOnTorDisable() {
+        MZGramTorCompanion.applyTorProxySettings(false)
+        MZGramTorCompanion.resetTestingState()
         val initialProxy = org.telegram.messenger.SharedConfig.currentProxy
         val initialEnabled = org.telegram.messenger.SharedConfig.isProxyEnabled()
 
@@ -225,7 +227,12 @@ class MZGramPeripheralsTest {
 
             // Assert: Disabling Tor must NOT turn on the proxy
             assertFalse("Proxy must remain disabled after Tor is turned off", org.telegram.messenger.SharedConfig.isProxyEnabled())
-            assertEquals("currentProxy after toggle cycle must equal the initial proxy object", mockPriorProxy, org.telegram.messenger.SharedConfig.currentProxy)
+            val restored = org.telegram.messenger.SharedConfig.currentProxy
+            assertNotNull("currentProxy after toggle cycle must not be null", restored)
+            assertEquals("198.51.100.2", restored!!.settings.address)
+            assertEquals(1080, restored.settings.port)
+            assertEquals(org.telegram.utils.proxy.ProxySettings.Type.SOCKS5, restored.settings.type)
+            assertEquals("currentProxy after toggle cycle must equal the initial proxy object", mockPriorProxy, restored)
         } finally {
             MZGramTorCompanion.applyTorProxySettings(false)
             MZGramTorCompanion.resetTestingState()

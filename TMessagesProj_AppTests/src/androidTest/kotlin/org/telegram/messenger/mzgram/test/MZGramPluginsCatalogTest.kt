@@ -316,28 +316,87 @@ class MZGramPluginsCatalogTest {
         assertEquals("Локалізований опис", catalogMeta.description)
     }
 
-    @Test
-    fun testRealStagingCatalogParsesWithClient() {
-        val stagingFile = java.io.File("C:/Users/mrmoz/Documents/My_GitHub/My_GitHub/MZGram/plugins-repo-staging/index.json")
-        if (!stagingFile.isFile) {
-            return
+    // Same shape as the published index.json: no author, descriptions in 12 languages
+    private val stagingShapedCatalog = """
+        {
+          "name": "MZGram Plugins",
+          "description": "Official plugins and extensions catalog for MZGram",
+          "plugins": [
+            {
+              "id": "sample_notes",
+              "name": "Sample Notes",
+              "version": "1.2",
+              "min_app_version": "1.0.0",
+              "file": "plugins/sample_notes/1.2/sample_notes.plugin",
+              "sha256": "57c4099c9ab29e7ae5f09adfe4770bbcd58787d35e6b11ec672e696898eab0a5",
+              "size": 40370,
+              "description": "Keeps short notes",
+              "description_i18n": {
+                "en": "Keeps short notes",
+                "uk": "Зберігає короткі нотатки",
+                "ru": "Хранит короткие заметки",
+                "pl": "Przechowuje krótkie notatki",
+                "es": "Guarda notas breves",
+                "de": "Speichert kurze Notizen",
+                "fr": "Garde de courtes notes",
+                "pt-BR": "Guarda notas curtas",
+                "tr": "Kısa notları saklar",
+                "ar": "يحفظ ملاحظات قصيرة",
+                "be": "Захоўвае кароткія нататкі",
+                "kk": "Қысқа жазбаларды сақтайды"
+              },
+              "permissions": ["messages.read", "network", "hooks"]
+            },
+            {
+              "id": "sample_clock",
+              "name": "Sample Clock",
+              "version": "0.3",
+              "file": "plugins/sample_clock/0.3/sample_clock.plugin",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+              "size": 812,
+              "description": "Shows the time",
+              "description_i18n": {
+                "en": "Shows the time",
+                "uk": "Показує час"
+              },
+              "requirements": ["pytz"]
+            }
+          ]
         }
-        val text = stagingFile.readText(Charsets.UTF_8)
-        val root = JSONObject(text)
+    """.trimIndent()
+
+    @Test
+    fun testStagingShapedCatalogParsesWithClient() {
+        val root = JSONObject(stagingShapedCatalog)
         assertEquals("MZGram Plugins", root.optString("name"))
         val arr = root.optJSONArray("plugins")
         assertNotNull(arr)
-        assertTrue(arr!!.length() > 0)
+        assertEquals(2, arr!!.length())
 
-        // Parse first 10 items through client parser
-        for (i in 0 until Math.min(10, arr.length())) {
-            val itemObj = arr.getJSONObject(i)
-            val p = MZGramPluginsCatalog.CatalogPlugin(itemObj)
+        val notes = MZGramPluginsCatalog.CatalogPlugin(arr.getJSONObject(0))
+        assertEquals("sample_notes", notes.id)
+        assertEquals("Sample Notes", notes.name)
+        assertEquals("1.2", notes.version)
+        assertEquals("1.0.0", notes.minAppVersion)
+        assertEquals(40370L, notes.size)
+        assertEquals(listOf("messages.read", "network", "hooks"), notes.permissions)
+        assertEquals(12, notes.descriptionI18n.size)
+        assertEquals("Keeps short notes", notes.getLocalizedDescription("en"))
+        assertEquals("Зберігає короткі нотатки", notes.getLocalizedDescription("uk"))
+        assertEquals("Guarda notas curtas", notes.getLocalizedDescription("pt-BR"))
+        assertEquals("Қысқа жазбаларды сақтайды", notes.getLocalizedDescription("kk"))
+
+        val clock = MZGramPluginsCatalog.CatalogPlugin(arr.getJSONObject(1))
+        assertEquals("sample_clock", clock.id)
+        assertEquals(listOf("pytz"), clock.requirements)
+        assertTrue(clock.permissions.isEmpty())
+        assertEquals("Показує час", clock.getLocalizedDescription("uk"))
+        // A language the entry does not have falls back to English
+        assertEquals("Shows the time", clock.getLocalizedDescription("de"))
+
+        // The catalog never carries an author: every entry shows as MZGram
+        for (p in listOf(notes, clock)) {
             assertEquals("MZGram", p.author)
-            assertTrue(p.id.isNotEmpty())
-            assertTrue(p.name.isNotEmpty())
-            assertTrue(p.getLocalizedDescription("en").isNotEmpty())
-            assertTrue(p.getLocalizedDescription("uk").isNotEmpty())
         }
     }
 }

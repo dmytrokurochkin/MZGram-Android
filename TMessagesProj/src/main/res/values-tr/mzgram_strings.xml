@@ -450,6 +450,8 @@
     <string name="MZGramOwnLastSeenValue">Diğerleri görür</string>
     <string name="MZGramOwnLastSeenUnknown">henüz bilinmiyor</string>
     <string name="MZGramOwnLastSeenInfo">Telegram size kendi son görülmenizi göstermez. Bu cihaz Telegram\'a en son ne zaman çevrimiçi veya çevrimdışı olduğunuzu bildirdiğini kaydeder ve bu hesap için burada gösterir. Gizlilik ayarlarınızın gizlediği kişiler «yakın zamanda» görür.</string>
+    <string name="MZGramLastSeenExact">Tam son görülme zamanlarını hatırla</string>
+    <string name="MZGramLastSeenExactInfo">Bir kişi «çevrimiçi» ya da tam bir son görülme zamanı gösterdiği sürece bu cihaz onu not eder; kişi son görülmesini gizlediğinde MZGram bilinen son zamanı göstermeye devam eder. Kapalı: yalnızca etkinlik işaretleri (mesajlar, yazma) not edilir, önceki gibi.</string>
     <string name="MZGramKeepGroupReads">Gruplarda mesajlarımı kimin okuduğunu sakla</string>
     <string name="MZGramKeepGroupReadsInfo">Telegram mesajınızı kimin okuduğunu yalnızca küçük gruplarda ve yalnızca yaklaşık bir hafta boyunca gösterir. Mesaj menüsü bu listeyi her gösterdiğinde liste bu cihazda saklanır ve mesaj menüsü &gt; Ayrıntılar okuyanları ve zamanları sonra da gösterir.</string>
     <string name="MZGramDetailsReadBy">Okuyanlar</string>
@@ -1036,6 +1038,8 @@
     <string name="MZGramPluginCrashed">"%1$s" eklentisi tekrarlanan çökmelerden sonra devre dışı bırakıldı.</string>
     <string name="MZGramPluginNotResponding">"%1$s" eklentisi yanıt vermiyor.</string>
     <string name="MZGramFolderLocal">Yerel klasör</string>
+    <string name="MZGramLocalFoldersSwitch">Yerel klasörler</string>
+    <string name="MZGramLocalFoldersSwitchInfo">Yalnızca bu cihazda tutulan, klasörler ve klasördeki sohbetler için sunucu sınırı olmayan klasörler. Klasör düzenleyicisine «Yerel klasör» anahtarı gelir ve sunucu sınırında yeni bir klasör Premium teklifi yerine yerel olur. Kayıtlı Mesajlar içindeki bir dosya ile cihazlarınız arasında eşitlenirler. Kapalı: klasörler Telegram\'daki gibi; daha önce oluşturulan yerel klasörler kalır.</string>
     <string name="MZGramFolderLocalInfo">Yalnızca MZGram içinde gösterilir ve Telegram sunucularına gönderilmez, klasör ve sohbet sınırlarını kaldırır. Kayıtlı Mesajlar aracılığıyla eşitlenir.</string>
     <string name="MZGramFolderLocalTag">bu cihazda</string>
     <string name="MZGramRoundVideoCamera2">Alternatif yuvarlak video kaydedici (Camera2)</string>

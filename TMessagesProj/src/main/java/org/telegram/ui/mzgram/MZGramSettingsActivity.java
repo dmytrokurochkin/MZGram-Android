@@ -228,6 +228,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DRAWER_HEADER = 167;
     private static final int BUTTON_DRAWER_GLASS = 168;
     private static final int BUTTON_EXTENDED_PINS = 169;
+    private static final int BUTTON_LOCAL_FOLDERS = 204;
+    private static final int BUTTON_LAST_SEEN_EXACT = 205;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -687,6 +689,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(BUTTON_OWN_LAST_SEEN_VALUE, getString(R.string.MZGramOwnLastSeenValue), org.telegram.messenger.mzgram.MZGramOwnLastSeen.describe(currentAccount, getConnectionsManager().getCurrentTime())));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramOwnLastSeenInfo)));
+        items.add(UItem.asCheck(BUTTON_LAST_SEEN_EXACT, getString(R.string.MZGramLastSeenExact)).setChecked(MZGramConfig.lastSeenExact));
+        items.add(UItem.asShadow(getString(R.string.MZGramLastSeenExactInfo)));
         items.add(UItem.asCheck(BUTTON_KEEP_GROUP_READS, getString(R.string.MZGramKeepGroupReads)).setChecked(MZGramConfig.keepGroupReads));
         items.add(UItem.asShadow(getString(R.string.MZGramKeepGroupReadsInfo)));
         items.add(UItem.asCheck(BUTTON_BOT_START_CONFIRM, getString(R.string.MZGramBotStartConfirm)).setChecked(MZGramConfig.botStartConfirm));
@@ -918,6 +922,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
         items.add(UItem.asCheck(BUTTON_EXTENDED_PINS, getString(R.string.MZGramExtendedPins)).setChecked(MZGramConfig.extendedPins));
         items.add(UItem.asShadow(getString(R.string.MZGramExtendedPinsInfo)));
+        items.add(UItem.asCheck(BUTTON_LOCAL_FOLDERS, getString(R.string.MZGramLocalFoldersSwitch)).setChecked(MZGramConfig.localFolders));
+        items.add(UItem.asShadow(getString(R.string.MZGramLocalFoldersSwitchInfo)));
         items.add(UItem.asCheck(BUTTON_PILL_STACK, getString(R.string.MZGramPillStack)).setChecked(MZGramConfig.pillStack));
         if (MZGramConfig.pillStack) {
             items.add(UItem.asButton(BUTTON_PILLS, getString(R.string.MZGramPills)));
@@ -1605,6 +1611,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_EXTENDED_PINS) {
             MZGramConfig.toggleExtendedPins();
             ((TextCheckCell) view).setChecked(MZGramConfig.extendedPins);
+        } else if (item.id == BUTTON_LOCAL_FOLDERS) {
+            MZGramConfig.toggleLocalFolders();
+            ((TextCheckCell) view).setChecked(MZGramConfig.localFolders);
+            if (MZGramConfig.localFolders) {
+                org.telegram.messenger.mzgram.MZGramFolderSync.startAll();
+            }
+        } else if (item.id == BUTTON_LAST_SEEN_EXACT) {
+            MZGramConfig.toggleLastSeenExact();
+            ((TextCheckCell) view).setChecked(MZGramConfig.lastSeenExact);
         } else if (item.id == BUTTON_CUSTOM_DRAWER) {
             MZGramConfig.toggleCustomDrawer();
             ((TextCheckCell) view).setChecked(MZGramConfig.customDrawer);

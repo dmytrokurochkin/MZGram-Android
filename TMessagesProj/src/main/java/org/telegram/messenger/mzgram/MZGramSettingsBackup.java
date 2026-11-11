@@ -106,7 +106,7 @@ public final class MZGramSettingsBackup {
                 "showMessageDetails", "showQrCode", "showNoQuoteForward", "showAskAi",
                 "saveProtectedContent", "deleteForAllByDefault", "predictiveBackAnimation",
                 "gooeyAvatarAnimation", "losslessPhotoCrop", "crashReports", "hideBottomNavigationBar",
-                "accountsInMenu", "recentChatsOnBack", "extendedPins", "pillStack", "iconPacks",
+                "accountsInMenu", "recentChatsOnBack", "extendedPins", "localFolders", "lastSeenExact", "pillStack", "iconPacks",
                 "monetThemes", "useCameraX", "cameraXWideLens", "cameraXZoomSlider",
                 "round_video_camera2_enabled", "round_video_high_fps", "musicPlayer",
                 "musicPlayerBar", "folderTabsAtBottom", "confirmAVMessage", "mediaPreviewOnLongPress",

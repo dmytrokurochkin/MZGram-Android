@@ -49,6 +49,9 @@ public class MZGramLastSeen {
     // A status from the server: "online" is a sign at "now", "last seen at"
     // at that time. Hidden statuses carry no time and are left to record().
     public static void recordStatus(long userId, TLRPC.UserStatus status, int now) {
+        if (!MZGramConfig.lastSeenExact) {
+            return;  // off: only the signs of record(), as before
+        }
         if (status instanceof TLRPC.TL_userStatusOnline) {
             record(userId, now);
         } else if (status instanceof TLRPC.TL_userStatusOffline && status.expires > 0) {

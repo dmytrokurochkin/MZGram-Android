@@ -450,6 +450,8 @@
     <string name="MZGramOwnLastSeenValue">Басқалар көреді</string>
     <string name="MZGramOwnLastSeenUnknown">әзірге белгісіз</string>
     <string name="MZGramOwnLastSeenInfo">Telegram сізге өзіңіздің соңғы кіруіңізді көрсетпейді. Бұл құрылғы Telegram-ға соңғы рет қашан желіде немесе желіден тыс екеніңізді хабарлағанын есте сақтап, осы аккаунт үшін осында көрсетеді. Құпиялылық баптауларыңыз жасыратындар «жақында» деп көреді.</string>
+    <string name="MZGramLastSeenExact">Соңғы кірудің нақты уақытын есте сақтау</string>
+    <string name="MZGramLastSeenExactInfo">Адам «желіде» немесе соңғы кірудің нақты уақытын көрсетіп тұрғанда, бұл құрылғы оны есте сақтайды, сондықтан ол соңғы кіруін жасырғанда MZGram белгілі соңғы уақытты көрсете береді. Өшірулі: тек белсенділік белгілері (хабарлар, теру) есте сақталады, бұрынғыдай.</string>
     <string name="MZGramKeepGroupReads">Топтарда хабарларымды кім оқығанын сақтау</string>
     <string name="MZGramKeepGroupReadsInfo">Telegram хабарыңызды кім оқығанын тек шағын топтарда және тек бір аптадай көрсетеді. Хабар мәзірі бұл тізімді көрсеткен сайын ол осы құрылғыда сақталады, ал хабар мәзірі &gt; Толығырақ оқырмандар мен уақытты кейін де көрсетеді.</string>
     <string name="MZGramDetailsReadBy">Оқығандар</string>
@@ -1036,6 +1038,8 @@
     <string name="MZGramPluginCrashed">"%1$s" плагині қайталанған ақаулардан кейін өшірілді.</string>
     <string name="MZGramPluginNotResponding">"%1$s" плагині жауап бермейді.</string>
     <string name="MZGramFolderLocal">Жергілікті қалта</string>
+    <string name="MZGramLocalFoldersSwitch">Жергілікті қалталар</string>
+    <string name="MZGramLocalFoldersSwitchInfo">Тек осы құрылғыда сақталатын, қалталар мен қалтадағы чаттарға сервер шектеуі жоқ қалталар. Қалта өңдегішінде «Жергілікті қалта» қосқышы пайда болады, ал сервер шегіне жеткенде жаңа қалта Premium ұсынысының орнына жергілікті болады. Олар құрылғыларыңыз арасында Сақталған хабарлардағы файл арқылы синхрондалады. Өшірулі: қалталар Telegram-дағыдай; бұрын жасалған жергілікті қалталар қалады.</string>
     <string name="MZGramFolderLocalInfo">Тек MZGram-да көрсетіледі және Telegram серверлеріне жіберілмейді, қалталар мен чаттар шектеулерін алып тастайды. Сақталған хабарламалар арқылы синхрондалады.</string>
     <string name="MZGramFolderLocalTag">құрылғыда</string>
     <string name="MZGramRoundVideoCamera2">Дөңгелек бейне жазудың баламалы құралы (Camera2)</string>

@@ -450,6 +450,8 @@
     <string name="MZGramOwnLastSeenValue">يرى الآخرون</string>
     <string name="MZGramOwnLastSeenUnknown">غير معروف بعد</string>
     <string name="MZGramOwnLastSeenInfo">لا يعرض لك تيليجرام آخر ظهور لك. يسجّل هذا الجهاز آخر مرة أخبر فيها تيليجرام بأنك متصل أو غير متصل ويعرضه هنا لهذا الحساب. من تخفيه عنهم إعدادات الخصوصية يرون «مؤخرًا».</string>
+    <string name="MZGramLastSeenExact">تذكّر أوقات آخر ظهور الدقيقة</string>
+    <string name="MZGramLastSeenExactInfo">ما دام الشخص يظهر «متصل» أو وقتًا دقيقًا لآخر ظهور، يسجله هذا الجهاز، فإذا أخفى آخر ظهوره يواصل MZGram عرض آخر وقت معروف. عند الإيقاف: تُسجَّل علامات النشاط فقط (الرسائل والكتابة)، كما كان من قبل.</string>
     <string name="MZGramKeepGroupReads">حفظ من قرأ رسائلي في المجموعات</string>
     <string name="MZGramKeepGroupReadsInfo">يعرض تيليجرام من قرأ رسالتك فقط في المجموعات الصغيرة ولمدة أسبوع تقريبًا. في كل مرة تعرض قائمة الرسالة هذه القائمة تُحفظ على هذا الجهاز، وتعرض قائمة الرسالة &gt; التفاصيل القرّاء والأوقات لاحقًا أيضًا.</string>
     <string name="MZGramDetailsReadBy">قرأها</string>
@@ -1036,6 +1038,8 @@
     <string name="MZGramPluginCrashed">تم تعطيل المكون الإضافي "%1$s" بعد الأعطال المتكررة.</string>
     <string name="MZGramPluginNotResponding">المكون الإضافي "%1$s" لا يستجيب.</string>
     <string name="MZGramFolderLocal">مجلد محلي</string>
+    <string name="MZGramLocalFoldersSwitch">المجلدات المحلية</string>
+    <string name="MZGramLocalFoldersSwitchInfo">مجلدات على هذا الجهاز فقط، من دون حدود الخادم لعدد المجلدات والمحادثات في المجلد. يظهر في محرر المجلد مفتاح «مجلد محلي»، وعند بلوغ حد الخادم يصبح المجلد الجديد محليًا بدلًا من عرض Premium. تتم مزامنتها بين أجهزتك عبر ملف في الرسائل المحفوظة. عند الإيقاف: المجلدات كما في Telegram، وتبقى المجلدات المحلية التي أنشئت سابقًا.</string>
     <string name="MZGramFolderLocalInfo">يظهر فقط في MZGram ولا يُرسل أبدًا إلى خوادم تيليجرام، مما يزيل قيود المجلدات والمحادثات. تتم المزامنة عبر الرسائل المحفوظة.</string>
     <string name="MZGramFolderLocalTag">على الجهاز</string>
     <string name="MZGramRoundVideoCamera2">مسجل فيديو دائري بديل (Camera2)</string>

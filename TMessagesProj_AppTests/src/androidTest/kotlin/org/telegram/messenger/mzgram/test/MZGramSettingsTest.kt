@@ -116,8 +116,8 @@ class MZGramSettingsTest {
         assertEquals("each switch once", shown.size, shown.toSet().size)
         assertTrue("every switch and button is defined", allButtons().containsAll(shown))
         // 78 in base, plus added switches and buttons in features 68-85, N16, N12 (subtitles) and N14 (Persian calendar),
-        // less the DoH provider row (it changed no request)
-        assertEquals("168 switches and buttons", 168, shown.size)
+        // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen
+        assertEquals("170 switches and buttons", 170, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
 

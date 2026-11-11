@@ -450,6 +450,8 @@
     <string name="MZGramOwnLastSeenValue">Others see</string>
     <string name="MZGramOwnLastSeenUnknown">not known yet</string>
     <string name="MZGramOwnLastSeenInfo">Telegram does not show you your own last seen. This device notes when it last told Telegram you are online or offline and shows it here, for this account. People your privacy settings hide it from see \"recently\" instead.</string>
+    <string name="MZGramLastSeenExact">Remember exact last seen times</string>
+    <string name="MZGramLastSeenExactInfo">While a person shows “online” or an exact last seen time, this device notes it, so after they hide their last seen MZGram still shows the last time it knew. Off: only signs of activity (messages, typing) are noted, as before.</string>
     <string name="MZGramKeepGroupReads">Keep who read my messages in groups</string>
     <string name="MZGramKeepGroupReadsInfo">Telegram lists who read your message only in small groups and only for about a week. Each time the message menu shows that list, it is kept on this device, and message menu &gt; Details shows the readers and times later too.</string>
     <string name="MZGramDetailsReadBy">Read by</string>
@@ -1036,6 +1038,8 @@
     <string name="MZGramPluginCrashed">Plugin "%1$s" was disabled after repeated crashes.</string>
     <string name="MZGramPluginNotResponding">Plugin "%1$s" is not responding.</string>
     <string name="MZGramFolderLocal">Local folder</string>
+    <string name="MZGramLocalFoldersSwitch">Local folders</string>
+    <string name="MZGramLocalFoldersSwitchInfo">Folders kept only on this device, without the server limits on folders and on chats in a folder. The folder editor gets the “Local folder” switch, and at the server limit a new folder becomes local instead of the Premium offer. They sync between your devices through a file in Saved Messages. Off: folders as in Telegram; local folders made before stay.</string>
     <string name="MZGramFolderLocalInfo">Shown only in MZGram and never sent to Telegram servers, removing folder and chat limits. Synced between your devices through Saved Messages.</string>
     <string name="MZGramFolderLocalTag">on this device</string>
     <string name="MZGramRoundVideoCamera2">Alternative round video recorder (Camera2)</string>

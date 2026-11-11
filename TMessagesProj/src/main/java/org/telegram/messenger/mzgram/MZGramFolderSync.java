@@ -49,6 +49,10 @@ public class MZGramFolderSync implements NotificationCenter.NotificationCenterDe
     private static final MZGramFolderSync[] instances = new MZGramFolderSync[UserConfig.MAX_ACCOUNT_COUNT];
 
     public static void startAll() {
+        // Nothing is searched or sent while local folders are off
+        if (!MZGramConfig.localFolders) {
+            return;
+        }
         AndroidUtilities.runOnUIThread(() -> {
             for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
                 if (instances[a] == null) {

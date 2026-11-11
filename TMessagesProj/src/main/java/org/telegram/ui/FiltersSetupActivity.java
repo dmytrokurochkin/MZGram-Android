@@ -736,9 +736,21 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     }
 
     public void createFolder(INavigationLayout navigationLayout) {
-        // MZGram: only server folders count against the limit, reaching it creates a local folder (MZGramLocalFolders)
-        if (navigationLayout != null) {
-            navigationLayout.presentFragment(new FilterCreateActivity().mzgramSetFolder(org.telegram.messenger.mzgram.MZGramLocalFolders.serverFull(getAccountInstance())));
+        // MZGram: with local folders on, only server folders count against the limit, reaching it creates a local folder (MZGramLocalFolders)
+        if (org.telegram.messenger.mzgram.MZGramConfig.localFolders) {
+            if (navigationLayout != null) {
+                navigationLayout.presentFragment(new FilterCreateActivity().mzgramSetFolder(org.telegram.messenger.mzgram.MZGramLocalFolders.serverFull(getAccountInstance())));
+            }
+            return;
+        }
+        final int count = getMessagesController().getDialogFilters().size();
+        if (
+            count - 1 >= getMessagesController().dialogFiltersLimitDefault && !getUserConfig().isPremium() ||
+            count >= getMessagesController().dialogFiltersLimitPremium
+        ) {
+            showDialog(new LimitReachedBottomSheet(this, getContext(), LimitReachedBottomSheet.TYPE_FOLDERS, currentAccount, null));
+        } else if (navigationLayout != null) {
+            navigationLayout.presentFragment(new FilterCreateActivity());
         }
     }
 

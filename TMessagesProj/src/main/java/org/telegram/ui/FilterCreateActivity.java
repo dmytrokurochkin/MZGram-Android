@@ -322,7 +322,9 @@ public class FilterCreateActivity extends BaseFragment {
         }));
         nameRow = items.size();
         items.add(ItemInner.asEdit());
-        final boolean localFolderRow = creatingNew || (filter != null && !filter.isChatlist() && invites.isEmpty());
+        // MZGram: the switch only with local folders on, or for a folder that is local already (to move it back)
+        final boolean localFolderRow = (org.telegram.messenger.mzgram.MZGramConfig.localFolders || mzgramFolder)
+                && (creatingNew || (filter != null && !filter.isChatlist() && invites.isEmpty()));
         if (localFolderRow) {
             items.add(ItemInner.asCheck(LocaleController.getString(R.string.MZGramFolderLocal), mzgramFolder).whenClicked(v -> mzgramToggleFolder((org.telegram.ui.Cells.TextCheckCell) v)));
         }

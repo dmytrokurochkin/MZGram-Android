@@ -92,6 +92,10 @@ public class MZGramConfig {
     public static boolean recentChatsOnBack = false;
     // Up to MZGramLocalPins.MAX_EXTENDED pinned chats in the main list and the archive
     public static boolean extendedPins = false;
+    // Local folders (MZGramLocalFolders, MZGramFolderSync): off, folders as in Telegram
+    public static boolean localFolders = false;
+    // Exact statuses also noted for the last seen line (MZGramLastSeen.recordStatus)
+    public static boolean lastSeenExact = false;
     // The pill bar of the chat list's search bar (MZGramPills, ui/mzgram/pills)
     public static boolean pillStack = false;
     // Icon packs and the built-in icon sets (MZGramIconPacks)
@@ -484,6 +488,8 @@ public class MZGramConfig {
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
             recentChatsOnBack = preferences.getBoolean("recentChatsOnBack", false);
             extendedPins = preferences.getBoolean("extendedPins", false);
+            localFolders = preferences.getBoolean("localFolders", false);
+            lastSeenExact = preferences.getBoolean("lastSeenExact", false);
             pillStack = preferences.getBoolean("pillStack", false);
             iconPacks = preferences.getBoolean("iconPacks", false);
             monetThemes = preferences.getBoolean("monetThemes", false);
@@ -668,6 +674,16 @@ public class MZGramConfig {
     public static void toggleExtendedPins() {
         extendedPins = !extendedPins;
         putBoolean("extendedPins", extendedPins);
+    }
+
+    public static void toggleLocalFolders() {
+        localFolders = !localFolders;
+        putBoolean("localFolders", localFolders);
+    }
+
+    public static void toggleLastSeenExact() {
+        lastSeenExact = !lastSeenExact;
+        putBoolean("lastSeenExact", lastSeenExact);
     }
 
     public static void togglePillStack() {

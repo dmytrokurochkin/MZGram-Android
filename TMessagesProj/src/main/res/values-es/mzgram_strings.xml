@@ -450,6 +450,8 @@
     <string name="MZGramOwnLastSeenValue">Los demás ven</string>
     <string name="MZGramOwnLastSeenUnknown">aún desconocido</string>
     <string name="MZGramOwnLastSeenInfo">Telegram no te muestra tu propia última conexión. Este dispositivo anota cuándo le dijo por última vez a Telegram que estabas en línea o desconectado y lo muestra aquí para esta cuenta. Quienes no pueden verla por tu privacidad ven «recientemente».</string>
+    <string name="MZGramLastSeenExact">Recordar la hora exacta de última conexión</string>
+    <string name="MZGramLastSeenExactInfo">Mientras una persona muestra «en línea» o una hora exacta de última conexión, este dispositivo la anota, así que cuando la oculte MZGram seguirá mostrando la última hora conocida. Desactivado: solo se anotan señales de actividad (mensajes, escritura), como antes.</string>
     <string name="MZGramKeepGroupReads">Guardar quién leyó mis mensajes en grupos</string>
     <string name="MZGramKeepGroupReadsInfo">Telegram muestra quién leyó tu mensaje solo en grupos pequeños y solo durante una semana aproximadamente. Cada vez que el menú del mensaje muestra esa lista, se guarda en este dispositivo, y menú del mensaje &gt; Detalles muestra los lectores y las horas también después.</string>
     <string name="MZGramDetailsReadBy">Leído por</string>
@@ -1036,6 +1038,8 @@
     <string name="MZGramPluginCrashed">El complemento "%1$s" fue desactivado tras repetidos fallos.</string>
     <string name="MZGramPluginNotResponding">El complemento "%1$s" no responde.</string>
     <string name="MZGramFolderLocal">Carpeta local</string>
+    <string name="MZGramLocalFoldersSwitch">Carpetas locales</string>
+    <string name="MZGramLocalFoldersSwitchInfo">Carpetas solo en este dispositivo, sin los límites del servidor de carpetas y de chats por carpeta. El editor de carpetas tiene el interruptor «Carpeta local», y al llegar al límite del servidor una carpeta nueva pasa a ser local en lugar de la oferta Premium. Se sincronizan entre tus dispositivos mediante un archivo en Mensajes guardados. Desactivado: carpetas como en Telegram; las carpetas locales creadas antes se quedan.</string>
     <string name="MZGramFolderLocalInfo">Se muestra solo en MZGram y nunca se envía a los servidores de Telegram, eliminando los límites de carpetas y chats. Sincronizado a través de Mensajes guardados.</string>
     <string name="MZGramFolderLocalTag">en el dispositivo</string>
     <string name="MZGramRoundVideoCamera2">Grabador alternativo de video redondo (Camera2)</string>

@@ -450,6 +450,8 @@
     <string name="MZGramOwnLastSeenValue">Les autres voient</string>
     <string name="MZGramOwnLastSeenUnknown">pas encore connu</string>
     <string name="MZGramOwnLastSeenInfo">Telegram ne vous montre pas votre propre dernière connexion. Cet appareil note quand il a dit pour la dernière fois à Telegram que vous étiez en ligne ou hors ligne et l\'affiche ici pour ce compte. Ceux à qui vos réglages de confidentialité la cachent voient « récemment ».</string>
+    <string name="MZGramLastSeenExact">Retenir l\'heure exacte de dernière connexion</string>
+    <string name="MZGramLastSeenExactInfo">Tant qu\'une personne affiche « en ligne » ou une heure exacte de dernière connexion, cet appareil la note, et quand elle la masque, MZGram continue d\'afficher la dernière heure connue. Désactivé : seuls les signes d\'activité (messages, saisie) sont notés, comme avant.</string>
     <string name="MZGramKeepGroupReads">Garder qui a lu mes messages dans les groupes</string>
     <string name="MZGramKeepGroupReadsInfo">Telegram n\'indique qui a lu votre message que dans les petits groupes et pendant environ une semaine. Chaque fois que le menu du message affiche cette liste, elle est gardée sur cet appareil, et menu du message &gt; Détails montre les lecteurs et les heures plus tard aussi.</string>
     <string name="MZGramDetailsReadBy">Lu par</string>
@@ -1036,6 +1038,8 @@
     <string name="MZGramPluginCrashed">Le plugin "%1$s" a été désactivé après des plantages répétés.</string>
     <string name="MZGramPluginNotResponding">Le plugin "%1$s" ne répond pas.</string>
     <string name="MZGramFolderLocal">Dossier local</string>
+    <string name="MZGramLocalFoldersSwitch">Dossiers locaux</string>
+    <string name="MZGramLocalFoldersSwitchInfo">Des dossiers uniquement sur cet appareil, sans les limites du serveur sur les dossiers et sur les discussions d\'un dossier. L\'éditeur de dossier reçoit l\'interrupteur « Dossier local », et à la limite du serveur un nouveau dossier devient local au lieu de l\'offre Premium. Ils se synchronisent entre vos appareils via un fichier dans Messages enregistrés. Désactivé : dossiers comme dans Telegram ; les dossiers locaux créés avant restent.</string>
     <string name="MZGramFolderLocalInfo">Affiché uniquement dans MZGram et jamais envoyé aux serveurs de Telegram, supprimant les limites de dossiers et d\'échanges. Synchronisé via Messages enregistrés.</string>
     <string name="MZGramFolderLocalTag">sur cet appareil</string>
     <string name="MZGramRoundVideoCamera2">Enregistreur alternatif de message vidéo (Camera2)</string>

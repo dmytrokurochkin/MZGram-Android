@@ -450,6 +450,8 @@
     <string name="MZGramOwnLastSeenValue">Іншыя бачаць</string>
     <string name="MZGramOwnLastSeenUnknown">пакуль невядома</string>
     <string name="MZGramOwnLastSeenInfo">Telegram не паказвае вам ваш уласны апошні візіт. Гэтая прылада запамінае, калі апошні раз паведаміла Telegram, што вы ў сетцы ці выйшлі, і паказвае гэта тут для гэтага акаўнта. Тыя, ад каго гэта хаваюць вашы налады прыватнасці, бачаць «нядаўна».</string>
+    <string name="MZGramLastSeenExact">Запамінаць дакладны час візіту</string>
+    <string name="MZGramLastSeenExactInfo">Пакуль чалавек паказвае «у сетцы» ці дакладны час апошняга візіту, гэтая прылада яго запамінае, і калі ён схавае візіт, MZGram і далей паказвае апошні вядомы час. Выключана: запамінаюцца толькі прыкметы актыўнасці (паведамленні, набор тэксту), як раней.</string>
     <string name="MZGramKeepGroupReads">Захоўваць, хто прачытаў мае паведамленні ў групах</string>
     <string name="MZGramKeepGroupReadsInfo">Telegram паказвае, хто прачытаў ваша паведамленне, толькі ў малых групах і толькі каля тыдня. Кожны раз, калі меню паведамлення паказвае гэты спіс, ён захоўваецца на гэтай прыладзе, і меню паведамлення &gt; Падрабязнасці паказвае чытачоў і час і пазней.</string>
     <string name="MZGramDetailsReadBy">Прачыталі</string>
@@ -1036,6 +1038,8 @@
     <string name="MZGramPluginCrashed">Плагін "%1$s" адключаны пасля паўторных збояў.</string>
     <string name="MZGramPluginNotResponding">Плагін "%1$s" не адказвае.</string>
     <string name="MZGramFolderLocal">Лакальная папка</string>
+    <string name="MZGramLocalFoldersSwitch">Лакальныя папкі</string>
+    <string name="MZGramLocalFoldersSwitchInfo">Папкі толькі на гэтай прыладзе, без серверных лімітаў на папкі і чаты ў папцы. У рэдактары папкі з\'яўляецца пераключальнік «Лакальная папка», а на ліміце сервера новая папка становіцца лакальнай замест прапановы Premium. Яны сінхранізуюцца паміж вашымі прыладамі праз файл у Захаваных паведамленнях. Выключана: папкі як у Telegram; створаныя раней лакальныя папкі застаюцца.</string>
     <string name="MZGramFolderLocalInfo">Адлюстроўваецца толькі ў MZGram і не адпраўляецца на серверы Telegram, здымаючы ліміты папак і чатаў. Сінхранізуецца паміж прыладамі праз Захаванае.</string>
     <string name="MZGramFolderLocalTag">на прыладзе</string>
     <string name="MZGramRoundVideoCamera2">Альтэрнатыўны рэкордэр круглых відэа (Camera2)</string>

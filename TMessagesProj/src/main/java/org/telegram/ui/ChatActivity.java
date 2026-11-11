@@ -11090,9 +11090,13 @@ public class ChatActivity extends BaseFragment implements
         stringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Mono));
         stringBuilder.setSpan(new TypefaceSpan(Typeface.MONOSPACE), 0, stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         item.addSubItem(text_mono, stringBuilder);
-        // MZGram: add code block and user mention to formatting submenu
-        item.addSubItem(text_code, LocaleController.getString(R.string.MZGramMenuCode));
-        item.addSubItem(text_mention, LocaleController.getString(R.string.MZGramMenuMention));
+        // MZGram: code block and user mention, once switched on in the formatting menu (MZGramTextStyleMenu)
+        if (org.telegram.ui.mzgram.MZGramTextStyleMenu.shows("code")) {
+            item.addSubItem(text_code, LocaleController.getString(R.string.MZGramMenuCode));
+        }
+        if (org.telegram.ui.mzgram.MZGramTextStyleMenu.shows("mention")) {
+            item.addSubItem(text_mention, LocaleController.getString(R.string.MZGramMenuMention));
+        }
         if (currentEncryptedChat == null || AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) >= 101) {
             stringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Strike));
             TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
@@ -28136,9 +28140,13 @@ public class ChatActivity extends BaseFragment implements
             stringBuilder.setSpan(new TypefaceSpan(Typeface.MONOSPACE), 0, stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             menu.add(R.id.menu_groupbolditalic, R.id.menu_mono, order++, stringBuilder);
         }
-        // MZGram: add code block and user mention to ActionMode menu
-        menu.add(R.id.menu_groupbolditalic, R.id.menu_code, order++, LocaleController.getString(R.string.MZGramMenuCode));
-        menu.add(R.id.menu_groupbolditalic, R.id.menu_mention, order++, LocaleController.getString(R.string.MZGramMenuMention));
+        // MZGram: code block and user mention, once switched on in the formatting menu (MZGramTextStyleMenu)
+        if (org.telegram.ui.mzgram.MZGramTextStyleMenu.shows("code")) {
+            menu.add(R.id.menu_groupbolditalic, R.id.menu_code, order++, LocaleController.getString(R.string.MZGramMenuCode));
+        }
+        if (org.telegram.ui.mzgram.MZGramTextStyleMenu.shows("mention")) {
+            menu.add(R.id.menu_groupbolditalic, R.id.menu_mention, order++, LocaleController.getString(R.string.MZGramMenuMention));
+        }
         if (encryptedChat == null || AndroidUtilities.getPeerLayerVersion(encryptedChat.layer) >= 101) {
             stringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Strike));
             TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();

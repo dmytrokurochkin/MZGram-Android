@@ -1,11 +1,13 @@
 package org.telegram.messenger.mzgram.test
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.telegram.messenger.R
 import org.telegram.messenger.Utilities
+import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.Components.URLSpanUserMention
 import org.telegram.ui.mzgram.MZGramTextStyleMenu
@@ -53,5 +55,25 @@ class MZGramMarkdownMenuTest {
     fun textStyleMenu_includesCodeAndMention() {
         assertTrue(R.id.menu_code != 0)
         assertTrue(R.id.menu_mention != 0)
+    }
+
+    // Code block and mention are not in Telegram's menu: they appear only
+    // once switched on in MZGram's formatting menu
+    @Test
+    fun addedStyles_offUntilSwitchedOnInTheMenu() {
+        val order = MZGramConfig.textStyleOrder
+        val hidden = MZGramConfig.textStyleHidden
+        try {
+            MZGramConfig.textStyleOrder = ""
+            MZGramConfig.textStyleHidden = ""
+            assertFalse("no code block in Telegram's menu", MZGramTextStyleMenu.shows("code"))
+            assertFalse("no mention in Telegram's menu", MZGramTextStyleMenu.shows("mention"))
+            MZGramConfig.textStyleHidden = "mention"
+            assertTrue("code block switched on", MZGramTextStyleMenu.shows("code"))
+            assertFalse("mention still off", MZGramTextStyleMenu.shows("mention"))
+        } finally {
+            MZGramConfig.textStyleOrder = order
+            MZGramConfig.textStyleHidden = hidden
+        }
     }
 }

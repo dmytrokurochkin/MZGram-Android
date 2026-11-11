@@ -52,6 +52,23 @@ public final class MZGramTextStyleMenu {
         return !TextUtils.isEmpty(MZGramConfig.textStyleOrder) || !TextUtils.isEmpty(MZGramConfig.textStyleHidden);
     }
 
+    /** Styles MZGram adds to Telegram's menu: off until switched on in this menu. */
+    static final String[] ADDED = {"code", "mention"};
+
+    /** Whether an added style (code block, mention) is in the menu; without a saved menu it is not, as in Telegram. */
+    public static boolean shows(String key) {
+        return isCustomised() && !hiddenKeys(MZGramConfig.textStyleHidden).contains(key);
+    }
+
+    /** The hidden styles as the dialog shows them: without a saved menu the added ones are off. */
+    static HashSet<String> hiddenNow() {
+        HashSet<String> hidden = hiddenKeys(MZGramConfig.textStyleHidden);
+        if (!isCustomised()) {
+            hidden.addAll(Arrays.asList(ADDED));
+        }
+        return hidden;
+    }
+
     /** All keys in the saved order; unknown keys are dropped, missing ones go to the end. */
     static ArrayList<String> orderedKeys(String order) {
         ArrayList<String> result = new ArrayList<>();
@@ -180,7 +197,7 @@ public final class MZGramTextStyleMenu {
     @SuppressLint("NotifyDataSetChanged")
     public static AlertDialog createDialog(Context context) {
         final ArrayList<String> ordered = orderedKeys(MZGramConfig.textStyleOrder);
-        final HashSet<String> hidden = hiddenKeys(MZGramConfig.textStyleHidden);
+        final HashSet<String> hidden = hiddenNow();
 
         RecyclerView listView = new RecyclerView(context);
         listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));

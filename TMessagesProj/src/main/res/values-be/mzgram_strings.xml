@@ -1261,4 +1261,11 @@
     <string name="MZGramForceSnow">Снег заўсёды</string>
     <string name="MZGramForceSnowInfo">Зімовыя сняжынкі Telegram падаюць на верхняй панэлі спіса чатаў і на фоне чатаў увесь год.</string>
     <string name="MZGramSenderMiniAvatars">Мініаватаркі адпраўніка</string>
+    <string name="MZGramTitleText">Тэкст загалоўка</string>
+    <string name="MZGramTitleTextLogo">Лагатып Telegram</string>
+    <string name="MZGramTitleTextAppName">MZGram</string>
+    <string name="MZGramTitleTextUsername">Імя карыстальніка</string>
+    <string name="MZGramTitleTextFirstName">Імя</string>
+    <string name="MZGramTitleTextChats">Чаты</string>
+    <string name="MZGramTitleTextCustom">Свой тэкст…</string>
 </resources>

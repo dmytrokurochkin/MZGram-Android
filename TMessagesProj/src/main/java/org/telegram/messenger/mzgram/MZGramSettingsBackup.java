@@ -150,6 +150,8 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "folderTabIcons", 0, 2);
         // Download boost: off, fast, ultra
         integer(CONFIG, "downloadSpeedBoost", 0, 2);
+        // Header text: MZGramTitleText LOGO..CUSTOM
+        integer(CONFIG, "titleText", 0, 5);
         // MZGramVoiceQuality TELEGRAM, HIGH, HIGHEST
         integer(CONFIG, "voiceQuality", 0, 2);
         // MZGramMonet STYLE_ANDROID, STYLE_TELEGRAM
@@ -191,7 +193,7 @@ public final class MZGramSettingsBackup {
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",
                 "textStyleOrder", "textStyleHidden", "pluginsCatalogUrl",
                 "translationTargetLang", "aiCustomModel", "voskModelLang",
-                "torCompanionPackage", "customEmojiFontPath", "saveFolder");
+                "torCompanionPackage", "customEmojiFontPath", "saveFolder", "titleTextCustom");
         textSets(CONFIG, "aiMenuButtons", "hiddenSettingsRows");
 
         // MZGramDrawerItems, MZGramPills: comma-separated ids, unknown ids are dropped when read

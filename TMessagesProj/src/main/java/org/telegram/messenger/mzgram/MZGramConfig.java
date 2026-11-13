@@ -475,6 +475,10 @@ public class MZGramConfig {
     // In the chat list, the last message line of a group starts with the sender's avatar (DialogCell)
     public static boolean senderMiniAvatars = false;
 
+    // Settings > MZGram > Appearance > Header text: MZGramTitleText LOGO..CUSTOM, and the text of one's own
+    public static int titleText = 0;
+    public static String titleTextCustom = "";
+
     static {
         loadConfig(false);
     }
@@ -728,6 +732,8 @@ public class MZGramConfig {
             hideDialogsSearchBar = preferences.getBoolean("hideDialogsSearchBar", false);
             forceSnow = preferences.getBoolean("forceSnow", false);
             senderMiniAvatars = preferences.getBoolean("senderMiniAvatars", false);
+            titleText = Math.max(0, Math.min(5, preferences.getInt("titleText", 0)));
+            titleTextCustom = preferences.getString("titleTextCustom", "");
             configLoaded = true;
         }
     }
@@ -1763,6 +1769,16 @@ public class MZGramConfig {
         String clean = MZGramSaveFolder.clean(value);
         saveFolder = clean.isEmpty() ? MZGramSaveFolder.TELEGRAM : clean;
         putString("saveFolder", saveFolder);
+    }
+
+    public static void setTitleText(int value) {
+        titleText = Math.max(0, Math.min(5, value));
+        putInt("titleText", titleText);
+    }
+
+    public static void setTitleTextCustom(String value) {
+        titleTextCustom = value == null ? "" : value;
+        putString("titleTextCustom", titleTextCustom);
     }
 
     public static void setDownloadSpeedBoost(int value) {

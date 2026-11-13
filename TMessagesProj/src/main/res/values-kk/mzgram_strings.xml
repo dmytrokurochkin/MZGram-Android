@@ -1261,4 +1261,11 @@
     <string name="MZGramForceSnow">Әрдайым қар</string>
     <string name="MZGramForceSnowInfo">Telegram-ның қысқы қар ұшқындары жыл бойы чаттар тізімінің жоғарғы панеліне және чат фонына түседі.</string>
     <string name="MZGramSenderMiniAvatars">Жіберушінің шағын аватарлары</string>
+    <string name="MZGramTitleText">Тақырып мәтіні</string>
+    <string name="MZGramTitleTextLogo">Telegram логотипі</string>
+    <string name="MZGramTitleTextAppName">MZGram</string>
+    <string name="MZGramTitleTextUsername">Пайдаланушы аты</string>
+    <string name="MZGramTitleTextFirstName">Аты</string>
+    <string name="MZGramTitleTextChats">Чаттар</string>
+    <string name="MZGramTitleTextCustom">Өз мәтініңіз…</string>
 </resources>

@@ -1261,4 +1261,11 @@
     <string name="MZGramForceSnow">Neve sempre</string>
     <string name="MZGramForceSnowInfo">Os flocos de neve de inverno do Telegram caem sobre a barra da lista de conversas e os fundos das conversas o ano todo.</string>
     <string name="MZGramSenderMiniAvatars">Mini avatares do remetente</string>
+    <string name="MZGramTitleText">Texto do cabeçalho</string>
+    <string name="MZGramTitleTextLogo">Logotipo do Telegram</string>
+    <string name="MZGramTitleTextAppName">MZGram</string>
+    <string name="MZGramTitleTextUsername">Nome de usuário</string>
+    <string name="MZGramTitleTextFirstName">Nome</string>
+    <string name="MZGramTitleTextChats">Conversas</string>
+    <string name="MZGramTitleTextCustom">Texto próprio…</string>
 </resources>

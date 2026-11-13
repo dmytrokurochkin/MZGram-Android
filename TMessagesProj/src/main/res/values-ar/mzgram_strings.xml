@@ -1261,4 +1261,11 @@
     <string name="MZGramForceSnow">الثلج دائمًا</string>
     <string name="MZGramForceSnowInfo">تتساقط ندف الثلج الشتوية في Telegram على شريط قائمة المحادثات وخلفيات المحادثات طوال العام.</string>
     <string name="MZGramSenderMiniAvatars">صور مصغرة للمرسل</string>
+    <string name="MZGramTitleText">نص العنوان</string>
+    <string name="MZGramTitleTextLogo">شعار Telegram</string>
+    <string name="MZGramTitleTextAppName">MZGram</string>
+    <string name="MZGramTitleTextUsername">اسم المستخدم</string>
+    <string name="MZGramTitleTextFirstName">الاسم الأول</string>
+    <string name="MZGramTitleTextChats">المحادثات</string>
+    <string name="MZGramTitleTextCustom">نص خاص…</string>
 </resources>

@@ -247,6 +247,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_DIALOGS_SEARCH_BAR = 218;
     private static final int BUTTON_FORCE_SNOW = 219;
     private static final int BUTTON_SENDER_MINI_AVATARS = 220;
+    private static final int BUTTON_TITLE_TEXT = 221;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -591,6 +592,42 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
     }
 
+    private String titleTextValue() {
+        int mode = MZGramTitleText.mode();
+        if (mode == MZGramTitleText.CUSTOM) {
+            String text = MZGramTitleText.text(currentAccount);
+            return text == null ? getString(MZGramTitleText.TITLES[mode]) : text;
+        }
+        return getString(MZGramTitleText.TITLES[mode]);
+    }
+
+    // Header text: Telegram's logo, MZGram, the username, the first name,
+    // "Chats" or a text of one's own
+    private void chooseTitleText() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] options = new String[MZGramTitleText.TITLES.length];
+        for (int i = 0; i < options.length; i++) {
+            options[i] = getString(MZGramTitleText.TITLES[i]);
+        }
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramTitleText), MZGramTitleText.mode(), (dialog, which) -> {
+            if (which == MZGramTitleText.CUSTOM) {
+                editMark(getString(R.string.MZGramTitleText), MZGramConfig.titleTextCustom, text -> {
+                    MZGramConfig.setTitleTextCustom(MZGramTitleText.clean(text));
+                    MZGramConfig.setTitleText(MZGramTitleText.clean(text).isEmpty() ? MZGramTitleText.LOGO : MZGramTitleText.CUSTOM);
+                    rebuildBelow();
+                });
+                return;
+            }
+            MZGramConfig.setTitleText(which);
+            rebuildBelow();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
     // Save folder: Telegram, MZGram or a name of one's own
     private void chooseSaveFolder() {
         if (getParentActivity() == null) {
@@ -871,6 +908,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_HIDE_FLOATING_BUTTON, getString(R.string.MZGramHideFloatingButton)).setChecked(MZGramConfig.hideFloatingButton));
         items.add(UItem.asCheck(BUTTON_HIDE_DIALOGS_SEARCH_BAR, getString(R.string.MZGramHideDialogsSearchBar)).setChecked(MZGramConfig.hideDialogsSearchBar));
         items.add(UItem.asCheck(BUTTON_SENDER_MINI_AVATARS, getString(R.string.MZGramSenderMiniAvatars)).setChecked(MZGramConfig.senderMiniAvatars));
+        items.add(UItem.asButton(BUTTON_TITLE_TEXT, getString(R.string.MZGramTitleText), titleTextValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramChatListInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderFolders)));
@@ -1279,6 +1317,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
             ((TextCheckCell) view).setChecked(MZGramConfig.relativeLastSeen);
         } else if (item.id == BUTTON_SAVE_FOLDER) {
             chooseSaveFolder();
+        } else if (item.id == BUTTON_TITLE_TEXT) {
+            chooseTitleText();
         } else if (item.id == BUTTON_UPLOAD_SPEED_BOOST) {
             MZGramConfig.toggleUploadSpeedBoost();
             ((TextCheckCell) view).setChecked(MZGramConfig.uploadSpeedBoost);

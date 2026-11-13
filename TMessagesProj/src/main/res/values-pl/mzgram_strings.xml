@@ -1261,4 +1261,11 @@
     <string name="MZGramForceSnow">Śnieg cały rok</string>
     <string name="MZGramForceSnowInfo">Zimowe płatki śniegu Telegrama padają na górnym pasku listy czatów i w tle czatów przez cały rok.</string>
     <string name="MZGramSenderMiniAvatars">Mini awatary nadawcy</string>
+    <string name="MZGramTitleText">Tekst nagłówka</string>
+    <string name="MZGramTitleTextLogo">Logo Telegrama</string>
+    <string name="MZGramTitleTextAppName">MZGram</string>
+    <string name="MZGramTitleTextUsername">Nazwa użytkownika</string>
+    <string name="MZGramTitleTextFirstName">Imię</string>
+    <string name="MZGramTitleTextChats">Czaty</string>
+    <string name="MZGramTitleTextCustom">Własny tekst…</string>
 </resources>

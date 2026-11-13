@@ -1262,4 +1262,11 @@
     <string name="MZGramForceSnow">Примусовий сніг</string>
     <string name="MZGramForceSnowInfo">Зимові сніжинки Telegram падають на верхній панелі списку чатів і на фоні чатів цілий рік.</string>
     <string name="MZGramSenderMiniAvatars">Міні-аватарки відправника</string>
+    <string name="MZGramTitleText">Текст заголовку</string>
+    <string name="MZGramTitleTextLogo">Логотип Telegram</string>
+    <string name="MZGramTitleTextAppName">MZGram</string>
+    <string name="MZGramTitleTextUsername">Ім\'я користувача</string>
+    <string name="MZGramTitleTextFirstName">Ім\'я</string>
+    <string name="MZGramTitleTextChats">Чати</string>
+    <string name="MZGramTitleTextCustom">Свій текст…</string>
 </resources>

@@ -123,6 +123,34 @@ class MZGramScreensTest {
         }
     }
 
+    // Header text: the logo by default (no text), MZGram, "Chats", a text of
+    // one's own (cut to 32 characters; an empty one falls back to MZGram)
+    @Test
+    fun headerText_modes() {
+        val mode = MZGramConfig.titleText
+        val custom = MZGramConfig.titleTextCustom
+        try {
+            MZGramConfig.setTitleText(org.telegram.ui.mzgram.MZGramTitleText.LOGO)
+            assertEquals(null, org.telegram.ui.mzgram.MZGramTitleText.text(0))
+            assertEquals(null, org.telegram.ui.mzgram.MZGramTitleText.drawable(0))
+            MZGramConfig.setTitleText(org.telegram.ui.mzgram.MZGramTitleText.APP_NAME)
+            assertEquals("MZGram", org.telegram.ui.mzgram.MZGramTitleText.text(0))
+            assertTrue(org.telegram.ui.mzgram.MZGramTitleText.drawable(0)!!.intrinsicWidth > 0)
+            MZGramConfig.setTitleText(org.telegram.ui.mzgram.MZGramTitleText.CHATS)
+            assertEquals(LocaleController.getString(R.string.FilterChats), org.telegram.ui.mzgram.MZGramTitleText.text(0))
+            MZGramConfig.setTitleText(org.telegram.ui.mzgram.MZGramTitleText.CUSTOM)
+            MZGramConfig.setTitleTextCustom("x".repeat(40))
+            assertEquals(32, org.telegram.ui.mzgram.MZGramTitleText.text(0)!!.length)
+            MZGramConfig.setTitleTextCustom("  ")
+            assertEquals("MZGram", org.telegram.ui.mzgram.MZGramTitleText.text(0))
+            MZGramConfig.setTitleText(9)
+            assertEquals(org.telegram.ui.mzgram.MZGramTitleText.CUSTOM, MZGramConfig.titleText)
+        } finally {
+            MZGramConfig.setTitleText(mode)
+            MZGramConfig.setTitleTextCustom(custom)
+        }
+    }
+
     // Download boost keeps to its three levels, whatever is set
     @Test
     fun downloadBoost_keepsToItsLevels() {

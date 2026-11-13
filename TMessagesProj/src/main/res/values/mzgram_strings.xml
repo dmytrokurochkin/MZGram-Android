@@ -1261,4 +1261,11 @@
     <string name="MZGramForceSnow">Force snow</string>
     <string name="MZGramForceSnowInfo">Telegram\'s winter snowflakes fall over the chat list bar and chat backgrounds all year.</string>
     <string name="MZGramSenderMiniAvatars">Sender mini avatars</string>
+    <string name="MZGramTitleText">Header text</string>
+    <string name="MZGramTitleTextLogo">Telegram logo</string>
+    <string name="MZGramTitleTextAppName">MZGram</string>
+    <string name="MZGramTitleTextUsername">Username</string>
+    <string name="MZGramTitleTextFirstName">First name</string>
+    <string name="MZGramTitleTextChats">Chats</string>
+    <string name="MZGramTitleTextCustom">Own text…</string>
 </resources>

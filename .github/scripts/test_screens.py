@@ -63,7 +63,7 @@ class ScreensTest(unittest.TestCase):
     def test_save_folder(self):
         config = read(CONFIG)
         self.assertIn('public static String saveFolder = "Telegram";', config)
-        self.assertIn('"saveFolder");', read(BACKUP))
+        self.assertIn('"saveFolder"', read(BACKUP))
         page = read(PAGE)
         self.assertIn("items.add(UItem.asButton(BUTTON_SAVE_FOLDER, ", page)
         self.assertIn("item.id == BUTTON_SAVE_FOLDER)", page)
@@ -130,6 +130,17 @@ class ScreensTest(unittest.TestCase):
         self.assertEqual(2, cell.count("mzgramAddSenderAvatar(") - 1)
         self.assertIn("if (!org.telegram.messenger.mzgram.MZGramConfig.senderMiniAvatars || messageObject == null", cell)
         self.assertIn("fromId == UserConfig.getInstance(currentAccount).getClientUserId()", cell)
+
+    def test_header_text(self):
+        config = read(CONFIG)
+        self.assertIn("public static int titleText = 0;", config)
+        self.assertIn('integer(CONFIG, "titleText", 0, 5);', read(BACKUP))
+        self.assertIn('"titleTextCustom");', read(BACKUP))
+        page = read(PAGE)
+        self.assertIn("items.add(UItem.asButton(BUTTON_TITLE_TEXT, ", page)
+        self.assertIn("item.id == BUTTON_TITLE_TEXT)", page)
+        self.assertIn("org.telegram.ui.mzgram.MZGramTitleText.drawable(currentAccount);", read(JAVA / "ui/DialogsActivity.java"))
+        self.assertIn("org.telegram.ui.mzgram.MZGramTitleText.drawable(currentAccount);", read(JAVA / "ui/Stories/DialogStoriesCell.java"))
 
 
 if __name__ == "__main__":

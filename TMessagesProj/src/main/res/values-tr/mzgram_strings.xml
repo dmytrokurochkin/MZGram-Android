@@ -1261,4 +1261,11 @@
     <string name="MZGramForceSnow">Her zaman kar</string>
     <string name="MZGramForceSnowInfo">Telegram\'ın kış kar taneleri yıl boyunca sohbet listesi çubuğuna ve sohbet arka planlarına düşer.</string>
     <string name="MZGramSenderMiniAvatars">Gönderen mini avatarları</string>
+    <string name="MZGramTitleText">Başlık metni</string>
+    <string name="MZGramTitleTextLogo">Telegram logosu</string>
+    <string name="MZGramTitleTextAppName">MZGram</string>
+    <string name="MZGramTitleTextUsername">Kullanıcı adı</string>
+    <string name="MZGramTitleTextFirstName">Ad</string>
+    <string name="MZGramTitleTextChats">Sohbetler</string>
+    <string name="MZGramTitleTextCustom">Kendi metniniz…</string>
 </resources>

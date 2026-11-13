@@ -335,11 +335,18 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         telegramLogoView = new ImageView(context);
         telegramLogoView.setContentDescription(getString(R.string.AppName));
         telegramLogoView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        telegramLogoView.setImageResource(R.drawable.telegram_logo_2);
+        // MZGram: Settings > MZGram > Appearance > Header text, in the place of the logo and as wide as itself
+        final Drawable mzgramTitle = org.telegram.ui.mzgram.MZGramTitleText.drawable(currentAccount);
+        if (mzgramTitle != null) {
+            telegramLogoView.setImageDrawable(mzgramTitle);
+            telegramLogoView.setScaleType(ImageView.ScaleType.FIT_START);
+        } else {
+            telegramLogoView.setImageResource(R.drawable.telegram_logo_2);
+        }
         telegramLogoView.setColorFilter(getTextLogoColor(), PorterDuff.Mode.MULTIPLY);
         telegramLogoView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
         telegramLogoView.setFocusableInTouchMode(true);
-        addView(telegramLogoView, LayoutHelper.createFrame(90, 22));
+        addView(telegramLogoView, LayoutHelper.createFrame(mzgramTitle != null ? (int) Math.ceil(mzgramTitle.getIntrinsicWidth() / AndroidUtilities.density) + 1 : 90, 22));
 
         statusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(null, dp(26));
         statusDrawable.center = true;

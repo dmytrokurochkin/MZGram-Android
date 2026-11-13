@@ -497,6 +497,32 @@ public final class MZGramSettingsBackup {
     }
 
     @SuppressWarnings("unchecked")
+    /**
+     * Settings > MZGram > Other > Reset settings: every setting that goes
+     * into a backup is removed, so it reads as its default again; what is
+     * not a setting (keys, accounts' data, the archive) stays. Returns how
+     * many were reset (not on the UI thread).
+     */
+    public static int reset() {
+        int removed = 0;
+        for (String file : files()) {
+            SharedPreferences prefs = preferences(file);
+            SharedPreferences.Editor editor = prefs.edit();
+            int inFile = 0;
+            for (Map.Entry<String, ?> entry : prefs.getAll().entrySet()) {
+                if (accepted(file, entry.getKey(), entry.getValue()) != null) {
+                    editor.remove(entry.getKey());
+                    inFile++;
+                }
+            }
+            if (inFile > 0 && editor.commit()) {
+                removed += inFile;
+            }
+        }
+        MZGramConfig.loadConfig(true);
+        return removed;
+    }
+
     public static int restore(Map<String, ? extends Map<String, Object>> values, String fullJson) {
         final boolean hadPluginsBackupEnabled = MZGramConfig.pluginsBackup;
         int written = 0;

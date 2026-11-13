@@ -1372,4 +1372,11 @@
     <string name="MZGramDeletedIconColor">لون الرمز</string>
     <string name="MZGramDeletedIconRed">أحمر</string>
     <string name="MZGramDeletedIconTime">مثل الوقت</string>
+    <string name="MZGramResetSettings">إعادة ضبط الإعدادات</string>
+    <string name="MZGramResetSettingsConfirm">تعود كل إعدادات MZGram إلى قيمها الافتراضية. تبقى حساباتك ومحادثاتك والأرشيف والإضافات والمفاتيح. تُطبق بعض التغييرات بعد إعادة التشغيل.</string>
+    <string name="MZGramResetSettingsButton">إعادة الضبط</string>
+    <string name="MZGramResetSettingsDone">الإعدادات المعاد ضبطها: %1$d</string>
+    <string name="MZGramDeleteAccount">حذف الحساب</string>
+    <string name="MZGramDeleteAccountConfirm">تُفتح صفحة Telegram لحذف الحساب في المتصفح. يزيل حذف الحساب كل محادثاته وجهات اتصاله نهائيًا.</string>
+    <string name="MZGramDeleteAccountInfo">يفتح صفحة Telegram الخاصة بحذف الحساب (my.telegram.org).</string>
 </resources>

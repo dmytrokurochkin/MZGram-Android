@@ -1372,4 +1372,11 @@
     <string name="MZGramDeletedIconColor">Cor do ícone</string>
     <string name="MZGramDeletedIconRed">Vermelho</string>
     <string name="MZGramDeletedIconTime">Como a hora</string>
+    <string name="MZGramResetSettings">Redefinir configurações</string>
+    <string name="MZGramResetSettingsConfirm">Todas as configurações do MZGram voltam ao padrão. Suas contas, chats, o arquivo, plugins e chaves permanecem. Algumas mudanças valem após reiniciar.</string>
+    <string name="MZGramResetSettingsButton">Redefinir</string>
+    <string name="MZGramResetSettingsDone">Configurações redefinidas: %1$d</string>
+    <string name="MZGramDeleteAccount">Apagar conta</string>
+    <string name="MZGramDeleteAccountConfirm">A página do Telegram para apagar uma conta abre no navegador. Apagar a conta remove para sempre todos os chats e contatos dela.</string>
+    <string name="MZGramDeleteAccountInfo">Abre a página do próprio Telegram para apagar uma conta (my.telegram.org).</string>
 </resources>

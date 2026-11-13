@@ -295,6 +295,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SAVE_READ_DATES = 266;
     private static final int BUTTON_SAVE_LAST_ONLINE = 267;
     private static final int BUTTON_DELETED_MARK_ICON = 268;
+    private static final int BUTTON_RESET_SETTINGS = 269;
+    private static final int BUTTON_DELETE_ACCOUNT = 270;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -1305,6 +1307,56 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramTranslationAiInfo)));
     }
 
+    private static final String DELETE_ACCOUNT_URL = "https://my.telegram.org/deactivate";
+
+    private void confirmResetSettings() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        org.telegram.ui.ActionBar.AlertDialog dialog = new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
+                .setTitle(getString(R.string.MZGramResetSettings))
+                .setMessage(getString(R.string.MZGramResetSettingsConfirm))
+                .setPositiveButton(getString(R.string.MZGramResetSettingsButton), (d, which) -> org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                    int removed = 0;
+                    try {
+                        removed = org.telegram.messenger.mzgram.MZGramSettingsBackup.reset();
+                    } catch (Exception e) {
+                        org.telegram.messenger.FileLog.e("MZGramSettingsActivity.resetSettings", e);
+                    }
+                    final int count = removed;
+                    AndroidUtilities.runOnUIThread(() -> {
+                        if (getParentActivity() == null) {
+                            return;
+                        }
+                        BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check,
+                                org.telegram.messenger.LocaleController.formatString(R.string.MZGramResetSettingsDone, count)).show();
+                        rebuildBelow();
+                        if (listView != null && listView.adapter != null) {
+                            listView.adapter.update(true);
+                        }
+                    });
+                }))
+                .setNegativeButton(getString(R.string.MZGramCancel), null)
+                .create();
+        showDialog(dialog);
+        dialog.redPositive();
+    }
+
+    // Telegram's own page for deleting an account, opened in the browser after a warning
+    private void confirmDeleteAccount() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        org.telegram.ui.ActionBar.AlertDialog dialog = new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
+                .setTitle(getString(R.string.MZGramDeleteAccount))
+                .setMessage(getString(R.string.MZGramDeleteAccountConfirm))
+                .setPositiveButton(getString(R.string.MZGramContinue), (d, which) -> org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), DELETE_ACCOUNT_URL))
+                .setNegativeButton(getString(R.string.MZGramCancel), null)
+                .create();
+        showDialog(dialog);
+        dialog.redPositive();
+    }
+
     private void fillOther(ArrayList<UItem> items) {
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderUpdates)));
         items.add(check(BUTTON_CHECK_UPDATES, R.string.MZGramCheckUpdates, MZGramConfig.checkUpdates, R.string.MZGramCheckUpdatesInfo));
@@ -1314,6 +1366,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_PLUGINS_BACKUP, R.string.MZGramPluginsBackupSwitch, MZGramConfig.pluginsBackup, R.string.MZGramPluginsBackupSwitchInfo));
         items.add(UItem.asButton(BUTTON_SETTINGS_EXPORT, getString(R.string.MZGramSettingsExport)));
         items.add(UItem.asButton(BUTTON_SETTINGS_IMPORT, getString(R.string.MZGramSettingsImport)));
+        items.add(UItem.asButton(BUTTON_RESET_SETTINGS, getString(R.string.MZGramResetSettings)));
         items.add(UItem.asShadow(getString(R.string.MZGramSettingsBackupInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramDiagnostics)));
         items.add(UItem.asCheck(BUTTON_CRASH_REPORTS, getString(R.string.MZGramCrashReports)).setChecked(MZGramConfig.crashReports));
@@ -1342,6 +1395,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asCheck(HIDE_ROW_BUTTONS[i], getString(HIDE_ROW_TITLES[i])).setChecked(org.telegram.messenger.mzgram.MZGramSettingsRows.hidden(rows.get(i).key)));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramHideRowsInfo)));
+        items.add(UItem.asButton(BUTTON_DELETE_ACCOUNT, getString(R.string.MZGramDeleteAccount)).red());
+        items.add(UItem.asShadow(getString(R.string.MZGramDeleteAccountInfo)));
     }
 
     // The five AI sites, each by its name; the choice applies at once.
@@ -1905,6 +1960,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DELETED_ICON_COLOR) {
             chooseFrom(R.string.MZGramDeletedIconColor, new int[]{R.string.MZGramDeletedIconRed, R.string.MZGramDeletedIconTime},
                     MZGramConfig.deletedMarkIconColor, MZGramConfig::setDeletedMarkIconColor);
+        } else if (item.id == BUTTON_RESET_SETTINGS) {
+            confirmResetSettings();
+        } else if (item.id == BUTTON_DELETE_ACCOUNT) {
+            confirmDeleteAccount();
         } else if (item.id == BUTTON_SWIPE_ACTION) {
             chooseFrom(R.string.MZGramSwipeAction, org.telegram.ui.mzgram.MZGramSwipeAction.TITLES, MZGramConfig.swipeAction, MZGramConfig::setSwipeAction);
         } else if (item.id == BUTTON_OPEN_ARCHIVE_ON_PULL) {

@@ -1372,4 +1372,11 @@
     <string name="MZGramDeletedIconColor">Simge rengi</string>
     <string name="MZGramDeletedIconRed">Kırmızı</string>
     <string name="MZGramDeletedIconTime">Saat gibi</string>
+    <string name="MZGramResetSettings">Ayarları sıfırla</string>
+    <string name="MZGramResetSettingsConfirm">Tüm MZGram ayarları varsayılana döner. Hesaplarınız, sohbetler, arşiv, eklentiler ve anahtarlar kalır. Bazı değişiklikler yeniden başlatınca uygulanır.</string>
+    <string name="MZGramResetSettingsButton">Sıfırla</string>
+    <string name="MZGramResetSettingsDone">Sıfırlanan ayar: %1$d</string>
+    <string name="MZGramDeleteAccount">Hesabı sil</string>
+    <string name="MZGramDeleteAccountConfirm">Hesap silmek için Telegram sayfası tarayıcıda açılır. Hesabı silmek tüm sohbetlerini ve kişilerini kalıcı olarak kaldırır.</string>
+    <string name="MZGramDeleteAccountInfo">Hesap silmek için Telegram\'ın kendi sayfasını açar (my.telegram.org).</string>
 </resources>

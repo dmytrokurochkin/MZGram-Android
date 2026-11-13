@@ -491,4 +491,22 @@ class MZGramScreensTest {
         val drawn = org.telegram.ui.mzgram.MZGramEditedIcon.apply(time) as android.text.Spanned
         assertEquals(1, drawn.getSpans(0, drawn.length, org.telegram.ui.Components.ColoredImageSpan::class.java).size)
     }
+
+    // Reset settings: a changed setting goes back to its default; a key that
+    // is not a setting stays in the same file.
+    @Test
+    fun resetSettingsKeepsWhatIsNotASetting() {
+        val prefs = context.getSharedPreferences("mzgram_config", android.content.Context.MODE_PRIVATE)
+        val backup = org.telegram.messenger.mzgram.MZGramSettingsBackup.current()
+        try {
+            if (!MZGramConfig.hideStickerTime) MZGramConfig.toggleHideStickerTime()
+            prefs.edit().putString("mzgramTestNotASetting", "kept").commit()
+            assertTrue(org.telegram.messenger.mzgram.MZGramSettingsBackup.reset() > 0)
+            assertFalse(MZGramConfig.hideStickerTime)
+            assertEquals("kept", prefs.getString("mzgramTestNotASetting", null))
+        } finally {
+            prefs.edit().remove("mzgramTestNotASetting").commit()
+            org.telegram.messenger.mzgram.MZGramSettingsBackup.restore(backup)
+        }
+    }
 }

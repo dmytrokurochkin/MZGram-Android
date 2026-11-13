@@ -387,6 +387,16 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("timeString = org.telegram.ui.mzgram.MZGramEditedIcon.DELETED + ", cell)
         self.assertIn("items.add(UItem.asIntSlideView(1, 0, org.telegram.messenger.mzgram.MZGramArchiveCap.step()", read(PAGE))
 
+    def test_reset_settings_and_delete_account(self):
+        page = read(PAGE)
+        self.assertIn("items.add(UItem.asButton(BUTTON_RESET_SETTINGS, getString(R.string.MZGramResetSettings)));", page)
+        self.assertIn("items.add(UItem.asButton(BUTTON_DELETE_ACCOUNT, getString(R.string.MZGramDeleteAccount)).red());", page)
+        self.assertIn('private static final String DELETE_ACCOUNT_URL = "https://my.telegram.org/deactivate";', page)
+        self.assertIn("removed = org.telegram.messenger.mzgram.MZGramSettingsBackup.reset();", page)
+        backup = read(BACKUP)
+        self.assertIn("public static int reset() {", backup)
+        self.assertIn("if (accepted(file, entry.getKey(), entry.getValue()) != null) {", backup)
+
 
 if __name__ == "__main__":
     unittest.main()

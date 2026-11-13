@@ -1372,4 +1372,11 @@
     <string name="MZGramDeletedIconColor">Цвет значка</string>
     <string name="MZGramDeletedIconRed">Красный</string>
     <string name="MZGramDeletedIconTime">Как время</string>
+    <string name="MZGramResetSettings">Сбросить настройки</string>
+    <string name="MZGramResetSettingsConfirm">Все настройки MZGram вернутся к значениям по умолчанию. Аккаунты, чаты, архив, плагины и ключи останутся. Некоторые изменения действуют после перезапуска.</string>
+    <string name="MZGramResetSettingsButton">Сбросить</string>
+    <string name="MZGramResetSettingsDone">Сброшено настроек: %1$d</string>
+    <string name="MZGramDeleteAccount">Удалить аккаунт</string>
+    <string name="MZGramDeleteAccountConfirm">В браузере откроется страница Telegram для удаления аккаунта. Удаление аккаунта навсегда убирает все его чаты и контакты.</string>
+    <string name="MZGramDeleteAccountInfo">Открывает собственную страницу Telegram для удаления аккаунта (my.telegram.org).</string>
 </resources>

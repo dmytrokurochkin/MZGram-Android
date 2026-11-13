@@ -1372,4 +1372,11 @@
     <string name="MZGramDeletedIconColor">Белгіше түсі</string>
     <string name="MZGramDeletedIconRed">Қызыл</string>
     <string name="MZGramDeletedIconTime">Уақыт сияқты</string>
+    <string name="MZGramResetSettings">Баптауларды қалпына келтіру</string>
+    <string name="MZGramResetSettingsConfirm">Барлық MZGram баптаулары әдепкі мәндерге оралады. Аккаунттар, чаттар, мұрағат, плагиндер мен кілттер қалады. Кейбір өзгерістер қайта іске қосқаннан кейін күшіне енеді.</string>
+    <string name="MZGramResetSettingsButton">Қалпына келтіру</string>
+    <string name="MZGramResetSettingsDone">Қалпына келтірілген баптаулар: %1$d</string>
+    <string name="MZGramDeleteAccount">Аккаунтты жою</string>
+    <string name="MZGramDeleteAccountConfirm">Аккаунтты жоюға арналған Telegram беті браузерде ашылады. Аккаунтты жою оның барлық чаттары мен контактілерін біржола өшіреді.</string>
+    <string name="MZGramDeleteAccountInfo">Аккаунтты жоюға арналған Telegram-ның өз бетін ашады (my.telegram.org).</string>
 </resources>

@@ -8610,7 +8610,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         avatarsViewPager.setVisibility(View.VISIBLE);
 
                         try {
-                            avatarContainer.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                            avatarContainer.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                         } catch (Exception ignore) {
                         }
                     }
@@ -8694,7 +8694,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         expandAnimator.start();
                         ignoreScrollOnFullExpand = false;
                         try {
-                            avatarContainer.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                            avatarContainer.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                         } catch (Exception ignore) {
                         }
                     }

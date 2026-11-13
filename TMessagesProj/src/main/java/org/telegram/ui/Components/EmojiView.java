@@ -3058,7 +3058,7 @@ public class EmojiView extends FrameLayout implements
                             emojiTouchedView.setImageDrawable(Emoji.getEmojiBigDrawable(code), emojiTouchedView.isRecent);
                             sendEmoji(emojiTouchedView, null);
                             try {
-                                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                             } catch (Exception ignore) {}
 
                             Emoji.saveEmojiColors();
@@ -3604,13 +3604,13 @@ public class EmojiView extends FrameLayout implements
                             ImageViewEmoji viewEmoji = (ImageViewEmoji) view;
                             sendEmoji(viewEmoji, null);
                             try {
-                                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                             } catch (Exception ignore) {}
                         } else if (view instanceof EmojiPackExpand) {
                             EmojiPackExpand button = (EmojiPackExpand) view;
                             emojiAdapter.expand(position, button);
                             try {
-                                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                             } catch (Exception ignore) {}
                         } else if (view != null) {
                             view.callOnClick();

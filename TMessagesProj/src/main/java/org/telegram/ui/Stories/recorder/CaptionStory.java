@@ -651,7 +651,7 @@ public class CaptionStory extends CaptionContainerView {
                     locked = true;
 
                     try {
-                        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                     } catch (Exception ignore) {}
                 }
                 invalidate();

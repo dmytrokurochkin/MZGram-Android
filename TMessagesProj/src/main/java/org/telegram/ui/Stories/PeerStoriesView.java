@@ -1025,7 +1025,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     FileLog.e(e);
                 }
                 try {
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                 } catch (Exception ignore) {}
                 BottomSheet.Builder builder = new BottomSheet.Builder(getContext(), false, resourcesProvider);
                 builder.setTitle(formattedUrl);

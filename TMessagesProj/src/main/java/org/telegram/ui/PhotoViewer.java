@@ -4789,6 +4789,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         windowView = new PhotoViewerWindowView(activity);
         windowView.setBackground(backgroundDrawable);
         windowView.setFocusable(false);
+        // MZGram: Settings > MZGram > General > In-app vibration
+        org.telegram.messenger.mzgram.MZGramHaptics.follow(windowView);
 
         animatingImageView = new ClippingImageView(activity);
         animatingImageView.setAnimationValues(animationValues, false, false);

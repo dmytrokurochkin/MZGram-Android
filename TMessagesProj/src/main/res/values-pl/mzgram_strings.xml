@@ -1232,4 +1232,6 @@
     <string name="MZGramHeaderAudio">Muzyka i dźwięk</string>
     <string name="MZGramHeaderCalls">Połączenia</string>
     <string name="MZGramHeaderUpdates">Aktualizacje</string>
+    <string name="MZGramInAppVibration">Wibracje w aplikacji</string>
+    <string name="MZGramInAppVibrationInfo">Wyłączone: przyciski, menu, suwaki i miniaplikacje przestają wibrować. Połączenia i powiadomienia wibrują według własnych ustawień.</string>
 </resources>

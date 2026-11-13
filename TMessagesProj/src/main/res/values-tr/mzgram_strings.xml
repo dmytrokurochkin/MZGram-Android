@@ -1232,4 +1232,6 @@
     <string name="MZGramHeaderAudio">Müzik ve ses</string>
     <string name="MZGramHeaderCalls">Aramalar</string>
     <string name="MZGramHeaderUpdates">Güncellemeler</string>
+    <string name="MZGramInAppVibration">Uygulama içi titreşim</string>
+    <string name="MZGramInAppVibrationInfo">Kapalı: düğmeler, menüler, kaydırıcılar ve mini uygulamalar artık titreşmez. Aramalar ve bildirimler kendi ayarlarına uyar.</string>
 </resources>

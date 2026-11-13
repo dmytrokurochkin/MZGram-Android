@@ -1232,4 +1232,6 @@
     <string name="MZGramHeaderAudio">Musique et audio</string>
     <string name="MZGramHeaderCalls">Appels</string>
     <string name="MZGramHeaderUpdates">Mises à jour</string>
+    <string name="MZGramInAppVibration">Vibrations dans l\'app</string>
+    <string name="MZGramInAppVibrationInfo">Désactivé : les boutons, menus, curseurs et mini-apps ne vibrent plus. Les appels et notifications suivent leurs propres réglages.</string>
 </resources>

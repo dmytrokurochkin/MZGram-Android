@@ -42,6 +42,10 @@ public enum BotWebViewVibrationEffect {
     }
 
     public void vibrate() {
+        // MZGram: Settings > MZGram > General > In-app vibration
+        if (!org.telegram.messenger.mzgram.MZGramHaptics.allowed()) {
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AndroidUtilities.getVibrator().vibrate(getVibrationEffectForOreo());
         } else {

@@ -1232,4 +1232,6 @@
     <string name="MZGramHeaderAudio">Музыка и аудио</string>
     <string name="MZGramHeaderCalls">Звонки</string>
     <string name="MZGramHeaderUpdates">Обновления</string>
+    <string name="MZGramInAppVibration">Вибрация в приложении</string>
+    <string name="MZGramInAppVibrationInfo">Выключено: кнопки, меню, ползунки и мини-приложения больше не вибрируют. Звонки и уведомления вибрируют по своим настройкам.</string>
 </resources>

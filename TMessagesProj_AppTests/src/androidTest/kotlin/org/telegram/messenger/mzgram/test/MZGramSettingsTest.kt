@@ -160,9 +160,9 @@ class MZGramSettingsTest {
         assertEquals("every switch and button is shown", allButtons() - underSwitch.map { button(it) }.toSet() - maybe, shown.toSet() - maybe)
         // 78 in base, plus added switches and buttons in features 68-85, N16, N12 (subtitles) and N14 (Persian calendar),
         // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen,
-        // plus the message menu row of Chats; a build with plugins (Python) also has Python for plugins (Plugins
-        // itself is a row of the main page)
-        val expectedCount = 171 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        // plus the message menu row of Chats, plus the switches of the reference screenshots (MZGramScreensTest);
+        // a build with plugins (Python) also has Python for plugins (Plugins itself is a row of the main page)
+        val expectedCount = 172 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

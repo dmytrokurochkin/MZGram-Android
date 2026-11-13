@@ -1356,6 +1356,8 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             window = getWindow();
             window.setWindowAnimations(R.style.DialogNoAnimation);
             setContentView(container, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            // MZGram: Settings > MZGram > General > In-app vibration
+            org.telegram.messenger.mzgram.MZGramHaptics.follow(container);
         }
 
         if (useLightStatusBar && Build.VERSION.SDK_INT >= 23) {

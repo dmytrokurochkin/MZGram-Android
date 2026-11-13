@@ -742,7 +742,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
 
                         if (newValue <= 0 || newValue >= 100) {
                             try {
-                                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                             } catch (Exception e) {}
                         }
                     }

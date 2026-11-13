@@ -601,7 +601,7 @@ public class EntityView extends FrameLayout {
         newScale = Utilities.clamp(newScale, getMaxScale(), getMinScale());
         if (allowHaptic() && (newScale >= getMaxScale() || newScale <= getMinScale()) != (oldScale >= getMaxScale() || oldScale <= getMinScale())) {
             try {
-                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
             } catch (Exception ignore) {}
         }
         setScaleX(newScale);

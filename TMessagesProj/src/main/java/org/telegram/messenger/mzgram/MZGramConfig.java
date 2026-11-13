@@ -430,6 +430,9 @@ public class MZGramConfig {
     // Double tap on other people's messages, same values.
     public static int doubleTapOther = 0;
 
+    // Taps and buzzes of the app's own controls (MZGramHaptics); on as in Telegram
+    public static boolean inAppVibration = true;
+
     static {
         loadConfig(false);
     }
@@ -668,6 +671,7 @@ public class MZGramConfig {
             textStyleOrder = preferences.getString("textStyleOrder", "");
             textStyleHidden = preferences.getString("textStyleHidden", "");
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
+            inAppVibration = preferences.getBoolean("inAppVibration", true);
             configLoaded = true;
         }
     }
@@ -1702,5 +1706,10 @@ public class MZGramConfig {
     public static void setDoubleTapOther(int value) {
         doubleTapOther = value;
         preferences().edit().putInt("doubleTapOther", value).apply();
+    }
+
+    public static void toggleInAppVibration() {
+        inAppVibration = !inAppVibration;
+        putBoolean("inAppVibration", inAppVibration);
     }
 }

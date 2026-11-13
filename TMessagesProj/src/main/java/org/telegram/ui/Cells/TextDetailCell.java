@@ -71,7 +71,7 @@ public class TextDetailCell extends FrameLayout {
         textView.setOnLinkLongPressListener(span -> {
             if (span != null) {
                 try {
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                 } catch (Exception ignore) {};
                 span.onClick(textView);
             }
@@ -103,7 +103,7 @@ public class TextDetailCell extends FrameLayout {
         valueTextView.setOnLinkLongPressListener(span -> {
             if (span != null) {
                 try {
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                 } catch (Exception ignore) {};
                 span.onClick(valueTextView);
             }
@@ -138,7 +138,7 @@ public class TextDetailCell extends FrameLayout {
         rightValueTextView.setOnLinkLongPressListener(span -> {
             if (span != null) {
                 try {
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                 } catch (Exception ignore) {};
                 span.onClick(valueTextView);
             }

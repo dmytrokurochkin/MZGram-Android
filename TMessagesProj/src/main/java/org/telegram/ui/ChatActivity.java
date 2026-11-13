@@ -28943,7 +28943,7 @@ public class ChatActivity extends BaseFragment implements
                         if (buttonTypeUrl != null) {
                             openClickableLink(null, buttonTypeUrl.url, true, null, buttonMessage, false);
                             try {
-                                buttonTextView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                                buttonTextView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                             } catch (Exception ignore) {}
                             return true;
                         }
@@ -33391,7 +33391,7 @@ public class ChatActivity extends BaseFragment implements
             }
             if (fragmentView != null) {
                 try {
-                    fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                 } catch (Exception ignore) {}
             }
             final long chatId = -StarsController.MessageId.from(primaryMessage).did;
@@ -40979,7 +40979,7 @@ public class ChatActivity extends BaseFragment implements
             if (buttonTypeUrl != null) {
                 openClickableLink(null, buttonTypeUrl.url, true, cell, cell.getMessageObject(), false);
                 try {
-                    cell.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    cell.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                 } catch (Exception ignore) {}
             }
         }

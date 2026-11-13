@@ -539,7 +539,7 @@ public class ProfileActionsView extends View {
                     downTime = System.currentTimeMillis();
                     hit.bounce.setPressed(true);
 //                    try {
-//                        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+//                        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
 //                    } catch (Exception ignore) {}
                     break;
                 }
@@ -557,7 +557,7 @@ public class ProfileActionsView extends View {
                 if (eventAction == MotionEvent.ACTION_UP && hit.rect.contains(x, y)) {
                     if (System.currentTimeMillis() - downTime > 250) {
                         try {
-                            performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                            performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                         } catch (Exception ignore) {
                         }
                     }

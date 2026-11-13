@@ -155,6 +155,7 @@ Settings > MZGram > Chats.
 |---|---|---|
 | MZGram settings screen | Settings > MZGram opens with the app's icon, name and version with its build number, then the categories: General, Appearance, Chats, Archive, Ghost mode, Ads and filters, Privacy, AI, Plugins (only in a build with plugins) and Other, and a link to the source code on GitHub. On each page the switches are grouped in cards under headers, each with what it does in grey under its title; the message menu is a page of Chats. | Next release |
 | Folder tabs at the bottom | Chat folder tabs sit at the bottom of the chat list, within reach of the thumb. | 1.0.0 |
+| In-app vibration | Settings > MZGram > General. Off: buttons, menus, sliders, pickers and mini apps of the app, its sheets, dialogs and photo viewer no longer vibrate; calls still ring and vibrate, notifications follow their own settings. On by default, as in Telegram. | Next release |
 | No bottom navigation bar | Removes the tab bar under the chat list; its pages move to the chat list menu. | 1.0.0 |
 | Accounts in the chat list menu | The menu of the three dots at the top of the chat list ends with every signed-in account (avatar and name, the current one marked, the unread count of the others); a tap switches to it at once, without opening Settings. Add Account is there while there is room for one (more with Premium). The standard items stay. On by default, can be switched off. | 1.0.3 |
 | Hide stories | Removes the stories row from the chat list. | 1.0.0 |

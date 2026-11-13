@@ -1041,7 +1041,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                                     final float nowSeek = currentPlayerScope.player.seek((x - lastTouchX) / dp(220), videoDuration);
                                     if ((int) (nowSeek * 10) != (int) (wasSeek * 10)) {
                                         try {
-                                            peerView.performHapticFeedback(9, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                                            peerView.performHapticFeedback(9, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                                         } catch (Exception ignore) {}
                                     }
                                     peerView.storyContainer.invalidate();

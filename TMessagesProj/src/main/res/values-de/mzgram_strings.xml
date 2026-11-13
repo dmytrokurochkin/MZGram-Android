@@ -1232,4 +1232,6 @@
     <string name="MZGramHeaderAudio">Musik und Audio</string>
     <string name="MZGramHeaderCalls">Anrufe</string>
     <string name="MZGramHeaderUpdates">Aktualisierungen</string>
+    <string name="MZGramInAppVibration">Vibration in der App</string>
+    <string name="MZGramInAppVibrationInfo">Aus: Tasten, Menüs, Schieberegler und Mini-Apps vibrieren nicht mehr. Anrufe und Mitteilungen folgen ihren eigenen Einstellungen.</string>
 </resources>

@@ -130,7 +130,7 @@ public class StoryPrivacySelector extends View {
                     tapTime = -1;
                     open();
                     try {
-                        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, org.telegram.messenger.mzgram.MZGramHaptics.viewSetting());
                     } catch (Exception ignore) {}
                 }, ViewConfiguration.getLongPressTimeout());
                 invalidate();

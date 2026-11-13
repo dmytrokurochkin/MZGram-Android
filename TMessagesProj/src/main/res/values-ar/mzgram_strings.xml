@@ -1232,4 +1232,6 @@
     <string name="MZGramHeaderAudio">الموسيقى والصوت</string>
     <string name="MZGramHeaderCalls">المكالمات</string>
     <string name="MZGramHeaderUpdates">التحديثات</string>
+    <string name="MZGramInAppVibration">الاهتزاز داخل التطبيق</string>
+    <string name="MZGramInAppVibrationInfo">عند الإيقاف: لا تهتز الأزرار والقوائم وأشرطة التمرير والتطبيقات المصغرة. تتبع المكالمات والإشعارات إعداداتها الخاصة.</string>
 </resources>

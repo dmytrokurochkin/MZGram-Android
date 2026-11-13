@@ -726,6 +726,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             } else {
                 setContentView(rootView);
             }
+            // MZGram: Settings > MZGram > General > In-app vibration
+            org.telegram.messenger.mzgram.MZGramHaptics.follow(rootView);
         }
 
         final boolean hasButtons = positiveButtonText != null || negativeButtonText != null || negative2ButtonText != null || neutralButtonText != null;

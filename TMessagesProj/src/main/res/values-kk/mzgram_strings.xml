@@ -1232,4 +1232,6 @@
     <string name="MZGramHeaderAudio">Музыка және аудио</string>
     <string name="MZGramHeaderCalls">Қоңыраулар</string>
     <string name="MZGramHeaderUpdates">Жаңартулар</string>
+    <string name="MZGramInAppVibration">Қолданбадағы діріл</string>
+    <string name="MZGramInAppVibrationInfo">Өшірулі: түймелер, мәзірлер, жүгірткілер және шағын қолданбалар енді дірілдемейді. Қоңыраулар мен хабарландырулар өз баптауларына сай.</string>
 </resources>

@@ -89,6 +89,8 @@ jobs:
           python3 .github/scripts/test_levels_reliable.py
           # "Forward and save protected content": the viewer and the text selection use the app's check
           python3 .github/scripts/test_protected_content.py
+          # Features of the reference screenshots: their switches and the places that follow them
+          python3 .github/scripts/test_screens.py
           # A push build gets the versionCode of the newest release tag (or the
           # gradle.properties one before the first release): it installs over the
           # last release, and the next release installs over it

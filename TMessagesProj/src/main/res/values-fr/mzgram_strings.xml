@@ -1344,4 +1344,6 @@
     <string name="MZGramInlineUnitsInfo">Saisissez une conversion et « = » dans le champ du message (5 km in mi=) et le résultat est ajouté (3.10686 mi) : longueur, masse, volume, vitesse, surface, données, temps et température.</string>
     <string name="MZGramInlineTimeZones">Fuseaux horaires dans la calculatrice</string>
     <string name="MZGramInlineTimeZonesInfo">Saisissez une heure, une ville ou un fuseau, « in », un autre et « = » (15:00 Paris in Tokyo=) et l\'heure là-bas est ajoutée (22:00). Villes, UTC+3 et abréviations comme EST marchent hors ligne.</string>
+    <string name="MZGramGroupMessageMenu">Regrouper le menu du message</string>
+    <string name="MZGramGroupMessageMenuInfo">Le regroupement déplace les actions principales (répondre, copier, transférer, modifier, épingler, supprimer) en bas du menu du message.</string>
 </resources>

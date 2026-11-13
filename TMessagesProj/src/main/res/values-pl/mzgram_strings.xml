@@ -1344,4 +1344,6 @@
     <string name="MZGramInlineUnitsInfo">Wpisz przeliczenie i „=” w polu wiadomości (5 km in mi=), a wynik zostanie dodany (3.10686 mi): długość, masa, objętość, prędkość, powierzchnia, dane, czas i temperatura.</string>
     <string name="MZGramInlineTimeZones">Strefy czasowe w kalkulatorze</string>
     <string name="MZGramInlineTimeZonesInfo">Wpisz godzinę, miasto lub strefę, „in”, drugie i „=” (15:00 Warsaw in Tokyo=), a zostanie dodany czas tam (22:00). Miasta, UTC+3 i skróty jak EST działają offline.</string>
+    <string name="MZGramGroupMessageMenu">Grupuj menu wiadomości</string>
+    <string name="MZGramGroupMessageMenuInfo">Grupowanie przenosi główne akcje (odpowiedz, kopiuj, przekaż, edytuj, przypnij, usuń) na dół menu wiadomości.</string>
 </resources>

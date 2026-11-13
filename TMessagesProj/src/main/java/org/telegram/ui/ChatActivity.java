@@ -32421,6 +32421,8 @@ public class ChatActivity extends BaseFragment implements
                         popupLayout.addView(new ActionBarPopupWindow.GapView(contentView.getContext(), themeDelegate), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 8));
                     }
                 }
+                // MZGram: Group message menu: the main actions move to the bottom part
+                final int mzgramMainStart = org.telegram.ui.mzgram.MZGramMenuGroup.apply(items, options, icons);
                 scrimPopupWindowItems = new ActionBarMenuSubItem[items.size()];
                 for (int a = 0, N = items.size(); a < N; a++) {
                     final Integer option = options.get(a);
@@ -32459,7 +32461,7 @@ public class ChatActivity extends BaseFragment implements
                         }
                     }
                     scrimPopupWindowItems[a] = cell;
-                    if (option == OPTION_REMOVE_ADS) {
+                    if (option == OPTION_REMOVE_ADS || a == mzgramMainStart) { // MZGram: the gap before the main actions
                         popupLayout.addView(new ActionBarPopupWindow.GapView(contentView.getContext(), themeDelegate), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 8));
                     }
                     popupLayout.addView(cell);

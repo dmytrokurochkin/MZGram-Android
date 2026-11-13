@@ -400,4 +400,26 @@ class MZGramScreensTest {
             if (MZGramConfig.rememberLastCamera != remember) MZGramConfig.toggleRememberLastCamera()
         }
     }
+
+    // Group message menu: the main actions go to the end in their order, the
+    // three lists stay parallel; off, or only one part, leaves the menu as is.
+    @Test
+    fun groupMessageMenu() {
+        val on = MZGramConfig.groupMessageMenu
+        try {
+            if (MZGramConfig.groupMessageMenu) MZGramConfig.toggleGroupMessageMenu()
+            val options = arrayListOf(org.telegram.ui.ChatActivity.OPTION_REPLY, 104, org.telegram.ui.ChatActivity.OPTION_COPY, 29, org.telegram.ui.ChatActivity.OPTION_DELETE)
+            val items = arrayListOf<CharSequence>("Reply", "Profile", "Copy", "Translate", "Delete")
+            val icons = arrayListOf(1, 2, 3, 4, 5)
+            assertEquals(-1, org.telegram.ui.mzgram.MZGramMenuGroup.apply(items, options, icons))
+            MZGramConfig.toggleGroupMessageMenu()
+            assertEquals(2, org.telegram.ui.mzgram.MZGramMenuGroup.apply(items, options, icons))
+            assertEquals(listOf<CharSequence>("Profile", "Translate", "Reply", "Copy", "Delete"), items)
+            assertEquals(listOf(2, 4, 1, 3, 5), icons)
+            val onlyMain = arrayListOf(org.telegram.ui.ChatActivity.OPTION_REPLY)
+            assertEquals(-1, org.telegram.ui.mzgram.MZGramMenuGroup.apply(arrayListOf<CharSequence>("Reply"), onlyMain, arrayListOf(1)))
+        } finally {
+            if (MZGramConfig.groupMessageMenu != on) MZGramConfig.toggleGroupMessageMenu()
+        }
+    }
 }

@@ -1344,4 +1344,6 @@
     <string name="MZGramInlineUnitsInfo">Gib eine Umrechnung und „=“ im Nachrichtenfeld ein (5 km in mi=), und das Ergebnis wird angefügt (3.10686 mi): Länge, Masse, Volumen, Geschwindigkeit, Fläche, Daten, Zeit und Temperatur.</string>
     <string name="MZGramInlineTimeZones">Zeitzonen im Rechner</string>
     <string name="MZGramInlineTimeZonesInfo">Gib eine Uhrzeit, eine Stadt oder Zone, „in“, eine weitere und „=“ ein (15:00 Berlin in Tokyo=), und die Zeit dort wird angefügt (22:00). Städte, UTC+3 und Kürzel wie EST gehen offline.</string>
+    <string name="MZGramGroupMessageMenu">Nachrichtenmenü gruppieren</string>
+    <string name="MZGramGroupMessageMenuInfo">Gruppieren verschiebt die Hauptaktionen (Antworten, Kopieren, Weiterleiten, Bearbeiten, Anheften, Löschen) in den unteren Teil des Nachrichtenmenüs.</string>
 </resources>

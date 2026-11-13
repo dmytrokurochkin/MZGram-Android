@@ -334,6 +334,15 @@ class ScreensTest(unittest.TestCase):
         convert = read(JAVA / "ui/mzgram/MZGramUnitConvert.java")
         self.assertNotIn("http", convert)
 
+    def test_group_message_menu(self):
+        self.switch("groupMessageMenu", "false", "BUTTON_GROUP_MESSAGE_MENU")
+        chat = read(JAVA / "ui/ChatActivity.java")
+        self.assertIn("final int mzgramMainStart = org.telegram.ui.mzgram.MZGramMenuGroup.apply(items, options, icons);", chat)
+        self.assertIn("if (option == OPTION_REMOVE_ADS || a == mzgramMainStart) {", chat)
+        group = read(JAVA / "ui/mzgram/MZGramMenuGroup.java")
+        for option in ("REPLY", "COPY", "FORWARD", "EDIT", "PIN", "UNPIN", "DELETE"):
+            self.assertIn(f"ChatActivity.OPTION_{option},", group)
+
 
 if __name__ == "__main__":
     unittest.main()

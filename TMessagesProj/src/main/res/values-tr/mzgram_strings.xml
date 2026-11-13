@@ -1344,4 +1344,6 @@
     <string name="MZGramInlineUnitsInfo">Mesaj alanına bir dönüşüm ve \"=\" yazın (5 km in mi=), sonuç eklenir (3.10686 mi): uzunluk, kütle, hacim, hız, alan, veri, zaman ve sıcaklık.</string>
     <string name="MZGramInlineTimeZones">Hesap makinesinde saat dilimleri</string>
     <string name="MZGramInlineTimeZonesInfo">Bir saat, şehir veya dilim, \"in\", bir diğeri ve \"=\" yazın (15:00 Istanbul in Tokyo=), oradaki saat eklenir (22:00). Şehirler, UTC+3 ve EST gibi kısaltmalar çevrimdışı çalışır.</string>
+    <string name="MZGramGroupMessageMenu">Mesaj menüsünü grupla</string>
+    <string name="MZGramGroupMessageMenuInfo">Gruplama ana eylemleri (yanıtla, kopyala, ilet, düzenle, sabitle, sil) mesaj menüsünün alt kısmına taşır.</string>
 </resources>

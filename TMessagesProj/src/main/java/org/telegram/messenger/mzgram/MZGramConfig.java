@@ -598,6 +598,9 @@ public class MZGramConfig {
     // "15:00 Kyiv in Tokyo=" in the message field adds the time there (MZGramUnitConvert)
     public static boolean inlineTimeZones = false;
 
+    // The main actions of the message menu move to its bottom part after a gap (MZGramMenuGroup)
+    public static boolean groupMessageMenu = false;
+
     static {
         loadConfig(false);
     }
@@ -898,6 +901,7 @@ public class MZGramConfig {
             staticZoom = preferences.getBoolean("staticZoom", false);
             inlineUnits = preferences.getBoolean("inlineUnits", false);
             inlineTimeZones = preferences.getBoolean("inlineTimeZones", false);
+            groupMessageMenu = preferences.getBoolean("groupMessageMenu", false);
             configLoaded = true;
         }
     }
@@ -2223,5 +2227,10 @@ public class MZGramConfig {
     public static void toggleInlineTimeZones() {
         inlineTimeZones = !inlineTimeZones;
         putBoolean("inlineTimeZones", inlineTimeZones);
+    }
+
+    public static void toggleGroupMessageMenu() {
+        groupMessageMenu = !groupMessageMenu;
+        putBoolean("groupMessageMenu", groupMessageMenu);
     }
 }

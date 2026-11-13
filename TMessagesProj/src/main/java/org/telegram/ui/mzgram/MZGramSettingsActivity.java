@@ -283,6 +283,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_STATIC_ZOOM = 254;
     private static final int BUTTON_INLINE_UNITS = 255;
     private static final int BUTTON_INLINE_TIME_ZONES = 256;
+    private static final int BUTTON_GROUP_MESSAGE_MENU = 257;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -1121,6 +1122,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_HIDE_SHARE_BUTTON, getString(R.string.MZGramHideShareButton)).setChecked(MZGramConfig.hideShareButton));
         items.add(check(BUTTON_SHOW_RESULTS_BEFORE_VOTING, R.string.MZGramShowResultsBeforeVoting, MZGramConfig.showResultsBeforeVoting, R.string.MZGramShowResultsBeforeVotingInfo));
         items.add(UItem.asButton(BUTTON_MESSAGE_MENU, getString(R.string.MZGramSectionMessageMenu), messageMenuValue()));
+        items.add(check(BUTTON_GROUP_MESSAGE_MENU, R.string.MZGramGroupMessageMenu, MZGramConfig.groupMessageMenu, R.string.MZGramGroupMessageMenuInfo));
         items.add(check(BUTTON_LINKED_EMOJI, R.string.MZGramLinkedEmoji, MZGramConfig.linkedCustomEmoji, R.string.MZGramLinkedEmojiInfo));
         items.add(check(BUTTON_LINK_TYPEFACE, R.string.MZGramLinkTypeface, MZGramConfig.linkTypeface, R.string.MZGramLinkTypefaceInfo));
         items.add(check(BUTTON_PLAIN_CODE, R.string.MZGramPlainCode, MZGramConfig.plainCodeBlocks, R.string.MZGramPlainCodeInfo));
@@ -1404,6 +1406,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_GROUP_MESSAGE_MENU) {
+            MZGramConfig.toggleGroupMessageMenu();
+            ((TextCheckCell) view).setChecked(MZGramConfig.groupMessageMenu);
         } else if (item.id == BUTTON_INLINE_TIME_ZONES) {
             MZGramConfig.toggleInlineTimeZones();
             ((TextCheckCell) view).setChecked(MZGramConfig.inlineTimeZones);

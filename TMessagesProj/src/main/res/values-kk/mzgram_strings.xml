@@ -1344,4 +1344,6 @@
     <string name="MZGramInlineUnitsInfo">Хабарлама өрісіне түрлендіру мен «=» жазыңыз (5 km in mi=), нәтиже қосылады (3.10686 mi): ұзындық, масса, көлем, жылдамдық, аудан, деректер, уақыт және температура.</string>
     <string name="MZGramInlineTimeZones">Калькулятордағы уақыт белдеулері</string>
     <string name="MZGramInlineTimeZonesInfo">Уақытты, қаланы не белдеуді, «in», басқасын және «=» жазыңыз (15:00 Almaty in Tokyo=), сол жердегі уақыт қосылады (22:00). Қалалар, UTC+3 және EST сияқты қысқартулар желісіз жұмыс істейді.</string>
+    <string name="MZGramGroupMessageMenu">Хабарлама мәзірін топтау</string>
+    <string name="MZGramGroupMessageMenuInfo">Топтау негізгі әрекеттерді (жауап беру, көшіру, қайта жіберу, өңдеу, бекіту, жою) хабарлама мәзірінің төменгі бөлігіне жылжытады.</string>
 </resources>

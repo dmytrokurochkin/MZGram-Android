@@ -1344,4 +1344,6 @@
     <string name="MZGramInlineUnitsInfo">اكتب تحويلًا و«=» في حقل الرسالة (5 km in mi=) فتُضاف النتيجة (3.10686 mi): الطول والكتلة والحجم والسرعة والمساحة والبيانات والوقت والحرارة.</string>
     <string name="MZGramInlineTimeZones">المناطق الزمنية في الآلة الحاسبة</string>
     <string name="MZGramInlineTimeZonesInfo">اكتب وقتًا ومدينة أو منطقة و«in» وأخرى و«=» (15:00 Dubai in Tokyo=) فيُضاف الوقت هناك (22:00). تعمل المدن وUTC+3 والاختصارات مثل EST دون اتصال.</string>
+    <string name="MZGramGroupMessageMenu">تجميع قائمة الرسالة</string>
+    <string name="MZGramGroupMessageMenuInfo">ينقل التجميع الإجراءات الرئيسية (رد، نسخ، إعادة توجيه، تعديل، تثبيت، حذف) إلى الجزء السفلي من قائمة الرسالة.</string>
 </resources>

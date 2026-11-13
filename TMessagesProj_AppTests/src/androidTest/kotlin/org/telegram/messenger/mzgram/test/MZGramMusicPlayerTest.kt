@@ -88,6 +88,15 @@ class MZGramMusicPlayerTest {
         assertTrue(config.getField("musicPlayer").getBoolean(null) || hasSaved("musicPlayer"))
     }
 
+    @Test
+    fun profileMusicCard_onByDefault() {
+        // Everything of the new player is on by default: the bar, the mini player and the profile card
+        val config = MZGramConfig::class.java
+        for (key in listOf("musicPlayerBar", "musicPlayerMini", "profileMusicCard")) {
+            assertTrue(key, config.getField(key).getBoolean(null) || hasSaved(key))
+        }
+    }
+
     private fun hasSaved(key: String): Boolean {
         val context = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().targetContext
         return context.getSharedPreferences("mzgram_config", android.content.Context.MODE_PRIVATE).contains(key)

@@ -241,8 +241,8 @@ public class MZGramConfig {
     // Appearance: Material 3 switches and card-based list layout.
     public static boolean m3Switches = false;
     public static boolean cardsDesign = false;
-    // Profile: display saved or currently playing music as a card
-    public static boolean profileMusicCard = false;
+    // Profile: display saved or currently playing music as a card; on by default with the Material 3 player, as in the reference
+    public static boolean profileMusicCard = true;
     // Third-party network services (DoH, OpenFreeMap map preview)
     public static int dohProvider = 0;
     public static boolean openFreeMapPreview = false;
@@ -811,7 +811,7 @@ public class MZGramConfig {
             deletedDialogsInMainList = preferences.getBoolean("deletedDialogsInMainList", false);
             m3Switches = preferences.getBoolean("m3Switches", false);
             cardsDesign = preferences.getBoolean("cardsDesign", false);
-            profileMusicCard = preferences.getBoolean("profileMusicCard", false);
+            profileMusicCard = preferences.getBoolean("profileMusicCard", true);
             dohProvider = preferences.getInt("dohProvider", 0);
             openFreeMapPreview = preferences.getBoolean("openFreeMapPreview", false);
             pipEnabled = preferences.getBoolean("pipEnabled", false);

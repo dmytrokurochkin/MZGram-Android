@@ -167,7 +167,7 @@ Settings > MZGram > Chats.
 | Material 3 music player | Music opens in a full screen player with the cover colours, a wavy progress bar, playback speed, a queue and the lyrics from the file; voice messages keep Telegram's player. With it, a floating mini player sits above the bottom tabs: cover, title, artist, play with a progress ring, next and close; a tap opens the player from the card, and on the Chats tab it can be dragged up under the search. Its cover, shape, progress, colours and buttons are in the player style editor. On by default; off, music opens in Telegram's player. | Next release |
 | Video viewer gestures | Settings > MZGram > Chats > Video: Double tap to seek (5, 10 as in Telegram, 15 or 30 seconds), Picture-in-picture by swipe (a swipe up on a playing video takes it to picture-in-picture; off by default), Unmute with volume buttons (on by default, as in Telegram; off, a volume button only changes the system volume). | Next release |
 | Pause voice messages when minimized | Settings > MZGram > Chats > Video. A playing voice message pauses when the app goes to the background; music keeps playing. Off by default. | Next release |
-| Profile music card | The saved or playing music of a user shows as a card in their profile. Off by default. | Next release |
+| Profile music card | The saved or playing music of a user shows as a card in their profile. On by default; off, the profile keeps Telegram's music row. | Next release |
 
 ### Interface and appearance
 

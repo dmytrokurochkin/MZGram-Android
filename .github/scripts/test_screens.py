@@ -476,6 +476,12 @@ class ScreensTest(unittest.TestCase):
             self.assertNotIn(row, under)
         self.assertIn("On by default; off, music opens in Telegram's player.", read(ROOT / "FEATURES.md"))
 
+    def test_player_extras_on_by_default(self):
+        # Everything of the new player is on by default (owner, 2026-11-14)
+        self.switch("musicPlayerBar", "true", "BUTTON_MUSIC_PLAYER_BAR")
+        self.switch("profileMusicCard", "true", "BUTTON_PROFILE_MUSIC_CARD")
+        self.assertIn("On by default; off, the profile keeps Telegram's music row.", read(ROOT / "FEATURES.md"))
+
     def test_floating_mini_player(self):
         self.switch("musicPlayerMini", "true", "BUTTON_MUSIC_PLAYER_MINI")
         tabs = read(JAVA / "ui/MainTabsActivity.java")

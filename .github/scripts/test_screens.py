@@ -41,7 +41,6 @@ class ScreensTest(unittest.TestCase):
                 continue
             self.assertNotIn("FLAG_IGNORE_VIEW_SETTING", read(path), path.name)
 
-
     def test_disable_notification_delay(self):
         self.switch("disableNotificationDelay", "false", "BUTTON_DISABLE_NOTIFICATION_DELAY")
         notifications = read(JAVA / "messenger/NotificationsController.java")

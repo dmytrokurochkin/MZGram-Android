@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Each chat shows the theme and wallpaper chosen for it. Off: every chat has the app\'s theme.</string>
     <string name="MZGramSingleCornerRadius">Single corner radius</string>
     <string name="MZGramSingleCornerRadiusInfo">Forums get the same avatar shape as chats.</string>
+    <string name="MZGramFolderTabCounters">Message counter on tabs</string>
+    <string name="MZGramHideAllChatsTab">Hide \"All chats\" folder</string>
+    <string name="MZGramHideAllChatsTabInfo">With other folders, the All chats tab is left out and the first folder opens. The order of folders is then changed in Telegram\'s Folders settings.</string>
 </resources>

@@ -250,6 +250,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_TITLE_TEXT = 221;
     private static final int BUTTON_CUSTOM_CHAT_THEMES = 222;
     private static final int BUTTON_SINGLE_CORNER_RADIUS = 223;
+    private static final int BUTTON_FOLDER_TAB_COUNTERS = 224;
+    private static final int BUTTON_HIDE_ALL_CHATS_TAB = 225;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -916,11 +918,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderFolders)));
         items.add(UItem.asButton(BUTTON_FOLDER_TAB_ICONS, getString(R.string.MZGramFolderTabs), getString(MZGramFolderIcons.MODE_TITLES[MZGramFolderIcons.mode()])));
+        items.add(UItem.asCheck(BUTTON_FOLDER_TAB_COUNTERS, getString(R.string.MZGramFolderTabCounters)).setChecked(MZGramConfig.folderTabCounters));
+        items.add(UItem.asCheck(BUTTON_HIDE_ALL_CHATS_TAB, getString(R.string.MZGramHideAllChatsTab)).setChecked(MZGramConfig.hideAllChatsTab));
         items.add(check(BUTTON_FOLDER_TABS_AT_BOTTOM, R.string.MZGramFolderTabsAtBottom, MZGramConfig.folderTabsAtBottom, R.string.MZGramFolderTabsAtBottomInfo));
         items.add(UItem.asButton(BUTTON_LAUNCH_FOLDER, getString(R.string.MZGramLaunchFolder), MZGramLaunchFolder.valueFor(currentAccount)));
         items.add(check(BUTTON_LOCAL_FOLDERS, R.string.MZGramLocalFoldersSwitch, MZGramConfig.localFolders, R.string.MZGramLocalFoldersSwitchInfo));
         items.add(check(BUTTON_EXTENDED_PINS, R.string.MZGramExtendedPins, MZGramConfig.extendedPins, R.string.MZGramExtendedPinsInfo));
-        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsInfo)));
+        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsInfo) + "\n\n" + getString(R.string.MZGramHideAllChatsTabInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderNavigation)));
         items.add(check(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, R.string.MZGramHideBottomNavigationBar, MZGramConfig.hideBottomNavigationBar, R.string.MZGramHideBottomNavigationBarInfo));
@@ -1282,6 +1286,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_HIDE_ALL_CHATS_TAB) {
+            MZGramConfig.toggleHideAllChatsTab();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideAllChatsTab);
+            rebuildBelow();
+        } else if (item.id == BUTTON_FOLDER_TAB_COUNTERS) {
+            MZGramConfig.toggleFolderTabCounters();
+            ((TextCheckCell) view).setChecked(MZGramConfig.folderTabCounters);
+            rebuildBelow();
         } else if (item.id == BUTTON_SINGLE_CORNER_RADIUS) {
             MZGramConfig.toggleSingleCornerRadius();
             ((TextCheckCell) view).setChecked(MZGramConfig.singleCornerRadius);

@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Әр чат өзіне таңдалған тақырыппен және тұсқағазбен көрсетіледі. Өшірулі: барлық чат қолданба тақырыбында.</string>
     <string name="MZGramSingleCornerRadius">Бірыңғай дөңгелектеу</string>
     <string name="MZGramSingleCornerRadiusInfo">Форумдар чаттар сияқты аватар пішінін алады.</string>
+    <string name="MZGramFolderTabCounters">Қойындылардағы хабарлама санауышы</string>
+    <string name="MZGramHideAllChatsTab">«Барлық чаттар» қалтасын жасыру</string>
+    <string name="MZGramHideAllChatsTabInfo">Басқа қалталар болса, «Барлық чаттар» қойындысы жоқ, бірінші қалта ашылады. Қалталар реті сонда Telegram-ның «Қалталар» баптауларында өзгертіледі.</string>
 </resources>

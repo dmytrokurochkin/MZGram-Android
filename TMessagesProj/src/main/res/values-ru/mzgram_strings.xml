@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Каждый чат показывается с темой и обоями, выбранными для него. Выключено: все чаты в теме приложения.</string>
     <string name="MZGramSingleCornerRadius">Единое скругление</string>
     <string name="MZGramSingleCornerRadiusInfo">У форумов будет такая же форма аватаров, как у чатов.</string>
+    <string name="MZGramFolderTabCounters">Счётчик сообщений на вкладках</string>
+    <string name="MZGramHideAllChatsTab">Скрыть папку «Все чаты»</string>
+    <string name="MZGramHideAllChatsTabInfo">Когда есть другие папки, вкладки «Все чаты» нет, открывается первая папка. Порядок папок тогда меняется в настройках «Папки» Telegram.</string>
 </resources>

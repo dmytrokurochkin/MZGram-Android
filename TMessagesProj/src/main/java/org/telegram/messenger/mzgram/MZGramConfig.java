@@ -485,6 +485,12 @@ public class MZGramConfig {
     // Forums and other rounded squares of the avatars take the shape of the chats (MZGramAvatarShape.single)
     public static boolean singleCornerRadius = false;
 
+    // Unread counters on the folder tabs, as in Telegram; off, the tabs show names only
+    public static boolean folderTabCounters = true;
+
+    // No All chats tab while there are other folders
+    public static boolean hideAllChatsTab = false;
+
     static {
         loadConfig(false);
     }
@@ -742,6 +748,8 @@ public class MZGramConfig {
             titleTextCustom = preferences.getString("titleTextCustom", "");
             customChatThemes = preferences.getBoolean("customChatThemes", true);
             singleCornerRadius = preferences.getBoolean("singleCornerRadius", false);
+            folderTabCounters = preferences.getBoolean("folderTabCounters", true);
+            hideAllChatsTab = preferences.getBoolean("hideAllChatsTab", false);
             configLoaded = true;
         }
     }
@@ -1873,5 +1881,15 @@ public class MZGramConfig {
         singleCornerRadius = !singleCornerRadius;
         putBoolean("singleCornerRadius", singleCornerRadius);
         MZGramAvatarShape.changed();
+    }
+
+    public static void toggleFolderTabCounters() {
+        folderTabCounters = !folderTabCounters;
+        putBoolean("folderTabCounters", folderTabCounters);
+    }
+
+    public static void toggleHideAllChatsTab() {
+        hideAllChatsTab = !hideAllChatsTab;
+        putBoolean("hideAllChatsTab", hideAllChatsTab);
     }
 }

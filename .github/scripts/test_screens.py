@@ -161,6 +161,18 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("MZGramAvatarShape.forumRadius(dp(needInsetForStories() ? 24 : 38), dp(50), mzgramShapeCircle);", read(JAVA / "ui/ProfileActivity.java"))
         self.assertIn("items.add(UItem.asCheck(BUTTON_SINGLE_CORNER_RADIUS, ", read(PAGE))
 
+    def test_folder_tabs_counter_and_all_chats(self):
+        self.switch("folderTabCounters", "true", "BUTTON_FOLDER_TAB_COUNTERS")
+        self.switch("hideAllChatsTab", "false", "BUTTON_HIDE_ALL_CHATS_TAB")
+        dialogs = read(JAVA / "ui/DialogsActivity.java")
+        self.assertIn("|| !org.telegram.messenger.mzgram.MZGramConfig.folderTabCounters) {", dialogs)
+        self.assertIn("final boolean mzgramHideAll = org.telegram.messenger.mzgram.MZGramConfig.hideAllChatsTab && filters.size() > 1;", dialogs)
+        self.assertIn("if (mzgramHideAll && filters.get(a).isDefault()) {", dialogs)
+        self.assertIn("final int mzgramDefaultTab = filterTabsView.getDefaultTabId() >= 0 ? filterTabsView.getDefaultTabId() : 0;", dialogs)
+        tabs = read(JAVA / "ui/Components/FilterTabsView.java")
+        flags = tabs[tabs.index("public int getMovementFlags("):]
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.hideAllChatsTab) {\n                return makeMovementFlags(0, 0);", flags[:500].replace("\r\n", "\n"))
+
 
 if __name__ == "__main__":
     unittest.main()

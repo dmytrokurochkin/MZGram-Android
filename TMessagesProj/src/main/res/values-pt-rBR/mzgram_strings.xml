@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Cada conversa mostra o tema e o papel de parede escolhidos para ela. Desativado: todas têm o tema do app.</string>
     <string name="MZGramSingleCornerRadius">Arredondamento único</string>
     <string name="MZGramSingleCornerRadiusInfo">Os fóruns terão o mesmo formato de avatar que as conversas.</string>
+    <string name="MZGramFolderTabCounters">Contador de mensagens nas abas</string>
+    <string name="MZGramHideAllChatsTab">Ocultar a pasta \"Todas as conversas\"</string>
+    <string name="MZGramHideAllChatsTabInfo">Com outras pastas, a aba Todas as conversas some e a primeira pasta abre. A ordem das pastas passa a ser mudada nas configurações de Pastas do Telegram.</string>
 </resources>

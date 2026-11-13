@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Jeder Chat zeigt das für ihn gewählte Design und Hintergrundbild. Aus: alle Chats haben das Design der App.</string>
     <string name="MZGramSingleCornerRadius">Einheitliche Abrundung</string>
     <string name="MZGramSingleCornerRadiusInfo">Foren bekommen dieselbe Avatarform wie Chats.</string>
+    <string name="MZGramFolderTabCounters">Nachrichtenzähler auf Tabs</string>
+    <string name="MZGramHideAllChatsTab">Ordner „Alle Chats“ ausblenden</string>
+    <string name="MZGramHideAllChatsTabInfo">Bei anderen Ordnern fehlt der Tab Alle Chats und der erste Ordner öffnet sich. Die Reihenfolge der Ordner wird dann in den Ordner-Einstellungen von Telegram geändert.</string>
 </resources>

@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Każdy czat ma wybrany dla niego motyw i tapetę. Wyłączone: wszystkie czaty mają motyw aplikacji.</string>
     <string name="MZGramSingleCornerRadius">Jednolite zaokrąglenie</string>
     <string name="MZGramSingleCornerRadiusInfo">Fora dostaną taki sam kształt awatarów jak czaty.</string>
+    <string name="MZGramFolderTabCounters">Licznik wiadomości na kartach</string>
+    <string name="MZGramHideAllChatsTab">Ukryj folder „Wszystkie czaty”</string>
+    <string name="MZGramHideAllChatsTabInfo">Gdy są inne foldery, karty Wszystkie czaty nie ma i otwiera się pierwszy folder. Kolejność folderów zmienia się wtedy w ustawieniach Foldery Telegrama.</string>
 </resources>

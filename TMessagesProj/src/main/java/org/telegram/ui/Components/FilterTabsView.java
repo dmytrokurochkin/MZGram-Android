@@ -1916,6 +1916,10 @@ public class FilterTabsView extends FrameLayout {
 
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            // MZGram: with "All chats" hidden a tab's place is not its folder's index, so the tabs keep their order here
+            if (org.telegram.messenger.mzgram.MZGramConfig.hideAllChatsTab) {
+                return makeMovementFlags(0, 0);
+            }
             if (MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked() && (!isEditing || (viewHolder.getAdapterPosition() == 0 && tabs.get(0).isDefault && !UserConfig.getInstance(UserConfig.selectedAccount).isPremium()))) {
                 return makeMovementFlags(0, 0);
             }

@@ -3777,7 +3777,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                 @Override
                 public int getTabCounter(int tabId) {
-                    if (initialDialogsType == DIALOGS_TYPE_FORWARD) {
+                    // MZGram: Settings > MZGram > Appearance > Message counter on tabs off
+                    if (initialDialogsType == DIALOGS_TYPE_FORWARD || !org.telegram.messenger.mzgram.MZGramConfig.folderTabCounters) {
                         return 0;
                     }
                     if (tabId == filterTabsView.getDefaultTabId()) {
@@ -6988,7 +6989,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     selectWithStableId = true;
                 }
                 filterTabsView.removeTabs();
+                // MZGram: Settings > MZGram > Appearance > Hide "All chats" folder: its tab
+                // is left out while there are other folders (the order of the folders can
+                // then be changed only in Telegram's Folders settings)
+                final boolean mzgramHideAll = org.telegram.messenger.mzgram.MZGramConfig.hideAllChatsTab && filters.size() > 1;
                 for (int a = 0, N = filters.size(); a < N; a++) {
+                    if (mzgramHideAll && filters.get(a).isDefault()) {
+                        continue;
+                    }
                     // MZGram: folder icons on the tabs (MZGramFolderIcons); names only keeps Telegram's calls below
                     final CharSequence mzgramTitle = org.telegram.ui.mzgram.MZGramFolderIcons.tabTitle(filterTabsView, currentAccount, filters.get(a));
                     if (mzgramTitle != null) {
@@ -7034,6 +7042,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (filterTabsView.isLocked(filterTabsView.getCurrentTabId())) {
                     filterTabsView.selectFirstTab();
                 }
+                // MZGram: the hidden "All chats" is never the open folder
+                final int mzgramCurrent = filterTabsView.getCurrentTabId();
+                if (mzgramHideAll && (mzgramCurrent < 0 || mzgramCurrent >= filters.size() || filters.get(mzgramCurrent).isDefault())) {
+                    filterTabsView.selectFirstTab();
+                }
             }
         } else {
             if (filterTabsView.getVisibility() != View.GONE) {
@@ -7046,8 +7059,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     viewPages[0].setTranslationX(0);
                     viewPages[1].setTranslationX(viewPages[0].getMeasuredWidth());
                 }
-                if (viewPages[0].selectedType != filterTabsView.getDefaultTabId()) {
-                    viewPages[0].selectedType = filterTabsView.getDefaultTabId();
+                // MZGram: with "All chats" hidden there was no default tab; the one folder left is All chats (index 0)
+                final int mzgramDefaultTab = filterTabsView.getDefaultTabId() >= 0 ? filterTabsView.getDefaultTabId() : 0;
+                if (viewPages[0].selectedType != mzgramDefaultTab) {
+                    viewPages[0].selectedType = mzgramDefaultTab;
                     viewPages[0].dialogsAdapter.setDialogsType(0);
                     viewPages[0].dialogsType = initialDialogsType;
                     viewPages[0].dialogsAdapter.notifyDataSetChanged();

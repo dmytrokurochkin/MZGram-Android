@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Her sohbet kendisi için seçilen tema ve duvar kağıdıyla görünür. Kapalı: tüm sohbetler uygulamanın temasında.</string>
     <string name="MZGramSingleCornerRadius">Tek köşe yuvarlaklığı</string>
     <string name="MZGramSingleCornerRadiusInfo">Forumlar, sohbetlerle aynı avatar şeklini alır.</string>
+    <string name="MZGramFolderTabCounters">Sekmelerde mesaj sayacı</string>
+    <string name="MZGramHideAllChatsTab">\"Tüm sohbetler\" klasörünü gizle</string>
+    <string name="MZGramHideAllChatsTabInfo">Başka klasörler varken Tüm sohbetler sekmesi gösterilmez ve ilk klasör açılır. Klasörlerin sırası o zaman Telegram\'ın Klasörler ayarlarından değiştirilir.</string>
 </resources>

@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">تظهر كل محادثة بالسمة والخلفية المختارتين لها. عند الإيقاف: كل المحادثات بسمة التطبيق.</string>
     <string name="MZGramSingleCornerRadius">استدارة موحّدة</string>
     <string name="MZGramSingleCornerRadiusInfo">ستحصل المنتديات على شكل الصور الرمزية نفسه للمحادثات.</string>
+    <string name="MZGramFolderTabCounters">عدّاد الرسائل على علامات التبويب</string>
+    <string name="MZGramHideAllChatsTab">إخفاء مجلد \"كل المحادثات\"</string>
+    <string name="MZGramHideAllChatsTabInfo">عند وجود مجلدات أخرى لا تظهر علامة تبويب كل المحادثات ويُفتح المجلد الأول. يُغيَّر ترتيب المجلدات حينها من إعدادات المجلدات في Telegram.</string>
 </resources>

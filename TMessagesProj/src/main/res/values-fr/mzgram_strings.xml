@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Chaque discussion affiche le thème et le fond choisis pour elle. Désactivé : toutes ont le thème de l\'app.</string>
     <string name="MZGramSingleCornerRadius">Arrondi unique</string>
     <string name="MZGramSingleCornerRadiusInfo">Les forums auront la même forme d\'avatar que les discussions.</string>
+    <string name="MZGramFolderTabCounters">Compteur de messages sur les onglets</string>
+    <string name="MZGramHideAllChatsTab">Masquer le dossier « Toutes les discussions »</string>
+    <string name="MZGramHideAllChatsTabInfo">S\'il y a d\'autres dossiers, l\'onglet Toutes les discussions disparaît et le premier dossier s\'ouvre. L\'ordre des dossiers se change alors dans les réglages Dossiers de Telegram.</string>
 </resources>

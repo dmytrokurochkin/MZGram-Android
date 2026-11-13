@@ -1272,4 +1272,7 @@
     <string name="MZGramCustomChatThemesInfo">Cada chat muestra el tema y el fondo elegidos para él. Desactivado: todos los chats tienen el tema de la app.</string>
     <string name="MZGramSingleCornerRadius">Redondeo único</string>
     <string name="MZGramSingleCornerRadiusInfo">Los foros tendrán la misma forma de avatar que los chats.</string>
+    <string name="MZGramFolderTabCounters">Contador de mensajes en pestañas</string>
+    <string name="MZGramHideAllChatsTab">Ocultar la carpeta «Todos los chats»</string>
+    <string name="MZGramHideAllChatsTabInfo">Con otras carpetas, la pestaña Todos los chats no aparece y se abre la primera carpeta. El orden de las carpetas se cambia entonces en los ajustes de Carpetas de Telegram.</string>
 </resources>

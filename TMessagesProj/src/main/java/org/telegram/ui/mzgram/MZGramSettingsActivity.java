@@ -970,8 +970,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderSections)));
         items.add(UItem.asIntSlideView(1, 0, MZGramConfig.sectionRadius, MZGramConfig.SECTION_RADIUS_MAX,
                 val -> val == 0 ? getString(R.string.MZGramOff) : val == MZGramConfig.SECTION_RADIUS_MAX ? getString(R.string.MZGramSectionRadiusMax) : val + " dp", val -> {
+                    // Screens opened after the change take it; no rebuild on every step of the slider
                     MZGramConfig.setSectionRadius(val);
-                    rebuildBelow();
                 }));
         items.add(UItem.asButton(BUTTON_DIVIDER_STYLE, getString(R.string.MZGramDividerStyle), getString(MZGramConfig.dividerStyle == MZGramConfig.DIVIDER_HIDDEN ? R.string.MZGramDividerHidden : R.string.MZGramDividerLine)));
         items.add(UItem.asShadow(getString(R.string.MZGramSectionsInfo)));

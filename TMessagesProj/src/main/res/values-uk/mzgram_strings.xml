@@ -1248,4 +1248,6 @@
     <string name="MZGramSaveFolderInfo">Збережені файли потрапляють у папку %1$s у Pictures, Movies, Download і Music. Раніше збережені файли лишаються на місці.</string>
     <string name="MZGramRelativeLastSeen">Відносні відвідини</string>
     <string name="MZGramRelativeLastSeenInfo">Протягом останньої доби статус показує «5 хвилин тому» або «3 години тому» замість часу.</string>
+    <string name="MZGramHidePhoneNumber">Приховати номер телефону</string>
+    <string name="MZGramHidePhoneNumberInfo">Ваш номер не показується в Налаштуваннях і у вашому профілі, тож не потрапить на знімки екрана. Інші бачать його як раніше.</string>
 </resources>

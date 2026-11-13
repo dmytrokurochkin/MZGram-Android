@@ -1247,4 +1247,6 @@
     <string name="MZGramSaveFolderInfo">تذهب الملفات المحفوظة إلى مجلد %1$s داخل Pictures وMovies وDownload وMusic. تبقى الملفات المحفوظة سابقًا في مكانها.</string>
     <string name="MZGramRelativeLastSeen">آخر ظهور نسبي</string>
     <string name="MZGramRelativeLastSeenInfo">خلال اليوم الأخير، تظهر الحالة \"قبل 5 دقائق\" أو \"قبل 3 ساعات\" بدلًا من الوقت.</string>
+    <string name="MZGramHidePhoneNumber">إخفاء رقم الهاتف</string>
+    <string name="MZGramHidePhoneNumberInfo">لا يظهر رقمك في الإعدادات وفي ملفك الشخصي، فلا يظهر في لقطات الشاشة. يراه الآخرون كما كان.</string>
 </resources>

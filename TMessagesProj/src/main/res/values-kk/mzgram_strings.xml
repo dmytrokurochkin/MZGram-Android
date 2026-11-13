@@ -1247,4 +1247,6 @@
     <string name="MZGramSaveFolderInfo">Сақталған файлдар Pictures, Movies, Download және Music ішіндегі %1$s қалтасына түседі. Бұрын сақталған файлдар орнында қалады.</string>
     <string name="MZGramRelativeLastSeen">Салыстырмалы соңғы кіру</string>
     <string name="MZGramRelativeLastSeenInfo">Соңғы тәулік ішінде күй уақыттың орнына «5 минут бұрын» немесе «3 сағат бұрын» деп көрсетеді.</string>
+    <string name="MZGramHidePhoneNumber">Телефон нөмірін жасыру</string>
+    <string name="MZGramHidePhoneNumberInfo">Нөміріңіз Баптауларда және профиліңізде көрсетілмейді, сондықтан скриншоттарға түспейді. Басқалар оны бұрынғыдай көреді.</string>
 </resources>

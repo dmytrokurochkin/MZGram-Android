@@ -1247,4 +1247,6 @@
     <string name="MZGramSaveFolderInfo">Zapisane pliki trafiają do folderu %1$s w Pictures, Movies, Download i Music. Pliki zapisane wcześniej zostają na miejscu.</string>
     <string name="MZGramRelativeLastSeen">Względny czas aktywności</string>
     <string name="MZGramRelativeLastSeenInfo">W ciągu ostatniej doby status pokazuje „5 minut temu” lub „3 godziny temu” zamiast godziny.</string>
+    <string name="MZGramHidePhoneNumber">Ukryj numer telefonu</string>
+    <string name="MZGramHidePhoneNumberInfo">Twój numer nie jest pokazywany w Ustawieniach i w Twoim profilu, więc nie trafi na zrzuty ekranu. Inni widzą go jak dotąd.</string>
 </resources>

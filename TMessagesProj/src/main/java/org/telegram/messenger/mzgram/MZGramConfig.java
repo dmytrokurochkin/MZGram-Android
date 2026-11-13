@@ -448,6 +448,9 @@ public class MZGramConfig {
     // Last seen within the last day as "5 minutes ago" (MZGramRelativeLastSeen)
     public static boolean relativeLastSeen = false;
 
+    // The own phone number is not shown in Settings and the own profile (MZGramHidePhone)
+    public static boolean hidePhoneNumber = false;
+
     static {
         loadConfig(false);
     }
@@ -692,6 +695,7 @@ public class MZGramConfig {
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             saveFolder = preferences.getString("saveFolder", "Telegram");
             relativeLastSeen = preferences.getBoolean("relativeLastSeen", false);
+            hidePhoneNumber = preferences.getBoolean("hidePhoneNumber", false);
             configLoaded = true;
         }
     }
@@ -1757,5 +1761,10 @@ public class MZGramConfig {
     public static void toggleRelativeLastSeen() {
         relativeLastSeen = !relativeLastSeen;
         putBoolean("relativeLastSeen", relativeLastSeen);
+    }
+
+    public static void toggleHidePhoneNumber() {
+        hidePhoneNumber = !hidePhoneNumber;
+        putBoolean("hidePhoneNumber", hidePhoneNumber);
     }
 }

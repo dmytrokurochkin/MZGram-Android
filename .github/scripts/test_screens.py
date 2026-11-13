@@ -81,6 +81,14 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("AndroidUtilities.runOnUIThread(mzgramRelativeRefresh, 60_000);", header)
         self.assertIn("AndroidUtilities.cancelRunOnUIThread(mzgramRelativeRefresh);", header)
 
+    def test_hide_phone_number(self):
+        self.switch("hidePhoneNumber", "false", "BUTTON_HIDE_PHONE_NUMBER")
+        settings = read(JAVA / "ui/SettingsActivity.java")
+        self.assertIn("if (user != null && !mzgramHidePhone) {", settings)
+        profile = read(JAVA / "ui/ProfileActivity.java")
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramHidePhone.hides(user, myProfile)) {", profile)
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramHidePhone.hidesOwn()) {", profile)
+
 
 if __name__ == "__main__":
     unittest.main()

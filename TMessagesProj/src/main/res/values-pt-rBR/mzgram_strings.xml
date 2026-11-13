@@ -1247,4 +1247,6 @@
     <string name="MZGramSaveFolderInfo">Os arquivos salvos vão para a pasta %1$s em Pictures, Movies, Download e Music. Os salvos antes ficam onde estão.</string>
     <string name="MZGramRelativeLastSeen">Visto por último relativo</string>
     <string name="MZGramRelativeLastSeenInfo">No último dia, o status mostra \"há 5 minutos\" ou \"há 3 horas\" em vez do horário.</string>
+    <string name="MZGramHidePhoneNumber">Ocultar número de telefone</string>
+    <string name="MZGramHidePhoneNumberInfo">Seu número não aparece nas Configurações nem no seu perfil, então fica fora das capturas de tela. Os outros o veem como antes.</string>
 </resources>

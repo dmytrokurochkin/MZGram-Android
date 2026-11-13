@@ -15,6 +15,7 @@ import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
 import org.telegram.messenger.mzgram.MZGramHaptics
+import org.telegram.messenger.mzgram.MZGramHidePhone
 import org.telegram.messenger.mzgram.MZGramRelativeLastSeen
 import org.telegram.messenger.mzgram.MZGramSaveFolder
 
@@ -79,6 +80,24 @@ class MZGramScreensTest {
             assertEquals(seen(LocaleController.getString(R.string.MinuteAgo)), LocaleController.formatDateOnline(System.currentTimeMillis() / 1000 - 70, null))
         } finally {
             if (MZGramConfig.relativeLastSeen != before) MZGramConfig.toggleRelativeLastSeen()
+        }
+    }
+
+    // Hide phone number: only the own number, only while on
+    @Test
+    fun hidePhoneNumber_onlyTheOwn() {
+        val self = org.telegram.tgnet.TLRPC.TL_user().apply { self = true; phone = "380000000000" }
+        val other = org.telegram.tgnet.TLRPC.TL_user().apply { phone = "380000000001" }
+        val before = MZGramConfig.hidePhoneNumber
+        try {
+            if (MZGramConfig.hidePhoneNumber) MZGramConfig.toggleHidePhoneNumber()
+            assertFalse(MZGramHidePhone.hides(self, true))
+            MZGramConfig.toggleHidePhoneNumber()
+            assertTrue(MZGramHidePhone.hides(self, false))
+            assertTrue(MZGramHidePhone.hides(other, true))
+            assertFalse("someone else's number", MZGramHidePhone.hides(other, false))
+        } finally {
+            if (MZGramConfig.hidePhoneNumber != before) MZGramConfig.toggleHidePhoneNumber()
         }
     }
 

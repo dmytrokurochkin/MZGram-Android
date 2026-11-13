@@ -1247,4 +1247,6 @@
     <string name="MZGramSaveFolderInfo">Saved files go to the %1$s folder in Pictures, Movies, Download and Music. Files saved before stay where they are.</string>
     <string name="MZGramRelativeLastSeen">Relative last seen</string>
     <string name="MZGramRelativeLastSeenInfo">Within the last day, last seen reads \"5 minutes ago\" or \"3 hours ago\" instead of the time.</string>
+    <string name="MZGramHidePhoneNumber">Hide phone number</string>
+    <string name="MZGramHidePhoneNumberInfo">Your own number is not shown in Settings and in your profile, so it stays out of screenshots. Others see it as before.</string>
 </resources>

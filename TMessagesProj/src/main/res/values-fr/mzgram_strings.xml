@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Affiche une confirmation avant le début d’un appel vocal ou vidéo.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">L’heure des messages affiche les secondes, par exemple 12:34:56. S’applique aux écrans ouverts après le changement.</string>
     <string name="MZGramGhostMode">Mode fantôme</string>
-    <string name="MZGramGhostModeInfo">Les autres ne voient plus que vous avez lu leur message ni que vous écrivez. Vos propres compteurs de non-lus fonctionnent comme d’habitude.</string>
+    <string name="MZGramGhostModeInfo">Le mode fantôme cache aux autres ce qui est activé ci-dessous. Vos compteurs de non-lus fonctionnent comme d\'habitude.</string>
     <string name="MZGramGhostAutoDelaySend">Retarder l’envoi des messages</string>
     <string name="MZGramGhostAutoDelaySendInfo">Retient un message sortant (12 secondes, plus pour les photos, vidéos et fichiers) avant de l’envoyer vraiment, pour qu’écrire et envoyer aussitôt ne vous fasse pas paraître en ligne. Déconseillé avec une connexion instable : un message retardé peut encore attendre son envoi si l’appli se ferme ou si le réseau tombe entre-temps.</string>
     <string name="MZGramGhostSilentSend">Envoyer sans son</string>
-    <string name="MZGramGhostSilentSendInfo">Tant que le mode fantôme est activé, chaque message sortant est envoyé sans son de notification chez le destinataire, quel que soit le choix « envoyer sans son » de chaque message.</string>
+    <string name="MZGramGhostSilentSendInfo">Les messages envoyés arrivent sans son de notification : jamais, en mode fantôme ou toujours.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Proposer le mode fantôme avant les stories</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Avant d’ouvrir une story pour la première fois (pas en passant à la suivante), demande s’il faut d’abord activer le mode fantôme, pour que la regarder ne la marque pas comme vue.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Le mode fantôme est désactivé. Regarder cette story la marquera comme vue. Activer d’abord le mode fantôme ?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Saisissez une heure, une ville ou un fuseau, « in », un autre et « = » (15:00 Paris in Tokyo=) et l\'heure là-bas est ajoutée (22:00). Villes, UTC+3 et abréviations comme EST marchent hors ligne.</string>
     <string name="MZGramGroupMessageMenu">Regrouper le menu du message</string>
     <string name="MZGramGroupMessageMenuInfo">Le regroupement déplace les actions principales (répondre, copier, transférer, modifier, épingler, supprimer) en bas du menu du message.</string>
+    <string name="MZGramGhostParts">Ce qu\'il cache</string>
+    <string name="MZGramGhostNoRead">Ne pas lire les messages</string>
+    <string name="MZGramGhostNoReadStories">Ne pas voir les stories</string>
+    <string name="MZGramGhostNoOnline">Ne pas apparaître en ligne</string>
+    <string name="MZGramGhostNoTyping">Ne pas montrer « écrit »</string>
+    <string name="MZGramGhostOfflineAuto">Hors ligne automatiquement</string>
+    <string name="MZGramGhostPartsInfo">Telegram vous met en ligne quand vous envoyez un message ; « Hors ligne automatiquement » vous remet hors ligne juste après.</string>
+    <string name="MZGramGhostReadOnInteraction">Lire lors d\'une interaction</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Un message auquel vous répondez ou réagissez est marqué comme lu, même en mode fantôme.</string>
+    <string name="MZGramSilentNever">Jamais</string>
+    <string name="MZGramSilentInGhostMode">En mode fantôme</string>
+    <string name="MZGramSilentAlways">Toujours</string>
+    <string name="MZGramGhostStatusInTitle">Fantôme dans l\'en-tête</string>
+    <string name="MZGramGhostStatusInTitleInfo">Tant que le mode fantôme est actif, un fantôme apparaît après le titre de la liste des discussions.</string>
+    <string name="MZGramDrawerGhostOn">Mode fantôme : activé</string>
+    <string name="MZGramDrawerGhostOff">Mode fantôme : désactivé</string>
 </resources>

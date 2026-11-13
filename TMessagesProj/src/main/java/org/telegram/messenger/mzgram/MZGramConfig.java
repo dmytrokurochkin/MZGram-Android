@@ -601,6 +601,27 @@ public class MZGramConfig {
     // The main actions of the message menu move to its bottom part after a gap (MZGramMenuGroup)
     public static boolean groupMessageMenu = false;
 
+    // Ghost mode part: others do not see that you read their messages (MZGramGhostMode.blocksRead)
+    public static boolean ghostNoRead = true;
+
+    // Ghost mode part: stories are watched without telling the server (MZGramGhostMode.blocksStories)
+    public static boolean ghostNoReadStories = true;
+
+    // Ghost mode part: the app does not tell the server you are online (MZGramGhostMode.blocksOnline)
+    public static boolean ghostNoOnline = true;
+
+    // Ghost mode part: others do not see that you are typing (MZGramGhostMode.blocksTyping)
+    public static boolean ghostNoTyping = true;
+
+    // Ghost mode part: offline again right after a message is sent (MZGramGhostMode.afterSent)
+    public static boolean ghostOfflineAuto = false;
+
+    // In ghost mode a message you reply or react to is still marked read (MessagesController.mzgramMarkMessageReadDueToInteraction)
+    public static boolean ghostReadOnInteraction = true;
+
+    // A ghost after the title of the chat list while ghost mode is on (MZGramGhostTitle)
+    public static boolean ghostStatusInTitle = false;
+
     static {
         loadConfig(false);
     }
@@ -902,6 +923,13 @@ public class MZGramConfig {
             inlineUnits = preferences.getBoolean("inlineUnits", false);
             inlineTimeZones = preferences.getBoolean("inlineTimeZones", false);
             groupMessageMenu = preferences.getBoolean("groupMessageMenu", false);
+            ghostNoRead = preferences.getBoolean("ghostNoRead", true);
+            ghostNoReadStories = preferences.getBoolean("ghostNoReadStories", true);
+            ghostNoOnline = preferences.getBoolean("ghostNoOnline", true);
+            ghostNoTyping = preferences.getBoolean("ghostNoTyping", true);
+            ghostOfflineAuto = preferences.getBoolean("ghostOfflineAuto", false);
+            ghostReadOnInteraction = preferences.getBoolean("ghostReadOnInteraction", true);
+            ghostStatusInTitle = preferences.getBoolean("ghostStatusInTitle", false);
             configLoaded = true;
         }
     }
@@ -2232,5 +2260,40 @@ public class MZGramConfig {
     public static void toggleGroupMessageMenu() {
         groupMessageMenu = !groupMessageMenu;
         putBoolean("groupMessageMenu", groupMessageMenu);
+    }
+
+    public static void toggleGhostNoRead() {
+        ghostNoRead = !ghostNoRead;
+        putBoolean("ghostNoRead", ghostNoRead);
+    }
+
+    public static void toggleGhostNoReadStories() {
+        ghostNoReadStories = !ghostNoReadStories;
+        putBoolean("ghostNoReadStories", ghostNoReadStories);
+    }
+
+    public static void toggleGhostNoOnline() {
+        ghostNoOnline = !ghostNoOnline;
+        putBoolean("ghostNoOnline", ghostNoOnline);
+    }
+
+    public static void toggleGhostNoTyping() {
+        ghostNoTyping = !ghostNoTyping;
+        putBoolean("ghostNoTyping", ghostNoTyping);
+    }
+
+    public static void toggleGhostOfflineAuto() {
+        ghostOfflineAuto = !ghostOfflineAuto;
+        putBoolean("ghostOfflineAuto", ghostOfflineAuto);
+    }
+
+    public static void toggleGhostReadOnInteraction() {
+        ghostReadOnInteraction = !ghostReadOnInteraction;
+        putBoolean("ghostReadOnInteraction", ghostReadOnInteraction);
+    }
+
+    public static void toggleGhostStatusInTitle() {
+        ghostStatusInTitle = !ghostStatusInTitle;
+        putBoolean("ghostStatusInTitle", ghostStatusInTitle);
     }
 }

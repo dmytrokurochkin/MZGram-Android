@@ -284,6 +284,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_INLINE_UNITS = 255;
     private static final int BUTTON_INLINE_TIME_ZONES = 256;
     private static final int BUTTON_GROUP_MESSAGE_MENU = 257;
+    private static final int BUTTON_GHOST_NO_READ = 258;
+    private static final int BUTTON_GHOST_NO_READ_STORIES = 259;
+    private static final int BUTTON_GHOST_NO_ONLINE = 260;
+    private static final int BUTTON_GHOST_NO_TYPING = 261;
+    private static final int BUTTON_GHOST_OFFLINE_AUTO = 262;
+    private static final int BUTTON_GHOST_READ_ON_INTERACTION = 263;
+    private static final int BUTTON_GHOST_STATUS_IN_TITLE = 264;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -847,19 +854,37 @@ public class MZGramSettingsActivity extends UniversalFragment {
     }
 
     private void fillGhostMode(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
+        items.add(UItem.asHeader(getString(R.string.MZGramGhostMode)));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE, getString(R.string.MZGramGhostMode)).setChecked(MZGramConfig.ghostMode));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostModeInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramGhostParts) + " " + org.telegram.messenger.mzgram.MZGramGhostMode.partsOn() + "/" + org.telegram.messenger.mzgram.MZGramGhostMode.PARTS));
+        items.add(UItem.asCheck(BUTTON_GHOST_NO_READ, getString(R.string.MZGramGhostNoRead)).setChecked(MZGramConfig.ghostNoRead));
+        items.add(UItem.asCheck(BUTTON_GHOST_NO_READ_STORIES, getString(R.string.MZGramGhostNoReadStories)).setChecked(MZGramConfig.ghostNoReadStories));
+        items.add(UItem.asCheck(BUTTON_GHOST_NO_ONLINE, getString(R.string.MZGramGhostNoOnline)).setChecked(MZGramConfig.ghostNoOnline));
+        items.add(UItem.asCheck(BUTTON_GHOST_NO_TYPING, getString(R.string.MZGramGhostNoTyping)).setChecked(MZGramConfig.ghostNoTyping));
+        items.add(UItem.asCheck(BUTTON_GHOST_OFFLINE_AUTO, getString(R.string.MZGramGhostOfflineAuto)).setChecked(MZGramConfig.ghostOfflineAuto));
+        items.add(UItem.asShadow(getString(R.string.MZGramGhostPartsInfo)));
+        items.add(UItem.asCheck(BUTTON_GHOST_READ_ON_INTERACTION, getString(R.string.MZGramGhostReadOnInteraction)).setChecked(MZGramConfig.ghostReadOnInteraction));
+        items.add(UItem.asShadow(getString(R.string.MZGramGhostReadOnInteractionInfo)));
         items.add(UItem.asShadow(getString(R.string.MZGramQuickTilesInfo)));
         items.add(UItem.asCheck(BUTTON_GHOST_AUTO_DELAY_SEND, getString(R.string.MZGramGhostAutoDelaySend)).setChecked(MZGramConfig.ghostAutoDelaySend));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostAutoDelaySendInfo)));
-        items.add(UItem.asCheck(BUTTON_GHOST_SILENT_SEND, getString(R.string.MZGramGhostSilentSend)).setChecked(MZGramConfig.ghostSilentSend));
+        items.add(UItem.asButton(BUTTON_GHOST_SILENT_SEND, getString(R.string.MZGramGhostSilentSend), getString(GHOST_SILENT_TITLES[org.telegram.messenger.mzgram.MZGramGhostMode.silentSend()])));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostSilentSendInfo)));
         items.add(UItem.asCheck(BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES, getString(R.string.MZGramOfferGhostModeBeforeStoriesToggle)).setChecked(MZGramConfig.offerGhostModeBeforeStories));
         items.add(UItem.asShadow(getString(R.string.MZGramOfferGhostModeBeforeStoriesToggleInfo)));
         items.add(UItem.asCheck(BUTTON_GHOST_MODE_EXCLUSIONS, getString(R.string.MZGramGhostModeExclusions)).setChecked(MZGramConfig.ghostModeExclusions));
         items.add(UItem.asShadow(getString(R.string.MZGramGhostModeExclusionsInfo)));
+        items.add(UItem.asCheck(BUTTON_GHOST_STATUS_IN_TITLE, getString(R.string.MZGramGhostStatusInTitle)).setChecked(MZGramConfig.ghostStatusInTitle));
+        items.add(UItem.asShadow(getString(R.string.MZGramGhostStatusInTitleInfo)));
     }
+
+    private static final int[] GHOST_SILENT_TITLES = {
+            R.string.MZGramSilentNever,
+            R.string.MZGramSilentInGhostMode,
+            R.string.MZGramSilentAlways,
+    };
 
     private void fillPrivacy(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
@@ -1406,6 +1431,32 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_GHOST_STATUS_IN_TITLE) {
+            MZGramConfig.toggleGhostStatusInTitle();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostStatusInTitle);
+        } else if (item.id == BUTTON_GHOST_READ_ON_INTERACTION) {
+            MZGramConfig.toggleGhostReadOnInteraction();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostReadOnInteraction);
+        } else if (item.id == BUTTON_GHOST_OFFLINE_AUTO) {
+            MZGramConfig.toggleGhostOfflineAuto();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostOfflineAuto);
+            rebuildBelow();
+        } else if (item.id == BUTTON_GHOST_NO_TYPING) {
+            MZGramConfig.toggleGhostNoTyping();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostNoTyping);
+            rebuildBelow();
+        } else if (item.id == BUTTON_GHOST_NO_ONLINE) {
+            MZGramConfig.toggleGhostNoOnline();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostNoOnline);
+            rebuildBelow();
+        } else if (item.id == BUTTON_GHOST_NO_READ_STORIES) {
+            MZGramConfig.toggleGhostNoReadStories();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostNoReadStories);
+            rebuildBelow();
+        } else if (item.id == BUTTON_GHOST_NO_READ) {
+            MZGramConfig.toggleGhostNoRead();
+            ((TextCheckCell) view).setChecked(MZGramConfig.ghostNoRead);
+            rebuildBelow();
         } else if (item.id == BUTTON_GROUP_MESSAGE_MENU) {
             MZGramConfig.toggleGroupMessageMenu();
             ((TextCheckCell) view).setChecked(MZGramConfig.groupMessageMenu);
@@ -2132,14 +2183,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
             MZGramConfig.toggleGhostAutoDelaySend();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostAutoDelaySend);
         } else if (item.id == BUTTON_GHOST_SILENT_SEND) {
-            MZGramConfig.toggleGhostSilentSend();
-            ((TextCheckCell) view).setChecked(MZGramConfig.ghostSilentSend);
+            chooseFrom(R.string.MZGramGhostSilentSend, GHOST_SILENT_TITLES, org.telegram.messenger.mzgram.MZGramGhostMode.silentSend(),
+                    org.telegram.messenger.mzgram.MZGramGhostMode::setSilentSend);
         } else if (item.id == BUTTON_OFFER_GHOST_MODE_BEFORE_STORIES) {
             MZGramConfig.toggleOfferGhostModeBeforeStories();
             ((TextCheckCell) view).setChecked(MZGramConfig.offerGhostModeBeforeStories);
         } else if (item.id == BUTTON_GHOST_MODE) {
             MZGramConfig.toggleGhostMode();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostMode);
+            rebuildBelow();
         } else if (item.id == BUTTON_SAVE_DELETED_MESSAGES) {
             MZGramConfig.toggleSaveDeletedMessages();
             ((TextCheckCell) view).setChecked(MZGramConfig.saveDeletedMessages);

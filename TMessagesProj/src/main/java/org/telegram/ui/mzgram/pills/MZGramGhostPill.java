@@ -72,6 +72,9 @@ public class MZGramGhostPill extends MZGramPill {
     public void onTap() {
         MZGramConfig.toggleGhostMode();
         update(true);
+        if (LaunchActivity.getSafeLastFragment() instanceof org.telegram.ui.DialogsActivity) {
+            ((org.telegram.ui.DialogsActivity) LaunchActivity.getSafeLastFragment()).mzgramUpdateGhostTitle();
+        }
         BaseFragment fragment = LaunchActivity.getSafeLastFragment();
         if (fragment != null) {
             // createSimpleBulletin(int, ...) takes an animation from res/raw, so the icon goes as a drawable

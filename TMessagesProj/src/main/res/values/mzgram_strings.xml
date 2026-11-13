@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Show a confirmation before a voice or video call starts.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Message times show seconds, such as 12:34:56. Applies to screens opened after the change.</string>
     <string name="MZGramGhostMode">Ghost mode</string>
-    <string name="MZGramGhostModeInfo">Other users no longer see that you read their message or that you are typing. Your own unread counters still work as usual.</string>
+    <string name="MZGramGhostModeInfo">Ghost mode hides from others what is turned on below. Your own unread counters still work as usual.</string>
     <string name="MZGramGhostAutoDelaySend">Delay sending messages</string>
     <string name="MZGramGhostAutoDelaySendInfo">Holds an outgoing message (12 seconds, longer for photos/videos/files) before actually sending it, so composing and sending right away does not make you look online. Not recommended on an unreliable connection: a delayed message can still be waiting to send if the app closes or the network drops in the meantime.</string>
     <string name="MZGramGhostSilentSend">Send without sound</string>
-    <string name="MZGramGhostSilentSendInfo">Sends every outgoing message without a notification sound for the recipient while ghost mode is on, regardless of the per-message \"send without sound\" option.</string>
+    <string name="MZGramGhostSilentSendInfo">Outgoing messages go without a notification sound for the recipient: never, while ghost mode is on, or always.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Offer ghost mode before Stories</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Before opening a story for the first time (not when swiping to the next one), asks whether to turn ghost mode on first, so viewing it does not mark it as seen.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Ghost mode is off. Viewing this story will mark it as seen. Turn ghost mode on first?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Type a time, a city or zone, \"in\", another one and \"=\" (15:00 Kyiv in Tokyo=) and the time there is added (22:00). Cities, UTC+3 and abbreviations such as EST work offline.</string>
     <string name="MZGramGroupMessageMenu">Group message menu</string>
     <string name="MZGramGroupMessageMenuInfo">Grouping moves the main actions (reply, copy, forward, edit, pin, delete) to the bottom part of the message menu.</string>
+    <string name="MZGramGhostParts">What it hides</string>
+    <string name="MZGramGhostNoRead">Don\'t read messages</string>
+    <string name="MZGramGhostNoReadStories">Don\'t read stories</string>
+    <string name="MZGramGhostNoOnline">Don\'t go online</string>
+    <string name="MZGramGhostNoTyping">Don\'t send typing</string>
+    <string name="MZGramGhostOfflineAuto">Go offline automatically</string>
+    <string name="MZGramGhostPartsInfo">Telegram sets you online when you send a message; Go offline automatically sets you offline again right after.</string>
+    <string name="MZGramGhostReadOnInteraction">Read on interaction</string>
+    <string name="MZGramGhostReadOnInteractionInfo">A message you reply to or react to is marked read even in ghost mode.</string>
+    <string name="MZGramSilentNever">Never</string>
+    <string name="MZGramSilentInGhostMode">In ghost mode</string>
+    <string name="MZGramSilentAlways">Always</string>
+    <string name="MZGramGhostStatusInTitle">Ghost in the header</string>
+    <string name="MZGramGhostStatusInTitleInfo">While ghost mode is on, a ghost appears after the title of the chat list.</string>
+    <string name="MZGramDrawerGhostOn">Ghost mode: on</string>
+    <string name="MZGramDrawerGhostOff">Ghost mode: off</string>
 </resources>

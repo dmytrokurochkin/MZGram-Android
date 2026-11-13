@@ -10581,7 +10581,8 @@ public class MessagesController extends BaseController implements NotificationCe
         checkReadTasks();
 
         if (getUserConfig().isClientActivated()) {
-            if (!ignoreSetOnline && getConnectionsManager().getPauseTime() == 0 && ApplicationLoader.isScreenOn && !ApplicationLoader.mainInterfacePausedStageQueue) {
+            // MZGram: ghost mode does not go online; the status set before goes offline once (the branch below)
+            if (!ignoreSetOnline && getConnectionsManager().getPauseTime() == 0 && ApplicationLoader.isScreenOn && !ApplicationLoader.mainInterfacePausedStageQueue && !org.telegram.messenger.mzgram.MZGramGhostMode.blocksOnline()) {
                 if (ApplicationLoader.mainInterfacePausedStageQueueTime != 0 && Math.abs(ApplicationLoader.mainInterfacePausedStageQueueTime - System.currentTimeMillis()) > 1000) {
                     if (statusSettingState != 1 && (lastStatusUpdateTime == 0 || Math.abs(System.currentTimeMillis() - lastStatusUpdateTime) >= 55000 || offlineSent)) {
                         statusSettingState = 1;
@@ -11453,13 +11454,24 @@ public class MessagesController extends BaseController implements NotificationCe
         return sendTyping(dialogId, threadMsgId, action, null, classGuid);
     }
 
+    // MZGram: ghost mode, Go offline automatically: offline again after a sent message
+    public void mzgramGoOffline() {
+        TL_account.updateStatus req = new TL_account.updateStatus();
+        req.offline = true;
+        getConnectionsManager().sendRequest(req, (response, error) -> {
+            if (error == null) {
+                org.telegram.messenger.mzgram.MZGramOwnLastSeen.onStatusSent(currentAccount, true, getConnectionsManager().getCurrentTime());
+            }
+        });
+    }
+
     public boolean sendTyping(long dialogId, long threadMsgId, int action, String emojicon, int classGuid) {
         if (action < 0 || action >= sendingTypings.length || dialogId == 0) {
             return false;
         }
         // MZGram: ghost mode never announces a typing status to the other
         // side; a chat's ghost mode exclusion wins.
-        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabledFor(currentAccount, dialogId)) {
+        if (org.telegram.messenger.mzgram.MZGramGhostMode.blocksTyping(currentAccount, dialogId)) {
             return false;
         }
         final long selfId = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -14710,7 +14722,7 @@ public class MessagesController extends BaseController implements NotificationCe
     // server regardless of ghost mode -- independent of the ReadTask queue,
     // so the general suppression above is untouched.
     public void mzgramMarkMessageReadDueToInteraction(long dialogId, int messageId) {
-        if (!org.telegram.messenger.mzgram.MZGramGhostMode.isEnabledFor(currentAccount, dialogId) || messageId <= 0 || dialogId == 0) {
+        if (!org.telegram.messenger.mzgram.MZGramGhostMode.blocksRead(currentAccount, dialogId) || !org.telegram.messenger.mzgram.MZGramConfig.ghostReadOnInteraction || messageId <= 0 || dialogId == 0) { // MZGram: Read on interaction
             return;
         }
         if (DialogObject.isEncryptedDialog(dialogId)) {
@@ -14745,7 +14757,7 @@ public class MessagesController extends BaseController implements NotificationCe
         // state (unread counters, badges) was already applied in
         // markDialogAsRead and is not affected by this. A chat's ghost mode
         // exclusion wins.
-        if (org.telegram.messenger.mzgram.MZGramGhostMode.isEnabledFor(currentAccount, task.dialogId)) {
+        if (org.telegram.messenger.mzgram.MZGramGhostMode.blocksRead(currentAccount, task.dialogId)) {
             return;
         }
         if (task.replyId != 0 && task.monoForumPeerId == 0) {

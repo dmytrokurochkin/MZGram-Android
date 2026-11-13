@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Pokazuj potwierdzenie przed rozpoczęciem połączenia głosowego lub wideo.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Czas wiadomości pokazuje sekundy, np. 12:34:56. Dotyczy ekranów otwartych po zmianie.</string>
     <string name="MZGramGhostMode">Tryb ducha</string>
-    <string name="MZGramGhostModeInfo">Inni użytkownicy nie widzą już, że przeczytałeś ich wiadomość ani że piszesz. Twoje liczniki nieprzeczytanych działają jak zwykle.</string>
+    <string name="MZGramGhostModeInfo">Tryb ducha ukrywa przed innymi to, co włączono poniżej. Twoje liczniki nieprzeczytanych działają jak zwykle.</string>
     <string name="MZGramGhostAutoDelaySend">Opóźniaj wysyłanie wiadomości</string>
     <string name="MZGramGhostAutoDelaySendInfo">Wstrzymuje wychodzącą wiadomość (12 sekund, dłużej dla zdjęć, wideo i plików) przed faktycznym wysłaniem, aby pisanie i natychmiastowe wysłanie nie pokazywały cię jako online. Niezalecane przy niepewnym połączeniu: opóźniona wiadomość może wciąż czekać na wysłanie, jeśli aplikacja się zamknie lub sieć zniknie.</string>
     <string name="MZGramGhostSilentSend">Wysyłaj bez dźwięku</string>
-    <string name="MZGramGhostSilentSendInfo">Gdy tryb ducha jest włączony, każda wychodząca wiadomość jest wysyłana bez dźwięku powiadomienia u odbiorcy, niezależnie od opcji „wyślij bez dźwięku” dla pojedynczej wiadomości.</string>
+    <string name="MZGramGhostSilentSendInfo">Wychodzące wiadomości idą bez dźwięku powiadomienia u odbiorcy: nigdy, w trybie ducha lub zawsze.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Proponuj tryb ducha przed relacjami</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Przed pierwszym otwarciem relacji (nie przy przewijaniu do następnej) pyta, czy najpierw włączyć tryb ducha, aby obejrzenie nie oznaczyło jej jako wyświetlonej.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Tryb ducha jest wyłączony. Obejrzenie tej relacji oznaczy ją jako wyświetloną. Najpierw włączyć tryb ducha?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Wpisz godzinę, miasto lub strefę, „in”, drugie i „=” (15:00 Warsaw in Tokyo=), a zostanie dodany czas tam (22:00). Miasta, UTC+3 i skróty jak EST działają offline.</string>
     <string name="MZGramGroupMessageMenu">Grupuj menu wiadomości</string>
     <string name="MZGramGroupMessageMenuInfo">Grupowanie przenosi główne akcje (odpowiedz, kopiuj, przekaż, edytuj, przypnij, usuń) na dół menu wiadomości.</string>
+    <string name="MZGramGhostParts">Co ukrywa</string>
+    <string name="MZGramGhostNoRead">Nie odczytuj wiadomości</string>
+    <string name="MZGramGhostNoReadStories">Nie odczytuj relacji</string>
+    <string name="MZGramGhostNoOnline">Nie bądź online</string>
+    <string name="MZGramGhostNoTyping">Nie pokazuj „pisze”</string>
+    <string name="MZGramGhostOfflineAuto">Automatycznie offline</string>
+    <string name="MZGramGhostPartsInfo">Telegram ustawia cię online po wysłaniu wiadomości; „Automatycznie offline” zaraz potem znów ustawia offline.</string>
+    <string name="MZGramGhostReadOnInteraction">Odczytuj przy interakcji</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Wiadomość, na którą odpowiadasz lub reagujesz, jest oznaczana jako przeczytana nawet w trybie ducha.</string>
+    <string name="MZGramSilentNever">Nigdy</string>
+    <string name="MZGramSilentInGhostMode">W trybie ducha</string>
+    <string name="MZGramSilentAlways">Zawsze</string>
+    <string name="MZGramGhostStatusInTitle">Duch w nagłówku</string>
+    <string name="MZGramGhostStatusInTitleInfo">Gdy tryb ducha jest włączony, za tytułem listy czatów widać ducha.</string>
+    <string name="MZGramDrawerGhostOn">Tryb ducha: włączony</string>
+    <string name="MZGramDrawerGhostOff">Tryb ducha: wyłączony</string>
 </resources>

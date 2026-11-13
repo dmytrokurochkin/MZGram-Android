@@ -45,6 +45,7 @@ Most switches are under **Settings > MZGram**, grouped into topic pages. This fi
 | Delayed sending | While ghost mode is on, an outgoing message waits about 12 seconds (longer for media) before it is sent, so writing and sending at once does not show you online. | 1.0.0 |
 | Send without sound | While ghost mode is on, every outgoing message is sent without a notification sound. | 1.0.0 |
 | Ghost mode before stories | Before you open a story, MZGram offers to turn ghost mode on, so the story is not marked as seen. | 1.0.0 |
+| Ghost mode parts | Settings > MZGram > Ghost mode > What it hides: Don't read messages, Don't read stories (the story is read on this device only and its view is not counted), Don't go online (the app stops telling the server it is online; a status left from before goes offline once), Don't send typing, and Go offline automatically (Telegram sets you online when you send a message; this sets you offline again right after). The first four are on, the last off; each works only while ghost mode is on. Read on interaction (on by default) keeps marking read a message you reply or react to. Send without sound: Never, In ghost mode or Always (the same as Chats > Send without sound by default). Ghost in the header: a ghost after the title of the chat list while ghost mode is on (off by default). The side menu has a Ghost mode item that turns it on and off. | Next release |
 | Read time | Message details show when the other person read your message. | 1.0.0 |
 | Approximate last seen | For a person who hides their last seen, MZGram shows an estimate from what this device saw (for example, their new messages), like any last seen time; up to 1.0.3 it was marked "(approx.)". | 1.0.0 |
 | Protected content | In chats and channels that restrict saving, you can forward, save and copy messages and media and take screenshots. Messages that cannot be forwarded are sent as new copies. Off by default. | 1.0.0 |
@@ -419,7 +420,7 @@ Yes: present. No: absent. Partly: present in a narrower form.
 | A chat with only deleted messages stays in the list | Yes | Yes (until a restart) |
 | Archive export, import, wipe | Yes | Yes |
 | Ghost mode: read receipts and typing | Yes | Yes |
-| Ghost mode: online status | No | Yes |
+| Ghost mode: online status | Yes | Yes |
 | Ghost mode: delayed and silent sending, before stories | Yes | Yes |
 | Read time, approximate last seen | Yes | Yes |
 | Protected content | Yes | Yes |

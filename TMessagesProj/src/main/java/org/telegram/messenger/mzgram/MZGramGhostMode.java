@@ -26,6 +26,70 @@ public class MZGramGhostMode {
 
     private static final String FEATURE = "ghost_exclusions";
 
+    /** Ghost mode hides that you read messages in this chat (its exclusion wins). */
+    public static boolean blocksRead(int account, long dialogId) {
+        return MZGramConfig.ghostNoRead && isEnabledFor(account, dialogId);
+    }
+
+    /** Ghost mode hides that you are typing in this chat. */
+    public static boolean blocksTyping(int account, long dialogId) {
+        return MZGramConfig.ghostNoTyping && isEnabledFor(account, dialogId);
+    }
+
+    /** Ghost mode hides that you watched the stories of this peer. */
+    public static boolean blocksStories(int account, long dialogId) {
+        return MZGramConfig.ghostNoReadStories && isEnabledFor(account, dialogId);
+    }
+
+    /** Ghost mode does not tell the server you are online. */
+    public static boolean blocksOnline() {
+        return MZGramConfig.ghostNoOnline && isEnabled();
+    }
+
+    /** Ghost mode sets you offline again right after a message is sent. */
+    public static boolean goesOfflineAfterSending() {
+        return MZGramConfig.ghostOfflineAuto && isEnabled();
+    }
+
+    /** How many of the five parts of ghost mode are on. */
+    public static int partsOn() {
+        int count = 0;
+        for (boolean on : new boolean[]{MZGramConfig.ghostNoRead, MZGramConfig.ghostNoReadStories, MZGramConfig.ghostNoOnline,
+                MZGramConfig.ghostNoTyping, MZGramConfig.ghostOfflineAuto}) {
+            if (on) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static final int PARTS = 5;
+
+    // Send without sound: never, while ghost mode is on, or always
+    public static final int SILENT_NEVER = 0;
+    public static final int SILENT_IN_GHOST_MODE = 1;
+    public static final int SILENT_ALWAYS = 2;
+
+    public static int silentSend() {
+        return MZGramConfig.sendSilentByDefault ? SILENT_ALWAYS : MZGramConfig.ghostSilentSend ? SILENT_IN_GHOST_MODE : SILENT_NEVER;
+    }
+
+    public static void setSilentSend(int value) {
+        if (MZGramConfig.sendSilentByDefault != (value == SILENT_ALWAYS)) {
+            MZGramConfig.toggleSendSilentByDefault();
+        }
+        if (MZGramConfig.ghostSilentSend != (value == SILENT_IN_GHOST_MODE)) {
+            MZGramConfig.toggleGhostSilentSend();
+        }
+    }
+
+    // After a message is sent: the server sets one online, Go offline automatically sets offline again
+    public static void afterSent(int account) {
+        if (goesOfflineAfterSending()) {
+            org.telegram.messenger.MessagesController.getInstance(account).mzgramGoOffline();
+        }
+    }
+
     public static boolean isEnabled() {
         return MZGramConfig.ghostMode;
     }

@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Дауыстық немесе бейнеқоңырау басталмас бұрын растау көрсету.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Хабарламалардың уақыты секундпен көрсетіледі, мысалы 12:34:56. Өзгерістен кейін ашылған экрандарға қолданылады.</string>
     <string name="MZGramGhostMode">Елес режимі</string>
-    <string name="MZGramGhostModeInfo">Басқа пайдаланушылар енді сіздің олардың хабарламасын оқығаныңызды немесе жазып жатқаныңызды көрмейді. Сіздің оқылмағандар есептегіштеріңіз әдеттегідей жұмыс істейді.</string>
+    <string name="MZGramGhostModeInfo">Елес режимі төменде қосылғанды басқалардан жасырады. Өзіңіздің оқылмағандар санауыштарыңыз әдеттегідей жұмыс істейді.</string>
     <string name="MZGramGhostAutoDelaySend">Хабарламаларды жіберуді кешіктіру</string>
     <string name="MZGramGhostAutoDelaySendInfo">Шығыс хабарламаны нақты жіберер алдында ұстап тұрады (12 секунд, фото, бейне және файлдар үшін ұзағырақ), сонда теру мен бірден жіберу сізді желіде көрсетпейді. Сенімсіз байланыста ұсынылмайды: осы уақытта қолданба жабылса немесе желі үзілсе, кешіктірілген хабарлама жіберілмей қалуы мүмкін.</string>
     <string name="MZGramGhostSilentSend">Дыбыссыз жіберу</string>
-    <string name="MZGramGhostSilentSendInfo">Елес режимі қосулы кезде әр шығыс хабарлама алушыда хабарландыру дыбысынсыз жіберіледі, жеке хабарламаның «Дыбыссыз жіберу» таңдауына қарамастан.</string>
+    <string name="MZGramGhostSilentSendInfo">Шығыс хабарламалар алушыға хабарландыру дыбысынсыз жіберіледі: ешқашан, елес режимінде немесе әрқашан.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Сторис алдында елес режимін ұсыну</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Стористі алғаш ашпас бұрын (келесісіне айналдырғанда емес) қарау оны қаралған деп белгілемеуі үшін алдымен елес режимін қосу керек пе деп сұрайды.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Елес режимі өшірулі. Бұл стористі қарасаңыз, ол қаралған деп белгіленеді. Алдымен елес режимін қосу керек пе?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Уақытты, қаланы не белдеуді, «in», басқасын және «=» жазыңыз (15:00 Almaty in Tokyo=), сол жердегі уақыт қосылады (22:00). Қалалар, UTC+3 және EST сияқты қысқартулар желісіз жұмыс істейді.</string>
     <string name="MZGramGroupMessageMenu">Хабарлама мәзірін топтау</string>
     <string name="MZGramGroupMessageMenuInfo">Топтау негізгі әрекеттерді (жауап беру, көшіру, қайта жіберу, өңдеу, бекіту, жою) хабарлама мәзірінің төменгі бөлігіне жылжытады.</string>
+    <string name="MZGramGhostParts">Нені жасырады</string>
+    <string name="MZGramGhostNoRead">Хабарламаларды оқымау</string>
+    <string name="MZGramGhostNoReadStories">Әңгімелерді қарамау</string>
+    <string name="MZGramGhostNoOnline">Желіде болмау</string>
+    <string name="MZGramGhostNoTyping">«Жазып жатыр» көрсетпеу</string>
+    <string name="MZGramGhostOfflineAuto">Автоматты түрде желіден тыс</string>
+    <string name="MZGramGhostPartsInfo">Хабарлама жібергенде Telegram сізді желіге қосады; «Автоматты түрде желіден тыс» бірден қайта желіден шығарады.</string>
+    <string name="MZGramGhostReadOnInteraction">Әрекеттескенде оқу</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Жауап берген не әрекет білдірген хабарлама елес режимінде де оқылды деп белгіленеді.</string>
+    <string name="MZGramSilentNever">Ешқашан</string>
+    <string name="MZGramSilentInGhostMode">Елес режимінде</string>
+    <string name="MZGramSilentAlways">Әрқашан</string>
+    <string name="MZGramGhostStatusInTitle">Тақырыптағы елес</string>
+    <string name="MZGramGhostStatusInTitleInfo">Елес режимі қосулы кезде чаттар тізімінің тақырыбынан кейін елес көрінеді.</string>
+    <string name="MZGramDrawerGhostOn">Елес режимі: қосулы</string>
+    <string name="MZGramDrawerGhostOff">Елес режимі: өшірулі</string>
 </resources>

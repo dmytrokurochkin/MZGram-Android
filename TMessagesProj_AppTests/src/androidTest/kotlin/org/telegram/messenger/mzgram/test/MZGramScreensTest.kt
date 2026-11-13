@@ -422,4 +422,48 @@ class MZGramScreensTest {
             if (MZGramConfig.groupMessageMenu != on) MZGramConfig.toggleGroupMessageMenu()
         }
     }
+
+    // Ghost mode parts: each part works only with ghost mode on; Send without
+    // sound maps to the two switches; the header ghost only while shown.
+    @Test
+    fun ghostModeParts() {
+        val ghost = MZGramConfig.ghostMode
+        val noRead = MZGramConfig.ghostNoRead
+        val noOnline = MZGramConfig.ghostNoOnline
+        val inTitle = MZGramConfig.ghostStatusInTitle
+        val silent = org.telegram.messenger.mzgram.MZGramGhostMode.silentSend()
+        val gm = org.telegram.messenger.mzgram.MZGramGhostMode::class.java
+        try {
+            if (MZGramConfig.ghostMode) MZGramConfig.toggleGhostMode()
+            if (!MZGramConfig.ghostNoRead) MZGramConfig.toggleGhostNoRead()
+            assertFalse(org.telegram.messenger.mzgram.MZGramGhostMode.blocksRead(0, 0))
+            MZGramConfig.toggleGhostMode()
+            assertTrue(org.telegram.messenger.mzgram.MZGramGhostMode.blocksRead(0, 0))
+            MZGramConfig.toggleGhostNoRead()
+            assertFalse(org.telegram.messenger.mzgram.MZGramGhostMode.blocksRead(0, 0))
+            if (!MZGramConfig.ghostNoOnline) MZGramConfig.toggleGhostNoOnline()
+            assertTrue(org.telegram.messenger.mzgram.MZGramGhostMode.blocksOnline())
+            assertTrue(org.telegram.messenger.mzgram.MZGramGhostMode.partsOn() in 0..org.telegram.messenger.mzgram.MZGramGhostMode.PARTS)
+
+            org.telegram.messenger.mzgram.MZGramGhostMode.setSilentSend(org.telegram.messenger.mzgram.MZGramGhostMode.SILENT_IN_GHOST_MODE)
+            assertTrue(MZGramConfig.ghostSilentSend)
+            assertFalse(MZGramConfig.sendSilentByDefault)
+            org.telegram.messenger.mzgram.MZGramGhostMode.setSilentSend(org.telegram.messenger.mzgram.MZGramGhostMode.SILENT_ALWAYS)
+            assertFalse(MZGramConfig.ghostSilentSend)
+            assertTrue(MZGramConfig.sendSilentByDefault)
+            assertEquals(org.telegram.messenger.mzgram.MZGramGhostMode.SILENT_ALWAYS, org.telegram.messenger.mzgram.MZGramGhostMode.silentSend())
+
+            if (MZGramConfig.ghostStatusInTitle) MZGramConfig.toggleGhostStatusInTitle()
+            assertEquals("Title", org.telegram.ui.mzgram.MZGramGhostTitle.title("Title", 0))
+            MZGramConfig.toggleGhostStatusInTitle()
+            assertTrue(org.telegram.ui.mzgram.MZGramGhostTitle.title("Title", 0) is android.text.Spanned)
+            assertTrue(gm.name.isNotEmpty())
+        } finally {
+            if (MZGramConfig.ghostMode != ghost) MZGramConfig.toggleGhostMode()
+            if (MZGramConfig.ghostNoRead != noRead) MZGramConfig.toggleGhostNoRead()
+            if (MZGramConfig.ghostNoOnline != noOnline) MZGramConfig.toggleGhostNoOnline()
+            if (MZGramConfig.ghostStatusInTitle != inTitle) MZGramConfig.toggleGhostStatusInTitle()
+            org.telegram.messenger.mzgram.MZGramGhostMode.setSilentSend(silent)
+        }
+    }
 }

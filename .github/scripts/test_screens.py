@@ -343,6 +343,33 @@ class ScreensTest(unittest.TestCase):
         for option in ("REPLY", "COPY", "FORWARD", "EDIT", "PIN", "UNPIN", "DELETE"):
             self.assertIn(f"ChatActivity.OPTION_{option},", group)
 
+    def test_ghost_mode_parts(self):
+        for name, default, button in (("ghostNoRead", "true", "BUTTON_GHOST_NO_READ"),
+                                      ("ghostNoReadStories", "true", "BUTTON_GHOST_NO_READ_STORIES"),
+                                      ("ghostNoOnline", "true", "BUTTON_GHOST_NO_ONLINE"),
+                                      ("ghostNoTyping", "true", "BUTTON_GHOST_NO_TYPING"),
+                                      ("ghostOfflineAuto", "false", "BUTTON_GHOST_OFFLINE_AUTO"),
+                                      ("ghostReadOnInteraction", "true", "BUTTON_GHOST_READ_ON_INTERACTION"),
+                                      ("ghostStatusInTitle", "false", "BUTTON_GHOST_STATUS_IN_TITLE")):
+            self.switch(name, default, button)
+        gm = "org.telegram.messenger.mzgram.MZGramGhostMode"
+        mc = read(JAVA / "messenger/MessagesController.java")
+        self.assertIn(f"if ({gm}.blocksTyping(currentAccount, dialogId)) {{", mc)
+        self.assertIn(f"if ({gm}.blocksRead(currentAccount, task.dialogId)) {{", mc)
+        self.assertIn("!org.telegram.messenger.mzgram.MZGramConfig.ghostReadOnInteraction", mc)
+        self.assertIn(f"!ApplicationLoader.mainInterfacePausedStageQueue && !{gm}.blocksOnline()) {{", mc)
+        self.assertIn("public void mzgramGoOffline() {", mc)
+        self.assertIn(f"{gm}.afterSent(currentAccount);", read(JAVA / "messenger/SendMessagesHelper.java"))
+        stories = read(JAVA / "ui/Stories/StoriesController.java")
+        self.assertEqual(2, stories.count(f"if (!{gm}.blocksStories(currentAccount, dialogId)) {{"))
+        self.assertIn("NIGHT_MODE, GHOST_MODE, SETTINGS", read(JAVA / "messenger/mzgram/MZGramDrawerItems.java"))
+        self.assertIn("case MZGramDrawerItems.GHOST_MODE:", read(JAVA / "ui/mzgram/MZGramDrawer.java"))
+        dialogs = read(JAVA / "ui/DialogsActivity.java")
+        self.assertIn("mzgramUpdateGhostTitle(); // MZGram: Ghost in the header", dialogs)
+        page = read(PAGE)
+        self.assertIn("items.add(UItem.asButton(BUTTON_GHOST_SILENT_SEND, ", page)
+        self.assertNotIn("MZGramConfig.toggleGhostSilentSend();", page)
+
 
 if __name__ == "__main__":
     unittest.main()

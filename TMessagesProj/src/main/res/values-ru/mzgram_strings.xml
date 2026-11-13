@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Показывать подтверждение перед началом голосового или видеозвонка.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Время сообщений показывается с секундами, например 12:34:56. Действует для экранов, открытых после изменения.</string>
     <string name="MZGramGhostMode">Режим призрака</string>
-    <string name="MZGramGhostModeInfo">Другие пользователи больше не видят, что вы прочитали их сообщение или печатаете. Ваши счётчики непрочитанных работают как обычно.</string>
+    <string name="MZGramGhostModeInfo">Режим призрака скрывает от других то, что включено ниже. Ваши счётчики непрочитанного работают как обычно.</string>
     <string name="MZGramGhostAutoDelaySend">Задерживать отправку сообщений</string>
     <string name="MZGramGhostAutoDelaySendInfo">Задерживает исходящее сообщение (на 12 секунд, дольше для фото, видео и файлов) перед отправкой, чтобы набор и немедленная отправка не показывали вас в сети. Не рекомендуется при ненадёжном соединении: задержанное сообщение может остаться неотправленным, если приложение закроется или пропадёт сеть.</string>
     <string name="MZGramGhostSilentSend">Отправлять без звука</string>
-    <string name="MZGramGhostSilentSendInfo">Пока включён режим призрака, каждое исходящее сообщение отправляется без звука уведомления у получателя, независимо от выбора «Отправить без звука» для отдельного сообщения.</string>
+    <string name="MZGramGhostSilentSendInfo">Исходящие сообщения отправляются без звука уведомления для получателя: никогда, в режиме призрака или всегда.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Предлагать режим призрака перед историями</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Перед первым открытием истории (не при пролистывании к следующей) спрашивает, включить ли сначала режим призрака, чтобы просмотр не отмечал её как просмотренную.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Режим призрака выключен. При просмотре история будет отмечена как просмотренная. Сначала включить режим призрака?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Введите время, город или пояс, «в», другой и «=» (15:00 Киев в Токио=), и добавится время там (22:00). Города, UTC+3 и сокращения вроде EST работают офлайн.</string>
     <string name="MZGramGroupMessageMenu">Группировать меню сообщения</string>
     <string name="MZGramGroupMessageMenuInfo">Группировка перемещает основные действия (ответить, копировать, переслать, изменить, закрепить, удалить) в нижнюю часть меню сообщения.</string>
+    <string name="MZGramGhostParts">Что скрывает</string>
+    <string name="MZGramGhostNoRead">Не читать сообщения</string>
+    <string name="MZGramGhostNoReadStories">Не просматривать истории</string>
+    <string name="MZGramGhostNoOnline">Не быть в сети</string>
+    <string name="MZGramGhostNoTyping">Не показывать «печатает»</string>
+    <string name="MZGramGhostOfflineAuto">Автоматически не в сети</string>
+    <string name="MZGramGhostPartsInfo">Telegram делает вас в сети, когда вы отправляете сообщение; «Автоматически не в сети» сразу возвращает вас в офлайн.</string>
+    <string name="MZGramGhostReadOnInteraction">Читать при взаимодействии</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Сообщение, на которое вы отвечаете или реагируете, отмечается прочитанным даже в режиме призрака.</string>
+    <string name="MZGramSilentNever">Никогда</string>
+    <string name="MZGramSilentInGhostMode">В режиме призрака</string>
+    <string name="MZGramSilentAlways">Всегда</string>
+    <string name="MZGramGhostStatusInTitle">Призрак в заголовке</string>
+    <string name="MZGramGhostStatusInTitleInfo">Пока режим призрака включён, после заголовка списка чатов виден призрак.</string>
+    <string name="MZGramDrawerGhostOn">Режим призрака: включён</string>
+    <string name="MZGramDrawerGhostOff">Режим призрака: выключен</string>
 </resources>

@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">عرض تأكيد قبل بدء مكالمة صوتية أو مكالمة فيديو.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">يعرض وقت الرسائل الثواني، مثل 12:34:56. يسري على الشاشات المفتوحة بعد التغيير.</string>
     <string name="MZGramGhostMode">وضع الشبح</string>
-    <string name="MZGramGhostModeInfo">لم يعد الآخرون يرون أنك قرأت رسائلهم أو أنك تكتب. تعمل عدادات الرسائل غير المقروءة لديك كالمعتاد.</string>
+    <string name="MZGramGhostModeInfo">يخفي وضع الشبح عن الآخرين ما تفعّله أدناه. تعمل عدادات غير المقروء لديك كالمعتاد.</string>
     <string name="MZGramGhostAutoDelaySend">تأخير إرسال الرسائل</string>
     <string name="MZGramGhostAutoDelaySendInfo">يحجز الرسالة الصادرة (12 ثانية، وأكثر للصور ومقاطع الفيديو والملفات) قبل إرسالها فعليًا، حتى لا يجعلك الكتابة والإرسال الفوري تبدو متصلًا. لا يُنصح به مع اتصال غير مستقر: قد تبقى الرسالة المؤجلة بانتظار الإرسال إذا أُغلق التطبيق أو انقطعت الشبكة في هذه الأثناء.</string>
     <string name="MZGramGhostSilentSend">الإرسال دون صوت</string>
-    <string name="MZGramGhostSilentSendInfo">ما دام وضع الشبح مفعّلًا، تُرسل كل رسالة صادرة دون صوت تنبيه لدى المستلم، بغضّ النظر عن خيار «إرسال دون صوت» لكل رسالة.</string>
+    <string name="MZGramGhostSilentSendInfo">تصل الرسائل الصادرة دون صوت إشعار للمستلم: أبدًا، أو في وضع الشبح، أو دائمًا.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">اقتراح وضع الشبح قبل القصص</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">قبل فتح قصة لأول مرة (لا عند التمرير إلى التالية)، يسأل هل يُفعَّل وضع الشبح أولًا، حتى لا تُعلَّم القصة كمشاهَدة عند مشاهدتها.</string>
     <string name="MZGramOfferGhostModeBeforeStories">وضع الشبح متوقف. ستُعلَّم هذه القصة كمشاهَدة عند مشاهدتها. هل تريد تفعيل وضع الشبح أولًا؟</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">اكتب وقتًا ومدينة أو منطقة و«in» وأخرى و«=» (15:00 Dubai in Tokyo=) فيُضاف الوقت هناك (22:00). تعمل المدن وUTC+3 والاختصارات مثل EST دون اتصال.</string>
     <string name="MZGramGroupMessageMenu">تجميع قائمة الرسالة</string>
     <string name="MZGramGroupMessageMenuInfo">ينقل التجميع الإجراءات الرئيسية (رد، نسخ، إعادة توجيه، تعديل، تثبيت، حذف) إلى الجزء السفلي من قائمة الرسالة.</string>
+    <string name="MZGramGhostParts">ما الذي يخفيه</string>
+    <string name="MZGramGhostNoRead">عدم قراءة الرسائل</string>
+    <string name="MZGramGhostNoReadStories">عدم مشاهدة القصص</string>
+    <string name="MZGramGhostNoOnline">عدم الظهور متصلًا</string>
+    <string name="MZGramGhostNoTyping">عدم إظهار «يكتب»</string>
+    <string name="MZGramGhostOfflineAuto">عدم الاتصال تلقائيًا</string>
+    <string name="MZGramGhostPartsInfo">يجعلك Telegram متصلًا عند إرسال رسالة؛ يعيدك «عدم الاتصال تلقائيًا» إلى عدم الاتصال بعد ذلك مباشرة.</string>
+    <string name="MZGramGhostReadOnInteraction">القراءة عند التفاعل</string>
+    <string name="MZGramGhostReadOnInteractionInfo">تُعلَّم الرسالة التي ترد عليها أو تتفاعل معها كمقروءة حتى في وضع الشبح.</string>
+    <string name="MZGramSilentNever">أبدًا</string>
+    <string name="MZGramSilentInGhostMode">في وضع الشبح</string>
+    <string name="MZGramSilentAlways">دائمًا</string>
+    <string name="MZGramGhostStatusInTitle">الشبح في العنوان</string>
+    <string name="MZGramGhostStatusInTitleInfo">طالما وضع الشبح مفعّل يظهر شبح بعد عنوان قائمة المحادثات.</string>
+    <string name="MZGramDrawerGhostOn">وضع الشبح: مفعّل</string>
+    <string name="MZGramDrawerGhostOff">وضع الشبح: معطّل</string>
 </resources>

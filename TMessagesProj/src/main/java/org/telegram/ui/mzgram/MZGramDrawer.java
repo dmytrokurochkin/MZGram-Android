@@ -539,6 +539,7 @@ public final class MZGramDrawer {
             case MZGramDrawerItems.MZGRAM: return R.drawable.settings_features;
             case MZGramDrawerItems.QR_LOGIN: return R.drawable.msg_qrcode;
             case MZGramDrawerItems.FULL_MENU: return R.drawable.ic_ab_other;
+            case MZGramDrawerItems.GHOST_MODE: return R.drawable.ghost;
             default: return 0;
         }
     }
@@ -558,6 +559,7 @@ public final class MZGramDrawer {
             case MZGramDrawerItems.MZGRAM: return getString(R.string.MZGram);
             case MZGramDrawerItems.QR_LOGIN: return getString(R.string.AuthAnotherClient); // Telegram's own text: the item as Telegram's menu names it
             case MZGramDrawerItems.FULL_MENU: return getString(R.string.MZGramDrawerFullMenu);
+            case MZGramDrawerItems.GHOST_MODE: return getString(org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled() ? R.string.MZGramDrawerGhostOn : R.string.MZGramDrawerGhostOff);
             default: return null;
         }
     }
@@ -638,6 +640,14 @@ public final class MZGramDrawer {
                 break;
             case MZGramDrawerItems.FULL_MENU:
                 fragment.mzgramShowItemOptions();
+                break;
+            case MZGramDrawerItems.GHOST_MODE:
+                org.telegram.messenger.mzgram.MZGramConfig.toggleGhostMode();
+                fragment.mzgramUpdateGhostTitle();
+                // createSimpleBulletin(int, ...) takes an animation from res/raw, so the icon goes as a drawable
+                org.telegram.ui.Components.BulletinFactory.of(fragment).createSimpleBulletin(
+                        androidx.core.content.ContextCompat.getDrawable(fragment.getParentActivity(), R.drawable.ghost),
+                        getString(org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled() ? R.string.MZGramPillGhostTurnedOn : R.string.MZGramPillGhostTurnedOff)).show();
                 break;
             default:
                 break;

@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Muestra una confirmación antes de que empiece una llamada o videollamada.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">La hora de los mensajes muestra los segundos, como 12:34:56. Se aplica a las pantallas abiertas después del cambio.</string>
     <string name="MZGramGhostMode">Modo fantasma</string>
-    <string name="MZGramGhostModeInfo">Los demás ya no ven que leíste su mensaje ni que estás escribiendo. Tus contadores de no leídos funcionan como siempre.</string>
+    <string name="MZGramGhostModeInfo">El modo fantasma oculta a los demás lo que actives abajo. Tus contadores de no leídos funcionan como siempre.</string>
     <string name="MZGramGhostAutoDelaySend">Retrasar el envío de mensajes</string>
     <string name="MZGramGhostAutoDelaySendInfo">Retiene un mensaje saliente (12 segundos, más para fotos, videos y archivos) antes de enviarlo de verdad, para que escribir y enviar enseguida no te haga parecer en línea. No se recomienda con una conexión inestable: un mensaje retrasado puede quedar pendiente si la app se cierra o la red se cae mientras tanto.</string>
     <string name="MZGramGhostSilentSend">Enviar sin sonido</string>
-    <string name="MZGramGhostSilentSendInfo">Mientras el modo fantasma está activado, envía cada mensaje saliente sin sonido de notificación para el destinatario, sin importar la opción «enviar sin sonido» de cada mensaje.</string>
+    <string name="MZGramGhostSilentSendInfo">Los mensajes salientes llegan sin sonido de notificación: nunca, en modo fantasma o siempre.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Ofrecer el modo fantasma antes de las historias</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Antes de abrir una historia por primera vez (no al deslizar a la siguiente), pregunta si quieres activar primero el modo fantasma, para que verla no la marque como vista.</string>
     <string name="MZGramOfferGhostModeBeforeStories">El modo fantasma está desactivado. Ver esta historia la marcará como vista. ¿Activar primero el modo fantasma?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Escribe una hora, una ciudad o zona, «in», otra y «=» (15:00 Madrid in Tokyo=) y se añade la hora allí (22:00). Ciudades, UTC+3 y abreviaturas como EST funcionan sin conexión.</string>
     <string name="MZGramGroupMessageMenu">Agrupar el menú del mensaje</string>
     <string name="MZGramGroupMessageMenuInfo">Agrupar mueve las acciones principales (responder, copiar, reenviar, editar, fijar, eliminar) a la parte inferior del menú del mensaje.</string>
+    <string name="MZGramGhostParts">Qué oculta</string>
+    <string name="MZGramGhostNoRead">No leer mensajes</string>
+    <string name="MZGramGhostNoReadStories">No ver historias</string>
+    <string name="MZGramGhostNoOnline">No aparecer en línea</string>
+    <string name="MZGramGhostNoTyping">No mostrar «escribiendo»</string>
+    <string name="MZGramGhostOfflineAuto">Desconectarse automáticamente</string>
+    <string name="MZGramGhostPartsInfo">Telegram te pone en línea al enviar un mensaje; «Desconectarse automáticamente» te desconecta justo después.</string>
+    <string name="MZGramGhostReadOnInteraction">Leer al interactuar</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Un mensaje al que respondes o reaccionas se marca como leído incluso en modo fantasma.</string>
+    <string name="MZGramSilentNever">Nunca</string>
+    <string name="MZGramSilentInGhostMode">En modo fantasma</string>
+    <string name="MZGramSilentAlways">Siempre</string>
+    <string name="MZGramGhostStatusInTitle">Fantasma en el encabezado</string>
+    <string name="MZGramGhostStatusInTitleInfo">Mientras el modo fantasma está activo, aparece un fantasma tras el título de la lista de chats.</string>
+    <string name="MZGramDrawerGhostOn">Modo fantasma: activado</string>
+    <string name="MZGramDrawerGhostOff">Modo fantasma: desactivado</string>
 </resources>

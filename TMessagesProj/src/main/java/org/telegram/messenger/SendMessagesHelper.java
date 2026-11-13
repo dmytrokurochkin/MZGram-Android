@@ -8153,6 +8153,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
 
         newMsgObj.reqId = getConnectionsManager().sendRequest(req, (response, error) -> {
+            if (error == null && !scheduled) {
+                org.telegram.messenger.mzgram.MZGramGhostMode.afterSent(currentAccount); // MZGram: ghost mode, Go offline automatically
+            }
             if (error != null && (req instanceof TLRPC.TL_messages_sendMedia || req instanceof TL_ephemeral.TL_sendMessage || req instanceof TLRPC.TL_messages_editMessage || req instanceof TLRPC.TL_messages_addPollAnswer) && FileRefController.isFileRefError(error.text)) {
                 if (FileRefController.isFileRefErrorCover(error.text)) {
                     if (removeCoverFromRequest(req)) {

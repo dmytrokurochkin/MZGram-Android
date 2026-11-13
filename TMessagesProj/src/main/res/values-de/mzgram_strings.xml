@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Zeigt eine Bestätigung, bevor ein Sprach- oder Videoanruf beginnt.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Nachrichtenzeiten zeigen Sekunden, etwa 12:34:56. Gilt für Bildschirme, die nach der Änderung geöffnet werden.</string>
     <string name="MZGramGhostMode">Geistermodus</string>
-    <string name="MZGramGhostModeInfo">Andere sehen nicht mehr, dass du ihre Nachricht gelesen hast oder gerade tippst. Deine eigenen Zähler für Ungelesenes funktionieren wie gewohnt.</string>
+    <string name="MZGramGhostModeInfo">Der Geistmodus verbirgt vor anderen, was unten eingeschaltet ist. Deine Ungelesen-Zähler funktionieren wie gewohnt.</string>
     <string name="MZGramGhostAutoDelaySend">Senden von Nachrichten verzögern</string>
     <string name="MZGramGhostAutoDelaySendInfo">Hält eine ausgehende Nachricht (12 Sekunden, länger bei Fotos, Videos und Dateien) zurück, bevor sie wirklich gesendet wird, damit Schreiben und sofortiges Senden dich nicht online erscheinen lassen. Nicht empfohlen bei unzuverlässiger Verbindung: Eine verzögerte Nachricht kann noch auf das Senden warten, wenn die App in der Zwischenzeit geschlossen wird oder das Netz ausfällt.</string>
     <string name="MZGramGhostSilentSend">Ohne Ton senden</string>
-    <string name="MZGramGhostSilentSendInfo">Solange der Geistermodus an ist, wird jede ausgehende Nachricht ohne Benachrichtigungston für den Empfänger gesendet, unabhängig von der Option „ohne Ton senden“ der einzelnen Nachricht.</string>
+    <string name="MZGramGhostSilentSendInfo">Ausgehende Nachrichten kommen beim Empfänger ohne Benachrichtigungston an: nie, im Geistmodus oder immer.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Geistermodus vor Storys anbieten</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Vor dem ersten Öffnen einer Story (nicht beim Wischen zur nächsten) fragt es, ob zuerst der Geistermodus eingeschaltet werden soll, damit das Ansehen sie nicht als gesehen markiert.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Der Geistermodus ist aus. Wenn du diese Story ansiehst, wird sie als gesehen markiert. Zuerst den Geistermodus einschalten?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Gib eine Uhrzeit, eine Stadt oder Zone, „in“, eine weitere und „=“ ein (15:00 Berlin in Tokyo=), und die Zeit dort wird angefügt (22:00). Städte, UTC+3 und Kürzel wie EST gehen offline.</string>
     <string name="MZGramGroupMessageMenu">Nachrichtenmenü gruppieren</string>
     <string name="MZGramGroupMessageMenuInfo">Gruppieren verschiebt die Hauptaktionen (Antworten, Kopieren, Weiterleiten, Bearbeiten, Anheften, Löschen) in den unteren Teil des Nachrichtenmenüs.</string>
+    <string name="MZGramGhostParts">Was er verbirgt</string>
+    <string name="MZGramGhostNoRead">Nachrichten nicht lesen</string>
+    <string name="MZGramGhostNoReadStories">Storys nicht ansehen</string>
+    <string name="MZGramGhostNoOnline">Nicht online gehen</string>
+    <string name="MZGramGhostNoTyping">„Schreibt“ nicht senden</string>
+    <string name="MZGramGhostOfflineAuto">Automatisch offline</string>
+    <string name="MZGramGhostPartsInfo">Telegram setzt dich beim Senden einer Nachricht online; „Automatisch offline“ setzt dich gleich danach wieder offline.</string>
+    <string name="MZGramGhostReadOnInteraction">Bei Interaktion lesen</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Eine Nachricht, auf die du antwortest oder reagierst, wird auch im Geistmodus als gelesen markiert.</string>
+    <string name="MZGramSilentNever">Nie</string>
+    <string name="MZGramSilentInGhostMode">Im Geistmodus</string>
+    <string name="MZGramSilentAlways">Immer</string>
+    <string name="MZGramGhostStatusInTitle">Geist in der Kopfzeile</string>
+    <string name="MZGramGhostStatusInTitleInfo">Solange der Geistmodus an ist, steht ein Geist hinter dem Titel der Chatliste.</string>
+    <string name="MZGramDrawerGhostOn">Geistmodus: an</string>
+    <string name="MZGramDrawerGhostOff">Geistmodus: aus</string>
 </resources>

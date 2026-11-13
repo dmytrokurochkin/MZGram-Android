@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Sesli veya görüntülü bir arama başlamadan önce onay gösterir.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Mesaj saatleri 12:34:56 gibi saniyeleri de gösterir. Değişiklikten sonra açılan ekranlar için geçerlidir.</string>
     <string name="MZGramGhostMode">Hayalet modu</string>
-    <string name="MZGramGhostModeInfo">Diğer kullanıcılar artık mesajlarını okuduğunuzu veya yazdığınızı görmez. Kendi okunmamış sayaçlarınız her zamanki gibi çalışır.</string>
+    <string name="MZGramGhostModeInfo">Hayalet modu aşağıda açık olanları başkalarından gizler. Kendi okunmamış sayaçlarınız her zamanki gibi çalışır.</string>
     <string name="MZGramGhostAutoDelaySend">Mesaj gönderimini geciktir</string>
     <string name="MZGramGhostAutoDelaySendInfo">Giden bir mesajı gerçekten göndermeden önce bekletir (12 saniye, fotoğraf, video ve dosyalar için daha uzun); böylece yazıp hemen göndermek sizi çevrimiçi göstermez. Güvenilmez bağlantıda önerilmez: bu sırada uygulama kapanırsa veya ağ koparsa geciktirilen mesaj hâlâ gönderilmeyi bekliyor olabilir.</string>
     <string name="MZGramGhostSilentSend">Sessiz gönder</string>
-    <string name="MZGramGhostSilentSendInfo">Hayalet modu açıkken giden her mesajı, mesaj başına “sessiz gönder” seçeneğinden bağımsız olarak alıcıda bildirim sesi olmadan gönderir.</string>
+    <string name="MZGramGhostSilentSendInfo">Giden mesajlar alıcıya bildirim sesi olmadan gider: hiçbir zaman, hayalet modunda veya her zaman.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Hikayelerden önce hayalet modunu öner</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Bir hikayeyi ilk kez açmadan önce (sonrakine kaydırırken değil), izlemenin onu görüldü olarak işaretlememesi için önce hayalet modunun açılıp açılmayacağını sorar.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Hayalet modu kapalı. Bu hikayeyi izlemek onu görüldü olarak işaretler. Önce hayalet modu açılsın mı?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Bir saat, şehir veya dilim, \"in\", bir diğeri ve \"=\" yazın (15:00 Istanbul in Tokyo=), oradaki saat eklenir (22:00). Şehirler, UTC+3 ve EST gibi kısaltmalar çevrimdışı çalışır.</string>
     <string name="MZGramGroupMessageMenu">Mesaj menüsünü grupla</string>
     <string name="MZGramGroupMessageMenuInfo">Gruplama ana eylemleri (yanıtla, kopyala, ilet, düzenle, sabitle, sil) mesaj menüsünün alt kısmına taşır.</string>
+    <string name="MZGramGhostParts">Neyi gizler</string>
+    <string name="MZGramGhostNoRead">Mesajları okuma</string>
+    <string name="MZGramGhostNoReadStories">Hikayeleri görme</string>
+    <string name="MZGramGhostNoOnline">Çevrimiçi görünme</string>
+    <string name="MZGramGhostNoTyping">\"Yazıyor\" gösterme</string>
+    <string name="MZGramGhostOfflineAuto">Otomatik çevrimdışı</string>
+    <string name="MZGramGhostPartsInfo">Telegram mesaj gönderdiğinizde sizi çevrimiçi yapar; \"Otomatik çevrimdışı\" hemen ardından sizi yeniden çevrimdışı yapar.</string>
+    <string name="MZGramGhostReadOnInteraction">Etkileşimde okundu yap</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Yanıtladığınız veya tepki verdiğiniz mesaj hayalet modunda bile okundu olarak işaretlenir.</string>
+    <string name="MZGramSilentNever">Hiçbir zaman</string>
+    <string name="MZGramSilentInGhostMode">Hayalet modunda</string>
+    <string name="MZGramSilentAlways">Her zaman</string>
+    <string name="MZGramGhostStatusInTitle">Başlıkta hayalet</string>
+    <string name="MZGramGhostStatusInTitleInfo">Hayalet modu açıkken sohbet listesinin başlığından sonra bir hayalet görünür.</string>
+    <string name="MZGramDrawerGhostOn">Hayalet modu: açık</string>
+    <string name="MZGramDrawerGhostOff">Hayalet modu: kapalı</string>
 </resources>

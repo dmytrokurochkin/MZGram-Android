@@ -108,11 +108,11 @@
     <string name="MZGramAskBeforeCallInfo">Паказваць пацвярджэнне перад пачаткам галасавога або відэазванка.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Час паведамленняў паказваецца з секундамі, напрыклад 12:34:56. Дзейнічае для экранаў, адкрытых пасля змены.</string>
     <string name="MZGramGhostMode">Рэжым прывіда</string>
-    <string name="MZGramGhostModeInfo">Іншыя карыстальнікі больш не бачаць, што вы прачыталі іх паведамленне або пішаце. Вашы лічыльнікі непрачытаных працуюць як звычайна.</string>
+    <string name="MZGramGhostModeInfo">Рэжым прывіда хавае ад іншых тое, што ўключана ніжэй. Вашы лічыльнікі непрачытанага працуюць як заўсёды.</string>
     <string name="MZGramGhostAutoDelaySend">Затрымліваць адпраўку паведамленняў</string>
     <string name="MZGramGhostAutoDelaySendInfo">Затрымлівае выходнае паведамленне (на 12 секунд, даўжэй для фота, відэа і файлаў) перад адпраўкай, каб набор і імгненная адпраўка не паказвалі вас у сетцы. Не рэкамендуецца пры ненадзейным злучэнні: затрыманае паведамленне можа застацца неадпраўленым, калі праграма закрыецца або знікне сетка.</string>
     <string name="MZGramGhostSilentSend">Адпраўляць без гуку</string>
-    <string name="MZGramGhostSilentSendInfo">Пакуль уключаны рэжым прывіда, кожнае выходнае паведамленне адпраўляецца без гуку апавяшчэння ў атрымальніка, незалежна ад выбару «Адправіць без гуку» для асобнага паведамлення.</string>
+    <string name="MZGramGhostSilentSendInfo">Выходныя паведамленні адпраўляюцца без гуку апавяшчэння для атрымальніка: ніколі, у рэжыме прывіда або заўсёды.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Прапаноўваць рэжым прывіда перад гісторыямі</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Перад першым адкрыццём гісторыі (не пры перагортванні да наступнай) пытаецца, ці ўключыць спачатку рэжым прывіда, каб прагляд не пазначыў яе як прагледжаную.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Рэжым прывіда выключаны. Пры праглядзе гісторыя будзе пазначана як прагледжаная. Спачатку ўключыць рэжым прывіда?</string>
@@ -1346,4 +1346,20 @@
     <string name="MZGramInlineTimeZonesInfo">Увядзіце час, горад або пояс, «у», іншы і «=» (15:00 Мінск у Токіо=), і дадасца час там (22:00). Гарады, UTC+3 і скарачэнні накшталт EST працуюць афлайн.</string>
     <string name="MZGramGroupMessageMenu">Згрупаваць меню паведамлення</string>
     <string name="MZGramGroupMessageMenuInfo">Групаванне перамяшчае асноўныя дзеянні (адказаць, скапіяваць, пераслаць, змяніць, замацаваць, выдаліць) у ніжнюю частку меню паведамлення.</string>
+    <string name="MZGramGhostParts">Што хавае</string>
+    <string name="MZGramGhostNoRead">Не чытаць паведамленні</string>
+    <string name="MZGramGhostNoReadStories">Не праглядаць гісторыі</string>
+    <string name="MZGramGhostNoOnline">Не быць анлайн</string>
+    <string name="MZGramGhostNoTyping">Не паказваць «друкуе»</string>
+    <string name="MZGramGhostOfflineAuto">Аўтаматычна афлайн</string>
+    <string name="MZGramGhostPartsInfo">Telegram робіць вас анлайн, калі вы адпраўляеце паведамленне; «Аўтаматычна афлайн» адразу вяртае вас у афлайн.</string>
+    <string name="MZGramGhostReadOnInteraction">Чытаць пры ўзаемадзеянні</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Паведамленне, на якое вы адказваеце ці рэагуеце, пазначаецца прачытаным нават у рэжыме прывіда.</string>
+    <string name="MZGramSilentNever">Ніколі</string>
+    <string name="MZGramSilentInGhostMode">У рэжыме прывіда</string>
+    <string name="MZGramSilentAlways">Заўсёды</string>
+    <string name="MZGramGhostStatusInTitle">Прывід у загалоўку</string>
+    <string name="MZGramGhostStatusInTitleInfo">Пакуль рэжым прывіда ўключаны, пасля загалоўка спіса чатаў бачны прывід.</string>
+    <string name="MZGramDrawerGhostOn">Рэжым прывіда: уключаны</string>
+    <string name="MZGramDrawerGhostOff">Рэжым прывіда: выключаны</string>
 </resources>

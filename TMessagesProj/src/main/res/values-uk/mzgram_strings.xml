@@ -109,11 +109,11 @@
     <string name="MZGramAskBeforeCallInfo">Показувати підтвердження перед початком голосового або відеодзвінка.</string>
     <string name="MZGramFormatTimeWithSecondsInfo">Час повідомлень показується із секундами, наприклад 12:34:56. Діє на екранах, відкритих після зміни.</string>
     <string name="MZGramGhostMode">Режим привида</string>
-    <string name="MZGramGhostModeInfo">Інші користувачі більше не бачать, що ви прочитали їхнє повідомлення або що ви друкуєте. Ваші лічильники непрочитаних працюють як зазвичай.</string>
+    <string name="MZGramGhostModeInfo">Режим привида приховує від інших те, що ввімкнено нижче. Ваші лічильники непрочитаного працюють як завжди.</string>
     <string name="MZGramGhostAutoDelaySend">Затримувати надсилання повідомлень</string>
     <string name="MZGramGhostAutoDelaySendInfo">Тримає вихідне повідомлення (12 секунд, довше для фото, відео і файлів), перш ніж справді його надіслати, щоб написання і надсилання не показували вас у мережі. Не радимо при нестабільному зʼєднанні: затримане повідомлення може лишитися ненадісланим, якщо застосунок закриється або зникне мережа.</string>
     <string name="MZGramGhostSilentSend">Надсилати без звуку</string>
-    <string name="MZGramGhostSilentSendInfo">Поки увімкнений режим привида, надсилає кожне вихідне повідомлення без звуку сповіщення для одержувача, незалежно від параметра «Надіслати без звуку» для окремого повідомлення.</string>
+    <string name="MZGramGhostSilentSendInfo">Вихідні повідомлення надсилаються без звуку сповіщення для одержувача: ніколи, у режимі привида або завжди.</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggle">Пропонувати режим привида перед історіями</string>
     <string name="MZGramOfferGhostModeBeforeStoriesToggleInfo">Перед першим відкриттям історії (не під час гортання до наступної) питає, чи увімкнути режим привида, щоб перегляд не позначав її переглянутою.</string>
     <string name="MZGramOfferGhostModeBeforeStories">Режим привида вимкнено. Перегляд цієї історії позначить її переглянутою. Спершу увімкнути режим привида?</string>
@@ -1347,4 +1347,20 @@
     <string name="MZGramInlineTimeZonesInfo">Введіть час, місто або пояс, «в», інше і «=» (15:00 Київ в Токіо=), і додасться час там (22:00). Міста, UTC+3 і скорочення на зразок EST працюють офлайн.</string>
     <string name="MZGramGroupMessageMenu">Згрупувати меню повідомлення</string>
     <string name="MZGramGroupMessageMenuInfo">Групування переміщує основні дії (відповісти, копіювати, переслати, змінити, закріпити, видалити) в нижню частину меню повідомлення.</string>
+    <string name="MZGramGhostParts">Що приховує</string>
+    <string name="MZGramGhostNoRead">Не читати повідомлення</string>
+    <string name="MZGramGhostNoReadStories">Не переглядати історії</string>
+    <string name="MZGramGhostNoOnline">Не бути онлайн</string>
+    <string name="MZGramGhostNoTyping">Не показувати «друкує»</string>
+    <string name="MZGramGhostOfflineAuto">Автоматично офлайн</string>
+    <string name="MZGramGhostPartsInfo">Telegram робить вас онлайн, коли ви надсилаєте повідомлення; «Автоматично офлайн» одразу повертає вас в офлайн.</string>
+    <string name="MZGramGhostReadOnInteraction">Читати при взаємодіях</string>
+    <string name="MZGramGhostReadOnInteractionInfo">Повідомлення, на яке ви відповідаєте або реагуєте, позначається прочитаним навіть у режимі привида.</string>
+    <string name="MZGramSilentNever">Ніколи</string>
+    <string name="MZGramSilentInGhostMode">У режимі привида</string>
+    <string name="MZGramSilentAlways">Завжди</string>
+    <string name="MZGramGhostStatusInTitle">Привид у заголовку</string>
+    <string name="MZGramGhostStatusInTitleInfo">Поки режим привида ввімкнено, після заголовка списку чатів видно привида.</string>
+    <string name="MZGramDrawerGhostOn">Режим привида: увімкнено</string>
+    <string name="MZGramDrawerGhostOff">Режим привида: вимкнено</string>
 </resources>

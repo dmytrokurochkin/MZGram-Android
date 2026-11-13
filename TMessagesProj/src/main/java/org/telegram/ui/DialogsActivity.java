@@ -814,6 +814,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private Long statusDrawableGiftId;
     private Drawable logoDrawable;
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable statusDrawable;
+    // MZGram: Ghost mode > Ghost in the header (MZGramGhostTitle)
+    private CharSequence mzgramTitleText;
+    private boolean mzgramTitleGhost;
+
+    public void mzgramUpdateGhostTitle() {
+        boolean ghost = org.telegram.ui.mzgram.MZGramGhostTitle.shown();
+        if (actionBar == null || mzgramTitleText == null || ghost == mzgramTitleGhost) {
+            return;
+        }
+        mzgramTitleGhost = ghost;
+        actionBar.setTitle(org.telegram.ui.mzgram.MZGramGhostTitle.title(mzgramTitleText, getThemedColor(Theme.key_telegram_color_dialogsLogo)), statusDrawable);
+    }
     private AnimatedStatusView animatedStatusView;
     public RightSlidingDialogContainer rightSlidingDialogContainer;
 
@@ -3627,7 +3639,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 logoDrawable.setColorFilter(getThemedColor(Theme.key_telegram_color_dialogsLogo), PorterDuff.Mode.MULTIPLY);
                 SpannableStringBuilder ssb = new SpannableStringBuilder(getString(R.string.AppName));
                 ssb.setSpan(new ImageSpan(logoDrawable), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                actionBar.setTitle(ssb, statusDrawable);
+                mzgramTitleText = ssb;
+                mzgramTitleGhost = org.telegram.ui.mzgram.MZGramGhostTitle.shown();
+                actionBar.setTitle(org.telegram.ui.mzgram.MZGramGhostTitle.title(ssb, getThemedColor(Theme.key_telegram_color_dialogsLogo)), statusDrawable);
                 updateStatus(UserConfig.getInstance(currentAccount).getCurrentUser(), false);
             }
             if (folderId == 0) {
@@ -7156,6 +7170,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public void onResume() {
+        mzgramUpdateGhostTitle(); // MZGram: Ghost in the header
         super.onResume();
         if (updateMainTabsSpace() && fragmentView != null) {
             ViewCompat.requestApplyInsets(fragmentView);

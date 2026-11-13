@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">Eigener Text…</string>
     <string name="MZGramCustomChatThemes">Eigene Chat-Designs</string>
     <string name="MZGramCustomChatThemesInfo">Jeder Chat zeigt das für ihn gewählte Design und Hintergrundbild. Aus: alle Chats haben das Design der App.</string>
+    <string name="MZGramSingleCornerRadius">Einheitliche Abrundung</string>
+    <string name="MZGramSingleCornerRadiusInfo">Foren bekommen dieselbe Avatarform wie Chats.</string>
 </resources>

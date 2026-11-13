@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">Texto propio…</string>
     <string name="MZGramCustomChatThemes">Temas propios de los chats</string>
     <string name="MZGramCustomChatThemesInfo">Cada chat muestra el tema y el fondo elegidos para él. Desactivado: todos los chats tienen el tema de la app.</string>
+    <string name="MZGramSingleCornerRadius">Redondeo único</string>
+    <string name="MZGramSingleCornerRadiusInfo">Los foros tendrán la misma forma de avatar que los chats.</string>
 </resources>

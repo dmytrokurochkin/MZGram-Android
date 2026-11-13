@@ -13,8 +13,14 @@
  * profile runs, the avatar turns back into a circle smoothly, so the melt is
  * drawn from a circle and the shape is not applied twice.
  *
- * Ported from exteraless AppearanceConfig.avatarCorners / ImageReceiver and
- * StoriesUtilities avatar corners (GPL-3.0), written anew for MZGram.
+ * Single corner radius (MZGramConfig.singleCornerRadius, off by default):
+ * forums and other rounded squares of the avatars get the shape of the
+ * chats too, so every avatar has one shape (round while the slider is at
+ * the circle).
+ *
+ * Ported from exteraless AppearanceConfig.avatarCorners / singleCornerRadius,
+ * ImageReceiver and StoriesUtilities avatar corners (GPL-3.0), written anew
+ * for MZGram.
  */
 
 package org.telegram.messenger.mzgram;
@@ -34,6 +40,17 @@ public final class MZGramAvatarShape {
 
     public static boolean isOn() {
         return MZGramConfig.avatarCorners < MAX;
+    }
+
+    // Single corner radius: every avatar, forums too, has the shape of the chats
+    public static boolean single() {
+        return MZGramConfig.singleCornerRadius;
+    }
+
+    // The radius of a forum's avatar: its own rounded square, or the shape
+    // of the chats with Single corner radius
+    public static int forumRadius(int forumAsked, int circleAsked, float circle) {
+        return scaleRadius(single() ? circleAsked : forumAsked, circle);
     }
 
     // Grows on each change of the slider; avatars already shown recompute their radius
@@ -72,13 +89,15 @@ public final class MZGramAvatarShape {
      * Returns {@code asked} itself while the shape is off, else fills {@code out}.
      */
     public static int[] apply(int[] asked, float width, int[] out) {
-        if (!isOn()) {
+        final boolean single = single() && width > 0;
+        if (!isOn() && !single) {
             return asked;
         }
         float f = factor(0f);
         int half = width > 0 ? (int) Math.ceil(width / 2f) : Integer.MAX_VALUE;
         for (int a = 0; a < 4; a++) {
-            int r = Math.min(asked[a], half);
+            // Single corner radius: a forum's rounded square counts as a circle
+            int r = single && asked[a] > 0 ? half : Math.min(asked[a], half);
             // at least 1 px: a square stays "rounded" for ImageReceiver, so its
             // AvatarDrawable gets the radius too instead of keeping the old circle
             out[a] = r <= 0 ? r : Math.max(1, (int) Math.ceil(r * f));

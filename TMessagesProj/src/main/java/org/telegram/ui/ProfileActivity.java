@@ -6523,7 +6523,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             TLRPC.Chat chatLocal = getMessagesController().getChat(chatId);
             if (ChatObject.isForum(chatLocal)) {
                 // MZGram: avatar shape (MZGramAvatarShape)
-                return org.telegram.messenger.mzgram.MZGramAvatarShape.scaleRadius(dp(needInsetForStories() ? 24 : 38), mzgramShapeCircle);
+                return org.telegram.messenger.mzgram.MZGramAvatarShape.forumRadius(dp(needInsetForStories() ? 24 : 38), dp(50), mzgramShapeCircle);
             }
         }
         // MZGram: avatar shape (MZGramAvatarShape)

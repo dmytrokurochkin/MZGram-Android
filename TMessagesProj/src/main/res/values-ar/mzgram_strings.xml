@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">نص خاص…</string>
     <string name="MZGramCustomChatThemes">سمات خاصة بالمحادثات</string>
     <string name="MZGramCustomChatThemesInfo">تظهر كل محادثة بالسمة والخلفية المختارتين لها. عند الإيقاف: كل المحادثات بسمة التطبيق.</string>
+    <string name="MZGramSingleCornerRadius">استدارة موحّدة</string>
+    <string name="MZGramSingleCornerRadiusInfo">ستحصل المنتديات على شكل الصور الرمزية نفسه للمحادثات.</string>
 </resources>

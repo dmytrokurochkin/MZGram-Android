@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">Өз мәтініңіз…</string>
     <string name="MZGramCustomChatThemes">Чаттардың өз тақырыптары</string>
     <string name="MZGramCustomChatThemesInfo">Әр чат өзіне таңдалған тақырыппен және тұсқағазбен көрсетіледі. Өшірулі: барлық чат қолданба тақырыбында.</string>
+    <string name="MZGramSingleCornerRadius">Бірыңғай дөңгелектеу</string>
+    <string name="MZGramSingleCornerRadiusInfo">Форумдар чаттар сияқты аватар пішінін алады.</string>
 </resources>

@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">Własny tekst…</string>
     <string name="MZGramCustomChatThemes">Własne motywy czatów</string>
     <string name="MZGramCustomChatThemesInfo">Każdy czat ma wybrany dla niego motyw i tapetę. Wyłączone: wszystkie czaty mają motyw aplikacji.</string>
+    <string name="MZGramSingleCornerRadius">Jednolite zaokrąglenie</string>
+    <string name="MZGramSingleCornerRadiusInfo">Fora dostaną taki sam kształt awatarów jak czaty.</string>
 </resources>

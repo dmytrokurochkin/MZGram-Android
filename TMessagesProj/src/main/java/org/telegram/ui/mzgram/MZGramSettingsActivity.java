@@ -249,6 +249,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SENDER_MINI_AVATARS = 220;
     private static final int BUTTON_TITLE_TEXT = 221;
     private static final int BUTTON_CUSTOM_CHAT_THEMES = 222;
+    private static final int BUTTON_SINGLE_CORNER_RADIUS = 223;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -898,7 +899,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
                         avatarShapePreview.update();
                     }
                 }));
-        items.add(UItem.asShadow(getString(R.string.MZGramAvatarShapeInfo)));
+        items.add(UItem.asCheck(BUTTON_SINGLE_CORNER_RADIUS, getString(R.string.MZGramSingleCornerRadius)).setChecked(MZGramConfig.singleCornerRadius));
+        items.add(UItem.asShadow(getString(R.string.MZGramSingleCornerRadiusInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatList)));
         items.add(check(BUTTON_FORCE_SNOW, R.string.MZGramForceSnow, MZGramConfig.forceSnow, R.string.MZGramForceSnowInfo));
@@ -1280,6 +1282,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_SINGLE_CORNER_RADIUS) {
+            MZGramConfig.toggleSingleCornerRadius();
+            ((TextCheckCell) view).setChecked(MZGramConfig.singleCornerRadius);
+            rebuildBelow();
         } else if (item.id == BUTTON_CUSTOM_CHAT_THEMES) {
             MZGramConfig.toggleCustomChatThemes();
             ((TextCheckCell) view).setChecked(MZGramConfig.customChatThemes);

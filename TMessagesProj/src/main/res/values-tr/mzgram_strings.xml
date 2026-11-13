@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">Kendi metniniz…</string>
     <string name="MZGramCustomChatThemes">Sohbete özel temalar</string>
     <string name="MZGramCustomChatThemesInfo">Her sohbet kendisi için seçilen tema ve duvar kağıdıyla görünür. Kapalı: tüm sohbetler uygulamanın temasında.</string>
+    <string name="MZGramSingleCornerRadius">Tek köşe yuvarlaklığı</string>
+    <string name="MZGramSingleCornerRadiusInfo">Forumlar, sohbetlerle aynı avatar şeklini alır.</string>
 </resources>

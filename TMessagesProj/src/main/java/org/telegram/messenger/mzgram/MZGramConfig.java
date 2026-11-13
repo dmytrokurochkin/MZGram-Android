@@ -482,6 +482,9 @@ public class MZGramConfig {
     // Chats keep the theme and wallpaper chosen for them; off, every chat has the app's theme
     public static boolean customChatThemes = true;
 
+    // Forums and other rounded squares of the avatars take the shape of the chats (MZGramAvatarShape.single)
+    public static boolean singleCornerRadius = false;
+
     static {
         loadConfig(false);
     }
@@ -738,6 +741,7 @@ public class MZGramConfig {
             titleText = Math.max(0, Math.min(5, preferences.getInt("titleText", 0)));
             titleTextCustom = preferences.getString("titleTextCustom", "");
             customChatThemes = preferences.getBoolean("customChatThemes", true);
+            singleCornerRadius = preferences.getBoolean("singleCornerRadius", false);
             configLoaded = true;
         }
     }
@@ -1863,5 +1867,11 @@ public class MZGramConfig {
     public static void toggleCustomChatThemes() {
         customChatThemes = !customChatThemes;
         putBoolean("customChatThemes", customChatThemes);
+    }
+
+    public static void toggleSingleCornerRadius() {
+        singleCornerRadius = !singleCornerRadius;
+        putBoolean("singleCornerRadius", singleCornerRadius);
+        MZGramAvatarShape.changed();
     }
 }

@@ -1271,4 +1271,6 @@
     <string name="MZGramTitleTextCustom">Свій текст…</string>
     <string name="MZGramCustomChatThemes">Кастомні теми у чатах</string>
     <string name="MZGramCustomChatThemesInfo">Кожен чат показується з темою й фоном, обраними для нього. Вимкнено: усі чати з темою додатку.</string>
+    <string name="MZGramSingleCornerRadius">Єдине закруглення</string>
+    <string name="MZGramSingleCornerRadiusInfo">Форуми матимуть таку ж форму аватарів, як і чати.</string>
 </resources>

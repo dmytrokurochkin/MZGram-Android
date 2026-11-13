@@ -151,6 +151,16 @@ class ScreensTest(unittest.TestCase):
         start = chat.index("private void setupChatTheme(EmojiThemes chatTheme, TLRPC.WallPaper wallPaper, boolean withAnimation, boolean createNewResources) {")
         self.assertIn("if (!org.telegram.messenger.mzgram.MZGramConfig.customChatThemes) return;", chat[start:start + 500])
 
+    def test_single_corner_radius(self):
+        config = read(CONFIG)
+        self.assertIn("public static boolean singleCornerRadius = false;", config)
+        toggle = config[config.index("public static void toggleSingleCornerRadius()"):]
+        self.assertIn("MZGramAvatarShape.changed();", toggle[:300])
+        shape = read(JAVA / "messenger/mzgram/MZGramAvatarShape.java")
+        self.assertIn("int r = single && asked[a] > 0 ? half : Math.min(asked[a], half);", shape)
+        self.assertIn("MZGramAvatarShape.forumRadius(dp(needInsetForStories() ? 24 : 38), dp(50), mzgramShapeCircle);", read(JAVA / "ui/ProfileActivity.java"))
+        self.assertIn("items.add(UItem.asCheck(BUTTON_SINGLE_CORNER_RADIUS, ", read(PAGE))
+
 
 if __name__ == "__main__":
     unittest.main()

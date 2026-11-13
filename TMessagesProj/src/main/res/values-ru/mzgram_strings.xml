@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">Свой текст…</string>
     <string name="MZGramCustomChatThemes">Свои темы в чатах</string>
     <string name="MZGramCustomChatThemesInfo">Каждый чат показывается с темой и обоями, выбранными для него. Выключено: все чаты в теме приложения.</string>
+    <string name="MZGramSingleCornerRadius">Единое скругление</string>
+    <string name="MZGramSingleCornerRadiusInfo">У форумов будет такая же форма аватаров, как у чатов.</string>
 </resources>

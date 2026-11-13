@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">Texte personnel…</string>
     <string name="MZGramCustomChatThemes">Thèmes propres aux discussions</string>
     <string name="MZGramCustomChatThemesInfo">Chaque discussion affiche le thème et le fond choisis pour elle. Désactivé : toutes ont le thème de l\'app.</string>
+    <string name="MZGramSingleCornerRadius">Arrondi unique</string>
+    <string name="MZGramSingleCornerRadiusInfo">Les forums auront la même forme d\'avatar que les discussions.</string>
 </resources>

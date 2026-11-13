@@ -151,6 +151,26 @@ class MZGramScreensTest {
         }
     }
 
+    // Single corner radius: a forum's rounded square counts as a circle, so
+    // forums get the shape of the chats; off, Telegram's radius is kept
+    @Test
+    fun singleCornerRadius_forumsLikeChats() {
+        val single = MZGramConfig.singleCornerRadius
+        val corners = MZGramConfig.avatarCorners
+        try {
+            MZGramConfig.setAvatarCorners(org.telegram.messenger.mzgram.MZGramAvatarShape.MAX)
+            if (MZGramConfig.singleCornerRadius) MZGramConfig.toggleSingleCornerRadius()
+            val forum = intArrayOf(16, 16, 16, 16)
+            assertTrue("off: Telegram's", org.telegram.messenger.mzgram.MZGramAvatarShape.apply(forum, 56f, IntArray(4)) === forum)
+            MZGramConfig.toggleSingleCornerRadius()
+            assertEquals(28, org.telegram.messenger.mzgram.MZGramAvatarShape.apply(forum, 56f, IntArray(4))[0])
+            assertEquals(28, org.telegram.messenger.mzgram.MZGramAvatarShape.forumRadius(16, 28, 0f))
+        } finally {
+            if (MZGramConfig.singleCornerRadius != single) MZGramConfig.toggleSingleCornerRadius()
+            MZGramConfig.setAvatarCorners(corners)
+        }
+    }
+
     // Download boost keeps to its three levels, whatever is set
     @Test
     fun downloadBoost_keepsToItsLevels() {

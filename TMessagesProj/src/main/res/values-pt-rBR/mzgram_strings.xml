@@ -1270,4 +1270,6 @@
     <string name="MZGramTitleTextCustom">Texto próprio…</string>
     <string name="MZGramCustomChatThemes">Temas próprios das conversas</string>
     <string name="MZGramCustomChatThemesInfo">Cada conversa mostra o tema e o papel de parede escolhidos para ela. Desativado: todas têm o tema do app.</string>
+    <string name="MZGramSingleCornerRadius">Arredondamento único</string>
+    <string name="MZGramSingleCornerRadiusInfo">Os fóruns terão o mesmo formato de avatar que as conversas.</string>
 </resources>

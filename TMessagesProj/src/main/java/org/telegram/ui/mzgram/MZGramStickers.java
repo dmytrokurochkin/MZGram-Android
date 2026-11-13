@@ -39,7 +39,12 @@ public final class MZGramStickers {
 
     /** Corner radius of a sticker in the chat: 0 as in Telegram, or a small rounding. */
     public static int roundRadius() {
-        return MZGramConfig.stickerRoundCorners ? dp(6) : 0;
+        return MZGramConfig.stickerShape == MZGramConfig.STICKER_SHAPE_ROUNDED ? dp(6) : 0;
+    }
+
+    /** Shape Message: a sticker takes the corners of a message bubble, as photos do. */
+    public static boolean messageShape() {
+        return MZGramConfig.stickerShape == MZGramConfig.STICKER_SHAPE_MESSAGE;
     }
 
     /** Whether the time over a sent sticker is hidden; it stays while sending, on errors and when selected. */

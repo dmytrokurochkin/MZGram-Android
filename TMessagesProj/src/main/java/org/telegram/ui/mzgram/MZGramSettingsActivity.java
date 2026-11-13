@@ -187,7 +187,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_CLEAN_LINKS = 109;
     private static final int BUTTON_COPY_PLAIN = 113;
     private static final int BUTTON_INLINE_MATH = 114;
-    private static final int BUTTON_STICKER_ROUND = 142;
+    private static final int BUTTON_STICKER_SHAPE = 142;
     private static final int BUTTON_STICKER_TIME = 143;
     private static final int BUTTON_GRANULAR_PERMISSIONS = 141;
     private static final int BUTTON_SPLIT_GIF_INLINE = 144;
@@ -261,6 +261,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SWIPE_TO_PIP = 232;
     private static final int BUTTON_UNMUTE_WITH_VOLUME_BUTTONS = 233;
     private static final int BUTTON_PAUSE_VOICE_ON_MINIMIZE = 234;
+    private static final int BUTTON_UNLIMITED_RECENT_STICKERS = 235;
+    private static final int BUTTON_REPLY_COLORS = 236;
+    private static final int BUTTON_REPLY_EMOJI = 237;
+    private static final int BUTTON_REPLY_BACKGROUND = 238;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -641,6 +645,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }, getString(R.string.MZGramCancel)));
     }
 
+    private static String stickerShapeTitle(int shape) {
+        switch (shape) {
+            case MZGramConfig.STICKER_SHAPE_ROUNDED: return getString(R.string.MZGramStickerShapeRounded);
+            case MZGramConfig.STICKER_SHAPE_MESSAGE: return getString(R.string.MZGramStickerShapeMessage);
+            default: return getString(R.string.MZGramStickerShapeDefault);
+        }
+    }
+
     private static String seekTitle(int seconds) {
         switch (seconds) {
             case 5: return getString(R.string.MZGramSeek5);
@@ -1004,9 +1016,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramStickers)));
         items.add(UItem.asIntSlideView(1, MZGramStickers.SIZE_MIN, MZGramConfig.stickerSize, MZGramStickers.SIZE_MAX,
                 val -> val + "%", MZGramConfig::setStickerSize));
-        items.add(UItem.asCheck(BUTTON_STICKER_ROUND, getString(R.string.MZGramStickerRound)).setChecked(MZGramConfig.stickerRoundCorners));
+        items.add(UItem.asButton(BUTTON_STICKER_SHAPE, getString(R.string.MZGramStickerShape), stickerShapeTitle(MZGramConfig.stickerShape)));
         items.add(UItem.asCheck(BUTTON_STICKER_TIME, getString(R.string.MZGramStickerTime)).setChecked(MZGramConfig.hideStickerTime));
+        items.add(check(BUTTON_UNLIMITED_RECENT_STICKERS, R.string.MZGramUnlimitedRecentStickers, MZGramConfig.unlimitedRecentStickers, R.string.MZGramUnlimitedRecentStickersInfo));
         items.add(UItem.asShadow(getString(R.string.MZGramStickersInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderReplies)));
+        items.add(UItem.asCheck(BUTTON_REPLY_COLORS, getString(R.string.MZGramReplyColors)).setChecked(MZGramConfig.replyColors));
+        items.add(UItem.asCheck(BUTTON_REPLY_EMOJI, getString(R.string.MZGramReplyEmoji)).setChecked(MZGramConfig.replyEmoji));
+        items.add(UItem.asCheck(BUTTON_REPLY_BACKGROUND, getString(R.string.MZGramReplyBackground)).setChecked(MZGramConfig.replyBackground));
+        items.add(UItem.asShadow(getString(R.string.MZGramRepliesInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderGestures)));
         items.add(check(BUTTON_DOUBLE_TAP_ACTIONS, R.string.MZGramDoubleTapActions, MZGramConfig.doubleTapActions, R.string.MZGramDoubleTapActionsInfo));
@@ -1320,6 +1339,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_REPLY_BACKGROUND) {
+            MZGramConfig.toggleReplyBackground();
+            ((TextCheckCell) view).setChecked(MZGramConfig.replyBackground);
+        } else if (item.id == BUTTON_REPLY_EMOJI) {
+            MZGramConfig.toggleReplyEmoji();
+            ((TextCheckCell) view).setChecked(MZGramConfig.replyEmoji);
+        } else if (item.id == BUTTON_REPLY_COLORS) {
+            MZGramConfig.toggleReplyColors();
+            ((TextCheckCell) view).setChecked(MZGramConfig.replyColors);
+        } else if (item.id == BUTTON_UNLIMITED_RECENT_STICKERS) {
+            MZGramConfig.toggleUnlimitedRecentStickers();
+            ((TextCheckCell) view).setChecked(MZGramConfig.unlimitedRecentStickers);
         } else if (item.id == BUTTON_PAUSE_VOICE_ON_MINIMIZE) {
             MZGramConfig.togglePauseVoiceOnMinimize();
             ((TextCheckCell) view).setChecked(MZGramConfig.pauseVoiceOnMinimize);
@@ -1476,9 +1507,20 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_GRANULAR_PERMISSIONS) {
             MZGramConfig.toggleGranularGroupPermissions();
             ((TextCheckCell) view).setChecked(MZGramConfig.granularGroupPermissions);
-        } else if (item.id == BUTTON_STICKER_ROUND) {
-            MZGramConfig.toggleStickerRoundCorners();
-            ((TextCheckCell) view).setChecked(MZGramConfig.stickerRoundCorners);
+        } else if (item.id == BUTTON_STICKER_SHAPE) {
+            if (getParentActivity() == null) {
+                return;
+            }
+            String[] options = new String[3];
+            for (int i = 0; i < options.length; i++) {
+                options[i] = stickerShapeTitle(i);
+            }
+            showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramStickerShape), MZGramConfig.stickerShape, (dialog, which) -> {
+                MZGramConfig.setStickerShape(which);
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            }, getString(R.string.MZGramCancel)));
         } else if (item.id == BUTTON_STICKER_TIME) {
             MZGramConfig.toggleHideStickerTime();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideStickerTime);

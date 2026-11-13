@@ -616,7 +616,6 @@
     <string name="MZGramPermissionGames">Ойындар</string>
     <string name="MZGramPermissionInline">Инлайн-боттар</string>
     <string name="MZGramStickers">Чаттардағы стикерлер</string>
-    <string name="MZGramStickerRound">Стикерлердің дөңгеленген бұрыштары</string>
     <string name="MZGramStickerTime">Стикерлердегі уақытты жасыру</string>
     <string name="MZGramStickersInfo">Сырғытпа чаттардағы стикерлердің өлшемін береді, 100% Telegram-дағыдай. Жасырылған уақыт стикер жіберіліп жатқанда, жіберілмегенде немесе таңдалғанда көрінеді. Өзгерістен кейін көрсетілген хабарламаларға қолданылады.</string>
     <string name="MZGramSplitGifInline">GIF және инлайн-боттар өз рұқсатымен</string>
@@ -1296,4 +1295,15 @@
     <string name="MZGramUnmuteWithVolumeButtons">Дыбыс түймелерімен дыбысты қосу</string>
     <string name="MZGramUnmuteWithVolumeButtonsInfo">Дыбыс түймесі Telegram-дағыдай жүйе дыбысын өзгертудің орнына чатта ойнап тұрған бейненің дыбысын қосады.</string>
     <string name="MZGramPauseVoiceOnMinimize">Кішірейткенде дауыстық хабарламаларды кідірту</string>
+    <string name="MZGramStickerShape">Стикер пішіні</string>
+    <string name="MZGramStickerShapeDefault">Әдепкі</string>
+    <string name="MZGramStickerShapeRounded">Дөңгелектелген</string>
+    <string name="MZGramStickerShapeMessage">Хабарлама</string>
+    <string name="MZGramUnlimitedRecentStickers">Шектеусіз соңғы стикерлер</string>
+    <string name="MZGramUnlimitedRecentStickersInfo">Telegram шегінің орнына осы құрылғыда 200-ге дейін соңғы стикер. Синхрондаудан кейін тізім қайтадан Telegram серверінен алынады.</string>
+    <string name="MZGramHeaderReplies">Жауаптар</string>
+    <string name="MZGramReplyColors">Жауаптардағы түстер</string>
+    <string name="MZGramReplyEmoji">Жауаптардағы эмодзи</string>
+    <string name="MZGramReplyBackground">Жауаптардың фоны</string>
+    <string name="MZGramRepliesInfo">Хабарламадағы жауап Telegram-дағыдай авторының түсі мен эмодзиін және боялған фонды алады. Өшірілсе, жауаптар тақырып түсін пайдаланады.</string>
 </resources>

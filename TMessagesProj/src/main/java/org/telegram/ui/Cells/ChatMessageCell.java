@@ -9826,9 +9826,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     availableTimeWidth = photoWidth - dp(14);
                     backgroundWidth = photoWidth + dp(12);
 
-                    // MZGram: rounded corners of stickers (0 as in Telegram unless turned on)
+                    // MZGram: sticker shape (Default as in Telegram, Rounded, or Message: corners of the bubble)
                     photoImage.setRoundRadius(org.telegram.ui.mzgram.MZGramStickers.roundRadius());
-                    canChangeRadius = false;
+                    canChangeRadius = org.telegram.ui.mzgram.MZGramStickers.messageShape();
                     if (!messageObject.isOutOwner() && MessageObject.isPremiumSticker(messageObject.getDocument())) {
                         flipImage = true;
                     }
@@ -24281,7 +24281,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             paint.setAlpha((int) (oldAlpha * timeAlpha * alpha * .6f));
 
             int r;
-            if (documentAttachType != DOCUMENT_ATTACH_TYPE_ROUND && documentAttachType != DOCUMENT_ATTACH_TYPE_STICKER && currentMessageObject.type != MessageObject.TYPE_EMOJIS) {
+            // MZGram: with the sticker shape Message the time takes the corner of the sticker, as on photos
+            if (documentAttachType != DOCUMENT_ATTACH_TYPE_ROUND && documentAttachType != DOCUMENT_ATTACH_TYPE_STICKER && currentMessageObject.type != MessageObject.TYPE_EMOJIS
+                    || documentAttachType == DOCUMENT_ATTACH_TYPE_STICKER && org.telegram.ui.mzgram.MZGramStickers.messageShape()) {
                 int[] rad = photoImage.getRoundRadius();
                 r = Math.min(dp(8), Math.max(rad[2], rad[3]));
                 bigRadius = SharedConfig.bubbleRadius >= 10;

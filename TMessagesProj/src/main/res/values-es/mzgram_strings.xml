@@ -616,7 +616,6 @@
     <string name="MZGramPermissionGames">Juegos</string>
     <string name="MZGramPermissionInline">Bots inline</string>
     <string name="MZGramStickers">Stickers en chats</string>
-    <string name="MZGramStickerRound">Esquinas redondeadas en stickers</string>
     <string name="MZGramStickerTime">Ocultar la hora en stickers</string>
     <string name="MZGramStickersInfo">El control deslizante fija el tamaño de los stickers en los chats, 100 % como en Telegram. La hora oculta aparece mientras un sticker se envía, falla o está seleccionado. Se aplica a los mensajes mostrados después del cambio.</string>
     <string name="MZGramSplitGifInline">GIF y bots en línea con su propio permiso</string>
@@ -1296,4 +1295,15 @@
     <string name="MZGramUnmuteWithVolumeButtons">Activar sonido con los botones de volumen</string>
     <string name="MZGramUnmuteWithVolumeButtonsInfo">Un botón de volumen activa el sonido del vídeo que se reproduce en el chat en lugar de cambiar el volumen del sistema, como en Telegram.</string>
     <string name="MZGramPauseVoiceOnMinimize">Pausar audios al minimizar</string>
+    <string name="MZGramStickerShape">Forma del sticker</string>
+    <string name="MZGramStickerShapeDefault">Predeterminada</string>
+    <string name="MZGramStickerShapeRounded">Redondeada</string>
+    <string name="MZGramStickerShapeMessage">Mensaje</string>
+    <string name="MZGramUnlimitedRecentStickers">Stickers recientes ilimitados</string>
+    <string name="MZGramUnlimitedRecentStickersInfo">Hasta 200 stickers recientes en este dispositivo en lugar del límite de Telegram. Tras una sincronización, la lista vuelve a seguir al servidor de Telegram.</string>
+    <string name="MZGramHeaderReplies">Respuestas</string>
+    <string name="MZGramReplyColors">Colores en respuestas</string>
+    <string name="MZGramReplyEmoji">Emoji en respuestas</string>
+    <string name="MZGramReplyBackground">Fondo de respuestas</string>
+    <string name="MZGramRepliesInfo">Una respuesta en un mensaje toma el color y el emoji de su autor y un fondo teñido, como en Telegram. Desactivado, las respuestas usan el color del tema.</string>
 </resources>

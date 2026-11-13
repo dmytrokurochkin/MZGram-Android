@@ -41,15 +41,18 @@ public final class MZGramRelativeLastSeen {
         if (date <= 0 || diff < 0 || diff >= DAY) {
             return null;
         }
+        // Telegram's own text: the status line is Telegram's, only the time in it is relative
         return LocaleController.formatString(R.string.LastSeenDateFormatted, ago(diff));
     }
 
     static String ago(long seconds) {
         long minutes = seconds / 60;
         if (minutes < 1) {
+            // Telegram's own text: "just now" and the minutes and hours below, as Telegram writes them
             return LocaleController.getString(R.string.LessMinuteAgo);
         }
         if (minutes == 1) {
+            // Telegram's own text: one minute ago
             return LocaleController.getString(R.string.MinuteAgo);
         }
         if (minutes < 60) {
@@ -57,6 +60,7 @@ public final class MZGramRelativeLastSeen {
         }
         long hours = minutes / 60;
         if (hours == 1) {
+            // Telegram's own text: one hour ago
             return LocaleController.getString(R.string.HourAgo);
         }
         return LocaleController.formatPluralString("HoursAgo", (int) hours);

@@ -81,7 +81,7 @@ public final class MZGramTitleText {
                 return TextUtils.isEmpty(first) ? MZGramBranding.APP_NAME : first;
             }
             case CHATS:
-                // Telegram's own word, in Telegram's language like the rest of the chat list
+                // Telegram's own text: the word of the chat list, in Telegram's language like the rest of it
                 return LocaleController.getString(R.string.FilterChats);
             case CUSTOM: {
                 String custom = clean(MZGramConfig.titleTextCustom);

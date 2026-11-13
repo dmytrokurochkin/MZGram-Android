@@ -115,7 +115,9 @@ Settings > MZGram > Chats.
 
 | Feature | What it does, and how it differs from Telegram | Since |
 |---|---|---|
-| Stickers in chats | A slider for the size of stickers (100% as in Telegram), rounded corners, and hiding the time on stickers. | Next release |
+| Stickers in chats | A slider for the size of stickers (100% as in Telegram), Sticker shape (Default as in Telegram, Rounded, or Message: the corners of a message bubble, with the time in the corner as on photos; an earlier "rounded corners" switch reads as Rounded), and hiding the time on stickers. | Next release |
+| Unlimited recent stickers | Settings > MZGram > Chats > Stickers. Up to 200 recent stickers on this device instead of Telegram's limit (usually 20-30); after a sync the list follows Telegram's server again. Off by default. | Next release |
+| Replies | Settings > MZGram > Chats > Replies: Colors in replies, Emoji in replies, Background of replies. On by default, as in Telegram; off, a reply takes the theme color, has no emoji pattern of its author or no tinted background. | Next release |
 | Wide channel posts | Channel posts take almost the whole width of the screen, with the channel avatar next to its name. Off by default. | Next release |
 | Separate permissions | In group permissions and member restrictions, Stickers and GIFs is split into Stickers, GIFs, Games and Inline bots, which Telegram stores apart. A second switch makes the GIF tab and inline results in a group where you are restricted follow their own permission. Off by default. | Next release |
 | Emoji links as custom emoji | A custom emoji that some apps send as a link over an ordinary emoji is shown as the custom emoji itself; the message keeps the link. Off by default. | Next release |

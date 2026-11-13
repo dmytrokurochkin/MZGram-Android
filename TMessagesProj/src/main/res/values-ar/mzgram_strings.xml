@@ -616,7 +616,6 @@
     <string name="MZGramPermissionGames">الألعاب</string>
     <string name="MZGramPermissionInline">البوتات المضمنة</string>
     <string name="MZGramStickers">الملصقات في الدردشات</string>
-    <string name="MZGramStickerRound">زوايا مستديرة للملصقات</string>
     <string name="MZGramStickerTime">إخفاء الوقت على الملصقات</string>
     <string name="MZGramStickersInfo">يحدد شريط التمرير حجم الملصقات في الدردشات، و100% كما في Telegram. يظهر الوقت المخفي أثناء إرسال الملصق أو فشل إرساله أو تحديده. ينطبق على الرسائل المعروضة بعد التغيير.</string>
     <string name="MZGramSplitGifInline">صور GIF والبوتات المضمنة بإذنها الخاص</string>
@@ -1296,4 +1295,15 @@
     <string name="MZGramUnmuteWithVolumeButtons">تشغيل الصوت بأزرار مستوى الصوت</string>
     <string name="MZGramUnmuteWithVolumeButtonsInfo">يشغّل زر مستوى الصوت صوت الفيديو المعروض في المحادثة بدلًا من تغيير مستوى صوت النظام، كما في Telegram.</string>
     <string name="MZGramPauseVoiceOnMinimize">إيقاف الرسائل الصوتية مؤقتًا عند التصغير</string>
+    <string name="MZGramStickerShape">شكل الملصق</string>
+    <string name="MZGramStickerShapeDefault">افتراضي</string>
+    <string name="MZGramStickerShapeRounded">مستدير</string>
+    <string name="MZGramStickerShapeMessage">رسالة</string>
+    <string name="MZGramUnlimitedRecentStickers">ملصقات حديثة غير محدودة</string>
+    <string name="MZGramUnlimitedRecentStickersInfo">حتى 200 ملصق حديث على هذا الجهاز بدلًا من حد Telegram. بعد المزامنة تعود القائمة لتتبع خادم Telegram.</string>
+    <string name="MZGramHeaderReplies">الردود</string>
+    <string name="MZGramReplyColors">الألوان في الردود</string>
+    <string name="MZGramReplyEmoji">الرموز التعبيرية في الردود</string>
+    <string name="MZGramReplyBackground">خلفية الردود</string>
+    <string name="MZGramRepliesInfo">يأخذ الرد في الرسالة لون كاتبه ورمزه التعبيري وخلفية ملونة، كما في Telegram. عند الإيقاف تستخدم الردود لون السمة.</string>
 </resources>

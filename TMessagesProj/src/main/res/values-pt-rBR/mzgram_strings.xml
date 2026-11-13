@@ -616,7 +616,6 @@
     <string name="MZGramPermissionGames">Jogos</string>
     <string name="MZGramPermissionInline">Bots inline</string>
     <string name="MZGramStickers">Figurinhas nos chats</string>
-    <string name="MZGramStickerRound">Cantos arredondados nas figurinhas</string>
     <string name="MZGramStickerTime">Ocultar horário nas figurinhas</string>
     <string name="MZGramStickersInfo">O controle define o tamanho das figurinhas nos chats, 100% como no Telegram. O horário oculto aparece enquanto a figurinha é enviada, falha ou está selecionada. Vale para mensagens exibidas após a mudança.</string>
     <string name="MZGramSplitGifInline">GIFs e bots inline pela própria permissão</string>
@@ -1296,4 +1295,15 @@
     <string name="MZGramUnmuteWithVolumeButtons">Ativar som com os botões de volume</string>
     <string name="MZGramUnmuteWithVolumeButtonsInfo">Um botão de volume ativa o som do vídeo em reprodução na conversa em vez de mudar o volume do sistema, como no Telegram.</string>
     <string name="MZGramPauseVoiceOnMinimize">Pausar áudios ao minimizar</string>
+    <string name="MZGramStickerShape">Formato da figurinha</string>
+    <string name="MZGramStickerShapeDefault">Padrão</string>
+    <string name="MZGramStickerShapeRounded">Arredondado</string>
+    <string name="MZGramStickerShapeMessage">Mensagem</string>
+    <string name="MZGramUnlimitedRecentStickers">Figurinhas recentes ilimitadas</string>
+    <string name="MZGramUnlimitedRecentStickersInfo">Até 200 figurinhas recentes neste dispositivo em vez do limite do Telegram. Após uma sincronização, a lista volta a seguir o servidor do Telegram.</string>
+    <string name="MZGramHeaderReplies">Respostas</string>
+    <string name="MZGramReplyColors">Cores nas respostas</string>
+    <string name="MZGramReplyEmoji">Emoji nas respostas</string>
+    <string name="MZGramReplyBackground">Fundo das respostas</string>
+    <string name="MZGramRepliesInfo">Uma resposta numa mensagem recebe a cor e o emoji do autor e um fundo colorido, como no Telegram. Desativado, as respostas usam a cor do tema.</string>
 </resources>

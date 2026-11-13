@@ -617,7 +617,6 @@
     <string name="MZGramPermissionGames">Ігри</string>
     <string name="MZGramPermissionInline">Інлайн-боти</string>
     <string name="MZGramStickers">Стікери в чатах</string>
-    <string name="MZGramStickerRound">Заокруглені кути стікерів</string>
     <string name="MZGramStickerTime">Ховати час на стікерах</string>
     <string name="MZGramStickersInfo">Повзунок задає розмір стікерів у чатах, 100% як у Telegram. Прихований час з\'являється, поки стікер надсилається, не надіслався або виділений. Діє на повідомлення, показані після зміни.</string>
     <string name="MZGramSplitGifInline">GIF та інлайн-боти за власним дозволом</string>
@@ -1297,4 +1296,15 @@
     <string name="MZGramUnmuteWithVolumeButtons">Вмикання звуку кнопками гучності</string>
     <string name="MZGramUnmuteWithVolumeButtonsInfo">Натискання кнопки гучності вмикає звук у відео в чаті замість зміни системної гучності, як у Telegram.</string>
     <string name="MZGramPauseVoiceOnMinimize">Пауза голосових при згортанні</string>
+    <string name="MZGramStickerShape">Форма наліпки</string>
+    <string name="MZGramStickerShapeDefault">Типово</string>
+    <string name="MZGramStickerShapeRounded">Закруглено</string>
+    <string name="MZGramStickerShapeMessage">Повідомлення</string>
+    <string name="MZGramUnlimitedRecentStickers">Необмежені недавні наліпки</string>
+    <string name="MZGramUnlimitedRecentStickersInfo">До 200 недавніх наліпок на цьому пристрої замість обмеження Telegram. Після синхронізації список знову береться з сервера Telegram.</string>
+    <string name="MZGramHeaderReplies">Відповіді</string>
+    <string name="MZGramReplyColors">Кольори у відповідях</string>
+    <string name="MZGramReplyEmoji">Емодзі у відповідях</string>
+    <string name="MZGramReplyBackground">Фон відповідей</string>
+    <string name="MZGramRepliesInfo">Відповідь у повідомленні має колір і емодзі автора та підфарбований фон, як у Telegram. Якщо вимкнути, відповіді мають колір теми.</string>
 </resources>

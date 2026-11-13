@@ -318,9 +318,13 @@ public class MZGramConfig {
     // Typing "=" after an expression in the message field adds the result (MZGramInlineMath).
     public static boolean inlineMath = false;
 
-    // Stickers in chats: size in percent (100 as in Telegram), rounded corners, no time over stickers
+    // Stickers in chats: size in percent (100 as in Telegram), shape, no time over stickers
     public static int stickerSize = 100;
-    public static boolean stickerRoundCorners = false;
+    // Sticker shape: 0 as in Telegram, 1 rounded corners, 2 rounded like a message bubble
+    public static final int STICKER_SHAPE_DEFAULT = 0;
+    public static final int STICKER_SHAPE_ROUNDED = 1;
+    public static final int STICKER_SHAPE_MESSAGE = 2;
+    public static int stickerShape = STICKER_SHAPE_DEFAULT;
     public static boolean hideStickerTime = false;
 
     // Wide channel posts: posts of broadcast channels across the screen
@@ -525,6 +529,18 @@ public class MZGramConfig {
     // A playing voice message pauses when the app goes to the background (MZGramRoundPause.onAppMinimized)
     public static boolean pauseVoiceOnMinimize = false;
 
+    // Recent stickers on this device keep up to UNLIMITED_RECENT_STICKERS instead of Telegram's limit (MediaDataController)
+    public static boolean unlimitedRecentStickers = false;
+
+    // A reply is drawn in the colour of its author, as in Telegram; off, every reply is the theme colour (ReplyMessageLine)
+    public static boolean replyColors = true;
+
+    // The emoji pattern of the author in a reply, as in Telegram (ReplyMessageLine)
+    public static boolean replyEmoji = true;
+
+    // The tinted background of a reply, as in Telegram (ReplyMessageLine)
+    public static boolean replyBackground = true;
+
     static {
         loadConfig(false);
     }
@@ -716,7 +732,10 @@ public class MZGramConfig {
             copyPlainText = preferences.getBoolean("copyPlainText", false);
             inlineMath = preferences.getBoolean("inlineMath", false);
             stickerSize = preferences.getInt("stickerSize", 100);
-            stickerRoundCorners = preferences.getBoolean("stickerRoundCorners", false);
+            stickerShape = preferences.getInt("stickerShape", preferences.getBoolean("stickerRoundCorners", false) ? STICKER_SHAPE_ROUNDED : STICKER_SHAPE_DEFAULT);
+            if (stickerShape < STICKER_SHAPE_DEFAULT || stickerShape > STICKER_SHAPE_MESSAGE) {
+                stickerShape = STICKER_SHAPE_DEFAULT;
+            }
             hideStickerTime = preferences.getBoolean("hideStickerTime", false);
             wideChannelPosts = preferences.getBoolean("wideChannelPosts", false);
             granularGroupPermissions = preferences.getBoolean("granularGroupPermissions", false);
@@ -794,6 +813,10 @@ public class MZGramConfig {
             swipeToPip = preferences.getBoolean("swipeToPip", false);
             unmuteWithVolumeButtons = preferences.getBoolean("unmuteWithVolumeButtons", true);
             pauseVoiceOnMinimize = preferences.getBoolean("pauseVoiceOnMinimize", false);
+            unlimitedRecentStickers = preferences.getBoolean("unlimitedRecentStickers", false);
+            replyColors = preferences.getBoolean("replyColors", true);
+            replyEmoji = preferences.getBoolean("replyEmoji", true);
+            replyBackground = preferences.getBoolean("replyBackground", true);
             configLoaded = true;
         }
     }
@@ -1775,9 +1798,16 @@ public class MZGramConfig {
         preferences().edit().putInt("stickerSize", size).apply();
     }
 
-    public static void toggleStickerRoundCorners() {
-        stickerRoundCorners = !stickerRoundCorners;
-        putBoolean("stickerRoundCorners", stickerRoundCorners);
+    public static void setStickerShape(int shape) {
+        stickerShape = shape < STICKER_SHAPE_DEFAULT || shape > STICKER_SHAPE_MESSAGE ? STICKER_SHAPE_DEFAULT : shape;
+        putInt("stickerShape", stickerShape);
+    }
+
+    // Unlimited recent stickers: the list on this device keeps up to this many instead of Telegram's limit
+    public static final int UNLIMITED_RECENT_STICKERS = 200;
+
+    public static int recentStickersLimit(int telegramLimit) {
+        return unlimitedRecentStickers ? Math.max(telegramLimit, UNLIMITED_RECENT_STICKERS) : telegramLimit;
     }
 
     public static void toggleWideChannelPosts() {
@@ -1994,5 +2024,25 @@ public class MZGramConfig {
     public static void togglePauseVoiceOnMinimize() {
         pauseVoiceOnMinimize = !pauseVoiceOnMinimize;
         putBoolean("pauseVoiceOnMinimize", pauseVoiceOnMinimize);
+    }
+
+    public static void toggleUnlimitedRecentStickers() {
+        unlimitedRecentStickers = !unlimitedRecentStickers;
+        putBoolean("unlimitedRecentStickers", unlimitedRecentStickers);
+    }
+
+    public static void toggleReplyColors() {
+        replyColors = !replyColors;
+        putBoolean("replyColors", replyColors);
+    }
+
+    public static void toggleReplyEmoji() {
+        replyEmoji = !replyEmoji;
+        putBoolean("replyEmoji", replyEmoji);
+    }
+
+    public static void toggleReplyBackground() {
+        replyBackground = !replyBackground;
+        putBoolean("replyBackground", replyBackground);
     }
 }

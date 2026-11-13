@@ -616,7 +616,6 @@
     <string name="MZGramPermissionGames">Gry</string>
     <string name="MZGramPermissionInline">Boty inline</string>
     <string name="MZGramStickers">Naklejki w czatach</string>
-    <string name="MZGramStickerRound">Zaokrąglone rogi naklejek</string>
     <string name="MZGramStickerTime">Ukrywaj godzinę na naklejkach</string>
     <string name="MZGramStickersInfo">Suwak ustawia rozmiar naklejek w czatach, 100% jak w Telegramie. Ukryta godzina pojawia się, gdy naklejka jest wysyłana, nie została wysłana lub jest zaznaczona. Dotyczy wiadomości wyświetlonych po zmianie.</string>
     <string name="MZGramSplitGifInline">GIF-y i boty inline według własnego uprawnienia</string>
@@ -1296,4 +1295,15 @@
     <string name="MZGramUnmuteWithVolumeButtons">Dźwięk przyciskami głośności</string>
     <string name="MZGramUnmuteWithVolumeButtonsInfo">Przycisk głośności włącza dźwięk filmu odtwarzanego w czacie zamiast zmieniać głośność systemu, jak w Telegramie.</string>
     <string name="MZGramPauseVoiceOnMinimize">Wstrzymuj głosówki po zminimalizowaniu</string>
+    <string name="MZGramStickerShape">Kształt naklejki</string>
+    <string name="MZGramStickerShapeDefault">Domyślny</string>
+    <string name="MZGramStickerShapeRounded">Zaokrąglony</string>
+    <string name="MZGramStickerShapeMessage">Wiadomość</string>
+    <string name="MZGramUnlimitedRecentStickers">Nieograniczone ostatnie naklejki</string>
+    <string name="MZGramUnlimitedRecentStickersInfo">Do 200 ostatnich naklejek na tym urządzeniu zamiast limitu Telegrama. Po synchronizacji lista znów pochodzi z serwera Telegrama.</string>
+    <string name="MZGramHeaderReplies">Odpowiedzi</string>
+    <string name="MZGramReplyColors">Kolory w odpowiedziach</string>
+    <string name="MZGramReplyEmoji">Emoji w odpowiedziach</string>
+    <string name="MZGramReplyBackground">Tło odpowiedzi</string>
+    <string name="MZGramRepliesInfo">Odpowiedź w wiadomości ma kolor i emoji autora oraz zabarwione tło, jak w Telegramie. Po wyłączeniu odpowiedzi mają kolor motywu.</string>
 </resources>

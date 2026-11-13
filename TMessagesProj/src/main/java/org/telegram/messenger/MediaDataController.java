@@ -1019,7 +1019,8 @@ public class MediaDataController extends BaseController {
                     }
                 });
             }
-            maxCount = getMessagesController().maxRecentStickersCount;
+            // MZGram: Unlimited recent stickers
+            maxCount = org.telegram.messenger.mzgram.MZGramConfig.recentStickersLimit(getMessagesController().maxRecentStickersCount);
         }
         if (recentStickers[type].size() > maxCount || remove) {
             TLRPC.Document old = remove ? document : recentStickers[type].remove(recentStickers[type].size() - 1);
@@ -2094,7 +2095,8 @@ public class MediaDataController extends BaseController {
                         } else if (type == TYPE_FAVE) {
                             maxCount = getMessagesController().maxFaveStickersCount;
                         } else {
-                            maxCount = getMessagesController().maxRecentStickersCount;
+                            // MZGram: Unlimited recent stickers
+                            maxCount = org.telegram.messenger.mzgram.MZGramConfig.recentStickersLimit(getMessagesController().maxRecentStickersCount);
                         }
                     }
                     database.beginTransaction();

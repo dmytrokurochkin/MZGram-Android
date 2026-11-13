@@ -419,6 +419,14 @@ public class ReplyMessageLine {
             backgroundColor = Theme.multAlpha(color1, 0.10f);
             nameColor = Theme.getColor(Theme.key_chat_inReplyNameText, resourcesProvider);
         }
+        // MZGram: Settings > MZGram > Chats > Replies (colours, emoji, background; all on as in Telegram)
+        if (type == TYPE_REPLY && !org.telegram.messenger.mzgram.MZGramConfig.replyColors) {
+            hasColor2 = false;
+            hasColor3 = false;
+            color1 = color2 = color3 = Theme.getColor(Theme.key_chat_inReplyLine, resourcesProvider);
+            backgroundColor = Theme.multAlpha(color1, 0.10f);
+            nameColor = Theme.getColor(Theme.key_chat_inReplyNameText, resourcesProvider);
+        }
         if (messageObject.shouldDrawWithoutBackground()) {
             hasColor2 = false;
             hasColor3 = false;
@@ -444,6 +452,13 @@ public class ReplyMessageLine {
         }
         if ((type == TYPE_REPLY || type == TYPE_LINK || type == TYPE_CONTACT) && messageObject != null && messageObject.overrideLinkEmoji != -1) {
             emojiDocumentId = messageObject.overrideLinkEmoji;
+        }
+        if (type == TYPE_REPLY && !org.telegram.messenger.mzgram.MZGramConfig.replyEmoji) {
+            emojiDocumentId = 0;
+            stickerDocumentId = 0;
+        }
+        if (type == TYPE_REPLY && !org.telegram.messenger.mzgram.MZGramConfig.replyBackground) {
+            backgroundColor = Color.TRANSPARENT;
         }
         if (emojiDocumentId != 0 && emoji == null && parentView != null) {
             emoji = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(parentView, false, dp(20), AnimatedEmojiDrawable.CACHE_TYPE_ALERT_PREVIEW_STATIC);

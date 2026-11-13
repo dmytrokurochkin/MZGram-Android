@@ -229,6 +229,28 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("org.telegram.messenger.mzgram.MZGramRoundPause.onAppMinimized();", launch)
         self.assertIn("if (!MZGramConfig.pauseVoiceOnMinimize) {", read(JAVA / "messenger/mzgram/MZGramRoundPause.java"))
 
+    def test_replies_sticker_shape_recent_stickers(self):
+        self.switch("replyColors", "true", "BUTTON_REPLY_COLORS")
+        self.switch("replyEmoji", "true", "BUTTON_REPLY_EMOJI")
+        self.switch("replyBackground", "true", "BUTTON_REPLY_BACKGROUND")
+        self.switch("unlimitedRecentStickers", "false", "BUTTON_UNLIMITED_RECENT_STICKERS")
+        line = read(JAVA / "ui/Components/ReplyMessageLine.java")
+        self.assertIn("if (type == TYPE_REPLY && !org.telegram.messenger.mzgram.MZGramConfig.replyColors) {", line)
+        self.assertIn("if (type == TYPE_REPLY && !org.telegram.messenger.mzgram.MZGramConfig.replyEmoji) {", line)
+        self.assertIn("if (type == TYPE_REPLY && !org.telegram.messenger.mzgram.MZGramConfig.replyBackground) {", line)
+        config = read(CONFIG)
+        self.assertIn("public static int stickerShape = STICKER_SHAPE_DEFAULT;", config)
+        self.assertNotIn("stickerRoundCorners =", config)
+        self.assertIn('preferences.getBoolean("stickerRoundCorners", false) ? STICKER_SHAPE_ROUNDED', config)
+        self.assertIn('integer(CONFIG, "stickerShape", 0, 2);', read(BACKUP))
+        cell = read(JAVA / "ui/Cells/ChatMessageCell.java")
+        self.assertIn("canChangeRadius = org.telegram.ui.mzgram.MZGramStickers.messageShape();", cell)
+        self.assertIn("documentAttachType == DOCUMENT_ATTACH_TYPE_STICKER && org.telegram.ui.mzgram.MZGramStickers.messageShape()", cell)
+        self.assertIn("items.add(UItem.asButton(BUTTON_STICKER_SHAPE, ", read(PAGE))
+        media = read(JAVA / "messenger/MediaDataController.java")
+        self.assertEqual(2, media.count("MZGramConfig.recentStickersLimit(getMessagesController().maxRecentStickersCount)"))
+        self.assertNotIn("= getMessagesController().maxRecentStickersCount;", media)
+
 
 if __name__ == "__main__":
     unittest.main()

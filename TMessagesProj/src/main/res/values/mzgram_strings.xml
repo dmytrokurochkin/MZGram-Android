@@ -616,7 +616,6 @@
     <string name="MZGramPermissionGames">Games</string>
     <string name="MZGramPermissionInline">Inline bots</string>
     <string name="MZGramStickers">Stickers in chats</string>
-    <string name="MZGramStickerRound">Rounded sticker corners</string>
     <string name="MZGramStickerTime">Hide time on stickers</string>
     <string name="MZGramStickersInfo">The slider sets the size of stickers in chats, 100% as in Telegram. With the time hidden, it appears while a sticker is sending, failed or selected. Applies to messages shown after the change.</string>
     <string name="MZGramSplitGifInline">GIFs and inline bots by their own permission</string>
@@ -1296,4 +1295,15 @@
     <string name="MZGramUnmuteWithVolumeButtons">Unmute with volume buttons</string>
     <string name="MZGramUnmuteWithVolumeButtonsInfo">A volume button turns on the sound of the video playing in the chat instead of changing the system volume, as in Telegram.</string>
     <string name="MZGramPauseVoiceOnMinimize">Pause voice messages when minimized</string>
+    <string name="MZGramStickerShape">Sticker shape</string>
+    <string name="MZGramStickerShapeDefault">Default</string>
+    <string name="MZGramStickerShapeRounded">Rounded</string>
+    <string name="MZGramStickerShapeMessage">Message</string>
+    <string name="MZGramUnlimitedRecentStickers">Unlimited recent stickers</string>
+    <string name="MZGramUnlimitedRecentStickersInfo">Up to 200 recent stickers on this device instead of Telegram\'s limit. After a sync, the list follows Telegram\'s server again.</string>
+    <string name="MZGramHeaderReplies">Replies</string>
+    <string name="MZGramReplyColors">Colors in replies</string>
+    <string name="MZGramReplyEmoji">Emoji in replies</string>
+    <string name="MZGramReplyBackground">Background of replies</string>
+    <string name="MZGramRepliesInfo">A reply in a message takes the color and emoji of its author and a tinted background, as in Telegram. Turned off, replies use the theme color.</string>
 </resources>

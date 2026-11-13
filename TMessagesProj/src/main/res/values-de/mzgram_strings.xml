@@ -616,7 +616,6 @@
     <string name="MZGramPermissionGames">Spiele</string>
     <string name="MZGramPermissionInline">Inline-Bots</string>
     <string name="MZGramStickers">Sticker in Chats</string>
-    <string name="MZGramStickerRound">Abgerundete Sticker-Ecken</string>
     <string name="MZGramStickerTime">Uhrzeit auf Stickern ausblenden</string>
     <string name="MZGramStickersInfo">Der Regler legt die Größe von Stickern in Chats fest, 100 % wie in Telegram. Die ausgeblendete Uhrzeit erscheint, während ein Sticker gesendet wird, fehlgeschlagen oder ausgewählt ist. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
     <string name="MZGramSplitGifInline">GIFs und Inline-Bots mit eigener Berechtigung</string>
@@ -1296,4 +1295,15 @@
     <string name="MZGramUnmuteWithVolumeButtons">Ton mit Lautstärketasten an</string>
     <string name="MZGramUnmuteWithVolumeButtonsInfo">Eine Lautstärketaste schaltet den Ton des Videos im Chat ein, statt die Systemlautstärke zu ändern, wie bei Telegram.</string>
     <string name="MZGramPauseVoiceOnMinimize">Sprachnachrichten beim Minimieren pausieren</string>
+    <string name="MZGramStickerShape">Stickerform</string>
+    <string name="MZGramStickerShapeDefault">Standard</string>
+    <string name="MZGramStickerShapeRounded">Abgerundet</string>
+    <string name="MZGramStickerShapeMessage">Nachricht</string>
+    <string name="MZGramUnlimitedRecentStickers">Unbegrenzte zuletzt benutzte Sticker</string>
+    <string name="MZGramUnlimitedRecentStickersInfo">Bis zu 200 zuletzt benutzte Sticker auf diesem Gerät statt des Telegram-Limits. Nach einer Synchronisierung folgt die Liste wieder dem Telegram-Server.</string>
+    <string name="MZGramHeaderReplies">Antworten</string>
+    <string name="MZGramReplyColors">Farben in Antworten</string>
+    <string name="MZGramReplyEmoji">Emoji in Antworten</string>
+    <string name="MZGramReplyBackground">Hintergrund von Antworten</string>
+    <string name="MZGramRepliesInfo">Eine Antwort in einer Nachricht erhält Farbe und Emoji ihres Autors und einen getönten Hintergrund, wie bei Telegram. Ausgeschaltet nutzen Antworten die Designfarbe.</string>
 </resources>

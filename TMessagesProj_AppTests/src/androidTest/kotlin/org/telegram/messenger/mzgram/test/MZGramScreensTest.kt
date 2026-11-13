@@ -219,4 +219,39 @@ class MZGramScreensTest {
         }
         assertTrue("back on", child.isHapticFeedbackEnabled)
     }
+
+    // Sticker shape: Default leaves stickers square, Rounded gives a small
+    // radius, Message lets the bubble corners apply; anything else reads as
+    // Default. Unlimited recent stickers raises the limit to 200 and never
+    // lowers a bigger limit of Telegram.
+    @Test
+    fun stickerShapeAndRecentStickersLimit() {
+        val shape = MZGramConfig.stickerShape
+        val unlimited = MZGramConfig.unlimitedRecentStickers
+        try {
+            MZGramConfig.setStickerShape(MZGramConfig.STICKER_SHAPE_DEFAULT)
+            assertEquals(0, org.telegram.ui.mzgram.MZGramStickers.roundRadius())
+            assertFalse(org.telegram.ui.mzgram.MZGramStickers.messageShape())
+            MZGramConfig.setStickerShape(MZGramConfig.STICKER_SHAPE_ROUNDED)
+            assertTrue(org.telegram.ui.mzgram.MZGramStickers.roundRadius() > 0)
+            MZGramConfig.setStickerShape(MZGramConfig.STICKER_SHAPE_MESSAGE)
+            assertTrue(org.telegram.ui.mzgram.MZGramStickers.messageShape())
+            assertEquals(0, org.telegram.ui.mzgram.MZGramStickers.roundRadius())
+            MZGramConfig.setStickerShape(7)
+            assertEquals(MZGramConfig.STICKER_SHAPE_DEFAULT, MZGramConfig.stickerShape)
+
+            if (MZGramConfig.unlimitedRecentStickers) {
+                MZGramConfig.toggleUnlimitedRecentStickers()
+            }
+            assertEquals(30, MZGramConfig.recentStickersLimit(30))
+            MZGramConfig.toggleUnlimitedRecentStickers()
+            assertEquals(MZGramConfig.UNLIMITED_RECENT_STICKERS, MZGramConfig.recentStickersLimit(30))
+            assertEquals(500, MZGramConfig.recentStickersLimit(500))
+        } finally {
+            MZGramConfig.setStickerShape(shape)
+            if (MZGramConfig.unlimitedRecentStickers != unlimited) {
+                MZGramConfig.toggleUnlimitedRecentStickers()
+            }
+        }
+    }
 }

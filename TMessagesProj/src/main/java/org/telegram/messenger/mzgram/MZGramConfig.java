@@ -28,7 +28,13 @@ public class MZGramConfig {
     // With hideStories: no background loading of the stories list and story previews
     public static boolean storiesNoBackgroundLoad = false;
     public static boolean disableGreetingSticker = false;
-    public static boolean hideChannelBottomButtons = false;
+    // Bottom button of a channel one cannot post to: Mute as in Telegram, Discuss (opens the linked chat) or none (ChatActivity)
+    public static final int CHANNEL_BOTTOM_MUTE = 0;
+    public static final int CHANNEL_BOTTOM_DISCUSS = 1;
+    public static final int CHANNEL_BOTTOM_HIDE = 2;
+    public static int channelBottomButton = CHANNEL_BOTTOM_MUTE;
+    // Swipe on a message: 0 replies as in Telegram, else MZGramSwipeAction (ChatActivity)
+    public static int swipeAction = 0;
     public static boolean openArchiveOnPull = false;
     public static boolean disableInstantCamera = false;
     public static boolean hideCameraTile = false;
@@ -541,6 +547,15 @@ public class MZGramConfig {
     // The tinted background of a reply, as in Telegram (ReplyMessageLine)
     public static boolean replyBackground = true;
 
+    // Scrolling a chat by hand closes the keyboard (ChatActivity)
+    public static boolean hideKeyboardOnScroll = false;
+
+    // A mention picked from the list is followed by a comma, not for bots (MentionsContainerView, ChatActivity)
+    public static boolean addCommaAfterMention = false;
+
+    // No Send as button by the field; messages go from the account chosen last (ChatActivityEnterView)
+    public static boolean hideSendAsPeer = false;
+
     static {
         loadConfig(false);
     }
@@ -561,7 +576,14 @@ public class MZGramConfig {
             hideStories = preferences.getBoolean("hideStories", false);
             storiesNoBackgroundLoad = preferences.getBoolean("storiesNoBackgroundLoad", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
-            hideChannelBottomButtons = preferences.getBoolean("hideChannelBottomButtons", false);
+            channelBottomButton = preferences.getInt("channelBottomButton", preferences.getBoolean("hideChannelBottomButtons", false) ? CHANNEL_BOTTOM_HIDE : CHANNEL_BOTTOM_MUTE);
+            if (channelBottomButton < CHANNEL_BOTTOM_MUTE || channelBottomButton > CHANNEL_BOTTOM_HIDE) {
+                channelBottomButton = CHANNEL_BOTTOM_MUTE;
+            }
+            swipeAction = preferences.getInt("swipeAction", 0);
+            if (swipeAction < 0 || swipeAction > 5) {
+                swipeAction = 0;
+            }
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
             hideCameraTile = preferences.getBoolean("hideCameraTile", false);
@@ -817,6 +839,9 @@ public class MZGramConfig {
             replyColors = preferences.getBoolean("replyColors", true);
             replyEmoji = preferences.getBoolean("replyEmoji", true);
             replyBackground = preferences.getBoolean("replyBackground", true);
+            hideKeyboardOnScroll = preferences.getBoolean("hideKeyboardOnScroll", false);
+            addCommaAfterMention = preferences.getBoolean("addCommaAfterMention", false);
+            hideSendAsPeer = preferences.getBoolean("hideSendAsPeer", false);
             configLoaded = true;
         }
     }
@@ -965,9 +990,14 @@ public class MZGramConfig {
         putBoolean("disableGreetingSticker", disableGreetingSticker);
     }
 
-    public static void toggleHideChannelBottomButtons() {
-        hideChannelBottomButtons = !hideChannelBottomButtons;
-        putBoolean("hideChannelBottomButtons", hideChannelBottomButtons);
+    public static void setChannelBottomButton(int value) {
+        channelBottomButton = value < CHANNEL_BOTTOM_MUTE || value > CHANNEL_BOTTOM_HIDE ? CHANNEL_BOTTOM_MUTE : value;
+        putInt("channelBottomButton", channelBottomButton);
+    }
+
+    public static void setSwipeAction(int value) {
+        swipeAction = value < 0 || value > 5 ? 0 : value;
+        putInt("swipeAction", swipeAction);
     }
 
     public static void toggleOpenArchiveOnPull() {
@@ -2044,5 +2074,20 @@ public class MZGramConfig {
     public static void toggleReplyBackground() {
         replyBackground = !replyBackground;
         putBoolean("replyBackground", replyBackground);
+    }
+
+    public static void toggleHideKeyboardOnScroll() {
+        hideKeyboardOnScroll = !hideKeyboardOnScroll;
+        putBoolean("hideKeyboardOnScroll", hideKeyboardOnScroll);
+    }
+
+    public static void toggleAddCommaAfterMention() {
+        addCommaAfterMention = !addCommaAfterMention;
+        putBoolean("addCommaAfterMention", addCommaAfterMention);
+    }
+
+    public static void toggleHideSendAsPeer() {
+        hideSendAsPeer = !hideSendAsPeer;
+        putBoolean("hideSendAsPeer", hideSendAsPeer);
     }
 }

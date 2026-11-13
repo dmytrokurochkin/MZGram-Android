@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Hora con segundos</string>
     <string name="MZGramDisableGreetingSticker">Desactivar el sticker de saludo</string>
     <string name="MZGramDisableGreetingStickerInfo">Un chat vacío muestra solo su título, sin el sticker sugerido para enviar.</string>
-    <string name="MZGramHideChannelBottomButtons">Ocultar el botón inferior del canal</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">En los canales donde no puedes publicar, oculta la barra inferior con el botón de silenciar.</string>
     <string name="MZGramCopyPhoto">Copiar foto</string>
     <string name="MZGramPhotoCopied">Foto copiada al portapapeles</string>
     <string name="MZGramShowCopyPhotoInfo">Añade «Copiar foto» al menú de una foto descargada para poder pegarla en otras apps.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Emoji en respuestas</string>
     <string name="MZGramReplyBackground">Fondo de respuestas</string>
     <string name="MZGramRepliesInfo">Una respuesta en un mensaje toma el color y el emoji de su autor y un fondo teñido, como en Telegram. Desactivado, las respuestas usan el color del tema.</string>
+    <string name="MZGramSwipeAction">Acción al deslizar</string>
+    <string name="MZGramSwipeForward">Reenviar</string>
+    <string name="MZGramSwipeEdit">Editar</string>
+    <string name="MZGramSwipePin">Fijar</string>
+    <string name="MZGramSwipeDelete">Eliminar</string>
+    <string name="MZGramSwipeActionInfo">Algunas acciones requieren permisos de administrador en el chat o canal. Donde una acción no está permitida, el deslizamiento responde, como en Telegram.</string>
+    <string name="MZGramChannelBottomButton">Botón inferior</string>
+    <string name="MZGramChannelBottomMute">Silenciar</string>
+    <string name="MZGramChannelBottomDiscuss">Comentar</string>
+    <string name="MZGramChannelBottomHide">Ocultar</string>
+    <string name="MZGramHideKeyboardOnScroll">Ocultar el teclado al desplazar</string>
+    <string name="MZGramAddCommaAfterMention">Coma tras una mención</string>
+    <string name="MZGramHideSendAsPeer">Ocultar el botón «Enviar como»</string>
+    <string name="MZGramHideSendAsPeerInfo">Los mensajes se envían desde la cuenta o el canal elegido por última vez. Desactívalo para volver a elegir.</string>
 </resources>

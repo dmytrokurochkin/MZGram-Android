@@ -635,17 +635,19 @@ public class MentionsContainerView extends FrameLayout implements NotificationCe
                 TLRPC.Chat chat = (TLRPC.Chat) object;
                 String username = ChatObject.getPublicUsername(chat);
                 if (username != null) {
-                    delegate.replaceText(start, len, "@" + username + " " , false);
+                    delegate.replaceText(start, len, "@" + username + (org.telegram.messenger.mzgram.MZGramConfig.addCommaAfterMention ? ", " : " "), false); // MZGram: Comma after mention
                 }
             } else if (object instanceof TLRPC.User) {
                 TLRPC.User user = (TLRPC.User) object;
 
                 if (UserObject.getPublicUsername(user) != null) {
-                    delegate.replaceText(start, len, "@" + UserObject.getPublicUsername(user) + " ", false);
+                    delegate.replaceText(start, len, "@" + UserObject.getPublicUsername(user) + (!user.bot && org.telegram.messenger.mzgram.MZGramConfig.addCommaAfterMention ? ", " : " "), false); // MZGram: Comma after mention
                 } else {
                     String name = UserObject.getFirstName(user, false);
-                    Spannable spannable = new SpannableString(name + " ");
-                    spannable.setSpan(new URLSpanUserMention("" + user.id, 3), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    // MZGram: Comma after mention (the link covers the name only)
+                    boolean comma = !user.bot && org.telegram.messenger.mzgram.MZGramConfig.addCommaAfterMention;
+                    Spannable spannable = new SpannableString(name + (comma ? ", " : " "));
+                    spannable.setSpan(new URLSpanUserMention("" + user.id, 3), 0, comma ? name.length() : spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     delegate.replaceText(start, len, spannable, false);
                 }
             } else if (object instanceof String) {

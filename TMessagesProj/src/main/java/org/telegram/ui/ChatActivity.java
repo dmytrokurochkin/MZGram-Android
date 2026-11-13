@@ -709,13 +709,86 @@ public class ChatActivity extends BaseFragment implements
         return !TextUtils.isEmpty(reportTitle);
     }
 
-    // MZGram: MZGramConfig.hideChannelBottomButtons. True in
+    // MZGram: Settings > MZGram > Chats > Bottom button set to Hide. True in
     // a broadcast channel the user cannot post to, where the bottom bar only
     // holds the mute button.
     private boolean hideBottomButton() {
-        return org.telegram.messenger.mzgram.MZGramConfig.hideChannelBottomButtons &&
+        return org.telegram.messenger.mzgram.MZGramConfig.channelBottomButton == org.telegram.messenger.mzgram.MZGramConfig.CHANNEL_BOTTOM_HIDE &&
                 chatMode == MODE_DEFAULT && !isReport() && currentChat != null &&
                 ChatObject.isChannel(currentChat) && currentChat.broadcast && !ChatObject.canWriteToChat(currentChat);
+    }
+
+    // MZGram: Bottom button set to Discuss, in a channel that has a discussion chat
+    private boolean mzgramDiscussButton() {
+        return org.telegram.messenger.mzgram.MZGramConfig.channelBottomButton == org.telegram.messenger.mzgram.MZGramConfig.CHANNEL_BOTTOM_DISCUSS &&
+                chatInfo != null && chatInfo.linked_chat_id != 0;
+    }
+
+    private void mzgramOpenDiscussion() {
+        Bundle args = new Bundle();
+        args.putLong("chat_id", chatInfo.linked_chat_id);
+        if (getMessagesController().checkCanOpenChat(args, this)) {
+            presentFragment(new ChatActivity(args));
+        }
+    }
+
+    // MZGram: Settings > MZGram > Chats > Swipe action. Runs the chosen action of the
+    // message menu on a swiped message, with the checks the menu makes; false when the
+    // swipe should reply as in Telegram (Reply chosen, or the action is not allowed here).
+    private boolean mzgramSwipeAction(MessageObject message) {
+        int action = org.telegram.messenger.mzgram.MZGramConfig.swipeAction;
+        if (message == null || action == org.telegram.ui.mzgram.MZGramSwipeAction.REPLY || getParentActivity() == null
+                || message.isSponsored() || message.getId() <= 0 || message.getDialogId() == mergeDialogId) {
+            return false;
+        }
+        MessageObject.GroupedMessages group = getValidGroupedMessage(message);
+        boolean noforwards = isPeerNoForwards() || message.isNoforwards();
+        int option = -1;
+        switch (action) {
+            case org.telegram.ui.mzgram.MZGramSwipeAction.FORWARD:
+                if (!noforwards && currentEncryptedChat == null && message.canForwardMessage()) {
+                    option = OPTION_FORWARD;
+                }
+                break;
+            case org.telegram.ui.mzgram.MZGramSwipeAction.COPY:
+                if (!noforwards && message.messageOwner != null && !TextUtils.isEmpty(message.messageOwner.message)) {
+                    option = OPTION_COPY;
+                }
+                break;
+            case org.telegram.ui.mzgram.MZGramSwipeAction.EDIT:
+                if (message.canEditMessage(currentChat) && message.type != MessageObject.TYPE_STORY && message.type != MessageObject.TYPE_POLL
+                        && chatActivityEnterView != null && !chatActivityEnterView.hasAudioToSend()) {
+                    option = OPTION_EDIT;
+                }
+                break;
+            case org.telegram.ui.mzgram.MZGramSwipeAction.PIN: {
+                boolean allowPin;
+                if (currentChat != null) {
+                    allowPin = ChatObject.canPinMessages(currentChat) && !currentChat.monoforum;
+                } else if (currentEncryptedChat == null) {
+                    allowPin = userInfo != null && userInfo.can_pin_message;
+                } else {
+                    allowPin = false;
+                }
+                if (allowPin && (message.messageOwner.action == null || message.messageOwner.action instanceof TLRPC.TL_messageActionEmpty)) {
+                    int id = group != null && !group.messages.isEmpty() ? group.messages.get(0).getId() : message.getId();
+                    option = pinnedMessageObjects.containsKey(id) ? OPTION_UNPIN : OPTION_PIN;
+                }
+                break;
+            }
+            case org.telegram.ui.mzgram.MZGramSwipeAction.DELETE:
+                if (message.canDeleteMessage(chatMode == MODE_SCHEDULED, currentChat)) {
+                    option = OPTION_DELETE;
+                }
+                break;
+        }
+        if (option < 0) {
+            return false;
+        }
+        selectedObject = message;
+        selectedObjectGroup = group;
+        processSelectedOption(option);
+        return true;
     }
 
     @Nullable
@@ -5230,7 +5303,8 @@ public class ChatActivity extends BaseFragment implements
                         invalidate();
                     }
                 } else if (slidingView != null && (e == null || e.getPointerId(0) == startedTrackingPointerId && (e.getAction() == MotionEvent.ACTION_CANCEL || e.getAction() == MotionEvent.ACTION_UP || e.getAction() == MotionEvent.ACTION_POINTER_UP))) {
-                    if (e != null && e.getAction() != MotionEvent.ACTION_CANCEL && Math.abs(getSlidingNonAnimationTranslationX(false)) >= AndroidUtilities.dp(50)) {
+                    if (e != null && e.getAction() != MotionEvent.ACTION_CANCEL && Math.abs(getSlidingNonAnimationTranslationX(false)) >= AndroidUtilities.dp(50)
+                            && !mzgramSwipeAction(getSlidingMessageObject())) { // MZGram: Swipe action
                         MessageObject message = getSlidingMessageObject();
                         final boolean allowReplyOnOpenTopic = canSendMessageToTopic(message);
                         if (
@@ -6979,6 +7053,11 @@ public class ChatActivity extends BaseFragment implements
                     invalidateMergedVisibleBlurredPositionsAndSources(BLUR_INVALIDATE_FLAG_SCROLL);
                     scrollByTouch = false;
                 } else {
+                    // MZGram: Hide keyboard while scrolling
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING && org.telegram.messenger.mzgram.MZGramConfig.hideKeyboardOnScroll
+                            && chatActivityEnterView != null && isKeyboardVisible()) {
+                        chatActivityEnterView.closeKeyboard();
+                    }
                     if (groupEmojiPackHint != null && groupEmojiPackHint.shown()) {
                         groupEmojiPackHint.hide();
                     }
@@ -8781,6 +8860,8 @@ public class ChatActivity extends BaseFragment implements
                                 getNotificationCenter().postNotificationName(NotificationCenter.peerSettingsDidLoad, dialog_id);
                             }
                         }
+                    } else if (mzgramDiscussButton()) { // MZGram: Bottom button Discuss
+                        mzgramOpenDiscussion();
                     } else {
                         toggleMute(true);
                     }
@@ -28320,7 +28401,10 @@ public class ChatActivity extends BaseFragment implements
                     bottomOverlayChatText.setTextInfo(LocaleController.getString(R.string.ForumReplyToMessagesInTopic));
                     bottomOverlayChatText.setEnabled(false);
                 } else if (!isThreadChat()) {
-                    if (!getMessagesController().isDialogMuted(dialog_id, getTopicId())) {
+                    if (mzgramDiscussButton()) { // MZGram: Bottom button Discuss
+                        bottomOverlayChatText.setText(LocaleController.getString(R.string.ProfileActionsDiscuss), false);
+                        bottomOverlayChatText.setEnabled(true);
+                    } else if (!getMessagesController().isDialogMuted(dialog_id, getTopicId())) {
                         bottomOverlayChatText.setText(LocaleController.getString(R.string.ChannelMuteNoCaps), false);
                         bottomOverlayChatText.setEnabled(true);
                     } else {
@@ -40562,7 +40646,7 @@ public class ChatActivity extends BaseFragment implements
                 }
                 String username = ChatObject.getPublicUsername(chat);
                 if (username != null) {
-                    sb.append("@").append(username).append(" ");
+                    sb.append("@").append(username).append(org.telegram.messenger.mzgram.MZGramConfig.addCommaAfterMention ? ", " : " "); // MZGram: Comma after mention
                 } else {
                     return;
                 }
@@ -40588,7 +40672,7 @@ public class ChatActivity extends BaseFragment implements
                 }
                 String username = UserObject.getPublicUsername(user);
                 if (username != null) {
-                    sb.append("@").append(username).append(" ");
+                    sb.append("@").append(username).append(!user.bot && org.telegram.messenger.mzgram.MZGramConfig.addCommaAfterMention ? ", " : " "); // MZGram: Comma after mention
                 } else {
                     String name = UserObject.getFirstName(user, false);
                     Spannable spannable = new SpannableString(name + " ");

@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Saniyeli saat</string>
     <string name="MZGramDisableGreetingSticker">Karşılama çıkartmasını kapat</string>
     <string name="MZGramDisableGreetingStickerInfo">Boş bir sohbet, gönderilmesi önerilen çıkartma olmadan yalnızca başlığını gösterir.</string>
-    <string name="MZGramHideChannelBottomButtons">Kanalın alt düğmesini gizle</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">Paylaşım yapamadığınız kanallarda sessize alma düğmesinin bulunduğu alt çubuğu gizler.</string>
     <string name="MZGramCopyPhoto">Fotoğrafı kopyala</string>
     <string name="MZGramPhotoCopied">Fotoğraf panoya kopyalandı</string>
     <string name="MZGramShowCopyPhotoInfo">İndirilmiş bir fotoğrafın menüsüne “Fotoğrafı kopyala” ekler; böylece fotoğraf başka uygulamalara yapıştırılabilir.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Yanıtlarda emoji</string>
     <string name="MZGramReplyBackground">Yanıtların arka planı</string>
     <string name="MZGramRepliesInfo">Mesajdaki yanıt, Telegram\'daki gibi yazarının rengini ve emojisini ve renkli bir arka plan alır. Kapalıyken yanıtlar tema rengini kullanır.</string>
+    <string name="MZGramSwipeAction">Kaydırma eylemi</string>
+    <string name="MZGramSwipeForward">İlet</string>
+    <string name="MZGramSwipeEdit">Düzenle</string>
+    <string name="MZGramSwipePin">Sabitle</string>
+    <string name="MZGramSwipeDelete">Sil</string>
+    <string name="MZGramSwipeActionInfo">Bazı eylemler sohbette veya kanalda yönetici yetkisi gerektirir. Bir eyleme izin verilmeyen yerde kaydırma, Telegram\'daki gibi yanıtlar.</string>
+    <string name="MZGramChannelBottomButton">Alt düğme</string>
+    <string name="MZGramChannelBottomMute">Sessize al</string>
+    <string name="MZGramChannelBottomDiscuss">Tartış</string>
+    <string name="MZGramChannelBottomHide">Gizle</string>
+    <string name="MZGramHideKeyboardOnScroll">Kaydırırken klavyeyi gizle</string>
+    <string name="MZGramAddCommaAfterMention">Bahsetmeden sonra virgül</string>
+    <string name="MZGramHideSendAsPeer">\"Farklı gönder\" düğmesini gizle</string>
+    <string name="MZGramHideSendAsPeerInfo">Mesajlar en son seçilen hesaptan veya kanaldan gider. Yeniden seçmek için kapatın.</string>
 </resources>

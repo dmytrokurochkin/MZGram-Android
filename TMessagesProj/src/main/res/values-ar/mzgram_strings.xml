@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">الوقت بالثواني</string>
     <string name="MZGramDisableGreetingSticker">تعطيل ملصق الترحيب</string>
     <string name="MZGramDisableGreetingStickerInfo">تعرض المحادثة الفارغة عنوانها فقط، دون الملصق المقترح لإرساله.</string>
-    <string name="MZGramHideChannelBottomButtons">إخفاء الزر السفلي للقناة</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">في القنوات التي لا يمكنك النشر فيها، يُخفي الشريط السفلي الذي فيه زر كتم الصوت.</string>
     <string name="MZGramCopyPhoto">نسخ الصورة</string>
     <string name="MZGramPhotoCopied">نُسخت الصورة إلى الحافظة</string>
     <string name="MZGramShowCopyPhotoInfo">يضيف «نسخ الصورة» إلى قائمة الصورة التي تم تنزيلها، ليمكن لصقها في تطبيقات أخرى.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">الرموز التعبيرية في الردود</string>
     <string name="MZGramReplyBackground">خلفية الردود</string>
     <string name="MZGramRepliesInfo">يأخذ الرد في الرسالة لون كاتبه ورمزه التعبيري وخلفية ملونة، كما في Telegram. عند الإيقاف تستخدم الردود لون السمة.</string>
+    <string name="MZGramSwipeAction">إجراء السحب</string>
+    <string name="MZGramSwipeForward">إعادة توجيه</string>
+    <string name="MZGramSwipeEdit">تعديل</string>
+    <string name="MZGramSwipePin">تثبيت</string>
+    <string name="MZGramSwipeDelete">حذف</string>
+    <string name="MZGramSwipeActionInfo">تحتاج بعض الإجراءات إلى صلاحيات المشرف في المحادثة أو القناة. حيث لا يُسمح بإجراء ما، يرد السحب كما في Telegram.</string>
+    <string name="MZGramChannelBottomButton">الزر السفلي</string>
+    <string name="MZGramChannelBottomMute">كتم</string>
+    <string name="MZGramChannelBottomDiscuss">مناقشة</string>
+    <string name="MZGramChannelBottomHide">إخفاء</string>
+    <string name="MZGramHideKeyboardOnScroll">إخفاء لوحة المفاتيح أثناء التمرير</string>
+    <string name="MZGramAddCommaAfterMention">فاصلة بعد الإشارة</string>
+    <string name="MZGramHideSendAsPeer">إخفاء زر «الإرسال باسم»</string>
+    <string name="MZGramHideSendAsPeerInfo">تُرسل الرسائل من الحساب أو القناة المختارة آخر مرة. أوقف هذا الخيار للاختيار من جديد.</string>
 </resources>

@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Format time with seconds</string>
     <string name="MZGramDisableGreetingSticker">Disable greeting sticker</string>
     <string name="MZGramDisableGreetingStickerInfo">An empty chat shows only its title, without the suggested sticker to send.</string>
-    <string name="MZGramHideChannelBottomButtons">Hide channel bottom button</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">In channels where you cannot post, hides the bottom bar with the mute button.</string>
     <string name="MZGramCopyPhoto">Copy Photo</string>
     <string name="MZGramPhotoCopied">Photo copied to clipboard</string>
     <string name="MZGramShowCopyPhotoInfo">Adds Copy Photo to the menu of a downloaded photo, so it can be pasted into other apps.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Emoji in replies</string>
     <string name="MZGramReplyBackground">Background of replies</string>
     <string name="MZGramRepliesInfo">A reply in a message takes the color and emoji of its author and a tinted background, as in Telegram. Turned off, replies use the theme color.</string>
+    <string name="MZGramSwipeAction">Swipe action</string>
+    <string name="MZGramSwipeForward">Forward</string>
+    <string name="MZGramSwipeEdit">Edit</string>
+    <string name="MZGramSwipePin">Pin</string>
+    <string name="MZGramSwipeDelete">Delete</string>
+    <string name="MZGramSwipeActionInfo">Some actions need admin rights in the chat or channel. Where an action is not allowed, the swipe replies, as in Telegram.</string>
+    <string name="MZGramChannelBottomButton">Bottom button</string>
+    <string name="MZGramChannelBottomMute">Mute</string>
+    <string name="MZGramChannelBottomDiscuss">Discuss</string>
+    <string name="MZGramChannelBottomHide">Hide</string>
+    <string name="MZGramHideKeyboardOnScroll">Hide keyboard while scrolling</string>
+    <string name="MZGramAddCommaAfterMention">Comma after mention</string>
+    <string name="MZGramHideSendAsPeer">Hide the \"Send as\" button</string>
+    <string name="MZGramHideSendAsPeerInfo">Messages go from the account or channel chosen last. Turn this off to choose again.</string>
 </resources>

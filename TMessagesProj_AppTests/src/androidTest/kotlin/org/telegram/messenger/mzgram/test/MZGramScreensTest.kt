@@ -254,4 +254,26 @@ class MZGramScreensTest {
             }
         }
     }
+
+    // Bottom button and swipe action: out-of-range values read as Telegram's
+    // (Mute, Reply); one title per swipe action.
+    @Test
+    fun channelBottomButtonAndSwipeAction() {
+        val bottom = MZGramConfig.channelBottomButton
+        val swipe = MZGramConfig.swipeAction
+        try {
+            MZGramConfig.setChannelBottomButton(MZGramConfig.CHANNEL_BOTTOM_DISCUSS)
+            assertEquals(MZGramConfig.CHANNEL_BOTTOM_DISCUSS, MZGramConfig.channelBottomButton)
+            MZGramConfig.setChannelBottomButton(9)
+            assertEquals(MZGramConfig.CHANNEL_BOTTOM_MUTE, MZGramConfig.channelBottomButton)
+            MZGramConfig.setSwipeAction(org.telegram.ui.mzgram.MZGramSwipeAction.DELETE)
+            assertEquals(org.telegram.ui.mzgram.MZGramSwipeAction.DELETE, MZGramConfig.swipeAction)
+            MZGramConfig.setSwipeAction(-1)
+            assertEquals(org.telegram.ui.mzgram.MZGramSwipeAction.REPLY, MZGramConfig.swipeAction)
+            assertEquals(6, org.telegram.ui.mzgram.MZGramSwipeAction.TITLES.size)
+        } finally {
+            MZGramConfig.setChannelBottomButton(bottom)
+            MZGramConfig.setSwipeAction(swipe)
+        }
+    }
 }

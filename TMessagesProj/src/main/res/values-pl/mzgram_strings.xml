@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Czas z sekundami</string>
     <string name="MZGramDisableGreetingSticker">Wyłącz naklejkę powitalną</string>
     <string name="MZGramDisableGreetingStickerInfo">Pusty czat pokazuje tylko swoją nazwę, bez proponowanej naklejki do wysłania.</string>
-    <string name="MZGramHideChannelBottomButtons">Ukryj dolny przycisk kanału</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">Na kanałach, na których nie możesz publikować, ukrywa dolny pasek z przyciskiem wyciszenia.</string>
     <string name="MZGramCopyPhoto">Kopiuj zdjęcie</string>
     <string name="MZGramPhotoCopied">Zdjęcie skopiowane do schowka</string>
     <string name="MZGramShowCopyPhotoInfo">Dodaje „Kopiuj zdjęcie” do menu pobranego zdjęcia, aby można je było wkleić w innych aplikacjach.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Emoji w odpowiedziach</string>
     <string name="MZGramReplyBackground">Tło odpowiedzi</string>
     <string name="MZGramRepliesInfo">Odpowiedź w wiadomości ma kolor i emoji autora oraz zabarwione tło, jak w Telegramie. Po wyłączeniu odpowiedzi mają kolor motywu.</string>
+    <string name="MZGramSwipeAction">Akcja przesunięcia</string>
+    <string name="MZGramSwipeForward">Przekaż</string>
+    <string name="MZGramSwipeEdit">Edytuj</string>
+    <string name="MZGramSwipePin">Przypnij</string>
+    <string name="MZGramSwipeDelete">Usuń</string>
+    <string name="MZGramSwipeActionInfo">Niektóre akcje wymagają uprawnień administratora w czacie lub kanale. Gdzie akcja jest niedostępna, przesunięcie odpowiada, jak w Telegramie.</string>
+    <string name="MZGramChannelBottomButton">Dolny przycisk</string>
+    <string name="MZGramChannelBottomMute">Wycisz</string>
+    <string name="MZGramChannelBottomDiscuss">Dyskutuj</string>
+    <string name="MZGramChannelBottomHide">Ukryj</string>
+    <string name="MZGramHideKeyboardOnScroll">Ukrywaj klawiaturę podczas przewijania</string>
+    <string name="MZGramAddCommaAfterMention">Przecinek po wzmiance</string>
+    <string name="MZGramHideSendAsPeer">Ukryj przycisk „Wyślij jako”</string>
+    <string name="MZGramHideSendAsPeerInfo">Wiadomości są wysyłane z konta lub kanału wybranego ostatnio. Wyłącz, aby wybrać ponownie.</string>
 </resources>

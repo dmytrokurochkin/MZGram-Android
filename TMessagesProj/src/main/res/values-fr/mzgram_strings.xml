@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Heure avec les secondes</string>
     <string name="MZGramDisableGreetingSticker">Désactiver l’autocollant de bienvenue</string>
     <string name="MZGramDisableGreetingStickerInfo">Une discussion vide n’affiche que son titre, sans l’autocollant proposé à envoyer.</string>
-    <string name="MZGramHideChannelBottomButtons">Masquer le bouton du bas des canaux</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">Dans les canaux où vous ne pouvez pas publier, masque la barre du bas avec le bouton de mise en sourdine.</string>
     <string name="MZGramCopyPhoto">Copier la photo</string>
     <string name="MZGramPhotoCopied">Photo copiée dans le presse-papiers</string>
     <string name="MZGramShowCopyPhotoInfo">Ajoute « Copier la photo » au menu d’une photo téléchargée, pour pouvoir la coller dans d’autres applis.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Emoji dans les réponses</string>
     <string name="MZGramReplyBackground">Fond des réponses</string>
     <string name="MZGramRepliesInfo">Une réponse dans un message prend la couleur et l\'emoji de son auteur et un fond teinté, comme dans Telegram. Désactivé, les réponses utilisent la couleur du thème.</string>
+    <string name="MZGramSwipeAction">Action du balayage</string>
+    <string name="MZGramSwipeForward">Transférer</string>
+    <string name="MZGramSwipeEdit">Modifier</string>
+    <string name="MZGramSwipePin">Épingler</string>
+    <string name="MZGramSwipeDelete">Supprimer</string>
+    <string name="MZGramSwipeActionInfo">Certaines actions exigent des droits d\'administrateur dans la discussion ou le canal. Là où une action n\'est pas permise, le balayage répond, comme dans Telegram.</string>
+    <string name="MZGramChannelBottomButton">Bouton du bas</string>
+    <string name="MZGramChannelBottomMute">Sourdine</string>
+    <string name="MZGramChannelBottomDiscuss">Discuter</string>
+    <string name="MZGramChannelBottomHide">Masquer</string>
+    <string name="MZGramHideKeyboardOnScroll">Masquer le clavier pendant le défilement</string>
+    <string name="MZGramAddCommaAfterMention">Virgule après une mention</string>
+    <string name="MZGramHideSendAsPeer">Masquer le bouton « Envoyer en tant que »</string>
+    <string name="MZGramHideSendAsPeerInfo">Les messages partent du compte ou du canal choisi en dernier. Désactivez pour choisir à nouveau.</string>
 </resources>

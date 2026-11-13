@@ -38,7 +38,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_ASK_BEFORE_CALL = 4;
     private static final int BUTTON_HIDE_STORIES = 5;
     private static final int BUTTON_DISABLE_GREETING_STICKER = 6;
-    private static final int BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS = 7;
+    private static final int BUTTON_CHANNEL_BOTTOM_BUTTON = 7;
     private static final int BUTTON_OPEN_ARCHIVE_ON_PULL = 8;
     private static final int BUTTON_DISABLE_INSTANT_CAMERA = 9;
     private static final int BUTTON_PREFER_ORIGINAL_QUALITY = 10;
@@ -265,6 +265,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_REPLY_COLORS = 236;
     private static final int BUTTON_REPLY_EMOJI = 237;
     private static final int BUTTON_REPLY_BACKGROUND = 238;
+    private static final int BUTTON_SWIPE_ACTION = 239;
+    private static final int BUTTON_HIDE_KEYBOARD_ON_SCROLL = 240;
+    private static final int BUTTON_ADD_COMMA_AFTER_MENTION = 241;
+    private static final int BUTTON_HIDE_SEND_AS_PEER = 242;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -639,6 +643,29 @@ public class MZGramSettingsActivity extends UniversalFragment {
             }
             MZGramConfig.setTitleText(which);
             rebuildBelow();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
+    private static final int[] CHANNEL_BOTTOM_TITLES = {
+            R.string.MZGramChannelBottomMute,
+            R.string.MZGramChannelBottomDiscuss,
+            R.string.MZGramChannelBottomHide,
+    };
+
+    // A single-choice dialog over string titles; the choice is saved and the page refreshed
+    private void chooseFrom(int title, int[] titles, int selected, org.telegram.messenger.Utilities.Callback<Integer> setter) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] options = new String[titles.length];
+        for (int i = 0; i < titles.length; i++) {
+            options[i] = getString(titles[i]);
+        }
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(title), selected, (dialog, which) -> {
+            setter.run(which);
             if (listView != null && listView.adapter != null) {
                 listView.adapter.update(true);
             }
@@ -1033,12 +1060,16 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(BUTTON_DOUBLE_TAP_OWN, getString(R.string.MZGramDoubleTapOwn), getString(org.telegram.ui.mzgram.MZGramDoubleTap.TITLES[MZGramConfig.doubleTapOwn])));
             items.add(UItem.asButton(BUTTON_DOUBLE_TAP_OTHER, getString(R.string.MZGramDoubleTapOther), getString(org.telegram.ui.mzgram.MZGramDoubleTap.TITLES[MZGramConfig.doubleTapOther])));
         }
-        items.add(UItem.asShadow(null));
+        items.add(UItem.asButton(BUTTON_SWIPE_ACTION, getString(R.string.MZGramSwipeAction), getString(org.telegram.ui.mzgram.MZGramSwipeAction.TITLES[MZGramConfig.swipeAction])));
+        items.add(UItem.asShadow(getString(R.string.MZGramSwipeActionInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramSectionChats)));
-        items.add(check(BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS, R.string.MZGramHideChannelBottomButtons, MZGramConfig.hideChannelBottomButtons, R.string.MZGramHideChannelBottomButtonsInfo));
+        items.add(UItem.asButton(BUTTON_CHANNEL_BOTTOM_BUTTON, getString(R.string.MZGramChannelBottomButton), getString(CHANNEL_BOTTOM_TITLES[MZGramConfig.channelBottomButton])));
         items.add(check(BUTTON_WIDE_CHANNEL_POSTS, R.string.MZGramWideChannelPosts, MZGramConfig.wideChannelPosts, R.string.MZGramWideChannelPostsInfo));
         items.add(check(BUTTON_DISABLE_GREETING_STICKER, R.string.MZGramDisableGreetingSticker, MZGramConfig.disableGreetingSticker, R.string.MZGramDisableGreetingStickerInfo));
+        items.add(UItem.asCheck(BUTTON_HIDE_KEYBOARD_ON_SCROLL, getString(R.string.MZGramHideKeyboardOnScroll)).setChecked(MZGramConfig.hideKeyboardOnScroll));
+        items.add(UItem.asCheck(BUTTON_ADD_COMMA_AFTER_MENTION, getString(R.string.MZGramAddCommaAfterMention)).setChecked(MZGramConfig.addCommaAfterMention));
+        items.add(check(BUTTON_HIDE_SEND_AS_PEER, R.string.MZGramHideSendAsPeer, MZGramConfig.hideSendAsPeer, R.string.MZGramHideSendAsPeerInfo));
         items.add(check(BUTTON_GRANULAR_PERMISSIONS, R.string.MZGramGranularPermissions, MZGramConfig.granularGroupPermissions, R.string.MZGramGranularPermissionsInfo));
         items.add(check(BUTTON_SPLIT_GIF_INLINE, R.string.MZGramSplitGifInline, MZGramConfig.splitGifInlineRights, R.string.MZGramSplitGifInlineInfo));
         items.add(check(BUTTON_SCHEDULE_SLIDER, R.string.MZGramScheduleSlider, MZGramConfig.scheduleSlider, R.string.MZGramScheduleSliderInfo));
@@ -1339,6 +1370,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_HIDE_SEND_AS_PEER) {
+            MZGramConfig.toggleHideSendAsPeer();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideSendAsPeer);
+            if (getParentLayout() != null) {
+                rebuildBelow();
+            }
+        } else if (item.id == BUTTON_ADD_COMMA_AFTER_MENTION) {
+            MZGramConfig.toggleAddCommaAfterMention();
+            ((TextCheckCell) view).setChecked(MZGramConfig.addCommaAfterMention);
+        } else if (item.id == BUTTON_HIDE_KEYBOARD_ON_SCROLL) {
+            MZGramConfig.toggleHideKeyboardOnScroll();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideKeyboardOnScroll);
         } else if (item.id == BUTTON_REPLY_BACKGROUND) {
             MZGramConfig.toggleReplyBackground();
             ((TextCheckCell) view).setChecked(MZGramConfig.replyBackground);
@@ -1687,9 +1730,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_DISABLE_GREETING_STICKER) {
             MZGramConfig.toggleDisableGreetingSticker();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableGreetingSticker);
-        } else if (item.id == BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS) {
-            MZGramConfig.toggleHideChannelBottomButtons();
-            ((TextCheckCell) view).setChecked(MZGramConfig.hideChannelBottomButtons);
+        } else if (item.id == BUTTON_CHANNEL_BOTTOM_BUTTON) {
+            chooseFrom(R.string.MZGramChannelBottomButton, CHANNEL_BOTTOM_TITLES, MZGramConfig.channelBottomButton, MZGramConfig::setChannelBottomButton);
+        } else if (item.id == BUTTON_SWIPE_ACTION) {
+            chooseFrom(R.string.MZGramSwipeAction, org.telegram.ui.mzgram.MZGramSwipeAction.TITLES, MZGramConfig.swipeAction, MZGramConfig::setSwipeAction);
         } else if (item.id == BUTTON_OPEN_ARCHIVE_ON_PULL) {
             MZGramConfig.toggleOpenArchiveOnPull();
             ((TextCheckCell) view).setChecked(MZGramConfig.openArchiveOnPull);

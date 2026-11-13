@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Время с секундами</string>
     <string name="MZGramDisableGreetingSticker">Отключить приветственный стикер</string>
     <string name="MZGramDisableGreetingStickerInfo">В пустом чате показывается только его название, без предложенного стикера для отправки.</string>
-    <string name="MZGramHideChannelBottomButtons">Скрыть нижнюю кнопку канала</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">В каналах, где вы не можете публиковать, скрывает нижнюю панель с кнопкой отключения звука.</string>
     <string name="MZGramCopyPhoto">Копировать фото</string>
     <string name="MZGramPhotoCopied">Фото скопировано в буфер обмена</string>
     <string name="MZGramShowCopyPhotoInfo">Добавляет «Копировать фото» в меню загруженной фотографии, чтобы вставить её в другие приложения.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Эмодзи в ответах</string>
     <string name="MZGramReplyBackground">Фон ответов</string>
     <string name="MZGramRepliesInfo">Ответ в сообщении получает цвет и эмодзи автора и подкрашенный фон, как в Telegram. Если выключить, ответы будут цвета темы.</string>
+    <string name="MZGramSwipeAction">Действие свайпом</string>
+    <string name="MZGramSwipeForward">Переслать</string>
+    <string name="MZGramSwipeEdit">Изменить</string>
+    <string name="MZGramSwipePin">Закрепить</string>
+    <string name="MZGramSwipeDelete">Удалить</string>
+    <string name="MZGramSwipeActionInfo">Некоторым действиям нужны права администратора в чате или канале. Где действие недоступно, свайп отвечает, как в Telegram.</string>
+    <string name="MZGramChannelBottomButton">Нижняя кнопка</string>
+    <string name="MZGramChannelBottomMute">Без звука</string>
+    <string name="MZGramChannelBottomDiscuss">Обсудить</string>
+    <string name="MZGramChannelBottomHide">Скрыть</string>
+    <string name="MZGramHideKeyboardOnScroll">Скрывать клавиатуру при прокрутке</string>
+    <string name="MZGramAddCommaAfterMention">Запятая после упоминания</string>
+    <string name="MZGramHideSendAsPeer">Скрыть кнопку «Отправить как»</string>
+    <string name="MZGramHideSendAsPeerInfo">Сообщения отправляются от аккаунта или канала, выбранного последним. Выключите, чтобы выбрать снова.</string>
 </resources>

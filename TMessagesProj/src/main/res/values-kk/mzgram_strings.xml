@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Уақытты секундпен көрсету</string>
     <string name="MZGramDisableGreetingSticker">Сәлемдесу стикерін өшіру</string>
     <string name="MZGramDisableGreetingStickerInfo">Бос чатта жіберуге ұсынылатын стикерсіз тек оның атауы көрсетіледі.</string>
-    <string name="MZGramHideChannelBottomButtons">Арнаның төменгі батырмасын жасыру</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">Жазба жариялай алмайтын арналарда дыбысты өшіру батырмасы бар төменгі панельді жасырады.</string>
     <string name="MZGramCopyPhoto">Фотоны көшіру</string>
     <string name="MZGramPhotoCopied">Фото алмасу буферіне көшірілді</string>
     <string name="MZGramShowCopyPhotoInfo">Жүктеп алынған фотоның мәзіріне «Фотоны көшіру» қосады, сонда оны басқа қолданбаларға қоюға болады.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Жауаптардағы эмодзи</string>
     <string name="MZGramReplyBackground">Жауаптардың фоны</string>
     <string name="MZGramRepliesInfo">Хабарламадағы жауап Telegram-дағыдай авторының түсі мен эмодзиін және боялған фонды алады. Өшірілсе, жауаптар тақырып түсін пайдаланады.</string>
+    <string name="MZGramSwipeAction">Сырғыту әрекеті</string>
+    <string name="MZGramSwipeForward">Қайта жіберу</string>
+    <string name="MZGramSwipeEdit">Өңдеу</string>
+    <string name="MZGramSwipePin">Бекіту</string>
+    <string name="MZGramSwipeDelete">Жою</string>
+    <string name="MZGramSwipeActionInfo">Кейбір әрекеттерге чатта немесе арнада әкімші құқықтары керек. Әрекетке рұқсат жоқ жерде сырғыту Telegram-дағыдай жауап береді.</string>
+    <string name="MZGramChannelBottomButton">Төменгі түйме</string>
+    <string name="MZGramChannelBottomMute">Дыбыссыз</string>
+    <string name="MZGramChannelBottomDiscuss">Талқылау</string>
+    <string name="MZGramChannelBottomHide">Жасыру</string>
+    <string name="MZGramHideKeyboardOnScroll">Айналдырғанда пернетақтаны жасыру</string>
+    <string name="MZGramAddCommaAfterMention">Атаудан кейін үтір</string>
+    <string name="MZGramHideSendAsPeer">«Ретінде жіберу» түймесін жасыру</string>
+    <string name="MZGramHideSendAsPeerInfo">Хабарламалар соңғы таңдалған аккаунттан немесе арнадан жіберіледі. Қайта таңдау үшін өшіріңіз.</string>
 </resources>

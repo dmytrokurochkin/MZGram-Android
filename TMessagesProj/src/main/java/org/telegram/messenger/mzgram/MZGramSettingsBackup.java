@@ -107,7 +107,7 @@ public final class MZGramSettingsBackup {
     static {
         bools(CONFIG,
                 "disableNumberRounding", "formatTimeWithSeconds", "askBeforeCall", "hideStories",
-                "storiesNoBackgroundLoad", "disableGreetingSticker", "hideChannelBottomButtons",
+                "storiesNoBackgroundLoad", "disableGreetingSticker",
                 "openArchiveOnPull", "disableInstantCamera", "hideCameraTile", "checkUpdates",
                 "preferOriginalQuality", "autoPauseVideo", "showCopyPhoto", "showDeleteDownloadedFile",
                 "showAddToSavedMessages", "showSetReminder", "showRepeat", "showOpenIn",
@@ -141,11 +141,14 @@ public final class MZGramSettingsBackup {
                 "hexColorSwatch", "scheduleSlider", "sendSilentByDefault", "showRegistrationDate",
                 "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd", "videoSubtitles", "persianCalendar",
                 "hideChatStatus", "chat_header_compact", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
-                "usePinnedReactionsChannels", "replyBackground", "replyEmoji", "replyColors", "unlimitedRecentStickers", "pauseVoiceOnMinimize", "unmuteWithVolumeButtons", "swipeToPip", "showResultsBeforeVoting", "hideShareButton", "removeMessageTail", "forceBlur", "hideAllChatsTab", "folderTabCounters", "singleCornerRadius", "customChatThemes", "senderMiniAvatars", "forceSnow", "hideDialogsSearchBar", "hideFloatingButton", "hideActionBarStatus", "centerTitle", "disableUnarchiveSwipe", "hideArchiveFolder", "hidePhoneNumber", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
+                "usePinnedReactionsChannels", "hideSendAsPeer", "addCommaAfterMention", "hideKeyboardOnScroll", "replyBackground", "replyEmoji", "replyColors", "unlimitedRecentStickers", "pauseVoiceOnMinimize", "unmuteWithVolumeButtons", "swipeToPip", "showResultsBeforeVoting", "hideShareButton", "removeMessageTail", "forceBlur", "hideAllChatsTab", "folderTabCounters", "singleCornerRadius", "customChatThemes", "senderMiniAvatars", "forceSnow", "hideDialogsSearchBar", "hideFloatingButton", "hideActionBarStatus", "centerTitle", "disableUnarchiveSwipe", "hideArchiveFolder", "hidePhoneNumber", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
         // MZGramAvatarShape.MIN..MAX
         integer(CONFIG, "avatarCorners", 0, 28);
         // Sticker shape: Default, Rounded or Message
         integer(CONFIG, "stickerShape", 0, 2);
+        // Channel bottom button: Mute, Discuss or none; swipe on a message: Reply .. Delete
+        integer(CONFIG, "channelBottomButton", 0, 2);
+        integer(CONFIG, "swipeAction", 0, 5);
         // MZGramGlassOutline GLARE, SOLID, HIDDEN
         integer(CONFIG, "glassOutline", 0, 2);
         // MZGramFolderIcons TITLES, ICONS_AND_TITLES, ICONS

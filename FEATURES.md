@@ -132,6 +132,10 @@ Settings > MZGram > Chats.
 | Character counter | Shows how many characters are typed, counted as the Bot API counts them. Off by default. | Next release |
 | Inline calculator | An expression typed with "=" in the message field (25*40=) gets its result added (25*40=1000). It works offline, with + - * / ^ % and brackets. Off by default. | Next release |
 | Double tap actions | What a double tap on a message does, separately for your own messages and other people's: Telegram's quick reaction, reply, copy the text, or nothing. Off by default. | Next release |
+| Swipe action | Settings > MZGram > Chats > Gestures > Swipe action: what a swipe to the left on a message does: Reply (as in Telegram), Forward, Copy, Edit, Pin or Delete. Each runs the action of the message menu with its checks (Delete and Edit ask as there); where an action is not allowed, for example Pin without admin rights, the swipe replies. | Next release |
+| Hide keyboard while scrolling | Settings > MZGram > Chats. Scrolling a chat by hand closes the keyboard. Off by default. | Next release |
+| Comma after mention | Settings > MZGram > Chats. A mention picked from the list is followed by a comma ("@name, "); not after bots. Off by default. | Next release |
+| Hide the "Send as" button | Settings > MZGram > Chats. No Send as button by the message field; messages go from the account or channel chosen last. Off by default. | Next release |
 | Clean tracking from links | Tracking parameters (utm_source, fbclid, gclid, si and others) are removed from a link when you open it and when you paste it into a message. The rules are the AdGuard URL Tracking filter built into the app; it is never downloaded. Off by default. | Next release |
 
 ### Media and calls
@@ -185,7 +189,7 @@ Settings > MZGram > Chats.
 | Seconds in message time | Message times show seconds, such as 12:34:56. | 1.0.0 |
 | Exact numbers | Views, reactions and members show exact counts (4777 instead of 4.8K). | 1.0.0 |
 | No greeting sticker | An empty chat shows no suggested sticker. | 1.0.0 |
-| Hide channel bottom button | In channels where you cannot post, hides the bottom bar with the mute button. | 1.0.0 |
+| Channel bottom button | Settings > MZGram > Chats > Bottom button, for channels where you cannot post: Mute (as in Telegram), Discuss (opens the channel's discussion chat; Mute where the channel has none) or Hide (no bottom bar). The earlier "hide" switch reads as Hide. | Hide: 1.0.0; Discuss: next release |
 | Animation switches | Switches for the predictive back animation and the gooey avatar animation in profiles. | 1.0.0 |
 | MZGram first in Settings | The MZGram row ("Features of this client") is the first row of Telegram's settings list, in the same group and with the same look as My Account and the other settings, right above My Account (next release; in 1.0.5 it was a group of its own above the accounts). "Features of this client" is only that row's subtitle, not a text on the MZGram page. | 1.0.5 |
 | 12 languages | The MZGram interface is available in 12 languages: English, Ukrainian, Russian, Polish, Spanish, German, French, Portuguese (Brazil), Turkish, Arabic, Belarusian and Kazakh. Every MZGram switch, setting, menu item, dialog, error, the update banner and the push diagnostics are complete in each; for any other language they are in English, never a mix. From the next release every MZGram text is in the chosen MZGram language, never in Telegram's: the buttons of MZGram's dialogs (Cancel, OK, Save, Delete), the update banner and the install permission dialog (also right after the language is changed), the MZGram items of the message menu, the QR code and message details screens and their dates. English and Ukrainian since 1.0.2. | 1.0.4 |

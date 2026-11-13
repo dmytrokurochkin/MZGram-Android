@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Uhrzeit mit Sekunden</string>
     <string name="MZGramDisableGreetingSticker">Begrüßungssticker deaktivieren</string>
     <string name="MZGramDisableGreetingStickerInfo">Ein leerer Chat zeigt nur seinen Namen, ohne den vorgeschlagenen Sticker zum Senden.</string>
-    <string name="MZGramHideChannelBottomButtons">Untere Kanal-Schaltfläche ausblenden</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">In Kanälen, in denen du nicht posten kannst, wird die untere Leiste mit der Stummschalten-Taste ausgeblendet.</string>
     <string name="MZGramCopyPhoto">Foto kopieren</string>
     <string name="MZGramPhotoCopied">Foto in die Zwischenablage kopiert</string>
     <string name="MZGramShowCopyPhotoInfo">Fügt „Foto kopieren“ zum Menü eines heruntergeladenen Fotos hinzu, damit es in anderen Apps eingefügt werden kann.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Emoji in Antworten</string>
     <string name="MZGramReplyBackground">Hintergrund von Antworten</string>
     <string name="MZGramRepliesInfo">Eine Antwort in einer Nachricht erhält Farbe und Emoji ihres Autors und einen getönten Hintergrund, wie bei Telegram. Ausgeschaltet nutzen Antworten die Designfarbe.</string>
+    <string name="MZGramSwipeAction">Wischaktion</string>
+    <string name="MZGramSwipeForward">Weiterleiten</string>
+    <string name="MZGramSwipeEdit">Bearbeiten</string>
+    <string name="MZGramSwipePin">Anheften</string>
+    <string name="MZGramSwipeDelete">Löschen</string>
+    <string name="MZGramSwipeActionInfo">Manche Aktionen brauchen Adminrechte im Chat oder Kanal. Wo eine Aktion nicht erlaubt ist, antwortet das Wischen wie bei Telegram.</string>
+    <string name="MZGramChannelBottomButton">Untere Taste</string>
+    <string name="MZGramChannelBottomMute">Stumm</string>
+    <string name="MZGramChannelBottomDiscuss">Diskutieren</string>
+    <string name="MZGramChannelBottomHide">Ausblenden</string>
+    <string name="MZGramHideKeyboardOnScroll">Tastatur beim Scrollen ausblenden</string>
+    <string name="MZGramAddCommaAfterMention">Komma nach Erwähnung</string>
+    <string name="MZGramHideSendAsPeer">„Senden als“-Taste ausblenden</string>
+    <string name="MZGramHideSendAsPeerInfo">Nachrichten gehen vom zuletzt gewählten Konto oder Kanal aus. Ausschalten, um neu zu wählen.</string>
 </resources>

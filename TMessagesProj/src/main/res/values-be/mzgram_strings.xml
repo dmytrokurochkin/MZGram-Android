@@ -25,8 +25,6 @@
     <string name="MZGramFormatTimeWithSeconds">Час з секундамі</string>
     <string name="MZGramDisableGreetingSticker">Адключыць вітальны стыкер</string>
     <string name="MZGramDisableGreetingStickerInfo">Пусты чат паказвае толькі сваю назву, без прапанаванага стыкера для адпраўкі.</string>
-    <string name="MZGramHideChannelBottomButtons">Схаваць ніжнюю кнопку канала</string>
-    <string name="MZGramHideChannelBottomButtonsInfo">У каналах, дзе вы не можаце публікаваць, хавае ніжнюю панэль з кнопкай выключэння гуку.</string>
     <string name="MZGramCopyPhoto">Капіраваць фота</string>
     <string name="MZGramPhotoCopied">Фота скапіравана ў буфер абмену</string>
     <string name="MZGramShowCopyPhotoInfo">Дадае «Капіраваць фота» ў меню спампаванага фота, каб яго можна было ўставіць у іншыя праграмы.</string>
@@ -1306,4 +1304,18 @@
     <string name="MZGramReplyEmoji">Эмодзі ў адказах</string>
     <string name="MZGramReplyBackground">Фон адказаў</string>
     <string name="MZGramRepliesInfo">Адказ у паведамленні мае колер і эмодзі аўтара і падфарбаваны фон, як у Telegram. Калі выключыць, адказы маюць колер тэмы.</string>
+    <string name="MZGramSwipeAction">Дзеянне свайпам</string>
+    <string name="MZGramSwipeForward">Пераслаць</string>
+    <string name="MZGramSwipeEdit">Рэдагаваць</string>
+    <string name="MZGramSwipePin">Замацаваць</string>
+    <string name="MZGramSwipeDelete">Выдаліць</string>
+    <string name="MZGramSwipeActionInfo">Некаторыя дзеянні патрабуюць правоў адміністратара ў чаце або канале. Дзе дзеянне недаступнае, свайп адказвае, як у Telegram.</string>
+    <string name="MZGramChannelBottomButton">Ніжняя кнопка</string>
+    <string name="MZGramChannelBottomMute">Без гуку</string>
+    <string name="MZGramChannelBottomDiscuss">Абмеркаваць</string>
+    <string name="MZGramChannelBottomHide">Схаваць</string>
+    <string name="MZGramHideKeyboardOnScroll">Хаваць клавіятуру падчас пракруткі</string>
+    <string name="MZGramAddCommaAfterMention">Коска пасля згадкі</string>
+    <string name="MZGramHideSendAsPeer">Схаваць кнопку «Даслаць як»</string>
+    <string name="MZGramHideSendAsPeerInfo">Паведамленні дасылаюцца ад акаўнта або канала, абранага апошнім. Выключыце, каб абраць зноў.</string>
 </resources>

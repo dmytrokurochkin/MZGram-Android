@@ -509,4 +509,29 @@ class MZGramScreensTest {
             org.telegram.messenger.mzgram.MZGramSettingsBackup.restore(backup)
         }
     }
+
+    // Feed: unchecked channels and the category are kept per account; posts
+    // per channel reads 20 for anything but 10, 20 or 50; a feed with no
+    // channels calls back at once with nothing.
+    @Test
+    fun feedPreferences() {
+        val account = org.telegram.messenger.UserConfig.selectedAccount
+        val posts = MZGramConfig.feedPostsPerChannel
+        val category = org.telegram.messenger.mzgram.MZGramFeed.category(account)
+        try {
+            org.telegram.messenger.mzgram.MZGramFeed.setHidden(account, -1001234L, true)
+            assertTrue(org.telegram.messenger.mzgram.MZGramFeed.hidden(account).contains(-1001234L))
+            org.telegram.messenger.mzgram.MZGramFeed.setHidden(account, -1001234L, false)
+            assertFalse(org.telegram.messenger.mzgram.MZGramFeed.hidden(account).contains(-1001234L))
+            org.telegram.messenger.mzgram.MZGramFeed.setCategory(account, 7)
+            assertEquals(7, org.telegram.messenger.mzgram.MZGramFeed.category(account))
+            MZGramConfig.setFeedPostsPerChannel(50)
+            assertEquals(50, org.telegram.messenger.mzgram.MZGramFeed.postsPerChannel())
+            MZGramConfig.setFeedPostsPerChannel(33)
+            assertEquals(20, org.telegram.messenger.mzgram.MZGramFeed.postsPerChannel())
+        } finally {
+            MZGramConfig.setFeedPostsPerChannel(posts)
+            org.telegram.messenger.mzgram.MZGramFeed.setCategory(account, category)
+        }
+    }
 }

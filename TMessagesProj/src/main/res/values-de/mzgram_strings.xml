@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Immer</string>
     <string name="MZGramGhostStatusInTitle">Geist in der Kopfzeile</string>
     <string name="MZGramGhostStatusInTitleInfo">Solange der Geistmodus an ist, steht ein Geist hinter dem Titel der Chatliste.</string>
-    <string name="MZGramDrawerGhostOn">Geistmodus: an</string>
-    <string name="MZGramDrawerGhostOff">Geistmodus: aus</string>
+    <string name="MZGramDrawerGhostOn">Geistmodus ausschalten</string>
+    <string name="MZGramDrawerGhostOff">Geistmodus einschalten</string>
     <string name="MZGramArchiveTotalLimit">Größe der Archivdateien</string>
     <string name="MZGramArchiveTotalLimitInfo">Höchstens so viel dürfen Medien und Anhänge des Archivs belegen. Am Limit werden keine neuen Dateien mehr behalten; behaltene werden nie automatisch gelöscht.</string>
     <string name="MZGramSaveReadDates">Lesedatum speichern</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Konto löschen</string>
     <string name="MZGramDeleteAccountConfirm">Die Telegram-Seite zum Löschen eines Kontos öffnet sich im Browser. Das Löschen entfernt alle Chats und Kontakte des Kontos endgültig.</string>
     <string name="MZGramDeleteAccountInfo">Öffnet Telegrams eigene Seite zum Löschen eines Kontos (my.telegram.org).</string>
+    <string name="MZGramFeed">Feed</string>
+    <string name="MZGramFeedOpen">Feed öffnen</string>
+    <string name="MZGramFeedInfo">Die Beiträge deiner Kanäle in einer Liste, die neuesten unten. Ein Tippen öffnet den Beitrag in seinem Kanal. Das Öffnen des Feeds markiert nichts als gelesen.</string>
+    <string name="MZGramFeedTab">In den unteren Tabs</string>
+    <string name="MZGramFeedTabInfo">Der Feed nimmt den Platz des Tabs Kontakte ein.</string>
+    <string name="MZGramFeedUnreadCounter">Zähler ungelesener Beiträge</string>
+    <string name="MZGramFeedWidePosts">Breite Beiträge im Feed</string>
+    <string name="MZGramFeedWidePostsInfo">Beiträge nutzen die Bildschirmbreite, mit dem Kanalnamen darüber. Ausgeschaltet sehen sie aus wie im Kanal, ohne Namen.</string>
+    <string name="MZGramFeedIncludeArchived">Kanäle aus dem Archiv</string>
+    <string name="MZGramFeedPostsPerChannel">Beiträge pro Kanal</string>
+    <string name="MZGramFeedChannels">Kanäle</string>
+    <string name="MZGramFeedChannelsInfo">Entferne den Haken bei einem Kanal, um seine Beiträge aus dem Feed zu nehmen. Neue Kanäle sind dabei.</string>
+    <string name="MZGramFeedMarkAllRead">Alles als gelesen markieren</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Alle Beiträge der Feed-Kanäle als gelesen markieren? Sie sind dann auch in den Kanälen gelesen.</string>
+    <string name="MZGramFeedMarkAllReadDone">Alle Beiträge gelesen</string>
+    <string name="MZGramFeedCategory">Kategorie</string>
+    <string name="MZGramFeedAllChannels">Alle Kanäle</string>
+    <string name="MZGramFeedSettings">Feed-Einstellungen</string>
+    <string name="MZGramFeedChannelsCount">Kanäle: %1$d</string>
+    <string name="MZGramFeedUnreadCount">ungelesen: %1$d</string>
+    <string name="MZGramFeedNoPosts">Noch keine Kanalbeiträge.</string>
+    <string name="MZGramFeedNoChannels">Keine Kanäle im Feed. Folge einem Kanal oder hake Kanäle in den Feed-Einstellungen an.</string>
 </resources>

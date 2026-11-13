@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Заўсёды</string>
     <string name="MZGramGhostStatusInTitle">Прывід у загалоўку</string>
     <string name="MZGramGhostStatusInTitleInfo">Пакуль рэжым прывіда ўключаны, пасля загалоўка спіса чатаў бачны прывід.</string>
-    <string name="MZGramDrawerGhostOn">Рэжым прывіда: уключаны</string>
-    <string name="MZGramDrawerGhostOff">Рэжым прывіда: выключаны</string>
+    <string name="MZGramDrawerGhostOn">Выключыць рэжым прывіда</string>
+    <string name="MZGramDrawerGhostOff">Уключыць рэжым прывіда</string>
     <string name="MZGramArchiveTotalLimit">Памер файлаў архіва</string>
     <string name="MZGramArchiveTotalLimitInfo">Найбольш, колькі могуць займаць медыя і ўкладанні архіва. На мяжы новыя файлы больш не захоўваюцца; захаваныя ніколі не выдаляюцца аўтаматычна.</string>
     <string name="MZGramSaveReadDates">Захоўваць дату прачытання</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Выдаліць акаўнт</string>
     <string name="MZGramDeleteAccountConfirm">У браўзеры адкрыецца старонка Telegram для выдалення акаўнта. Выдаленне акаўнта назаўсёды прыбірае ўсе яго чаты і кантакты.</string>
     <string name="MZGramDeleteAccountInfo">Адкрывае ўласную старонку Telegram для выдалення акаўнта (my.telegram.org).</string>
+    <string name="MZGramFeed">Стужка</string>
+    <string name="MZGramFeedOpen">Адкрыць стужку</string>
+    <string name="MZGramFeedInfo">Пасты каналаў, на якія вы падпісаны, у адным спісе, найноўшыя ўнізе. Дотык адкрывае пост у яго канале. Адкрыццё стужкі не пазначае пасты прачытанымі.</string>
+    <string name="MZGramFeedTab">На ніжніх укладках</string>
+    <string name="MZGramFeedTabInfo">Стужка займае месца ўкладкі «Кантакты».</string>
+    <string name="MZGramFeedUnreadCounter">Лічыльнік непрачытаных пастоў</string>
+    <string name="MZGramFeedWidePosts">Шырокія пасты ў стужцы</string>
+    <string name="MZGramFeedWidePostsInfo">Пасты на ўсю шырыню экрана з назвай канала над імі. Калі выключыць, яны як у канале, без назвы.</string>
+    <string name="MZGramFeedIncludeArchived">Каналы з архіва</string>
+    <string name="MZGramFeedPostsPerChannel">Пастоў з канала</string>
+    <string name="MZGramFeedChannels">Каналы</string>
+    <string name="MZGramFeedChannelsInfo">Зніміце пазнаку з канала, каб прыбраць яго пасты са стужкі. Новыя каналы ў ёй з\'яўляюцца.</string>
+    <string name="MZGramFeedMarkAllRead">Пазначыць усё прачытаным</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Пазначыць усе пасты каналаў стужкі прачытанымі? Яны стануць прачытанымі і ў саміх каналах.</string>
+    <string name="MZGramFeedMarkAllReadDone">Усе пасты прачытаныя</string>
+    <string name="MZGramFeedCategory">Катэгорыя</string>
+    <string name="MZGramFeedAllChannels">Усе каналы</string>
+    <string name="MZGramFeedSettings">Налады стужкі</string>
+    <string name="MZGramFeedChannelsCount">Каналаў: %1$d</string>
+    <string name="MZGramFeedUnreadCount">непрачытаных: %1$d</string>
+    <string name="MZGramFeedNoPosts">Пастоў каналаў пакуль няма.</string>
+    <string name="MZGramFeedNoChannels">У стужцы няма каналаў. Падпішыцеся на канал або пазначце каналы ў наладах стужкі.</string>
 </resources>

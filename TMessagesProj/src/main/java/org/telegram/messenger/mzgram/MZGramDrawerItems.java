@@ -39,11 +39,12 @@ public final class MZGramDrawerItems {
     public static final int QR_LOGIN = 11;
     public static final int FULL_MENU = 12;
     public static final int GHOST_MODE = 13;
+    public static final int FEED = 14;
 
     /** Every item in the order of a fresh install. */
     public static final int[] DEFAULT_ORDER = {
             PROFILE, NEW_GROUP, NEW_CHANNEL, CONTACTS, CALLS, SAVED, ARCHIVE,
-            NIGHT_MODE, GHOST_MODE, SETTINGS, MZGRAM, QR_LOGIN, FULL_MENU
+            NIGHT_MODE, GHOST_MODE, FEED, SETTINGS, MZGRAM, QR_LOGIN, FULL_MENU
     };
 
     /** Hidden on a fresh install: the QR button of the header does the same. */

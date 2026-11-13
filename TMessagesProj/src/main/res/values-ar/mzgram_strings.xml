@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">دائمًا</string>
     <string name="MZGramGhostStatusInTitle">الشبح في العنوان</string>
     <string name="MZGramGhostStatusInTitleInfo">طالما وضع الشبح مفعّل يظهر شبح بعد عنوان قائمة المحادثات.</string>
-    <string name="MZGramDrawerGhostOn">وضع الشبح: مفعّل</string>
-    <string name="MZGramDrawerGhostOff">وضع الشبح: معطّل</string>
+    <string name="MZGramDrawerGhostOn">إيقاف وضع الشبح</string>
+    <string name="MZGramDrawerGhostOff">تشغيل وضع الشبح</string>
     <string name="MZGramArchiveTotalLimit">حجم ملفات الأرشيف</string>
     <string name="MZGramArchiveTotalLimitInfo">أقصى ما يمكن أن تشغله وسائط الأرشيف ومرفقاته. عند الحد لا تُحفظ ملفات جديدة؛ ولا تُحذف الملفات المحفوظة تلقائيًا أبدًا.</string>
     <string name="MZGramSaveReadDates">حفظ تاريخ القراءة</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">حذف الحساب</string>
     <string name="MZGramDeleteAccountConfirm">تُفتح صفحة Telegram لحذف الحساب في المتصفح. يزيل حذف الحساب كل محادثاته وجهات اتصاله نهائيًا.</string>
     <string name="MZGramDeleteAccountInfo">يفتح صفحة Telegram الخاصة بحذف الحساب (my.telegram.org).</string>
+    <string name="MZGramFeed">الموجز</string>
+    <string name="MZGramFeedOpen">فتح الموجز</string>
+    <string name="MZGramFeedInfo">منشورات القنوات التي تتابعها في قائمة واحدة، الأحدث في الأسفل. يفتح النقر المنشور في قناته. لا يعلّم فتح الموجز المنشورات كمقروءة.</string>
+    <string name="MZGramFeedTab">في علامات التبويب السفلية</string>
+    <string name="MZGramFeedTabInfo">يأخذ الموجز مكان تبويب جهات الاتصال.</string>
+    <string name="MZGramFeedUnreadCounter">عداد المنشورات غير المقروءة</string>
+    <string name="MZGramFeedWidePosts">منشورات عريضة في الموجز</string>
+    <string name="MZGramFeedWidePostsInfo">تأخذ المنشورات عرض الشاشة مع اسم القناة فوقها. عند الإيقاف تبدو كما في القناة، دون الاسم.</string>
+    <string name="MZGramFeedIncludeArchived">قنوات من الأرشيف</string>
+    <string name="MZGramFeedPostsPerChannel">منشورات لكل قناة</string>
+    <string name="MZGramFeedChannels">القنوات</string>
+    <string name="MZGramFeedChannelsInfo">ألغِ تحديد قناة لإخراج منشوراتها من الموجز. تظهر القنوات الجديدة فيه.</string>
+    <string name="MZGramFeedMarkAllRead">تعليم الكل كمقروء</string>
+    <string name="MZGramFeedMarkAllReadConfirm">تعليم كل منشورات قنوات الموجز كمقروءة؟ ستصبح مقروءة في القنوات نفسها أيضًا.</string>
+    <string name="MZGramFeedMarkAllReadDone">قُرئت كل المنشورات</string>
+    <string name="MZGramFeedCategory">الفئة</string>
+    <string name="MZGramFeedAllChannels">كل القنوات</string>
+    <string name="MZGramFeedSettings">إعدادات الموجز</string>
+    <string name="MZGramFeedChannelsCount">القنوات: %1$d</string>
+    <string name="MZGramFeedUnreadCount">غير مقروء: %1$d</string>
+    <string name="MZGramFeedNoPosts">لا توجد منشورات قنوات بعد.</string>
+    <string name="MZGramFeedNoChannels">لا توجد قنوات في الموجز. تابع قناة أو حدد قنوات في إعدادات الموجز.</string>
 </resources>

@@ -9994,6 +9994,9 @@ public class MessageObject {
     }
 
     // MZGram: wide channel posts (Settings > MZGram > Chats), false with the option off
+    // MZGram: a post shown in the Feed (MZGramFeed)
+    public boolean mzgramFeed;
+
     public boolean isWideChannelPost() {
         return org.telegram.ui.mzgram.MZGramWidePosts.isWide(this);
     }

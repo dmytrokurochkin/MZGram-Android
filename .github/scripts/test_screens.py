@@ -362,7 +362,7 @@ class ScreensTest(unittest.TestCase):
         self.assertIn(f"{gm}.afterSent(currentAccount);", read(JAVA / "messenger/SendMessagesHelper.java"))
         stories = read(JAVA / "ui/Stories/StoriesController.java")
         self.assertEqual(2, stories.count(f"if (!{gm}.blocksStories(currentAccount, dialogId)) {{"))
-        self.assertIn("NIGHT_MODE, GHOST_MODE, SETTINGS", read(JAVA / "messenger/mzgram/MZGramDrawerItems.java"))
+        self.assertIn("NIGHT_MODE, GHOST_MODE, FEED, SETTINGS", read(JAVA / "messenger/mzgram/MZGramDrawerItems.java"))
         self.assertIn("case MZGramDrawerItems.GHOST_MODE:", read(JAVA / "ui/mzgram/MZGramDrawer.java"))
         dialogs = read(JAVA / "ui/DialogsActivity.java")
         self.assertIn("mzgramUpdateGhostTitle(); // MZGram: Ghost in the header", dialogs)
@@ -396,6 +396,25 @@ class ScreensTest(unittest.TestCase):
         backup = read(BACKUP)
         self.assertIn("public static int reset() {", backup)
         self.assertIn("if (accepted(file, entry.getKey(), entry.getValue()) != null) {", backup)
+
+    def test_feed(self):
+        self.switch("feedTab", "false", "BUTTON_FEED_TAB")
+        self.switch("feedUnreadCounter", "true", "BUTTON_FEED_UNREAD_COUNTER")
+        self.switch("feedWidePosts", "true", "BUTTON_FEED_WIDE_POSTS")
+        self.switch("feedIncludeArchived", "false", "BUTTON_FEED_INCLUDE_ARCHIVED")
+        self.assertIn('integer(CONFIG, "feedPostsPerChannel", 10, 50);', read(BACKUP))
+        page = read(PAGE)
+        self.assertIn("public static final int SECTION_FEED = 10;", page)
+        self.assertIn("case SECTION_FEED: fillFeed(items); break;", page)
+        self.assertIn("items.add(UItem.asButton(BUTTON_FEED_PAGE, getString(R.string.MZGramFeed)));", page)
+        tabs = read(JAVA / "ui/MainTabsActivity.java")
+        self.assertIn("return new org.telegram.ui.mzgram.MZGramFeedActivity(args);", tabs)
+        self.assertIn("GlassTabView.TabAnimation.FILES, R.string.MZGramFeed", tabs)
+        self.assertIn("message.mzgramFeed && MZGramConfig.feedWidePosts", read(JAVA / "ui/mzgram/MZGramWidePosts.java"))
+        feed = read(JAVA / "messenger/mzgram/MZGramFeed.java")
+        self.assertIn("new TLRPC.TL_messages_getHistory()", feed)
+        self.assertNotIn("http", feed)
+        self.assertIn("case MZGramDrawerItems.FEED:", read(JAVA / "ui/mzgram/MZGramDrawer.java"))
 
 
 if __name__ == "__main__":

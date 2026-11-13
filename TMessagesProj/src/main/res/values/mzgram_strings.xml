@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Always</string>
     <string name="MZGramGhostStatusInTitle">Ghost in the header</string>
     <string name="MZGramGhostStatusInTitleInfo">While ghost mode is on, a ghost appears after the title of the chat list.</string>
-    <string name="MZGramDrawerGhostOn">Ghost mode: on</string>
-    <string name="MZGramDrawerGhostOff">Ghost mode: off</string>
+    <string name="MZGramDrawerGhostOn">Turn off ghost mode</string>
+    <string name="MZGramDrawerGhostOff">Turn on ghost mode</string>
     <string name="MZGramArchiveTotalLimit">Size of the archive\'s files</string>
     <string name="MZGramArchiveTotalLimitInfo">The most the archive\'s media and attachments may take. At the limit new files are no longer kept; kept files are never deleted automatically.</string>
     <string name="MZGramSaveReadDates">Save read date</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Delete account</string>
     <string name="MZGramDeleteAccountConfirm">Telegram\'s page for deleting an account opens in the browser. Deleting the account removes all its chats and contacts for good.</string>
     <string name="MZGramDeleteAccountInfo">Opens Telegram\'s own page for deleting an account (my.telegram.org).</string>
+    <string name="MZGramFeed">Feed</string>
+    <string name="MZGramFeedOpen">Open the feed</string>
+    <string name="MZGramFeedInfo">The posts of the channels you follow in one list, the newest at the bottom. A tap opens the post in its channel. Opening the feed does not mark posts read.</string>
+    <string name="MZGramFeedTab">Show in bottom tabs</string>
+    <string name="MZGramFeedTabInfo">The feed takes the place of the Contacts tab.</string>
+    <string name="MZGramFeedUnreadCounter">Unread post counter</string>
+    <string name="MZGramFeedWidePosts">Wide posts in the feed</string>
+    <string name="MZGramFeedWidePostsInfo">Posts take the width of the screen with the channel\'s name above them. Off, they look as in a channel, without the name.</string>
+    <string name="MZGramFeedIncludeArchived">Channels from the archive</string>
+    <string name="MZGramFeedPostsPerChannel">Posts per channel</string>
+    <string name="MZGramFeedChannels">Channels</string>
+    <string name="MZGramFeedChannelsInfo">Uncheck a channel to leave its posts out of the feed. New channels are in it.</string>
+    <string name="MZGramFeedMarkAllRead">Mark all as read</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Mark every post of the feed\'s channels read? They are also read in the channels themselves.</string>
+    <string name="MZGramFeedMarkAllReadDone">All posts are read</string>
+    <string name="MZGramFeedCategory">Category</string>
+    <string name="MZGramFeedAllChannels">All channels</string>
+    <string name="MZGramFeedSettings">Feed settings</string>
+    <string name="MZGramFeedChannelsCount">Channels: %1$d</string>
+    <string name="MZGramFeedUnreadCount">unread: %1$d</string>
+    <string name="MZGramFeedNoPosts">No channel posts yet.</string>
+    <string name="MZGramFeedNoChannels">No channels in the feed. Follow a channel, or check channels in the feed\'s settings.</string>
 </resources>

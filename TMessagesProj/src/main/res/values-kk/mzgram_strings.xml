@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Әрқашан</string>
     <string name="MZGramGhostStatusInTitle">Тақырыптағы елес</string>
     <string name="MZGramGhostStatusInTitleInfo">Елес режимі қосулы кезде чаттар тізімінің тақырыбынан кейін елес көрінеді.</string>
-    <string name="MZGramDrawerGhostOn">Елес режимі: қосулы</string>
-    <string name="MZGramDrawerGhostOff">Елес режимі: өшірулі</string>
+    <string name="MZGramDrawerGhostOn">Елес режимін өшіру</string>
+    <string name="MZGramDrawerGhostOff">Елес режимін қосу</string>
     <string name="MZGramArchiveTotalLimit">Мұрағат файлдарының өлшемі</string>
     <string name="MZGramArchiveTotalLimitInfo">Мұрағаттың медиасы мен тіркемелері алатын ең көп көлем. Шекте жаңа файлдар сақталмайды; сақталғандары ешқашан автоматты түрде жойылмайды.</string>
     <string name="MZGramSaveReadDates">Оқылған күнді сақтау</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Аккаунтты жою</string>
     <string name="MZGramDeleteAccountConfirm">Аккаунтты жоюға арналған Telegram беті браузерде ашылады. Аккаунтты жою оның барлық чаттары мен контактілерін біржола өшіреді.</string>
     <string name="MZGramDeleteAccountInfo">Аккаунтты жоюға арналған Telegram-ның өз бетін ашады (my.telegram.org).</string>
+    <string name="MZGramFeed">Лента</string>
+    <string name="MZGramFeedOpen">Лентаны ашу</string>
+    <string name="MZGramFeedInfo">Жазылған арналардың жазбалары бір тізімде, ең жаңасы төменде. Түрту жазбаны өз арнасында ашады. Лентаны ашу жазбаларды оқылды деп белгілемейді.</string>
+    <string name="MZGramFeedTab">Төменгі қойындыларда</string>
+    <string name="MZGramFeedTabInfo">Лента «Контактілер» қойындысының орнын алады.</string>
+    <string name="MZGramFeedUnreadCounter">Оқылмаған жазбалар санауышы</string>
+    <string name="MZGramFeedWidePosts">Лентадағы кең жазбалар</string>
+    <string name="MZGramFeedWidePostsInfo">Жазбалар экран енін алады, үстінде арна атауы болады. Өшірілсе, арнадағыдай атаусыз көрінеді.</string>
+    <string name="MZGramFeedIncludeArchived">Мұрағаттағы арналар</string>
+    <string name="MZGramFeedPostsPerChannel">Арнадан жазбалар</string>
+    <string name="MZGramFeedChannels">Арналар</string>
+    <string name="MZGramFeedChannelsInfo">Арнаның жазбаларын лентадан алып тастау үшін белгіні алыңыз. Жаңа арналар онда пайда болады.</string>
+    <string name="MZGramFeedMarkAllRead">Барлығын оқылды деп белгілеу</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Лента арналарының барлық жазбаларын оқылды деп белгілеу керек пе? Олар арналардың өзінде де оқылады.</string>
+    <string name="MZGramFeedMarkAllReadDone">Барлық жазбалар оқылды</string>
+    <string name="MZGramFeedCategory">Санат</string>
+    <string name="MZGramFeedAllChannels">Барлық арналар</string>
+    <string name="MZGramFeedSettings">Лента баптаулары</string>
+    <string name="MZGramFeedChannelsCount">Арналар: %1$d</string>
+    <string name="MZGramFeedUnreadCount">оқылмаған: %1$d</string>
+    <string name="MZGramFeedNoPosts">Арна жазбалары әлі жоқ.</string>
+    <string name="MZGramFeedNoChannels">Лентада арна жоқ. Арнаға жазылыңыз немесе лента баптауларында арналарды белгілеңіз.</string>
 </resources>

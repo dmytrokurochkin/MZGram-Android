@@ -68,6 +68,6 @@ class MZGramM3CardsTest {
     @Test
     fun testSettingsAppearanceSectionExists() {
         assertEquals(1, MZGramSettingsActivity.SECTION_APPEARANCE)
-        assertEquals(10, MZGramSettingsActivity.SECTIONS_COUNT)
+        assertEquals(11, MZGramSettingsActivity.SECTIONS_COUNT)
     }
 }

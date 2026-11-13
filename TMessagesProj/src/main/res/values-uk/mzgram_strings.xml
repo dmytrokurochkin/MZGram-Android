@@ -1361,8 +1361,8 @@
     <string name="MZGramSilentAlways">Завжди</string>
     <string name="MZGramGhostStatusInTitle">Привид у заголовку</string>
     <string name="MZGramGhostStatusInTitleInfo">Поки режим привида ввімкнено, після заголовка списку чатів видно привида.</string>
-    <string name="MZGramDrawerGhostOn">Режим привида: увімкнено</string>
-    <string name="MZGramDrawerGhostOff">Режим привида: вимкнено</string>
+    <string name="MZGramDrawerGhostOn">Вимкнути режим привида</string>
+    <string name="MZGramDrawerGhostOff">Увімкнути режим привида</string>
     <string name="MZGramArchiveTotalLimit">Розмір файлів архіву</string>
     <string name="MZGramArchiveTotalLimitInfo">Найбільше, скільки можуть займати медіа й вкладення архіву. На межі нові файли більше не зберігаються; збережені ніколи не видаляються автоматично.</string>
     <string name="MZGramSaveReadDates">Зберігати дату прочитання</string>
@@ -1380,4 +1380,26 @@
     <string name="MZGramDeleteAccount">Видалити акаунт</string>
     <string name="MZGramDeleteAccountConfirm">У браузері відкриється сторінка Telegram для видалення акаунта. Видалення акаунта назавжди прибирає всі його чати й контакти.</string>
     <string name="MZGramDeleteAccountInfo">Відкриває власну сторінку Telegram для видалення акаунта (my.telegram.org).</string>
+    <string name="MZGramFeed">Стрічка</string>
+    <string name="MZGramFeedOpen">Відкрити стрічку</string>
+    <string name="MZGramFeedInfo">Пости каналів, на які ви підписані, в одному списку, найновіші внизу. Дотик відкриває пост у його каналі. Відкриття стрічки не позначає пости прочитаними.</string>
+    <string name="MZGramFeedTab">На нижніх вкладках</string>
+    <string name="MZGramFeedTabInfo">Стрічка займає місце вкладки «Контакти».</string>
+    <string name="MZGramFeedUnreadCounter">Лічильник непрочитаних постів</string>
+    <string name="MZGramFeedWidePosts">Широкі пости у стрічці</string>
+    <string name="MZGramFeedWidePostsInfo">Пости на всю ширину екрана з назвою каналу над ними. Якщо вимкнути, вони як у каналі, без назви.</string>
+    <string name="MZGramFeedIncludeArchived">Канали з архіву</string>
+    <string name="MZGramFeedPostsPerChannel">Постів з каналу</string>
+    <string name="MZGramFeedChannels">Канали</string>
+    <string name="MZGramFeedChannelsInfo">Зніміть позначку з каналу, щоб прибрати його пости зі стрічки. Нові канали в ній з\'являються.</string>
+    <string name="MZGramFeedMarkAllRead">Позначити все прочитаним</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Позначити всі пости каналів стрічки прочитаними? Вони стануть прочитаними і в самих каналах.</string>
+    <string name="MZGramFeedMarkAllReadDone">Усі пости прочитано</string>
+    <string name="MZGramFeedCategory">Категорія</string>
+    <string name="MZGramFeedAllChannels">Усі канали</string>
+    <string name="MZGramFeedSettings">Налаштування стрічки</string>
+    <string name="MZGramFeedChannelsCount">Каналів: %1$d</string>
+    <string name="MZGramFeedUnreadCount">непрочитаних: %1$d</string>
+    <string name="MZGramFeedNoPosts">Постів каналів поки немає.</string>
+    <string name="MZGramFeedNoChannels">У стрічці немає каналів. Підпишіться на канал або позначте канали в налаштуваннях стрічки.</string>
 </resources>

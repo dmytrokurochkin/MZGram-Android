@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Her zaman</string>
     <string name="MZGramGhostStatusInTitle">Başlıkta hayalet</string>
     <string name="MZGramGhostStatusInTitleInfo">Hayalet modu açıkken sohbet listesinin başlığından sonra bir hayalet görünür.</string>
-    <string name="MZGramDrawerGhostOn">Hayalet modu: açık</string>
-    <string name="MZGramDrawerGhostOff">Hayalet modu: kapalı</string>
+    <string name="MZGramDrawerGhostOn">Hayalet modunu kapat</string>
+    <string name="MZGramDrawerGhostOff">Hayalet modunu aç</string>
     <string name="MZGramArchiveTotalLimit">Arşiv dosyalarının boyutu</string>
     <string name="MZGramArchiveTotalLimitInfo">Arşivin medya ve eklerinin kaplayabileceği en fazla alan. Sınırda yeni dosyalar artık saklanmaz; saklananlar asla otomatik silinmez.</string>
     <string name="MZGramSaveReadDates">Okunma tarihini kaydet</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Hesabı sil</string>
     <string name="MZGramDeleteAccountConfirm">Hesap silmek için Telegram sayfası tarayıcıda açılır. Hesabı silmek tüm sohbetlerini ve kişilerini kalıcı olarak kaldırır.</string>
     <string name="MZGramDeleteAccountInfo">Hesap silmek için Telegram\'ın kendi sayfasını açar (my.telegram.org).</string>
+    <string name="MZGramFeed">Akış</string>
+    <string name="MZGramFeedOpen">Akışı aç</string>
+    <string name="MZGramFeedInfo">Takip ettiğiniz kanalların gönderileri tek listede, en yenisi altta. Dokunmak gönderiyi kanalında açar. Akışı açmak gönderileri okundu yapmaz.</string>
+    <string name="MZGramFeedTab">Alt sekmelerde göster</string>
+    <string name="MZGramFeedTabInfo">Akış, Kişiler sekmesinin yerini alır.</string>
+    <string name="MZGramFeedUnreadCounter">Okunmamış gönderi sayacı</string>
+    <string name="MZGramFeedWidePosts">Akışta geniş gönderiler</string>
+    <string name="MZGramFeedWidePostsInfo">Gönderiler ekran genişliğini kaplar ve üstlerinde kanal adı olur. Kapalıyken kanaldaki gibi, adsız görünürler.</string>
+    <string name="MZGramFeedIncludeArchived">Arşivdeki kanallar</string>
+    <string name="MZGramFeedPostsPerChannel">Kanal başına gönderi</string>
+    <string name="MZGramFeedChannels">Kanallar</string>
+    <string name="MZGramFeedChannelsInfo">Bir kanalın gönderilerini akıştan çıkarmak için işaretini kaldırın. Yeni kanallar akışa girer.</string>
+    <string name="MZGramFeedMarkAllRead">Tümünü okundu yap</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Akış kanallarının tüm gönderileri okundu yapılsın mı? Kanalların kendisinde de okunmuş olurlar.</string>
+    <string name="MZGramFeedMarkAllReadDone">Tüm gönderiler okundu</string>
+    <string name="MZGramFeedCategory">Kategori</string>
+    <string name="MZGramFeedAllChannels">Tüm kanallar</string>
+    <string name="MZGramFeedSettings">Akış ayarları</string>
+    <string name="MZGramFeedChannelsCount">Kanal: %1$d</string>
+    <string name="MZGramFeedUnreadCount">okunmamış: %1$d</string>
+    <string name="MZGramFeedNoPosts">Henüz kanal gönderisi yok.</string>
+    <string name="MZGramFeedNoChannels">Akışta kanal yok. Bir kanalı takip edin veya akış ayarlarında kanal işaretleyin.</string>
 </resources>

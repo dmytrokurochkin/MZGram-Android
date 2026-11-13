@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Sempre</string>
     <string name="MZGramGhostStatusInTitle">Fantasma no cabeçalho</string>
     <string name="MZGramGhostStatusInTitleInfo">Enquanto o modo fantasma estiver ativo, um fantasma aparece após o título da lista de chats.</string>
-    <string name="MZGramDrawerGhostOn">Modo fantasma: ativado</string>
-    <string name="MZGramDrawerGhostOff">Modo fantasma: desativado</string>
+    <string name="MZGramDrawerGhostOn">Desativar o modo fantasma</string>
+    <string name="MZGramDrawerGhostOff">Ativar o modo fantasma</string>
     <string name="MZGramArchiveTotalLimit">Tamanho dos arquivos do arquivo</string>
     <string name="MZGramArchiveTotalLimitInfo">O máximo que as mídias e anexos do arquivo podem ocupar. No limite, novos arquivos deixam de ser guardados; os guardados nunca são apagados automaticamente.</string>
     <string name="MZGramSaveReadDates">Guardar a data de leitura</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Apagar conta</string>
     <string name="MZGramDeleteAccountConfirm">A página do Telegram para apagar uma conta abre no navegador. Apagar a conta remove para sempre todos os chats e contatos dela.</string>
     <string name="MZGramDeleteAccountInfo">Abre a página do próprio Telegram para apagar uma conta (my.telegram.org).</string>
+    <string name="MZGramFeed">Feed</string>
+    <string name="MZGramFeedOpen">Abrir o feed</string>
+    <string name="MZGramFeedInfo">As publicações dos canais que você segue numa lista, as mais novas embaixo. Um toque abre a publicação no canal. Abrir o feed não marca como lidas.</string>
+    <string name="MZGramFeedTab">Nas abas inferiores</string>
+    <string name="MZGramFeedTabInfo">O feed fica no lugar da aba Contatos.</string>
+    <string name="MZGramFeedUnreadCounter">Contador de publicações não lidas</string>
+    <string name="MZGramFeedWidePosts">Publicações largas no feed</string>
+    <string name="MZGramFeedWidePostsInfo">As publicações ocupam a largura da tela com o nome do canal acima. Desativado, aparecem como no canal, sem o nome.</string>
+    <string name="MZGramFeedIncludeArchived">Canais do arquivo</string>
+    <string name="MZGramFeedPostsPerChannel">Publicações por canal</string>
+    <string name="MZGramFeedChannels">Canais</string>
+    <string name="MZGramFeedChannelsInfo">Desmarque um canal para tirar suas publicações do feed. Canais novos aparecem nele.</string>
+    <string name="MZGramFeedMarkAllRead">Marcar tudo como lido</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Marcar como lidas todas as publicações dos canais do feed? Elas também ficam lidas nos canais.</string>
+    <string name="MZGramFeedMarkAllReadDone">Todas as publicações lidas</string>
+    <string name="MZGramFeedCategory">Categoria</string>
+    <string name="MZGramFeedAllChannels">Todos os canais</string>
+    <string name="MZGramFeedSettings">Configurações do feed</string>
+    <string name="MZGramFeedChannelsCount">Canais: %1$d</string>
+    <string name="MZGramFeedUnreadCount">não lidas: %1$d</string>
+    <string name="MZGramFeedNoPosts">Ainda não há publicações de canais.</string>
+    <string name="MZGramFeedNoChannels">Não há canais no feed. Siga um canal ou marque canais nas configurações do feed.</string>
 </resources>

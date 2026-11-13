@@ -141,7 +141,7 @@ public final class MZGramSettingsBackup {
                 "hexColorSwatch", "scheduleSlider", "sendSilentByDefault", "showRegistrationDate",
                 "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd", "videoSubtitles", "persianCalendar",
                 "hideChatStatus", "chat_header_compact", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
-                "usePinnedReactionsChannels", "deletedMarkIcon", "saveLastOnline", "saveReadDates", "ghostStatusInTitle", "ghostReadOnInteraction", "ghostOfflineAuto", "ghostNoTyping", "ghostNoOnline", "ghostNoReadStories", "ghostNoRead", "groupMessageMenu", "inlineTimeZones", "inlineUnits", "staticZoom", "rememberLastCamera", "roundVideoFrontCamera", "quickTransitionTopics", "quickTransitionChannels", "telegramAiIvSummary", "telegramAiSummary", "telegramAiEditor", "quickAdminShortcuts", "showForwardsCount", "showOnlineStatus", "replaceEditedWithIcon", "hideSendAsPeer", "addCommaAfterMention", "hideKeyboardOnScroll", "replyBackground", "replyEmoji", "replyColors", "unlimitedRecentStickers", "pauseVoiceOnMinimize", "unmuteWithVolumeButtons", "swipeToPip", "showResultsBeforeVoting", "hideShareButton", "removeMessageTail", "forceBlur", "hideAllChatsTab", "folderTabCounters", "singleCornerRadius", "customChatThemes", "senderMiniAvatars", "forceSnow", "hideDialogsSearchBar", "hideFloatingButton", "hideActionBarStatus", "centerTitle", "disableUnarchiveSwipe", "hideArchiveFolder", "hidePhoneNumber", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
+                "usePinnedReactionsChannels", "feedIncludeArchived", "feedWidePosts", "feedUnreadCounter", "feedTab", "deletedMarkIcon", "saveLastOnline", "saveReadDates", "ghostStatusInTitle", "ghostReadOnInteraction", "ghostOfflineAuto", "ghostNoTyping", "ghostNoOnline", "ghostNoReadStories", "ghostNoRead", "groupMessageMenu", "inlineTimeZones", "inlineUnits", "staticZoom", "rememberLastCamera", "roundVideoFrontCamera", "quickTransitionTopics", "quickTransitionChannels", "telegramAiIvSummary", "telegramAiSummary", "telegramAiEditor", "quickAdminShortcuts", "showForwardsCount", "showOnlineStatus", "replaceEditedWithIcon", "hideSendAsPeer", "addCommaAfterMention", "hideKeyboardOnScroll", "replyBackground", "replyEmoji", "replyColors", "unlimitedRecentStickers", "pauseVoiceOnMinimize", "unmuteWithVolumeButtons", "swipeToPip", "showResultsBeforeVoting", "hideShareButton", "removeMessageTail", "forceBlur", "hideAllChatsTab", "folderTabCounters", "singleCornerRadius", "customChatThemes", "senderMiniAvatars", "forceSnow", "hideDialogsSearchBar", "hideFloatingButton", "hideActionBarStatus", "centerTitle", "disableUnarchiveSwipe", "hideArchiveFolder", "hidePhoneNumber", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
         // MZGramAvatarShape.MIN..MAX
         integer(CONFIG, "avatarCorners", 0, 28);
         // Sticker shape: Default, Rounded or Message
@@ -152,6 +152,8 @@ public final class MZGramSettingsBackup {
         // Size of the archive's files in MB (-1: no limit), the colour of the deleted icon
         integer(CONFIG, "archiveTotalLimitMb", -1, 16384);
         integer(CONFIG, "deletedMarkIconColor", 0, 1);
+        // Feed: posts per channel (10, 20 or 50)
+        integer(CONFIG, "feedPostsPerChannel", 10, 50);
         // MZGramGlassOutline GLARE, SOLID, HIDDEN
         integer(CONFIG, "glassOutline", 0, 2);
         // MZGramFolderIcons TITLES, ICONS_AND_TITLES, ICONS

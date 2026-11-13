@@ -638,6 +638,21 @@ public class MZGramConfig {
     // Deleted mark: Telegram's trash icon before the time instead of the text mark (MZGramEditedIcon)
     public static boolean deletedMarkIcon = false;
 
+    // Feed: how many of the last posts of every channel are asked (MZGramFeed.POSTS_PER_CHANNEL)
+    public static int feedPostsPerChannel = 20;
+
+    // The Feed as a bottom tab in the place of Contacts (MainTabsActivity)
+    public static boolean feedTab = false;
+
+    // The unread posts of the Feed on its tab and side menu item (MZGramFeed.unreadCount)
+    public static boolean feedUnreadCounter = true;
+
+    // Feed posts wide, with the channel's name above them (MZGramWidePosts)
+    public static boolean feedWidePosts = true;
+
+    // The Feed takes the channels of the archive too (MZGramFeed.allChannels)
+    public static boolean feedIncludeArchived = false;
+
     static {
         loadConfig(false);
     }
@@ -951,6 +966,11 @@ public class MZGramConfig {
             saveReadDates = preferences.getBoolean("saveReadDates", true);
             saveLastOnline = preferences.getBoolean("saveLastOnline", true);
             deletedMarkIcon = preferences.getBoolean("deletedMarkIcon", false);
+            feedPostsPerChannel = preferences.getInt("feedPostsPerChannel", 20);
+            feedTab = preferences.getBoolean("feedTab", false);
+            feedUnreadCounter = preferences.getBoolean("feedUnreadCounter", true);
+            feedWidePosts = preferences.getBoolean("feedWidePosts", true);
+            feedIncludeArchived = preferences.getBoolean("feedIncludeArchived", false);
             configLoaded = true;
         }
     }
@@ -1125,6 +1145,11 @@ public class MZGramConfig {
     public static void setDeletedMarkIconColor(int color) {
         deletedMarkIconColor = color == DELETED_ICON_TIME ? DELETED_ICON_TIME : DELETED_ICON_RED;
         putInt("deletedMarkIconColor", deletedMarkIconColor);
+    }
+
+    public static void setFeedPostsPerChannel(int count) {
+        feedPostsPerChannel = count;
+        putInt("feedPostsPerChannel", count);
     }
 
     public static void setSwipeAction(int value) {
@@ -2341,5 +2366,25 @@ public class MZGramConfig {
     public static void toggleDeletedMarkIcon() {
         deletedMarkIcon = !deletedMarkIcon;
         putBoolean("deletedMarkIcon", deletedMarkIcon);
+    }
+
+    public static void toggleFeedTab() {
+        feedTab = !feedTab;
+        putBoolean("feedTab", feedTab);
+    }
+
+    public static void toggleFeedUnreadCounter() {
+        feedUnreadCounter = !feedUnreadCounter;
+        putBoolean("feedUnreadCounter", feedUnreadCounter);
+    }
+
+    public static void toggleFeedWidePosts() {
+        feedWidePosts = !feedWidePosts;
+        putBoolean("feedWidePosts", feedWidePosts);
+    }
+
+    public static void toggleFeedIncludeArchived() {
+        feedIncludeArchived = !feedIncludeArchived;
+        putBoolean("feedIncludeArchived", feedIncludeArchived);
     }
 }

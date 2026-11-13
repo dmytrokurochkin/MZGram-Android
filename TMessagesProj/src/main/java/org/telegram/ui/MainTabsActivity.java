@@ -280,6 +280,12 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     }
 
     private void checkContactsTabBadge() {
+        if (tabsView != null && tabs[INDEX_CONTACTS] != null && org.telegram.messenger.mzgram.MZGramConfig.feedTab) {
+            // MZGram: the Feed tab counts the unread posts of its channels
+            int unread = org.telegram.messenger.mzgram.MZGramConfig.feedUnreadCounter ? org.telegram.messenger.mzgram.MZGramFeed.unreadCount(currentAccount) : 0;
+            tabs[INDEX_CONTACTS].setCounter(unread > 0 ? LocaleController.formatNumber(unread, ',') : null, false, true);
+            return;
+        }
         if (tabsView != null && tabs[INDEX_CONTACTS] != null) {
             final boolean hasPermission = Build.VERSION.SDK_INT >= 23 && ContactsController.hasContactsPermission();
             if (hasPermission) {
@@ -313,7 +319,10 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         tabs = new GlassTabView[5];
         tabs[INDEX_CHATS] = GlassTabView.createMainTab(context, resourceProvider, GlassTabView.TabAnimation.CHATS, R.string.MainTabsChats);
-        tabs[INDEX_CONTACTS] = GlassTabView.createMainTab(context, resourceProvider, GlassTabView.TabAnimation.CONTACTS, R.string.MainTabsContacts);
+        // MZGram: Feed in the bottom tabs, in the place of Contacts
+        tabs[INDEX_CONTACTS] = org.telegram.messenger.mzgram.MZGramConfig.feedTab
+                ? GlassTabView.createMainTab(context, resourceProvider, GlassTabView.TabAnimation.FILES, R.string.MZGramFeed)
+                : GlassTabView.createMainTab(context, resourceProvider, GlassTabView.TabAnimation.CONTACTS, R.string.MainTabsContacts);
         tabs[INDEX_SETTINGS] = GlassTabView.createMainTab(context, resourceProvider, GlassTabView.TabAnimation.SETTINGS, R.string.Settings);
         tabs[INDEX_CALLS] = GlassTabView.createMainTab(context, resourceProvider, GlassTabView.TabAnimation.CALLS, R.string.MainTabsCalls);
         tabs[INDEX_PROFILE] = GlassTabView.createAvatar(context, resourceProvider, currentAccount, R.string.MainTabsProfile);
@@ -808,7 +817,12 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
     @Override
     protected BaseFragment createBaseFragmentAt(int position) {
-        if (position == POSITION_CONTACTS) {
+        if (position == POSITION_CONTACTS && org.telegram.messenger.mzgram.MZGramConfig.feedTab) {
+            // MZGram: Feed in the bottom tabs
+            Bundle args = new Bundle();
+            args.putBoolean("hasMainTabs", true);
+            return new org.telegram.ui.mzgram.MZGramFeedActivity(args);
+        } else if (position == POSITION_CONTACTS) {
             Bundle args = new Bundle();
             args.putBoolean("needPhonebook", true);
             args.putBoolean("needFinishFragment", false);

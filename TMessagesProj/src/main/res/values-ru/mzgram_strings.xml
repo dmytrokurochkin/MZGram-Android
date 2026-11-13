@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Всегда</string>
     <string name="MZGramGhostStatusInTitle">Призрак в заголовке</string>
     <string name="MZGramGhostStatusInTitleInfo">Пока режим призрака включён, после заголовка списка чатов виден призрак.</string>
-    <string name="MZGramDrawerGhostOn">Режим призрака: включён</string>
-    <string name="MZGramDrawerGhostOff">Режим призрака: выключен</string>
+    <string name="MZGramDrawerGhostOn">Выключить режим призрака</string>
+    <string name="MZGramDrawerGhostOff">Включить режим призрака</string>
     <string name="MZGramArchiveTotalLimit">Размер файлов архива</string>
     <string name="MZGramArchiveTotalLimitInfo">Максимум, сколько могут занимать медиа и вложения архива. На пределе новые файлы больше не сохраняются; сохранённые никогда не удаляются автоматически.</string>
     <string name="MZGramSaveReadDates">Сохранять дату прочтения</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Удалить аккаунт</string>
     <string name="MZGramDeleteAccountConfirm">В браузере откроется страница Telegram для удаления аккаунта. Удаление аккаунта навсегда убирает все его чаты и контакты.</string>
     <string name="MZGramDeleteAccountInfo">Открывает собственную страницу Telegram для удаления аккаунта (my.telegram.org).</string>
+    <string name="MZGramFeed">Лента</string>
+    <string name="MZGramFeedOpen">Открыть ленту</string>
+    <string name="MZGramFeedInfo">Посты каналов, на которые вы подписаны, в одном списке, новые внизу. Касание открывает пост в его канале. Открытие ленты не отмечает посты прочитанными.</string>
+    <string name="MZGramFeedTab">На нижних вкладках</string>
+    <string name="MZGramFeedTabInfo">Лента занимает место вкладки «Контакты».</string>
+    <string name="MZGramFeedUnreadCounter">Счётчик непрочитанных постов</string>
+    <string name="MZGramFeedWidePosts">Широкие посты в ленте</string>
+    <string name="MZGramFeedWidePostsInfo">Посты на всю ширину экрана с названием канала над ними. Если выключить, они как в канале, без названия.</string>
+    <string name="MZGramFeedIncludeArchived">Каналы из архива</string>
+    <string name="MZGramFeedPostsPerChannel">Постов с канала</string>
+    <string name="MZGramFeedChannels">Каналы</string>
+    <string name="MZGramFeedChannelsInfo">Снимите отметку с канала, чтобы убрать его посты из ленты. Новые каналы в ней появляются.</string>
+    <string name="MZGramFeedMarkAllRead">Отметить всё прочитанным</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Отметить все посты каналов ленты прочитанными? Они станут прочитанными и в самих каналах.</string>
+    <string name="MZGramFeedMarkAllReadDone">Все посты прочитаны</string>
+    <string name="MZGramFeedCategory">Категория</string>
+    <string name="MZGramFeedAllChannels">Все каналы</string>
+    <string name="MZGramFeedSettings">Настройки ленты</string>
+    <string name="MZGramFeedChannelsCount">Каналов: %1$d</string>
+    <string name="MZGramFeedUnreadCount">непрочитанных: %1$d</string>
+    <string name="MZGramFeedNoPosts">Постов каналов пока нет.</string>
+    <string name="MZGramFeedNoChannels">В ленте нет каналов. Подпишитесь на канал или отметьте каналы в настройках ленты.</string>
 </resources>

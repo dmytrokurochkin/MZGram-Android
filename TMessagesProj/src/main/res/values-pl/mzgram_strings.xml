@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Zawsze</string>
     <string name="MZGramGhostStatusInTitle">Duch w nagłówku</string>
     <string name="MZGramGhostStatusInTitleInfo">Gdy tryb ducha jest włączony, za tytułem listy czatów widać ducha.</string>
-    <string name="MZGramDrawerGhostOn">Tryb ducha: włączony</string>
-    <string name="MZGramDrawerGhostOff">Tryb ducha: wyłączony</string>
+    <string name="MZGramDrawerGhostOn">Wyłącz tryb ducha</string>
+    <string name="MZGramDrawerGhostOff">Włącz tryb ducha</string>
     <string name="MZGramArchiveTotalLimit">Rozmiar plików archiwum</string>
     <string name="MZGramArchiveTotalLimitInfo">Najwięcej, ile mogą zajmować multimedia i załączniki archiwum. Po osiągnięciu limitu nowe pliki nie są zapisywane; zapisane nigdy nie są usuwane automatycznie.</string>
     <string name="MZGramSaveReadDates">Zapisuj datę odczytania</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Usuń konto</string>
     <string name="MZGramDeleteAccountConfirm">W przeglądarce otworzy się strona Telegrama do usuwania konta. Usunięcie konta na zawsze usuwa wszystkie jego czaty i kontakty.</string>
     <string name="MZGramDeleteAccountInfo">Otwiera stronę Telegrama do usuwania konta (my.telegram.org).</string>
+    <string name="MZGramFeed">Kanał</string>
+    <string name="MZGramFeedOpen">Otwórz kanał</string>
+    <string name="MZGramFeedInfo">Posty obserwowanych kanałów na jednej liście, najnowsze na dole. Dotknięcie otwiera post w jego kanale. Otwarcie kanału nie oznacza postów jako przeczytanych.</string>
+    <string name="MZGramFeedTab">Na dolnych kartach</string>
+    <string name="MZGramFeedTabInfo">Kanał zajmuje miejsce karty Kontakty.</string>
+    <string name="MZGramFeedUnreadCounter">Licznik nieprzeczytanych postów</string>
+    <string name="MZGramFeedWidePosts">Szerokie posty w kanale</string>
+    <string name="MZGramFeedWidePostsInfo">Posty na całą szerokość ekranu z nazwą kanału nad nimi. Po wyłączeniu wyglądają jak w kanale, bez nazwy.</string>
+    <string name="MZGramFeedIncludeArchived">Kanały z archiwum</string>
+    <string name="MZGramFeedPostsPerChannel">Postów z kanału</string>
+    <string name="MZGramFeedChannels">Kanały</string>
+    <string name="MZGramFeedChannelsInfo">Odznacz kanał, aby usunąć jego posty z kanału. Nowe kanały się w nim pojawiają.</string>
+    <string name="MZGramFeedMarkAllRead">Oznacz wszystko jako przeczytane</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Oznaczyć wszystkie posty kanałów jako przeczytane? Będą przeczytane także w samych kanałach.</string>
+    <string name="MZGramFeedMarkAllReadDone">Wszystkie posty przeczytane</string>
+    <string name="MZGramFeedCategory">Kategoria</string>
+    <string name="MZGramFeedAllChannels">Wszystkie kanały</string>
+    <string name="MZGramFeedSettings">Ustawienia kanału</string>
+    <string name="MZGramFeedChannelsCount">Kanałów: %1$d</string>
+    <string name="MZGramFeedUnreadCount">nieprzeczytanych: %1$d</string>
+    <string name="MZGramFeedNoPosts">Brak jeszcze postów kanałów.</string>
+    <string name="MZGramFeedNoChannels">Brak kanałów. Obserwuj kanał lub zaznacz kanały w ustawieniach.</string>
 </resources>

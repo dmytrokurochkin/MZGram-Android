@@ -1360,8 +1360,8 @@
     <string name="MZGramSilentAlways">Toujours</string>
     <string name="MZGramGhostStatusInTitle">Fantôme dans l\'en-tête</string>
     <string name="MZGramGhostStatusInTitleInfo">Tant que le mode fantôme est actif, un fantôme apparaît après le titre de la liste des discussions.</string>
-    <string name="MZGramDrawerGhostOn">Mode fantôme : activé</string>
-    <string name="MZGramDrawerGhostOff">Mode fantôme : désactivé</string>
+    <string name="MZGramDrawerGhostOn">Désactiver le mode fantôme</string>
+    <string name="MZGramDrawerGhostOff">Activer le mode fantôme</string>
     <string name="MZGramArchiveTotalLimit">Taille des fichiers de l\'archive</string>
     <string name="MZGramArchiveTotalLimitInfo">Le maximum que peuvent occuper les médias et pièces jointes de l\'archive. À la limite, les nouveaux fichiers ne sont plus gardés ; les fichiers gardés ne sont jamais supprimés automatiquement.</string>
     <string name="MZGramSaveReadDates">Enregistrer la date de lecture</string>
@@ -1379,4 +1379,26 @@
     <string name="MZGramDeleteAccount">Supprimer le compte</string>
     <string name="MZGramDeleteAccountConfirm">La page de Telegram pour supprimer un compte s\'ouvre dans le navigateur. Supprimer le compte efface définitivement toutes ses discussions et ses contacts.</string>
     <string name="MZGramDeleteAccountInfo">Ouvre la page de Telegram pour supprimer un compte (my.telegram.org).</string>
+    <string name="MZGramFeed">Fil</string>
+    <string name="MZGramFeedOpen">Ouvrir le fil</string>
+    <string name="MZGramFeedInfo">Les publications de vos canaux dans une seule liste, les plus récentes en bas. Un appui ouvre la publication dans son canal. Ouvrir le fil ne marque rien comme lu.</string>
+    <string name="MZGramFeedTab">Dans les onglets du bas</string>
+    <string name="MZGramFeedTabInfo">Le fil prend la place de l\'onglet Contacts.</string>
+    <string name="MZGramFeedUnreadCounter">Compteur de publications non lues</string>
+    <string name="MZGramFeedWidePosts">Publications larges dans le fil</string>
+    <string name="MZGramFeedWidePostsInfo">Les publications prennent la largeur de l\'écran avec le nom du canal au-dessus. Désactivé, elles s\'affichent comme dans un canal, sans le nom.</string>
+    <string name="MZGramFeedIncludeArchived">Canaux de l\'archive</string>
+    <string name="MZGramFeedPostsPerChannel">Publications par canal</string>
+    <string name="MZGramFeedChannels">Canaux</string>
+    <string name="MZGramFeedChannelsInfo">Décochez un canal pour retirer ses publications du fil. Les nouveaux canaux y figurent.</string>
+    <string name="MZGramFeedMarkAllRead">Tout marquer comme lu</string>
+    <string name="MZGramFeedMarkAllReadConfirm">Marquer comme lues toutes les publications des canaux du fil ? Elles seront aussi lues dans les canaux.</string>
+    <string name="MZGramFeedMarkAllReadDone">Toutes les publications sont lues</string>
+    <string name="MZGramFeedCategory">Catégorie</string>
+    <string name="MZGramFeedAllChannels">Tous les canaux</string>
+    <string name="MZGramFeedSettings">Réglages du fil</string>
+    <string name="MZGramFeedChannelsCount">Canaux : %1$d</string>
+    <string name="MZGramFeedUnreadCount">non lus : %1$d</string>
+    <string name="MZGramFeedNoPosts">Aucune publication de canal pour l\'instant.</string>
+    <string name="MZGramFeedNoChannels">Aucun canal dans le fil. Suivez un canal ou cochez des canaux dans les réglages du fil.</string>
 </resources>

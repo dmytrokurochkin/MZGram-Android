@@ -540,6 +540,7 @@ public final class MZGramDrawer {
             case MZGramDrawerItems.QR_LOGIN: return R.drawable.msg_qrcode;
             case MZGramDrawerItems.FULL_MENU: return R.drawable.ic_ab_other;
             case MZGramDrawerItems.GHOST_MODE: return R.drawable.ghost;
+            case MZGramDrawerItems.FEED: return R.drawable.msg_channel;
             default: return 0;
         }
     }
@@ -560,6 +561,7 @@ public final class MZGramDrawer {
             case MZGramDrawerItems.QR_LOGIN: return getString(R.string.AuthAnotherClient); // Telegram's own text: the item as Telegram's menu names it
             case MZGramDrawerItems.FULL_MENU: return getString(R.string.MZGramDrawerFullMenu);
             case MZGramDrawerItems.GHOST_MODE: return getString(org.telegram.messenger.mzgram.MZGramGhostMode.isEnabled() ? R.string.MZGramDrawerGhostOn : R.string.MZGramDrawerGhostOff);
+            case MZGramDrawerItems.FEED: return getString(R.string.MZGramFeed);
             default: return null;
         }
     }
@@ -580,7 +582,23 @@ public final class MZGramDrawer {
                 close(false, () -> switchNightMode(position));
             });
         }
-        return createRow(context, icon, title, v -> close(true, () -> run(id, v)));
+        View row = createRow(context, icon, title, v -> close(true, () -> run(id, v)));
+        if (id == MZGramDrawerItems.FEED && MZGramConfig.feedUnreadCounter && row instanceof FrameLayout) {
+            // The unread posts of the feed, as the counters of the accounts above
+            int unread = org.telegram.messenger.mzgram.MZGramFeed.unreadCount(currentAccount);
+            if (unread > 0) {
+                TextView counter = new TextView(context);
+                counter.setPadding(dp(6.66f), 0, dp(6.66f), 0);
+                counter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11);
+                counter.setTypeface(AndroidUtilities.bold());
+                counter.setGravity(Gravity.CENTER);
+                counter.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+                counter.setBackground(Theme.createRoundRectDrawable(dp(10), Theme.getColor(Theme.key_featuredStickers_addButton)));
+                counter.setText(LocaleController.formatNumber(unread, ','));
+                ((FrameLayout) row).addView(counter, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 20, Gravity.CENTER_VERTICAL | (rtl ? Gravity.LEFT : Gravity.RIGHT), 16, 0, 16, 0));
+            }
+        }
+        return row;
     }
 
     private void run(int id, View from) {
@@ -640,6 +658,9 @@ public final class MZGramDrawer {
                 break;
             case MZGramDrawerItems.FULL_MENU:
                 fragment.mzgramShowItemOptions();
+                break;
+            case MZGramDrawerItems.FEED:
+                fragment.presentFragment(new MZGramFeedActivity());
                 break;
             case MZGramDrawerItems.GHOST_MODE:
                 org.telegram.messenger.mzgram.MZGramConfig.toggleGhostMode();

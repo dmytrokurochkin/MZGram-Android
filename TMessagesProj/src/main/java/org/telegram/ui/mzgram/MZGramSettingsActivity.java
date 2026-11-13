@@ -297,6 +297,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DELETED_MARK_ICON = 268;
     private static final int BUTTON_RESET_SETTINGS = 269;
     private static final int BUTTON_DELETE_ACCOUNT = 270;
+    private static final int BUTTON_FEED_PAGE = 271;
+    private static final int BUTTON_FEED_OPEN = 272;
+    private static final int BUTTON_FEED_POSTS = 273;
+    private static final int BUTTON_FEED_CHANNELS = 274;
+    private static final int BUTTON_FEED_TAB = 275;
+    private static final int BUTTON_FEED_UNREAD_COUNTER = 276;
+    private static final int BUTTON_FEED_WIDE_POSTS = 277;
+    private static final int BUTTON_FEED_INCLUDE_ARCHIVED = 278;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -375,7 +383,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
     public static final int SECTION_AI = 7;
     public static final int SECTION_OTHER = 8;
     public static final int SECTION_MESSAGE_MENU = 9;
-    public static final int SECTIONS_COUNT = 10;
+    // The Feed: a page of Chats and of the Feed's gear, not a category
+    public static final int SECTION_FEED = 10;
+    public static final int SECTIONS_COUNT = 11;
     // Row ids of the categories on the main page; clear of the BUTTON_ ids,
     // which stay below it.
     public static final int SECTION_ROW_ID = 1000;
@@ -407,6 +417,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.string.MZGramSectionAi,
             R.string.MZGramSectionOther,
             R.string.MZGramSectionMessageMenu,
+            R.string.MZGramFeed,
     };
     private static final int[] SECTION_ICONS = {
             R.drawable.msg_media,
@@ -419,6 +430,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             R.drawable.msg_bot,
             R.drawable.msg_fave,
             R.drawable.msg_discussion,
+            R.drawable.msg_channel,
     };
 
     // The switches of the message menu page, for the "6/11" of its row in Chats
@@ -487,6 +499,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
             case SECTION_AI: fillAi(items); break;
             case SECTION_OTHER: fillOther(items); break;
             case SECTION_MESSAGE_MENU: fillMessageMenu(items); break;
+            case SECTION_FEED: fillFeed(items); break;
             default: fillMain(items); break;
         }
     }
@@ -1132,6 +1145,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramSwipeActionInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramSectionChats)));
+        items.add(UItem.asButton(BUTTON_FEED_PAGE, getString(R.string.MZGramFeed)));
         items.add(UItem.asButton(BUTTON_CHANNEL_BOTTOM_BUTTON, getString(R.string.MZGramChannelBottomButton), getString(CHANNEL_BOTTOM_TITLES[MZGramConfig.channelBottomButton])));
         items.add(check(BUTTON_QUICK_ADMIN_SHORTCUTS, R.string.MZGramQuickAdminShortcuts, MZGramConfig.quickAdminShortcuts, R.string.MZGramQuickAdminShortcutsInfo));
         items.add(check(BUTTON_WIDE_CHANNEL_POSTS, R.string.MZGramWideChannelPosts, MZGramConfig.wideChannelPosts, R.string.MZGramWideChannelPostsInfo));
@@ -1357,6 +1371,19 @@ public class MZGramSettingsActivity extends UniversalFragment {
         dialog.redPositive();
     }
 
+    private void fillFeed(ArrayList<UItem> items) {
+        items.add(UItem.asHeader(getString(R.string.MZGramFeed)));
+        items.add(UItem.asButton(BUTTON_FEED_OPEN, getString(R.string.MZGramFeedOpen)));
+        items.add(UItem.asShadow(getString(R.string.MZGramFeedInfo)));
+        items.add(check(BUTTON_FEED_TAB, R.string.MZGramFeedTab, MZGramConfig.feedTab, R.string.MZGramFeedTabInfo));
+        items.add(UItem.asCheck(BUTTON_FEED_UNREAD_COUNTER, getString(R.string.MZGramFeedUnreadCounter)).setChecked(MZGramConfig.feedUnreadCounter));
+        items.add(check(BUTTON_FEED_WIDE_POSTS, R.string.MZGramFeedWidePosts, MZGramConfig.feedWidePosts, R.string.MZGramFeedWidePostsInfo));
+        items.add(UItem.asCheck(BUTTON_FEED_INCLUDE_ARCHIVED, getString(R.string.MZGramFeedIncludeArchived)).setChecked(MZGramConfig.feedIncludeArchived));
+        items.add(UItem.asButton(BUTTON_FEED_POSTS, getString(R.string.MZGramFeedPostsPerChannel), Integer.toString(org.telegram.messenger.mzgram.MZGramFeed.postsPerChannel())));
+        items.add(UItem.asButton(BUTTON_FEED_CHANNELS, getString(R.string.MZGramFeedChannels), Integer.toString(org.telegram.messenger.mzgram.MZGramFeed.channels(currentAccount).size())));
+        items.add(UItem.asShadow(getString(R.string.MZGramFeedChannelsInfo)));
+    }
+
     private void fillOther(ArrayList<UItem> items) {
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderUpdates)));
         items.add(check(BUTTON_CHECK_UPDATES, R.string.MZGramCheckUpdates, MZGramConfig.checkUpdates, R.string.MZGramCheckUpdatesInfo));
@@ -1512,6 +1539,19 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_FEED_INCLUDE_ARCHIVED) {
+            MZGramConfig.toggleFeedIncludeArchived();
+            ((TextCheckCell) view).setChecked(MZGramConfig.feedIncludeArchived);
+        } else if (item.id == BUTTON_FEED_WIDE_POSTS) {
+            MZGramConfig.toggleFeedWidePosts();
+            ((TextCheckCell) view).setChecked(MZGramConfig.feedWidePosts);
+        } else if (item.id == BUTTON_FEED_UNREAD_COUNTER) {
+            MZGramConfig.toggleFeedUnreadCounter();
+            ((TextCheckCell) view).setChecked(MZGramConfig.feedUnreadCounter);
+        } else if (item.id == BUTTON_FEED_TAB) {
+            MZGramConfig.toggleFeedTab();
+            ((TextCheckCell) view).setChecked(MZGramConfig.feedTab);
+            rebuildBelow();
         } else if (item.id == BUTTON_DELETED_MARK_ICON) {
             MZGramConfig.toggleDeletedMarkIcon();
             ((TextCheckCell) view).setChecked(MZGramConfig.deletedMarkIcon);
@@ -1964,6 +2004,28 @@ public class MZGramSettingsActivity extends UniversalFragment {
             confirmResetSettings();
         } else if (item.id == BUTTON_DELETE_ACCOUNT) {
             confirmDeleteAccount();
+        } else if (item.id == BUTTON_FEED_PAGE) {
+            presentFragment(new MZGramSettingsActivity(SECTION_FEED));
+        } else if (item.id == BUTTON_FEED_OPEN) {
+            presentFragment(new MZGramFeedActivity());
+        } else if (item.id == BUTTON_FEED_CHANNELS) {
+            presentFragment(new MZGramFeedChannelsActivity());
+        } else if (item.id == BUTTON_FEED_POSTS) {
+            int[] counts = org.telegram.messenger.mzgram.MZGramFeed.POSTS_PER_CHANNEL;
+            String[] options = new String[counts.length];
+            int selected = 1;
+            for (int i = 0; i < counts.length; i++) {
+                options[i] = Integer.toString(counts[i]);
+                if (counts[i] == org.telegram.messenger.mzgram.MZGramFeed.postsPerChannel()) {
+                    selected = i;
+                }
+            }
+            showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramFeedPostsPerChannel), selected, (dialog, which) -> {
+                MZGramConfig.setFeedPostsPerChannel(counts[which]);
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            }, getString(R.string.MZGramCancel)));
         } else if (item.id == BUTTON_SWIPE_ACTION) {
             chooseFrom(R.string.MZGramSwipeAction, org.telegram.ui.mzgram.MZGramSwipeAction.TITLES, MZGramConfig.swipeAction, MZGramConfig::setSwipeAction);
         } else if (item.id == BUTTON_OPEN_ARCHIVE_ON_PULL) {

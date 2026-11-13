@@ -34,8 +34,8 @@ public final class MZGramWidePosts {
 
     /** A post of a broadcast channel shown in the channel itself, with the option on. */
     public static boolean hasHeader(MessageObject message) {
-        if (!MZGramConfig.wideChannelPosts
-                || message == null
+        if (message == null
+                || !(MZGramConfig.wideChannelPosts || message.mzgramFeed && MZGramConfig.feedWidePosts) // the Feed has its own switch
                 || message.messageOwner == null
                 || message.messageOwner.action != null
                 || message.messageOwner.peer_id == null

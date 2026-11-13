@@ -418,10 +418,14 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         } else {
             tabs[INDEX_CHATS].setCounter(null, false, animated);
         }
+        if (org.telegram.messenger.mzgram.MZGramConfig.feedTab) {
+            checkContactsTabBadge(); // MZGram: the unread posts of the Feed tab follow the chats
+        }
     }
 
     public boolean openContactsSelector(View anchor) {
         if (getContext() == null || getParentActivity() == null) return false;
+        if (org.telegram.messenger.mzgram.MZGramConfig.feedTab) return false; // MZGram: the Feed tab has no Contacts menu
         final ItemOptions o = ItemOptions.makeOptions(this, anchor);
         o.add(R.drawable.msg_contact_add, getString(R.string.NewContact), () -> {
             new NewContactBottomSheet(this, getContext()).show();

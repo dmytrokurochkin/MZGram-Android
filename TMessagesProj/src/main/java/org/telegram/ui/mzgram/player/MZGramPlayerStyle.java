@@ -43,6 +43,20 @@ public final class MZGramPlayerStyle {
     public static final int BACKGROUND_GRADIENT = 1;
     public static final int BACKGROUND_BLUR = 2;
 
+    // The floating mini player above the main tabs (MZGramPlayerMiniView)
+    public static final int MINI_COVER_ROUNDED = 0;
+    public static final int MINI_COVER_ROUND = 1;
+    public static final int MINI_COVER_HIDDEN = 2;
+
+    public static final int MINI_SHAPE_ROUNDED = 0;
+    public static final int MINI_SHAPE_PILL = 1;
+    public static final int MINI_SHAPE_SQUARE = 2;
+
+    public static final int MINI_PROGRESS_RING = 0;
+    public static final int MINI_PROGRESS_LINE = 1;
+    public static final int MINI_PROGRESS_NONE = 2;
+    public static final int MINI_PROGRESS_BORDER = 3;
+
     public static final int COVER_SIZE_MIN = 60;
     public static final int COVER_SIZE_MAX = 100;
     public static final int COVER_RADIUS_MAX = 48;
@@ -67,6 +81,16 @@ public final class MZGramPlayerStyle {
     public static final String KEY_CONTROLS_SIZE = "controlsSize";
     public static final String KEY_COLORS = "colors";
     public static final String KEY_BACKGROUND = "background";
+    public static final String KEY_MINI_COVER = "miniCover";
+    public static final String KEY_MINI_SHAPE = "miniShape";
+    public static final String KEY_MINI_PROGRESS = "miniProgress";
+    public static final String KEY_MINI_COLORS = "miniColors";
+    public static final String KEY_MINI_COMPACT = "miniCompact";
+    public static final String KEY_MINI_ARTIST = "miniArtist";
+    public static final String KEY_MINI_PREVIOUS = "miniPrevious";
+    public static final String KEY_MINI_NEXT = "miniNext";
+    public static final String KEY_MINI_CLOSE = "miniClose";
+    public static final String KEY_MINI_TOP = "miniTop";
 
     private static final int[] DEFAULT_ORDER = {BLOCK_PROGRESS, BLOCK_CONTROLS, BLOCK_ACTIONS};
 
@@ -231,6 +255,53 @@ public final class MZGramPlayerStyle {
     public static int background() {
         int value = getInt("background", BACKGROUND_SOLID);
         return value < BACKGROUND_SOLID || value > BACKGROUND_BLUR ? BACKGROUND_SOLID : value;
+    }
+
+    private static int miniChoice(String key, int max) {
+        int value = getInt(key, 0);
+        return value < 0 || value > max ? 0 : value;
+    }
+
+    public static int miniCover() {
+        return miniChoice(KEY_MINI_COVER, MINI_COVER_HIDDEN);
+    }
+
+    public static int miniShape() {
+        return miniChoice(KEY_MINI_SHAPE, MINI_SHAPE_SQUARE);
+    }
+
+    public static int miniProgress() {
+        return miniChoice(KEY_MINI_PROGRESS, MINI_PROGRESS_BORDER);
+    }
+
+    // The mini player takes the cover colours unless the theme's are chosen
+    public static boolean miniThemeColors() {
+        return getInt(KEY_MINI_COLORS, COLORS_THEME) != COLORS_COVER;
+    }
+
+    public static boolean miniCompact() {
+        return getBoolean(KEY_MINI_COMPACT, false);
+    }
+
+    public static boolean miniArtist() {
+        return getBoolean(KEY_MINI_ARTIST, true);
+    }
+
+    public static boolean miniPrevious() {
+        return getBoolean(KEY_MINI_PREVIOUS, false);
+    }
+
+    public static boolean miniNext() {
+        return getBoolean(KEY_MINI_NEXT, true);
+    }
+
+    public static boolean miniClose() {
+        return getBoolean(KEY_MINI_CLOSE, true);
+    }
+
+    // Docked at the top of the chat list (dragged up) instead of above the tabs
+    public static boolean miniTop() {
+        return getBoolean(KEY_MINI_TOP, false);
     }
 
     public static void reset() {

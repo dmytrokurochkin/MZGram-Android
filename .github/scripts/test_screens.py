@@ -453,6 +453,22 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR) || messageMenu && !org.telegram.messenger.mzgram.MZGramConfig.glassMessageMenu) {", blur)
         self.assertIn(".setColorProvider(BlurredBackgroundProviderImpl.messageMenuPopupBackground(resourceProvider))", read(JAVA / "ui/ChatActivity.java"))
 
+    def test_floating_mini_player(self):
+        self.switch("musicPlayerMini", "true", "BUTTON_MUSIC_PLAYER_MINI")
+        tabs = read(JAVA / "ui/MainTabsActivity.java")
+        self.assertIn("miniPlayer = new org.telegram.ui.mzgram.player.MZGramPlayerMiniView(context, this, resourceProvider);", tabs)
+        self.assertIn("return prepareTabFragment(createTabFragment(position));", tabs)
+        self.assertIn("miniPlayer.setHostPosition(", tabs)
+        for page in ("DialogsActivity", "ContactsActivity", "CallLogActivity", "SettingsActivity", "ProfileActivity", "mzgram/MZGramFeedActivity"):
+            self.assertIn("public void setMiniPlayerInset(float inset, int padding) {", read(JAVA / ("ui/" + page + ".java")), page)
+        player = read(JAVA / "ui/mzgram/player/MZGramMusicPlayer.java")
+        self.assertIn("return MZGramConfig.musicPlayer && MZGramConfig.musicPlayerMini;", player)
+        self.assertIn("org.telegram.ui.mzgram.player.MZGramMusicPlayer.hidesContextPlayer(fragment, messageObject)", read(JAVA / "ui/Components/FragmentContextView.java"))
+        mini = read(JAVA / "ui/mzgram/player/MZGramPlayerMiniView.java")
+        self.assertIn("implements NotificationCenter.NotificationCenterDelegate, MZGramPlayerSheet.TransitionSource", mini)
+        self.assertIn("Port of exteraless PlayerMiniView (GPL-3.0)", mini)
+        self.assertIn("sections[2]", read(JAVA / "ui/mzgram/player/MZGramPlayerStyleEditor.java"))
+
     def test_material3_group(self):
         self.switch("m3Loading", "false", "BUTTON_M3_LOADING")
         self.switch("m3Slider", "false", "BUTTON_M3_SLIDER")

@@ -309,6 +309,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_M3_LOADING = 280;
     private static final int BUTTON_M3_SLIDER = 281;
     private static final int BUTTON_GLASS_MESSAGE_MENU = 282;
+    private static final int BUTTON_MUSIC_PLAYER_MINI = 283;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -1265,6 +1266,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_MUSIC_PLAYER, R.string.MZGramMusicPlayer, MZGramConfig.musicPlayer, R.string.MZGramMusicPlayerInfo));
         if (MZGramConfig.musicPlayer) {
             items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER_BAR, getString(R.string.MZGramMusicPlayerBar)).setChecked(MZGramConfig.musicPlayerBar));
+            items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER_MINI, getString(R.string.MZGramMusicPlayerMini)).setChecked(MZGramConfig.musicPlayerMini));
             items.add(UItem.asButton(BUTTON_MUSIC_PLAYER_STYLE, getString(R.string.MZGramMusicPlayerStyle)));
         }
         items.add(check(BUTTON_PROFILE_MUSIC_CARD, R.string.MZGramProfileMusicCard, MZGramConfig.profileMusicCard, R.string.MZGramProfileMusicCardInfo));
@@ -1933,6 +1935,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_MUSIC_PLAYER) {
             MZGramConfig.toggleMusicPlayer();
             ((TextCheckCell) view).setChecked(MZGramConfig.musicPlayer);
+            org.telegram.ui.mzgram.player.MZGramPlayerMiniView.switchChanged();
             if (listView != null && listView.adapter != null) {
                 listView.adapter.update(true);
             }
@@ -1941,6 +1944,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_MUSIC_PLAYER_BAR) {
             MZGramConfig.toggleMusicPlayerBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.musicPlayerBar);
+        } else if (item.id == BUTTON_MUSIC_PLAYER_MINI) {
+            MZGramConfig.toggleMusicPlayerMini();
+            ((TextCheckCell) view).setChecked(MZGramConfig.musicPlayerMini);
+            org.telegram.ui.mzgram.player.MZGramPlayerMiniView.switchChanged();
         } else if (item.id == BUTTON_AUDIO_ENHANCE) {
             MZGramConfig.toggleAudioEnhance();
             ((TextCheckCell) view).setChecked(MZGramConfig.audioEnhance);

@@ -1381,4 +1381,24 @@
     <string name="MZGramM3SliderInfo">Controles como no Material 3: uma trilha grossa dividida por um marcador vertical estreito. Os com buffer, marcas de tempo ou dois lados ficam como estão.</string>
     <string name="MZGramGlassMessageMenu">Menu de mensagem de vidro</string>
     <string name="MZGramGlassMessageMenuInfo">O menu da mensagem e a barra de reações parecem vidro fosco. Desativado: sólidos, como sem desfoque.</string>
+    <string name="MZGramMusicPlayerMini">Miniplayer flutuante</string>
+    <string name="MZGramPlayerStyleMini">Miniplayer</string>
+    <string name="MZGramPlayerMiniMoveHint">Na aba Conversas, segure o miniplayer e arraste-o para cima, sob a busca, ou de volta para baixo.</string>
+    <string name="MZGramPlayerMiniRounded">Arredondada</string>
+    <string name="MZGramPlayerMiniRound">Redonda</string>
+    <string name="MZGramPlayerMiniHidden">Oculta</string>
+    <string name="MZGramPlayerMiniShape">Formato</string>
+    <string name="MZGramPlayerMiniPill">Pílula</string>
+    <string name="MZGramPlayerMiniSquare">Quadrada</string>
+    <string name="MZGramPlayerMiniProgress">Progresso</string>
+    <string name="MZGramPlayerMiniRing">Anel</string>
+    <string name="MZGramPlayerMiniLine">Linha</string>
+    <string name="MZGramPlayerMiniBorder">Borda</string>
+    <string name="MZGramPlayerMiniNone">Nenhum</string>
+    <string name="MZGramPlayerMiniColors">Cores</string>
+    <string name="MZGramPlayerMiniCompact">Compacto</string>
+    <string name="MZGramPlayerMiniArtist">Mostrar artista</string>
+    <string name="MZGramPlayerMiniPrevious">Botão da faixa anterior</string>
+    <string name="MZGramPlayerMiniNext">Botão da próxima faixa</string>
+    <string name="MZGramPlayerMiniClose">Botão de fechar</string>
 </resources>

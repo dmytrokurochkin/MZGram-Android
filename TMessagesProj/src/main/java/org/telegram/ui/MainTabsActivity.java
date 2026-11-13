@@ -24,6 +24,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -116,6 +117,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
     private UpdateLayoutWrapper updateLayoutWrapper;
     private FrameLayout tabsViewWrapper;
+    private org.telegram.ui.mzgram.player.MZGramPlayerMiniView miniPlayer;
     private MainTabsLayout tabsView;
     private BlurredBackgroundDrawable tabsViewBackground;
     private View fadeView;
@@ -197,7 +199,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         Bulletin.Delegate delegate = new Bulletin.Delegate() {
             @Override
             public int getBottomOffset(int tag) {
-                return navigationBarHeight + dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN);
+                return navigationBarHeight + dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN) + (miniPlayer != null ? (int) miniPlayer.getVisibleOffset() : 0);
             }
         };
 
@@ -272,6 +274,9 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     @Override
     public void onResume() {
         super.onResume();
+        if (miniPlayer != null) {
+            miniPlayer.update(true);
+        }
         blur3_updateColors();
         checkContactsTabBadge();
         checkUnreadCount(true);
@@ -386,6 +391,22 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         fadeView.setBackground(fadeDrawable);
 
         contentView.addView(fadeView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 0, Gravity.BOTTOM));
+
+        // MZGram: the floating mini player above the tabs (MZGramPlayerMiniView)
+        miniPlayer = new org.telegram.ui.mzgram.player.MZGramPlayerMiniView(context, this, resourceProvider);
+        miniPlayer.setOffsetListener(this::onMiniPlayerOffsetChanged);
+        contentView.addView(miniPlayer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, org.telegram.ui.mzgram.player.MZGramPlayerMiniView.HEIGHT_DP + 16, Gravity.BOTTOM));
+        contentView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(@NonNull View v) {
+                v.getViewTreeObserver().addOnPreDrawListener(miniPlayerAnchorListener);
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(@NonNull View v) {
+                v.getViewTreeObserver().removeOnPreDrawListener(miniPlayerAnchorListener);
+            }
+        });
 
         tabsViewWrapper = new FrameLayout(context);
         tabsViewWrapper.setOnClickListener(v -> {});
@@ -815,12 +836,25 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         bundle.putBoolean("hasMainTabs", true);
         dialogsActivity = new DialogsActivity(bundle);
         dialogsActivity.setMainTabsActivityController(new MainTabsActivityControllerImpl());
+        prepareTabFragment(dialogsActivity);
         putFragmentAtPosition(POSITION_CHATS, dialogsActivity);
         return dialogsActivity;
     }
 
     @Override
     protected BaseFragment createBaseFragmentAt(int position) {
+        return prepareTabFragment(createTabFragment(position));
+    }
+
+    // MZGram: a new page gets the room the mini player takes
+    private BaseFragment prepareTabFragment(BaseFragment fragment) {
+        if (fragment instanceof TabFragmentDelegate && miniPlayer != null) {
+            applyMiniPlayerInsets((TabFragmentDelegate) fragment, fragment instanceof DialogsActivity);
+        }
+        return fragment;
+    }
+
+    private BaseFragment createTabFragment(int position) {
         if (position == POSITION_CONTACTS && org.telegram.messenger.mzgram.MZGramConfig.feedTab) {
             // MZGram: Feed in the bottom tabs
             Bundle args = new Bundle();
@@ -897,6 +931,28 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         default BlurredBackgroundSourceRenderNode getGlassSource() {
             return null;
+        }
+
+        // MZGram: the floating mini player (MZGramPlayerMiniView). inset: how high
+        // it shows now (the floating button goes above it); padding: the room a
+        // list keeps under its last row
+        default void setMiniPlayerInset(float inset, int padding) {
+
+        }
+
+        // The chat list only: the room above its first row while the mini
+        // player is docked at the top
+        default void setMiniPlayerTopPadding(int padding) {
+
+        }
+
+        // Where the top of the chat list is, for the docked mini player; -1: under the action bar
+        default float getMiniPlayerTopAnchor() {
+            return -1;
+        }
+
+        default float getMiniPlayerTopVisibility() {
+            return 1f;
         }
     }
 
@@ -1094,7 +1150,79 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         fadeView.setVisibility(alpha > 0 ? View.VISIBLE : View.GONE);
     }
 
+    // MZGram: the mini player sits 4 dp above the tabs (and above the folder
+    // tabs at the bottom of the chat list while that page shows)
+    private void checkUi_miniPlayer() {
+        if (miniPlayer == null || updateLayoutWrapper == null) {
+            return;
+        }
+        final boolean hidden = org.telegram.messenger.mzgram.MZGramConfig.hideBottomNavigationBar;
+        final int updateLayoutHeight = updateLayoutWrapper.isUpdateLayoutVisible() ? dp(UpdateLayoutWrapper.HEIGHT) : 0;
+        final int tabsHeight = hidden ? 0 : dp(DialogsActivity.MAIN_TABS_HEIGHT_WITH_MARGINS);
+        final int gap = hidden ? dp(12) : dp(4);
+        final float factor = hidden ? 1f : animatorTabsVisible.getFloatValue();
+        miniPlayer.setHostPosition(-(navigationBarHeight + updateLayoutHeight + tabsHeight + gap - dp(12) + miniPlayerFolderLift), factor);
+        updateMiniPlayerTopAnchor();
+        onMiniPlayerOffsetChanged();
+    }
+
+    private final ViewTreeObserver.OnPreDrawListener miniPlayerAnchorListener = () -> {
+        updateMiniPlayerTopAnchor();
+        return true;
+    };
+
+    private int miniPlayerFolderLift;
+
+    private void updateMiniPlayerTopAnchor() {
+        if (miniPlayer == null || viewPager == null) {
+            return;
+        }
+        final FragmentState state = fragmentsArr.get(POSITION_CHATS);
+        final BaseFragment chats = state != null ? state.fragment : null;
+        final View view = chats != null ? chats.getFragmentView() : null;
+        final View page = view != null && view.getParent() instanceof View ? (View) view.getParent() : null;
+        float shift = 0f;
+        float zone = 0f;
+        if (page != null && page.getParent() == viewPager && page.getVisibility() == View.VISIBLE && viewPager.getMeasuredWidth() > 0) {
+            shift = page.getTranslationX();
+            zone = MathUtils.clamp(1f - Math.abs(shift) / viewPager.getMeasuredWidth(), 0f, 1f);
+        }
+        float anchor = -1;
+        float visibility = 1f;
+        if (chats instanceof TabFragmentDelegate) {
+            anchor = ((TabFragmentDelegate) chats).getMiniPlayerTopAnchor();
+            visibility = ((TabFragmentDelegate) chats).getMiniPlayerTopVisibility();
+        }
+        if (anchor < 0) {
+            anchor = AndroidUtilities.statusBarHeight + org.telegram.ui.ActionBar.ActionBar.getCurrentActionBarHeight();
+        }
+        miniPlayer.setTopState(anchor, zone, shift, visibility);
+        final int lift = chats instanceof DialogsActivity ? (int) (((DialogsActivity) chats).getBottomFolderTabsHeight() * zone) : 0;
+        if (lift != miniPlayerFolderLift) {
+            miniPlayerFolderLift = lift;
+            checkUi_miniPlayer();
+        }
+    }
+
+    private void applyMiniPlayerInsets(TabFragmentDelegate delegate, boolean chats) {
+        delegate.setMiniPlayerInset(miniPlayer.getVisibleOffset(chats), miniPlayer.getTargetOffset(chats));
+        delegate.setMiniPlayerTopPadding(miniPlayer.getTargetTopOffset(chats));
+    }
+
+    private void onMiniPlayerOffsetChanged() {
+        if (miniPlayer == null) {
+            return;
+        }
+        for (int a = 0, N = fragmentsArr.size(); a < N; a++) {
+            final BaseFragment fragment = fragmentsArr.valueAt(a).fragment;
+            if (fragment instanceof TabFragmentDelegate) {
+                applyMiniPlayerInsets((TabFragmentDelegate) fragment, fragment instanceof DialogsActivity);
+            }
+        }
+    }
+
     private void checkUi_tabsPosition() {
+        checkUi_miniPlayer();
         if (org.telegram.messenger.mzgram.MZGramConfig.hideBottomNavigationBar) {
             tabsView.setVisibility(View.GONE);
             return;

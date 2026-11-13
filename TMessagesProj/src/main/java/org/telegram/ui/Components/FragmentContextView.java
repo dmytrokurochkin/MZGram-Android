@@ -1886,7 +1886,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
         }
         boolean wasVisible = visible;
-        if (messageObject == null || messageObject.getId() == 0 || messageObject.isVideo()) {
+        // MZGram: on a page of the main tabs the floating mini player shows the track (MZGramMusicPlayer.hidesContextPlayer)
+        if (messageObject == null || messageObject.getId() == 0 || messageObject.isVideo() || org.telegram.ui.mzgram.player.MZGramMusicPlayer.hidesContextPlayer(fragment, messageObject)) {
             lastMessageObject = null;
             boolean callAvailable = supportsCalls && VoIPService.getSharedInstance() != null && !VoIPService.getSharedInstance().isHangingUp() && VoIPService.getSharedInstance().getCallState() != VoIPService.STATE_WAITING_INCOMING && !GroupCallPip.isShowing();
             if (!isPlayingVoice() && !callAvailable && chatActivity != null && !GroupCallPip.isShowing()) {

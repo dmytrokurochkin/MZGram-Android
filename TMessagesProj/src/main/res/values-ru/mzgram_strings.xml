@@ -1381,4 +1381,24 @@
     <string name="MZGramM3SliderInfo">Ползунки как в Material 3: толстая дорожка, разделённая узким вертикальным бегунком. Ползунки с буфером, таймкодами или двумя сторонами остаются как есть.</string>
     <string name="MZGramGlassMessageMenu">Стеклянное меню сообщения</string>
     <string name="MZGramGlassMessageMenuInfo">Меню сообщения и панель реакций выглядят как матовое стекло. Выключено: сплошные, как без размытия.</string>
+    <string name="MZGramMusicPlayerMini">Плавающий мини-плеер</string>
+    <string name="MZGramPlayerStyleMini">Мини-плеер</string>
+    <string name="MZGramPlayerMiniMoveHint">На вкладке «Чаты» удерживайте мини-плеер и перетащите его вверх под поиск или обратно вниз.</string>
+    <string name="MZGramPlayerMiniRounded">Скруглённая</string>
+    <string name="MZGramPlayerMiniRound">Круглая</string>
+    <string name="MZGramPlayerMiniHidden">Скрытая</string>
+    <string name="MZGramPlayerMiniShape">Форма</string>
+    <string name="MZGramPlayerMiniPill">Таблетка</string>
+    <string name="MZGramPlayerMiniSquare">Квадратная</string>
+    <string name="MZGramPlayerMiniProgress">Прогресс</string>
+    <string name="MZGramPlayerMiniRing">Кольцо</string>
+    <string name="MZGramPlayerMiniLine">Линия</string>
+    <string name="MZGramPlayerMiniBorder">Рамка</string>
+    <string name="MZGramPlayerMiniNone">Нет</string>
+    <string name="MZGramPlayerMiniColors">Цвета</string>
+    <string name="MZGramPlayerMiniCompact">Компактный</string>
+    <string name="MZGramPlayerMiniArtist">Показывать исполнителя</string>
+    <string name="MZGramPlayerMiniPrevious">Кнопка предыдущего трека</string>
+    <string name="MZGramPlayerMiniNext">Кнопка следующего трека</string>
+    <string name="MZGramPlayerMiniClose">Кнопка закрытия</string>
 </resources>

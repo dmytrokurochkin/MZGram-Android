@@ -122,6 +122,8 @@ public class MZGramConfig {
     // The Material 3 music player (MZGramMusicPlayer) and its bar above the chat
     public static boolean musicPlayer = false;
     public static boolean musicPlayerBar = true;
+    // The floating mini player above the main tabs (MZGramPlayerMiniView), with the Material 3 player on
+    public static boolean musicPlayerMini = true;
     // MZGramProxyAutoDisable: mask of VPN, MOBILE_DATA, WIFI; 0 = the proxy is never turned off by itself
     public static int proxyDisableConditions = 0;
     // MZGramPluginEngine: plugins that are on run only while this is on; outside the settings backup
@@ -747,6 +749,7 @@ public class MZGramConfig {
             roundVideoBitrate = preferences.getInt("round_video_bitrate", 0);
             musicPlayer = preferences.getBoolean("musicPlayer", false);
             musicPlayerBar = preferences.getBoolean("musicPlayerBar", true);
+            musicPlayerMini = preferences.getBoolean("musicPlayerMini", true);
             proxyDisableConditions = preferences.getInt("proxyDisableConditions", 0) & MZGramProxyAutoDisable.ALL;
             pluginsRun = preferences.getBoolean("pluginsRun", false);
             language = preferences.getString("language", "");
@@ -1076,6 +1079,11 @@ public class MZGramConfig {
     public static void toggleMusicPlayerBar() {
         musicPlayerBar = !musicPlayerBar;
         putBoolean("musicPlayerBar", musicPlayerBar);
+    }
+
+    public static void toggleMusicPlayerMini() {
+        musicPlayerMini = !musicPlayerMini;
+        putBoolean("musicPlayerMini", musicPlayerMini);
     }
 
     public static void toggleRecentChatsOnBack() {

@@ -1381,4 +1381,24 @@
     <string name="MZGramM3SliderInfo">Suwaki jak w Material 3: gruba ścieżka podzielona wąskim pionowym uchwytem. Suwaki z buforem, znacznikami czasu lub dwiema stronami zostają bez zmian.</string>
     <string name="MZGramGlassMessageMenu">Szklane menu wiadomości</string>
     <string name="MZGramGlassMessageMenuInfo">Menu wiadomości i pasek reakcji wyglądają jak matowe szkło. Wyłączone: pełne, jak bez rozmycia.</string>
+    <string name="MZGramMusicPlayerMini">Pływający miniodtwarzacz</string>
+    <string name="MZGramPlayerStyleMini">Miniodtwarzacz</string>
+    <string name="MZGramPlayerMiniMoveHint">Na karcie Czaty przytrzymaj miniodtwarzacz i przeciągnij go w górę pod wyszukiwanie lub z powrotem w dół.</string>
+    <string name="MZGramPlayerMiniRounded">Zaokrąglona</string>
+    <string name="MZGramPlayerMiniRound">Okrągła</string>
+    <string name="MZGramPlayerMiniHidden">Ukryta</string>
+    <string name="MZGramPlayerMiniShape">Kształt</string>
+    <string name="MZGramPlayerMiniPill">Pigułka</string>
+    <string name="MZGramPlayerMiniSquare">Kwadratowa</string>
+    <string name="MZGramPlayerMiniProgress">Postęp</string>
+    <string name="MZGramPlayerMiniRing">Pierścień</string>
+    <string name="MZGramPlayerMiniLine">Linia</string>
+    <string name="MZGramPlayerMiniBorder">Ramka</string>
+    <string name="MZGramPlayerMiniNone">Brak</string>
+    <string name="MZGramPlayerMiniColors">Kolory</string>
+    <string name="MZGramPlayerMiniCompact">Kompaktowy</string>
+    <string name="MZGramPlayerMiniArtist">Pokaż wykonawcę</string>
+    <string name="MZGramPlayerMiniPrevious">Przycisk poprzedniego utworu</string>
+    <string name="MZGramPlayerMiniNext">Przycisk następnego utworu</string>
+    <string name="MZGramPlayerMiniClose">Przycisk zamknięcia</string>
 </resources>

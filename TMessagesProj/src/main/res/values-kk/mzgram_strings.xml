@@ -1381,4 +1381,24 @@
     <string name="MZGramM3SliderInfo">Material 3-тегідей сырғытпалар: тар тік тұтқамен бөлінген жуан жолақ. Буфері, уақыт белгілері немесе екі жағы бар сырғытпалар сол күйі қалады.</string>
     <string name="MZGramGlassMessageMenu">Шыны хабар мәзірі</string>
     <string name="MZGramGlassMessageMenuInfo">Хабар мәзірі мен реакциялар тақтасы күңгірт шыны сияқты. Өшірулі: бұлыңғырсыз сияқты тұтас.</string>
+    <string name="MZGramMusicPlayerMini">Қалқымалы шағын ойнатқыш</string>
+    <string name="MZGramPlayerStyleMini">Шағын ойнатқыш</string>
+    <string name="MZGramPlayerMiniMoveHint">«Чаттар» қойындысында шағын ойнатқышты басып тұрып, іздеудің астына жоғары немесе қайта төмен сүйреңіз.</string>
+    <string name="MZGramPlayerMiniRounded">Дөңгелектенген</string>
+    <string name="MZGramPlayerMiniRound">Дөңгелек</string>
+    <string name="MZGramPlayerMiniHidden">Жасырын</string>
+    <string name="MZGramPlayerMiniShape">Пішін</string>
+    <string name="MZGramPlayerMiniPill">Таблетка</string>
+    <string name="MZGramPlayerMiniSquare">Шаршы</string>
+    <string name="MZGramPlayerMiniProgress">Барыс</string>
+    <string name="MZGramPlayerMiniRing">Сақина</string>
+    <string name="MZGramPlayerMiniLine">Сызық</string>
+    <string name="MZGramPlayerMiniBorder">Жиек</string>
+    <string name="MZGramPlayerMiniNone">Жоқ</string>
+    <string name="MZGramPlayerMiniColors">Түстер</string>
+    <string name="MZGramPlayerMiniCompact">Ықшам</string>
+    <string name="MZGramPlayerMiniArtist">Орындаушыны көрсету</string>
+    <string name="MZGramPlayerMiniPrevious">Алдыңғы трек түймесі</string>
+    <string name="MZGramPlayerMiniNext">Келесі трек түймесі</string>
+    <string name="MZGramPlayerMiniClose">Жабу түймесі</string>
 </resources>

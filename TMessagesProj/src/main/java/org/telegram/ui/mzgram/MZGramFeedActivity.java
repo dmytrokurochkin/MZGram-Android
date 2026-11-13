@@ -57,7 +57,7 @@ import org.telegram.ui.DialogsActivity;
 
 import java.util.ArrayList;
 
-public class MZGramFeedActivity extends BaseFragment {
+public class MZGramFeedActivity extends BaseFragment implements org.telegram.ui.MainTabsActivity.TabFragmentDelegate {
 
     private static final int MENU_READ_ALL = 1;
     private static final int MENU_CATEGORY = 2;
@@ -121,7 +121,7 @@ public class MZGramFeedActivity extends BaseFragment {
         listView.setClipToPadding(false);
         int top = hasMainTabs ? ActionBar.getCurrentActionBarHeight() + (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) : 0;
         int bottom = hasMainTabs ? dp(DialogsActivity.MAIN_TABS_HEIGHT_WITH_MARGINS) : 0;
-        listView.setPadding(0, top + dp(4), 0, bottom + dp(4));
+        listView.setPadding(0, top + dp(4), 0, bottom + dp(4) + miniPlayerPadding);
         listView.setAdapter(new Adapter(context));
         listView.setOnItemClickListener((view, position) -> openPost(position));
         content.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
@@ -315,6 +315,21 @@ public class MZGramFeedActivity extends BaseFragment {
             cell.isChat = true;
             cell.setMessageObject(posts.get(position), null, false, false, false);
             cell.setHighlighted(false);
+        }
+    }
+
+    // The floating mini player above the tabs (MZGramPlayerMiniView): room under the newest post
+    private int miniPlayerPadding;
+
+    @Override
+    public void setMiniPlayerInset(float inset, int padding) {
+        if (miniPlayerPadding == padding) {
+            return;
+        }
+        int old = miniPlayerPadding;
+        miniPlayerPadding = padding;
+        if (listView != null) {
+            listView.setPadding(0, listView.getPaddingTop(), 0, listView.getPaddingBottom() - old + padding);
         }
     }
 }

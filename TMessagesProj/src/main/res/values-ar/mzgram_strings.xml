@@ -1381,4 +1381,24 @@
     <string name="MZGramM3SliderInfo">منزلقات كما في Material 3: مسار سميك يقسمه مقبض عمودي ضيق. تبقى المنزلقات ذات المخزن المؤقت أو الطوابع الزمنية أو الجانبين كما هي.</string>
     <string name="MZGramGlassMessageMenu">قائمة رسالة زجاجية</string>
     <string name="MZGramGlassMessageMenuInfo">تبدو قائمة الرسالة وشريط التفاعلات كزجاج مصنفر. عند الإيقاف: مصمتة كما بلا تمويه.</string>
+    <string name="MZGramMusicPlayerMini">مشغل مصغر عائم</string>
+    <string name="MZGramPlayerStyleMini">المشغل المصغر</string>
+    <string name="MZGramPlayerMiniMoveHint">في تبويب الدردشات، اضغط مطولًا على المشغل المصغر واسحبه للأعلى أسفل البحث أو أعده للأسفل.</string>
+    <string name="MZGramPlayerMiniRounded">مستديرة الحواف</string>
+    <string name="MZGramPlayerMiniRound">دائرية</string>
+    <string name="MZGramPlayerMiniHidden">مخفية</string>
+    <string name="MZGramPlayerMiniShape">الشكل</string>
+    <string name="MZGramPlayerMiniPill">حبة</string>
+    <string name="MZGramPlayerMiniSquare">مربعة</string>
+    <string name="MZGramPlayerMiniProgress">التقدم</string>
+    <string name="MZGramPlayerMiniRing">حلقة</string>
+    <string name="MZGramPlayerMiniLine">خط</string>
+    <string name="MZGramPlayerMiniBorder">إطار</string>
+    <string name="MZGramPlayerMiniNone">بلا</string>
+    <string name="MZGramPlayerMiniColors">الألوان</string>
+    <string name="MZGramPlayerMiniCompact">مضغوط</string>
+    <string name="MZGramPlayerMiniArtist">إظهار الفنان</string>
+    <string name="MZGramPlayerMiniPrevious">زر المقطع السابق</string>
+    <string name="MZGramPlayerMiniNext">زر المقطع التالي</string>
+    <string name="MZGramPlayerMiniClose">زر الإغلاق</string>
 </resources>

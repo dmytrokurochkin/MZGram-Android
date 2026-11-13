@@ -1524,7 +1524,10 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 	}
 
 	private void checkUi_floatingButton() {
-        floatingButton.setTranslationY(-navigationBarHeight - additionFloatingButtonOffset - additionalFloatingTranslation);
+        if (floatingButton == null) {
+            return;
+        }
+        floatingButton.setTranslationY(-navigationBarHeight - additionFloatingButtonOffset - Math.max(additionalFloatingTranslation, miniPlayerInset));
 	}
 
 	private void checkUi_listViewPadding() {
@@ -1532,10 +1535,28 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 			0,
 			dp(ADDITIONAL_LIST_HEIGHT_DP) + actionBar.getMeasuredHeight() + (int) topPanelLayout.getAnimatedHeightWithPadding(dp(14)),
 			0,
-			dp(ADDITIONAL_LIST_HEIGHT_DP) + navigationBarHeight + additionNavigationBarHeight
+			dp(ADDITIONAL_LIST_HEIGHT_DP) + navigationBarHeight + additionNavigationBarHeight + miniPlayerPadding
 		);
 
-		emptyView.setPadding(0, 0, 0, navigationBarHeight + additionNavigationBarHeight);
+		emptyView.setPadding(0, 0, 0, navigationBarHeight + additionNavigationBarHeight + miniPlayerPadding);
+	}
+
+    // MZGram: the floating mini player above the tabs (MZGramPlayerMiniView)
+	private float miniPlayerInset;
+	private int miniPlayerPadding;
+
+	@Override
+	public void setMiniPlayerInset(float inset, int padding) {
+		if (miniPlayerInset != inset) {
+			miniPlayerInset = inset;
+			checkUi_floatingButton();
+		}
+		if (miniPlayerPadding != padding) {
+			miniPlayerPadding = padding;
+			if (listView != null && emptyView != null && actionBar != null && topPanelLayout != null) {
+				checkUi_listViewPadding();
+			}
+		}
 	}
 
 

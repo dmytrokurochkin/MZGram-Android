@@ -1381,4 +1381,24 @@
     <string name="MZGramM3SliderInfo">Sliders as in Material 3: a thick track split by a narrow upright thumb. Sliders with a buffer, time codes or two sides stay as they are.</string>
     <string name="MZGramGlassMessageMenu">Glass message menu</string>
     <string name="MZGramGlassMessageMenuInfo">The message menu and the reactions bar look like frosted glass. Off: solid, as without blur.</string>
+    <string name="MZGramMusicPlayerMini">Floating mini player</string>
+    <string name="MZGramPlayerStyleMini">Mini player</string>
+    <string name="MZGramPlayerMiniMoveHint">On the Chats tab, hold the mini player and drag it up under the search, or back down.</string>
+    <string name="MZGramPlayerMiniRounded">Rounded</string>
+    <string name="MZGramPlayerMiniRound">Round</string>
+    <string name="MZGramPlayerMiniHidden">Hidden</string>
+    <string name="MZGramPlayerMiniShape">Shape</string>
+    <string name="MZGramPlayerMiniPill">Pill</string>
+    <string name="MZGramPlayerMiniSquare">Square</string>
+    <string name="MZGramPlayerMiniProgress">Progress</string>
+    <string name="MZGramPlayerMiniRing">Ring</string>
+    <string name="MZGramPlayerMiniLine">Line</string>
+    <string name="MZGramPlayerMiniBorder">Border</string>
+    <string name="MZGramPlayerMiniNone">None</string>
+    <string name="MZGramPlayerMiniColors">Colors</string>
+    <string name="MZGramPlayerMiniCompact">Compact</string>
+    <string name="MZGramPlayerMiniArtist">Show artist</string>
+    <string name="MZGramPlayerMiniPrevious">Previous track button</string>
+    <string name="MZGramPlayerMiniNext">Next track button</string>
+    <string name="MZGramPlayerMiniClose">Close button</string>
 </resources>

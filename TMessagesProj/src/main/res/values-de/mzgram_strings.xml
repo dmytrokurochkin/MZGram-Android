@@ -1381,4 +1381,24 @@
     <string name="MZGramM3SliderInfo">Schieberegler wie in Material 3: eine dicke Spur, geteilt von einem schmalen senkrechten Griff. Regler mit Puffer, Zeitmarken oder zwei Seiten bleiben, wie sie sind.</string>
     <string name="MZGramGlassMessageMenu">Glas-Nachrichtenmenü</string>
     <string name="MZGramGlassMessageMenuInfo">Nachrichtenmenü und Reaktionsleiste sehen aus wie Milchglas. Aus: deckend, wie ohne Unschärfe.</string>
+    <string name="MZGramMusicPlayerMini">Schwebender Miniplayer</string>
+    <string name="MZGramPlayerStyleMini">Miniplayer</string>
+    <string name="MZGramPlayerMiniMoveHint">Halte im Tab Chats den Miniplayer gedrückt und ziehe ihn nach oben unter die Suche oder wieder nach unten.</string>
+    <string name="MZGramPlayerMiniRounded">Abgerundet</string>
+    <string name="MZGramPlayerMiniRound">Rund</string>
+    <string name="MZGramPlayerMiniHidden">Ausgeblendet</string>
+    <string name="MZGramPlayerMiniShape">Form</string>
+    <string name="MZGramPlayerMiniPill">Pille</string>
+    <string name="MZGramPlayerMiniSquare">Eckig</string>
+    <string name="MZGramPlayerMiniProgress">Fortschritt</string>
+    <string name="MZGramPlayerMiniRing">Kreis</string>
+    <string name="MZGramPlayerMiniLine">Linie</string>
+    <string name="MZGramPlayerMiniBorder">Rahmen</string>
+    <string name="MZGramPlayerMiniNone">Keine</string>
+    <string name="MZGramPlayerMiniColors">Farben</string>
+    <string name="MZGramPlayerMiniCompact">Kompakt</string>
+    <string name="MZGramPlayerMiniArtist">Interpret anzeigen</string>
+    <string name="MZGramPlayerMiniPrevious">Taste für vorherigen Titel</string>
+    <string name="MZGramPlayerMiniNext">Taste für nächsten Titel</string>
+    <string name="MZGramPlayerMiniClose">Taste zum Schließen</string>
 </resources>

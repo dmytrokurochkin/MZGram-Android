@@ -612,4 +612,73 @@ class MZGramScreensTest {
             if (MZGramConfig.glassMessageMenu != glass) MZGramConfig.toggleGlassMessageMenu()
         }
     }
+
+    // Floating mini player: shown with the Material 3 player and its own switch,
+    // both kept; its style starts as in the reference screenshots (rounded cover
+    // and card, a progress ring, theme colours, next and close, no previous), an
+    // unknown value reads as the first choice; the preview builds in each style
+    @Test
+    fun floatingMiniPlayer() {
+        val player = MZGramConfig.musicPlayer
+        val mini = MZGramConfig.musicPlayerMini
+        val prefs = InstrumentationRegistry.getInstrumentation().targetContext
+            .getSharedPreferences(org.telegram.ui.mzgram.player.MZGramPlayerStyle.PREFERENCES, android.content.Context.MODE_PRIVATE)
+        val saved = HashMap(prefs.all)
+        try {
+            if (MZGramConfig.musicPlayer) MZGramConfig.toggleMusicPlayer()
+            if (!MZGramConfig.musicPlayerMini) MZGramConfig.toggleMusicPlayerMini()
+            assertFalse(org.telegram.ui.mzgram.player.MZGramMusicPlayer.miniEnabled())
+            MZGramConfig.toggleMusicPlayer()
+            assertTrue(org.telegram.ui.mzgram.player.MZGramMusicPlayer.miniEnabled())
+            MZGramConfig.toggleMusicPlayerMini()
+            assertFalse(org.telegram.ui.mzgram.player.MZGramMusicPlayer.miniEnabled())
+            assertFalse(org.telegram.ui.mzgram.player.MZGramMusicPlayer.hidesContextPlayer(null, null))
+
+            prefs.edit().clear().commit()
+            assertEquals(org.telegram.ui.mzgram.player.MZGramPlayerStyle.MINI_COVER_ROUNDED, org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniCover())
+            assertEquals(org.telegram.ui.mzgram.player.MZGramPlayerStyle.MINI_SHAPE_ROUNDED, org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniShape())
+            assertEquals(org.telegram.ui.mzgram.player.MZGramPlayerStyle.MINI_PROGRESS_RING, org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniProgress())
+            assertTrue(org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniThemeColors())
+            assertTrue(org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniArtist())
+            assertTrue(org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniNext())
+            assertTrue(org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniClose())
+            assertFalse(org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniPrevious())
+            assertFalse(org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniCompact())
+            assertFalse(org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniTop())
+            org.telegram.ui.mzgram.player.MZGramPlayerStyle.set(org.telegram.ui.mzgram.player.MZGramPlayerStyle.KEY_MINI_SHAPE, 9)
+            assertEquals(org.telegram.ui.mzgram.player.MZGramPlayerStyle.MINI_SHAPE_ROUNDED, org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniShape())
+            org.telegram.ui.mzgram.player.MZGramPlayerStyle.set(org.telegram.ui.mzgram.player.MZGramPlayerStyle.KEY_MINI_PROGRESS, org.telegram.ui.mzgram.player.MZGramPlayerStyle.MINI_PROGRESS_BORDER)
+            assertEquals(org.telegram.ui.mzgram.player.MZGramPlayerStyle.MINI_PROGRESS_BORDER, org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniProgress())
+            org.telegram.ui.mzgram.player.MZGramPlayerStyle.set(org.telegram.ui.mzgram.player.MZGramPlayerStyle.KEY_MINI_COLORS, org.telegram.ui.mzgram.player.MZGramPlayerStyle.COLORS_COVER)
+            assertFalse(org.telegram.ui.mzgram.player.MZGramPlayerStyle.miniThemeColors())
+
+            InstrumentationRegistry.getInstrumentation().runOnMainSync {
+                val context = InstrumentationRegistry.getInstrumentation().targetContext
+                for (shape in 0..2) {
+                    for (cover in 0..2) {
+                        org.telegram.ui.mzgram.player.MZGramPlayerStyle.set(org.telegram.ui.mzgram.player.MZGramPlayerStyle.KEY_MINI_SHAPE, shape)
+                        org.telegram.ui.mzgram.player.MZGramPlayerStyle.set(org.telegram.ui.mzgram.player.MZGramPlayerStyle.KEY_MINI_COVER, cover)
+                        val view = org.telegram.ui.mzgram.player.MZGramPlayerMiniView.preview(context)
+                        view.applyStyle(false)
+                        view.measure(
+                            View.MeasureSpec.makeMeasureSpec(org.telegram.messenger.AndroidUtilities.dp(360f), View.MeasureSpec.EXACTLY),
+                            View.MeasureSpec.makeMeasureSpec(org.telegram.messenger.AndroidUtilities.dp((org.telegram.ui.mzgram.player.MZGramPlayerMiniView.HEIGHT_DP + 16).toFloat()), View.MeasureSpec.EXACTLY))
+                        assertTrue("shape $shape cover $cover", view.measuredHeight > 0)
+                    }
+                }
+            }
+        } finally {
+            val editor = prefs.edit().clear()
+            for ((key, value) in saved) {
+                when (value) {
+                    is Int -> editor.putInt(key, value)
+                    is Boolean -> editor.putBoolean(key, value)
+                    is String -> editor.putString(key, value)
+                }
+            }
+            editor.commit()
+            if (MZGramConfig.musicPlayer != player) MZGramConfig.toggleMusicPlayer()
+            if (MZGramConfig.musicPlayerMini != mini) MZGramConfig.toggleMusicPlayerMini()
+        }
+    }
 }

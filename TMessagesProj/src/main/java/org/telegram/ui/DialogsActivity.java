@@ -2157,6 +2157,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
             t -= dp(5 * Math.max(filterTabsVisibility, topPanelsVisibility));
             additionalPadding -= dp(5 * Math.max(filterTabsVisibility, topPanelsVisibility));
+            // MZGram: room for the mini player docked at the top (MZGramPlayerMiniView)
+            t += miniPlayerTopPadding;
 
             final int b = calculateListViewPaddingBottom();
             if (t != topPadding || b != getPaddingBottom()) {
@@ -9054,8 +9056,66 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    // MZGram: the floating mini player above the tabs (MZGramPlayerMiniView):
+    // the floating buttons go above it, the list keeps room under its last row
+    private float miniPlayerInset;
+    private int miniPlayerPadding;
+    private int miniPlayerTopPadding;
+
+    @Override
+    public void setMiniPlayerTopPadding(int padding) {
+        if (miniPlayerTopPadding == padding) {
+            return;
+        }
+        miniPlayerTopPadding = padding;
+        if (viewPages != null) {
+            for (int i = 0; i < viewPages.length; i++) {
+                if (viewPages[i] != null) {
+                    viewPages[i].listView.requestLayout();
+                }
+            }
+        }
+    }
+
+    @Override
+    public float getMiniPlayerTopAnchor() {
+        if (viewPages == null || viewPages[0] == null) {
+            return -1;
+        }
+        return viewPages[0].listView.topPadding - miniPlayerTopPadding + scrollYOffset + storiesOverscroll + viewPages[0].getTranslationY();
+    }
+
+    @Override
+    public float getMiniPlayerTopVisibility() {
+        float visibility = 1f - Utilities.clamp01(searchAnimationProgress);
+        if (rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment()) {
+            visibility *= 1f - Utilities.clamp01(rightSlidingDialogContainer.openedProgress);
+        }
+        if (blurredView != null && blurredView.getVisibility() == View.VISIBLE && blurredView.getBackground() != null) {
+            visibility *= 1f - Utilities.clamp01(blurredView.getAlpha());
+        }
+        return visibility;
+    }
+
+    @Override
+    public void setMiniPlayerInset(float inset, int padding) {
+        if (miniPlayerInset != inset) {
+            miniPlayerInset = inset;
+            updateFloatingButtonOffset();
+        }
+        if (miniPlayerPadding != padding) {
+            miniPlayerPadding = padding;
+            checkUi_chatListViewPaddingsBottom();
+        }
+    }
+
+    // The folder tabs at the bottom, as they show now: the mini player goes above them
+    public int getBottomFolderTabsHeight() {
+        return filterTabsView != null ? bottomFolderTabsHeight() : 0;
+    }
+
     private void updateFloatingButtonOffset() {
-        final float top = -navigationBarHeight - additionFloatingButtonOffset - additionalFloatingTranslation - bottomFolderTabsHeight();
+        final float top = -navigationBarHeight - additionFloatingButtonOffset - Math.max(additionalFloatingTranslation, miniPlayerInset) - bottomFolderTabsHeight();
         final float baseTranslationY = top
             - floatingButtonPanOffset;
 
@@ -14597,7 +14657,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else if (communityId != 0) {
             return navigationBarHeight + dp(12 + 48 + 12);
         } else {
-            return navigationBarHeight + additionNavigationBarHeight + bottomFolderTabsHeight();
+            return navigationBarHeight + additionNavigationBarHeight + bottomFolderTabsHeight() + miniPlayerPadding;
         }
     }
 

@@ -94,7 +94,8 @@ public class MZGramPlayerStyleEditor extends LinearLayout {
     private final LinearLayout blockCards;
     private final View extendRow;
     private final ChipGroup coverChips;
-    private final LinearLayout[] sections = new LinearLayout[2];
+    private final LinearLayout[] sections = new LinearLayout[3];
+    private MZGramPlayerMiniView miniPreview;
     private LinearLayout section;
     private static int selectedSection;
 
@@ -106,7 +107,7 @@ public class MZGramPlayerStyleEditor extends LinearLayout {
         setPadding(0, 0, 0, dp(16));
 
         Segmented tabs = new Segmented(context, new String[]{
-                getString(R.string.MZGramPlayerStyleCover), getString(R.string.MZGramPlayerStyleElements)
+                getString(R.string.MZGramPlayerStyleCover), getString(R.string.MZGramPlayerStyleElements), getString(R.string.MZGramPlayerStyleMini)
         }, () -> selectedSection, this::selectSection);
         addView(tabs, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 44, 16, 8, 16, 4));
         parts.add(tabs);
@@ -190,6 +191,43 @@ public class MZGramPlayerStyleEditor extends LinearLayout {
 
         section = sections[1];
         addInfo(R.string.MZGramPlayerLayoutInfo);
+
+        // The floating mini player above the main tabs: a live preview and its options
+        section = sections[2];
+        miniPreview = MZGramPlayerMiniView.preview(context);
+        section.addView(miniPreview, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, MZGramPlayerMiniView.HEIGHT_DP + 16));
+        addInfo(R.string.MZGramPlayerMiniMoveHint);
+        addInfo(R.string.MZGramPlayerStyleCover);
+        addSegmented(new String[]{
+                getString(R.string.MZGramPlayerMiniRounded), getString(R.string.MZGramPlayerMiniRound), getString(R.string.MZGramPlayerMiniHidden)
+        }, MZGramPlayerStyle::miniCover, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_COVER, value));
+        addInfo(R.string.MZGramPlayerMiniShape);
+        addSegmented(new String[]{
+                getString(R.string.MZGramPlayerMiniRounded), getString(R.string.MZGramPlayerMiniPill), getString(R.string.MZGramPlayerMiniSquare)
+        }, MZGramPlayerStyle::miniShape, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_SHAPE, value));
+        addInfo(R.string.MZGramPlayerMiniProgress);
+        addSegmented(new String[]{
+                getString(R.string.MZGramPlayerMiniRing), getString(R.string.MZGramPlayerMiniLine),
+                getString(R.string.MZGramPlayerMiniBorder), getString(R.string.MZGramPlayerMiniNone)
+        }, () -> {
+            int value = MZGramPlayerStyle.miniProgress();
+            return value == MZGramPlayerStyle.MINI_PROGRESS_BORDER ? 2 : value == MZGramPlayerStyle.MINI_PROGRESS_NONE ? 3 : value;
+        }, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_PROGRESS,
+                value == 2 ? MZGramPlayerStyle.MINI_PROGRESS_BORDER : value == 3 ? MZGramPlayerStyle.MINI_PROGRESS_NONE : value));
+        addInfo(R.string.MZGramPlayerMiniColors);
+        addSegmented(new String[]{getString(R.string.MZGramPlayerColorsCover), getString(R.string.MZGramPlayerColorsTheme)},
+                () -> MZGramPlayerStyle.miniThemeColors() ? 1 : 0, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_COLORS, value));
+        ChipGroup miniChips = addChips();
+        addChip(miniChips, R.string.MZGramPlayerMiniCompact,
+                MZGramPlayerStyle::miniCompact, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_COMPACT, value));
+        addChip(miniChips, R.string.MZGramPlayerMiniArtist,
+                MZGramPlayerStyle::miniArtist, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_ARTIST, value));
+        addChip(miniChips, R.string.MZGramPlayerMiniPrevious,
+                MZGramPlayerStyle::miniPrevious, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_PREVIOUS, value));
+        addChip(miniChips, R.string.MZGramPlayerMiniNext,
+                MZGramPlayerStyle::miniNext, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_NEXT, value));
+        addChip(miniChips, R.string.MZGramPlayerMiniClose,
+                MZGramPlayerStyle::miniClose, value -> MZGramPlayerStyle.set(MZGramPlayerStyle.KEY_MINI_CLOSE, value));
 
         selectSection(selectedSection);
         refreshVisibility();
@@ -311,10 +349,19 @@ public class MZGramPlayerStyleEditor extends LinearLayout {
         }
         layoutBlockCards();
         refreshVisibility();
+        refreshMini();
+    }
+
+    private void refreshMini() {
+        if (miniPreview != null) {
+            miniPreview.applyStyle(true);
+        }
+        MZGramPlayerMiniView.styleChanged();
     }
 
     private void changed() {
         refreshVisibility();
+        refreshMini();
         if (listener != null) {
             listener.onStyleChanged();
         }

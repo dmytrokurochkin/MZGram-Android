@@ -1381,4 +1381,24 @@
     <string name="MZGramM3SliderInfo">Material 3\'teki gibi kaydırıcılar: dar dikey bir tutamakla bölünen kalın bir iz. Arabellekli, zaman kodlu veya iki yönlü kaydırıcılar olduğu gibi kalır.</string>
     <string name="MZGramGlassMessageMenu">Cam mesaj menüsü</string>
     <string name="MZGramGlassMessageMenuInfo">Mesaj menüsü ve tepki çubuğu buzlu cam gibi görünür. Kapalı: bulanıklık yokmuş gibi düz.</string>
+    <string name="MZGramMusicPlayerMini">Yüzen mini oynatıcı</string>
+    <string name="MZGramPlayerStyleMini">Mini oynatıcı</string>
+    <string name="MZGramPlayerMiniMoveHint">Sohbetler sekmesinde mini oynatıcıyı basılı tutup arama alanının altına yukarı ya da geri aşağı sürükleyin.</string>
+    <string name="MZGramPlayerMiniRounded">Yuvarlatılmış</string>
+    <string name="MZGramPlayerMiniRound">Yuvarlak</string>
+    <string name="MZGramPlayerMiniHidden">Gizli</string>
+    <string name="MZGramPlayerMiniShape">Şekil</string>
+    <string name="MZGramPlayerMiniPill">Hap</string>
+    <string name="MZGramPlayerMiniSquare">Kare</string>
+    <string name="MZGramPlayerMiniProgress">İlerleme</string>
+    <string name="MZGramPlayerMiniRing">Halka</string>
+    <string name="MZGramPlayerMiniLine">Çizgi</string>
+    <string name="MZGramPlayerMiniBorder">Kenarlık</string>
+    <string name="MZGramPlayerMiniNone">Yok</string>
+    <string name="MZGramPlayerMiniColors">Renkler</string>
+    <string name="MZGramPlayerMiniCompact">Kompakt</string>
+    <string name="MZGramPlayerMiniArtist">Sanatçıyı göster</string>
+    <string name="MZGramPlayerMiniPrevious">Önceki parça düğmesi</string>
+    <string name="MZGramPlayerMiniNext">Sonraki parça düğmesi</string>
+    <string name="MZGramPlayerMiniClose">Kapatma düğmesi</string>
 </resources>

@@ -1237,4 +1237,9 @@
     <string name="MZGramInAppVibrationInfo">Вимкнено: кнопки, меню, повзунки та мініпрограми більше не вібрують. Дзвінки й сповіщення вібрують за своїми налаштуваннями.</string>
     <string name="MZGramDisableNotificationDelay">Вимкнути затримку сповіщень</string>
     <string name="MZGramDisableNotificationDelayInfo">Сповіщення про нове повідомлення приходить одразу. Telegram чекає 1 секунду, або 3, поки ви онлайн на іншому пристрої, бо ви могли прочитати його там.</string>
+    <string name="MZGramDownloadBoost">Прискорення завантаження</string>
+    <string name="MZGramDownloadBoostFast">Швидка</string>
+    <string name="MZGramDownloadBoostUltra">Ультра</string>
+    <string name="MZGramUploadBoost">Збільшення швидкості відправки</string>
+    <string name="MZGramDownloadBoostInfo">Файли завантажуються більшими частинами, кілька одночасно: Швидка - як експериментальний режим Telegram, Ультра - частинами по 1 МБ, по 12 разом. Ультра може погіршити завантаження файлів і потокове відео на повільному з\'єднанні. Збільшення швидкості відправки надсилає файли частинами по 512 КБ замість 128 КБ.</string>
 </resources>

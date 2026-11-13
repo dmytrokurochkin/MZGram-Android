@@ -1236,4 +1236,9 @@
     <string name="MZGramInAppVibrationInfo">Kapalı: düğmeler, menüler, kaydırıcılar ve mini uygulamalar artık titreşmez. Aramalar ve bildirimler kendi ayarlarına uyar.</string>
     <string name="MZGramDisableNotificationDelay">Bildirim gecikmesini kapat</string>
     <string name="MZGramDisableNotificationDelayInfo">Yeni mesaj bildirimi hemen gelir. Telegram, mesajı orada okuma ihtimaline karşı 1 saniye, başka bir cihazda çevrimiçiyken 3 saniye bekler.</string>
+    <string name="MZGramDownloadBoost">İndirme hızlandırma</string>
+    <string name="MZGramDownloadBoostFast">Hızlı</string>
+    <string name="MZGramDownloadBoostUltra">Çok hızlı</string>
+    <string name="MZGramUploadBoost">Daha hızlı yükleme</string>
+    <string name="MZGramDownloadBoostInfo">Dosyalar daha büyük parçalar halinde, aynı anda birkaç tane iner: Hızlı, Telegram\'ın deneysel modu gibi; Çok hızlı, 1 MB\'lık parçalarla, aynı anda 12 tane. Çok hızlı, yavaş bağlantıda indirmeleri ve video akışını kötüleştirebilir. Daha hızlı yükleme dosyaları 128 KB yerine 512 KB\'lık parçalarla gönderir.</string>
 </resources>

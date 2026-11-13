@@ -1236,4 +1236,9 @@
     <string name="MZGramInAppVibrationInfo">Off: buttons, menus, sliders and mini apps no longer vibrate. Calls and notifications keep their own vibration.</string>
     <string name="MZGramDisableNotificationDelay">Disable notification delay</string>
     <string name="MZGramDisableNotificationDelayInfo">A new message notifies at once. Telegram waits 1 second, or 3 while you are online on another device, in case you read it there.</string>
+    <string name="MZGramDownloadBoost">Download boost</string>
+    <string name="MZGramDownloadBoostFast">Fast</string>
+    <string name="MZGramDownloadBoostUltra">Ultra</string>
+    <string name="MZGramUploadBoost">Faster uploading</string>
+    <string name="MZGramDownloadBoostInfo">Files come in bigger parts, several at once: Fast as Telegram\'s experimental mode, Ultra in 1 MB parts, 12 at a time. Ultra can make downloads and video streaming worse on a slow connection. Faster uploading sends files in parts of 512 KB instead of 128 KB.</string>
 </resources>

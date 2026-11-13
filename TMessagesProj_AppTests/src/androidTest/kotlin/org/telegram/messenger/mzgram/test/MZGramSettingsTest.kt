@@ -147,7 +147,8 @@ class MZGramSettingsTest {
                 it.viewType != UniversalAdapter.VIEW_TYPE_HEADER &&
                 it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW &&
                 it.viewType != UniversalAdapter.VIEW_TYPE_CUSTOM &&
-                it.viewType != UniversalAdapter.VIEW_TYPE_INTSLIDE
+                it.viewType != UniversalAdapter.VIEW_TYPE_INTSLIDE &&
+                it.viewType != UniversalAdapter.VIEW_TYPE_SLIDE
             }.map { it.id }
             assertTrue("topic $section is not empty", ids.isNotEmpty())
             shown.addAll(ids)
@@ -162,7 +163,7 @@ class MZGramSettingsTest {
         // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen,
         // plus the message menu row of Chats, plus the switches of the reference screenshots (MZGramScreensTest);
         // a build with plugins (Python) also has Python for plugins (Plugins itself is a row of the main page)
-        val expectedCount = 173 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        val expectedCount = 174 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

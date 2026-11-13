@@ -141,13 +141,15 @@ public final class MZGramSettingsBackup {
                 "hexColorSwatch", "scheduleSlider", "sendSilentByDefault", "showRegistrationDate",
                 "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd", "videoSubtitles", "persianCalendar",
                 "hideChatStatus", "chat_header_compact", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
-                "usePinnedReactionsChannels", "disableNotificationDelay", "inAppVibration");
+                "usePinnedReactionsChannels", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
         // MZGramAvatarShape.MIN..MAX
         integer(CONFIG, "avatarCorners", 0, 28);
         // MZGramGlassOutline GLARE, SOLID, HIDDEN
         integer(CONFIG, "glassOutline", 0, 2);
         // MZGramFolderIcons TITLES, ICONS_AND_TITLES, ICONS
         integer(CONFIG, "folderTabIcons", 0, 2);
+        // Download boost: off, fast, ultra
+        integer(CONFIG, "downloadSpeedBoost", 0, 2);
         // MZGramVoiceQuality TELEGRAM, HIGH, HIGHEST
         integer(CONFIG, "voiceQuality", 0, 2);
         // MZGramMonet STYLE_ANDROID, STYLE_TELEGRAM

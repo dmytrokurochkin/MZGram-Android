@@ -300,7 +300,15 @@ public class FileLoadOperation {
     }
 
     private void updateParams() {
-        if ((preloadPrefixSize > 0 || MessagesController.getInstance(currentAccount).getfileExperimentalParams) && !forceSmallChunk) {
+        // MZGram: Settings > MZGram > General > Download boost, as exteraless
+        // (GPL-3.0) does it: Ultra takes 1 MB parts with 12 requests at once,
+        // Fast what Telegram's experimental parameters take
+        final int boost = org.telegram.messenger.mzgram.MZGramConfig.downloadSpeedBoost;
+        if (boost == 2) {
+            downloadChunkSizeBig = 1024 * 1024;
+            maxDownloadRequests = 12;
+            maxDownloadRequestsBig = 12;
+        } else if ((preloadPrefixSize > 0 || MessagesController.getInstance(currentAccount).getfileExperimentalParams || boost == 1) && !forceSmallChunk) {
             downloadChunkSizeBig = 1024 * 512;
             maxDownloadRequests = 8;
             maxDownloadRequestsBig = 8;

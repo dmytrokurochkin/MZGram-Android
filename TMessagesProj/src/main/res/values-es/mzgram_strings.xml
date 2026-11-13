@@ -1236,4 +1236,9 @@
     <string name="MZGramInAppVibrationInfo">Desactivado: botones, menús, controles deslizantes y miniapps dejan de vibrar. Las llamadas y notificaciones siguen sus propios ajustes.</string>
     <string name="MZGramDisableNotificationDelay">Desactivar el retraso de notificaciones</string>
     <string name="MZGramDisableNotificationDelayInfo">La notificación de un mensaje nuevo llega al instante. Telegram espera 1 segundo, o 3 si estás en línea en otro dispositivo, por si lo lees allí.</string>
+    <string name="MZGramDownloadBoost">Acelerar descargas</string>
+    <string name="MZGramDownloadBoostFast">Rápida</string>
+    <string name="MZGramDownloadBoostUltra">Ultrarrápida</string>
+    <string name="MZGramUploadBoost">Envío más rápido</string>
+    <string name="MZGramDownloadBoostInfo">Los archivos llegan en partes más grandes, varias a la vez: Rápida como el modo experimental de Telegram, Ultrarrápida en partes de 1 MB, 12 a la vez. Ultrarrápida puede empeorar las descargas y el vídeo en streaming con una conexión lenta. Envío más rápido envía los archivos en partes de 512 KB en lugar de 128 KB.</string>
 </resources>

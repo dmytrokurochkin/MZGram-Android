@@ -1236,4 +1236,9 @@
     <string name="MZGramInAppVibrationInfo">Wyłączone: przyciski, menu, suwaki i miniaplikacje przestają wibrować. Połączenia i powiadomienia wibrują według własnych ustawień.</string>
     <string name="MZGramDisableNotificationDelay">Wyłącz opóźnienie powiadomień</string>
     <string name="MZGramDisableNotificationDelayInfo">Powiadomienie o nowej wiadomości przychodzi od razu. Telegram czeka 1 sekundę, albo 3, gdy jesteś online na innym urządzeniu, na wypadek gdybyś przeczytał ją tam.</string>
+    <string name="MZGramDownloadBoost">Przyspieszenie pobierania</string>
+    <string name="MZGramDownloadBoostFast">Szybkie</string>
+    <string name="MZGramDownloadBoostUltra">Ultra szybkie</string>
+    <string name="MZGramUploadBoost">Szybsze wysyłanie</string>
+    <string name="MZGramDownloadBoostInfo">Pliki pobierają się większymi częściami, po kilka naraz: Szybkie jak eksperymentalny tryb Telegrama, Ultra szybkie w częściach po 1 MB, po 12 naraz. Ultra szybkie może pogorszyć pobieranie plików i strumieniowanie wideo przy wolnym połączeniu. Szybsze wysyłanie wysyła pliki w częściach po 512 KB zamiast 128 KB.</string>
 </resources>

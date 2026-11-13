@@ -46,6 +46,20 @@ class ScreensTest(unittest.TestCase):
         notifications = read(JAVA / "messenger/NotificationsController.java")
         self.assertIn("MZGramConfig.disableNotificationDelay ? 0 : (onlineReason ? 3 * 1000 : 1000)", notifications)
 
+    def test_download_and_upload_boost(self):
+        self.switch("uploadSpeedBoost", "false", "BUTTON_UPLOAD_SPEED_BOOST")
+        config = read(CONFIG)
+        self.assertIn("public static int downloadSpeedBoost = 0;", config)
+        self.assertIn('integer(CONFIG, "downloadSpeedBoost", 0, 2);', read(BACKUP))
+        self.assertIn("MZGramConfig.downloadSpeedBoost, MZGramConfig::setDownloadSpeedBoost", read(PAGE))
+        load = read(JAVA / "messenger/FileLoadOperation.java")
+        params = load[load.index("private void updateParams() {"):]
+        params = params[:params.index("maxCdnParts =")]
+        self.assertIn("if (boost == 2) {\n            downloadChunkSizeBig = 1024 * 1024;\n            maxDownloadRequests = 12;", params.replace("\r\n", "\n"))
+        self.assertIn("getfileExperimentalParams || boost == 1) && !forceSmallChunk", params)
+        upload = read(JAVA / "messenger/FileUploadOperation.java")
+        self.assertIn("MZGramConfig.uploadSpeedBoost ? 512 : minUploadChunkSize", upload)
+
 
 if __name__ == "__main__":
     unittest.main()

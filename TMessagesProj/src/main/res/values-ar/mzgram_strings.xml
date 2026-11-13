@@ -1236,4 +1236,9 @@
     <string name="MZGramInAppVibrationInfo">عند الإيقاف: لا تهتز الأزرار والقوائم وأشرطة التمرير والتطبيقات المصغرة. تتبع المكالمات والإشعارات إعداداتها الخاصة.</string>
     <string name="MZGramDisableNotificationDelay">إيقاف تأخير الإشعارات</string>
     <string name="MZGramDisableNotificationDelayInfo">يصل إشعار الرسالة الجديدة فورًا. ينتظر Telegram ثانية واحدة، أو 3 ثوانٍ أثناء اتصالك على جهاز آخر، تحسبًا لقراءتك لها هناك.</string>
+    <string name="MZGramDownloadBoost">تسريع التنزيل</string>
+    <string name="MZGramDownloadBoostFast">سريع</string>
+    <string name="MZGramDownloadBoostUltra">فائق</string>
+    <string name="MZGramUploadBoost">رفع أسرع</string>
+    <string name="MZGramDownloadBoostInfo">تصل الملفات في أجزاء أكبر، عدة أجزاء معًا: سريع مثل الوضع التجريبي في Telegram، وفائق بأجزاء 1 ميغابايت، 12 جزءًا في المرة. قد يجعل الوضع الفائق التنزيلات وبث الفيديو أسوأ على اتصال بطيء. يرسل الرفع الأسرع الملفات بأجزاء 512 كيلوبايت بدلًا من 128 كيلوبايت.</string>
 </resources>

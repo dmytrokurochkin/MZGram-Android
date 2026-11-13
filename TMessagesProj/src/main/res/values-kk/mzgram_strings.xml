@@ -1236,4 +1236,9 @@
     <string name="MZGramInAppVibrationInfo">Өшірулі: түймелер, мәзірлер, жүгірткілер және шағын қолданбалар енді дірілдемейді. Қоңыраулар мен хабарландырулар өз баптауларына сай.</string>
     <string name="MZGramDisableNotificationDelay">Хабарландыру кідірісін өшіру</string>
     <string name="MZGramDisableNotificationDelayInfo">Жаңа хабарлама туралы хабарландыру бірден келеді. Telegram оны басқа құрылғыда оқуыңыз мүмкін болғандықтан 1 секунд, ал онда желіде болсаңыз 3 секунд күтеді.</string>
+    <string name="MZGramDownloadBoost">Жүктеуді жылдамдату</string>
+    <string name="MZGramDownloadBoostFast">Жылдам</string>
+    <string name="MZGramDownloadBoostUltra">Ультра</string>
+    <string name="MZGramUploadBoost">Жылдамырақ жіберу</string>
+    <string name="MZGramDownloadBoostInfo">Файлдар үлкенірек бөліктермен, бірнешеуі бірге жүктеледі: Жылдам - Telegram-ның эксперименттік режимі сияқты, Ультра - 1 МБ бөліктермен, бір мезгілде 12. Баяу байланыста Ультра файлдарды жүктеуді және бейне ағынын нашарлатуы мүмкін. Жылдамырақ жіберу файлдарды 128 КБ орнына 512 КБ бөліктермен жібереді.</string>
 </resources>

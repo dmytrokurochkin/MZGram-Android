@@ -35,6 +35,22 @@ class MZGramScreensTest {
         instrumentation.runOnMainSync { MZGramHaptics.apply() }
     }
 
+    // Download boost keeps to its three levels, whatever is set
+    @Test
+    fun downloadBoost_keepsToItsLevels() {
+        val before = MZGramConfig.downloadSpeedBoost
+        try {
+            MZGramConfig.setDownloadSpeedBoost(5)
+            assertEquals(2, MZGramConfig.downloadSpeedBoost)
+            MZGramConfig.setDownloadSpeedBoost(-1)
+            assertEquals(0, MZGramConfig.downloadSpeedBoost)
+            MZGramConfig.setDownloadSpeedBoost(1)
+            assertEquals(1, MZGramConfig.downloadSpeedBoost)
+        } finally {
+            MZGramConfig.setDownloadSpeedBoost(before)
+        }
+    }
+
     // In-app vibration: on by default; off, the views of a followed window
     // lose haptic feedback and Telegram's "regardless of the view" flag is
     // dropped, so they stay quiet; back on, all of it returns.

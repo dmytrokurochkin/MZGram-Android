@@ -235,6 +235,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_MESSAGE_MENU = 206;
     private static final int BUTTON_IN_APP_VIBRATION = 207;
     private static final int BUTTON_DISABLE_NOTIFICATION_DELAY = 208;
+    private static final int BUTTON_UPLOAD_SPEED_BOOST = 209;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -779,6 +780,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_DISABLE_NOTIFICATION_DELAY, R.string.MZGramDisableNotificationDelay, MZGramConfig.disableNotificationDelay, R.string.MZGramDisableNotificationDelayInfo));
         items.add(check(BUTTON_STRIP_ZALGO_TEXT, R.string.MZGramStripZalgoText, MZGramConfig.stripZalgoText, R.string.MZGramStripZalgoTextInfo));
         items.add(UItem.asShadow(null));
+        items.add(UItem.asHeader(getString(R.string.MZGramDownloadBoost)));
+        items.add(UItem.asSlideView(new String[] {getString(R.string.MZGramOff), getString(R.string.MZGramDownloadBoostFast), getString(R.string.MZGramDownloadBoostUltra)},
+                MZGramConfig.downloadSpeedBoost, MZGramConfig::setDownloadSpeedBoost));
+        items.add(UItem.asCheck(BUTTON_UPLOAD_SPEED_BOOST, getString(R.string.MZGramUploadBoost)).setChecked(MZGramConfig.uploadSpeedBoost));
+        items.add(UItem.asShadow(getString(R.string.MZGramDownloadBoostInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderProfile)));
         items.add(check(BUTTON_SHOW_REGISTRATION_DATE, R.string.MZGramShowRegistrationDate, MZGramConfig.showRegistrationDate, R.string.MZGramShowRegistrationDateInfo));
         items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
@@ -1177,6 +1183,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_UPLOAD_SPEED_BOOST) {
+            MZGramConfig.toggleUploadSpeedBoost();
+            ((TextCheckCell) view).setChecked(MZGramConfig.uploadSpeedBoost);
         } else if (item.id == BUTTON_DISABLE_NOTIFICATION_DELAY) {
             MZGramConfig.toggleDisableNotificationDelay();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableNotificationDelay);

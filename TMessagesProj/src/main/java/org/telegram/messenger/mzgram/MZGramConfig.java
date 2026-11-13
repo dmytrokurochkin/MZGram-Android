@@ -436,6 +436,12 @@ public class MZGramConfig {
     // A new message notifies at once, not after Telegram's 1 s (3 s while online on another device) wait
     public static boolean disableNotificationDelay = false;
 
+    // Settings > MZGram > General > Download boost: 0 off (Telegram), 1 fast, 2 ultra (FileLoadOperation)
+    public static int downloadSpeedBoost = 0;
+
+    // Upload in parts of 512 KB instead of 128 KB (FileUploadOperation)
+    public static boolean uploadSpeedBoost = false;
+
     static {
         loadConfig(false);
     }
@@ -676,6 +682,8 @@ public class MZGramConfig {
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             inAppVibration = preferences.getBoolean("inAppVibration", true);
             disableNotificationDelay = preferences.getBoolean("disableNotificationDelay", false);
+            downloadSpeedBoost = Math.max(0, Math.min(2, preferences.getInt("downloadSpeedBoost", 0)));
+            uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             configLoaded = true;
         }
     }
@@ -1707,6 +1715,11 @@ public class MZGramConfig {
         preferences().edit().putInt("doubleTapOwn", value).apply();
     }
 
+    public static void setDownloadSpeedBoost(int value) {
+        downloadSpeedBoost = Math.max(0, Math.min(2, value));
+        putInt("downloadSpeedBoost", downloadSpeedBoost);
+    }
+
     public static void setDoubleTapOther(int value) {
         doubleTapOther = value;
         preferences().edit().putInt("doubleTapOther", value).apply();
@@ -1720,5 +1733,10 @@ public class MZGramConfig {
     public static void toggleDisableNotificationDelay() {
         disableNotificationDelay = !disableNotificationDelay;
         putBoolean("disableNotificationDelay", disableNotificationDelay);
+    }
+
+    public static void toggleUploadSpeedBoost() {
+        uploadSpeedBoost = !uploadSpeedBoost;
+        putBoolean("uploadSpeedBoost", uploadSpeedBoost);
     }
 }

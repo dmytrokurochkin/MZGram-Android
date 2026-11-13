@@ -60,6 +60,18 @@ class ScreensTest(unittest.TestCase):
         upload = read(JAVA / "messenger/FileUploadOperation.java")
         self.assertIn("MZGramConfig.uploadSpeedBoost ? 512 : minUploadChunkSize", upload)
 
+    def test_save_folder(self):
+        config = read(CONFIG)
+        self.assertIn('public static String saveFolder = "Telegram";', config)
+        self.assertIn('"saveFolder");', read(BACKUP))
+        page = read(PAGE)
+        self.assertIn("items.add(UItem.asButton(BUTTON_SAVE_FOLDER, ", page)
+        self.assertIn("item.id == BUTTON_SAVE_FOLDER)", page)
+        media = read(JAVA / "messenger/MediaController.java")
+        # Every folder Telegram saves into takes the chosen name
+        self.assertNotIn('"Telegram")', media)
+        self.assertEqual(11, media.count("MZGramSaveFolder.name())"))
+
 
 if __name__ == "__main__":
     unittest.main()

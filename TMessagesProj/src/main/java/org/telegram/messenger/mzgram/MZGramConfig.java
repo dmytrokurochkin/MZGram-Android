@@ -442,6 +442,9 @@ public class MZGramConfig {
     // Upload in parts of 512 KB instead of 128 KB (FileUploadOperation)
     public static boolean uploadSpeedBoost = false;
 
+    // Settings > MZGram > General > Save folder: the folder name inside Pictures, Movies, Download and Music (MZGramSaveFolder)
+    public static String saveFolder = "Telegram";
+
     static {
         loadConfig(false);
     }
@@ -684,6 +687,7 @@ public class MZGramConfig {
             disableNotificationDelay = preferences.getBoolean("disableNotificationDelay", false);
             downloadSpeedBoost = Math.max(0, Math.min(2, preferences.getInt("downloadSpeedBoost", 0)));
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
+            saveFolder = preferences.getString("saveFolder", "Telegram");
             configLoaded = true;
         }
     }
@@ -1713,6 +1717,12 @@ public class MZGramConfig {
     public static void setDoubleTapOwn(int value) {
         doubleTapOwn = value;
         preferences().edit().putInt("doubleTapOwn", value).apply();
+    }
+
+    public static void setSaveFolder(String value) {
+        String clean = MZGramSaveFolder.clean(value);
+        saveFolder = clean.isEmpty() ? MZGramSaveFolder.TELEGRAM : clean;
+        putString("saveFolder", saveFolder);
     }
 
     public static void setDownloadSpeedBoost(int value) {

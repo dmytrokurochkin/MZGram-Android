@@ -1241,4 +1241,8 @@
     <string name="MZGramDownloadBoostUltra">Maximal</string>
     <string name="MZGramUploadBoost">Schnelleres Hochladen</string>
     <string name="MZGramDownloadBoostInfo">Dateien kommen in größeren Teilen, mehrere gleichzeitig: Schnell wie der experimentelle Modus von Telegram, Maximal in Teilen zu 1 MB, 12 auf einmal. Maximal kann Downloads und Video-Streaming bei langsamer Verbindung verschlechtern. Schnelleres Hochladen sendet Dateien in Teilen zu 512 KB statt 128 KB.</string>
+    <string name="MZGramHeaderStorage">Speicher</string>
+    <string name="MZGramSaveFolder">Ordner zum Speichern</string>
+    <string name="MZGramSaveFolderOwn">Anderer Name…</string>
+    <string name="MZGramSaveFolderInfo">Gespeicherte Dateien landen im Ordner %1$s in Pictures, Movies, Download und Music. Früher gespeicherte Dateien bleiben, wo sie sind.</string>
 </resources>

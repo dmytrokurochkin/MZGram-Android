@@ -191,7 +191,7 @@ public final class MZGramSettingsBackup {
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",
                 "textStyleOrder", "textStyleHidden", "pluginsCatalogUrl",
                 "translationTargetLang", "aiCustomModel", "voskModelLang",
-                "torCompanionPackage", "customEmojiFontPath");
+                "torCompanionPackage", "customEmojiFontPath", "saveFolder");
         textSets(CONFIG, "aiMenuButtons", "hiddenSettingsRows");
 
         // MZGramDrawerItems, MZGramPills: comma-separated ids, unknown ids are dropped when read

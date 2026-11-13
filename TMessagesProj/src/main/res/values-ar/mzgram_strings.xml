@@ -1241,4 +1241,8 @@
     <string name="MZGramDownloadBoostUltra">فائق</string>
     <string name="MZGramUploadBoost">رفع أسرع</string>
     <string name="MZGramDownloadBoostInfo">تصل الملفات في أجزاء أكبر، عدة أجزاء معًا: سريع مثل الوضع التجريبي في Telegram، وفائق بأجزاء 1 ميغابايت، 12 جزءًا في المرة. قد يجعل الوضع الفائق التنزيلات وبث الفيديو أسوأ على اتصال بطيء. يرسل الرفع الأسرع الملفات بأجزاء 512 كيلوبايت بدلًا من 128 كيلوبايت.</string>
+    <string name="MZGramHeaderStorage">التخزين</string>
+    <string name="MZGramSaveFolder">مجلد الحفظ</string>
+    <string name="MZGramSaveFolderOwn">اسم آخر…</string>
+    <string name="MZGramSaveFolderInfo">تذهب الملفات المحفوظة إلى مجلد %1$s داخل Pictures وMovies وDownload وMusic. تبقى الملفات المحفوظة سابقًا في مكانها.</string>
 </resources>

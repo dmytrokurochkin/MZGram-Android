@@ -1241,4 +1241,8 @@
     <string name="MZGramDownloadBoostUltra">Ultrarrápida</string>
     <string name="MZGramUploadBoost">Envío más rápido</string>
     <string name="MZGramDownloadBoostInfo">Los archivos llegan en partes más grandes, varias a la vez: Rápida como el modo experimental de Telegram, Ultrarrápida en partes de 1 MB, 12 a la vez. Ultrarrápida puede empeorar las descargas y el vídeo en streaming con una conexión lenta. Envío más rápido envía los archivos en partes de 512 KB en lugar de 128 KB.</string>
+    <string name="MZGramHeaderStorage">Almacenamiento</string>
+    <string name="MZGramSaveFolder">Carpeta para guardar</string>
+    <string name="MZGramSaveFolderOwn">Otro nombre…</string>
+    <string name="MZGramSaveFolderInfo">Los archivos guardados van a la carpeta %1$s en Pictures, Movies, Download y Music. Los guardados antes se quedan donde están.</string>
 </resources>

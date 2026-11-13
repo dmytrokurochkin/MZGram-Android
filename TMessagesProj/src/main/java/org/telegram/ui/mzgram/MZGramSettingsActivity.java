@@ -236,6 +236,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_IN_APP_VIBRATION = 207;
     private static final int BUTTON_DISABLE_NOTIFICATION_DELAY = 208;
     private static final int BUTTON_UPLOAD_SPEED_BOOST = 209;
+    private static final int BUTTON_SAVE_FOLDER = 210;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -572,6 +573,31 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
     }
 
+    // Save folder: Telegram, MZGram or a name of one's own
+    private void chooseSaveFolder() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        final String current = org.telegram.messenger.mzgram.MZGramSaveFolder.name();
+        String[] options = {
+                org.telegram.messenger.mzgram.MZGramSaveFolder.TELEGRAM,
+                org.telegram.messenger.mzgram.MZGramSaveFolder.MZGRAM,
+                getString(R.string.MZGramSaveFolderOwn),
+        };
+        int selected = org.telegram.messenger.mzgram.MZGramSaveFolder.TELEGRAM.equals(current) ? 0
+                : org.telegram.messenger.mzgram.MZGramSaveFolder.MZGRAM.equals(current) ? 1 : 2;
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramSaveFolder), selected, (dialog, which) -> {
+            if (which == 2) {
+                editMark(getString(R.string.MZGramSaveFolder), selected == 2 ? current : "", MZGramConfig::setSaveFolder);
+                return;
+            }
+            MZGramConfig.setSaveFolder(options[which]);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
     // Show ID: hidden, as in Telegram API or as in Bot API; applies at once.
     private void choosePeerId() {
         if (getParentActivity() == null) {
@@ -785,6 +811,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 MZGramConfig.downloadSpeedBoost, MZGramConfig::setDownloadSpeedBoost));
         items.add(UItem.asCheck(BUTTON_UPLOAD_SPEED_BOOST, getString(R.string.MZGramUploadBoost)).setChecked(MZGramConfig.uploadSpeedBoost));
         items.add(UItem.asShadow(getString(R.string.MZGramDownloadBoostInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderStorage)));
+        items.add(UItem.asButton(BUTTON_SAVE_FOLDER, getString(R.string.MZGramSaveFolder), org.telegram.messenger.mzgram.MZGramSaveFolder.name()));
+        items.add(UItem.asShadow(formatString(R.string.MZGramSaveFolderInfo, org.telegram.messenger.mzgram.MZGramSaveFolder.name())));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderProfile)));
         items.add(check(BUTTON_SHOW_REGISTRATION_DATE, R.string.MZGramShowRegistrationDate, MZGramConfig.showRegistrationDate, R.string.MZGramShowRegistrationDateInfo));
         items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
@@ -1183,6 +1212,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_SAVE_FOLDER) {
+            chooseSaveFolder();
         } else if (item.id == BUTTON_UPLOAD_SPEED_BOOST) {
             MZGramConfig.toggleUploadSpeedBoost();
             ((TextCheckCell) view).setChecked(MZGramConfig.uploadSpeedBoost);

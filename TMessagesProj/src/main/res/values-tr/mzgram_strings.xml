@@ -1241,4 +1241,8 @@
     <string name="MZGramDownloadBoostUltra">Çok hızlı</string>
     <string name="MZGramUploadBoost">Daha hızlı yükleme</string>
     <string name="MZGramDownloadBoostInfo">Dosyalar daha büyük parçalar halinde, aynı anda birkaç tane iner: Hızlı, Telegram\'ın deneysel modu gibi; Çok hızlı, 1 MB\'lık parçalarla, aynı anda 12 tane. Çok hızlı, yavaş bağlantıda indirmeleri ve video akışını kötüleştirebilir. Daha hızlı yükleme dosyaları 128 KB yerine 512 KB\'lık parçalarla gönderir.</string>
+    <string name="MZGramHeaderStorage">Depolama</string>
+    <string name="MZGramSaveFolder">Kayıt klasörü</string>
+    <string name="MZGramSaveFolderOwn">Başka bir ad…</string>
+    <string name="MZGramSaveFolderInfo">Kaydedilen dosyalar Pictures, Movies, Download ve Music içindeki %1$s klasörüne gider. Önceden kaydedilenler yerinde kalır.</string>
 </resources>

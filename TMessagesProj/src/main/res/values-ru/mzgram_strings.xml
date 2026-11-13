@@ -1241,4 +1241,8 @@
     <string name="MZGramDownloadBoostUltra">Ультра</string>
     <string name="MZGramUploadBoost">Ускорение отправки</string>
     <string name="MZGramDownloadBoostInfo">Файлы загружаются более крупными частями, по несколько сразу: Быстрая - как экспериментальный режим Telegram, Ультра - частями по 1 МБ, по 12 сразу. Ультра может ухудшить загрузку файлов и потоковое видео при медленном соединении. Ускорение отправки отправляет файлы частями по 512 КБ вместо 128 КБ.</string>
+    <string name="MZGramHeaderStorage">Хранилище</string>
+    <string name="MZGramSaveFolder">Папка для сохранения</string>
+    <string name="MZGramSaveFolderOwn">Другое имя…</string>
+    <string name="MZGramSaveFolderInfo">Сохранённые файлы попадают в папку %1$s в Pictures, Movies, Download и Music. Ранее сохранённые файлы остаются на месте.</string>
 </resources>

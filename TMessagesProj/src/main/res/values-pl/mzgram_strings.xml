@@ -1241,4 +1241,8 @@
     <string name="MZGramDownloadBoostUltra">Ultra szybkie</string>
     <string name="MZGramUploadBoost">Szybsze wysyłanie</string>
     <string name="MZGramDownloadBoostInfo">Pliki pobierają się większymi częściami, po kilka naraz: Szybkie jak eksperymentalny tryb Telegrama, Ultra szybkie w częściach po 1 MB, po 12 naraz. Ultra szybkie może pogorszyć pobieranie plików i strumieniowanie wideo przy wolnym połączeniu. Szybsze wysyłanie wysyła pliki w częściach po 512 KB zamiast 128 KB.</string>
+    <string name="MZGramHeaderStorage">Pamięć</string>
+    <string name="MZGramSaveFolder">Folder zapisu</string>
+    <string name="MZGramSaveFolderOwn">Inna nazwa…</string>
+    <string name="MZGramSaveFolderInfo">Zapisane pliki trafiają do folderu %1$s w Pictures, Movies, Download i Music. Pliki zapisane wcześniej zostają na miejscu.</string>
 </resources>

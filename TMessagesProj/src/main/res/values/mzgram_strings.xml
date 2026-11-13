@@ -1241,4 +1241,8 @@
     <string name="MZGramDownloadBoostUltra">Ultra</string>
     <string name="MZGramUploadBoost">Faster uploading</string>
     <string name="MZGramDownloadBoostInfo">Files come in bigger parts, several at once: Fast as Telegram\'s experimental mode, Ultra in 1 MB parts, 12 at a time. Ultra can make downloads and video streaming worse on a slow connection. Faster uploading sends files in parts of 512 KB instead of 128 KB.</string>
+    <string name="MZGramHeaderStorage">Storage</string>
+    <string name="MZGramSaveFolder">Save folder</string>
+    <string name="MZGramSaveFolderOwn">Another name…</string>
+    <string name="MZGramSaveFolderInfo">Saved files go to the %1$s folder in Pictures, Movies, Download and Music. Files saved before stay where they are.</string>
 </resources>

@@ -13,6 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.telegram.messenger.mzgram.MZGramConfig
 import org.telegram.messenger.mzgram.MZGramHaptics
+import org.telegram.messenger.mzgram.MZGramSaveFolder
 
 // The features of the reference screenshots (2026-11-13): each test checks
 // what its switch changes, with the switch back as it was afterwards.
@@ -33,6 +34,25 @@ class MZGramScreensTest {
             MZGramConfig.toggleInAppVibration()
         }
         instrumentation.runOnMainSync { MZGramHaptics.apply() }
+    }
+
+    // Save folder: Telegram by default; a name of one's own loses what a
+    // folder name cannot have, and an empty one is Telegram again
+    @Test
+    fun saveFolder_cleanName() {
+        val before = MZGramConfig.saveFolder
+        try {
+            assertEquals("Telegram", MZGramSaveFolder.clean(" Telegram "))
+            assertEquals("My files", MZGramSaveFolder.clean("../My/fi:les*"))
+            assertEquals("", MZGramSaveFolder.clean(" / . "))
+            assertEquals(MZGramSaveFolder.MAX_LENGTH, MZGramSaveFolder.clean("x".repeat(100)).length)
+            MZGramConfig.setSaveFolder("MZGram")
+            assertEquals("MZGram", MZGramSaveFolder.name())
+            MZGramConfig.setSaveFolder("///")
+            assertEquals("Telegram", MZGramSaveFolder.name())
+        } finally {
+            MZGramConfig.setSaveFolder(before)
+        }
     }
 
     // Download boost keeps to its three levels, whatever is set

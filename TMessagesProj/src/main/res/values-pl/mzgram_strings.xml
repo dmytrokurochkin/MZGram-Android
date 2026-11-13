@@ -1281,4 +1281,6 @@
     <string name="MZGramDividerLine">Linia</string>
     <string name="MZGramDividerHidden">Bez linii</string>
     <string name="MZGramSectionsInfo">Rogi kart w listach ustawień, także Telegrama (16 dp jak w Telegramie), oraz linie między ich wierszami i między czatami. Nowy promień mają ekrany otwarte po zmianie.</string>
+    <string name="MZGramForceBlur">Rozmycie zawsze</string>
+    <string name="MZGramForceBlurInfo">Efekty rozmycia (szklane paski i menu wiadomości) są rysowane w każdym motywie, także tam, gdzie Telegram wyłącza je dla jasnych lub ciemnych motywów. Urządzenie musi je obsługiwać.</string>
 </resources>

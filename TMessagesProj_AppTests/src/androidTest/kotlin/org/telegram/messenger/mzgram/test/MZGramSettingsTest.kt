@@ -163,7 +163,7 @@ class MZGramSettingsTest {
         // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen,
         // plus the message menu row of Chats, plus the switches of the reference screenshots (MZGramScreensTest);
         // a build with plugins (Python) also has Python for plugins (Plugins itself is a row of the main page)
-        val expectedCount = 191 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        val expectedCount = 192 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

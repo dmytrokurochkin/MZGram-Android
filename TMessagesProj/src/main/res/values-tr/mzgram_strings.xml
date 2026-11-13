@@ -1281,4 +1281,6 @@
     <string name="MZGramDividerLine">Çizgi</string>
     <string name="MZGramDividerHidden">Çizgisiz</string>
     <string name="MZGramSectionsInfo">Ayar listelerindeki kartların köşeleri, Telegram\'ınkiler de (Telegram\'daki gibi 16 dp), ve satırları ile sohbetler arasındaki çizgiler. Değişiklikten sonra açılan ekranlar yeni yarıçapı alır.</string>
+    <string name="MZGramForceBlur">Bulanıklık her zaman</string>
+    <string name="MZGramForceBlurInfo">Bulanıklık efektleri (cam çubuklar ve mesaj menüsü), Telegram\'ın açık veya koyu temalar için kapattığı yerlerde de tüm temalarda çizilir. Cihazın bunları çizebilmesi gerekir.</string>
 </resources>

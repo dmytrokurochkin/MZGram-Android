@@ -1281,4 +1281,6 @@
     <string name="MZGramDividerLine">Ligne</string>
     <string name="MZGramDividerHidden">Sans lignes</string>
     <string name="MZGramSectionsInfo">Les coins des cartes des listes de réglages, aussi celles de Telegram (16 dp comme dans Telegram), et les lignes entre leurs rangées et entre les discussions. Les écrans ouverts après le changement prennent le nouveau rayon.</string>
+    <string name="MZGramForceBlur">Flou forcé</string>
+    <string name="MZGramForceBlurInfo">Les effets de flou (barres en verre et menu du message) sont dessinés dans tous les thèmes, même là où Telegram les coupe pour les thèmes clairs ou sombres. L\'appareil doit pouvoir les dessiner.</string>
 </resources>

@@ -1281,4 +1281,6 @@
     <string name="MZGramDividerLine">Linha</string>
     <string name="MZGramDividerHidden">Sem linhas</string>
     <string name="MZGramSectionsInfo">Os cantos dos cartões das listas de configurações, também os do Telegram (16 dp como no Telegram), e as linhas entre suas linhas e entre conversas. As telas abertas depois da mudança usam o novo raio.</string>
+    <string name="MZGramForceBlur">Desfoque sempre</string>
+    <string name="MZGramForceBlurInfo">Os efeitos de desfoque (barras de vidro e menu da mensagem) aparecem em todos os temas, também onde o Telegram os desliga para temas claros ou escuros. O dispositivo precisa conseguir desenhá-los.</string>
 </resources>

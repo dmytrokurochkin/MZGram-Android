@@ -1281,4 +1281,6 @@
     <string name="MZGramDividerLine">خط</string>
     <string name="MZGramDividerHidden">بلا خطوط</string>
     <string name="MZGramSectionsInfo">زوايا البطاقات في قوائم الإعدادات، وبطاقات Telegram أيضًا (16 dp كما في Telegram)، والخطوط بين صفوفها وبين المحادثات. تأخذ الشاشات المفتوحة بعد التغيير نصف القطر الجديد.</string>
+    <string name="MZGramForceBlur">التمويه دائمًا</string>
+    <string name="MZGramForceBlurInfo">تُرسم تأثيرات التمويه (الأشرطة الزجاجية وقائمة الرسالة) في كل السمات، حتى حيث يوقفها Telegram للسمات الفاتحة أو الداكنة. يجب أن يكون الجهاز قادرًا على رسمها.</string>
 </resources>

@@ -500,6 +500,9 @@ public class MZGramConfig {
     public static final int DIVIDER_HIDDEN = 1;
     public static int dividerStyle = DIVIDER_LINE;
 
+    // Blur in every theme, also where the server's flags turn it off (BlurredBackgroundProviderImpl)
+    public static boolean forceBlur = false;
+
     static {
         loadConfig(false);
     }
@@ -761,6 +764,7 @@ public class MZGramConfig {
             hideAllChatsTab = preferences.getBoolean("hideAllChatsTab", false);
             sectionRadius = Math.max(0, Math.min(SECTION_RADIUS_MAX, preferences.getInt("sectionRadius", 16)));
             dividerStyle = preferences.getInt("dividerStyle", DIVIDER_LINE) == DIVIDER_HIDDEN ? DIVIDER_HIDDEN : DIVIDER_LINE;
+            forceBlur = preferences.getBoolean("forceBlur", false);
             configLoaded = true;
         }
     }
@@ -1912,5 +1916,10 @@ public class MZGramConfig {
     public static void toggleHideAllChatsTab() {
         hideAllChatsTab = !hideAllChatsTab;
         putBoolean("hideAllChatsTab", hideAllChatsTab);
+    }
+
+    public static void toggleForceBlur() {
+        forceBlur = !forceBlur;
+        putBoolean("forceBlur", forceBlur);
     }
 }

@@ -1281,4 +1281,6 @@
     <string name="MZGramDividerLine">Line</string>
     <string name="MZGramDividerHidden">None</string>
     <string name="MZGramSectionsInfo">The corners of the cards of settings lists, Telegram\'s too (16 dp as in Telegram), and the lines between their rows and between chats. Screens opened after the change take the new radius.</string>
+    <string name="MZGramForceBlur">Force blur</string>
+    <string name="MZGramForceBlurInfo">Blur effects (glass bars and message menu) are drawn in every theme, also where Telegram turns them off for light or dark themes. The device still has to be able to draw them.</string>
 </resources>

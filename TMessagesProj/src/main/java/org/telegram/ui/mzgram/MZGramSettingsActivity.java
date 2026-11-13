@@ -253,6 +253,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FOLDER_TAB_COUNTERS = 224;
     private static final int BUTTON_HIDE_ALL_CHATS_TAB = 225;
     private static final int BUTTON_DIVIDER_STYLE = 226;
+    private static final int BUTTON_FORCE_BLUR = 227;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -977,7 +978,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramSectionsInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderGlass)));
         items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
-        items.add(UItem.asShadow(getString(R.string.MZGramGlassOutlineInfo)));
+        items.add(UItem.asCheck(BUTTON_FORCE_BLUR, getString(R.string.MZGramForceBlur)).setChecked(MZGramConfig.forceBlur));
+        items.add(UItem.asShadow(getString(R.string.MZGramGlassOutlineInfo) + "\n\n" + getString(R.string.MZGramForceBlurInfo)));
     }
 
     // Chats: stickers, gestures, the chat and its messages, camera, photo,
@@ -1295,6 +1297,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_FORCE_BLUR) {
+            MZGramConfig.toggleForceBlur();
+            ((TextCheckCell) view).setChecked(MZGramConfig.forceBlur);
+            rebuildBelow();
         } else if (item.id == BUTTON_HIDE_ALL_CHATS_TAB) {
             MZGramConfig.toggleHideAllChatsTab();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideAllChatsTab);

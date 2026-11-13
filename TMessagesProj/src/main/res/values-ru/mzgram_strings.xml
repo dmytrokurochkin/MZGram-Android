@@ -1281,4 +1281,6 @@
     <string name="MZGramDividerLine">Линия</string>
     <string name="MZGramDividerHidden">Без линий</string>
     <string name="MZGramSectionsInfo">Углы карточек в списках настроек, также Telegram (16 dp как в Telegram), и линии между их строками и между чатами. Новый радиус действует на экранах, открытых после изменения.</string>
+    <string name="MZGramForceBlur">Размытие всегда</string>
+    <string name="MZGramForceBlurInfo">Эффекты размытия (стеклянные панели и меню сообщения) рисуются во всех темах, также там, где Telegram выключает их для светлых или тёмных тем. Устройство должно их поддерживать.</string>
 </resources>

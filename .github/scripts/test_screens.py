@@ -188,6 +188,11 @@ class ScreensTest(unittest.TestCase):
         theme = read(JAVA / "ui/ActionBar/Theme.java")
         self.assertEqual(2, theme.count("if (key == key_divider && org.telegram.messenger.mzgram.MZGramConfig.dividerStyle == org.telegram.messenger.mzgram.MZGramConfig.DIVIDER_HIDDEN) {"))
 
+    def test_force_blur(self):
+        self.switch("forceBlur", "false", "BUTTON_FORCE_BLUR")
+        impl = read(JAVA / "ui/Components/blur3/drawable/color/impl/BlurredBackgroundProviderImpl.java")
+        self.assertIn("if (blurEnabled && org.telegram.messenger.mzgram.MZGramConfig.forceBlur) {\n            return true;", impl.replace("\r\n", "\n"))
+
 
 if __name__ == "__main__":
     unittest.main()

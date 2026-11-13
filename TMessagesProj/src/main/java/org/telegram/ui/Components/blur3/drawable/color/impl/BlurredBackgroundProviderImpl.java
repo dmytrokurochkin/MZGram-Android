@@ -339,6 +339,11 @@ public class BlurredBackgroundProviderImpl {
         final boolean isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
         final boolean isLight = !isDark;
         boolean blurEnabled = SharedConfig.chatBlurEnabled();
+        // MZGram: Settings > MZGram > Appearance > Force blur: the server's "no blur in this
+        // theme" flags are ignored, so every theme gets the blur the device can draw
+        if (blurEnabled && org.telegram.messenger.mzgram.MZGramConfig.forceBlur) {
+            return true;
+        }
         if (blurEnabled && isLight) {
             if (MessagesController.getInstance(currentAccount).config.disableBlurInLightTheme.get()) {
                 blurEnabled = false;

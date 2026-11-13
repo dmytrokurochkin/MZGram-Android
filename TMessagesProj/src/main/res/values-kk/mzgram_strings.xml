@@ -1281,4 +1281,6 @@
     <string name="MZGramDividerLine">Сызық</string>
     <string name="MZGramDividerHidden">Сызықсыз</string>
     <string name="MZGramSectionsInfo">Баптаулар тізімдеріндегі карталардың бұрыштары, Telegram-ныкі де (Telegram-дағыдай 16 dp), және олардың жолдары мен чаттар арасындағы сызықтар. Жаңа радиус өзгерістен кейін ашылған экрандарда қолданылады.</string>
+    <string name="MZGramForceBlur">Әрдайым бұлыңғырлық</string>
+    <string name="MZGramForceBlurInfo">Бұлыңғыр әсерлері (шыны панельдер мен хабарлама мәзірі) барлық тақырыпта салынады, Telegram оларды ашық не күңгірт тақырыптар үшін өшірген жерде де. Құрылғы оларды сала алуы керек.</string>
 </resources>

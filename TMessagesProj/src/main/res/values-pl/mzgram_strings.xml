@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Przecinek po wzmiance</string>
     <string name="MZGramHideSendAsPeer">Ukryj przycisk „Wyślij jako”</string>
     <string name="MZGramHideSendAsPeerInfo">Wiadomości są wysyłane z konta lub kanału wybranego ostatnio. Wyłącz, aby wybrać ponownie.</string>
+    <string name="MZGramReplaceEditedWithIcon">Zastąp „edytowano” ikoną</string>
+    <string name="MZGramShowOnlineStatus">Pokaż wskaźnik obecności</string>
+    <string name="MZGramShowOnlineStatusInfo">Kropka na awatarze nadawcy w grupach: zielona, gdy jest online, potem żółta, pomarańczowa i czerwona przez 15, 30 i 60 minut od ostatniej wizyty.</string>
+    <string name="MZGramShowForwardsCount">Pokaż licznik przekazań</string>
 </resources>

@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Запятая после упоминания</string>
     <string name="MZGramHideSendAsPeer">Скрыть кнопку «Отправить как»</string>
     <string name="MZGramHideSendAsPeerInfo">Сообщения отправляются от аккаунта или канала, выбранного последним. Выключите, чтобы выбрать снова.</string>
+    <string name="MZGramReplaceEditedWithIcon">Заменить «изменено» на значок</string>
+    <string name="MZGramShowOnlineStatus">Показывать индикатор онлайна</string>
+    <string name="MZGramShowOnlineStatusInfo">Точка на аватарке отправителя в группах: зелёная, пока человек в сети, затем жёлтая, оранжевая и красная в течение 15, 30 и 60 минут после последнего визита.</string>
+    <string name="MZGramShowForwardsCount">Показывать счётчик пересылок</string>
 </resources>

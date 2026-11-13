@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Comma after mention</string>
     <string name="MZGramHideSendAsPeer">Hide the \"Send as\" button</string>
     <string name="MZGramHideSendAsPeerInfo">Messages go from the account or channel chosen last. Turn this off to choose again.</string>
+    <string name="MZGramReplaceEditedWithIcon">Replace \"edited\" with an icon</string>
+    <string name="MZGramShowOnlineStatus">Show online indicator</string>
+    <string name="MZGramShowOnlineStatusInfo">A dot on the avatar of the sender in groups: green while online, then yellow, orange and red for the first 15, 30 and 60 minutes after they were last seen.</string>
+    <string name="MZGramShowForwardsCount">Show forwards counter</string>
 </resources>

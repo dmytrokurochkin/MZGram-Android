@@ -276,4 +276,37 @@ class MZGramScreensTest {
             MZGramConfig.setSwipeAction(swipe)
         }
     }
+
+    // Edited icon: the pencil mark in the time gets an icon span; a time
+    // without the mark stays as it was. Online dot: off, or no user, gives
+    // no colour.
+    @Test
+    fun editedIconAndOnlineDot() {
+        val time = org.telegram.ui.mzgram.MZGramEditedIcon.MARK + " 12:58"
+        val drawn = org.telegram.ui.mzgram.MZGramEditedIcon.apply(time)
+        assertTrue(drawn is android.text.Spanned)
+        val spans = (drawn as android.text.Spanned).getSpans(0, drawn.length, org.telegram.ui.Components.ColoredImageSpan::class.java)
+        assertEquals(1, spans.size)
+        assertEquals(time, drawn.toString())
+        assertEquals("12:58", org.telegram.ui.mzgram.MZGramEditedIcon.apply("12:58"))
+
+        val online = MZGramConfig.showOnlineStatus
+        try {
+            if (MZGramConfig.showOnlineStatus) {
+                MZGramConfig.toggleShowOnlineStatus()
+            }
+            val user = org.telegram.tgnet.TLRPC.TL_user()
+            user.id = 1
+            user.status = org.telegram.tgnet.TLRPC.TL_userStatusOnline()
+            user.status.expires = Int.MAX_VALUE
+            assertEquals(0, org.telegram.ui.mzgram.MZGramOnlineDot.color(0, user, null))
+            MZGramConfig.toggleShowOnlineStatus()
+            assertTrue(org.telegram.ui.mzgram.MZGramOnlineDot.color(0, user, null) != 0)
+            assertEquals(0, org.telegram.ui.mzgram.MZGramOnlineDot.color(0, null, null))
+        } finally {
+            if (MZGramConfig.showOnlineStatus != online) {
+                MZGramConfig.toggleShowOnlineStatus()
+            }
+        }
+    }
 }

@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Komma nach Erwähnung</string>
     <string name="MZGramHideSendAsPeer">„Senden als“-Taste ausblenden</string>
     <string name="MZGramHideSendAsPeerInfo">Nachrichten gehen vom zuletzt gewählten Konto oder Kanal aus. Ausschalten, um neu zu wählen.</string>
+    <string name="MZGramReplaceEditedWithIcon">„Bearbeitet“ durch Symbol ersetzen</string>
+    <string name="MZGramShowOnlineStatus">Online-Anzeige zeigen</string>
+    <string name="MZGramShowOnlineStatusInfo">Ein Punkt am Profilbild des Absenders in Gruppen: grün, solange online, danach gelb, orange und rot für 15, 30 und 60 Minuten nach dem letzten Besuch.</string>
+    <string name="MZGramShowForwardsCount">Weiterleitungszähler zeigen</string>
 </resources>

@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Vírgula após menção</string>
     <string name="MZGramHideSendAsPeer">Ocultar o botão \"Enviar como\"</string>
     <string name="MZGramHideSendAsPeerInfo">As mensagens saem da conta ou do canal escolhido por último. Desative para escolher de novo.</string>
+    <string name="MZGramReplaceEditedWithIcon">Substituir \"editada\" por um ícone</string>
+    <string name="MZGramShowOnlineStatus">Mostrar indicador online</string>
+    <string name="MZGramShowOnlineStatusInfo">Um ponto no avatar do remetente nos grupos: verde enquanto online, depois amarelo, laranja e vermelho durante 15, 30 e 60 minutos após a última visita.</string>
+    <string name="MZGramShowForwardsCount">Mostrar contador de encaminhamentos</string>
 </resources>

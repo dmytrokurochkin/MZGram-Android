@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Атаудан кейін үтір</string>
     <string name="MZGramHideSendAsPeer">«Ретінде жіберу» түймесін жасыру</string>
     <string name="MZGramHideSendAsPeerInfo">Хабарламалар соңғы таңдалған аккаунттан немесе арнадан жіберіледі. Қайта таңдау үшін өшіріңіз.</string>
+    <string name="MZGramReplaceEditedWithIcon">«Өзгертілді» орнына белгіше</string>
+    <string name="MZGramShowOnlineStatus">Желі индикаторын көрсету</string>
+    <string name="MZGramShowOnlineStatusInfo">Топтарда жіберушінің аватарындағы нүкте: желіде болғанда жасыл, соңғы кіргеннен кейінгі 15, 30 және 60 минут ішінде сары, қызғылт сары және қызыл.</string>
+    <string name="MZGramShowForwardsCount">Қайта жіберу санауышын көрсету</string>
 </resources>

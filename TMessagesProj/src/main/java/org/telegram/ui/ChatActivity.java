@@ -6632,7 +6632,9 @@ public class ChatActivity extends BaseFragment implements
                             canvas.scale(1f - getSideMenuAlpha(), 1f - getSideMenuAlpha(), imageReceiver.getImageX2(), imageReceiver.getImageY2());
                             canvas.translate(dp(24) * getSideMenuAlpha(), 0f);
                         }
-                        imageReceiver.draw(canvas);
+                        // MZGram: Show online indicator on the sender's avatar
+                        org.telegram.ui.mzgram.MZGramOnlineDot.draw(canvas, imageReceiver, currentAccount,
+                                mcell instanceof ChatMessageCell ? ((ChatMessageCell) mcell).getCurrentUser() : null, themeDelegate);
                         canvas.restore();
 
                         if (!replaceAnimation && child.getTranslationY() != 0) {

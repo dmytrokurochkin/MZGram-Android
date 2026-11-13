@@ -556,6 +556,15 @@ public class MZGramConfig {
     // No Send as button by the field; messages go from the account chosen last (ChatActivityEnterView)
     public static boolean hideSendAsPeer = false;
 
+    // A pencil before the time of an edited message instead of the word (MZGramEditedIcon, ChatMessageCell)
+    public static boolean replaceEditedWithIcon = false;
+
+    // A dot on the sender's avatar beside messages: online, or last seen within an hour (MZGramOnlineDot)
+    public static boolean showOnlineStatus = false;
+
+    // How many times a channel post was forwarded, after its views (ChatMessageCell)
+    public static boolean showForwardsCount = false;
+
     static {
         loadConfig(false);
     }
@@ -842,6 +851,9 @@ public class MZGramConfig {
             hideKeyboardOnScroll = preferences.getBoolean("hideKeyboardOnScroll", false);
             addCommaAfterMention = preferences.getBoolean("addCommaAfterMention", false);
             hideSendAsPeer = preferences.getBoolean("hideSendAsPeer", false);
+            replaceEditedWithIcon = preferences.getBoolean("replaceEditedWithIcon", false);
+            showOnlineStatus = preferences.getBoolean("showOnlineStatus", false);
+            showForwardsCount = preferences.getBoolean("showForwardsCount", false);
             configLoaded = true;
         }
     }
@@ -2089,5 +2101,20 @@ public class MZGramConfig {
     public static void toggleHideSendAsPeer() {
         hideSendAsPeer = !hideSendAsPeer;
         putBoolean("hideSendAsPeer", hideSendAsPeer);
+    }
+
+    public static void toggleReplaceEditedWithIcon() {
+        replaceEditedWithIcon = !replaceEditedWithIcon;
+        putBoolean("replaceEditedWithIcon", replaceEditedWithIcon);
+    }
+
+    public static void toggleShowOnlineStatus() {
+        showOnlineStatus = !showOnlineStatus;
+        putBoolean("showOnlineStatus", showOnlineStatus);
+    }
+
+    public static void toggleShowForwardsCount() {
+        showForwardsCount = !showForwardsCount;
+        putBoolean("showForwardsCount", showForwardsCount);
     }
 }

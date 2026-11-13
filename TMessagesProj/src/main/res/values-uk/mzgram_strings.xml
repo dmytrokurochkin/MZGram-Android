@@ -1319,4 +1319,8 @@
     <string name="MZGramAddCommaAfterMention">Кома після згадки</string>
     <string name="MZGramHideSendAsPeer">Приховати кнопку «Надіслати як»</string>
     <string name="MZGramHideSendAsPeerInfo">Повідомлення надсилаються від акаунта або каналу, обраного останнім. Вимкніть, щоб обрати знову.</string>
+    <string name="MZGramReplaceEditedWithIcon">Замінити «змінено» на іконку</string>
+    <string name="MZGramShowOnlineStatus">Показувати індикатор онлайну</string>
+    <string name="MZGramShowOnlineStatusInfo">Крапка на аватарці відправника в групах: зелена, поки людина онлайн, далі жовта, помаранчева й червона протягом 15, 30 і 60 хвилин після останнього візиту.</string>
+    <string name="MZGramShowForwardsCount">Показувати лічильник пересилок</string>
 </resources>

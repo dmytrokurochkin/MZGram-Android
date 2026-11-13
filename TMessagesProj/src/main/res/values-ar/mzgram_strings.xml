@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">فاصلة بعد الإشارة</string>
     <string name="MZGramHideSendAsPeer">إخفاء زر «الإرسال باسم»</string>
     <string name="MZGramHideSendAsPeerInfo">تُرسل الرسائل من الحساب أو القناة المختارة آخر مرة. أوقف هذا الخيار للاختيار من جديد.</string>
+    <string name="MZGramReplaceEditedWithIcon">استبدال «معدلة» برمز</string>
+    <string name="MZGramShowOnlineStatus">إظهار مؤشر الاتصال</string>
+    <string name="MZGramShowOnlineStatusInfo">نقطة على صورة المرسل في المجموعات: خضراء أثناء الاتصال، ثم صفراء وبرتقالية وحمراء خلال 15 و30 و60 دقيقة بعد آخر ظهور.</string>
+    <string name="MZGramShowForwardsCount">إظهار عداد إعادة التوجيه</string>
 </resources>

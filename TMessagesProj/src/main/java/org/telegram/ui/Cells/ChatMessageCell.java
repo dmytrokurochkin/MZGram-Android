@@ -18680,6 +18680,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     editDate = ConnectionsManager.getInstance(currentAccount).getCurrentTime();
                 }
                 timeString = LocaleController.formatPmEditedDate(editDate);
+            } else if (org.telegram.ui.mzgram.MZGramEditedIcon.on()) {
+                // MZGram: Replace "edited" with an icon
+                timeString = org.telegram.ui.mzgram.MZGramEditedIcon.MARK + " " + LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000);
             } else {
                 timeString = (getString(R.string.EditedMessage) + " " + LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000));
             }
@@ -18755,6 +18758,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             currentTimeString = Emoji.replaceEmoji(currentTimeString, Theme.chat_timePaint.getFontMetricsInt(), false);
         }
         timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString, 0, currentTimeString == null ? 0 : currentTimeString.length()));
+        // MZGram: the pencil before the time of an edited message, measured as drawn
+        if (edited && org.telegram.ui.mzgram.MZGramEditedIcon.on() && currentTimeString != null) {
+            currentTimeString = org.telegram.ui.mzgram.MZGramEditedIcon.apply(currentTimeString);
+            timeTextWidth = timeWidth = org.telegram.ui.mzgram.MZGramEditedIcon.width(currentTimeString, Theme.chat_timePaint);
+        }
         if (currentMessageObject.scheduled && currentMessageObject.messageOwner.date == 0x7FFFFFFE || currentMessageObject.notime) {
             timeWidth -= dp(8);
         }
@@ -18762,6 +18770,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         final boolean isInWelcomeMessages = delegate != null && delegate.getChatMode() == ChatActivity.MODE_WELCOME_MESSAGES;
         if ((messageObject.messageOwner.flags & TLRPC.MESSAGE_FLAG_HAS_VIEWS) != 0 && !isInWelcomeMessages) {
             currentViewsString = String.format("%s", LocaleController.formatShortNumber(Math.max(1, messageObject.messageOwner.views), null));
+            // MZGram: Show forwards counter, after the views
+            if (org.telegram.messenger.mzgram.MZGramConfig.showForwardsCount && messageObject.messageOwner.forwards > 0) {
+                currentViewsString += "  \u21AA" + LocaleController.formatShortNumber(messageObject.messageOwner.forwards, null);
+            }
             viewsTextWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentViewsString));
             float drawableWidth = Theme.chat_msgInViewsDrawable.getIntrinsicWidth() * (Theme.chat_timePaint.getTextSize() - dp(2)) / Theme.chat_msgInViewsDrawable.getIntrinsicHeight();
             timeWidth += viewsTextWidth + drawableWidth + dp(10);

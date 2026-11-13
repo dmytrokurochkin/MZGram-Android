@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Bahsetmeden sonra virgül</string>
     <string name="MZGramHideSendAsPeer">\"Farklı gönder\" düğmesini gizle</string>
     <string name="MZGramHideSendAsPeerInfo">Mesajlar en son seçilen hesaptan veya kanaldan gider. Yeniden seçmek için kapatın.</string>
+    <string name="MZGramReplaceEditedWithIcon">\"Düzenlendi\" yerine simge</string>
+    <string name="MZGramShowOnlineStatus">Çevrimiçi göstergesini göster</string>
+    <string name="MZGramShowOnlineStatusInfo">Gruplarda gönderenin profil resminde bir nokta: çevrimiçiyken yeşil, son görülmeden sonraki 15, 30 ve 60 dakika boyunca sarı, turuncu ve kırmızı.</string>
+    <string name="MZGramShowForwardsCount">İletme sayacını göster</string>
 </resources>

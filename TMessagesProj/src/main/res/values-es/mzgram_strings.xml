@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Coma tras una mención</string>
     <string name="MZGramHideSendAsPeer">Ocultar el botón «Enviar como»</string>
     <string name="MZGramHideSendAsPeerInfo">Los mensajes se envían desde la cuenta o el canal elegido por última vez. Desactívalo para volver a elegir.</string>
+    <string name="MZGramReplaceEditedWithIcon">Reemplazar «editado» por un icono</string>
+    <string name="MZGramShowOnlineStatus">Mostrar indicador en línea</string>
+    <string name="MZGramShowOnlineStatusInfo">Un punto en el avatar del remitente en los grupos: verde mientras está en línea, luego amarillo, naranja y rojo durante 15, 30 y 60 minutos tras su última conexión.</string>
+    <string name="MZGramShowForwardsCount">Mostrar contador de reenvíos</string>
 </resources>

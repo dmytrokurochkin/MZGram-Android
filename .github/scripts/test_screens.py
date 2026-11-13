@@ -279,6 +279,21 @@ class ScreensTest(unittest.TestCase):
         swipe = read(JAVA / "ui/mzgram/MZGramSwipeAction.java")
         self.assertIn("public static final int DELETE = 5;", swipe)
 
+    def test_edited_icon_online_dot_forwards(self):
+        self.switch("replaceEditedWithIcon", "false", "BUTTON_REPLACE_EDITED_WITH_ICON")
+        self.switch("showOnlineStatus", "false", "BUTTON_SHOW_ONLINE_STATUS")
+        self.switch("showForwardsCount", "false", "BUTTON_SHOW_FORWARDS_COUNT")
+        cell = read(JAVA / "ui/Cells/ChatMessageCell.java")
+        self.assertIn("timeString = org.telegram.ui.mzgram.MZGramEditedIcon.MARK + ", cell)
+        self.assertIn("currentTimeString = org.telegram.ui.mzgram.MZGramEditedIcon.apply(currentTimeString);", cell)
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.showForwardsCount && messageObject.messageOwner.forwards > 0) {", cell)
+        chat = read(JAVA / "ui/ChatActivity.java")
+        self.assertIn("org.telegram.ui.mzgram.MZGramOnlineDot.draw(canvas, imageReceiver, currentAccount,", chat)
+        dot = read(JAVA / "ui/mzgram/MZGramOnlineDot.java")
+        self.assertIn("if (!MZGramConfig.showOnlineStatus || user == null", dot)
+        icon = read(JAVA / "ui/mzgram/MZGramEditedIcon.java")
+        self.assertIn('public static final String MARK = "\\u270E";', icon)
+
 
 if __name__ == "__main__":
     unittest.main()

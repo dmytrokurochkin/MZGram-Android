@@ -1318,4 +1318,8 @@
     <string name="MZGramAddCommaAfterMention">Коска пасля згадкі</string>
     <string name="MZGramHideSendAsPeer">Схаваць кнопку «Даслаць як»</string>
     <string name="MZGramHideSendAsPeerInfo">Паведамленні дасылаюцца ад акаўнта або канала, абранага апошнім. Выключыце, каб абраць зноў.</string>
+    <string name="MZGramReplaceEditedWithIcon">Замяніць «зменена» на значок</string>
+    <string name="MZGramShowOnlineStatus">Паказваць індыкатар анлайну</string>
+    <string name="MZGramShowOnlineStatusInfo">Кропка на аватарцы адпраўніка ў групах: зялёная, пакуль чалавек анлайн, далей жоўтая, аранжавая і чырвоная на працягу 15, 30 і 60 хвілін пасля апошняга візіту.</string>
+    <string name="MZGramShowForwardsCount">Паказваць лічыльнік перасылак</string>
 </resources>

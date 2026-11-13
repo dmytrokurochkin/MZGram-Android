@@ -6,20 +6,13 @@
     <string name="MZGramSectionArchive">Архіў</string>
     <string name="MZGramSectionGhostMode">Рэжым прывіда</string>
     <string name="MZGramSectionMessageMenu">Меню паведамлення</string>
-    <string name="MZGramSectionMediaAndCalls">Медыя і званкі</string>
     <string name="MZGramSectionInterface">Інтэрфейс</string>
     <string name="MZGramSectionAdsAndFilters">Рэклама і фільтры</string>
     <string name="MZGramSectionOther">Іншае</string>
-    <string name="MZGramSectionArchiveInfo">Выдаленыя і змененыя паведамленні, экспарт і імпарт</string>
-    <string name="MZGramSectionGhostModeInfo">Чытаць і пісаць незаўважна для іншых</string>
     <string name="MZGramSectionMessageMenuInfo">Дадатковыя дзеянні пры ўтрыманні паведамлення</string>
-    <string name="MZGramSectionMediaAndCallsInfo">Званкі, камера, якасць відэа і фота</string>
-    <string name="MZGramSectionInterfaceInfo">Спіс чатаў, гісторыі, час і анімацыі</string>
     <string name="MZGramLanguage">Мова MZGram</string>
     <string name="MZGramLanguageSystem">Як у сістэме</string>
     <string name="MZGramLanguageInfo">Мова ўласных налад і функцый MZGram. Як у Telegram: мова Telegram, калі яна ёсць у MZGram, інакш англійская. Як у сістэме: мова тэлефона, калі яна ёсць у MZGram, інакш англійская.</string>
-    <string name="MZGramSectionAdsAndFiltersInfo">Спонсарскія паведамленні і сапсаваны тэкст</string>
-    <string name="MZGramSectionOtherInfo">Усё астатняе</string>
     <string name="MZGramDisableNumberRounding">Адключыць акругленне лікаў</string>
     <string name="MZGramDisableNumberRoundingInfo">Паказваць дакладную колькасць праглядаў, рэакцый і ўдзельнікаў: 4777 замест 4,8K.</string>
     <string name="MZGramFormatTimeWithSeconds">Час з секундамі</string>
@@ -148,7 +141,6 @@
     <string name="MZGramSaveArchiveMedia">Захоўваць медыя</string>
     <string name="MZGramSaveFormatting">Захоўваць фарматаванне</string>
     <string name="MZGramSaveReactions">Захоўваць рэакцыі</string>
-    <string name="MZGramSaveForBots">Захоўваць у чатах з ботамі</string>
     <string name="MZGramKeepFromTitle">Захоўваць паведамленні</string>
     <string name="MZGramKeepFromUsers">Ад карыстальнікаў</string>
     <string name="MZGramKeepFromBots">Ад ботаў</string>
@@ -173,8 +165,6 @@
     <string name="MZGramUnifiedPushOff">Выкл.</string>
     <string name="MZGramUseUnifiedPush">Апавяшчэнні праз UnifiedPush</string>
     <string name="MZGramUnifiedPushInfo">Апавяшчэнні прыходзяць праз дыстрыб’ютар UnifiedPush: убудаваны Google FCM або праграму накшталт ntfy, microG ці Sunup. Уласныя push-апавяшчэнні Google ад Telegram у зборках MZGram не працуюць, таму, калі гэта выключана, апавяшчэнні ў фоне залежаць ад уласнага злучэння Telegram (Фонавае злучэнне або Keep-Alive Service у раздзеле «Апавяшчэнні і гукі»).</string>
-    <string name="MZGramUnifiedPushDistributor">Дыстрыб’ютар</string>
-    <string name="MZGramUnifiedPushNotChosen">Не выбраны</string>
     <string name="MZGramUnifiedPushStatusRegistered">Апавяшчэнні зарэгістраваны ў Telegram.</string>
     <string name="MZGramUnifiedPushStatusWaiting">Чаканне адказу дыстрыб’ютара.</string>
     <string name="MZGramUnifiedPushStatusChoose">Выберыце дыстрыб’ютар, каб атрымліваць апавяшчэнні.</string>
@@ -340,7 +330,6 @@
     <string name="MZGramDetailsRestrictedGroup">Капіяванне і перасылка забароненыя ў гэтай групе.</string>
     <string name="MZGramDateAtTime">%1$s у %2$s</string>
     <string name="MZGramSectionAi">ШІ</string>
-    <string name="MZGramSectionAiInfo">Спытаць сайт ШІ пра паведамленне</string>
     <string name="MZGramShowAskAi">Паказваць «Спытаць ШІ» ў меню паведамлення</string>
     <string name="MZGramAskAi">Спытаць ШІ</string>
     <string name="MZGramAiDefaultProvider">ШІ па змаўчанні</string>
@@ -427,7 +416,6 @@
     <string name="MZGramReliableNotification">MZGram на сувязі</string>
     <string name="MZGramReliableSuggest">Гэты тэлефон абмяжоўвае MZGram у фоне, таму паведамленні могуць спазняцца. Надзейная дастаўка трымае злучэнне. Дакраніцеся, каб адкрыць яе пераключальнік.</string>
     <string name="MZGramSectionPrivacy">Прыватнасць</string>
-    <string name="MZGramSectionPrivacyInfo">Спасылкі, чарнавікі, прэв\'ю і што даведваецца сервер</string>
     <string name="MZGramConfirmInternalLinks">Пацвярджаць спасылкі Telegram</string>
     <string name="MZGramConfirmInternalLinksInfo">Спасылкі t.me і tg:// паказваюць адрас і пытаюцца перад адкрыццём, таму схаваная спасылка не падпіша на канал, не запусціць бота і не дадасць проксі адным дотыкам.</string>
     <string name="MZGramDisableReadStickers">Не адзначаць папулярныя стыкеры прагледжанымі</string>
@@ -512,7 +500,6 @@
     <string name="MZGramForwardDeletedAsCopy">Перасылаць выдаленыя паведамленні копіямі</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Выдаленае паведамленне, захаванае ў чаце, не мае арыгінала на серверы, таму Telegram не можа яго пераслаць. Яно адпраўляецца новым паведамленнем з тэкстам і файлам з гэтай прылады; калі файла ўжо няма, адпраўляецца толькі тэкст і нічога не запытваецца ў сервера.</string>
     <string name="MZGramSectionChats">Чаты</string>
-    <string name="MZGramSectionChatsInfo">Набор, адпраўка і пошук</string>
     <string name="MZGramFoldFancyFonts">Шукаць імёны ў дэкаратыўных шрыфтах</string>
     <string name="MZGramFoldFancyFontsInfo">Пошук лічыць літары дэкаратыўных Unicode-шрыфтоў (тлустыя, рукапісныя, у кружках, шырокія і падобныя літары) звычайнымі, таму запыт chat знаходзіць групу ⓒⓗⓐⓣ. Кірыліца, грэчаская, CJK і іншыя сапраўдныя пісьменнасці не мяняюцца. Мяняецца толькі тое, што параўноўвае пошук, імёны выглядаюць гэтак жа.</string>
     <string name="MZGramCharacterCounter">Лічыльнік сімвалаў</string>
@@ -551,12 +538,10 @@
     <string name="MZGramCameraStabilizationInfo">Уключае аптычную або электронную стабілізацыю падчас запісу круглага відэа, калі камера гэта падтрымлівае.</string>
     <string name="MZGramLaunchFolder">Папка пры запуску</string>
     <string name="MZGramLaunchFolderOff">Выключана</string>
-    <string name="MZGramLaunchFolderInfo">Абраная папка адкрываецца пры запуску праграмы, асобна для кожнага акаўнта. «Назад» з іншай папкі спачатку вяртае да яе.</string>
     <string name="MZGramFabShape">Форма кнопкі новага чата</string>
     <string name="MZGramFabShapeCircle">Круг</string>
     <string name="MZGramFabShapeSquare">Квадрат са скругленымі кутамі</string>
     <string name="MZGramFabShapeSquircle">Сквіркл</string>
-    <string name="MZGramFabShapeInfo">Форма круглай кнопкі ў спісе чатаў. Прымяняецца пасля паўторнага адкрыцця спісу.</string>
     <string name="MZGramAudioEnhance">Шумапрыгнечанне для галасавых паведамленняў</string>
     <string name="MZGramAudioEnhanceInfo">Падчас запісу галасавога паведамлення ўключае ўбудаванае ў тэлефон шумапрыгнечанне і аўтаматычную рэгуліроўку гучнасці, калі яны ёсць. Нічога нікуды не адпраўляецца.</string>
     <string name="MZGramShowRegistrationDate">Прыблізная дата рэгістрацыі</string>
@@ -570,7 +555,6 @@
     <string name="MZGramScheduleIn1Hour">Праз 1 гадз</string>
     <string name="MZGramScheduleTomorrowMorning">Заўтра ў 9:00</string>
     <string name="MZGramPinnedReactions">Замацаваныя рэакцыі</string>
-    <string name="MZGramPinnedReactionsInfo">Уласныя рэакцыі, якія ідуць першымі ў панэлі рэакцый над паведамленнем, асобна для чатаў і каналаў.</string>
     <string name="MZGramPinnedReactionsStatusChats">Замацаваныя рэакцыі ў чатах</string>
     <string name="MZGramPinnedReactionsStatusChannels">Замацаваныя рэакцыі ў каналах</string>
     <string name="MZGramPinnedReactionsInfoChats">Гэтыя рэакцыі ідуць першымі ў панэлі рэакцый у чатах, калі чат іх дазваляе. Уласныя эмодзі паказваюцца толькі з Telegram Premium.</string>
@@ -583,7 +567,6 @@
     <string name="MZGramPlainCode">Блокі кода без колераў</string>
     <string name="MZGramPlainCodeInfo">Адключае падсвятленне сінтаксісу ў блоках кода: код паказваецца адным колерам. Дзейнічае на паведамленні, паказаныя пасля змены.</string>
     <string name="MZGramTextStyleMenu">Меню фарматавання</string>
-    <string name="MZGramTextStyleMenuInfo">Выберыце, якія стылі паказвае меню пры вылучэнні тэксту ў полі паведамлення, і перацягніце іх, каб змяніць парадак.</string>
     <string name="MZGramReactionFilter">Фільтр рэакцый</string>
     <string name="MZGramHideReactionsPrivate">Хаваць рэакцыі ў асабістых чатах</string>
     <string name="MZGramHideReactionsGroups">Хаваць рэакцыі ў групах</string>
@@ -621,7 +604,6 @@
     <string name="MZGramWideChannelPosts">Шырокія пасты каналаў</string>
     <string name="MZGramWideChannelPostsInfo">Пасты каналаў займаюць амаль усю шырыню экрана, аватар канала побач з назвай. Дзейнічае на паведамленні, паказаныя пасля змены.</string>
     <string name="MZGramAccountOrder">Парадак акаўнтаў</string>
-    <string name="MZGramAccountOrderButtonInfo">Расстаў акаўнты ў зручным парадку. Налады, пераключальнік акаўнтаў і акаўнты ў меню паказваюць іх у ім.</string>
     <string name="MZGramAccountOrderInfo">Утрымлівай акаўнт і перацягні яго на новае месца. Парадак захоўваецца, калі адпускаеш.</string>
     <string name="MZGramRecentChatsOnBack">Нядаўнія чаты на кнопцы «Назад»</string>
     <string name="MZGramRecentChatsOnBackInfo">Утрымлівай стрэлку «Назад» у чаце, каб перайсці да аднаго з чатаў, якія ты адкрываў апошнімі. Захоўваецца толькі на гэтай прыладзе, пакуль опцыя ўключана; сакрэтныя чаты не захоўваюцца. Выключэнне сцірае спіс.</string>
@@ -637,7 +619,6 @@
     <string name="MZGramAppIconMint">Мята</string>
     <string name="MZGramAppIconSunset">Захад сонца</string>
     <string name="MZGramAvatarShape">Форма аватараў</string>
-    <string name="MZGramAvatarShapeInfo">Наколькі круглыя аватары ва ўсёй праграме: справа кола, як у Telegram, злева квадрат, паміж імі квадрат з закругленымі кутамі. Кольцы гісторый паўтараюць форму. Падчас «цягучай» анімацыі аватар профілю зноў становіцца колам.</string>
     <string name="MZGramGlassOutline">Контур шкла</string>
     <string name="MZGramGlassOutlineGlare">Блік</string>
     <string name="MZGramGlassOutlineSolid">Суцэльная лінія</string>
@@ -700,8 +681,6 @@
     <string name="MZGramPluginSettingsEnterValue">Увядзіце значэнне</string>
     <string name="MZGramPluginSettingsActionFailed">Плагін не справіўся з гэтым.</string>
     <string name="MZGramPlugins">Плагіны</string>
-    <string name="MZGramPluginsSettingsInfo">Дадавайце файлы плагінаў, глядзіце, што яны просяць, і чытайце іх код.</string>
-    <string name="MZGramPluginsNotRunning">MZGram пакуль не запускае плагіны. Ён захоўвае іх і паказвае, што ў іх ёсць; уключаныя запрацуюць, калі MZGram навучыцца запускаць плагіны.</string>
     <string name="MZGramPluginsEmpty">Плагінаў яшчэ няма. Плагін: файл з пашырэннем .plugin; дадайце яго са сваіх файлаў.</string>
     <string name="MZGramPluginsAddFile">Дадаць файл плагіна</string>
     <string name="MZGramPluginsAddFailed">Гэты файл не з\'яўляецца плагінам, які MZGram можа прачытаць.</string>
@@ -1033,7 +1012,6 @@
     <string name="MZGramPluginSafeModeDisableAll">Адключыць усе плагіны</string>
     <string name="MZGramPluginSafeModeActive">Праца плагінаў заблакіравана да выхаду з бяспечнага рэжыму.</string>
     <string name="MZGramPluginCrashed">Плагін "%1$s" адключаны пасля паўторных збояў.</string>
-    <string name="MZGramPluginNotResponding">Плагін "%1$s" не адказвае.</string>
     <string name="MZGramFolderLocal">Лакальная папка</string>
     <string name="MZGramLocalFoldersSwitch">Лакальныя папкі</string>
     <string name="MZGramLocalFoldersSwitchInfo">Папкі толькі на гэтай прыладзе, без серверных лімітаў на папкі і чаты ў папцы. У рэдактары папкі з\'яўляецца пераключальнік «Лакальная папка», а на ліміце сервера новая папка становіцца лакальнай замест прапановы Premium. Яны сінхранізуюцца паміж вашымі прыладамі праз файл у Захаваных паведамленнях. Выключана: папкі як у Telegram; створаныя раней лакальныя папкі застаюцца.</string>
@@ -1058,7 +1036,6 @@
     <string name="MZGramDeletedDialogsInMainList">Паказваць у асноўным спісе чатаў</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Пакідаць выдаленыя чаты бачнымі ў асноўным спісе чатаў з апошнім захаваным паведамленнем.</string>
     <string name="MZGramSectionAppearance">Афармленне</string>
-    <string name="MZGramSectionAppearanceInfo">M3-пераключальнікі, картачны дызайн і візуальны стыль</string>
     <string name="MZGramM3Switches">M3-пераключальнікі</string>
     <string name="MZGramM3SwitchesInfo">Выкарыстоўваць сучасны стыль пераключальнікаў Material 3 у дадатку.</string>
     <string name="MZGramCardsDesign">Карткі</string>
@@ -1066,14 +1043,11 @@
     <string name="MZGramProfileMusicCard">Музычная картка профілю</string>
     <string name="MZGramProfileMusicCardInfo">Адлюстроўваць захаваную або бягучую музыку ў выглядзе стыльнай карткі ў профілі.</string>
     <string name="MZGramDoHProvider">Правайдар DoH</string>
-    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS абараняе DNS-запыты ад адсочвання і перахопу. Запыты адпраўляюцца ў зашыфраваным выглядзе абранаму правайдару.</string>
     <string name="MZGramDoHOff">Выключана</string>
     <string name="MZGramOpenFreeMapPreview">Прэв\'ю карты праз OpenFreeMap</string>
     <string name="MZGramOpenFreeMapPreviewInfo">Паказваць статычныя прэв\'ю лакацый у паведамленнях з дапамогай OpenFreeMap і OpenStreetMap замест Google Maps.</string>
     <string name="MZGramPillWeather">Надвор\'е</string>
-    <string name="MZGramPillWeatherInfo">Адлюстроўвае бягучае надвор\'е і тэмпературу ў панэлі пілюль. Запытвае геапазіцыю прылады і звяртаецца да open-meteo.com.</string>
     <string name="MZGramPillRates">Курсы валют</string>
-    <string name="MZGramPillRatesInfo">Адлюстроўвае курсы валют, крыптавалют і золата ў панэлі пілюль. Запытвае адкрытыя рынкавыя даныя з Coinbase і gold-api.com.</string>
     <string name="MZGramPipEnabled">Дазволіць пакеты Python (pip)</string>
     <string name="MZGramPipEnabledInfo">Дазваляе спампоўваць pure-Python пакеты з PyPI на прыладу для плагінаў па запыце карыстальніка.</string>
     <string name="MZGramPipEnabledPrompt">Дазволіць устаноўку пакетаў Python з PyPI на гэтай прыладзе? Пакеты будуць спампоўвацца толькі па запыце і выконвацца ў асяроддзі плагінаў.</string>
@@ -1156,8 +1130,6 @@
     <string name="MZGramPeripheralsInfo">Налада пашыраных модуляў кліента і апаратных інтэграцый.</string>
     <string name="MZGramTorHeader">Кампаньён Tor</string>
     <string name="MZGramTorCompanion">Маршрутызацыя праз сетку Tor</string>
-    <string name="MZGramTorCompanionInstalled">Кампаньён усталяваны</string>
-    <string name="MZGramTorCompanionMissing">Кампаньён не выяўлены</string>
     <string name="MZGramTorInfo">Паведамленні і медыя ідуць праз SOCKS5-проксі праграмы Tor (Orbot, 127.0.0.1:9050) з першага злучэння пасля кожнага запуску. Пакуль праграма Tor не працуе, MZGram не падключаецца. Званкі, вэб-старонкі, міні-праграмы і дадаткі MZGram, якія звяртаюцца да іншых сэрвісаў, падключаюцца напрамую, не праз Tor.</string>
     <string name="MZGramTorInstallPrompt">Кампаньён Tor (напрыклад Orbot) не знойдзены. Усталюйце Orbot з F-Droid ці Google Play для бяспечнага злучэння.</string>
     <string name="MZGramBadgesHeader">Значкі профілю і паведамленняў</string>
@@ -1167,8 +1139,6 @@
     <string name="MZGramBadgesInfo">Адлюстроўвае значкі падтрымкі або статусу побач з імёнамі карыстальнікаў лакальна.</string>
     <string name="MZGramGlyphHeader">Інтэрфейс Nothing Glyph</string>
     <string name="MZGramNothingGlyph">Святлодыёдная падсветка Nothing Glyph</string>
-    <string name="MZGramGlyphHardwareFound">Прылада Nothing выяўлена</string>
-    <string name="MZGramGlyphHardwareMissing">Даступна на прыладах Nothing Phone</string>
     <string name="MZGramNothingGlyphApiKey">Ключ API Nothing Glyph</string>
     <string name="MZGramNothingGlyphKeyPrompt">Увядзіце ўласны ключ API Nothing Glyph:</string>
     <string name="MZGramNothingGlyphBrightness">Яркасць святлодыёдаў</string>

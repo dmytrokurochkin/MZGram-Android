@@ -6,20 +6,13 @@
     <string name="MZGramSectionArchive">Arşiv</string>
     <string name="MZGramSectionGhostMode">Hayalet modu</string>
     <string name="MZGramSectionMessageMenu">Mesaj menüsü</string>
-    <string name="MZGramSectionMediaAndCalls">Medya ve aramalar</string>
     <string name="MZGramSectionInterface">Arayüz</string>
     <string name="MZGramSectionAdsAndFilters">Reklamlar ve filtreler</string>
     <string name="MZGramSectionOther">Diğer</string>
-    <string name="MZGramSectionArchiveInfo">Silinen ve düzenlenen mesajlar, dışa ve içe aktarma</string>
-    <string name="MZGramSectionGhostModeInfo">Kimse görmeden okuma ve yazma</string>
     <string name="MZGramSectionMessageMenuInfo">Bir mesajı basılı tuttuğunuzda ek işlemler</string>
-    <string name="MZGramSectionMediaAndCallsInfo">Aramalar, kamera, video ve fotoğraf kalitesi</string>
-    <string name="MZGramSectionInterfaceInfo">Sohbet listesi, hikayeler, saat ve animasyonlar</string>
     <string name="MZGramLanguage">MZGram dili</string>
     <string name="MZGramLanguageSystem">Sistem dili</string>
     <string name="MZGramLanguageInfo">MZGram\'ın kendi ayarlarının ve özelliklerinin dili. Telegram\'daki gibi: MZGram\'da varsa Telegram\'ın dili, yoksa İngilizce. Sistem dili: MZGram\'da varsa telefonun dili, yoksa İngilizce.</string>
-    <string name="MZGramSectionAdsAndFiltersInfo">Sponsorlu mesajlar ve bozuk metin</string>
-    <string name="MZGramSectionOtherInfo">Geri kalan her şey</string>
     <string name="MZGramDisableNumberRounding">Sayı yuvarlamayı kapat</string>
     <string name="MZGramDisableNumberRoundingInfo">Görüntülenme, tepki ve üye sayısını tam gösterir: 4,8B yerine 4777.</string>
     <string name="MZGramFormatTimeWithSeconds">Saniyeli saat</string>
@@ -148,7 +141,6 @@
     <string name="MZGramSaveArchiveMedia">Medyayı kaydet</string>
     <string name="MZGramSaveFormatting">Biçimlendirmeyi kaydet</string>
     <string name="MZGramSaveReactions">Tepkileri kaydet</string>
-    <string name="MZGramSaveForBots">Botlarla sohbetlerde kaydet</string>
     <string name="MZGramKeepFromTitle">Mesajları sakla</string>
     <string name="MZGramKeepFromUsers">Kullanıcılardan</string>
     <string name="MZGramKeepFromBots">Botlardan</string>
@@ -173,8 +165,6 @@
     <string name="MZGramUnifiedPushOff">Kapalı</string>
     <string name="MZGramUseUnifiedPush">UnifiedPush ile bildirimler</string>
     <string name="MZGramUnifiedPushInfo">Bildirimler bir UnifiedPush dağıtıcısı üzerinden gelir: yerleşik Google FCM veya ntfy, microG ya da Sunup gibi bir uygulama. Telegram\'ın kendi Google anlık bildirimleri MZGram sürümlerinde çalışmaz; bu yüzden bu kapalıyken arka plandaki bildirimler Telegram\'ın kendi bağlantısına bağlıdır (Bildirimler ve Sesler\'deki Arka plan bağlantısı veya Keep-Alive Service).</string>
-    <string name="MZGramUnifiedPushDistributor">Dağıtıcı</string>
-    <string name="MZGramUnifiedPushNotChosen">Seçilmedi</string>
     <string name="MZGramUnifiedPushStatusRegistered">Bildirimler Telegram\'a kayıtlı.</string>
     <string name="MZGramUnifiedPushStatusWaiting">Dağıtıcının yanıtı bekleniyor.</string>
     <string name="MZGramUnifiedPushStatusChoose">Bildirim almak için bir dağıtıcı seçin.</string>
@@ -340,7 +330,6 @@
     <string name="MZGramDetailsRestrictedGroup">Bu grupta kopyalama ve iletme izni yok.</string>
     <string name="MZGramDateAtTime">%1$s, saat %2$s</string>
     <string name="MZGramSectionAi">Yapay zekâ</string>
-    <string name="MZGramSectionAiInfo">Bir mesaj hakkında yapay zekâ sitesine sor</string>
     <string name="MZGramShowAskAi">Mesaj menüsünde “Yapay zekâya sor”u göster</string>
     <string name="MZGramAskAi">Yapay zekâya sor</string>
     <string name="MZGramAiDefaultProvider">Varsayılan yapay zekâ</string>
@@ -427,7 +416,6 @@
     <string name="MZGramReliableNotification">MZGram bağlı</string>
     <string name="MZGramReliableSuggest">Bu telefon MZGram\'ı arka planda sınırlıyor, bu yüzden mesajlar geç gelebilir. Güvenilir teslim bağlantıyı açık tutar. Anahtarını açmak için dokunun.</string>
     <string name="MZGramSectionPrivacy">Gizlilik</string>
-    <string name="MZGramSectionPrivacyInfo">Bağlantılar, taslaklar, önizlemeler ve sunucunun öğrendikleri</string>
     <string name="MZGramConfirmInternalLinks">Telegram bağlantılarını onayla</string>
     <string name="MZGramConfirmInternalLinksInfo">t.me ve tg:// bağlantıları adreslerini gösterir ve açılmadan önce sorar; böylece gizli bir bağlantı tek dokunuşla kanala katılamaz, bot başlatamaz veya proxy ekleyemez.</string>
     <string name="MZGramDisableReadStickers">Popüler çıkartmaları görüldü olarak işaretleme</string>
@@ -512,7 +500,6 @@
     <string name="MZGramForwardDeletedAsCopy">Silinen mesajları kopya olarak ilet</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Sohbette saklanan silinmiş bir mesajın sunucuda orijinali yoktur, bu yüzden Telegram onu iletemez. Metni ve bu cihazdaki dosyasıyla yeni bir mesaj olarak gönderilir; dosya yoksa yalnızca metin gönderilir ve sunucudan bir şey istenmez.</string>
     <string name="MZGramSectionChats">Sohbetler</string>
-    <string name="MZGramSectionChatsInfo">Yazma, gönderme ve arama</string>
     <string name="MZGramFoldFancyFonts">Süslü yazı tipindeki adları bul</string>
     <string name="MZGramFoldFancyFontsInfo">Arama, süslü Unicode yazı tiplerindeki harfleri (kalın, el yazısı, daire içinde, tam genişlik ve benzer harfler) normal harf sayar, böylece chat yazmak ⓒⓗⓐⓣ adlı grubu bulur. Kiril, Yunan, CJK ve diğer gerçek yazılar değişmez. Yalnızca aramanın karşılaştırdığı değişir, adlar aynı görünür.</string>
     <string name="MZGramCharacterCounter">Karakter sayacı</string>
@@ -551,12 +538,10 @@
     <string name="MZGramCameraStabilizationInfo">Kamera destekliyorsa, yuvarlak video mesajı kaydederken optik veya elektronik sabitlemeyi açar.</string>
     <string name="MZGramLaunchFolder">Açılışta klasör</string>
     <string name="MZGramLaunchFolderOff">Kapalı</string>
-    <string name="MZGramLaunchFolderInfo">Seçilen klasör uygulama açılırken, her hesap için ayrı ayrı açılır. Başka bir klasörden Geri önce buna döner.</string>
     <string name="MZGramFabShape">Yeni sohbet düğmesinin şekli</string>
     <string name="MZGramFabShapeCircle">Daire</string>
     <string name="MZGramFabShapeSquare">Yuvarlatılmış kare</string>
     <string name="MZGramFabShapeSquircle">Süperelips</string>
-    <string name="MZGramFabShapeInfo">Sohbet listesindeki yuvarlak düğmenin şekli. Liste yeniden açıldığında uygulanır.</string>
     <string name="MZGramAudioEnhance">Sesli mesajlarda gürültü bastırma</string>
     <string name="MZGramAudioEnhanceInfo">Sesli mesaj kaydederken telefonun kendi gürültü bastırma ve otomatik kazanç kontrolünü, varsa, açar. Hiçbir şey gönderilmez.</string>
     <string name="MZGramShowRegistrationDate">Yaklaşık kayıt tarihi</string>
@@ -570,7 +555,6 @@
     <string name="MZGramScheduleIn1Hour">1 saat sonra</string>
     <string name="MZGramScheduleTomorrowMorning">Yarın 09:00</string>
     <string name="MZGramPinnedReactions">Sabitlenmiş tepkiler</string>
-    <string name="MZGramPinnedReactionsInfo">Bir mesajın üstündeki tepki panelinde ilk sırada çıkan kendi tepkileriniz; sohbetler ve kanallar için ayrı ayrı.</string>
     <string name="MZGramPinnedReactionsStatusChats">Sohbetlerde sabitlenmiş tepkiler</string>
     <string name="MZGramPinnedReactionsStatusChannels">Kanallarda sabitlenmiş tepkiler</string>
     <string name="MZGramPinnedReactionsInfoChats">Bu tepkiler, sohbet izin veriyorsa sohbetlerdeki tepki panelinde ilk sırada çıkar. Özel emojiler yalnızca Telegram Premium ile gösterilir.</string>
@@ -583,7 +567,6 @@
     <string name="MZGramPlainCode">Renksiz kod blokları</string>
     <string name="MZGramPlainCodeInfo">Kod bloklarında sözdizimi renklendirmesini kapatır: kod tek renkte gösterilir. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
     <string name="MZGramTextStyleMenu">Biçimlendirme menüsü</string>
-    <string name="MZGramTextStyleMenuInfo">Mesaj alanında metin seçtiğinizde menünün hangi stilleri göstereceğini seçin ve sırayı değiştirmek için sürükleyin.</string>
     <string name="MZGramReactionFilter">Tepki filtresi</string>
     <string name="MZGramHideReactionsPrivate">Özel sohbetlerde tepkileri gizle</string>
     <string name="MZGramHideReactionsGroups">Gruplarda tepkileri gizle</string>
@@ -621,7 +604,6 @@
     <string name="MZGramWideChannelPosts">Geniş kanal gönderileri</string>
     <string name="MZGramWideChannelPostsInfo">Kanal gönderileri neredeyse tüm ekran genişliğini kaplar, kanal avatarı adının yanında olur. Değişiklikten sonra gösterilen mesajlara uygulanır.</string>
     <string name="MZGramAccountOrder">Hesap sırası</string>
-    <string name="MZGramAccountOrderButtonInfo">Hesaplarını istediğin sıraya koy. Ayarlar, hesap değiştirici ve menüdeki hesaplar bu sırayı izler.</string>
     <string name="MZGramAccountOrderInfo">Bir hesaba basılı tut ve yeni bir yere sürükle. Bıraktığında sıra kaydedilir.</string>
     <string name="MZGramRecentChatsOnBack">Geri düğmesinde son sohbetler</string>
     <string name="MZGramRecentChatsOnBackInfo">Son açtığın sohbetlerden birine geçmek için sohbette Geri okuna basılı tut. Seçenek açıkken yalnızca bu cihazda tutulur; gizli sohbetler tutulmaz. Kapatmak listeyi siler.</string>
@@ -637,7 +619,6 @@
     <string name="MZGramAppIconMint">Nane</string>
     <string name="MZGramAppIconSunset">Gün batımı</string>
     <string name="MZGramAvatarShape">Profil resmi şekli</string>
-    <string name="MZGramAvatarShapeInfo">Uygulama genelinde profil resimlerinin ne kadar yuvarlak olduğu: sağda Telegram\'daki gibi bir daire, solda bir kare, arası köşeleri yuvarlatılmış bir kare. Hikâye halkaları şekli izler. “Akışkan” animasyon sırasında profil resmi yeniden daireye döner.</string>
     <string name="MZGramGlassOutline">Cam kenarı</string>
     <string name="MZGramGlassOutlineGlare">Parlama</string>
     <string name="MZGramGlassOutlineSolid">Düz çizgi</string>
@@ -700,8 +681,6 @@
     <string name="MZGramPluginSettingsEnterValue">Bir değer girin</string>
     <string name="MZGramPluginSettingsActionFailed">Eklenti bunu işleyemedi.</string>
     <string name="MZGramPlugins">Eklentiler</string>
-    <string name="MZGramPluginsSettingsInfo">Eklenti dosyaları ekleyin, ne istediklerini görün ve kodlarını okuyun.</string>
-    <string name="MZGramPluginsNotRunning">MZGram henüz eklenti çalıştırmıyor. Onları saklar ve içeriklerini gösterir; açtıklarınız MZGram eklenti çalıştırabildiğinde başlar.</string>
     <string name="MZGramPluginsEmpty">Henüz eklenti yok. Eklenti, .plugin uzantılı bir dosyadır; dosyalarınızdan bir tane ekleyin.</string>
     <string name="MZGramPluginsAddFile">Eklenti dosyası ekle</string>
     <string name="MZGramPluginsAddFailed">Bu dosya MZGram\'ın okuyabileceği bir eklenti değil.</string>
@@ -1033,7 +1012,6 @@
     <string name="MZGramPluginSafeModeDisableAll">Tüm eklentileri devre dışı bırak</string>
     <string name="MZGramPluginSafeModeActive">Güvenli moddan çıkılana kadar eklentiler engellendi.</string>
     <string name="MZGramPluginCrashed">"%1$s" eklentisi tekrarlanan çökmelerden sonra devre dışı bırakıldı.</string>
-    <string name="MZGramPluginNotResponding">"%1$s" eklentisi yanıt vermiyor.</string>
     <string name="MZGramFolderLocal">Yerel klasör</string>
     <string name="MZGramLocalFoldersSwitch">Yerel klasörler</string>
     <string name="MZGramLocalFoldersSwitchInfo">Yalnızca bu cihazda tutulan, klasörler ve klasördeki sohbetler için sunucu sınırı olmayan klasörler. Klasör düzenleyicisine «Yerel klasör» anahtarı gelir ve sunucu sınırında yeni bir klasör Premium teklifi yerine yerel olur. Kayıtlı Mesajlar içindeki bir dosya ile cihazlarınız arasında eşitlenirler. Kapalı: klasörler Telegram\'daki gibi; daha önce oluşturulan yerel klasörler kalır.</string>
@@ -1058,7 +1036,6 @@
     <string name="MZGramDeletedDialogsInMainList">Ana sohbet listesinde göster</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Silinen sohbetleri son kaydedilen mesajlarıyla ana sohbet listesinde görünür tutun.</string>
     <string name="MZGramSectionAppearance">Görünüm</string>
-    <string name="MZGramSectionAppearanceInfo">Material 3 anahtarları, kart listeleri ve görsel stil</string>
     <string name="MZGramM3Switches">Material 3 anahtarları</string>
     <string name="MZGramM3SwitchesInfo">Uygulama genelinde modern Material 3 anahtar stilini kullanın.</string>
     <string name="MZGramCardsDesign">Kartlar</string>
@@ -1066,14 +1043,11 @@
     <string name="MZGramProfileMusicCard">Profil müzik kartı</string>
     <string name="MZGramProfileMusicCardInfo">Kaydedilen veya çalan müziği kullanıcı profillerinde şık bir kart olarak gösterin.</string>
     <string name="MZGramDoHProvider">DoH saglayicisi</string>
-    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS DNS isteklerini izleme ve engellemeye karsi korur. DNS sorgulari secilen saglayiciya sifreli olarak gonderilir.</string>
     <string name="MZGramDoHOff">Kapali</string>
     <string name="MZGramOpenFreeMapPreview">OpenFreeMap harita onizlemesi</string>
     <string name="MZGramOpenFreeMapPreviewInfo">Sohbet iletilerinde Google Maps yerine OpenFreeMap ve OpenStreetMap kullanarak statik harita onizlemeleri gosterin.</string>
     <string name="MZGramPillWeather">Hava Durumu</string>
-    <string name="MZGramPillWeatherInfo">Hap cubugunda mevcut hava durumunu ve sicakligi gosterir. Cihaz konumunu ister ve open-meteo.com ile iletisim kurar.</string>
     <string name="MZGramPillRates">Doviz kurlari</string>
-    <string name="MZGramPillRatesInfo">Hap cubugunda para birimi, kripto ve altin kurlarini gosterir. Coinbase ve gold-api.com sitelerinden kamuya acik piyasa verilerini ister.</string>
     <string name="MZGramPipEnabled">Python paketlerine izin ver (pip)</string>
     <string name="MZGramPipEnabledInfo">Kullanıcı isteğiyle eklentiler için cihazda PyPI\'den pure-Python paketlerinin indirilmesine izin verir.</string>
     <string name="MZGramPipEnabledPrompt">Bu cihaza PyPI\'den Python paketlerinin yüklenmesine izin verilsin mi? Paketler yalnızca açık talep üzerine indirilecek ve eklenti ortamında çalıştırılacaktır.</string>
@@ -1156,8 +1130,6 @@
     <string name="MZGramPeripheralsInfo">Gelişmiş istemci uzantılarını ve donanım entegrasyonlarını yapılandırın.</string>
     <string name="MZGramTorHeader">Tor yardımcısı</string>
     <string name="MZGramTorCompanion">Tor ağı entegrasyonu</string>
-    <string name="MZGramTorCompanionInstalled">Yardımcı uygulama yüklendi</string>
-    <string name="MZGramTorCompanionMissing">Yardımcı uygulama bulunamadı</string>
     <string name="MZGramTorInfo">Mesajlar ve medya, her açılıştan sonraki ilk bağlantıdan itibaren bir Tor uygulamasının SOCKS5 proxy sunucusu (Orbot, 127.0.0.1:9050) üzerinden gider. Tor uygulaması çalışmadığı sürece MZGram bağlanmaz. Aramalar, web sayfaları, mini uygulamalar ve başka hizmetleri kullanan MZGram ekleri Tor üzerinden değil, doğrudan bağlanır.</string>
     <string name="MZGramTorInstallPrompt">Tor yardımcı uygulaması (ör. Orbot) bulunamadı. Lütfen trafiği yönlendirmek için Orbot uygulamasını yükleyin.</string>
     <string name="MZGramBadgesHeader">Profil ve mesaj rozetleri</string>
@@ -1167,8 +1139,6 @@
     <string name="MZGramBadgesInfo">Kullanıcı adlarının yanında yerel olarak destekçi veya durum rozetleri gösterir.</string>
     <string name="MZGramGlyphHeader">Nothing Glyph Arayüzü</string>
     <string name="MZGramNothingGlyph">Nothing Glyph aydınlatması</string>
-    <string name="MZGramGlyphHardwareFound">Nothing donanımı algılandı</string>
-    <string name="MZGramGlyphHardwareMissing">Nothing Phone cihazlarında kullanılabilir</string>
     <string name="MZGramNothingGlyphApiKey">Nothing Glyph API anahtarı</string>
     <string name="MZGramNothingGlyphKeyPrompt">Kişisel Nothing Glyph API anahtarınızı girin:</string>
     <string name="MZGramNothingGlyphBrightness">Glyph parlaklığı</string>

@@ -6,20 +6,13 @@
     <string name="MZGramSectionArchive">الأرشيف</string>
     <string name="MZGramSectionGhostMode">وضع الشبح</string>
     <string name="MZGramSectionMessageMenu">قائمة الرسالة</string>
-    <string name="MZGramSectionMediaAndCalls">الوسائط والمكالمات</string>
     <string name="MZGramSectionInterface">الواجهة</string>
     <string name="MZGramSectionAdsAndFilters">الإعلانات والمرشحات</string>
     <string name="MZGramSectionOther">أخرى</string>
-    <string name="MZGramSectionArchiveInfo">الرسائل المحذوفة والمعدّلة، التصدير والاستيراد</string>
-    <string name="MZGramSectionGhostModeInfo">القراءة والكتابة دون أن يرى أحد</string>
     <string name="MZGramSectionMessageMenuInfo">إجراءات إضافية عند الضغط المطوّل على رسالة</string>
-    <string name="MZGramSectionMediaAndCallsInfo">المكالمات والكاميرا وجودة الفيديو والصور</string>
-    <string name="MZGramSectionInterfaceInfo">قائمة المحادثات والقصص والوقت والحركات</string>
     <string name="MZGramLanguage">لغة MZGram</string>
     <string name="MZGramLanguageSystem">لغة النظام</string>
     <string name="MZGramLanguageInfo">لغة إعدادات MZGram وميزاته الخاصة. مثل Telegram: لغة Telegram إن كانت متوفرة في MZGram، وإلا فالإنجليزية. لغة النظام: لغة الهاتف إن كانت متوفرة في MZGram، وإلا فالإنجليزية.</string>
-    <string name="MZGramSectionAdsAndFiltersInfo">الرسائل الممولة والنصوص المشوّهة</string>
-    <string name="MZGramSectionOtherInfo">كل ما عدا ذلك</string>
     <string name="MZGramDisableNumberRounding">تعطيل تقريب الأرقام</string>
     <string name="MZGramDisableNumberRoundingInfo">عرض العدد الدقيق للمشاهدات والتفاعلات والأعضاء: 4777 بدلًا من 4.8 ألف.</string>
     <string name="MZGramFormatTimeWithSeconds">الوقت بالثواني</string>
@@ -148,7 +141,6 @@
     <string name="MZGramSaveArchiveMedia">حفظ الوسائط</string>
     <string name="MZGramSaveFormatting">حفظ التنسيق</string>
     <string name="MZGramSaveReactions">حفظ التفاعلات</string>
-    <string name="MZGramSaveForBots">الحفظ في المحادثات مع البوتات</string>
     <string name="MZGramKeepFromTitle">الاحتفاظ بالرسائل</string>
     <string name="MZGramKeepFromUsers">من المستخدمين</string>
     <string name="MZGramKeepFromBots">من البوتات</string>
@@ -173,8 +165,6 @@
     <string name="MZGramUnifiedPushOff">متوقف</string>
     <string name="MZGramUseUnifiedPush">الإشعارات عبر UnifiedPush</string>
     <string name="MZGramUnifiedPushInfo">تصل الإشعارات عبر موزّع UnifiedPush: خدمة Google FCM المدمجة أو تطبيق مثل ntfy أو microG أو Sunup. لا تعمل إشعارات Google الفورية الخاصة بتيليجرام في إصدارات MZGram، لذا عند إيقاف هذا الخيار تعتمد الإشعارات في الخلفية على اتصال تيليجرام نفسه (الاتصال في الخلفية أو Keep-Alive Service في الإشعارات والأصوات).</string>
-    <string name="MZGramUnifiedPushDistributor">الموزّع</string>
-    <string name="MZGramUnifiedPushNotChosen">لم يُختر</string>
     <string name="MZGramUnifiedPushStatusRegistered">الإشعارات مسجّلة لدى تيليجرام.</string>
     <string name="MZGramUnifiedPushStatusWaiting">بانتظار رد الموزّع.</string>
     <string name="MZGramUnifiedPushStatusChoose">اختر موزّعًا لتلقي الإشعارات.</string>
@@ -340,7 +330,6 @@
     <string name="MZGramDetailsRestrictedGroup">النسخ وإعادة التوجيه غير مسموح بهما في هذه المجموعة.</string>
     <string name="MZGramDateAtTime">%1$s في %2$s</string>
     <string name="MZGramSectionAi">الذكاء الاصطناعي</string>
-    <string name="MZGramSectionAiInfo">اسأل موقع ذكاء اصطناعي عن رسالة</string>
     <string name="MZGramShowAskAi">إظهار «اسأل الذكاء الاصطناعي» في قائمة الرسالة</string>
     <string name="MZGramAskAi">اسأل الذكاء الاصطناعي</string>
     <string name="MZGramAiDefaultProvider">الذكاء الاصطناعي الافتراضي</string>
@@ -427,7 +416,6 @@
     <string name="MZGramReliableNotification">MZGram متصل</string>
     <string name="MZGramReliableSuggest">يقيّد هذا الهاتف MZGram في الخلفية، لذا قد تتأخر الرسائل. يُبقي التسليم الموثوق الاتصال قائمًا. المس لفتح مفتاحه.</string>
     <string name="MZGramSectionPrivacy">الخصوصية</string>
-    <string name="MZGramSectionPrivacyInfo">الروابط والمسودات والمعاينات وما يعرفه الخادم</string>
     <string name="MZGramConfirmInternalLinks">تأكيد روابط تيليجرام</string>
     <string name="MZGramConfirmInternalLinksInfo">تعرض روابط t.me وtg:// عنوانها وتسأل قبل الفتح، حتى لا يتمكن رابط مخفي من الانضمام إلى قناة أو تشغيل بوت أو إضافة وكيل بلمسة واحدة.</string>
     <string name="MZGramDisableReadStickers">عدم تعليم الملصقات الرائجة كمشاهدة</string>
@@ -512,7 +500,6 @@
     <string name="MZGramForwardDeletedAsCopy">إعادة توجيه الرسائل المحذوفة كنسخ</string>
     <string name="MZGramForwardDeletedAsCopyInfo">الرسالة المحذوفة المحفوظة في المحادثة ليس لها أصل على الخادم، لذا لا يستطيع Telegram إعادة توجيهها. تُرسل كرسالة جديدة بنصها والملف الموجود على هذا الجهاز؛ وإن لم يعد الملف موجودًا يُرسل النص فقط ولا يُطلب شيء من الخادم.</string>
     <string name="MZGramSectionChats">المحادثات</string>
-    <string name="MZGramSectionChatsInfo">الكتابة والإرسال والبحث</string>
     <string name="MZGramFoldFancyFonts">البحث عن الأسماء بالخطوط المزخرفة</string>
     <string name="MZGramFoldFancyFontsInfo">يعامل البحث حروف خطوط Unicode المزخرفة (العريضة والمكتوبة باليد والمحاطة بدائرة وكاملة العرض والحروف المشابهة) كحروف عادية، فيجد البحث عن chat مجموعة باسم ⓒⓗⓐⓣ. لا تتغير السيريلية واليونانية وCJK وغيرها من الكتابات الحقيقية. يتغير ما يقارنه البحث فقط، وتبقى الأسماء كما هي.</string>
     <string name="MZGramCharacterCounter">عدّاد الأحرف</string>
@@ -551,12 +538,10 @@
     <string name="MZGramCameraStabilizationInfo">يفعّل التثبيت البصري أو الإلكتروني أثناء تسجيل رسالة فيديو دائرية إذا كانت الكاميرا تدعمه.</string>
     <string name="MZGramLaunchFolder">المجلد عند التشغيل</string>
     <string name="MZGramLaunchFolderOff">متوقف</string>
-    <string name="MZGramLaunchFolderInfo">يفتح المجلد المختار عند بدء التطبيق، لكل حساب على حدة. زر الرجوع من مجلد آخر يعيدك إليه أولاً.</string>
     <string name="MZGramFabShape">شكل زر الدردشة الجديدة</string>
     <string name="MZGramFabShapeCircle">دائرة</string>
     <string name="MZGramFabShapeSquare">مربع بزوايا مدورة</string>
     <string name="MZGramFabShapeSquircle">سكويركل</string>
-    <string name="MZGramFabShapeInfo">شكل الزر الدائري في قائمة الدردشات. يُطبَّق بعد إعادة فتح القائمة.</string>
     <string name="MZGramAudioEnhance">كتم الضوضاء في الرسائل الصوتية</string>
     <string name="MZGramAudioEnhanceInfo">أثناء تسجيل رسالة صوتية يفعّل كتم الضوضاء والتحكم التلقائي في الكسب المدمجين في الهاتف إن وُجدا. لا يُرسل أي شيء.</string>
     <string name="MZGramShowRegistrationDate">تاريخ التسجيل التقريبي</string>
@@ -570,7 +555,6 @@
     <string name="MZGramScheduleIn1Hour">بعد ساعة</string>
     <string name="MZGramScheduleTomorrowMorning">غدًا 9:00</string>
     <string name="MZGramPinnedReactions">التفاعلات المثبتة</string>
-    <string name="MZGramPinnedReactionsInfo">تفاعلاتك الخاصة التي تظهر أولًا في لوحة التفاعلات فوق الرسالة، بشكل منفصل للدردشات والقنوات.</string>
     <string name="MZGramPinnedReactionsStatusChats">التفاعلات المثبتة في الدردشات</string>
     <string name="MZGramPinnedReactionsStatusChannels">التفاعلات المثبتة في القنوات</string>
     <string name="MZGramPinnedReactionsInfoChats">تظهر هذه التفاعلات أولًا في لوحة التفاعلات في الدردشات إذا سمحت بها الدردشة. لا تظهر الرموز التعبيرية المخصصة إلا مع Telegram Premium.</string>
@@ -583,7 +567,6 @@
     <string name="MZGramPlainCode">كتل الشيفرة بلا ألوان</string>
     <string name="MZGramPlainCodeInfo">يوقف تلوين الصياغة في كتل الشيفرة: تُعرض الشيفرة بلون واحد. يسري على الرسائل المعروضة بعد التغيير.</string>
     <string name="MZGramTextStyleMenu">قائمة التنسيق</string>
-    <string name="MZGramTextStyleMenuInfo">اختر الأنماط التي تعرضها القائمة عند تحديد نص في حقل الرسالة، واسحبها لتغيير الترتيب.</string>
     <string name="MZGramReactionFilter">فلتر التفاعلات</string>
     <string name="MZGramHideReactionsPrivate">إخفاء التفاعلات في المحادثات الخاصة</string>
     <string name="MZGramHideReactionsGroups">إخفاء التفاعلات في المجموعات</string>
@@ -621,7 +604,6 @@
     <string name="MZGramWideChannelPosts">منشورات القنوات العريضة</string>
     <string name="MZGramWideChannelPostsInfo">تشغل منشورات القنوات عرض الشاشة تقريبًا، مع صورة القناة بجانب اسمها. ينطبق على الرسائل المعروضة بعد التغيير.</string>
     <string name="MZGramAccountOrder">ترتيب الحسابات</string>
-    <string name="MZGramAccountOrderButtonInfo">رتّب حساباتك كما تحب. تتبع الإعدادات ومبدّل الحسابات والحسابات في القائمة هذا الترتيب.</string>
     <string name="MZGramAccountOrderInfo">اضغط مطولًا على حساب واسحبه إلى مكان جديد. يُحفظ الترتيب عند الإفلات.</string>
     <string name="MZGramRecentChatsOnBack">المحادثات الأخيرة على زر الرجوع</string>
     <string name="MZGramRecentChatsOnBackInfo">اضغط مطولًا على سهم الرجوع في محادثة للانتقال إلى إحدى المحادثات التي فتحتها مؤخرًا. تُحفظ على هذا الجهاز فقط ما دام الخيار مفعّلًا، ولا تُحفظ المحادثات السرية. إيقافه يمسح القائمة.</string>
@@ -637,7 +619,6 @@
     <string name="MZGramAppIconMint">نعناع</string>
     <string name="MZGramAppIconSunset">غروب</string>
     <string name="MZGramAvatarShape">شكل الصور الشخصية</string>
-    <string name="MZGramAvatarShapeInfo">مدى استدارة الصور الشخصية في التطبيق كله: في اليمين دائرة كما في Telegram، وفي اليسار مربع، وما بينهما مربع بزوايا مستديرة. تتبع حلقات القصص الشكل. أثناء حركة «الذوبان» تعود صورة الملف الشخصي دائرة.</string>
     <string name="MZGramGlassOutline">حدود الزجاج</string>
     <string name="MZGramGlassOutlineGlare">لمعان</string>
     <string name="MZGramGlassOutlineSolid">خط متصل</string>
@@ -700,8 +681,6 @@
     <string name="MZGramPluginSettingsEnterValue">أدخل قيمة</string>
     <string name="MZGramPluginSettingsActionFailed">تعذّر على الإضافة معالجة ذلك.</string>
     <string name="MZGramPlugins">الإضافات</string>
-    <string name="MZGramPluginsSettingsInfo">أضف ملفات الإضافات، واطّلع على ما تطلبه، واقرأ شيفرتها.</string>
-    <string name="MZGramPluginsNotRunning">لا يشغّل MZGram الإضافات بعد. فهو يحفظها ويعرض محتواها، وستبدأ الإضافات التي تفعّلها عندما يصبح MZGram قادرًا على تشغيلها.</string>
     <string name="MZGramPluginsEmpty">لا توجد إضافات بعد. الإضافة ملف بامتداد .plugin؛ أضف واحدًا من ملفاتك.</string>
     <string name="MZGramPluginsAddFile">إضافة ملف إضافة</string>
     <string name="MZGramPluginsAddFailed">هذا الملف ليس إضافة يستطيع MZGram قراءتها.</string>
@@ -1033,7 +1012,6 @@
     <string name="MZGramPluginSafeModeDisableAll">تعطيل جميع المكونات الإضافية</string>
     <string name="MZGramPluginSafeModeActive">المكونات الإضافية محظورة حتى الخروج من الوضع الآمن.</string>
     <string name="MZGramPluginCrashed">تم تعطيل المكون الإضافي "%1$s" بعد الأعطال المتكررة.</string>
-    <string name="MZGramPluginNotResponding">المكون الإضافي "%1$s" لا يستجيب.</string>
     <string name="MZGramFolderLocal">مجلد محلي</string>
     <string name="MZGramLocalFoldersSwitch">المجلدات المحلية</string>
     <string name="MZGramLocalFoldersSwitchInfo">مجلدات على هذا الجهاز فقط، من دون حدود الخادم لعدد المجلدات والمحادثات في المجلد. يظهر في محرر المجلد مفتاح «مجلد محلي»، وعند بلوغ حد الخادم يصبح المجلد الجديد محليًا بدلًا من عرض Premium. تتم مزامنتها بين أجهزتك عبر ملف في الرسائل المحفوظة. عند الإيقاف: المجلدات كما في Telegram، وتبقى المجلدات المحلية التي أنشئت سابقًا.</string>
@@ -1058,7 +1036,6 @@
     <string name="MZGramDeletedDialogsInMainList">إظهار في قائمة المحادثات الرئيسية</string>
     <string name="MZGramDeletedDialogsInMainListInfo">إبقاء المحادثات المحذوفة مرئية في قائمة المحادثات الرئيسية مع آخر رسالة محفوظة لها.</string>
     <string name="MZGramSectionAppearance">المظهر</string>
-    <string name="MZGramSectionAppearanceInfo">مفاتيح Material 3، قوائم البطاقات والنمط المرئي</string>
     <string name="MZGramM3Switches">مفاتيح Material 3</string>
     <string name="MZGramM3SwitchesInfo">استخدام نمط مفاتيح Material 3 الحديث في جميع أنحاء التطبيق.</string>
     <string name="MZGramCardsDesign">بطاقات</string>
@@ -1066,14 +1043,11 @@
     <string name="MZGramProfileMusicCard">بطاقة موسيقى الملف الشخصي</string>
     <string name="MZGramProfileMusicCardInfo">عرض الموسيقى المحفوظة أو قيد التشغيل كبطاقة أنيقة في الملفات الشخصية.</string>
     <string name="MZGramDoHProvider">مزود DoH</string>
-    <string name="MZGramDoHProviderInfo">يحمي DNS-over-HTTPS طلبات DNS من التتبع والاعتراض. يتم إرسال استعلامات DNS مشفرة إلى المزود المحدد.</string>
     <string name="MZGramDoHOff">معطل</string>
     <string name="MZGramOpenFreeMapPreview">معاينة خريطة OpenFreeMap</string>
     <string name="MZGramOpenFreeMapPreviewInfo">عرض معاينات الخرائط الثابتة في رسائل المحادثة باستخدام OpenFreeMap و OpenStreetMap بدلا من خرائط Google.</string>
     <string name="MZGramPillWeather">الطقس</string>
-    <string name="MZGramPillWeatherInfo">يعرض الطقس الحالي ودرجة الحرارة في شريط الحبوب. يطلب موقع الجهاز ويتصل بموقع open-meteo.com.</string>
     <string name="MZGramPillRates">أسعار الصرف</string>
-    <string name="MZGramPillRatesInfo">يعرض أسعار العملات والعملات المشفرة والذهب في شريط الحبوب. يطلب بيانات السوق العامة من Coinbase و gold-api.com.</string>
     <string name="MZGramPipEnabled">السماح بحزم Python (pip)</string>
     <string name="MZGramPipEnabledInfo">يسمح بتنزيل حزم pure-Python من PyPI على الجهاز للإضافات بناء على طلب المستخدم.</string>
     <string name="MZGramPipEnabledPrompt">هل تريد السماح بتثبيت حزم Python من PyPI على هذا الجهاز؟ سيتم تنزيل الحزم فقط بناء على طلب صريح وتشغيلها داخل بيئة الإضافات.</string>
@@ -1156,8 +1130,6 @@
     <string name="MZGramPeripheralsInfo">تكوين ملحقات العميل المتقدمة وتكاملات الأجهزة.</string>
     <string name="MZGramTorHeader">تطبيق Tor المساعد</string>
     <string name="MZGramTorCompanion">التكامل مع شبكة Tor</string>
-    <string name="MZGramTorCompanionInstalled">التطبيق المساعد مثبت</string>
-    <string name="MZGramTorCompanionMissing">لم يتم العثور على التطبيق المساعد</string>
     <string name="MZGramTorInfo">تمر الرسائل والوسائط عبر وكيل SOCKS5 لتطبيق Tor (Orbot، 127.0.0.1:9050) منذ أول اتصال بعد كل تشغيل. ما دام تطبيق Tor لا يعمل، لا يتصل MZGram. أما المكالمات وصفحات الويب والتطبيقات المصغرة وإضافات MZGram التي تستخدم خدمات أخرى فتتصل مباشرة، وليس عبر Tor.</string>
     <string name="MZGramTorInstallPrompt">لم يتم العثور على تطبيق Tor المساعد (مثل Orbot). يُرجى تثبيت Orbot لتوجيه حركة المرور بأمان.</string>
     <string name="MZGramBadgesHeader">شارات الملف الشخصي والرسائل</string>
@@ -1167,8 +1139,6 @@
     <string name="MZGramBadgesInfo">عرض شارات الدعم أو الحالة بجانب أسماء المستخدمين محلياً.</string>
     <string name="MZGramGlyphHeader">واجهة Nothing Glyph</string>
     <string name="MZGramNothingGlyph">إضاءة Nothing Glyph</string>
-    <string name="MZGramGlyphHardwareFound">تم اكتشاف جهاز Nothing</string>
-    <string name="MZGramGlyphHardwareMissing">متوفر على هواتف Nothing Phone فقط</string>
     <string name="MZGramNothingGlyphApiKey">مفتاح API لـ Nothing Glyph</string>
     <string name="MZGramNothingGlyphKeyPrompt">أدخل مفتاح API الخاص بـ Nothing Glyph:</string>
     <string name="MZGramNothingGlyphBrightness">سطوع Glyph</string>

@@ -6,20 +6,13 @@
     <string name="MZGramSectionArchive">Archiv</string>
     <string name="MZGramSectionGhostMode">Geistermodus</string>
     <string name="MZGramSectionMessageMenu">Nachrichtenmenü</string>
-    <string name="MZGramSectionMediaAndCalls">Medien und Anrufe</string>
     <string name="MZGramSectionInterface">Oberfläche</string>
     <string name="MZGramSectionAdsAndFilters">Werbung und Filter</string>
     <string name="MZGramSectionOther">Sonstiges</string>
-    <string name="MZGramSectionArchiveInfo">Gelöschte und bearbeitete Nachrichten, Export und Import</string>
-    <string name="MZGramSectionGhostModeInfo">Lesen und tippen, ohne dass es jemand sieht</string>
     <string name="MZGramSectionMessageMenuInfo">Zusätzliche Aktionen beim Gedrückthalten einer Nachricht</string>
-    <string name="MZGramSectionMediaAndCallsInfo">Anrufe, Kamera, Video- und Fotoqualität</string>
-    <string name="MZGramSectionInterfaceInfo">Chatliste, Storys, Uhrzeit und Animationen</string>
     <string name="MZGramLanguage">Sprache von MZGram</string>
     <string name="MZGramLanguageSystem">Systemsprache</string>
     <string name="MZGramLanguageInfo">Die Sprache der eigenen Einstellungen und Funktionen von MZGram. Wie Telegram: die Sprache von Telegram, wenn MZGram sie hat, sonst Englisch. Systemsprache: die Sprache des Telefons, wenn MZGram sie hat, sonst Englisch.</string>
-    <string name="MZGramSectionAdsAndFiltersInfo">Gesponserte Nachrichten und kaputter Text</string>
-    <string name="MZGramSectionOtherInfo">Alles andere</string>
     <string name="MZGramDisableNumberRounding">Zahlen nicht runden</string>
     <string name="MZGramDisableNumberRoundingInfo">Zeigt die genaue Zahl der Aufrufe, Reaktionen und Mitglieder: 4777 statt 4,8K.</string>
     <string name="MZGramFormatTimeWithSeconds">Uhrzeit mit Sekunden</string>
@@ -148,7 +141,6 @@
     <string name="MZGramSaveArchiveMedia">Medien speichern</string>
     <string name="MZGramSaveFormatting">Formatierung speichern</string>
     <string name="MZGramSaveReactions">Reaktionen speichern</string>
-    <string name="MZGramSaveForBots">In Chats mit Bots speichern</string>
     <string name="MZGramKeepFromTitle">Nachrichten behalten</string>
     <string name="MZGramKeepFromUsers">Von Nutzern</string>
     <string name="MZGramKeepFromBots">Von Bots</string>
@@ -173,8 +165,6 @@
     <string name="MZGramUnifiedPushOff">Aus</string>
     <string name="MZGramUseUnifiedPush">Benachrichtigungen über UnifiedPush</string>
     <string name="MZGramUnifiedPushInfo">Benachrichtigungen kommen über einen UnifiedPush-Verteiler: das eingebaute Google FCM oder eine App wie ntfy, microG oder Sunup. Telegrams eigene Google-Push-Benachrichtigungen funktionieren in MZGram-Builds nicht, daher hängen Benachrichtigungen im Hintergrund bei ausgeschalteter Option von Telegrams eigener Verbindung ab (Hintergrundverbindung oder Keep-Alive Service unter Mitteilungen und Töne).</string>
-    <string name="MZGramUnifiedPushDistributor">Verteiler</string>
-    <string name="MZGramUnifiedPushNotChosen">Nicht gewählt</string>
     <string name="MZGramUnifiedPushStatusRegistered">Benachrichtigungen sind bei Telegram registriert.</string>
     <string name="MZGramUnifiedPushStatusWaiting">Warten auf die Antwort des Verteilers.</string>
     <string name="MZGramUnifiedPushStatusChoose">Wähle einen Verteiler, um Benachrichtigungen zu erhalten.</string>
@@ -340,7 +330,6 @@
     <string name="MZGramDetailsRestrictedGroup">Kopieren und Weiterleiten ist in dieser Gruppe nicht erlaubt.</string>
     <string name="MZGramDateAtTime">%1$s um %2$s</string>
     <string name="MZGramSectionAi">KI</string>
-    <string name="MZGramSectionAiInfo">Eine KI-Seite zu einer Nachricht fragen</string>
     <string name="MZGramShowAskAi">„KI fragen“ im Nachrichtenmenü zeigen</string>
     <string name="MZGramAskAi">KI fragen</string>
     <string name="MZGramAiDefaultProvider">Standard-KI</string>
@@ -427,7 +416,6 @@
     <string name="MZGramReliableNotification">MZGram ist verbunden</string>
     <string name="MZGramReliableSuggest">Dieses Telefon schränkt MZGram im Hintergrund ein, daher können Nachrichten zu spät kommen. Zuverlässige Zustellung hält die Verbindung. Tippe, um ihren Schalter zu öffnen.</string>
     <string name="MZGramSectionPrivacy">Datenschutz</string>
-    <string name="MZGramSectionPrivacyInfo">Links, Entwürfe, Vorschauen und was der Server erfährt</string>
     <string name="MZGramConfirmInternalLinks">Telegram-Links bestätigen</string>
     <string name="MZGramConfirmInternalLinksInfo">t.me- und tg://-Links zeigen ihre Adresse und fragen vor dem Öffnen, damit ein versteckter Link nicht mit einem Tippen einem Kanal beitritt, einen Bot startet oder einen Proxy hinzufügt.</string>
     <string name="MZGramDisableReadStickers">Angesagte Sticker nicht als gesehen markieren</string>
@@ -512,7 +500,6 @@
     <string name="MZGramForwardDeletedAsCopy">Gelöschte Nachrichten als Kopie weiterleiten</string>
     <string name="MZGramForwardDeletedAsCopyInfo">Eine im Chat behaltene gelöschte Nachricht hat kein Original auf dem Server, daher kann Telegram sie nicht weiterleiten. Sie wird als neue Nachricht mit ihrem Text und der Datei auf diesem Gerät gesendet; fehlt die Datei, wird nur der Text gesendet und nichts vom Server angefragt.</string>
     <string name="MZGramSectionChats">Unterhaltungen</string>
-    <string name="MZGramSectionChatsInfo">Eingabe, Senden und Suche</string>
     <string name="MZGramFoldFancyFonts">Namen in Zierschriften finden</string>
     <string name="MZGramFoldFancyFontsInfo">Die Suche behandelt Buchstaben aus Unicode-Zierschriften (fett, Schreibschrift, eingekreist, vollbreit und ähnlich aussehende Zeichen) wie normale, sodass chat eine Gruppe namens ⓒⓗⓐⓣ findet. Kyrillisch, Griechisch, CJK und andere echte Schriften bleiben unverändert. Nur der Suchvergleich ändert sich, Namen sehen gleich aus.</string>
     <string name="MZGramCharacterCounter">Zeichenzähler</string>
@@ -551,12 +538,10 @@
     <string name="MZGramCameraStabilizationInfo">Schaltet beim Aufnehmen einer runden Videonachricht die optische oder elektronische Stabilisierung ein, falls die Kamera sie unterstützt.</string>
     <string name="MZGramLaunchFolder">Ordner beim Start</string>
     <string name="MZGramLaunchFolderOff">Aus</string>
-    <string name="MZGramLaunchFolderInfo">Der gewählte Ordner öffnet sich beim Start der App, für jedes Konto getrennt. „Zurück“ aus einem anderen Ordner führt zuerst zu ihm zurück.</string>
     <string name="MZGramFabShape">Form der Neuer-Chat-Taste</string>
     <string name="MZGramFabShapeCircle">Kreis</string>
     <string name="MZGramFabShapeSquare">Abgerundetes Quadrat</string>
     <string name="MZGramFabShapeSquircle">Superellipse</string>
-    <string name="MZGramFabShapeInfo">Form der runden Taste in der Chatliste. Wird nach erneutem Öffnen der Liste übernommen.</string>
     <string name="MZGramAudioEnhance">Rauschunterdrückung für Sprachnachrichten</string>
     <string name="MZGramAudioEnhanceInfo">Schaltet beim Aufnehmen einer Sprachnachricht die im Telefon vorhandene Rauschunterdrückung und automatische Pegelregelung ein. Es wird nichts versendet.</string>
     <string name="MZGramShowRegistrationDate">Ungefähres Registrierungsdatum</string>
@@ -570,7 +555,6 @@
     <string name="MZGramScheduleIn1Hour">In 1 Std.</string>
     <string name="MZGramScheduleTomorrowMorning">Morgen 9:00</string>
     <string name="MZGramPinnedReactions">Angeheftete Reaktionen</string>
-    <string name="MZGramPinnedReactionsInfo">Eigene Reaktionen, die in der Reaktionsleiste über einer Nachricht zuerst erscheinen, getrennt für Chats und Kanäle.</string>
     <string name="MZGramPinnedReactionsStatusChats">Angeheftete Reaktionen in Chats</string>
     <string name="MZGramPinnedReactionsStatusChannels">Angeheftete Reaktionen in Kanälen</string>
     <string name="MZGramPinnedReactionsInfoChats">Diese Reaktionen erscheinen in Chats zuerst in der Reaktionsleiste, sofern der Chat sie erlaubt. Eigene Emojis werden nur mit Telegram Premium angezeigt.</string>
@@ -583,7 +567,6 @@
     <string name="MZGramPlainCode">Codeblöcke ohne Farben</string>
     <string name="MZGramPlainCodeInfo">Schaltet die Syntaxhervorhebung in Codeblöcken aus: Der Code wird einfarbig angezeigt. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
     <string name="MZGramTextStyleMenu">Formatierungsmenü</string>
-    <string name="MZGramTextStyleMenuInfo">Wähle, welche Stile das Menü beim Markieren von Text im Nachrichtenfeld zeigt, und ziehe sie, um die Reihenfolge zu ändern.</string>
     <string name="MZGramReactionFilter">Reaktionsfilter</string>
     <string name="MZGramHideReactionsPrivate">Reaktionen in privaten Chats ausblenden</string>
     <string name="MZGramHideReactionsGroups">Reaktionen in Gruppen ausblenden</string>
@@ -621,7 +604,6 @@
     <string name="MZGramWideChannelPosts">Breite Kanalbeiträge</string>
     <string name="MZGramWideChannelPostsInfo">Kanalbeiträge nehmen fast die ganze Bildschirmbreite ein, das Kanalbild steht neben dem Namen. Gilt für Nachrichten, die nach der Änderung angezeigt werden.</string>
     <string name="MZGramAccountOrder">Reihenfolge der Konten</string>
-    <string name="MZGramAccountOrderButtonInfo">Ordne deine Konten wie gewünscht an. Die Einstellungen, der Kontowechsler und die Konten im Menü folgen dieser Reihenfolge.</string>
     <string name="MZGramAccountOrderInfo">Halte ein Konto gedrückt und ziehe es an eine neue Stelle. Die Reihenfolge wird beim Loslassen gespeichert.</string>
     <string name="MZGramRecentChatsOnBack">Letzte Chats auf der Zurück-Taste</string>
     <string name="MZGramRecentChatsOnBackInfo">Halte den Zurück-Pfeil in einem Chat gedrückt, um zu einem der zuletzt geöffneten Chats zu springen. Wird nur auf diesem Gerät gespeichert, solange die Option an ist; geheime Chats werden nicht gespeichert. Ausschalten löscht die Liste.</string>
@@ -637,7 +619,6 @@
     <string name="MZGramAppIconMint">Minze</string>
     <string name="MZGramAppIconSunset">Sonnenuntergang</string>
     <string name="MZGramAvatarShape">Form der Profilbilder</string>
-    <string name="MZGramAvatarShapeInfo">Wie rund Profilbilder in der ganzen App sind: rechts ein Kreis wie in Telegram, links ein Quadrat, dazwischen ein Quadrat mit abgerundeten Ecken. Story-Ringe folgen der Form. Während der „zähflüssigen“ Animation wird das Profilbild wieder zum Kreis.</string>
     <string name="MZGramGlassOutline">Glasrand</string>
     <string name="MZGramGlassOutlineGlare">Lichtreflex</string>
     <string name="MZGramGlassOutlineSolid">Durchgehende Linie</string>
@@ -700,8 +681,6 @@
     <string name="MZGramPluginSettingsEnterValue">Gib einen Wert ein</string>
     <string name="MZGramPluginSettingsActionFailed">Das Plugin konnte das nicht verarbeiten.</string>
     <string name="MZGramPlugins">Plug-ins</string>
-    <string name="MZGramPluginsSettingsInfo">Füge Plugin-Dateien hinzu, sieh dir an, was sie verlangen, und lies ihren Code.</string>
-    <string name="MZGramPluginsNotRunning">MZGram führt noch keine Plugins aus. Es speichert sie und zeigt, was sie enthalten; die eingeschalteten starten, sobald MZGram Plugins ausführen kann.</string>
     <string name="MZGramPluginsEmpty">Noch keine Plugins. Ein Plugin ist eine Datei mit der Endung .plugin; füge eine aus deinen Dateien hinzu.</string>
     <string name="MZGramPluginsAddFile">Plugin-Datei hinzufügen</string>
     <string name="MZGramPluginsAddFailed">Diese Datei ist kein Plugin, das MZGram lesen kann.</string>
@@ -1033,7 +1012,6 @@
     <string name="MZGramPluginSafeModeDisableAll">Alle Plugins deaktivieren</string>
     <string name="MZGramPluginSafeModeActive">Plugins sind blockiert, bis der sichere Modus beendet wird.</string>
     <string name="MZGramPluginCrashed">Plugin "%1$s" wurde nach wiederholten Abstürzen deaktiviert.</string>
-    <string name="MZGramPluginNotResponding">Plugin "%1$s" reagiert nicht.</string>
     <string name="MZGramFolderLocal">Lokaler Ordner</string>
     <string name="MZGramLocalFoldersSwitch">Lokale Ordner</string>
     <string name="MZGramLocalFoldersSwitchInfo">Ordner nur auf diesem Gerät, ohne die Serverlimits für Ordner und für Chats in einem Ordner. Der Ordnereditor bekommt den Schalter „Lokaler Ordner“, und am Serverlimit wird ein neuer Ordner lokal statt des Premium-Angebots. Sie werden über eine Datei in Gespeicherte Nachrichten zwischen deinen Geräten abgeglichen. Aus: Ordner wie in Telegram; früher erstellte lokale Ordner bleiben.</string>
@@ -1058,7 +1036,6 @@
     <string name="MZGramDeletedDialogsInMainList">In der Haupt-Chatliste anzeigen</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Gelöschte Chats mit ihrer letzten gespeicherten Nachricht in der Haupt-Chatliste sichtbar halten.</string>
     <string name="MZGramSectionAppearance">Erscheinungsbild</string>
-    <string name="MZGramSectionAppearanceInfo">Material 3 Schalter, Kartenlisten und visuelles Design</string>
     <string name="MZGramM3Switches">Material 3 Schalter</string>
     <string name="MZGramM3SwitchesInfo">Modernen Material 3 Schalterstil in der gesamten App verwenden.</string>
     <string name="MZGramCardsDesign">Karten</string>
@@ -1066,14 +1043,11 @@
     <string name="MZGramProfileMusicCard">Profil-Musikkarte</string>
     <string name="MZGramProfileMusicCardInfo">Gespeicherte oder aktuelle Musik als stilvolle Karte in Benutzerprofilen anzeigen.</string>
     <string name="MZGramDoHProvider">DoH-Anbieter</string>
-    <string name="MZGramDoHProviderInfo">DNS-over-HTTPS schuetzt DNS-Anfragen vor Verfolgung und Abfangen. DNS-Abfragen werden verschluesselt an den ausgewaehlten Anbieter gesendet.</string>
     <string name="MZGramDoHOff">Aus</string>
     <string name="MZGramOpenFreeMapPreview">OpenFreeMap-Kartenvorschau</string>
     <string name="MZGramOpenFreeMapPreviewInfo">Statische Kartenvorschauen in Chat-Nachrichten ueber OpenFreeMap und OpenStreetMap anstelle von Google Maps anzeigen.</string>
     <string name="MZGramPillWeather">Wetter</string>
-    <string name="MZGramPillWeatherInfo">Zeigt das aktuelle Wetter und die Temperatur in der Pill-Leiste an. Fragt den Geraetestandort ab und kontaktiert open-meteo.com.</string>
     <string name="MZGramPillRates">Wechselkurse</string>
-    <string name="MZGramPillRatesInfo">Zeigt Waehrungs-, Krypto- und Goldkurse in der Pill-Leiste an. Fragt oeffentliche Marktdaten von Coinbase und gold-api.com ab.</string>
     <string name="MZGramPipEnabled">Python-Pakete erlauben (pip)</string>
     <string name="MZGramPipEnabledInfo">Erlaubt das Herunterladen von Pure-Python-Paketen von PyPI auf das Gerät auf Anfrage des Benutzers.</string>
     <string name="MZGramPipEnabledPrompt">Installation von Python-Paketen von PyPI auf diesem Gerät erlauben? Pakete werden nur auf ausdrückliche Anfrage heruntergeladen und in der Plugin-Umgebung ausgeführt.</string>
@@ -1156,8 +1130,6 @@
     <string name="MZGramPeripheralsInfo">Konfigurieren Sie erweiterte Client-Erweiterungen und Hardware-Integrationen.</string>
     <string name="MZGramTorHeader">Tor-Begleiter</string>
     <string name="MZGramTorCompanion">Tor-Netzwerkintegration</string>
-    <string name="MZGramTorCompanionInstalled">Begleiter installiert</string>
-    <string name="MZGramTorCompanionMissing">Begleiter nicht gefunden</string>
     <string name="MZGramTorInfo">Nachrichten und Medien laufen ab der ersten Verbindung nach jedem Start über den SOCKS5-Proxy einer Tor-App (Orbot, 127.0.0.1:9050). Solange die Tor-App nicht läuft, verbindet sich MZGram nicht. Anrufe, Webseiten, Mini-Apps und MZGram-Extras, die andere Dienste nutzen, verbinden sich direkt, nicht über Tor.</string>
     <string name="MZGramTorInstallPrompt">Tor-Begleit-App (z. B. Orbot) wurde nicht erkannt. Bitte installieren Sie Orbot von F-Droid oder Google Play.</string>
     <string name="MZGramBadgesHeader">Profil- und Nachrichtenabzeichen</string>
@@ -1167,8 +1139,6 @@
     <string name="MZGramBadgesInfo">Zeigt benutzerdefinierte Unterstützer- oder Statusabzeichen lokal neben Namen an.</string>
     <string name="MZGramGlyphHeader">Nothing Glyph-Schnittstelle</string>
     <string name="MZGramNothingGlyph">Nothing Glyph-Beleuchtung</string>
-    <string name="MZGramGlyphHardwareFound">Nothing-Hardware erkannt</string>
-    <string name="MZGramGlyphHardwareMissing">Verfügbar auf Nothing Phone-Geräten</string>
     <string name="MZGramNothingGlyphApiKey">Nothing Glyph-API-Schlüssel</string>
     <string name="MZGramNothingGlyphKeyPrompt">Geben Sie Ihren Nothing Glyph-API-Schlüssel ein:</string>
     <string name="MZGramNothingGlyphBrightness">Glyph-Helligkeit</string>

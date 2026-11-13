@@ -177,7 +177,7 @@ class MZGramAiTest {
     @Test
     fun texts_inTheTwelveLanguages() {
         val keys = listOf(
-            "MZGramSectionAi", "MZGramSectionAiInfo", "MZGramShowAskAi", "MZGramAskAi", "MZGramAiDefaultProvider",
+            "MZGramSectionAi", "MZGramShowAskAi", "MZGramAskAi", "MZGramAiDefaultProvider",
             "MZGramAiSignOut", "MZGramAiSignOutConfirm", "MZGramAiSignedOut", "MZGramAiInfo", "MZGramAiMessage",
             "MZGramAiPrompt", "MZGramAiProvider", "MZGramAiModelOnSite", "MZGramAiPrivacyTitle",
             "MZGramAiPrivacyText", "MZGramAiStatusOpening", "MZGramAiStatusInserted",

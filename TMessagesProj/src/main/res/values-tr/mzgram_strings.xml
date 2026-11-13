@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">Son bir gün içinde durum, saat yerine \"5 dakika önce\" veya \"3 saat önce\" gösterir.</string>
     <string name="MZGramHidePhoneNumber">Telefon numarasını gizle</string>
     <string name="MZGramHidePhoneNumberInfo">Kendi numaranız Ayarlar\'da ve profilinizde gösterilmez, böylece ekran görüntülerine girmez. Diğerleri onu eskisi gibi görür.</string>
+    <string name="MZGramHideArchiveFolder">Arşivi sohbet listesinden gizle</string>
+    <string name="MZGramHideArchiveFolderInfo">Arşivlenmiş sohbetler satırı sohbet listesinde görünmez; arşiv üç nokta menüsünden açılır. Sohbetler arşivde kalır.</string>
+    <string name="MZGramDisableUnarchiveSwipe">\"Arşivden çıkar\" kaydırmasını kapat</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">Arşivdeki bir kaydırma artık sohbeti arşivden çıkarmaz.</string>
 </resources>

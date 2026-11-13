@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">خلال اليوم الأخير، تظهر الحالة \"قبل 5 دقائق\" أو \"قبل 3 ساعات\" بدلًا من الوقت.</string>
     <string name="MZGramHidePhoneNumber">إخفاء رقم الهاتف</string>
     <string name="MZGramHidePhoneNumberInfo">لا يظهر رقمك في الإعدادات وفي ملفك الشخصي، فلا يظهر في لقطات الشاشة. يراه الآخرون كما كان.</string>
+    <string name="MZGramHideArchiveFolder">إخفاء الأرشيف من قائمة المحادثات</string>
+    <string name="MZGramHideArchiveFolderInfo">يختفي صف المحادثات المؤرشفة من القائمة؛ يُفتح الأرشيف من قائمة النقاط الثلاث. تبقى المحادثات مؤرشفة.</string>
+    <string name="MZGramDisableUnarchiveSwipe">إيقاف السحب \"إلغاء الأرشفة\"</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">لم يعد السحب داخل الأرشيف يُخرج المحادثة منه.</string>
 </resources>

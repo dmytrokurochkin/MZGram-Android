@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">Durante el último día, el estado dice «hace 5 minutos» o «hace 3 horas» en lugar de la hora.</string>
     <string name="MZGramHidePhoneNumber">Ocultar número de teléfono</string>
     <string name="MZGramHidePhoneNumberInfo">Tu número no se muestra en Ajustes ni en tu perfil, así que no sale en capturas de pantalla. Los demás lo ven como antes.</string>
+    <string name="MZGramHideArchiveFolder">Ocultar el archivo de la lista de chats</string>
+    <string name="MZGramHideArchiveFolderInfo">La fila de chats archivados desaparece de la lista; el archivo se abre desde el menú de tres puntos. Los chats siguen archivados.</string>
+    <string name="MZGramDisableUnarchiveSwipe">Desactivar el deslizamiento «Desarchivar»</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">Deslizar en el archivo ya no saca el chat de él.</string>
 </resources>

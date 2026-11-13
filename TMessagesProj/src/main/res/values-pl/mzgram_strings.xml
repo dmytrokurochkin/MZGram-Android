@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">W ciągu ostatniej doby status pokazuje „5 minut temu” lub „3 godziny temu” zamiast godziny.</string>
     <string name="MZGramHidePhoneNumber">Ukryj numer telefonu</string>
     <string name="MZGramHidePhoneNumberInfo">Twój numer nie jest pokazywany w Ustawieniach i w Twoim profilu, więc nie trafi na zrzuty ekranu. Inni widzą go jak dotąd.</string>
+    <string name="MZGramHideArchiveFolder">Ukryj archiwum na liście czatów</string>
+    <string name="MZGramHideArchiveFolderInfo">Wiersza Archiwum nie ma na liście czatów; archiwum otwiera się z menu trzech kropek. Czaty zostają w archiwum.</string>
+    <string name="MZGramDisableUnarchiveSwipe">Wyłącz przesunięcie „Przywróć z archiwum”</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">Przesunięcie w archiwum nie wyjmuje już czatu z archiwum.</string>
 </resources>

@@ -451,6 +451,12 @@ public class MZGramConfig {
     // The own phone number is not shown in Settings and the own profile (MZGramHidePhone)
     public static boolean hidePhoneNumber = false;
 
+    // No Archived chats row in the chat list; the three-dots menu has it (MZGramArchiveRow)
+    public static boolean hideArchiveFolder = false;
+
+    // In the archive a swipe does nothing, no chat leaves it by accident
+    public static boolean disableUnarchiveSwipe = false;
+
     static {
         loadConfig(false);
     }
@@ -696,6 +702,8 @@ public class MZGramConfig {
             saveFolder = preferences.getString("saveFolder", "Telegram");
             relativeLastSeen = preferences.getBoolean("relativeLastSeen", false);
             hidePhoneNumber = preferences.getBoolean("hidePhoneNumber", false);
+            hideArchiveFolder = preferences.getBoolean("hideArchiveFolder", false);
+            disableUnarchiveSwipe = preferences.getBoolean("disableUnarchiveSwipe", false);
             configLoaded = true;
         }
     }
@@ -1766,5 +1774,15 @@ public class MZGramConfig {
     public static void toggleHidePhoneNumber() {
         hidePhoneNumber = !hidePhoneNumber;
         putBoolean("hidePhoneNumber", hidePhoneNumber);
+    }
+
+    public static void toggleHideArchiveFolder() {
+        hideArchiveFolder = !hideArchiveFolder;
+        putBoolean("hideArchiveFolder", hideArchiveFolder);
+    }
+
+    public static void toggleDisableUnarchiveSwipe() {
+        disableUnarchiveSwipe = !disableUnarchiveSwipe;
+        putBoolean("disableUnarchiveSwipe", disableUnarchiveSwipe);
     }
 }

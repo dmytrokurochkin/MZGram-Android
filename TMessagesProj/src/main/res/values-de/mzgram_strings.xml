@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">Innerhalb des letzten Tages zeigt der Status „vor 5 Minuten“ oder „vor 3 Stunden“ statt der Uhrzeit.</string>
     <string name="MZGramHidePhoneNumber">Telefonnummer ausblenden</string>
     <string name="MZGramHidePhoneNumberInfo">Deine Nummer wird in den Einstellungen und in deinem Profil nicht gezeigt und landet so nicht auf Bildschirmfotos. Andere sehen sie wie bisher.</string>
+    <string name="MZGramHideArchiveFolder">Archiv in der Chatliste ausblenden</string>
+    <string name="MZGramHideArchiveFolderInfo">Die Zeile Archivierte Chats fehlt in der Chatliste; das Archiv öffnet sich über das Drei-Punkte-Menü. Chats bleiben archiviert.</string>
+    <string name="MZGramDisableUnarchiveSwipe">Wischen „Aus Archiv entfernen“ aus</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">Wischen im Archiv holt keinen Chat mehr daraus heraus.</string>
 </resources>

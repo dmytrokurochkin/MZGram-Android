@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">No último dia, o status mostra \"há 5 minutos\" ou \"há 3 horas\" em vez do horário.</string>
     <string name="MZGramHidePhoneNumber">Ocultar número de telefone</string>
     <string name="MZGramHidePhoneNumberInfo">Seu número não aparece nas Configurações nem no seu perfil, então fica fora das capturas de tela. Os outros o veem como antes.</string>
+    <string name="MZGramHideArchiveFolder">Ocultar o arquivo da lista de conversas</string>
+    <string name="MZGramHideArchiveFolderInfo">A linha de conversas arquivadas some da lista; o arquivo abre pelo menu de três pontos. As conversas continuam arquivadas.</string>
+    <string name="MZGramDisableUnarchiveSwipe">Desativar o deslize \"Desarquivar\"</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">Deslizar no arquivo não tira mais a conversa dele.</string>
 </resources>

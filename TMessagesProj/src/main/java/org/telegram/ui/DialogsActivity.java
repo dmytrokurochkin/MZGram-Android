@@ -2505,6 +2505,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if ((filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_FOLDERS) || !allowSwipeDuringCurrentTouch || ((dialogId == getUserConfig().clientUserId || dialogId == 777000 || currentDialogsType == 7 || currentDialogsType == 8) && SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_ARCHIVE) || getMessagesController().isPromoDialog(dialogId, false) && getMessagesController().promoDialogType != MessagesController.PROMO_TYPE_PSA) {
                         return 0;
                     }
+                    // MZGram: Settings > MZGram > General > Disable "Unarchive" swipe: in the
+                    // archive a swipe would take the chat out of it, so it does nothing
+                    if (folderId != 0 && org.telegram.messenger.mzgram.MZGramConfig.disableUnarchiveSwipe) {
+                        return 0;
+                    }
                     boolean canSwipeBack = folderId == 0 && (ChatObject.isCommunity(currentAccount, dialogId) || SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_MUTE || SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_READ || SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_PIN || SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_DELETE) && !rightSlidingDialogContainer.hasFragment();
                     if (SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_READ) {
                         MessagesController.DialogFilter filter = null;
@@ -14026,6 +14031,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             args.putLong("user_id", UserConfig.getInstance(currentAccount).getClientUserId());
             presentFragment(new ChatActivity(args));
         });
+        // MZGram: the archive stays at hand while its row is hidden from the chat list
+        if (org.telegram.messenger.mzgram.MZGramConfig.hideArchiveFolder) {
+            io.add(R.drawable.msg_archive, getString(R.string.ArchivedChats), () -> {
+                Bundle args = new Bundle();
+                args.putInt("folderId", 1);
+                presentFragment(new DialogsActivity(args));
+            });
+        }
         if (ApplicationLoader.applicationLoaderInstance != null) {
             ApplicationLoader.applicationLoaderInstance.addItemOptions(io);
         }

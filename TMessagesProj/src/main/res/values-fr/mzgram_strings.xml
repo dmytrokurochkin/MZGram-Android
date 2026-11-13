@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">Pendant le dernier jour, le statut indique « il y a 5 minutes » ou « il y a 3 heures » au lieu de l\'heure.</string>
     <string name="MZGramHidePhoneNumber">Masquer le numéro de téléphone</string>
     <string name="MZGramHidePhoneNumberInfo">Votre numéro n\'apparaît plus dans les Réglages ni dans votre profil, il reste donc hors des captures d\'écran. Les autres le voient comme avant.</string>
+    <string name="MZGramHideArchiveFolder">Masquer l\'archive dans la liste</string>
+    <string name="MZGramHideArchiveFolderInfo">La ligne Discussions archivées disparaît de la liste ; l\'archive s\'ouvre depuis le menu à trois points. Les discussions restent archivées.</string>
+    <string name="MZGramDisableUnarchiveSwipe">Désactiver le balayage « Désarchiver »</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">Un balayage dans l\'archive n\'en sort plus la discussion.</string>
 </resources>

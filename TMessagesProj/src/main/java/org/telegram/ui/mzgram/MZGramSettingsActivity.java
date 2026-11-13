@@ -239,6 +239,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SAVE_FOLDER = 210;
     private static final int BUTTON_RELATIVE_LAST_SEEN = 211;
     private static final int BUTTON_HIDE_PHONE_NUMBER = 212;
+    private static final int BUTTON_HIDE_ARCHIVE_FOLDER = 213;
+    private static final int BUTTON_DISABLE_UNARCHIVE_SWIPE = 214;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -823,7 +825,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramPeerIdInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatArchive)));
+        items.add(check(BUTTON_HIDE_ARCHIVE_FOLDER, R.string.MZGramHideArchiveFolder, MZGramConfig.hideArchiveFolder, R.string.MZGramHideArchiveFolderInfo));
         items.add(check(BUTTON_OPEN_ARCHIVE_ON_PULL, R.string.MZGramOpenArchiveOnPull, MZGramConfig.openArchiveOnPull, R.string.MZGramOpenArchiveOnPullInfo));
+        items.add(check(BUTTON_DISABLE_UNARCHIVE_SWIPE, R.string.MZGramDisableUnarchiveSwipe, MZGramConfig.disableUnarchiveSwipe, R.string.MZGramDisableUnarchiveSwipeInfo));
         items.add(UItem.asShadow(null));
     }
 
@@ -1216,6 +1220,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_DISABLE_UNARCHIVE_SWIPE) {
+            MZGramConfig.toggleDisableUnarchiveSwipe();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableUnarchiveSwipe);
+        } else if (item.id == BUTTON_HIDE_ARCHIVE_FOLDER) {
+            MZGramConfig.toggleHideArchiveFolder();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideArchiveFolder);
+            org.telegram.messenger.mzgram.MZGramArchiveRow.apply();
         } else if (item.id == BUTTON_HIDE_PHONE_NUMBER) {
             MZGramConfig.toggleHidePhoneNumber();
             ((TextCheckCell) view).setChecked(MZGramConfig.hidePhoneNumber);

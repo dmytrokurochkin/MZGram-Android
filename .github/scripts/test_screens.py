@@ -89,6 +89,20 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("if (org.telegram.messenger.mzgram.MZGramHidePhone.hides(user, myProfile)) {", profile)
         self.assertIn("if (org.telegram.messenger.mzgram.MZGramHidePhone.hidesOwn()) {", profile)
 
+    def test_archive_row_and_swipe(self):
+        self.switch("hideArchiveFolder", "false", "BUTTON_HIDE_ARCHIVE_FOLDER")
+        self.switch("disableUnarchiveSwipe", "false", "BUTTON_DISABLE_UNARCHIVE_SWIPE")
+        controller = read(JAVA / "messenger/MessagesController.java")
+        add = controller[controller.index("private void addDialogToItsFolder(int index, TLRPC.Dialog dialog) {"):]
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.hideArchiveFolder) {\n                return;", add[:600].replace("\r\n", "\n"))
+        hidden = controller[controller.index("public boolean hasHiddenArchive() {"):]
+        self.assertIn("MZGramConfig.hideArchiveFolder", hidden[:300])
+        dialogs = read(JAVA / "ui/DialogsActivity.java")
+        self.assertIn("if (folderId != 0 && org.telegram.messenger.mzgram.MZGramConfig.disableUnarchiveSwipe) {", dialogs)
+        menu = dialogs[dialogs.index("getString(R.string.SavedMessages), () -> {"):]
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.hideArchiveFolder) {", menu[:800])
+        self.assertIn('args.putInt("folderId", 1);', menu[:800])
+
 
 if __name__ == "__main__":
     unittest.main()

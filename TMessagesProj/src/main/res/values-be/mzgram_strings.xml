@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">На працягу апошніх сутак статус паказвае «5 хвілін таму» або «3 гадзіны таму» замест часу.</string>
     <string name="MZGramHidePhoneNumber">Схаваць нумар тэлефона</string>
     <string name="MZGramHidePhoneNumberInfo">Ваш нумар не паказваецца ў Наладах і ў вашым профілі, таму не трапіць на здымкі экрана. Іншыя бачаць яго як раней.</string>
+    <string name="MZGramHideArchiveFolder">Схаваць архіў са спіса чатаў</string>
+    <string name="MZGramHideArchiveFolderInfo">Радка «Архіў чатаў» няма ў спісе чатаў; архіў адкрываецца з меню трох кропак. Чаты застаюцца ў архіве.</string>
+    <string name="MZGramDisableUnarchiveSwipe">Адключыць свайп «Вярнуць з архіва»</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">Свайп у архіве больш не вымае чат з архіва.</string>
 </resources>

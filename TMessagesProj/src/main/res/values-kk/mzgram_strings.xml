@@ -1249,4 +1249,8 @@
     <string name="MZGramRelativeLastSeenInfo">Соңғы тәулік ішінде күй уақыттың орнына «5 минут бұрын» немесе «3 сағат бұрын» деп көрсетеді.</string>
     <string name="MZGramHidePhoneNumber">Телефон нөмірін жасыру</string>
     <string name="MZGramHidePhoneNumberInfo">Нөміріңіз Баптауларда және профиліңізде көрсетілмейді, сондықтан скриншоттарға түспейді. Басқалар оны бұрынғыдай көреді.</string>
+    <string name="MZGramHideArchiveFolder">Мұрағатты чаттар тізімінен жасыру</string>
+    <string name="MZGramHideArchiveFolderInfo">«Мұрағатталған чаттар» жолы тізімде жоқ; мұрағат үш нүкте мәзірінен ашылады. Чаттар мұрағатта қалады.</string>
+    <string name="MZGramDisableUnarchiveSwipe">«Мұрағаттан шығару» сырғытуын өшіру</string>
+    <string name="MZGramDisableUnarchiveSwipeInfo">Мұрағаттағы сырғыту енді чатты мұрағаттан шығармайды.</string>
 </resources>

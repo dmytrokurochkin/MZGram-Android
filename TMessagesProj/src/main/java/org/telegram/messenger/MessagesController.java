@@ -9727,6 +9727,10 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean hasHiddenArchive() {
+        // MZGram: no archive row at all while it is hidden from the chat list
+        if (org.telegram.messenger.mzgram.MZGramConfig.hideArchiveFolder) {
+            return false;
+        }
         return SharedConfig.archiveHidden && dialogs_dict.get(DialogObject.makeFolderDialogId(1)) != null;
     }
 
@@ -22853,6 +22857,10 @@ public class MessagesController extends BaseController implements NotificationCe
     private void addDialogToItsFolder(int index, TLRPC.Dialog dialog) {
         int folderId;
         if (dialog instanceof TLRPC.TL_dialogFolder) {
+            // MZGram: Settings > MZGram > General > Hide archive from the chat list
+            if (org.telegram.messenger.mzgram.MZGramConfig.hideArchiveFolder) {
+                return;
+            }
             folderId = 0;
         } else {
             folderId = dialog.folder_id;

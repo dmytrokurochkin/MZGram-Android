@@ -101,6 +101,28 @@ class MZGramScreensTest {
         }
     }
 
+    // Hide archive from the chat list: the archive row leaves the main list
+    // of every account and nothing counts as a hidden archive; back off, it
+    // returns where the archive has chats
+    @Test
+    fun hideArchiveFolder_rowLeavesTheList() {
+        val before = MZGramConfig.hideArchiveFolder
+        val controller = org.telegram.messenger.MessagesController.getInstance(0)
+        try {
+            instrumentation.runOnMainSync {
+                if (!MZGramConfig.hideArchiveFolder) MZGramConfig.toggleHideArchiveFolder()
+                org.telegram.messenger.mzgram.MZGramArchiveRow.apply()
+            }
+            assertTrue("no archive row", controller.getDialogs(0).none { it is org.telegram.tgnet.TLRPC.TL_dialogFolder })
+            assertFalse("no hidden archive to pull out", controller.hasHiddenArchive())
+        } finally {
+            instrumentation.runOnMainSync {
+                if (MZGramConfig.hideArchiveFolder != before) MZGramConfig.toggleHideArchiveFolder()
+                org.telegram.messenger.mzgram.MZGramArchiveRow.apply()
+            }
+        }
+    }
+
     // Download boost keeps to its three levels, whatever is set
     @Test
     fun downloadBoost_keepsToItsLevels() {

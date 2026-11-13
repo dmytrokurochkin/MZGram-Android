@@ -3280,11 +3280,12 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         }
     }
 
+    // MZGram: Settings > MZGram > Appearance > Sections: the radius of the cards (Telegram's 16 dp by default)
     public void setSections() {
-        setSections(dp(12), dp(16), false);
+        setSections(dp(12), dp(org.telegram.messenger.mzgram.MZGramConfig.sectionRadius), false);
     }
     public void setSections(boolean topPadding) {
-        setSections(dp(12), dp(16), topPadding);
+        setSections(dp(12), dp(org.telegram.messenger.mzgram.MZGramConfig.sectionRadius), topPadding);
     }
     public void setSections(int padding, float roundRadius, boolean topPadding) {
         setSections(

@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">Қойындылардағы хабарлама санауышы</string>
     <string name="MZGramHideAllChatsTab">«Барлық чаттар» қалтасын жасыру</string>
     <string name="MZGramHideAllChatsTabInfo">Басқа қалталар болса, «Барлық чаттар» қойындысы жоқ, бірінші қалта ашылады. Қалталар реті сонда Telegram-ның «Қалталар» баптауларында өзгертіледі.</string>
+    <string name="MZGramHeaderSections">Бөлімдер</string>
+    <string name="MZGramSectionRadiusMax">Ең көп</string>
+    <string name="MZGramDividerStyle">Бөлгіш стилі</string>
+    <string name="MZGramDividerLine">Сызық</string>
+    <string name="MZGramDividerHidden">Сызықсыз</string>
+    <string name="MZGramSectionsInfo">Баптаулар тізімдеріндегі карталардың бұрыштары, Telegram-ныкі де (Telegram-дағыдай 16 dp), және олардың жолдары мен чаттар арасындағы сызықтар. Жаңа радиус өзгерістен кейін ашылған экрандарда қолданылады.</string>
 </resources>

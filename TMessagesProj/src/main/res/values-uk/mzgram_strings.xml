@@ -1276,4 +1276,10 @@
     <string name="MZGramFolderTabCounters">Лічильник повідомлень на вкладках</string>
     <string name="MZGramHideAllChatsTab">Сховати папку «Усі чати»</string>
     <string name="MZGramHideAllChatsTabInfo">Коли є інші папки, вкладки «Усі чати» немає, відкривається перша папка. Порядок папок тоді змінюється в налаштуваннях «Папки» Telegram.</string>
+    <string name="MZGramHeaderSections">Розділи</string>
+    <string name="MZGramSectionRadiusMax">Максимум</string>
+    <string name="MZGramDividerStyle">Стиль розділювача</string>
+    <string name="MZGramDividerLine">Лінія</string>
+    <string name="MZGramDividerHidden">Без ліній</string>
+    <string name="MZGramSectionsInfo">Кути карток у списках налаштувань, також Telegram (16 dp як у Telegram), і лінії між їхніми рядками та між чатами. Новий радіус діє на екранах, відкритих після зміни.</string>
 </resources>

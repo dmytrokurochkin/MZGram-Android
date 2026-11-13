@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">عدّاد الرسائل على علامات التبويب</string>
     <string name="MZGramHideAllChatsTab">إخفاء مجلد \"كل المحادثات\"</string>
     <string name="MZGramHideAllChatsTabInfo">عند وجود مجلدات أخرى لا تظهر علامة تبويب كل المحادثات ويُفتح المجلد الأول. يُغيَّر ترتيب المجلدات حينها من إعدادات المجلدات في Telegram.</string>
+    <string name="MZGramHeaderSections">الأقسام</string>
+    <string name="MZGramSectionRadiusMax">الأقصى</string>
+    <string name="MZGramDividerStyle">نمط الفاصل</string>
+    <string name="MZGramDividerLine">خط</string>
+    <string name="MZGramDividerHidden">بلا خطوط</string>
+    <string name="MZGramSectionsInfo">زوايا البطاقات في قوائم الإعدادات، وبطاقات Telegram أيضًا (16 dp كما في Telegram)، والخطوط بين صفوفها وبين المحادثات. تأخذ الشاشات المفتوحة بعد التغيير نصف القطر الجديد.</string>
 </resources>

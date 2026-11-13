@@ -252,6 +252,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SINGLE_CORNER_RADIUS = 223;
     private static final int BUTTON_FOLDER_TAB_COUNTERS = 224;
     private static final int BUTTON_HIDE_ALL_CHATS_TAB = 225;
+    private static final int BUTTON_DIVIDER_STYLE = 226;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -966,6 +967,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
         items.add(UItem.asShadow(getString(R.string.MZGramAppFontInfo)));
 
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderSections)));
+        items.add(UItem.asIntSlideView(1, 0, MZGramConfig.sectionRadius, MZGramConfig.SECTION_RADIUS_MAX,
+                val -> val == 0 ? getString(R.string.MZGramOff) : val == MZGramConfig.SECTION_RADIUS_MAX ? getString(R.string.MZGramSectionRadiusMax) : val + " dp", val -> {
+                    MZGramConfig.setSectionRadius(val);
+                    rebuildBelow();
+                }));
+        items.add(UItem.asButton(BUTTON_DIVIDER_STYLE, getString(R.string.MZGramDividerStyle), getString(MZGramConfig.dividerStyle == MZGramConfig.DIVIDER_HIDDEN ? R.string.MZGramDividerHidden : R.string.MZGramDividerLine)));
+        items.add(UItem.asShadow(getString(R.string.MZGramSectionsInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderGlass)));
         items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
         items.add(UItem.asShadow(getString(R.string.MZGramGlassOutlineInfo)));
@@ -1342,6 +1351,20 @@ public class MZGramSettingsActivity extends UniversalFragment {
             chooseSaveFolder();
         } else if (item.id == BUTTON_TITLE_TEXT) {
             chooseTitleText();
+        } else if (item.id == BUTTON_DIVIDER_STYLE) {
+            if (getParentActivity() == null) {
+                return;
+            }
+            String[] options = {getString(R.string.MZGramDividerLine), getString(R.string.MZGramDividerHidden)};
+            showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramDividerStyle), MZGramConfig.dividerStyle, (dialog, which) -> {
+                MZGramConfig.setDividerStyle(which);
+                // The lines drawn with Telegram's shared paint take the colour at once
+                org.telegram.ui.ActionBar.Theme.dividerPaint.setColor(org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_divider));
+                rebuildBelow();
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            }, getString(R.string.MZGramCancel)));
         } else if (item.id == BUTTON_UPLOAD_SPEED_BOOST) {
             MZGramConfig.toggleUploadSpeedBoost();
             ((TextCheckCell) view).setChecked(MZGramConfig.uploadSpeedBoost);

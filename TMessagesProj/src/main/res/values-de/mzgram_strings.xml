@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">Nachrichtenzähler auf Tabs</string>
     <string name="MZGramHideAllChatsTab">Ordner „Alle Chats“ ausblenden</string>
     <string name="MZGramHideAllChatsTabInfo">Bei anderen Ordnern fehlt der Tab Alle Chats und der erste Ordner öffnet sich. Die Reihenfolge der Ordner wird dann in den Ordner-Einstellungen von Telegram geändert.</string>
+    <string name="MZGramHeaderSections">Abschnitte</string>
+    <string name="MZGramSectionRadiusMax">Maximal</string>
+    <string name="MZGramDividerStyle">Trennlinienstil</string>
+    <string name="MZGramDividerLine">Linie</string>
+    <string name="MZGramDividerHidden">Keine Linien</string>
+    <string name="MZGramSectionsInfo">Die Ecken der Karten in Einstellungslisten, auch bei Telegram (16 dp wie bei Telegram), und die Linien zwischen ihren Zeilen und zwischen Chats. Nach der Änderung geöffnete Ansichten nehmen den neuen Radius.</string>
 </resources>

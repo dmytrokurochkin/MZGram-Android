@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">Sekmelerde mesaj sayacı</string>
     <string name="MZGramHideAllChatsTab">\"Tüm sohbetler\" klasörünü gizle</string>
     <string name="MZGramHideAllChatsTabInfo">Başka klasörler varken Tüm sohbetler sekmesi gösterilmez ve ilk klasör açılır. Klasörlerin sırası o zaman Telegram\'ın Klasörler ayarlarından değiştirilir.</string>
+    <string name="MZGramHeaderSections">Bölümler</string>
+    <string name="MZGramSectionRadiusMax">En fazla</string>
+    <string name="MZGramDividerStyle">Ayırıcı stili</string>
+    <string name="MZGramDividerLine">Çizgi</string>
+    <string name="MZGramDividerHidden">Çizgisiz</string>
+    <string name="MZGramSectionsInfo">Ayar listelerindeki kartların köşeleri, Telegram\'ınkiler de (Telegram\'daki gibi 16 dp), ve satırları ile sohbetler arasındaki çizgiler. Değişiklikten sonra açılan ekranlar yeni yarıçapı alır.</string>
 </resources>

@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">Message counter on tabs</string>
     <string name="MZGramHideAllChatsTab">Hide \"All chats\" folder</string>
     <string name="MZGramHideAllChatsTabInfo">With other folders, the All chats tab is left out and the first folder opens. The order of folders is then changed in Telegram\'s Folders settings.</string>
+    <string name="MZGramHeaderSections">Sections</string>
+    <string name="MZGramSectionRadiusMax">Maximum</string>
+    <string name="MZGramDividerStyle">Divider style</string>
+    <string name="MZGramDividerLine">Line</string>
+    <string name="MZGramDividerHidden">None</string>
+    <string name="MZGramSectionsInfo">The corners of the cards of settings lists, Telegram\'s too (16 dp as in Telegram), and the lines between their rows and between chats. Screens opened after the change take the new radius.</string>
 </resources>

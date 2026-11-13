@@ -491,6 +491,15 @@ public class MZGramConfig {
     // No All chats tab while there are other folders
     public static boolean hideAllChatsTab = false;
 
+    // Settings > MZGram > Appearance > Sections: the radius of section cards in dp (RecyclerListView.setSections),
+    // 16 as in Telegram, 0 square, SECTION_RADIUS_MAX the most
+    public static final int SECTION_RADIUS_MAX = 28;
+    public static int sectionRadius = 16;
+    // Divider style: lines between rows (Telegram) or none (Theme key_divider transparent)
+    public static final int DIVIDER_LINE = 0;
+    public static final int DIVIDER_HIDDEN = 1;
+    public static int dividerStyle = DIVIDER_LINE;
+
     static {
         loadConfig(false);
     }
@@ -750,6 +759,8 @@ public class MZGramConfig {
             singleCornerRadius = preferences.getBoolean("singleCornerRadius", false);
             folderTabCounters = preferences.getBoolean("folderTabCounters", true);
             hideAllChatsTab = preferences.getBoolean("hideAllChatsTab", false);
+            sectionRadius = Math.max(0, Math.min(SECTION_RADIUS_MAX, preferences.getInt("sectionRadius", 16)));
+            dividerStyle = preferences.getInt("dividerStyle", DIVIDER_LINE) == DIVIDER_HIDDEN ? DIVIDER_HIDDEN : DIVIDER_LINE;
             configLoaded = true;
         }
     }
@@ -1795,6 +1806,16 @@ public class MZGramConfig {
     public static void setTitleTextCustom(String value) {
         titleTextCustom = value == null ? "" : value;
         putString("titleTextCustom", titleTextCustom);
+    }
+
+    public static void setSectionRadius(int value) {
+        sectionRadius = Math.max(0, Math.min(SECTION_RADIUS_MAX, value));
+        putInt("sectionRadius", sectionRadius);
+    }
+
+    public static void setDividerStyle(int value) {
+        dividerStyle = value == DIVIDER_HIDDEN ? DIVIDER_HIDDEN : DIVIDER_LINE;
+        putInt("dividerStyle", dividerStyle);
     }
 
     public static void setDownloadSpeedBoost(int value) {

@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">Compteur de messages sur les onglets</string>
     <string name="MZGramHideAllChatsTab">Masquer le dossier « Toutes les discussions »</string>
     <string name="MZGramHideAllChatsTabInfo">S\'il y a d\'autres dossiers, l\'onglet Toutes les discussions disparaît et le premier dossier s\'ouvre. L\'ordre des dossiers se change alors dans les réglages Dossiers de Telegram.</string>
+    <string name="MZGramHeaderSections">Sections</string>
+    <string name="MZGramSectionRadiusMax">Maximal</string>
+    <string name="MZGramDividerStyle">Style du séparateur</string>
+    <string name="MZGramDividerLine">Ligne</string>
+    <string name="MZGramDividerHidden">Sans lignes</string>
+    <string name="MZGramSectionsInfo">Les coins des cartes des listes de réglages, aussi celles de Telegram (16 dp comme dans Telegram), et les lignes entre leurs rangées et entre les discussions. Les écrans ouverts après le changement prennent le nouveau rayon.</string>
 </resources>

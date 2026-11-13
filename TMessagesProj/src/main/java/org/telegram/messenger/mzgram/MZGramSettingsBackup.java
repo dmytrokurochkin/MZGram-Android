@@ -152,6 +152,9 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "downloadSpeedBoost", 0, 2);
         // Header text: MZGramTitleText LOGO..CUSTOM
         integer(CONFIG, "titleText", 0, 5);
+        // Sections: card radius 0..28 dp, divider style line or none
+        integer(CONFIG, "sectionRadius", 0, 28);
+        integer(CONFIG, "dividerStyle", 0, 1);
         // MZGramVoiceQuality TELEGRAM, HIGH, HIGHEST
         integer(CONFIG, "voiceQuality", 0, 2);
         // MZGramMonet STYLE_ANDROID, STYLE_TELEGRAM

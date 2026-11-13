@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">Contador de mensajes en pestañas</string>
     <string name="MZGramHideAllChatsTab">Ocultar la carpeta «Todos los chats»</string>
     <string name="MZGramHideAllChatsTabInfo">Con otras carpetas, la pestaña Todos los chats no aparece y se abre la primera carpeta. El orden de las carpetas se cambia entonces en los ajustes de Carpetas de Telegram.</string>
+    <string name="MZGramHeaderSections">Secciones</string>
+    <string name="MZGramSectionRadiusMax">Máximo</string>
+    <string name="MZGramDividerStyle">Estilo del separador</string>
+    <string name="MZGramDividerLine">Línea</string>
+    <string name="MZGramDividerHidden">Sin líneas</string>
+    <string name="MZGramSectionsInfo">Las esquinas de las tarjetas de las listas de ajustes, también las de Telegram (16 dp como en Telegram), y las líneas entre sus filas y entre chats. Las pantallas abiertas tras el cambio usan el nuevo radio.</string>
 </resources>

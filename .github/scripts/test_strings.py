@@ -57,8 +57,8 @@ SHARED_WORDS = {
     # "General" in Spanish, "Links" in German and Portuguese, "Navigation"
     # and "Messages" in German and French
     "General", "Links", "Navigation", "Messages",
-    # "Chats" in Spanish and German
-    "Chats",
+    # "Chats" in Spanish and German, "Sections" in French
+    "Chats", "Sections",
 }
 
 

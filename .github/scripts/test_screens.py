@@ -173,6 +173,21 @@ class ScreensTest(unittest.TestCase):
         flags = tabs[tabs.index("public int getMovementFlags("):]
         self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.hideAllChatsTab) {\n                return makeMovementFlags(0, 0);", flags[:500].replace("\r\n", "\n"))
 
+    def test_sections_and_dividers(self):
+        config = read(CONFIG)
+        self.assertIn("public static int sectionRadius = 16;", config)
+        self.assertIn("public static int dividerStyle = DIVIDER_LINE;", config)
+        backup = read(BACKUP)
+        self.assertIn('integer(CONFIG, "sectionRadius", 0, 28);', backup)
+        self.assertIn('integer(CONFIG, "dividerStyle", 0, 1);', backup)
+        page = read(PAGE)
+        self.assertIn("items.add(UItem.asButton(BUTTON_DIVIDER_STYLE, ", page)
+        self.assertIn("MZGramConfig.setSectionRadius(val);", page)
+        rlv = read(JAVA / "ui/Components/RecyclerListView.java")
+        self.assertEqual(2, rlv.count("setSections(dp(12), dp(org.telegram.messenger.mzgram.MZGramConfig.sectionRadius), "))
+        theme = read(JAVA / "ui/ActionBar/Theme.java")
+        self.assertEqual(2, theme.count("if (key == key_divider && org.telegram.messenger.mzgram.MZGramConfig.dividerStyle == org.telegram.messenger.mzgram.MZGramConfig.DIVIDER_HIDDEN) {"))
+
 
 if __name__ == "__main__":
     unittest.main()

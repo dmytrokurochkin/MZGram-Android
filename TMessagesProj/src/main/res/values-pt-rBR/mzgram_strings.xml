@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">Contador de mensagens nas abas</string>
     <string name="MZGramHideAllChatsTab">Ocultar a pasta \"Todas as conversas\"</string>
     <string name="MZGramHideAllChatsTabInfo">Com outras pastas, a aba Todas as conversas some e a primeira pasta abre. A ordem das pastas passa a ser mudada nas configurações de Pastas do Telegram.</string>
+    <string name="MZGramHeaderSections">Seções</string>
+    <string name="MZGramSectionRadiusMax">Máximo</string>
+    <string name="MZGramDividerStyle">Estilo do separador</string>
+    <string name="MZGramDividerLine">Linha</string>
+    <string name="MZGramDividerHidden">Sem linhas</string>
+    <string name="MZGramSectionsInfo">Os cantos dos cartões das listas de configurações, também os do Telegram (16 dp como no Telegram), e as linhas entre suas linhas e entre conversas. As telas abertas depois da mudança usam o novo raio.</string>
 </resources>

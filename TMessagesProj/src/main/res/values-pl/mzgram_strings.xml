@@ -1275,4 +1275,10 @@
     <string name="MZGramFolderTabCounters">Licznik wiadomości na kartach</string>
     <string name="MZGramHideAllChatsTab">Ukryj folder „Wszystkie czaty”</string>
     <string name="MZGramHideAllChatsTabInfo">Gdy są inne foldery, karty Wszystkie czaty nie ma i otwiera się pierwszy folder. Kolejność folderów zmienia się wtedy w ustawieniach Foldery Telegrama.</string>
+    <string name="MZGramHeaderSections">Sekcje</string>
+    <string name="MZGramSectionRadiusMax">Maksimum</string>
+    <string name="MZGramDividerStyle">Styl separatora</string>
+    <string name="MZGramDividerLine">Linia</string>
+    <string name="MZGramDividerHidden">Bez linii</string>
+    <string name="MZGramSectionsInfo">Rogi kart w listach ustawień, także Telegrama (16 dp jak w Telegramie), oraz linie między ich wierszami i między czatami. Nowy promień mają ekrany otwarte po zmianie.</string>
 </resources>

@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">Rozmycie zawsze</string>
     <string name="MZGramForceBlurInfo">Efekty rozmycia (szklane paski i menu wiadomości) są rysowane w każdym motywie, także tam, gdzie Telegram wyłącza je dla jasnych lub ciemnych motywów. Urządzenie musi je obsługiwać.</string>
     <string name="MZGramRemoveMessageTail">Usuń ogonek wiadomości</string>
+    <string name="MZGramHideShareButton">Ukryj boczny przycisk „Udostępnij”</string>
+    <string name="MZGramShowResultsBeforeVoting">Wyniki przed głosowaniem</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">Pokazuj głosy przy każdej odpowiedzi ankiety, zanim zagłosujesz, chyba że wyniki są ukryte do jej zamknięcia.</string>
 </resources>

@@ -81,6 +81,8 @@ Each item has its own switch.
 | QR Code | When a photo holds a QR code, shows its link or text. The photo is scanned on the device. | 1.0.0 |
 | Forward without sender | Opens the forward screen with the sender's name already hidden. | 1.0.0 |
 | Remove message tail | Settings > MZGram > Chats > Messages. Message bubbles have no tail: the corner where it was is rounded like the others. Off by default. | Next release |
+| Hide side Share button | Settings > MZGram > Chats > Messages. No side Share button next to channel posts and bot messages; Saved Messages keep the button that opens the original. Off by default. | Next release |
+| Results before voting | Settings > MZGram > Chats > Messages. An open poll shows the votes next to each answer before you vote, unless its results are hidden until it closes (its creator still sees them). Off by default. | Next release |
 | Copy without formatting | Only the plain text of a message, without bold, links or emoji styling. Its switch is in Settings > MZGram > Chats. Off by default. | Next release |
 
 ### Ask AI

@@ -1433,6 +1433,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private boolean pollHasVoteRestrictions;
     private boolean pollClosed;
     private boolean pollResultsPreview;
+
+    // MZGram: Results before voting (idea from exteraless
+    // ChatMessageCell.isPollResultsPreviewEnabled, GPL-3.0): an open poll shows
+    // how many voted for each answer before one votes, unless its results are
+    // hidden until it closes (the creator still sees them)
+    private static boolean mzgramPollResultsPreview(TLRPC.TL_messageMediaPoll media) {
+        if (!org.telegram.messenger.mzgram.MZGramConfig.showResultsBeforeVoting || media == null || media.poll == null
+                || media.results == null || media.results.total_voters <= 0 || media.results.results == null
+                || media.results.results.isEmpty() || media.poll.closed) {
+            return false;
+        }
+        return !media.poll.hide_results_until_close || media.poll.creator;
+    }
     private long lastPollCloseTime;
     private String closeTimeText;
     private int closeTimeWidth;
@@ -11442,7 +11455,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             total_voters = media.results.total_voters;
             timerTransitionProgress = media.poll.close_date - ConnectionsManager.getInstance(currentAccount).getCurrentTime() < 60 ? 0.0f : 1.0f;
             pollClosed = media.poll.closed;
-            pollResultsPreview = messageObject.forceShowPollResults;
+            // MZGram: Settings > MZGram > Chats > Results before voting
+            pollResultsPreview = messageObject.forceShowPollResults || mzgramPollResultsPreview(media);
             pollHideResults = media.poll.hide_results_until_close;
             title = media.poll.question;
             if (pollClosed) {
@@ -18870,6 +18884,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     protected boolean checkNeedDrawShareButton(MessageObject messageObject) {
         if (messageObject.isWideChannelPost()) return false; // MZGram: no room for the side button
+        // MZGram: Settings > MZGram > Chats > Hide side Share button (Saved Messages keep the button to the original)
+        if (org.telegram.messenger.mzgram.MZGramConfig.hideShareButton && !messageObject.isSaved) return false;
         if (isReportChat) return false;
         if (currentMessageObject.deleted && !currentMessageObject.deletedByThanos) return false;
         if (currentMessageObject.isSponsored()) return false;

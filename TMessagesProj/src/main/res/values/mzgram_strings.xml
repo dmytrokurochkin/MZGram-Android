@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">Force blur</string>
     <string name="MZGramForceBlurInfo">Blur effects (glass bars and message menu) are drawn in every theme, also where Telegram turns them off for light or dark themes. The device still has to be able to draw them.</string>
     <string name="MZGramRemoveMessageTail">Remove message tail</string>
+    <string name="MZGramHideShareButton">Hide side \"Share\" button</string>
+    <string name="MZGramShowResultsBeforeVoting">Results before voting</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">Show the votes next to each answer of a poll before you vote, unless its results are hidden until it closes.</string>
 </resources>

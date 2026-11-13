@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">Desenfoque siempre</string>
     <string name="MZGramForceBlurInfo">Los efectos de desenfoque (barras de cristal y menú del mensaje) se dibujan en todos los temas, también donde Telegram los desactiva para temas claros u oscuros. El dispositivo debe poder dibujarlos.</string>
     <string name="MZGramRemoveMessageTail">Quitar la cola del mensaje</string>
+    <string name="MZGramHideShareButton">Ocultar el botón lateral «Compartir»</string>
+    <string name="MZGramShowResultsBeforeVoting">Resultados antes de votar</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">Muestra los votos de cada respuesta de una encuesta antes de que votes, salvo que sus resultados estén ocultos hasta el cierre.</string>
 </resources>

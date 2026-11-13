@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">Әрдайым бұлыңғырлық</string>
     <string name="MZGramForceBlurInfo">Бұлыңғыр әсерлері (шыны панельдер мен хабарлама мәзірі) барлық тақырыпта салынады, Telegram оларды ашық не күңгірт тақырыптар үшін өшірген жерде де. Құрылғы оларды сала алуы керек.</string>
     <string name="MZGramRemoveMessageTail">Хабарлама құйрығын алып тастау</string>
+    <string name="MZGramHideShareButton">Бүйірдегі «Бөлісу» түймесін жасыру</string>
+    <string name="MZGramShowResultsBeforeVoting">Дауыс бергенге дейінгі нәтижелер</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">Нәтижелері жабылғанша жасырылмаса, дауыс бергенге дейін сауалнаманың әр жауабының жанында дауыстарды көрсету.</string>
 </resources>

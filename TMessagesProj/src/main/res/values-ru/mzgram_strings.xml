@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">Размытие всегда</string>
     <string name="MZGramForceBlurInfo">Эффекты размытия (стеклянные панели и меню сообщения) рисуются во всех темах, также там, где Telegram выключает их для светлых или тёмных тем. Устройство должно их поддерживать.</string>
     <string name="MZGramRemoveMessageTail">Убрать хвостик сообщения</string>
+    <string name="MZGramHideShareButton">Скрыть боковую кнопку «Поделиться»</string>
+    <string name="MZGramShowResultsBeforeVoting">Результаты до голосования</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">Показывать результаты голосов рядом с каждым вариантом опроса до вашего голосования, если результаты не скрыты до закрытия.</string>
 </resources>

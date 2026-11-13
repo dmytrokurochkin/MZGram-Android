@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">Flou forcé</string>
     <string name="MZGramForceBlurInfo">Les effets de flou (barres en verre et menu du message) sont dessinés dans tous les thèmes, même là où Telegram les coupe pour les thèmes clairs ou sombres. L\'appareil doit pouvoir les dessiner.</string>
     <string name="MZGramRemoveMessageTail">Retirer la queue des bulles</string>
+    <string name="MZGramHideShareButton">Masquer le bouton latéral « Partager »</string>
+    <string name="MZGramShowResultsBeforeVoting">Résultats avant de voter</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">Affiche les votes à côté de chaque réponse d\'un sondage avant votre vote, sauf si ses résultats sont cachés jusqu\'à sa clôture.</string>
 </resources>

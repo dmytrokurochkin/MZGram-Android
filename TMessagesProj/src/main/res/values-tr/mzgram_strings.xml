@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">Bulanıklık her zaman</string>
     <string name="MZGramForceBlurInfo">Bulanıklık efektleri (cam çubuklar ve mesaj menüsü), Telegram\'ın açık veya koyu temalar için kapattığı yerlerde de tüm temalarda çizilir. Cihazın bunları çizebilmesi gerekir.</string>
     <string name="MZGramRemoveMessageTail">Mesaj kuyruğunu kaldır</string>
+    <string name="MZGramHideShareButton">Yandaki \"Paylaş\" düğmesini gizle</string>
+    <string name="MZGramShowResultsBeforeVoting">Oy vermeden sonuçlar</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">Sonuçları kapanana kadar gizli değilse, oy vermeden önce anketteki her yanıtın oylarını gösterir.</string>
 </resources>

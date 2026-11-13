@@ -506,6 +506,12 @@ public class MZGramConfig {
     // Message bubbles without the tail: every corner rounded (MessageDrawable, ChatMessageCell)
     public static boolean removeMessageTail = false;
 
+    // No side Share button next to channel posts and bot messages (ChatMessageCell)
+    public static boolean hideShareButton = false;
+
+    // Open polls show their results before one votes, unless hidden until the poll closes
+    public static boolean showResultsBeforeVoting = false;
+
     static {
         loadConfig(false);
     }
@@ -769,6 +775,8 @@ public class MZGramConfig {
             dividerStyle = preferences.getInt("dividerStyle", DIVIDER_LINE) == DIVIDER_HIDDEN ? DIVIDER_HIDDEN : DIVIDER_LINE;
             forceBlur = preferences.getBoolean("forceBlur", false);
             removeMessageTail = preferences.getBoolean("removeMessageTail", false);
+            hideShareButton = preferences.getBoolean("hideShareButton", false);
+            showResultsBeforeVoting = preferences.getBoolean("showResultsBeforeVoting", false);
             configLoaded = true;
         }
     }
@@ -1930,5 +1938,15 @@ public class MZGramConfig {
     public static void toggleRemoveMessageTail() {
         removeMessageTail = !removeMessageTail;
         putBoolean("removeMessageTail", removeMessageTail);
+    }
+
+    public static void toggleHideShareButton() {
+        hideShareButton = !hideShareButton;
+        putBoolean("hideShareButton", hideShareButton);
+    }
+
+    public static void toggleShowResultsBeforeVoting() {
+        showResultsBeforeVoting = !showResultsBeforeVoting;
+        putBoolean("showResultsBeforeVoting", showResultsBeforeVoting);
     }
 }

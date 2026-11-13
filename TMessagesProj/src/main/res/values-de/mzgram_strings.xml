@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">Unschärfe immer</string>
     <string name="MZGramForceBlurInfo">Unschärfe-Effekte (Glasleisten und Nachrichtenmenü) erscheinen in jedem Design, auch wo Telegram sie für helle oder dunkle Designs abschaltet. Das Gerät muss sie zeichnen können.</string>
     <string name="MZGramRemoveMessageTail">Sprechblasen-Spitze entfernen</string>
+    <string name="MZGramHideShareButton">Seitliche Taste „Teilen“ ausblenden</string>
+    <string name="MZGramShowResultsBeforeVoting">Ergebnisse vor der Abstimmung</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">Zeigt die Stimmen neben jeder Antwort einer Umfrage, bevor du abstimmst, außer die Ergebnisse sind bis zum Ende verborgen.</string>
 </resources>

@@ -203,6 +203,14 @@ class ScreensTest(unittest.TestCase):
         cell = read(JAVA / "ui/Cells/ChatMessageCell.java")
         self.assertEqual(3, cell.count("org.telegram.messenger.mzgram.MZGramConfig.removeMessageTail"))
 
+    def test_share_button_and_poll_results(self):
+        self.switch("hideShareButton", "false", "BUTTON_HIDE_SHARE_BUTTON")
+        self.switch("showResultsBeforeVoting", "false", "BUTTON_SHOW_RESULTS_BEFORE_VOTING")
+        cell = read(JAVA / "ui/Cells/ChatMessageCell.java")
+        self.assertIn("pollResultsPreview = messageObject.forceShowPollResults || mzgramPollResultsPreview(media);", cell)
+        self.assertIn("return !media.poll.hide_results_until_close || media.poll.creator;", cell)
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.hideShareButton && !messageObject.isSaved) return false;", cell)
+
 
 if __name__ == "__main__":
     unittest.main()

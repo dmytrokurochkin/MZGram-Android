@@ -1284,4 +1284,7 @@
     <string name="MZGramForceBlur">التمويه دائمًا</string>
     <string name="MZGramForceBlurInfo">تُرسم تأثيرات التمويه (الأشرطة الزجاجية وقائمة الرسالة) في كل السمات، حتى حيث يوقفها Telegram للسمات الفاتحة أو الداكنة. يجب أن يكون الجهاز قادرًا على رسمها.</string>
     <string name="MZGramRemoveMessageTail">إزالة ذيل الرسالة</string>
+    <string name="MZGramHideShareButton">إخفاء زر \"مشاركة\" الجانبي</string>
+    <string name="MZGramShowResultsBeforeVoting">النتائج قبل التصويت</string>
+    <string name="MZGramShowResultsBeforeVotingInfo">اعرض الأصوات بجانب كل إجابة في الاستطلاع قبل أن تصوّت، ما لم تكن نتائجه مخفية حتى إغلاقه.</string>
 </resources>

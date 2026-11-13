@@ -278,6 +278,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_TELEGRAM_AI_IV_SUMMARY = 249;
     private static final int BUTTON_QUICK_TRANSITION_CHANNELS = 250;
     private static final int BUTTON_QUICK_TRANSITION_TOPICS = 251;
+    private static final int BUTTON_ROUND_VIDEO_CAMERA = 252;
+    private static final int BUTTON_REMEMBER_LAST_CAMERA = 253;
+    private static final int BUTTON_STATIC_ZOOM = 254;
+    private static final int BUTTON_INLINE_UNITS = 255;
+    private static final int BUTTON_INLINE_TIME_ZONES = 256;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -1121,6 +1126,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_PLAIN_CODE, R.string.MZGramPlainCode, MZGramConfig.plainCodeBlocks, R.string.MZGramPlainCodeInfo));
         items.add(check(BUTTON_HEX_COLOR, R.string.MZGramHexColorSwatch, MZGramConfig.hexColorSwatch, R.string.MZGramHexColorSwatchInfo));
         items.add(check(BUTTON_INLINE_MATH, R.string.MZGramInlineMath, MZGramConfig.inlineMath, R.string.MZGramInlineMathInfo));
+        items.add(check(BUTTON_INLINE_UNITS, R.string.MZGramInlineUnits, MZGramConfig.inlineUnits, R.string.MZGramInlineUnitsInfo));
+        items.add(check(BUTTON_INLINE_TIME_ZONES, R.string.MZGramInlineTimeZones, MZGramConfig.inlineTimeZones, R.string.MZGramInlineTimeZonesInfo));
         items.add(check(BUTTON_COPY_PLAIN, R.string.MZGramCopyPlain, MZGramConfig.copyPlainText, R.string.MZGramCopyPlainInfo));
         items.add(check(BUTTON_CLEAN_LINKS, R.string.MZGramCleanLinks, MZGramConfig.cleanLinks, R.string.MZGramCleanLinksInfo));
         items.add(UItem.asShadow(getString(R.string.MZGramSectionMessageMenuInfo)));
@@ -1144,6 +1151,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(BUTTON_ROUND_VIDEO_ADVANCED, getString(R.string.MZGramRoundVideoAdvanced)));
         }
         items.add(check(BUTTON_DISABLE_INSTANT_CAMERA, R.string.MZGramDisableInstantCamera, MZGramConfig.disableInstantCamera, R.string.MZGramDisableInstantCameraInfo));
+        items.add(UItem.asButton(BUTTON_ROUND_VIDEO_CAMERA, getString(R.string.MZGramRoundVideoCamera), getString(MZGramConfig.roundVideoFrontCamera ? R.string.MZGramCameraFront : R.string.MZGramCameraBack)));
+        items.add(check(BUTTON_REMEMBER_LAST_CAMERA, R.string.MZGramRememberLastCamera, MZGramConfig.rememberLastCamera, R.string.MZGramRememberLastCameraInfo));
+        items.add(check(BUTTON_STATIC_ZOOM, R.string.MZGramStaticZoom, MZGramConfig.staticZoom, R.string.MZGramStaticZoomInfo));
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderPhoto)));
@@ -1394,6 +1404,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_INLINE_TIME_ZONES) {
+            MZGramConfig.toggleInlineTimeZones();
+            ((TextCheckCell) view).setChecked(MZGramConfig.inlineTimeZones);
+        } else if (item.id == BUTTON_INLINE_UNITS) {
+            MZGramConfig.toggleInlineUnits();
+            ((TextCheckCell) view).setChecked(MZGramConfig.inlineUnits);
+        } else if (item.id == BUTTON_STATIC_ZOOM) {
+            MZGramConfig.toggleStaticZoom();
+            ((TextCheckCell) view).setChecked(MZGramConfig.staticZoom);
+        } else if (item.id == BUTTON_REMEMBER_LAST_CAMERA) {
+            MZGramConfig.toggleRememberLastCamera();
+            ((TextCheckCell) view).setChecked(MZGramConfig.rememberLastCamera);
         } else if (item.id == BUTTON_QUICK_TRANSITION_TOPICS) {
             MZGramConfig.toggleQuickTransitionTopics();
             ((TextCheckCell) view).setChecked(MZGramConfig.quickTransitionTopics);
@@ -1783,6 +1805,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             ((TextCheckCell) view).setChecked(MZGramConfig.disableGreetingSticker);
         } else if (item.id == BUTTON_CHANNEL_BOTTOM_BUTTON) {
             chooseFrom(R.string.MZGramChannelBottomButton, CHANNEL_BOTTOM_TITLES, MZGramConfig.channelBottomButton, MZGramConfig::setChannelBottomButton);
+        } else if (item.id == BUTTON_ROUND_VIDEO_CAMERA) {
+            chooseFrom(R.string.MZGramRoundVideoCamera, new int[]{R.string.MZGramCameraFront, R.string.MZGramCameraBack},
+                    MZGramConfig.roundVideoFrontCamera ? 0 : 1, which -> MZGramConfig.setRoundVideoFrontCamera(which == 0));
         } else if (item.id == BUTTON_SWIPE_ACTION) {
             chooseFrom(R.string.MZGramSwipeAction, org.telegram.ui.mzgram.MZGramSwipeAction.TITLES, MZGramConfig.swipeAction, MZGramConfig::setSwipeAction);
         } else if (item.id == BUTTON_OPEN_ARCHIVE_ON_PULL) {

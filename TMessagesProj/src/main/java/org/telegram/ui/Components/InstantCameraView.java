@@ -779,7 +779,9 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         selectedCamera = null;
         if (!fromPaused) {
             if (!useCamera2) {
-                isFrontface = true;
+                isFrontface = org.telegram.messenger.mzgram.MZGramConfig.roundVideoFrontCamera; // MZGram: Camera in video messages
+            } else if (!org.telegram.messenger.mzgram.MZGramConfig.roundVideoFrontCamera) {
+                isFrontface = false; // MZGram: Camera in video messages
             }
             updateFlash();
             recordedTime = 0;
@@ -1236,6 +1238,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             }
         }
         isFrontface = !isFrontface;
+        org.telegram.messenger.mzgram.MZGramConfig.rememberRoundVideoCamera(isFrontface); // MZGram: Remember last camera
         updateFlash();
         if (useCamera2) {
             if (bothCameras) {
@@ -4031,7 +4034,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     ValueAnimator finishZoomTransition;
 
     public void finishZoom() {
-        if (finishZoomTransition != null) {
+        if (finishZoomTransition != null || org.telegram.messenger.mzgram.MZGramConfig.staticZoom) { // MZGram: Static zoom keeps the zoom where the fingers left it
             return;
         }
         // MZGram: CameraX returns to the slider's zoom, or to its start zoom
@@ -4160,6 +4163,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             }
         }
         isFrontface = !isFrontface;
+        org.telegram.messenger.mzgram.MZGramConfig.rememberRoundVideoCamera(isFrontface); // MZGram: Remember last camera
         updateFlash();
         if (dual) {
             if (cameraThread != null) {

@@ -1333,4 +1333,15 @@
     <string name="MZGramQuickTransitionChannels">Kanallar</string>
     <string name="MZGramQuickTransitionTopics">Konular</string>
     <string name="MZGramQuickTransitionInfo">Bir kanalın veya konunun sonunda, Telegram\'daki gibi okunmamış sonrakini açmak için yukarı çekin.</string>
+    <string name="MZGramRoundVideoCamera">Görüntülü mesajlarda kamera</string>
+    <string name="MZGramCameraFront">Ön</string>
+    <string name="MZGramCameraBack">Arka</string>
+    <string name="MZGramRememberLastCamera">Son kamerayı hatırla</string>
+    <string name="MZGramRememberLastCameraInfo">Görüntülü mesajlar en son kullanılan kamerayla başlar.</string>
+    <string name="MZGramStaticZoom">Sabit yakınlaştırma</string>
+    <string name="MZGramStaticZoomInfo">Görüntülü mesaj kaydederken parmaklarınızı kaldırdığınızda yakınlaştırma olduğu yerde kalır.</string>
+    <string name="MZGramInlineUnits">Hesap makinesinde birimler</string>
+    <string name="MZGramInlineUnitsInfo">Mesaj alanına bir dönüşüm ve \"=\" yazın (5 km in mi=), sonuç eklenir (3.10686 mi): uzunluk, kütle, hacim, hız, alan, veri, zaman ve sıcaklık.</string>
+    <string name="MZGramInlineTimeZones">Hesap makinesinde saat dilimleri</string>
+    <string name="MZGramInlineTimeZonesInfo">Bir saat, şehir veya dilim, \"in\", bir diğeri ve \"=\" yazın (15:00 Istanbul in Tokyo=), oradaki saat eklenir (22:00). Şehirler, UTC+3 ve EST gibi kısaltmalar çevrimdışı çalışır.</string>
 </resources>

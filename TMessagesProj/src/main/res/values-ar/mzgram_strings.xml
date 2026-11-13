@@ -1333,4 +1333,15 @@
     <string name="MZGramQuickTransitionChannels">القنوات</string>
     <string name="MZGramQuickTransitionTopics">المواضيع</string>
     <string name="MZGramQuickTransitionInfo">في نهاية القناة أو الموضوع، اسحب لأعلى لفتح التالي غير المقروء، كما في Telegram.</string>
+    <string name="MZGramRoundVideoCamera">الكاميرا في رسائل الفيديو</string>
+    <string name="MZGramCameraFront">الأمامية</string>
+    <string name="MZGramCameraBack">الخلفية</string>
+    <string name="MZGramRememberLastCamera">تذكر آخر كاميرا</string>
+    <string name="MZGramRememberLastCameraInfo">تبدأ رسائل الفيديو بآخر كاميرا مستخدمة.</string>
+    <string name="MZGramStaticZoom">تكبير ثابت</string>
+    <string name="MZGramStaticZoomInfo">أثناء تسجيل رسالة فيديو يبقى التكبير كما هو عند رفع أصابعك.</string>
+    <string name="MZGramInlineUnits">الوحدات في الآلة الحاسبة</string>
+    <string name="MZGramInlineUnitsInfo">اكتب تحويلًا و«=» في حقل الرسالة (5 km in mi=) فتُضاف النتيجة (3.10686 mi): الطول والكتلة والحجم والسرعة والمساحة والبيانات والوقت والحرارة.</string>
+    <string name="MZGramInlineTimeZones">المناطق الزمنية في الآلة الحاسبة</string>
+    <string name="MZGramInlineTimeZonesInfo">اكتب وقتًا ومدينة أو منطقة و«in» وأخرى و«=» (15:00 Dubai in Tokyo=) فيُضاف الوقت هناك (22:00). تعمل المدن وUTC+3 والاختصارات مثل EST دون اتصال.</string>
 </resources>

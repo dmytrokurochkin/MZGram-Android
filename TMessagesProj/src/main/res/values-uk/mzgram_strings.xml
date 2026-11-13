@@ -1334,4 +1334,15 @@
     <string name="MZGramQuickTransitionChannels">Канали</string>
     <string name="MZGramQuickTransitionTopics">Теми</string>
     <string name="MZGramQuickTransitionInfo">Наприкінці каналу або теми потягніть угору, щоб відкрити наступний непрочитаний, як у Telegram.</string>
+    <string name="MZGramRoundVideoCamera">Камера у відеоповідомленнях</string>
+    <string name="MZGramCameraFront">Фронтальна</string>
+    <string name="MZGramCameraBack">Основна</string>
+    <string name="MZGramRememberLastCamera">Пам\'ятати останню камеру</string>
+    <string name="MZGramRememberLastCameraInfo">Запис відеоповідомлень починається з камери, використаної останньою.</string>
+    <string name="MZGramStaticZoom">Статичний зум</string>
+    <string name="MZGramStaticZoomInfo">Під час запису відеоповідомлення зум не скинеться, якщо ви відпустите пальці.</string>
+    <string name="MZGramInlineUnits">Одиниці в калькуляторі</string>
+    <string name="MZGramInlineUnitsInfo">Введіть перетворення і «=» у полі повідомлення (5 км в милі=), і результат додасться (3.10686 милі): довжина, маса, об\'єм, швидкість, площа, дані, час і температура.</string>
+    <string name="MZGramInlineTimeZones">Часові пояси в калькуляторі</string>
+    <string name="MZGramInlineTimeZonesInfo">Введіть час, місто або пояс, «в», інше і «=» (15:00 Київ в Токіо=), і додасться час там (22:00). Міста, UTC+3 і скорочення на зразок EST працюють офлайн.</string>
 </resources>

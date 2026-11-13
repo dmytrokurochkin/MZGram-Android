@@ -1333,4 +1333,15 @@
     <string name="MZGramQuickTransitionChannels">Channels</string>
     <string name="MZGramQuickTransitionTopics">Topics</string>
     <string name="MZGramQuickTransitionInfo">At the end of a channel or topic, pull up to open the next unread one, as in Telegram.</string>
+    <string name="MZGramRoundVideoCamera">Camera in video messages</string>
+    <string name="MZGramCameraFront">Front</string>
+    <string name="MZGramCameraBack">Back</string>
+    <string name="MZGramRememberLastCamera">Remember last camera</string>
+    <string name="MZGramRememberLastCameraInfo">Video messages start with the camera used last.</string>
+    <string name="MZGramStaticZoom">Static zoom</string>
+    <string name="MZGramStaticZoomInfo">While recording a video message, the zoom stays where it is when you lift your fingers.</string>
+    <string name="MZGramInlineUnits">Units in the calculator</string>
+    <string name="MZGramInlineUnitsInfo">Type a conversion and \"=\" in the message field (5 km in mi=) and the result is added (3.10686 mi): length, mass, volume, speed, area, data, time and temperature.</string>
+    <string name="MZGramInlineTimeZones">Time zones in the calculator</string>
+    <string name="MZGramInlineTimeZonesInfo">Type a time, a city or zone, \"in\", another one and \"=\" (15:00 Kyiv in Tokyo=) and the time there is added (22:00). Cities, UTC+3 and abbreviations such as EST work offline.</string>
 </resources>

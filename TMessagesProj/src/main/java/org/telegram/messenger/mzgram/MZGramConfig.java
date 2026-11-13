@@ -583,6 +583,21 @@ public class MZGramConfig {
     // At the end of a topic, pulling up opens the next unread topic, as in Telegram (ChatActivity)
     public static boolean quickTransitionTopics = true;
 
+    // Camera in video messages: the front one as in Telegram, or the back one (InstantCameraView)
+    public static boolean roundVideoFrontCamera = true;
+
+    // A switch of camera while recording a video message becomes the camera to start with (InstantCameraView)
+    public static boolean rememberLastCamera = false;
+
+    // The zoom of a video message stays where the fingers left it (InstantCameraView.finishZoom)
+    public static boolean staticZoom = false;
+
+    // "5 km in mi=" in the message field adds the conversion (MZGramUnitConvert)
+    public static boolean inlineUnits = false;
+
+    // "15:00 Kyiv in Tokyo=" in the message field adds the time there (MZGramUnitConvert)
+    public static boolean inlineTimeZones = false;
+
     static {
         loadConfig(false);
     }
@@ -878,6 +893,11 @@ public class MZGramConfig {
             telegramAiIvSummary = preferences.getBoolean("telegramAiIvSummary", true);
             quickTransitionChannels = preferences.getBoolean("quickTransitionChannels", true);
             quickTransitionTopics = preferences.getBoolean("quickTransitionTopics", true);
+            roundVideoFrontCamera = preferences.getBoolean("roundVideoFrontCamera", true);
+            rememberLastCamera = preferences.getBoolean("rememberLastCamera", false);
+            staticZoom = preferences.getBoolean("staticZoom", false);
+            inlineUnits = preferences.getBoolean("inlineUnits", false);
+            inlineTimeZones = preferences.getBoolean("inlineTimeZones", false);
             configLoaded = true;
         }
     }
@@ -1029,6 +1049,19 @@ public class MZGramConfig {
     public static void setChannelBottomButton(int value) {
         channelBottomButton = value < CHANNEL_BOTTOM_MUTE || value > CHANNEL_BOTTOM_HIDE ? CHANNEL_BOTTOM_MUTE : value;
         putInt("channelBottomButton", channelBottomButton);
+    }
+
+    // Remember last camera: a switch of camera while recording a video message becomes the camera to start with
+    public static void rememberRoundVideoCamera(boolean front) {
+        if (rememberLastCamera && roundVideoFrontCamera != front) {
+            roundVideoFrontCamera = front;
+            putBoolean("roundVideoFrontCamera", front);
+        }
+    }
+
+    public static void setRoundVideoFrontCamera(boolean front) {
+        roundVideoFrontCamera = front;
+        putBoolean("roundVideoFrontCamera", front);
     }
 
     public static void setSwipeAction(int value) {
@@ -2170,5 +2203,25 @@ public class MZGramConfig {
     public static void toggleQuickTransitionTopics() {
         quickTransitionTopics = !quickTransitionTopics;
         putBoolean("quickTransitionTopics", quickTransitionTopics);
+    }
+
+    public static void toggleRememberLastCamera() {
+        rememberLastCamera = !rememberLastCamera;
+        putBoolean("rememberLastCamera", rememberLastCamera);
+    }
+
+    public static void toggleStaticZoom() {
+        staticZoom = !staticZoom;
+        putBoolean("staticZoom", staticZoom);
+    }
+
+    public static void toggleInlineUnits() {
+        inlineUnits = !inlineUnits;
+        putBoolean("inlineUnits", inlineUnits);
+    }
+
+    public static void toggleInlineTimeZones() {
+        inlineTimeZones = !inlineTimeZones;
+        putBoolean("inlineTimeZones", inlineTimeZones);
     }
 }

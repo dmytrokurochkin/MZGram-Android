@@ -351,4 +351,53 @@ class MZGramScreensTest {
             }
         }
     }
+
+    // Units and time zones in the calculator: off gives nothing; on, units of
+    // one kind convert (temperature with its offset), other kinds do not mix;
+    // a time moves between zones with the day shown when it changes.
+    @Test
+    fun unitsAndTimeZones() {
+        val units = MZGramConfig.inlineUnits
+        val zones = MZGramConfig.inlineTimeZones
+        try {
+            if (MZGramConfig.inlineUnits) MZGramConfig.toggleInlineUnits()
+            if (MZGramConfig.inlineTimeZones) MZGramConfig.toggleInlineTimeZones()
+            assertEquals(null, org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("5 km in mi"))
+            MZGramConfig.toggleInlineUnits()
+            assertEquals("3.10686 mi", org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("5 km in mi"))
+            assertEquals("212 F", org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("100 C to F"))
+            assertEquals("1024 kb", org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("1 mb in kb"))
+            assertEquals("2000 г", org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("2 кг в г"))
+            assertEquals(null, org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("5 km in kg"))
+            assertEquals(null, org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("15:00 UTC in UTC+3"))
+            MZGramConfig.toggleInlineTimeZones()
+            assertEquals("18:00", org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("15:00 UTC in UTC+3"))
+            assertEquals("01:30 (+1)", org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("23:30 UTC to GMT+2"))
+            assertEquals("21:00 (-1)", org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("02:00 UTC+5 in UTC"))
+            assertEquals(null, org.telegram.ui.mzgram.MZGramUnitConvert.resultFor("15:00 Nowhere in UTC"))
+        } finally {
+            if (MZGramConfig.inlineUnits != units) MZGramConfig.toggleInlineUnits()
+            if (MZGramConfig.inlineTimeZones != zones) MZGramConfig.toggleInlineTimeZones()
+        }
+    }
+
+    // Camera in video messages: with Remember last camera off a switch while
+    // recording changes nothing; on, it becomes the camera to start with.
+    @Test
+    fun rememberLastCamera() {
+        val front = MZGramConfig.roundVideoFrontCamera
+        val remember = MZGramConfig.rememberLastCamera
+        try {
+            MZGramConfig.setRoundVideoFrontCamera(true)
+            if (MZGramConfig.rememberLastCamera) MZGramConfig.toggleRememberLastCamera()
+            MZGramConfig.rememberRoundVideoCamera(false)
+            assertTrue(MZGramConfig.roundVideoFrontCamera)
+            MZGramConfig.toggleRememberLastCamera()
+            MZGramConfig.rememberRoundVideoCamera(false)
+            assertFalse(MZGramConfig.roundVideoFrontCamera)
+        } finally {
+            MZGramConfig.setRoundVideoFrontCamera(front)
+            if (MZGramConfig.rememberLastCamera != remember) MZGramConfig.toggleRememberLastCamera()
+        }
+    }
 }

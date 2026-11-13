@@ -1333,4 +1333,15 @@
     <string name="MZGramQuickTransitionChannels">Арналар</string>
     <string name="MZGramQuickTransitionTopics">Тақырыптар</string>
     <string name="MZGramQuickTransitionInfo">Арнаның немесе тақырыптың соңында Telegram-дағыдай келесі оқылмағанын ашу үшін жоғары тартыңыз.</string>
+    <string name="MZGramRoundVideoCamera">Бейнехабарламалардағы камера</string>
+    <string name="MZGramCameraFront">Алдыңғы</string>
+    <string name="MZGramCameraBack">Артқы</string>
+    <string name="MZGramRememberLastCamera">Соңғы камераны есте сақтау</string>
+    <string name="MZGramRememberLastCameraInfo">Бейнехабарламалар соңғы пайдаланылған камерамен басталады.</string>
+    <string name="MZGramStaticZoom">Тұрақты масштаб</string>
+    <string name="MZGramStaticZoomInfo">Бейнехабарлама жазғанда саусақтарыңызды көтерсеңіз де масштаб сол күйінде қалады.</string>
+    <string name="MZGramInlineUnits">Калькулятордағы бірліктер</string>
+    <string name="MZGramInlineUnitsInfo">Хабарлама өрісіне түрлендіру мен «=» жазыңыз (5 km in mi=), нәтиже қосылады (3.10686 mi): ұзындық, масса, көлем, жылдамдық, аудан, деректер, уақыт және температура.</string>
+    <string name="MZGramInlineTimeZones">Калькулятордағы уақыт белдеулері</string>
+    <string name="MZGramInlineTimeZonesInfo">Уақытты, қаланы не белдеуді, «in», басқасын және «=» жазыңыз (15:00 Almaty in Tokyo=), сол жердегі уақыт қосылады (22:00). Қалалар, UTC+3 және EST сияқты қысқартулар желісіз жұмыс істейді.</string>
 </resources>

@@ -39,7 +39,8 @@ public class MZGramInlineMath {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                typedEquals = MZGramConfig.inlineMath && !busy && before == 0 && count == 1
+                typedEquals = (MZGramConfig.inlineMath || MZGramConfig.inlineUnits || MZGramConfig.inlineTimeZones)
+                    && !busy && before == 0 && count == 1
                     && start == s.length() - 1 && s.charAt(start) == '=';
             }
 
@@ -49,7 +50,12 @@ public class MZGramInlineMath {
                     return;
                 }
                 typedEquals = false;
-                String result = resultFor(editable.subSequence(0, editable.length() - 1).toString());
+                String text = editable.subSequence(0, editable.length() - 1).toString();
+                String result = MZGramConfig.inlineMath ? resultFor(text) : null;
+                if (result == null) {
+                    // Units and time zones (MZGramUnitConvert)
+                    result = MZGramUnitConvert.resultFor(text);
+                }
                 if (result == null) {
                     return;
                 }

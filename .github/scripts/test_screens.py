@@ -316,6 +316,24 @@ class ScreensTest(unittest.TestCase):
         self.assertNotIn("= 1104;", chat)
         self.assertIn("MZGramConfig.quickAdminShortcuts && chat != null", read(JAVA / "ui/mzgram/MZGramAdminShortcuts.java"))
 
+    def test_camera_and_calculation_results(self):
+        self.switch("rememberLastCamera", "false", "BUTTON_REMEMBER_LAST_CAMERA")
+        self.switch("staticZoom", "false", "BUTTON_STATIC_ZOOM")
+        self.switch("inlineUnits", "false", "BUTTON_INLINE_UNITS")
+        self.switch("inlineTimeZones", "false", "BUTTON_INLINE_TIME_ZONES")
+        config = read(CONFIG)
+        self.assertIn("public static boolean roundVideoFrontCamera = true;", config)
+        self.assertIn('"roundVideoFrontCamera"', read(BACKUP))
+        self.assertIn("items.add(UItem.asButton(BUTTON_ROUND_VIDEO_CAMERA, ", read(PAGE))
+        camera = read(JAVA / "ui/Components/InstantCameraView.java")
+        self.assertEqual(2, camera.count("MZGramConfig.rememberRoundVideoCamera(isFrontface); // MZGram: Remember last camera"))
+        self.assertIn("isFrontface = org.telegram.messenger.mzgram.MZGramConfig.roundVideoFrontCamera; // MZGram: Camera in video messages", camera)
+        self.assertIn("if (finishZoomTransition != null || org.telegram.messenger.mzgram.MZGramConfig.staticZoom) {", camera)
+        math = read(JAVA / "ui/mzgram/MZGramInlineMath.java")
+        self.assertIn("result = MZGramUnitConvert.resultFor(text);", math)
+        convert = read(JAVA / "ui/mzgram/MZGramUnitConvert.java")
+        self.assertNotIn("http", convert)
+
 
 if __name__ == "__main__":
     unittest.main()

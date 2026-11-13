@@ -1333,4 +1333,15 @@
     <string name="MZGramQuickTransitionChannels">Kanały</string>
     <string name="MZGramQuickTransitionTopics">Tematy</string>
     <string name="MZGramQuickTransitionInfo">Na końcu kanału lub tematu pociągnij w górę, aby otworzyć następny nieprzeczytany, jak w Telegramie.</string>
+    <string name="MZGramRoundVideoCamera">Kamera w wiadomościach wideo</string>
+    <string name="MZGramCameraFront">Przednia</string>
+    <string name="MZGramCameraBack">Tylna</string>
+    <string name="MZGramRememberLastCamera">Zapamiętuj ostatnią kamerę</string>
+    <string name="MZGramRememberLastCameraInfo">Nagrywanie wiadomości wideo zaczyna się od ostatnio używanej kamery.</string>
+    <string name="MZGramStaticZoom">Stały zoom</string>
+    <string name="MZGramStaticZoomInfo">Podczas nagrywania wiadomości wideo zoom zostaje, gdy podniesiesz palce.</string>
+    <string name="MZGramInlineUnits">Jednostki w kalkulatorze</string>
+    <string name="MZGramInlineUnitsInfo">Wpisz przeliczenie i „=” w polu wiadomości (5 km in mi=), a wynik zostanie dodany (3.10686 mi): długość, masa, objętość, prędkość, powierzchnia, dane, czas i temperatura.</string>
+    <string name="MZGramInlineTimeZones">Strefy czasowe w kalkulatorze</string>
+    <string name="MZGramInlineTimeZonesInfo">Wpisz godzinę, miasto lub strefę, „in”, drugie i „=” (15:00 Warsaw in Tokyo=), a zostanie dodany czas tam (22:00). Miasta, UTC+3 i skróty jak EST działają offline.</string>
 </resources>

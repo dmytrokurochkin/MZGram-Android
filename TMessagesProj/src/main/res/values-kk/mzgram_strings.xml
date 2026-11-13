@@ -1374,4 +1374,9 @@
     <string name="MZGramDividerSegments">Сегменттер</string>
     <string name="MZGramSeparateHeaders">Бөлек тақырыптар</string>
     <string name="MZGramSeparateHeadersInfo">Бөлім атауы картасының ішінде емес, үстінде тұрады. «Сегменттермен» әрдайым солай.</string>
+    <string name="MZGramHeaderMaterial3">Material Design 3</string>
+    <string name="MZGramM3Loading">Material 3 жүктелуі</string>
+    <string name="MZGramM3LoadingInfo">Material 3-тегідей дөңгелек жүктелу көрсеткіштері: бозғыл жолақ үстіндегі толқынды доға.</string>
+    <string name="MZGramM3Slider">Material 3 сырғытпалары</string>
+    <string name="MZGramM3SliderInfo">Material 3-тегідей сырғытпалар: тар тік тұтқамен бөлінген жуан жолақ. Буфері, уақыт белгілері немесе екі жағы бар сырғытпалар сол күйі қалады.</string>
 </resources>

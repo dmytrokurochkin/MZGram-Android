@@ -1374,4 +1374,9 @@
     <string name="MZGramDividerSegments">Segments</string>
     <string name="MZGramSeparateHeaders">En-têtes séparés</string>
     <string name="MZGramSeparateHeadersInfo">Le titre d\'une section se place au-dessus de sa carte, pas dedans. Toujours avec Segments.</string>
+    <string name="MZGramHeaderMaterial3">Material Design 3</string>
+    <string name="MZGramM3Loading">Chargement Material 3</string>
+    <string name="MZGramM3LoadingInfo">Indicateurs de chargement ronds comme dans Material 3 : un arc ondulé sur une piste pâle.</string>
+    <string name="MZGramM3Slider">Curseurs Material 3</string>
+    <string name="MZGramM3SliderInfo">Curseurs comme dans Material 3 : une piste épaisse coupée par une poignée verticale étroite. Ceux avec tampon, horodatages ou deux côtés restent tels quels.</string>
 </resources>

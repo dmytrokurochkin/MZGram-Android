@@ -306,6 +306,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FEED_WIDE_POSTS = 277;
     private static final int BUTTON_FEED_INCLUDE_ARCHIVED = 278;
     private static final int BUTTON_SEPARATE_HEADERS = 279;
+    private static final int BUTTON_M3_LOADING = 280;
+    private static final int BUTTON_M3_SLIDER = 281;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -1094,8 +1096,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramSectionAppearance)));
         items.add(UItem.asButton(BUTTON_FAB_SHAPE, getString(R.string.MZGramFabShape), getString(MZGramFabShape.TITLES[MZGramConfig.fabShape])));
         items.add(UItem.asButton(BUTTON_APP_FONT, getString(R.string.MZGramAppFont), MZGramAppFont.title()));
-        items.add(check(BUTTON_M3_SWITCHES, R.string.MZGramM3Switches, MZGramConfig.m3Switches, R.string.MZGramM3SwitchesInfo));
-        items.add(check(BUTTON_CARDS_DESIGN, R.string.MZGramCardsDesign, MZGramConfig.cardsDesign, R.string.MZGramCardsDesignInfo));
         items.add(check(BUTTON_GOOEY_AVATAR_ANIMATION, R.string.MZGramGooeyAvatarAnimation, MZGramConfig.gooeyAvatarAnimation, R.string.MZGramGooeyAvatarAnimationInfo));
         items.add(check(BUTTON_CUSTOM_CHAT_THEMES, R.string.MZGramCustomChatThemes, MZGramConfig.customChatThemes, R.string.MZGramCustomChatThemesInfo));
         items.add(check(BUTTON_PREDICTIVE_BACK_ANIMATION, R.string.MZGramPredictiveBackAnimation, MZGramConfig.predictiveBackAnimation, R.string.MZGramPredictiveBackAnimationInfo));
@@ -1107,6 +1107,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
             }
         }
         items.add(UItem.asShadow(getString(R.string.MZGramAppFontInfo)));
+
+        // Material Design 3: switches, cards of lists, loading, sliders
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderMaterial3)));
+        items.add(check(BUTTON_M3_SWITCHES, R.string.MZGramM3Switches, MZGramConfig.m3Switches, R.string.MZGramM3SwitchesInfo));
+        items.add(check(BUTTON_CARDS_DESIGN, R.string.MZGramCardsDesign, MZGramConfig.cardsDesign, R.string.MZGramCardsDesignInfo));
+        items.add(check(BUTTON_M3_LOADING, R.string.MZGramM3Loading, MZGramConfig.m3Loading, R.string.MZGramM3LoadingInfo));
+        items.add(check(BUTTON_M3_SLIDER, R.string.MZGramM3Slider, MZGramConfig.m3Slider, R.string.MZGramM3SliderInfo));
+        items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderSections)));
         items.add(UItem.asIntSlideView(1, 0, MZGramConfig.sectionRadius, MZGramConfig.SECTION_RADIUS_MAX,
@@ -1546,6 +1554,17 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_M3_SLIDER) {
+            MZGramConfig.toggleM3Slider();
+            ((TextCheckCell) view).setChecked(MZGramConfig.m3Slider);
+            rebuildBelow();
+            if (listView != null) {
+                listView.invalidateViews();
+            }
+        } else if (item.id == BUTTON_M3_LOADING) {
+            MZGramConfig.toggleM3Loading();
+            ((TextCheckCell) view).setChecked(MZGramConfig.m3Loading);
+            rebuildBelow();
         } else if (item.id == BUTTON_SEPARATE_HEADERS) {
             if (MZGramConfig.dividerStyle == MZGramConfig.DIVIDER_SEGMENTS) {
                 return;

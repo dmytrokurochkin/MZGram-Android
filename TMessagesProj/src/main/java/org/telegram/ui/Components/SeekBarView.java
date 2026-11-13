@@ -449,6 +449,11 @@ public class SeekBarView extends FrameLayout {
 
         float centerY = getMeasuredHeight() / 2f;
         float left = selectorWidth / 2f, right = getMeasuredWidth() - selectorWidth / 2;
+        // MZGram: Settings > MZGram > Appearance > Material Design 3 > Slider
+        if (org.telegram.messenger.mzgram.appearance.MZGramM3Slider.applies(twoSided, minProgress, bufferedProgress, lineWidthDp, timestamps != null && !timestamps.isEmpty())) {
+            org.telegram.messenger.mzgram.appearance.MZGramM3Slider.draw(canvas, left, right, centerY, thumbX + selectorWidth / 2f, outerPaint1, innerPaint1);
+            return;
+        }
         float top = centerY - AndroidUtilities.dp(lineWidthDp) / 2f, bottom = centerY + AndroidUtilities.dp(lineWidthDp) / 2f;
 
         rect.set(left, top, right, bottom);

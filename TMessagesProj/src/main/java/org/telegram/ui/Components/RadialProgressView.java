@@ -228,13 +228,14 @@ public class RadialProgressView extends View {
         int x = (getMeasuredWidth() - size) / 2;
         int y = (getMeasuredHeight() - size) / 2;
         cicleRect.set(x, y, x + size, y + size);
-        canvas.drawArc(cicleRect, radOffset, drawingCircleLenght = currentCircleLength, false, progressPaint);
+        // MZGram: Settings > MZGram > Appearance > Material Design 3 > Loading
+        org.telegram.messenger.mzgram.appearance.MZGramM3Loading.drawArc(canvas, cicleRect, radOffset, drawingCircleLenght = currentCircleLength, progressPaint);
         updateAnimation();
     }
 
     public void draw(Canvas canvas, float cx, float cy) {
         cicleRect.set(cx - size / 2f, cy - size / 2f, cx + size / 2f, cy +  size / 2f);
-        canvas.drawArc(cicleRect, radOffset, drawingCircleLenght = currentCircleLength, false, progressPaint);
+        org.telegram.messenger.mzgram.appearance.MZGramM3Loading.drawArc(canvas, cicleRect, radOffset, drawingCircleLenght = currentCircleLength, progressPaint);
         updateAnimation();
     }
 

@@ -658,6 +658,12 @@ public class MZGramConfig {
     // Section titles above their cards on the window background, not inside the card (RecyclerListView sections); always so with DIVIDER_SEGMENTS
     public static boolean separateHeaders = false;
 
+    // Round spinners (RadialProgressView, CircularProgressDrawable) as a Material 3 indicator: wavy arc, faint track, 2 dp gaps (MZGramM3Loading)
+    public static boolean m3Loading = false;
+
+    // Plain sliders (SeekBarView) as a Material 3 slider: 8 dp track, 6 dp gaps, 3 x 24 dp thumb (MZGramM3Slider)
+    public static boolean m3Slider = false;
+
     static {
         loadConfig(false);
     }
@@ -977,6 +983,8 @@ public class MZGramConfig {
             feedWidePosts = preferences.getBoolean("feedWidePosts", true);
             feedIncludeArchived = preferences.getBoolean("feedIncludeArchived", false);
             separateHeaders = preferences.getBoolean("separateHeaders", false);
+            m3Loading = preferences.getBoolean("m3Loading", false);
+            m3Slider = preferences.getBoolean("m3Slider", false);
             configLoaded = true;
         }
     }
@@ -2411,5 +2419,15 @@ public class MZGramConfig {
     public static void toggleSeparateHeaders() {
         separateHeaders = !separateHeaders;
         putBoolean("separateHeaders", separateHeaders);
+    }
+
+    public static void toggleM3Loading() {
+        m3Loading = !m3Loading;
+        putBoolean("m3Loading", m3Loading);
+    }
+
+    public static void toggleM3Slider() {
+        m3Slider = !m3Slider;
+        putBoolean("m3Slider", m3Slider);
     }
 }

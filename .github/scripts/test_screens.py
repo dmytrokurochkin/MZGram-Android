@@ -447,5 +447,26 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("case MZGramDrawerItems.FEED:", read(JAVA / "ui/mzgram/MZGramDrawer.java"))
 
 
+    def test_material3_group(self):
+        self.switch("m3Loading", "false", "BUTTON_M3_LOADING")
+        self.switch("m3Slider", "false", "BUTTON_M3_SLIDER")
+        page = read(PAGE)
+        header = page.index("items.add(UItem.asHeader(getString(R.string.MZGramHeaderMaterial3)));")
+        for row in ("BUTTON_M3_SWITCHES", "BUTTON_CARDS_DESIGN", "BUTTON_M3_LOADING", "BUTTON_M3_SLIDER"):
+            self.assertGreater(page.index(f"items.add(check({row}, "), header, row)
+        radial = read(JAVA / "ui/Components/RadialProgressView.java")
+        self.assertEqual(2, radial.count("org.telegram.messenger.mzgram.appearance.MZGramM3Loading.drawArc(canvas, cicleRect, radOffset, "))
+        self.assertNotIn("canvas.drawArc(", radial)
+        self.assertIn("MZGramM3Loading.drawArc(", read(JAVA / "ui/Components/CircularProgressDrawable.java"))
+        seek = read(JAVA / "ui/Components/SeekBarView.java")
+        self.assertIn("MZGramM3Slider.applies(twoSided, minProgress, bufferedProgress, lineWidthDp, timestamps != null && !timestamps.isEmpty())", seek)
+        loading = read(JAVA / "messenger/mzgram/appearance/MZGramM3Loading.java")
+        self.assertIn("return MZGramConfig.m3Loading;", loading)
+        # Off: Telegram's own arc
+        self.assertIn("            canvas.drawArc(oval, startAngle, sweepAngle, false, paint);\n            return;", loading)
+        slider = read(JAVA / "messenger/mzgram/appearance/MZGramM3Slider.java")
+        self.assertIn("return MZGramConfig.m3Slider && !twoSided && minProgress <= 0 && bufferedProgress <= 0 && lineWidthDp == 3 && !hasTimestamps;", slider)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1375,4 +1375,9 @@
     <string name="MZGramDividerSegments">Сегменти</string>
     <string name="MZGramSeparateHeaders">Окремі заголовки</string>
     <string name="MZGramSeparateHeadersInfo">Назва розділу стоїть над його карткою, а не всередині неї. Із «Сегментами» завжди так.</string>
+    <string name="MZGramHeaderMaterial3">Material Design 3</string>
+    <string name="MZGramM3Loading">Завантаження Material 3</string>
+    <string name="MZGramM3LoadingInfo">Круглі індикатори завантаження як у Material 3: хвиляста дуга над блідою доріжкою.</string>
+    <string name="MZGramM3Slider">Повзунки Material 3</string>
+    <string name="MZGramM3SliderInfo">Повзунки як у Material 3: товста доріжка, розділена вузьким вертикальним бігунком. Повзунки з буфером, таймкодами чи двома боками лишаються як є.</string>
 </resources>

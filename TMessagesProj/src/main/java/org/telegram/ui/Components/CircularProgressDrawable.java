@@ -64,11 +64,12 @@ public class CircularProgressDrawable extends Drawable {
             start = SystemClock.elapsedRealtime();
         }
         updateSegment();
-        canvas.drawArc(
+        // MZGram: Settings > MZGram > Appearance > Material Design 3 > Loading
+        org.telegram.messenger.mzgram.appearance.MZGramM3Loading.drawArc(
+            canvas,
             bounds,
             angleOffset + segment[0],
             segment[1] - segment[0],
-            false,
             paint
         );
         invalidateSelf();

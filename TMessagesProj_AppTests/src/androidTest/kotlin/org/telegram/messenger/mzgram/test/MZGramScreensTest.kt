@@ -562,4 +562,30 @@ class MZGramScreensTest {
             MZGramConfig.setDividerStyle(style)
         }
     }
+
+    // Material 3 loading: the track is the circle less the arc and two 2 dp gaps,
+    // none for a full circle. Material 3 sliders: only plain sliders, only when on.
+    @Test
+    fun material3LoadingAndSlider() {
+        val radius = org.telegram.messenger.AndroidUtilities.dp(20f).toFloat()
+        val gapDeg = Math.toDegrees((org.telegram.messenger.AndroidUtilities.dp(2f) / radius).toDouble()).toFloat()
+        assertEquals(360f - 90f - 2 * gapDeg, org.telegram.messenger.mzgram.appearance.MZGramM3Loading.trackSweep(radius, 90f), 0.01f)
+        assertEquals(0f, org.telegram.messenger.mzgram.appearance.MZGramM3Loading.trackSweep(radius, 360f), 0f)
+        assertEquals(0f, org.telegram.messenger.mzgram.appearance.MZGramM3Loading.trackSweep(0f, 90f), 0f)
+        val slider = MZGramConfig.m3Slider
+        try {
+            if (!MZGramConfig.m3Slider) MZGramConfig.toggleM3Slider()
+            val m3 = org.telegram.messenger.mzgram.appearance.MZGramM3Slider::applies
+            assertTrue(m3(false, -1f, 0f, 3, false))
+            assertFalse(m3(true, -1f, 0f, 3, false))
+            assertFalse(m3(false, 0.2f, 0f, 3, false))
+            assertFalse(m3(false, -1f, 0.5f, 3, false))
+            assertFalse(m3(false, -1f, 0f, 6, false))
+            assertFalse(m3(false, -1f, 0f, 3, true))
+            MZGramConfig.toggleM3Slider()
+            assertFalse(m3(false, -1f, 0f, 3, false))
+        } finally {
+            if (MZGramConfig.m3Slider != slider) MZGramConfig.toggleM3Slider()
+        }
+    }
 }

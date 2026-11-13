@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">Arşivlenmiş sohbetler satırı sohbet listesinde görünmez; arşiv üç nokta menüsünden açılır. Sohbetler arşivde kalır.</string>
     <string name="MZGramDisableUnarchiveSwipe">\"Arşivden çıkar\" kaydırmasını kapat</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">Arşivdeki bir kaydırma artık sohbeti arşivden çıkarmaz.</string>
+    <string name="MZGramCenterTitle">Başlığı ortala</string>
+    <string name="MZGramHideActionBarStatus">Durumu gizle</string>
+    <string name="MZGramHideFloatingButton">Kayan düğmeyi gizle</string>
+    <string name="MZGramHideDialogsSearchBar">Arama panelini gizle</string>
+    <string name="MZGramChatListInfo">\"Durumu gizle\", sohbet listesi başlığının yanındaki emoji durumunu kaldırır. Kayan düğme olmadan yeni sohbetler Kişiler\'den başlar; arama paneli olmadan aramayı çubuktaki arama düğmesi açar.</string>
 </resources>

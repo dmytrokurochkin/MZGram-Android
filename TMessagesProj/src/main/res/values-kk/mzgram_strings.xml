@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">«Мұрағатталған чаттар» жолы тізімде жоқ; мұрағат үш нүкте мәзірінен ашылады. Чаттар мұрағатта қалады.</string>
     <string name="MZGramDisableUnarchiveSwipe">«Мұрағаттан шығару» сырғытуын өшіру</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">Мұрағаттағы сырғыту енді чатты мұрағаттан шығармайды.</string>
+    <string name="MZGramCenterTitle">Тақырыпты ортаға қою</string>
+    <string name="MZGramHideActionBarStatus">Күйді жасыру</string>
+    <string name="MZGramHideFloatingButton">Қалқымалы түймені жасыру</string>
+    <string name="MZGramHideDialogsSearchBar">Іздеу панелін жасыру</string>
+    <string name="MZGramChatListInfo">«Күйді жасыру» чаттар тізімі тақырыбының жанындағы эмодзи күйін алып тастайды. Қалқымалы түймесіз жаңа чаттар Контактілерден басталады; іздеу панелінсіз іздеуді жолақтағы іздеу түймесі ашады.</string>
 </resources>

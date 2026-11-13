@@ -103,6 +103,22 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.hideArchiveFolder) {", menu[:800])
         self.assertIn('args.putInt("folderId", 1);', menu[:800])
 
+    def test_chat_list_title_buttons_and_search(self):
+        for name, button in (("centerTitle", "BUTTON_CENTER_TITLE"), ("hideActionBarStatus", "BUTTON_HIDE_ACTION_BAR_STATUS"),
+                             ("hideFloatingButton", "BUTTON_HIDE_FLOATING_BUTTON"), ("hideDialogsSearchBar", "BUTTON_HIDE_DIALOGS_SEARCH_BAR")):
+            self.switch(name, "false", button)
+        bar = read(JAVA / "ui/ActionBar/ActionBar.java")
+        self.assertIn("return isCenterTitle || org.telegram.messenger.mzgram.MZGramConfig.centerTitle;", bar)
+        self.assertIn("titleTextView[i].setGravity(mzgramCentered() ?", bar)
+        self.assertIn("final int titleLeft = mzgramCentered() ? (getMeasuredWidth() - titleTextView[i].getMeasuredWidth()) / 2 : textLeft;", bar)
+        dialogs = read(JAVA / "ui/DialogsActivity.java")
+        self.assertIn("|| org.telegram.messenger.mzgram.MZGramConfig.hideFloatingButton && !onlySelect);", dialogs)
+        self.assertEqual(2, dialogs.count("if (org.telegram.messenger.mzgram.MZGramConfig.hideActionBarStatus) {") + read(JAVA / "ui/Stories/DialogStoriesCell.java").count("if (org.telegram.messenger.mzgram.MZGramConfig.hideActionBarStatus) {"))
+        # The idle search field takes no room while hidden; search mode keeps its full height
+        self.assertEqual(20, dialogs.count("mzgramIdleSearchFieldHeight()") - 2)
+        self.assertIn("return -lerp(dp(4), dp(SEARCH_FIELD_HEIGHT), animatorSearchVisible.getFloatValue());", dialogs)
+        self.assertIn("mzgramShowsIdleSearchField() ? 1f - MathUtils.clamp(", dialogs)
+
 
 if __name__ == "__main__":
     unittest.main()

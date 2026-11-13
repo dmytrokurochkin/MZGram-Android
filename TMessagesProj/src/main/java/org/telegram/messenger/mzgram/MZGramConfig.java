@@ -457,6 +457,18 @@ public class MZGramConfig {
     // In the archive a swipe does nothing, no chat leaves it by accident
     public static boolean disableUnarchiveSwipe = false;
 
+    // Titles in the middle of the action bar (ActionBar.mzgramCentered)
+    public static boolean centerTitle = false;
+
+    // No emoji status or Premium star next to the chat list title
+    public static boolean hideActionBarStatus = false;
+
+    // No new message and story buttons over the chat list
+    public static boolean hideFloatingButton = false;
+
+    // No search field over the idle chat list; the search button of the bar opens search
+    public static boolean hideDialogsSearchBar = false;
+
     static {
         loadConfig(false);
     }
@@ -704,6 +716,10 @@ public class MZGramConfig {
             hidePhoneNumber = preferences.getBoolean("hidePhoneNumber", false);
             hideArchiveFolder = preferences.getBoolean("hideArchiveFolder", false);
             disableUnarchiveSwipe = preferences.getBoolean("disableUnarchiveSwipe", false);
+            centerTitle = preferences.getBoolean("centerTitle", false);
+            hideActionBarStatus = preferences.getBoolean("hideActionBarStatus", false);
+            hideFloatingButton = preferences.getBoolean("hideFloatingButton", false);
+            hideDialogsSearchBar = preferences.getBoolean("hideDialogsSearchBar", false);
             configLoaded = true;
         }
     }
@@ -1784,5 +1800,25 @@ public class MZGramConfig {
     public static void toggleDisableUnarchiveSwipe() {
         disableUnarchiveSwipe = !disableUnarchiveSwipe;
         putBoolean("disableUnarchiveSwipe", disableUnarchiveSwipe);
+    }
+
+    public static void toggleCenterTitle() {
+        centerTitle = !centerTitle;
+        putBoolean("centerTitle", centerTitle);
+    }
+
+    public static void toggleHideActionBarStatus() {
+        hideActionBarStatus = !hideActionBarStatus;
+        putBoolean("hideActionBarStatus", hideActionBarStatus);
+    }
+
+    public static void toggleHideFloatingButton() {
+        hideFloatingButton = !hideFloatingButton;
+        putBoolean("hideFloatingButton", hideFloatingButton);
+    }
+
+    public static void toggleHideDialogsSearchBar() {
+        hideDialogsSearchBar = !hideDialogsSearchBar;
+        putBoolean("hideDialogsSearchBar", hideDialogsSearchBar);
     }
 }

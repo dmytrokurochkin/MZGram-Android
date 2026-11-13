@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">La fila de chats archivados desaparece de la lista; el archivo se abre desde el menú de tres puntos. Los chats siguen archivados.</string>
     <string name="MZGramDisableUnarchiveSwipe">Desactivar el deslizamiento «Desarchivar»</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">Deslizar en el archivo ya no saca el chat de él.</string>
+    <string name="MZGramCenterTitle">Centrar el título</string>
+    <string name="MZGramHideActionBarStatus">Ocultar el estado</string>
+    <string name="MZGramHideFloatingButton">Ocultar el botón flotante</string>
+    <string name="MZGramHideDialogsSearchBar">Ocultar la barra de búsqueda</string>
+    <string name="MZGramChatListInfo">«Ocultar el estado» quita el estado emoji junto al título de la lista de chats. Sin el botón flotante, los chats nuevos se empiezan desde Contactos; sin la barra de búsqueda, la búsqueda se abre con el botón de la barra.</string>
 </resources>

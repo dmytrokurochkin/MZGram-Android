@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">The Archived chats row is gone from the chat list; the three-dots menu opens the archive. Chats stay archived.</string>
     <string name="MZGramDisableUnarchiveSwipe">Disable \"Unarchive\" swipe</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">A swipe in the archive no longer takes a chat out of it.</string>
+    <string name="MZGramCenterTitle">Center title</string>
+    <string name="MZGramHideActionBarStatus">Hide status</string>
+    <string name="MZGramHideFloatingButton">Hide floating button</string>
+    <string name="MZGramHideDialogsSearchBar">Hide search panel</string>
+    <string name="MZGramChatListInfo">Hide status removes the emoji status next to the chat list title. Without the floating button, new chats start from Contacts; without the search panel, the search button of the bar opens search.</string>
 </resources>

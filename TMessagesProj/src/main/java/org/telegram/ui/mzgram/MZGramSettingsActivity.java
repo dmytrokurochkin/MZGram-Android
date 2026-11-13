@@ -241,6 +241,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_PHONE_NUMBER = 212;
     private static final int BUTTON_HIDE_ARCHIVE_FOLDER = 213;
     private static final int BUTTON_DISABLE_UNARCHIVE_SWIPE = 214;
+    private static final int BUTTON_CENTER_TITLE = 215;
+    private static final int BUTTON_HIDE_ACTION_BAR_STATUS = 216;
+    private static final int BUTTON_HIDE_FLOATING_BUTTON = 217;
+    private static final int BUTTON_HIDE_DIALOGS_SEARCH_BAR = 218;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -577,6 +581,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }
     }
 
+    // A switch that changes how other screens look: the screens under this
+    // page are built again, so it shows when going back
+    private void rebuildBelow() {
+        if (getParentLayout() != null) {
+            getParentLayout().rebuildAllFragmentViews(false, false);
+        }
+    }
+
     // Save folder: Telegram, MZGram or a name of one's own
     private void chooseSaveFolder() {
         if (getParentActivity() == null) {
@@ -849,9 +861,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramAvatarShapeInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatList)));
+        items.add(UItem.asCheck(BUTTON_HIDE_ACTION_BAR_STATUS, getString(R.string.MZGramHideActionBarStatus)).setChecked(MZGramConfig.hideActionBarStatus));
+        items.add(UItem.asCheck(BUTTON_CENTER_TITLE, getString(R.string.MZGramCenterTitle)).setChecked(MZGramConfig.centerTitle));
         items.add(check(BUTTON_HIDE_STORIES, R.string.MZGramHideStories, MZGramConfig.hideStories, R.string.MZGramHideStoriesInfo));
         items.add(check(BUTTON_STORIES_NO_BACKGROUND_LOAD, R.string.MZGramStoriesNoBackgroundLoad, MZGramConfig.storiesNoBackgroundLoad, R.string.MZGramStoriesNoBackgroundLoadInfo));
-        items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_HIDE_FLOATING_BUTTON, getString(R.string.MZGramHideFloatingButton)).setChecked(MZGramConfig.hideFloatingButton));
+        items.add(UItem.asCheck(BUTTON_HIDE_DIALOGS_SEARCH_BAR, getString(R.string.MZGramHideDialogsSearchBar)).setChecked(MZGramConfig.hideDialogsSearchBar));
+        items.add(UItem.asShadow(getString(R.string.MZGramChatListInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderFolders)));
         items.add(UItem.asButton(BUTTON_FOLDER_TAB_ICONS, getString(R.string.MZGramFolderTabs), getString(MZGramFolderIcons.MODE_TITLES[MZGramFolderIcons.mode()])));
@@ -1220,6 +1236,22 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_HIDE_DIALOGS_SEARCH_BAR) {
+            MZGramConfig.toggleHideDialogsSearchBar();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideDialogsSearchBar);
+            rebuildBelow();
+        } else if (item.id == BUTTON_HIDE_FLOATING_BUTTON) {
+            MZGramConfig.toggleHideFloatingButton();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideFloatingButton);
+            rebuildBelow();
+        } else if (item.id == BUTTON_HIDE_ACTION_BAR_STATUS) {
+            MZGramConfig.toggleHideActionBarStatus();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideActionBarStatus);
+            rebuildBelow();
+        } else if (item.id == BUTTON_CENTER_TITLE) {
+            MZGramConfig.toggleCenterTitle();
+            ((TextCheckCell) view).setChecked(MZGramConfig.centerTitle);
+            rebuildBelow();
         } else if (item.id == BUTTON_DISABLE_UNARCHIVE_SWIPE) {
             MZGramConfig.toggleDisableUnarchiveSwipe();
             ((TextCheckCell) view).setChecked(MZGramConfig.disableUnarchiveSwipe);

@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">يختفي صف المحادثات المؤرشفة من القائمة؛ يُفتح الأرشيف من قائمة النقاط الثلاث. تبقى المحادثات مؤرشفة.</string>
     <string name="MZGramDisableUnarchiveSwipe">إيقاف السحب \"إلغاء الأرشفة\"</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">لم يعد السحب داخل الأرشيف يُخرج المحادثة منه.</string>
+    <string name="MZGramCenterTitle">توسيط العنوان</string>
+    <string name="MZGramHideActionBarStatus">إخفاء الحالة</string>
+    <string name="MZGramHideFloatingButton">إخفاء الزر العائم</string>
+    <string name="MZGramHideDialogsSearchBar">إخفاء شريط البحث</string>
+    <string name="MZGramChatListInfo">\"إخفاء الحالة\" يزيل حالة الرمز التعبيري بجانب عنوان قائمة المحادثات. بدون الزر العائم تبدأ المحادثات الجديدة من جهات الاتصال؛ وبدون شريط البحث يفتح زر البحث في الشريط البحث.</string>
 </resources>

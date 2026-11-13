@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">A linha de conversas arquivadas some da lista; o arquivo abre pelo menu de três pontos. As conversas continuam arquivadas.</string>
     <string name="MZGramDisableUnarchiveSwipe">Desativar o deslize \"Desarquivar\"</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">Deslizar no arquivo não tira mais a conversa dele.</string>
+    <string name="MZGramCenterTitle">Centralizar o título</string>
+    <string name="MZGramHideActionBarStatus">Ocultar o status</string>
+    <string name="MZGramHideFloatingButton">Ocultar o botão flutuante</string>
+    <string name="MZGramHideDialogsSearchBar">Ocultar a barra de pesquisa</string>
+    <string name="MZGramChatListInfo">\"Ocultar o status\" tira o status emoji ao lado do título da lista de conversas. Sem o botão flutuante, novas conversas começam pelos Contatos; sem a barra de pesquisa, o botão de pesquisa da barra abre a pesquisa.</string>
 </resources>

@@ -1254,4 +1254,9 @@
     <string name="MZGramHideArchiveFolderInfo">Рядка «Архів чатів» немає у списку чатів; архів відкривається з меню трьох крапок. Чати лишаються в архіві.</string>
     <string name="MZGramDisableUnarchiveSwipe">Вимкнути свайп «Розархівувати»</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">Свайп в архіві більше не виймає чат з архіву.</string>
+    <string name="MZGramCenterTitle">Центрувати заголовок</string>
+    <string name="MZGramHideActionBarStatus">Приховати статус</string>
+    <string name="MZGramHideFloatingButton">Приховати плаваючу кнопку</string>
+    <string name="MZGramHideDialogsSearchBar">Приховати панель пошуку</string>
+    <string name="MZGramChatListInfo">«Приховати статус» прибирає емодзі-статус біля заголовка списку чатів. Без плаваючої кнопки нові чати починаються з Контактів; без панелі пошуку пошук відкриває кнопка пошуку на панелі.</string>
 </resources>

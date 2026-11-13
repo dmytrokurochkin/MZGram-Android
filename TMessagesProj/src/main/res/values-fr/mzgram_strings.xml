@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">La ligne Discussions archivées disparaît de la liste ; l\'archive s\'ouvre depuis le menu à trois points. Les discussions restent archivées.</string>
     <string name="MZGramDisableUnarchiveSwipe">Désactiver le balayage « Désarchiver »</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">Un balayage dans l\'archive n\'en sort plus la discussion.</string>
+    <string name="MZGramCenterTitle">Centrer le titre</string>
+    <string name="MZGramHideActionBarStatus">Masquer le statut</string>
+    <string name="MZGramHideFloatingButton">Masquer le bouton flottant</string>
+    <string name="MZGramHideDialogsSearchBar">Masquer la barre de recherche</string>
+    <string name="MZGramChatListInfo">« Masquer le statut » retire le statut emoji à côté du titre de la liste. Sans le bouton flottant, les nouvelles discussions se lancent depuis Contacts ; sans la barre de recherche, le bouton de recherche de la barre ouvre la recherche.</string>
 </resources>

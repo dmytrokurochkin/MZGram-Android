@@ -2162,7 +2162,11 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             return;
         }
         Long emojiStatusId = UserObject.getEmojiStatusDocumentId(user);
-        if (emojiStatusId != null) {
+        // MZGram: Settings > MZGram > Appearance > Hide status
+        if (org.telegram.messenger.mzgram.MZGramConfig.hideActionBarStatus) {
+            statusDrawable.set((Drawable) null, animated);
+            statusDrawable.setParticles(false, animated);
+        } else if (emojiStatusId != null) {
             final boolean isCollectible = user.emoji_status instanceof TLRPC.TL_emojiStatusCollectible;
             statusDrawable.set(emojiStatusId, animated);
             statusDrawable.setParticles(isCollectible, animated);

@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">Die Zeile Archivierte Chats fehlt in der Chatliste; das Archiv öffnet sich über das Drei-Punkte-Menü. Chats bleiben archiviert.</string>
     <string name="MZGramDisableUnarchiveSwipe">Wischen „Aus Archiv entfernen“ aus</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">Wischen im Archiv holt keinen Chat mehr daraus heraus.</string>
+    <string name="MZGramCenterTitle">Titel zentrieren</string>
+    <string name="MZGramHideActionBarStatus">Status ausblenden</string>
+    <string name="MZGramHideFloatingButton">Schwebende Taste ausblenden</string>
+    <string name="MZGramHideDialogsSearchBar">Suchleiste ausblenden</string>
+    <string name="MZGramChatListInfo">„Status ausblenden“ entfernt den Emoji-Status neben dem Titel der Chatliste. Ohne schwebende Taste beginnen neue Chats in den Kontakten; ohne Suchleiste öffnet die Suchtaste der Leiste die Suche.</string>
 </resources>

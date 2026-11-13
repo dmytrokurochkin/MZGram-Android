@@ -1253,4 +1253,9 @@
     <string name="MZGramHideArchiveFolderInfo">Wiersza Archiwum nie ma na liście czatów; archiwum otwiera się z menu trzech kropek. Czaty zostają w archiwum.</string>
     <string name="MZGramDisableUnarchiveSwipe">Wyłącz przesunięcie „Przywróć z archiwum”</string>
     <string name="MZGramDisableUnarchiveSwipeInfo">Przesunięcie w archiwum nie wyjmuje już czatu z archiwum.</string>
+    <string name="MZGramCenterTitle">Wyśrodkuj tytuł</string>
+    <string name="MZGramHideActionBarStatus">Ukryj status</string>
+    <string name="MZGramHideFloatingButton">Ukryj pływający przycisk</string>
+    <string name="MZGramHideDialogsSearchBar">Ukryj pasek wyszukiwania</string>
+    <string name="MZGramChatListInfo">„Ukryj status” usuwa status emoji obok tytułu listy czatów. Bez pływającego przycisku nowe czaty zaczyna się w Kontaktach; bez paska wyszukiwania wyszukiwanie otwiera przycisk na pasku.</string>
 </resources>

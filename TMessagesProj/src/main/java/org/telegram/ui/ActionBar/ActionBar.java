@@ -524,7 +524,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
             return;
         }
         titleTextView[i] = new SimpleTextView(getContext());
-        titleTextView[i].setGravity(isCenterTitle ? Gravity.CENTER : Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        titleTextView[i].setGravity(mzgramCentered() ? Gravity.CENTER : Gravity.LEFT | Gravity.CENTER_VERTICAL);
         if (titleColorToSet != 0) {
             titleTextView[i].setTextColor(titleColorToSet);
         } else {
@@ -543,6 +543,13 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
     }
 
     private boolean isCenterTitle;
+
+    // MZGram: Settings > MZGram > Appearance > Center title: titles stand in
+    // the middle of the bar, between the back button and the menu, as wide
+    // as the narrower side allows (idea from exteraless ActionBar, GPL-3.0)
+    private boolean mzgramCentered() {
+        return isCenterTitle || org.telegram.messenger.mzgram.MZGramConfig.centerTitle;
+    }
 
     public void centerTitle() {
         isCenterTitle = true;
@@ -1439,6 +1446,9 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
                 // A closing search field keeps filling the menu during its fade-out; don't squeeze the title for it.
                 int titleMenuWidth = menu != null ? menu.getMeasuredWidth() - (isSearchFieldVisible ? 0 : menu.getClosingSearchFieldWidth()) : 0;
                 int availableWidth = width - titleMenuWidth - dp(16) - textLeft - titleRightMargin;
+                if (mzgramCentered()) {
+                    availableWidth = Math.min(width / 2 - textLeft, width / 2 - titleMenuWidth - dp(8) - titleRightMargin) * 2;
+                }
                 availableWidth = Math.max(availableWidth, 0);
 
                 if (((fromBottom && i == 0) || (!fromBottom && i == 1)) && overlayTitleAnimation && titleAnimationRunning) {
@@ -1545,7 +1555,8 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
                         textTop = (getCurrentActionBarHeight() - titleTextView[i].getTextHeight()) / 2;
                     }
                 }
-                titleTextView[i].layout(textLeft, additionalTop + textTop - titleTextView[i].getPaddingTop(), textLeft + titleTextView[i].getMeasuredWidth(), additionalTop + textTop + titleTextView[i].getTextHeight() - titleTextView[i].getPaddingTop() + titleTextView[i].getPaddingBottom());
+                final int titleLeft = mzgramCentered() ? (getMeasuredWidth() - titleTextView[i].getMeasuredWidth()) / 2 : textLeft;
+                titleTextView[i].layout(titleLeft, additionalTop + textTop - titleTextView[i].getPaddingTop(), titleLeft + titleTextView[i].getMeasuredWidth(), additionalTop + textTop + titleTextView[i].getTextHeight() - titleTextView[i].getPaddingTop() + titleTextView[i].getPaddingBottom());
             }
         }
         if (additionalSubTitleOverlayContainer != null) {

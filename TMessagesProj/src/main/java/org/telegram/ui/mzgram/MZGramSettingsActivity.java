@@ -308,6 +308,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SEPARATE_HEADERS = 279;
     private static final int BUTTON_M3_LOADING = 280;
     private static final int BUTTON_M3_SLIDER = 281;
+    private static final int BUTTON_GLASS_MESSAGE_MENU = 282;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -1129,6 +1130,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramSectionsInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderGlass)));
         items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
+        items.add(check(BUTTON_GLASS_MESSAGE_MENU, R.string.MZGramGlassMessageMenu, MZGramConfig.glassMessageMenu, R.string.MZGramGlassMessageMenuInfo));
         items.add(UItem.asCheck(BUTTON_FORCE_BLUR, getString(R.string.MZGramForceBlur)).setChecked(MZGramConfig.forceBlur));
         items.add(UItem.asShadow(getString(R.string.MZGramGlassOutlineInfo) + "\n\n" + getString(R.string.MZGramForceBlurInfo)));
     }
@@ -1554,6 +1556,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_GLASS_MESSAGE_MENU) {
+            MZGramConfig.toggleGlassMessageMenu();
+            ((TextCheckCell) view).setChecked(MZGramConfig.glassMessageMenu);
         } else if (item.id == BUTTON_M3_SLIDER) {
             MZGramConfig.toggleM3Slider();
             ((TextCheckCell) view).setChecked(MZGramConfig.m3Slider);

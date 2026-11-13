@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">Runde Ladeanzeigen wie in Material 3: ein welliger Bogen über einer blassen Spur.</string>
     <string name="MZGramM3Slider">Schieberegler im Material-3-Stil</string>
     <string name="MZGramM3SliderInfo">Schieberegler wie in Material 3: eine dicke Spur, geteilt von einem schmalen senkrechten Griff. Regler mit Puffer, Zeitmarken oder zwei Seiten bleiben, wie sie sind.</string>
+    <string name="MZGramGlassMessageMenu">Glas-Nachrichtenmenü</string>
+    <string name="MZGramGlassMessageMenuInfo">Nachrichtenmenü und Reaktionsleiste sehen aus wie Milchglas. Aus: deckend, wie ohne Unschärfe.</string>
 </resources>

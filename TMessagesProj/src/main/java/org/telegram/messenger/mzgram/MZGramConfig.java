@@ -664,6 +664,9 @@ public class MZGramConfig {
     // Plain sliders (SeekBarView) as a Material 3 slider: 8 dp track, 6 dp gaps, 3 x 24 dp thumb (MZGramM3Slider)
     public static boolean m3Slider = false;
 
+    // The message menu and the reactions bar on frosted glass (Telegram's own, BlurredBackgroundProviderImpl.messageMenuPopupBackground); off: solid
+    public static boolean glassMessageMenu = true;
+
     static {
         loadConfig(false);
     }
@@ -985,6 +988,7 @@ public class MZGramConfig {
             separateHeaders = preferences.getBoolean("separateHeaders", false);
             m3Loading = preferences.getBoolean("m3Loading", false);
             m3Slider = preferences.getBoolean("m3Slider", false);
+            glassMessageMenu = preferences.getBoolean("glassMessageMenu", true);
             configLoaded = true;
         }
     }
@@ -2429,5 +2433,10 @@ public class MZGramConfig {
     public static void toggleM3Slider() {
         m3Slider = !m3Slider;
         putBoolean("m3Slider", m3Slider);
+    }
+
+    public static void toggleGlassMessageMenu() {
+        glassMessageMenu = !glassMessageMenu;
+        putBoolean("glassMessageMenu", glassMessageMenu);
     }
 }

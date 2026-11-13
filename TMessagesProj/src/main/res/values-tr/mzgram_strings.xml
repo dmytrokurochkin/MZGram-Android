@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">Material 3\'teki gibi yuvarlak yükleme göstergeleri: soluk bir iz üzerinde dalgalı bir yay.</string>
     <string name="MZGramM3Slider">Material 3 kaydırıcılar</string>
     <string name="MZGramM3SliderInfo">Material 3\'teki gibi kaydırıcılar: dar dikey bir tutamakla bölünen kalın bir iz. Arabellekli, zaman kodlu veya iki yönlü kaydırıcılar olduğu gibi kalır.</string>
+    <string name="MZGramGlassMessageMenu">Cam mesaj menüsü</string>
+    <string name="MZGramGlassMessageMenuInfo">Mesaj menüsü ve tepki çubuğu buzlu cam gibi görünür. Kapalı: bulanıklık yokmuş gibi düz.</string>
 </resources>

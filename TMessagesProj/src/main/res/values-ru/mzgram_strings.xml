@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">Круглые индикаторы загрузки как в Material 3: волнистая дуга над бледной дорожкой.</string>
     <string name="MZGramM3Slider">Ползунки Material 3</string>
     <string name="MZGramM3SliderInfo">Ползунки как в Material 3: толстая дорожка, разделённая узким вертикальным бегунком. Ползунки с буфером, таймкодами или двумя сторонами остаются как есть.</string>
+    <string name="MZGramGlassMessageMenu">Стеклянное меню сообщения</string>
+    <string name="MZGramGlassMessageMenuInfo">Меню сообщения и панель реакций выглядят как матовое стекло. Выключено: сплошные, как без размытия.</string>
 </resources>

@@ -232,6 +232,7 @@ Settings > MZGram > Chats.
 | Monet themes | Three themes in the colours of your wallpaper (Material You), light, dark and black, beside the standard ones; they follow a new wallpaper. Off by default. | Next release |
 | Don't load hidden stories | With Hide stories on, the stories row and story previews are not loaded in the background, which saves traffic and battery. Off by default. | Next release |
 | Avatar shape | A slider for how round avatars are across the app, from a circle as in Telegram through a rounded square to a square. | Next release |
+| Glass message menu | Settings > MZGram > Appearance > Glass and blur. The menu of a message and its reactions bar look like frosted glass, as in Telegram; off, both are solid, as without blur. On by default. | Next release |
 | Glass outline | The edge of glass panels, buttons and menus: glare as in Telegram, one thin solid line, or none. | Next release |
 
 ### Ads and filters

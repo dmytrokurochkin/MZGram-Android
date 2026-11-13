@@ -588,4 +588,28 @@ class MZGramScreensTest {
             if (MZGramConfig.m3Slider != slider) MZGramConfig.toggleM3Slider()
         }
     }
+
+    // Glass message menu: on by default, as Telegram draws it; off, the message
+    // menu and the reactions bar are solid, other menus keep their glass
+    @Test
+    fun glassMessageMenu() {
+        val impl = org.telegram.ui.Components.blur3.drawable.color.impl.BlurredBackgroundProviderImpl::class.java
+        fun color(name: String) = (impl.getMethod(name, org.telegram.ui.ActionBar.Theme.ResourcesProvider::class.java).invoke(null, null)
+            as org.telegram.ui.Components.blur3.drawable.color.BlurredBackgroundProvider).backgroundColor
+        val glass = MZGramConfig.glassMessageMenu
+        try {
+            if (!MZGramConfig.glassMessageMenu) MZGramConfig.toggleGlassMessageMenu()
+            val other = color("messageMenuBackground")
+            assertEquals(other, color("messageMenuPopupBackground"))
+            assertEquals(other, color("messageMenuReactionsBackground"))
+            MZGramConfig.toggleGlassMessageMenu()
+            assertFalse(MZGramConfig.glassMessageMenu)
+            val solid = org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_actionBarDefaultSubmenuBackground)
+            assertEquals(solid, color("messageMenuPopupBackground"))
+            assertEquals(solid, color("messageMenuReactionsBackground"))
+            assertEquals(other, color("messageMenuBackground"))
+        } finally {
+            if (MZGramConfig.glassMessageMenu != glass) MZGramConfig.toggleGlassMessageMenu()
+        }
+    }
 }

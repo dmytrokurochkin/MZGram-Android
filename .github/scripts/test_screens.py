@@ -447,6 +447,12 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("case MZGramDrawerItems.FEED:", read(JAVA / "ui/mzgram/MZGramDrawer.java"))
 
 
+    def test_glass_message_menu(self):
+        self.switch("glassMessageMenu", "true", "BUTTON_GLASS_MESSAGE_MENU")
+        blur = read(JAVA / "ui/Components/blur3/drawable/color/impl/BlurredBackgroundProviderImpl.java")
+        self.assertIn("if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR) || messageMenu && !org.telegram.messenger.mzgram.MZGramConfig.glassMessageMenu) {", blur)
+        self.assertIn(".setColorProvider(BlurredBackgroundProviderImpl.messageMenuPopupBackground(resourceProvider))", read(JAVA / "ui/ChatActivity.java"))
+
     def test_material3_group(self):
         self.switch("m3Loading", "false", "BUTTON_M3_LOADING")
         self.switch("m3Slider", "false", "BUTTON_M3_SLIDER")

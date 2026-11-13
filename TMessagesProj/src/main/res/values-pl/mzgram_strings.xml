@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">Okrągłe wskaźniki ładowania jak w Material 3: falisty łuk nad bladą ścieżką.</string>
     <string name="MZGramM3Slider">Suwaki Material 3</string>
     <string name="MZGramM3SliderInfo">Suwaki jak w Material 3: gruba ścieżka podzielona wąskim pionowym uchwytem. Suwaki z buforem, znacznikami czasu lub dwiema stronami zostają bez zmian.</string>
+    <string name="MZGramGlassMessageMenu">Szklane menu wiadomości</string>
+    <string name="MZGramGlassMessageMenuInfo">Menu wiadomości i pasek reakcji wyglądają jak matowe szkło. Wyłączone: pełne, jak bez rozmycia.</string>
 </resources>

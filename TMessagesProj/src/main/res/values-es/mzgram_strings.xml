@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">Indicadores de carga redondos como en Material 3: un arco ondulado sobre una pista tenue.</string>
     <string name="MZGramM3Slider">Controles deslizantes Material 3</string>
     <string name="MZGramM3SliderInfo">Controles como en Material 3: una pista gruesa dividida por un tirador vertical estrecho. Los que tienen búfer, marcas de tiempo o dos lados no cambian.</string>
+    <string name="MZGramGlassMessageMenu">Menú de mensaje de cristal</string>
+    <string name="MZGramGlassMessageMenuInfo">El menú del mensaje y la barra de reacciones parecen cristal esmerilado. Desactivado: opacos, como sin desenfoque.</string>
 </resources>

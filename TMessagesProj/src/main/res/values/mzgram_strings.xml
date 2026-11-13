@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">Round loading spinners as in Material 3: a wavy arc over a faint track.</string>
     <string name="MZGramM3Slider">Material 3 sliders</string>
     <string name="MZGramM3SliderInfo">Sliders as in Material 3: a thick track split by a narrow upright thumb. Sliders with a buffer, time codes or two sides stay as they are.</string>
+    <string name="MZGramGlassMessageMenu">Glass message menu</string>
+    <string name="MZGramGlassMessageMenuInfo">The message menu and the reactions bar look like frosted glass. Off: solid, as without blur.</string>
 </resources>

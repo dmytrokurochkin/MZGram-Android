@@ -91,13 +91,23 @@ public class BlurredBackgroundProviderImpl {
     }
 
     public static BlurredBackgroundProvider messageMenuReactionsBackground(Theme.ResourcesProvider resourcesProvider) {
-        return messageMenuBackground(resourcesProvider);
+        return messageMenuBackground(resourcesProvider, true);
+    }
+
+    // MZGram: the menu of a message (ChatActivity), which Glass message menu turns solid
+    public static BlurredBackgroundProvider messageMenuPopupBackground(Theme.ResourcesProvider resourcesProvider) {
+        return messageMenuBackground(resourcesProvider, true);
     }
 
     public static BlurredBackgroundProvider messageMenuBackground(Theme.ResourcesProvider resourcesProvider) {
+        return messageMenuBackground(resourcesProvider, false);
+    }
+
+    private static BlurredBackgroundProvider messageMenuBackground(Theme.ResourcesProvider resourcesProvider, boolean messageMenu) {
         return new BlurredBackgroundProviderBuilder(resourcesProvider)
                 .setBackgroundColor((r, isDark) -> {
-                    if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR)) {
+                    // MZGram: Settings > MZGram > Appearance > Glass message menu off: solid, as without blur
+                    if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR) || messageMenu && !org.telegram.messenger.mzgram.MZGramConfig.glassMessageMenu) {
                         return Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground);
                     }
                     return Theme.multAlpha(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground), isDark ? 0.85f : 0.825f);

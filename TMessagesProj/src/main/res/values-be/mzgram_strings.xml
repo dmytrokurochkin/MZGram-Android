@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">Круглыя індыкатары загрузкі як у Material 3: хвалістая дуга над бледнай дарожкай.</string>
     <string name="MZGramM3Slider">Паўзункі Material 3</string>
     <string name="MZGramM3SliderInfo">Паўзункі як у Material 3: тоўстая дарожка, падзеленая вузкім вертыкальным бегунком. Паўзункі з буферам, таймкодамі ці двума бакамі застаюцца як ёсць.</string>
+    <string name="MZGramGlassMessageMenu">Шкляное меню паведамлення</string>
+    <string name="MZGramGlassMessageMenuInfo">Меню паведамлення і панэль рэакцый выглядаюць як матавае шкло. Выключана: суцэльныя, як без размыцця.</string>
 </resources>

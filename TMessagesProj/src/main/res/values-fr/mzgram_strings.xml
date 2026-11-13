@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">Indicateurs de chargement ronds comme dans Material 3 : un arc ondulé sur une piste pâle.</string>
     <string name="MZGramM3Slider">Curseurs Material 3</string>
     <string name="MZGramM3SliderInfo">Curseurs comme dans Material 3 : une piste épaisse coupée par une poignée verticale étroite. Ceux avec tampon, horodatages ou deux côtés restent tels quels.</string>
+    <string name="MZGramGlassMessageMenu">Menu de message en verre</string>
+    <string name="MZGramGlassMessageMenuInfo">Le menu du message et la barre des réactions ressemblent à du verre dépoli. Désactivé : opaques, comme sans flou.</string>
 </resources>

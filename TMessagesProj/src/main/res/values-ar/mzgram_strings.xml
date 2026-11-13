@@ -1379,4 +1379,6 @@
     <string name="MZGramM3LoadingInfo">مؤشرات تحميل دائرية كما في Material 3: قوس متموج فوق مسار باهت.</string>
     <string name="MZGramM3Slider">منزلقات Material 3</string>
     <string name="MZGramM3SliderInfo">منزلقات كما في Material 3: مسار سميك يقسمه مقبض عمودي ضيق. تبقى المنزلقات ذات المخزن المؤقت أو الطوابع الزمنية أو الجانبين كما هي.</string>
+    <string name="MZGramGlassMessageMenu">قائمة رسالة زجاجية</string>
+    <string name="MZGramGlassMessageMenuInfo">تبدو قائمة الرسالة وشريط التفاعلات كزجاج مصنفر. عند الإيقاف: مصمتة كما بلا تمويه.</string>
 </resources>

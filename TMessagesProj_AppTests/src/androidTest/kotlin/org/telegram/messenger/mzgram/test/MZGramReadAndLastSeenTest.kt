@@ -53,9 +53,9 @@ class MZGramReadAndLastSeenTest {
         latch.await(30, TimeUnit.SECONDS)
     }
 
-    private fun deliver(update: TLRPC.Update) {
+    private fun deliver(update: TLRPC.Update, fromGetDifference: Boolean = false) {
         Utilities.stageQueue.postRunnable {
-            controller.processUpdateArray(arrayListOf(update), ArrayList(), ArrayList(), false, 0)
+            controller.processUpdateArray(arrayListOf(update), ArrayList(), ArrayList(), fromGetDifference, 0)
         }
         repeat(3) {
             drain(Utilities.stageQueue)
@@ -65,13 +65,13 @@ class MZGramReadAndLastSeenTest {
         instrumentation.runOnMainSync { }
     }
 
-    private fun readUpTo(userId: Long, maxId: Int) {
+    private fun readUpTo(userId: Long, maxId: Int, fromGetDifference: Boolean = false) {
         deliver(TL_update.TL_updateReadHistoryOutbox().also {
             it.peer = TLRPC.TL_peerUser().also { p -> p.user_id = userId }
             it.max_id = maxId
             it.pts = 0
             it.pts_count = 0
-        })
+        }, fromGetDifference)
     }
 
     @Test
@@ -193,5 +193,89 @@ class MZGramReadAndLastSeenTest {
         val stored = org.telegram.messenger.mzgram.MZGramHistoryDatabase.getInstance().getAllLastSeen()[userId]
         assertNotNull("in the archive database", stored)
         assertEquals(at, stored)
+    }
+
+    // A read seen live is a sign at that moment
+    @Test
+    fun liveRead_isASign() {
+        val user = hiddenUser(TLRPC.TL_userStatusRecently())
+        val before = now()
+        readUpTo(user.id, 100)
+        assertTrue("noted: ${MZGramLastSeen.lastSeen(user.id)}", MZGramLastSeen.lastSeen(user.id) >= before - 5)
+    }
+
+    // A read the app catches up on after being offline happened some time
+    // before: it is no sign, else everyone who read in the night shows
+    // "last seen" at the moment the app was opened
+    @Test
+    fun caughtUpRead_isNoSign() {
+        val user = hiddenUser(TLRPC.TL_userStatusRecently())
+        readUpTo(user.id, 100, fromGetDifference = true)
+        assertEquals(0, MZGramLastSeen.lastSeen(user.id))
+        assertEquals(LocaleController.getString(R.string.Lately), status(user))
+    }
+
+    // A time far past the clock (an import in milliseconds, a wrong clock)
+    // is dropped and does not hide later real times, in memory or on disk
+    @Test
+    fun futureTime_doesNotHideLaterSigns() {
+        val userId = newUserId()
+        MZGramLastSeen.record(userId, now() + 30 * 24 * 3600)
+        assertEquals(0, MZGramLastSeen.lastSeen(userId))
+        val at = now() - 60
+        MZGramLastSeen.record(userId, at)
+        assertEquals(at, MZGramLastSeen.lastSeen(userId))
+
+        val database = org.telegram.messenger.mzgram.MZGramHistoryDatabase.getInstance()
+        val other = newUserId()
+        database.putLastSeen(other, Int.MAX_VALUE - 10)
+        database.putLastSeen(other, at, now() + 24 * 3600)
+        assertEquals(at, database.getAllLastSeen()[other])
+    }
+
+    // With Save last online off nothing is noted and no estimate is shown
+    @Test
+    fun saveLastOnlineOff_showsTheUsualText() {
+        val user = hiddenUser(TLRPC.TL_userStatusRecently())
+        MZGramLastSeen.record(user.id, now() - 600)
+        assertTrue(status(user) != LocaleController.getString(R.string.Lately))
+        val was = org.telegram.messenger.mzgram.MZGramConfig.saveLastOnline
+        try {
+            org.telegram.messenger.mzgram.MZGramConfig.saveLastOnline = false
+            assertEquals(LocaleController.getString(R.string.Lately), status(user))
+            val other = hiddenUser(TLRPC.TL_userStatusRecently())
+            MZGramLastSeen.record(other.id, now() - 60)
+            assertEquals(0, MZGramLastSeen.lastSeen(other.id))
+        } finally {
+            org.telegram.messenger.mzgram.MZGramConfig.saveLastOnline = was
+        }
+    }
+
+    // Where the place is short, the estimate is shortened as a real time is
+    @Test
+    fun shorterPlace_getsTheShorterText() {
+        val user = hiddenUser(TLRPC.TL_userStatusRecently())
+        val at = now() - 24 * 3600
+        MZGramLastSeen.record(user.id, at)
+        val shorter = booleanArrayOf(false)
+        var text = ""
+        instrumentation.runOnMainSync { text = LocaleController.formatUserStatus(account, user, null, shorter) }
+        val expected = booleanArrayOf(false)
+        assertEquals(LocaleController.formatDateOnline(at.toLong(), expected), text)
+        assertEquals(expected[0], shorter[0])
+    }
+
+    // Remember exact last seen times: a status in a user the app loads is noted too
+    @Test
+    fun exactStatusInALoadedUser_isNoted() {
+        val was = org.telegram.messenger.mzgram.MZGramConfig.lastSeenExact
+        try {
+            org.telegram.messenger.mzgram.MZGramConfig.lastSeenExact = true
+            val at = now() - 600
+            val user = hiddenUser(TLRPC.TL_userStatusOffline().also { it.expires = at })
+            assertEquals(at, MZGramLastSeen.lastSeen(user.id))
+        } finally {
+            org.telegram.messenger.mzgram.MZGramConfig.lastSeenExact = was
+        }
     }
 }

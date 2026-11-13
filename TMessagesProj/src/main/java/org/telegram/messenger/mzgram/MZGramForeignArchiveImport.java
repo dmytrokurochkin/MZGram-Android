@@ -343,8 +343,11 @@ public final class MZGramForeignArchiveImport {
             }
             while (row.moveToNext()) {
                 long user = getLong(row, userId);
-                int at = getInt(row, lastSeen);
-                if (user > 0 && at > 0) {
+                long at = getLong(row, lastSeen);
+                if (at > 100_000_000_000L) {
+                    at /= 1000; // kept in milliseconds
+                }
+                if (user > 0 && at > 0 && at < Integer.MAX_VALUE) {
                     out.add(new long[]{user, at});
                 }
             }

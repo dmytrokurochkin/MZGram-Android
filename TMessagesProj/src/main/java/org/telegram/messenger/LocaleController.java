@@ -3066,7 +3066,7 @@ public class LocaleController {
             } else {
                 // MZGram: an approximate time for a hidden last seen, see
                 // MZGramLastSeen.
-                String approximate = org.telegram.messenger.mzgram.MZGramLastSeen.approximateStatus(user, currentTime);
+                String approximate = org.telegram.messenger.mzgram.MZGramLastSeen.approximateStatus(user, currentTime, madeShorter);
                 if (approximate != null) {
                     return approximate;
                 }

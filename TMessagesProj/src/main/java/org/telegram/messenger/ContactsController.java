@@ -2629,6 +2629,8 @@ public class ContactsController extends BaseController {
                             if (user != null) {
                                 user.status = status.status;
                             }
+                            // MZGram: contacts' exact times, kept for when they hide their last seen
+                            org.telegram.messenger.mzgram.MZGramLastSeen.recordStatus(status.user_id, status.status, getConnectionsManager().getCurrentTime());
                             toDbUser.status = status.status;
                             dbUsersStatus.add(toDbUser);
                         }

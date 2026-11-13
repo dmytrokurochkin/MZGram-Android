@@ -506,9 +506,15 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
     }
 
     public void putLastSeen(long userId, int seenAt) {
+        putLastSeen(userId, seenAt, Integer.MAX_VALUE);
+    }
+
+    // A kept time later than latestPossible is broken (a time in milliseconds,
+    // a wrong clock) and is replaced by any real one.
+    public void putLastSeen(long userId, int seenAt, int latestPossible) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("INSERT OR IGNORE INTO " + TABLE_LAST_SEEN + " (userId, seenAt) VALUES (?, ?)", new Object[]{userId, seenAt});
-        db.execSQL("UPDATE " + TABLE_LAST_SEEN + " SET seenAt = ? WHERE userId = ? AND seenAt < ?", new Object[]{seenAt, userId, seenAt});
+        db.execSQL("UPDATE " + TABLE_LAST_SEEN + " SET seenAt = ? WHERE userId = ? AND (seenAt < ? OR seenAt > ?)", new Object[]{seenAt, userId, seenAt, latestPossible});
     }
 
     public java.util.Map<Long, Integer> getAllLastSeen() {

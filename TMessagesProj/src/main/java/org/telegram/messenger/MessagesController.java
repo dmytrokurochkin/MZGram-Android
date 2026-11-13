@@ -6945,6 +6945,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     getUserConfig().saveConfig(true);
                 }
                 getUserNameResolver().update(oldUser, user);
+                // MZGram: an exact online or last seen time from the server, kept for when the person hides it
+                org.telegram.messenger.mzgram.MZGramLastSeen.recordStatus(user.id, user.status, getConnectionsManager().getCurrentTime());
                 if (oldUser != null && user.status != null && oldUser.status != null && user.status.expires != oldUser.status.expires) {
                     return true;
                 }
@@ -19064,9 +19066,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 dialogs_read_outbox_max.put(dialogId, Math.max(value, update.max_id));
                 // MZGram: when own messages were read (message info), and a
-                // sign that the reader was online.
+                // sign that the reader was online. Not a read caught up on
+                // after being offline: it happened some time before now.
                 org.telegram.messenger.mzgram.MZGramReadDates.onOutboxRead(currentAccount, dialogId, update.max_id, getConnectionsManager().getCurrentTime());
-                if (update.peer.user_id != 0) {
+                if (update.peer.user_id != 0 && !fromGetDifference) {
                     org.telegram.messenger.mzgram.MZGramLastSeen.record(update.peer.user_id, getConnectionsManager().getCurrentTime());
                 }
             } else if (baseUpdate instanceof TL_update.TL_updateDeleteMessages) {

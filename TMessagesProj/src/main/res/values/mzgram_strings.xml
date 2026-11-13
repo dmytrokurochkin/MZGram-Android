@@ -1322,4 +1322,15 @@
     <string name="MZGramShowOnlineStatus">Show online indicator</string>
     <string name="MZGramShowOnlineStatusInfo">A dot on the avatar of the sender in groups: green while online, then yellow, orange and red for the first 15, 30 and 60 minutes after they were last seen.</string>
     <string name="MZGramShowForwardsCount">Show forwards counter</string>
+    <string name="MZGramQuickAdminShortcuts">Quick admin actions</string>
+    <string name="MZGramQuickAdminShortcutsInfo">Where you are an admin, the chat menu gets Recent actions, Administrators and Permissions.</string>
+    <string name="MZGramHeaderTelegramAi">Telegram AI features</string>
+    <string name="MZGramTelegramAiEditor">AI editor</string>
+    <string name="MZGramTelegramAiSummary">Message summary</string>
+    <string name="MZGramTelegramAiIvSummary">Instant View summary</string>
+    <string name="MZGramTelegramAiInfo">Telegram\'s own AI features. Turned off, their buttons are hidden and the AI summary block is left out of Instant View pages.</string>
+    <string name="MZGramQuickTransition">Quick swipe transition</string>
+    <string name="MZGramQuickTransitionChannels">Channels</string>
+    <string name="MZGramQuickTransitionTopics">Topics</string>
+    <string name="MZGramQuickTransitionInfo">At the end of a channel or topic, pull up to open the next unread one, as in Telegram.</string>
 </resources>

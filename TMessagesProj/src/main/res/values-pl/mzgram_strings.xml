@@ -1322,4 +1322,15 @@
     <string name="MZGramShowOnlineStatus">Pokaż wskaźnik obecności</string>
     <string name="MZGramShowOnlineStatusInfo">Kropka na awatarze nadawcy w grupach: zielona, gdy jest online, potem żółta, pomarańczowa i czerwona przez 15, 30 i 60 minut od ostatniej wizyty.</string>
     <string name="MZGramShowForwardsCount">Pokaż licznik przekazań</string>
+    <string name="MZGramQuickAdminShortcuts">Szybkie akcje administratora</string>
+    <string name="MZGramQuickAdminShortcutsInfo">Tam, gdzie jesteś administratorem, menu czatu zawiera Ostatnie działania, Administratorów i Uprawnienia.</string>
+    <string name="MZGramHeaderTelegramAi">Funkcje AI Telegrama</string>
+    <string name="MZGramTelegramAiEditor">Edytor AI</string>
+    <string name="MZGramTelegramAiSummary">Podsumowanie wiadomości</string>
+    <string name="MZGramTelegramAiIvSummary">Podsumowanie w Instant View</string>
+    <string name="MZGramTelegramAiInfo">Własne funkcje AI Telegrama. Po wyłączeniu ich przyciski są ukryte, a blok podsumowania AI nie pojawia się na stronach Instant View.</string>
+    <string name="MZGramQuickTransition">Szybkie przejście przesunięciem</string>
+    <string name="MZGramQuickTransitionChannels">Kanały</string>
+    <string name="MZGramQuickTransitionTopics">Tematy</string>
+    <string name="MZGramQuickTransitionInfo">Na końcu kanału lub tematu pociągnij w górę, aby otworzyć następny nieprzeczytany, jak w Telegramie.</string>
 </resources>

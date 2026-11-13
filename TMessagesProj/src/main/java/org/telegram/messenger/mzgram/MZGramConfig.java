@@ -565,6 +565,24 @@ public class MZGramConfig {
     // How many times a channel post was forwarded, after its views (ChatMessageCell)
     public static boolean showForwardsCount = false;
 
+    // Recent actions, Administrators and Permissions in the chat menu where one is an admin (MZGramAdminShortcuts)
+    public static boolean quickAdminShortcuts = false;
+
+    // Telegram's AI editor button in the message field, captions and the rich editor (MZGramTelegramAi)
+    public static boolean telegramAiEditor = true;
+
+    // Telegram's message summary button beside long messages (MZGramTelegramAi)
+    public static boolean telegramAiSummary = true;
+
+    // Telegram's AI summary block at the top of an Instant View page (MZGramTelegramAi)
+    public static boolean telegramAiIvSummary = true;
+
+    // At the end of a channel, pulling up opens the next unread channel, as in Telegram (ChatActivity)
+    public static boolean quickTransitionChannels = true;
+
+    // At the end of a topic, pulling up opens the next unread topic, as in Telegram (ChatActivity)
+    public static boolean quickTransitionTopics = true;
+
     static {
         loadConfig(false);
     }
@@ -854,6 +872,12 @@ public class MZGramConfig {
             replaceEditedWithIcon = preferences.getBoolean("replaceEditedWithIcon", false);
             showOnlineStatus = preferences.getBoolean("showOnlineStatus", false);
             showForwardsCount = preferences.getBoolean("showForwardsCount", false);
+            quickAdminShortcuts = preferences.getBoolean("quickAdminShortcuts", false);
+            telegramAiEditor = preferences.getBoolean("telegramAiEditor", true);
+            telegramAiSummary = preferences.getBoolean("telegramAiSummary", true);
+            telegramAiIvSummary = preferences.getBoolean("telegramAiIvSummary", true);
+            quickTransitionChannels = preferences.getBoolean("quickTransitionChannels", true);
+            quickTransitionTopics = preferences.getBoolean("quickTransitionTopics", true);
             configLoaded = true;
         }
     }
@@ -2116,5 +2140,35 @@ public class MZGramConfig {
     public static void toggleShowForwardsCount() {
         showForwardsCount = !showForwardsCount;
         putBoolean("showForwardsCount", showForwardsCount);
+    }
+
+    public static void toggleQuickAdminShortcuts() {
+        quickAdminShortcuts = !quickAdminShortcuts;
+        putBoolean("quickAdminShortcuts", quickAdminShortcuts);
+    }
+
+    public static void toggleTelegramAiEditor() {
+        telegramAiEditor = !telegramAiEditor;
+        putBoolean("telegramAiEditor", telegramAiEditor);
+    }
+
+    public static void toggleTelegramAiSummary() {
+        telegramAiSummary = !telegramAiSummary;
+        putBoolean("telegramAiSummary", telegramAiSummary);
+    }
+
+    public static void toggleTelegramAiIvSummary() {
+        telegramAiIvSummary = !telegramAiIvSummary;
+        putBoolean("telegramAiIvSummary", telegramAiIvSummary);
+    }
+
+    public static void toggleQuickTransitionChannels() {
+        quickTransitionChannels = !quickTransitionChannels;
+        putBoolean("quickTransitionChannels", quickTransitionChannels);
+    }
+
+    public static void toggleQuickTransitionTopics() {
+        quickTransitionTopics = !quickTransitionTopics;
+        putBoolean("quickTransitionTopics", quickTransitionTopics);
     }
 }

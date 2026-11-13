@@ -294,6 +294,28 @@ class ScreensTest(unittest.TestCase):
         icon = read(JAVA / "ui/mzgram/MZGramEditedIcon.java")
         self.assertIn('public static final String MARK = "\\u270E";', icon)
 
+    def test_telegram_ai_admin_actions_quick_transition(self):
+        self.switch("quickAdminShortcuts", "false", "BUTTON_QUICK_ADMIN_SHORTCUTS")
+        self.switch("telegramAiEditor", "true", "BUTTON_TELEGRAM_AI_EDITOR")
+        self.switch("telegramAiSummary", "true", "BUTTON_TELEGRAM_AI_SUMMARY")
+        self.switch("telegramAiIvSummary", "true", "BUTTON_TELEGRAM_AI_IV_SUMMARY")
+        self.switch("quickTransitionChannels", "true", "BUTTON_QUICK_TRANSITION_CHANNELS")
+        self.switch("quickTransitionTopics", "true", "BUTTON_QUICK_TRANSITION_TOPICS")
+        ai = "org.telegram.messenger.mzgram.MZGramTelegramAi"
+        self.assertIn(f"!{ai}.summaryHidden() && TranslateController.isSummarizable(messageObject)", read(JAVA / "ui/Cells/ChatMessageCell.java"))
+        for name in ("CaptionPhotoViewer", "ChatAttachAlert", "ChatActivityEnterView"):
+            self.assertIn(f"&& !{ai}.editorHidden(); // MZGram: Telegram AI features", read(JAVA / f"ui/Components/{name}.java"), name)
+        self.assertEqual(1, read(JAVA / "ui/iv/RichEditor.java").count(f"if ({ai}.editorHidden())"))
+        self.assertEqual(2, read(JAVA / "ui/iv/RichEditorToolbar.java").count(f"if ({ai}.editorHidden())"))
+        self.assertIn(f"if ({ai}.hideIvBlock(block))", read(JAVA / "ui/ArticleViewer.java"))
+        chat = read(JAVA / "ui/ChatActivity.java")
+        self.assertIn("org.telegram.ui.mzgram.MZGramAdminShortcuts.addItems(headerItem, currentChat, chatMode);", chat)
+        self.assertIn("} else if (org.telegram.ui.mzgram.MZGramAdminShortcuts.onItem(ChatActivity.this, id)) {", chat)
+        self.assertIn("!currentChat.megagroup && org.telegram.messenger.mzgram.MZGramConfig.quickTransitionChannels", chat)
+        self.assertIn("&& org.telegram.messenger.mzgram.MZGramConfig.quickTransitionTopics) && chatMode != MODE_SAVED", chat)
+        self.assertNotIn("= 1104;", chat)
+        self.assertIn("MZGramConfig.quickAdminShortcuts && chat != null", read(JAVA / "ui/mzgram/MZGramAdminShortcuts.java"))
+
 
 if __name__ == "__main__":
     unittest.main()

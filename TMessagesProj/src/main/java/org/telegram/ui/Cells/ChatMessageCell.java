@@ -7011,7 +7011,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     drawSideButton = 2;
                 }
             }
-            drawSummarizeButton = TranslateController.isSummarizable(messageObject);
+            drawSummarizeButton = !org.telegram.messenger.mzgram.MZGramTelegramAi.summaryHidden() && TranslateController.isSummarizable(messageObject); // MZGram: Telegram AI features
             if (messageObject.isWideChannelPost()) { // MZGram: no room for side buttons
                 drawSideButton = 0;
                 drawSideButton2 = 0;

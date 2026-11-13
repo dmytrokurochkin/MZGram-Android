@@ -1322,4 +1322,15 @@
     <string name="MZGramShowOnlineStatus">Желі индикаторын көрсету</string>
     <string name="MZGramShowOnlineStatusInfo">Топтарда жіберушінің аватарындағы нүкте: желіде болғанда жасыл, соңғы кіргеннен кейінгі 15, 30 және 60 минут ішінде сары, қызғылт сары және қызыл.</string>
     <string name="MZGramShowForwardsCount">Қайта жіберу санауышын көрсету</string>
+    <string name="MZGramQuickAdminShortcuts">Жылдам әкімші әрекеттері</string>
+    <string name="MZGramQuickAdminShortcutsInfo">Әкімші болған жерде чат мәзірінде «Соңғы әрекеттер», «Әкімшілер» және «Рұқсаттар» пайда болады.</string>
+    <string name="MZGramHeaderTelegramAi">Telegram ЖИ мүмкіндіктері</string>
+    <string name="MZGramTelegramAiEditor">ЖИ редакторы</string>
+    <string name="MZGramTelegramAiSummary">Хабарлама түйіні</string>
+    <string name="MZGramTelegramAiIvSummary">Instant View түйіні</string>
+    <string name="MZGramTelegramAiInfo">Telegram-ның өз ЖИ мүмкіндіктері. Өшірілсе, олардың түймелері жасырылады, ал ЖИ түйіні блогы Instant View беттерінде көрсетілмейді.</string>
+    <string name="MZGramQuickTransition">Сырғытып жылдам өту</string>
+    <string name="MZGramQuickTransitionChannels">Арналар</string>
+    <string name="MZGramQuickTransitionTopics">Тақырыптар</string>
+    <string name="MZGramQuickTransitionInfo">Арнаның немесе тақырыптың соңында Telegram-дағыдай келесі оқылмағанын ашу үшін жоғары тартыңыз.</string>
 </resources>

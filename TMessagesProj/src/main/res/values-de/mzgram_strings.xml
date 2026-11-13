@@ -1322,4 +1322,15 @@
     <string name="MZGramShowOnlineStatus">Online-Anzeige zeigen</string>
     <string name="MZGramShowOnlineStatusInfo">Ein Punkt am Profilbild des Absenders in Gruppen: grün, solange online, danach gelb, orange und rot für 15, 30 und 60 Minuten nach dem letzten Besuch.</string>
     <string name="MZGramShowForwardsCount">Weiterleitungszähler zeigen</string>
+    <string name="MZGramQuickAdminShortcuts">Schnelle Admin-Aktionen</string>
+    <string name="MZGramQuickAdminShortcutsInfo">Wo du Admin bist, enthält das Chatmenü Letzte Aktionen, Administratoren und Berechtigungen.</string>
+    <string name="MZGramHeaderTelegramAi">KI-Funktionen von Telegram</string>
+    <string name="MZGramTelegramAiEditor">KI-Editor</string>
+    <string name="MZGramTelegramAiSummary">Nachrichtenzusammenfassung</string>
+    <string name="MZGramTelegramAiIvSummary">Zusammenfassung in Instant View</string>
+    <string name="MZGramTelegramAiInfo">Telegrams eigene KI-Funktionen. Ausgeschaltet werden ihre Tasten ausgeblendet und der KI-Zusammenfassungsblock fehlt auf Instant-View-Seiten.</string>
+    <string name="MZGramQuickTransition">Schneller Wechsel per Wischen</string>
+    <string name="MZGramQuickTransitionChannels">Kanäle</string>
+    <string name="MZGramQuickTransitionTopics">Themen</string>
+    <string name="MZGramQuickTransitionInfo">Am Ende eines Kanals oder Themas nach oben ziehen, um das nächste ungelesene zu öffnen, wie bei Telegram.</string>
 </resources>

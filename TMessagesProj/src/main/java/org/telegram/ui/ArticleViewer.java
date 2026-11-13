@@ -1976,6 +1976,9 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
             int count = webPage.cached_page.blocks.size();
             for (int a = 0; a < count; a++) {
                 TL_iv.PageBlock block = webPage.cached_page.blocks.get(a);
+                if (org.telegram.messenger.mzgram.MZGramTelegramAi.hideIvBlock(block)) { // MZGram: Telegram AI features
+                    continue;
+                }
                 if (a == 0) {
                     block.first = true;
                     if (block instanceof TL_iv.pageBlockCover) {

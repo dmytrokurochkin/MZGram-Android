@@ -1322,4 +1322,15 @@
     <string name="MZGramShowOnlineStatus">Показывать индикатор онлайна</string>
     <string name="MZGramShowOnlineStatusInfo">Точка на аватарке отправителя в группах: зелёная, пока человек в сети, затем жёлтая, оранжевая и красная в течение 15, 30 и 60 минут после последнего визита.</string>
     <string name="MZGramShowForwardsCount">Показывать счётчик пересылок</string>
+    <string name="MZGramQuickAdminShortcuts">Быстрые админ-действия</string>
+    <string name="MZGramQuickAdminShortcutsInfo">Где вы администратор, в меню чата появляются «Недавние действия», «Администраторы» и «Разрешения».</string>
+    <string name="MZGramHeaderTelegramAi">ИИ-функции Telegram</string>
+    <string name="MZGramTelegramAiEditor">ИИ-редактор</string>
+    <string name="MZGramTelegramAiSummary">Краткое содержание сообщения</string>
+    <string name="MZGramTelegramAiIvSummary">Краткое содержание в Instant View</string>
+    <string name="MZGramTelegramAiInfo">Собственные ИИ-функции Telegram. Если выключить, их кнопки скрываются, а блок ИИ-сводки не показывается на страницах Instant View.</string>
+    <string name="MZGramQuickTransition">Быстрый переход свайпом</string>
+    <string name="MZGramQuickTransitionChannels">Каналы</string>
+    <string name="MZGramQuickTransitionTopics">Темы</string>
+    <string name="MZGramQuickTransitionInfo">В конце канала или темы потяните вверх, чтобы открыть следующий непрочитанный, как в Telegram.</string>
 </resources>

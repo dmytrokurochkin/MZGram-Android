@@ -309,4 +309,46 @@ class MZGramScreensTest {
             }
         }
     }
+
+    // Telegram AI features: shown by default; the Instant View summary block
+    // is recognised by its caption and left out only when turned off. Quick
+    // admin actions: only with the switch, in a chat where one is an admin.
+    @Test
+    fun telegramAiAndAdminShortcuts() {
+        assertTrue(MZGramConfig.telegramAiEditor || org.telegram.messenger.mzgram.MZGramTelegramAi.editorHidden())
+        val iv = MZGramConfig.telegramAiIvSummary
+        val admin = MZGramConfig.quickAdminShortcuts
+        try {
+            val caption = org.telegram.tgnet.tl.TL_iv.textPlain()
+            caption.text = "Cocoon AI Summary"
+            val block = org.telegram.tgnet.tl.TL_iv.pageBlockBlockquote()
+            block.caption = caption
+            if (!MZGramConfig.telegramAiIvSummary) {
+                MZGramConfig.toggleTelegramAiIvSummary()
+            }
+            assertFalse(org.telegram.messenger.mzgram.MZGramTelegramAi.hideIvBlock(block))
+            MZGramConfig.toggleTelegramAiIvSummary()
+            assertTrue(org.telegram.messenger.mzgram.MZGramTelegramAi.hideIvBlock(block))
+            caption.text = "A quote"
+            assertFalse(org.telegram.messenger.mzgram.MZGramTelegramAi.hideIvBlock(block))
+
+            val chat = org.telegram.tgnet.TLRPC.TL_channel()
+            chat.creator = true
+            if (MZGramConfig.quickAdminShortcuts) {
+                MZGramConfig.toggleQuickAdminShortcuts()
+            }
+            assertFalse(org.telegram.ui.mzgram.MZGramAdminShortcuts.isAvailable(chat, 0))
+            MZGramConfig.toggleQuickAdminShortcuts()
+            assertTrue(org.telegram.ui.mzgram.MZGramAdminShortcuts.isAvailable(chat, 0))
+            chat.creator = false
+            assertFalse(org.telegram.ui.mzgram.MZGramAdminShortcuts.isAvailable(chat, 0))
+        } finally {
+            if (MZGramConfig.telegramAiIvSummary != iv) {
+                MZGramConfig.toggleTelegramAiIvSummary()
+            }
+            if (MZGramConfig.quickAdminShortcuts != admin) {
+                MZGramConfig.toggleQuickAdminShortcuts()
+            }
+        }
+    }
 }

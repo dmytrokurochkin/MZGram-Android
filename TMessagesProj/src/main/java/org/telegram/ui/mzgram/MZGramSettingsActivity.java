@@ -272,6 +272,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_REPLACE_EDITED_WITH_ICON = 243;
     private static final int BUTTON_SHOW_ONLINE_STATUS = 244;
     private static final int BUTTON_SHOW_FORWARDS_COUNT = 245;
+    private static final int BUTTON_QUICK_ADMIN_SHORTCUTS = 246;
+    private static final int BUTTON_TELEGRAM_AI_EDITOR = 247;
+    private static final int BUTTON_TELEGRAM_AI_SUMMARY = 248;
+    private static final int BUTTON_TELEGRAM_AI_IV_SUMMARY = 249;
+    private static final int BUTTON_QUICK_TRANSITION_CHANNELS = 250;
+    private static final int BUTTON_QUICK_TRANSITION_TOPICS = 251;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -1068,6 +1074,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
         items.add(UItem.asHeader(getString(R.string.MZGramSectionChats)));
         items.add(UItem.asButton(BUTTON_CHANNEL_BOTTOM_BUTTON, getString(R.string.MZGramChannelBottomButton), getString(CHANNEL_BOTTOM_TITLES[MZGramConfig.channelBottomButton])));
+        items.add(check(BUTTON_QUICK_ADMIN_SHORTCUTS, R.string.MZGramQuickAdminShortcuts, MZGramConfig.quickAdminShortcuts, R.string.MZGramQuickAdminShortcutsInfo));
         items.add(check(BUTTON_WIDE_CHANNEL_POSTS, R.string.MZGramWideChannelPosts, MZGramConfig.wideChannelPosts, R.string.MZGramWideChannelPostsInfo));
         items.add(check(BUTTON_DISABLE_GREETING_STICKER, R.string.MZGramDisableGreetingSticker, MZGramConfig.disableGreetingSticker, R.string.MZGramDisableGreetingStickerInfo));
         items.add(UItem.asCheck(BUTTON_HIDE_KEYBOARD_ON_SCROLL, getString(R.string.MZGramHideKeyboardOnScroll)).setChecked(MZGramConfig.hideKeyboardOnScroll));
@@ -1083,6 +1090,17 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_TEXT_STYLE_MENU, getString(R.string.MZGramTextStyleMenu)));
         items.add(UItem.asButton(BUTTON_OPEN_BY_ID, getString(R.string.MZGramOpenById)));
         items.add(UItem.asShadow(getString(R.string.MZGramOpenByIdInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderTelegramAi)));
+        items.add(UItem.asCheck(BUTTON_TELEGRAM_AI_EDITOR, getString(R.string.MZGramTelegramAiEditor)).setChecked(MZGramConfig.telegramAiEditor));
+        items.add(UItem.asCheck(BUTTON_TELEGRAM_AI_SUMMARY, getString(R.string.MZGramTelegramAiSummary)).setChecked(MZGramConfig.telegramAiSummary));
+        items.add(UItem.asCheck(BUTTON_TELEGRAM_AI_IV_SUMMARY, getString(R.string.MZGramTelegramAiIvSummary)).setChecked(MZGramConfig.telegramAiIvSummary));
+        items.add(UItem.asShadow(getString(R.string.MZGramTelegramAiInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramQuickTransition)));
+        items.add(UItem.asCheck(BUTTON_QUICK_TRANSITION_CHANNELS, getString(R.string.MZGramQuickTransitionChannels)).setChecked(MZGramConfig.quickTransitionChannels));
+        items.add(UItem.asCheck(BUTTON_QUICK_TRANSITION_TOPICS, getString(R.string.MZGramQuickTransitionTopics)).setChecked(MZGramConfig.quickTransitionTopics));
+        items.add(UItem.asShadow(getString(R.string.MZGramQuickTransitionInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatScreen)));
         items.add(check(BUTTON_HIDE_CHAT_STATUS, R.string.MZGramHideChatStatus, MZGramConfig.hideChatStatus, R.string.MZGramHideChatStatusInfo));
@@ -1376,6 +1394,24 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_QUICK_TRANSITION_TOPICS) {
+            MZGramConfig.toggleQuickTransitionTopics();
+            ((TextCheckCell) view).setChecked(MZGramConfig.quickTransitionTopics);
+        } else if (item.id == BUTTON_QUICK_TRANSITION_CHANNELS) {
+            MZGramConfig.toggleQuickTransitionChannels();
+            ((TextCheckCell) view).setChecked(MZGramConfig.quickTransitionChannels);
+        } else if (item.id == BUTTON_TELEGRAM_AI_IV_SUMMARY) {
+            MZGramConfig.toggleTelegramAiIvSummary();
+            ((TextCheckCell) view).setChecked(MZGramConfig.telegramAiIvSummary);
+        } else if (item.id == BUTTON_TELEGRAM_AI_SUMMARY) {
+            MZGramConfig.toggleTelegramAiSummary();
+            ((TextCheckCell) view).setChecked(MZGramConfig.telegramAiSummary);
+        } else if (item.id == BUTTON_TELEGRAM_AI_EDITOR) {
+            MZGramConfig.toggleTelegramAiEditor();
+            ((TextCheckCell) view).setChecked(MZGramConfig.telegramAiEditor);
+        } else if (item.id == BUTTON_QUICK_ADMIN_SHORTCUTS) {
+            MZGramConfig.toggleQuickAdminShortcuts();
+            ((TextCheckCell) view).setChecked(MZGramConfig.quickAdminShortcuts);
         } else if (item.id == BUTTON_SHOW_FORWARDS_COUNT) {
             MZGramConfig.toggleShowForwardsCount();
             ((TextCheckCell) view).setChecked(MZGramConfig.showForwardsCount);

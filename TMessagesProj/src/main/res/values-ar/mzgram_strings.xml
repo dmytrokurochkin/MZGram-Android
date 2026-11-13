@@ -1322,4 +1322,15 @@
     <string name="MZGramShowOnlineStatus">إظهار مؤشر الاتصال</string>
     <string name="MZGramShowOnlineStatusInfo">نقطة على صورة المرسل في المجموعات: خضراء أثناء الاتصال، ثم صفراء وبرتقالية وحمراء خلال 15 و30 و60 دقيقة بعد آخر ظهور.</string>
     <string name="MZGramShowForwardsCount">إظهار عداد إعادة التوجيه</string>
+    <string name="MZGramQuickAdminShortcuts">إجراءات المشرف السريعة</string>
+    <string name="MZGramQuickAdminShortcutsInfo">حيث تكون مشرفًا، تظهر في قائمة المحادثة الإجراءات الأخيرة والمشرفون والأذونات.</string>
+    <string name="MZGramHeaderTelegramAi">ميزات الذكاء الاصطناعي في Telegram</string>
+    <string name="MZGramTelegramAiEditor">محرر الذكاء الاصطناعي</string>
+    <string name="MZGramTelegramAiSummary">ملخص الرسالة</string>
+    <string name="MZGramTelegramAiIvSummary">الملخص في Instant View</string>
+    <string name="MZGramTelegramAiInfo">ميزات الذكاء الاصطناعي الخاصة بـ Telegram. عند إيقافها تُخفى أزرارها ولا تظهر كتلة الملخص في صفحات Instant View.</string>
+    <string name="MZGramQuickTransition">انتقال سريع بالسحب</string>
+    <string name="MZGramQuickTransitionChannels">القنوات</string>
+    <string name="MZGramQuickTransitionTopics">المواضيع</string>
+    <string name="MZGramQuickTransitionInfo">في نهاية القناة أو الموضوع، اسحب لأعلى لفتح التالي غير المقروء، كما في Telegram.</string>
 </resources>

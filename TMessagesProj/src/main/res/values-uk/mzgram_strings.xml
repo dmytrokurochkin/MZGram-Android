@@ -1323,4 +1323,15 @@
     <string name="MZGramShowOnlineStatus">Показувати індикатор онлайну</string>
     <string name="MZGramShowOnlineStatusInfo">Крапка на аватарці відправника в групах: зелена, поки людина онлайн, далі жовта, помаранчева й червона протягом 15, 30 і 60 хвилин після останнього візиту.</string>
     <string name="MZGramShowForwardsCount">Показувати лічильник пересилок</string>
+    <string name="MZGramQuickAdminShortcuts">Швидкі адмін-дії</string>
+    <string name="MZGramQuickAdminShortcutsInfo">Де ви адміністратор, у меню чату з\'являються «Останні дії», «Адміністратори» і «Дозволи».</string>
+    <string name="MZGramHeaderTelegramAi">ШІ-функції Telegram</string>
+    <string name="MZGramTelegramAiEditor">ШІ-редактор</string>
+    <string name="MZGramTelegramAiSummary">Підсумок повідомлення</string>
+    <string name="MZGramTelegramAiIvSummary">Підсумок в Instant View</string>
+    <string name="MZGramTelegramAiInfo">Власні ШІ-функції Telegram. Якщо вимкнути, їхні кнопки ховаються, а блок ШІ-підсумку не показується на сторінках Instant View.</string>
+    <string name="MZGramQuickTransition">Швидкий перехід свайпом</string>
+    <string name="MZGramQuickTransitionChannels">Канали</string>
+    <string name="MZGramQuickTransitionTopics">Теми</string>
+    <string name="MZGramQuickTransitionInfo">Наприкінці каналу або теми потягніть угору, щоб відкрити наступний непрочитаний, як у Telegram.</string>
 </resources>

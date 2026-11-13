@@ -1322,4 +1322,15 @@
     <string name="MZGramShowOnlineStatus">Çevrimiçi göstergesini göster</string>
     <string name="MZGramShowOnlineStatusInfo">Gruplarda gönderenin profil resminde bir nokta: çevrimiçiyken yeşil, son görülmeden sonraki 15, 30 ve 60 dakika boyunca sarı, turuncu ve kırmızı.</string>
     <string name="MZGramShowForwardsCount">İletme sayacını göster</string>
+    <string name="MZGramQuickAdminShortcuts">Hızlı yönetici eylemleri</string>
+    <string name="MZGramQuickAdminShortcutsInfo">Yönetici olduğunuz yerde sohbet menüsünde Son işlemler, Yöneticiler ve İzinler bulunur.</string>
+    <string name="MZGramHeaderTelegramAi">Telegram yapay zekâ özellikleri</string>
+    <string name="MZGramTelegramAiEditor">Yapay zekâ düzenleyici</string>
+    <string name="MZGramTelegramAiSummary">Mesaj özeti</string>
+    <string name="MZGramTelegramAiIvSummary">Instant View özeti</string>
+    <string name="MZGramTelegramAiInfo">Telegram\'ın kendi yapay zekâ özellikleri. Kapalıyken düğmeleri gizlenir ve yapay zekâ özet bloğu Instant View sayfalarında gösterilmez.</string>
+    <string name="MZGramQuickTransition">Kaydırarak hızlı geçiş</string>
+    <string name="MZGramQuickTransitionChannels">Kanallar</string>
+    <string name="MZGramQuickTransitionTopics">Konular</string>
+    <string name="MZGramQuickTransitionInfo">Bir kanalın veya konunun sonunda, Telegram\'daki gibi okunmamış sonrakini açmak için yukarı çekin.</string>
 </resources>

@@ -4111,6 +4111,8 @@ public class ChatActivity extends BaseFragment implements
                 } else if (id == mzgram_deleted_messages) {
                     // MZGram: the list of this chat's kept deleted messages.
                     presentFragment(new org.telegram.ui.mzgram.MZGramDeletedMessagesActivity(ChatActivity.this, getDialogId()));
+                } else if (org.telegram.ui.mzgram.MZGramAdminShortcuts.onItem(ChatActivity.this, id)) {
+                    // MZGram: Quick admin actions
                 } else if (org.telegram.ui.mzgram.MZGramPluginMenuUi.onChatItem(ChatActivity.this, id, getDialogId(), currentAccount)) {
                     // MZGram: a menu item of a plugin
                 } else if (id == add_shortcut) {
@@ -4689,6 +4691,8 @@ public class ChatActivity extends BaseFragment implements
             if (org.telegram.ui.mzgram.MZGramDeletedMessagesActivity.isAvailable(currentUser, chatMode)) {
                 headerItem.lazilyAddSubItem(mzgram_deleted_messages, R.drawable.msg_delete, LocaleController.getString(R.string.MZGramDeletedMessages));
             }
+            // MZGram: Quick admin actions
+            org.telegram.ui.mzgram.MZGramAdminShortcuts.addItems(headerItem, currentChat, chatMode);
             // MZGram: menu items of plugins (none while no plugin has added any)
             org.telegram.ui.mzgram.MZGramPluginMenuUi.addChatItems(headerItem);
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {
@@ -6929,7 +6933,7 @@ public class ChatActivity extends BaseFragment implements
                     scrolled = super.scrollVerticallyBy(dy, recycler, state);
                 }
                 final boolean allowPullingDownScroll = !isInPollAddOptionMode() && !hasSelectedMessages();
-                if (allowPullingDownScroll && dy > 0 && scrolled == 0 && (ChatObject.isChannel(currentChat) && !currentChat.megagroup || isTopic && !UserObject.isBotForum(currentUser)) && chatMode != MODE_SAVED && chatMode != MODE_WELCOME_MESSAGES && chatMode != MODE_SCHEDULED && chatListView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && !chatListView.isFastScrollAnimationRunning() && !chatListView.isMultiselect() && !isReport()) {
+                if (allowPullingDownScroll && dy > 0 && scrolled == 0 && (ChatObject.isChannel(currentChat) && !currentChat.megagroup && org.telegram.messenger.mzgram.MZGramConfig.quickTransitionChannels || isTopic && !UserObject.isBotForum(currentUser) && org.telegram.messenger.mzgram.MZGramConfig.quickTransitionTopics) && chatMode != MODE_SAVED && chatMode != MODE_WELCOME_MESSAGES && chatMode != MODE_SCHEDULED && chatListView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && !chatListView.isFastScrollAnimationRunning() && !chatListView.isMultiselect() && !isReport()) {
                     if (pullingDownOffset == 0 && pullingDownDrawable != null) {
                         if (nextChannels != null && !nextChannels.isEmpty()) {
                             pullingDownDrawable.updateDialog(nextChannels.get(0));

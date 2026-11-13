@@ -1322,4 +1322,15 @@
     <string name="MZGramShowOnlineStatus">Mostrar indicador online</string>
     <string name="MZGramShowOnlineStatusInfo">Um ponto no avatar do remetente nos grupos: verde enquanto online, depois amarelo, laranja e vermelho durante 15, 30 e 60 minutos após a última visita.</string>
     <string name="MZGramShowForwardsCount">Mostrar contador de encaminhamentos</string>
+    <string name="MZGramQuickAdminShortcuts">Ações rápidas de admin</string>
+    <string name="MZGramQuickAdminShortcutsInfo">Onde você é administrador, o menu do chat ganha Ações recentes, Administradores e Permissões.</string>
+    <string name="MZGramHeaderTelegramAi">Recursos de IA do Telegram</string>
+    <string name="MZGramTelegramAiEditor">Editor de IA</string>
+    <string name="MZGramTelegramAiSummary">Resumo da mensagem</string>
+    <string name="MZGramTelegramAiIvSummary">Resumo no Instant View</string>
+    <string name="MZGramTelegramAiInfo">Os recursos de IA do próprio Telegram. Desativados, os botões ficam ocultos e o bloco de resumo de IA não aparece nas páginas do Instant View.</string>
+    <string name="MZGramQuickTransition">Troca rápida ao deslizar</string>
+    <string name="MZGramQuickTransitionChannels">Canais</string>
+    <string name="MZGramQuickTransitionTopics">Tópicos</string>
+    <string name="MZGramQuickTransitionInfo">No fim de um canal ou tópico, puxe para cima para abrir o próximo não lido, como no Telegram.</string>
 </resources>

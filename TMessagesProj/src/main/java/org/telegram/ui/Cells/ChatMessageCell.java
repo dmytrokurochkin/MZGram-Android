@@ -13518,10 +13518,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     radii[a * 2] = radii[a * 2 + 1] = dp(pinnedBottom ? Math.min(5, SharedConfig.bubbleRadius) : SharedConfig.bubbleRadius);
                                     continue;
                                 }
+                                // MZGram: Remove message tail, the tail's corner is rounded too
+                                if (org.telegram.messenger.mzgram.MZGramConfig.removeMessageTail && a == (out ? 2 : 3)) {
+                                    radii[a * 2] = radii[a * 2 + 1] = dp(SharedConfig.bubbleRadius);
+                                    continue;
+                                }
                             }
                             radii[a * 2] = radii[a * 2 + 1] = 0;
                         }
-                        if (!out && !drawPinnedBottom && currentPosition == null && (currentPosition == null || pollInstantViewTouchesBottom)) {
+                        if (!org.telegram.messenger.mzgram.MZGramConfig.removeMessageTail && !out && !drawPinnedBottom && currentPosition == null && (currentPosition == null || pollInstantViewTouchesBottom)) {
                             path.moveTo(rect.left + dp(6), rect.top);
                             path.lineTo(rect.left + dp(6), rect.bottom - dp(6) - dp(2 + 3));
                             AndroidUtilities.rectTmp.set(
@@ -23491,7 +23496,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 buttonX -= dp(10);
             }
             commentButtonRect.set(
-                    buttonX - dp((currentMessageObject == null || !currentMessageObject.isOutOwner()) && !drawPinnedBottom && currentPosition == null && (currentMessageObject == null || currentMessageObject.type != MessageObject.TYPE_POLL || pollInstantViewTouchesBottom) ? 6 : 0),
+                    buttonX - dp(!org.telegram.messenger.mzgram.MZGramConfig.removeMessageTail && (currentMessageObject == null || !currentMessageObject.isOutOwner()) && !drawPinnedBottom && currentPosition == null && (currentMessageObject == null || currentMessageObject.type != MessageObject.TYPE_POLL || pollInstantViewTouchesBottom) ? 6 : 0),
                     (int) buttonY,
                     endX - dp(14),
                     layoutHeight - dp(h) + 1

@@ -1283,4 +1283,5 @@
     <string name="MZGramSectionsInfo">Die Ecken der Karten in Einstellungslisten, auch bei Telegram (16 dp wie bei Telegram), und die Linien zwischen ihren Zeilen und zwischen Chats. Nach der Änderung geöffnete Ansichten nehmen den neuen Radius.</string>
     <string name="MZGramForceBlur">Unschärfe immer</string>
     <string name="MZGramForceBlurInfo">Unschärfe-Effekte (Glasleisten und Nachrichtenmenü) erscheinen in jedem Design, auch wo Telegram sie für helle oder dunkle Designs abschaltet. Das Gerät muss sie zeichnen können.</string>
+    <string name="MZGramRemoveMessageTail">Sprechblasen-Spitze entfernen</string>
 </resources>

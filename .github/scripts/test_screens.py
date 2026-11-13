@@ -193,6 +193,16 @@ class ScreensTest(unittest.TestCase):
         impl = read(JAVA / "ui/Components/blur3/drawable/color/impl/BlurredBackgroundProviderImpl.java")
         self.assertIn("if (blurEnabled && org.telegram.messenger.mzgram.MZGramConfig.forceBlur) {\n            return true;", impl.replace("\r\n", "\n"))
 
+    def test_remove_message_tail(self):
+        self.switch("removeMessageTail", "false", "BUTTON_REMOVE_MESSAGE_TAIL")
+        drawable = read(JAVA / "ui/ActionBar/MessageDrawable.java")
+        self.assertIn("return org.telegram.messenger.mzgram.MZGramConfig.removeMessageTail;", drawable)
+        self.assertEqual(2, drawable.count("if (mzgramNoTail) {"))
+        self.assertEqual(2, drawable.count("|| mzgramNoTail) {"))
+        self.assertIn("boolean invalidate = lastNoTail != noTail ||", drawable)
+        cell = read(JAVA / "ui/Cells/ChatMessageCell.java")
+        self.assertEqual(3, cell.count("org.telegram.messenger.mzgram.MZGramConfig.removeMessageTail"))
+
 
 if __name__ == "__main__":
     unittest.main()

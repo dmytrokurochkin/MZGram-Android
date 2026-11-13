@@ -80,6 +80,7 @@ Each item has its own switch.
 | Details | Ids, sender, dates, forward source, file, media and data center of a message; a long press copies a value. | 1.0.0 |
 | QR Code | When a photo holds a QR code, shows its link or text. The photo is scanned on the device. | 1.0.0 |
 | Forward without sender | Opens the forward screen with the sender's name already hidden. | 1.0.0 |
+| Remove message tail | Settings > MZGram > Chats > Messages. Message bubbles have no tail: the corner where it was is rounded like the others. Off by default. | Next release |
 | Copy without formatting | Only the plain text of a message, without bold, links or emoji styling. Its switch is in Settings > MZGram > Chats. Off by default. | Next release |
 
 ### Ask AI

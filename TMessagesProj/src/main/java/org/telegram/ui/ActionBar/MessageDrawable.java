@@ -557,9 +557,16 @@ public class MessageDrawable extends Drawable {
         }
     }
 
+    // MZGram: Settings > MZGram > Chats > Remove message tail: the bubble ends
+    // in a rounded corner like the others (idea from exteraless MessageDrawable,
+    // GPL-3.0); the cached bubble bitmaps have the tail, so they are skipped
+    private static boolean mzgramNoTail() {
+        return org.telegram.messenger.mzgram.MZGramConfig.removeMessageTail;
+    }
+
     public void draw(Canvas canvas, Paint paintToUse) {
         Rect bounds = getBounds();
-        if (paintToUse == null && paint.getStyle() == Paint.Style.FILL && gradientShader == null && overrideRoundRadius == 0 && overrideRounding <= 0) {
+        if (!mzgramNoTail() && paintToUse == null && paint.getStyle() == Paint.Style.FILL && gradientShader == null && overrideRoundRadius == 0 && overrideRounding <= 0) {
             Drawable background = getBackgroundDrawable();
             if (background != null) {
                 background.setBounds(bounds);
@@ -678,11 +685,12 @@ public class MessageDrawable extends Drawable {
         if (rad > heightHalf) {
             rad = heightHalf;
         }
+        final boolean mzgramNoTail = mzgramNoTail();
         if (isOut) {
             // LEFT-BOTTOM <- RIGHT-BOTTOM
             if (drawFullBubble || currentType == TYPE_PREVIEW || customPaint || drawFullBottom) {
                 int radToUse = botButtonsBottom ? nearRad : rad;
-                if (currentType == TYPE_MEDIA) {
+                if (currentType == TYPE_MEDIA || mzgramNoTail) {
                     path.moveTo(bounds.right - dp(8) - radToUse, bounds.bottom - padding);
                 } else {
                     path.moveTo(bounds.right - dp(2.6f), bounds.bottom - padding);
@@ -734,9 +742,16 @@ public class MessageDrawable extends Drawable {
                 }
             } else {
                 if (drawFullBubble || currentType == TYPE_PREVIEW || customPaint || drawFullBottom) {
-                    path.lineTo(bounds.right - dp(8), bounds.bottom - padding - smallRad - dp(3));
-                    rect.set(bounds.right - dp(8), bounds.bottom - padding - smallRad * 2 - dp(9), bounds.right - dp(7) + smallRad * 2, bounds.bottom - padding - dp(1));
-                    path.arcTo(rect, 180, -83, false);
+                    if (mzgramNoTail) {
+                        int radToUse = isBottomNear || botButtonsBottom ? nearRad : rad;
+                        path.lineTo(bounds.right - dp(8), bounds.bottom - padding - radToUse);
+                        rect.set(bounds.right - dp(8) - radToUse * 2, bounds.bottom - padding - radToUse * 2, bounds.right - dp(8), bounds.bottom - padding);
+                        path.arcTo(rect, 0, 90, false);
+                    } else {
+                        path.lineTo(bounds.right - dp(8), bounds.bottom - padding - smallRad - dp(3));
+                        rect.set(bounds.right - dp(8), bounds.bottom - padding - smallRad * 2 - dp(9), bounds.right - dp(7) + smallRad * 2, bounds.bottom - padding - dp(1));
+                        path.arcTo(rect, 180, -83, false);
+                    }
                 } else {
                     path.lineTo(bounds.right - dp(8), top - topY + currentBackgroundHeight);
                 }
@@ -745,7 +760,7 @@ public class MessageDrawable extends Drawable {
             if (drawFullBubble || currentType == TYPE_PREVIEW || customPaint || drawFullBottom) {
                 int radToUse = botButtonsBottom ? nearRad : rad;
 
-                if (currentType == TYPE_MEDIA) {
+                if (currentType == TYPE_MEDIA || mzgramNoTail) {
                     path.moveTo(bounds.left + dp(8) + radToUse, bounds.bottom - padding);
                 } else {
                     path.moveTo(bounds.left + dp(2.6f), bounds.bottom - padding);
@@ -791,9 +806,16 @@ public class MessageDrawable extends Drawable {
                 }
             } else {
                 if (drawFullBubble || currentType == TYPE_PREVIEW || customPaint || drawFullBottom) {
-                    path.lineTo(bounds.left + dp(8), bounds.bottom - padding - smallRad - dp(3));
-                    rect.set(bounds.left + dp(7) - smallRad * 2, bounds.bottom - padding - smallRad * 2 - dp(9), bounds.left + dp(8), bounds.bottom - padding - dp(1));
-                    path.arcTo(rect, 0, 83, false);
+                    if (mzgramNoTail) {
+                        int radToUse = isBottomNear || botButtonsBottom ? nearRad : rad;
+                        path.lineTo(bounds.left + dp(8), bounds.bottom - padding - radToUse);
+                        rect.set(bounds.left + dp(8), bounds.bottom - padding - radToUse * 2, bounds.left + dp(8) + radToUse * 2, bounds.bottom - padding);
+                        path.arcTo(rect, 180, -90, false);
+                    } else {
+                        path.lineTo(bounds.left + dp(8), bounds.bottom - padding - smallRad - dp(3));
+                        rect.set(bounds.left + dp(7) - smallRad * 2, bounds.bottom - padding - smallRad * 2 - dp(9), bounds.left + dp(8), bounds.bottom - padding - dp(1));
+                        path.arcTo(rect, 0, 83, false);
+                    }
                 } else {
                     path.lineTo(bounds.left + dp(8), top - topY + currentBackgroundHeight);
                 }
@@ -863,9 +885,13 @@ public class MessageDrawable extends Drawable {
         Rect lastRect = new Rect();
         boolean lastDrawFullTop;
         boolean lastDrawFullBottom;
+        // MZGram: the cached path is made again when Remove message tail changes
+        boolean lastNoTail = mzgramNoTail();
 
         public boolean invalidatePath(Rect bounds, boolean drawFullBottom, boolean drawFullTop) {
-            boolean invalidate = lastRect.isEmpty() || lastRect.top != bounds.top || lastRect.bottom != bounds.bottom || lastRect.right != bounds.right || lastRect.left != bounds.left || lastDrawFullTop != drawFullTop || lastDrawFullBottom != drawFullBottom || !drawFullTop || !drawFullBottom;
+            final boolean noTail = mzgramNoTail();
+            boolean invalidate = lastNoTail != noTail || lastRect.isEmpty() || lastRect.top != bounds.top || lastRect.bottom != bounds.bottom || lastRect.right != bounds.right || lastRect.left != bounds.left || lastDrawFullTop != drawFullTop || lastDrawFullBottom != drawFullBottom || !drawFullTop || !drawFullBottom;
+            lastNoTail = noTail;
             lastDrawFullTop = drawFullTop;
             lastDrawFullBottom = drawFullBottom;
             lastRect.set(bounds);

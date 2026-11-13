@@ -1283,4 +1283,5 @@
     <string name="MZGramSectionsInfo">Las esquinas de las tarjetas de las listas de ajustes, también las de Telegram (16 dp como en Telegram), y las líneas entre sus filas y entre chats. Las pantallas abiertas tras el cambio usan el nuevo radio.</string>
     <string name="MZGramForceBlur">Desenfoque siempre</string>
     <string name="MZGramForceBlurInfo">Los efectos de desenfoque (barras de cristal y menú del mensaje) se dibujan en todos los temas, también donde Telegram los desactiva para temas claros u oscuros. El dispositivo debe poder dibujarlos.</string>
+    <string name="MZGramRemoveMessageTail">Quitar la cola del mensaje</string>
 </resources>

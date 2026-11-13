@@ -503,6 +503,9 @@ public class MZGramConfig {
     // Blur in every theme, also where the server's flags turn it off (BlurredBackgroundProviderImpl)
     public static boolean forceBlur = false;
 
+    // Message bubbles without the tail: every corner rounded (MessageDrawable, ChatMessageCell)
+    public static boolean removeMessageTail = false;
+
     static {
         loadConfig(false);
     }
@@ -765,6 +768,7 @@ public class MZGramConfig {
             sectionRadius = Math.max(0, Math.min(SECTION_RADIUS_MAX, preferences.getInt("sectionRadius", 16)));
             dividerStyle = preferences.getInt("dividerStyle", DIVIDER_LINE) == DIVIDER_HIDDEN ? DIVIDER_HIDDEN : DIVIDER_LINE;
             forceBlur = preferences.getBoolean("forceBlur", false);
+            removeMessageTail = preferences.getBoolean("removeMessageTail", false);
             configLoaded = true;
         }
     }
@@ -1921,5 +1925,10 @@ public class MZGramConfig {
     public static void toggleForceBlur() {
         forceBlur = !forceBlur;
         putBoolean("forceBlur", forceBlur);
+    }
+
+    public static void toggleRemoveMessageTail() {
+        removeMessageTail = !removeMessageTail;
+        putBoolean("removeMessageTail", removeMessageTail);
     }
 }

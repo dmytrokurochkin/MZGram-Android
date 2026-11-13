@@ -254,6 +254,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_ALL_CHATS_TAB = 225;
     private static final int BUTTON_DIVIDER_STYLE = 226;
     private static final int BUTTON_FORCE_BLUR = 227;
+    private static final int BUTTON_REMOVE_MESSAGE_TAIL = 228;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -1022,6 +1023,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderMessages)));
+        items.add(UItem.asCheck(BUTTON_REMOVE_MESSAGE_TAIL, getString(R.string.MZGramRemoveMessageTail)).setChecked(MZGramConfig.removeMessageTail));
         items.add(UItem.asButton(BUTTON_MESSAGE_MENU, getString(R.string.MZGramSectionMessageMenu), messageMenuValue()));
         items.add(check(BUTTON_LINKED_EMOJI, R.string.MZGramLinkedEmoji, MZGramConfig.linkedCustomEmoji, R.string.MZGramLinkedEmojiInfo));
         items.add(check(BUTTON_LINK_TYPEFACE, R.string.MZGramLinkTypeface, MZGramConfig.linkTypeface, R.string.MZGramLinkTypefaceInfo));
@@ -1297,6 +1299,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_REMOVE_MESSAGE_TAIL) {
+            MZGramConfig.toggleRemoveMessageTail();
+            ((TextCheckCell) view).setChecked(MZGramConfig.removeMessageTail);
         } else if (item.id == BUTTON_FORCE_BLUR) {
             MZGramConfig.toggleForceBlur();
             ((TextCheckCell) view).setChecked(MZGramConfig.forceBlur);

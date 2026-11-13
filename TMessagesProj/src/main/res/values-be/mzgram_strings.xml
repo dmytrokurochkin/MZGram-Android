@@ -1283,4 +1283,5 @@
     <string name="MZGramSectionsInfo">Вуглы картак у спісах налад, таксама Telegram (16 dp як у Telegram), і лініі паміж іх радкамі і паміж чатамі. Новы радыус дзейнічае на экранах, адкрытых пасля змены.</string>
     <string name="MZGramForceBlur">Размыццё заўсёды</string>
     <string name="MZGramForceBlurInfo">Эфекты размыцця (шкляныя панэлі і меню паведамлення) малююцца ва ўсіх тэмах, таксама там, дзе Telegram выключае іх для светлых ці цёмных тэм. Прылада павінна іх падтрымліваць.</string>
+    <string name="MZGramRemoveMessageTail">Прыбраць хвосцік паведамлення</string>
 </resources>

@@ -106,9 +106,20 @@ document.addEventListener('keydown', function (e) { if (e.key === 'Enter') windo
         instrumentation.runOnMainSync { window.webViewForTest()!!.getLocationOnScreen(at) }
         val x = at[0] + rect!!.getDouble(0).toFloat() * rect.getDouble(2).toFloat()
         val y = at[1] + rect.getDouble(1).toFloat() * rect.getDouble(2).toFloat()
-        val down = android.os.SystemClock.uptimeMillis()
-        instrumentation.sendPointerSync(android.view.MotionEvent.obtain(down, down, android.view.MotionEvent.ACTION_DOWN, x, y, 0))
-        instrumentation.sendPointerSync(android.view.MotionEvent.obtain(down, down + 80, android.view.MotionEvent.ACTION_UP, x, y, 0))
+        // A system window over the app (an "isn't responding" dialog of another
+        // app, run 43494190895) refuses the tap: wait for it to go, at most 3 times
+        for (attempt in 1..3) {
+            try {
+                val down = android.os.SystemClock.uptimeMillis()
+                instrumentation.sendPointerSync(android.view.MotionEvent.obtain(down, down, android.view.MotionEvent.ACTION_DOWN, x, y, 0))
+                instrumentation.sendPointerSync(android.view.MotionEvent.obtain(down, down + 80, android.view.MotionEvent.ACTION_UP, x, y, 0))
+                return
+            } catch (e: IllegalArgumentException) {
+                if (attempt == 3) throw e
+                MZGramScreens.log("MZGram AI test: the tap went to another app's window, waiting: ${e.message}")
+                Thread.sleep(5000)
+            }
+        }
     }
 
     // The chooser after a tap on the site's button: its title and rows

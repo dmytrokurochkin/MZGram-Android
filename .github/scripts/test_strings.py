@@ -122,6 +122,14 @@ class StringsTest(unittest.TestCase):
             for key, value in self.en.items():
                 self.assertEqual(sorted(PLACEHOLDER.findall(value)), sorted(PLACEHOLDER.findall(values[key])), code + " " + key)
 
+    def test_kotlin_shared_words_match(self):
+        # MZGramLocalizationTest on the emulator keeps its own copy of the
+        # list; run 43494190895 failed when only this one had new words
+        kotlin = (ROOT / "TMessagesProj_AppTests/src/androidTest/kotlin/org/telegram/messenger/mzgram/test/MZGramLocalizationTest.kt").read_text(encoding="utf-8")
+        block = re.search(r"private val sharedWords = setOf\((.*?)\n    \)", kotlin, re.S)
+        self.assertIsNotNone(block, "sharedWords in MZGramLocalizationTest")
+        self.assertEqual(sorted(SHARED_WORDS), sorted(set(re.findall(r'"([^"]+)"', block.group(1)))))
+
     def test_mzgram_keys_only_in_the_mzgram_files(self):
         for path in RES.glob("values*/*.xml"):
             if path.name == "mzgram_strings.xml":

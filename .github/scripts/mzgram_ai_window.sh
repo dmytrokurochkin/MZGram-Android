@@ -17,6 +17,10 @@ if [ -d "$REPORT" ]; then
     cp -r "$REPORT" "$REPORT-main"
 fi
 
+# A system "isn't responding" dialog over the app (Pixel Launcher on the API 35
+# image, run 43494190895) takes the tests' taps: with error dialogs hidden the
+# system closes such an app instead of asking
+adb shell settings put global hide_error_dialogs 1
 adb logcat -c
 ./gradlew :TMessagesProj_AppTests:connectedAfatDebugAndroidTest --console=plain \
     -Pandroid.testInstrumentationRunnerArguments.class=$PKG.MZGramAiWindowTest \

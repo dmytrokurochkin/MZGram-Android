@@ -45,6 +45,20 @@ class MZGramLocalizationTest {
         // ID everywhere; Bots in Spanish, German, French and Portuguese; Telegram is a brand name
         "MZGramPeerIdLabel", "MZGramArchiveLimitBots", "MZGramTranslatorTelegram")
 
+    // Words a string may share with English (names, terms, words that are the
+    // same in some languages: Spanish "General", French "Messages"): a string
+    // made only of them may equal the English one. The same list as
+    // SHARED_WORDS of .github/scripts/test_strings.py, which checks both match.
+    private val sharedWords = setOf(
+        "MZGram", "ID", "Segments", "Material", "Design", "UnifiedPush", "DC", "MIME", "FCM", "Google", "GitHub", "SHA",
+        "VAPID", "Bot", "Miami", "Amsterdam", "Singapore", "Zalgo", "Unicode",
+        "Telegram", "Interface", "Media", "Details", "Message", "Date", "OK",
+        "AI", "Model", "Premium", "Business", "Wallet", "MIUI", "Autostart", "No", "Bots",
+        "General", "Links", "Navigation", "Messages", "Chats", "Sections", "Feed",
+    )
+
+    private fun sharedOnly(text: String) = Regex("\\p{L}+").findAll(text).all { it.value in sharedWords }
+
     private val formatArg = Regex("%(\\d+\\$)?[sd]")
 
     // "Archive" in each language, as values-xx has it
@@ -97,7 +111,7 @@ class MZGramLocalizationTest {
                 val enText = en.getString(id)
                 val text = other.getString(id)
                 assertTrue("$code $name has text", text.isNotBlank())
-                if (enText == text && name !in sameEverywhere) {
+                if (enText == text && name !in sameEverywhere && !sharedOnly(text)) {
                     missing.add("$code $name")
                 }
                 assertEquals("$code $name format arguments", formatArg.findAll(enText).map { it.value }.sorted().toList(), formatArg.findAll(text).map { it.value }.sorted().toList())

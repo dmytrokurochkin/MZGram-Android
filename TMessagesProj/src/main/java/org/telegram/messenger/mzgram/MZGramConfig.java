@@ -472,6 +472,9 @@ public class MZGramConfig {
     // Telegram's winter snowflakes all year: chat list bar and chat background (Theme.canStartHolidayAnimation)
     public static boolean forceSnow = false;
 
+    // In the chat list, the last message line of a group starts with the sender's avatar (DialogCell)
+    public static boolean senderMiniAvatars = false;
+
     static {
         loadConfig(false);
     }
@@ -724,6 +727,7 @@ public class MZGramConfig {
             hideFloatingButton = preferences.getBoolean("hideFloatingButton", false);
             hideDialogsSearchBar = preferences.getBoolean("hideDialogsSearchBar", false);
             forceSnow = preferences.getBoolean("forceSnow", false);
+            senderMiniAvatars = preferences.getBoolean("senderMiniAvatars", false);
             configLoaded = true;
         }
     }
@@ -1829,5 +1833,10 @@ public class MZGramConfig {
     public static void toggleForceSnow() {
         forceSnow = !forceSnow;
         putBoolean("forceSnow", forceSnow);
+    }
+
+    public static void toggleSenderMiniAvatars() {
+        senderMiniAvatars = !senderMiniAvatars;
+        putBoolean("senderMiniAvatars", senderMiniAvatars);
     }
 }

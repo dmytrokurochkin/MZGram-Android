@@ -1260,4 +1260,5 @@
     <string name="MZGramChatListInfo">«Схаваць статус» прыбірае эмодзі-статус каля загалоўка спіса чатаў. Без плаваючай кнопкі новыя чаты пачынаюцца з Кантактаў; без панэлі пошуку пошук адкрывае кнопка пошуку на панэлі.</string>
     <string name="MZGramForceSnow">Снег заўсёды</string>
     <string name="MZGramForceSnowInfo">Зімовыя сняжынкі Telegram падаюць на верхняй панэлі спіса чатаў і на фоне чатаў увесь год.</string>
+    <string name="MZGramSenderMiniAvatars">Мініаватаркі адпраўніка</string>
 </resources>

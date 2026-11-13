@@ -1260,4 +1260,5 @@
     <string name="MZGramChatListInfo">„Status ausblenden“ entfernt den Emoji-Status neben dem Titel der Chatliste. Ohne schwebende Taste beginnen neue Chats in den Kontakten; ohne Suchleiste öffnet die Suchtaste der Leiste die Suche.</string>
     <string name="MZGramForceSnow">Schnee immer</string>
     <string name="MZGramForceSnowInfo">Die Winter-Schneeflocken von Telegram fallen das ganze Jahr über die Leiste der Chatliste und die Chat-Hintergründe.</string>
+    <string name="MZGramSenderMiniAvatars">Mini-Avatare der Absender</string>
 </resources>

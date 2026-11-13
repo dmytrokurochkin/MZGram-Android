@@ -720,6 +720,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         emojiStatus = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(emojiStatusView, dp(22));
         botVerification = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, dp(17));
         avatarImage.setAllowLoadingOnAttachedOnly(true);
+        // MZGram: the sender's mini avatar before the name in the message line
+        messageAvatarSpan = new AvatarSpan(this, currentAccount, 18.0f);
+        messageAvatarSpan.needDrawShadow = false;
     }
 
     @Override
@@ -728,6 +731,29 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             getParent().requestLayout();
         }
         super.requestLayout();
+    }
+
+    // MZGram: Settings > MZGram > Appearance > Sender mini avatars (idea from
+    // exteraless DialogCell.addSenderAvatar, GPL-3.0): in groups the line of
+    // the last message starts with the sender's avatar; not for own messages
+    private final AvatarSpan messageAvatarSpan;
+
+    private CharSequence mzgramAddSenderAvatar(CharSequence name, MessageObject messageObject) {
+        if (!org.telegram.messenger.mzgram.MZGramConfig.senderMiniAvatars || messageObject == null || TextUtils.isEmpty(name)) {
+            return name;
+        }
+        long fromId = messageObject.getFromChatId();
+        if (fromId == 0 || fromId == UserConfig.getInstance(currentAccount).getClientUserId()) {
+            return name;
+        }
+        messageAvatarSpan.setDialogId(fromId);
+        SpannableStringBuilder builder = new SpannableStringBuilder("A ");
+        builder.setSpan(messageAvatarSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int start = builder.length();
+        builder.append(" ");
+        builder.setSpan(new FixedWidthSpan(dp(1)), start, builder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.append(name);
+        return builder;
     }
 
     public void setCustomMessageWithoutRebuild(String message) {
@@ -1561,7 +1587,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 draftVoice = false;
                 needEmoji = true;
                 updateMessageThumbs();
-                messageNameString = ChatObject.isMonoForum(chat) ? null : AndroidUtilities.escape(getMessageNameString());
+                messageNameString = ChatObject.isMonoForum(chat) ? null : mzgramAddSenderAvatar(AndroidUtilities.escape(getMessageNameString()), message);
                 if (ChatObject.isMonoForum(chat)) {
                     messageNameString = null;
                     if (messageFormatType == 1) {
@@ -1814,6 +1840,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                         messageNameString = nameSpannableString;
                                     }
                                 }
+                                messageNameString = mzgramAddSenderAvatar(messageNameString, message);
                                 checkMessage = false;
                                 SpannableStringBuilder stringBuilder = getMessageStringFormatted(messageFormatType, restrictionReason, messageNameString, false);
 

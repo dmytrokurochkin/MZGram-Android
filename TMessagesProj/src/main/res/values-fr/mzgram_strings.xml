@@ -1260,4 +1260,5 @@
     <string name="MZGramChatListInfo">« Masquer le statut » retire le statut emoji à côté du titre de la liste. Sans le bouton flottant, les nouvelles discussions se lancent depuis Contacts ; sans la barre de recherche, le bouton de recherche de la barre ouvre la recherche.</string>
     <string name="MZGramForceSnow">Neige toute l\'année</string>
     <string name="MZGramForceSnowInfo">Les flocons d\'hiver de Telegram tombent sur la barre de la liste et les fonds de discussion toute l\'année.</string>
+    <string name="MZGramSenderMiniAvatars">Mini-avatars de l\'expéditeur</string>
 </resources>

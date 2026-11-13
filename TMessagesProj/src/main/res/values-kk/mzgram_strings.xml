@@ -1260,4 +1260,5 @@
     <string name="MZGramChatListInfo">«Күйді жасыру» чаттар тізімі тақырыбының жанындағы эмодзи күйін алып тастайды. Қалқымалы түймесіз жаңа чаттар Контактілерден басталады; іздеу панелінсіз іздеуді жолақтағы іздеу түймесі ашады.</string>
     <string name="MZGramForceSnow">Әрдайым қар</string>
     <string name="MZGramForceSnowInfo">Telegram-ның қысқы қар ұшқындары жыл бойы чаттар тізімінің жоғарғы панеліне және чат фонына түседі.</string>
+    <string name="MZGramSenderMiniAvatars">Жіберушінің шағын аватарлары</string>
 </resources>

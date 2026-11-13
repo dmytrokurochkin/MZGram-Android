@@ -124,6 +124,13 @@ class ScreensTest(unittest.TestCase):
         theme = read(JAVA / "ui/ActionBar/Theme.java")
         self.assertIn("return canStartHolidayAnimation || org.telegram.messenger.mzgram.MZGramConfig.forceSnow;", theme)
 
+    def test_sender_mini_avatars(self):
+        self.switch("senderMiniAvatars", "false", "BUTTON_SENDER_MINI_AVATARS")
+        cell = read(JAVA / "ui/Cells/DialogCell.java")
+        self.assertEqual(2, cell.count("mzgramAddSenderAvatar(") - 1)
+        self.assertIn("if (!org.telegram.messenger.mzgram.MZGramConfig.senderMiniAvatars || messageObject == null", cell)
+        self.assertIn("fromId == UserConfig.getInstance(currentAccount).getClientUserId()", cell)
+
 
 if __name__ == "__main__":
     unittest.main()

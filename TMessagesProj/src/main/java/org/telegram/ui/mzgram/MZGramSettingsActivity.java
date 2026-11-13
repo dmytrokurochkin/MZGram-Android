@@ -246,6 +246,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_FLOATING_BUTTON = 217;
     private static final int BUTTON_HIDE_DIALOGS_SEARCH_BAR = 218;
     private static final int BUTTON_FORCE_SNOW = 219;
+    private static final int BUTTON_SENDER_MINI_AVATARS = 220;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -869,6 +870,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_STORIES_NO_BACKGROUND_LOAD, R.string.MZGramStoriesNoBackgroundLoad, MZGramConfig.storiesNoBackgroundLoad, R.string.MZGramStoriesNoBackgroundLoadInfo));
         items.add(UItem.asCheck(BUTTON_HIDE_FLOATING_BUTTON, getString(R.string.MZGramHideFloatingButton)).setChecked(MZGramConfig.hideFloatingButton));
         items.add(UItem.asCheck(BUTTON_HIDE_DIALOGS_SEARCH_BAR, getString(R.string.MZGramHideDialogsSearchBar)).setChecked(MZGramConfig.hideDialogsSearchBar));
+        items.add(UItem.asCheck(BUTTON_SENDER_MINI_AVATARS, getString(R.string.MZGramSenderMiniAvatars)).setChecked(MZGramConfig.senderMiniAvatars));
         items.add(UItem.asShadow(getString(R.string.MZGramChatListInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderFolders)));
@@ -1238,6 +1240,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_SENDER_MINI_AVATARS) {
+            MZGramConfig.toggleSenderMiniAvatars();
+            ((TextCheckCell) view).setChecked(MZGramConfig.senderMiniAvatars);
+            rebuildBelow();
         } else if (item.id == BUTTON_FORCE_SNOW) {
             MZGramConfig.toggleForceSnow();
             ((TextCheckCell) view).setChecked(MZGramConfig.forceSnow);

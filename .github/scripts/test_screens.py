@@ -24,7 +24,7 @@ class ScreensTest(unittest.TestCase):
         self.assertIn(f'"{name}"', read(BACKUP))
         page = read(PAGE)
         self.assertRegex(page, rf"private static final int {button} = \d+;")
-        self.assertIn(f"items.add(check({button}, ", page)
+        self.assertTrue(f"items.add(check({button}, " in page or f"items.add(UItem.asCheck({button}, " in page, button)
         self.assertIn(f"item.id == {button})", page)
 
     def test_in_app_vibration(self):

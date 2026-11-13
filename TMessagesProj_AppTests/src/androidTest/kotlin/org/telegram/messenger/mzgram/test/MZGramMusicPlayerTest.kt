@@ -82,10 +82,10 @@ class MZGramMusicPlayerTest {
     }
 
     @Test
-    fun switch_offByDefault() {
+    fun switch_onByDefault() {
         // The field's own value; a saved one is the user's
         val config = MZGramConfig::class.java
-        assertFalse(config.getField("musicPlayer").getBoolean(null) && !hasSaved("musicPlayer"))
+        assertTrue(config.getField("musicPlayer").getBoolean(null) || hasSaved("musicPlayer"))
     }
 
     private fun hasSaved(key: String): Boolean {

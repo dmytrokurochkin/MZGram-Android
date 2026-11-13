@@ -85,7 +85,6 @@ class MZGramSettingsTest {
         "BUTTON_DOUBLE_TAP_OWN", "BUTTON_DOUBLE_TAP_OTHER",
         "BUTTON_DRAWER_GLASS", "BUTTON_DRAWER_HEADER", "BUTTON_DRAWER_ITEMS", "BUTTON_DRAWER_LARGE_AVATAR", "BUTTON_DRAWER_SHOW_QR",
         "BUTTON_ICON_PACKS", "BUTTON_MONET_PICK", "BUTTON_MONET_STYLE",
-        "BUTTON_MUSIC_PLAYER_BAR", "BUTTON_MUSIC_PLAYER_MINI", "BUTTON_MUSIC_PLAYER_STYLE",
         "BUTTON_OWN_LAST_SEEN_VALUE", "BUTTON_PASSCODE_ACCOUNTS_SETUP", "BUTTON_PILLS", "BUTTON_REGEX_FILTERS_RULES",
         "BUTTON_ROUND_VIDEO_ADVANCED", "BUTTON_ROUND_VIDEO_BITRATE", "BUTTON_ROUND_VIDEO_HIGH_FPS", "BUTTON_SHADOW_BAN_LIST",
     )
@@ -161,9 +160,10 @@ class MZGramSettingsTest {
         assertEquals("every switch and button is shown", allButtons() - underSwitch.map { button(it) }.toSet() - maybe, shown.toSet() - maybe)
         // 78 in base, plus added switches and buttons in features 68-85, N16, N12 (subtitles) and N14 (Persian calendar),
         // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen,
-        // plus the message menu row of Chats, plus the switches of the reference screenshots (MZGramScreensTest);
+        // plus the message menu row of Chats, plus the switches of the reference screenshots (MZGramScreensTest),
+        // plus the bar, mini player and style rows under the Material 3 player, on by default;
         // a build with plugins (Python) also has Python for plugins (Plugins itself is a row of the main page)
-        val expectedCount = 247 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        val expectedCount = 250 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

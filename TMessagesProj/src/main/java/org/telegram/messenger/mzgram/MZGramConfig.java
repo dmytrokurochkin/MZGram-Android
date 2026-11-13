@@ -119,8 +119,8 @@ public class MZGramConfig {
     public static boolean roundVideoHighFps = false;
     // 0: Telegram's own bitrate (SharedSettings.roundVideoVideoBitrate)
     public static int roundVideoBitrate = 0;
-    // The Material 3 music player (MZGramMusicPlayer) and its bar above the chat
-    public static boolean musicPlayer = false;
+    // The Material 3 music player (MZGramMusicPlayer) and its bar above the chat; on by default, as in the reference
+    public static boolean musicPlayer = true;
     public static boolean musicPlayerBar = true;
     // The floating mini player above the main tabs (MZGramPlayerMiniView), with the Material 3 player on
     public static boolean musicPlayerMini = true;
@@ -747,7 +747,7 @@ public class MZGramConfig {
             roundVideoCamera2 = preferences.getBoolean("round_video_camera2_enabled", false);
             roundVideoHighFps = preferences.getBoolean("round_video_high_fps", false);
             roundVideoBitrate = preferences.getInt("round_video_bitrate", 0);
-            musicPlayer = preferences.getBoolean("musicPlayer", false);
+            musicPlayer = preferences.getBoolean("musicPlayer", true);
             musicPlayerBar = preferences.getBoolean("musicPlayerBar", true);
             musicPlayerMini = preferences.getBoolean("musicPlayerMini", true);
             proxyDisableConditions = preferences.getInt("proxyDisableConditions", 0) & MZGramProxyAutoDisable.ALL;

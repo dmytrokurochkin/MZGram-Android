@@ -453,6 +453,14 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR) || messageMenu && !org.telegram.messenger.mzgram.MZGramConfig.glassMessageMenu) {", blur)
         self.assertIn(".setColorProvider(BlurredBackgroundProviderImpl.messageMenuPopupBackground(resourceProvider))", read(JAVA / "ui/ChatActivity.java"))
 
+    def test_material3_player_on_by_default(self):
+        self.switch("musicPlayer", "true", "BUTTON_MUSIC_PLAYER")
+        kotlin = read(ROOT / "TMessagesProj_AppTests/src/androidTest/kotlin/org/telegram/messenger/mzgram/test/MZGramSettingsTest.kt")
+        under = kotlin.split("private val underSwitch = listOf(", 1)[1].split(")", 1)[0]
+        for row in ("BUTTON_MUSIC_PLAYER_BAR", "BUTTON_MUSIC_PLAYER_MINI", "BUTTON_MUSIC_PLAYER_STYLE"):
+            self.assertNotIn(row, under)
+        self.assertIn("On by default; off, music opens in Telegram's player.", read(ROOT / "FEATURES.md"))
+
     def test_floating_mini_player(self):
         self.switch("musicPlayerMini", "true", "BUTTON_MUSIC_PLAYER_MINI")
         tabs = read(JAVA / "ui/MainTabsActivity.java")

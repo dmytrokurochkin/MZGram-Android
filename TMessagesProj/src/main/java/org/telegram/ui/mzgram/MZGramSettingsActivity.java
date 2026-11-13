@@ -234,6 +234,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     // The message menu page, from its row in Chats
     private static final int BUTTON_MESSAGE_MENU = 206;
     private static final int BUTTON_IN_APP_VIBRATION = 207;
+    private static final int BUTTON_DISABLE_NOTIFICATION_DELAY = 208;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -775,6 +776,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_DISABLE_NUMBER_ROUNDING, R.string.MZGramDisableNumberRounding, MZGramConfig.disableNumberRounding, R.string.MZGramDisableNumberRoundingInfo));
         items.add(check(BUTTON_FORMAT_TIME_WITH_SECONDS, R.string.MZGramFormatTimeWithSeconds, MZGramConfig.formatTimeWithSeconds, R.string.MZGramFormatTimeWithSecondsInfo));
         items.add(check(BUTTON_IN_APP_VIBRATION, R.string.MZGramInAppVibration, MZGramConfig.inAppVibration, R.string.MZGramInAppVibrationInfo));
+        items.add(check(BUTTON_DISABLE_NOTIFICATION_DELAY, R.string.MZGramDisableNotificationDelay, MZGramConfig.disableNotificationDelay, R.string.MZGramDisableNotificationDelayInfo));
         items.add(check(BUTTON_STRIP_ZALGO_TEXT, R.string.MZGramStripZalgoText, MZGramConfig.stripZalgoText, R.string.MZGramStripZalgoTextInfo));
         items.add(UItem.asShadow(null));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderProfile)));
@@ -1175,6 +1177,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_DISABLE_NOTIFICATION_DELAY) {
+            MZGramConfig.toggleDisableNotificationDelay();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableNotificationDelay);
         } else if (item.id == BUTTON_IN_APP_VIBRATION) {
             MZGramConfig.toggleInAppVibration();
             ((TextCheckCell) view).setChecked(MZGramConfig.inAppVibration);

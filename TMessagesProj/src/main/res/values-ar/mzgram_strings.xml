@@ -1234,4 +1234,6 @@
     <string name="MZGramHeaderUpdates">التحديثات</string>
     <string name="MZGramInAppVibration">الاهتزاز داخل التطبيق</string>
     <string name="MZGramInAppVibrationInfo">عند الإيقاف: لا تهتز الأزرار والقوائم وأشرطة التمرير والتطبيقات المصغرة. تتبع المكالمات والإشعارات إعداداتها الخاصة.</string>
+    <string name="MZGramDisableNotificationDelay">إيقاف تأخير الإشعارات</string>
+    <string name="MZGramDisableNotificationDelayInfo">يصل إشعار الرسالة الجديدة فورًا. ينتظر Telegram ثانية واحدة، أو 3 ثوانٍ أثناء اتصالك على جهاز آخر، تحسبًا لقراءتك لها هناك.</string>
 </resources>

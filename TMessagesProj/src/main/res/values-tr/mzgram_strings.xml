@@ -1234,4 +1234,6 @@
     <string name="MZGramHeaderUpdates">Güncellemeler</string>
     <string name="MZGramInAppVibration">Uygulama içi titreşim</string>
     <string name="MZGramInAppVibrationInfo">Kapalı: düğmeler, menüler, kaydırıcılar ve mini uygulamalar artık titreşmez. Aramalar ve bildirimler kendi ayarlarına uyar.</string>
+    <string name="MZGramDisableNotificationDelay">Bildirim gecikmesini kapat</string>
+    <string name="MZGramDisableNotificationDelayInfo">Yeni mesaj bildirimi hemen gelir. Telegram, mesajı orada okuma ihtimaline karşı 1 saniye, başka bir cihazda çevrimiçiyken 3 saniye bekler.</string>
 </resources>

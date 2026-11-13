@@ -42,5 +42,11 @@ class ScreensTest(unittest.TestCase):
             self.assertNotIn("FLAG_IGNORE_VIEW_SETTING", read(path), path.name)
 
 
+    def test_disable_notification_delay(self):
+        self.switch("disableNotificationDelay", "false", "BUTTON_DISABLE_NOTIFICATION_DELAY")
+        notifications = read(JAVA / "messenger/NotificationsController.java")
+        self.assertIn("MZGramConfig.disableNotificationDelay ? 0 : (onlineReason ? 3 * 1000 : 1000)", notifications)
+
+
 if __name__ == "__main__":
     unittest.main()

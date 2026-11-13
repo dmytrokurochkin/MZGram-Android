@@ -3452,7 +3452,8 @@ public class NotificationsController extends BaseController implements Notificat
             }
             notificationDelayWakelock.acquire(10000);
             notificationsQueue.cancelRunnable(notificationDelayRunnable);
-            notificationsQueue.postRunnable(notificationDelayRunnable, (onlineReason ? 3 * 1000 : 1000));
+            // MZGram: Settings > MZGram > General > Disable notification delay
+            notificationsQueue.postRunnable(notificationDelayRunnable, org.telegram.messenger.mzgram.MZGramConfig.disableNotificationDelay ? 0 : (onlineReason ? 3 * 1000 : 1000));
         } catch (Exception e) {
             FileLog.e(e);
             showOrUpdateNotification(notifyCheck);

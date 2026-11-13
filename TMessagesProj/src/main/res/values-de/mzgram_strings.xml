@@ -1234,4 +1234,6 @@
     <string name="MZGramHeaderUpdates">Aktualisierungen</string>
     <string name="MZGramInAppVibration">Vibration in der App</string>
     <string name="MZGramInAppVibrationInfo">Aus: Tasten, Menüs, Schieberegler und Mini-Apps vibrieren nicht mehr. Anrufe und Mitteilungen folgen ihren eigenen Einstellungen.</string>
+    <string name="MZGramDisableNotificationDelay">Mitteilungsverzögerung aus</string>
+    <string name="MZGramDisableNotificationDelayInfo">Eine neue Nachricht meldet sich sofort. Telegram wartet 1 Sekunde, oder 3, solange du auf einem anderen Gerät online bist, falls du sie dort liest.</string>
 </resources>

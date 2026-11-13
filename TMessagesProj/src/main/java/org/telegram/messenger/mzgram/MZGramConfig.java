@@ -433,6 +433,9 @@ public class MZGramConfig {
     // Taps and buzzes of the app's own controls (MZGramHaptics); on as in Telegram
     public static boolean inAppVibration = true;
 
+    // A new message notifies at once, not after Telegram's 1 s (3 s while online on another device) wait
+    public static boolean disableNotificationDelay = false;
+
     static {
         loadConfig(false);
     }
@@ -672,6 +675,7 @@ public class MZGramConfig {
             textStyleHidden = preferences.getString("textStyleHidden", "");
             doubleTapOther = preferences.getInt("doubleTapOther", 0);
             inAppVibration = preferences.getBoolean("inAppVibration", true);
+            disableNotificationDelay = preferences.getBoolean("disableNotificationDelay", false);
             configLoaded = true;
         }
     }
@@ -1711,5 +1715,10 @@ public class MZGramConfig {
     public static void toggleInAppVibration() {
         inAppVibration = !inAppVibration;
         putBoolean("inAppVibration", inAppVibration);
+    }
+
+    public static void toggleDisableNotificationDelay() {
+        disableNotificationDelay = !disableNotificationDelay;
+        putBoolean("disableNotificationDelay", disableNotificationDelay);
     }
 }

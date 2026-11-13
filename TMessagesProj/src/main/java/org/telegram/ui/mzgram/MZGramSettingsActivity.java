@@ -245,6 +245,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_ACTION_BAR_STATUS = 216;
     private static final int BUTTON_HIDE_FLOATING_BUTTON = 217;
     private static final int BUTTON_HIDE_DIALOGS_SEARCH_BAR = 218;
+    private static final int BUTTON_FORCE_SNOW = 219;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -861,6 +862,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramAvatarShapeInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatList)));
+        items.add(check(BUTTON_FORCE_SNOW, R.string.MZGramForceSnow, MZGramConfig.forceSnow, R.string.MZGramForceSnowInfo));
         items.add(UItem.asCheck(BUTTON_HIDE_ACTION_BAR_STATUS, getString(R.string.MZGramHideActionBarStatus)).setChecked(MZGramConfig.hideActionBarStatus));
         items.add(UItem.asCheck(BUTTON_CENTER_TITLE, getString(R.string.MZGramCenterTitle)).setChecked(MZGramConfig.centerTitle));
         items.add(check(BUTTON_HIDE_STORIES, R.string.MZGramHideStories, MZGramConfig.hideStories, R.string.MZGramHideStoriesInfo));
@@ -1236,6 +1238,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_FORCE_SNOW) {
+            MZGramConfig.toggleForceSnow();
+            ((TextCheckCell) view).setChecked(MZGramConfig.forceSnow);
+            rebuildBelow();
         } else if (item.id == BUTTON_HIDE_DIALOGS_SEARCH_BAR) {
             MZGramConfig.toggleHideDialogsSearchBar();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideDialogsSearchBar);

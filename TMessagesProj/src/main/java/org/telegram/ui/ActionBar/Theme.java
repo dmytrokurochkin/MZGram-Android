@@ -4466,7 +4466,8 @@ public class Theme {
     }
 
     public static boolean canStartHolidayAnimation() {
-        return canStartHolidayAnimation;
+        // MZGram: Settings > MZGram > Appearance > Force snow: the winter snowflakes at any time of the year
+        return canStartHolidayAnimation || org.telegram.messenger.mzgram.MZGramConfig.forceSnow;
     }
 
     public static int getEventType() {

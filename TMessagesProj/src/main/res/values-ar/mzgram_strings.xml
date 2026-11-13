@@ -1258,4 +1258,6 @@
     <string name="MZGramHideFloatingButton">إخفاء الزر العائم</string>
     <string name="MZGramHideDialogsSearchBar">إخفاء شريط البحث</string>
     <string name="MZGramChatListInfo">\"إخفاء الحالة\" يزيل حالة الرمز التعبيري بجانب عنوان قائمة المحادثات. بدون الزر العائم تبدأ المحادثات الجديدة من جهات الاتصال؛ وبدون شريط البحث يفتح زر البحث في الشريط البحث.</string>
+    <string name="MZGramForceSnow">الثلج دائمًا</string>
+    <string name="MZGramForceSnowInfo">تتساقط ندف الثلج الشتوية في Telegram على شريط قائمة المحادثات وخلفيات المحادثات طوال العام.</string>
 </resources>

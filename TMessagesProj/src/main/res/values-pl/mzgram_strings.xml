@@ -1258,4 +1258,6 @@
     <string name="MZGramHideFloatingButton">Ukryj pływający przycisk</string>
     <string name="MZGramHideDialogsSearchBar">Ukryj pasek wyszukiwania</string>
     <string name="MZGramChatListInfo">„Ukryj status” usuwa status emoji obok tytułu listy czatów. Bez pływającego przycisku nowe czaty zaczyna się w Kontaktach; bez paska wyszukiwania wyszukiwanie otwiera przycisk na pasku.</string>
+    <string name="MZGramForceSnow">Śnieg cały rok</string>
+    <string name="MZGramForceSnowInfo">Zimowe płatki śniegu Telegrama padają na górnym pasku listy czatów i w tle czatów przez cały rok.</string>
 </resources>

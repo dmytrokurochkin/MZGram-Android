@@ -1258,4 +1258,6 @@
     <string name="MZGramHideFloatingButton">Ocultar o botão flutuante</string>
     <string name="MZGramHideDialogsSearchBar">Ocultar a barra de pesquisa</string>
     <string name="MZGramChatListInfo">\"Ocultar o status\" tira o status emoji ao lado do título da lista de conversas. Sem o botão flutuante, novas conversas começam pelos Contatos; sem a barra de pesquisa, o botão de pesquisa da barra abre a pesquisa.</string>
+    <string name="MZGramForceSnow">Neve sempre</string>
+    <string name="MZGramForceSnowInfo">Os flocos de neve de inverno do Telegram caem sobre a barra da lista de conversas e os fundos das conversas o ano todo.</string>
 </resources>

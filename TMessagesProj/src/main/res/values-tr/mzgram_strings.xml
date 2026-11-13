@@ -1258,4 +1258,6 @@
     <string name="MZGramHideFloatingButton">Kayan düğmeyi gizle</string>
     <string name="MZGramHideDialogsSearchBar">Arama panelini gizle</string>
     <string name="MZGramChatListInfo">\"Durumu gizle\", sohbet listesi başlığının yanındaki emoji durumunu kaldırır. Kayan düğme olmadan yeni sohbetler Kişiler\'den başlar; arama paneli olmadan aramayı çubuktaki arama düğmesi açar.</string>
+    <string name="MZGramForceSnow">Her zaman kar</string>
+    <string name="MZGramForceSnowInfo">Telegram\'ın kış kar taneleri yıl boyunca sohbet listesi çubuğuna ve sohbet arka planlarına düşer.</string>
 </resources>

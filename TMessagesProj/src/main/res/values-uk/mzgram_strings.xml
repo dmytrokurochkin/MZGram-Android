@@ -1259,4 +1259,6 @@
     <string name="MZGramHideFloatingButton">Приховати плаваючу кнопку</string>
     <string name="MZGramHideDialogsSearchBar">Приховати панель пошуку</string>
     <string name="MZGramChatListInfo">«Приховати статус» прибирає емодзі-статус біля заголовка списку чатів. Без плаваючої кнопки нові чати починаються з Контактів; без панелі пошуку пошук відкриває кнопка пошуку на панелі.</string>
+    <string name="MZGramForceSnow">Примусовий сніг</string>
+    <string name="MZGramForceSnowInfo">Зимові сніжинки Telegram падають на верхній панелі списку чатів і на фоні чатів цілий рік.</string>
 </resources>

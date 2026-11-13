@@ -119,6 +119,11 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("return -lerp(dp(4), dp(SEARCH_FIELD_HEIGHT), animatorSearchVisible.getFloatValue());", dialogs)
         self.assertIn("mzgramShowsIdleSearchField() ? 1f - MathUtils.clamp(", dialogs)
 
+    def test_force_snow(self):
+        self.switch("forceSnow", "false", "BUTTON_FORCE_SNOW")
+        theme = read(JAVA / "ui/ActionBar/Theme.java")
+        self.assertIn("return canStartHolidayAnimation || org.telegram.messenger.mzgram.MZGramConfig.forceSnow;", theme)
+
 
 if __name__ == "__main__":
     unittest.main()

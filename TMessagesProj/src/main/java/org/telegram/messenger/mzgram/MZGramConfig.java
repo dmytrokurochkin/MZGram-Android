@@ -469,6 +469,9 @@ public class MZGramConfig {
     // No search field over the idle chat list; the search button of the bar opens search
     public static boolean hideDialogsSearchBar = false;
 
+    // Telegram's winter snowflakes all year: chat list bar and chat background (Theme.canStartHolidayAnimation)
+    public static boolean forceSnow = false;
+
     static {
         loadConfig(false);
     }
@@ -720,6 +723,7 @@ public class MZGramConfig {
             hideActionBarStatus = preferences.getBoolean("hideActionBarStatus", false);
             hideFloatingButton = preferences.getBoolean("hideFloatingButton", false);
             hideDialogsSearchBar = preferences.getBoolean("hideDialogsSearchBar", false);
+            forceSnow = preferences.getBoolean("forceSnow", false);
             configLoaded = true;
         }
     }
@@ -1820,5 +1824,10 @@ public class MZGramConfig {
     public static void toggleHideDialogsSearchBar() {
         hideDialogsSearchBar = !hideDialogsSearchBar;
         putBoolean("hideDialogsSearchBar", hideDialogsSearchBar);
+    }
+
+    public static void toggleForceSnow() {
+        forceSnow = !forceSnow;
+        putBoolean("forceSnow", forceSnow);
     }
 }

@@ -1258,4 +1258,6 @@
     <string name="MZGramHideFloatingButton">Hide floating button</string>
     <string name="MZGramHideDialogsSearchBar">Hide search panel</string>
     <string name="MZGramChatListInfo">Hide status removes the emoji status next to the chat list title. Without the floating button, new chats start from Contacts; without the search panel, the search button of the bar opens search.</string>
+    <string name="MZGramForceSnow">Force snow</string>
+    <string name="MZGramForceSnowInfo">Telegram\'s winter snowflakes fall over the chat list bar and chat backgrounds all year.</string>
 </resources>

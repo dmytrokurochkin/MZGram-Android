@@ -1258,4 +1258,6 @@
     <string name="MZGramHideFloatingButton">Ocultar el botón flotante</string>
     <string name="MZGramHideDialogsSearchBar">Ocultar la barra de búsqueda</string>
     <string name="MZGramChatListInfo">«Ocultar el estado» quita el estado emoji junto al título de la lista de chats. Sin el botón flotante, los chats nuevos se empiezan desde Contactos; sin la barra de búsqueda, la búsqueda se abre con el botón de la barra.</string>
+    <string name="MZGramForceSnow">Nieve siempre</string>
+    <string name="MZGramForceSnowInfo">Los copos de nieve de invierno de Telegram caen sobre la barra de la lista de chats y los fondos de chat todo el año.</string>
 </resources>

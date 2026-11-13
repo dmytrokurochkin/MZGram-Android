@@ -534,4 +534,32 @@ class MZGramScreensTest {
             org.telegram.messenger.mzgram.MZGramFeed.setCategory(account, category)
         }
     }
+
+    // Divider style: Segments is kept, anything unknown reads as Line; Segments and
+    // None hide the lines; Segments always separates the section titles.
+    @Test
+    fun segmentsAndSeparateHeaders() {
+        val style = MZGramConfig.dividerStyle
+        val separate = MZGramConfig.separateHeaders
+        try {
+            if (MZGramConfig.separateHeaders) MZGramConfig.toggleSeparateHeaders()
+            MZGramConfig.setDividerStyle(MZGramConfig.DIVIDER_SEGMENTS)
+            assertEquals(MZGramConfig.DIVIDER_SEGMENTS, MZGramConfig.dividerStyle)
+            assertTrue(MZGramConfig.hideDividers())
+            assertTrue(MZGramConfig.separatedHeaders())
+            MZGramConfig.setDividerStyle(MZGramConfig.DIVIDER_HIDDEN)
+            assertTrue(MZGramConfig.hideDividers())
+            assertFalse(MZGramConfig.separatedHeaders())
+            MZGramConfig.setDividerStyle(7)
+            assertEquals(MZGramConfig.DIVIDER_LINE, MZGramConfig.dividerStyle)
+            assertFalse(MZGramConfig.hideDividers())
+            MZGramConfig.toggleSeparateHeaders()
+            assertTrue(MZGramConfig.separatedHeaders())
+            assertTrue(org.telegram.ui.Components.UniversalAdapter.isHeader(org.telegram.ui.Components.UniversalAdapter.VIEW_TYPE_HEADER))
+            assertFalse(org.telegram.ui.Components.UniversalAdapter.isHeader(org.telegram.ui.Components.UniversalAdapter.VIEW_TYPE_CHECK))
+        } finally {
+            if (MZGramConfig.separateHeaders != separate) MZGramConfig.toggleSeparateHeaders()
+            MZGramConfig.setDividerStyle(style)
+        }
+    }
 }

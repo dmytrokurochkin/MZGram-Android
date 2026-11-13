@@ -427,23 +427,32 @@ public class UniversalRecyclerView extends RecyclerListView {
         }
     }
 
+    // MZGram: Settings > MZGram > Appearance > Sections: the radius of the cards (Telegram's 16 dp by default)
     public void setSections() {
-        setSections(dp(12), dp(16), false);
+        setSections(dp(12), dp(org.telegram.messenger.mzgram.MZGramConfig.sectionRadius), false);
     }
     public void setSections(boolean topPadding) {
-        setSections(dp(12), dp(16), topPadding);
+        setSections(dp(12), dp(org.telegram.messenger.mzgram.MZGramConfig.sectionRadius), topPadding);
     }
     public void setSections(int padding, float roundRadius, boolean topPadding) {
         super.setSections(
             view -> {
                 if (view.getParent() != this) return false;
                 final ViewHolder viewHolder = getChildViewHolder(view);
-                return !UniversalAdapter.isShadow(viewHolder.getItemViewType());
+                return isSectionViewType(viewHolder.getItemViewType());
             },
-            UniversalAdapter::isShadow,
+            // MZGram: true for the rows of a card (it said isShadow, the opposite), as the
+            // segments and the card edges ask about the neighbouring rows (as in exteraless)
+            UniversalRecyclerView::isSectionViewType,
             padding, roundRadius,
             super::drawBackgroundRect,
             topPadding
         );
+    }
+
+    // MZGram: Separate headers: a section title lies above its card, not in it
+    private static boolean isSectionViewType(int viewType) {
+        return !UniversalAdapter.isShadow(viewType)
+            && !(UniversalAdapter.isHeader(viewType) && org.telegram.messenger.mzgram.MZGramConfig.separatedHeaders());
     }
 }

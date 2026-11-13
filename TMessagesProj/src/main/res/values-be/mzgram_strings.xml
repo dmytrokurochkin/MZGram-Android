@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">непрачытаных: %1$d</string>
     <string name="MZGramFeedNoPosts">Пастоў каналаў пакуль няма.</string>
     <string name="MZGramFeedNoChannels">У стужцы няма каналаў. Падпішыцеся на канал або пазначце каналы ў наладах стужкі.</string>
+    <string name="MZGramDividerSegments">Сегменты</string>
+    <string name="MZGramSeparateHeaders">Асобныя загалоўкі</string>
+    <string name="MZGramSeparateHeadersInfo">Назва раздзела стаіць над ягонай карткай, а не ўнутры яе. З «Сегментамі» заўсёды так.</string>
 </resources>

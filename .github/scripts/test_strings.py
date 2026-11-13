@@ -42,7 +42,7 @@ FOREIGN_LETTERS = {
 # that are the same in some of the languages (French "Message", "Date",
 # German "Details"). A string made only of them may equal the English one.
 SHARED_WORDS = {
-    "MZGram", "ID", "UnifiedPush", "DC", "MIME", "FCM", "Google", "GitHub", "SHA",
+    "MZGram", "ID", "Segments", "UnifiedPush", "DC", "MIME", "FCM", "Google", "GitHub", "SHA",
     "VAPID", "Bot", "Miami", "Amsterdam", "Singapore", "Zalgo", "Unicode",
     "Telegram", "Interface", "Media", "Details", "Message", "Date", "OK",
     # "AI" is the same in Polish, "Model" in Polish and Turkish

@@ -305,6 +305,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FEED_UNREAD_COUNTER = 276;
     private static final int BUTTON_FEED_WIDE_POSTS = 277;
     private static final int BUTTON_FEED_INCLUDE_ARCHIVED = 278;
+    private static final int BUTTON_SEPARATE_HEADERS = 279;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -463,6 +464,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     // A switch with what it does in grey under its title: one row of a card,
     // as the reference client shows its switches
+    // MZGramConfig.DIVIDER_LINE, DIVIDER_HIDDEN, DIVIDER_SEGMENTS
+    private static final int[] DIVIDER_STYLE_TITLES = {R.string.MZGramDividerLine, R.string.MZGramDividerHidden, R.string.MZGramDividerSegments};
+
     private UItem check(int id, int title, boolean checked, int info) {
         UItem item = UItem.asCheck(id, getString(title)).setChecked(checked);
         item.subtext = getString(info);
@@ -1110,7 +1114,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     // Screens opened after the change take it; no rebuild on every step of the slider
                     MZGramConfig.setSectionRadius(val);
                 }));
-        items.add(UItem.asButton(BUTTON_DIVIDER_STYLE, getString(R.string.MZGramDividerStyle), getString(MZGramConfig.dividerStyle == MZGramConfig.DIVIDER_HIDDEN ? R.string.MZGramDividerHidden : R.string.MZGramDividerLine)));
+        items.add(UItem.asButton(BUTTON_DIVIDER_STYLE, getString(R.string.MZGramDividerStyle), getString(DIVIDER_STYLE_TITLES[MZGramConfig.dividerStyle])));
+        // Segments always separate the headers: the switch shows it and does not change
+        items.add(check(BUTTON_SEPARATE_HEADERS, R.string.MZGramSeparateHeaders, MZGramConfig.separatedHeaders(), R.string.MZGramSeparateHeadersInfo)
+                .setEnabled(MZGramConfig.dividerStyle != MZGramConfig.DIVIDER_SEGMENTS));
         items.add(UItem.asShadow(getString(R.string.MZGramSectionsInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderGlass)));
         items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
@@ -1539,6 +1546,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_SEPARATE_HEADERS) {
+            if (MZGramConfig.dividerStyle == MZGramConfig.DIVIDER_SEGMENTS) {
+                return;
+            }
+            MZGramConfig.toggleSeparateHeaders();
+            ((TextCheckCell) view).setChecked(MZGramConfig.separateHeaders);
+            listView.invalidateItemDecorations();
+            listView.adapter.update(true);
+            rebuildBelow();
         } else if (item.id == BUTTON_FEED_INCLUDE_ARCHIVED) {
             MZGramConfig.toggleFeedIncludeArchived();
             ((TextCheckCell) view).setChecked(MZGramConfig.feedIncludeArchived);
@@ -1757,13 +1773,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
             if (getParentActivity() == null) {
                 return;
             }
-            String[] options = {getString(R.string.MZGramDividerLine), getString(R.string.MZGramDividerHidden)};
+            String[] options = new String[DIVIDER_STYLE_TITLES.length];
+            for (int i = 0; i < options.length; i++) {
+                options[i] = getString(DIVIDER_STYLE_TITLES[i]);
+            }
             showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramDividerStyle), MZGramConfig.dividerStyle, (dialog, which) -> {
                 MZGramConfig.setDividerStyle(which);
                 // The lines drawn with Telegram's shared paint take the colour at once
                 org.telegram.ui.ActionBar.Theme.dividerPaint.setColor(org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_divider));
                 rebuildBelow();
                 if (listView != null && listView.adapter != null) {
+                    // Segments add a gap between the rows of a card
+                    listView.invalidateItemDecorations();
                     listView.adapter.update(true);
                 }
             }, getString(R.string.MZGramCancel)));

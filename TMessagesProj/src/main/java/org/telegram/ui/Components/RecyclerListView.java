@@ -2672,6 +2672,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     @Override
     public boolean drawChild(Canvas canvas, View child, long drawingTime) {
         if (hasSections() && !ignoreClipChild) {
+            separateHeader(child);
             canvas.save();
             clipChild(canvas, child);
             boolean r = super.drawChild(canvas, child, drawingTime);
@@ -3289,7 +3290,9 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     }
     public void setSections(int padding, float roundRadius, boolean topPadding) {
         setSections(
-            view -> !(view instanceof TextInfoPrivacyCell || view instanceof ShadowSectionCell || view instanceof FiltersSetupActivity.HintInnerCell || view instanceof GraySectionCell || view instanceof CollapseTextCell) && !Objects.equals(view.getTag(), TAG_NOT_SECTION),
+            // MZGram: Settings > MZGram > Appearance > Separate headers: the title is not part of the card
+            view -> !(view instanceof TextInfoPrivacyCell || view instanceof ShadowSectionCell || view instanceof FiltersSetupActivity.HintInnerCell || view instanceof GraySectionCell || view instanceof CollapseTextCell) && !Objects.equals(view.getTag(), TAG_NOT_SECTION)
+                && !(view instanceof org.telegram.ui.Cells.HeaderCell && org.telegram.messenger.mzgram.MZGramConfig.separatedHeaders()),
             padding,
             roundRadius,
             this::drawBackgroundRect,
@@ -3404,8 +3407,19 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
                         if (first) outRect.top = enableTopPadding ? padding : dp(4);
                         if (last) outRect.bottom = padding;
+
+                        // MZGram: Divider style Segments: a 2 dp gap between the rows of a
+                        // section, or they join into one card (port of exteraless, GPL-3.0)
+                        if (!first && this.parent.useSegmentedSections()
+                                && this.parent.isViewTypeSection != null
+                                && this.parent.isViewTypeSection.run(adapter.getItemViewType(position - 1))) {
+                            outRect.top += dp(2);
+                        }
                     }
                 }
+            } else if (view instanceof org.telegram.ui.Cells.HeaderCell && org.telegram.messenger.mzgram.MZGramConfig.separatedHeaders()) {
+                // MZGram: a separated header's text starts 24 dp from the edge, a little inside the cards
+                outRect.left = outRect.right = dp(3);
             }
         }
 
@@ -3476,6 +3490,10 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     }
     public void drawSectionsBackgrounds(Canvas canvas) {
         if (drawSectionBackground == null) return;
+        if (useSegmentedSections()) {
+            drawSegmentedSectionsBackgrounds(canvas);
+            return;
+        }
 
         if (isAnimating()) {
             if (sections == null) {
@@ -3621,6 +3639,84 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     }
 
     private final Path clipPath = new Path();
+
+    // MZGram: Settings > MZGram > Appearance > Divider style > Segments: every row of a
+    // section is a card of its own; inner corners min(radius, 4 dp). Port of exteraless
+    // RecyclerListView (GPL-3.0), itself after exteraGram's segmented sections.
+    private final float[] segmentRadii = new float[8];
+
+    boolean useSegmentedSections() {
+        return sectionsItemDecoration != null && org.telegram.messenger.mzgram.MZGramConfig.dividerStyle == org.telegram.messenger.mzgram.MZGramConfig.DIVIDER_SEGMENTS;
+    }
+
+    private float segmentInnerRadius() {
+        return Math.min(sectionRadius, dp(4));
+    }
+
+    // Neighbours by adapter position, so a half-visible section keeps its shape while scrolling
+    private boolean hasSegmentedSectionNeighbor(View child, int delta) {
+        if (child == null || getAdapter() == null || isViewTypeSection == null) return false;
+        final int position = getChildAdapterPosition(child);
+        if (position == NO_POSITION) return false;
+        final int neighbor = position + delta;
+        if (neighbor < 0 || neighbor >= getAdapter().getItemCount()) return false;
+        return isViewTypeSection.run(getAdapter().getItemViewType(neighbor));
+    }
+
+    private boolean setSegmentedSectionRect(View child, RectF rect) {
+        if (child == null || sectionsItemDecoration == null) return false;
+        float bottomMargin = 0;
+        if (child instanceof JoinToSendSettingsView) {
+            bottomMargin = ((JoinToSendSettingsView) child).getBottomInfoMargin();
+        }
+        rect.set(
+            child.getX(),
+            Math.max(applyPaddingToSections ? getPaddingTop() : -sectionRadius, top(child)),
+            child.getX() + child.getWidth(),
+            Math.min(getHeight() - (applyPaddingToSections ? getPaddingBottom() : -sectionRadius), bottom(child) - bottomMargin)
+        );
+        return rect.bottom >= rect.top;
+    }
+
+    private float segmentTopRadius(View child) {
+        return hasSegmentedSectionNeighbor(child, -1) ? segmentInnerRadius() : sectionRadius;
+    }
+
+    private float segmentBottomRadius(View child) {
+        return hasSegmentedSectionNeighbor(child, 1) ? segmentInnerRadius() : sectionRadius;
+    }
+
+    private void drawSegmentedSectionsBackgrounds(Canvas canvas) {
+        for (int i = 0; i < getChildCount(); ++i) {
+            final View child = getChildAt(i);
+            if (
+                child == emptyView ||
+                child.getVisibility() != View.VISIBLE || child.getAlpha() <= 0 ||
+                !sectionsItemDecoration.isSectionItem.run(child) ||
+                isInsideForcedSection(getChildAdapterPosition(child))
+            ) continue;
+            if (!setSegmentedSectionRect(child, AndroidUtilities.rectTmp)) continue;
+            drawSectionBackground.run(canvas, AndroidUtilities.rectTmp, segmentTopRadius(child), segmentBottomRadius(child), child.getAlpha());
+        }
+    }
+
+    private void clipChildWithSegmentedSection(Canvas canvas, View child) {
+        if (!setSegmentedSectionRect(child, AndroidUtilities.rectTmp)) return;
+        final float topRadius = segmentTopRadius(child);
+        final float bottomRadius = segmentBottomRadius(child);
+        segmentRadii[0] = segmentRadii[1] = segmentRadii[2] = segmentRadii[3] = topRadius;
+        segmentRadii[4] = segmentRadii[5] = segmentRadii[6] = segmentRadii[7] = bottomRadius;
+        clipPath.rewind();
+        clipPath.addRoundRect(AndroidUtilities.rectTmp, segmentRadii, Path.Direction.CW);
+        canvas.clipPath(clipPath);
+    }
+
+    // MZGram: Separate headers: the title lies on the window background, without the white of the card
+    private static void separateHeader(View child) {
+        if (child instanceof org.telegram.ui.Cells.HeaderCell && child.getBackground() != null && org.telegram.messenger.mzgram.MZGramConfig.separatedHeaders()) {
+            child.setBackground(null);
+        }
+    }
     /** Raised children may draw their own rounded surface outside the section outline. */
     protected boolean shouldClipChildToSection(View child) {
         return true;
@@ -3629,6 +3725,10 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     private void clipChild(Canvas canvas, View child) {
         if (child == null || !shouldClipChildToSection(child) || !sectionsItemDecoration.isSectionItem.run(child))
             return;
+        if (useSegmentedSections()) {
+            clipChildWithSegmentedSection(canvas, child);
+            return;
+        }
 
         boolean prev, next;
         int position = getChildAdapterPosition(child);

@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">ungelesen: %1$d</string>
     <string name="MZGramFeedNoPosts">Noch keine Kanalbeiträge.</string>
     <string name="MZGramFeedNoChannels">Keine Kanäle im Feed. Folge einem Kanal oder hake Kanäle in den Feed-Einstellungen an.</string>
+    <string name="MZGramDividerSegments">Segmente</string>
+    <string name="MZGramSeparateHeaders">Getrennte Überschriften</string>
+    <string name="MZGramSeparateHeadersInfo">Der Titel eines Abschnitts steht über seiner Karte, nicht darin. Mit Segmenten immer.</string>
 </resources>

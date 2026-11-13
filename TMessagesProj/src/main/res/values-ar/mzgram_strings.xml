@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">غير مقروء: %1$d</string>
     <string name="MZGramFeedNoPosts">لا توجد منشورات قنوات بعد.</string>
     <string name="MZGramFeedNoChannels">لا توجد قنوات في الموجز. تابع قناة أو حدد قنوات في إعدادات الموجز.</string>
+    <string name="MZGramDividerSegments">مقاطع</string>
+    <string name="MZGramSeparateHeaders">عناوين منفصلة</string>
+    <string name="MZGramSeparateHeadersInfo">يظهر عنوان القسم فوق بطاقته لا داخلها. ودائمًا مع المقاطع.</string>
 </resources>

@@ -9028,9 +9028,9 @@ public class Theme {
     }
 
     public static int getColor(int key, ResourcesProvider provider) {
-        // MZGram: Settings > MZGram > Appearance > Divider style: no lines, also
-        // where a resources provider (chat themes, sheets) gives the colour
-        if (key == key_divider && org.telegram.messenger.mzgram.MZGramConfig.dividerStyle == org.telegram.messenger.mzgram.MZGramConfig.DIVIDER_HIDDEN) {
+        // MZGram: Settings > MZGram > Appearance > Divider style: no lines (None, Segments),
+        // also where a resources provider (chat themes, sheets) gives the colour
+        if (key == key_divider && org.telegram.messenger.mzgram.MZGramConfig.hideDividers()) {
             return 0x00ffffff;
         }
         if (provider != null) {
@@ -9052,8 +9052,8 @@ public class Theme {
     }
 
     public static int getColor(int key, boolean[] isDefault, boolean ignoreAnimation) {
-        // MZGram: Settings > MZGram > Appearance > Divider style: no lines (idea from exteraless Theme, GPL-3.0)
-        if (key == key_divider && org.telegram.messenger.mzgram.MZGramConfig.dividerStyle == org.telegram.messenger.mzgram.MZGramConfig.DIVIDER_HIDDEN) {
+        // MZGram: Settings > MZGram > Appearance > Divider style: no lines, None or Segments (idea from exteraless Theme, GPL-3.0)
+        if (key == key_divider && org.telegram.messenger.mzgram.MZGramConfig.hideDividers()) {
             return 0x00ffffff;
         }
         if (!ignoreAnimation && animatingColors != null) {

@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">nieprzeczytanych: %1$d</string>
     <string name="MZGramFeedNoPosts">Brak jeszcze postów kanałów.</string>
     <string name="MZGramFeedNoChannels">Brak kanałów. Obserwuj kanał lub zaznacz kanały w ustawieniach.</string>
+    <string name="MZGramDividerSegments">Segmenty</string>
+    <string name="MZGramSeparateHeaders">Oddzielne nagłówki</string>
+    <string name="MZGramSeparateHeadersInfo">Tytuł sekcji stoi nad jej kartą, a nie w niej. Przy „Segmentach” zawsze tak.</string>
 </resources>

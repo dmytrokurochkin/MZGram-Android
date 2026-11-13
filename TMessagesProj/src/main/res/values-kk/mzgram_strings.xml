@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">оқылмаған: %1$d</string>
     <string name="MZGramFeedNoPosts">Арна жазбалары әлі жоқ.</string>
     <string name="MZGramFeedNoChannels">Лентада арна жоқ. Арнаға жазылыңыз немесе лента баптауларында арналарды белгілеңіз.</string>
+    <string name="MZGramDividerSegments">Сегменттер</string>
+    <string name="MZGramSeparateHeaders">Бөлек тақырыптар</string>
+    <string name="MZGramSeparateHeadersInfo">Бөлім атауы картасының ішінде емес, үстінде тұрады. «Сегменттермен» әрдайым солай.</string>
 </resources>

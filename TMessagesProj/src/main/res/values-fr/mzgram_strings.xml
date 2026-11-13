@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">non lus : %1$d</string>
     <string name="MZGramFeedNoPosts">Aucune publication de canal pour l\'instant.</string>
     <string name="MZGramFeedNoChannels">Aucun canal dans le fil. Suivez un canal ou cochez des canaux dans les réglages du fil.</string>
+    <string name="MZGramDividerSegments">Segments</string>
+    <string name="MZGramSeparateHeaders">En-têtes séparés</string>
+    <string name="MZGramSeparateHeadersInfo">Le titre d\'une section se place au-dessus de sa carte, pas dedans. Toujours avec Segments.</string>
 </resources>

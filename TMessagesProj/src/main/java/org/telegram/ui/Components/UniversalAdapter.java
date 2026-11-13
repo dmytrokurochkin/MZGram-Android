@@ -592,7 +592,19 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
     private boolean hasDivider(int position) {
         UItem item = getItem(position);
         UItem nextItem = getItem(position + 1);
+        // MZGram: Separate headers: no line under the last row of a card above the next title
+        if (nextItem != null && isHeader(nextItem.viewType) && org.telegram.messenger.mzgram.MZGramConfig.separatedHeaders()) {
+            return false;
+        }
         return item != null && !item.hideDivider && nextItem != null && isShadow(nextItem.viewType) == isShadow(item.viewType);
+    }
+
+    // MZGram: the HeaderCell types, which Separate headers takes out of the cards
+    public static boolean isHeader(int viewType) {
+        return viewType == VIEW_TYPE_HEADER
+            || viewType == VIEW_TYPE_BLACK_HEADER
+            || viewType == VIEW_TYPE_LARGE_HEADER
+            || viewType == VIEW_TYPE_ANIMATED_HEADER;
     }
 
     public static boolean isShadow(int viewType) {

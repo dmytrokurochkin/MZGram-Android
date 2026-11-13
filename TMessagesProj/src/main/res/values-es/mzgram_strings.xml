@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">sin leer: %1$d</string>
     <string name="MZGramFeedNoPosts">Aún no hay publicaciones de canales.</string>
     <string name="MZGramFeedNoChannels">No hay canales en el feed. Sigue un canal o marca canales en los ajustes del feed.</string>
+    <string name="MZGramDividerSegments">Segmentos</string>
+    <string name="MZGramSeparateHeaders">Encabezados separados</string>
+    <string name="MZGramSeparateHeadersInfo">El título de una sección va encima de su tarjeta, no dentro. Con Segmentos, siempre.</string>
 </resources>

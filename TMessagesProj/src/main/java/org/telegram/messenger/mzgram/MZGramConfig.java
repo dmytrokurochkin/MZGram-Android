@@ -505,9 +505,11 @@ public class MZGramConfig {
     // 16 as in Telegram, 0 square, SECTION_RADIUS_MAX the most
     public static final int SECTION_RADIUS_MAX = 28;
     public static int sectionRadius = 16;
-    // Divider style: lines between rows (Telegram) or none (Theme key_divider transparent)
+    // Divider style: lines between rows (Telegram), none (Theme key_divider transparent)
+    // or segments (every row of a settings card is a card of its own, no lines)
     public static final int DIVIDER_LINE = 0;
     public static final int DIVIDER_HIDDEN = 1;
+    public static final int DIVIDER_SEGMENTS = 2;
     public static int dividerStyle = DIVIDER_LINE;
 
     // Blur in every theme, also where the server's flags turn it off (BlurredBackgroundProviderImpl)
@@ -652,6 +654,9 @@ public class MZGramConfig {
 
     // The Feed takes the channels of the archive too (MZGramFeed.allChannels)
     public static boolean feedIncludeArchived = false;
+
+    // Section titles above their cards on the window background, not inside the card (RecyclerListView sections); always so with DIVIDER_SEGMENTS
+    public static boolean separateHeaders = false;
 
     static {
         loadConfig(false);
@@ -923,7 +928,7 @@ public class MZGramConfig {
             folderTabCounters = preferences.getBoolean("folderTabCounters", true);
             hideAllChatsTab = preferences.getBoolean("hideAllChatsTab", false);
             sectionRadius = Math.max(0, Math.min(SECTION_RADIUS_MAX, preferences.getInt("sectionRadius", 16)));
-            dividerStyle = preferences.getInt("dividerStyle", DIVIDER_LINE) == DIVIDER_HIDDEN ? DIVIDER_HIDDEN : DIVIDER_LINE;
+            dividerStyle = validDividerStyle(preferences.getInt("dividerStyle", DIVIDER_LINE));
             forceBlur = preferences.getBoolean("forceBlur", false);
             removeMessageTail = preferences.getBoolean("removeMessageTail", false);
             hideShareButton = preferences.getBoolean("hideShareButton", false);
@@ -971,6 +976,7 @@ public class MZGramConfig {
             feedUnreadCounter = preferences.getBoolean("feedUnreadCounter", true);
             feedWidePosts = preferences.getBoolean("feedWidePosts", true);
             feedIncludeArchived = preferences.getBoolean("feedIncludeArchived", false);
+            separateHeaders = preferences.getBoolean("separateHeaders", false);
             configLoaded = true;
         }
     }
@@ -2064,8 +2070,22 @@ public class MZGramConfig {
     }
 
     public static void setDividerStyle(int value) {
-        dividerStyle = value == DIVIDER_HIDDEN ? DIVIDER_HIDDEN : DIVIDER_LINE;
+        dividerStyle = validDividerStyle(value);
         putInt("dividerStyle", dividerStyle);
+    }
+
+    private static int validDividerStyle(int value) {
+        return value == DIVIDER_HIDDEN || value == DIVIDER_SEGMENTS ? value : DIVIDER_LINE;
+    }
+
+    // No lines between rows: None, and Segments, whose rows are cards of their own
+    public static boolean hideDividers() {
+        return dividerStyle != DIVIDER_LINE;
+    }
+
+    // Section titles stand above their cards: the switch, or always with Segments
+    public static boolean separatedHeaders() {
+        return separateHeaders || dividerStyle == DIVIDER_SEGMENTS;
     }
 
     private static int validSeek(int seconds) {
@@ -2386,5 +2406,10 @@ public class MZGramConfig {
     public static void toggleFeedIncludeArchived() {
         feedIncludeArchived = !feedIncludeArchived;
         putBoolean("feedIncludeArchived", feedIncludeArchived);
+    }
+
+    public static void toggleSeparateHeaders() {
+        separateHeaders = !separateHeaders;
+        putBoolean("separateHeaders", separateHeaders);
     }
 }

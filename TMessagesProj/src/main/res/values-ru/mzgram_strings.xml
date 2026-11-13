@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">непрочитанных: %1$d</string>
     <string name="MZGramFeedNoPosts">Постов каналов пока нет.</string>
     <string name="MZGramFeedNoChannels">В ленте нет каналов. Подпишитесь на канал или отметьте каналы в настройках ленты.</string>
+    <string name="MZGramDividerSegments">Сегменты</string>
+    <string name="MZGramSeparateHeaders">Отдельные заголовки</string>
+    <string name="MZGramSeparateHeadersInfo">Название раздела стоит над его карточкой, а не внутри неё. С «Сегментами» всегда так.</string>
 </resources>

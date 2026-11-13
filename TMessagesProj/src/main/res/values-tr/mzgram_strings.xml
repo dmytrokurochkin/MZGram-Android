@@ -1371,4 +1371,7 @@
     <string name="MZGramFeedUnreadCount">okunmamış: %1$d</string>
     <string name="MZGramFeedNoPosts">Henüz kanal gönderisi yok.</string>
     <string name="MZGramFeedNoChannels">Akışta kanal yok. Bir kanalı takip edin veya akış ayarlarında kanal işaretleyin.</string>
+    <string name="MZGramDividerSegments">Segmentler</string>
+    <string name="MZGramSeparateHeaders">Ayrı başlıklar</string>
+    <string name="MZGramSeparateHeadersInfo">Bölüm başlığı kartının içinde değil, üstünde durur. Segmentlerle her zaman böyle.</string>
 </resources>

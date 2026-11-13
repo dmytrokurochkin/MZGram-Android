@@ -453,6 +453,21 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR) || messageMenu && !org.telegram.messenger.mzgram.MZGramConfig.glassMessageMenu) {", blur)
         self.assertIn(".setColorProvider(BlurredBackgroundProviderImpl.messageMenuPopupBackground(resourceProvider))", read(JAVA / "ui/ChatActivity.java"))
 
+    def test_settings_count_matches_rows(self):
+        # The emulator test counts the rows it sees: every BUTTON_ constant, less
+        # those under a switch that is off by default and the three a build
+        # without Python never shows (the two reports and Python for plugins).
+        # Kept equal here, so the count is checked before CI (run 43517725611
+        # had 247 for 246 rows).
+        page = read(PAGE)
+        buttons = set(re.findall(r"private static final int BUTTON_\w+ = (\d+);", page))
+        self.assertEqual(len(buttons), len(re.findall(r"private static final int BUTTON_\w+ = \d+;", page)), "each BUTTON_ value once")
+        kotlin = read(ROOT / "TMessagesProj_AppTests/src/androidTest/kotlin/org/telegram/messenger/mzgram/test/MZGramSettingsTest.kt")
+        under = kotlin.split("private val underSwitch = listOf(", 1)[1].split("\n    )", 1)[0]
+        hidden = len(re.findall(r'"BUTTON_\w+"', under))
+        expected = int(re.search(r"val expectedCount = (\d+) \+", kotlin).group(1))
+        self.assertEqual(len(buttons) - hidden - 3, expected)
+
     def test_material3_player_on_by_default(self):
         self.switch("musicPlayer", "true", "BUTTON_MUSIC_PLAYER")
         kotlin = read(ROOT / "TMessagesProj_AppTests/src/androidTest/kotlin/org/telegram/messenger/mzgram/test/MZGramSettingsTest.kt")

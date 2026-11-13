@@ -75,11 +75,11 @@ class SettingsRowsTest(unittest.TestCase):
             self.assertIn(f'new Row("{key}", ', rows)
             self.assertRegex(rows, rf'new Row\("{key}", \d+, {guid}, {guid}, true\)')
 
-    def test_switches_on_the_interface_page(self):
+    def test_switches_on_the_other_page(self):
         page = read(PAGE)
         self.assertIn("UItem.asHeader(getString(R.string.MZGramHideRowsTitle))", page)
         self.assertIn("UItem.asShadow(getString(R.string.MZGramHideRowsInfo))", page)
-        interface = page[page.find("private void fillInterface("):]
+        interface = page[page.find("private void fillOther("):]
         interface = interface[:interface.find("\n    }\n")]
         self.assertIn("MZGramSettingsRows.rows()", interface)
 

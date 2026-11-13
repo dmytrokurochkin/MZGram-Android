@@ -1210,4 +1210,26 @@
     <string name="MZGramPersianCalendar">Парсы күнтізбесі</string>
     <string name="MZGramPersianCalendarInfo">Күндерді парсының күнтізбесі бойынша көрсету.</string>
     <string name="MZGramSettingsImportPluginsCount">Қалпына келтірілетін плагиндер: %1$d. Олар өшірулі және рұқсатсыз қайтады.</string>
+    <string name="MZGramSectionGeneral">Жалпы</string>
+    <string name="MZGramCategories">Санаттар</string>
+    <string name="MZGramLinks">Сілтемелер</string>
+    <string name="MZGramSourceCode">Бастапқы код</string>
+    <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramHeaderLanguage">Тіл және күнтізбе</string>
+    <string name="MZGramHeaderProfile">Профиль</string>
+    <string name="MZGramHeaderChatArchive">Чаттар мұрағаты</string>
+    <string name="MZGramHeaderChatList">Чаттар тізімі</string>
+    <string name="MZGramHeaderFolders">Чат қалталары</string>
+    <string name="MZGramHeaderNavigation">Навигация</string>
+    <string name="MZGramHeaderGlass">Шыны және бұлыңғырлық</string>
+    <string name="MZGramHeaderGestures">Қимылдар</string>
+    <string name="MZGramHeaderChatScreen">Чат экраны</string>
+    <string name="MZGramHeaderMessages">Хабарламалар</string>
+    <string name="MZGramHeaderSearch">Іздеу</string>
+    <string name="MZGramHeaderCamera">Камера</string>
+    <string name="MZGramHeaderPhoto">Фото</string>
+    <string name="MZGramHeaderVideo">Бейне</string>
+    <string name="MZGramHeaderAudio">Музыка және аудио</string>
+    <string name="MZGramHeaderCalls">Қоңыраулар</string>
+    <string name="MZGramHeaderUpdates">Жаңартулар</string>
 </resources>

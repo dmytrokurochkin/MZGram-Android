@@ -710,7 +710,13 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     checkCell.setChecked(item.checked);
                 }
                 checkCell.setEnabled(item.enabled, null);
-                checkCell.setTextAndCheck(item.text, item.checked, divider);
+                // MZGram: a switch of the MZGram settings shows what it does
+                // in grey under its title; nothing else gives a check row a subtext
+                if (item.subtext != null && viewType == VIEW_TYPE_CHECK) {
+                    checkCell.setTextAndValueAndCheck(item.text.toString(), item.subtext.toString(), item.checked, true, divider);
+                } else {
+                    checkCell.setTextAndCheck(item.text, item.checked, divider);
+                }
                 checkCell.itemId = item.id;
                 if (viewType == VIEW_TYPE_CHECKRIPPLE) {
                     holder.itemView.setBackgroundColor(Theme.getColor(item.checked ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked));

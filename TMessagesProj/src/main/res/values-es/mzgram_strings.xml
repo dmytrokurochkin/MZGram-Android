@@ -1210,4 +1210,26 @@
     <string name="MZGramPersianCalendar">Calendario solar persa</string>
     <string name="MZGramPersianCalendarInfo">Mostrar fechas según el calendario solar persa.</string>
     <string name="MZGramSettingsImportPluginsCount">Plugins a restaurar: %1$d. Vuelven desactivados y sin permisos.</string>
+    <string name="MZGramSectionGeneral">General</string>
+    <string name="MZGramCategories">Categorías</string>
+    <string name="MZGramLinks">Enlaces</string>
+    <string name="MZGramSourceCode">Código fuente</string>
+    <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramHeaderLanguage">Idioma y calendario</string>
+    <string name="MZGramHeaderProfile">Perfil</string>
+    <string name="MZGramHeaderChatArchive">Archivo de chats</string>
+    <string name="MZGramHeaderChatList">Lista de chats</string>
+    <string name="MZGramHeaderFolders">Carpetas de chats</string>
+    <string name="MZGramHeaderNavigation">Navegación</string>
+    <string name="MZGramHeaderGlass">Cristal y desenfoque</string>
+    <string name="MZGramHeaderGestures">Gestos</string>
+    <string name="MZGramHeaderChatScreen">Pantalla del chat</string>
+    <string name="MZGramHeaderMessages">Mensajes</string>
+    <string name="MZGramHeaderSearch">Búsqueda</string>
+    <string name="MZGramHeaderCamera">Cámara</string>
+    <string name="MZGramHeaderPhoto">Fotos</string>
+    <string name="MZGramHeaderVideo">Vídeo</string>
+    <string name="MZGramHeaderAudio">Música y audio</string>
+    <string name="MZGramHeaderCalls">Llamadas</string>
+    <string name="MZGramHeaderUpdates">Actualizaciones</string>
 </resources>

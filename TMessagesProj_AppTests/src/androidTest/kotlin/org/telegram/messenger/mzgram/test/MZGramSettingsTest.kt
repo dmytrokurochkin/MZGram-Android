@@ -16,6 +16,7 @@ import org.telegram.tgnet.ConnectionsManager
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
+import org.telegram.ui.mzgram.MZGramAboutHeader
 import org.telegram.ui.mzgram.MZGramSettingsActivity
 
 // Settings > MZGram: which switches exist and what they do.
@@ -93,7 +94,7 @@ class MZGramSettingsTest {
     private fun notOffered(): Set<Int> {
         val names = mutableListOf("BUTTON_ENERGY_REPORT", "BUTTON_JANK_REPORT")
         if (!org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
-            names += listOf("BUTTON_PLUGINS", "BUTTON_PYTHON_RUNTIME")
+            names += "BUTTON_PYTHON_RUNTIME"
         }
         if (!org.telegram.messenger.mzgram.MZGramMonet.available()) {
             names += "BUTTON_MONET_THEMES"
@@ -104,30 +105,38 @@ class MZGramSettingsTest {
         return names.map { button(it) }.toSet()
     }
 
-    // Settings > MZGram lists the topics, in this order, each with a short
-    // description; every switch and button is on exactly one topic's page --
-    // none lost.
+    // Settings > MZGram: the app with its version on top, then the
+    // categories in this order (Plugins before Other in a build with Python),
+    // then the link to the source code; every switch and button is on exactly
+    // one category's page -- none lost. The message menu is a page of Chats.
     @Test
     fun settings_areGroupedIntoTopicPages() {
         val main = settingsItems()
-        val rows = main.filter { it.id >= MZGramSettingsActivity.SECTION_ROW_ID }
+        assertEquals("the about header first", UniversalAdapter.VIEW_TYPE_CUSTOM_SHADOW, main.first().viewType)
+        assertTrue("the version under the name", MZGramAboutHeader.versionText().matches(Regex("\\d+\\.\\d+\\.\\d+ \\(\\d+\\)")))
+        val rows = main.filter { it.id >= MZGramSettingsActivity.SECTION_ROW_ID && it.id < MZGramSettingsActivity.SECTION_ROW_ID + MZGramSettingsActivity.SECTIONS_COUNT }
         val expected = listOf(
+            R.string.MZGramSectionGeneral,
+            R.string.MZGramSectionAppearance,
+            R.string.MZGramSectionChats,
             R.string.MZGramSectionArchive,
             R.string.MZGramSectionGhostMode,
-            R.string.MZGramSectionPrivacy,
-            R.string.MZGramSectionChats,
-            R.string.MZGramSectionMessageMenu,
-            R.string.MZGramSectionMediaAndCalls,
-            R.string.MZGramSectionInterface,
-            R.string.MZGramSectionAppearance,
             R.string.MZGramSectionAdsAndFilters,
-            // "Ask AI": its switch, the default site and "Sign out of AI sites"
-            context.resources.getIdentifier("MZGramSectionAi", "string", context.packageName),
+            R.string.MZGramSectionPrivacy,
+            R.string.MZGramSectionAi,
             R.string.MZGramSectionOther,
-        ).map { if (it == 0) "(no AI topic)" else LocaleController.getString(it) }
+        ).map { LocaleController.getString(it) }
         assertEquals(expected, rows.map { it.text.toString() })
-        assertEquals("one row per topic", MZGramSettingsActivity.MAIN_PAGE_ORDER.map { MZGramSettingsActivity.SECTION_ROW_ID + it }, rows.map { it.id })
-        assertTrue("every topic has a description", rows.all { !it.subtext.isNullOrEmpty() })
+        assertEquals("one row per category", MZGramSettingsActivity.MAIN_PAGE_ORDER.map { MZGramSettingsActivity.SECTION_ROW_ID + it }, rows.map { it.id })
+        assertTrue("the message menu is not a category", MZGramSettingsActivity.SECTION_MESSAGE_MENU !in MZGramSettingsActivity.MAIN_PAGE_ORDER)
+        val withPython = org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()
+        val plugins = main.indexOfFirst { it.id == MZGramSettingsActivity.ROW_PLUGINS }
+        if (withPython) {
+            assertEquals("Plugins right before Other", main.indexOfFirst { it.id == MZGramSettingsActivity.SECTION_ROW_ID + MZGramSettingsActivity.SECTION_OTHER } - 1, plugins)
+        } else {
+            assertEquals("no Plugins without Python", -1, plugins)
+        }
+        assertEquals("the source code link", LocaleController.getString(R.string.MZGramSourceCode), main.first { it.id == MZGramSettingsActivity.ROW_SOURCE_CODE }.text.toString())
         assertTrue("no switches on the main page", main.none { it.id in allButtons() })
 
         val shown = ArrayList<Int>()
@@ -150,9 +159,10 @@ class MZGramSettingsTest {
         val maybe = notOffered()
         assertEquals("every switch and button is shown", allButtons() - underSwitch.map { button(it) }.toSet() - maybe, shown.toSet() - maybe)
         // 78 in base, plus added switches and buttons in features 68-85, N16, N12 (subtitles) and N14 (Persian calendar),
-        // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen;
-        // a build with plugins (Python) also has Plugins and Python for plugins
-        val expectedCount = 170 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 2 else 0
+        // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen,
+        // plus the message menu row of Chats; a build with plugins (Python) also has Python for plugins (Plugins
+        // itself is a row of the main page)
+        val expectedCount = 171 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }
@@ -181,8 +191,8 @@ class MZGramSettingsTest {
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
         val problems = MZGramScreens.settingsPages("settings", listOf(
             MZGramSettingsActivity.SECTION_ARCHIVE,
-            MZGramSettingsActivity.SECTION_MESSAGE_MENU,
-            MZGramSettingsActivity.SECTION_INTERFACE,
+            MZGramSettingsActivity.SECTION_CHATS,
+            MZGramSettingsActivity.SECTION_GENERAL,
         ))
         assertTrue(problems.joinToString(), problems.isEmpty())
     }

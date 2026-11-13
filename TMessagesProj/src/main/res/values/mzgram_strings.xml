@@ -1210,4 +1210,26 @@
     <string name="MZGramPersianCalendar">Solar Hijri calendar</string>
     <string name="MZGramPersianCalendarInfo">Display dates according to the Persian (Shamsi) solar calendar.</string>
     <string name="MZGramSettingsImportPluginsCount">Plugins to restore: %1$d. They come back switched off and without permissions.</string>
+    <string name="MZGramSectionGeneral">General</string>
+    <string name="MZGramCategories">Categories</string>
+    <string name="MZGramLinks">Links</string>
+    <string name="MZGramSourceCode">Source code</string>
+    <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramHeaderLanguage">Language and calendar</string>
+    <string name="MZGramHeaderProfile">Profile</string>
+    <string name="MZGramHeaderChatArchive">Chat archive</string>
+    <string name="MZGramHeaderChatList">Chat list</string>
+    <string name="MZGramHeaderFolders">Chat folders</string>
+    <string name="MZGramHeaderNavigation">Navigation</string>
+    <string name="MZGramHeaderGlass">Glass and blur</string>
+    <string name="MZGramHeaderGestures">Gestures</string>
+    <string name="MZGramHeaderChatScreen">Chat screen</string>
+    <string name="MZGramHeaderMessages">Messages</string>
+    <string name="MZGramHeaderSearch">Search</string>
+    <string name="MZGramHeaderCamera">Camera</string>
+    <string name="MZGramHeaderPhoto">Photo</string>
+    <string name="MZGramHeaderVideo">Video</string>
+    <string name="MZGramHeaderAudio">Music and audio</string>
+    <string name="MZGramHeaderCalls">Calls</string>
+    <string name="MZGramHeaderUpdates">Updates</string>
 </resources>

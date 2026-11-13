@@ -311,7 +311,7 @@ class MZGramLanguagesTest {
 
     // The language chosen on Settings > MZGram > Interface, as the user does it
     private fun chooseLanguage(code: String) {
-        val page = MZGramSettingsActivity(MZGramSettingsActivity.SECTION_INTERFACE)
+        val page = MZGramSettingsActivity(MZGramSettingsActivity.SECTION_GENERAL)
         assertTrue("$code: Interface opened", openPage(page))
         instrumentation.runOnMainSync { page.setLanguage(code) }
         Thread.sleep(600)
@@ -487,7 +487,7 @@ class MZGramLanguagesTest {
         startApp()
         val problems = ArrayList<String>()
         val dialogs = mapOf(
-            MZGramSettingsActivity.SECTION_INTERFACE to listOf("BUTTON_LANGUAGE" to "MZGramLanguage"),
+            MZGramSettingsActivity.SECTION_GENERAL to listOf("BUTTON_LANGUAGE" to "MZGramLanguage"),
             MZGramSettingsActivity.SECTION_ARCHIVE to listOf(
                 "BUTTON_WIPE_ARCHIVE" to "MZGramWipeArchiveConfirm",
                 "BUTTON_IMPORT_ARCHIVE" to "MZGramImportArchiveConfirm",

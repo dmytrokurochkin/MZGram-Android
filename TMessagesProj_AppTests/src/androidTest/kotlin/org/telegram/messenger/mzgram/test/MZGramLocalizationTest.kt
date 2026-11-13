@@ -207,31 +207,31 @@ class MZGramLocalizationTest {
         instrumentation.runOnMainSync {
             val fillItems = MZGramSettingsActivity::class.java.getDeclaredMethod("fillItems", ArrayList::class.java, UniversalAdapter::class.java)
             fillItems.isAccessible = true
-            fillItems.invoke(MZGramSettingsActivity(MZGramSettingsActivity.SECTION_INTERFACE), items, null)
+            fillItems.invoke(MZGramSettingsActivity(MZGramSettingsActivity.SECTION_GENERAL), items, null)
         }
         return items
     }
 
-    // Settings > MZGram > Interface starts with the language: Same as
+    // Settings > MZGram > General starts with the language: Same as
     // Telegram, System, or the chosen one by its own name.
     @Test
     fun settings_haveTheLanguageChoice() {
         MZGramConfig.setLanguage(MZGramLanguage.TELEGRAM)
         MZGramLanguage.telegramOverride = "en"
-        var row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }
+        var row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW && it.viewType != UniversalAdapter.VIEW_TYPE_HEADER }
         assertEquals("MZGram language", row.text.toString())
         assertEquals("Same as Telegram", row.textValue.toString())
         MZGramConfig.setLanguage(MZGramLanguage.SYSTEM)
         MZGramLanguage.systemOverride = Locale.ENGLISH
-        row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }
+        row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW && it.viewType != UniversalAdapter.VIEW_TYPE_HEADER }
         assertEquals("MZGram language", row.text.toString())
         assertEquals("System", row.textValue.toString())
         MZGramConfig.setLanguage("ar")
-        row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }
+        row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW && it.viewType != UniversalAdapter.VIEW_TYPE_HEADER }
         assertEquals("لغة MZGram", row.text.toString())
         assertEquals("العربية", row.textValue.toString())
         MZGramConfig.setLanguage("kk")
-        row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW }
+        row = interfaceItems().first { it.viewType != UniversalAdapter.VIEW_TYPE_SHADOW && it.viewType != UniversalAdapter.VIEW_TYPE_HEADER }
         assertEquals("Қазақша", row.textValue.toString())
     }
 
@@ -246,7 +246,7 @@ class MZGramLocalizationTest {
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
         val problems = MZGramScreens.settingsPages("settings-$language", listOf(
             MZGramSettingsActivity.SECTION_ARCHIVE,
-            MZGramSettingsActivity.SECTION_INTERFACE,
+            MZGramSettingsActivity.SECTION_GENERAL,
             MZGramSettingsActivity.SECTION_OTHER,
         ))
         assertTrue(problems.joinToString(), problems.isEmpty())

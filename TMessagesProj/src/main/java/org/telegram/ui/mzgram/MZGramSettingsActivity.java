@@ -2,8 +2,10 @@
  * This is the source code of MZGram for Android,
  * a fork of Telegram for Android.
  *
- * Settings > MZGram: a list of topics; tapping one opens its own page with
- * that topic's switches. Every MZGram feature has its switch on one of them.
+ * Settings > MZGram: the app with its version, a list of categories and
+ * links; tapping a category opens its own page with that category's
+ * switches, grouped in cards under headers. Every MZGram feature has its
+ * switch on one of them.
  */
 
 package org.telegram.ui.mzgram;
@@ -203,7 +205,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_ENERGY_PROFILER = 156;
     private static final int BUTTON_ENERGY_REPORT = 157;
     private static final int BUTTON_PYTHON_RUNTIME = 158;
-    private static final int BUTTON_PLUGINS = 159;
     private static final int BUTTON_STORIES_NO_BACKGROUND_LOAD = 160;
     private static final int BUTTON_LINKED_EMOJI = 139;
     private static final int BUTTON_LINK_TYPEFACE = 140;
@@ -230,6 +231,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_EXTENDED_PINS = 169;
     private static final int BUTTON_LOCAL_FOLDERS = 204;
     private static final int BUTTON_LAST_SEEN_EXACT = 205;
+    // The message menu page, from its row in Chats
+    private static final int BUTTON_MESSAGE_MENU = 206;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -287,99 +290,108 @@ public class MZGramSettingsActivity extends UniversalFragment {
         return -1;
     }
 
-    // The topics. The id is the index in SECTION_TITLES, SECTION_INFOS,
-    // SECTION_ICONS and SECTION_COLORS; MAIN_PAGE_ORDER says where the main
-    // page lists each one.
+    // The categories. The id is the index in SECTION_TITLES and
+    // SECTION_ICONS; MAIN_PAGE_ORDER says where the main page lists each one.
+    // The message menu is a page of Chats, opened from its row there, so it
+    // is not on the main page.
     //
-    // A new topic (CHATS, NAVIGATION, APPEARANCE, SYSTEM, PLUGINS come with
-    // the domains that fill them): the next id, SECTIONS_COUNT + 1, a title
-    // and an info string (MZGramSection<Name>, MZGramSection<Name>Info, 12
-    // languages), an icon and a color appended to the four arrays, its place
-    // in MAIN_PAGE_ORDER, a case in fillItems with a fill<Name> method. Only
-    // together with its first switch: a topic is never empty.
+    // A new category: the next id, SECTIONS_COUNT + 1, a title
+    // (MZGramSection<Name>, 12 languages) and an icon appended to the two
+    // arrays, its place in MAIN_PAGE_ORDER, a case in fillItems with a
+    // fill<Name> method. Only together with its first switch: a category is
+    // never empty.
     public static final int SECTION_MAIN = -1;
-    public static final int SECTION_ARCHIVE = 0;
-    public static final int SECTION_GHOST_MODE = 1;
-    public static final int SECTION_MESSAGE_MENU = 2;
-    public static final int SECTION_MEDIA_AND_CALLS = 3;
-    public static final int SECTION_INTERFACE = 4;
+    public static final int SECTION_GENERAL = 0;
+    public static final int SECTION_APPEARANCE = 1;
+    public static final int SECTION_CHATS = 2;
+    public static final int SECTION_ARCHIVE = 3;
+    public static final int SECTION_GHOST_MODE = 4;
     public static final int SECTION_ADS_AND_FILTERS = 5;
-    public static final int SECTION_AI = 6;
-    public static final int SECTION_OTHER = 7;
-    public static final int SECTION_PRIVACY = 8;
-    public static final int SECTION_CHATS = 9;
-    public static final int SECTION_APPEARANCE = 10;
-    public static final int SECTIONS_COUNT = 11;
-    // Row ids of the topics on the main page; clear of the BUTTON_ ids,
+    public static final int SECTION_PRIVACY = 6;
+    public static final int SECTION_AI = 7;
+    public static final int SECTION_OTHER = 8;
+    public static final int SECTION_MESSAGE_MENU = 9;
+    public static final int SECTIONS_COUNT = 10;
+    // Row ids of the categories on the main page; clear of the BUTTON_ ids,
     // which stay below it.
     public static final int SECTION_ROW_ID = 1000;
-    // "Other" stays last: new topics go before it.
+    // The other rows of the main page: Plugins (a build with Python only)
+    // and the link to the source code
+    public static final int ROW_PLUGINS = SECTION_ROW_ID + 100;
+    public static final int ROW_SOURCE_CODE = SECTION_ROW_ID + 101;
+    // "Other" stays last: new categories go before it.
     public static final int[] MAIN_PAGE_ORDER = {
+            SECTION_GENERAL,
+            SECTION_APPEARANCE,
+            SECTION_CHATS,
             SECTION_ARCHIVE,
             SECTION_GHOST_MODE,
-            SECTION_PRIVACY,
-            SECTION_CHATS,
-            SECTION_MESSAGE_MENU,
-            SECTION_MEDIA_AND_CALLS,
-            SECTION_INTERFACE,
-            SECTION_APPEARANCE,
             SECTION_ADS_AND_FILTERS,
+            SECTION_PRIVACY,
             SECTION_AI,
             SECTION_OTHER,
     };
 
     private static final int[] SECTION_TITLES = {
+            R.string.MZGramSectionGeneral,
+            R.string.MZGramSectionAppearance,
+            R.string.MZGramSectionChats,
             R.string.MZGramSectionArchive,
             R.string.MZGramSectionGhostMode,
-            R.string.MZGramSectionMessageMenu,
-            R.string.MZGramSectionMediaAndCalls,
-            R.string.MZGramSectionInterface,
             R.string.MZGramSectionAdsAndFilters,
+            R.string.MZGramSectionPrivacy,
             R.string.MZGramSectionAi,
             R.string.MZGramSectionOther,
-            R.string.MZGramSectionPrivacy,
-            R.string.MZGramSectionChats,
-            R.string.MZGramSectionAppearance,
-    };
-    private static final int[] SECTION_INFOS = {
-            R.string.MZGramSectionArchiveInfo,
-            R.string.MZGramSectionGhostModeInfo,
-            R.string.MZGramSectionMessageMenuInfo,
-            R.string.MZGramSectionMediaAndCallsInfo,
-            R.string.MZGramSectionInterfaceInfo,
-            R.string.MZGramSectionAdsAndFiltersInfo,
-            R.string.MZGramSectionAiInfo,
-            R.string.MZGramSectionOtherInfo,
-            R.string.MZGramSectionPrivacyInfo,
-            R.string.MZGramSectionChatsInfo,
-            R.string.MZGramSectionAppearanceInfo,
+            R.string.MZGramSectionMessageMenu,
     };
     private static final int[] SECTION_ICONS = {
-            R.drawable.settings_data,
-            R.drawable.settings_account,
-            R.drawable.settings_chat,
-            R.drawable.settings_calls,
-            R.drawable.settings_features,
-            R.drawable.settings_policy,
-            R.drawable.settings_ask,
-            R.drawable.settings_faq,
-            R.drawable.settings_privacy,
-            R.drawable.settings_channel,
+            R.drawable.msg_media,
             R.drawable.msg_theme,
+            R.drawable.msg_discussion,
+            R.drawable.msg_archive,
+            R.drawable.msg_stories_stealth,
+            R.drawable.menu_tag_filter,
+            R.drawable.msg_secret,
+            R.drawable.msg_bot,
+            R.drawable.msg_fave,
+            R.drawable.msg_discussion,
     };
-    private static final IconBackgroundColors[] SECTION_COLORS = {
-            IconBackgroundColors.BLUE_DEEP,
-            IconBackgroundColors.GRAY,
-            IconBackgroundColors.ORANGE,
-            IconBackgroundColors.CYAN,
-            IconBackgroundColors.PURPLE,
-            IconBackgroundColors.RED,
-            IconBackgroundColors.GREEN,
-            IconBackgroundColors.BLUE_LIGHT,
-            IconBackgroundColors.ORANGE_DEEP,
-            IconBackgroundColors.BLUE,
-            IconBackgroundColors.PURPLE,
-    };
+
+    // The switches of the message menu page, for the "6/11" of its row in Chats
+    private static boolean[] messageMenuSwitches() {
+        return new boolean[] {
+                MZGramConfig.showCopyPhoto,
+                MZGramConfig.showDeleteDownloadedFile,
+                MZGramConfig.showAddToSavedMessages,
+                MZGramConfig.showSetReminder,
+                MZGramConfig.showRepeat,
+                MZGramConfig.showOpenIn,
+                MZGramConfig.showMessageDetails,
+                MZGramConfig.showQrCode,
+                MZGramConfig.showNoQuoteForward,
+                MZGramConfig.saveProtectedContent,
+                MZGramConfig.deleteForAllByDefault,
+        };
+    }
+
+    private static String messageMenuValue() {
+        boolean[] switches = messageMenuSwitches();
+        int on = 0;
+        for (boolean value : switches) {
+            if (value) {
+                on++;
+            }
+        }
+        return on + "/" + switches.length;
+    }
+
+    // A switch with what it does in grey under its title: one row of a card,
+    // as the reference client shows its switches
+    private UItem check(int id, int title, boolean checked, int info) {
+        UItem item = UItem.asCheck(id, getString(title)).setChecked(checked);
+        item.subtext = getString(info);
+        return item;
+    }
 
     private final int section;
     private MZGramArchiveSizeView sizeView;
@@ -401,32 +413,45 @@ public class MZGramSettingsActivity extends UniversalFragment {
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         switch (section) {
+            case SECTION_GENERAL: fillGeneral(items); break;
+            case SECTION_APPEARANCE: fillAppearance(items); break;
+            case SECTION_CHATS: fillChats(items); break;
             case SECTION_ARCHIVE: fillArchive(items); break;
             case SECTION_GHOST_MODE: fillGhostMode(items); break;
-            case SECTION_MESSAGE_MENU: fillMessageMenu(items); break;
-            case SECTION_MEDIA_AND_CALLS: fillMediaAndCalls(items); break;
-            case SECTION_INTERFACE: fillInterface(items); break;
             case SECTION_ADS_AND_FILTERS: fillAdsAndFilters(items); break;
+            case SECTION_PRIVACY: fillPrivacy(items); break;
             case SECTION_AI: fillAi(items); break;
             case SECTION_OTHER: fillOther(items); break;
-            case SECTION_PRIVACY: fillPrivacy(items); break;
-            case SECTION_CHATS: fillChats(items); break;
-            case SECTION_APPEARANCE: fillAppearance(items); break;
+            case SECTION_MESSAGE_MENU: fillMessageMenu(items); break;
             default: fillMain(items); break;
         }
     }
 
-    // The main page: one row per topic, with its icon and what it holds.
+    // The main page: the app with its version, the categories, Plugins in a
+    // build with Python, and the link to the source code.
     private void fillMain(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
-        for (int i : MAIN_PAGE_ORDER) {
-            items.add(SettingsActivity.SettingCell.Factory.of(SECTION_ROW_ID + i, SECTION_COLORS[i].top, SECTION_COLORS[i].bottom, SECTION_ICONS[i], getString(SECTION_TITLES[i]), getString(SECTION_INFOS[i])));
+        if (aboutHeader == null) {
+            // The page can be filled before the fragment has a context (tests)
+            aboutHeader = new MZGramAboutHeader(getContext() != null ? getContext() : org.telegram.messenger.ApplicationLoader.applicationContext);
         }
-        // "Features of this client" is only the subtitle of the MZGram row in Settings
+        items.add(UItem.asCustomShadow(aboutHeader));
+        items.add(UItem.asHeader(getString(R.string.MZGramCategories)));
+        for (int i : MAIN_PAGE_ORDER) {
+            if (i == SECTION_OTHER && org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
+                // Only in a build with the Python runtime (-PmzgramPlugins=true)
+                final int plugins = org.telegram.messenger.mzgram.plugins.MZGramPlugins.count();
+                items.add(UItem.asButton(ROW_PLUGINS, R.drawable.msg_bots, getString(R.string.MZGramPlugins), plugins > 0 ? org.telegram.messenger.LocaleController.formatNumber(plugins, ' ') : null));
+            }
+            items.add(UItem.asButton(SECTION_ROW_ID + i, SECTION_ICONS[i], getString(SECTION_TITLES[i])));
+        }
+        items.add(UItem.asShadow(null));
+        items.add(UItem.asHeader(getString(R.string.MZGramLinks)));
+        items.add(UItem.asButton(ROW_SOURCE_CODE, R.drawable.msg_language, getString(R.string.MZGramSourceCode), getString(R.string.MZGramSourceCodeValue)));
         items.add(UItem.asShadow(null));
     }
 
     private MZGramAvatarShapePreview avatarShapePreview;
+    private MZGramAboutHeader aboutHeader;
 
     private void fillArchive(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
@@ -739,231 +764,28 @@ public class MZGramSettingsActivity extends UniversalFragment {
     }
 
     // Typing, sending and search in chats (domain messages)
-    private void fillChats(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
-        items.add(UItem.asHeader(getString(R.string.MZGramStickers)));
-        items.add(UItem.asIntSlideView(1, MZGramStickers.SIZE_MIN, MZGramConfig.stickerSize, MZGramStickers.SIZE_MAX,
-                val -> val + "%", MZGramConfig::setStickerSize));
-        items.add(UItem.asCheck(BUTTON_STICKER_ROUND, getString(R.string.MZGramStickerRound)).setChecked(MZGramConfig.stickerRoundCorners));
-        items.add(UItem.asCheck(BUTTON_STICKER_TIME, getString(R.string.MZGramStickerTime)).setChecked(MZGramConfig.hideStickerTime));
-        items.add(UItem.asShadow(getString(R.string.MZGramStickersInfo)));
-        items.add(UItem.asCheck(BUTTON_WIDE_CHANNEL_POSTS, getString(R.string.MZGramWideChannelPosts)).setChecked(MZGramConfig.wideChannelPosts));
-        items.add(UItem.asShadow(getString(R.string.MZGramWideChannelPostsInfo)));
-        items.add(UItem.asCheck(BUTTON_GRANULAR_PERMISSIONS, getString(R.string.MZGramGranularPermissions)).setChecked(MZGramConfig.granularGroupPermissions));
-        items.add(UItem.asShadow(getString(R.string.MZGramGranularPermissionsInfo)));
-        items.add(UItem.asCheck(BUTTON_SPLIT_GIF_INLINE, getString(R.string.MZGramSplitGifInline)).setChecked(MZGramConfig.splitGifInlineRights));
-        items.add(UItem.asShadow(getString(R.string.MZGramSplitGifInlineInfo)));
-        items.add(UItem.asCheck(BUTTON_LINKED_EMOJI, getString(R.string.MZGramLinkedEmoji)).setChecked(MZGramConfig.linkedCustomEmoji));
-        items.add(UItem.asShadow(getString(R.string.MZGramLinkedEmojiInfo)));
-        items.add(UItem.asCheck(BUTTON_LINK_TYPEFACE, getString(R.string.MZGramLinkTypeface)).setChecked(MZGramConfig.linkTypeface));
-        items.add(UItem.asShadow(getString(R.string.MZGramLinkTypefaceInfo)));
-        items.add(UItem.asCheck(BUTTON_PLAIN_CODE, getString(R.string.MZGramPlainCode)).setChecked(MZGramConfig.plainCodeBlocks));
-        items.add(UItem.asShadow(getString(R.string.MZGramPlainCodeInfo)));
-        items.add(UItem.asCheck(BUTTON_HEX_COLOR, getString(R.string.MZGramHexColorSwatch)).setChecked(MZGramConfig.hexColorSwatch));
-        items.add(UItem.asShadow(getString(R.string.MZGramHexColorSwatchInfo)));
-        items.add(UItem.asCheck(BUTTON_SCHEDULE_SLIDER, getString(R.string.MZGramScheduleSlider)).setChecked(MZGramConfig.scheduleSlider));
-        items.add(UItem.asShadow(getString(R.string.MZGramScheduleSliderInfo)));
-        items.add(UItem.asCheck(BUTTON_SILENT_DEFAULT, getString(R.string.MZGramSilentDefault)).setChecked(MZGramConfig.sendSilentByDefault));
-        items.add(UItem.asShadow(getString(R.string.MZGramSilentDefaultInfo)));
-        items.add(UItem.asButton(BUTTON_PINNED_REACTIONS, getString(R.string.MZGramPinnedReactions), MZGramPinnedReactions.getRowDescription()));
-        items.add(UItem.asShadow(getString(R.string.MZGramPinnedReactionsInfo)));
-        items.add(UItem.asButton(BUTTON_TEXT_STYLE_MENU, getString(R.string.MZGramTextStyleMenu)));
-        items.add(UItem.asShadow(getString(R.string.MZGramTextStyleMenuInfo)));
-        items.add(UItem.asCheck(BUTTON_CAMERA_STABILIZATION, getString(R.string.MZGramCameraStabilization)).setChecked(MZGramConfig.cameraStabilization));
-        items.add(UItem.asShadow(getString(R.string.MZGramCameraStabilizationInfo)));
-        items.add(UItem.asCheck(BUTTON_CAMERA_X, getString(R.string.MZGramCameraX)).setChecked(MZGramConfig.cameraX));
-        if (MZGramConfig.cameraX) {
-            items.add(UItem.asCheck(BUTTON_CAMERA_X_WIDE, getString(R.string.MZGramCameraXWide)).setChecked(MZGramConfig.cameraXWideLens));
-            items.add(UItem.asCheck(BUTTON_CAMERA_X_ZOOM, getString(R.string.MZGramCameraXZoom)).setChecked(MZGramConfig.cameraXZoomSlider));
-        }
-        items.add(UItem.asShadow(getString(R.string.MZGramCameraXInfo)));
-        items.add(UItem.asCheck(BUTTON_ROUND_VIDEO_CAMERA2, getString(R.string.MZGramRoundVideoCamera2)).setChecked(MZGramConfig.roundVideoCamera2));
-        if (MZGramConfig.roundVideoCamera2) {
-            items.add(UItem.asCheck(BUTTON_ROUND_VIDEO_HIGH_FPS, getString(R.string.MZGramRoundVideoHighFps)).setChecked(MZGramConfig.roundVideoHighFps));
-            items.add(UItem.asShadow(getString(R.string.MZGramRoundVideoHighFpsInfo)));
-            items.add(UItem.asButton(BUTTON_ROUND_VIDEO_BITRATE, getString(R.string.MZGramRoundVideoBitrate), formatRoundBitrate(MZGramConfig.roundVideoBitrate)));
-            items.add(UItem.asButton(BUTTON_ROUND_VIDEO_ADVANCED, getString(R.string.MZGramRoundVideoAdvanced)));
-        }
-        items.add(UItem.asShadow(getString(R.string.MZGramRoundVideoCamera2Info)));
-        items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER, getString(R.string.MZGramMusicPlayer)).setChecked(MZGramConfig.musicPlayer));
-        if (MZGramConfig.musicPlayer) {
-            items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER_BAR, getString(R.string.MZGramMusicPlayerBar)).setChecked(MZGramConfig.musicPlayerBar));
-            items.add(UItem.asButton(BUTTON_MUSIC_PLAYER_STYLE, getString(R.string.MZGramMusicPlayerStyle)));
-        }
-        items.add(UItem.asShadow(getString(R.string.MZGramMusicPlayerInfo)));
-        items.add(UItem.asCheck(BUTTON_PAUSE_ROUND, getString(R.string.MZGramPauseRound)).setChecked(MZGramConfig.pauseRoundOnLeave));
-        items.add(UItem.asShadow(getString(R.string.MZGramPauseRoundInfo)));
-        items.add(UItem.asCheck(BUTTON_ALWAYS_SEND_HD, getString(R.string.MZGramAlwaysSendHd)).setChecked(MZGramConfig.alwaysSendHd));
-        items.add(UItem.asShadow(getString(R.string.MZGramAlwaysSendHdInfo)));
-        items.add(UItem.asCheck(BUTTON_PANGU, getString(R.string.MZGramPangu)).setChecked(MZGramConfig.panguSpacing));
-        items.add(UItem.asShadow(getString(R.string.MZGramPanguInfo)));
-        items.add(UItem.asCheck(BUTTON_CHARACTER_COUNTER, getString(R.string.MZGramCharacterCounter)).setChecked(MZGramConfig.characterCounter));
-        items.add(UItem.asShadow(getString(R.string.MZGramCharacterCounterInfo)));
-        items.add(UItem.asButton(BUTTON_OPEN_BY_ID, getString(R.string.MZGramOpenById)));
-        items.add(UItem.asShadow(getString(R.string.MZGramOpenByIdInfo)));
-        items.add(UItem.asCheck(BUTTON_INLINE_MATH, getString(R.string.MZGramInlineMath)).setChecked(MZGramConfig.inlineMath));
-        items.add(UItem.asShadow(getString(R.string.MZGramInlineMathInfo)));
-        items.add(UItem.asCheck(BUTTON_COPY_PLAIN, getString(R.string.MZGramCopyPlain)).setChecked(MZGramConfig.copyPlainText));
-        items.add(UItem.asShadow(getString(R.string.MZGramCopyPlainInfo)));
-        items.add(UItem.asCheck(BUTTON_DOUBLE_TAP_ACTIONS, getString(R.string.MZGramDoubleTapActions)).setChecked(MZGramConfig.doubleTapActions));
-        if (MZGramConfig.doubleTapActions) {
-            items.add(UItem.asButton(BUTTON_DOUBLE_TAP_OWN, getString(R.string.MZGramDoubleTapOwn), getString(org.telegram.ui.mzgram.MZGramDoubleTap.TITLES[MZGramConfig.doubleTapOwn])));
-            items.add(UItem.asButton(BUTTON_DOUBLE_TAP_OTHER, getString(R.string.MZGramDoubleTapOther), getString(org.telegram.ui.mzgram.MZGramDoubleTap.TITLES[MZGramConfig.doubleTapOther])));
-        }
-        items.add(UItem.asShadow(getString(R.string.MZGramDoubleTapActionsInfo)));
-        items.add(UItem.asCheck(BUTTON_CLEAN_LINKS, getString(R.string.MZGramCleanLinks)).setChecked(MZGramConfig.cleanLinks));
-        items.add(UItem.asShadow(getString(R.string.MZGramCleanLinksInfo)));
-        items.add(UItem.asCheck(BUTTON_SEARCH_OPERATORS, getString(R.string.MZGramSearchOperators)).setChecked(MZGramConfig.searchOperators));
-        items.add(UItem.asShadow(getString(R.string.MZGramSearchOperatorsInfo)));
-        items.add(UItem.asCheck(BUTTON_FOLD_FANCY_FONTS, getString(R.string.MZGramFoldFancyFonts)).setChecked(MZGramConfig.foldFancyFontsInSearch));
-        items.add(UItem.asShadow(getString(R.string.MZGramFoldFancyFontsInfo)));
-    }
-
-    private void fillAppearance(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
-        items.add(UItem.asCheck(BUTTON_M3_SWITCHES, getString(R.string.MZGramM3Switches)).setChecked(MZGramConfig.m3Switches));
-        items.add(UItem.asShadow(getString(R.string.MZGramM3SwitchesInfo)));
-        items.add(UItem.asCheck(BUTTON_CARDS_DESIGN, getString(R.string.MZGramCardsDesign)).setChecked(MZGramConfig.cardsDesign));
-        items.add(UItem.asShadow(getString(R.string.MZGramCardsDesignInfo)));
-    }
-
-    private void fillMessageMenu(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
-        items.add(UItem.asCheck(BUTTON_SHOW_COPY_PHOTO, getString(R.string.MZGramCopyPhoto)).setChecked(MZGramConfig.showCopyPhoto));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowCopyPhotoInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_DELETE_DOWNLOADED_FILE, getString(R.string.MZGramDeleteDownloadedFile)).setChecked(MZGramConfig.showDeleteDownloadedFile));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowDeleteDownloadedFileInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_ADD_TO_SAVED_MESSAGES, getString(R.string.MZGramSaveMessage)).setChecked(MZGramConfig.showAddToSavedMessages));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowSaveMessageInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_SET_REMINDER, getString(R.string.MZGramSetReminder)).setChecked(MZGramConfig.showSetReminder));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowSetReminderInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_REPEAT, getString(R.string.MZGramRepeat)).setChecked(MZGramConfig.showRepeat));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowRepeatInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_OPEN_IN, getString(R.string.MZGramOpenIn)).setChecked(MZGramConfig.showOpenIn));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowOpenInInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_MESSAGE_DETAILS, getString(R.string.MZGramMessageDetails)).setChecked(MZGramConfig.showMessageDetails));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowMessageDetailsInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_QR_CODE, getString(R.string.MZGramQrCode)).setChecked(MZGramConfig.showQrCode));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowQrCodeInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_NO_QUOTE_FORWARD, getString(R.string.MZGramForwardNoQuote)).setChecked(MZGramConfig.showNoQuoteForward));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowForwardNoQuoteInfo)));
-        items.add(UItem.asCheck(BUTTON_SAVE_PROTECTED_CONTENT, getString(R.string.MZGramSaveProtectedContent)).setChecked(MZGramConfig.saveProtectedContent));
-        items.add(UItem.asShadow(getString(R.string.MZGramSaveProtectedContentInfo)));
-        items.add(UItem.asCheck(BUTTON_DELETE_FOR_ALL_BY_DEFAULT, getString(R.string.MZGramDeleteForAllByDefault)).setChecked(MZGramConfig.deleteForAllByDefault));
-        items.add(UItem.asShadow(getString(R.string.MZGramDeleteForAllByDefaultInfo)));
-    }
-
-    private void fillMediaAndCalls(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
-        items.add(UItem.asCheck(BUTTON_AUDIO_ENHANCE, getString(R.string.MZGramAudioEnhance)).setChecked(MZGramConfig.audioEnhance));
-        items.add(UItem.asShadow(getString(R.string.MZGramAudioEnhanceInfo)));
-        items.add(UItem.asButton(BUTTON_VOICE_QUALITY, getString(R.string.MZGramVoiceQuality), getString(org.telegram.messenger.mzgram.MZGramVoiceQuality.TITLES[org.telegram.messenger.mzgram.MZGramVoiceQuality.mode()])));
-        items.add(UItem.asShadow(getString(R.string.MZGramVoiceQualityInfo)));
-        items.add(UItem.asCheck(BUTTON_ASK_BEFORE_CALL, getString(R.string.MZGramAskBeforeCall)).setChecked(MZGramConfig.askBeforeCall));
-        items.add(UItem.asShadow(getString(R.string.MZGramAskBeforeCallInfo)));
-        items.add(UItem.asCheck(BUTTON_DISABLE_INSTANT_CAMERA, getString(R.string.MZGramDisableInstantCamera)).setChecked(MZGramConfig.disableInstantCamera));
-        items.add(UItem.asShadow(getString(R.string.MZGramDisableInstantCameraInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_CAMERA_TILE, getString(R.string.MZGramHideCameraTile)).setChecked(MZGramConfig.hideCameraTile));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideCameraTileInfo)));
-        items.add(UItem.asCheck(BUTTON_PREFER_ORIGINAL_QUALITY, getString(R.string.MZGramPreferOriginalQuality)).setChecked(MZGramConfig.preferOriginalQuality));
-        items.add(UItem.asShadow(getString(R.string.MZGramPreferOriginalQualityInfo)));
-        items.add(UItem.asCheck(BUTTON_LOSSLESS_PHOTO_CROP, getString(R.string.MZGramLosslessPhotoCrop)).setChecked(MZGramConfig.losslessPhotoCrop));
-        items.add(UItem.asShadow(getString(R.string.MZGramLosslessPhotoCropInfo)));
-        items.add(UItem.asCheck(BUTTON_AUTO_PAUSE_VIDEO, getString(R.string.MZGramAutoPauseVideo)).setChecked(MZGramConfig.autoPauseVideo));
-        items.add(UItem.asShadow(getString(R.string.MZGramAutoPauseVideoInfo)));
-        items.add(UItem.asCheck(BUTTON_CONFIRM_AV_MESSAGE, getString(R.string.MZGramConfirmAVMessage)).setChecked(MZGramConfig.confirmAVMessage));
-        items.add(UItem.asShadow(getString(R.string.MZGramConfirmAVMessageInfo)));
-        items.add(UItem.asCheck(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, getString(R.string.MZGramMediaPreviewOnLongPress)).setChecked(MZGramConfig.mediaPreviewOnLongPress));
-        items.add(UItem.asShadow(getString(R.string.MZGramMediaPreviewOnLongPressInfo)));
-        items.add(UItem.asCheck(BUTTON_PROFILE_MUSIC_CARD, getString(R.string.MZGramProfileMusicCard)).setChecked(MZGramConfig.profileMusicCard));
-        items.add(UItem.asShadow(getString(R.string.MZGramProfileMusicCardInfo)));
-        items.add(UItem.asCheck(BUTTON_VIDEO_SUBTITLES, getString(R.string.MZGramVideoSubtitles)).setChecked(MZGramConfig.videoSubtitles));
-        items.add(UItem.asShadow(getString(R.string.MZGramVideoSubtitlesInfo)));
-    }
-
-    private void fillInterface(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
+    // General: language, numbers and time, the profile, the chat archive
+    private void fillGeneral(ArrayList<UItem> items) {
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderLanguage)));
         items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
+        items.add(check(BUTTON_PERSIAN_CALENDAR, R.string.MZGramPersianCalendar, MZGramConfig.persianCalendar, R.string.MZGramPersianCalendarInfo));
         items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
-        items.add(UItem.asCheck(BUTTON_PERSIAN_CALENDAR, getString(R.string.MZGramPersianCalendar)).setChecked(MZGramConfig.persianCalendar));
-        items.add(UItem.asShadow(getString(R.string.MZGramPersianCalendarInfo)));
-        items.add(UItem.asCheck(BUTTON_SHOW_REGISTRATION_DATE, getString(R.string.MZGramShowRegistrationDate)).setChecked(MZGramConfig.showRegistrationDate));
-        items.add(UItem.asShadow(getString(R.string.MZGramShowRegistrationDateInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_CHAT_STATUS, getString(R.string.MZGramHideChatStatus)).setChecked(MZGramConfig.hideChatStatus));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideChatStatusInfo)));
-        items.add(UItem.asCheck(BUTTON_COMPACT_CHAT_HEADER, getString(R.string.MZGramCompactChatHeader)).setChecked(MZGramConfig.compactChatHeader));
-        items.add(UItem.asShadow(getString(R.string.MZGramCompactChatHeaderInfo)));
-        items.add(UItem.asCheck(BUTTON_STATIC_INPUT_ICONS, getString(R.string.MZGramStaticInputIcons)).setChecked(MZGramConfig.staticInputIcons));
-        items.add(UItem.asShadow(getString(R.string.MZGramStaticInputIconsInfo)));
-        items.add(UItem.asButton(BUTTON_LAUNCH_FOLDER, getString(R.string.MZGramLaunchFolder), MZGramLaunchFolder.valueFor(currentAccount)));
-        items.add(UItem.asShadow(getString(R.string.MZGramLaunchFolderInfo)));
-        items.add(UItem.asButton(BUTTON_FAB_SHAPE, getString(R.string.MZGramFabShape), getString(MZGramFabShape.TITLES[MZGramConfig.fabShape])));
-        items.add(UItem.asShadow(getString(R.string.MZGramFabShapeInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionGeneral)));
+        items.add(check(BUTTON_DISABLE_NUMBER_ROUNDING, R.string.MZGramDisableNumberRounding, MZGramConfig.disableNumberRounding, R.string.MZGramDisableNumberRoundingInfo));
+        items.add(check(BUTTON_FORMAT_TIME_WITH_SECONDS, R.string.MZGramFormatTimeWithSeconds, MZGramConfig.formatTimeWithSeconds, R.string.MZGramFormatTimeWithSecondsInfo));
+        items.add(check(BUTTON_STRIP_ZALGO_TEXT, R.string.MZGramStripZalgoText, MZGramConfig.stripZalgoText, R.string.MZGramStripZalgoTextInfo));
+        items.add(UItem.asShadow(null));
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderProfile)));
+        items.add(check(BUTTON_SHOW_REGISTRATION_DATE, R.string.MZGramShowRegistrationDate, MZGramConfig.showRegistrationDate, R.string.MZGramShowRegistrationDateInfo));
         items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramPeerIdInfo)));
-        items.add(UItem.asButton(BUTTON_FOLDER_TAB_ICONS, getString(R.string.MZGramFolderTabs), getString(MZGramFolderIcons.MODE_TITLES[MZGramFolderIcons.mode()])));
-        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsInfo)));
-        items.add(UItem.asCheck(BUTTON_FOLDER_TABS_AT_BOTTOM, getString(R.string.MZGramFolderTabsAtBottom)).setChecked(MZGramConfig.folderTabsAtBottom));
-        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsAtBottomInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, getString(R.string.MZGramHideBottomNavigationBar)).setChecked(MZGramConfig.hideBottomNavigationBar));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideBottomNavigationBarInfo)));
-        items.add(UItem.asCheck(BUTTON_ACCOUNTS_IN_MENU, getString(R.string.MZGramAccountsInMenu)).setChecked(MZGramConfig.accountsInMenu));
-        items.add(UItem.asShadow(getString(R.string.MZGramAccountsInMenuInfo)));
-        items.add(UItem.asButton(BUTTON_ACCOUNT_ORDER, getString(R.string.MZGramAccountOrder)));
-        items.add(UItem.asShadow(getString(R.string.MZGramAccountOrderButtonInfo)));
-        items.add(UItem.asCheck(BUTTON_CUSTOM_DRAWER, getString(R.string.MZGramDrawer)).setChecked(MZGramConfig.customDrawer));
-        if (MZGramConfig.customDrawer) {
-            items.add(UItem.asButton(BUTTON_DRAWER_ITEMS, getString(R.string.MZGramDrawerItems)));
-            items.add(UItem.asCheck(BUTTON_DRAWER_SHOW_QR, getString(R.string.MZGramDrawerShowQr)).setChecked(MZGramConfig.drawerShowQr));
-            items.add(UItem.asCheck(BUTTON_DRAWER_LARGE_AVATAR, getString(R.string.MZGramDrawerLargeAvatar)).setChecked(MZGramConfig.drawerLargeAvatar));
-            items.add(UItem.asButton(BUTTON_DRAWER_HEADER, getString(R.string.MZGramDrawerHeader), MZGramDrawer.headerStyleTitle()));
-            items.add(UItem.asCheck(BUTTON_DRAWER_GLASS, getString(R.string.MZGramDrawerGlass)).setChecked(MZGramConfig.drawerGlass));
-            items.add(UItem.asShadow(getString(R.string.MZGramDrawerInfo) + " " + getString(R.string.MZGramDrawerLookInfo)));
-        } else {
-            items.add(UItem.asShadow(getString(R.string.MZGramDrawerInfo)));
-        }
-        items.add(UItem.asCheck(BUTTON_EXTENDED_PINS, getString(R.string.MZGramExtendedPins)).setChecked(MZGramConfig.extendedPins));
-        items.add(UItem.asShadow(getString(R.string.MZGramExtendedPinsInfo)));
-        items.add(UItem.asCheck(BUTTON_LOCAL_FOLDERS, getString(R.string.MZGramLocalFoldersSwitch)).setChecked(MZGramConfig.localFolders));
-        items.add(UItem.asShadow(getString(R.string.MZGramLocalFoldersSwitchInfo)));
-        items.add(UItem.asCheck(BUTTON_PILL_STACK, getString(R.string.MZGramPillStack)).setChecked(MZGramConfig.pillStack));
-        if (MZGramConfig.pillStack) {
-            items.add(UItem.asButton(BUTTON_PILLS, getString(R.string.MZGramPills)));
-        }
-        items.add(UItem.asShadow(getString(R.string.MZGramPillStackInfo)));
-        items.add(UItem.asCheck(BUTTON_ICON_PACKS_ON, getString(R.string.MZGramIconPacksOn)).setChecked(MZGramConfig.iconPacks));
-        if (MZGramConfig.iconPacks) {
-            items.add(UItem.asButton(BUTTON_ICON_PACKS, getString(R.string.MZGramIconPacks)));
-        }
-        items.add(UItem.asShadow(getString(R.string.MZGramIconPacksOnInfo)));
-        if (org.telegram.messenger.mzgram.MZGramMonet.available()) {
-            items.add(UItem.asCheck(BUTTON_MONET_THEMES, getString(R.string.MZGramMonetThemes)).setChecked(MZGramConfig.monetThemes));
-            if (MZGramConfig.monetThemes) {
-                items.add(UItem.asButton(BUTTON_MONET_STYLE, getString(R.string.MZGramMonetStyle), org.telegram.messenger.mzgram.MZGramMonet.styleTitle(MZGramConfig.monetStyle)));
-                items.add(UItem.asButton(BUTTON_MONET_PICK, getString(R.string.MZGramMonetPick)));
-            }
-            items.add(UItem.asShadow(getString(R.string.MZGramMonetThemesInfo)));
-        }
-        items.add(UItem.asCheck(BUTTON_RECENT_CHATS_ON_BACK, getString(R.string.MZGramRecentChatsOnBack)).setChecked(MZGramConfig.recentChatsOnBack));
-        items.add(UItem.asShadow(getString(R.string.MZGramRecentChatsOnBackInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_STORIES, getString(R.string.MZGramHideStories)).setChecked(MZGramConfig.hideStories));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideStoriesInfo)));
-        items.add(UItem.asCheck(BUTTON_STORIES_NO_BACKGROUND_LOAD, getString(R.string.MZGramStoriesNoBackgroundLoad)).setChecked(MZGramConfig.storiesNoBackgroundLoad));
-        items.add(UItem.asShadow(getString(R.string.MZGramStoriesNoBackgroundLoadInfo)));
-        items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramOpenArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
-        items.add(UItem.asShadow(getString(R.string.MZGramOpenArchiveOnPullInfo)));
-        items.add(UItem.asCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramDisableNumberRounding)).setChecked(MZGramConfig.disableNumberRounding));
-        items.add(UItem.asShadow(getString(R.string.MZGramDisableNumberRoundingInfo)));
-        items.add(UItem.asCheck(BUTTON_FORMAT_TIME_WITH_SECONDS, getString(R.string.MZGramFormatTimeWithSeconds)).setChecked(MZGramConfig.formatTimeWithSeconds));
-        items.add(UItem.asShadow(getString(R.string.MZGramFormatTimeWithSecondsInfo)));
-        items.add(UItem.asCheck(BUTTON_DISABLE_GREETING_STICKER, getString(R.string.MZGramDisableGreetingSticker)).setChecked(MZGramConfig.disableGreetingSticker));
-        items.add(UItem.asShadow(getString(R.string.MZGramDisableGreetingStickerInfo)));
-        items.add(UItem.asCheck(BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS, getString(R.string.MZGramHideChannelBottomButtons)).setChecked(MZGramConfig.hideChannelBottomButtons));
-        items.add(UItem.asShadow(getString(R.string.MZGramHideChannelBottomButtonsInfo)));
-        items.add(UItem.asCheck(BUTTON_PREDICTIVE_BACK_ANIMATION, getString(R.string.MZGramPredictiveBackAnimation)).setChecked(MZGramConfig.predictiveBackAnimation));
-        items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackAnimationInfo)));
-        items.add(UItem.asCheck(BUTTON_GOOEY_AVATAR_ANIMATION, getString(R.string.MZGramGooeyAvatarAnimation)).setChecked(MZGramConfig.gooeyAvatarAnimation));
-        items.add(UItem.asShadow(getString(R.string.MZGramGooeyAvatarAnimationInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatArchive)));
+        items.add(check(BUTTON_OPEN_ARCHIVE_ON_PULL, R.string.MZGramOpenArchiveOnPull, MZGramConfig.openArchiveOnPull, R.string.MZGramOpenArchiveOnPullInfo));
+        items.add(UItem.asShadow(null));
+    }
+
+    // Appearance: avatars, the chat list, folders, navigation, style, glass
+    private void fillAppearance(ArrayList<UItem> items) {
         items.add(UItem.asHeader(getString(R.string.MZGramAvatarShape)));
         if (avatarShapePreview == null) {
             // The page can be filled before the fragment has a context (tests)
@@ -978,24 +800,188 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     }
                 }));
         items.add(UItem.asShadow(getString(R.string.MZGramAvatarShapeInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatList)));
+        items.add(check(BUTTON_HIDE_STORIES, R.string.MZGramHideStories, MZGramConfig.hideStories, R.string.MZGramHideStoriesInfo));
+        items.add(check(BUTTON_STORIES_NO_BACKGROUND_LOAD, R.string.MZGramStoriesNoBackgroundLoad, MZGramConfig.storiesNoBackgroundLoad, R.string.MZGramStoriesNoBackgroundLoadInfo));
+        items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderFolders)));
+        items.add(UItem.asButton(BUTTON_FOLDER_TAB_ICONS, getString(R.string.MZGramFolderTabs), getString(MZGramFolderIcons.MODE_TITLES[MZGramFolderIcons.mode()])));
+        items.add(check(BUTTON_FOLDER_TABS_AT_BOTTOM, R.string.MZGramFolderTabsAtBottom, MZGramConfig.folderTabsAtBottom, R.string.MZGramFolderTabsAtBottomInfo));
+        items.add(UItem.asButton(BUTTON_LAUNCH_FOLDER, getString(R.string.MZGramLaunchFolder), MZGramLaunchFolder.valueFor(currentAccount)));
+        items.add(check(BUTTON_LOCAL_FOLDERS, R.string.MZGramLocalFoldersSwitch, MZGramConfig.localFolders, R.string.MZGramLocalFoldersSwitchInfo));
+        items.add(check(BUTTON_EXTENDED_PINS, R.string.MZGramExtendedPins, MZGramConfig.extendedPins, R.string.MZGramExtendedPinsInfo));
+        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderNavigation)));
+        items.add(check(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, R.string.MZGramHideBottomNavigationBar, MZGramConfig.hideBottomNavigationBar, R.string.MZGramHideBottomNavigationBarInfo));
+        items.add(check(BUTTON_ACCOUNTS_IN_MENU, R.string.MZGramAccountsInMenu, MZGramConfig.accountsInMenu, R.string.MZGramAccountsInMenuInfo));
+        items.add(UItem.asButton(BUTTON_ACCOUNT_ORDER, getString(R.string.MZGramAccountOrder)));
+        items.add(check(BUTTON_RECENT_CHATS_ON_BACK, R.string.MZGramRecentChatsOnBack, MZGramConfig.recentChatsOnBack, R.string.MZGramRecentChatsOnBackInfo));
+        items.add(check(BUTTON_CUSTOM_DRAWER, R.string.MZGramDrawer, MZGramConfig.customDrawer, R.string.MZGramDrawerInfo));
+        if (MZGramConfig.customDrawer) {
+            items.add(UItem.asButton(BUTTON_DRAWER_ITEMS, getString(R.string.MZGramDrawerItems)));
+            items.add(UItem.asCheck(BUTTON_DRAWER_SHOW_QR, getString(R.string.MZGramDrawerShowQr)).setChecked(MZGramConfig.drawerShowQr));
+            items.add(UItem.asCheck(BUTTON_DRAWER_LARGE_AVATAR, getString(R.string.MZGramDrawerLargeAvatar)).setChecked(MZGramConfig.drawerLargeAvatar));
+            items.add(UItem.asButton(BUTTON_DRAWER_HEADER, getString(R.string.MZGramDrawerHeader), MZGramDrawer.headerStyleTitle()));
+            items.add(UItem.asCheck(BUTTON_DRAWER_GLASS, getString(R.string.MZGramDrawerGlass)).setChecked(MZGramConfig.drawerGlass));
+        }
+        items.add(check(BUTTON_PILL_STACK, R.string.MZGramPillStack, MZGramConfig.pillStack, R.string.MZGramPillStackInfo));
+        if (MZGramConfig.pillStack) {
+            items.add(UItem.asButton(BUTTON_PILLS, getString(R.string.MZGramPills)));
+        }
+        items.add(check(BUTTON_ICON_PACKS_ON, R.string.MZGramIconPacksOn, MZGramConfig.iconPacks, R.string.MZGramIconPacksOnInfo));
+        if (MZGramConfig.iconPacks) {
+            items.add(UItem.asButton(BUTTON_ICON_PACKS, getString(R.string.MZGramIconPacks)));
+        }
+        items.add(UItem.asShadow(MZGramConfig.customDrawer ? getString(R.string.MZGramDrawerLookInfo) : null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionAppearance)));
+        items.add(UItem.asButton(BUTTON_FAB_SHAPE, getString(R.string.MZGramFabShape), getString(MZGramFabShape.TITLES[MZGramConfig.fabShape])));
+        items.add(UItem.asButton(BUTTON_APP_FONT, getString(R.string.MZGramAppFont), MZGramAppFont.title()));
+        items.add(check(BUTTON_M3_SWITCHES, R.string.MZGramM3Switches, MZGramConfig.m3Switches, R.string.MZGramM3SwitchesInfo));
+        items.add(check(BUTTON_CARDS_DESIGN, R.string.MZGramCardsDesign, MZGramConfig.cardsDesign, R.string.MZGramCardsDesignInfo));
+        items.add(check(BUTTON_GOOEY_AVATAR_ANIMATION, R.string.MZGramGooeyAvatarAnimation, MZGramConfig.gooeyAvatarAnimation, R.string.MZGramGooeyAvatarAnimationInfo));
+        items.add(check(BUTTON_PREDICTIVE_BACK_ANIMATION, R.string.MZGramPredictiveBackAnimation, MZGramConfig.predictiveBackAnimation, R.string.MZGramPredictiveBackAnimationInfo));
+        if (org.telegram.messenger.mzgram.MZGramMonet.available()) {
+            items.add(check(BUTTON_MONET_THEMES, R.string.MZGramMonetThemes, MZGramConfig.monetThemes, R.string.MZGramMonetThemesInfo));
+            if (MZGramConfig.monetThemes) {
+                items.add(UItem.asButton(BUTTON_MONET_STYLE, getString(R.string.MZGramMonetStyle), org.telegram.messenger.mzgram.MZGramMonet.styleTitle(MZGramConfig.monetStyle)));
+                items.add(UItem.asButton(BUTTON_MONET_PICK, getString(R.string.MZGramMonetPick)));
+            }
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramAppFontInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderGlass)));
         items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
         items.add(UItem.asShadow(getString(R.string.MZGramGlassOutlineInfo)));
-        items.add(UItem.asButton(BUTTON_APP_FONT, getString(R.string.MZGramAppFont), MZGramAppFont.title()));
-        items.add(UItem.asShadow(getString(R.string.MZGramAppFontInfo)));
-        items.add(UItem.asHeader(getString(R.string.MZGramHideRowsTitle)));
-        java.util.List<org.telegram.messenger.mzgram.MZGramSettingsRows.Row> rows = org.telegram.messenger.mzgram.MZGramSettingsRows.rows();
-        for (int i = 0; i < rows.size(); i++) {
-            items.add(UItem.asCheck(HIDE_ROW_BUTTONS[i], getString(HIDE_ROW_TITLES[i])).setChecked(org.telegram.messenger.mzgram.MZGramSettingsRows.hidden(rows.get(i).key)));
+    }
+
+    // Chats: stickers, gestures, the chat and its messages, camera, photo,
+    // video, music and calls
+    private void fillChats(ArrayList<UItem> items) {
+        items.add(UItem.asHeader(getString(R.string.MZGramStickers)));
+        items.add(UItem.asIntSlideView(1, MZGramStickers.SIZE_MIN, MZGramConfig.stickerSize, MZGramStickers.SIZE_MAX,
+                val -> val + "%", MZGramConfig::setStickerSize));
+        items.add(UItem.asCheck(BUTTON_STICKER_ROUND, getString(R.string.MZGramStickerRound)).setChecked(MZGramConfig.stickerRoundCorners));
+        items.add(UItem.asCheck(BUTTON_STICKER_TIME, getString(R.string.MZGramStickerTime)).setChecked(MZGramConfig.hideStickerTime));
+        items.add(UItem.asShadow(getString(R.string.MZGramStickersInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderGestures)));
+        items.add(check(BUTTON_DOUBLE_TAP_ACTIONS, R.string.MZGramDoubleTapActions, MZGramConfig.doubleTapActions, R.string.MZGramDoubleTapActionsInfo));
+        if (MZGramConfig.doubleTapActions) {
+            items.add(UItem.asButton(BUTTON_DOUBLE_TAP_OWN, getString(R.string.MZGramDoubleTapOwn), getString(org.telegram.ui.mzgram.MZGramDoubleTap.TITLES[MZGramConfig.doubleTapOwn])));
+            items.add(UItem.asButton(BUTTON_DOUBLE_TAP_OTHER, getString(R.string.MZGramDoubleTapOther), getString(org.telegram.ui.mzgram.MZGramDoubleTap.TITLES[MZGramConfig.doubleTapOther])));
         }
-        items.add(UItem.asShadow(getString(R.string.MZGramHideRowsInfo)));
+        items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionChats)));
+        items.add(check(BUTTON_HIDE_CHANNEL_BOTTOM_BUTTONS, R.string.MZGramHideChannelBottomButtons, MZGramConfig.hideChannelBottomButtons, R.string.MZGramHideChannelBottomButtonsInfo));
+        items.add(check(BUTTON_WIDE_CHANNEL_POSTS, R.string.MZGramWideChannelPosts, MZGramConfig.wideChannelPosts, R.string.MZGramWideChannelPostsInfo));
+        items.add(check(BUTTON_DISABLE_GREETING_STICKER, R.string.MZGramDisableGreetingSticker, MZGramConfig.disableGreetingSticker, R.string.MZGramDisableGreetingStickerInfo));
+        items.add(check(BUTTON_GRANULAR_PERMISSIONS, R.string.MZGramGranularPermissions, MZGramConfig.granularGroupPermissions, R.string.MZGramGranularPermissionsInfo));
+        items.add(check(BUTTON_SPLIT_GIF_INLINE, R.string.MZGramSplitGifInline, MZGramConfig.splitGifInlineRights, R.string.MZGramSplitGifInlineInfo));
+        items.add(check(BUTTON_SCHEDULE_SLIDER, R.string.MZGramScheduleSlider, MZGramConfig.scheduleSlider, R.string.MZGramScheduleSliderInfo));
+        items.add(check(BUTTON_SILENT_DEFAULT, R.string.MZGramSilentDefault, MZGramConfig.sendSilentByDefault, R.string.MZGramSilentDefaultInfo));
+        items.add(check(BUTTON_CHARACTER_COUNTER, R.string.MZGramCharacterCounter, MZGramConfig.characterCounter, R.string.MZGramCharacterCounterInfo));
+        items.add(check(BUTTON_PANGU, R.string.MZGramPangu, MZGramConfig.panguSpacing, R.string.MZGramPanguInfo));
+        items.add(UItem.asButton(BUTTON_PINNED_REACTIONS, getString(R.string.MZGramPinnedReactions), MZGramPinnedReactions.getRowDescription()));
+        items.add(UItem.asButton(BUTTON_TEXT_STYLE_MENU, getString(R.string.MZGramTextStyleMenu)));
+        items.add(UItem.asButton(BUTTON_OPEN_BY_ID, getString(R.string.MZGramOpenById)));
+        items.add(UItem.asShadow(getString(R.string.MZGramOpenByIdInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatScreen)));
+        items.add(check(BUTTON_HIDE_CHAT_STATUS, R.string.MZGramHideChatStatus, MZGramConfig.hideChatStatus, R.string.MZGramHideChatStatusInfo));
+        items.add(check(BUTTON_COMPACT_CHAT_HEADER, R.string.MZGramCompactChatHeader, MZGramConfig.compactChatHeader, R.string.MZGramCompactChatHeaderInfo));
+        items.add(check(BUTTON_STATIC_INPUT_ICONS, R.string.MZGramStaticInputIcons, MZGramConfig.staticInputIcons, R.string.MZGramStaticInputIconsInfo));
+        items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderMessages)));
+        items.add(UItem.asButton(BUTTON_MESSAGE_MENU, getString(R.string.MZGramSectionMessageMenu), messageMenuValue()));
+        items.add(check(BUTTON_LINKED_EMOJI, R.string.MZGramLinkedEmoji, MZGramConfig.linkedCustomEmoji, R.string.MZGramLinkedEmojiInfo));
+        items.add(check(BUTTON_LINK_TYPEFACE, R.string.MZGramLinkTypeface, MZGramConfig.linkTypeface, R.string.MZGramLinkTypefaceInfo));
+        items.add(check(BUTTON_PLAIN_CODE, R.string.MZGramPlainCode, MZGramConfig.plainCodeBlocks, R.string.MZGramPlainCodeInfo));
+        items.add(check(BUTTON_HEX_COLOR, R.string.MZGramHexColorSwatch, MZGramConfig.hexColorSwatch, R.string.MZGramHexColorSwatchInfo));
+        items.add(check(BUTTON_INLINE_MATH, R.string.MZGramInlineMath, MZGramConfig.inlineMath, R.string.MZGramInlineMathInfo));
+        items.add(check(BUTTON_COPY_PLAIN, R.string.MZGramCopyPlain, MZGramConfig.copyPlainText, R.string.MZGramCopyPlainInfo));
+        items.add(check(BUTTON_CLEAN_LINKS, R.string.MZGramCleanLinks, MZGramConfig.cleanLinks, R.string.MZGramCleanLinksInfo));
+        items.add(UItem.asShadow(getString(R.string.MZGramSectionMessageMenuInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderSearch)));
+        items.add(check(BUTTON_SEARCH_OPERATORS, R.string.MZGramSearchOperators, MZGramConfig.searchOperators, R.string.MZGramSearchOperatorsInfo));
+        items.add(check(BUTTON_FOLD_FANCY_FONTS, R.string.MZGramFoldFancyFonts, MZGramConfig.foldFancyFontsInSearch, R.string.MZGramFoldFancyFontsInfo));
+        items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderCamera)));
+        items.add(check(BUTTON_CAMERA_X, R.string.MZGramCameraX, MZGramConfig.cameraX, R.string.MZGramCameraXInfo));
+        if (MZGramConfig.cameraX) {
+            items.add(UItem.asCheck(BUTTON_CAMERA_X_WIDE, getString(R.string.MZGramCameraXWide)).setChecked(MZGramConfig.cameraXWideLens));
+            items.add(UItem.asCheck(BUTTON_CAMERA_X_ZOOM, getString(R.string.MZGramCameraXZoom)).setChecked(MZGramConfig.cameraXZoomSlider));
+        }
+        items.add(check(BUTTON_CAMERA_STABILIZATION, R.string.MZGramCameraStabilization, MZGramConfig.cameraStabilization, R.string.MZGramCameraStabilizationInfo));
+        items.add(check(BUTTON_ROUND_VIDEO_CAMERA2, R.string.MZGramRoundVideoCamera2, MZGramConfig.roundVideoCamera2, R.string.MZGramRoundVideoCamera2Info));
+        if (MZGramConfig.roundVideoCamera2) {
+            items.add(check(BUTTON_ROUND_VIDEO_HIGH_FPS, R.string.MZGramRoundVideoHighFps, MZGramConfig.roundVideoHighFps, R.string.MZGramRoundVideoHighFpsInfo));
+            items.add(UItem.asButton(BUTTON_ROUND_VIDEO_BITRATE, getString(R.string.MZGramRoundVideoBitrate), formatRoundBitrate(MZGramConfig.roundVideoBitrate)));
+            items.add(UItem.asButton(BUTTON_ROUND_VIDEO_ADVANCED, getString(R.string.MZGramRoundVideoAdvanced)));
+        }
+        items.add(check(BUTTON_DISABLE_INSTANT_CAMERA, R.string.MZGramDisableInstantCamera, MZGramConfig.disableInstantCamera, R.string.MZGramDisableInstantCameraInfo));
+        items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderPhoto)));
+        items.add(check(BUTTON_ALWAYS_SEND_HD, R.string.MZGramAlwaysSendHd, MZGramConfig.alwaysSendHd, R.string.MZGramAlwaysSendHdInfo));
+        items.add(check(BUTTON_HIDE_CAMERA_TILE, R.string.MZGramHideCameraTile, MZGramConfig.hideCameraTile, R.string.MZGramHideCameraTileInfo));
+        items.add(check(BUTTON_LOSSLESS_PHOTO_CROP, R.string.MZGramLosslessPhotoCrop, MZGramConfig.losslessPhotoCrop, R.string.MZGramLosslessPhotoCropInfo));
+        items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderVideo)));
+        items.add(check(BUTTON_PREFER_ORIGINAL_QUALITY, R.string.MZGramPreferOriginalQuality, MZGramConfig.preferOriginalQuality, R.string.MZGramPreferOriginalQualityInfo));
+        items.add(check(BUTTON_AUTO_PAUSE_VIDEO, R.string.MZGramAutoPauseVideo, MZGramConfig.autoPauseVideo, R.string.MZGramAutoPauseVideoInfo));
+        items.add(check(BUTTON_PAUSE_ROUND, R.string.MZGramPauseRound, MZGramConfig.pauseRoundOnLeave, R.string.MZGramPauseRoundInfo));
+        items.add(check(BUTTON_VIDEO_SUBTITLES, R.string.MZGramVideoSubtitles, MZGramConfig.videoSubtitles, R.string.MZGramVideoSubtitlesInfo));
+        items.add(check(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, R.string.MZGramMediaPreviewOnLongPress, MZGramConfig.mediaPreviewOnLongPress, R.string.MZGramMediaPreviewOnLongPressInfo));
+        items.add(check(BUTTON_CONFIRM_AV_MESSAGE, R.string.MZGramConfirmAVMessage, MZGramConfig.confirmAVMessage, R.string.MZGramConfirmAVMessageInfo));
+        items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderAudio)));
+        items.add(check(BUTTON_MUSIC_PLAYER, R.string.MZGramMusicPlayer, MZGramConfig.musicPlayer, R.string.MZGramMusicPlayerInfo));
+        if (MZGramConfig.musicPlayer) {
+            items.add(UItem.asCheck(BUTTON_MUSIC_PLAYER_BAR, getString(R.string.MZGramMusicPlayerBar)).setChecked(MZGramConfig.musicPlayerBar));
+            items.add(UItem.asButton(BUTTON_MUSIC_PLAYER_STYLE, getString(R.string.MZGramMusicPlayerStyle)));
+        }
+        items.add(check(BUTTON_PROFILE_MUSIC_CARD, R.string.MZGramProfileMusicCard, MZGramConfig.profileMusicCard, R.string.MZGramProfileMusicCardInfo));
+        items.add(check(BUTTON_AUDIO_ENHANCE, R.string.MZGramAudioEnhance, MZGramConfig.audioEnhance, R.string.MZGramAudioEnhanceInfo));
+        items.add(UItem.asButton(BUTTON_VOICE_QUALITY, getString(R.string.MZGramVoiceQuality), getString(org.telegram.messenger.mzgram.MZGramVoiceQuality.TITLES[org.telegram.messenger.mzgram.MZGramVoiceQuality.mode()])));
+        items.add(UItem.asShadow(getString(R.string.MZGramVoiceQualityInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderCalls)));
+        items.add(check(BUTTON_ASK_BEFORE_CALL, R.string.MZGramAskBeforeCall, MZGramConfig.askBeforeCall, R.string.MZGramAskBeforeCallInfo));
+        items.add(UItem.asShadow(null));
+    }
+
+    // The message menu: a page of Chats
+    private void fillMessageMenu(ArrayList<UItem> items) {
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionMessageMenu)));
+        items.add(check(BUTTON_SHOW_COPY_PHOTO, R.string.MZGramCopyPhoto, MZGramConfig.showCopyPhoto, R.string.MZGramShowCopyPhotoInfo));
+        items.add(check(BUTTON_SHOW_DELETE_DOWNLOADED_FILE, R.string.MZGramDeleteDownloadedFile, MZGramConfig.showDeleteDownloadedFile, R.string.MZGramShowDeleteDownloadedFileInfo));
+        items.add(check(BUTTON_SHOW_ADD_TO_SAVED_MESSAGES, R.string.MZGramSaveMessage, MZGramConfig.showAddToSavedMessages, R.string.MZGramShowSaveMessageInfo));
+        items.add(check(BUTTON_SHOW_SET_REMINDER, R.string.MZGramSetReminder, MZGramConfig.showSetReminder, R.string.MZGramShowSetReminderInfo));
+        items.add(check(BUTTON_SHOW_REPEAT, R.string.MZGramRepeat, MZGramConfig.showRepeat, R.string.MZGramShowRepeatInfo));
+        items.add(check(BUTTON_SHOW_OPEN_IN, R.string.MZGramOpenIn, MZGramConfig.showOpenIn, R.string.MZGramShowOpenInInfo));
+        items.add(check(BUTTON_SHOW_MESSAGE_DETAILS, R.string.MZGramMessageDetails, MZGramConfig.showMessageDetails, R.string.MZGramShowMessageDetailsInfo));
+        items.add(check(BUTTON_SHOW_QR_CODE, R.string.MZGramQrCode, MZGramConfig.showQrCode, R.string.MZGramShowQrCodeInfo));
+        items.add(check(BUTTON_SHOW_NO_QUOTE_FORWARD, R.string.MZGramForwardNoQuote, MZGramConfig.showNoQuoteForward, R.string.MZGramShowForwardNoQuoteInfo));
+        items.add(UItem.asShadow(null));
+        items.add(check(BUTTON_SAVE_PROTECTED_CONTENT, R.string.MZGramSaveProtectedContent, MZGramConfig.saveProtectedContent, R.string.MZGramSaveProtectedContentInfo));
+        items.add(check(BUTTON_DELETE_FOR_ALL_BY_DEFAULT, R.string.MZGramDeleteForAllByDefault, MZGramConfig.deleteForAllByDefault, R.string.MZGramDeleteForAllByDefaultInfo));
+        items.add(UItem.asShadow(null));
     }
 
     private void fillAdsAndFilters(ArrayList<UItem> items) {
         items.add(UItem.asShadow(null));
         items.add(UItem.asCheck(BUTTON_DISABLE_SPONSORED_MESSAGES, getString(R.string.MZGramDisableSponsoredMessages)).setChecked(MZGramConfig.disableSponsoredMessages));
         items.add(UItem.asShadow(getString(R.string.MZGramDisableSponsoredMessagesInfo)));
-        items.add(UItem.asCheck(BUTTON_STRIP_ZALGO_TEXT, getString(R.string.MZGramStripZalgoText)).setChecked(MZGramConfig.stripZalgoText));
-        items.add(UItem.asShadow(getString(R.string.MZGramStripZalgoTextInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramReactionFilter)));
         items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_PRIVATE, getString(R.string.MZGramHideReactionsPrivate)).setChecked(MZGramConfig.hideReactionsPrivate));
         items.add(UItem.asCheck(BUTTON_HIDE_REACTIONS_GROUPS, getString(R.string.MZGramHideReactionsGroups)).setChecked(MZGramConfig.hideReactionsGroups));
@@ -1033,6 +1019,45 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.MZGramTranslationAiHeader)));
         items.add(UItem.asButton(BUTTON_TRANSLATION_AI, getString(R.string.MZGramTranslationAiSettings), getString(R.string.MZGramTranslationAiSettingsSub)));
         items.add(UItem.asShadow(getString(R.string.MZGramTranslationAiInfo)));
+    }
+
+    private void fillOther(ArrayList<UItem> items) {
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderUpdates)));
+        items.add(check(BUTTON_CHECK_UPDATES, R.string.MZGramCheckUpdates, MZGramConfig.checkUpdates, R.string.MZGramCheckUpdatesInfo));
+        items.add(UItem.asButton(BUTTON_CHECK_UPDATES_NOW, getString(R.string.MZGramUpdateCheckNow)));
+        items.add(UItem.asShadow(null));
+        items.add(UItem.asHeader(getString(R.string.MZGramSettingsBackup)));
+        items.add(check(BUTTON_PLUGINS_BACKUP, R.string.MZGramPluginsBackupSwitch, MZGramConfig.pluginsBackup, R.string.MZGramPluginsBackupSwitchInfo));
+        items.add(UItem.asButton(BUTTON_SETTINGS_EXPORT, getString(R.string.MZGramSettingsExport)));
+        items.add(UItem.asButton(BUTTON_SETTINGS_IMPORT, getString(R.string.MZGramSettingsImport)));
+        items.add(UItem.asShadow(getString(R.string.MZGramSettingsBackupInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramDiagnostics)));
+        items.add(UItem.asCheck(BUTTON_CRASH_REPORTS, getString(R.string.MZGramCrashReports)).setChecked(MZGramConfig.crashReports));
+        final boolean jankRunning = org.telegram.messenger.mzgram.MZGramJankProfiler.isRunning();
+        items.add(UItem.asButton(BUTTON_JANK_PROFILER, getString(R.string.MZGramJankProfiler), getString(jankRunning ? R.string.MZGramProfilerStop : R.string.MZGramProfilerStart)));
+        if (!jankRunning && org.telegram.messenger.mzgram.MZGramJankProfiler.getLastReport() != null) {
+            items.add(UItem.asButton(BUTTON_JANK_REPORT, getString(R.string.MZGramJankProfilerShare)));
+        }
+        final boolean energyRunning = org.telegram.messenger.mzgram.MZGramEnergyProfiler.isRunning();
+        items.add(UItem.asButton(BUTTON_ENERGY_PROFILER, getString(R.string.MZGramEnergyProfiler), getString(energyRunning ? R.string.MZGramProfilerStop : R.string.MZGramProfilerStart)));
+        if (energyRunning || org.telegram.messenger.mzgram.MZGramEnergyProfiler.getLastReport() != null) {
+            items.add(UItem.asButton(BUTTON_ENERGY_REPORT, getString(R.string.MZGramEnergyProfilerShare)));
+        }
+        if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
+            // Only in a build with the Python runtime (-PmzgramPlugins=true)
+            items.add(UItem.asButton(BUTTON_PYTHON_RUNTIME, getString(R.string.MZGramPythonRuntime),
+                    getString(org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isStarted() ? R.string.MZGramPythonRuntimeReady : R.string.MZGramProfilerStart)));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramDiagnosticsInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramPeripheralsHeader)));
+        items.add(UItem.asButton(BUTTON_EXTENDED_PERIPHERALS, getString(R.string.MZGramPeripheralsTitle), getString(R.string.MZGramPeripheralsSub)));
+        items.add(UItem.asShadow(getString(R.string.MZGramPeripheralsInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramHideRowsTitle)));
+        java.util.List<org.telegram.messenger.mzgram.MZGramSettingsRows.Row> rows = org.telegram.messenger.mzgram.MZGramSettingsRows.rows();
+        for (int i = 0; i < rows.size(); i++) {
+            items.add(UItem.asCheck(HIDE_ROW_BUTTONS[i], getString(HIDE_ROW_TITLES[i])).setChecked(org.telegram.messenger.mzgram.MZGramSettingsRows.hidden(rows.get(i).key)));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramHideRowsInfo)));
     }
 
     // The five AI sites, each by its name; the choice applies at once.
@@ -1077,47 +1102,6 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 listView.adapter.update(true);
             }
         }, getString(R.string.MZGramCancel)));
-    }
-
-    private void fillOther(ArrayList<UItem> items) {
-        items.add(UItem.asShadow(null));
-        items.add(UItem.asCheck(BUTTON_CHECK_UPDATES, getString(R.string.MZGramCheckUpdates)).setChecked(MZGramConfig.checkUpdates));
-        items.add(UItem.asButton(BUTTON_CHECK_UPDATES_NOW, getString(R.string.MZGramUpdateCheckNow)));
-        items.add(UItem.asShadow(getString(R.string.MZGramCheckUpdatesInfo)));
-        items.add(UItem.asHeader(getString(R.string.MZGramSettingsBackup)));
-        items.add(UItem.asCheck(BUTTON_PLUGINS_BACKUP, getString(R.string.MZGramPluginsBackupSwitch)).setChecked(MZGramConfig.pluginsBackup));
-        items.add(UItem.asShadow(getString(R.string.MZGramPluginsBackupSwitchInfo)));
-        items.add(UItem.asButton(BUTTON_SETTINGS_EXPORT, getString(R.string.MZGramSettingsExport)));
-        items.add(UItem.asButton(BUTTON_SETTINGS_IMPORT, getString(R.string.MZGramSettingsImport)));
-        items.add(UItem.asShadow(getString(R.string.MZGramSettingsBackupInfo)));
-        items.add(UItem.asHeader(getString(R.string.MZGramDiagnostics)));
-        items.add(UItem.asCheck(BUTTON_CRASH_REPORTS, getString(R.string.MZGramCrashReports)).setChecked(MZGramConfig.crashReports));
-        final boolean jankRunning = org.telegram.messenger.mzgram.MZGramJankProfiler.isRunning();
-        items.add(UItem.asButton(BUTTON_JANK_PROFILER, getString(R.string.MZGramJankProfiler), getString(jankRunning ? R.string.MZGramProfilerStop : R.string.MZGramProfilerStart)));
-        if (!jankRunning && org.telegram.messenger.mzgram.MZGramJankProfiler.getLastReport() != null) {
-            items.add(UItem.asButton(BUTTON_JANK_REPORT, getString(R.string.MZGramJankProfilerShare)));
-        }
-        final boolean energyRunning = org.telegram.messenger.mzgram.MZGramEnergyProfiler.isRunning();
-        items.add(UItem.asButton(BUTTON_ENERGY_PROFILER, getString(R.string.MZGramEnergyProfiler), getString(energyRunning ? R.string.MZGramProfilerStop : R.string.MZGramProfilerStart)));
-        if (energyRunning || org.telegram.messenger.mzgram.MZGramEnergyProfiler.getLastReport() != null) {
-            items.add(UItem.asButton(BUTTON_ENERGY_REPORT, getString(R.string.MZGramEnergyProfilerShare)));
-        }
-        if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
-            // Only in a build with the Python runtime (-PmzgramPlugins=true)
-            items.add(UItem.asButton(BUTTON_PYTHON_RUNTIME, getString(R.string.MZGramPythonRuntime),
-                    getString(org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isStarted() ? R.string.MZGramPythonRuntimeReady : R.string.MZGramProfilerStart)));
-        }
-        items.add(UItem.asShadow(getString(R.string.MZGramDiagnosticsInfo)));
-        if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
-            // Only in a build with the Python runtime (-PmzgramPlugins=true)
-            final int plugins = org.telegram.messenger.mzgram.plugins.MZGramPlugins.count();
-            items.add(UItem.asHeader(getString(R.string.MZGramPlugins)));
-            items.add(UItem.asButton(BUTTON_PLUGINS, R.drawable.msg_bots, getString(R.string.MZGramPlugins), plugins > 0 ? org.telegram.messenger.LocaleController.formatNumber(plugins, ' ') : null));
-            items.add(UItem.asShadow(getString(R.string.MZGramPluginsSettingsInfo)));
-        }
-        items.add(UItem.asHeader(getString(R.string.MZGramPeripheralsHeader)));
-        items.add(UItem.asButton(BUTTON_EXTENDED_PERIPHERALS, getString(R.string.MZGramPeripheralsTitle), getString(R.string.MZGramPeripheralsSub)));
-        items.add(UItem.asShadow(getString(R.string.MZGramPeripheralsInfo)));
     }
 
     private void onProfilerStarted(boolean running, int startedText) {
@@ -1185,6 +1169,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (item.id >= SECTION_ROW_ID && item.id < SECTION_ROW_ID + SECTIONS_COUNT) {
             presentFragment(new MZGramSettingsActivity(item.id - SECTION_ROW_ID));
+        } else if (item.id == ROW_SOURCE_CODE) {
+            org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
+        } else if (item.id == BUTTON_MESSAGE_MENU) {
+            presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
         } else if (item.id == BUTTON_CHARACTER_COUNTER) {
             MZGramConfig.toggleCharacterCounter();
             ((TextCheckCell) view).setChecked(MZGramConfig.characterCounter);
@@ -1509,7 +1497,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(R.string.MZGramPythonRuntimeStarting)).show();
                 org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.start(this::showPythonRuntime);
             }
-        } else if (item.id == BUTTON_PLUGINS) {
+        } else if (item.id == ROW_PLUGINS) {
             presentFragment(new MZGramPluginsActivity());
         } else if (item.id == BUTTON_CHECK_UPDATES_NOW) {
             MZGramUpdateBanner.checkByHand(this, null);

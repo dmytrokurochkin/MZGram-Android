@@ -1210,4 +1210,26 @@
     <string name="MZGramPersianCalendar">İran Güneş takvimi</string>
     <string name="MZGramPersianCalendarInfo">Tarihleri İran güneş takvimine göre göster.</string>
     <string name="MZGramSettingsImportPluginsCount">Geri yüklenecek eklentiler: %1$d. Kapalı ve izinsiz geri gelirler.</string>
+    <string name="MZGramSectionGeneral">Genel</string>
+    <string name="MZGramCategories">Kategoriler</string>
+    <string name="MZGramLinks">Bağlantılar</string>
+    <string name="MZGramSourceCode">Kaynak kodu</string>
+    <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramHeaderLanguage">Dil ve takvim</string>
+    <string name="MZGramHeaderProfile">Profil</string>
+    <string name="MZGramHeaderChatArchive">Sohbet arşivi</string>
+    <string name="MZGramHeaderChatList">Sohbet listesi</string>
+    <string name="MZGramHeaderFolders">Sohbet klasörleri</string>
+    <string name="MZGramHeaderNavigation">Gezinme</string>
+    <string name="MZGramHeaderGlass">Cam ve bulanıklık</string>
+    <string name="MZGramHeaderGestures">Hareketler</string>
+    <string name="MZGramHeaderChatScreen">Sohbet ekranı</string>
+    <string name="MZGramHeaderMessages">Mesajlar</string>
+    <string name="MZGramHeaderSearch">Arama</string>
+    <string name="MZGramHeaderCamera">Kamera</string>
+    <string name="MZGramHeaderPhoto">Fotoğraf</string>
+    <string name="MZGramHeaderVideo">Videolar</string>
+    <string name="MZGramHeaderAudio">Müzik ve ses</string>
+    <string name="MZGramHeaderCalls">Aramalar</string>
+    <string name="MZGramHeaderUpdates">Güncellemeler</string>
 </resources>

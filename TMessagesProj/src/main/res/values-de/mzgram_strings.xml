@@ -1210,4 +1210,26 @@
     <string name="MZGramPersianCalendar">Iranischer Sonnenkalender</string>
     <string name="MZGramPersianCalendarInfo">Daten nach dem persischen Sonnenkalender anzeigen.</string>
     <string name="MZGramSettingsImportPluginsCount">Wiederherzustellende Plugins: %1$d. Sie kommen ausgeschaltet und ohne Berechtigungen zurück.</string>
+    <string name="MZGramSectionGeneral">Allgemein</string>
+    <string name="MZGramCategories">Kategorien</string>
+    <string name="MZGramLinks">Links</string>
+    <string name="MZGramSourceCode">Quellcode</string>
+    <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramHeaderLanguage">Sprache und Kalender</string>
+    <string name="MZGramHeaderProfile">Profil</string>
+    <string name="MZGramHeaderChatArchive">Chat-Archiv</string>
+    <string name="MZGramHeaderChatList">Chatliste</string>
+    <string name="MZGramHeaderFolders">Chat-Ordner</string>
+    <string name="MZGramHeaderNavigation">Navigation</string>
+    <string name="MZGramHeaderGlass">Glas und Unschärfe</string>
+    <string name="MZGramHeaderGestures">Gesten</string>
+    <string name="MZGramHeaderChatScreen">Chatansicht</string>
+    <string name="MZGramHeaderMessages">Nachrichten</string>
+    <string name="MZGramHeaderSearch">Suche</string>
+    <string name="MZGramHeaderCamera">Kamera</string>
+    <string name="MZGramHeaderPhoto">Fotos</string>
+    <string name="MZGramHeaderVideo">Videos</string>
+    <string name="MZGramHeaderAudio">Musik und Audio</string>
+    <string name="MZGramHeaderCalls">Anrufe</string>
+    <string name="MZGramHeaderUpdates">Aktualisierungen</string>
 </resources>

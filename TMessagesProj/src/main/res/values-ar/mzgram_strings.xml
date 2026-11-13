@@ -1210,4 +1210,26 @@
     <string name="MZGramPersianCalendar">التقويم الهجري الشمسي</string>
     <string name="MZGramPersianCalendarInfo">عرض التواريخ وفقا للتقويم الشمسي الفارسي.</string>
     <string name="MZGramSettingsImportPluginsCount">المكونات الإضافية المراد استعادتها: %1$d. تعود متوقفة ومن دون أذونات.</string>
+    <string name="MZGramSectionGeneral">عام</string>
+    <string name="MZGramCategories">الفئات</string>
+    <string name="MZGramLinks">الروابط</string>
+    <string name="MZGramSourceCode">الشيفرة المصدرية</string>
+    <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramHeaderLanguage">اللغة والتقويم</string>
+    <string name="MZGramHeaderProfile">الملف الشخصي</string>
+    <string name="MZGramHeaderChatArchive">أرشيف المحادثات</string>
+    <string name="MZGramHeaderChatList">قائمة المحادثات</string>
+    <string name="MZGramHeaderFolders">مجلدات المحادثات</string>
+    <string name="MZGramHeaderNavigation">التنقل</string>
+    <string name="MZGramHeaderGlass">الزجاج والتمويه</string>
+    <string name="MZGramHeaderGestures">الإيماءات</string>
+    <string name="MZGramHeaderChatScreen">شاشة المحادثة</string>
+    <string name="MZGramHeaderMessages">الرسائل</string>
+    <string name="MZGramHeaderSearch">البحث</string>
+    <string name="MZGramHeaderCamera">الكاميرا</string>
+    <string name="MZGramHeaderPhoto">الصور</string>
+    <string name="MZGramHeaderVideo">الفيديو</string>
+    <string name="MZGramHeaderAudio">الموسيقى والصوت</string>
+    <string name="MZGramHeaderCalls">المكالمات</string>
+    <string name="MZGramHeaderUpdates">التحديثات</string>
 </resources>

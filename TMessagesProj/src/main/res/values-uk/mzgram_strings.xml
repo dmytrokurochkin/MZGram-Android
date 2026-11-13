@@ -1061,7 +1061,7 @@
     <string name="MZGramMenuMentionUserId">ID користувача</string>
     <string name="MZGramDeletedDialogsInMainList">Показувати в головному списку чатів</string>
     <string name="MZGramDeletedDialogsInMainListInfo">Залишати видалені чати видимими в головному списку чатів з останнім збереженим повідомленням.</string>
-    <string name="MZGramSectionAppearance">Вигляд</string>
+    <string name="MZGramSectionAppearance">Оформлення</string>
     <string name="MZGramSectionAppearanceInfo">M3-перемикачі, картковий дизайн та візуальний стиль</string>
     <string name="MZGramM3Switches">M3-перемикачі</string>
     <string name="MZGramM3SwitchesInfo">Використовувати сучасний стиль перемикачів Material 3 у застосунку.</string>
@@ -1211,4 +1211,26 @@
     <string name="MZGramPersianCalendar">Сонячний календар Хіджри</string>
     <string name="MZGramPersianCalendarInfo">Відображати дати за перським сонячним календарем.</string>
     <string name="MZGramSettingsImportPluginsCount">Плагінів до відновлення: %1$d. Вони повернуться вимкненими й без дозволів.</string>
+    <string name="MZGramSectionGeneral">Загальні</string>
+    <string name="MZGramCategories">Категорії</string>
+    <string name="MZGramLinks">Посилання</string>
+    <string name="MZGramSourceCode">Вихідний код</string>
+    <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramHeaderLanguage">Мова і календар</string>
+    <string name="MZGramHeaderProfile">Профіль</string>
+    <string name="MZGramHeaderChatArchive">Архів чатів</string>
+    <string name="MZGramHeaderChatList">Список чатів</string>
+    <string name="MZGramHeaderFolders">Папки для чатів</string>
+    <string name="MZGramHeaderNavigation">Навігація</string>
+    <string name="MZGramHeaderGlass">Скло і розмиття</string>
+    <string name="MZGramHeaderGestures">Жести</string>
+    <string name="MZGramHeaderChatScreen">Екран чату</string>
+    <string name="MZGramHeaderMessages">Повідомлення</string>
+    <string name="MZGramHeaderSearch">Пошук</string>
+    <string name="MZGramHeaderCamera">Камера</string>
+    <string name="MZGramHeaderPhoto">Фото</string>
+    <string name="MZGramHeaderVideo">Відео</string>
+    <string name="MZGramHeaderAudio">Музика й аудіо</string>
+    <string name="MZGramHeaderCalls">Дзвінки</string>
+    <string name="MZGramHeaderUpdates">Оновлення</string>
 </resources>

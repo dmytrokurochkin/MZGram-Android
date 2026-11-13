@@ -54,6 +54,9 @@ SHARED_WORDS = {
     "MIUI", "Autostart", "No",
     # "Bots" in Spanish, German, French and Portuguese; "ID" everywhere
     "Bots", "ID",
+    # "General" in Spanish, "Links" in German and Portuguese, "Navigation"
+    # and "Messages" in German and French
+    "General", "Links", "Navigation", "Messages",
 }
 
 

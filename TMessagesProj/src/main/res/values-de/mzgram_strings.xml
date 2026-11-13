@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">Solange der Geistmodus an ist, steht ein Geist hinter dem Titel der Chatliste.</string>
     <string name="MZGramDrawerGhostOn">Geistmodus: an</string>
     <string name="MZGramDrawerGhostOff">Geistmodus: aus</string>
+    <string name="MZGramArchiveTotalLimit">Größe der Archivdateien</string>
+    <string name="MZGramArchiveTotalLimitInfo">Höchstens so viel dürfen Medien und Anhänge des Archivs belegen. Am Limit werden keine neuen Dateien mehr behalten; behaltene werden nie automatisch gelöscht.</string>
+    <string name="MZGramSaveReadDates">Lesedatum speichern</string>
+    <string name="MZGramSaveReadDatesInfo">Speichert auf diesem Gerät, wann deine Nachrichten gelesen wurden. Es steht in den Nachrichtendetails, wenn Telegram kein Lesedatum liefert.</string>
+    <string name="MZGramSaveLastOnline">Zuletzt online speichern</string>
+    <string name="MZGramSaveLastOnlineInfo">Speichert die zuletzt bekannte Online-Zeit von Personen, die „Zuletzt online“ verbergen, damit du sehr grob siehst, wann sie online waren.</string>
+    <string name="MZGramDeletedMarkIcon">Gelöscht-Markierung als Symbol</string>
+    <string name="MZGramDeletedIconColor">Symbolfarbe</string>
+    <string name="MZGramDeletedIconRed">Rot</string>
+    <string name="MZGramDeletedIconTime">Wie die Uhrzeit</string>
 </resources>

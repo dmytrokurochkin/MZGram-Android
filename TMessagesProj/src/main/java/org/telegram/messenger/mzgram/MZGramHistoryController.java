@@ -398,7 +398,7 @@ public class MZGramHistoryController {
             return;
         }
         int limit = MZGramArchiveLimits.limitMb(sourceOf(dialogId, message));
-        if (!MZGramArchiveLimits.fetches(fileSize(message), limit, false)) {
+        if (!MZGramArchiveLimits.fetches(fileSize(message), limit, false) || !MZGramArchiveCap.allows(fileSize(message))) {
             return;
         }
         download(accountId, accountUserId, dialogId, message, -1);
@@ -426,7 +426,7 @@ public class MZGramHistoryController {
             return;
         }
         int limit = MZGramArchiveLimits.limitMb(sourceOf(dialogId, message));
-        if (!MZGramArchiveLimits.fetches(fileSize(message), limit, true)) {
+        if (!MZGramArchiveLimits.fetches(fileSize(message), limit, true) || !MZGramArchiveCap.allows(fileSize(message))) {
             return;
         }
         download(accountId, accountUserId, dialogId, message, rowId);

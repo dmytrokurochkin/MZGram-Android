@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">Gdy tryb ducha jest włączony, za tytułem listy czatów widać ducha.</string>
     <string name="MZGramDrawerGhostOn">Tryb ducha: włączony</string>
     <string name="MZGramDrawerGhostOff">Tryb ducha: wyłączony</string>
+    <string name="MZGramArchiveTotalLimit">Rozmiar plików archiwum</string>
+    <string name="MZGramArchiveTotalLimitInfo">Najwięcej, ile mogą zajmować multimedia i załączniki archiwum. Po osiągnięciu limitu nowe pliki nie są zapisywane; zapisane nigdy nie są usuwane automatycznie.</string>
+    <string name="MZGramSaveReadDates">Zapisuj datę odczytania</string>
+    <string name="MZGramSaveReadDatesInfo">Zapisuje na tym urządzeniu, kiedy przeczytano twoje wiadomości. Widać to w szczegółach wiadomości, gdy Telegram nie podaje daty odczytania.</string>
+    <string name="MZGramSaveLastOnline">Zapisuj ostatnią aktywność</string>
+    <string name="MZGramSaveLastOnlineInfo">Zapisuje ostatni znany czas aktywności osób ukrywających ostatnią wizytę, więc widać bardzo w przybliżeniu, kiedy były online.</string>
+    <string name="MZGramDeletedMarkIcon">Znacznik usunięcia jako ikona</string>
+    <string name="MZGramDeletedIconColor">Kolor ikony</string>
+    <string name="MZGramDeletedIconRed">Czerwony</string>
+    <string name="MZGramDeletedIconTime">Jak godzina</string>
 </resources>

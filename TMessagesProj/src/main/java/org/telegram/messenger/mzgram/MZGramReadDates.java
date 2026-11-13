@@ -35,7 +35,7 @@ public class MZGramReadDates {
     // MessagesController: another person read the own messages of a chat up
     // to maxId, as this device learned at "now".
     public static void onOutboxRead(int account, long dialogId, int maxId, int now) {
-        if (maxId <= 0 || now <= 0) {
+        if (maxId <= 0 || now <= 0 || !MZGramConfig.saveReadDates) { // Archive > Save read date
             return;
         }
         long accountUserId = UserConfig.getInstance(account).getClientUserId();

@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">طالما وضع الشبح مفعّل يظهر شبح بعد عنوان قائمة المحادثات.</string>
     <string name="MZGramDrawerGhostOn">وضع الشبح: مفعّل</string>
     <string name="MZGramDrawerGhostOff">وضع الشبح: معطّل</string>
+    <string name="MZGramArchiveTotalLimit">حجم ملفات الأرشيف</string>
+    <string name="MZGramArchiveTotalLimitInfo">أقصى ما يمكن أن تشغله وسائط الأرشيف ومرفقاته. عند الحد لا تُحفظ ملفات جديدة؛ ولا تُحذف الملفات المحفوظة تلقائيًا أبدًا.</string>
+    <string name="MZGramSaveReadDates">حفظ تاريخ القراءة</string>
+    <string name="MZGramSaveReadDatesInfo">يحفظ على هذا الجهاز متى قُرئت رسائلك. يظهر في تفاصيل الرسالة عندما لا يعطي Telegram تاريخ القراءة.</string>
+    <string name="MZGramSaveLastOnline">حفظ آخر ظهور</string>
+    <string name="MZGramSaveLastOnlineInfo">يحفظ آخر وقت اتصال معروف لمن يخفون آخر ظهور، لترى بشكل تقريبي جدًا متى كانوا متصلين.</string>
+    <string name="MZGramDeletedMarkIcon">علامة الحذف كرمز</string>
+    <string name="MZGramDeletedIconColor">لون الرمز</string>
+    <string name="MZGramDeletedIconRed">أحمر</string>
+    <string name="MZGramDeletedIconTime">مثل الوقت</string>
 </resources>

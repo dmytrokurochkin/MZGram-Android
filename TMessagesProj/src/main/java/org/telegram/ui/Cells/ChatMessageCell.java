@@ -18706,7 +18706,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (mzgramEditedMark && !TextUtils.isEmpty(org.telegram.messenger.mzgram.MZGramConfig.editedMark)) {
                 timeString = org.telegram.messenger.mzgram.MZGramConfig.editedMark + " " + timeString;
             }
-            if (messageObject.messageOwner.mzgramDeleted && !TextUtils.isEmpty(org.telegram.messenger.mzgram.MZGramConfig.deletedMark)) {
+            if (messageObject.messageOwner.mzgramDeleted && org.telegram.messenger.mzgram.MZGramConfig.deletedMarkIcon) {
+                // MZGram: the deleted mark as Telegram's trash icon
+                timeString = org.telegram.ui.mzgram.MZGramEditedIcon.DELETED + " " + timeString;
+            } else if (messageObject.messageOwner.mzgramDeleted && !TextUtils.isEmpty(org.telegram.messenger.mzgram.MZGramConfig.deletedMark)) {
                 timeString = org.telegram.messenger.mzgram.MZGramConfig.deletedMark + " " + timeString;
             }
         }
@@ -18759,7 +18762,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
         timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString, 0, currentTimeString == null ? 0 : currentTimeString.length()));
         // MZGram: the pencil before the time of an edited message, measured as drawn
-        if (edited && org.telegram.ui.mzgram.MZGramEditedIcon.on() && currentTimeString != null) {
+        if ((edited && org.telegram.ui.mzgram.MZGramEditedIcon.on() || messageObject.messageOwner.mzgramDeleted && org.telegram.messenger.mzgram.MZGramConfig.deletedMarkIcon)
+                && currentTimeString != null) {
             currentTimeString = org.telegram.ui.mzgram.MZGramEditedIcon.apply(currentTimeString);
             timeTextWidth = timeWidth = org.telegram.ui.mzgram.MZGramEditedIcon.width(currentTimeString, Theme.chat_timePaint);
         }

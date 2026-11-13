@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">Hayalet modu açıkken sohbet listesinin başlığından sonra bir hayalet görünür.</string>
     <string name="MZGramDrawerGhostOn">Hayalet modu: açık</string>
     <string name="MZGramDrawerGhostOff">Hayalet modu: kapalı</string>
+    <string name="MZGramArchiveTotalLimit">Arşiv dosyalarının boyutu</string>
+    <string name="MZGramArchiveTotalLimitInfo">Arşivin medya ve eklerinin kaplayabileceği en fazla alan. Sınırda yeni dosyalar artık saklanmaz; saklananlar asla otomatik silinmez.</string>
+    <string name="MZGramSaveReadDates">Okunma tarihini kaydet</string>
+    <string name="MZGramSaveReadDatesInfo">Mesajlarınızın ne zaman okunduğunu bu cihazda saklar. Telegram okunma tarihini vermediğinde mesaj ayrıntılarında gösterilir.</string>
+    <string name="MZGramSaveLastOnline">Son çevrimiçini kaydet</string>
+    <string name="MZGramSaveLastOnlineInfo">Son görülmesini gizleyen kişilerin bilinen son çevrimiçi zamanını saklar; ne zaman çevrimiçi olduklarını çok kabaca görebilirsiniz.</string>
+    <string name="MZGramDeletedMarkIcon">Silindi işareti simge olarak</string>
+    <string name="MZGramDeletedIconColor">Simge rengi</string>
+    <string name="MZGramDeletedIconRed">Kırmızı</string>
+    <string name="MZGramDeletedIconTime">Saat gibi</string>
 </resources>

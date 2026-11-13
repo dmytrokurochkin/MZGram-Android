@@ -33,7 +33,7 @@ public class MZGramLastSeen {
 
     // A sign that the user was online at "date".
     public static void record(long userId, int date) {
-        if (userId <= 0 || date <= 0) {
+        if (userId <= 0 || date <= 0 || !MZGramConfig.saveLastOnline) { // Archive > Save last online
             return;
         }
         ensureLoaded();

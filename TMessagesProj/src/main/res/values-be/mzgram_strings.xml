@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">Пакуль рэжым прывіда ўключаны, пасля загалоўка спіса чатаў бачны прывід.</string>
     <string name="MZGramDrawerGhostOn">Рэжым прывіда: уключаны</string>
     <string name="MZGramDrawerGhostOff">Рэжым прывіда: выключаны</string>
+    <string name="MZGramArchiveTotalLimit">Памер файлаў архіва</string>
+    <string name="MZGramArchiveTotalLimitInfo">Найбольш, колькі могуць займаць медыя і ўкладанні архіва. На мяжы новыя файлы больш не захоўваюцца; захаваныя ніколі не выдаляюцца аўтаматычна.</string>
+    <string name="MZGramSaveReadDates">Захоўваць дату прачытання</string>
+    <string name="MZGramSaveReadDatesInfo">Лакальна захоўвае, калі прачыталі вашы паведамленні. Гэта паказваецца ў падрабязнасцях паведамлення, калі Telegram не дае дату прачытання.</string>
+    <string name="MZGramSaveLastOnline">Захоўваць апошні анлайн</string>
+    <string name="MZGramSaveLastOnlineInfo">Захоўвае апошні вядомы анлайн людзей са схаваным апошнім візітам, каб вельмі прыблізна бачыць, калі яны былі анлайн.</string>
+    <string name="MZGramDeletedMarkIcon">Пазнака «выдалена» значком</string>
+    <string name="MZGramDeletedIconColor">Колер значка</string>
+    <string name="MZGramDeletedIconRed">Чырвоны</string>
+    <string name="MZGramDeletedIconTime">Як час</string>
 </resources>

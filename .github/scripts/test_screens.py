@@ -370,6 +370,23 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("items.add(UItem.asButton(BUTTON_GHOST_SILENT_SEND, ", page)
         self.assertNotIn("MZGramConfig.toggleGhostSilentSend();", page)
 
+    def test_spy_limit_read_dates_last_online_deleted_icon(self):
+        self.switch("saveReadDates", "true", "BUTTON_SAVE_READ_DATES")
+        self.switch("saveLastOnline", "true", "BUTTON_SAVE_LAST_ONLINE")
+        self.switch("deletedMarkIcon", "false", "BUTTON_DELETED_MARK_ICON")
+        config = read(CONFIG)
+        self.assertIn("public static int archiveTotalLimitMb = -1;", config)
+        backup = read(BACKUP)
+        self.assertIn('integer(CONFIG, "archiveTotalLimitMb", -1, 16384);', backup)
+        self.assertIn('integer(CONFIG, "deletedMarkIconColor", 0, 1);', backup)
+        history = read(JAVA / "messenger/mzgram/MZGramHistoryController.java")
+        self.assertEqual(2, history.count("|| !MZGramArchiveCap.allows(fileSize(message))"))
+        self.assertIn("!MZGramConfig.saveReadDates", read(JAVA / "messenger/mzgram/MZGramReadDates.java"))
+        self.assertIn("!MZGramConfig.saveLastOnline", read(JAVA / "messenger/mzgram/MZGramLastSeen.java"))
+        cell = read(JAVA / "ui/Cells/ChatMessageCell.java")
+        self.assertIn("timeString = org.telegram.ui.mzgram.MZGramEditedIcon.DELETED + ", cell)
+        self.assertIn("items.add(UItem.asIntSlideView(1, 0, org.telegram.messenger.mzgram.MZGramArchiveCap.step()", read(PAGE))
+
 
 if __name__ == "__main__":
     unittest.main()

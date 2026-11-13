@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">Mientras el modo fantasma está activo, aparece un fantasma tras el título de la lista de chats.</string>
     <string name="MZGramDrawerGhostOn">Modo fantasma: activado</string>
     <string name="MZGramDrawerGhostOff">Modo fantasma: desactivado</string>
+    <string name="MZGramArchiveTotalLimit">Tamaño de los archivos del archivo</string>
+    <string name="MZGramArchiveTotalLimitInfo">Lo máximo que pueden ocupar los medios y adjuntos del archivo. En el límite ya no se guardan archivos nuevos; los guardados nunca se borran automáticamente.</string>
+    <string name="MZGramSaveReadDates">Guardar la fecha de lectura</string>
+    <string name="MZGramSaveReadDatesInfo">Guarda en este dispositivo cuándo se leyeron tus mensajes. Se muestra en los detalles del mensaje cuando Telegram no da la fecha de lectura.</string>
+    <string name="MZGramSaveLastOnline">Guardar la última conexión</string>
+    <string name="MZGramSaveLastOnlineInfo">Guarda la última hora en línea conocida de quienes ocultan su última conexión, para ver muy aproximadamente cuándo estuvieron en línea.</string>
+    <string name="MZGramDeletedMarkIcon">Marca de borrado como icono</string>
+    <string name="MZGramDeletedIconColor">Color del icono</string>
+    <string name="MZGramDeletedIconRed">Rojo</string>
+    <string name="MZGramDeletedIconTime">Como la hora</string>
 </resources>

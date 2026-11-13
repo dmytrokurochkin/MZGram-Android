@@ -622,6 +622,22 @@ public class MZGramConfig {
     // A ghost after the title of the chat list while ghost mode is on (MZGramGhostTitle)
     public static boolean ghostStatusInTitle = false;
 
+    // Size of the archive's files: the most its media and attachments take, in MB; -1 for no limit (MZGramArchiveCap)
+    public static int archiveTotalLimitMb = -1;
+    // Deleted mark: Telegram's trash icon instead of the text, in red or in the colour of the time
+    public static final int DELETED_ICON_RED = 0;
+    public static final int DELETED_ICON_TIME = 1;
+    public static int deletedMarkIconColor = DELETED_ICON_RED;
+
+    // Archive: keep when others read your messages, for the message's details (MZGramReadDates)
+    public static boolean saveReadDates = true;
+
+    // Archive: keep the last known online time of people who hide their last seen (MZGramLastSeen)
+    public static boolean saveLastOnline = true;
+
+    // Deleted mark: Telegram's trash icon before the time instead of the text mark (MZGramEditedIcon)
+    public static boolean deletedMarkIcon = false;
+
     static {
         loadConfig(false);
     }
@@ -930,6 +946,11 @@ public class MZGramConfig {
             ghostOfflineAuto = preferences.getBoolean("ghostOfflineAuto", false);
             ghostReadOnInteraction = preferences.getBoolean("ghostReadOnInteraction", true);
             ghostStatusInTitle = preferences.getBoolean("ghostStatusInTitle", false);
+            archiveTotalLimitMb = preferences.getInt("archiveTotalLimitMb", -1);
+            deletedMarkIconColor = preferences.getInt("deletedMarkIconColor", DELETED_ICON_RED) == DELETED_ICON_TIME ? DELETED_ICON_TIME : DELETED_ICON_RED;
+            saveReadDates = preferences.getBoolean("saveReadDates", true);
+            saveLastOnline = preferences.getBoolean("saveLastOnline", true);
+            deletedMarkIcon = preferences.getBoolean("deletedMarkIcon", false);
             configLoaded = true;
         }
     }
@@ -1094,6 +1115,16 @@ public class MZGramConfig {
     public static void setRoundVideoFrontCamera(boolean front) {
         roundVideoFrontCamera = front;
         putBoolean("roundVideoFrontCamera", front);
+    }
+
+    public static void setArchiveTotalLimitMb(int mb) {
+        archiveTotalLimitMb = mb < 0 ? -1 : mb;
+        putInt("archiveTotalLimitMb", archiveTotalLimitMb);
+    }
+
+    public static void setDeletedMarkIconColor(int color) {
+        deletedMarkIconColor = color == DELETED_ICON_TIME ? DELETED_ICON_TIME : DELETED_ICON_RED;
+        putInt("deletedMarkIconColor", deletedMarkIconColor);
     }
 
     public static void setSwipeAction(int value) {
@@ -2295,5 +2326,20 @@ public class MZGramConfig {
     public static void toggleGhostStatusInTitle() {
         ghostStatusInTitle = !ghostStatusInTitle;
         putBoolean("ghostStatusInTitle", ghostStatusInTitle);
+    }
+
+    public static void toggleSaveReadDates() {
+        saveReadDates = !saveReadDates;
+        putBoolean("saveReadDates", saveReadDates);
+    }
+
+    public static void toggleSaveLastOnline() {
+        saveLastOnline = !saveLastOnline;
+        putBoolean("saveLastOnline", saveLastOnline);
+    }
+
+    public static void toggleDeletedMarkIcon() {
+        deletedMarkIcon = !deletedMarkIcon;
+        putBoolean("deletedMarkIcon", deletedMarkIcon);
     }
 }

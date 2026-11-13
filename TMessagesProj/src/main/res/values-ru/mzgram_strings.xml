@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">Пока режим призрака включён, после заголовка списка чатов виден призрак.</string>
     <string name="MZGramDrawerGhostOn">Режим призрака: включён</string>
     <string name="MZGramDrawerGhostOff">Режим призрака: выключен</string>
+    <string name="MZGramArchiveTotalLimit">Размер файлов архива</string>
+    <string name="MZGramArchiveTotalLimitInfo">Максимум, сколько могут занимать медиа и вложения архива. На пределе новые файлы больше не сохраняются; сохранённые никогда не удаляются автоматически.</string>
+    <string name="MZGramSaveReadDates">Сохранять дату прочтения</string>
+    <string name="MZGramSaveReadDatesInfo">Локально сохраняет, когда прочитали ваши сообщения. Это показывается в подробностях сообщения, если Telegram не даёт дату прочтения.</string>
+    <string name="MZGramSaveLastOnline">Сохранять последний онлайн</string>
+    <string name="MZGramSaveLastOnlineInfo">Сохраняет последний известный онлайн людей со скрытым последним посещением, чтобы очень приблизительно видеть, когда они были в сети.</string>
+    <string name="MZGramDeletedMarkIcon">Отметка «удалено» значком</string>
+    <string name="MZGramDeletedIconColor">Цвет значка</string>
+    <string name="MZGramDeletedIconRed">Красный</string>
+    <string name="MZGramDeletedIconTime">Как время</string>
 </resources>

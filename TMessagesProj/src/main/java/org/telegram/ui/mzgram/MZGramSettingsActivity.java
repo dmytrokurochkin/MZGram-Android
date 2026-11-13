@@ -291,6 +291,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_GHOST_OFFLINE_AUTO = 262;
     private static final int BUTTON_GHOST_READ_ON_INTERACTION = 263;
     private static final int BUTTON_GHOST_STATUS_IN_TITLE = 264;
+    private static final int BUTTON_DELETED_ICON_COLOR = 265;
+    private static final int BUTTON_SAVE_READ_DATES = 266;
+    private static final int BUTTON_SAVE_LAST_ONLINE = 267;
+    private static final int BUTTON_DELETED_MARK_ICON = 268;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -534,6 +538,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(ARCHIVE_LIMIT_FIRST + i, getString(ARCHIVE_LIMIT_TITLES[i]), limitText(org.telegram.messenger.mzgram.MZGramArchiveLimits.limitMb(i))));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramArchiveLimitsInfo)));
+        items.add(UItem.asHeader(getString(R.string.MZGramArchiveTotalLimit)));
+        items.add(UItem.asIntSlideView(1, 0, org.telegram.messenger.mzgram.MZGramArchiveCap.step(), org.telegram.messenger.mzgram.MZGramArchiveCap.STEPS_MB.length - 1,
+                step -> totalLimitText(org.telegram.messenger.mzgram.MZGramArchiveCap.STEPS_MB[step]), org.telegram.messenger.mzgram.MZGramArchiveCap::setStep));
+        items.add(UItem.asShadow(getString(R.string.MZGramArchiveTotalLimitInfo)));
+        items.add(UItem.asCheck(BUTTON_SAVE_READ_DATES, getString(R.string.MZGramSaveReadDates)).setChecked(MZGramConfig.saveReadDates));
+        items.add(UItem.asShadow(getString(R.string.MZGramSaveReadDatesInfo)));
+        items.add(UItem.asCheck(BUTTON_SAVE_LAST_ONLINE, getString(R.string.MZGramSaveLastOnline)).setChecked(MZGramConfig.saveLastOnline));
+        items.add(UItem.asShadow(getString(R.string.MZGramSaveLastOnlineInfo)));
         // What happened to the downloads, to choose the limits on real data
         items.add(UItem.asHeader(getString(R.string.MZGramArchiveCounters)));
         items.add(UItem.asShadow(countersText()));
@@ -562,7 +574,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asShadow(getString(R.string.MZGramDeletedDialogsInMainListInfo)));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramDeletedDialogsListInfo)));
-        items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
+        items.add(UItem.asCheck(BUTTON_DELETED_MARK_ICON, getString(R.string.MZGramDeletedMarkIcon)).setChecked(MZGramConfig.deletedMarkIcon));
+        if (MZGramConfig.deletedMarkIcon) {
+            items.add(UItem.asButton(BUTTON_DELETED_ICON_COLOR, getString(R.string.MZGramDeletedIconColor), getString(MZGramConfig.deletedMarkIconColor == MZGramConfig.DELETED_ICON_TIME ? R.string.MZGramDeletedIconTime : R.string.MZGramDeletedIconRed)));
+        }
+        if (!MZGramConfig.deletedMarkIcon) {
+            items.add(UItem.asButton(BUTTON_DELETED_MARK, getString(R.string.MZGramDeletedMarkText), MZGramConfig.deletedMark));
+        }
         items.add(UItem.asButton(BUTTON_EDITED_MARK, getString(R.string.MZGramEditedMarkText), MZGramConfig.editedMark));
         items.add(UItem.asCheck(BUTTON_SEMI_TRANSPARENT_DELETED, getString(R.string.MZGramSemiTransparentDeleted)).setChecked(MZGramConfig.semiTransparentDeleted));
         items.add(UItem.asShadow(getString(R.string.MZGramArchiveLookInfo)));
@@ -692,6 +710,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 listView.adapter.update(true);
             }
         }, getString(R.string.MZGramCancel)));
+    }
+
+    // 300 MB, 1 GB .. 16 GB, or the infinity sign for no limit
+    private static String totalLimitText(int mb) {
+        if (mb < 0) {
+            return "\u221E";
+        }
+        return mb < 1024 ? mb + " MB" : (mb / 1024) + " GB";
     }
 
     private static String stickerShapeTitle(int shape) {
@@ -1431,6 +1457,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_DELETED_MARK_ICON) {
+            MZGramConfig.toggleDeletedMarkIcon();
+            ((TextCheckCell) view).setChecked(MZGramConfig.deletedMarkIcon);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_SAVE_LAST_ONLINE) {
+            MZGramConfig.toggleSaveLastOnline();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveLastOnline);
+        } else if (item.id == BUTTON_SAVE_READ_DATES) {
+            MZGramConfig.toggleSaveReadDates();
+            ((TextCheckCell) view).setChecked(MZGramConfig.saveReadDates);
         } else if (item.id == BUTTON_GHOST_STATUS_IN_TITLE) {
             MZGramConfig.toggleGhostStatusInTitle();
             ((TextCheckCell) view).setChecked(MZGramConfig.ghostStatusInTitle);
@@ -1864,6 +1902,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_ROUND_VIDEO_CAMERA) {
             chooseFrom(R.string.MZGramRoundVideoCamera, new int[]{R.string.MZGramCameraFront, R.string.MZGramCameraBack},
                     MZGramConfig.roundVideoFrontCamera ? 0 : 1, which -> MZGramConfig.setRoundVideoFrontCamera(which == 0));
+        } else if (item.id == BUTTON_DELETED_ICON_COLOR) {
+            chooseFrom(R.string.MZGramDeletedIconColor, new int[]{R.string.MZGramDeletedIconRed, R.string.MZGramDeletedIconTime},
+                    MZGramConfig.deletedMarkIconColor, MZGramConfig::setDeletedMarkIconColor);
         } else if (item.id == BUTTON_SWIPE_ACTION) {
             chooseFrom(R.string.MZGramSwipeAction, org.telegram.ui.mzgram.MZGramSwipeAction.TITLES, MZGramConfig.swipeAction, MZGramConfig::setSwipeAction);
         } else if (item.id == BUTTON_OPEN_ARCHIVE_ON_PULL) {

@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">Елес режимі қосулы кезде чаттар тізімінің тақырыбынан кейін елес көрінеді.</string>
     <string name="MZGramDrawerGhostOn">Елес режимі: қосулы</string>
     <string name="MZGramDrawerGhostOff">Елес режимі: өшірулі</string>
+    <string name="MZGramArchiveTotalLimit">Мұрағат файлдарының өлшемі</string>
+    <string name="MZGramArchiveTotalLimitInfo">Мұрағаттың медиасы мен тіркемелері алатын ең көп көлем. Шекте жаңа файлдар сақталмайды; сақталғандары ешқашан автоматты түрде жойылмайды.</string>
+    <string name="MZGramSaveReadDates">Оқылған күнді сақтау</string>
+    <string name="MZGramSaveReadDatesInfo">Хабарламаларыңыздың қашан оқылғанын осы құрылғыда сақтайды. Telegram оқылған күнді бермесе, хабарлама мәліметтерінде көрсетіледі.</string>
+    <string name="MZGramSaveLastOnline">Соңғы желіде болуды сақтау</string>
+    <string name="MZGramSaveLastOnlineInfo">Соңғы кіруін жасыратын адамдардың белгілі соңғы желі уақытын сақтайды, сонда олардың қашан желіде болғанын шамамен көресіз.</string>
+    <string name="MZGramDeletedMarkIcon">«Жойылды» белгісі белгіше ретінде</string>
+    <string name="MZGramDeletedIconColor">Белгіше түсі</string>
+    <string name="MZGramDeletedIconRed">Қызыл</string>
+    <string name="MZGramDeletedIconTime">Уақыт сияқты</string>
 </resources>

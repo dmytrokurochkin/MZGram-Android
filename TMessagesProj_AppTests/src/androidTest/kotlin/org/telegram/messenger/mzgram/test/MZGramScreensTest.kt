@@ -466,4 +466,29 @@ class MZGramScreensTest {
             org.telegram.messenger.mzgram.MZGramGhostMode.setSilentSend(silent)
         }
     }
+
+    // Size of the archive's files: no limit lets everything in; with a limit
+    // a file that would pass it is refused and an allowed one is counted.
+    // The deleted mark becomes an icon span.
+    @Test
+    fun archiveCapAndDeletedIcon() {
+        val limit = MZGramConfig.archiveTotalLimitMb
+        try {
+            org.telegram.messenger.mzgram.MZGramArchiveCap.setStep(org.telegram.messenger.mzgram.MZGramArchiveCap.STEPS_MB.size - 1)
+            assertEquals(-1, MZGramConfig.archiveTotalLimitMb)
+            assertTrue(org.telegram.messenger.mzgram.MZGramArchiveCap.allows(Long.MAX_VALUE / 4))
+            org.telegram.messenger.mzgram.MZGramArchiveCap.setStep(0)
+            assertEquals(300, MZGramConfig.archiveTotalLimitMb)
+            org.telegram.messenger.mzgram.MZGramArchiveCap.setKnownBytes(290L * 1024 * 1024)
+            assertTrue(org.telegram.messenger.mzgram.MZGramArchiveCap.allows(5L * 1024 * 1024))
+            assertFalse(org.telegram.messenger.mzgram.MZGramArchiveCap.allows(6L * 1024 * 1024))
+            assertEquals(0, org.telegram.messenger.mzgram.MZGramArchiveCap.step())
+        } finally {
+            MZGramConfig.setArchiveTotalLimitMb(limit)
+            org.telegram.messenger.mzgram.MZGramArchiveCap.reset()
+        }
+        val time = org.telegram.ui.mzgram.MZGramEditedIcon.DELETED + " 12:58"
+        val drawn = org.telegram.ui.mzgram.MZGramEditedIcon.apply(time) as android.text.Spanned
+        assertEquals(1, drawn.getSpans(0, drawn.length, org.telegram.ui.Components.ColoredImageSpan::class.java).size)
+    }
 }

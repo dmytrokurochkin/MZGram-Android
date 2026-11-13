@@ -1363,4 +1363,14 @@
     <string name="MZGramGhostStatusInTitleInfo">Поки режим привида ввімкнено, після заголовка списку чатів видно привида.</string>
     <string name="MZGramDrawerGhostOn">Режим привида: увімкнено</string>
     <string name="MZGramDrawerGhostOff">Режим привида: вимкнено</string>
+    <string name="MZGramArchiveTotalLimit">Розмір файлів архіву</string>
+    <string name="MZGramArchiveTotalLimitInfo">Найбільше, скільки можуть займати медіа й вкладення архіву. На межі нові файли більше не зберігаються; збережені ніколи не видаляються автоматично.</string>
+    <string name="MZGramSaveReadDates">Зберігати дату прочитання</string>
+    <string name="MZGramSaveReadDatesInfo">Локально зберігає, коли прочитали ваші повідомлення. Це показується в деталях повідомлення, якщо Telegram не надасть дату прочитання.</string>
+    <string name="MZGramSaveLastOnline">Зберігати останній онлайн</string>
+    <string name="MZGramSaveLastOnlineInfo">Зберігає останній відомий онлайн людей із прихованим останнім відвідуванням, тож можна дуже приблизно побачити, коли вони були онлайн.</string>
+    <string name="MZGramDeletedMarkIcon">Позначка «видалено» іконкою</string>
+    <string name="MZGramDeletedIconColor">Колір іконки</string>
+    <string name="MZGramDeletedIconRed">Червоний</string>
+    <string name="MZGramDeletedIconTime">Як час</string>
 </resources>

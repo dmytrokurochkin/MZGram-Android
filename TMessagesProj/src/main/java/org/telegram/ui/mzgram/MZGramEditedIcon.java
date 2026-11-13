@@ -24,6 +24,8 @@ import org.telegram.ui.Components.ColoredImageSpan;
 
 public final class MZGramEditedIcon {
 
+    // U+2421 SYMBOL FOR DELETE: the deleted mark drawn as Telegram's trash icon
+    public static final String DELETED = "\u2421";
     // U+270E LOWER RIGHT PENCIL
     public static final String MARK = "\u270E";
 
@@ -40,13 +42,24 @@ public final class MZGramEditedIcon {
             return null;
         }
         int at = TextUtils.indexOf(time, MARK);
-        if (at < 0) {
+        int deleted = TextUtils.indexOf(time, DELETED);
+        if (at < 0 && deleted < 0) {
             return time;
         }
         SpannableStringBuilder text = new SpannableStringBuilder(time);
-        ColoredImageSpan icon = new ColoredImageSpan(R.drawable.msg_edit, ColoredImageSpan.ALIGN_CENTER);
-        icon.setSize(dp(14));
-        text.setSpan(icon, at, at + MARK.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (at >= 0) {
+            ColoredImageSpan icon = new ColoredImageSpan(R.drawable.msg_edit, ColoredImageSpan.ALIGN_CENTER);
+            icon.setSize(dp(14));
+            text.setSpan(icon, at, at + MARK.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        if (deleted >= 0) {
+            ColoredImageSpan icon = new ColoredImageSpan(R.drawable.msg_delete, ColoredImageSpan.ALIGN_CENTER);
+            icon.setSize(dp(14));
+            if (MZGramConfig.deletedMarkIconColor == MZGramConfig.DELETED_ICON_RED) {
+                icon.setOverrideColor(org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_text_RedRegular));
+            }
+            text.setSpan(icon, deleted, deleted + DELETED.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         return text;
     }
 

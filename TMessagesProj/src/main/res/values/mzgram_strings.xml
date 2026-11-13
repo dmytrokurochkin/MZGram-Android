@@ -1362,4 +1362,14 @@
     <string name="MZGramGhostStatusInTitleInfo">While ghost mode is on, a ghost appears after the title of the chat list.</string>
     <string name="MZGramDrawerGhostOn">Ghost mode: on</string>
     <string name="MZGramDrawerGhostOff">Ghost mode: off</string>
+    <string name="MZGramArchiveTotalLimit">Size of the archive\'s files</string>
+    <string name="MZGramArchiveTotalLimitInfo">The most the archive\'s media and attachments may take. At the limit new files are no longer kept; kept files are never deleted automatically.</string>
+    <string name="MZGramSaveReadDates">Save read date</string>
+    <string name="MZGramSaveReadDatesInfo">Keeps on this device when your messages were read. It is shown in the message\'s details when Telegram does not give the read date.</string>
+    <string name="MZGramSaveLastOnline">Save last online</string>
+    <string name="MZGramSaveLastOnlineInfo">Keeps the last known online time of people who hide their last seen, so you can see very roughly when they were last online.</string>
+    <string name="MZGramDeletedMarkIcon">Deleted mark as an icon</string>
+    <string name="MZGramDeletedIconColor">Icon color</string>
+    <string name="MZGramDeletedIconRed">Red</string>
+    <string name="MZGramDeletedIconTime">As the time</string>
 </resources>

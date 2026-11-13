@@ -369,6 +369,10 @@ public class ChatThemeController extends BaseController {
     }
 
     public TLRPC.WallPaper getDialogWallpaper(long dialogId) {
+        // MZGram: Settings > MZGram > Appearance > Custom chat themes off: no wallpaper of the chat's own
+        if (!org.telegram.messenger.mzgram.MZGramConfig.customChatThemes) {
+            return null;
+        }
         if (dialogId >= 0) {
             TLRPC.UserFull userFull = getMessagesController().getUserFull(dialogId);
             if (userFull != null) {

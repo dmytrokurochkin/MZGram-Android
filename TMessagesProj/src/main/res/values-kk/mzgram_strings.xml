@@ -1268,4 +1268,6 @@
     <string name="MZGramTitleTextFirstName">Аты</string>
     <string name="MZGramTitleTextChats">Чаттар</string>
     <string name="MZGramTitleTextCustom">Өз мәтініңіз…</string>
+    <string name="MZGramCustomChatThemes">Чаттардың өз тақырыптары</string>
+    <string name="MZGramCustomChatThemesInfo">Әр чат өзіне таңдалған тақырыппен және тұсқағазбен көрсетіледі. Өшірулі: барлық чат қолданба тақырыбында.</string>
 </resources>

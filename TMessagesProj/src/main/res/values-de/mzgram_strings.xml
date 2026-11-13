@@ -1268,4 +1268,6 @@
     <string name="MZGramTitleTextFirstName">Vorname</string>
     <string name="MZGramTitleTextChats">Chats</string>
     <string name="MZGramTitleTextCustom">Eigener Text…</string>
+    <string name="MZGramCustomChatThemes">Eigene Chat-Designs</string>
+    <string name="MZGramCustomChatThemesInfo">Jeder Chat zeigt das für ihn gewählte Design und Hintergrundbild. Aus: alle Chats haben das Design der App.</string>
 </resources>

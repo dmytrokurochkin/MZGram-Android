@@ -142,6 +142,15 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("org.telegram.ui.mzgram.MZGramTitleText.drawable(currentAccount);", read(JAVA / "ui/DialogsActivity.java"))
         self.assertIn("org.telegram.ui.mzgram.MZGramTitleText.drawable(currentAccount);", read(JAVA / "ui/Stories/DialogStoriesCell.java"))
 
+    def test_custom_chat_themes(self):
+        self.switch("customChatThemes", "true", "BUTTON_CUSTOM_CHAT_THEMES")
+        controller = read(JAVA / "messenger/ChatThemeController.java")
+        start = controller.index("public TLRPC.WallPaper getDialogWallpaper(long dialogId) {")
+        self.assertIn("if (!org.telegram.messenger.mzgram.MZGramConfig.customChatThemes) {", controller[start:start + 400])
+        chat = read(JAVA / "ui/ChatActivity.java")
+        start = chat.index("private void setupChatTheme(EmojiThemes chatTheme, TLRPC.WallPaper wallPaper, boolean withAnimation, boolean createNewResources) {")
+        self.assertIn("if (!org.telegram.messenger.mzgram.MZGramConfig.customChatThemes) return;", chat[start:start + 500])
+
 
 if __name__ == "__main__":
     unittest.main()

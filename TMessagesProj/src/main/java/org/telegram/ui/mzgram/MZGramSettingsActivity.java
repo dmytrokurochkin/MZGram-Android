@@ -248,6 +248,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_FORCE_SNOW = 219;
     private static final int BUTTON_SENDER_MINI_AVATARS = 220;
     private static final int BUTTON_TITLE_TEXT = 221;
+    private static final int BUTTON_CUSTOM_CHAT_THEMES = 222;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -948,6 +949,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_M3_SWITCHES, R.string.MZGramM3Switches, MZGramConfig.m3Switches, R.string.MZGramM3SwitchesInfo));
         items.add(check(BUTTON_CARDS_DESIGN, R.string.MZGramCardsDesign, MZGramConfig.cardsDesign, R.string.MZGramCardsDesignInfo));
         items.add(check(BUTTON_GOOEY_AVATAR_ANIMATION, R.string.MZGramGooeyAvatarAnimation, MZGramConfig.gooeyAvatarAnimation, R.string.MZGramGooeyAvatarAnimationInfo));
+        items.add(check(BUTTON_CUSTOM_CHAT_THEMES, R.string.MZGramCustomChatThemes, MZGramConfig.customChatThemes, R.string.MZGramCustomChatThemesInfo));
         items.add(check(BUTTON_PREDICTIVE_BACK_ANIMATION, R.string.MZGramPredictiveBackAnimation, MZGramConfig.predictiveBackAnimation, R.string.MZGramPredictiveBackAnimationInfo));
         if (org.telegram.messenger.mzgram.MZGramMonet.available()) {
             items.add(check(BUTTON_MONET_THEMES, R.string.MZGramMonetThemes, MZGramConfig.monetThemes, R.string.MZGramMonetThemesInfo));
@@ -1278,6 +1280,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_CUSTOM_CHAT_THEMES) {
+            MZGramConfig.toggleCustomChatThemes();
+            ((TextCheckCell) view).setChecked(MZGramConfig.customChatThemes);
         } else if (item.id == BUTTON_SENDER_MINI_AVATARS) {
             MZGramConfig.toggleSenderMiniAvatars();
             ((TextCheckCell) view).setChecked(MZGramConfig.senderMiniAvatars);

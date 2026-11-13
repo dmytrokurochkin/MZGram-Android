@@ -1268,4 +1268,6 @@
     <string name="MZGramTitleTextFirstName">Ad</string>
     <string name="MZGramTitleTextChats">Sohbetler</string>
     <string name="MZGramTitleTextCustom">Kendi metniniz…</string>
+    <string name="MZGramCustomChatThemes">Sohbete özel temalar</string>
+    <string name="MZGramCustomChatThemesInfo">Her sohbet kendisi için seçilen tema ve duvar kağıdıyla görünür. Kapalı: tüm sohbetler uygulamanın temasında.</string>
 </resources>

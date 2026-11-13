@@ -1269,4 +1269,6 @@
     <string name="MZGramTitleTextFirstName">Ім\'я</string>
     <string name="MZGramTitleTextChats">Чати</string>
     <string name="MZGramTitleTextCustom">Свій текст…</string>
+    <string name="MZGramCustomChatThemes">Кастомні теми у чатах</string>
+    <string name="MZGramCustomChatThemesInfo">Кожен чат показується з темою й фоном, обраними для нього. Вимкнено: усі чати з темою додатку.</string>
 </resources>

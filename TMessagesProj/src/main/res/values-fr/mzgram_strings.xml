@@ -1268,4 +1268,6 @@
     <string name="MZGramTitleTextFirstName">Prénom</string>
     <string name="MZGramTitleTextChats">Discussions</string>
     <string name="MZGramTitleTextCustom">Texte personnel…</string>
+    <string name="MZGramCustomChatThemes">Thèmes propres aux discussions</string>
+    <string name="MZGramCustomChatThemesInfo">Chaque discussion affiche le thème et le fond choisis pour elle. Désactivé : toutes ont le thème de l\'app.</string>
 </resources>

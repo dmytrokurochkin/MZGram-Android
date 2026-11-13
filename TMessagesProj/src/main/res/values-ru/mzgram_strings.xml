@@ -1268,4 +1268,6 @@
     <string name="MZGramTitleTextFirstName">Имя</string>
     <string name="MZGramTitleTextChats">Чаты</string>
     <string name="MZGramTitleTextCustom">Свой текст…</string>
+    <string name="MZGramCustomChatThemes">Свои темы в чатах</string>
+    <string name="MZGramCustomChatThemesInfo">Каждый чат показывается с темой и обоями, выбранными для него. Выключено: все чаты в теме приложения.</string>
 </resources>

@@ -479,6 +479,9 @@ public class MZGramConfig {
     public static int titleText = 0;
     public static String titleTextCustom = "";
 
+    // Chats keep the theme and wallpaper chosen for them; off, every chat has the app's theme
+    public static boolean customChatThemes = true;
+
     static {
         loadConfig(false);
     }
@@ -734,6 +737,7 @@ public class MZGramConfig {
             senderMiniAvatars = preferences.getBoolean("senderMiniAvatars", false);
             titleText = Math.max(0, Math.min(5, preferences.getInt("titleText", 0)));
             titleTextCustom = preferences.getString("titleTextCustom", "");
+            customChatThemes = preferences.getBoolean("customChatThemes", true);
             configLoaded = true;
         }
     }
@@ -1854,5 +1858,10 @@ public class MZGramConfig {
     public static void toggleSenderMiniAvatars() {
         senderMiniAvatars = !senderMiniAvatars;
         putBoolean("senderMiniAvatars", senderMiniAvatars);
+    }
+
+    public static void toggleCustomChatThemes() {
+        customChatThemes = !customChatThemes;
+        putBoolean("customChatThemes", customChatThemes);
     }
 }

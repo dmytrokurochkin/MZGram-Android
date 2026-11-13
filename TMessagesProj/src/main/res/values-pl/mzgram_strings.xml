@@ -1268,4 +1268,6 @@
     <string name="MZGramTitleTextFirstName">Imię</string>
     <string name="MZGramTitleTextChats">Czaty</string>
     <string name="MZGramTitleTextCustom">Własny tekst…</string>
+    <string name="MZGramCustomChatThemes">Własne motywy czatów</string>
+    <string name="MZGramCustomChatThemesInfo">Każdy czat ma wybrany dla niego motyw i tapetę. Wyłączone: wszystkie czaty mają motyw aplikacji.</string>
 </resources>

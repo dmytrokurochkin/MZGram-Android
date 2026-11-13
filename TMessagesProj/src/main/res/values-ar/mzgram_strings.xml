@@ -1268,4 +1268,6 @@
     <string name="MZGramTitleTextFirstName">الاسم الأول</string>
     <string name="MZGramTitleTextChats">المحادثات</string>
     <string name="MZGramTitleTextCustom">نص خاص…</string>
+    <string name="MZGramCustomChatThemes">سمات خاصة بالمحادثات</string>
+    <string name="MZGramCustomChatThemesInfo">تظهر كل محادثة بالسمة والخلفية المختارتين لها. عند الإيقاف: كل المحادثات بسمة التطبيق.</string>
 </resources>

@@ -1268,4 +1268,6 @@
     <string name="MZGramTitleTextFirstName">Nombre</string>
     <string name="MZGramTitleTextChats">Chats</string>
     <string name="MZGramTitleTextCustom">Texto propio…</string>
+    <string name="MZGramCustomChatThemes">Temas propios de los chats</string>
+    <string name="MZGramCustomChatThemesInfo">Cada chat muestra el tema y el fondo elegidos para él. Desactivado: todos los chats tienen el tema de la app.</string>
 </resources>

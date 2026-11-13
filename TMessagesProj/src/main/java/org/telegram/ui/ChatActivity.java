@@ -44443,6 +44443,9 @@ public class ChatActivity extends BaseFragment implements
         }
 
         private void setupChatTheme(EmojiThemes chatTheme, TLRPC.WallPaper wallPaper, boolean withAnimation, boolean createNewResources) {
+            // MZGram: Settings > MZGram > Appearance > Custom chat themes off: the chat keeps the app's theme
+            // (idea from exteraless ChatActivity, GPL-3.0)
+            if (!org.telegram.messenger.mzgram.MZGramConfig.customChatThemes) return;
             if (parentThemeDelegate != null) return;
 
             this.chatTheme = chatTheme;

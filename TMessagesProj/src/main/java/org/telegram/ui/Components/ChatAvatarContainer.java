@@ -1528,9 +1528,24 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         }
     }
 
+    // MZGram: a relative last seen ("5 minutes ago") stays true while the chat is open
+    private final Runnable mzgramRelativeRefresh = new Runnable() {
+        @Override
+        public void run() {
+            if (org.telegram.messenger.mzgram.MZGramConfig.relativeLastSeen && isAttachedToWindow()) {
+                updateSubtitle(false);
+            }
+            AndroidUtilities.cancelRunOnUIThread(this);
+            if (isAttachedToWindow()) {
+                AndroidUtilities.runOnUIThread(this, 60_000);
+            }
+        }
+    };
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        AndroidUtilities.runOnUIThread(mzgramRelativeRefresh, 60_000);
         if (parentFragment != null) {
             NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.didUpdateConnectionState);
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
@@ -1551,6 +1566,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        AndroidUtilities.cancelRunOnUIThread(mzgramRelativeRefresh);
         if (parentFragment != null) {
             NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.didUpdateConnectionState);
             NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);

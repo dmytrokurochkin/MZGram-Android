@@ -141,7 +141,7 @@ public final class MZGramSettingsBackup {
                 "hexColorSwatch", "scheduleSlider", "sendSilentByDefault", "showRegistrationDate",
                 "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd", "videoSubtitles", "persianCalendar",
                 "hideChatStatus", "chat_header_compact", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
-                "usePinnedReactionsChannels", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
+                "usePinnedReactionsChannels", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
         // MZGramAvatarShape.MIN..MAX
         integer(CONFIG, "avatarCorners", 0, 28);
         // MZGramGlassOutline GLARE, SOLID, HIDDEN

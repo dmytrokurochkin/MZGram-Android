@@ -72,6 +72,15 @@ class ScreensTest(unittest.TestCase):
         self.assertNotIn('"Telegram")', media)
         self.assertEqual(11, media.count("MZGramSaveFolder.name())"))
 
+    def test_relative_last_seen(self):
+        self.switch("relativeLastSeen", "false", "BUTTON_RELATIVE_LAST_SEEN")
+        locale = read(JAVA / "messenger/LocaleController.java")
+        start = locale.index("public static String formatDateOnline(long date, boolean[] madeShorter) {")
+        self.assertIn("MZGramRelativeLastSeen.format(date);", locale[start:start + 600])
+        header = read(JAVA / "ui/Components/ChatAvatarContainer.java")
+        self.assertIn("AndroidUtilities.runOnUIThread(mzgramRelativeRefresh, 60_000);", header)
+        self.assertIn("AndroidUtilities.cancelRunOnUIThread(mzgramRelativeRefresh);", header)
+
 
 if __name__ == "__main__":
     unittest.main()

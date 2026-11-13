@@ -1245,4 +1245,6 @@
     <string name="MZGramSaveFolder">Kayıt klasörü</string>
     <string name="MZGramSaveFolderOwn">Başka bir ad…</string>
     <string name="MZGramSaveFolderInfo">Kaydedilen dosyalar Pictures, Movies, Download ve Music içindeki %1$s klasörüne gider. Önceden kaydedilenler yerinde kalır.</string>
+    <string name="MZGramRelativeLastSeen">Göreli son görülme</string>
+    <string name="MZGramRelativeLastSeenInfo">Son bir gün içinde durum, saat yerine \"5 dakika önce\" veya \"3 saat önce\" gösterir.</string>
 </resources>

@@ -1245,4 +1245,6 @@
     <string name="MZGramSaveFolder">Dossier d\'enregistrement</string>
     <string name="MZGramSaveFolderOwn">Autre nom…</string>
     <string name="MZGramSaveFolderInfo">Les fichiers enregistrés vont dans le dossier %1$s de Pictures, Movies, Download et Music. Ceux enregistrés avant restent à leur place.</string>
+    <string name="MZGramRelativeLastSeen">Vu relatif</string>
+    <string name="MZGramRelativeLastSeenInfo">Pendant le dernier jour, le statut indique « il y a 5 minutes » ou « il y a 3 heures » au lieu de l\'heure.</string>
 </resources>

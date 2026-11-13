@@ -445,6 +445,9 @@ public class MZGramConfig {
     // Settings > MZGram > General > Save folder: the folder name inside Pictures, Movies, Download and Music (MZGramSaveFolder)
     public static String saveFolder = "Telegram";
 
+    // Last seen within the last day as "5 minutes ago" (MZGramRelativeLastSeen)
+    public static boolean relativeLastSeen = false;
+
     static {
         loadConfig(false);
     }
@@ -688,6 +691,7 @@ public class MZGramConfig {
             downloadSpeedBoost = Math.max(0, Math.min(2, preferences.getInt("downloadSpeedBoost", 0)));
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             saveFolder = preferences.getString("saveFolder", "Telegram");
+            relativeLastSeen = preferences.getBoolean("relativeLastSeen", false);
             configLoaded = true;
         }
     }
@@ -1748,5 +1752,10 @@ public class MZGramConfig {
     public static void toggleUploadSpeedBoost() {
         uploadSpeedBoost = !uploadSpeedBoost;
         putBoolean("uploadSpeedBoost", uploadSpeedBoost);
+    }
+
+    public static void toggleRelativeLastSeen() {
+        relativeLastSeen = !relativeLastSeen;
+        putBoolean("relativeLastSeen", relativeLastSeen);
     }
 }

@@ -237,6 +237,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DISABLE_NOTIFICATION_DELAY = 208;
     private static final int BUTTON_UPLOAD_SPEED_BOOST = 209;
     private static final int BUTTON_SAVE_FOLDER = 210;
+    private static final int BUTTON_RELATIVE_LAST_SEEN = 211;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -815,6 +816,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_SAVE_FOLDER, getString(R.string.MZGramSaveFolder), org.telegram.messenger.mzgram.MZGramSaveFolder.name()));
         items.add(UItem.asShadow(formatString(R.string.MZGramSaveFolderInfo, org.telegram.messenger.mzgram.MZGramSaveFolder.name())));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderProfile)));
+        items.add(check(BUTTON_RELATIVE_LAST_SEEN, R.string.MZGramRelativeLastSeen, MZGramConfig.relativeLastSeen, R.string.MZGramRelativeLastSeenInfo));
         items.add(check(BUTTON_SHOW_REGISTRATION_DATE, R.string.MZGramShowRegistrationDate, MZGramConfig.showRegistrationDate, R.string.MZGramShowRegistrationDateInfo));
         items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramPeerIdInfo)));
@@ -1212,6 +1214,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_RELATIVE_LAST_SEEN) {
+            MZGramConfig.toggleRelativeLastSeen();
+            ((TextCheckCell) view).setChecked(MZGramConfig.relativeLastSeen);
         } else if (item.id == BUTTON_SAVE_FOLDER) {
             chooseSaveFolder();
         } else if (item.id == BUTTON_UPLOAD_SPEED_BOOST) {

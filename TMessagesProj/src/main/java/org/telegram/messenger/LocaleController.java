@@ -2658,6 +2658,12 @@ public class LocaleController {
 
     public static String formatDateOnline(long date, boolean[] madeShorter) {
         try {
+            // MZGram: Settings > MZGram > General > Relative last seen: within
+            // the last day "last seen 5 minutes ago", in Telegram's own words
+            String relative = org.telegram.messenger.mzgram.MZGramRelativeLastSeen.format(date);
+            if (relative != null) {
+                return relative;
+            }
             date *= 1000;
             Calendar rightNow = Calendar.getInstance();
             int day = rightNow.get(Calendar.DAY_OF_YEAR);

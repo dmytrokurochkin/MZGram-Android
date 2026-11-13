@@ -1245,4 +1245,6 @@
     <string name="MZGramSaveFolder">Save folder</string>
     <string name="MZGramSaveFolderOwn">Another name…</string>
     <string name="MZGramSaveFolderInfo">Saved files go to the %1$s folder in Pictures, Movies, Download and Music. Files saved before stay where they are.</string>
+    <string name="MZGramRelativeLastSeen">Relative last seen</string>
+    <string name="MZGramRelativeLastSeenInfo">Within the last day, last seen reads \"5 minutes ago\" or \"3 hours ago\" instead of the time.</string>
 </resources>

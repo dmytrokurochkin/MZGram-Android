@@ -1245,4 +1245,6 @@
     <string name="MZGramSaveFolder">Carpeta para guardar</string>
     <string name="MZGramSaveFolderOwn">Otro nombre…</string>
     <string name="MZGramSaveFolderInfo">Los archivos guardados van a la carpeta %1$s en Pictures, Movies, Download y Music. Los guardados antes se quedan donde están.</string>
+    <string name="MZGramRelativeLastSeen">Última vez relativa</string>
+    <string name="MZGramRelativeLastSeenInfo">Durante el último día, el estado dice «hace 5 minutos» o «hace 3 horas» en lugar de la hora.</string>
 </resources>

@@ -12,7 +12,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.telegram.messenger.mzgram.MZGramConfig
+import org.telegram.messenger.LocaleController
+import org.telegram.messenger.R
 import org.telegram.messenger.mzgram.MZGramHaptics
+import org.telegram.messenger.mzgram.MZGramRelativeLastSeen
 import org.telegram.messenger.mzgram.MZGramSaveFolder
 
 // The features of the reference screenshots (2026-11-13): each test checks
@@ -52,6 +55,30 @@ class MZGramScreensTest {
             assertEquals("Telegram", MZGramSaveFolder.name())
         } finally {
             MZGramConfig.setSaveFolder(before)
+        }
+    }
+
+    // Relative last seen: within a day "last seen ... ago" in Telegram's
+    // words, older or future times stay Telegram's
+    @Test
+    fun relativeLastSeen_withinADay() {
+        val now = 2_000_000_000L
+        val seen = { s: String -> LocaleController.formatString(R.string.LastSeenDateFormatted, s) }
+        assertEquals(seen(LocaleController.getString(R.string.LessMinuteAgo)), MZGramRelativeLastSeen.format(now - 30, now))
+        assertEquals(seen(LocaleController.getString(R.string.MinuteAgo)), MZGramRelativeLastSeen.format(now - 90, now))
+        assertEquals(seen(LocaleController.formatPluralString("MinutesAgo", 5)), MZGramRelativeLastSeen.format(now - 5 * 60, now))
+        assertEquals(seen(LocaleController.getString(R.string.HourAgo)), MZGramRelativeLastSeen.format(now - 61 * 60, now))
+        assertEquals(seen(LocaleController.formatPluralString("HoursAgo", 23)), MZGramRelativeLastSeen.format(now - 23 * 3600 - 59, now))
+        assertEquals(null, MZGramRelativeLastSeen.format(now - MZGramRelativeLastSeen.DAY, now))
+        assertEquals(null, MZGramRelativeLastSeen.format(now + 10, now))
+        val before = MZGramConfig.relativeLastSeen
+        try {
+            if (MZGramConfig.relativeLastSeen) MZGramConfig.toggleRelativeLastSeen()
+            assertEquals("off: Telegram's", null, MZGramRelativeLastSeen.format(System.currentTimeMillis() / 1000 - 60))
+            MZGramConfig.toggleRelativeLastSeen()
+            assertEquals(seen(LocaleController.getString(R.string.MinuteAgo)), LocaleController.formatDateOnline(System.currentTimeMillis() / 1000 - 70, null))
+        } finally {
+            if (MZGramConfig.relativeLastSeen != before) MZGramConfig.toggleRelativeLastSeen()
         }
     }
 

@@ -1245,4 +1245,6 @@
     <string name="MZGramSaveFolder">Папка для сохранения</string>
     <string name="MZGramSaveFolderOwn">Другое имя…</string>
     <string name="MZGramSaveFolderInfo">Сохранённые файлы попадают в папку %1$s в Pictures, Movies, Download и Music. Ранее сохранённые файлы остаются на месте.</string>
+    <string name="MZGramRelativeLastSeen">Относительное время в сети</string>
+    <string name="MZGramRelativeLastSeenInfo">В течение последних суток статус показывает «5 минут назад» или «3 часа назад» вместо времени.</string>
 </resources>

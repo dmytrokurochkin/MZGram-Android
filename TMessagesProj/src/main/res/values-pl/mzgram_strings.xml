@@ -1245,4 +1245,6 @@
     <string name="MZGramSaveFolder">Folder zapisu</string>
     <string name="MZGramSaveFolderOwn">Inna nazwa…</string>
     <string name="MZGramSaveFolderInfo">Zapisane pliki trafiają do folderu %1$s w Pictures, Movies, Download i Music. Pliki zapisane wcześniej zostają na miejscu.</string>
+    <string name="MZGramRelativeLastSeen">Względny czas aktywności</string>
+    <string name="MZGramRelativeLastSeenInfo">W ciągu ostatniej doby status pokazuje „5 minut temu” lub „3 godziny temu” zamiast godziny.</string>
 </resources>

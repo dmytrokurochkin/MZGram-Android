@@ -1245,4 +1245,6 @@
     <string name="MZGramSaveFolder">Ordner zum Speichern</string>
     <string name="MZGramSaveFolderOwn">Anderer Name…</string>
     <string name="MZGramSaveFolderInfo">Gespeicherte Dateien landen im Ordner %1$s in Pictures, Movies, Download und Music. Früher gespeicherte Dateien bleiben, wo sie sind.</string>
+    <string name="MZGramRelativeLastSeen">Relativ zuletzt online</string>
+    <string name="MZGramRelativeLastSeenInfo">Innerhalb des letzten Tages zeigt der Status „vor 5 Minuten“ oder „vor 3 Stunden“ statt der Uhrzeit.</string>
 </resources>

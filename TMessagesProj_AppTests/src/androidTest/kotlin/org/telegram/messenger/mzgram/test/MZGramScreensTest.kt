@@ -43,7 +43,7 @@ class MZGramScreensTest {
         val before = MZGramConfig.saveFolder
         try {
             assertEquals("Telegram", MZGramSaveFolder.clean(" Telegram "))
-            assertEquals("My files", MZGramSaveFolder.clean("../My/fi:les*"))
+            assertEquals("Myfiles", MZGramSaveFolder.clean("../My/fi:les*"))
             assertEquals("", MZGramSaveFolder.clean(" / . "))
             assertEquals(MZGramSaveFolder.MAX_LENGTH, MZGramSaveFolder.clean("x".repeat(100)).length)
             MZGramConfig.setSaveFolder("MZGram")

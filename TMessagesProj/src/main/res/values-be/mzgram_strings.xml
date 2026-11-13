@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">Схаваць бакавую кнопку «Падзяліцца»</string>
     <string name="MZGramShowResultsBeforeVoting">Вынікі да галасавання</string>
     <string name="MZGramShowResultsBeforeVotingInfo">Паказваць вынікі галасоў каля кожнага варыянта апытання да вашага галасавання, калі вынікі не схаваныя да закрыцця.</string>
+    <string name="MZGramDoubleTapSeek">Падвойны дотык для перамоткі</string>
+    <string name="MZGramSeek5">5 секунд</string>
+    <string name="MZGramSeek10">10 секунд</string>
+    <string name="MZGramSeek15">15 секунд</string>
+    <string name="MZGramSeek30">30 секунд</string>
+    <string name="MZGramSwipeToPip">Выява ў выяве па свайпе</string>
+    <string name="MZGramUnmuteWithVolumeButtons">Уключэнне гуку кнопкамі гучнасці</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">Націсканне кнопкі гучнасці ўключае гук у відэа ў чаце замест змены сістэмнай гучнасці, як у Telegram.</string>
+    <string name="MZGramPauseVoiceOnMinimize">Паўза галасавых пры згортванні</string>
 </resources>

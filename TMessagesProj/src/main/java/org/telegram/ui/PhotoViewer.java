@@ -21042,7 +21042,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         boolean forward = x >= width / 3 * 2;
         long current = getCurrentVideoPosition();
         long total = getVideoDuration();
-        return current != C.TIME_UNSET && total > 15 * 1000 && (!forward || total - current > 10000);
+        return current != C.TIME_UNSET && total > 15 * 1000 && (!forward || total - current > mzgramSeekMillis());
+    }
+
+    // MZGram: Settings > MZGram > Chats > Double tap to seek: 5, 10 (Telegram), 15 or 30 seconds
+    private static long mzgramSeekMillis() {
+        return org.telegram.messenger.mzgram.MZGramConfig.doubleTapSeekSeconds * 1000L;
     }
 
     long totalRewinding;
@@ -21057,17 +21062,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             boolean forward = x >= width / 3 * 2;
             if (canDoubleTapSeekVideo(e)) {
                 long old = current;
+                final long seekMs = mzgramSeekMillis();
                 if (x >= width / 3 * 2) {
-                    current += 10000;
+                    current += seekMs;
                 } else if (x < width / 3) {
-                    current -= 10000;
+                    current -= seekMs;
                 }
                 if (old != current) {
                     boolean apply = true;
                     if (current > total) {
                         current = total;
                     } else if (current < 0) {
-                        if (current < -9000) {
+                        if (current < -(seekMs - 1000)) {
                             apply = false;
                         }
                         current = 0;
@@ -21075,7 +21081,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (apply) {
                         videoForwardDrawable.setOneShootAnimation(true);
                         videoForwardDrawable.setLeftSide(x < width / 3);
-                        videoForwardDrawable.addTime(10000);
+                        videoForwardDrawable.addTime(seekMs);
                         seekVideoOrWebTo(current);
                         containerView.invalidate();
                         videoPlayerSeekbar.setProgress(current / (float) total, true);
@@ -21117,8 +21123,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         return true;
     }
 
+    // MZGram: Settings > MZGram > Chats > Picture-in-picture by swipe: a swipe up
+    // on a playing video takes it to picture-in-picture where the PiP button
+    // would (idea from exteraless PhotoViewer.enableSwipeToPiP, GPL-3.0)
     private boolean enableSwipeToPiP() {
-        return false;
+        return org.telegram.messenger.mzgram.MZGramConfig.swipeToPip
+                && (pipItem != null && pipItem.getVisibility() == View.VISIBLE
+                    || menuItem != null && menuItem.getVisibility() == View.VISIBLE && menuItem.isSubItemVisible(gallery_menu_pip))
+                && pipAvailable && textureUploaded
+                && videoPlayer != null && videoPlayer.getRepeatCount() == 0
+                && checkInlinePermissions() && !changingTextureView && !switchingInlineMode && !isInline;
     }
 
     @Override

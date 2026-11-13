@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">Masquer le bouton latéral « Partager »</string>
     <string name="MZGramShowResultsBeforeVoting">Résultats avant de voter</string>
     <string name="MZGramShowResultsBeforeVotingInfo">Affiche les votes à côté de chaque réponse d\'un sondage avant votre vote, sauf si ses résultats sont cachés jusqu\'à sa clôture.</string>
+    <string name="MZGramDoubleTapSeek">Double appui pour avancer</string>
+    <string name="MZGramSeek5">5 secondes</string>
+    <string name="MZGramSeek10">10 secondes</string>
+    <string name="MZGramSeek15">15 secondes</string>
+    <string name="MZGramSeek30">30 secondes</string>
+    <string name="MZGramSwipeToPip">Image dans l\'image par balayage</string>
+    <string name="MZGramUnmuteWithVolumeButtons">Activer le son avec les touches de volume</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">Une touche de volume active le son de la vidéo en cours dans la discussion au lieu de changer le volume du système, comme dans Telegram.</string>
+    <string name="MZGramPauseVoiceOnMinimize">Mettre en pause les vocaux en arrière-plan</string>
 </resources>

@@ -257,6 +257,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_REMOVE_MESSAGE_TAIL = 228;
     private static final int BUTTON_HIDE_SHARE_BUTTON = 229;
     private static final int BUTTON_SHOW_RESULTS_BEFORE_VOTING = 230;
+    private static final int BUTTON_DOUBLE_TAP_SEEK = 231;
+    private static final int BUTTON_SWIPE_TO_PIP = 232;
+    private static final int BUTTON_UNMUTE_WITH_VOLUME_BUTTONS = 233;
+    private static final int BUTTON_PAUSE_VOICE_ON_MINIMIZE = 234;
     private static final int BUTTON_PILL_STACK = 170;
     private static final int BUTTON_PILLS = 171;
     private static final int BUTTON_ICON_PACKS_ON = 172;
@@ -635,6 +639,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 listView.adapter.update(true);
             }
         }, getString(R.string.MZGramCancel)));
+    }
+
+    private static String seekTitle(int seconds) {
+        switch (seconds) {
+            case 5: return getString(R.string.MZGramSeek5);
+            case 15: return getString(R.string.MZGramSeek15);
+            case 30: return getString(R.string.MZGramSeek30);
+            default: return getString(R.string.MZGramSeek10);
+        }
     }
 
     // Save folder: Telegram, MZGram or a name of one's own
@@ -1066,8 +1079,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderVideo)));
+        items.add(UItem.asButton(BUTTON_DOUBLE_TAP_SEEK, getString(R.string.MZGramDoubleTapSeek), seekTitle(MZGramConfig.doubleTapSeekSeconds)));
         items.add(check(BUTTON_PREFER_ORIGINAL_QUALITY, R.string.MZGramPreferOriginalQuality, MZGramConfig.preferOriginalQuality, R.string.MZGramPreferOriginalQualityInfo));
+        items.add(UItem.asCheck(BUTTON_SWIPE_TO_PIP, getString(R.string.MZGramSwipeToPip)).setChecked(MZGramConfig.swipeToPip));
+        items.add(check(BUTTON_UNMUTE_WITH_VOLUME_BUTTONS, R.string.MZGramUnmuteWithVolumeButtons, MZGramConfig.unmuteWithVolumeButtons, R.string.MZGramUnmuteWithVolumeButtonsInfo));
         items.add(check(BUTTON_AUTO_PAUSE_VIDEO, R.string.MZGramAutoPauseVideo, MZGramConfig.autoPauseVideo, R.string.MZGramAutoPauseVideoInfo));
+        items.add(UItem.asCheck(BUTTON_PAUSE_VOICE_ON_MINIMIZE, getString(R.string.MZGramPauseVoiceOnMinimize)).setChecked(MZGramConfig.pauseVoiceOnMinimize));
         items.add(check(BUTTON_PAUSE_ROUND, R.string.MZGramPauseRound, MZGramConfig.pauseRoundOnLeave, R.string.MZGramPauseRoundInfo));
         items.add(check(BUTTON_VIDEO_SUBTITLES, R.string.MZGramVideoSubtitles, MZGramConfig.videoSubtitles, R.string.MZGramVideoSubtitlesInfo));
         items.add(check(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, R.string.MZGramMediaPreviewOnLongPress, MZGramConfig.mediaPreviewOnLongPress, R.string.MZGramMediaPreviewOnLongPressInfo));
@@ -1303,6 +1320,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
+        } else if (item.id == BUTTON_PAUSE_VOICE_ON_MINIMIZE) {
+            MZGramConfig.togglePauseVoiceOnMinimize();
+            ((TextCheckCell) view).setChecked(MZGramConfig.pauseVoiceOnMinimize);
+        } else if (item.id == BUTTON_UNMUTE_WITH_VOLUME_BUTTONS) {
+            MZGramConfig.toggleUnmuteWithVolumeButtons();
+            ((TextCheckCell) view).setChecked(MZGramConfig.unmuteWithVolumeButtons);
+        } else if (item.id == BUTTON_SWIPE_TO_PIP) {
+            MZGramConfig.toggleSwipeToPip();
+            ((TextCheckCell) view).setChecked(MZGramConfig.swipeToPip);
         } else if (item.id == BUTTON_SHOW_RESULTS_BEFORE_VOTING) {
             MZGramConfig.toggleShowResultsBeforeVoting();
             ((TextCheckCell) view).setChecked(MZGramConfig.showResultsBeforeVoting);
@@ -1372,6 +1398,25 @@ public class MZGramSettingsActivity extends UniversalFragment {
             chooseSaveFolder();
         } else if (item.id == BUTTON_TITLE_TEXT) {
             chooseTitleText();
+        } else if (item.id == BUTTON_DOUBLE_TAP_SEEK) {
+            if (getParentActivity() == null) {
+                return;
+            }
+            int[] seconds = MZGramConfig.DOUBLE_TAP_SEEK_SECONDS;
+            String[] options = new String[seconds.length];
+            int selected = 1;
+            for (int i = 0; i < seconds.length; i++) {
+                options[i] = seekTitle(seconds[i]);
+                if (seconds[i] == MZGramConfig.doubleTapSeekSeconds) {
+                    selected = i;
+                }
+            }
+            showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramDoubleTapSeek), selected, (dialog, which) -> {
+                MZGramConfig.setDoubleTapSeekSeconds(seconds[which]);
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            }, getString(R.string.MZGramCancel)));
         } else if (item.id == BUTTON_DIVIDER_STYLE) {
             if (getParentActivity() == null) {
                 return;

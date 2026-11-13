@@ -15,6 +15,23 @@ import org.telegram.messenger.MessageObject;
  */
 public class MZGramRoundPause {
 
+    /**
+     * The app went to the background (LaunchActivity.onPause): a playing voice
+     * message pauses with "Pause voice messages when minimized" (off by
+     * default; idea from exteraless MediaController.pauseInBackgroundIfNeeded,
+     * GPL-3.0). Music keeps playing.
+     */
+    public static void onAppMinimized() {
+        if (!MZGramConfig.pauseVoiceOnMinimize) {
+            return;
+        }
+        MediaController controller = MediaController.getInstance();
+        MessageObject playing = controller.getPlayingMessageObject();
+        if (playing != null && playing.isVoice() && controller.isPlayingMessage(playing) && !controller.isMessagePaused()) {
+            controller.pauseMessage(playing);
+        }
+    }
+
     /** Called when a chat screen becomes fully hidden. */
     public static void onChatHidden(long dialogId) {
         if (!MZGramConfig.pauseRoundOnLeave) {

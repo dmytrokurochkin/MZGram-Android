@@ -150,6 +150,8 @@ Settings > MZGram > Chats.
 | Round video recording | Stabilization while recording a round video, if the camera has it; recording through Jetpack CameraX (switching cameras without a pause where the phone allows it, a zoom slider with the phone's lenses); or another Camera2 recorder with 60 FPS where both cameras allow it and its own bitrate, Telegram's by default. Each is off by default. | Next release |
 | Pause round video on leaving the chat | A round video message stops playing when you switch to another chat or screen. Off by default. | Next release |
 | Material 3 music player | Music opens in a full screen player with the cover colours, a wavy progress bar, playback speed, a queue and the lyrics from the file; voice messages keep Telegram's player. Off by default. | Next release |
+| Video viewer gestures | Settings > MZGram > Chats > Video: Double tap to seek (5, 10 as in Telegram, 15 or 30 seconds), Picture-in-picture by swipe (a swipe up on a playing video takes it to picture-in-picture; off by default), Unmute with volume buttons (on by default, as in Telegram; off, a volume button only changes the system volume). | Next release |
+| Pause voice messages when minimized | Settings > MZGram > Chats > Video. A playing voice message pauses when the app goes to the background; music keeps playing. Off by default. | Next release |
 | Profile music card | The saved or playing music of a user shows as a card in their profile. Off by default. | Next release |
 
 ### Interface and appearance

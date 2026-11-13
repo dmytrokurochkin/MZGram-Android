@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">Ukryj boczny przycisk „Udostępnij”</string>
     <string name="MZGramShowResultsBeforeVoting">Wyniki przed głosowaniem</string>
     <string name="MZGramShowResultsBeforeVotingInfo">Pokazuj głosy przy każdej odpowiedzi ankiety, zanim zagłosujesz, chyba że wyniki są ukryte do jej zamknięcia.</string>
+    <string name="MZGramDoubleTapSeek">Dwukrotne dotknięcie przewija</string>
+    <string name="MZGramSeek5">5 sekund</string>
+    <string name="MZGramSeek10">10 sekund</string>
+    <string name="MZGramSeek15">15 sekund</string>
+    <string name="MZGramSeek30">30 sekund</string>
+    <string name="MZGramSwipeToPip">Obraz w obrazie po przesunięciu</string>
+    <string name="MZGramUnmuteWithVolumeButtons">Dźwięk przyciskami głośności</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">Przycisk głośności włącza dźwięk filmu odtwarzanego w czacie zamiast zmieniać głośność systemu, jak w Telegramie.</string>
+    <string name="MZGramPauseVoiceOnMinimize">Wstrzymuj głosówki po zminimalizowaniu</string>
 </resources>

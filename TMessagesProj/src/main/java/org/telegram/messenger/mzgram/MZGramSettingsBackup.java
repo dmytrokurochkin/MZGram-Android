@@ -141,7 +141,7 @@ public final class MZGramSettingsBackup {
                 "hexColorSwatch", "scheduleSlider", "sendSilentByDefault", "showRegistrationDate",
                 "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd", "videoSubtitles", "persianCalendar",
                 "hideChatStatus", "chat_header_compact", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
-                "usePinnedReactionsChannels", "showResultsBeforeVoting", "hideShareButton", "removeMessageTail", "forceBlur", "hideAllChatsTab", "folderTabCounters", "singleCornerRadius", "customChatThemes", "senderMiniAvatars", "forceSnow", "hideDialogsSearchBar", "hideFloatingButton", "hideActionBarStatus", "centerTitle", "disableUnarchiveSwipe", "hideArchiveFolder", "hidePhoneNumber", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
+                "usePinnedReactionsChannels", "pauseVoiceOnMinimize", "unmuteWithVolumeButtons", "swipeToPip", "showResultsBeforeVoting", "hideShareButton", "removeMessageTail", "forceBlur", "hideAllChatsTab", "folderTabCounters", "singleCornerRadius", "customChatThemes", "senderMiniAvatars", "forceSnow", "hideDialogsSearchBar", "hideFloatingButton", "hideActionBarStatus", "centerTitle", "disableUnarchiveSwipe", "hideArchiveFolder", "hidePhoneNumber", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
         // MZGramAvatarShape.MIN..MAX
         integer(CONFIG, "avatarCorners", 0, 28);
         // MZGramGlassOutline GLARE, SOLID, HIDDEN
@@ -155,6 +155,8 @@ public final class MZGramSettingsBackup {
         // Sections: card radius 0..28 dp, divider style line or none
         integer(CONFIG, "sectionRadius", 0, 28);
         integer(CONFIG, "dividerStyle", 0, 1);
+        // Double tap to seek: 5, 10, 15 or 30 seconds (anything else reads as 10)
+        integer(CONFIG, "doubleTapSeekSeconds", 5, 30);
         // MZGramVoiceQuality TELEGRAM, HIGH, HIGHEST
         integer(CONFIG, "voiceQuality", 0, 2);
         // MZGramMonet STYLE_ANDROID, STYLE_TELEGRAM

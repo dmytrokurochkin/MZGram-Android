@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">إخفاء زر \"مشاركة\" الجانبي</string>
     <string name="MZGramShowResultsBeforeVoting">النتائج قبل التصويت</string>
     <string name="MZGramShowResultsBeforeVotingInfo">اعرض الأصوات بجانب كل إجابة في الاستطلاع قبل أن تصوّت، ما لم تكن نتائجه مخفية حتى إغلاقه.</string>
+    <string name="MZGramDoubleTapSeek">النقر المزدوج للتقديم</string>
+    <string name="MZGramSeek5">5 ثوانٍ</string>
+    <string name="MZGramSeek10">10 ثوانٍ</string>
+    <string name="MZGramSeek15">15 ثانية</string>
+    <string name="MZGramSeek30">30 ثانية</string>
+    <string name="MZGramSwipeToPip">صورة داخل صورة بالسحب</string>
+    <string name="MZGramUnmuteWithVolumeButtons">تشغيل الصوت بأزرار مستوى الصوت</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">يشغّل زر مستوى الصوت صوت الفيديو المعروض في المحادثة بدلًا من تغيير مستوى صوت النظام، كما في Telegram.</string>
+    <string name="MZGramPauseVoiceOnMinimize">إيقاف الرسائل الصوتية مؤقتًا عند التصغير</string>
 </resources>

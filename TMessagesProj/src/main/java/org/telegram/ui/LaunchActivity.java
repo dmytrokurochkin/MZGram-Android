@@ -6890,6 +6890,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         org.telegram.messenger.mzgram.plugins.MZGramPluginEngine.onPause();
         // MZGram: notify plugin watchdog that app went to background
         org.telegram.messenger.mzgram.plugins.MZGramPluginWatchdog.onAppBackgrounded();
+        // MZGram: Settings > MZGram > Chats > Pause voice messages when minimized
+        org.telegram.messenger.mzgram.MZGramRoundPause.onAppMinimized();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 4096);
         ApplicationLoader.mainInterfacePaused = true;
         int account = currentAccount;
@@ -8637,7 +8639,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         showVoiceChatTooltip(mute ? UndoView.ACTION_VOIP_SOUND_MUTED : UndoView.ACTION_VOIP_SOUND_UNMUTED);
                     }
                 }
-            } else if (!mainFragmentsStack.isEmpty() && (!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && event.getRepeatCount() == 0) {
+            } else if (org.telegram.messenger.mzgram.MZGramConfig.unmuteWithVolumeButtons // MZGram: Settings > MZGram > Chats > Unmute with volume buttons
+                    && !mainFragmentsStack.isEmpty() && (!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && event.getRepeatCount() == 0) {
                 BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
                 if (fragment instanceof ChatActivity && !BaseFragment.hasSheets(fragment)) {
                     if (((ChatActivity) fragment).maybePlayVisibleVideo()) {

@@ -211,6 +211,24 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("return !media.poll.hide_results_until_close || media.poll.creator;", cell)
         self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.hideShareButton && !messageObject.isSaved) return false;", cell)
 
+    def test_video_seek_pip_volume_voice(self):
+        self.switch("swipeToPip", "false", "BUTTON_SWIPE_TO_PIP")
+        self.switch("unmuteWithVolumeButtons", "true", "BUTTON_UNMUTE_WITH_VOLUME_BUTTONS")
+        self.switch("pauseVoiceOnMinimize", "false", "BUTTON_PAUSE_VOICE_ON_MINIMIZE")
+        config = read(CONFIG)
+        self.assertIn("public static int doubleTapSeekSeconds = 10;", config)
+        self.assertIn('integer(CONFIG, "doubleTapSeekSeconds", 5, 30);', read(BACKUP))
+        self.assertIn("items.add(UItem.asButton(BUTTON_DOUBLE_TAP_SEEK, ", read(PAGE))
+        viewer = read(JAVA / "ui/PhotoViewer.java")
+        self.assertIn("return org.telegram.messenger.mzgram.MZGramConfig.doubleTapSeekSeconds * 1000L;", viewer)
+        self.assertIn("total - current > mzgramSeekMillis()", viewer)
+        self.assertIn("videoForwardDrawable.addTime(seekMs);", viewer)
+        self.assertIn("return org.telegram.messenger.mzgram.MZGramConfig.swipeToPip", viewer)
+        launch = read(JAVA / "ui/LaunchActivity.java")
+        self.assertIn("} else if (org.telegram.messenger.mzgram.MZGramConfig.unmuteWithVolumeButtons", launch)
+        self.assertIn("org.telegram.messenger.mzgram.MZGramRoundPause.onAppMinimized();", launch)
+        self.assertIn("if (!MZGramConfig.pauseVoiceOnMinimize) {", read(JAVA / "messenger/mzgram/MZGramRoundPause.java"))
+
 
 if __name__ == "__main__":
     unittest.main()

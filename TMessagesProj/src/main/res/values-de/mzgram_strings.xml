@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">Seitliche Taste „Teilen“ ausblenden</string>
     <string name="MZGramShowResultsBeforeVoting">Ergebnisse vor der Abstimmung</string>
     <string name="MZGramShowResultsBeforeVotingInfo">Zeigt die Stimmen neben jeder Antwort einer Umfrage, bevor du abstimmst, außer die Ergebnisse sind bis zum Ende verborgen.</string>
+    <string name="MZGramDoubleTapSeek">Doppeltippen zum Spulen</string>
+    <string name="MZGramSeek5">5 Sekunden</string>
+    <string name="MZGramSeek10">10 Sekunden</string>
+    <string name="MZGramSeek15">15 Sekunden</string>
+    <string name="MZGramSeek30">30 Sekunden</string>
+    <string name="MZGramSwipeToPip">Bild-im-Bild per Wischen</string>
+    <string name="MZGramUnmuteWithVolumeButtons">Ton mit Lautstärketasten an</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">Eine Lautstärketaste schaltet den Ton des Videos im Chat ein, statt die Systemlautstärke zu ändern, wie bei Telegram.</string>
+    <string name="MZGramPauseVoiceOnMinimize">Sprachnachrichten beim Minimieren pausieren</string>
 </resources>

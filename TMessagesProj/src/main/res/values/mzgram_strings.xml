@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">Hide side \"Share\" button</string>
     <string name="MZGramShowResultsBeforeVoting">Results before voting</string>
     <string name="MZGramShowResultsBeforeVotingInfo">Show the votes next to each answer of a poll before you vote, unless its results are hidden until it closes.</string>
+    <string name="MZGramDoubleTapSeek">Double tap to seek</string>
+    <string name="MZGramSeek5">5 seconds</string>
+    <string name="MZGramSeek10">10 seconds</string>
+    <string name="MZGramSeek15">15 seconds</string>
+    <string name="MZGramSeek30">30 seconds</string>
+    <string name="MZGramSwipeToPip">Picture-in-picture by swipe</string>
+    <string name="MZGramUnmuteWithVolumeButtons">Unmute with volume buttons</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">A volume button turns on the sound of the video playing in the chat instead of changing the system volume, as in Telegram.</string>
+    <string name="MZGramPauseVoiceOnMinimize">Pause voice messages when minimized</string>
 </resources>

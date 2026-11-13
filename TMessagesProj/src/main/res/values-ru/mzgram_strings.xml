@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">Скрыть боковую кнопку «Поделиться»</string>
     <string name="MZGramShowResultsBeforeVoting">Результаты до голосования</string>
     <string name="MZGramShowResultsBeforeVotingInfo">Показывать результаты голосов рядом с каждым вариантом опроса до вашего голосования, если результаты не скрыты до закрытия.</string>
+    <string name="MZGramDoubleTapSeek">Двойное касание для перемотки</string>
+    <string name="MZGramSeek5">5 секунд</string>
+    <string name="MZGramSeek10">10 секунд</string>
+    <string name="MZGramSeek15">15 секунд</string>
+    <string name="MZGramSeek30">30 секунд</string>
+    <string name="MZGramSwipeToPip">Картинка в картинке по свайпу</string>
+    <string name="MZGramUnmuteWithVolumeButtons">Включение звука кнопками громкости</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">Нажатие кнопки громкости включает звук в видео в чате вместо изменения системной громкости, как в Telegram.</string>
+    <string name="MZGramPauseVoiceOnMinimize">Пауза голосовых при сворачивании</string>
 </resources>

@@ -512,6 +512,19 @@ public class MZGramConfig {
     // Open polls show their results before one votes, unless hidden until the poll closes
     public static boolean showResultsBeforeVoting = false;
 
+    // Settings > MZGram > Chats > Double tap to seek: 5, 10 (Telegram), 15 or 30 seconds (PhotoViewer)
+    public static final int[] DOUBLE_TAP_SEEK_SECONDS = {5, 10, 15, 30};
+    public static int doubleTapSeekSeconds = 10;
+
+    // A swipe up on a playing video in the viewer takes it to picture-in-picture (PhotoViewer.enableSwipeToPiP)
+    public static boolean swipeToPip = false;
+
+    // A volume button unmutes the video playing in the chat, as in Telegram (LaunchActivity)
+    public static boolean unmuteWithVolumeButtons = true;
+
+    // A playing voice message pauses when the app goes to the background (MZGramRoundPause.onAppMinimized)
+    public static boolean pauseVoiceOnMinimize = false;
+
     static {
         loadConfig(false);
     }
@@ -777,6 +790,10 @@ public class MZGramConfig {
             removeMessageTail = preferences.getBoolean("removeMessageTail", false);
             hideShareButton = preferences.getBoolean("hideShareButton", false);
             showResultsBeforeVoting = preferences.getBoolean("showResultsBeforeVoting", false);
+            doubleTapSeekSeconds = validSeek(preferences.getInt("doubleTapSeekSeconds", 10));
+            swipeToPip = preferences.getBoolean("swipeToPip", false);
+            unmuteWithVolumeButtons = preferences.getBoolean("unmuteWithVolumeButtons", true);
+            pauseVoiceOnMinimize = preferences.getBoolean("pauseVoiceOnMinimize", false);
             configLoaded = true;
         }
     }
@@ -1834,6 +1851,20 @@ public class MZGramConfig {
         putInt("dividerStyle", dividerStyle);
     }
 
+    private static int validSeek(int seconds) {
+        for (int s : DOUBLE_TAP_SEEK_SECONDS) {
+            if (s == seconds) {
+                return seconds;
+            }
+        }
+        return 10;
+    }
+
+    public static void setDoubleTapSeekSeconds(int seconds) {
+        doubleTapSeekSeconds = validSeek(seconds);
+        putInt("doubleTapSeekSeconds", doubleTapSeekSeconds);
+    }
+
     public static void setDownloadSpeedBoost(int value) {
         downloadSpeedBoost = Math.max(0, Math.min(2, value));
         putInt("downloadSpeedBoost", downloadSpeedBoost);
@@ -1948,5 +1979,20 @@ public class MZGramConfig {
     public static void toggleShowResultsBeforeVoting() {
         showResultsBeforeVoting = !showResultsBeforeVoting;
         putBoolean("showResultsBeforeVoting", showResultsBeforeVoting);
+    }
+
+    public static void toggleSwipeToPip() {
+        swipeToPip = !swipeToPip;
+        putBoolean("swipeToPip", swipeToPip);
+    }
+
+    public static void toggleUnmuteWithVolumeButtons() {
+        unmuteWithVolumeButtons = !unmuteWithVolumeButtons;
+        putBoolean("unmuteWithVolumeButtons", unmuteWithVolumeButtons);
+    }
+
+    public static void togglePauseVoiceOnMinimize() {
+        pauseVoiceOnMinimize = !pauseVoiceOnMinimize;
+        putBoolean("pauseVoiceOnMinimize", pauseVoiceOnMinimize);
     }
 }

@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">Бүйірдегі «Бөлісу» түймесін жасыру</string>
     <string name="MZGramShowResultsBeforeVoting">Дауыс бергенге дейінгі нәтижелер</string>
     <string name="MZGramShowResultsBeforeVotingInfo">Нәтижелері жабылғанша жасырылмаса, дауыс бергенге дейін сауалнаманың әр жауабының жанында дауыстарды көрсету.</string>
+    <string name="MZGramDoubleTapSeek">Айналдыру үшін екі рет түрту</string>
+    <string name="MZGramSeek5">5 секунд</string>
+    <string name="MZGramSeek10">10 секунд</string>
+    <string name="MZGramSeek15">15 секунд</string>
+    <string name="MZGramSeek30">30 секунд</string>
+    <string name="MZGramSwipeToPip">Сырғытқанда сурет ішіндегі сурет</string>
+    <string name="MZGramUnmuteWithVolumeButtons">Дыбыс түймелерімен дыбысты қосу</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">Дыбыс түймесі Telegram-дағыдай жүйе дыбысын өзгертудің орнына чатта ойнап тұрған бейненің дыбысын қосады.</string>
+    <string name="MZGramPauseVoiceOnMinimize">Кішірейткенде дауыстық хабарламаларды кідірту</string>
 </resources>

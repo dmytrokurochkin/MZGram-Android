@@ -1287,4 +1287,13 @@
     <string name="MZGramHideShareButton">Yandaki \"Paylaş\" düğmesini gizle</string>
     <string name="MZGramShowResultsBeforeVoting">Oy vermeden sonuçlar</string>
     <string name="MZGramShowResultsBeforeVotingInfo">Sonuçları kapanana kadar gizli değilse, oy vermeden önce anketteki her yanıtın oylarını gösterir.</string>
+    <string name="MZGramDoubleTapSeek">Sarmak için çift dokunma</string>
+    <string name="MZGramSeek5">5 saniye</string>
+    <string name="MZGramSeek10">10 saniye</string>
+    <string name="MZGramSeek15">15 saniye</string>
+    <string name="MZGramSeek30">30 saniye</string>
+    <string name="MZGramSwipeToPip">Kaydırınca resim içinde resim</string>
+    <string name="MZGramUnmuteWithVolumeButtons">Ses düğmeleriyle sesi aç</string>
+    <string name="MZGramUnmuteWithVolumeButtonsInfo">Ses düğmesi, Telegram\'daki gibi sistem sesini değiştirmek yerine sohbette oynayan videonun sesini açar.</string>
+    <string name="MZGramPauseVoiceOnMinimize">Küçültülünce sesli mesajları duraklat</string>
 </resources>

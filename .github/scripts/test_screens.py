@@ -591,6 +591,33 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("MZGramAdminShortcuts.addToBeginning(headerItem, chatMode, isThreadChat());", read(JAVA / "ui/ChatActivity.java"))
         self.assertIn('| "To the beginning" in the chat menu |', read(ROOT / "FEATURES.md"))
 
+    def test_chat_menu_more_items(self):
+        # exteraless: linked chat, Go to message, Hide title, Clear deleted and
+        # Delete my messages (off); Telegram's Boost item can be turned off (on)
+        self.switch("chatMenuBoost", "true", "BUTTON_CHAT_MENU_BOOST")
+        for name, button in [("chatMenuLinkedChat", "BUTTON_CHAT_MENU_LINKED_CHAT"), ("chatMenuGoToMessage", "BUTTON_CHAT_MENU_GO_TO_MESSAGE"),
+                             ("chatMenuHideTitle", "BUTTON_CHAT_MENU_HIDE_TITLE"), ("chatMenuClearDeleted", "BUTTON_CHAT_MENU_CLEAR_DELETED"),
+                             ("chatMenuDeleteOwn", "BUTTON_CHAT_MENU_DELETE_OWN")]:
+            self.switch(name, "false", button)
+        chat = read(JAVA / "ui/ChatActivity.java")
+        self.assertIn("if (org.telegram.ui.mzgram.MZGramChatMenu.showsBoost() && ChatObject.isBoostSupported(currentChat)", chat)
+        self.assertIn("MZGramChatMenu.addItems(headerItem, currentChat, chatInfo, dialog_id, chatMode, isThreadChat());", chat)
+        self.assertIn("} else if (org.telegram.ui.mzgram.MZGramChatMenu.onItem(ChatActivity.this, id)) {", chat)
+        menu = read(JAVA / "ui/mzgram/MZGramChatMenu.java")
+        self.assertIn("MZGramDeleteOwnMessages.ask(fragment, fragment.getCurrentChat(), fragment.getMergeDialogId());", menu)
+        self.assertIn("clearDeletedInChat(account, dialogId, mergeDialogId,", menu)
+        own = read(JAVA / "ui/mzgram/MZGramDeleteOwnMessages.java")
+        # Nothing is deleted before the bulletin with Undo goes away
+        self.assertIn("new Bulletin.UndoButton(context, true, resources).setDelayedAction(delete)", own)
+        self.assertIn("deleteMessages(part, null, null, dialogId, 0, true, 0);", own)
+        self.assertIn("req.from_id = controller.getInputPeer(UserConfig.getInstance(account).getClientUserId());", own)
+        db = read(JAVA / "messenger/mzgram/MZGramHistoryDatabase.java")
+        self.assertIn('getWritableDatabase().delete(TABLE, "kind = ? AND accountUserId = ? AND dialogId = ?",', db)
+        features = read(ROOT / "FEATURES.md")
+        for row in ("| Boost in the chat menu |", "| Linked chat in the chat menu |", '| "Go to message" in the chat menu |',
+                    '| "Hide title" in the chat menu |', '| "Clear deleted" in the chat menu |', '| "Delete my messages" in the chat menu |'):
+            self.assertIn(row, features)
+
     def test_unlimited_saved_gifs(self):
         # exteraless: a sync with the server keeps what only this device has
         self.switch("unlimitedSavedGifs", "false", "BUTTON_UNLIMITED_SAVED_GIFS")

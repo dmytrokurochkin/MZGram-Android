@@ -737,6 +737,12 @@ public class MZGramHistoryDatabase extends SQLiteOpenHelper {
         return result;
     }
 
+    // The kept deleted messages of one chat; returns how many rows went
+    public int deleteDeletedOfDialog(long accountUserId, long dialogId) {
+        return getWritableDatabase().delete(TABLE, "kind = ? AND accountUserId = ? AND dialogId = ?",
+                new String[]{String.valueOf(MZGramHistoryMessage.KIND_DELETED), String.valueOf(accountUserId), String.valueOf(dialogId)});
+    }
+
     public void delete(long accountUserId, long dialogId, int messageId) {
         getWritableDatabase().delete(TABLE, "accountUserId = ? AND dialogId = ? AND messageId = ?",
                 new String[]{String.valueOf(accountUserId), String.valueOf(dialogId), String.valueOf(messageId)});

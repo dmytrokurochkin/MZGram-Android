@@ -270,6 +270,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_KEYBOARD_ON_SCROLL = 240;
     private static final int BUTTON_ADD_COMMA_AFTER_MENTION = 241;
     private static final int BUTTON_HIDE_SEND_AS_PEER = 242;
+    private static final int BUTTON_CHAT_MENU_DELETE_OWN = 314;
+    private static final int BUTTON_CHAT_MENU_CLEAR_DELETED = 313;
+    private static final int BUTTON_CHAT_MENU_HIDE_TITLE = 312;
+    private static final int BUTTON_CHAT_MENU_GO_TO_MESSAGE = 311;
+    private static final int BUTTON_CHAT_MENU_LINKED_CHAT = 310;
+    private static final int BUTTON_CHAT_MENU_BOOST = 309;
     private static final int BUTTON_UNLIMITED_SAVED_GIFS = 308;
     private static final int BUTTON_ADMIN_SHORTCUT_STATISTICS = 307;
     private static final int BUTTON_ADMIN_SHORTCUT_MEMBERS = 306;
@@ -1211,6 +1217,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asCheck(BUTTON_ADMIN_SHORTCUT_STATISTICS, getString(R.string.Statistics)).setChecked(MZGramConfig.adminShortcutStatistics));
         }
         items.add(check(BUTTON_CHAT_MENU_TO_BEGINNING, R.string.MZGramChatMenuToBeginning, MZGramConfig.chatMenuToBeginning, R.string.MZGramChatMenuToBeginningInfo));
+        items.add(UItem.asCheck(BUTTON_CHAT_MENU_BOOST, getString(R.string.MZGramChatMenuBoost)).setChecked(MZGramConfig.chatMenuBoost));
+        items.add(check(BUTTON_CHAT_MENU_LINKED_CHAT, R.string.MZGramChatMenuLinkedChat, MZGramConfig.chatMenuLinkedChat, R.string.MZGramChatMenuLinkedChatInfo));
+        items.add(check(BUTTON_CHAT_MENU_GO_TO_MESSAGE, R.string.MZGramChatMenuGoToMessage, MZGramConfig.chatMenuGoToMessage, R.string.MZGramChatMenuGoToMessageInfo));
+        items.add(check(BUTTON_CHAT_MENU_HIDE_TITLE, R.string.MZGramChatMenuHideTitle, MZGramConfig.chatMenuHideTitle, R.string.MZGramChatMenuHideTitleInfo));
+        items.add(check(BUTTON_CHAT_MENU_CLEAR_DELETED, R.string.MZGramChatMenuClearDeleted, MZGramConfig.chatMenuClearDeleted, R.string.MZGramChatMenuClearDeletedInfo));
+        items.add(check(BUTTON_CHAT_MENU_DELETE_OWN, R.string.MZGramChatMenuDeleteOwn, MZGramConfig.chatMenuDeleteOwn, R.string.MZGramChatMenuDeleteOwnInfo));
         items.add(check(BUTTON_WIDE_CHANNEL_POSTS, R.string.MZGramWideChannelPosts, MZGramConfig.wideChannelPosts, R.string.MZGramWideChannelPostsInfo));
         items.add(check(BUTTON_DISABLE_GREETING_STICKER, R.string.MZGramDisableGreetingSticker, MZGramConfig.disableGreetingSticker, R.string.MZGramDisableGreetingStickerInfo));
         items.add(UItem.asCheck(BUTTON_HIDE_KEYBOARD_ON_SCROLL, getString(R.string.MZGramHideKeyboardOnScroll)).setChecked(MZGramConfig.hideKeyboardOnScroll));
@@ -1814,6 +1826,24 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_UNLIMITED_SAVED_GIFS) {
             MZGramConfig.toggleUnlimitedSavedGifs();
             ((TextCheckCell) view).setChecked(MZGramConfig.unlimitedSavedGifs);
+        } else if (item.id == BUTTON_CHAT_MENU_BOOST) {
+            MZGramConfig.toggleChatMenuBoost();
+            ((TextCheckCell) view).setChecked(MZGramConfig.chatMenuBoost);
+        } else if (item.id == BUTTON_CHAT_MENU_LINKED_CHAT) {
+            MZGramConfig.toggleChatMenuLinkedChat();
+            ((TextCheckCell) view).setChecked(MZGramConfig.chatMenuLinkedChat);
+        } else if (item.id == BUTTON_CHAT_MENU_GO_TO_MESSAGE) {
+            MZGramConfig.toggleChatMenuGoToMessage();
+            ((TextCheckCell) view).setChecked(MZGramConfig.chatMenuGoToMessage);
+        } else if (item.id == BUTTON_CHAT_MENU_HIDE_TITLE) {
+            MZGramConfig.toggleChatMenuHideTitle();
+            ((TextCheckCell) view).setChecked(MZGramConfig.chatMenuHideTitle);
+        } else if (item.id == BUTTON_CHAT_MENU_CLEAR_DELETED) {
+            MZGramConfig.toggleChatMenuClearDeleted();
+            ((TextCheckCell) view).setChecked(MZGramConfig.chatMenuClearDeleted);
+        } else if (item.id == BUTTON_CHAT_MENU_DELETE_OWN) {
+            MZGramConfig.toggleChatMenuDeleteOwn();
+            ((TextCheckCell) view).setChecked(MZGramConfig.chatMenuDeleteOwn);
         } else if (item.id == BUTTON_HIDE_SEND_AS_PEER) {
             MZGramConfig.toggleHideSendAsPeer();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideSendAsPeer);

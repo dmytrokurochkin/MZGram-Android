@@ -109,4 +109,47 @@ class MZGramExteralessTest {
             org.telegram.ui.mzgram.MZGramAdminShortcuts.STATISTICS, org.telegram.ui.mzgram.MZGramAdminShortcuts.TO_BEGINNING)
         assertEquals(ids.size, ids.toSet().size)
     }
+
+    @Test
+    fun chatMenu_moreItemsOff_boostOn() {
+        val config = MZGramConfig::class.java
+        for (key in listOf("chatMenuLinkedChat", "chatMenuGoToMessage", "chatMenuHideTitle", "chatMenuClearDeleted", "chatMenuDeleteOwn")) {
+            assertTrue(key, !config.getField(key).getBoolean(null) || hasSaved(key))
+        }
+        // Telegram's own Boost item stays as in Telegram
+        assertTrue(MZGramConfig.chatMenuBoost || hasSaved("chatMenuBoost"))
+        // The menu ids do not clash with each other
+        val ids = listOf(org.telegram.ui.mzgram.MZGramAdminShortcuts.RECENT_ACTIONS, org.telegram.ui.mzgram.MZGramAdminShortcuts.ADMINISTRATORS,
+            org.telegram.ui.mzgram.MZGramAdminShortcuts.PERMISSIONS, org.telegram.ui.mzgram.MZGramAdminShortcuts.MEMBERS,
+            org.telegram.ui.mzgram.MZGramAdminShortcuts.STATISTICS, org.telegram.ui.mzgram.MZGramAdminShortcuts.TO_BEGINNING,
+            org.telegram.ui.mzgram.MZGramChatMenu.LINKED_CHAT, org.telegram.ui.mzgram.MZGramChatMenu.GO_TO_MESSAGE,
+            org.telegram.ui.mzgram.MZGramChatMenu.HIDE_TITLE, org.telegram.ui.mzgram.MZGramChatMenu.CLEAR_DELETED,
+            org.telegram.ui.mzgram.MZGramChatMenu.DELETE_OWN)
+        assertEquals(ids.size, ids.toSet().size)
+    }
+
+    @Test
+    fun goToMessage_takesOnlyAPositiveNumber() {
+        assertEquals(42, org.telegram.ui.mzgram.MZGramChatMenu.messageNumber(" 42 "))
+        assertEquals(0, org.telegram.ui.mzgram.MZGramChatMenu.messageNumber("abc"))
+        assertEquals(0, org.telegram.ui.mzgram.MZGramChatMenu.messageNumber(""))
+        assertEquals(0, org.telegram.ui.mzgram.MZGramChatMenu.messageNumber(null))
+        assertEquals(0, org.telegram.ui.mzgram.MZGramChatMenu.messageNumber("-5"))
+        assertEquals(0, org.telegram.ui.mzgram.MZGramChatMenu.messageNumber("99999999999"))
+    }
+
+    @Test
+    fun deleteMyMessages_takesOwnOlderOnes_andPagesDown() {
+        fun message(id: Int, out: Boolean, date: Int, post: Boolean = false): TLRPC.Message =
+            TLRPC.TL_message().also { it.id = id; it.out = out; it.date = date; it.post = post }
+        val service = TLRPC.TL_messageService().also { it.id = 7; it.out = true; it.date = 10 }
+        val page = arrayListOf(message(9, true, 100), message(8, false, 50), message(6, true, 300), message(5, true, 20, post = true), service)
+        // Own, not a channel post or a service message, sent before the time
+        assertEquals(listOf(9), org.telegram.ui.mzgram.MZGramDeleteOwnMessages.ownBefore(page, 200))
+        assertEquals(listOf(9, 6), org.telegram.ui.mzgram.MZGramDeleteOwnMessages.ownBefore(page, Int.MAX_VALUE))
+        // The next page starts below the lowest id; an empty page stays where it was
+        assertEquals(5, org.telegram.ui.mzgram.MZGramDeleteOwnMessages.nextOffset(page, 0))
+        assertEquals(5, org.telegram.ui.mzgram.MZGramDeleteOwnMessages.nextOffset(page, 12))
+        assertEquals(12, org.telegram.ui.mzgram.MZGramDeleteOwnMessages.nextOffset(arrayListOf(), 12))
+    }
 }

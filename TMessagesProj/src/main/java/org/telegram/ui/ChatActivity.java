@@ -4116,6 +4116,8 @@ public class ChatActivity extends BaseFragment implements
                     presentFragment(new org.telegram.ui.mzgram.MZGramDeletedMessagesActivity(ChatActivity.this, getDialogId()));
                 } else if (org.telegram.ui.mzgram.MZGramAdminShortcuts.onItem(ChatActivity.this, id)) {
                     // MZGram: Quick admin actions
+                } else if (org.telegram.ui.mzgram.MZGramChatMenu.onItem(ChatActivity.this, id)) {
+                    // MZGram: more items of the chat menu
                 } else if (org.telegram.ui.mzgram.MZGramPluginMenuUi.onChatItem(ChatActivity.this, id, getDialogId(), currentAccount)) {
                     // MZGram: a menu item of a plugin
                 } else if (id == add_shortcut) {
@@ -4661,7 +4663,8 @@ public class ChatActivity extends BaseFragment implements
             if (searchItem != null) {
                 headerItem.lazilyAddSubItem(search, R.drawable.msg_search, LocaleController.getString(R.string.Search));
             }
-            if (ChatObject.isBoostSupported(currentChat) && (getUserConfig().isPremium() || ChatObject.isBoosted(chatInfo) || ChatObject.hasAdminRights(currentChat))) {
+            // MZGram: Boost in the chat menu can be turned off (on by default)
+            if (org.telegram.ui.mzgram.MZGramChatMenu.showsBoost() && ChatObject.isBoostSupported(currentChat) && (getUserConfig().isPremium() || ChatObject.isBoosted(chatInfo) || ChatObject.hasAdminRights(currentChat))) {
                 RLottieDrawable drawable = new RLottieDrawable(R.raw.boosts, dp(24), dp(24));
                 headerItem.lazilyAddSubItem(boost_group, drawable, LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(currentChat) ? R.string.BoostingBoostChannelMenu : R.string.BoostingBoostGroupMenu));
             }
@@ -4697,6 +4700,8 @@ public class ChatActivity extends BaseFragment implements
             // MZGram: Quick admin actions
             org.telegram.ui.mzgram.MZGramAdminShortcuts.addItems(headerItem, currentChat, chatMode);
             org.telegram.ui.mzgram.MZGramAdminShortcuts.addToBeginning(headerItem, chatMode, isThreadChat());
+            // MZGram: linked chat, Go to message, Hide title, Clear deleted, Delete my messages
+            org.telegram.ui.mzgram.MZGramChatMenu.addItems(headerItem, currentChat, chatInfo, dialog_id, chatMode, isThreadChat());
             // MZGram: menu items of plugins (none while no plugin has added any)
             org.telegram.ui.mzgram.MZGramPluginMenuUi.addChatItems(headerItem);
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {

@@ -559,6 +559,12 @@ public class MZGramConfig {
 
     // No Send as button by the field; messages go from the account chosen last (ChatActivityEnterView)
     public static boolean hideSendAsPeer = false;
+    public static boolean chatMenuDeleteOwn = false;
+    public static boolean chatMenuClearDeleted = false;
+    public static boolean chatMenuHideTitle = false;
+    public static boolean chatMenuGoToMessage = false;
+    public static boolean chatMenuLinkedChat = false;
+    public static boolean chatMenuBoost = true;
     public static boolean unlimitedSavedGifs = false;
     public static boolean chatMenuToBeginning = false;
     public static boolean adminShortcutStatistics = true;
@@ -981,6 +987,12 @@ public class MZGramConfig {
             hideKeyboardOnScroll = preferences.getBoolean("hideKeyboardOnScroll", false);
             addCommaAfterMention = preferences.getBoolean("addCommaAfterMention", false);
             hideSendAsPeer = preferences.getBoolean("hideSendAsPeer", false);
+            chatMenuDeleteOwn = preferences.getBoolean("chatMenuDeleteOwn", false);
+            chatMenuClearDeleted = preferences.getBoolean("chatMenuClearDeleted", false);
+            chatMenuHideTitle = preferences.getBoolean("chatMenuHideTitle", false);
+            chatMenuGoToMessage = preferences.getBoolean("chatMenuGoToMessage", false);
+            chatMenuLinkedChat = preferences.getBoolean("chatMenuLinkedChat", false);
+            chatMenuBoost = preferences.getBoolean("chatMenuBoost", true);
             unlimitedSavedGifs = preferences.getBoolean("unlimitedSavedGifs", false);
             chatMenuToBeginning = preferences.getBoolean("chatMenuToBeginning", false);
             adminShortcutStatistics = preferences.getBoolean("adminShortcutStatistics", true);
@@ -2361,6 +2373,36 @@ public class MZGramConfig {
     public static void toggleHideSendAsPeer() {
         hideSendAsPeer = !hideSendAsPeer;
         putBoolean("hideSendAsPeer", hideSendAsPeer);
+    }
+
+    public static void toggleChatMenuDeleteOwn() {
+        chatMenuDeleteOwn = !chatMenuDeleteOwn;
+        putBoolean("chatMenuDeleteOwn", chatMenuDeleteOwn);
+    }
+
+    public static void toggleChatMenuClearDeleted() {
+        chatMenuClearDeleted = !chatMenuClearDeleted;
+        putBoolean("chatMenuClearDeleted", chatMenuClearDeleted);
+    }
+
+    public static void toggleChatMenuHideTitle() {
+        chatMenuHideTitle = !chatMenuHideTitle;
+        putBoolean("chatMenuHideTitle", chatMenuHideTitle);
+    }
+
+    public static void toggleChatMenuGoToMessage() {
+        chatMenuGoToMessage = !chatMenuGoToMessage;
+        putBoolean("chatMenuGoToMessage", chatMenuGoToMessage);
+    }
+
+    public static void toggleChatMenuLinkedChat() {
+        chatMenuLinkedChat = !chatMenuLinkedChat;
+        putBoolean("chatMenuLinkedChat", chatMenuLinkedChat);
+    }
+
+    public static void toggleChatMenuBoost() {
+        chatMenuBoost = !chatMenuBoost;
+        putBoolean("chatMenuBoost", chatMenuBoost);
     }
 
     public static void toggleUnlimitedSavedGifs() {

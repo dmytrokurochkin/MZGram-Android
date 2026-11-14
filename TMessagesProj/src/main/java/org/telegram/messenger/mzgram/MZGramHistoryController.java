@@ -24,6 +24,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.SerializedData;
@@ -1380,6 +1381,28 @@ public class MZGramHistoryController {
             FileLog.e("MZGramHistoryController.deletedMessagesForList", e);
         }
         return result;
+    }
+
+    // Chat menu > Clear deleted (MZGramChatMenu): this chat's kept deleted
+    // messages, and those of the old group a supergroup came from, leave the
+    // archive, as when the user deletes one of them; their files stay in
+    // Saved Attachments. done gets how many, on the UI thread.
+    public void clearDeletedInChat(int accountId, long dialogId, long mergeDialogId, Utilities.Callback<Integer> done) {
+        long accountUserId = UserConfig.getInstance(accountId).getClientUserId();
+        MessagesStorage.getInstance(accountId).getStorageQueue().postRunnable(() -> {
+            int count = 0;
+            try {
+                MZGramHistoryDatabase db = MZGramHistoryDatabase.getInstance();
+                count = db.deleteDeletedOfDialog(accountUserId, dialogId);
+                if (mergeDialogId != 0) {
+                    count += db.deleteDeletedOfDialog(accountUserId, mergeDialogId);
+                }
+            } catch (Exception e) {
+                FileLog.e("MZGramHistoryController.clearDeletedInChat", e);
+            }
+            int cleared = count;
+            AndroidUtilities.runOnUIThread(() -> done.run(cleared));
+        });
     }
 
     // ---- retrieval for the UI ----

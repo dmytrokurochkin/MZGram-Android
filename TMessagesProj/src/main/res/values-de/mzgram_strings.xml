@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">Such-Taste in Kanälen ausblenden</string>
     <string name="MZGramHideCallButton">Anruf-Taste ausblenden</string>
     <string name="MZGramHideCallButtonInfo">Oben in einem privaten Chat gibt es keine Anruf-Taste; Anrufe bleiben im Menü des Chats.</string>
-    <string name="MZGramHideAttachMoney">„%1$s“ im Anhang-Menü ausblenden</string>
+    <string name="MZGramHideAttachMoney">„Geld“ im Anhang-Menü ausblenden</string>
     <string name="MZGramForwardedDate">Datum bei weitergeleiteten Nachrichten</string>
     <string name="MZGramSmallGifs">Kleine GIFs</string>
     <string name="MZGramRememberAllReplies">Alle geöffneten Antworten merken</string>

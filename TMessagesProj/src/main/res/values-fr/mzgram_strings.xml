@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">Masquer le bouton Rechercher dans les chaînes</string>
     <string name="MZGramHideCallButton">Masquer le bouton d\'appel</string>
     <string name="MZGramHideCallButtonInfo">Plus de bouton d\'appel en haut d\'une discussion privée ; les appels restent dans le menu de la discussion.</string>
-    <string name="MZGramHideAttachMoney">Masquer %1$s dans le menu des pièces jointes</string>
+    <string name="MZGramHideAttachMoney">Masquer « Argent » dans le menu des pièces jointes</string>
     <string name="MZGramForwardedDate">Date sur les messages transférés</string>
     <string name="MZGramSmallGifs">Petits GIF</string>
     <string name="MZGramRememberAllReplies">Mémoriser toutes les réponses ouvertes</string>

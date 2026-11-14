@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">Ocultar o botão Buscar nos canais</string>
     <string name="MZGramHideCallButton">Ocultar o botão de chamada</string>
     <string name="MZGramHideCallButtonInfo">Sem botão de chamada no topo de uma conversa privada; as chamadas ficam no menu da conversa.</string>
-    <string name="MZGramHideAttachMoney">Ocultar %1$s no menu de anexos</string>
+    <string name="MZGramHideAttachMoney">Ocultar “Dinheiro” no menu de anexos</string>
     <string name="MZGramForwardedDate">Data em mensagens encaminhadas</string>
     <string name="MZGramSmallGifs">GIFs pequenos</string>
     <string name="MZGramRememberAllReplies">Lembrar todas as respostas abertas</string>

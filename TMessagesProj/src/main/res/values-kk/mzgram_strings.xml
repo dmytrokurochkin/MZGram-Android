@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">Арналарда «Іздеу» батырмасын жасыру</string>
     <string name="MZGramHideCallButton">Қоңырау батырмасын жасыру</string>
     <string name="MZGramHideCallButtonInfo">Жеке чаттың жоғарғы жағында қоңырау батырмасы болмайды; қоңыраулар чат мәзірінде қалады.</string>
-    <string name="MZGramHideAttachMoney">Тіркеме мәзірінде «%1$s» жасыру</string>
+    <string name="MZGramHideAttachMoney">Тіркеме мәзірінде «Ақша» жасыру</string>
     <string name="MZGramForwardedDate">Қайта жіберілген хабарларда күн</string>
     <string name="MZGramSmallGifs">Кішкентай GIF</string>
     <string name="MZGramRememberAllReplies">Ашылған барлық жауаптарды есте сақтау</string>

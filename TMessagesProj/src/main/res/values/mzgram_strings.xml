@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">Hide Search button in channels</string>
     <string name="MZGramHideCallButton">Hide Call button</string>
     <string name="MZGramHideCallButtonInfo">No call button at the top of a private chat; calls stay in the chat\'s menu.</string>
-    <string name="MZGramHideAttachMoney">Hide %1$s in the attach menu</string>
+    <string name="MZGramHideAttachMoney">Hide “Money” in the attach menu</string>
     <string name="MZGramForwardedDate">Date on forwarded messages</string>
     <string name="MZGramSmallGifs">Small GIFs</string>
     <string name="MZGramRememberAllReplies">Remember all opened replies</string>

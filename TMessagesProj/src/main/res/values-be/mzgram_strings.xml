@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">Схаваць кнопку «Пошук» у каналах</string>
     <string name="MZGramHideCallButton">Схаваць кнопку званка</string>
     <string name="MZGramHideCallButtonInfo">Уверсе асабістага чата няма кнопкі званка; званкі застаюцца ў меню чата.</string>
-    <string name="MZGramHideAttachMoney">Схаваць «%1$s» у меню ўкладанняў</string>
+    <string name="MZGramHideAttachMoney">Схаваць «Грошы» у меню ўкладанняў</string>
     <string name="MZGramForwardedDate">Дата на перасланых паведамленнях</string>
     <string name="MZGramSmallGifs">Маленькія GIF</string>
     <string name="MZGramRememberAllReplies">Памятаць усе адкрытыя адказы</string>

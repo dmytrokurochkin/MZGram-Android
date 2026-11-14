@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">Ukryj przycisk Szukaj w kanałach</string>
     <string name="MZGramHideCallButton">Ukryj przycisk połączenia</string>
     <string name="MZGramHideCallButtonInfo">Bez przycisku połączenia u góry czatu prywatnego; połączenia zostają w menu czatu.</string>
-    <string name="MZGramHideAttachMoney">Ukryj %1$s w menu załączników</string>
+    <string name="MZGramHideAttachMoney">Ukryj „Pieniądze” w menu załączników</string>
     <string name="MZGramForwardedDate">Data na przekazanych wiadomościach</string>
     <string name="MZGramSmallGifs">Małe GIF-y</string>
     <string name="MZGramRememberAllReplies">Zapamiętuj wszystkie otwarte odpowiedzi</string>

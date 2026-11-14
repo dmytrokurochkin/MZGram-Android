@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">Kanallarda Arama düğmesini gizle</string>
     <string name="MZGramHideCallButton">Arama düğmesini gizle</string>
     <string name="MZGramHideCallButtonInfo">Özel sohbetin üstünde arama düğmesi olmaz; aramalar sohbetin menüsünde kalır.</string>
-    <string name="MZGramHideAttachMoney">Ek menüsünde %1$s gizle</string>
+    <string name="MZGramHideAttachMoney">Ek menüsünde “Para” sekmesini gizle</string>
     <string name="MZGramForwardedDate">İletilen mesajlarda tarih</string>
     <string name="MZGramSmallGifs">Küçük GIF\'ler</string>
     <string name="MZGramRememberAllReplies">Açılan tüm yanıtları hatırla</string>

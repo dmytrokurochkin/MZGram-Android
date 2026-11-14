@@ -1258,8 +1258,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_HIDE_CHANNEL_GIFT, getString(R.string.MZGramHideChannelGiftButton)).setChecked(MZGramConfig.hideChannelGiftButton));
         items.add(UItem.asCheck(BUTTON_HIDE_CHANNEL_SEARCH, getString(R.string.MZGramHideChannelSearchButton)).setChecked(MZGramConfig.hideChannelSearchButton));
         items.add(check(BUTTON_HIDE_CALL_BUTTON, R.string.MZGramHideCallButton, MZGramConfig.hideCallButton, R.string.MZGramHideCallButtonInfo));
-        // Telegram's own text: the name of Telegram's own tab in the attach menu
-        items.add(UItem.asCheck(BUTTON_HIDE_ATTACH_MONEY, LocaleController.formatString(R.string.MZGramHideAttachMoney, getString(R.string.WalletAttachMoney))).setChecked(MZGramConfig.hideAttachMoney));
+        // The tab's name in the MZGram language: Telegram's own one would mix two languages in the row
+        items.add(UItem.asCheck(BUTTON_HIDE_ATTACH_MONEY, getString(R.string.MZGramHideAttachMoney)).setChecked(MZGramConfig.hideAttachMoney));
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderMessages)));

@@ -1407,7 +1407,7 @@
     <string name="MZGramHideChannelSearchButton">إخفاء زر البحث في القنوات</string>
     <string name="MZGramHideCallButton">إخفاء زر الاتصال</string>
     <string name="MZGramHideCallButtonInfo">لا يظهر زر الاتصال أعلى المحادثة الخاصة؛ تبقى المكالمات في قائمة المحادثة.</string>
-    <string name="MZGramHideAttachMoney">إخفاء %1$s في قائمة المرفقات</string>
+    <string name="MZGramHideAttachMoney">إخفاء «المال» في قائمة المرفقات</string>
     <string name="MZGramForwardedDate">التاريخ على الرسائل المعاد توجيهها</string>
     <string name="MZGramSmallGifs">صور GIF صغيرة</string>
     <string name="MZGramRememberAllReplies">تذكّر كل الردود المفتوحة</string>

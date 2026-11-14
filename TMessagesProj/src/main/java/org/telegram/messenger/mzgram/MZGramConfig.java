@@ -559,6 +559,12 @@ public class MZGramConfig {
 
     // No Send as button by the field; messages go from the account chosen last (ChatActivityEnterView)
     public static boolean hideSendAsPeer = false;
+    public static boolean chatMenuToBeginning = false;
+    public static boolean adminShortcutStatistics = true;
+    public static boolean adminShortcutMembers = true;
+    public static boolean adminShortcutPermissions = true;
+    public static boolean adminShortcutAdministrators = true;
+    public static boolean adminShortcutRecentActions = true;
     public static boolean hideAttachMoney = false;
     public static boolean contentCapture = true;
     public static boolean confirmBotCommands = false;
@@ -974,6 +980,12 @@ public class MZGramConfig {
             hideKeyboardOnScroll = preferences.getBoolean("hideKeyboardOnScroll", false);
             addCommaAfterMention = preferences.getBoolean("addCommaAfterMention", false);
             hideSendAsPeer = preferences.getBoolean("hideSendAsPeer", false);
+            chatMenuToBeginning = preferences.getBoolean("chatMenuToBeginning", false);
+            adminShortcutStatistics = preferences.getBoolean("adminShortcutStatistics", true);
+            adminShortcutMembers = preferences.getBoolean("adminShortcutMembers", true);
+            adminShortcutPermissions = preferences.getBoolean("adminShortcutPermissions", true);
+            adminShortcutAdministrators = preferences.getBoolean("adminShortcutAdministrators", true);
+            adminShortcutRecentActions = preferences.getBoolean("adminShortcutRecentActions", true);
             hideAttachMoney = preferences.getBoolean("hideAttachMoney", false);
             contentCapture = preferences.getBoolean("contentCapture", true);
             confirmBotCommands = preferences.getBoolean("confirmBotCommands", false);
@@ -2319,9 +2331,39 @@ public class MZGramConfig {
         putBoolean("addCommaAfterMention", addCommaAfterMention);
     }
 
+    public static void toggleAdminShortcutRecentActions() {
+        adminShortcutRecentActions = !adminShortcutRecentActions;
+        putBoolean("adminShortcutRecentActions", adminShortcutRecentActions);
+    }
+
+    public static void toggleAdminShortcutAdministrators() {
+        adminShortcutAdministrators = !adminShortcutAdministrators;
+        putBoolean("adminShortcutAdministrators", adminShortcutAdministrators);
+    }
+
+    public static void toggleAdminShortcutPermissions() {
+        adminShortcutPermissions = !adminShortcutPermissions;
+        putBoolean("adminShortcutPermissions", adminShortcutPermissions);
+    }
+
+    public static void toggleAdminShortcutMembers() {
+        adminShortcutMembers = !adminShortcutMembers;
+        putBoolean("adminShortcutMembers", adminShortcutMembers);
+    }
+
+    public static void toggleAdminShortcutStatistics() {
+        adminShortcutStatistics = !adminShortcutStatistics;
+        putBoolean("adminShortcutStatistics", adminShortcutStatistics);
+    }
+
     public static void toggleHideSendAsPeer() {
         hideSendAsPeer = !hideSendAsPeer;
         putBoolean("hideSendAsPeer", hideSendAsPeer);
+    }
+
+    public static void toggleChatMenuToBeginning() {
+        chatMenuToBeginning = !chatMenuToBeginning;
+        putBoolean("chatMenuToBeginning", chatMenuToBeginning);
     }
 
     public static void toggleHideAttachMoney() {

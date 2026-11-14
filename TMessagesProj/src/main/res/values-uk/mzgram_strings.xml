@@ -1431,4 +1431,7 @@
     <string name="MZGramRepeatConfirmText">Надіслати це повідомлення ще раз?</string>
     <string name="MZGramBotCommandConfirmTitle">Надіслати команду</string>
     <string name="MZGramBotCommandConfirmText">Надіслати %1$s боту?</string>
+    <string name="MZGramChatMenuToBeginning">«На початок» у меню чату</string>
+    <string name="MZGramChatMenuToBeginningInfo">Меню трьох крапок у чаті отримує пункт, що переходить до першого повідомлення.</string>
+    <string name="MZGramToTheBeginning">На початок</string>
 </resources>

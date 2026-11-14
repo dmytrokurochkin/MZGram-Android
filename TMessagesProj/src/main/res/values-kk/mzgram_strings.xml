@@ -1430,4 +1430,7 @@
     <string name="MZGramRepeatConfirmText">Бұл хабарды қайта жіберу керек пе?</string>
     <string name="MZGramBotCommandConfirmTitle">Команданы жіберу</string>
     <string name="MZGramBotCommandConfirmText">%1$s ботқа жіберу керек пе?</string>
+    <string name="MZGramChatMenuToBeginning">Чат мәзірінде «Басына»</string>
+    <string name="MZGramChatMenuToBeginningInfo">Чаттың үш нүкте мәзіріне алғашқы хабарға өтетін тармақ қосылады.</string>
+    <string name="MZGramToTheBeginning">Басына</string>
 </resources>

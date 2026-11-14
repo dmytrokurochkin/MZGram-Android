@@ -1430,4 +1430,7 @@
     <string name="MZGramRepeatConfirmText">Отправить это сообщение ещё раз?</string>
     <string name="MZGramBotCommandConfirmTitle">Отправить команду</string>
     <string name="MZGramBotCommandConfirmText">Отправить %1$s боту?</string>
+    <string name="MZGramChatMenuToBeginning">«В начало» в меню чата</string>
+    <string name="MZGramChatMenuToBeginningInfo">Меню трёх точек в чате получает пункт, который переходит к первому сообщению.</string>
+    <string name="MZGramToTheBeginning">В начало</string>
 </resources>

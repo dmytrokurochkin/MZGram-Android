@@ -80,6 +80,8 @@ class MZGramSettingsTest {
     // Rows that appear only under a switch that is off by default; each new
     // one goes here by name, so a row that is never shown cannot slip through.
     private val underSwitch = listOf(
+        "BUTTON_ADMIN_SHORTCUT_RECENT", "BUTTON_ADMIN_SHORTCUT_ADMINS", "BUTTON_ADMIN_SHORTCUT_PERMISSIONS",
+        "BUTTON_ADMIN_SHORTCUT_MEMBERS", "BUTTON_ADMIN_SHORTCUT_STATISTICS",
         "BUTTON_CAMERA_X_WIDE", "BUTTON_CAMERA_X_ZOOM",
         "BUTTON_DELETED_DIALOGS_IN_MAIN_LIST", "BUTTON_DELETED_DIALOGS_OPEN", "BUTTON_DELETED_ICON_COLOR",
         "BUTTON_DOUBLE_TAP_OWN", "BUTTON_DOUBLE_TAP_OTHER",
@@ -163,7 +165,7 @@ class MZGramSettingsTest {
         // plus the message menu row of Chats, plus the switches of the reference screenshots (MZGramScreensTest),
         // plus the bar, mini player and style rows under the Material 3 player, on by default;
         // a build with plugins (Python) also has Python for plugins (Plugins itself is a row of the main page)
-        val expectedCount = 267 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        val expectedCount = 268 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

@@ -565,6 +565,26 @@ class ScreensTest(unittest.TestCase):
                      "Disable notification bubbles", "Disable avatar blur", "Share screen content with Android"]:
             self.assertIn("| " + name + " |", features)
 
+    def test_chat_menu_items(self):
+        # Quick admin actions: each item can be turned off, plus Members and
+        # Statistics; "To the beginning" for every chat (exteraless)
+        self.switch("chatMenuToBeginning", "false", "BUTTON_CHAT_MENU_TO_BEGINNING")
+        config = read(CONFIG)
+        for key in ["adminShortcutRecentActions", "adminShortcutAdministrators", "adminShortcutPermissions", "adminShortcutMembers", "adminShortcutStatistics"]:
+            self.assertIn(f"public static boolean {key} = true;", config)
+            self.assertIn(f'"{key}"', read(BACKUP))
+        page = read(PAGE)
+        block = page.split("if (MZGramConfig.quickAdminShortcuts) {", 1)[1].split("        }", 1)[0]
+        for button in ["BUTTON_ADMIN_SHORTCUT_RECENT", "BUTTON_ADMIN_SHORTCUT_ADMINS", "BUTTON_ADMIN_SHORTCUT_PERMISSIONS", "BUTTON_ADMIN_SHORTCUT_MEMBERS", "BUTTON_ADMIN_SHORTCUT_STATISTICS"]:
+            self.assertIn(button, block)
+            self.assertIn(f"item.id == {button})", page)
+        shortcuts = read(JAVA / "ui/mzgram/MZGramAdminShortcuts.java")
+        self.assertIn("fragment.presentFragment(StatisticActivity.create(chat, false));", shortcuts)
+        self.assertIn('args.putInt("type", ChatUsersActivity.TYPE_USERS);', shortcuts)
+        self.assertIn("fragment.scrollToMessageId(1, 0, false, 0, true, 0);", shortcuts)
+        self.assertIn("MZGramAdminShortcuts.addToBeginning(headerItem, chatMode, isThreadChat());", read(JAVA / "ui/ChatActivity.java"))
+        self.assertIn('| "To the beginning" in the chat menu |', read(ROOT / "FEATURES.md"))
+
     def test_floating_mini_player(self):
         self.switch("musicPlayerMini", "true", "BUTTON_MUSIC_PLAYER_MINI")
         tabs = read(JAVA / "ui/MainTabsActivity.java")

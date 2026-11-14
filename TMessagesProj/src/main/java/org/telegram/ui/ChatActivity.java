@@ -4696,6 +4696,7 @@ public class ChatActivity extends BaseFragment implements
             }
             // MZGram: Quick admin actions
             org.telegram.ui.mzgram.MZGramAdminShortcuts.addItems(headerItem, currentChat, chatMode);
+            org.telegram.ui.mzgram.MZGramAdminShortcuts.addToBeginning(headerItem, chatMode, isThreadChat());
             // MZGram: menu items of plugins (none while no plugin has added any)
             org.telegram.ui.mzgram.MZGramPluginMenuUi.addChatItems(headerItem);
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {

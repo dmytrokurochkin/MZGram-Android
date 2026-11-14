@@ -94,4 +94,19 @@ class MZGramExteralessTest {
             assertEquals(was, get())
         }
     }
+
+    @Test
+    fun chatMenu_adminItemsOnUnderTheirSwitch_toTheBeginningOff() {
+        val config = MZGramConfig::class.java
+        for (key in listOf("adminShortcutRecentActions", "adminShortcutAdministrators", "adminShortcutPermissions",
+                "adminShortcutMembers", "adminShortcutStatistics")) {
+            assertTrue(key, config.getField(key).getBoolean(null) || hasSaved(key))
+        }
+        assertTrue(!MZGramConfig.chatMenuToBeginning || hasSaved("chatMenuToBeginning"))
+        // The menu ids do not clash with Telegram's or MZGram's other items
+        val ids = listOf(org.telegram.ui.mzgram.MZGramAdminShortcuts.RECENT_ACTIONS, org.telegram.ui.mzgram.MZGramAdminShortcuts.ADMINISTRATORS,
+            org.telegram.ui.mzgram.MZGramAdminShortcuts.PERMISSIONS, org.telegram.ui.mzgram.MZGramAdminShortcuts.MEMBERS,
+            org.telegram.ui.mzgram.MZGramAdminShortcuts.STATISTICS, org.telegram.ui.mzgram.MZGramAdminShortcuts.TO_BEGINNING)
+        assertEquals(ids.size, ids.toSet().size)
+    }
 }

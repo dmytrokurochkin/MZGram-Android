@@ -1430,4 +1430,7 @@
     <string name="MZGramRepeatConfirmText">Bu mesaj tekrar gönderilsin mi?</string>
     <string name="MZGramBotCommandConfirmTitle">Komutu gönder</string>
     <string name="MZGramBotCommandConfirmText">%1$s bota gönderilsin mi?</string>
+    <string name="MZGramChatMenuToBeginning">Sohbet menüsünde “Başa git”</string>
+    <string name="MZGramChatMenuToBeginningInfo">Sohbetin üç nokta menüsüne ilk mesaja atlayan bir öğe eklenir.</string>
+    <string name="MZGramToTheBeginning">Başa git</string>
 </resources>

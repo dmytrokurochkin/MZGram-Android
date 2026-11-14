@@ -1430,4 +1430,7 @@
     <string name="MZGramRepeatConfirmText">Enviar esta mensagem de novo?</string>
     <string name="MZGramBotCommandConfirmTitle">Enviar comando</string>
     <string name="MZGramBotCommandConfirmText">Enviar %1$s ao bot?</string>
+    <string name="MZGramChatMenuToBeginning">“Ao início” no menu da conversa</string>
+    <string name="MZGramChatMenuToBeginningInfo">O menu de três pontos da conversa ganha um item que pula para a primeira mensagem.</string>
+    <string name="MZGramToTheBeginning">Ao início</string>
 </resources>

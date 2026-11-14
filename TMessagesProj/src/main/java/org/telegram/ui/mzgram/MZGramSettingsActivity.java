@@ -270,6 +270,12 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_KEYBOARD_ON_SCROLL = 240;
     private static final int BUTTON_ADD_COMMA_AFTER_MENTION = 241;
     private static final int BUTTON_HIDE_SEND_AS_PEER = 242;
+    private static final int BUTTON_ADMIN_SHORTCUT_STATISTICS = 307;
+    private static final int BUTTON_ADMIN_SHORTCUT_MEMBERS = 306;
+    private static final int BUTTON_ADMIN_SHORTCUT_PERMISSIONS = 305;
+    private static final int BUTTON_ADMIN_SHORTCUT_ADMINS = 304;
+    private static final int BUTTON_ADMIN_SHORTCUT_RECENT = 303;
+    private static final int BUTTON_CHAT_MENU_TO_BEGINNING = 302;
     private static final int BUTTON_HIDE_ATTACH_MONEY = 301;
     private static final int BUTTON_CONTENT_CAPTURE = 300;
     private static final int BUTTON_CONFIRM_BOT_COMMANDS = 299;
@@ -1190,6 +1196,19 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_FEED_PAGE, getString(R.string.MZGramFeed)));
         items.add(UItem.asButton(BUTTON_CHANNEL_BOTTOM_BUTTON, getString(R.string.MZGramChannelBottomButton), getString(CHANNEL_BOTTOM_TITLES[MZGramConfig.channelBottomButton])));
         items.add(check(BUTTON_QUICK_ADMIN_SHORTCUTS, R.string.MZGramQuickAdminShortcuts, MZGramConfig.quickAdminShortcuts, R.string.MZGramQuickAdminShortcutsInfo));
+        if (MZGramConfig.quickAdminShortcuts) {
+            // Telegram's own text: the name of the screen this item opens
+            items.add(UItem.asCheck(BUTTON_ADMIN_SHORTCUT_RECENT, getString(R.string.EventLog)).setChecked(MZGramConfig.adminShortcutRecentActions));
+            // Telegram's own text: the name of the screen this item opens
+            items.add(UItem.asCheck(BUTTON_ADMIN_SHORTCUT_ADMINS, getString(R.string.ChannelAdministrators)).setChecked(MZGramConfig.adminShortcutAdministrators));
+            // Telegram's own text: the name of the screen this item opens
+            items.add(UItem.asCheck(BUTTON_ADMIN_SHORTCUT_PERMISSIONS, getString(R.string.ChannelPermissions)).setChecked(MZGramConfig.adminShortcutPermissions));
+            // Telegram's own text: the name of the screen this item opens
+            items.add(UItem.asCheck(BUTTON_ADMIN_SHORTCUT_MEMBERS, getString(R.string.GroupMembers)).setChecked(MZGramConfig.adminShortcutMembers));
+            // Telegram's own text: the name of the screen this item opens
+            items.add(UItem.asCheck(BUTTON_ADMIN_SHORTCUT_STATISTICS, getString(R.string.Statistics)).setChecked(MZGramConfig.adminShortcutStatistics));
+        }
+        items.add(check(BUTTON_CHAT_MENU_TO_BEGINNING, R.string.MZGramChatMenuToBeginning, MZGramConfig.chatMenuToBeginning, R.string.MZGramChatMenuToBeginningInfo));
         items.add(check(BUTTON_WIDE_CHANNEL_POSTS, R.string.MZGramWideChannelPosts, MZGramConfig.wideChannelPosts, R.string.MZGramWideChannelPostsInfo));
         items.add(check(BUTTON_DISABLE_GREETING_STICKER, R.string.MZGramDisableGreetingSticker, MZGramConfig.disableGreetingSticker, R.string.MZGramDisableGreetingStickerInfo));
         items.add(UItem.asCheck(BUTTON_HIDE_KEYBOARD_ON_SCROLL, getString(R.string.MZGramHideKeyboardOnScroll)).setChecked(MZGramConfig.hideKeyboardOnScroll));
@@ -1703,6 +1722,24 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_QUICK_ADMIN_SHORTCUTS) {
             MZGramConfig.toggleQuickAdminShortcuts();
             ((TextCheckCell) view).setChecked(MZGramConfig.quickAdminShortcuts);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true); // the items below show while it is on
+            }
+        } else if (item.id == BUTTON_ADMIN_SHORTCUT_RECENT) {
+            MZGramConfig.toggleAdminShortcutRecentActions();
+            ((TextCheckCell) view).setChecked(MZGramConfig.adminShortcutRecentActions);
+        } else if (item.id == BUTTON_ADMIN_SHORTCUT_ADMINS) {
+            MZGramConfig.toggleAdminShortcutAdministrators();
+            ((TextCheckCell) view).setChecked(MZGramConfig.adminShortcutAdministrators);
+        } else if (item.id == BUTTON_ADMIN_SHORTCUT_PERMISSIONS) {
+            MZGramConfig.toggleAdminShortcutPermissions();
+            ((TextCheckCell) view).setChecked(MZGramConfig.adminShortcutPermissions);
+        } else if (item.id == BUTTON_ADMIN_SHORTCUT_MEMBERS) {
+            MZGramConfig.toggleAdminShortcutMembers();
+            ((TextCheckCell) view).setChecked(MZGramConfig.adminShortcutMembers);
+        } else if (item.id == BUTTON_ADMIN_SHORTCUT_STATISTICS) {
+            MZGramConfig.toggleAdminShortcutStatistics();
+            ((TextCheckCell) view).setChecked(MZGramConfig.adminShortcutStatistics);
         } else if (item.id == BUTTON_SHOW_FORWARDS_COUNT) {
             MZGramConfig.toggleShowForwardsCount();
             ((TextCheckCell) view).setChecked(MZGramConfig.showForwardsCount);
@@ -1769,6 +1806,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_ATTACH_MONEY) {
             MZGramConfig.toggleHideAttachMoney();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideAttachMoney);
+        } else if (item.id == BUTTON_CHAT_MENU_TO_BEGINNING) {
+            MZGramConfig.toggleChatMenuToBeginning();
+            ((TextCheckCell) view).setChecked(MZGramConfig.chatMenuToBeginning);
         } else if (item.id == BUTTON_HIDE_SEND_AS_PEER) {
             MZGramConfig.toggleHideSendAsPeer();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideSendAsPeer);

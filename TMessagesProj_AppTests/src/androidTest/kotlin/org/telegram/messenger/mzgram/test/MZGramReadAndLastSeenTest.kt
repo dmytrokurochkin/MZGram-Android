@@ -149,6 +149,10 @@ class MZGramReadAndLastSeenTest {
             it.user_id = user.id
             it.action = TLRPC.TL_sendMessageTypingAction()
         })
+        // While typing, Telegram itself shows "online" for half a minute
+        // (onlinePrivacy); the noted time shows when that has passed
+        assertEquals(LocaleController.getString(R.string.Online), status(user))
+        controller.onlinePrivacy.remove(user.id)
         val shown = status(user)
         MZGramScreens.log("approximate last seen: '$vague' -> '$shown'")
         assertTrue("noted: ${MZGramLastSeen.lastSeen(user.id)}", MZGramLastSeen.lastSeen(user.id) >= at - 5)

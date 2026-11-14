@@ -190,9 +190,10 @@ class MZGramSettingsTest {
         activity = MZGramScreens.launchApp()
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
         val problems = MZGramScreens.settingsPages("settings", listOf(
-            MZGramSettingsActivity.SECTION_ARCHIVE,
-            MZGramSettingsActivity.SECTION_CHATS,
             MZGramSettingsActivity.SECTION_GENERAL,
+            MZGramSettingsActivity.SECTION_APPEARANCE,
+            MZGramSettingsActivity.SECTION_CHATS,
+            MZGramSettingsActivity.SECTION_OTHER,
         ))
         assertTrue(problems.joinToString(), problems.isEmpty())
     }

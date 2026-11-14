@@ -134,10 +134,14 @@ object MZGramScreens {
                 val fill = MZGramSettingsActivity::class.java.getDeclaredMethod("fillItems", ArrayList::class.java, org.telegram.ui.Components.UniversalAdapter::class.java)
                 fill.isAccessible = true
                 fill.invoke(main, items, null)
-                val row = items.first { it.id == MZGramSettingsActivity.SECTION_ROW_ID + section }
-                val onClick = MZGramSettingsActivity::class.java.getDeclaredMethod("onClick", org.telegram.ui.Components.UItem::class.java, View::class.java, Int::class.javaPrimitiveType, Float::class.javaPrimitiveType, Float::class.javaPrimitiveType)
-                onClick.isAccessible = true
-                onClick.invoke(main, row, null, 0, 0f, 0f)
+                val row = items.firstOrNull { it.id == MZGramSettingsActivity.SECTION_ROW_ID + section }
+                if (row != null) {
+                    val onClick = MZGramSettingsActivity::class.java.getDeclaredMethod("onClick", org.telegram.ui.Components.UItem::class.java, View::class.java, Int::class.javaPrimitiveType, Float::class.javaPrimitiveType, Float::class.javaPrimitiveType)
+                    onClick.isAccessible = true
+                    onClick.invoke(main, row, null, 0, 0f, 0f)
+                } else {
+                    main.presentFragment(MZGramSettingsActivity(section))
+                }
             }
             val opened = waitFor(30) {
                 val page = lastFragment()

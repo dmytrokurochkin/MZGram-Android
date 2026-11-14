@@ -259,8 +259,8 @@ class MZGramLocalizationTest {
         activity = MZGramScreens.launchApp()
         assertTrue("app opened", MZGramScreens.waitFor(30) { MZGramScreens.lastFragment() != null })
         val problems = MZGramScreens.settingsPages("settings-$language", listOf(
-            MZGramSettingsActivity.SECTION_ARCHIVE,
             MZGramSettingsActivity.SECTION_GENERAL,
+            MZGramSettingsActivity.SECTION_CHATS,
             MZGramSettingsActivity.SECTION_OTHER,
         ))
         assertTrue(problems.joinToString(), problems.isEmpty())

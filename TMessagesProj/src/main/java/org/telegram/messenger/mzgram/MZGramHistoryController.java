@@ -286,9 +286,18 @@ public class MZGramHistoryController {
         if (messages == null) {
             return;
         }
+        final long selfId = UserConfig.getInstance(accountId).getClientUserId();
         for (int a = 0, N = messages.size(); a < N; a++) {
             TLRPC.Message message = messages.get(a);
-            if (message == null || message.out) {
+            if (message == null) {
+                continue;
+            }
+            // Reactions carry the time each was set, those on own messages too
+            MZGramLastSeen.recordReactions(message.reactions, selfId);
+            // Away, greeting and scheduled messages and a business bot's go out
+            // without the person, and a join request is approved by someone else
+            if (message.out || message.offline || message.from_scheduled || message.via_business_bot_id != 0
+                    || message.action instanceof TLRPC.TL_messageActionChatJoinedByRequest) {
                 continue;
             }
             if (message.from_id instanceof TLRPC.TL_peerUser) {

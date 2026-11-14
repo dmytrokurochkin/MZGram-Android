@@ -55,7 +55,7 @@ class MZGramReadAndLastSeenTest {
 
     private fun deliver(update: TLRPC.Update, fromGetDifference: Boolean = false) {
         Utilities.stageQueue.postRunnable {
-            controller.processUpdateArray(arrayListOf(update), ArrayList(), ArrayList(), fromGetDifference, 0)
+            controller.processUpdateArray(arrayListOf(update), ArrayList(), ArrayList(), fromGetDifference, if (fromGetDifference) 0 else now())
         }
         repeat(3) {
             drain(Utilities.stageQueue)
@@ -277,5 +277,90 @@ class MZGramReadAndLastSeenTest {
         } finally {
             org.telegram.messenger.mzgram.MZGramConfig.lastSeenExact = was
         }
+    }
+
+    // Loading the chat list makes reads of its own, with no time: no sign
+    @Test
+    fun chatListRead_isNoSign() {
+        val user = hiddenUser(TLRPC.TL_userStatusRecently())
+        Utilities.stageQueue.postRunnable {
+            controller.processUpdateArray(arrayListOf<TLRPC.Update>(TL_update.TL_updateReadHistoryOutbox().also {
+                it.peer = TLRPC.TL_peerUser().also { p -> p.user_id = user.id }
+                it.max_id = 100
+            }), null, null, false, 0)
+        }
+        repeat(3) {
+            drain(Utilities.stageQueue)
+            drain(MessagesStorage.getInstance(account).storageQueue)
+            drain(Utilities.globalQueue)
+        }
+        instrumentation.runOnMainSync { }
+        assertEquals(0, MZGramLastSeen.lastSeen(user.id))
+        assertEquals(LocaleController.getString(R.string.Lately), status(user))
+    }
+
+    private fun store(message: TLRPC.Message) {
+        MessagesStorage.getInstance(account).putMessages(arrayListOf(message), false, true, false, 0, 0, 0)
+        repeat(3) { drain(MessagesStorage.getInstance(account).storageQueue) }
+    }
+
+    private fun messageWith(user: TLRPC.User, date: Int, out: Boolean) = TLRPC.TL_message().also {
+        it.id = 1_000 + (Math.random() * 1_000_000).toInt()
+        it.date = date
+        it.message = "hi"
+        it.out = out
+        it.from_id = TLRPC.TL_peerUser().also { p -> p.user_id = if (out) selfId else user.id }
+        it.peer_id = TLRPC.TL_peerUser().also { p -> p.user_id = user.id }
+        it.dialog_id = user.id
+        it.flags = it.flags or 256
+    }
+
+    // A "recently" status from the server carries no time and also comes when
+    // someone changes their privacy: no sign
+    @Test
+    fun recentlyStatusUpdate_isNoSign() {
+        val user = hiddenUser(TLRPC.TL_userStatusRecently())
+        deliver(TL_update.TL_updateUserStatus().also {
+            it.user_id = user.id
+            it.status = TLRPC.TL_userStatusRecently()
+        })
+        assertEquals(0, MZGramLastSeen.lastSeen(user.id))
+        assertEquals(LocaleController.getString(R.string.Lately), status(user))
+    }
+
+    // A reaction is a sign at the time it was set, also on the owner's own
+    // message; the owner's own reaction is not noted
+    @Test
+    fun reaction_isASignAtItsTime() {
+        val user = hiddenUser(TLRPC.TL_userStatusRecently())
+        val at = now() - 300
+        val selfBefore = MZGramLastSeen.lastSeen(selfId)
+        val message = messageWith(user, now() - 3600, true)
+        message.reactions = TLRPC.TL_messageReactions().also { r ->
+            r.recent_reactions.add(TLRPC.TL_messagePeerReaction().also { p ->
+                p.peer_id = TLRPC.TL_peerUser().also { u -> u.user_id = user.id }
+                p.date = at
+                p.reaction = TLRPC.TL_reactionEmoji().also { e -> e.emoticon = "\uD83D\uDC4D" }
+            })
+            r.recent_reactions.add(TLRPC.TL_messagePeerReaction().also { p ->
+                p.peer_id = TLRPC.TL_peerUser().also { u -> u.user_id = selfId }
+                p.date = now() - 10
+                p.reaction = TLRPC.TL_reactionEmoji().also { e -> e.emoticon = "\uD83D\uDC4D" }
+            })
+        }
+        store(message)
+        assertEquals(at, MZGramLastSeen.lastSeen(user.id))
+        assertEquals(selfBefore, MZGramLastSeen.lastSeen(selfId))
+        assertEquals(LocaleController.formatDateOnline(at.toLong(), null), status(user))
+    }
+
+    // Away and scheduled messages go out without the person: no sign
+    @Test
+    fun awayAndScheduledMessages_areNoSign() {
+        val user = hiddenUser(TLRPC.TL_userStatusRecently())
+        store(messageWith(user, now() - 60, false).also { it.offline = true })
+        store(messageWith(user, now() - 120, false).also { it.from_scheduled = true })
+        assertEquals(0, MZGramLastSeen.lastSeen(user.id))
+        assertEquals(LocaleController.getString(R.string.Lately), status(user))
     }
 }

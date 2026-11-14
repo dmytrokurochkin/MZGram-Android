@@ -19066,11 +19066,13 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 dialogs_read_outbox_max.put(dialogId, Math.max(value, update.max_id));
                 // MZGram: when own messages were read (message info), and a
-                // sign that the reader was online. Not a read caught up on
-                // after being offline: it happened some time before now.
+                // sign that the reader was online. Only a live read, within
+                // half a minute of now, as Telegram's own "online": not one
+                // caught up on after being offline, nor the reads the app
+                // makes itself (date 0) when it loads the chat list.
                 org.telegram.messenger.mzgram.MZGramReadDates.onOutboxRead(currentAccount, dialogId, update.max_id, getConnectionsManager().getCurrentTime());
-                if (update.peer.user_id != 0 && !fromGetDifference) {
-                    org.telegram.messenger.mzgram.MZGramLastSeen.record(update.peer.user_id, getConnectionsManager().getCurrentTime());
+                if (update.peer.user_id != 0 && !fromGetDifference && Math.abs(getConnectionsManager().getCurrentTime() - date) < 30) {
+                    org.telegram.messenger.mzgram.MZGramLastSeen.record(update.peer.user_id, date);
                 }
             } else if (baseUpdate instanceof TL_update.TL_updateDeleteMessages) {
                 TL_update.TL_updateDeleteMessages update = (TL_update.TL_updateDeleteMessages) baseUpdate;
@@ -19177,8 +19179,6 @@ public class MessagesController extends BaseController implements NotificationCe
                         continue;
                     }
                 }
-                // MZGram: typing is a sign of being online.
-                org.telegram.messenger.mzgram.MZGramLastSeen.record(userId, getConnectionsManager().getCurrentTime());
                 long uid = -chatId;
                 if (uid == 0) {
                     uid = userId;
@@ -19261,6 +19261,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     if (Math.abs(getConnectionsManager().getCurrentTime() - date) < 30) {
                         onlinePrivacy.put(userId, date);
+                        // MZGram: typing is a sign of being online.
+                        org.telegram.messenger.mzgram.MZGramLastSeen.record(userId, date);
                     }
                 }
             } else if (baseUpdate instanceof TL_update.TL_updateChatParticipants) {
@@ -19848,6 +19850,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 long dialogId = MessageObject.getPeerId(update.peer);
 
                 getMessagesStorage().updateMessageReactions(dialogId, update.msg_id, update.reactions);
+                // MZGram: a reaction is a sign of being online at the time it was set.
+                org.telegram.messenger.mzgram.MZGramLastSeen.recordReactions(update.reactions, getUserConfig().getClientUserId());
 
                 if (update.updateUnreadState) {
                     SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
@@ -20201,8 +20205,8 @@ public class MessagesController extends BaseController implements NotificationCe
 
                         if (update.status instanceof TLRPC.TL_userStatusRecently) {
                             update.status.expires = -100;
-                            // MZGram: a hidden status changing now.
-                            org.telegram.messenger.mzgram.MZGramLastSeen.record(update.user_id, getConnectionsManager().getCurrentTime());
+                            // MZGram: no sign for the approximate last seen: it carries no
+                            // time and also comes when someone changes their privacy.
                         } else if (update.status instanceof TLRPC.TL_userStatusLastWeek) {
                             update.status.expires = -101;
                         } else if (update.status instanceof TLRPC.TL_userStatusLastMonth) {

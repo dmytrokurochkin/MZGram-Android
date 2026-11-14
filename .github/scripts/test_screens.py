@@ -421,12 +421,27 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("known <= latest && known >= date - SAME_TIME", last)
         self.assertIn("return LocaleController.formatDateOnline(Math.min(at, now), madeShorter);", last)
         controller = read(JAVA / "messenger/MessagesController.java")
-        self.assertIn("if (update.peer.user_id != 0 && !fromGetDifference) {", controller)
+        self.assertIn("if (update.peer.user_id != 0 && !fromGetDifference && Math.abs(getConnectionsManager().getCurrentTime() - date) < 30) {", controller)
+        self.assertIn("onlinePrivacy.put(userId, date);\n                        // MZGram: typing is a sign of being online.", controller)
         self.assertEqual(2, controller.count("MZGramLastSeen.recordStatus("), "live update and loaded user")
         self.assertIn("MZGramLastSeen.recordStatus(status.user_id, status.status,", read(JAVA / "messenger/ContactsController.java"))
         self.assertIn("approximateStatus(user, currentTime, madeShorter)", read(JAVA / "messenger/LocaleController.java"))
         self.assertIn("seenAt < ? OR seenAt > ?", read(JAVA / "messenger/mzgram/MZGramHistoryDatabase.java"))
         self.assertIn("at /= 1000; // kept in milliseconds", read(JAVA / "messenger/mzgram/MZGramForeignArchiveImport.java"))
+
+    def test_approximate_last_seen_signs_with_a_real_time(self):
+        # As in the reference: a reaction counts at the time it was set; a
+        # "recently" status (also sent on a privacy change), away, greeting and
+        # scheduled messages do not
+        last = read(JAVA / "messenger/mzgram/MZGramLastSeen.java")
+        self.assertIn("public static void recordReactions(TLRPC.MessageReactions reactions, long selfId) {", last)
+        controller = read(JAVA / "messenger/MessagesController.java")
+        self.assertNotIn("// MZGram: a hidden status changing now.", controller)
+        self.assertIn("MZGramLastSeen.recordReactions(update.reactions, getUserConfig().getClientUserId());", controller)
+        history = read(JAVA / "messenger/mzgram/MZGramHistoryController.java")
+        self.assertIn("MZGramLastSeen.recordReactions(message.reactions, selfId);", history)
+        self.assertIn("if (message.out || message.offline || message.from_scheduled || message.via_business_bot_id != 0", history)
+        self.assertIn("Reactions count at the time they were set", read(ROOT / "FEATURES.md"))
         cell = read(JAVA / "ui/Cells/ChatMessageCell.java")
         self.assertIn("timeString = org.telegram.ui.mzgram.MZGramEditedIcon.DELETED + ", cell)
         self.assertIn("items.add(UItem.asIntSlideView(1, 0, org.telegram.messenger.mzgram.MZGramArchiveCap.step()", read(PAGE))

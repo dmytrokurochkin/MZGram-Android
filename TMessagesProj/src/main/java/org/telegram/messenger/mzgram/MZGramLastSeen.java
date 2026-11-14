@@ -5,8 +5,8 @@
  * An approximate "last seen" for people who hide it. The server then only
  * says "recently", "within a week" or "within a month"; this device notes
  * when it last saw a sign of the person being online: a new message from
- * them, typing, reading the owner's messages, or a status change the server
- * sends. The status line shows that time, the way any last seen time is
+ * them, typing, reading the owner's messages, or a reaction (at the time it
+ * was set). The status line shows that time, the way any last seen time is
  * shown, instead of the vague one, while it falls inside what the server says.
  *
  * Kept in the archive database, so it stays after a restart.
@@ -15,11 +15,15 @@
  * "online" or "last seen at", that time is noted, so after they hide their
  * last seen the line keeps the last time this device knew.
  *
- * Only real times: a read the app catches up on after being offline is not
- * a sign (it happened some time before, not now), and a time far ahead of
+ * Only real times: a read or typing counts only live, within half a minute
+ * of now, as for Telegram's own "online" (a read the app catches up on after
+ * being offline happened some time before, and loading the chat list makes
+ * reads of its own with no time), and a time far ahead of
  * the clock (a broken import, a wrong clock) is dropped, since it would hide
- * every later sign. Off (Archive > Save last online), nothing is noted and no
- * estimate is shown.
+ * every later sign. Away, greeting and scheduled messages go out without the
+ * person, and a "recently" status from the server carries no time (it also
+ * comes when someone changes their privacy), so neither is a sign. Off
+ * (Archive > Save last online), nothing is noted and no estimate is shown.
  */
 
 package org.telegram.messenger.mzgram;
@@ -90,6 +94,20 @@ public class MZGramLastSeen {
             record(userId, now);
         } else if (status instanceof TLRPC.TL_userStatusOffline && status.expires > 0) {
             record(userId, Math.min(status.expires, now));
+        }
+    }
+
+    // Reactions carry the time each was set: a sign of that person at that
+    // time, the owner's own excepted.
+    public static void recordReactions(TLRPC.MessageReactions reactions, long selfId) {
+        if (reactions == null || reactions.recent_reactions == null) {
+            return;
+        }
+        for (int a = 0, N = reactions.recent_reactions.size(); a < N; a++) {
+            TLRPC.MessagePeerReaction reaction = reactions.recent_reactions.get(a);
+            if (reaction != null && reaction.peer_id instanceof TLRPC.TL_peerUser && reaction.peer_id.user_id != selfId) {
+                record(reaction.peer_id.user_id, reaction.date);
+            }
         }
     }
 

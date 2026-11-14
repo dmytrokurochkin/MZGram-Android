@@ -9830,6 +9830,22 @@ public class ChatActivityEnterView extends FrameLayout implements
                 }
                 return;
             }
+            // MZGram: Confirm bot commands
+            if (org.telegram.messenger.mzgram.MZGramConfig.confirmBotCommands && parentActivity != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity, resourcesProvider);
+                builder.setTitle(LocaleController.getString(R.string.MZGramBotCommandConfirmTitle));
+                builder.setMessage(LocaleController.formatString(R.string.MZGramBotCommandConfirmText, command));
+                builder.setPositiveButton(LocaleController.getString(R.string.MZGramOk), (d, w) -> sendBotCommand(messageObject, command, username));
+                builder.setNegativeButton(LocaleController.getString(R.string.MZGramCancel), null);
+                builder.show();
+                return;
+            }
+            sendBotCommand(messageObject, command, username);
+        }
+    }
+
+    private void sendBotCommand(MessageObject messageObject, String command, boolean username) {
+        {
             TLRPC.User user = messageObject != null && DialogObject.isChatDialog(dialog_id) ? accountInstance.getMessagesController().getUser(messageObject.messageOwner.from_id.user_id) : null;
             SendMessagesHelper.SendMessageParams sendMessageParams;
             if ((botCount != 1 || username) && user != null && user.bot && !command.contains("@")) {

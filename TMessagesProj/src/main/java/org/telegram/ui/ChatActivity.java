@@ -1043,6 +1043,8 @@ public class ChatActivity extends BaseFragment implements
     private int startFromVideoMessageId;
     private boolean needSelectFromMessageId;
     private int returnToMessageId;
+    // MZGram: Remember all opened replies, the way back through them
+    private final java.util.Stack<Integer> returnToMessageIdsStack = new java.util.Stack<>();
     private int returnToLoadIndex;
     private int createUnreadMessageAfterId;
     private boolean createUnreadMessageAfterIdLoading;
@@ -1353,6 +1355,7 @@ public class ChatActivity extends BaseFragment implements
     public final static int OPTION_MZGRAM_SAVE_MESSAGE = 1003;
     public final static int OPTION_MZGRAM_SET_REMINDER = 1004;
     public final static int OPTION_MZGRAM_REPEAT = 1005;
+    private boolean mzgramRepeatConfirmed;
     public final static int OPTION_MZGRAM_OPEN_IN = 1006;
     public final static int OPTION_MZGRAM_DETAILS = 1007;
     public final static int OPTION_MZGRAM_QR = 1008;
@@ -4497,7 +4500,7 @@ public class ChatActivity extends BaseFragment implements
             searchItemVisible = false;
         }
 
-        if (chatMode == 0 && (threadMessageId == 0 || isTopic) && !UserObject.isReplyUser(currentUser) && !isReport()) {
+        if (chatMode == 0 && (threadMessageId == 0 || isTopic) && !UserObject.isReplyUser(currentUser) && !isReport() && !org.telegram.messenger.mzgram.MZGramConfig.hideCallButton) {
             TLRPC.UserFull userFull = null;
             if (currentUser != null) {
                 audioCallIconItem = menu.lazilyAddItem(call, R.drawable.call, themeDelegate);
@@ -10927,7 +10930,10 @@ public class ChatActivity extends BaseFragment implements
         };
         if (createUnreadMessageAfterId != 0) {
             scrollToMessageId(createUnreadMessageAfterId, 0, false, returnToLoadIndex, true, 0, null, inCaseLoading);
-        } else if (returnToMessageId > 0) {
+        } else if (returnToMessageId > 0 || org.telegram.messenger.mzgram.MZGramConfig.rememberAllReplies && !returnToMessageIdsStack.empty()) {
+            if (org.telegram.messenger.mzgram.MZGramConfig.rememberAllReplies && !returnToMessageIdsStack.empty()) {
+                returnToMessageId = returnToMessageIdsStack.pop();
+            }
             scrollToMessageId(returnToMessageId, 0, true, returnToLoadIndex, true, 0, null, inCaseLoading);
         } else {
             scrollToLastMessage(true, !forceScrollToMessageBottom, inCaseLoading);
@@ -17500,6 +17506,9 @@ public class ChatActivity extends BaseFragment implements
             }
         }
         returnToMessageId = fromMessageId;
+        if (org.telegram.messenger.mzgram.MZGramConfig.rememberAllReplies && fromMessageId > 0) {
+            returnToMessageIdsStack.push(fromMessageId);
+        }
         returnToLoadIndex = loadIndex;
         needSelectFromMessageId = select;
     }
@@ -24511,7 +24520,7 @@ public class ChatActivity extends BaseFragment implements
                     }
                 }
                 if (headerItem != null) {
-                    showAudioCallAsIcon = userInfo.phone_calls_available && !inPreviewMode;
+                    showAudioCallAsIcon = userInfo.phone_calls_available && !inPreviewMode && !org.telegram.messenger.mzgram.MZGramConfig.hideCallButton; // MZGram: Hide Call button
                     if (userInfo.phone_calls_available) {
                         if (showAudioCallAsIcon) {
                             if (audioCallIconItem != null) {
@@ -28279,7 +28288,7 @@ public class ChatActivity extends BaseFragment implements
         boolean forceNoBottom = false;
         boolean showGiftButton = false;
         boolean showSuggestButton = false;
-        boolean showSearchButton = chatMode == MODE_DEFAULT && ChatObject.isChannelOrGiga(currentChat);
+        boolean showSearchButton = chatMode == MODE_DEFAULT && ChatObject.isChannelOrGiga(currentChat) && !org.telegram.messenger.mzgram.MZGramConfig.hideChannelSearchButton; // MZGram
         boolean showGigaGroupButton = false;
         if (chatMode == MODE_DEFAULT && getMessagesController().isFrozen() && !AccountFrozenAlert.isSpamBot(currentAccount, currentUser)) {
             if (bottomOverlayStartButton != null) {
@@ -28660,7 +28669,7 @@ public class ChatActivity extends BaseFragment implements
         bottomChannelButtonsLayout.updateWrappingVisible(animated);
         bottomChannelButtonsLayout.showButton(ChatActivityChannelButtonsLayout.BUTTON_SEARCH, showSearchButton && bottomChannelButtonsLayout.getVisibility() == View.VISIBLE, animated);
         bottomChannelButtonsLayout.showButton(ChatActivityChannelButtonsLayout.BUTTON_DIRECT, showSuggestButton && bottomChannelButtonsLayout.getVisibility() == View.VISIBLE, animated);
-        bottomChannelButtonsLayout.showButton(ChatActivityChannelButtonsLayout.BUTTON_GIFT, showGiftButton && bottomChannelButtonsLayout.getVisibility() == View.VISIBLE, animated);
+        bottomChannelButtonsLayout.showButton(ChatActivityChannelButtonsLayout.BUTTON_GIFT, showGiftButton && !org.telegram.messenger.mzgram.MZGramConfig.hideChannelGiftButton && bottomChannelButtonsLayout.getVisibility() == View.VISIBLE, animated); // MZGram
         bottomChannelButtonsLayout.showButton(ChatActivityChannelButtonsLayout.BUTTON_GIGA_GROUP_INFO, showGigaGroupButton && bottomChannelButtonsLayout.getVisibility() == View.VISIBLE, animated);
 
         checkRaiseSensors();
@@ -34220,6 +34229,27 @@ public class ChatActivity extends BaseFragment implements
                 break;
             }
             case OPTION_MZGRAM_REPEAT: {
+                // MZGram: Confirm repeating messages; OK runs this option again
+                if (org.telegram.messenger.mzgram.MZGramConfig.confirmRepeat && !mzgramRepeatConfirmed) {
+                    final MessageObject repeatObject = selectedObject;
+                    final MessageObject.GroupedMessages repeatGroup = selectedObjectGroup;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), themeDelegate);
+                    builder.setTitle(LocaleController.getString(R.string.MZGramRepeat));
+                    builder.setMessage(LocaleController.getString(R.string.MZGramRepeatConfirmText));
+                    builder.setPositiveButton(LocaleController.getString(R.string.MZGramOk), (d, w) -> {
+                        selectedObject = repeatObject;
+                        selectedObjectGroup = repeatGroup;
+                        mzgramRepeatConfirmed = true;
+                        try {
+                            processSelectedOption(OPTION_MZGRAM_REPEAT);
+                        } finally {
+                            mzgramRepeatConfirmed = false;
+                        }
+                    });
+                    builder.setNegativeButton(LocaleController.getString(R.string.MZGramCancel), null);
+                    showDialog(builder.create());
+                    break;
+                }
                 if (checkSlowMode(chatActivityEnterView.getSendButton())) {
                     return;
                 }
@@ -47970,6 +48000,12 @@ public class ChatActivity extends BaseFragment implements
                     scrimPopupWindow.dismiss();
                 }
             };
+        } else if (buttonId == ChatActivitySideControlsButtonsLayout.BUTTON_PAGE_DOWN && org.telegram.messenger.mzgram.MZGramConfig.rememberAllReplies) {
+            // MZGram: hold the down button to forget the way back and go to the end
+            returnToMessageId = 0;
+            returnToMessageIdsStack.clear();
+            onPageDownClicked();
+            return true;
         } else {
             return false;
         }

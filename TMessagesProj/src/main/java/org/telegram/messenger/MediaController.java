@@ -2030,7 +2030,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     private boolean isNearToSensor(float value) {
-        return value < 5.0f && value != proximitySensor.getMaximumRange();
+        return !org.telegram.messenger.mzgram.MZGramConfig.disableProximity && value < 5.0f && value != proximitySensor.getMaximumRange(); // MZGram
     }
 
     public boolean isRecordingOrListeningByProximity() {
@@ -3937,7 +3937,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                 if (!playlist.isEmpty() && (playlist.size() > 1 || !messageObject.isVoice())) {
                                     playNextMessageWithoutOrder(true);
                                 } else {
-                                    cleanupPlayer(true, hasNoNextVoiceOrRoundVideoMessage(), messageObject.isVoice(), false);
+                                    // MZGram: Do not play the next voice message
+                                    final boolean stopAtVoiceEnd = messageObject.isVoice() && org.telegram.messenger.mzgram.MZGramConfig.dontAutoPlayNextVoice;
+                                    cleanupPlayer(true, stopAtVoiceEnd || hasNoNextVoiceOrRoundVideoMessage(), messageObject.isVoice() && !stopAtVoiceEnd, false);
                                 }
                             }
                         } else if (audioPlayer != null && seekToProgressPending != 0 && (playbackState == ExoPlayer.STATE_READY || playbackState == ExoPlayer.STATE_IDLE)) {

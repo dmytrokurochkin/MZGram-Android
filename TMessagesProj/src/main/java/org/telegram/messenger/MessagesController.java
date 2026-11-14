@@ -1424,6 +1424,14 @@ public class MessagesController extends BaseController implements NotificationCe
                 return 0;
             }
         }
+        // MZGram: Unread chats first
+        if (org.telegram.messenger.mzgram.MZGramConfig.sortByUnread) {
+            final boolean unread1 = org.telegram.messenger.mzgram.MZGramUnreadSort.isPriority(currentAccount, dialog1);
+            final boolean unread2 = org.telegram.messenger.mzgram.MZGramUnreadSort.isPriority(currentAccount, dialog2);
+            if (unread1 != unread2) {
+                return unread1 ? -1 : 1;
+            }
+        }
         MediaDataController mediaDataController = getMediaDataController();
         long date1 = DialogObject.getLastMessageOrDraftDate(dialog1, mediaDataController.getDraft(dialog1.id, 0));
         long date2 = DialogObject.getLastMessageOrDraftDate(dialog2, mediaDataController.getDraft(dialog2.id, 0));
@@ -1472,6 +1480,14 @@ public class MessagesController extends BaseController implements NotificationCe
                 return 1;
             }
             return Integer.compare(local1, local2);
+        }
+        // MZGram: Unread chats first
+        if (org.telegram.messenger.mzgram.MZGramConfig.sortByUnread) {
+            final boolean unread1 = org.telegram.messenger.mzgram.MZGramUnreadSort.isPriority(currentAccount, dialog1);
+            final boolean unread2 = org.telegram.messenger.mzgram.MZGramUnreadSort.isPriority(currentAccount, dialog2);
+            if (unread1 != unread2) {
+                return unread1 ? -1 : 1;
+            }
         }
         MediaDataController mediaDataController = getMediaDataController();
         long date1 = DialogObject.getLastMessageOrDraftDate(dialog1, mediaDataController.getDraft(dialog1.id, 0));

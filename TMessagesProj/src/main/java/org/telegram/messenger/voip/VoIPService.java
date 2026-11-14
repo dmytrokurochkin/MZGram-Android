@@ -4955,7 +4955,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			if (audioRouteToSet != AUDIO_ROUTE_EARPIECE || isHeadsetPlugged || vam.isSpeakerphoneOn() || (isBluetoothHeadsetConnected() && vam.isBluetoothOn())) {
 				return;
 			}
-			boolean newIsNear = event.values[0] < Math.min(event.sensor.getMaximumRange(), 3);
+			boolean newIsNear = !org.telegram.messenger.mzgram.MZGramConfig.disableProximity && event.values[0] < Math.min(event.sensor.getMaximumRange(), 3); // MZGram
 			checkIsNear(newIsNear);
 			NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.nearEarEvent, newIsNear);
 		}

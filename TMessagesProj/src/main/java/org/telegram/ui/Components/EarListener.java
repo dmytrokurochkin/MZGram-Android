@@ -285,7 +285,7 @@ public class EarListener implements SensorEventListener {
     }
 
     private boolean isNearToSensor(float value) {
-        return value < 5.0f && value != proximitySensor.getMaximumRange();
+        return !org.telegram.messenger.mzgram.MZGramConfig.disableProximity && value < 5.0f && value != proximitySensor.getMaximumRange(); // MZGram
     }
 
     @Override

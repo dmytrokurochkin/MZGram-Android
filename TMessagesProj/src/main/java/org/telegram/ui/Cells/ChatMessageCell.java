@@ -10034,6 +10034,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     if (w == 0 || h == 0) {
                         w = h = dp(150);
                     }
+                    if (org.telegram.messenger.mzgram.MZGramConfig.smallGifs && messageObject.type == MessageObject.TYPE_GIF) { // MZGram: Small GIFs
+                        w = h = dp(120);
+                    }
                     if (messageObject.type == MessageObject.TYPE_VIDEO) {
                         if (w < infoWidth + dp(16 + 24)) {
                             w = infoWidth + dp(16 + 24);
@@ -19417,7 +19420,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 lastLine = TextUtils.ellipsize(lastLine, Theme.chat_forwardNamePaint, forwardedNameWidth, TextUtils.TruncateAt.END);
                 try {
                     forwardedNameLayout[1] = new StaticLayout(lastLine, Theme.chat_forwardNamePaint, forwardedNameWidth + dp(2), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                    lastLine = TextUtils.ellipsize(AndroidUtilities.replaceTags(forwardedString), Theme.chat_forwardNamePaint, forwardedNameWidth, TextUtils.TruncateAt.END);
+                    lastLine = TextUtils.ellipsize(AndroidUtilities.replaceTags(org.telegram.messenger.mzgram.MZGramForwardDate.withDate(messageObject, forwardedString)), Theme.chat_forwardNamePaint, forwardedNameWidth, TextUtils.TruncateAt.END);
                     forwardedNameLayout[0] = new StaticLayout(lastLine, Theme.chat_forwardNamePaint, forwardedNameWidth + dp(2), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                     if (forwardBg == null) {
                         forwardBg = new ForwardBackground(this);

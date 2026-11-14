@@ -2271,7 +2271,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void loadFeaturedStickers(boolean emoji, boolean cache) {
-        if (loadingFeaturedStickers[emoji ? 1 : 0]) {
+        if (loadingFeaturedStickers[emoji ? 1 : 0] || org.telegram.messenger.mzgram.MZGramConfig.disableTrending) { // MZGram: Disable trending
             return;
         }
         loadingFeaturedStickers[emoji ? 1 : 0] = true;

@@ -352,7 +352,9 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 return searchId == lastSearchId;
             }
         });
-        searchAdapterHelper.setAllowGlobalResults(allowGlobalSearch);
+        // MZGram: Disable global search
+        this.allowGlobalSearch = allowGlobalSearch;
+        searchAdapterHelper.setAllowGlobalResults(globalResultsAllowed());
         mContext = context;
         needMessagesSearch = messagesSearch;
         dialogsType = type;
@@ -1095,7 +1097,15 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     int waitingResponseCount;
 
+    // MZGram: Disable global search (Settings > MZGram > Chats), from exteraless
+    private boolean allowGlobalSearch;
+
+    private boolean globalResultsAllowed() {
+        return allowGlobalSearch && !org.telegram.messenger.mzgram.MZGramConfig.disableGlobalSearch;
+    }
+
     public void searchDialogs(String text, int folderId, boolean allowPublicPosts) {
+        searchAdapterHelper.setAllowGlobalResults(globalResultsAllowed());
         if (text != null && text.equals(lastSearchText) && (folderId == this.folderId || TextUtils.isEmpty(text))) {
             return;
         }

@@ -16,6 +16,7 @@ import static org.telegram.messenger.LocaleController.getString;
 import android.view.View;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.mzgram.MZGramConfig;
 import org.telegram.ui.Components.IconBackgroundColors;
@@ -269,6 +270,24 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_KEYBOARD_ON_SCROLL = 240;
     private static final int BUTTON_ADD_COMMA_AFTER_MENTION = 241;
     private static final int BUTTON_HIDE_SEND_AS_PEER = 242;
+    private static final int BUTTON_HIDE_ATTACH_MONEY = 301;
+    private static final int BUTTON_CONTENT_CAPTURE = 300;
+    private static final int BUTTON_CONFIRM_BOT_COMMANDS = 299;
+    private static final int BUTTON_CONFIRM_REPEAT = 298;
+    private static final int BUTTON_DISABLE_PROXIMITY = 297;
+    private static final int BUTTON_DONT_AUTOPLAY_NEXT_VOICE = 296;
+    private static final int BUTTON_DISABLE_NOTIFICATION_BUBBLES = 295;
+    private static final int BUTTON_SORT_BY_UNREAD = 294;
+    private static final int BUTTON_DISABLE_AVATAR_BLUR = 293;
+    private static final int BUTTON_HIDE_GROUP_STICKER = 292;
+    private static final int BUTTON_DISABLE_TRENDING = 291;
+    private static final int BUTTON_REMEMBER_ALL_REPLIES = 290;
+    private static final int BUTTON_SMALL_GIFS = 289;
+    private static final int BUTTON_FORWARDED_DATE = 288;
+    private static final int BUTTON_HIDE_CALL_BUTTON = 287;
+    private static final int BUTTON_HIDE_CHANNEL_SEARCH = 286;
+    private static final int BUTTON_HIDE_CHANNEL_GIFT = 285;
+    private static final int BUTTON_DISABLE_GLOBAL_SEARCH = 284;
     private static final int BUTTON_REPLACE_EDITED_WITH_ICON = 243;
     private static final int BUTTON_SHOW_ONLINE_STATUS = 244;
     private static final int BUTTON_SHOW_FORWARDS_COUNT = 245;
@@ -1009,6 +1028,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_FORMAT_TIME_WITH_SECONDS, R.string.MZGramFormatTimeWithSeconds, MZGramConfig.formatTimeWithSeconds, R.string.MZGramFormatTimeWithSecondsInfo));
         items.add(check(BUTTON_IN_APP_VIBRATION, R.string.MZGramInAppVibration, MZGramConfig.inAppVibration, R.string.MZGramInAppVibrationInfo));
         items.add(check(BUTTON_DISABLE_NOTIFICATION_DELAY, R.string.MZGramDisableNotificationDelay, MZGramConfig.disableNotificationDelay, R.string.MZGramDisableNotificationDelayInfo));
+        items.add(UItem.asCheck(BUTTON_DISABLE_NOTIFICATION_BUBBLES, getString(R.string.MZGramDisableNotificationBubbles)).setChecked(MZGramConfig.disableNotificationBubbles));
         items.add(check(BUTTON_STRIP_ZALGO_TEXT, R.string.MZGramStripZalgoText, MZGramConfig.stripZalgoText, R.string.MZGramStripZalgoTextInfo));
         items.add(UItem.asShadow(null));
         items.add(UItem.asHeader(getString(R.string.MZGramDownloadBoost)));
@@ -1027,6 +1047,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramPeerIdInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatArchive)));
         items.add(check(BUTTON_HIDE_ARCHIVE_FOLDER, R.string.MZGramHideArchiveFolder, MZGramConfig.hideArchiveFolder, R.string.MZGramHideArchiveFolderInfo));
+        items.add(check(BUTTON_SORT_BY_UNREAD, R.string.MZGramSortByUnread, MZGramConfig.sortByUnread, R.string.MZGramSortByUnreadInfo));
         items.add(check(BUTTON_OPEN_ARCHIVE_ON_PULL, R.string.MZGramOpenArchiveOnPull, MZGramConfig.openArchiveOnPull, R.string.MZGramOpenArchiveOnPullInfo));
         items.add(check(BUTTON_DISABLE_UNARCHIVE_SWIPE, R.string.MZGramDisableUnarchiveSwipe, MZGramConfig.disableUnarchiveSwipe, R.string.MZGramDisableUnarchiveSwipeInfo));
         items.add(UItem.asShadow(null));
@@ -1099,6 +1120,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_FAB_SHAPE, getString(R.string.MZGramFabShape), getString(MZGramFabShape.TITLES[MZGramConfig.fabShape])));
         items.add(UItem.asButton(BUTTON_APP_FONT, getString(R.string.MZGramAppFont), MZGramAppFont.title()));
         items.add(check(BUTTON_GOOEY_AVATAR_ANIMATION, R.string.MZGramGooeyAvatarAnimation, MZGramConfig.gooeyAvatarAnimation, R.string.MZGramGooeyAvatarAnimationInfo));
+        items.add(check(BUTTON_DISABLE_AVATAR_BLUR, R.string.MZGramDisableAvatarBlur, MZGramConfig.disableAvatarBlur, R.string.MZGramDisableAvatarBlurInfo));
         items.add(check(BUTTON_CUSTOM_CHAT_THEMES, R.string.MZGramCustomChatThemes, MZGramConfig.customChatThemes, R.string.MZGramCustomChatThemesInfo));
         items.add(check(BUTTON_PREDICTIVE_BACK_ANIMATION, R.string.MZGramPredictiveBackAnimation, MZGramConfig.predictiveBackAnimation, R.string.MZGramPredictiveBackAnimationInfo));
         if (org.telegram.messenger.mzgram.MZGramMonet.available()) {
@@ -1145,6 +1167,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_STICKER_SHAPE, getString(R.string.MZGramStickerShape), stickerShapeTitle(MZGramConfig.stickerShape)));
         items.add(UItem.asCheck(BUTTON_STICKER_TIME, getString(R.string.MZGramStickerTime)).setChecked(MZGramConfig.hideStickerTime));
         items.add(check(BUTTON_UNLIMITED_RECENT_STICKERS, R.string.MZGramUnlimitedRecentStickers, MZGramConfig.unlimitedRecentStickers, R.string.MZGramUnlimitedRecentStickersInfo));
+        items.add(check(BUTTON_DISABLE_TRENDING, R.string.MZGramDisableTrending, MZGramConfig.disableTrending, R.string.MZGramDisableTrendingInfo));
+        items.add(UItem.asCheck(BUTTON_HIDE_GROUP_STICKER, getString(R.string.MZGramHideGroupSticker)).setChecked(MZGramConfig.hideGroupSticker));
         items.add(UItem.asShadow(getString(R.string.MZGramStickersInfo)));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderReplies)));
@@ -1171,6 +1195,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_HIDE_KEYBOARD_ON_SCROLL, getString(R.string.MZGramHideKeyboardOnScroll)).setChecked(MZGramConfig.hideKeyboardOnScroll));
         items.add(UItem.asCheck(BUTTON_ADD_COMMA_AFTER_MENTION, getString(R.string.MZGramAddCommaAfterMention)).setChecked(MZGramConfig.addCommaAfterMention));
         items.add(check(BUTTON_HIDE_SEND_AS_PEER, R.string.MZGramHideSendAsPeer, MZGramConfig.hideSendAsPeer, R.string.MZGramHideSendAsPeerInfo));
+        items.add(check(BUTTON_DISABLE_GLOBAL_SEARCH, R.string.MZGramDisableGlobalSearch, MZGramConfig.disableGlobalSearch, R.string.MZGramDisableGlobalSearchInfo));
         items.add(check(BUTTON_GRANULAR_PERMISSIONS, R.string.MZGramGranularPermissions, MZGramConfig.granularGroupPermissions, R.string.MZGramGranularPermissionsInfo));
         items.add(check(BUTTON_SPLIT_GIF_INLINE, R.string.MZGramSplitGifInline, MZGramConfig.splitGifInlineRights, R.string.MZGramSplitGifInlineInfo));
         items.add(check(BUTTON_SCHEDULE_SLIDER, R.string.MZGramScheduleSlider, MZGramConfig.scheduleSlider, R.string.MZGramScheduleSliderInfo));
@@ -1197,6 +1222,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_HIDE_CHAT_STATUS, R.string.MZGramHideChatStatus, MZGramConfig.hideChatStatus, R.string.MZGramHideChatStatusInfo));
         items.add(check(BUTTON_COMPACT_CHAT_HEADER, R.string.MZGramCompactChatHeader, MZGramConfig.compactChatHeader, R.string.MZGramCompactChatHeaderInfo));
         items.add(check(BUTTON_STATIC_INPUT_ICONS, R.string.MZGramStaticInputIcons, MZGramConfig.staticInputIcons, R.string.MZGramStaticInputIconsInfo));
+        items.add(UItem.asCheck(BUTTON_HIDE_CHANNEL_GIFT, getString(R.string.MZGramHideChannelGiftButton)).setChecked(MZGramConfig.hideChannelGiftButton));
+        items.add(UItem.asCheck(BUTTON_HIDE_CHANNEL_SEARCH, getString(R.string.MZGramHideChannelSearchButton)).setChecked(MZGramConfig.hideChannelSearchButton));
+        items.add(check(BUTTON_HIDE_CALL_BUTTON, R.string.MZGramHideCallButton, MZGramConfig.hideCallButton, R.string.MZGramHideCallButtonInfo));
+        // Telegram's own text: the name of Telegram's own tab in the attach menu
+        items.add(UItem.asCheck(BUTTON_HIDE_ATTACH_MONEY, LocaleController.formatString(R.string.MZGramHideAttachMoney, getString(R.string.WalletAttachMoney))).setChecked(MZGramConfig.hideAttachMoney));
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderMessages)));
@@ -1206,6 +1236,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asCheck(BUTTON_SHOW_FORWARDS_COUNT, getString(R.string.MZGramShowForwardsCount)).setChecked(MZGramConfig.showForwardsCount));
         items.add(UItem.asCheck(BUTTON_HIDE_SHARE_BUTTON, getString(R.string.MZGramHideShareButton)).setChecked(MZGramConfig.hideShareButton));
         items.add(check(BUTTON_SHOW_RESULTS_BEFORE_VOTING, R.string.MZGramShowResultsBeforeVoting, MZGramConfig.showResultsBeforeVoting, R.string.MZGramShowResultsBeforeVotingInfo));
+        items.add(UItem.asCheck(BUTTON_FORWARDED_DATE, getString(R.string.MZGramForwardedDate)).setChecked(MZGramConfig.forwardedDate));
+        items.add(UItem.asCheck(BUTTON_SMALL_GIFS, getString(R.string.MZGramSmallGifs)).setChecked(MZGramConfig.smallGifs));
+        items.add(check(BUTTON_REMEMBER_ALL_REPLIES, R.string.MZGramRememberAllReplies, MZGramConfig.rememberAllReplies, R.string.MZGramRememberAllRepliesInfo));
         items.add(UItem.asButton(BUTTON_MESSAGE_MENU, getString(R.string.MZGramSectionMessageMenu), messageMenuValue()));
         items.add(check(BUTTON_GROUP_MESSAGE_MENU, R.string.MZGramGroupMessageMenu, MZGramConfig.groupMessageMenu, R.string.MZGramGroupMessageMenuInfo));
         items.add(check(BUTTON_LINKED_EMOJI, R.string.MZGramLinkedEmoji, MZGramConfig.linkedCustomEmoji, R.string.MZGramLinkedEmojiInfo));
@@ -1256,10 +1289,14 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_UNMUTE_WITH_VOLUME_BUTTONS, R.string.MZGramUnmuteWithVolumeButtons, MZGramConfig.unmuteWithVolumeButtons, R.string.MZGramUnmuteWithVolumeButtonsInfo));
         items.add(check(BUTTON_AUTO_PAUSE_VIDEO, R.string.MZGramAutoPauseVideo, MZGramConfig.autoPauseVideo, R.string.MZGramAutoPauseVideoInfo));
         items.add(UItem.asCheck(BUTTON_PAUSE_VOICE_ON_MINIMIZE, getString(R.string.MZGramPauseVoiceOnMinimize)).setChecked(MZGramConfig.pauseVoiceOnMinimize));
+        items.add(UItem.asCheck(BUTTON_DONT_AUTOPLAY_NEXT_VOICE, getString(R.string.MZGramDontAutoPlayNextVoice)).setChecked(MZGramConfig.dontAutoPlayNextVoice));
+        items.add(check(BUTTON_DISABLE_PROXIMITY, R.string.MZGramDisableProximity, MZGramConfig.disableProximity, R.string.MZGramDisableProximityInfo));
         items.add(check(BUTTON_PAUSE_ROUND, R.string.MZGramPauseRound, MZGramConfig.pauseRoundOnLeave, R.string.MZGramPauseRoundInfo));
         items.add(check(BUTTON_VIDEO_SUBTITLES, R.string.MZGramVideoSubtitles, MZGramConfig.videoSubtitles, R.string.MZGramVideoSubtitlesInfo));
         items.add(check(BUTTON_MEDIA_PREVIEW_ON_LONG_PRESS, R.string.MZGramMediaPreviewOnLongPress, MZGramConfig.mediaPreviewOnLongPress, R.string.MZGramMediaPreviewOnLongPressInfo));
         items.add(check(BUTTON_CONFIRM_AV_MESSAGE, R.string.MZGramConfirmAVMessage, MZGramConfig.confirmAVMessage, R.string.MZGramConfirmAVMessageInfo));
+        items.add(UItem.asCheck(BUTTON_CONFIRM_REPEAT, getString(R.string.MZGramConfirmRepeat)).setChecked(MZGramConfig.confirmRepeat));
+        items.add(UItem.asCheck(BUTTON_CONFIRM_BOT_COMMANDS, getString(R.string.MZGramConfirmBotCommands)).setChecked(MZGramConfig.confirmBotCommands));
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderAudio)));
@@ -1416,6 +1453,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asShadow(getString(R.string.MZGramSettingsBackupInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramDiagnostics)));
         items.add(UItem.asCheck(BUTTON_CRASH_REPORTS, getString(R.string.MZGramCrashReports)).setChecked(MZGramConfig.crashReports));
+        items.add(check(BUTTON_CONTENT_CAPTURE, R.string.MZGramContentCapture, MZGramConfig.contentCapture, R.string.MZGramContentCaptureInfo));
         final boolean jankRunning = org.telegram.messenger.mzgram.MZGramJankProfiler.isRunning();
         items.add(UItem.asButton(BUTTON_JANK_PROFILER, getString(R.string.MZGramJankProfiler), getString(jankRunning ? R.string.MZGramProfilerStop : R.string.MZGramProfilerStart)));
         if (!jankRunning && org.telegram.messenger.mzgram.MZGramJankProfiler.getLastReport() != null) {
@@ -1674,6 +1712,63 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_REPLACE_EDITED_WITH_ICON) {
             MZGramConfig.toggleReplaceEditedWithIcon();
             ((TextCheckCell) view).setChecked(MZGramConfig.replaceEditedWithIcon);
+        } else if (item.id == BUTTON_DISABLE_GLOBAL_SEARCH) {
+            MZGramConfig.toggleDisableGlobalSearch();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableGlobalSearch);
+        } else if (item.id == BUTTON_HIDE_CHANNEL_GIFT) {
+            MZGramConfig.toggleHideChannelGiftButton();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideChannelGiftButton);
+        } else if (item.id == BUTTON_HIDE_CHANNEL_SEARCH) {
+            MZGramConfig.toggleHideChannelSearchButton();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideChannelSearchButton);
+        } else if (item.id == BUTTON_HIDE_CALL_BUTTON) {
+            MZGramConfig.toggleHideCallButton();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideCallButton);
+        } else if (item.id == BUTTON_FORWARDED_DATE) {
+            MZGramConfig.toggleForwardedDate();
+            ((TextCheckCell) view).setChecked(MZGramConfig.forwardedDate);
+        } else if (item.id == BUTTON_SMALL_GIFS) {
+            MZGramConfig.toggleSmallGifs();
+            ((TextCheckCell) view).setChecked(MZGramConfig.smallGifs);
+        } else if (item.id == BUTTON_REMEMBER_ALL_REPLIES) {
+            MZGramConfig.toggleRememberAllReplies();
+            ((TextCheckCell) view).setChecked(MZGramConfig.rememberAllReplies);
+        } else if (item.id == BUTTON_DISABLE_TRENDING) {
+            MZGramConfig.toggleDisableTrending();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableTrending);
+        } else if (item.id == BUTTON_HIDE_GROUP_STICKER) {
+            MZGramConfig.toggleHideGroupSticker();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideGroupSticker);
+        } else if (item.id == BUTTON_DISABLE_AVATAR_BLUR) {
+            MZGramConfig.toggleDisableAvatarBlur();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableAvatarBlur);
+        } else if (item.id == BUTTON_SORT_BY_UNREAD) {
+            MZGramConfig.toggleSortByUnread();
+            ((TextCheckCell) view).setChecked(MZGramConfig.sortByUnread);
+            getMessagesController().sortDialogs(null);
+            getNotificationCenter().postNotificationName(org.telegram.messenger.NotificationCenter.dialogsNeedReload);
+        } else if (item.id == BUTTON_DISABLE_NOTIFICATION_BUBBLES) {
+            MZGramConfig.toggleDisableNotificationBubbles();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableNotificationBubbles);
+        } else if (item.id == BUTTON_DONT_AUTOPLAY_NEXT_VOICE) {
+            MZGramConfig.toggleDontAutoPlayNextVoice();
+            ((TextCheckCell) view).setChecked(MZGramConfig.dontAutoPlayNextVoice);
+        } else if (item.id == BUTTON_DISABLE_PROXIMITY) {
+            MZGramConfig.toggleDisableProximity();
+            ((TextCheckCell) view).setChecked(MZGramConfig.disableProximity);
+        } else if (item.id == BUTTON_CONFIRM_REPEAT) {
+            MZGramConfig.toggleConfirmRepeat();
+            ((TextCheckCell) view).setChecked(MZGramConfig.confirmRepeat);
+        } else if (item.id == BUTTON_CONFIRM_BOT_COMMANDS) {
+            MZGramConfig.toggleConfirmBotCommands();
+            ((TextCheckCell) view).setChecked(MZGramConfig.confirmBotCommands);
+        } else if (item.id == BUTTON_CONTENT_CAPTURE) {
+            MZGramConfig.toggleContentCapture();
+            ((TextCheckCell) view).setChecked(MZGramConfig.contentCapture);
+            org.telegram.messenger.mzgram.MZGramContentCapture.apply(getParentActivity());
+        } else if (item.id == BUTTON_HIDE_ATTACH_MONEY) {
+            MZGramConfig.toggleHideAttachMoney();
+            ((TextCheckCell) view).setChecked(MZGramConfig.hideAttachMoney);
         } else if (item.id == BUTTON_HIDE_SEND_AS_PEER) {
             MZGramConfig.toggleHideSendAsPeer();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideSendAsPeer);

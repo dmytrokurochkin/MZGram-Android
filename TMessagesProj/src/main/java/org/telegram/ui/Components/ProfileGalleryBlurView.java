@@ -150,6 +150,9 @@ public class ProfileGalleryBlurView extends View {
     }
 
     private void swap(int from, int to, int clear) {
+        if (org.telegram.messenger.mzgram.MZGramConfig.disableAvatarBlur) {
+            return; // MZGram: Disable avatar blur
+        }
         synchronized (lock) {
             ProfileMetaballView.BlurBitmapHolder tmp2 = nextFrame[from];
             nextFrame[from] = nextFrame[to];
@@ -425,6 +428,9 @@ public class ProfileGalleryBlurView extends View {
     }
 
     public void draw(Canvas canvas, ProfileActivity.AvatarImageView avatarImageView, float width, float height, boolean translate, float fraction, float alpha) {
+        if (org.telegram.messenger.mzgram.MZGramConfig.disableAvatarBlur) {
+            return; // MZGram: Disable avatar blur
+        }
         if (view == null || !view.isAttachedToWindow() || view.getVisibility() == GONE) {
             return;
         }

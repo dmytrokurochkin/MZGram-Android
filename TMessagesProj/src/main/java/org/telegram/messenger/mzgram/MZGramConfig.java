@@ -559,6 +559,24 @@ public class MZGramConfig {
 
     // No Send as button by the field; messages go from the account chosen last (ChatActivityEnterView)
     public static boolean hideSendAsPeer = false;
+    public static boolean hideAttachMoney = false;
+    public static boolean contentCapture = true;
+    public static boolean confirmBotCommands = false;
+    public static boolean confirmRepeat = false;
+    public static boolean disableProximity = false;
+    public static boolean dontAutoPlayNextVoice = false;
+    public static boolean disableNotificationBubbles = false;
+    public static boolean sortByUnread = false;
+    public static boolean disableAvatarBlur = false;
+    public static boolean hideGroupSticker = false;
+    public static boolean disableTrending = false;
+    public static boolean rememberAllReplies = false;
+    public static boolean smallGifs = false;
+    public static boolean forwardedDate = false;
+    public static boolean hideCallButton = false;
+    public static boolean hideChannelSearchButton = false;
+    public static boolean hideChannelGiftButton = false;
+    public static boolean disableGlobalSearch = false;
 
     // A pencil before the time of an edited message instead of the word (MZGramEditedIcon, ChatMessageCell)
     public static boolean replaceEditedWithIcon = false;
@@ -956,6 +974,24 @@ public class MZGramConfig {
             hideKeyboardOnScroll = preferences.getBoolean("hideKeyboardOnScroll", false);
             addCommaAfterMention = preferences.getBoolean("addCommaAfterMention", false);
             hideSendAsPeer = preferences.getBoolean("hideSendAsPeer", false);
+            hideAttachMoney = preferences.getBoolean("hideAttachMoney", false);
+            contentCapture = preferences.getBoolean("contentCapture", true);
+            confirmBotCommands = preferences.getBoolean("confirmBotCommands", false);
+            confirmRepeat = preferences.getBoolean("confirmRepeat", false);
+            disableProximity = preferences.getBoolean("disableProximity", false);
+            dontAutoPlayNextVoice = preferences.getBoolean("dontAutoPlayNextVoice", false);
+            disableNotificationBubbles = preferences.getBoolean("disableNotificationBubbles", false);
+            sortByUnread = preferences.getBoolean("sortByUnread", false);
+            disableAvatarBlur = preferences.getBoolean("disableAvatarBlur", false);
+            hideGroupSticker = preferences.getBoolean("hideGroupSticker", false);
+            disableTrending = preferences.getBoolean("disableTrending", false);
+            rememberAllReplies = preferences.getBoolean("rememberAllReplies", false);
+            smallGifs = preferences.getBoolean("smallGifs", false);
+            forwardedDate = preferences.getBoolean("forwardedDate", false);
+            hideCallButton = preferences.getBoolean("hideCallButton", false);
+            hideChannelSearchButton = preferences.getBoolean("hideChannelSearchButton", false);
+            hideChannelGiftButton = preferences.getBoolean("hideChannelGiftButton", false);
+            disableGlobalSearch = preferences.getBoolean("disableGlobalSearch", false);
             replaceEditedWithIcon = preferences.getBoolean("replaceEditedWithIcon", false);
             showOnlineStatus = preferences.getBoolean("showOnlineStatus", false);
             showForwardsCount = preferences.getBoolean("showForwardsCount", false);
@@ -2286,6 +2322,96 @@ public class MZGramConfig {
     public static void toggleHideSendAsPeer() {
         hideSendAsPeer = !hideSendAsPeer;
         putBoolean("hideSendAsPeer", hideSendAsPeer);
+    }
+
+    public static void toggleHideAttachMoney() {
+        hideAttachMoney = !hideAttachMoney;
+        putBoolean("hideAttachMoney", hideAttachMoney);
+    }
+
+    public static void toggleContentCapture() {
+        contentCapture = !contentCapture;
+        putBoolean("contentCapture", contentCapture);
+    }
+
+    public static void toggleConfirmBotCommands() {
+        confirmBotCommands = !confirmBotCommands;
+        putBoolean("confirmBotCommands", confirmBotCommands);
+    }
+
+    public static void toggleConfirmRepeat() {
+        confirmRepeat = !confirmRepeat;
+        putBoolean("confirmRepeat", confirmRepeat);
+    }
+
+    public static void toggleDisableProximity() {
+        disableProximity = !disableProximity;
+        putBoolean("disableProximity", disableProximity);
+    }
+
+    public static void toggleDontAutoPlayNextVoice() {
+        dontAutoPlayNextVoice = !dontAutoPlayNextVoice;
+        putBoolean("dontAutoPlayNextVoice", dontAutoPlayNextVoice);
+    }
+
+    public static void toggleDisableNotificationBubbles() {
+        disableNotificationBubbles = !disableNotificationBubbles;
+        putBoolean("disableNotificationBubbles", disableNotificationBubbles);
+    }
+
+    public static void toggleSortByUnread() {
+        sortByUnread = !sortByUnread;
+        putBoolean("sortByUnread", sortByUnread);
+    }
+
+    public static void toggleDisableAvatarBlur() {
+        disableAvatarBlur = !disableAvatarBlur;
+        putBoolean("disableAvatarBlur", disableAvatarBlur);
+    }
+
+    public static void toggleHideGroupSticker() {
+        hideGroupSticker = !hideGroupSticker;
+        putBoolean("hideGroupSticker", hideGroupSticker);
+    }
+
+    public static void toggleDisableTrending() {
+        disableTrending = !disableTrending;
+        putBoolean("disableTrending", disableTrending);
+    }
+
+    public static void toggleRememberAllReplies() {
+        rememberAllReplies = !rememberAllReplies;
+        putBoolean("rememberAllReplies", rememberAllReplies);
+    }
+
+    public static void toggleSmallGifs() {
+        smallGifs = !smallGifs;
+        putBoolean("smallGifs", smallGifs);
+    }
+
+    public static void toggleForwardedDate() {
+        forwardedDate = !forwardedDate;
+        putBoolean("forwardedDate", forwardedDate);
+    }
+
+    public static void toggleHideCallButton() {
+        hideCallButton = !hideCallButton;
+        putBoolean("hideCallButton", hideCallButton);
+    }
+
+    public static void toggleHideChannelSearchButton() {
+        hideChannelSearchButton = !hideChannelSearchButton;
+        putBoolean("hideChannelSearchButton", hideChannelSearchButton);
+    }
+
+    public static void toggleHideChannelGiftButton() {
+        hideChannelGiftButton = !hideChannelGiftButton;
+        putBoolean("hideChannelGiftButton", hideChannelGiftButton);
+    }
+
+    public static void toggleDisableGlobalSearch() {
+        disableGlobalSearch = !disableGlobalSearch;
+        putBoolean("disableGlobalSearch", disableGlobalSearch);
     }
 
     public static void toggleReplaceEditedWithIcon() {

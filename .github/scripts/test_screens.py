@@ -511,6 +511,60 @@ class ScreensTest(unittest.TestCase):
         self.switch("profileMusicCard", "true", "BUTTON_PROFILE_MUSIC_CARD")
         self.assertIn("On by default; off, the profile keeps Telegram's music row.", read(ROOT / "FEATURES.md"))
 
+    def test_exteraless_chat_switches(self):
+        # From exteraless (audit-exteraless.md, batch 1); all off by default
+        for name, button in [("disableGlobalSearch", "BUTTON_DISABLE_GLOBAL_SEARCH"), ("hideChannelGiftButton", "BUTTON_HIDE_CHANNEL_GIFT"),
+                             ("hideChannelSearchButton", "BUTTON_HIDE_CHANNEL_SEARCH"), ("hideCallButton", "BUTTON_HIDE_CALL_BUTTON"),
+                             ("hideAttachMoney", "BUTTON_HIDE_ATTACH_MONEY"), ("forwardedDate", "BUTTON_FORWARDED_DATE"),
+                             ("smallGifs", "BUTTON_SMALL_GIFS"), ("rememberAllReplies", "BUTTON_REMEMBER_ALL_REPLIES"),
+                             ("disableTrending", "BUTTON_DISABLE_TRENDING"), ("hideGroupSticker", "BUTTON_HIDE_GROUP_STICKER"),
+                             ("disableAvatarBlur", "BUTTON_DISABLE_AVATAR_BLUR"), ("sortByUnread", "BUTTON_SORT_BY_UNREAD"),
+                             ("disableNotificationBubbles", "BUTTON_DISABLE_NOTIFICATION_BUBBLES"), ("dontAutoPlayNextVoice", "BUTTON_DONT_AUTOPLAY_NEXT_VOICE"),
+                             ("disableProximity", "BUTTON_DISABLE_PROXIMITY"), ("confirmRepeat", "BUTTON_CONFIRM_REPEAT"),
+                             ("confirmBotCommands", "BUTTON_CONFIRM_BOT_COMMANDS")]:
+            self.switch(name, "false", button)
+        self.switch("contentCapture", "true", "BUTTON_CONTENT_CAPTURE")
+        chat = read(JAVA / "ui/ChatActivity.java")
+        self.assertIn("!org.telegram.messenger.mzgram.MZGramConfig.hideCallButton) {", chat)
+        self.assertIn("&& !org.telegram.messenger.mzgram.MZGramConfig.hideCallButton; // MZGram: Hide Call button", chat)
+        self.assertIn("isChannelOrGiga(currentChat) && !org.telegram.messenger.mzgram.MZGramConfig.hideChannelSearchButton;", chat)
+        self.assertIn("showGiftButton && !org.telegram.messenger.mzgram.MZGramConfig.hideChannelGiftButton &&", chat)
+        self.assertIn("returnToMessageId = returnToMessageIdsStack.pop();", chat)
+        self.assertIn("returnToMessageIdsStack.push(fromMessageId);", chat)
+        self.assertIn("returnToMessageIdsStack.clear();", chat)
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.confirmRepeat && !mzgramRepeatConfirmed) {", chat)
+        self.assertIn("return allowGlobalSearch && !org.telegram.messenger.mzgram.MZGramConfig.disableGlobalSearch;", read(JAVA / "ui/Adapters/DialogsSearchAdapter.java"))
+        self.assertIn("!org.telegram.messenger.mzgram.MZGramConfig.hideAttachMoney &&", read(JAVA / "ui/Components/ChatAttachAlert.java"))
+        emoji = read(JAVA / "ui/Components/EmojiView.java")
+        self.assertIn("if (!org.telegram.messenger.mzgram.MZGramConfig.disableTrending && !featured.isEmpty()", emoji)
+        self.assertIn("if (!org.telegram.messenger.mzgram.MZGramConfig.disableTrending) { // MZGram: Disable trending", emoji)
+        self.assertIn("if (info != null && !org.telegram.messenger.mzgram.MZGramConfig.hideGroupSticker) {", emoji)
+        self.assertIn("|| org.telegram.messenger.mzgram.MZGramConfig.disableTrending) { // MZGram: Disable trending", read(JAVA / "messenger/MediaDataController.java"))
+        cell = read(JAVA / "ui/Cells/ChatMessageCell.java")
+        self.assertIn("MZGramForwardDate.withDate(messageObject, forwardedString)", cell)
+        self.assertIn("MZGramConfig.smallGifs && messageObject.type == MessageObject.TYPE_GIF", cell)
+        profile = read(JAVA / "ui/ProfileActivity.java")
+        self.assertIn("this.blurEnabled = !org.telegram.messenger.mzgram.MZGramConfig.disableAvatarBlur;", profile)
+        self.assertIn("avatarsBlurView.setSize(org.telegram.messenger.mzgram.MZGramConfig.disableAvatarBlur ? 0 : getActionsExtraHeight());", profile)
+        self.assertEqual(2, read(JAVA / "ui/Components/ProfileGalleryBlurView.java").count("return; // MZGram: Disable avatar blur"))
+        self.assertEqual(2, read(JAVA / "messenger/MessagesController.java").count("MZGramUnreadSort.isPriority(currentAccount, dialog1)"), "both chat list orders")
+        self.assertIn("supportsBubble && !org.telegram.messenger.mzgram.MZGramConfig.disableNotificationBubbles", read(JAVA / "messenger/NotificationsController.java"))
+        media = read(JAVA / "messenger/MediaController.java")
+        self.assertIn("final boolean stopAtVoiceEnd = messageObject.isVoice() && org.telegram.messenger.mzgram.MZGramConfig.dontAutoPlayNextVoice;", media)
+        self.assertIn("return !org.telegram.messenger.mzgram.MZGramConfig.disableProximity && value < 5.0f", media)
+        self.assertIn("return !org.telegram.messenger.mzgram.MZGramConfig.disableProximity && value < 5.0f", read(JAVA / "ui/Components/EarListener.java"))
+        self.assertIn("boolean newIsNear = !org.telegram.messenger.mzgram.MZGramConfig.disableProximity &&", read(JAVA / "messenger/voip/VoIPService.java"))
+        enter = read(JAVA / "ui/Components/ChatActivityEnterView.java")
+        self.assertIn("if (org.telegram.messenger.mzgram.MZGramConfig.confirmBotCommands && parentActivity != null) {", enter)
+        self.assertIn("private void sendBotCommand(MessageObject messageObject, String command, boolean username) {", enter)
+        self.assertIn("org.telegram.messenger.mzgram.MZGramContentCapture.apply(this); // MZGram", read(JAVA / "ui/LaunchActivity.java"))
+        features = read(ROOT / "FEATURES.md")
+        for name in ["Hide Gift and Search buttons in channels", "Hide Call button", "Hide the money tab in the attach menu", "Date on forwarded messages",
+                     "Remember all opened replies", "Confirm repeating messages", "Confirm bot commands", "Disable trending", "Hide the group sticker set",
+                     "Do not play the next voice message", "Ignore the proximity sensor", "Small GIFs", "Unread chats first", "Disable global search",
+                     "Disable notification bubbles", "Disable avatar blur", "Share screen content with Android"]:
+            self.assertIn("| " + name + " |", features)
+
     def test_floating_mini_player(self):
         self.switch("musicPlayerMini", "true", "BUTTON_MUSIC_PLAYER_MINI")
         tabs = read(JAVA / "ui/MainTabsActivity.java")

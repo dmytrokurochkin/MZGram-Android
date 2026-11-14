@@ -1,3 +1,5 @@
+// Ported from exteraless (GPL-3.0).
+
 /*
  * This is the source code of Telegram for Android v. 5.x.x.
  * It is licensed under GNU GPL v. 2 or later.
@@ -48,6 +50,10 @@ public class TextCheckCell2 extends FrameLayout {
     private View checkBoxClickArea;
 
     public void setCollapseArrow(String text, boolean collapsed, Runnable onCheckClick) {
+        setCollapseArrow(text, collapsed, true, onCheckClick);
+    }
+
+    public void setCollapseArrow(String text, boolean collapsed, boolean animated, Runnable onCheckClick) {
         if (collapseViewContainer == null) {
             collapseViewContainer = new LinearLayout(getContext());
             collapseViewContainer.setOrientation(LinearLayout.HORIZONTAL);
@@ -57,7 +63,7 @@ public class TextCheckCell2 extends FrameLayout {
             animatedTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             animatedTextView.setTypeface(AndroidUtilities.bold());
             animatedTextView.setAnimationProperties(.4f, 0, 320, CubicBezierInterpolator.EASE_OUT_QUINT);
-            collapseViewContainer.addView(animatedTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT,20));
+            collapseViewContainer.addView(animatedTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 20));
 
             collapsedArrow = new View(getContext());
             Drawable drawable = getContext().getResources().getDrawable(R.drawable.arrow_more).mutate();
@@ -72,22 +78,49 @@ public class TextCheckCell2 extends FrameLayout {
                 @Override
                 protected void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
-                    canvas.drawLine(0, dp(14), 2, getMeasuredHeight()- dp(14), Theme.dividerPaint);
+                    canvas.drawLine(0, dp(14), 2, getMeasuredHeight() - dp(14), Theme.dividerPaint);
                 }
             };
             checkBoxClickArea.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             addView(checkBoxClickArea, LayoutHelper.createFrame(76, LayoutHelper.MATCH_PARENT, LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT));
         }
-        animatedTextView.setText(text);
+        collapseViewContainer.setVisibility(View.VISIBLE);
+        checkBoxClickArea.setVisibility(View.VISIBLE);
+        animatedTextView.setText(text, animated);
+        collapsedArrow.animate().cancel();
+        if (animated) {
+            collapsedArrow.animate().rotation(collapsed ? 0 : 180).setDuration(340).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
+        } else {
+            collapsedArrow.setRotation(collapsed ? 0 : 180);
+        }
+        checkBoxClickArea.setOnClickListener(v -> onCheckClick.run());
+    }
+
+    public void setCollapsed(boolean collapsed) {
+        if (collapsedArrow == null) {
+            return;
+        }
         collapsedArrow.animate().cancel();
         collapsedArrow.animate().rotation(collapsed ? 0 : 180).setDuration(340).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
-        checkBoxClickArea.setOnClickListener(v -> onCheckClick.run());
+    }
+
+    public View getCollapseContainer() {
+        return collapseViewContainer;
     }
 
     public void hideCollapseArrow() {
         if (collapseViewContainer != null) {
             collapseViewContainer.setVisibility(View.GONE);
         }
+        if (checkBoxClickArea != null) {
+            checkBoxClickArea.setVisibility(View.GONE);
+        }
+    }
+
+    public void useStandardSwitchColors() {
+        checkBox.setDrawIconType(0);
+        checkBox.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked,
+                Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
     }
 
     public TextCheckCell2(Context context) {

@@ -1182,6 +1182,10 @@
     <string name="MZGramLinks">Спасылкі</string>
     <string name="MZGramSourceCode">Зыходны код</string>
     <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramChannel">Канал</string>
+    <string name="MZGramChatsDiscussion">Чаты</string>
+    <string name="MZGramWebsite">Вэб-сайт</string>
+    <string name="MZGramPersonalization">Персаналізацыя</string>
     <string name="MZGramHeaderLanguage">Мова і каляндар</string>
     <string name="MZGramHeaderProfile">Профіль</string>
     <string name="MZGramHeaderChatArchive">Архіў чатаў</string>

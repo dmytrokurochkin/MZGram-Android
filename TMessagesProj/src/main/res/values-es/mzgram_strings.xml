@@ -1182,6 +1182,10 @@
     <string name="MZGramLinks">Enlaces</string>
     <string name="MZGramSourceCode">Código fuente</string>
     <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramChannel">Canal</string>
+    <string name="MZGramChatsDiscussion">Chats</string>
+    <string name="MZGramWebsite">Sitio web</string>
+    <string name="MZGramPersonalization">Personalización</string>
     <string name="MZGramHeaderLanguage">Idioma y calendario</string>
     <string name="MZGramHeaderProfile">Perfil</string>
     <string name="MZGramHeaderChatArchive">Archivo de chats</string>

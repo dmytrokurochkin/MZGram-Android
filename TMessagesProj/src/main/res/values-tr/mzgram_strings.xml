@@ -1182,6 +1182,10 @@
     <string name="MZGramLinks">Bağlantılar</string>
     <string name="MZGramSourceCode">Kaynak kodu</string>
     <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramChannel">Kanal</string>
+    <string name="MZGramChatsDiscussion">Sohbetler</string>
+    <string name="MZGramWebsite">Web sitesi</string>
+    <string name="MZGramPersonalization">Kişiselleştirme</string>
     <string name="MZGramHeaderLanguage">Dil ve takvim</string>
     <string name="MZGramHeaderProfile">Profil</string>
     <string name="MZGramHeaderChatArchive">Sohbet arşivi</string>

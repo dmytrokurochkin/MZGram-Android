@@ -1182,6 +1182,10 @@
     <string name="MZGramLinks">الروابط</string>
     <string name="MZGramSourceCode">الشيفرة المصدرية</string>
     <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramChannel">القناة</string>
+    <string name="MZGramChatsDiscussion">الدردشات</string>
+    <string name="MZGramWebsite">الموقع الإلكتروني</string>
+    <string name="MZGramPersonalization">التخصيص</string>
     <string name="MZGramHeaderLanguage">اللغة والتقويم</string>
     <string name="MZGramHeaderProfile">الملف الشخصي</string>
     <string name="MZGramHeaderChatArchive">أرشيف المحادثات</string>

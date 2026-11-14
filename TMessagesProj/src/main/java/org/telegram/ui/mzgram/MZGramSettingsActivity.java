@@ -380,6 +380,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_DOUBLE_TAP_ACTIONS = 110;
     private static final int BUTTON_DOUBLE_TAP_OWN = 111;
     private static final int BUTTON_DOUBLE_TAP_OTHER = 112;
+    private static final int BUTTON_PRIVACY_SECTION = 315;
+    private static final int BUTTON_UNIFIED_PUSH = 316;
+    private static final int BUTTON_DEVICE_CHECK = 317;
+    private static final int BUTTON_PERSONALIZATION = 318;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -413,61 +417,53 @@ public class MZGramSettingsActivity extends UniversalFragment {
     public static final int SECTION_GENERAL = 0;
     public static final int SECTION_APPEARANCE = 1;
     public static final int SECTION_CHATS = 2;
-    public static final int SECTION_ARCHIVE = 3;
-    public static final int SECTION_GHOST_MODE = 4;
-    public static final int SECTION_ADS_AND_FILTERS = 5;
-    public static final int SECTION_PRIVACY = 6;
-    public static final int SECTION_AI = 7;
-    public static final int SECTION_OTHER = 8;
-    public static final int SECTION_MESSAGE_MENU = 9;
-    // The Feed: a page of Chats and of the Feed's gear, not a category
+    public static final int SECTION_PLUGINS = 3;
+    public static final int SECTION_OTHER = 4;
+    public static final int SECTIONS_COUNT = 5;
+
+    public static final int SECTION_ARCHIVE = 5;
+    public static final int SECTION_GHOST_MODE = 6;
+    public static final int SECTION_ADS_AND_FILTERS = 7;
+    public static final int SECTION_PRIVACY = 8;
+    public static final int SECTION_AI = 9;
     public static final int SECTION_FEED = 10;
-    public static final int SECTIONS_COUNT = 11;
+    public static final int SECTION_MESSAGE_MENU = 11;
+
     // Row ids of the categories on the main page; clear of the BUTTON_ ids,
     // which stay below it.
     public static final int SECTION_ROW_ID = 1000;
-    // The other rows of the main page: Plugins (a build with Python only)
-    // and the link to the source code
-    public static final int ROW_PLUGINS = SECTION_ROW_ID + 100;
+    public static final int ROW_PLUGINS = SECTION_ROW_ID + SECTION_PLUGINS;
+    public static final int ROW_CHANNEL = SECTION_ROW_ID + 100;
     public static final int ROW_SOURCE_CODE = SECTION_ROW_ID + 101;
-    // "Other" stays last: new categories go before it.
+    public static final int ROW_CHATS_GROUP = SECTION_ROW_ID + 102;
+    public static final int ROW_WEBSITE = SECTION_ROW_ID + 103;
+
+    private static final String CHANNEL_USERNAME = "@mzgram";
+    private static final String CHATS_USERNAME = "@mzgram_chat";
+    private static final String WEBSITE_URL = "mzgram.org";
+
     public static final int[] MAIN_PAGE_ORDER = {
             SECTION_GENERAL,
             SECTION_APPEARANCE,
             SECTION_CHATS,
-            SECTION_ARCHIVE,
-            SECTION_GHOST_MODE,
-            SECTION_ADS_AND_FILTERS,
-            SECTION_PRIVACY,
-            SECTION_AI,
-            SECTION_OTHER,
+            SECTION_PLUGINS,
+            SECTION_OTHER
     };
 
     private static final int[] SECTION_TITLES = {
             R.string.MZGramSectionGeneral,
             R.string.MZGramSectionAppearance,
             R.string.MZGramSectionChats,
-            R.string.MZGramSectionArchive,
-            R.string.MZGramSectionGhostMode,
-            R.string.MZGramSectionAdsAndFilters,
-            R.string.MZGramSectionPrivacy,
-            R.string.MZGramSectionAi,
-            R.string.MZGramSectionOther,
-            R.string.MZGramSectionMessageMenu,
-            R.string.MZGramFeed,
+            R.string.MZGramPlugins,
+            R.string.MZGramSectionOther
     };
+
     private static final int[] SECTION_ICONS = {
             R.drawable.msg_media,
             R.drawable.msg_theme,
             R.drawable.msg_discussion,
-            R.drawable.msg_archive,
-            R.drawable.msg_stories_stealth,
-            R.drawable.menu_tag_filter,
-            R.drawable.msg_secret,
-            R.drawable.msg_bot,
-            R.drawable.msg_fave,
-            R.drawable.msg_discussion,
-            R.drawable.msg_channel,
+            R.drawable.msg_plugins,
+            R.drawable.msg_fave
     };
 
     // The switches of the message menu page, for the "6/11" of its row in Chats
@@ -523,7 +519,20 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        return section == SECTION_MAIN ? getString(R.string.MZGram) : getString(SECTION_TITLES[section]);
+        if (section == SECTION_MAIN) {
+            return getString(R.string.MZGram);
+        }
+        if (section >= 0 && section < SECTION_TITLES.length) {
+            return getString(SECTION_TITLES[section]);
+        }
+        if (section == SECTION_ARCHIVE) return getString(R.string.MZGramSectionArchive);
+        if (section == SECTION_GHOST_MODE) return getString(R.string.MZGramSectionGhostMode);
+        if (section == SECTION_ADS_AND_FILTERS) return getString(R.string.MZGramSectionAdsAndFilters);
+        if (section == SECTION_PRIVACY) return getString(R.string.MZGramSectionPrivacy);
+        if (section == SECTION_AI) return getString(R.string.MZGramSectionAi);
+        if (section == SECTION_MESSAGE_MENU) return getString(R.string.MZGramSectionMessageMenu);
+        if (section == SECTION_FEED) return getString(R.string.MZGramFeed);
+        return "";
     }
 
     @Override
@@ -532,14 +541,17 @@ public class MZGramSettingsActivity extends UniversalFragment {
             case SECTION_GENERAL: fillGeneral(items); break;
             case SECTION_APPEARANCE: fillAppearance(items); break;
             case SECTION_CHATS: fillChats(items); break;
+            case SECTION_OTHER: fillOther(items); break;
             case SECTION_ARCHIVE: fillArchive(items); break;
             case SECTION_GHOST_MODE: fillGhostMode(items); break;
             case SECTION_ADS_AND_FILTERS: fillAdsAndFilters(items); break;
             case SECTION_PRIVACY: fillPrivacy(items); break;
             case SECTION_AI: fillAi(items); break;
-            case SECTION_OTHER: fillOther(items); break;
             case SECTION_MESSAGE_MENU: fillMessageMenu(items); break;
             case SECTION_FEED: fillFeed(items); break;
+            case SECTION_PLUGINS:
+                items.add(UItem.asButton(ROW_PLUGINS, R.drawable.msg_plugins, getString(R.string.MZGramPlugins)));
+                break;
             default: fillMain(items); break;
         }
     }
@@ -552,18 +564,26 @@ public class MZGramSettingsActivity extends UniversalFragment {
             aboutHeader = new MZGramAboutHeader(getContext() != null ? getContext() : org.telegram.messenger.ApplicationLoader.applicationContext);
         }
         items.add(UItem.asCustomShadow(aboutHeader));
+
         items.add(UItem.asHeader(getString(R.string.MZGramCategories)));
         for (int i : MAIN_PAGE_ORDER) {
-            if (i == SECTION_OTHER && org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
-                // Only in a build with the Python runtime (-PmzgramPlugins=true)
+            if (i == SECTION_PLUGINS) {
                 final int plugins = org.telegram.messenger.mzgram.plugins.MZGramPlugins.count();
-                items.add(UItem.asButton(ROW_PLUGINS, R.drawable.msg_bots, getString(R.string.MZGramPlugins), plugins > 0 ? org.telegram.messenger.LocaleController.formatNumber(plugins, ' ') : null));
+                items.add(UItem.asButton(SECTION_ROW_ID + i, SECTION_ICONS[i], getString(SECTION_TITLES[i]), plugins > 0 ? org.telegram.messenger.LocaleController.formatNumber(plugins, ' ') : null));
+            } else {
+                items.add(UItem.asButton(SECTION_ROW_ID + i, SECTION_ICONS[i], getString(SECTION_TITLES[i])));
             }
-            items.add(UItem.asButton(SECTION_ROW_ID + i, SECTION_ICONS[i], getString(SECTION_TITLES[i])));
         }
         items.add(UItem.asShadow(null));
+
         items.add(UItem.asHeader(getString(R.string.MZGramLinks)));
+        // Telegram's own text: link value
+        items.add(UItem.asButton(ROW_CHANNEL, R.drawable.msg_channel, getString(R.string.MZGramChannel), CHANNEL_USERNAME));
         items.add(UItem.asButton(ROW_SOURCE_CODE, R.drawable.msg_language, getString(R.string.MZGramSourceCode), getString(R.string.MZGramSourceCodeValue)));
+        // Telegram's own text: link value
+        items.add(UItem.asButton(ROW_CHATS_GROUP, R.drawable.msg_groups, getString(R.string.MZGramChatsDiscussion), CHATS_USERNAME));
+        // Telegram's own text: link value
+        items.add(UItem.asButton(ROW_WEBSITE, R.drawable.msg_link, getString(R.string.MZGramWebsite), WEBSITE_URL));
         items.add(UItem.asShadow(null));
     }
 
@@ -1037,6 +1057,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(check(BUTTON_PERSIAN_CALENDAR, R.string.MZGramPersianCalendar, MZGramConfig.persianCalendar, R.string.MZGramPersianCalendarInfo));
         items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramSectionGeneral)));
+        items.add(UItem.asButton(BUTTON_PRIVACY_SECTION, R.drawable.msg_secret, getString(R.string.MZGramSectionPrivacy)));
+        items.add(UItem.asButton(BUTTON_UNIFIED_PUSH, R.drawable.msg_notifications, getString(R.string.MZGramUnifiedPush)));
+        items.add(UItem.asButton(BUTTON_DEVICE_CHECK, R.drawable.msg_info, getString(R.string.MZGramDeviceCheck)));
         items.add(check(BUTTON_DISABLE_NUMBER_ROUNDING, R.string.MZGramDisableNumberRounding, MZGramConfig.disableNumberRounding, R.string.MZGramDisableNumberRoundingInfo));
         items.add(check(BUTTON_FORMAT_TIME_WITH_SECONDS, R.string.MZGramFormatTimeWithSeconds, MZGramConfig.formatTimeWithSeconds, R.string.MZGramFormatTimeWithSecondsInfo));
         items.add(check(BUTTON_IN_APP_VIBRATION, R.string.MZGramInAppVibration, MZGramConfig.inAppVibration, R.string.MZGramInAppVibrationInfo));
@@ -1503,8 +1526,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     getString(org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isStarted() ? R.string.MZGramPythonRuntimeReady : R.string.MZGramProfilerStart)));
         }
         items.add(UItem.asShadow(getString(R.string.MZGramDiagnosticsInfo)));
+        items.add(UItem.asButton(BUTTON_PERSONALIZATION, R.drawable.msg_stories_stealth, getString(R.string.MZGramPersonalization)));
         items.add(UItem.asHeader(getString(R.string.MZGramPeripheralsHeader)));
-        items.add(UItem.asButton(BUTTON_EXTENDED_PERIPHERALS, getString(R.string.MZGramPeripheralsTitle), getString(R.string.MZGramPeripheralsSub)));
+        items.add(UItem.asButton(BUTTON_EXTENDED_PERIPHERALS, R.drawable.msg_customize, getString(R.string.MZGramPeripheralsTitle), getString(R.string.MZGramPeripheralsSub)));
         items.add(UItem.asShadow(getString(R.string.MZGramPeripheralsInfo)));
         items.add(UItem.asHeader(getString(R.string.MZGramHideRowsTitle)));
         java.util.List<org.telegram.messenger.mzgram.MZGramSettingsRows.Row> rows = org.telegram.messenger.mzgram.MZGramSettingsRows.rows();
@@ -1624,9 +1648,28 @@ public class MZGramSettingsActivity extends UniversalFragment {
     @Override
     protected void onClick(UItem item, View view, int position, float x, float y) {
         if (item.id >= SECTION_ROW_ID && item.id < SECTION_ROW_ID + SECTIONS_COUNT) {
-            presentFragment(new MZGramSettingsActivity(item.id - SECTION_ROW_ID));
+            int targetSection = item.id - SECTION_ROW_ID;
+            if (targetSection == SECTION_PLUGINS) {
+                presentFragment(new MZGramPluginsActivity());
+            } else {
+                presentFragment(new MZGramSettingsActivity(targetSection));
+            }
+        } else if (item.id == ROW_CHANNEL) {
+            getMessagesController().openByUserName("mzgram", this, 1);
         } else if (item.id == ROW_SOURCE_CODE) {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), org.telegram.messenger.mzgram.MZGramBranding.REPOSITORY_URL);
+        } else if (item.id == ROW_CHATS_GROUP) {
+            getMessagesController().openByUserName("mzgram_chat", this, 1);
+        } else if (item.id == ROW_WEBSITE) {
+            org.telegram.messenger.browser.Browser.openUrl(getParentActivity(), "https://mzgram.org");
+        } else if (item.id == BUTTON_PRIVACY_SECTION) {
+            presentFragment(new MZGramSettingsActivity(SECTION_PRIVACY));
+        } else if (item.id == BUTTON_UNIFIED_PUSH) {
+            presentFragment(new MZGramUnifiedPushActivity());
+        } else if (item.id == BUTTON_DEVICE_CHECK) {
+            presentFragment(new MZGramDeviceCheckActivity());
+        } else if (item.id == BUTTON_PERSONALIZATION) {
+            presentFragment(new MZGramSettingsActivity(SECTION_GHOST_MODE));
         } else if (item.id == BUTTON_MESSAGE_MENU) {
             presentFragment(new MZGramSettingsActivity(SECTION_MESSAGE_MENU));
         } else if (item.id == BUTTON_GLASS_MESSAGE_MENU) {

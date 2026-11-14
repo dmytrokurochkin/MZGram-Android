@@ -185,19 +185,20 @@ class MZGramParityScreensTest {
             }
             val opened = MZGramScreens.waitFor(30) {
                 val page = MZGramScreens.lastFragment()
-                page is MZGramSettingsActivity && page !== main && (MZGramScreens.listViewOf(page)?.childCount ?: 0) > 0
+                (page is MZGramSettingsActivity || page is MZGramPluginsActivity) && page !== main && (MZGramScreens.listViewOf(page)?.childCount ?: 0) > 0
             }
             assertTrue("section $section opened", opened)
             val sectionName = when (section) {
                 MZGramSettingsActivity.SECTION_GENERAL -> "general"
                 MZGramSettingsActivity.SECTION_APPEARANCE -> "appearance"
                 MZGramSettingsActivity.SECTION_CHATS -> "chats"
+                MZGramSettingsActivity.SECTION_PLUGINS -> "plugins"
+                MZGramSettingsActivity.SECTION_OTHER -> "other"
                 MZGramSettingsActivity.SECTION_ARCHIVE -> "archive"
                 MZGramSettingsActivity.SECTION_GHOST_MODE -> "ghost-mode"
                 MZGramSettingsActivity.SECTION_ADS_AND_FILTERS -> "ads-and-filters"
                 MZGramSettingsActivity.SECTION_PRIVACY -> "privacy"
                 MZGramSettingsActivity.SECTION_AI -> "ai"
-                MZGramSettingsActivity.SECTION_OTHER -> "other"
                 else -> "section-$section"
             }
             captureWithScrolling("$themeName-$sectionName")

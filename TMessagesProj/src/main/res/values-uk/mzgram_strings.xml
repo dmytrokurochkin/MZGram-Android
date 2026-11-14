@@ -1183,6 +1183,10 @@
     <string name="MZGramLinks">Посилання</string>
     <string name="MZGramSourceCode">Вихідний код</string>
     <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramChannel">Канал</string>
+    <string name="MZGramChatsDiscussion">Чати</string>
+    <string name="MZGramWebsite">Вебсайт</string>
+    <string name="MZGramPersonalization">Персоналізація</string>
     <string name="MZGramHeaderLanguage">Мова і календар</string>
     <string name="MZGramHeaderProfile">Профіль</string>
     <string name="MZGramHeaderChatArchive">Архів чатів</string>

@@ -120,29 +120,31 @@ class MZGramSettingsTest {
             R.string.MZGramSectionGeneral,
             R.string.MZGramSectionAppearance,
             R.string.MZGramSectionChats,
-            R.string.MZGramSectionArchive,
-            R.string.MZGramSectionGhostMode,
-            R.string.MZGramSectionAdsAndFilters,
-            R.string.MZGramSectionPrivacy,
-            R.string.MZGramSectionAi,
+            R.string.MZGramPlugins,
             R.string.MZGramSectionOther,
         ).map { LocaleController.getString(it) }
         assertEquals(expected, rows.map { it.text.toString() })
         assertEquals("one row per category", MZGramSettingsActivity.MAIN_PAGE_ORDER.map { MZGramSettingsActivity.SECTION_ROW_ID + it }, rows.map { it.id })
         assertTrue("the message menu is not a category", MZGramSettingsActivity.SECTION_MESSAGE_MENU !in MZGramSettingsActivity.MAIN_PAGE_ORDER)
-        val withPython = org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()
         val plugins = main.indexOfFirst { it.id == MZGramSettingsActivity.ROW_PLUGINS }
-        if (withPython) {
-            assertEquals("Plugins right before Other", main.indexOfFirst { it.id == MZGramSettingsActivity.SECTION_ROW_ID + MZGramSettingsActivity.SECTION_OTHER } - 1, plugins)
-        } else {
-            assertEquals("no Plugins without Python", -1, plugins)
-        }
+        assertEquals("Plugins in MAIN_PAGE_ORDER", main.indexOfFirst { it.id == MZGramSettingsActivity.SECTION_ROW_ID + MZGramSettingsActivity.SECTION_PLUGINS }, plugins)
         assertEquals("the source code link", LocaleController.getString(R.string.MZGramSourceCode), main.first { it.id == MZGramSettingsActivity.ROW_SOURCE_CODE }.text.toString())
         assertTrue("no switches on the main page", main.none { it.id in allButtons() })
 
         val shown = ArrayList<Int>()
         val perTopic = ArrayList<String>()
-        for (section in 0 until MZGramSettingsActivity.SECTIONS_COUNT) {
+        val allSections = listOf(
+            MZGramSettingsActivity.SECTION_GENERAL,
+            MZGramSettingsActivity.SECTION_APPEARANCE,
+            MZGramSettingsActivity.SECTION_CHATS,
+            MZGramSettingsActivity.SECTION_OTHER,
+            MZGramSettingsActivity.SECTION_ARCHIVE,
+            MZGramSettingsActivity.SECTION_GHOST_MODE,
+            MZGramSettingsActivity.SECTION_ADS_AND_FILTERS,
+            MZGramSettingsActivity.SECTION_PRIVACY,
+            MZGramSettingsActivity.SECTION_AI,
+        )
+        for (section in allSections) {
             // The archive size at the top of Archive is a view, and sliders are slider views, not switches
             val ids = settingsItems(section).filter {
                 it.viewType != UniversalAdapter.VIEW_TYPE_HEADER &&
@@ -160,12 +162,7 @@ class MZGramSettingsTest {
         // None lost: every switch and button is shown, but those under an off switch and those not offered here
         val maybe = notOffered()
         assertEquals("every switch and button is shown", allButtons() - underSwitch.map { button(it) }.toSet() - maybe, shown.toSet() - maybe)
-        // 78 in base, plus added switches and buttons in features 68-85, N16, N12 (subtitles) and N14 (Persian calendar),
-        // less the DoH provider row (it changed no request), plus the switches of local folders and exact last seen,
-        // plus the message menu row of Chats, plus the switches of the reference screenshots (MZGramScreensTest),
-        // plus the bar, mini player and style rows under the Material 3 player, on by default;
-        // a build with plugins (Python) also has Python for plugins (Plugins itself is a row of the main page)
-        val expectedCount = 275 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        val expectedCount = 279 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

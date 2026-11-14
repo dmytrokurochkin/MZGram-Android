@@ -1182,6 +1182,10 @@
     <string name="MZGramLinks">Сілтемелер</string>
     <string name="MZGramSourceCode">Бастапқы код</string>
     <string name="MZGramSourceCodeValue">GitHub</string>
+    <string name="MZGramChannel">Арна</string>
+    <string name="MZGramChatsDiscussion">Чаттар</string>
+    <string name="MZGramWebsite">Веб-сайт</string>
+    <string name="MZGramPersonalization">Жекелендіру</string>
     <string name="MZGramHeaderLanguage">Тіл және күнтізбе</string>
     <string name="MZGramHeaderProfile">Профиль</string>
     <string name="MZGramHeaderChatArchive">Чаттар мұрағаты</string>

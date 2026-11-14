@@ -278,7 +278,7 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("documentAttachType == DOCUMENT_ATTACH_TYPE_STICKER && org.telegram.ui.mzgram.MZGramStickers.messageShape()", cell)
         self.assertIn("items.add(UItem.asButton(BUTTON_STICKER_SHAPE, ", read(PAGE))
         media = read(JAVA / "messenger/MediaDataController.java")
-        self.assertEqual(2, media.count("MZGramConfig.recentStickersLimit(getMessagesController().maxRecentStickersCount)"))
+        self.assertEqual(3, media.count("MZGramConfig.recentStickersLimit(getMessagesController().maxRecentStickersCount)"), "adding, saving and keeping after a sync")
         self.assertNotIn("= getMessagesController().maxRecentStickersCount;", media)
 
     def test_swipe_bottom_button_keyboard_comma_send_as(self):
@@ -584,6 +584,18 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("fragment.scrollToMessageId(1, 0, false, 0, true, 0);", shortcuts)
         self.assertIn("MZGramAdminShortcuts.addToBeginning(headerItem, chatMode, isThreadChat());", read(JAVA / "ui/ChatActivity.java"))
         self.assertIn('| "To the beginning" in the chat menu |', read(ROOT / "FEATURES.md"))
+
+    def test_unlimited_saved_gifs(self):
+        # exteraless: a sync with the server keeps what only this device has
+        self.switch("unlimitedSavedGifs", "false", "BUTTON_UNLIMITED_SAVED_GIFS")
+        media = read(JAVA / "messenger/MediaDataController.java")
+        self.assertIn("if (!org.telegram.messenger.mzgram.MZGramConfig.unlimitedSavedGifs && ((recentGifs.size() > getMessagesController().savedGifsLimitDefault", media)
+        self.assertIn("maxCount = org.telegram.messenger.mzgram.MZGramConfig.unlimitedSavedGifs ? Integer.MAX_VALUE : getMessagesController().maxRecentGifsCount;", media)
+        self.assertIn("if (replace && documents != null && org.telegram.messenger.mzgram.MZGramRecentKeep.keeps(gif, type)) {", media)
+        self.assertIn("processLoadedRecentDocumentsKept(type, documents, gif, date, replace);", media)
+        features = read(ROOT / "FEATURES.md")
+        self.assertIn("| Unlimited saved GIFs |", features)
+        self.assertIn("stickers past Telegram's list stay on this device after a sync too", features)
 
     def test_floating_mini_player(self):
         self.switch("musicPlayerMini", "true", "BUTTON_MUSIC_PLAYER_MINI")

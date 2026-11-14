@@ -1115,7 +1115,7 @@ public class MediaDataController extends BaseController {
         if (!found) {
             recentGifs.add(0, document);
         }
-        if ((recentGifs.size() > getMessagesController().savedGifsLimitDefault && !UserConfig.getInstance(currentAccount).isPremium()) || recentGifs.size() > getMessagesController().savedGifsLimitPremium) {
+        if (!org.telegram.messenger.mzgram.MZGramConfig.unlimitedSavedGifs && ((recentGifs.size() > getMessagesController().savedGifsLimitDefault && !UserConfig.getInstance(currentAccount).isPremium()) || recentGifs.size() > getMessagesController().savedGifsLimitPremium)) { // MZGram: Unlimited saved GIFs
             TLRPC.Document old = recentGifs.remove(recentGifs.size() - 1);
             getMessagesStorage().getStorageQueue().postRunnable(() -> {
                 try {
@@ -2082,13 +2082,24 @@ public class MediaDataController extends BaseController {
     }
 
     protected void processLoadedRecentDocuments(int type, ArrayList<TLRPC.Document> documents, boolean gif, int date, boolean replace) {
+        // MZGram: Unlimited saved GIFs and recent stickers keep, after a sync
+        // with the server's shorter list, what only this device has (exteraless)
+        if (replace && documents != null && org.telegram.messenger.mzgram.MZGramRecentKeep.keeps(gif, type)) {
+            documents = org.telegram.messenger.mzgram.MZGramRecentKeep.merge(documents, gif ? recentGifs : recentStickers[type],
+                    gif ? Integer.MAX_VALUE : org.telegram.messenger.mzgram.MZGramConfig.recentStickersLimit(getMessagesController().maxRecentStickersCount));
+        }
+        processLoadedRecentDocumentsKept(type, documents, gif, date, replace);
+    }
+
+    private void processLoadedRecentDocumentsKept(int type, ArrayList<TLRPC.Document> documents, boolean gif, int date, boolean replace) {
         if (documents != null) {
             getMessagesStorage().getStorageQueue().postRunnable(() -> {
                 try {
                     SQLiteDatabase database = getMessagesStorage().getDatabase();
                     int maxCount;
                     if (gif) {
-                        maxCount = getMessagesController().maxRecentGifsCount;
+                        // MZGram: Unlimited saved GIFs
+                        maxCount = org.telegram.messenger.mzgram.MZGramConfig.unlimitedSavedGifs ? Integer.MAX_VALUE : getMessagesController().maxRecentGifsCount;
                     } else {
                         if (type == TYPE_GREETINGS || type == TYPE_PREMIUM_STICKERS) {
                             maxCount = 200;

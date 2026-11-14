@@ -1433,4 +1433,6 @@
     <string name="MZGramChatMenuToBeginning">„Na początek” w menu czatu</string>
     <string name="MZGramChatMenuToBeginningInfo">Menu z trzema kropkami w czacie dostaje pozycję, która przechodzi do pierwszej wiadomości.</string>
     <string name="MZGramToTheBeginning">Na początek</string>
+    <string name="MZGramUnlimitedSavedGifs">Nieograniczone zapisane GIF-y</string>
+    <string name="MZGramUnlimitedSavedGifsInfo">To urządzenie zachowuje każdy zapisany GIF, także ponad limit Telegrama i po synchronizacji; serwer Telegrama trzyma tylko do swojego limitu.</string>
 </resources>

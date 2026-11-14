@@ -1433,4 +1433,6 @@
     <string name="MZGramChatMenuToBeginning">«В начало» в меню чата</string>
     <string name="MZGramChatMenuToBeginningInfo">Меню трёх точек в чате получает пункт, который переходит к первому сообщению.</string>
     <string name="MZGramToTheBeginning">В начало</string>
+    <string name="MZGramUnlimitedSavedGifs">Неограниченные сохранённые GIF</string>
+    <string name="MZGramUnlimitedSavedGifsInfo">Это устройство хранит все сохранённые вами GIF, и сверх лимита Telegram, и после синхронизации; сервер Telegram держит только до своего лимита.</string>
 </resources>

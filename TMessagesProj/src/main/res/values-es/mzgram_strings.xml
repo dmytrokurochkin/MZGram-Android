@@ -1433,4 +1433,6 @@
     <string name="MZGramChatMenuToBeginning">«Al principio» en el menú del chat</string>
     <string name="MZGramChatMenuToBeginningInfo">El menú de tres puntos de un chat tiene una opción que salta al primer mensaje.</string>
     <string name="MZGramToTheBeginning">Al principio</string>
+    <string name="MZGramUnlimitedSavedGifs">GIF guardados ilimitados</string>
+    <string name="MZGramUnlimitedSavedGifsInfo">Este dispositivo guarda todos los GIF que guardes, también por encima del límite de Telegram y tras sincronizar; el servidor de Telegram guarda solo hasta su límite.</string>
 </resources>

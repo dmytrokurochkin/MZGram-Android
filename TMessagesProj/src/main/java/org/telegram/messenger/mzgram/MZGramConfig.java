@@ -559,6 +559,7 @@ public class MZGramConfig {
 
     // No Send as button by the field; messages go from the account chosen last (ChatActivityEnterView)
     public static boolean hideSendAsPeer = false;
+    public static boolean unlimitedSavedGifs = false;
     public static boolean chatMenuToBeginning = false;
     public static boolean adminShortcutStatistics = true;
     public static boolean adminShortcutMembers = true;
@@ -980,6 +981,7 @@ public class MZGramConfig {
             hideKeyboardOnScroll = preferences.getBoolean("hideKeyboardOnScroll", false);
             addCommaAfterMention = preferences.getBoolean("addCommaAfterMention", false);
             hideSendAsPeer = preferences.getBoolean("hideSendAsPeer", false);
+            unlimitedSavedGifs = preferences.getBoolean("unlimitedSavedGifs", false);
             chatMenuToBeginning = preferences.getBoolean("chatMenuToBeginning", false);
             adminShortcutStatistics = preferences.getBoolean("adminShortcutStatistics", true);
             adminShortcutMembers = preferences.getBoolean("adminShortcutMembers", true);
@@ -2359,6 +2361,11 @@ public class MZGramConfig {
     public static void toggleHideSendAsPeer() {
         hideSendAsPeer = !hideSendAsPeer;
         putBoolean("hideSendAsPeer", hideSendAsPeer);
+    }
+
+    public static void toggleUnlimitedSavedGifs() {
+        unlimitedSavedGifs = !unlimitedSavedGifs;
+        putBoolean("unlimitedSavedGifs", unlimitedSavedGifs);
     }
 
     public static void toggleChatMenuToBeginning() {

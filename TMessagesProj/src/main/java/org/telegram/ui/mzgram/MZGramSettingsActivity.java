@@ -270,6 +270,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_HIDE_KEYBOARD_ON_SCROLL = 240;
     private static final int BUTTON_ADD_COMMA_AFTER_MENTION = 241;
     private static final int BUTTON_HIDE_SEND_AS_PEER = 242;
+    private static final int BUTTON_UNLIMITED_SAVED_GIFS = 308;
     private static final int BUTTON_ADMIN_SHORTCUT_STATISTICS = 307;
     private static final int BUTTON_ADMIN_SHORTCUT_MEMBERS = 306;
     private static final int BUTTON_ADMIN_SHORTCUT_PERMISSIONS = 305;
@@ -1173,6 +1174,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
         items.add(UItem.asButton(BUTTON_STICKER_SHAPE, getString(R.string.MZGramStickerShape), stickerShapeTitle(MZGramConfig.stickerShape)));
         items.add(UItem.asCheck(BUTTON_STICKER_TIME, getString(R.string.MZGramStickerTime)).setChecked(MZGramConfig.hideStickerTime));
         items.add(check(BUTTON_UNLIMITED_RECENT_STICKERS, R.string.MZGramUnlimitedRecentStickers, MZGramConfig.unlimitedRecentStickers, R.string.MZGramUnlimitedRecentStickersInfo));
+        items.add(check(BUTTON_UNLIMITED_SAVED_GIFS, R.string.MZGramUnlimitedSavedGifs, MZGramConfig.unlimitedSavedGifs, R.string.MZGramUnlimitedSavedGifsInfo));
         items.add(check(BUTTON_DISABLE_TRENDING, R.string.MZGramDisableTrending, MZGramConfig.disableTrending, R.string.MZGramDisableTrendingInfo));
         items.add(UItem.asCheck(BUTTON_HIDE_GROUP_STICKER, getString(R.string.MZGramHideGroupSticker)).setChecked(MZGramConfig.hideGroupSticker));
         items.add(UItem.asShadow(getString(R.string.MZGramStickersInfo)));
@@ -1809,6 +1811,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CHAT_MENU_TO_BEGINNING) {
             MZGramConfig.toggleChatMenuToBeginning();
             ((TextCheckCell) view).setChecked(MZGramConfig.chatMenuToBeginning);
+        } else if (item.id == BUTTON_UNLIMITED_SAVED_GIFS) {
+            MZGramConfig.toggleUnlimitedSavedGifs();
+            ((TextCheckCell) view).setChecked(MZGramConfig.unlimitedSavedGifs);
         } else if (item.id == BUTTON_HIDE_SEND_AS_PEER) {
             MZGramConfig.toggleHideSendAsPeer();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideSendAsPeer);

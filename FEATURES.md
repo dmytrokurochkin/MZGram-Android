@@ -123,7 +123,8 @@ Settings > MZGram > Chats.
 | Feature | What it does, and how it differs from Telegram | Since |
 |---|---|---|
 | Stickers in chats | A slider for the size of stickers (100% as in Telegram), Sticker shape (Default as in Telegram, Rounded, or Message: the corners of a message bubble, with the time in the corner as on photos; an earlier "rounded corners" switch reads as Rounded), and hiding the time on stickers. | Next release |
-| Unlimited recent stickers | Settings > MZGram > Chats > Stickers. Up to 200 recent stickers on this device instead of Telegram's limit (usually 20-30); after a sync the list follows Telegram's server again. Off by default. | Next release |
+| Unlimited recent stickers | Settings > MZGram > Chats > Stickers. Up to 200 recent stickers on this device instead of Telegram's limit (usually 20-30); stickers past Telegram's list stay on this device after a sync too, as in exteraless. Off by default. | Next release |
+| Unlimited saved GIFs | Settings > MZGram > Chats > Stickers. This device keeps every GIF you save, also past Telegram's limit (200, or 400 with Premium) and after a sync; the server keeps only up to its limit. From exteraless. Off by default. | Next release |
 | Disable trending | Settings > MZGram > Chats > Stickers. No trending stickers and GIFs tabs in the sticker panel, and trending packs are not loaded. From exteraless. Off by default. | Next release |
 | Hide the group sticker set | Settings > MZGram > Chats > Stickers. The group's own sticker set is not shown in the sticker panel. From exteraless. Off by default. | Next release |
 | Replies | Settings > MZGram > Chats > Replies: Colors in replies, Emoji in replies, Background of replies. On by default, as in Telegram; off, a reply takes the theme color, has no emoji pattern of its author or no tinted background. | Next release |

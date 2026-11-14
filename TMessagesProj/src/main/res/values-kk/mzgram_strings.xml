@@ -1433,4 +1433,6 @@
     <string name="MZGramChatMenuToBeginning">Чат мәзірінде «Басына»</string>
     <string name="MZGramChatMenuToBeginningInfo">Чаттың үш нүкте мәзіріне алғашқы хабарға өтетін тармақ қосылады.</string>
     <string name="MZGramToTheBeginning">Басына</string>
+    <string name="MZGramUnlimitedSavedGifs">Шектеусіз сақталған GIF</string>
+    <string name="MZGramUnlimitedSavedGifsInfo">Бұл құрылғы сіз сақтаған әр GIF-ті Telegram шегінен тыс та, синхрондаудан кейін де сақтайды; Telegram сервері тек өз шегіне дейін ұстайды.</string>
 </resources>

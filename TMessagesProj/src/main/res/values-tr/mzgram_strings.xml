@@ -1433,4 +1433,6 @@
     <string name="MZGramChatMenuToBeginning">Sohbet menüsünde “Başa git”</string>
     <string name="MZGramChatMenuToBeginningInfo">Sohbetin üç nokta menüsüne ilk mesaja atlayan bir öğe eklenir.</string>
     <string name="MZGramToTheBeginning">Başa git</string>
+    <string name="MZGramUnlimitedSavedGifs">Sınırsız kayıtlı GIF\'ler</string>
+    <string name="MZGramUnlimitedSavedGifsInfo">Bu cihaz kaydettiğiniz her GIF\'i, Telegram sınırının ötesinde ve eşitlemeden sonra da tutar; Telegram sunucusu yalnızca kendi sınırına kadar tutar.</string>
 </resources>

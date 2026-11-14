@@ -1464,4 +1464,22 @@
     <string name="MZGramDeleteOwnOlderWeek">أقدم من أسبوع</string>
     <string name="MZGramDeleteOwnOlderMonth">أقدم من شهر</string>
     <string name="MZGramDeleteOwnOlderDate">أقدم من تاريخ تختاره</string>
+
+    <string name="MZGramWideChannelPostsPreviewText">أخبار وصور ومقاطع فيديو</string>
+    <string name="MZGramWideChannelPostsPreviewReply">منشور قناة مُعاد توجيهه</string>
+    <string name="MZGramWideChannelPostsChannel">منشورات القنوات</string>
+    <string name="MZGramStickerSizeDialogMessageBigOne">ملصق كبير</string>
+    <string name="MZGramStickerSizeDialogMessageSmallOne">ملصق صغير</string>
+    <string name="MZGramStickerSizeDialogMessageReplyTo">مواء</string>
+    <string name="MZGramStickerSizeDialogName">Telegram</string>
+    <string name="MZGramAvatarCorners">حواف الصورة الشخصية</string>
+    <string name="MZGramAvatarCornersLeft">مربع</string>
+    <string name="MZGramAvatarCornersRight">دائرة</string>
+    <string name="MZGramDeletedMarkPreviewText">هل يجب عليهم حقًا تغيير الواجهة في كل تحديث..؟</string>
+    <string name="MZGramDeletedMarkPreviewName">تيليجرام</string>
+    <string name="MZGramInstalledEmojiSet">مثبت</string>
+    <string name="MZGramInstallingEmojiSet">جارٍ التثبيت…</string>
+    <string name="MZGramUpdateEmojiSet">تحديث (%1$s)</string>
+    <string name="MZGramDownloadEmojiSet">تنزيل (%1$s)</string>
+    <string name="MZGramEmojiSets">حزم الرموز التعبيرية</string>
 </resources>

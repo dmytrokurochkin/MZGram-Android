@@ -1464,4 +1464,22 @@
     <string name="MZGramDeleteOwnOlderWeek">Mais antigas que uma semana</string>
     <string name="MZGramDeleteOwnOlderMonth">Mais antigas que um mês</string>
     <string name="MZGramDeleteOwnOlderDate">Mais antigas que uma data escolhida</string>
+
+    <string name="MZGramWideChannelPostsPreviewText">Notícias, fotos e vídeos</string>
+    <string name="MZGramWideChannelPostsPreviewReply">Post de canal encaminhado</string>
+    <string name="MZGramWideChannelPostsChannel">Posts de canais</string>
+    <string name="MZGramStickerSizeDialogMessageBigOne">Um grande</string>
+    <string name="MZGramStickerSizeDialogMessageSmallOne">Um pequeno</string>
+    <string name="MZGramStickerSizeDialogMessageReplyTo">Miau</string>
+    <string name="MZGramStickerSizeDialogName">Telegram</string>
+    <string name="MZGramAvatarCorners">Cantos do avatar</string>
+    <string name="MZGramAvatarCornersLeft">Quadrado</string>
+    <string name="MZGramAvatarCornersRight">Círculo</string>
+    <string name="MZGramDeletedMarkPreviewText">eles realmente precisam mudar a interface a cada atualização..?</string>
+    <string name="MZGramDeletedMarkPreviewName">Telegram</string>
+    <string name="MZGramInstalledEmojiSet">Instalado</string>
+    <string name="MZGramInstallingEmojiSet">Instalando…</string>
+    <string name="MZGramUpdateEmojiSet">Atualizar (%1$s)</string>
+    <string name="MZGramDownloadEmojiSet">Baixar (%1$s)</string>
+    <string name="MZGramEmojiSets">Pacotes de emojis</string>
 </resources>

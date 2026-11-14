@@ -1464,4 +1464,22 @@
     <string name="MZGramDeleteOwnOlderWeek">Älter als eine Woche</string>
     <string name="MZGramDeleteOwnOlderMonth">Älter als ein Monat</string>
     <string name="MZGramDeleteOwnOlderDate">Älter als ein gewähltes Datum</string>
+
+    <string name="MZGramWideChannelPostsPreviewText">Neuigkeiten, Fotos und Videos</string>
+    <string name="MZGramWideChannelPostsPreviewReply">Weitergeleiteter Kanalbeitrag</string>
+    <string name="MZGramWideChannelPostsChannel">Kanalbeiträge</string>
+    <string name="MZGramStickerSizeDialogMessageBigOne">Ein großer</string>
+    <string name="MZGramStickerSizeDialogMessageSmallOne">Ein kleiner</string>
+    <string name="MZGramStickerSizeDialogMessageReplyTo">Miau</string>
+    <string name="MZGramStickerSizeDialogName">Telegram</string>
+    <string name="MZGramAvatarCorners">Avatar-Ecken</string>
+    <string name="MZGramAvatarCornersLeft">Quadrat</string>
+    <string name="MZGramAvatarCornersRight">Kreis</string>
+    <string name="MZGramDeletedMarkPreviewText">Müssen sie wirklich bei jedem Update die Benutzeroberfläche ändern..?</string>
+    <string name="MZGramDeletedMarkPreviewName">Telegram</string>
+    <string name="MZGramInstalledEmojiSet">Installiert</string>
+    <string name="MZGramInstallingEmojiSet">Wird installiert…</string>
+    <string name="MZGramUpdateEmojiSet">Aktualisieren (%1$s)</string>
+    <string name="MZGramDownloadEmojiSet">Herunterladen (%1$s)</string>
+    <string name="MZGramEmojiSets">Emoji-Sets</string>
 </resources>

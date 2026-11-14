@@ -1464,4 +1464,22 @@
     <string name="MZGramDeleteOwnOlderWeek">Старэйшыя за тыдзень</string>
     <string name="MZGramDeleteOwnOlderMonth">Старэйшыя за месяц</string>
     <string name="MZGramDeleteOwnOlderDate">Старэйшыя за выбраную дату</string>
+
+    <string name="MZGramWideChannelPostsPreviewText">Навіны, фота і відэа</string>
+    <string name="MZGramWideChannelPostsPreviewReply">Перасланы допіс канала</string>
+    <string name="MZGramWideChannelPostsChannel">Допісы ў каналах</string>
+    <string name="MZGramStickerSizeDialogMessageBigOne">Вялікі</string>
+    <string name="MZGramStickerSizeDialogMessageSmallOne">Маленькі</string>
+    <string name="MZGramStickerSizeDialogMessageReplyTo">Мяў</string>
+    <string name="MZGramStickerSizeDialogName">Telegram</string>
+    <string name="MZGramAvatarCorners">Закругленне аватарак</string>
+    <string name="MZGramAvatarCornersLeft">Квадрат</string>
+    <string name="MZGramAvatarCornersRight">Круг</string>
+    <string name="MZGramDeletedMarkPreviewText">ім сапраўды трэба змяняць інтэрфейс у кожным абнаўленні..?</string>
+    <string name="MZGramDeletedMarkPreviewName">Telegram</string>
+    <string name="MZGramInstalledEmojiSet">Усталявана</string>
+    <string name="MZGramInstallingEmojiSet">Усталяванне…</string>
+    <string name="MZGramUpdateEmojiSet">Абнавіць (%1$s)</string>
+    <string name="MZGramDownloadEmojiSet">Спампаваць (%1$s)</string>
+    <string name="MZGramEmojiSets">Наборы эмодзі</string>
 </resources>

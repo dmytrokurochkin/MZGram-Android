@@ -1464,4 +1464,22 @@
     <string name="MZGramDeleteOwnOlderWeek">Older than a week</string>
     <string name="MZGramDeleteOwnOlderMonth">Older than a month</string>
     <string name="MZGramDeleteOwnOlderDate">Older than a chosen date</string>
+
+    <string name="MZGramWideChannelPostsPreviewText">News, photos and videos</string>
+    <string name="MZGramWideChannelPostsPreviewReply">Forwarded channel post</string>
+    <string name="MZGramWideChannelPostsChannel">Channel posts</string>
+    <string name="MZGramStickerSizeDialogMessageBigOne">A big one</string>
+    <string name="MZGramStickerSizeDialogMessageSmallOne">A small one</string>
+    <string name="MZGramStickerSizeDialogMessageReplyTo">Meow</string>
+    <string name="MZGramStickerSizeDialogName">Telegram</string>
+    <string name="MZGramAvatarCorners">Avatar corners</string>
+    <string name="MZGramAvatarCornersLeft">Square</string>
+    <string name="MZGramAvatarCornersRight">Circle</string>
+    <string name="MZGramDeletedMarkPreviewText">do they really have to keep changing the UI every update..?</string>
+    <string name="MZGramDeletedMarkPreviewName">Telegram</string>
+    <string name="MZGramInstalledEmojiSet">Installed</string>
+    <string name="MZGramInstallingEmojiSet">Installing…</string>
+    <string name="MZGramUpdateEmojiSet">Update (%1$s)</string>
+    <string name="MZGramDownloadEmojiSet">Download (%1$s)</string>
+    <string name="MZGramEmojiSets">Emoji Sets</string>
 </resources>

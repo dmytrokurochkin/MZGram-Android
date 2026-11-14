@@ -1,7 +1,10 @@
 package org.telegram.messenger.mzgram.test
 
+import android.content.Context
 import android.view.KeyEvent
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Assert.assertTrue
@@ -19,12 +22,18 @@ import org.telegram.ui.ActionBar.Theme
 import org.telegram.ui.Components.UniversalFragment
 import org.telegram.ui.mzgram.MZGramAccountOrderActivity
 import org.telegram.ui.mzgram.MZGramAiActivity
+import org.telegram.ui.mzgram.MZGramAvatarCornersPreviewCell
+import org.telegram.ui.mzgram.MZGramChatListPreviewCell
 import org.telegram.ui.mzgram.MZGramDeletedDialogsActivity
+import org.telegram.ui.mzgram.MZGramDeletedMarkPreviewCell
 import org.telegram.ui.mzgram.MZGramDeletedMessagesActivity
 import org.telegram.ui.mzgram.MZGramDeviceCheckActivity
+import org.telegram.ui.mzgram.MZGramDoubleTapCell
 import org.telegram.ui.mzgram.MZGramDrawerItemsActivity
+import org.telegram.ui.mzgram.MZGramEmojiSetCell
 import org.telegram.ui.mzgram.MZGramFeedActivity
 import org.telegram.ui.mzgram.MZGramFeedChannelsActivity
+import org.telegram.ui.mzgram.MZGramFoldersPreviewCell
 import org.telegram.ui.mzgram.MZGramIconPacksActivity
 import org.telegram.ui.mzgram.MZGramMessageDetailsActivity
 import org.telegram.ui.mzgram.MZGramMessageHistoryActivity
@@ -41,8 +50,11 @@ import org.telegram.ui.mzgram.MZGramPluginSourceActivity
 import org.telegram.ui.mzgram.MZGramRegexFiltersActivity
 import org.telegram.ui.mzgram.MZGramSettingsActivity
 import org.telegram.ui.mzgram.MZGramShadowBanActivity
+import org.telegram.ui.mzgram.MZGramStickerShapeCell
+import org.telegram.ui.mzgram.MZGramStickerSizePreviewMessagesCell
 import org.telegram.ui.mzgram.MZGramTranslationAiActivity
 import org.telegram.ui.mzgram.MZGramUnifiedPushActivity
+import org.telegram.ui.mzgram.MZGramWideChannelPostsPreviewCell
 import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -229,6 +241,7 @@ class MZGramParityScreensTest {
             "shadow-ban" to { MZGramShadowBanActivity() },
             "translation-ai" to { MZGramTranslationAiActivity() },
             "unified-push" to { MZGramUnifiedPushActivity() },
+            "preview-cells" to { MZGramPreviewCellsFragment() },
         )
 
         for ((name, factory) in screens) {
@@ -262,5 +275,43 @@ class MZGramParityScreensTest {
         assertTrue("settingsPages should succeed without problems: $problems", problems.isEmpty())
         captureAllSettingsPages("dark")
         captureAllCustomScreens("dark")
+    }
+
+    @Test
+    fun testPreviewCells_rendersAndCaptures() {
+        val fragment = MZGramPreviewCellsFragment()
+        MZGramScreens.open(fragment)
+        val shown = MZGramScreens.waitFor(20) {
+            val last = MZGramScreens.lastFragment()
+            last != null && last::class.java == fragment::class.java && last.fragmentView?.isShown == true
+        }
+        assertTrue("preview cells screen opened", shown)
+        captureWithScrolling("preview-cells")
+        instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK)
+    }
+
+    class MZGramPreviewCellsFragment : BaseFragment() {
+        override fun createView(context: Context): View {
+            val scrollView = ScrollView(context)
+            val linear = LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+            }
+            scrollView.addView(linear)
+
+            linear.addView(MZGramChatListPreviewCell(context))
+            linear.addView(MZGramFoldersPreviewCell(context))
+            linear.addView(MZGramStickerShapeCell(context))
+            linear.addView(MZGramWideChannelPostsPreviewCell(context, this@MZGramPreviewCellsFragment))
+            linear.addView(MZGramDoubleTapCell(context))
+            linear.addView(MZGramStickerSizePreviewMessagesCell(context, this@MZGramPreviewCellsFragment))
+            linear.addView(MZGramEmojiSetCell(context, true).apply {
+                setData(MZGramEmojiSetCell.EmojiPackBase("Apple", "apple", null, null, 1024), false, true)
+            })
+            linear.addView(MZGramAvatarCornersPreviewCell(context, null))
+            linear.addView(MZGramDeletedMarkPreviewCell(context, this@MZGramPreviewCellsFragment))
+
+            fragmentView = scrollView
+            return scrollView
+        }
     }
 }

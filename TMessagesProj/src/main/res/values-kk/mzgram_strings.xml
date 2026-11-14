@@ -1464,4 +1464,22 @@
     <string name="MZGramDeleteOwnOlderWeek">Бір аптадан ескі</string>
     <string name="MZGramDeleteOwnOlderMonth">Бір айдан ескі</string>
     <string name="MZGramDeleteOwnOlderDate">Таңдалған күннен ескі</string>
+
+    <string name="MZGramWideChannelPostsPreviewText">Жаңалықтар, фотолар және видеолар</string>
+    <string name="MZGramWideChannelPostsPreviewReply">Қайта бағытталған арна жазбасы</string>
+    <string name="MZGramWideChannelPostsChannel">Арна жазбалары</string>
+    <string name="MZGramStickerSizeDialogMessageBigOne">Үлкені</string>
+    <string name="MZGramStickerSizeDialogMessageSmallOne">Кішкентайы</string>
+    <string name="MZGramStickerSizeDialogMessageReplyTo">Мияу</string>
+    <string name="MZGramStickerSizeDialogName">Telegram</string>
+    <string name="MZGramAvatarCorners">Аватар бұрыштары</string>
+    <string name="MZGramAvatarCornersLeft">Шаршы</string>
+    <string name="MZGramAvatarCornersRight">Дөңгелек</string>
+    <string name="MZGramDeletedMarkPreviewText">олар әр жаңарту сайын интерфейсті өзгертуі керек пе..?</string>
+    <string name="MZGramDeletedMarkPreviewName">Telegram</string>
+    <string name="MZGramInstalledEmojiSet">Орнатылды</string>
+    <string name="MZGramInstallingEmojiSet">Орнатылуда…</string>
+    <string name="MZGramUpdateEmojiSet">Жаңарту (%1$s)</string>
+    <string name="MZGramDownloadEmojiSet">Жүктеп алу (%1$s)</string>
+    <string name="MZGramEmojiSets">Эмодзи топтамалары</string>
 </resources>

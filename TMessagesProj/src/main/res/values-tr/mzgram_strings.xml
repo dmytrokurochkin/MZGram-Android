@@ -1464,4 +1464,22 @@
     <string name="MZGramDeleteOwnOlderWeek">Bir haftadan eski</string>
     <string name="MZGramDeleteOwnOlderMonth">Bir aydan eski</string>
     <string name="MZGramDeleteOwnOlderDate">Seçilen tarihten eski</string>
+
+    <string name="MZGramWideChannelPostsPreviewText">Haberler, fotoğraflar ve videolar</string>
+    <string name="MZGramWideChannelPostsPreviewReply">İletilen kanal gönderisi</string>
+    <string name="MZGramWideChannelPostsChannel">Kanal gönderileri</string>
+    <string name="MZGramStickerSizeDialogMessageBigOne">Büyük bir tane</string>
+    <string name="MZGramStickerSizeDialogMessageSmallOne">Küçük bir tane</string>
+    <string name="MZGramStickerSizeDialogMessageReplyTo">Miyav</string>
+    <string name="MZGramStickerSizeDialogName">Telegram</string>
+    <string name="MZGramAvatarCorners">Avatar köşeleri</string>
+    <string name="MZGramAvatarCornersLeft">Kare</string>
+    <string name="MZGramAvatarCornersRight">Daire</string>
+    <string name="MZGramDeletedMarkPreviewText">Gerçekten her güncellemede kullanıcı arayüzünü değiştirmek zorundalar mı..?</string>
+    <string name="MZGramDeletedMarkPreviewName">Telegram</string>
+    <string name="MZGramInstalledEmojiSet">Yüklendi</string>
+    <string name="MZGramInstallingEmojiSet">Yükleniyor…</string>
+    <string name="MZGramUpdateEmojiSet">Güncelle (%1$s)</string>
+    <string name="MZGramDownloadEmojiSet">İndir (%1$s)</string>
+    <string name="MZGramEmojiSets">Emoji Kümeleri</string>
 </resources>

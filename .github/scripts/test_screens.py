@@ -424,6 +424,12 @@ class ScreensTest(unittest.TestCase):
         self.assertIn("if (update.peer.user_id != 0 && !fromGetDifference && Math.abs(getConnectionsManager().getCurrentTime() - date) < 30) {", controller)
         self.assertIn("onlinePrivacy.put(userId, date);\n                        // MZGram: typing is a sign of being online.", controller)
         self.assertEqual(2, controller.count("MZGramLastSeen.recordStatus("), "live update and loaded user")
+        # The support users go through putUser from the constructor (addSupportUser) with no
+        # status: no ConnectionsManager there, it would build a MessagesController again
+        self.assertIn("if (user.status != null) {\n                    org.telegram.messenger.mzgram.MZGramLastSeen.recordStatus(user.id, user.status, getConnectionsManager().getCurrentTime());", controller)
+        constructor = controller[controller.index("addSupportUser();"):]
+        constructor = constructor[:constructor.index("\n    }\n")]
+        self.assertNotIn("getConnectionsManager()", constructor, "after addSupportUser in the constructor")
         self.assertIn("MZGramLastSeen.recordStatus(status.user_id, status.status,", read(JAVA / "messenger/ContactsController.java"))
         self.assertIn("approximateStatus(user, currentTime, madeShorter)", read(JAVA / "messenger/LocaleController.java"))
         self.assertIn("seenAt < ? OR seenAt > ?", read(JAVA / "messenger/mzgram/MZGramHistoryDatabase.java"))

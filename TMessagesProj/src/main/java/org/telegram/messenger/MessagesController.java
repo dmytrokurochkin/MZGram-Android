@@ -6961,8 +6961,12 @@ public class MessagesController extends BaseController implements NotificationCe
                     getUserConfig().saveConfig(true);
                 }
                 getUserNameResolver().update(oldUser, user);
-                // MZGram: an exact online or last seen time from the server, kept for when the person hides it
-                org.telegram.messenger.mzgram.MZGramLastSeen.recordStatus(user.id, user.status, getConnectionsManager().getCurrentTime());
+                // MZGram: an exact online or last seen time from the server, kept for when the person hides it.
+                // Only with a status: the support users have none and come here from this class's
+                // constructor, where getConnectionsManager() would build a MessagesController again
+                if (user.status != null) {
+                    org.telegram.messenger.mzgram.MZGramLastSeen.recordStatus(user.id, user.status, getConnectionsManager().getCurrentTime());
+                }
                 if (oldUser != null && user.status != null && oldUser.status != null && user.status.expires != oldUser.status.expires) {
                     return true;
                 }

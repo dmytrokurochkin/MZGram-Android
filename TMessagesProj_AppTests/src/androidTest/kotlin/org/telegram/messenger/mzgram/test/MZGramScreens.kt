@@ -11,6 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.Components.UniversalFragment
 import org.telegram.ui.LaunchActivity
+import org.telegram.ui.mzgram.MZGramPluginsActivity
 import org.telegram.ui.mzgram.MZGramSettingsActivity
 import java.io.File
 import java.io.FileOutputStream
@@ -140,12 +141,16 @@ object MZGramScreens {
                     onClick.isAccessible = true
                     onClick.invoke(main, row, null, 0, 0f, 0f)
                 } else {
-                    main.presentFragment(MZGramSettingsActivity(section))
+                    if (section == MZGramSettingsActivity.SECTION_PLUGINS) {
+                        main.presentFragment(MZGramPluginsActivity())
+                    } else {
+                        main.presentFragment(MZGramSettingsActivity(section))
+                    }
                 }
             }
             val opened = waitFor(30) {
                 val page = lastFragment()
-                page is MZGramSettingsActivity && page !== main && (listViewOf(page)?.childCount ?: 0) > 0
+                (page is MZGramSettingsActivity || page is MZGramPluginsActivity) && page !== main && (listViewOf(page)?.childCount ?: 0) > 0
             }
             if (!opened) {
                 problems.add("section $section did not open")

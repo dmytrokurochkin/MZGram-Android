@@ -32,9 +32,10 @@ public final class MZGramDoH {
     public static final int PROVIDER_CLOUDFLARE = 1;
     public static final int PROVIDER_GOOGLE = 2;
     public static final int PROVIDER_ADGUARD = 3;
+    public static final int PROVIDER_CUSTOM = 4;
 
     public static final int[] PROVIDERS = {
-        PROVIDER_OFF, PROVIDER_CLOUDFLARE, PROVIDER_GOOGLE, PROVIDER_ADGUARD
+        PROVIDER_OFF, PROVIDER_CLOUDFLARE, PROVIDER_GOOGLE, PROVIDER_ADGUARD, PROVIDER_CUSTOM
     };
 
     private static final Map<String, CacheEntry> cache = new HashMap<>();
@@ -64,6 +65,8 @@ public final class MZGramDoH {
                 return "Google (8.8.8.8)";
             case PROVIDER_ADGUARD:
                 return "AdGuard";
+            case PROVIDER_CUSTOM:
+                return LocaleController.getString(R.string.MZGramCustomDoH);
             case PROVIDER_OFF:
             default:
                 return LocaleController.getString(R.string.MZGramDoHOff);
@@ -78,6 +81,17 @@ public final class MZGramDoH {
                 return "https://dns.google/resolve?name=" + host + "&type=A";
             case PROVIDER_ADGUARD:
                 return "https://dns.adguard-dns.com/resolve?name=" + host + "&type=A";
+            case PROVIDER_CUSTOM:
+                String base = MZGramConfig.customDoH;
+                if (base == null || base.trim().isEmpty()) {
+                    return null;
+                }
+                base = base.trim();
+                if (base.contains("{name}")) {
+                    return base.replace("{name}", host);
+                }
+                String sep = base.contains("?") ? "&" : "?";
+                return base + sep + "name=" + host + "&type=A";
             default:
                 return null;
         }
@@ -100,7 +114,7 @@ public final class MZGramDoH {
         }
         try {
             URL url = new URL(queryUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            HttpURLConnection conn = MZGramNetGate.openConnection(MZGramNetGate.FEATURE_DOH, url);
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(3000);
             conn.setReadTimeout(3000);

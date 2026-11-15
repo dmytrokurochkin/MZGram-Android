@@ -13,12 +13,18 @@ package org.telegram.ui.mzgram;
 import static org.telegram.messenger.LocaleController.formatString;
 import static org.telegram.messenger.LocaleController.getString;
 
+import android.content.Intent;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.View;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.mzgram.MZGramConfig;
+import org.telegram.messenger.mzgram.MZGramDoH;
+import org.telegram.messenger.mzgram.translate.MZGramTranslator;
 import org.telegram.ui.Components.IconBackgroundColors;
 import org.telegram.ui.SettingsActivity;
 import org.telegram.ui.Components.BulletinFactory;
@@ -384,6 +390,21 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_UNIFIED_PUSH = 316;
     private static final int BUTTON_DEVICE_CHECK = 317;
     private static final int BUTTON_PERSONALIZATION = 318;
+    private static final int BUTTON_SHOW_TRANSLATE_BUTTON = 320;
+    private static final int BUTTON_TELEGRAM_AUTO_TRANSLATE = 321;
+    private static final int BUTTON_TRANSLATION_PROVIDER = 322;
+    private static final int BUTTON_TRANSLATION_TARGET_LANG = 323;
+    private static final int BUTTON_DO_NOT_TRANSLATE = 324;
+    private static final int BUTTON_TRANSLATE_IN_SHEET = 325;
+    private static final int BUTTON_TRANSLATION_SETTINGS = 326;
+    private static final int BUTTON_DOH_PROVIDER = 327;
+    private static final int BUTTON_CUSTOM_DOH = 328;
+    private static final int BUTTON_MAP_PROVIDER = 329;
+    private static final int BUTTON_MAP_DRIFTING_FIX = 330;
+    private static final int BUTTON_MAP_PREVIEW_PROVIDER = 331;
+    private static final int BUTTON_PUSH_STATUS = 332;
+    private static final int BUTTON_BATTERY_OPTIMIZATION = 333;
+    private static final int BUTTON_GLYPH = 334;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -855,6 +876,178 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }, getString(R.string.MZGramCancel)));
     }
 
+    private void chooseTranslationProvider() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] options = {
+                LocaleController.getString(R.string.MZGramTranslatorTelegram),
+                LocaleController.getString(R.string.MZGramTranslatorGoogle),
+                LocaleController.getString(R.string.MZGramTranslatorDeepL),
+                LocaleController.getString(R.string.MZGramTranslatorAi),
+                LocaleController.getString(R.string.MZGramTranslatorAidl),
+                LocaleController.getString(R.string.MZGramTranslatorMozhi)
+        };
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramGeneralTranslationProvider), MZGramConfig.translationProvider, (dialog, which) -> {
+            MZGramConfig.setTranslationProvider(which);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
+    private void chooseTranslationTargetLang() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] codes = {"", "en", "uk", "ru", "de", "es", "fr", "pl", "pt", "tr", "ar", "kk"};
+        String[] names = new String[codes.length];
+        names[0] = getString(R.string.MZGramGeneralTranslationTargetDefault);
+        int selected = 0;
+        for (int i = 1; i < codes.length; i++) {
+            names[i] = new java.util.Locale(codes[i]).getDisplayName();
+            if (codes[i].equalsIgnoreCase(MZGramConfig.translationTargetLang)) {
+                selected = i;
+            }
+        }
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), names, getString(R.string.MZGramGeneralTranslationTarget), selected, (dialog, which) -> {
+            MZGramConfig.setTranslationTargetLang(codes[which]);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
+    private void chooseDohProvider() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] options = new String[MZGramDoH.PROVIDERS.length];
+        for (int i = 0; i < options.length; i++) {
+            options[i] = MZGramDoH.getProviderTitle(MZGramDoH.PROVIDERS[i]);
+        }
+        int selected = Math.max(0, Math.min(options.length - 1, MZGramConfig.dohProvider));
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramDnsType), selected, (dialog, which) -> {
+            MZGramConfig.setDohProvider(which);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
+    private void chooseCustomDoh() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        editMark(getString(R.string.MZGramCustomDoH), MZGramConfig.customDoH, MZGramConfig::setCustomDoH);
+    }
+
+    private void chooseMapProvider() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] options = {
+                getString(R.string.MZGramMapProviderGoogle),
+                getString(R.string.MZGramMapProviderOsm)
+        };
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramGeneralMapProvider), MZGramConfig.mapProvider, (dialog, which) -> {
+            MZGramConfig.setMapProvider(which);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
+    private void chooseMapPreviewProvider() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        String[] options = {
+                "Telegram",
+                "Yandex",
+                "OpenFreeMap",
+                "Nobody"
+        };
+        showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramGeneralMapPreview), MZGramConfig.mapPreviewProvider, (dialog, which) -> {
+            MZGramConfig.setMapPreviewProvider(which);
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        }, getString(R.string.MZGramCancel)));
+    }
+
+    private void openBatteryOptimization() {
+        try {
+            Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+            startActivity(intent);
+        } catch (Throwable e) {
+            FileLog.e(e);
+        }
+    }
+
+    private static String getPushStatusSubtitle() {
+        if (org.telegram.messenger.mzgram.MZGramUnifiedPush.isActive()) {
+            String acked = org.telegram.messenger.mzgram.MZGramUnifiedPush.ackedDistributor();
+            if (acked != null) {
+                String label = org.telegram.messenger.mzgram.MZGramUnifiedPush.label(acked);
+                return label != null ? label : acked;
+            }
+            return "UnifiedPush";
+        }
+        return "Telegram Push";
+    }
+
+    private static String translationTargetLangName() {
+        if (TextUtils.isEmpty(MZGramConfig.translationTargetLang)) {
+            return getString(R.string.MZGramGeneralTranslationTargetDefault);
+        }
+        return new java.util.Locale(MZGramConfig.translationTargetLang).getDisplayName();
+    }
+
+    private String doNotTranslateValue() {
+        try {
+            java.util.HashSet<String> langCodes = org.telegram.ui.RestrictedLanguagesSelectActivity.getRestrictedLanguages();
+            if (langCodes == null || langCodes.isEmpty()) {
+                return "";
+            }
+            if (langCodes.size() == 1) {
+                return org.telegram.ui.Components.TranslateAlert2.capitalFirst(org.telegram.ui.Components.TranslateAlert2.languageName(langCodes.iterator().next(), new boolean[1]));
+            }
+            StringBuilder sb = new StringBuilder();
+            boolean first = true;
+            for (String code : langCodes) {
+                String name = org.telegram.ui.Components.TranslateAlert2.capitalFirst(org.telegram.ui.Components.TranslateAlert2.languageName(code, new boolean[1]));
+                if (name != null) {
+                    if (!first) {
+                        sb.append(", ");
+                    }
+                    sb.append(name);
+                    first = false;
+                    if (sb.length() > 25) {
+                        break;
+                    }
+                }
+            }
+            return sb.toString();
+        } catch (Throwable e) {
+            return "";
+        }
+    }
+
+    private static String mapProviderName() {
+        return MZGramConfig.mapProvider == 1 ? getString(R.string.MZGramMapProviderOsm) : getString(R.string.MZGramMapProviderGoogle);
+    }
+
+    private static String mapPreviewProviderName() {
+        switch (MZGramConfig.mapPreviewProvider) {
+            case 1: return "Yandex";
+            case 2: return "OpenFreeMap";
+            case 3: return "Nobody";
+            case 0:
+            default: return "Telegram";
+        }
+    }
+
     private static String languageValue() {
         if (org.telegram.messenger.mzgram.MZGramLanguage.SYSTEM.equals(MZGramConfig.language)) {
             return getString(R.string.MZGramLanguageSystem);
@@ -1049,44 +1242,84 @@ public class MZGramSettingsActivity extends UniversalFragment {
         }, getString(R.string.MZGramCancel)));
     }
 
-    // Typing, sending and search in chats (domain messages)
-    // General: language, numbers and time, the profile, the chat archive
+    // General: 8 structured cards (Translation, General/Legacy, Download Boost/DoH, Storage, Profile, Chat List & Archive, Maps, Notifications & Glyph)
     private void fillGeneral(ArrayList<UItem> items) {
-        items.add(UItem.asHeader(getString(R.string.MZGramHeaderLanguage)));
-        items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
-        items.add(check(BUTTON_PERSIAN_CALENDAR, R.string.MZGramPersianCalendar, MZGramConfig.persianCalendar, R.string.MZGramPersianCalendarInfo));
-        items.add(UItem.asShadow(getString(R.string.MZGramLanguageInfo)));
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionGeneral)));
+        // Card 1: Translation
+        items.add(UItem.asHeader(getString(R.string.MZGramGeneralTranslateHeader)));
+        items.add(UItem.asCheck(BUTTON_SHOW_TRANSLATE_BUTTON, getString(R.string.MZGramGeneralTranslateButton)).setChecked(MZGramConfig.chatTranslationBar));
+        items.add(UItem.asCheck(BUTTON_TELEGRAM_AUTO_TRANSLATE, getString(R.string.MZGramGeneralTranslateWholeChat)).setChecked(MZGramConfig.telegramUIAutoTranslate));
+        items.add(UItem.asButton(BUTTON_TRANSLATION_PROVIDER, getString(R.string.MZGramGeneralTranslationProvider), org.telegram.messenger.mzgram.translate.MZGramTranslator.getProviderName(MZGramConfig.translationProvider)));
+        items.add(UItem.asButton(BUTTON_TRANSLATION_TARGET_LANG, getString(R.string.MZGramGeneralTranslationTarget), translationTargetLangName()));
+        items.add(UItem.asButton(BUTTON_DO_NOT_TRANSLATE, getString(R.string.MZGramGeneralDoNotTranslate), doNotTranslateValue()));
+        items.add(UItem.asCheck(BUTTON_TRANSLATE_IN_SHEET, getString(R.string.MZGramChatsTranslateInSheet)).setChecked(MZGramConfig.translateInSheet));
+        items.add(UItem.asButton(BUTTON_TRANSLATION_SETTINGS, getString(R.string.MZGramTranslatorSettings)));
+        items.add(UItem.asShadow(getString(R.string.MZGramGeneralTranslateInfo)));
+
+        // Card 2: General & Legacy
+        items.add(UItem.asHeader(getString(R.string.MZGramGeneralSectionHeader)));
         items.add(UItem.asButton(BUTTON_PRIVACY_SECTION, R.drawable.msg_secret, getString(R.string.MZGramSectionPrivacy)));
         items.add(UItem.asButton(BUTTON_UNIFIED_PUSH, R.drawable.msg_notifications, getString(R.string.MZGramUnifiedPush)));
         items.add(UItem.asButton(BUTTON_DEVICE_CHECK, R.drawable.msg_info, getString(R.string.MZGramDeviceCheck)));
-        items.add(check(BUTTON_DISABLE_NUMBER_ROUNDING, R.string.MZGramDisableNumberRounding, MZGramConfig.disableNumberRounding, R.string.MZGramDisableNumberRoundingInfo));
-        items.add(check(BUTTON_FORMAT_TIME_WITH_SECONDS, R.string.MZGramFormatTimeWithSeconds, MZGramConfig.formatTimeWithSeconds, R.string.MZGramFormatTimeWithSecondsInfo));
-        items.add(check(BUTTON_IN_APP_VIBRATION, R.string.MZGramInAppVibration, MZGramConfig.inAppVibration, R.string.MZGramInAppVibrationInfo));
-        items.add(check(BUTTON_DISABLE_NOTIFICATION_DELAY, R.string.MZGramDisableNotificationDelay, MZGramConfig.disableNotificationDelay, R.string.MZGramDisableNotificationDelayInfo));
-        items.add(UItem.asCheck(BUTTON_DISABLE_NOTIFICATION_BUBBLES, getString(R.string.MZGramDisableNotificationBubbles)).setChecked(MZGramConfig.disableNotificationBubbles));
-        items.add(check(BUTTON_STRIP_ZALGO_TEXT, R.string.MZGramStripZalgoText, MZGramConfig.stripZalgoText, R.string.MZGramStripZalgoTextInfo));
-        items.add(UItem.asShadow(null));
-        items.add(UItem.asHeader(getString(R.string.MZGramDownloadBoost)));
+        items.add(UItem.asButton(BUTTON_LANGUAGE, getString(R.string.MZGramLanguage), languageValue()));
+        items.add(check(BUTTON_PERSIAN_CALENDAR, R.string.MZGramPersianCalendar, MZGramConfig.persianCalendar, R.string.MZGramPersianCalendarInfo));
+        items.add(UItem.asButtonCheck(BUTTON_DISABLE_NUMBER_ROUNDING, getString(R.string.MZGramGeneralDisableNumberRounding), getString(R.string.MZGramGeneralDisableNumberRoundingValue)).setChecked(MZGramConfig.disableNumberRounding));
+        items.add(UItem.asButtonCheck(BUTTON_FORMAT_TIME_WITH_SECONDS, getString(R.string.MZGramGeneralFormatTimeWithSeconds), getString(R.string.MZGramGeneralFormatTimeWithSecondsValue)).setChecked(MZGramConfig.formatTimeWithSeconds));
+        items.add(UItem.asCheck(BUTTON_IN_APP_VIBRATION, getString(R.string.MZGramGeneralInAppVibration)).setChecked(MZGramConfig.inAppVibration));
+        items.add(UItem.asCheck(BUTTON_DISABLE_NOTIFICATION_DELAY, getString(R.string.MZGramDisableNotificationDelay)).setChecked(MZGramConfig.disableNotificationDelay));
+        items.add(UItem.asCheck(BUTTON_STRIP_ZALGO_TEXT, getString(R.string.MZGramGeneralFilterZalgo)).setChecked(MZGramConfig.stripZalgoText));
+        items.add(UItem.asShadow(formatString(R.string.MZGramGeneralFilterZalgoInfo, "Z\u0335\u0321a\u0336\u0327l\u0336\u0327g\u0338\u0327o\u0335\u0327")));
+
+        // Card 3: Download Boost & DoH
+        items.add(UItem.asHeader(getString(R.string.MZGramGeneralSpeedHeader)));
         items.add(UItem.asSlideView(new String[] {getString(R.string.MZGramOff), getString(R.string.MZGramDownloadBoostFast), getString(R.string.MZGramDownloadBoostUltra)},
                 MZGramConfig.downloadSpeedBoost, MZGramConfig::setDownloadSpeedBoost));
-        items.add(UItem.asCheck(BUTTON_UPLOAD_SPEED_BOOST, getString(R.string.MZGramUploadBoost)).setChecked(MZGramConfig.uploadSpeedBoost));
-        items.add(UItem.asShadow(getString(R.string.MZGramDownloadBoostInfo)));
-        items.add(UItem.asHeader(getString(R.string.MZGramHeaderStorage)));
-        items.add(UItem.asButton(BUTTON_SAVE_FOLDER, getString(R.string.MZGramSaveFolder), org.telegram.messenger.mzgram.MZGramSaveFolder.name()));
-        items.add(UItem.asShadow(formatString(R.string.MZGramSaveFolderInfo, org.telegram.messenger.mzgram.MZGramSaveFolder.name())));
-        items.add(UItem.asHeader(getString(R.string.MZGramHeaderProfile)));
-        items.add(check(BUTTON_RELATIVE_LAST_SEEN, R.string.MZGramRelativeLastSeen, MZGramConfig.relativeLastSeen, R.string.MZGramRelativeLastSeenInfo));
-        items.add(check(BUTTON_HIDE_PHONE_NUMBER, R.string.MZGramHidePhoneNumber, MZGramConfig.hidePhoneNumber, R.string.MZGramHidePhoneNumberInfo));
-        items.add(check(BUTTON_SHOW_REGISTRATION_DATE, R.string.MZGramShowRegistrationDate, MZGramConfig.showRegistrationDate, R.string.MZGramShowRegistrationDateInfo));
-        items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramPeerId), peerIdValue()));
-        items.add(UItem.asShadow(getString(R.string.MZGramPeerIdInfo)));
-        items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatArchive)));
-        items.add(check(BUTTON_HIDE_ARCHIVE_FOLDER, R.string.MZGramHideArchiveFolder, MZGramConfig.hideArchiveFolder, R.string.MZGramHideArchiveFolderInfo));
-        items.add(check(BUTTON_SORT_BY_UNREAD, R.string.MZGramSortByUnread, MZGramConfig.sortByUnread, R.string.MZGramSortByUnreadInfo));
-        items.add(check(BUTTON_OPEN_ARCHIVE_ON_PULL, R.string.MZGramOpenArchiveOnPull, MZGramConfig.openArchiveOnPull, R.string.MZGramOpenArchiveOnPullInfo));
-        items.add(check(BUTTON_DISABLE_UNARCHIVE_SWIPE, R.string.MZGramDisableUnarchiveSwipe, MZGramConfig.disableUnarchiveSwipe, R.string.MZGramDisableUnarchiveSwipeInfo));
-        items.add(UItem.asShadow(null));
+        items.add(UItem.asCheck(BUTTON_UPLOAD_SPEED_BOOST, getString(R.string.MZGramGeneralUploadBoost)).setChecked(MZGramConfig.uploadSpeedBoost));
+        items.add(UItem.asButton(BUTTON_DOH_PROVIDER, getString(R.string.MZGramDnsType), org.telegram.messenger.mzgram.MZGramDoH.getProviderTitle(MZGramConfig.dohProvider)));
+        if (MZGramConfig.dohProvider == org.telegram.messenger.mzgram.MZGramDoH.PROVIDER_CUSTOM) {
+            String customUrl = TextUtils.isEmpty(MZGramConfig.customDoH) ? getString(R.string.MZGramGeneralSavePathDefault) : MZGramConfig.customDoH;
+            items.add(UItem.asButton(BUTTON_CUSTOM_DOH, getString(R.string.MZGramCustomDoH), customUrl));
+        }
+        items.add(UItem.asShadow(getString(R.string.MZGramGeneralSpeedBoostInfo)));
+
+        // Card 4: Storage
+        items.add(UItem.asHeader(getString(R.string.MZGramGeneralStorageHeader)));
+        items.add(UItem.asButton(BUTTON_SAVE_FOLDER, getString(R.string.MZGramGeneralSavePath), org.telegram.messenger.mzgram.MZGramSaveFolder.name()));
+        items.add(UItem.asShadow(formatString(R.string.MZGramGeneralSavePathInfoFolder, org.telegram.messenger.mzgram.MZGramSaveFolder.name())));
+
+        // Card 5: Profile
+        items.add(UItem.asHeader(getString(R.string.MZGramGeneralProfileHeader)));
+        items.add(UItem.asCheck(BUTTON_RELATIVE_LAST_SEEN, getString(R.string.MZGramGeneralRelativeLastSeen)).setChecked(MZGramConfig.relativeLastSeen));
+        items.add(UItem.asCheck(BUTTON_HIDE_PHONE_NUMBER, getString(R.string.MZGramGeneralHidePhone)).setChecked(MZGramConfig.hidePhoneNumber));
+        items.add(UItem.asCheck(BUTTON_SHOW_REGISTRATION_DATE, getString(R.string.MZGramShowRegistrationDate)).setChecked(MZGramConfig.showRegistrationDate));
+        items.add(UItem.asButton(BUTTON_PEER_ID, getString(R.string.MZGramGeneralShowIdAndDc), peerIdValue()));
+        items.add(UItem.asShadow(getString(R.string.MZGramGeneralShowIdAndDcInfo)));
+
+        // Card 6: Chat List & Archive
+        items.add(UItem.asHeader(getString(R.string.MZGramGeneralArchiveHeader)));
+        items.add(UItem.asCheck(BUTTON_HIDE_ARCHIVE_FOLDER, getString(R.string.MZGramGeneralHideArchive)).setChecked(MZGramConfig.hideArchiveFolder));
+        if (!MZGramConfig.hideArchiveFolder) {
+            items.add(UItem.asCheck(BUTTON_OPEN_ARCHIVE_ON_PULL, getString(R.string.MZGramGeneralArchiveOnPull)).setChecked(MZGramConfig.openArchiveOnPull));
+        }
+        items.add(UItem.asCheck(BUTTON_DISABLE_UNARCHIVE_SWIPE, getString(R.string.MZGramGeneralDisableUnarchiveSwipe)).setChecked(MZGramConfig.disableUnarchiveSwipe));
+        items.add(UItem.asCheck(BUTTON_SORT_BY_UNREAD, getString(R.string.MZGramSortByUnread)).setChecked(MZGramConfig.sortByUnread));
+        items.add(UItem.asShadow(getString(R.string.MZGramGeneralDisableUnarchiveSwipeInfo)));
+
+        // Card 7: Maps
+        items.add(UItem.asHeader(getString(R.string.MZGramGeneralMapsHeader)));
+        items.add(UItem.asButton(BUTTON_MAP_PROVIDER, getString(R.string.MZGramGeneralMapProvider), mapProviderName()));
+        if (MZGramConfig.mapProvider == 0) {
+            items.add(UItem.asCheck(BUTTON_MAP_DRIFTING_FIX, getString(R.string.MZGramGeneralMapDriftingFix)).setChecked(MZGramConfig.mapDriftingFix));
+        }
+        items.add(UItem.asButton(BUTTON_MAP_PREVIEW_PROVIDER, getString(R.string.MZGramGeneralMapPreview), mapPreviewProviderName()));
+        items.add(UItem.asShadow(getString(R.string.MZGramGeneralUseOsmMapInfo)));
+
+        // Card 8: Notifications & Glyph
+        items.add(UItem.asHeader(getString(R.string.MZGramGeneralNotificationsHeader)));
+        items.add(UItem.asCheck(BUTTON_DISABLE_NOTIFICATION_BUBBLES, getString(R.string.MZGramDisableNotificationBubbles)).setChecked(MZGramConfig.disableNotificationBubbles));
+        items.add(UItem.asButton(BUTTON_PUSH_STATUS, getString(R.string.MZGramGeneralPushStatus), getPushStatusSubtitle()));
+        items.add(UItem.asButton(BUTTON_BATTERY_OPTIMIZATION, getString(R.string.MZGramGeneralBatteryOptimization)));
+        items.add(UItem.asButton(BUTTON_GLYPH, getString(R.string.MZGramGlyphTitle)));
+        items.add(UItem.asShadow(getString(R.string.MZGramGeneralNotificationsInfo)));
     }
 
     // Appearance: avatars, the chat list, folders, navigation, style, glass
@@ -1668,6 +1901,49 @@ public class MZGramSettingsActivity extends UniversalFragment {
             presentFragment(new MZGramUnifiedPushActivity());
         } else if (item.id == BUTTON_DEVICE_CHECK) {
             presentFragment(new MZGramDeviceCheckActivity());
+        } else if (item.id == BUTTON_SHOW_TRANSLATE_BUTTON) {
+            MZGramConfig.toggleChatTranslationBar();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.chatTranslationBar);
+            }
+        } else if (item.id == BUTTON_TELEGRAM_AUTO_TRANSLATE) {
+            MZGramConfig.toggleTelegramUIAutoTranslate();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.telegramUIAutoTranslate);
+            }
+        } else if (item.id == BUTTON_TRANSLATION_PROVIDER) {
+            chooseTranslationProvider();
+        } else if (item.id == BUTTON_TRANSLATION_TARGET_LANG) {
+            chooseTranslationTargetLang();
+        } else if (item.id == BUTTON_DO_NOT_TRANSLATE) {
+            presentFragment(new org.telegram.ui.RestrictedLanguagesSelectActivity());
+        } else if (item.id == BUTTON_TRANSLATE_IN_SHEET) {
+            MZGramConfig.toggleTranslateInSheet();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.translateInSheet);
+            }
+        } else if (item.id == BUTTON_TRANSLATION_SETTINGS) {
+            presentFragment(new MZGramTranslationAiActivity());
+        } else if (item.id == BUTTON_DOH_PROVIDER) {
+            chooseDohProvider();
+        } else if (item.id == BUTTON_CUSTOM_DOH) {
+            chooseCustomDoh();
+        } else if (item.id == BUTTON_MAP_PROVIDER) {
+            chooseMapProvider();
+        } else if (item.id == BUTTON_MAP_DRIFTING_FIX) {
+            MZGramConfig.toggleMapDriftingFix();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.mapDriftingFix);
+            }
+        } else if (item.id == BUTTON_MAP_PREVIEW_PROVIDER) {
+            chooseMapPreviewProvider();
+        } else if (item.id == BUTTON_PUSH_STATUS) {
+            AndroidUtilities.addToClipboard(MZGramUnifiedPushActivity.diagnosticsText());
+            BulletinFactory.of(this).createCopyBulletin(getString(R.string.MZGramTextCopied)).show();
+        } else if (item.id == BUTTON_BATTERY_OPTIMIZATION) {
+            openBatteryOptimization();
+        } else if (item.id == BUTTON_GLYPH) {
+            presentFragment(new MZGramGlyphActivity());
         } else if (item.id == BUTTON_PERSONALIZATION) {
             presentFragment(new MZGramSettingsActivity(SECTION_GHOST_MODE));
         } else if (item.id == BUTTON_MESSAGE_MENU) {
@@ -1984,7 +2260,11 @@ public class MZGramSettingsActivity extends UniversalFragment {
             ((TextCheckCell) view).setChecked(MZGramConfig.hidePhoneNumber);
         } else if (item.id == BUTTON_RELATIVE_LAST_SEEN) {
             MZGramConfig.toggleRelativeLastSeen();
-            ((TextCheckCell) view).setChecked(MZGramConfig.relativeLastSeen);
+            if (view instanceof org.telegram.ui.Cells.NotificationsCheckCell) {
+                ((org.telegram.ui.Cells.NotificationsCheckCell) view).setChecked(MZGramConfig.relativeLastSeen);
+            } else if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.relativeLastSeen);
+            }
         } else if (item.id == BUTTON_SAVE_FOLDER) {
             chooseSaveFolder();
         } else if (item.id == BUTTON_TITLE_TEXT) {
@@ -2233,10 +2513,18 @@ public class MZGramSettingsActivity extends UniversalFragment {
             presentFragment(new MZGramPasscodeAccountsActivity());
         } else if (item.id == BUTTON_DISABLE_NUMBER_ROUNDING) {
             MZGramConfig.toggleDisableNumberRounding();
-            ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);
+            if (view instanceof org.telegram.ui.Cells.NotificationsCheckCell) {
+                ((org.telegram.ui.Cells.NotificationsCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);
+            } else if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.disableNumberRounding);
+            }
         } else if (item.id == BUTTON_FORMAT_TIME_WITH_SECONDS) {
             MZGramConfig.toggleFormatTimeWithSeconds();
-            ((TextCheckCell) view).setChecked(MZGramConfig.formatTimeWithSeconds);
+            if (view instanceof org.telegram.ui.Cells.NotificationsCheckCell) {
+                ((org.telegram.ui.Cells.NotificationsCheckCell) view).setChecked(MZGramConfig.formatTimeWithSeconds);
+            } else if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.formatTimeWithSeconds);
+            }
         } else if (item.id == BUTTON_ASK_BEFORE_CALL) {
             MZGramConfig.toggleAskBeforeCall();
             ((TextCheckCell) view).setChecked(MZGramConfig.askBeforeCall);

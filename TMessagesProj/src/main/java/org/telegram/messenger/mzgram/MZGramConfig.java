@@ -245,7 +245,11 @@ public class MZGramConfig {
     public static boolean profileMusicCard = true;
     // Third-party network services (DoH, OpenFreeMap map preview)
     public static int dohProvider = 0;
+    public static String customDoH = "";
     public static boolean openFreeMapPreview = false;
+    public static int mapProvider = 0;
+    public static boolean mapDriftingFix = false;
+    public static int mapPreviewProvider = 0;
     // Python plugins: allow pip packages to be downloaded from PyPI on device
     public static boolean pipEnabled = false;
     // Include plugins in settings backup
@@ -256,7 +260,9 @@ public class MZGramConfig {
     // Translation and AI suite
     public static int translationProvider = 0; // 0: Telegram, 1: Google, 2: DeepL, 3: AI, 4: AIDL Offline, 5: Mozhi
     public static String translationTargetLang = "";
-    public static boolean chatTranslationBar = false;
+    public static boolean chatTranslationBar = true;
+    public static boolean telegramUIAutoTranslate = false;
+    public static boolean translateInSheet = false;
     public static boolean translateBeforeSend = false;
     public static boolean translationAutoFallback = false;
     public static String deeplApiKey = "";
@@ -274,6 +280,10 @@ public class MZGramConfig {
     public static int torIdleTimeoutMinutes = 5;
     public static boolean customBadgesEnabled = false;
     public static boolean nothingGlyphEnabled = false;
+    public static boolean glyphOnNewMessage = false;
+    public static boolean glyphOnCall = false;
+    public static boolean glyphOnRecording = false;
+    public static boolean glyphScreenOffOnly = false;
     public static String nothingGlyphApiKey = "";
     public static int nothingGlyphBrightness = 100;
     public static boolean customEmojiFontEnabled = false;
@@ -285,7 +295,7 @@ public class MZGramConfig {
     public static boolean disableSponsoredMessages = false;
     // Strips Zalgo-style combining-mark text corruption from display names.
     // See MZGramZalgoFilter.
-    public static boolean stripZalgoText = false;
+    public static boolean stripZalgoText = true;
     // Push notifications through UnifiedPush (Notifications and Sounds >
     // UnifiedPush). Null until the user chooses: on by default, since
     // Telegram's own Google push cannot work in MZGram builds.
@@ -844,13 +854,19 @@ public class MZGramConfig {
             cardsDesign = preferences.getBoolean("cardsDesign", false);
             profileMusicCard = preferences.getBoolean("profileMusicCard", true);
             dohProvider = preferences.getInt("dohProvider", 0);
+            customDoH = preferences.getString("customDoH", "");
             openFreeMapPreview = preferences.getBoolean("openFreeMapPreview", false);
+            mapProvider = preferences.getInt("mapProvider", 0);
+            mapDriftingFix = preferences.getBoolean("mapDriftingFix", false);
+            mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
             pipEnabled = preferences.getBoolean("pipEnabled", false);
             pluginsBackup = preferences.getBoolean("plugins_backup", false);
             pluginsCatalogUrl = preferences.getString("pluginsCatalogUrl", DEFAULT_PLUGINS_CATALOG_URL);
             translationProvider = preferences.getInt("translationProvider", 0);
             translationTargetLang = preferences.getString("translationTargetLang", "");
-            chatTranslationBar = preferences.getBoolean("chatTranslationBar", false);
+            chatTranslationBar = preferences.getBoolean("chatTranslationBar", true);
+            telegramUIAutoTranslate = preferences.getBoolean("telegramUIAutoTranslate", false);
+            translateInSheet = preferences.getBoolean("translateInSheet", false);
             translateBeforeSend = preferences.getBoolean("translateBeforeSend", false);
             translationAutoFallback = preferences.getBoolean("translationAutoFallback", false);
             deeplApiKey = preferences.getString("deeplApiKey", "");
@@ -867,6 +883,10 @@ public class MZGramConfig {
             torIdleTimeoutMinutes = preferences.getInt("torIdleTimeoutMinutes", 5);
             customBadgesEnabled = preferences.getBoolean("customBadgesEnabled", false);
             nothingGlyphEnabled = preferences.getBoolean("nothingGlyphEnabled", false);
+            glyphOnNewMessage = preferences.getBoolean("glyphOnNewMessage", false);
+            glyphOnCall = preferences.getBoolean("glyphOnCall", false);
+            glyphOnRecording = preferences.getBoolean("glyphOnRecording", false);
+            glyphScreenOffOnly = preferences.getBoolean("glyphScreenOffOnly", false);
             nothingGlyphApiKey = preferences.getString("nothingGlyphApiKey", "");
             nothingGlyphBrightness = preferences.getInt("nothingGlyphBrightness", 100);
             customEmojiFontEnabled = preferences.getBoolean("customEmojiFontEnabled", false);
@@ -881,7 +901,7 @@ public class MZGramConfig {
                 preferences.edit().remove("saveMessageHistory").remove("historyTrackedDialogs").apply();
             }
             disableSponsoredMessages = preferences.getBoolean("disableSponsoredMessages", false);
-            stripZalgoText = preferences.getBoolean("stripZalgoText", false);
+            stripZalgoText = preferences.getBoolean("stripZalgoText", true);
             useUnifiedPush = preferences.contains("useUnifiedPush") ? preferences.getBoolean("useUnifiedPush", false) : null;
             unifiedPushGatewayEnabled = preferences.getBoolean("unifiedPushGatewayEnabled", true);
             unifiedPushGateway = preferences.getString("unifiedPushGateway", "");
@@ -1632,6 +1652,27 @@ public class MZGramConfig {
         MZGramDoH.clearCache();
     }
 
+    public static void setCustomDoH(String doh) {
+        customDoH = doh != null ? doh.trim() : "";
+        putString("customDoH", customDoH);
+        MZGramDoH.clearCache();
+    }
+
+    public static void setMapProvider(int provider) {
+        mapProvider = provider;
+        putInt("mapProvider", mapProvider);
+    }
+
+    public static void toggleMapDriftingFix() {
+        mapDriftingFix = !mapDriftingFix;
+        putBoolean("mapDriftingFix", mapDriftingFix);
+    }
+
+    public static void setMapPreviewProvider(int provider) {
+        mapPreviewProvider = provider;
+        putInt("mapPreviewProvider", mapPreviewProvider);
+    }
+
     public static void toggleOpenFreeMapPreview() {
         openFreeMapPreview = !openFreeMapPreview;
         putBoolean("openFreeMapPreview", openFreeMapPreview);
@@ -1675,6 +1716,16 @@ public class MZGramConfig {
     public static void toggleChatTranslationBar() {
         chatTranslationBar = !chatTranslationBar;
         putBoolean("chatTranslationBar", chatTranslationBar);
+    }
+
+    public static void toggleTelegramUIAutoTranslate() {
+        telegramUIAutoTranslate = !telegramUIAutoTranslate;
+        putBoolean("telegramUIAutoTranslate", telegramUIAutoTranslate);
+    }
+
+    public static void toggleTranslateInSheet() {
+        translateInSheet = !translateInSheet;
+        putBoolean("translateInSheet", translateInSheet);
     }
 
     public static void toggleTranslateBeforeSend() {
@@ -1755,6 +1806,26 @@ public class MZGramConfig {
     public static void toggleNothingGlyphEnabled() {
         nothingGlyphEnabled = !nothingGlyphEnabled;
         putBoolean("nothingGlyphEnabled", nothingGlyphEnabled);
+    }
+
+    public static void toggleGlyphOnNewMessage() {
+        glyphOnNewMessage = !glyphOnNewMessage;
+        putBoolean("glyphOnNewMessage", glyphOnNewMessage);
+    }
+
+    public static void toggleGlyphOnCall() {
+        glyphOnCall = !glyphOnCall;
+        putBoolean("glyphOnCall", glyphOnCall);
+    }
+
+    public static void toggleGlyphOnRecording() {
+        glyphOnRecording = !glyphOnRecording;
+        putBoolean("glyphOnRecording", glyphOnRecording);
+    }
+
+    public static void toggleGlyphScreenOffOnly() {
+        glyphScreenOffOnly = !glyphScreenOffOnly;
+        putBoolean("glyphScreenOffOnly", glyphScreenOffOnly);
     }
 
     public static void setNothingGlyphApiKey(String key) {

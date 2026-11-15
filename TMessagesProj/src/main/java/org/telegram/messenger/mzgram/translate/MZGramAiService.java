@@ -19,6 +19,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.mzgram.MZGramConfig;
+import org.telegram.messenger.mzgram.MZGramNetGate;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -143,7 +144,7 @@ public final class MZGramAiService {
     private static HttpURLConnection prepareGeminiRequest(String prompt, String systemPrompt, String key, String model) throws Exception {
         String endpoint = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + key;
         URL url = new URL(endpoint);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        HttpURLConnection conn = MZGramNetGate.openConnection(MZGramNetGate.FEATURE_TRANSLATION_AI, url);
         conn.setRequestMethod("POST");
         conn.setConnectTimeout(TIMEOUT_MS);
         conn.setReadTimeout(TIMEOUT_MS);
@@ -175,7 +176,7 @@ public final class MZGramAiService {
 
     private static HttpURLConnection prepareAnthropicRequest(String prompt, String systemPrompt, String key, String model) throws Exception {
         URL url = new URL("https://api.anthropic.com/v1/messages");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        HttpURLConnection conn = MZGramNetGate.openConnection(MZGramNetGate.FEATURE_TRANSLATION_AI, url);
         conn.setRequestMethod("POST");
         conn.setConnectTimeout(TIMEOUT_MS);
         conn.setReadTimeout(TIMEOUT_MS);
@@ -206,7 +207,7 @@ public final class MZGramAiService {
 
     private static HttpURLConnection prepareOpenAiCompatibleRequest(String endpoint, String prompt, String systemPrompt, String key, String model) throws Exception {
         URL url = new URL(endpoint);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        HttpURLConnection conn = MZGramNetGate.openConnection(MZGramNetGate.FEATURE_TRANSLATION_AI, url);
         conn.setRequestMethod("POST");
         conn.setConnectTimeout(TIMEOUT_MS);
         conn.setReadTimeout(TIMEOUT_MS);

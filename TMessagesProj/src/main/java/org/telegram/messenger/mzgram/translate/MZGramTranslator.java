@@ -21,6 +21,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.mzgram.MZGramConfig;
+import org.telegram.messenger.mzgram.MZGramNetGate;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -108,7 +109,7 @@ public final class MZGramTranslator {
                 String urlStr = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sl + "&tl=" + tl + "&dt=t&q=" + query;
 
                 URL url = new URL(urlStr);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = MZGramNetGate.openConnection(MZGramNetGate.FEATURE_TRANSLATION_GOOGLE, url);
                 conn.setRequestMethod("GET");
                 conn.setConnectTimeout(TIMEOUT_MS);
                 conn.setReadTimeout(TIMEOUT_MS);
@@ -179,7 +180,7 @@ public final class MZGramTranslator {
                 }
 
                 URL url = new URL(endpoint);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = MZGramNetGate.openConnection(MZGramNetGate.FEATURE_TRANSLATION_DEEPL, url);
                 conn.setRequestMethod("POST");
                 conn.setConnectTimeout(TIMEOUT_MS);
                 conn.setReadTimeout(TIMEOUT_MS);
@@ -265,7 +266,7 @@ public final class MZGramTranslator {
                 String params = "engine=google&from=" + URLEncoder.encode(sl, "UTF-8") + "&to=" + URLEncoder.encode(tl, "UTF-8") + "&text=" + URLEncoder.encode(text, "UTF-8");
 
                 URL url = new URL(endpoint + "?" + params);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = MZGramNetGate.openConnection(MZGramNetGate.FEATURE_TRANSLATION_MOZHI, url);
                 conn.setRequestMethod("GET");
                 conn.setConnectTimeout(TIMEOUT_MS);
                 conn.setReadTimeout(TIMEOUT_MS);

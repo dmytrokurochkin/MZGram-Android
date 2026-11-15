@@ -127,8 +127,8 @@ public final class MZGramSettingsBackup {
                 "saveInGroups", "saveInChannels", "saveExclusions", "keptReplyPreviews",
                 "replyToDeletedAsQuote", "deletedMessagesList", "deletedDialogsList", "deletedDialogsInMainList",
                 "m3Switches", "cardsDesign", "profileMusicCard", "openFreeMapPreview", "pipEnabled",
-                "chatTranslationBar", "translateBeforeSend", "translationAutoFallback", "speechRecognitionEnabled",
-                "torCompanionEnabled", "customBadgesEnabled", "nothingGlyphEnabled", "customEmojiFontEnabled",
+                "chatTranslationBar", "telegramUIAutoTranslate", "translateInSheet", "translateBeforeSend", "translationAutoFallback", "speechRecognitionEnabled",
+                "torCompanionEnabled", "customBadgesEnabled", "nothingGlyphEnabled", "glyphOnNewMessage", "glyphOnCall", "glyphOnRecording", "glyphScreenOffOnly", "customEmojiFontEnabled",
                 "syncedLyricsOnline", "iconPacksCatalogEnabled",
                 "forwardDeletedAsCopy", "semiTransparentDeleted", "disableSponsoredMessages",
                 "stripZalgoText", "foldFancyFontsInSearch", "characterCounter", "searchOperators",
@@ -141,7 +141,7 @@ public final class MZGramSettingsBackup {
                 "hexColorSwatch", "scheduleSlider", "sendSilentByDefault", "showRegistrationDate",
                 "audioEnhance", "cameraStabilization", "pauseRoundOnLeave", "alwaysSendHd", "videoSubtitles", "persianCalendar",
                 "hideChatStatus", "chat_header_compact", "staticInputIcons", "panguSpacing", "usePinnedReactionsChats",
-                "usePinnedReactionsChannels", "musicPlayerMini", "glassMessageMenu", "m3Slider", "m3Loading", "separateHeaders", "feedIncludeArchived", "feedWidePosts", "feedUnreadCounter", "feedTab", "deletedMarkIcon", "saveLastOnline", "saveReadDates", "ghostStatusInTitle", "ghostReadOnInteraction", "ghostOfflineAuto", "ghostNoTyping", "ghostNoOnline", "ghostNoReadStories", "ghostNoRead", "groupMessageMenu", "inlineTimeZones", "inlineUnits", "staticZoom", "rememberLastCamera", "roundVideoFrontCamera", "quickTransitionTopics", "quickTransitionChannels", "telegramAiIvSummary", "telegramAiSummary", "telegramAiEditor", "quickAdminShortcuts", "showForwardsCount", "showOnlineStatus", "replaceEditedWithIcon", "hideSendAsPeer", "chatMenuDeleteOwn", "chatMenuClearDeleted", "chatMenuHideTitle", "chatMenuGoToMessage", "chatMenuLinkedChat", "chatMenuBoost", "unlimitedSavedGifs", "chatMenuToBeginning", "adminShortcutStatistics", "adminShortcutMembers", "adminShortcutPermissions", "adminShortcutAdministrators", "adminShortcutRecentActions", "hideAttachMoney", "contentCapture", "confirmBotCommands", "confirmRepeat", "disableProximity", "dontAutoPlayNextVoice", "disableNotificationBubbles", "sortByUnread", "disableAvatarBlur", "hideGroupSticker", "disableTrending", "rememberAllReplies", "smallGifs", "forwardedDate", "hideCallButton", "hideChannelSearchButton", "hideChannelGiftButton", "disableGlobalSearch", "addCommaAfterMention", "hideKeyboardOnScroll", "replyBackground", "replyEmoji", "replyColors", "unlimitedRecentStickers", "pauseVoiceOnMinimize", "unmuteWithVolumeButtons", "swipeToPip", "showResultsBeforeVoting", "hideShareButton", "removeMessageTail", "forceBlur", "hideAllChatsTab", "folderTabCounters", "singleCornerRadius", "customChatThemes", "senderMiniAvatars", "forceSnow", "hideDialogsSearchBar", "hideFloatingButton", "hideActionBarStatus", "centerTitle", "disableUnarchiveSwipe", "hideArchiveFolder", "hidePhoneNumber", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration");
+                "usePinnedReactionsChannels", "musicPlayerMini", "glassMessageMenu", "m3Slider", "m3Loading", "separateHeaders", "feedIncludeArchived", "feedWidePosts", "feedUnreadCounter", "feedTab", "deletedMarkIcon", "saveLastOnline", "saveReadDates", "ghostStatusInTitle", "ghostReadOnInteraction", "ghostOfflineAuto", "ghostNoTyping", "ghostNoOnline", "ghostNoReadStories", "ghostNoRead", "groupMessageMenu", "inlineTimeZones", "inlineUnits", "staticZoom", "rememberLastCamera", "roundVideoFrontCamera", "quickTransitionTopics", "quickTransitionChannels", "telegramAiIvSummary", "telegramAiSummary", "telegramAiEditor", "quickAdminShortcuts", "showForwardsCount", "showOnlineStatus", "replaceEditedWithIcon", "hideSendAsPeer", "chatMenuDeleteOwn", "chatMenuClearDeleted", "chatMenuHideTitle", "chatMenuGoToMessage", "chatMenuLinkedChat", "chatMenuBoost", "unlimitedSavedGifs", "chatMenuToBeginning", "adminShortcutStatistics", "adminShortcutMembers", "adminShortcutPermissions", "adminShortcutAdministrators", "adminShortcutRecentActions", "hideAttachMoney", "contentCapture", "confirmBotCommands", "confirmRepeat", "disableProximity", "dontAutoPlayNextVoice", "disableNotificationBubbles", "sortByUnread", "disableAvatarBlur", "hideGroupSticker", "disableTrending", "rememberAllReplies", "smallGifs", "forwardedDate", "hideCallButton", "hideChannelSearchButton", "hideChannelGiftButton", "disableGlobalSearch", "addCommaAfterMention", "hideKeyboardOnScroll", "replyBackground", "replyEmoji", "replyColors", "unlimitedRecentStickers", "pauseVoiceOnMinimize", "unmuteWithVolumeButtons", "swipeToPip", "showResultsBeforeVoting", "hideShareButton", "removeMessageTail", "forceBlur", "hideAllChatsTab", "folderTabCounters", "singleCornerRadius", "customChatThemes", "senderMiniAvatars", "forceSnow", "hideDialogsSearchBar", "hideFloatingButton", "hideActionBarStatus", "centerTitle", "disableUnarchiveSwipe", "hideArchiveFolder", "hidePhoneNumber", "relativeLastSeen", "uploadSpeedBoost", "disableNotificationDelay", "inAppVibration", "mapDriftingFix");
         // MZGramAvatarShape.MIN..MAX
         integer(CONFIG, "avatarCorners", 0, 28);
         // Sticker shape: Default, Rounded or Message
@@ -186,8 +186,12 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "scheduleDefaultMinutes", 1, 366 * 24 * 60);
         // MZGramProxyAutoDisable.ALL; the mark "turned off here" is device state (mzgram_proxy)
         integer(CONFIG, "proxyDisableConditions", 0, 7);
-        // MZGramDoH PROVIDERS 0..3
-        integer(CONFIG, "dohProvider", 0, 3);
+        // MZGramDoH PROVIDERS 0..4 (including Custom)
+        integer(CONFIG, "dohProvider", 0, 4);
+        // Map provider 0..1 (Google Maps, OpenStreetMap)
+        integer(CONFIG, "mapProvider", 0, 1);
+        // Map preview provider 0..3 (Telegram, Yandex, OpenFreeMap, Nobody)
+        integer(CONFIG, "mapPreviewProvider", 0, 3);
         // Translation provider 0..5
         integer(CONFIG, "translationProvider", 0, 5);
         // AI provider type 0..4
@@ -208,7 +212,8 @@ public final class MZGramSettingsBackup {
                 "shadowBanList", "pinnedReactionsChats", "pinnedReactionsChannels",
                 "textStyleOrder", "textStyleHidden", "pluginsCatalogUrl",
                 "translationTargetLang", "aiCustomModel", "voskModelLang",
-                "torCompanionPackage", "customEmojiFontPath", "saveFolder", "titleTextCustom");
+                "torCompanionPackage", "customEmojiFontPath", "saveFolder",
+                "customDoH", "titleTextCustom");
         textSets(CONFIG, "aiMenuButtons", "hiddenSettingsRows");
 
         // MZGramDrawerItems, MZGramPills: comma-separated ids, unknown ids are dropped when read

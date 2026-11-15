@@ -2858,18 +2858,33 @@ public class AndroidUtilities {
     }
 
     public static String formapMapUrl(int account, double lat, double lon, int width, int height, boolean marker, int zoom, int provider) {
-        int scale = Math.min(2, (int) Math.ceil(AndroidUtilities.density));
-        // MZGram: OpenFreeMap map preview
-        if (org.telegram.messenger.mzgram.MZGramConfig.openFreeMapPreview) {
-            if (marker) {
-                return String.format(Locale.US, "https://staticmap.openstreetmap.de/staticmap.php?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=mapnik&markers=%.6f,%.6f,ol-marker", lat, lon, zoom, width * scale, height * scale, lat, lon);
-            } else {
-                return String.format(Locale.US, "https://staticmap.openstreetmap.de/staticmap.php?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=mapnik", lat, lon, zoom, width * scale, height * scale);
-            }
+        if (org.telegram.messenger.mzgram.MZGramLocationDrifting.isFixActive()) {
+            android.util.Pair<Double, Double> trans = org.telegram.messenger.mzgram.MZGramLocationDrifting.transform(lat, lon);
+            lat = trans.first;
+            lon = trans.second;
         }
-        if (provider == -1) {
+        int mapPreviewProvider = org.telegram.messenger.mzgram.MZGramConfig.mapPreviewProvider;
+        if (mapPreviewProvider == 3) {
+            return null; // Nobody
+        }
+        int scale = Math.min(2, (int) Math.ceil(AndroidUtilities.density));
+        // MZGram: OpenFreeMap map preview (or provider 2)
+        if (mapPreviewProvider == 2 || org.telegram.messenger.mzgram.MZGramConfig.openFreeMapPreview) {
+            String url;
+            if (marker) {
+                url = String.format(Locale.US, "https://staticmap.openstreetmap.de/staticmap.php?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=mapnik&markers=%.6f,%.6f,ol-marker", lat, lon, zoom, width * scale, height * scale, lat, lon);
+            } else {
+                url = String.format(Locale.US, "https://staticmap.openstreetmap.de/staticmap.php?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=mapnik", lat, lon, zoom, width * scale, height * scale);
+            }
+            org.telegram.messenger.mzgram.MZGramNetGate.checkAndLog(org.telegram.messenger.mzgram.MZGramNetGate.FEATURE_MAP_PREVIEW, url);
+            return url;
+        }
+        if (mapPreviewProvider == 1) {
+            provider = 1;
+        } else if (provider == -1) {
             provider = MessagesController.getInstance(account).mapProvider;
         }
+        String resultUrl;
         if (provider == 1 || provider == 3) {
             String lang = null;
             String[] availableLangs = new String[]{"ru_RU", "tr_TR"};
@@ -2883,26 +2898,28 @@ public class AndroidUtilities {
                 lang = "en_US";
             }
             if (marker) {
-                return String.format(Locale.US, "https://static-maps.yandex.ru/1.x/?ll=%.6f,%.6f&z=%d&size=%d,%d&l=map&scale=%d&pt=%.6f,%.6f,vkbkm&lang=%s", lon, lat, zoom, width * scale, height * scale, scale, lon, lat, lang);
+                resultUrl = String.format(Locale.US, "https://static-maps.yandex.ru/1.x/?ll=%.6f,%.6f&z=%d&size=%d,%d&l=map&scale=%d&pt=%.6f,%.6f,vkbkm&lang=%s", lon, lat, zoom, width * scale, height * scale, scale, lon, lat, lang);
             } else {
-                return String.format(Locale.US, "https://static-maps.yandex.ru/1.x/?ll=%.6f,%.6f&z=%d&size=%d,%d&l=map&scale=%d&lang=%s", lon, lat, zoom, width * scale, height * scale, scale, lang);
+                resultUrl = String.format(Locale.US, "https://static-maps.yandex.ru/1.x/?ll=%.6f,%.6f&z=%d&size=%d,%d&l=map&scale=%d&lang=%s", lon, lat, zoom, width * scale, height * scale, scale, lang);
             }
         } else {
             String k = MessagesController.getInstance(account).mapKey;
             if (!TextUtils.isEmpty(k)) {
                 if (marker) {
-                    return String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d&markers=color:red%%7Csize:mid%%7C%.6f,%.6f&sensor=false&key=%s", lat, lon, zoom, width, height, scale, lat, lon, k);
+                    resultUrl = String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d&markers=color:red%%7Csize:mid%%7C%.6f,%.6f&sensor=false&key=%s", lat, lon, zoom, width, height, scale, lat, lon, k);
                 } else {
-                    return String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d&key=%s", lat, lon, zoom, width, height, scale, k);
+                    resultUrl = String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d&key=%s", lat, lon, zoom, width, height, scale, k);
                 }
             } else {
                 if (marker) {
-                    return String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d&markers=color:red%%7Csize:mid%%7C%.6f,%.6f&sensor=false", lat, lon, zoom, width, height, scale, lat, lon);
+                    resultUrl = String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d&markers=color:red%%7Csize:mid%%7C%.6f,%.6f&sensor=false", lat, lon, zoom, width, height, scale, lat, lon);
                 } else {
-                    return String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d", lat, lon, zoom, width, height, scale);
+                    resultUrl = String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d", lat, lon, zoom, width, height, scale);
                 }
             }
         }
+        org.telegram.messenger.mzgram.MZGramNetGate.checkAndLog(org.telegram.messenger.mzgram.MZGramNetGate.FEATURE_MAP_PREVIEW, resultUrl);
+        return resultUrl;
     }
 
     public static int getAccountInProduction() {

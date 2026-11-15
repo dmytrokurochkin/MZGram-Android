@@ -1170,6 +1170,20 @@ public class ConnectionsManager extends BaseController {
         }
 
         protected ResolvedDomain doInBackground(Void... voids) {
+            if (org.telegram.messenger.mzgram.MZGramConfig.dohProvider != 0) {
+                try {
+                    java.util.List<InetAddress> resolved = org.telegram.messenger.mzgram.MZGramDoH.resolve(currentHostName);
+                    if (resolved != null && !resolved.isEmpty()) {
+                        ArrayList<String> addresses = new ArrayList<>(resolved.size());
+                        for (InetAddress addr : resolved) {
+                            addresses.add(addr.getHostAddress());
+                        }
+                        return new ResolvedDomain(addresses, SystemClock.elapsedRealtime());
+                    }
+                } catch (Throwable e) {
+                    FileLog.e(e, false);
+                }
+            }
             ByteArrayOutputStream outbuf = null;
             InputStream httpConnectionStream = null;
             boolean done = false;

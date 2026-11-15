@@ -526,6 +526,9 @@ public class LocationController extends BaseController implements NotificationCe
         if (location != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && (SystemClock.elapsedRealtimeNanos() - location.getElapsedRealtimeNanos()) / 1000000000 > 60 * 5) {
             return;
         }
+        if (org.telegram.messenger.mzgram.MZGramLocationDrifting.isFixActive() && location != null) {
+            org.telegram.messenger.mzgram.MZGramLocationDrifting.transform(location);
+        }
         lastKnownLocation = location;
         if (lastKnownLocation != null) {
             AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.newLocationAvailable));

@@ -25,6 +25,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.mzgram.MZGramConfig;
+import org.telegram.messenger.mzgram.MZGramNetGate;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -83,7 +84,7 @@ public final class MZGramSpeechRecognizer {
                 targetDir.mkdirs();
 
                 URL url = new URL(modelUrl);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = MZGramNetGate.openConnection(MZGramNetGate.FEATURE_VOSK, url);
                 conn.setRequestMethod("GET");
                 conn.setConnectTimeout(15000);
                 conn.setReadTimeout(30000);

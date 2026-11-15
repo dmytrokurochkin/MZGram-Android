@@ -82,7 +82,7 @@ class MZGramSettingsTest {
     private val underSwitch = listOf(
         "BUTTON_ADMIN_SHORTCUT_RECENT", "BUTTON_ADMIN_SHORTCUT_ADMINS", "BUTTON_ADMIN_SHORTCUT_PERMISSIONS",
         "BUTTON_ADMIN_SHORTCUT_MEMBERS", "BUTTON_ADMIN_SHORTCUT_STATISTICS",
-        "BUTTON_CAMERA_X_WIDE", "BUTTON_CAMERA_X_ZOOM",
+        "BUTTON_CAMERA_X_WIDE", "BUTTON_CAMERA_X_ZOOM", "BUTTON_CUSTOM_DOH",
         "BUTTON_DELETED_DIALOGS_IN_MAIN_LIST", "BUTTON_DELETED_DIALOGS_OPEN", "BUTTON_DELETED_ICON_COLOR",
         "BUTTON_DOUBLE_TAP_OWN", "BUTTON_DOUBLE_TAP_OTHER",
         "BUTTON_DRAWER_GLASS", "BUTTON_DRAWER_HEADER", "BUTTON_DRAWER_ITEMS", "BUTTON_DRAWER_LARGE_AVATAR", "BUTTON_DRAWER_SHOW_QR",
@@ -162,7 +162,7 @@ class MZGramSettingsTest {
         // None lost: every switch and button is shown, but those under an off switch and those not offered here
         val maybe = notOffered()
         assertEquals("every switch and button is shown", allButtons() - underSwitch.map { button(it) }.toSet() - maybe, shown.toSet() - maybe)
-        val expectedCount = 279 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        val expectedCount = 293 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

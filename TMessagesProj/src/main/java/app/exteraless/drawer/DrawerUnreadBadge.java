@@ -1,7 +1,9 @@
 package app.exteraless.drawer;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,6 +27,9 @@ final class DrawerUnreadBadge {
     private int textWidth;
     private boolean visible;
     private int defaultTextPaddingEnd = Integer.MIN_VALUE;
+    /** MZGram: the Material 3 badge label, the count as trailing text of the item. */
+    private boolean material;
+    private TextPaint materialPaint;
 
     void bind(int counter, TextView textView) {
         this.counter = counter;
@@ -34,6 +39,13 @@ final class DrawerUnreadBadge {
     /** Высота 23dp, радиус 11.5dp, отступ сверху 12.5dp. */
     void draw(View view, Canvas canvas) {
         if (!visible) {
+            return;
+        }
+        if (material) {
+            materialPaint.setColor(DrawerMaterial.onSurfaceVariant());
+            final Paint.FontMetrics fm = materialPaint.getFontMetrics();
+            final float baseline = view.getMeasuredHeight() / 2f - (fm.ascent + fm.descent) / 2f;
+            canvas.drawText(text, view.getMeasuredWidth() - AndroidUtilities.dp(24.0f) - textWidth, baseline, materialPaint);
             return;
         }
         final float top = AndroidUtilities.dp(12.5f);
@@ -55,6 +67,19 @@ final class DrawerUnreadBadge {
             return;
         }
         visible = true;
+        material = DrawerMaterial.enabled();
+        if (material) {
+            if (materialPaint == null) {
+                materialPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                materialPaint.setTypeface(AndroidUtilities.bold());
+            }
+            materialPaint.setTextSize(AndroidUtilities.dp(14.0f));
+            text = counter > 999 ? "999+" : Integer.toString(counter);
+            textWidth = (int) Math.ceil(materialPaint.measureText(text));
+            badgeWidth = textWidth;
+            applyTextPadding(textView, defaultTextPaddingEnd + textWidth + AndroidUtilities.dp(20.0f));
+            return;
+        }
         text = Integer.toString(counter);
         textWidth = (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(text));
         badgeWidth = Math.max(AndroidUtilities.dp(10.0f), textWidth) + AndroidUtilities.dp(14.0f);

@@ -140,7 +140,7 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         drawerWidth = calculateDrawerWidth();
 
         drawerPanel = new FrameLayout(context);
-        drawerPanel.setBackgroundColor(Theme.getColor(COLOR_KEY_DRAWER_BACKGROUND));
+        drawerPanel.setBackgroundColor(drawerBackgroundColor());
         drawerPanel.setTranslationX(-drawerWidth);
         addView(drawerPanel, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT));
         final FrameLayout.LayoutParams panelParams = (FrameLayout.LayoutParams) drawerPanel.getLayoutParams();
@@ -478,8 +478,11 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         if (child != drawerPanel || AppearanceConfig.immersiveDrawerAnimation()) {
             return super.drawChild(canvas, child, drawingTime);
         }
-        final float topRight = cachedTopRightRadius < 0.0f ? AndroidUtilities.dp(24.0f) : cachedTopRightRadius;
-        final float bottomRight = cachedBottomRightRadius < 0.0f ? AndroidUtilities.dp(24.0f) : cachedBottomRightRadius;
+        final boolean material = DrawerMaterial.enabled();
+        final float topRight = material ? AndroidUtilities.dp(DrawerMaterial.SHEET_CORNER_DP)
+                : cachedTopRightRadius < 0.0f ? AndroidUtilities.dp(24.0f) : cachedTopRightRadius;
+        final float bottomRight = material ? AndroidUtilities.dp(DrawerMaterial.SHEET_CORNER_DP)
+                : cachedBottomRightRadius < 0.0f ? AndroidUtilities.dp(24.0f) : cachedBottomRightRadius;
         radii[0] = 0.0f;
         radii[1] = 0.0f;
         radii[2] = topRight;
@@ -755,10 +758,17 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
     // ---- геометрия и жесты ----
 
     private int calculateDrawerWidth() {
-        return Math.min(AndroidUtilities.dp(300.0f), AndroidUtilities.displaySize.x - AndroidUtilities.dp(56.0f));
+        // MZGram: the Material 3 modal drawer is up to 360 dp wide and leaves 56 dp of the screen
+        return Math.min(AndroidUtilities.dp(DrawerMaterial.enabled() ? 360.0f : 300.0f), AndroidUtilities.displaySize.x - AndroidUtilities.dp(56.0f));
+    }
+
+    /** MZGram: the Material drawer is a surface container a step above the page. */
+    private static int drawerBackgroundColor() {
+        return DrawerMaterial.enabled() ? DrawerMaterial.sheetColor() : Theme.getColor(COLOR_KEY_DRAWER_BACKGROUND);
     }
 
     private void updateDrawerWidth() {
+        drawerPanel.setBackgroundColor(drawerBackgroundColor());
         drawerWidth = calculateDrawerWidth();
         final FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) drawerPanel.getLayoutParams();
         lp.width = drawerWidth;
@@ -971,7 +981,7 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
     }
 
     private void updateColors() {
-        drawerPanel.setBackgroundColor(Theme.getColor(COLOR_KEY_DRAWER_BACKGROUND));
+        drawerPanel.setBackgroundColor(drawerBackgroundColor());
         headerView.updateColors();
         accountPickerView.updateColors();
         menuView.updateColors();

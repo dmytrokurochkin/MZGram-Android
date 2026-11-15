@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +38,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.BulletinFactory;
@@ -180,8 +183,8 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         listView.setOnItemClickListener((view, position) -> {
             if (view instanceof CatalogCell) {
                 Entry entry = ((CatalogCell) view).entry;
-                if (entry != null && stateOf(entry) != STATE_INSTALLED) {
-                    install(entry);
+                if (entry != null) {
+                    showDetails(entry);
                 }
             }
         });
@@ -558,7 +561,7 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             int type = holder.getItemViewType();
             if (type == TYPE_ENTRY) {
                 Entry entry = shown.get(position);
-                ((CatalogCell) holder.itemView).bind(entry, stateOf(entry), position != shown.size() - 1);
+                ((CatalogCell) holder.itemView).bind(entry, stateOf(entry));
             } else if (type == TYPE_INFO) {
                 ((TextInfoPrivacyCell) holder.itemView).setText(getString(R.string.MZPluginCatalogInfo));
             } else {
@@ -567,19 +570,167 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         }
     }
 
+    // ---------- MZGram: Material 3 ----------
+
+    /** The secondary container over a surface: the accent a fifth over it. */
+    private static int tonalColor(int surface) {
+        final int accent = Theme.getColor(Theme.key_featuredStickers_addButton) | 0xFF000000;
+        return ColorUtils.blendARGB(surface | 0xFF000000, accent, Theme.isCurrentThemeDark() ? 0.2f : 0.16f);
+    }
+
+    /** A monogram avatar: the plugin's first letter in the accent on a tonal circle. */
+    private static TextView createMonogram(Context context, int sizeDp, int surface) {
+        TextView view = new TextView(context);
+        view.setGravity(Gravity.CENTER);
+        view.setTypeface(AndroidUtilities.bold());
+        view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, sizeDp * 0.42f);
+        view.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
+        view.setBackground(Theme.createCircleDrawable(dp(sizeDp), tonalColor(surface)));
+        return view;
+    }
+
+    private static void bindMonogram(TextView view, String name) {
+        String letter = "";
+        if (!TextUtils.isEmpty(name)) {
+            letter = new String(Character.toChars(name.codePointAt(0))).toUpperCase(Locale.getDefault());
+        }
+        view.setText(letter);
+    }
+
+    /**
+     * The action of an entry: Install is a tonal button (a filled one where it is the main action of the
+     * screen), Update a filled button, Installed a label with no container.
+     */
+    private void styleAction(TextView view, int state, int radius, int surface, boolean prominent) {
+        final int accent = Theme.getColor(Theme.key_featuredStickers_addButton);
+        final int pressed = Theme.getColor(Theme.key_featuredStickers_addButtonPressed);
+        if (state == STATE_INSTALLED) {
+            view.setText(getString(R.string.MZPluginCatalogInstalled));
+            view.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
+            view.setBackground(prominent ? Theme.createRoundRectDrawable(radius, tonalColor(surface)) : null);
+            view.setClickable(false);
+        } else if (state == STATE_UPDATE || prominent) {
+            view.setText(getString(state == STATE_UPDATE ? R.string.MZPluginCatalogUpdate : R.string.MZPluginCatalogInstall));
+            view.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+            view.setBackground(Theme.createSimpleSelectorRoundRectDrawable(radius, accent, pressed));
+            view.setClickable(true);
+        } else {
+            view.setText(getString(R.string.MZPluginCatalogInstall));
+            view.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            view.setBackground(Theme.createSimpleSelectorRoundRectDrawable(radius, tonalColor(surface),
+                    Theme.multAlpha(accent, 0.35f)));
+            view.setClickable(true);
+        }
+    }
+
+    /** A bottom sheet with the whole description, the version and size, and the main action. */
+    private void showDetails(Entry entry) {
+        Activity activity = getParentActivity();
+        if (activity == null) {
+            return;
+        }
+        final int surface = Theme.getColor(Theme.key_dialogBackground);
+        BottomSheet sheet = new BottomSheet(activity, false);
+
+        LinearLayout layout = new LinearLayout(activity);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(dp(24), dp(20), dp(24), dp(16));
+
+        LinearLayout head = new LinearLayout(activity);
+        head.setOrientation(LinearLayout.HORIZONTAL);
+        head.setGravity(Gravity.CENTER_VERTICAL);
+        TextView avatar = createMonogram(activity, 56, surface);
+        bindMonogram(avatar, entry.name);
+        head.addView(avatar, LayoutHelper.createLinear(56, 56));
+
+        LinearLayout titles = new LinearLayout(activity);
+        titles.setOrientation(LinearLayout.VERTICAL);
+        TextView name = new TextView(activity);
+        name.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        name.setTypeface(AndroidUtilities.bold());
+        name.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        name.setMaxLines(2);
+        name.setEllipsize(TextUtils.TruncateAt.END);
+        name.setText(entry.name);
+        titles.addView(name, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        String size = entry.size > 0 ? AndroidUtilities.formatFileSize(entry.size) : null;
+        String meta;
+        if (TextUtils.isEmpty(entry.version)) {
+            meta = size;
+        } else if (size == null) {
+            meta = LocaleController.formatString(R.string.PluginsInstallVersion, entry.version);
+        } else {
+            meta = LocaleController.formatString(R.string.MZPluginCatalogVersionSize, entry.version, size);
+        }
+        if (!TextUtils.isEmpty(meta)) {
+            TextView metaView = new TextView(activity);
+            metaView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+            metaView.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
+            metaView.setText(meta);
+            titles.addView(metaView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 2, 0, 0));
+        }
+        head.addView(titles, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f, Gravity.CENTER_VERTICAL, 16, 0, 0, 0));
+        layout.addView(head, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+        String description = localizedDescription(entry);
+        if (!TextUtils.isEmpty(description)) {
+            TextView descriptionView = new TextView(activity);
+            descriptionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+            descriptionView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+            descriptionView.setLineSpacing(dp(3), 1f);
+            descriptionView.setText(description);
+            layout.addView(descriptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 20, 0, 0));
+        }
+
+        TextView info = new TextView(activity);
+        info.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+        info.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
+        info.setLineSpacing(dp(2), 1f);
+        info.setText(getString(R.string.MZPluginCatalogInfo));
+        layout.addView(info, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 16, 0, 0));
+
+        TextView button = new TextView(activity);
+        button.setGravity(Gravity.CENTER);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+        button.setTypeface(AndroidUtilities.bold());
+        button.setSingleLine(true);
+        styleAction(button, stateOf(entry), dp(24), surface, true);
+        button.setOnClickListener(v -> {
+            sheet.dismiss();
+            if (stateOf(entry) != STATE_INSTALLED) {
+                install(entry);
+            }
+        });
+        layout.addView(button, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48, 0, 24, 0, 0));
+
+        ScrollView scroll = new ScrollView(activity);
+        scroll.addView(layout);
+        sheet.setCustomView(scroll);
+        showDialog(sheet);
+    }
+
+    /** A Material 3 list item: a monogram, the name with its version, two lines of description, the action. */
     private class CatalogCell extends FrameLayout {
 
         Entry entry;
+        private final TextView avatarView;
         private final TextView nameView;
         private final TextView versionView;
         private final TextView descriptionView;
         private final TextView actionView;
-        private boolean divider;
 
         CatalogCell(Context context) {
             super(context);
-            setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            setWillNotDraw(false);
+            final int surface = Theme.getColor(Theme.key_windowBackgroundWhite);
+            setBackgroundColor(surface);
+
+            LinearLayout row = new LinearLayout(context);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setGravity(Gravity.CENTER_VERTICAL);
+            row.setPadding(dp(16), dp(12), dp(16), dp(12));
+
+            avatarView = createMonogram(context, 40, surface);
+            row.addView(avatarView, LayoutHelper.createLinear(40, 40));
 
             LinearLayout column = new LinearLayout(context);
             column.setOrientation(LinearLayout.VERTICAL);
@@ -595,7 +746,7 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             nameView.setEllipsize(TextUtils.TruncateAt.END);
             titleRow.addView(nameView, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f));
             versionView = new TextView(context);
-            versionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+            versionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             versionView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             versionView.setSingleLine(true);
             titleRow.addView(versionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0, 0));
@@ -604,60 +755,37 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             descriptionView = new TextView(context);
             descriptionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             descriptionView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
-            descriptionView.setMaxLines(3);
+            descriptionView.setMaxLines(2);
             descriptionView.setEllipsize(TextUtils.TruncateAt.END);
             descriptionView.setLineSpacing(dp(1), 1f);
-            column.addView(descriptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 4, 0, 0));
+            column.addView(descriptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 2, 0, 0));
+            row.addView(column, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f, Gravity.CENTER_VERTICAL, 16, 0, 12, 0));
 
             actionView = new TextView(context);
             actionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             actionView.setTypeface(AndroidUtilities.bold());
             actionView.setGravity(Gravity.CENTER);
-            actionView.setPadding(dp(14), 0, dp(14), 0);
+            actionView.setPadding(dp(16), 0, dp(16), 0);
             actionView.setSingleLine(true);
             actionView.setOnClickListener(v -> {
                 if (entry != null && stateOf(entry) != STATE_INSTALLED) {
                     install(entry);
                 }
             });
+            row.addView(actionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 36, Gravity.CENTER_VERTICAL));
 
-            boolean rtl = LocaleController.isRTL;
-            addView(column, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                    Gravity.TOP | (rtl ? Gravity.RIGHT : Gravity.LEFT), rtl ? 112 : 21, 12, rtl ? 21 : 112, 12));
-            addView(actionView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 32,
-                    Gravity.CENTER_VERTICAL | (rtl ? Gravity.LEFT : Gravity.RIGHT), 16, 0, 16, 0));
+            addView(row, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         }
 
-        void bind(Entry entry, int state, boolean divider) {
+        void bind(Entry entry, int state) {
             this.entry = entry;
-            this.divider = divider;
+            bindMonogram(avatarView, entry.name);
             nameView.setText(entry.name);
             versionView.setText(TextUtils.isEmpty(entry.version) ? "" : entry.version);
             String description = localizedDescription(entry);
             descriptionView.setText(description);
             descriptionView.setVisibility(TextUtils.isEmpty(description) ? GONE : VISIBLE);
-            if (state == STATE_INSTALLED) {
-                actionView.setText(getString(R.string.MZPluginCatalogInstalled));
-                actionView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
-                actionView.setBackground(null);
-                actionView.setClickable(false);
-            } else {
-                actionView.setText(getString(state == STATE_UPDATE ? R.string.MZPluginCatalogUpdate : R.string.MZPluginCatalogInstall));
-                actionView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-                actionView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp(16),
-                        Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
-                actionView.setClickable(true);
-            }
-            invalidate();
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            if (divider) {
-                canvas.drawLine(LocaleController.isRTL ? 0 : dp(21), getMeasuredHeight() - 1,
-                        getMeasuredWidth() - (LocaleController.isRTL ? dp(21) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
-            }
+            styleAction(actionView, state, dp(18), Theme.getColor(Theme.key_windowBackgroundWhite), false);
         }
     }
 }

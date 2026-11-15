@@ -73,6 +73,8 @@ public class PluginsActivity extends BaseFragment {
     private static final int MENU_CATALOG = 7;
 
     private static final int ID_ENGINE_TOGGLE = -1;
+    private static final int ID_CATALOG_ROW = -2;
+    private static final int ID_INSTALL_FILE_ROW = -3;
 
     private static final int REQUEST_CODE_PICK_PLUGIN = 9781;
     private static final int REQUEST_CODE_IMPORT_PLUGINS = 9782;
@@ -303,42 +305,34 @@ public class PluginsActivity extends BaseFragment {
         if (!engineEnabled) {
             return;
         }
-        items.add(UItem.asSpace(dp(8)));
+        final boolean searching = !TextUtils.isEmpty(searchQuery);
+        if (searching) {
+            items.add(UItem.asSpace(dp(8)));
+        } else {
+            // MZGram: the ways to get a plugin are rows in sight, not icons in the top bar
+            items.add(UItem.asShadow(null));
+            items.add(UItem.asHeader(getString(R.string.MZPluginsGet)));
+            items.add(UItem.asButton(ID_CATALOG_ROW, getString(R.string.MZPluginCatalog))
+                    .accent()
+                    .setIcon(R.drawable.menu_shop));
+            items.add(UItem.asButton(ID_INSTALL_FILE_ROW, getString(R.string.PluginsInstallFromFile))
+                    .accent()
+                    .setIcon(R.drawable.msg_filehq));
+            items.add(UItem.asShadow(getString(R.string.MZPluginCatalogInfo)));
+        }
 
         List<Plugin> visible = visiblePlugins();
         if (visible.isEmpty()) {
-            CharSequence hint = TextUtils.isEmpty(searchQuery)
-                    ? catalogLink(getString(R.string.PluginsEmptyHint))
-                    : getString(R.string.PluginsNotFound);
-            emptyCell.setState(engineEnabled, hint, listView != null);
-            items.add(PluginUiItem.fullscreen(emptyCell, dp(74), true));
+            emptyCell.setState(engineEnabled,
+                    searching ? null : getString(R.string.MZPluginsEmptyTitle),
+                    getString(searching ? R.string.PluginsNotFound : R.string.MZPluginsEmptyBody),
+                    listView != null);
+            items.add(UItem.asCustomShadow(emptyCell, searching ? 120 : 260));
             return;
         }
         for (Plugin plugin : visible) {
             items.add(PluginCell.Factory.asPlugin(plugin, new PluginRowDelegate(plugin)));
         }
-    }
-
-    /**
-     * Делает @username в подсказке кликабельной ссылкой на канал.
-     * exteraGram зовёт свой LocaleUtils.formatWithUsernames; у нас такого хелпера
-     * нет, а тянуть его целиком ради одной строки незачем.
-     */
-    private CharSequence catalogLink(String text) {
-        SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        builder.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-                presentFragment(new PluginCatalogActivity());
-            }
-
-            @Override
-            public void updateDrawState(android.text.TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setUnderlineText(false);
-            }
-        }, 0, builder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return builder;
     }
 
     private CharSequence withUsernameLink(String text) {
@@ -532,6 +526,14 @@ public class PluginsActivity extends BaseFragment {
                             }
                         }));
             }
+            return;
+        }
+        if (item.id == ID_CATALOG_ROW) {
+            presentFragment(new PluginCatalogActivity());
+            return;
+        }
+        if (item.id == ID_INSTALL_FILE_ROW) {
+            openPluginPicker(this);
             return;
         }
         // По карточке кликов не ждём: у неё свои кнопки и свой тумблер.

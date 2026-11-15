@@ -76,6 +76,7 @@ public class ProfileMusicView extends View {
     }
 
     private final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mzPillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Path clipPath = new Path();
 
     private final ButtonBounce bounce = new ButtonBounce(this);
@@ -145,7 +146,13 @@ public class ProfileMusicView extends View {
     private void checkTextColor() {
         final boolean useBlackText = parentExpanded < 0.8f && isButtonColorLight();
         textColor = useBlackText ? Color.BLACK : Color.WHITE;
-        icon.setColorFilter(useBlackText ? filterColorBlack : filterColorWhite);
+        if (ProfileActionsView.mzTonal()) {
+            // MZGram: the content colour of the profile's tonal buttons
+            textColor = ProfileActionsView.mzContentColor(buttonColor, hasColorById, parentExpanded);
+            icon.setColorFilter(new PorterDuffColorFilter(textColor, android.graphics.PorterDuff.Mode.SRC_IN));
+        } else {
+            icon.setColorFilter(useBlackText ? filterColorBlack : filterColorWhite);
+        }
         iconPaint.setColor(textColor);
         arrowPaint.setColor(Theme.multAlpha(textColor, 0.85f));
         invalidate();
@@ -363,7 +370,13 @@ public class ProfileMusicView extends View {
         canvas.save();
         canvas.scale(scale, scale, rect.centerX(), getHeight() / 2f);
 
-        if (glass != null) {
+        if (ProfileActionsView.mzTonal()) {
+            // MZGram: a solid Material 3 tonal pill, as the profile's buttons
+            final int container = ProfileActionsView.mzContainerColor(buttonColor, hasColorById, parentExpanded);
+            mzPillPaint.setColor(container);
+            mzPillPaint.setAlpha((int) (Color.alpha(container) * alpha));
+            canvas.drawRoundRect(rect, rect.height() / 2f, rect.height() / 2f, mzPillPaint);
+        } else if (glass != null) {
             final float radius = rect.height() / 2f;
             if (glassRadius != radius) {
                 glassRadius = radius;

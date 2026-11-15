@@ -59,6 +59,7 @@ public class ProfileActionsView extends View {
     private final List<Action> actions = new ArrayList<>();
     private final Paint paint = new Paint();
     private final Paint shaderPaint = new Paint();
+    private final Paint mzPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float parentExpanded;
 
     public boolean isAnimatingCallAction = false;
@@ -305,6 +306,14 @@ public class ProfileActionsView extends View {
                 action.rect.width() / 2.0f * (1.0f - action.getScale()),
                 action.rect.height() / 2.0f * (1.0f - action.getScale())
             );
+            if (mzTonal()) {
+                // MZGram: a solid Material 3 tonal button, no glass and no blur
+                final int container = mzContainerColor(color, hasColorById, parentExpanded);
+                mzPaint.setColor(container);
+                mzPaint.setAlpha((int) (Color.alpha(container) * action.getAlpha() * alphaFraction1));
+                canvas.drawRoundRect(AndroidUtilities.rectTmp, r, r, mzPaint);
+                continue;
+            }
             if (glassFactory != null) {
                 drawGlass(canvas, AndroidUtilities.rectTmp, r, action.getAlpha() * alphaFraction1);
                 continue;
@@ -376,7 +385,9 @@ public class ProfileActionsView extends View {
         // over the photo the buttons are the dimmed photo on every Android (see ProfileButtonsGlass): white icons there
         final float useFilledWhiteIcon = !isButtonColorLight ? 1 : MathUtils.clamp((parentExpanded - 0.75f) / 0.25f, 0, 1);
 
-        final int textColor = ColorUtils.blendARGB(Color.BLACK, Color.WHITE, useFilledWhiteIcon);
+        final int textColor = mzTonal()
+                ? mzContentColor(color, hasColorById, parentExpanded)
+                : ColorUtils.blendARGB(Color.BLACK, Color.WHITE, useFilledWhiteIcon);
         if (lastColorFilter == null || lastColorFilterColor != textColor) {
             lastColorFilterColor = textColor;
             lastColorFilter = new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN);
@@ -472,6 +483,43 @@ public class ProfileActionsView extends View {
 
     public float getRoundRadius() {
         return dp(16);
+    }
+
+    /** MZGram: Material surfaces. The profile's buttons are solid Material 3 tonal buttons instead of glass. */
+    public static boolean mzTonal() {
+        return app.exteraless.appearance.AppearanceConfig.materialSurfaces();
+    }
+
+    /**
+     * MZGram: the container of a tonal button. Over the page it is the secondary container (the accent a fifth
+     * over the page), over a coloured header the header's own button colour, and over the expanded photo a dark
+     * tonal surface, so the white labels read on any photo.
+     */
+    public static int mzContainerColor(int buttonColor, boolean hasColorById, float overPhoto) {
+        final int base = hasColorById ? buttonColor : mzSecondaryContainer();
+        return ColorUtils.blendARGB(base, mzOverPhotoContainer(), MathUtils.clamp(overPhoto, 0f, 1f));
+    }
+
+    /** MZGram: icons and labels on {@link #mzContainerColor}: the text colour over the page, white over the photo. */
+    public static int mzContentColor(int buttonColor, boolean hasColorById, float overPhoto) {
+        final int base;
+        if (hasColorById) {
+            base = AndroidUtilities.computePerceivedBrightness(buttonColor) > 0.72f ? Color.BLACK : Color.WHITE;
+        } else {
+            base = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText) | 0xFF000000;
+        }
+        return ColorUtils.blendARGB(base, Color.WHITE, MathUtils.clamp((overPhoto - 0.5f) / 0.5f, 0f, 1f));
+    }
+
+    private static int mzSecondaryContainer() {
+        final int page = Theme.getColor(Theme.key_windowBackgroundWhite) | 0xFF000000;
+        final int accent = Theme.getColor(Theme.key_featuredStickers_addButton) | 0xFF000000;
+        return ColorUtils.blendARGB(page, accent, Theme.isCurrentThemeDark() ? 0.2f : 0.16f);
+    }
+
+    private static int mzOverPhotoContainer() {
+        final int accent = Theme.getColor(Theme.key_featuredStickers_addButton) | 0xFF000000;
+        return ColorUtils.blendARGB(0xFF1B1B1F, accent, 0.14f);
     }
 
     private Action hit = null;

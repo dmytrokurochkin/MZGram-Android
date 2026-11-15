@@ -38,4 +38,9 @@
     <string name="MZSolidPanelsBlurInfo">Увімкнено суцільні панелі, тому скла й розмиття немає. Щоб їх повернути, вимкніть «Суцільні панелі» в Material Design 3.</string>
     <string name="MZSwitchStyleRing">Кільце</string>
     <string name="MZMarkdownParserExtended">Розширений</string>
+    <string name="MZPluginsGet">Отримати плагіни</string>
+    <string name="MZPluginsEmptyTitle">Плагінів поки немає</string>
+    <string name="MZPluginsEmptyBody">Плагіни додають у MZGram нові можливості. Виберіть плагін у каталозі вище або встановіть файл .plugin.</string>
+    <string name="MZPluginCatalogVersionSize">Версія %1$s · %2$s</string>
+    <string name="PluginsInstallFromFile">Встановити з файлу</string>
 </resources>

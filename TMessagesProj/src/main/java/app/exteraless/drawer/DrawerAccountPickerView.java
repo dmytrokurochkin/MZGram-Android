@@ -120,7 +120,7 @@ public class DrawerAccountPickerView extends FrameLayout {
         clipWrapper = new FrameLayout(context) {
             @Override
             protected void dispatchDraw(Canvas canvas) {
-                bgPaint.setColor(Theme.getColor(COLOR_KEY_BACKGROUND));
+                bgPaint.setColor(DrawerMaterial.enabled() ? DrawerMaterial.cardColor() : Theme.getColor(COLOR_KEY_BACKGROUND));
                 bgRect.set(0.0f, 0.0f, getWidth(), getHeight());
                 canvas.drawRoundRect(bgRect, cornerRadius, cornerRadius, bgPaint);
 
@@ -490,7 +490,8 @@ public class DrawerAccountPickerView extends FrameLayout {
 
     private static Drawable createSelectedAccountBackgroundDrawable() {
         return Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(12.0f),
-                Theme.getColor(COLOR_KEY_SURFACE), Theme.getColor(COLOR_KEY_SELECTOR));
+                DrawerMaterial.enabled() ? DrawerMaterial.selectedColor() : Theme.getColor(COLOR_KEY_SURFACE),
+                Theme.getColor(COLOR_KEY_SELECTOR));
     }
 
     // ---- строка аккаунта ----

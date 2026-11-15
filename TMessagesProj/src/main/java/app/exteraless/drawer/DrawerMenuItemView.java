@@ -34,11 +34,20 @@ public class DrawerMenuItemView extends FrameLayout {
     private final DrawerUnreadBadge unreadBadge;
 
     private int layoutButtonId = Integer.MIN_VALUE;
+    /** MZGram: the Material 3 drawer item, see {@link DrawerMaterial}. */
+    private final boolean material;
 
     public DrawerMenuItemView(Context context) {
         super(context);
         setWillNotDraw(false);
-        setLayoutParams(new FrameLayout.LayoutParams(LayoutHelper.MATCH_PARENT, AndroidUtilities.dp(48.0f)));
+        material = DrawerMaterial.enabled();
+        final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutHelper.MATCH_PARENT,
+                AndroidUtilities.dp(material ? DrawerMaterial.ITEM_HEIGHT_DP : 48.0f));
+        if (material) {
+            // MZGram: Material 3 drawer items are pills inset from the sheet's edges
+            lp.leftMargin = lp.rightMargin = AndroidUtilities.dp(DrawerMaterial.ITEM_INSET_DP);
+        }
+        setLayoutParams(lp);
         setBackground(createSelectorDrawable());
         // exteraGram зовёт UIUtil.applyScaleStateListAnimator(this, 16f, false, false, 2, 0.04f, 1.5f);
         // у нас перенесена короткая форма — масштаб 0.04 и tension 1.5 те же.
@@ -47,17 +56,17 @@ public class DrawerMenuItemView extends FrameLayout {
         iconView = new ImageView(context);
         iconView.setScaleType(ImageView.ScaleType.CENTER);
         iconView.setColorFilter(createIconColorFilter());
-        addView(iconView, LayoutHelper.createFrame(24, 24.0f, Gravity.LEFT | Gravity.CENTER_VERTICAL, 20.0f, 0.0f, 0.0f, 0.0f));
+        addView(iconView, LayoutHelper.createFrame(24, 24.0f, Gravity.LEFT | Gravity.CENTER_VERTICAL, material ? 16.0f : 20.0f, 0.0f, 0.0f, 0.0f));
 
         textView = new TextView(context);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15.0f);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, material ? 14.0f : 15.0f);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setTextColor(Theme.getColor(COLOR_KEY_TEXT));
         textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT,
-                Gravity.LEFT | Gravity.CENTER_VERTICAL, 68.0f, 0.0f, 16.0f, 0.0f));
+                Gravity.LEFT | Gravity.CENTER_VERTICAL, material ? 52.0f : 68.0f, 0.0f, 16.0f, 0.0f));
 
         unreadBadge = new DrawerUnreadBadge();
     }
@@ -97,11 +106,12 @@ public class DrawerMenuItemView extends FrameLayout {
         return 0;
     }
 
-    private static PorterDuffColorFilter createIconColorFilter() {
-        return new PorterDuffColorFilter(Theme.getColor(COLOR_KEY_ICON), PorterDuff.Mode.SRC_IN);
+    private PorterDuffColorFilter createIconColorFilter() {
+        return new PorterDuffColorFilter(material ? DrawerMaterial.onSurfaceVariant() : Theme.getColor(COLOR_KEY_ICON), PorterDuff.Mode.SRC_IN);
     }
 
-    private static Drawable createSelectorDrawable() {
-        return Theme.createRadSelectorDrawable(Theme.getColor(COLOR_KEY_SELECTOR), 12, 12);
+    private Drawable createSelectorDrawable() {
+        final int radius = material ? (int) (DrawerMaterial.ITEM_HEIGHT_DP / 2) : 12;
+        return Theme.createRadSelectorDrawable(Theme.getColor(COLOR_KEY_SELECTOR), radius, radius);
     }
 }

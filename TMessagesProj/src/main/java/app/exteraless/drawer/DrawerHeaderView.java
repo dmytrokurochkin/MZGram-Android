@@ -172,7 +172,7 @@ public class DrawerHeaderView extends FrameLayout {
         });
 
         nameView = new SimpleTextView(context);
-        nameView.setTextSize(15);
+        nameView.setTextSize(DrawerMaterial.enabled() ? 16 : 15);
         nameView.setTypeface(AndroidUtilities.bold());
         nameView.setTextColor(Theme.getColor(COLOR_KEY_TEXT));
         nameView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
@@ -192,7 +192,7 @@ public class DrawerHeaderView extends FrameLayout {
         });
 
         subtitleView = new SimpleTextView(context);
-        subtitleView.setTextSize(12);
+        subtitleView.setTextSize(DrawerMaterial.enabled() ? 14 : 12);
         subtitleView.setTextColor(Theme.getColor(COLOR_KEY_SUBTITLE));
         subtitleView.setMaxLines(1);
         subtitleView.setClickable(false);

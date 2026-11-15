@@ -34,4 +34,8 @@
     <string name="MZSolidPanelsBlurInfo">Solid panels are on, so glass and blur are off. Turn off Solid panels under Material Design 3 to use them.</string>
     <string name="MZSwitchStyleRing">Ring</string>
     <string name="MZMarkdownParserExtended">Extended</string>
+    <string name="MZPluginsGet">Get plugins</string>
+    <string name="MZPluginsEmptyTitle">No plugins yet</string>
+    <string name="MZPluginsEmptyBody">Plugins add new features to MZGram. Pick one in the catalog above or install a .plugin file.</string>
+    <string name="MZPluginCatalogVersionSize">Version %1$s · %2$s</string>
 </resources>

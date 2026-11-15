@@ -34,4 +34,8 @@
     <string name="MZSolidPanelsBlurInfo">Включены сплошные панели, поэтому стекла и размытия нет. Чтобы вернуть их, выключите «Сплошные панели» в Material Design 3.</string>
     <string name="MZSwitchStyleRing">Кольцо</string>
     <string name="MZMarkdownParserExtended">Расширенный</string>
+    <string name="MZPluginsGet">Получить плагины</string>
+    <string name="MZPluginsEmptyTitle">Плагинов пока нет</string>
+    <string name="MZPluginsEmptyBody">Плагины добавляют в MZGram новые функции. Выберите плагин в каталоге выше или установите файл .plugin.</string>
+    <string name="MZPluginCatalogVersionSize">Версия %1$s · %2$s</string>
 </resources>

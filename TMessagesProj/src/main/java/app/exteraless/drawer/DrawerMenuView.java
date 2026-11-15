@@ -62,6 +62,7 @@ public class DrawerMenuView extends ScrollView {
      */
     public void rebuildMenu(int currentAccount, BaseFragment fragment) {
         clearMenu();
+        updateGradient();
         final MainMenuHelper.MenuContext ctx = MainMenuHelper.createMenuContext(currentAccount, fragment);
         boolean hasAnyItem = false;
         boolean dividerPending = false;
@@ -149,12 +150,13 @@ public class DrawerMenuView extends ScrollView {
 
     private static LinearLayout.LayoutParams createDividerLayoutParams() {
         // gravity 87 из exteraGram = Gravity.BOTTOM | Gravity.FILL_HORIZONTAL
+        final int inset = DrawerMaterial.enabled() ? (int) DrawerMaterial.DIVIDER_INSET_DP : 12;
         return LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, DIVIDER_HEIGHT_DP,
-                Gravity.BOTTOM | Gravity.FILL_HORIZONTAL, 12, 8, 12, 8);
+                Gravity.BOTTOM | Gravity.FILL_HORIZONTAL, inset, 8, inset, 8);
     }
 
     private void updateGradient() {
-        final int color = Theme.getColor(COLOR_KEY_BACKGROUND);
+        final int color = DrawerMaterial.enabled() ? DrawerMaterial.sheetColor() : Theme.getColor(COLOR_KEY_BACKGROUND);
         if (topGradient != null && color == lastGradientColor) {
             return;
         }

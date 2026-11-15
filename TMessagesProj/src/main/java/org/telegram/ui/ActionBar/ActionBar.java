@@ -225,6 +225,23 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         glassOnlyBack = true;
     }
 
+    // ---- MZGram: Material bars. No glass pills under the buttons; a chat gets a solid full-width bar. ----
+
+    private boolean mzSolidBar;
+    private final Paint mzBarPaint = new Paint();
+
+    /** A solid full-width bar behind the header, for screens whose content scrolls under it (a chat). */
+    public void setMzSolidBar(boolean solid) {
+        if (mzSolidBar != solid) {
+            mzSolidBar = solid;
+            invalidate();
+        }
+    }
+
+    private boolean mzFlatBar() {
+        return glassMode && app.exteraless.appearance.AppearanceConfig.materialBars();
+    }
+
     public void setChatAvatarContainer(ChatAvatarContainer chatAvatarContainer) {
         this.chatAvatarContainer = chatAvatarContainer;
     }
@@ -2261,7 +2278,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (chatAvatarContainer != null && glassMode) {
+        if (chatAvatarContainer != null && glassMode && !(mzSolidBar && mzFlatBar())) {
             if (ev.getAction() == MotionEvent.ACTION_DOWN) {
                 final int x = (int) ev.getX();
                 final int y = (int) ev.getY();
@@ -2715,6 +2732,11 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
 
         final int p = dp(6);
         final int s = dp(46);
+        final boolean mzFlat = mzFlatBar();
+        if (mzFlat && mzSolidBar && glassColorProvider != null) {
+            mzBarPaint.setColor(ColorUtils.setAlphaComponent(glassColorProvider.getBackgroundColor(), 255));
+            canvas.drawRect(0, 0, getWidth(), getHeight() - extraHeight, mzBarPaint);
+        }
 
         final float actionModeFactor = getActionModeFactor();
         final int menuWidthA = hasForcedMenuWidth ? forcedMenuWidth : (int) animatorMenuItemsWidth.getFactor();
@@ -2730,7 +2752,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
                 int titleWidth = (int) Math.ceil(titleTextView[0].getTextWidth()) + p * 2 + dp(48);
                 int titleLeft = (getWidth() - titleWidth) / 2 + Math.round(titleTextView[0].getTranslationX());
                 glassDrawable.setBounds(titleLeft, t, titleLeft + titleWidth, b);
-                if (!doNotDrawCenterGlass) {
+                if (!doNotDrawCenterGlass && !mzFlat) {
                     glassDrawable.draw(canvas);
                 }
             } else {
@@ -2765,14 +2787,16 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
                 }
 
                 glassDrawable.setBounds(left, t, right, b);
-                if (!doNotDrawCenterGlass) {
+                if (!doNotDrawCenterGlass && !mzFlat) {
                     glassDrawable.draw(canvas);
                 }
             }
         }
         if (glassDrawableBack != null && hasBackButton) {
             glassDrawableBack.setBounds(0, t, s + p * 2, b);
-            glassDrawableBack.draw(canvas);
+            if (!mzFlat) {
+                glassDrawableBack.draw(canvas);
+            }
         }
         if (glassDrawableMenu != null && menuWidth > 0 && !glassOnlyBack && !doNotDrawGlassMenu && !isMenuPillInOverlay()) {
             int menuLeft = getWidth() - Math.max(s, menuWidth) - p * 2;
@@ -2807,7 +2831,9 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
             }
             glassDrawableMenu.setBounds(menuLeft, menuTop, menuRight, menuBottom);
             glassDrawableMenu.setAlpha(hasForcedMenuWidth ? 255 : (int) (255 * animatorHasMenuItems.getFloatValue()));
-            glassDrawableMenu.draw(canvas);
+            if (!mzFlat) {
+                glassDrawableMenu.draw(canvas);
+            }
         }
 
         if (blurredBackground && actionBarColor != Color.TRANSPARENT) {

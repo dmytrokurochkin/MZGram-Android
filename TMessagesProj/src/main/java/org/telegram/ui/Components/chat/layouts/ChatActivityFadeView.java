@@ -167,9 +167,22 @@ public class ChatActivityFadeView extends View implements Theme.Colorable {
         fadeDrawableBottom.setIgnoreFastWay(ignoreFastWay);
     }
 
+    // MZGram: with Material bars the chat has solid top and bottom bars, so nothing fades under them
+    private boolean mzSolidBars;
+
+    public void setMzSolidBars(boolean solid) {
+        if (mzSolidBars != solid) {
+            mzSolidBars = solid;
+            invalidate();
+        }
+    }
+
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
+        if (mzSolidBars) {
+            return;
+        }
         if (Theme.isCompactMode(resourcesProvider)) {
             drawCompactFades(canvas);
         } else {

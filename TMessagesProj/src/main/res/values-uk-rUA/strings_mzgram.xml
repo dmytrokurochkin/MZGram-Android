@@ -34,5 +34,6 @@
     <string name="MZHeaderInfo">Компактна шапка ставить меню, папки і кнопку пошуку в один рядок угорі, без назви застосунку. Без вкладок папки відкриваються довгим натисканням на «Чати» внизу.</string>
     <string name="MZMaterialSurfaces">Суцільні панелі</string>
     <string name="MZMaterialDialogs">Діалоги</string>
+    <string name="MZMaterialBars">Верхня й нижня панелі</string>
     <string name="MZSolidPanelsBlurInfo">Увімкнено суцільні панелі, тому скла й розмиття немає. Щоб їх повернути, вимкніть «Суцільні панелі» в Material Design 3.</string>
 </resources>

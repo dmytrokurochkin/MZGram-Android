@@ -335,8 +335,10 @@ public class SimpleActionBar extends FrameLayout implements FactorAnimator.Targe
         animationsAllowed = attached;
 
         final int p = dp(6);
+        // MZGram: Material bars, plain icons without glass pills
+        final boolean mzFlat = app.exteraless.appearance.AppearanceConfig.materialBars();
 
-        if (glassBack != null && backButton.getVisibility() == VISIBLE && backButton.getAlpha() > 0) {
+        if (glassBack != null && !mzFlat && backButton.getVisibility() == VISIBLE && backButton.getAlpha() > 0) {
             final float cx = backButton.getX() + backButton.getWidth() / 2f, cy = backButton.getY() + backButton.getHeight() / 2f;
             final float hw = backButton.getWidth() / 2f * backButton.getScaleX(), hh = backButton.getHeight() / 2f * backButton.getScaleY();
             glassBack.setBounds((int) (cx - hw) - p, (int) (cy - hh) - p, (int) (cx + hw) + p, (int) (cy + hh) + p);
@@ -344,7 +346,7 @@ public class SimpleActionBar extends FrameLayout implements FactorAnimator.Targe
             glassBack.draw(canvas);
         }
 
-        if (glassDone != null && doneButton != null && doneButton.drawsGlass() && doneButton.getVisibility() == VISIBLE && doneButton.getAlpha() > 0) {
+        if (glassDone != null && !mzFlat && doneButton != null && doneButton.drawsGlass() && doneButton.getVisibility() == VISIBLE && doneButton.getAlpha() > 0) {
             final float cx = doneButton.getX() + doneButton.getWidth() / 2f, cy = doneButton.getY() + doneButton.getHeight() / 2f;
             final float hw = doneButton.getWidth() / 2f * doneButton.getScaleX(), hh = doneButton.getHeight() / 2f * doneButton.getScaleY();
             glassDone.setBounds((int) (cx - hw) - p, (int) (cy - hh) - p, (int) (cx + hw) + p, (int) (cy + hh) + p);
@@ -356,7 +358,7 @@ public class SimpleActionBar extends FrameLayout implements FactorAnimator.Targe
             final float alpha = computeMenuPill(menuPillRect);
             // a menu growing out of the pill takes over its glass
             final boolean pillInOverlay = isMenuPillInOverlay();
-            if (alpha > 0 && menuPillRect.width() > 0 && !pillInOverlay) {
+            if (alpha > 0 && menuPillRect.width() > 0 && !pillInOverlay && !mzFlat) {
                 final float radius = menuPillRect.height() / 2f;
                 if (Math.abs(radius - glassMenuRadius) > 0.5f) {
                     glassMenuRadius = radius;

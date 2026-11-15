@@ -4252,6 +4252,8 @@ public class Theme {
         try {
             final ThemeInfo themeDarkBlue = themesDict.get("Night");
 
+            mzApplyMaterialYouOnce(preferences, themeConfig);
+
             String theme = preferences.getString("theme", null);
             if ("NekoX".equals(theme)) {
                 theme = "Blue";
@@ -5816,6 +5818,66 @@ public class Theme {
 
     private static String monetAssetName(String base) {
         return base + app.exteraless.appearance.AppearanceConfig.monetAssetSuffix() + ".attheme";
+    }
+
+    /**
+     * MZGram: Material You colours. Once, on Android 12 and newer, the built-in Telegram themes
+     * are swapped for the Material themes that take their colours from the wallpaper. A theme the
+     * person chooses afterwards, or a custom theme they already use, stays as it is.
+     */
+    private static void mzApplyMaterialYouOnce(SharedPreferences preferences, SharedPreferences themeConfig) {
+        final String flag = "mz_material_you_v1";
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || preferences.getBoolean(flag, false)) {
+            return;
+        }
+        if (themesDict.get("Monet Light") == null || themesDict.get("Monet Dark") == null) {
+            return;
+        }
+        final SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(flag, true);
+        final String day = mzMaterialYouFor(preferences.getString("theme", null), true);
+        if (day != null) {
+            editor.putString("theme", day);
+        }
+        final String night = mzMaterialYouFor(preferences.getString("nighttheme", null), false);
+        if (night != null) {
+            editor.putString("nighttheme", night);
+        }
+        editor.commit();
+
+        final SharedPreferences.Editor configEditor = themeConfig.edit();
+        final String lastDay = mzMaterialYouFor(themeConfig.getString("lastDayTheme", null), true);
+        if (lastDay != null) {
+            configEditor.putString("lastDayTheme", lastDay);
+        }
+        final String lastDark = mzMaterialYouFor(themeConfig.getString("lastDarkTheme", null), false);
+        if (lastDark != null) {
+            configEditor.putString("lastDarkTheme", lastDark);
+        }
+        configEditor.commit();
+    }
+
+    /** The Material theme for a built-in Telegram theme, or null to keep the theme. */
+    private static String mzMaterialYouFor(String key, boolean dayByDefault) {
+        if (key == null) {
+            return dayByDefault ? "Monet Light" : "Monet Dark";
+        }
+        switch (key) {
+            case "Blue":
+            case "Default":
+            case "Day":
+            case "Arctic Blue":
+            case "NekoX":
+                return "Monet Light";
+            case "Dark":
+            case "Dark Blue":
+            case "Night":
+                return "Monet Dark";
+            case "AMOLED":
+                return themesDict.get("Monet AMOLED") != null ? "Monet AMOLED" : "Monet Dark";
+            default:
+                return null;
+        }
     }
 
     public static void reloadMonetThemes() {

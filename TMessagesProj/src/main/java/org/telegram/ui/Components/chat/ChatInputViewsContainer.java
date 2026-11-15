@@ -4,6 +4,7 @@ import static org.telegram.messenger.AndroidUtilities.dp;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -16,7 +17,9 @@ import android.view.WindowInsets;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.blur3.BlurredBackgroundWithFadeDrawable;
@@ -56,7 +59,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         fadeView = new View(context) {
             @Override
             protected void dispatchDraw(@NonNull Canvas canvas) {
-                if (backgroundWithFadeDrawable != null) {
+                if (backgroundWithFadeDrawable != null && !mzBars()) {
                     backgroundWithFadeDrawable.draw(canvas);
                 }
                 super.dispatchDraw(canvas);
@@ -83,10 +86,54 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         blurredBackgroundDrawable.setRadius(dp(INPUT_BUBBLE_RADIUS));
     }
 
+    // ---- MZGram: Material bars. The input sits on a docked full-width bar; the field is a tonal pill. ----
+
+    private final Paint mzBarPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final RectF mzFieldRect = new RectF();
+    private final Rect mzBarRect = new Rect();
+    private Theme.ResourcesProvider mzResourcesProvider;
+
+    public void setMzResourcesProvider(Theme.ResourcesProvider resourcesProvider) {
+        mzResourcesProvider = resourcesProvider;
+    }
+
+    private static boolean mzBars() {
+        return app.exteraless.appearance.AppearanceConfig.materialBars();
+    }
+
+    /** The top corners of the panel under the in-app keyboard: square on a docked bar. */
+    private static int keyboardRadius() {
+        return mzBars() ? 0 : dp(INPUT_KEYBOARD_RADIUS);
+    }
+
+    private void drawMzBar(Canvas canvas) {
+        final int alpha = blurredBackgroundDrawable.getAlpha();
+        if (alpha <= 0) {
+            mzBarRect.setEmpty();
+            return;
+        }
+        final int pad = dp(7);
+        final int fieldTop = tmpRect.top + pad;
+        final int fieldBottom = tmpRect.bottom - pad;
+        final int panel = ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelBackground, mzResourcesProvider), 255);
+        mzBarRect.set(0, fieldTop - dp(8), getMeasuredWidth(), getMeasuredHeight());
+        mzBarPaint.setColor(panel);
+        mzBarPaint.setAlpha(alpha);
+        canvas.drawRect(mzBarRect, mzBarPaint);
+
+        final boolean dark = AndroidUtilities.computePerceivedBrightness(panel) < 0.5f;
+        final int text = ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelText, mzResourcesProvider), 255);
+        mzBarPaint.setColor(ColorUtils.blendARGB(panel, text, dark ? 0.09f : 0.06f));
+        mzBarPaint.setAlpha(alpha);
+        mzFieldRect.set(tmpRect.left, fieldTop, tmpRect.right, fieldBottom);
+        final float r = Math.min(dp(INPUT_BUBBLE_RADIUS), mzFieldRect.height() / 2f);
+        canvas.drawRoundRect(mzFieldRect, r, r, mzBarPaint);
+    }
+
     public void setUnderKeyboardBackgroundDrawable(BlurredBackgroundDrawable drawable) {
         underKeyboardBackgroundDrawable = drawable;
         underKeyboardBackgroundDrawable.enableInAppKeyboardOptimization();
-        underKeyboardBackgroundDrawable.setRadius(dp(INPUT_KEYBOARD_RADIUS), dp(INPUT_KEYBOARD_RADIUS), 0, 0);
+        underKeyboardBackgroundDrawable.setRadius(keyboardRadius(), keyboardRadius(), 0, 0);
         underKeyboardBackgroundDrawable.setThickness(dp(32));
         underKeyboardBackgroundDrawable.setIntensity(0.4f);
     }
@@ -145,7 +192,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         if (currentBlurredHeight != blurredHeight || force) {
             currentBlurredHeight = blurredHeight;
 
-            final int r = dp(INPUT_KEYBOARD_RADIUS);
+            final int r = keyboardRadius();
             tmpRectF.set(0, getMeasuredHeight() - imeBottomInset, getMeasuredWidth(), getMeasuredHeight());
             underKeyboardPath.rewind();
             underKeyboardPath.addRoundRect(tmpRectF, new float[] {r, r, r, r, 0, 0, 0, 0}, Path.Direction.CW);
@@ -184,7 +231,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
                     rightBottomRadius = bottomRight == null ? 0 : bottomRight.getRadius();
                 }
             }
-            underKeyboardBackgroundDrawable.setRadius(dp(INPUT_KEYBOARD_RADIUS), dp(INPUT_KEYBOARD_RADIUS), rightBottomRadius, leftBottomRadius, true);
+            underKeyboardBackgroundDrawable.setRadius(keyboardRadius(), keyboardRadius(), rightBottomRadius, leftBottomRadius, true);
         }
     }
 
@@ -276,8 +323,13 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         tmpRect.offset(0, blurTop + (int) bubbleInputTranlationY);
 
         blurredBackgroundDrawable.setBounds(tmpRect);
-        if (drawInputBackground)
-            blurredBackgroundDrawable.draw(canvas);
+        if (drawInputBackground && mzBars()) {
+            drawMzBar(canvas);
+        } else {
+            mzBarRect.setEmpty();
+            if (drawInputBackground)
+                blurredBackgroundDrawable.draw(canvas);
+        }
 
         if (needDrawInAppKeyboard) {
             underKeyboardBackgroundDrawable.draw(canvas);
@@ -360,7 +412,8 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
             final int y = (int) event.getY();
 
             captured = blurredBackgroundDrawable != null && blurredBackgroundDrawable.getAlpha() == 255 && blurredBackgroundDrawable.getBounds().contains(x, y)
-                || underKeyboardBackgroundDrawable != null && underKeyboardBackgroundDrawable.getBounds().contains(x, y);
+                || underKeyboardBackgroundDrawable != null && underKeyboardBackgroundDrawable.getBounds().contains(x, y)
+                || !mzBarRect.isEmpty() && mzBarRect.contains(x, y);
 
         }
         if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {

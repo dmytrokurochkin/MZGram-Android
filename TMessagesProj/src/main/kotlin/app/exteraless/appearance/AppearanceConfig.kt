@@ -311,6 +311,23 @@ object AppearanceConfig {
         return materialDialogs.Bool()
     }
 
+    /**
+     * MZGram: Material bars. Headers are full-width Material top bars with plain icons, and
+     * the chat input sits on a docked bottom bar. Off: floating pills and round buttons.
+     */
+    @JvmField
+    val materialBars =
+        addConfig("MZMaterialBars", ConfigItem.configTypeBool, true)
+
+    @JvmStatic
+    fun materialBars(): Boolean {
+        if (!configLoaded) {
+            if (ApplicationLoader.applicationContext == null) return true
+            loadConfig(false)
+        }
+        return materialBars.Bool()
+    }
+
     // ---- MZGram: chat list header ----
 
     const val HEADER_STANDARD = 0

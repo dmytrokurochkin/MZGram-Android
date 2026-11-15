@@ -5259,6 +5259,7 @@ public class ChatActivity extends BaseFragment implements
             BlurredBackgroundProviderImpl.topPanelChatActivity(themeDelegate),
             ChatObject.isForum(currentChat));
         app.exteraless.appearance.ChatHeaderUiHelper.applyChatHeaderGlassStyle(actionBar);
+        actionBar.setMzSolidBar(true);
         //actionBar.setChatAvatarContainer(avatarContainer);
         //avatarContainer.setActionBar(actionBar);
         setupHeaderMenuOverlay(parentView);
@@ -5281,6 +5282,7 @@ public class ChatActivity extends BaseFragment implements
         chatInputViewsContainer.setClipChildren(false);
         chatInputViewsContainer.drawInputBackground = !isFeedSearch();
         chatInputViewsContainer.setWindowInsetsProvider(windowInsetsStateHolder);
+        chatInputViewsContainer.setMzResourcesProvider(themeDelegate);
         chatInputViewsContainer.setInputIslandBubbleDrawable(
             glassBackgroundDrawableFactory.create(chatInputViewsContainer, blurredBackgroundColorProvider));
         chatInputViewsContainer.setUnderKeyboardBackgroundDrawable(
@@ -7762,6 +7764,7 @@ public class ChatActivity extends BaseFragment implements
         chatActivityFadeView.setup(navbarContentDrawableFactory);
         chatActivityFadeView.setFadeHeightTop(dp(48));
         chatActivityFadeView.setFadeHeightBottom(dp(48));
+        chatActivityFadeView.setMzSolidBars(app.exteraless.appearance.AppearanceConfig.materialBars());
         contentView.addView(chatActivityFadeView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         if (false/* && getDialogId() != getUserConfig().getClientUserId()*/) {

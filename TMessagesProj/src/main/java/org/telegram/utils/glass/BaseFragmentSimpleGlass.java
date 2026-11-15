@@ -272,6 +272,7 @@ public class BaseFragmentSimpleGlass {
             actionBar.setExtraHeight(dp(6));
             actionBar.doNotDrawCenterGlass = true;
             actionBar.setupGlass(factory, BlurredBackgroundProviderImpl.simpleActionBar(resourceProvider));
+            actionBar.setMzSolidPageBar();
         }
     }
 

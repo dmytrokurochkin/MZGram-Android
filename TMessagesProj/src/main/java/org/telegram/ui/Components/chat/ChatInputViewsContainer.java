@@ -125,7 +125,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         final int text = ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelText, mzResourcesProvider), 255);
         mzBarPaint.setColor(ColorUtils.blendARGB(panel, text, dark ? 0.09f : 0.06f));
         mzBarPaint.setAlpha(alpha);
-        mzFieldRect.set(tmpRect.left, fieldTop, tmpRect.right, fieldBottom);
+        mzFieldRect.set(tmpRect.left + pad, fieldTop, tmpRect.right - pad, fieldBottom);
         final float r = Math.min(dp(INPUT_BUBBLE_RADIUS), mzFieldRect.height() / 2f);
         canvas.drawRoundRect(mzFieldRect, r, r, mzBarPaint);
     }

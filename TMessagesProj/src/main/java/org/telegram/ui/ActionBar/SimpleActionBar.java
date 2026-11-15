@@ -29,6 +29,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -335,8 +336,18 @@ public class SimpleActionBar extends FrameLayout implements FactorAnimator.Targe
         animationsAllowed = attached;
 
         final int p = dp(6);
-        // MZGram: Material bars, plain icons without glass pills
+        // MZGram: Material bars, plain icons without glass pills. A solid bar in the page colour
+        // shows together with the title (when the list is scrolled), so nothing shows through.
         final boolean mzFlat = app.exteraless.appearance.AppearanceConfig.materialBars();
+        if (mzFlat && glassColorProvider != null) {
+            final float barAlpha = Math.max(titlesAlpha, Math.max(getSearchFactor(), getActionModeFactor()));
+            if (barAlpha > 0) {
+                final int page = ActionBar.mzPageColor(this, ColorUtils.setAlphaComponent(glassColorProvider.getBackgroundColor(), 255));
+                mzBarPaint.setColor(page);
+                mzBarPaint.setAlpha((int) (255 * Math.min(1f, barAlpha)));
+                canvas.drawRect(0, 0, getWidth(), getHeight() - extraHeight, mzBarPaint);
+            }
+        }
 
         if (glassBack != null && !mzFlat && backButton.getVisibility() == VISIBLE && backButton.getAlpha() > 0) {
             final float cx = backButton.getX() + backButton.getWidth() / 2f, cy = backButton.getY() + backButton.getHeight() / 2f;
@@ -805,6 +816,7 @@ public class SimpleActionBar extends FrameLayout implements FactorAnimator.Targe
     }
 
     private float titlesAlpha = 1f;
+    private final Paint mzBarPaint = new Paint();
 
     /** Extra alpha of the title and the subtitle, multiplied by the search and action mode fade. */
     public void setTitlesAlpha(float alpha) {

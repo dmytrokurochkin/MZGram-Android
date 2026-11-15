@@ -179,6 +179,7 @@ public abstract class NekoDelegateFragment extends BaseFragment implements Notif
         actionBar.setCastShadows(false);
         actionBar.setOccupyStatusBar(!AndroidUtilities.isTablet());
         actionBar.setupGlass(actionBarDrawableFactory, BlurredBackgroundProviderImpl.topPanelChatActivity(getResourceProvider()));
+        actionBar.setMzSolidPageBar();
         AndroidUtilities.removeFromParent(actionBar);
         ChatActivityFadeView fadeView = new ChatActivityFadeView(container.getContext());
         fadeView.setup(wallpaperDrawableFactory);

@@ -228,6 +228,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
     // ---- MZGram: Material bars. No glass pills under the buttons; a chat gets a solid full-width bar. ----
 
     private boolean mzSolidBar;
+    private boolean mzBarPageColor;
     private final Paint mzBarPaint = new Paint();
 
     /** A solid full-width bar behind the header, for screens whose content scrolls under it (a chat). */
@@ -236,6 +237,36 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
             mzSolidBar = solid;
             invalidate();
         }
+    }
+
+    /** A solid bar in the colour of the page under it (a settings list): flat at rest, it hides what scrolls under. */
+    public void setMzSolidPageBar() {
+        mzSolidBar = true;
+        mzBarPageColor = true;
+        invalidate();
+    }
+
+    private int mzBarColor() {
+        if (mzBarPageColor) {
+            return mzPageColor(this, getThemedColor(Theme.key_windowBackgroundGray));
+        }
+        return glassColorProvider != null ? glassColorProvider.getBackgroundColor() : getThemedColor(Theme.key_actionBarDefault);
+    }
+
+    /** The colour of the first parent with a plain colour background, or the fallback. */
+    public static int mzPageColor(View view, int fallback) {
+        android.view.ViewParent parent = view.getParent();
+        for (int i = 0; i < 3 && parent instanceof View; i++) {
+            final Drawable background = ((View) parent).getBackground();
+            if (background instanceof android.graphics.drawable.ColorDrawable) {
+                final int color = ((android.graphics.drawable.ColorDrawable) background).getColor();
+                if (Color.alpha(color) == 255) {
+                    return color;
+                }
+            }
+            parent = parent.getParent();
+        }
+        return fallback;
     }
 
     private boolean mzFlatBar() {
@@ -2733,8 +2764,8 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         final int p = dp(6);
         final int s = dp(46);
         final boolean mzFlat = mzFlatBar();
-        if (mzFlat && mzSolidBar && glassColorProvider != null) {
-            mzBarPaint.setColor(ColorUtils.setAlphaComponent(glassColorProvider.getBackgroundColor(), 255));
+        if (mzFlat && mzSolidBar) {
+            mzBarPaint.setColor(ColorUtils.setAlphaComponent(mzBarColor(), 255));
             canvas.drawRect(0, 0, getWidth(), getHeight() - extraHeight, mzBarPaint);
         }
 

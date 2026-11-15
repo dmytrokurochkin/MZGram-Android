@@ -170,12 +170,12 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
     private boolean themedIconColorSet;
     private int themedBackgroundColor, themedBackgroundPressedColor;
 
-    @Override
     /** MZGram: Material bars. The small button is a solid Material 3 surface FAB instead of glass. */
     private static boolean mzSurfaceFab() {
         return app.exteraless.appearance.AppearanceConfig.materialBars();
     }
 
+    @Override
     public void updateColors() {
         if (imageView == null || progressView == null) {
             return;

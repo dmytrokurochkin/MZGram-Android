@@ -1709,11 +1709,13 @@ public class FilterTabsView extends FrameLayout {
             final float add = additionalTabWidth / 2f;
 
             if (mzFlatStrip) {
-                // MZGram: Material bars. A 3dp line under the selected tab, rounded on top
+                // MZGram: Material bars. A 3dp line under the selected tab, rounded on top. The chat list covers the
+                // strip's last 5dp (the strip is 50dp, the list pads 45dp), so the line ends 20dp under the text's centre.
                 final float l = indicatorX - add, r = indicatorX + indicatorWidth + add;
                 final float rad3 = dp(3);
+                final int bottom = height / 2 + dp(20);
                 selectorDrawable.setCornerRadii(new float[]{rad3, rad3, rad3, rad3, 0, 0, 0, 0});
-                selectorDrawable.setBounds((int) l, height - dp(3), (int) r, height);
+                selectorDrawable.setBounds((int) l, bottom - dp(3), (int) r, bottom);
                 selectorDrawable.setAlpha((int) (255 * listView.getAlpha()));
                 selectorDrawable.draw(canvas);
                 canvas.restore();

@@ -1106,7 +1106,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (dialogStoriesCellVisible) {
                     storiesAlpha = 1f - Utilities.clamp(rightSlidingProgress / 0.5f, 1f, 0f);
                 }
-                if (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE) {
+                if (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && mzTabsInList()) {
                     tabsYOffset -= (1f - animatorFilterTabsVisible.getFloatValue()) * filterTabsView.getMeasuredHeight();
                 }
                 if (fragmentSearchField != null) {
@@ -1214,7 +1214,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     int contentWidthSpec = View.MeasureSpec.makeMeasureSpec(widthSize, View.MeasureSpec.EXACTLY);
                     int h = heightSize + dp(2);
                     if (rightSlidingDialogContainer.hasFragment()) {
-                        if (canShowFilterTabsView) {
+                        if (canShowFilterTabsView && mzTabsInList()) {
                             h += dp(50);
                         }
                         if (hasStories) {
@@ -1231,6 +1231,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     child.setPadding(child.getPaddingLeft(), child.getPaddingTop(), child.getPaddingRight(), transitionPadding);
                     child.measure(contentWidthSpec, View.MeasureSpec.makeMeasureSpec(Math.max(dp(10), h), View.MeasureSpec.EXACTLY));
                     child.setPivotX(child.getMeasuredWidth() / 2f);
+                } else if (child == filterTabsView && mzTabsInHeader()) {
+                    // MZGram: in the compact header the tabs fill the top bar between the menu
+                    // button and the buttons on the right.
+                    final int w = Math.max(dp(56), widthSize - mzHeaderTabsStart() - mzHeaderTabsEnd());
+                    child.measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY),
+                            MeasureSpec.makeMeasureSpec(dp(36 + 7 + 7), MeasureSpec.EXACTLY));
                 } else if (child == searchViewPager) {
                     searchViewPager.setTranslationY(searchViewPagerTranslationY);
                     searchViewPager.postsSearchContainer.setKeyboardHeight(keyboardSize);
@@ -1357,6 +1363,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     childTop = actionBar.getMeasuredHeight();
                 } else if (child instanceof ViewPage) {
                     childTop = 0;
+                } else if (child == filterTabsView && mzTabsInHeader()) {
+                    final int barHeight = ActionBar.getCurrentActionBarHeight();
+                    childLeft = LocaleController.isRTL ? W - width - mzHeaderTabsStart() : mzHeaderTabsStart();
+                    childTop = actionBar.getMeasuredHeight() - barHeight + (barHeight - height) / 2;
                 } else if (child == topPanelLayout || child == topBubblesFadeView || child == filterTabsView) {
                     childTop += actionBar.getMeasuredHeight();
                     childTop += getIdleSearchFieldHeight();
@@ -2140,7 +2150,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
 
             ignoreLayout = true;
-            final float filterTabsVisibility = getFilterTabsVisibilityFactor(false);
+            // MZGram: tabs in the compact header or switched off take no room above the list.
+            final float filterTabsVisibility = mzTabsInList() ? getFilterTabsVisibilityFactor(false) : 0f;
             final float topPanelsVisibility = topPanelLayout != null ? topPanelLayout.getMetadata().getTotalVisibility() : 0f;
             additionalPadding = (int) (dp(36 + 14) * filterTabsVisibility);
             if (topPanelLayout != null) {
@@ -4746,7 +4757,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                         if (applyScrollY) {
                             int maxScrollYOffset = getMaxScrollYOffset();
-                            if (!(filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && animatorFilterTabsVisible.getValue())) {
+                            if (!(filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && animatorFilterTabsVisible.getValue() && mzTabsInList())) {
                                 maxScrollYOffset = getIdleSearchFieldHeight();
                             }
                             if (newTranslation < -maxScrollYOffset) {
@@ -5314,11 +5325,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         if (filterTabsView != null) {
-            BlurredBackgroundDrawable filterTabsViewBackground = iBlur3FactoryLiquidGlass.create(filterTabsView, BlurredBackgroundProviderImpl.topPanel(resourceProvider));
-            filterTabsViewBackground.setRadius(dp(18));
-            filterTabsViewBackground.setPadding(dp(6.666f));
             filterTabsView.setPadding(0, dp(7), 0, dp(7));
-            filterTabsView.setBlurredBackground(filterTabsViewBackground);
+            if (mzTabsInHeader()) {
+                // MZGram: tabs right in the top bar, with no panel of their own.
+                filterTabsView.setCompactHeader(true);
+            } else {
+                BlurredBackgroundDrawable filterTabsViewBackground = iBlur3FactoryLiquidGlass.create(filterTabsView, BlurredBackgroundProviderImpl.topPanel(resourceProvider));
+                filterTabsViewBackground.setRadius(dp(18));
+                filterTabsViewBackground.setPadding(dp(6.666f));
+                filterTabsView.setBlurredBackground(filterTabsViewBackground);
+            }
             contentView.addView(filterTabsView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 36 + 7 + 7, Gravity.TOP, 4, 0, 4, 0));
         }
 
@@ -5507,6 +5523,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             final FrameLayout.LayoutParams layoutParams = LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT);
             contentView.addView(actionBar, layoutParams);
         //}
+        if (filterTabsView != null && mzTabsInHeader()) {
+            // MZGram: the tabs lie over the top bar, so they draw on top and get the touches.
+            filterTabsView.bringToFront();
+        }
         if (!onlySelect) {
             animatedStatusView = new AnimatedStatusView(context, 20, 60);
             contentView.addView(animatedStatusView, LayoutHelper.createFrame(20, 20, Gravity.LEFT | Gravity.TOP));
@@ -6789,7 +6809,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         float topPanelsVisibility = 0;
         float fadeViewT = totalOffset;
 
-        if (filterTabsView != null) {
+        if (filterTabsView != null && mzTabsInHeader()) {
+            // MZGram: the tabs stay in the top bar and take no room below it.
+            filterTabsView.setTranslationY(actionBar != null ? actionBar.getTranslationY() : 0);
+        } else if (filterTabsView != null) {
             filterTabsView.setTranslationY(totalOffset - searchOffset);
             filtersTabVisibility = filterTabsView.getAlpha();
             filtersTabHeight = dp(36 + 7) * filtersTabVisibility;
@@ -7074,7 +7097,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         final ArrayList<MessagesController.DialogFilter> filters = getMessagesController().getDialogFilters();
         if (filters.size() > 1) {
-            if (force || filterTabsView.getVisibility() != View.VISIBLE) {
+            // MZGram: switched-off tabs stay hidden, so build them once rather than on every update.
+            if (force || filterTabsView.getVisibility() != View.VISIBLE && !(mzFolderTabsHidden() && !filterTabsView.isEmpty())) {
                 boolean animatedUpdateItems = animated;
                 if (filterTabsView.getVisibility() != View.VISIBLE) {
                     animatedUpdateItems = false;
@@ -7447,7 +7471,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             public int getTopOffset(int tag) {
                 return (
                     (actionBar != null ? actionBar.getMeasuredHeight() : 0) +
-                    (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE ? filterTabsView.getMeasuredHeight() : 0) +
+                    (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && mzTabsInList() ? filterTabsView.getMeasuredHeight() : 0) +
                     (topPanelLayout != null ? topPanelLayout.getHeight() : 0) +
                     (dialogStoriesCell != null && dialogStoriesCellVisible ? (int) ((1f - dialogStoriesCell.getCollapsedProgress()) * dp(DialogStoriesCell.HEIGHT_IN_DP)) : 0) +
                     (getIdleSearchFieldHeight())
@@ -9415,6 +9439,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     actionBar.getChildAt(i).setAlpha(1f - progressToActionMode);
                 }
             }
+            if (mzTabsInHeader()) {
+                checkUi_filterTabsVisible();
+            }
             checkUi_searchFieldVisibility();
             checkUi_itemBackButtonVisibility();
             if (fragmentView != null) {
@@ -10444,6 +10471,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (fragmentView != null) {
                     fragmentView.invalidate();
+                }
+                if (mzTabsInHeader()) {
+                    checkUi_filterTabsVisible();
                 }
                 checkUi_searchFieldVisibility();
                 checkUi_itemBackButtonVisibility();
@@ -12959,7 +12989,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void updateStoriesVisibility(boolean animated) {
-        if (NaConfig.INSTANCE.getHideStoriesFromHeader().Bool()) {
+        if (NaConfig.INSTANCE.getHideStoriesFromHeader().Bool() || mzCompactHeader()) {
+            // MZGram: the compact header has no row of stories.
             return;
         }
         if (dialogStoriesCell == null || storiesVisibilityAnimator != null || rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment() || searchIsShowed || actionBar == null || actionBar.isActionModeShowed() || onlySelect) {
@@ -14151,6 +14182,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else if (id == ANIMATOR_ID_ACTION_MODE_VISIBLE) {
             checkUi_menuItems();
             checkUi_searchFieldVisibility();
+            if (mzTabsInHeader()) {
+                checkUi_filterTabsVisible();
+            }
         } else if (id == ANIMATOR_ID_FORWARD_BUTTON_VISIBLE) {
             checkUi_forwardCommentFieldVisible();
         } else if (id == ANIMATOR_ID_FILTER_TABS_VISIBLE) {
@@ -14290,7 +14324,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void checkUi_filterTabsVisible() {
-        final float factor = getFilterTabsVisibilityFactor(true);
+        float factor = getFilterTabsVisibilityFactor(true);
+        final boolean tabsInHeader = mzTabsInHeader();
+        if (mzFolderTabsHidden()) {
+            factor = 0f;
+        } else if (tabsInHeader) {
+            // In the compact header the tabs give way to the selection bar.
+            factor *= 1f - Math.max(progressToActionMode, animatorActionModeVisible.getFloatValue());
+        }
         if (filterTabsView != null) {
             final boolean alphaChanged = filterTabsView.getAlpha() != factor;
 
@@ -14300,9 +14341,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             filterTabsView.setScaleY(s);
             filterTabsView.setVisibility(factor > 0 ? View.VISIBLE : View.GONE);
 
-            if (alphaChanged && viewPages[0] != null) {
+            if (alphaChanged && viewPages[0] != null && mzTabsInList()) {
                 viewPages[0].listView.requestLayout();
             }
+        }
+        if (actionBar != null && mzCompactHeader()) {
+            // The tabs take the place of the title.
+            actionBar.setMzTitleHideProgress(tabsInHeader ? animatorFilterTabsVisible.getFloatValue() : 0f);
         }
         updateContextViewPosition();
     }
@@ -14500,7 +14545,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean isSupportSearch() {
-        return initialDialogsType != DIALOGS_TYPE_ADD_USERS_TO;
+        return initialDialogsType != DIALOGS_TYPE_ADD_USERS_TO && !mzSearchHidden();
     }
 
     public long getCommunityId() {
@@ -14540,7 +14585,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             final int actionBarHeight = actionBar.getMeasuredHeight()
                 + getIdleSearchFieldHeight()
                 + dp(hasStories ? DialogStoriesCell.HEIGHT_IN_DP : 0)
-                + (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE ? filterTabsView.getMeasuredHeight() : 0)
+                + (filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && mzTabsInList() ? filterTabsView.getMeasuredHeight() : 0)
                 + (topPanelLayout != null && topPanelLayout.getVisibility() == View.VISIBLE ? topPanelLayout.getSumHeightOfAllVisibleChild() : 0)
                 + ((int) scrollYOffset);
 
@@ -14832,7 +14877,50 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean shouldShowIdleSearchField() {
-        return !NaConfig.INSTANCE.getHideDialogsSearchField().Bool();
+        return !NaConfig.INSTANCE.getHideDialogsSearchField().Bool() && !mzCompactHeader() && !mzSearchHidden();
+    }
+
+    // ---- MZGram: chat list header (standard or compact, search and folder tabs) ----
+
+    private boolean mzMainList() {
+        return initialDialogsType == DIALOGS_TYPE_DEFAULT && !onlySelect && folderId == 0 && communityId == 0
+                && TextUtils.isEmpty(searchString);
+    }
+
+    /** Compact header: the folder tabs and the search button share the top bar, no title. */
+    private boolean mzCompactHeader() {
+        return mzMainList() && AppearanceConfig.compactDialogsHeader();
+    }
+
+    /** The folder tabs are switched off. Folders still open from the Chats tab. */
+    private boolean mzFolderTabsHidden() {
+        return filterTabsView != null && mzMainList() && AppearanceConfig.hideFolderTabs();
+    }
+
+    private boolean mzTabsInHeader() {
+        return filterTabsView != null && mzCompactHeader() && !AppearanceConfig.hideFolderTabs();
+    }
+
+    /** The folder strip takes room above the list, as in the standard header. */
+    private boolean mzTabsInList() {
+        return !mzTabsInHeader() && !mzFolderTabsHidden();
+    }
+
+    /** Search is removed: no search bar and no search button. */
+    private boolean mzSearchHidden() {
+        return mzMainList() && AppearanceConfig.hideDialogsSearch();
+    }
+
+    /** Where the tabs start in the compact header: right after the menu button. */
+    private int mzHeaderTabsStart() {
+        final ImageView back = actionBar != null ? actionBar.getBackButton() : null;
+        return back != null && back.getDrawable() != null ? dp(54) : dp(8);
+    }
+
+    /** Where the tabs end in the compact header: before the buttons on the right. */
+    private int mzHeaderTabsEnd() {
+        final int items = actionBar != null && actionBar.menu != null ? actionBar.menu.getVisibleItemsMeasuredWidth() : 0;
+        return items > 0 ? items + dp(6) : dp(8);
     }
 
     private int getIdleSearchFieldHeight() {

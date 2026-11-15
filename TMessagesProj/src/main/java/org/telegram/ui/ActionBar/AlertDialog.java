@@ -369,6 +369,16 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         backgroundPaddings = new Rect();
         if (progressStyle != ALERT_TYPE_SPINNER || blurredBackground) {
             shadowDrawable = context.getResources().getDrawable(R.drawable.popup_fixed_alert4).mutate();
+            if (app.exteraless.appearance.AppearanceConfig.materialDialogs()) {
+                // MZGram: a Material 3 dialog, a flat surface with 28 dp corners. The insets of
+                // the old shadow stay, so the dialog keeps its size.
+                Rect insets = new Rect();
+                shadowDrawable.getPadding(insets);
+                android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable();
+                shape.setColor(0xFFFFFFFF);
+                shape.setCornerRadius(dp(progressStyle == ALERT_TYPE_SPINNER ? 20 : 28));
+                shadowDrawable = new android.graphics.drawable.InsetDrawable(shape, insets.left, insets.top, insets.right, insets.bottom);
+            }
             blurOpacity = progressStyle == ALERT_TYPE_SPINNER ? 0.55f : (isDark ? 0.80f : 0.985f);
             shadowDrawable.setColorFilter(new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY));
             shadowDrawable.getPadding(backgroundPaddings);

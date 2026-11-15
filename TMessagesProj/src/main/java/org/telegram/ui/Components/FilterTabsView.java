@@ -913,7 +913,7 @@ public class FilterTabsView extends FrameLayout {
     private boolean ignoreLayout;
 
     private final RecyclerListView listView;
-    private final int listViewPaddingH;
+    private int listViewPaddingH;
     private final LinearLayoutManager layoutManager;
     private final ListAdapter adapter;
     private boolean horizontalScrollingEnabled = true;
@@ -1280,6 +1280,43 @@ public class FilterTabsView extends FrameLayout {
 
     public void setBlurredBackground(BlurredBackgroundDrawable drawable) {
         setBackground(blurredBackgroundDrawable = drawable);
+    }
+
+    private boolean compactHeader;
+
+    /**
+     * MZGram: the tabs sit right in the top bar of the chat list. No panel of their own,
+     * no rounded clip, and less side padding.
+     */
+    public void setCompactHeader(boolean compact) {
+        if (compactHeader == compact) {
+            return;
+        }
+        compactHeader = compact;
+        if (compact) {
+            blurredBackgroundDrawable = null;
+            setBackground(null);
+            listViewPaddingH = dp(4);
+        } else {
+            listViewPaddingH = Math.max(0, dp(23.5f - TAB_PADDING_WIDTH / 2f));
+        }
+        listView.setPadding(listViewPaddingH, 0, listViewPaddingH, 0);
+        updateClipPath(getWidth(), getHeight());
+        requestLayout();
+    }
+
+    public boolean isCompactHeader() {
+        return compactHeader;
+    }
+
+    private void updateClipPath(int w, int h) {
+        clipPath.rewind();
+        if (compactHeader) {
+            clipPath.addRect(0, 0, w, h, Path.Direction.CW);
+        } else {
+            clipPath.addRoundRect(dp(9), dp(9), w - dp(9), h - dp(9),
+                AndroidUtilities.dpf2(com.exteragram.messenger.ExteraConfig.getPillRadius(16)), AndroidUtilities.dpf2(com.exteragram.messenger.ExteraConfig.getPillRadius(16)), Path.Direction.CW);
+        }
     }
 
     public void scrollToTab(Tab tab, int position) {
@@ -1667,9 +1704,7 @@ public class FilterTabsView extends FrameLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        clipPath.rewind();
-        clipPath.addRoundRect(dp(9), dp(9), w - dp(9), h - dp(9),
-            AndroidUtilities.dpf2(com.exteragram.messenger.ExteraConfig.getPillRadius(16)), AndroidUtilities.dpf2(com.exteragram.messenger.ExteraConfig.getPillRadius(16)), Path.Direction.CW);
+        updateClipPath(w, h);
     }
 
     @Override

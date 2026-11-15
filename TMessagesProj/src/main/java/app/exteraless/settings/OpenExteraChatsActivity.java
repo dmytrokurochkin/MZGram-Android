@@ -1938,6 +1938,10 @@ public class OpenExteraChatsActivity extends BaseNekoSettingsActivity {
             MediaController.getInstance().recreateProximityWakeLock();
         } else if (position == hideActionBarStatusRow || position == hideFloatingButtonRow
                 || position == hideSearchBarRow) {
+            if (position == hideSearchBarRow && !NaConfig.INSTANCE.getHideDialogsSearchField().Bool()) {
+                // MZGram: bringing the search bar back also undoes "search hidden" in Appearance.
+                AppearanceConfig.hideDialogsSearch.setConfigBool(false);
+            }
             rebuildChats();
         } else if (position == hideAllChatsRow) {
             getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);

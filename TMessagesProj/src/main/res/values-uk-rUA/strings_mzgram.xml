@@ -22,4 +22,16 @@
     <string name="MZPluginCatalogCount_few">%1$d плагіни</string>
     <string name="MZPluginCatalogCount_many">%1$d плагінів</string>
     <string name="MZPluginCatalogCount_other">%1$d плагіна</string>
+    <string name="MZHeaderSection">Шапка списку чатів</string>
+    <string name="MZHeaderStyle">Шапка</string>
+    <string name="MZHeaderStyleStandard">Звичайна</string>
+    <string name="MZHeaderStyleCompact">Компактна</string>
+    <string name="MZSearchStyle">Пошук</string>
+    <string name="MZSearchStyleField">Рядок пошуку</string>
+    <string name="MZSearchStyleButton">Кнопка</string>
+    <string name="MZSearchStyleHidden">Сховано</string>
+    <string name="MZShowFolderTabs">Вкладки папок</string>
+    <string name="MZHeaderInfo">Компактна шапка ставить меню, папки і кнопку пошуку в один рядок угорі, без назви застосунку. Без вкладок папки відкриваються довгим натисканням на «Чати» внизу.</string>
+    <string name="MZMaterialSurfaces">Суцільні панелі</string>
+    <string name="MZMaterialDialogs">Діалоги</string>
 </resources>

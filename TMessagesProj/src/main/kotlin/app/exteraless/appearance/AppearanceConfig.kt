@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.FileLog
+import org.telegram.messenger.LiteMode
 import org.telegram.ui.Components.blur3.GlassOutlineStyle
 import tw.nekomimi.nekogram.NekoConfig
 import tw.nekomimi.nekogram.NekoXConfig
@@ -215,19 +216,20 @@ object AppearanceConfig {
     val newLoadingStyle =
         addConfig("OEAppearanceNewLoadingStyle", ConfigItem.configTypeBool, true)
 
-    /** M3-шапка чата. Дефолт false, как в exteraGram. */
+    /** M3 chat header. MZGram: on by default, MZGram is Material throughout. */
     @JvmField
     val newChatHeaderStyle =
-        addConfig("OEAppearanceNewChatHeaderStyle", ConfigItem.configTypeBool, false)
+        addConfig("OEAppearanceNewChatHeaderStyle", ConfigItem.configTypeBool, true)
 
-    /** M3-нижняя панель вкладок. Дефолт false, как в exteraGram. */
+    /** M3 bottom navigation bar. MZGram: on by default. */
     @JvmField
     val newNavigationBarStyle =
-        addConfig("OEAppearanceNewNavigationBarStyle", ConfigItem.configTypeBool, false)
+        addConfig("OEAppearanceNewNavigationBarStyle", ConfigItem.configTypeBool, true)
 
+    /** M3 list items. MZGram: on by default. */
     @JvmField
     val m3ListItems =
-        addConfig("OEAppearanceM3ListItems", ConfigItem.configTypeBool, false)
+        addConfig("OEAppearanceM3ListItems", ConfigItem.configTypeBool, true)
 
     @JvmStatic
     fun m3ListItems(): Boolean {
@@ -271,6 +273,83 @@ object AppearanceConfig {
     fun md3MiniPlayer(): Boolean {
         ensureLoaded()
         return md3MiniPlayer.Bool()
+    }
+
+    /**
+     * MZGram: Material surfaces. Panels drawn as liquid glass or blur (search bar, folder
+     * strip, bottom bar, chat header and input, menus) become solid Material surfaces.
+     * LiteMode reports blur and liquid glass as off while this is on.
+     */
+    @JvmField
+    val materialSurfaces =
+        addConfig("MZMaterialSurfaces", ConfigItem.configTypeBool, true)
+
+    @JvmStatic
+    fun materialSurfaces(): Boolean {
+        if (!configLoaded) {
+            if (ApplicationLoader.applicationContext == null) return true
+            loadConfig(false)
+        }
+        return materialSurfaces.Bool()
+    }
+
+    /** Opacity for a glass panel colour: fully solid with Material surfaces. */
+    @JvmStatic
+    fun glassAlpha(liquidGlass: Float, frosted: Float): Float {
+        if (materialSurfaces()) return 1f
+        return if (LiteMode.isEnabled(LiteMode.FLAG_LIQUID_GLASS)) liquidGlass else frosted
+    }
+
+    /** MZGram: Material dialogs with 28 dp corners. */
+    @JvmField
+    val materialDialogs =
+        addConfig("MZMaterialDialogs", ConfigItem.configTypeBool, true)
+
+    @JvmStatic
+    fun materialDialogs(): Boolean {
+        ensureLoaded()
+        return materialDialogs.Bool()
+    }
+
+    // ---- MZGram: chat list header ----
+
+    const val HEADER_STANDARD = 0
+    const val HEADER_COMPACT = 1
+
+    /**
+     * Chat list header. Compact: the menu button, the folder tabs and the search button share
+     * the top bar, and the app title is not shown.
+     */
+    @JvmField
+    val dialogsHeaderStyle =
+        addConfig("MZDialogsHeaderStyle", ConfigItem.configTypeInt, HEADER_STANDARD)
+
+    /** Search is removed from the chat list completely: no search bar and no search button. */
+    @JvmField
+    val hideDialogsSearch =
+        addConfig("MZHideDialogsSearch", ConfigItem.configTypeBool, false)
+
+    /** The folder tabs are not shown. Folders still open from a long press on the Chats tab. */
+    @JvmField
+    val hideFolderTabs =
+        addConfig("MZHideFolderTabs", ConfigItem.configTypeBool, false)
+
+    @JvmStatic
+    fun compactDialogsHeader(): Boolean {
+        ensureLoaded()
+        return dialogsHeaderStyle.Int() == HEADER_COMPACT
+    }
+
+    @JvmStatic
+    fun hideDialogsSearch(): Boolean {
+        ensureLoaded()
+        return hideDialogsSearch.Bool()
+    }
+
+    @JvmStatic
+    fun hideFolderTabs(): Boolean {
+        ensureLoaded()
+        return hideFolderTabs.Bool()
     }
 
     @JvmField

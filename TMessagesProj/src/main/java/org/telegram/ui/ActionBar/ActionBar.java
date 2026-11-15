@@ -590,6 +590,16 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         if (child == menu && openMenuItem != null && isMenuPillInOverlay()) {
             return true;
         }
+        if (mzTitleHideProgress > 0f && (child == titleTextView[0] || child == titleTextView[1] || child == titlesContainer)) {
+            // MZGram: the compact chat list header shows folder tabs in place of the title.
+            if (mzTitleHideProgress >= 1f) {
+                return true;
+            }
+            canvas.saveLayerAlpha(0, 0, getWidth(), getHeight(), (int) (255 * (1f - mzTitleHideProgress)));
+            boolean result = super.drawChild(canvas, child, drawingTime);
+            canvas.restore();
+            return result;
+        }
 
         boolean clip = shouldClipChild(child);
         if (clip) {
@@ -794,6 +804,17 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
 
     public void setTitle(CharSequence value) {
         setTitle(value, null);
+    }
+
+    private float mzTitleHideProgress;
+
+    /** MZGram: fade the title out (1 = hidden), used by the compact chat list header. */
+    public void setMzTitleHideProgress(float progress) {
+        progress = Math.max(0f, Math.min(1f, progress));
+        if (mzTitleHideProgress != progress) {
+            mzTitleHideProgress = progress;
+            invalidate();
+        }
     }
 
     public void setTitle(CharSequence value, Drawable rightDrawable) {

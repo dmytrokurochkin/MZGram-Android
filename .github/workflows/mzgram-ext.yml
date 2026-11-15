@@ -98,6 +98,7 @@ jobs:
       - name: Verify the APK
         env:
           SIGNED: ${{ steps.sign.outputs.signed }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Without the MZGram key the APK cannot install over the installed MZGram
           [ "$SIGNED" = "true" ] || { echo "::error::the APK is not signed with the MZGram key"; exit 1; }
@@ -105,6 +106,19 @@ jobs:
           BADGING=$("$ANDROID_HOME/build-tools/36.0.0/aapt2" dump badging artifact/MZGram.apk | head -1)
           echo "$BADGING"
           grep -q "name='org.mzgram.messenger'" <<<"$BADGING" || { echo "::error::package name is not org.mzgram.messenger"; exit 1; }
+          # Android refuses an APK whose versionCode is below the installed one, so the code must be above
+          # every MZGram release tag (vX.Y.Z or vX.Y.Z-beta.N, code (X*1000000 + Y*10000 + Z*100 + N or 99) * 10 + 9)
+          CODE=$(sed -nE "s/.*versionCode='([0-9]+)'.*/\1/p" <<<"$BADGING")
+          NEWEST=0; NEWEST_TAG=none
+          for TAG in $(gh api "repos/$GITHUB_REPOSITORY/tags?per_page=100" --paginate --jq '.[].name'); do
+            [[ $TAG =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-beta\.([0-9]+))?$ ]] || continue
+            N=${BASH_REMATCH[5]:-99}
+            TAG_CODE=$(( (BASH_REMATCH[1] * 1000000 + BASH_REMATCH[2] * 10000 + BASH_REMATCH[3] * 100 + N) * 10 + 9 ))
+            [ "$TAG_CODE" -gt "$NEWEST" ] && { NEWEST=$TAG_CODE; NEWEST_TAG=$TAG; }
+          done
+          echo "versionCode $CODE, newest MZGram release $NEWEST_TAG ($NEWEST)"
+          [ "$NEWEST" -gt 0 ] || { echo "::error::no MZGram release tag found"; exit 1; }
+          [ "$CODE" -gt "$NEWEST" ] || { echo "::error::versionCode $CODE is not above $NEWEST_TAG ($NEWEST): it will not install over MZGram"; exit 1; }
           ls -lh artifact/
       - name: Upload the APK
         uses: actions/upload-artifact@v7

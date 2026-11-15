@@ -21,6 +21,11 @@ public class BlurredBackgroundProviderImpl {
     public static BlurredBackgroundProvider mainTabs(Theme.ResourcesProvider resourcesProvider) {
         final BlurredBackgroundProviderBuilder builder = new BlurredBackgroundProviderBuilder(resourcesProvider)
             .setBackgroundColor((r, isDark) -> {
+                if (app.exteraless.appearance.MainTabsUiHelper.isMaterial3NavigationBar()
+                        && app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+                    // MZGram: the Material 3 navigation bar is a solid surface a tone above the page
+                    return app.exteraless.appearance.MainTabsUiHelper.getMaterial3BarColor(r);
+                }
                 final float alpha = app.exteraless.appearance.AppearanceConfig.glassAlpha(0.85f, 0.76f);
                 final int colorBg = Theme.getColor(Theme.key_windowBackgroundWhite, r);
                 final int colorTarget = Theme.getColor(Theme.key_glass_targetMainTabs, r);

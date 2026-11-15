@@ -161,6 +161,17 @@ public final class MainTabsUiHelper {
         rectF.set(x, y, w + x, h + y);
     }
 
+    /**
+     * MZGram: a Material 3 bottom bar sits a tone above the page (surface container): 6% of the page's text colour
+     * over the page, lighter in a dark theme and a little greyer in a light one. The glass target of the theme was
+     * darker than the chat list, so the bar looked like a hole under it.
+     */
+    public static int getMaterial3BarColor(Theme.ResourcesProvider resourcesProvider) {
+        final int page = Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider) | 0xFF000000;
+        final int text = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider) | 0xFF000000;
+        return androidx.core.graphics.ColorUtils.blendARGB(page, text, 0.06f);
+    }
+
     public static int getMainTabSelectedIndicatorColor(int color, float factor) {
         // MZGram: 30% of the accent over the bar gives the secondary container tone of Material 3
         // (about #4A4458 on a dark bar, #E8DEF8 on a light one); 12.5% was barely visible.

@@ -2633,7 +2633,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 if (mzDockedButtons) {
                     // MZGram: a flat surface from the row's top to the screen's bottom edge (the parent doesn't clip
                     // its children), with a hairline on top, the same as the main navigation bar
-                    mzDockPaint.setColor(getThemedColor(Theme.key_windowBackgroundGray));
+                    // the same tone as the main navigation bar: a Material 3 bottom bar a step above the page
+                    mzDockPaint.setColor(app.exteraless.appearance.MainTabsUiHelper.getMaterial3BarColor(resourcesProvider));
                     canvas.drawRect(0, 0, getWidth(), getHeight() + AndroidUtilities.navigationBarHeight, mzDockPaint);
                     mzDockPaint.setColor(Theme.getDividerColor(resourcesProvider));
                     canvas.drawRect(0, 0, getWidth(), 1, mzDockPaint);

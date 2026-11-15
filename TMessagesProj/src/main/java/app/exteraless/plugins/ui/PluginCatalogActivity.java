@@ -629,12 +629,24 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         if (activity == null) {
             return;
         }
-        final int surface = Theme.getColor(Theme.key_dialogBackground);
+        // MZGram: a Material 3 modal sheet: surface container low over a 32% scrim, with a drag handle
+        final int page = Theme.getColor(Theme.key_windowBackgroundWhite) | 0xFF000000;
+        final int onSurface = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText) | 0xFF000000;
+        final boolean dark = Theme.isCurrentThemeDark();
+        final int surface = ColorUtils.blendARGB(page, onSurface, dark ? 0.07f : 0.04f);
         BottomSheet sheet = new BottomSheet(activity, false);
+        sheet.setBackgroundColor(surface);
+        sheet.fixNavigationBar(surface);
+        sheet.setDimBehindAlpha(82);
 
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(dp(24), dp(20), dp(24), dp(16));
+        layout.setPadding(dp(24), 0, dp(24), dp(16));
+
+        View handle = new View(activity);
+        handle.setBackground(Theme.createRoundRectDrawable(dp(2),
+                ColorUtils.setAlphaComponent(ColorUtils.blendARGB(onSurface, page, 0.3f), 0x66)));
+        layout.addView(handle, LayoutHelper.createLinear(32, 4, Gravity.CENTER_HORIZONTAL, 0, 6, 0, 22));
 
         LinearLayout head = new LinearLayout(activity);
         head.setOrientation(LinearLayout.HORIZONTAL);
@@ -737,7 +749,8 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
 
             LinearLayout titleRow = new LinearLayout(context);
             titleRow.setOrientation(LinearLayout.HORIZONTAL);
-            titleRow.setGravity(Gravity.CENTER_VERTICAL);
+            // top gravity lets the row align the small version label on the name's baseline
+            titleRow.setGravity(Gravity.TOP);
             nameView = new TextView(context);
             nameView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             nameView.setTypeface(AndroidUtilities.bold());

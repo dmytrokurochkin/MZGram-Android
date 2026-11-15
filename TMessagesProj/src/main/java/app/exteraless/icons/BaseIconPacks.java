@@ -77,21 +77,22 @@ public final class BaseIconPacks {
     /** Название набора для экрана настроек. */
     public static String getName(int type) {
         if (type == BASE_SOLAR) {
-            return "Solar Icon Set";
+            return org.telegram.messenger.LocaleController.getString(R.string.IconReplacementSolar);
         }
         if (type == BASE_REMIX) {
-            return "Remix Icon";
+            return org.telegram.messenger.LocaleController.getString(R.string.IconReplacementRemix);
         }
         return org.telegram.messenger.LocaleController.getString(R.string.Default);
     }
 
     /** Автор набора ({@code BaseIconPacks.java:1192}). */
     public static String getAuthor(int type) {
+        // MZGram names no authors: the line under the set says what it looks like.
         if (type == BASE_SOLAR) {
-            return "@Design480";
+            return org.telegram.messenger.LocaleController.getString(R.string.MZIconSetRoundedInfo);
         }
         if (type == BASE_REMIX) {
-            return "Remix-Design";
+            return org.telegram.messenger.LocaleController.getString(R.string.MZIconSetLineInfo);
         }
         return "Telegram";
     }

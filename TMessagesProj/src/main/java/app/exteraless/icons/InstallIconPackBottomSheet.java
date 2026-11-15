@@ -100,9 +100,6 @@ public class InstallIconPackBottomSheet extends BottomSheet {
 
     private CharSequence buildSubtitle() {
         List<String> parts = new ArrayList<>();
-        if (!TextUtils.isEmpty(pack.getAuthor())) {
-            parts.add(pack.getAuthor());
-        }
         if (!TextUtils.isEmpty(pack.getVersion())) {
             parts.add(pack.getVersion());
         }

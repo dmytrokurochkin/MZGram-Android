@@ -300,20 +300,8 @@ public class OpenExteraOtherActivity extends BaseNekoSettingsActivity {
         if (activity == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity, getResourceProvider());
-        builder.setTitle(getString(R.string.OEGeneralExportEtgSettings));
-        builder.setItems(new CharSequence[]{
-                getString(R.string.OEGeneralExportFormatFull),
-                getString(R.string.OEGeneralExportFormatExtera)
-        }, (dialog, which) -> {
-            if (which == 0) {
-                SettingsBackupHelper.backupSettings(activity, getResourceProvider());
-            } else {
-                EtgBackupUi.export(this);
-            }
-        });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
+        // MZGram exports its own full format only: the other choice wrote a file for another app.
+        SettingsBackupHelper.backupSettings(activity, getResourceProvider());
     }
 
     private void openEtgFilePicker() {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZPluginCatalog">Каталог плагінів</string>
+    <string name="MZPluginCatalogInstall">Встановити</string>
+    <string name="MZPluginCatalogInstalled">Встановлено</string>
+    <string name="MZPluginCatalogUpdate">Оновити</string>
+    <string name="MZPluginCatalogRetry">Спробувати ще</string>
+    <string name="MZPluginCatalogError">Не вдалося завантажити каталог плагінів. Перевірте з\'єднання й спробуйте ще раз.</string>
+    <string name="MZPluginCatalogDownloadError">Не вдалося завантажити плагін. Спробуйте пізніше.</string>
+    <string name="MZPluginCatalogBadFile">Завантажений файл не збігається з каталогом, тому його не встановлено.</string>
+    <string name="MZPluginCatalogInfo">Плагіни беруться з репозиторію MZGram-Plugins на GitHub. Перед встановленням плагіна ви бачите, до чого він матиме доступ.</string>
+    <string name="MZPluginsOnGitHub">Плагіни на GitHub</string>
+    <string name="MZIconSetRoundedInfo">М\'які округлі форми</string>
+    <string name="MZIconSetLineInfo">Тонкі рівні лінії</string>
+    <string name="IconReplacementRemix">Лінійні іконки</string>
+    <string name="OEGeneralAyuMoments">Архів повідомлень</string>
+    <string name="OEGeneralAyuMomentsDisableAll">Вимкнути всі функції архіву повідомлень</string>
+    <string name="PluginsEmptyHint">Плагіни можна знайти в каталозі плагінів.</string>
+    <string name="MZPluginCatalogCount_zero">%1$d плагінів</string>
+    <string name="MZPluginCatalogCount_one">%1$d плагін</string>
+    <string name="MZPluginCatalogCount_two">%1$d плагіни</string>
+    <string name="MZPluginCatalogCount_few">%1$d плагіни</string>
+    <string name="MZPluginCatalogCount_many">%1$d плагінів</string>
+    <string name="MZPluginCatalogCount_other">%1$d плагіна</string>
+</resources>

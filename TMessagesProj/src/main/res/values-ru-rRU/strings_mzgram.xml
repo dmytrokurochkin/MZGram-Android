@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZPluginCatalog">Каталог плагинов</string>
+    <string name="MZPluginCatalogInstall">Установить</string>
+    <string name="MZPluginCatalogInstalled">Установлен</string>
+    <string name="MZPluginCatalogUpdate">Обновить</string>
+    <string name="MZPluginCatalogRetry">Повторить</string>
+    <string name="MZPluginCatalogError">Не удалось загрузить каталог плагинов. Проверьте соединение и попробуйте ещё раз.</string>
+    <string name="MZPluginCatalogDownloadError">Не удалось скачать плагин. Попробуйте позже.</string>
+    <string name="MZPluginCatalogBadFile">Скачанный файл не совпадает с каталогом, поэтому он не установлен.</string>
+    <string name="MZPluginCatalogInfo">Плагины берутся из репозитория MZGram-Plugins на GitHub. Перед установкой плагина вы видите, к чему он получит доступ.</string>
+    <string name="MZPluginsOnGitHub">Плагины на GitHub</string>
+    <string name="MZIconSetRoundedInfo">Мягкие округлые формы</string>
+    <string name="MZIconSetLineInfo">Тонкие ровные линии</string>
+    <string name="MZPluginCatalogCount_zero">%1$d плагинов</string>
+    <string name="MZPluginCatalogCount_one">%1$d плагин</string>
+    <string name="MZPluginCatalogCount_two">%1$d плагина</string>
+    <string name="MZPluginCatalogCount_few">%1$d плагина</string>
+    <string name="MZPluginCatalogCount_many">%1$d плагинов</string>
+    <string name="MZPluginCatalogCount_other">%1$d плагина</string>
+</resources>

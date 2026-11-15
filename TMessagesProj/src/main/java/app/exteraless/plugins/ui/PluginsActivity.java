@@ -70,6 +70,7 @@ public class PluginsActivity extends BaseFragment {
     private static final int MENU_CLEAR_LOGS = 4;
     private static final int MENU_EXPORT_PLUGINS = 5;
     private static final int MENU_IMPORT_PLUGINS = 6;
+    private static final int MENU_CATALOG = 7;
 
     private static final int ID_ENGINE_TOGGLE = -1;
 
@@ -93,6 +94,8 @@ public class PluginsActivity extends BaseFragment {
                     finishFragment();
                 } else if (id == MENU_INFO) {
                     presentFragment(new PluginsInfoActivity());
+                } else if (id == MENU_CATALOG) {
+                    presentFragment(new PluginCatalogActivity());
                 } else if (id == MENU_EXPORT_LOGS) {
                     exportPluginLogs();
                 } else if (id == MENU_EXPORT_PLUGINS) {
@@ -126,6 +129,8 @@ public class PluginsActivity extends BaseFragment {
                                     }
                                 });
         search.setSearchFieldHint(getString(R.string.Search));
+        actionBar.createMenu().addItem(MENU_CATALOG, R.drawable.menu_shop)
+                .setContentDescription(getString(R.string.MZPluginCatalog));
         actionBar.createMenu().addItem(MENU_INFO, R.drawable.msg_info);
         org.telegram.ui.ActionBar.ActionBarMenuItem other =
                 actionBar.createMenu().addItem(MENU_OTHER, R.drawable.ic_ab_other);
@@ -303,7 +308,7 @@ public class PluginsActivity extends BaseFragment {
         List<Plugin> visible = visiblePlugins();
         if (visible.isEmpty()) {
             CharSequence hint = TextUtils.isEmpty(searchQuery)
-                    ? withUsernameLink(getString(R.string.PluginsEmptyHint))
+                    ? catalogLink(getString(R.string.PluginsEmptyHint))
                     : getString(R.string.PluginsNotFound);
             emptyCell.setState(engineEnabled, hint, listView != null);
             items.add(PluginUiItem.fullscreen(emptyCell, dp(74), true));
@@ -319,6 +324,23 @@ public class PluginsActivity extends BaseFragment {
      * exteraGram зовёт свой LocaleUtils.formatWithUsernames; у нас такого хелпера
      * нет, а тянуть его целиком ради одной строки незачем.
      */
+    private CharSequence catalogLink(String text) {
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        builder.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                presentFragment(new PluginCatalogActivity());
+            }
+
+            @Override
+            public void updateDrawState(android.text.TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+            }
+        }, 0, builder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return builder;
+    }
+
     private CharSequence withUsernameLink(String text) {
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         Matcher matcher = Pattern.compile("@([A-Za-z][A-Za-z0-9_]{3,31})").matcher(text);

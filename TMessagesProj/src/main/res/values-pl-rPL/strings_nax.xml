@@ -108,7 +108,6 @@
     <string name="Other">Inne</string>
     <string name="RestartApp">Zrestartuj aplikację</string>
     <string name="ResetSettings">Zresetuj ustawienia</string>
-    <string name="ResetSettingsAlert">Czy na pewno chcesz zresetować wszystkie ustawienia N?</string>
     <string name="DontAutoPlayNextVoice">Nie odtwarzaj automatycznie następnej wiadomości głosowej</string>
     <string name="SaveToChatSubfolder">Zapisz załączniki według nazwy czatu</string>
     <string name="MessageColoredBackground">Kolorowe tła wiadomości</string>
@@ -167,7 +166,6 @@
     <string name="uploadBoost">Zwiększ prędkość przesyłania</string>
     <string name="HideDividers">Ukryj dzielniki</string>
     <string name="IconReplacements">Zamienniki ikon</string>
-    <string name="IconReplacementSolar">Ikony słoneczne autorstwa @Design480</string>
     <string name="DebugMenuEnableInvoicePayment">Włącz płatności za pomocą faktur</string>
     <string name="DebugMenuDisableInvoicePayment">Wyłącz płatności za pomocą faktur</string>
     <string name="DebugMenuUseCamera2Api">Użyj Camera 2 API</string>

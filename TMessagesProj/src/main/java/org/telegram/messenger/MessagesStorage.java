@@ -402,6 +402,7 @@ public class MessagesStorage extends BaseController {
                         throw new RuntimeException("malformed");
                     }
                 }
+                moveFoldersFromMZGramTable();
             }
             databaseCreated = true;
         } catch (Exception e) {
@@ -798,6 +799,47 @@ public class MessagesStorage extends BaseController {
 
         database.executeFast("PRAGMA user_version = " + MessagesStorage.LAST_DB_VERSION).stepThis().dispose();
 
+    }
+
+    // A database left by an earlier MZGram keeps the folders in the table dialog_filter, while this
+    // client reads and writes dialog_filter_neko. Without that table every folder save failed and the
+    // folders were gone after each restart. Copy them over once, then reload the folders from the server.
+    private void moveFoldersFromMZGramTable() {
+        try {
+            if (hasTable("dialog_filter_neko")) {
+                return;
+            }
+            database.executeFast("CREATE TABLE dialog_filter_neko(id INTEGER PRIMARY KEY, ord INTEGER, unread_count INTEGER, flags INTEGER, title TEXT, emoticon TEXT, color INTEGER DEFAULT -1, entities BLOB, noanimate INTEGER)").stepThis().dispose();
+            if (hasTable("dialog_filter")) {
+                ArrayList<String> columns = new ArrayList<>();
+                SQLiteCursor cursor = database.queryFinalized("PRAGMA table_info(dialog_filter)");
+                while (cursor.next()) {
+                    String column = cursor.stringValue(1);
+                    if ("id".equals(column) || "ord".equals(column) || "unread_count".equals(column) || "flags".equals(column) || "title".equals(column)
+                            || "emoticon".equals(column) || "color".equals(column) || "entities".equals(column) || "noanimate".equals(column)) {
+                        columns.add(column);
+                    }
+                }
+                cursor.dispose();
+                if (columns.contains("id")) {
+                    String list = TextUtils.join(", ", columns);
+                    database.executeFast("INSERT OR IGNORE INTO dialog_filter_neko(" + list + ") SELECT " + list + " FROM dialog_filter").stepThis().dispose();
+                }
+            }
+            FileLog.d("MZGram: folders moved to dialog_filter_neko");
+            AndroidUtilities.runOnUIThread(() -> getMessagesController().loadRemoteFilters(true));
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+    }
+
+    private boolean hasTable(String table) throws Exception {
+        SQLiteCursor cursor = database.queryFinalized("SELECT name FROM sqlite_master WHERE type = 'table' AND name = '" + table + "'");
+        try {
+            return cursor.next();
+        } finally {
+            cursor.dispose();
+        }
     }
 
     public boolean isDatabaseMigrationInProgress() {

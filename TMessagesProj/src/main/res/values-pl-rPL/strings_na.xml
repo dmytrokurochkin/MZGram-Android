@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="N_Config">Konfiguracja N</string>
+    <string name="N_Config">Inne</string>
     <string name="CombineMessage">Połącz wiadomości</string>
     <string name="TextStyle">Styl tekstu</string>
     <string name="NoiseSuppressAndVoiceEnhance">Ulepszenia głosu</string>
@@ -48,7 +48,6 @@
     <string name="CheckAllForum">Dodaj forum</string>
     <string name="DecorationNone">Brak</string>
     <string name="ChatDecoration">Dekoracja czatu</string>
-    <string name="NeedChangeNekoSettings">Musisz zmienić ustawienia N</string>
     <string name="DoNotUnarchiveBySwipe">Wyłącz gest przywracania z archiwum</string>
     <string name="DefaultDeleteMenu">Domyślne menu usuwania</string>
     <string name="DisableStories">Wyłącz relacje</string>

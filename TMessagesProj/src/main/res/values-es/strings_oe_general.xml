@@ -56,9 +56,9 @@
     <string name="DeepLFormalityInformal">Tono: informal</string>
     <string name="DeepLFormalityFormal">Tono: formal</string>
     <string name="OEGeneralNagramHeader">Extras</string>
-    <string name="OEGeneralAyuMoments">AyuMoments</string>
+    <string name="OEGeneralAyuMoments">Archivo de mensajes</string>
     <string name="OEGeneralAyuMomentsInfo">Guardado de mensajes eliminados y editados, modo fantasma y filtros regex. Las funciones siguen activas aunque no abras esta pantalla.</string>
-    <string name="OEGeneralAyuMomentsDisableAll">Desactivar todas las funciones de AyuMoments</string>
+    <string name="OEGeneralAyuMomentsDisableAll">Desactivar todas las funciones del archivo de mensajes</string>
     <string name="OELastActivityFormatted">última actividad %1$s</string>
     <string name="OELastActivityDateFormatted">última actividad %1$s</string>
     <string name="OEGeneralNotificationsHeader">Notificaciones</string>

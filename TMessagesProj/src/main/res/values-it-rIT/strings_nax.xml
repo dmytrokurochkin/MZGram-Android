@@ -108,7 +108,6 @@
     <string name="Other">Altro</string>
     <string name="RestartApp">Riavvia l\'app</string>
     <string name="ResetSettings">Ripristina le Impostazioni</string>
-    <string name="ResetSettingsAlert">Sei sicuro di voler ripristinare tutte le impostazioni?</string>
     <string name="DontAutoPlayNextVoice">Non Riprodurre Automaticamente il Messaggio Vocale Successivo</string>
     <string name="SaveToChatSubfolder">Salva allegati per nome chat</string>
     <string name="MessageColoredBackground">Sfondi colorati per messaggi</string>
@@ -167,7 +166,6 @@
     <string name="uploadBoost">Aumenta Velocità di Upload</string>
     <string name="HideDividers">Nascondi divisori</string>
     <string name="IconReplacements">Sostituzioni icone</string>
-    <string name="IconReplacementSolar">Solar Icons di @Design480</string>
     <string name="DebugMenuEnableInvoicePayment">Abilita pagamento fatture</string>
     <string name="DebugMenuDisableInvoicePayment">Disabilita pagamento fatture</string>
     <string name="DebugMenuUseCamera2Api">Utilizza Camera API 2</string>

@@ -110,7 +110,7 @@
     <string name="Other">Другое</string>
     <string name="RestartApp">Перезапустить приложение</string>
     <string name="ResetSettings">Сброс настроек</string>
-    <string name="ResetSettingsAlert">Вы уверены, что хотите сбросить все «Настройки N»?</string>
+    <string name="ResetSettingsAlert">Вы действительно хотите сбросить все расширенные настройки?</string>
     <string name="DontAutoPlayNextVoice">Не воспроизводить следующее голосовое сообщение автоматически</string>
     <string name="SaveToChatSubfolder">Сохранять вложения по названию чатов</string>
     <string name="MessageColoredBackground">Красочные фоны сообщений</string>
@@ -169,7 +169,7 @@
     <string name="uploadBoost">Увеличить скорость скачивания</string>
     <string name="HideDividers">Скрыть разделители</string>
     <string name="IconReplacements">Замена значков</string>
-    <string name="IconReplacementSolar">Solar от @Design480</string>
+    <string name="IconReplacementSolar">Округлые иконки</string>
     <string name="DebugMenuEnableInvoicePayment">Включить оплату счетов</string>
     <string name="DebugMenuDisableInvoicePayment">Отключить оплату счетов</string>
     <string name="DebugMenuUseCamera2Api">Использовать API Camera 2</string>
@@ -346,5 +346,5 @@
     <string name="ImportAyuDB">Импорт базы данных</string>
     <string name="ImportAyuDBAlert">Текущая база данных сообщений будет заменена. После импорта приложение перезапустится.</string>
     <string name="DisableSwipeToNext">Отключить переход к следующему</string>
-    <string name="IconReplacementRemix">Remix Icons от @Remixicon</string>
+    <string name="IconReplacementRemix">Линейные иконки</string>
 </resources>

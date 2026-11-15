@@ -571,10 +571,6 @@ public class IconPacksActivity extends BaseNekoSettingsActivity {
     }
 
     private String buildPackSubtitle(IconPack pack) {
-        String count = LocaleController.formatPluralString("IconPackIconCount", pack.getIconCount());
-        if (TextUtils.isEmpty(pack.getAuthor())) {
-            return count;
-        }
-        return pack.getAuthor() + ", " + count;
+        return LocaleController.formatPluralString("IconPackIconCount", pack.getIconCount());
     }
 }

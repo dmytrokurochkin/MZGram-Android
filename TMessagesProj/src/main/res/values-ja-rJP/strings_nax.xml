@@ -108,7 +108,6 @@
     <string name="Other">その他</string>
     <string name="RestartApp">アプリを再起動</string>
     <string name="ResetSettings">設定をリセット</string>
-    <string name="ResetSettingsAlert">「N-設定」をリセットしますか？</string>
     <string name="DontAutoPlayNextVoice">次のボイスメッセージを自動再生しない</string>
     <string name="SaveToChatSubfolder">チャット別にファイルを保存</string>
     <string name="MessageColoredBackground">カラフルなメッセージ</string>
@@ -167,7 +166,6 @@
     <string name="uploadBoost">アップロード速度の高速化</string>
     <string name="HideDividers">区切り線を非表示</string>
     <string name="IconReplacements">アイコンパック</string>
-    <string name="IconReplacementSolar">Solar - @Design480</string>
     <string name="DebugMenuEnableInvoicePayment">請求書の支払いを有効化</string>
     <string name="DebugMenuDisableInvoicePayment">請求書の支払いを無効化</string>
     <string name="DebugMenuUseCamera2Api">Camera 2 API を使用</string>

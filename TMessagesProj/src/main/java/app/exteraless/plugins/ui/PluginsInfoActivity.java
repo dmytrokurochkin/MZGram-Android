@@ -53,8 +53,6 @@ public class PluginsInfoActivity extends BaseFragment {
     private static final int ID_UNSAFE_MODE = 9;
     private static final int ID_RETRY_HOOKS = 10;
 
-    private static final String DOCS_URL = "https://plugins.exteragram.app";
-    private static final String TRUSTED_URL = "https://t.me/addlist/pPhOtEq00KhjYTc6";
 
     private UniversalRecyclerView listView;
 
@@ -135,12 +133,13 @@ public class PluginsInfoActivity extends BaseFragment {
         items.add(UItem.asShadow(getString(R.string.PluginsPythonSdkInfo)));
 
         items.add(UItem.asHeader(getString(R.string.PluginsLinks)));
-        items.add(UItem.asButton(ID_DOCUMENTATION, getString(R.string.PluginsDocumentation))
-                .setIcon(R.drawable.menu_intro));
-        items.add(UItem.asButton(ID_TRUSTED, getString(R.string.PluginsTrusted))
+        // MZGram: the links lead to MZGram's own plugin catalog, not to another app's sites and channels.
+        items.add(UItem.asButton(ID_DOCUMENTATION, getString(R.string.MZPluginCatalog))
                 .accent()
-                .setIcon(R.drawable.msg2_policy));
-        items.add(UItem.asShadow(getString(R.string.PluginsPoweredBy)));
+                .setIcon(R.drawable.menu_shop));
+        items.add(UItem.asButton(ID_TRUSTED, getString(R.string.MZPluginsOnGitHub))
+                .setIcon(R.drawable.msg_language));
+        items.add(UItem.asShadow());
     }
 
     private void onItemClick(UItem item, View view, int position, float x, float y) {
@@ -179,10 +178,10 @@ public class PluginsInfoActivity extends BaseFragment {
             PluginsActivity.openPluginPicker(this);
             return;
         } else if (item.id == ID_DOCUMENTATION) {
-            openUrl(DOCS_URL);
+            presentFragment(new PluginCatalogActivity());
             return;
         } else if (item.id == ID_TRUSTED) {
-            openUrl(TRUSTED_URL);
+            openUrl(PluginCatalogActivity.REPO_URL);
             return;
         } else {
             return;

@@ -108,7 +108,6 @@
     <string name="enhancedFileLoader">Tăng tốc độ tải xuống</string>
     <string name="mapDriftingFixForGoogleMaps">Sửa lỗi google maps cho trung quốc</string>
     <string name="useOSMDroidMap">Sử dụng OSM map</string>
-    <string name="UnknownNekoSettingsOption">Không có tùy chọn N-Settings nào như vậy.</string>
     <string name="PasscodeNeeded">Bạn cần kích hoạt mã khoá trước</string>
     <string name="PasscodeNeko">Mã khoá</string>
     <string name="PasscodeShowInSettingsAbout">Sau khi ẩn, bạn **chỉ có thể** mở trang này qua liên kết:</string>
@@ -156,7 +155,6 @@
     <string name="CloudConfigRestoreShort">Khôi phục</string>
     <string name="CloudConfigSyncing">Đang đồng bộ hóa...</string>
     <string name="CloudConfigAutoSync">Tự động đồng bộ</string>
-    <string name="CloudConfigAutoSyncDesc">Tự động đồng bộ lên đám mây sau khi thực hiện thay đổi đối với N-Settings.</string>
     <string name="CloudConfigSyncFailed">Lỗi đồng bộ lên cloud</string>
     <string name="CloudConfigRestoreFailed">Không thể khôi phục cài đặt từ cloud</string>
     <string name="CopyCallback">Sao chép dữ liệu gọi lại</string>

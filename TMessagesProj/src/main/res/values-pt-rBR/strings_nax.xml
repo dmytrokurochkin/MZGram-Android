@@ -107,7 +107,6 @@
     <string name="Other">Outros</string>
     <string name="RestartApp">Reiniciar app</string>
     <string name="ResetSettings">Redefinir configurações</string>
-    <string name="ResetSettingsAlert">Tem certeza de que deseja redefinir todas as N-Configurações?</string>
     <string name="DontAutoPlayNextVoice">Não reproduzir a próxima mensagem de voz automaticamente</string>
     <string name="SaveToChatSubfolder">Salvar anexos por nome do chat</string>
     <string name="MessageColoredBackground">Fundos coloridos nas mensagens</string>
@@ -166,7 +165,6 @@
     <string name="uploadBoost">Aumentar velocidade de upload</string>
     <string name="HideDividers">Ocultar divisores</string>
     <string name="IconReplacements">Substituição de ícones</string>
-    <string name="IconReplacementSolar">Ícones Solares por @Design480</string>
     <string name="DebugMenuEnableInvoicePayment">Ativar pagamento por fatura</string>
     <string name="DebugMenuDisableInvoicePayment">Desativar pagamento por fatura</string>
     <string name="DebugMenuUseCamera2Api">Usar Camera 2 API</string>

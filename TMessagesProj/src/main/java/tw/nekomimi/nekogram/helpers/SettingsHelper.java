@@ -40,6 +40,7 @@ import tw.nekomimi.nekogram.settings.BaseNekoXSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoAboutActivity;
 import tw.nekomimi.nekogram.settings.NekoEmojiSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoPasscodeSettingsActivity;
+import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoTranslatorSettingsActivity;
 
 public class SettingsHelper {
@@ -290,7 +291,8 @@ public class SettingsHelper {
         } else {
             switch (segments.get(1)) {
                 case "about":
-                    fragment = new NekoAboutActivity();
+                    // MZGram: the About screen of another app is not shown.
+                    fragment = new NekoSettingsActivity();
                     break;
                 case "emoji":
                     fragment = neko_fragment = new NekoEmojiSettingsActivity();

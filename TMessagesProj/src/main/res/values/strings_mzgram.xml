@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZPluginCatalog">Plugin catalog</string>
+    <string name="MZPluginCatalogInstall">Install</string>
+    <string name="MZPluginCatalogInstalled">Installed</string>
+    <string name="MZPluginCatalogUpdate">Update</string>
+    <string name="MZPluginCatalogRetry">Try again</string>
+    <string name="MZPluginCatalogError">Could not load the plugin catalog. Check the connection and try again.</string>
+    <string name="MZPluginCatalogDownloadError">Could not download the plugin. Try again later.</string>
+    <string name="MZPluginCatalogBadFile">The downloaded file does not match the catalog, so it was not installed.</string>
+    <string name="MZPluginCatalogInfo">Plugins come from the MZGram-Plugins repository on GitHub. Before a plugin is installed, you see what it may access.</string>
+    <string name="MZPluginsOnGitHub">Plugins on GitHub</string>
+    <string name="MZIconSetRoundedInfo">Soft, rounded shapes</string>
+    <string name="MZIconSetLineInfo">Thin, even lines</string>
+    <string name="MZPluginCatalogCount_zero">%1$d plugins</string>
+    <string name="MZPluginCatalogCount_one">%1$d plugin</string>
+    <string name="MZPluginCatalogCount_two">%1$d plugins</string>
+    <string name="MZPluginCatalogCount_few">%1$d plugins</string>
+    <string name="MZPluginCatalogCount_many">%1$d plugins</string>
+    <string name="MZPluginCatalogCount_other">%1$d plugins</string>
+</resources>

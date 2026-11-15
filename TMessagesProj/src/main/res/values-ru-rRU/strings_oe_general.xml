@@ -72,9 +72,9 @@
     <string name="DeepLFormalityFormal">Тон: формальный</string>
     <string name="OEGeneralSavePathInfoFolder">Файлы сохраняются в Downloads/%1$s. Только буквы, цифры, пробел, точка, дефис и подчёркивание.</string>
     <string name="OEGeneralNagramHeader">Дополнительно</string>
-    <string name="OEGeneralAyuMoments">AyuMoments</string>
+    <string name="OEGeneralAyuMoments">Архив сообщений</string>
     <string name="OEGeneralAyuMomentsInfo">Сохранение удалённых и изменённых сообщений, режим призрака и regex-фильтры. Функции работают, пока включены, — даже если не открывать этот экран.</string>
-    <string name="OEGeneralAyuMomentsDisableAll">Отключить все функции AyuMoments</string>
+    <string name="OEGeneralAyuMomentsDisableAll">Отключить все функции архива сообщений</string>
     <string name="OELastActivityFormatted">последняя активность %1$s</string>
     <string name="OELastActivityDateFormatted">последняя активность %1$s</string>
     <string name="OEBottomNavigationModeFloating">Плавающая</string>

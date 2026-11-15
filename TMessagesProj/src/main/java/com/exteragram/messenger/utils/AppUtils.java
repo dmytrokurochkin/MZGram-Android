@@ -221,9 +221,7 @@ public final class AppUtils {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (isAppModified()) {
-            builder.append("\nbased on @exteraless");
-        }
+        // MZGram: the version line names no other app.
         return builder.toString();
     }
 

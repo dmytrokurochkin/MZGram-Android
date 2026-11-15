@@ -18,6 +18,30 @@ public class LauncherIconController {
         setIcon(LauncherIcon.EXTERALESS);
     }
 
+    // MZGram: these icons carry the logos of other apps, so the pickers do not offer them.
+    // One the person already uses stays listed, so they can switch away from it.
+    public static boolean isOtherBrand(LauncherIcon icon) {
+        switch (icon) {
+            case BLUEPRINT:
+            case RED:
+            case NYA:
+            case AYU:
+            case QUACK:
+            case GO:
+            case HAND:
+            case MONO:
+            case NOTHING:
+            case PLUS:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static boolean isOffered(LauncherIcon icon) {
+        return !isOtherBrand(icon) || isEnabled(icon);
+    }
+
     public static boolean isEnabled(LauncherIcon icon) {
         Context ctx = ApplicationLoader.applicationContext;
         int i = ctx.getPackageManager().getComponentEnabledSetting(icon.getComponentName(ctx));

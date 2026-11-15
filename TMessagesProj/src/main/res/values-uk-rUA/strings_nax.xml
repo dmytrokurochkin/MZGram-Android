@@ -108,7 +108,7 @@
     <string name="Other">Інше</string>
     <string name="RestartApp">Перезапустити застосунок</string>
     <string name="ResetSettings">Скидання налаштувань</string>
-    <string name="ResetSettingsAlert">Ви дійсно бажаєте скинути всі N-Налаштування?</string>
+    <string name="ResetSettingsAlert">Ви дійсно бажаєте скинути всі розширені налаштування?</string>
     <string name="DontAutoPlayNextVoice">Не відтворювати наступне голосове повідомлення</string>
     <string name="SaveToChatSubfolder">Зберегти вкладення від назви чату</string>
     <string name="MessageColoredBackground">Кольорове тло повідомлень</string>
@@ -167,7 +167,7 @@
     <string name="uploadBoost">Збільшення швидкості вивантаження</string>
     <string name="HideDividers">Приховати розділювачі</string>
     <string name="IconReplacements">Заміна іконок</string>
-    <string name="IconReplacementSolar">Значки Solar від @Design480</string>
+    <string name="IconReplacementSolar">Округлі іконки</string>
     <string name="DebugMenuEnableInvoicePayment">Включити оплату за рахунками</string>
     <string name="DebugMenuDisableInvoicePayment">Вимкнути оплату за рахунками</string>
     <string name="DebugMenuUseCamera2Api">Використовувати камеру 2 API</string>

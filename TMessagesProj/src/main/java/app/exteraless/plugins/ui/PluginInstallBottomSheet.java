@@ -476,9 +476,6 @@ public class PluginInstallBottomSheet extends com.exteragram.messenger.plugins.u
         StringBuilder sb = new StringBuilder();
         sb.append(LocaleController.formatString(R.string.PluginsInstallVersion,
                 plugin.version != null ? plugin.version : "1.0"));
-        if (!TextUtils.isEmpty(plugin.author)) {
-            sb.append(" • ").append(plugin.author);
-        }
         return sb;
     }
 

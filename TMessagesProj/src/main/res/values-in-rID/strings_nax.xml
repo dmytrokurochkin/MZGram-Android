@@ -108,7 +108,6 @@
     <string name="Other">Lainnya</string>
     <string name="RestartApp">Mulai Ulang Aplikasi</string>
     <string name="ResetSettings">Atur Ulang Pengaturan</string>
-    <string name="ResetSettingsAlert">Apakah Anda yakin ingin mengatur ulang semua Pengaturan-N?</string>
     <string name="DontAutoPlayNextVoice">Jangan Putar Otomatis Pesan Suara Berikutnya</string>
     <string name="SaveToChatSubfolder">Simpan Lampiran Berdasarkan Nama Obrolan</string>
     <string name="MessageColoredBackground">Latar Belakang Pesan Berwarna</string>
@@ -167,7 +166,6 @@
     <string name="uploadBoost">Peningkatan Kecepatan Unggah</string>
     <string name="HideDividers">Sembunyikan Pembatas</string>
     <string name="IconReplacements">Penggantian Ikon</string>
-    <string name="IconReplacementSolar">Ikon Solar oleh @Design480</string>
     <string name="DebugMenuEnableInvoicePayment">Aktifkan Pembayaran Tagihan</string>
     <string name="DebugMenuDisableInvoicePayment">Nonaktifkan Pembayaran Tagihan</string>
     <string name="DebugMenuUseCamera2Api">Gunakan API Camera 2</string>

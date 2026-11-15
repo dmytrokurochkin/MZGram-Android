@@ -75,6 +75,9 @@ public final class AppIcons {
         boolean blocked = MessagesController.getInstance(account).premiumFeaturesBlocked();
         ArrayList<LauncherIcon> icons = new ArrayList<>();
         for (LauncherIcon icon : LauncherIcon.values()) {
+            if (!LauncherIconController.isOffered(icon)) {
+                continue;
+            }
             if (!icon.premium || !blocked || LauncherIconController.isEnabled(icon)) {
                 icons.add(icon);
             }

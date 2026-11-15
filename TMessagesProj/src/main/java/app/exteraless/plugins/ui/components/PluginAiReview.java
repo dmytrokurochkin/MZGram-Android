@@ -157,9 +157,6 @@ public final class PluginAiReview {
             if (!TextUtils.isEmpty(plugin.version)) {
                 facts.append(" ").append(plugin.version);
             }
-            if (!TextUtils.isEmpty(plugin.author)) {
-                facts.append(" — ").append(plugin.author);
-            }
         }
         List<String> found = PluginCapabilityScan.ordered(capabilities);
         if (found != null && !found.isEmpty()) {

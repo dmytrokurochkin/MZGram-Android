@@ -70,10 +70,11 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
         sourceRow = addRow("source");
         linksDividerRow = addRow();
 
-        designHeaderRow = addRow("designHeader");
-        designerRow = addRow("designer");
-        designStudioRow = addRow("designStudio");
-        designDividerRow = addRow();
+        // MZGram: no section that credits the designers of another app.
+        designHeaderRow = -1;
+        designerRow = -1;
+        designStudioRow = -1;
+        designDividerRow = -1;
     }
 
     /**

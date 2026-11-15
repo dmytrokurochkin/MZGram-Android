@@ -108,7 +108,6 @@
     <string name="Other">Diğer</string>
     <string name="RestartApp">Uygulamayı Yeniden Başlat</string>
     <string name="ResetSettings">Ayarları Sıfırla</string>
-    <string name="ResetSettingsAlert">Tüm N-Ayarlarını sıfırlamak istediğinizden emin misiniz?</string>
     <string name="DontAutoPlayNextVoice">Sonraki Sesli Mesajı Otomatik Oynatma</string>
     <string name="SaveToChatSubfolder">Ekleri Sohbet Adına Göre Kaydet</string>
     <string name="MessageColoredBackground">Renkli Mesaj Arka Planları</string>
@@ -167,7 +166,6 @@
     <string name="uploadBoost">Yükleme Hızlandırma</string>
     <string name="HideDividers">Bölücüleri Gizle</string>
     <string name="IconReplacements">Simge Değişimleri</string>
-    <string name="IconReplacementSolar">\@Design480 Tarafından Solar Simgeleri</string>
     <string name="DebugMenuEnableInvoicePayment">Fatura Ödemesini Etkinleştir</string>
     <string name="DebugMenuDisableInvoicePayment">Fatura Ödemesini Devre Dışı Bırak</string>
     <string name="DebugMenuUseCamera2Api">Camera 2 API Kullan</string>

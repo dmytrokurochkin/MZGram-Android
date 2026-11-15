@@ -217,9 +217,7 @@ public class Plugin extends com.exteragram.messenger.plugins.Plugin {
     public String getSubtitle() {
         StringBuilder sb = new StringBuilder();
         sb.append("v").append(version != null ? version : "1.0");
-        if (author != null && !author.isEmpty()) {
-            sb.append(" • ").append(author);
-        }
+        // MZGram shows no plugin authors in the interface.
         if (loadError != null) {
             sb.append(" • error");
         }

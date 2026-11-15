@@ -51,7 +51,7 @@ SHARED_WORDS = {
     # Business, Wallet in German
     "Premium", "Business", "Wallet",
     # MIUI is a name; "Autostart" in Polish and German, "No" in Spanish
-    "MIUI", "Autostart", "No",
+    "MIUI", "Autostart", "No", "iOS", "Telemone",
     # "Bots" in Spanish, German, French and Portuguese; "ID" everywhere
     "Bots", "ID",
     # "General" in Spanish, "Links" in German and Portuguese, "Navigation"

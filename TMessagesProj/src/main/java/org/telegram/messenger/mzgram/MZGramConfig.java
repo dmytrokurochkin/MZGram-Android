@@ -710,6 +710,15 @@ public class MZGramConfig {
     // The message menu and the reactions bar on frosted glass (Telegram's own, BlurredBackgroundProviderImpl.messageMenuPopupBackground); off: solid
     public static boolean glassMessageMenu = true;
 
+    // Material Design 3 and iOS Design styling options
+    public static boolean m3ChatHeader = false;
+    public static boolean m3NavBar = false;
+    public static boolean iosNavBar = false;
+    public static boolean iosChatHeader = false;
+    public static int folderTabCounterMode = 0;
+    public static boolean squareFab = true;
+    public static boolean useSystemFonts = true;
+
     static {
         loadConfig(false);
     }
@@ -1074,6 +1083,13 @@ public class MZGramConfig {
             m3Loading = preferences.getBoolean("m3Loading", false);
             m3Slider = preferences.getBoolean("m3Slider", false);
             glassMessageMenu = preferences.getBoolean("glassMessageMenu", true);
+            m3ChatHeader = preferences.getBoolean("m3ChatHeader", false);
+            m3NavBar = preferences.getBoolean("m3NavBar", false);
+            iosNavBar = preferences.getBoolean("iosNavBar", false);
+            iosChatHeader = preferences.getBoolean("iosChatHeader", false);
+            folderTabCounterMode = preferences.getInt("folderTabCounterMode", 0);
+            squareFab = preferences.getBoolean("squareFab", true);
+            useSystemFonts = preferences.getBoolean("useSystemFonts", true);
             configLoaded = true;
         }
     }
@@ -1154,7 +1170,11 @@ public class MZGramConfig {
     }
 
     public static void toggleMusicPlayer() {
-        musicPlayer = !musicPlayer;
+        setMusicPlayer(!musicPlayer);
+    }
+
+    public static void setMusicPlayer(boolean value) {
+        musicPlayer = value;
         putBoolean("musicPlayer", musicPlayer);
     }
 
@@ -1164,7 +1184,11 @@ public class MZGramConfig {
     }
 
     public static void toggleMusicPlayerMini() {
-        musicPlayerMini = !musicPlayerMini;
+        setMusicPlayerMini(!musicPlayerMini);
+    }
+
+    public static void setMusicPlayerMini(boolean value) {
+        musicPlayerMini = value;
         putBoolean("musicPlayerMini", musicPlayerMini);
     }
 
@@ -1632,12 +1656,20 @@ public class MZGramConfig {
     }
 
     public static void toggleM3Switches() {
-        m3Switches = !m3Switches;
+        setM3Switches(!m3Switches);
+    }
+
+    public static void setM3Switches(boolean value) {
+        m3Switches = value;
         putBoolean("m3Switches", m3Switches);
     }
 
     public static void toggleCardsDesign() {
-        cardsDesign = !cardsDesign;
+        setCardsDesign(!cardsDesign);
+    }
+
+    public static void setCardsDesign(boolean value) {
+        cardsDesign = value;
         putBoolean("cardsDesign", cardsDesign);
     }
 
@@ -2722,17 +2754,104 @@ public class MZGramConfig {
     }
 
     public static void toggleM3Loading() {
-        m3Loading = !m3Loading;
+        setM3Loading(!m3Loading);
+    }
+
+    public static void setM3Loading(boolean value) {
+        m3Loading = value;
         putBoolean("m3Loading", m3Loading);
     }
 
     public static void toggleM3Slider() {
-        m3Slider = !m3Slider;
+        setM3Slider(!m3Slider);
+    }
+
+    public static void setM3Slider(boolean value) {
+        m3Slider = value;
         putBoolean("m3Slider", m3Slider);
     }
 
     public static void toggleGlassMessageMenu() {
         glassMessageMenu = !glassMessageMenu;
         putBoolean("glassMessageMenu", glassMessageMenu);
+    }
+
+    public static void toggleM3ChatHeader() {
+        setM3ChatHeader(!m3ChatHeader);
+    }
+
+    public static void setM3ChatHeader(boolean value) {
+        m3ChatHeader = value;
+        putBoolean("m3ChatHeader", m3ChatHeader);
+        if (value && iosChatHeader) {
+            setIosChatHeader(false);
+        }
+    }
+
+    public static void toggleM3NavBar() {
+        m3NavBar = !m3NavBar;
+        putBoolean("m3NavBar", m3NavBar);
+        if (m3NavBar && iosNavBar) {
+            setIosNavBar(false);
+        }
+    }
+
+    public static void setM3NavBar(boolean value) {
+        m3NavBar = value;
+        putBoolean("m3NavBar", m3NavBar);
+        if (value && iosNavBar) {
+            setIosNavBar(false);
+        }
+    }
+
+    public static void toggleIosNavBar() {
+        iosNavBar = !iosNavBar;
+        putBoolean("iosNavBar", iosNavBar);
+        if (iosNavBar && m3NavBar) {
+            setM3NavBar(false);
+        }
+    }
+
+    public static void setIosNavBar(boolean value) {
+        iosNavBar = value;
+        putBoolean("iosNavBar", iosNavBar);
+        if (value && m3NavBar) {
+            setM3NavBar(false);
+        }
+    }
+
+    public static void toggleIosChatHeader() {
+        setIosChatHeader(!iosChatHeader);
+    }
+
+    public static void setIosChatHeader(boolean value) {
+        iosChatHeader = value;
+        putBoolean("iosChatHeader", iosChatHeader);
+        if (value && m3ChatHeader) {
+            setM3ChatHeader(false);
+        }
+    }
+
+    public static void setFolderTabCounterMode(int mode) {
+        folderTabCounterMode = mode;
+        folderTabCounters = mode != 2;
+        preferences().edit().putInt("folderTabCounterMode", folderTabCounterMode)
+                .putBoolean("folderTabCounters", folderTabCounters).apply();
+    }
+
+    public static void setSquareFab(boolean square) {
+        squareFab = square;
+        fabShape = square ? org.telegram.ui.mzgram.MZGramFabShape.ROUNDED_SQUARE : org.telegram.ui.mzgram.MZGramFabShape.CIRCLE;
+        preferences().edit().putBoolean("squareFab", squareFab).putInt("fabShape", fabShape).apply();
+    }
+
+    public static void toggleUseSystemFonts() {
+        setUseSystemFonts(!useSystemFonts);
+    }
+
+    public static void setUseSystemFonts(boolean value) {
+        useSystemFonts = value;
+        putBoolean("useSystemFonts", useSystemFonts);
+        setAppFont(value ? org.telegram.messenger.mzgram.MZGramFonts.SYSTEM : org.telegram.messenger.mzgram.MZGramFonts.TELEGRAM, null);
     }
 }

@@ -1584,4 +1584,38 @@
     <string name="MZGramGoogleTranslateExp">Google Translate RPC API (eksperymentalne)</string>
     <string name="MZGramKeepTranslatorPreferences">Zachowaj preferencje tłumacza Telegrama</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">Synchronizuj ustawienia tłumacza ze standardowymi preferencjami Telegrama, gdzie to możliwe.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">Wygląd</string>
+    <string name="MZGramFolderTabCounterAll">Wszystkie czaty</string>
+    <string name="MZGramFolderTabCounterUnmuted">Oprócz wyciszonych</string>
+    <string name="MZGramFolderTabCounterOff">Wyłączone</string>
+    <string name="MZGramAppNavigation">Nawigacja w aplikacji</string>
+    <string name="MZGramAppNavigationSub">Ustawienia menu górnego i bocznego</string>
+    <string name="MZGramEmojiSetsInfo">Zmień emoji w całej aplikacji</string>
+    <string name="MZGramPlayerStyleInfo">Okładka, układ i kolory odtwarzacza muzyki</string>
+    <string name="MZGramAppearanceHiding">Ukryj elementy</string>
+    <string name="MZGramAppearanceHidingInfo">Relacje, przyciski, zakładki i funkcje AI</string>
+    <string name="MZGramUseSystemFonts">Użyj czcionek systemowych</string>
+    <string name="MZGramUseSystemEmoji">Użyj emoji systemowych</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">Nagłówek czatu</string>
+    <string name="MZGramM3NavBar">Pasek nawigacji</string>
+    <string name="MZGramM3ListItems">Elementy listy</string>
+    <string name="MZGramM3Player">Odtwarzacz muzyki</string>
+    <string name="MZGramM3MiniPlayer">Miniodtwarzacz</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">Pasek nawigacji</string>
+    <string name="MZGramIosChatHeader">Nagłówek czatu iOS</string>
+    <string name="MZGramSectionRadius">Promień sekcji</string>
+    <string name="MZGramSectionRadiusOff">Wył.</string>
+    <string name="MZGramGlassMessageMenuBlurOff">Szklane menu wymagają rozmycia, które jest obecnie wyłączone.</string>
+    <string name="MZGramBlurInfo">Efekty rozmycia zostaną zastosowane do wszystkich motywów, zastępując ich ustawienia domyślne.</string>
+    <string name="MZGramPowerSaverActive">Oszczędzanie energii jest włączone poniżej %1$d%% baterii, wstrzymując rozmycie i animacje.</string>
+    <string name="MZGramPowerSaverSettings">Oszczędzanie energii</string>
+    <string name="MZGramRestartNow">Uruchom ponownie</string>
+    <string name="MZGramNeedRestart">Uruchom ponownie aplikację, aby zastosować to ustawienie.</string>
+    <string name="MZGramMonetStyleHeader">Paleta Monet</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">Klasyczny</string>
 </resources>

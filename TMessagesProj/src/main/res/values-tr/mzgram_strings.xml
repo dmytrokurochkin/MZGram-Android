@@ -1584,4 +1584,38 @@
     <string name="MZGramGoogleTranslateExp">Google Çeviri RPC API\'si (Deneysel)</string>
     <string name="MZGramKeepTranslatorPreferences">Telegram Çevirmen Tercihlerini Koru</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">Desteklenen yerlerde çeviri ayarlarını standart Telegram tercihleriyle senkronize et.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">Görünüm</string>
+    <string name="MZGramFolderTabCounterAll">Tüm sohbetler</string>
+    <string name="MZGramFolderTabCounterUnmuted">Sessize alınanlar hariç</string>
+    <string name="MZGramFolderTabCounterOff">Kapalı</string>
+    <string name="MZGramAppNavigation">Uygulama Gezinimi</string>
+    <string name="MZGramAppNavigationSub">Sağ üst menü ve yan menü ayarları</string>
+    <string name="MZGramEmojiSetsInfo">Uygulama genelinde emojileri değiştirin</string>
+    <string name="MZGramPlayerStyleInfo">Müzik oynatıcının kapağı, düzeni ve renkleri</string>
+    <string name="MZGramAppearanceHiding">Ögeleri Gizle</string>
+    <string name="MZGramAppearanceHidingInfo">Hikayeler, düğmeler, sekmeler ve yapay zeka özellikleri</string>
+    <string name="MZGramUseSystemFonts">Sistem yazı tiplerini kullan</string>
+    <string name="MZGramUseSystemEmoji">Sistem emojilerini kullan</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">Sohbet Başlığı</string>
+    <string name="MZGramM3NavBar">Gezinme Çubuğu</string>
+    <string name="MZGramM3ListItems">Liste Ögeleri</string>
+    <string name="MZGramM3Player">Müzik çalar</string>
+    <string name="MZGramM3MiniPlayer">Mini oynatıcı</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">Gezinme Çubuğu</string>
+    <string name="MZGramIosChatHeader">iOS Sohbet Başlığı</string>
+    <string name="MZGramSectionRadius">Bölüm Yarıçapı</string>
+    <string name="MZGramSectionRadiusOff">Kapalı</string>
+    <string name="MZGramGlassMessageMenuBlurOff">Cam menüler, şu anda kapalı olan bulanıklığı gerektirir.</string>
+    <string name="MZGramBlurInfo">Bulanıklık efektleri varsayılan ayarları geçersiz kılarak tüm temalara uygulanacaktır.</string>
+    <string name="MZGramPowerSaverActive">Pil %1$d%% altına düştüğünde güç tasarrufu açılır, bu nedenle bulanıklık ve animasyonlar duraklatılır.</string>
+    <string name="MZGramPowerSaverSettings">Güç tasarrufu</string>
+    <string name="MZGramRestartNow">Yeniden başlat</string>
+    <string name="MZGramNeedRestart">Bu ayarı uygulamak için uygulamayı yeniden başlatın.</string>
+    <string name="MZGramMonetStyleHeader">Monet paleti</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">Klasik</string>
 </resources>

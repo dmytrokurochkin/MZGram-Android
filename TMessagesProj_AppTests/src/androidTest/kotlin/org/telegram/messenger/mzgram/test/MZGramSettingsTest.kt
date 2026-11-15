@@ -86,9 +86,12 @@ class MZGramSettingsTest {
         "BUTTON_DELETED_DIALOGS_IN_MAIN_LIST", "BUTTON_DELETED_DIALOGS_OPEN", "BUTTON_DELETED_ICON_COLOR",
         "BUTTON_DOUBLE_TAP_OWN", "BUTTON_DOUBLE_TAP_OTHER",
         "BUTTON_DRAWER_GLASS", "BUTTON_DRAWER_HEADER", "BUTTON_DRAWER_ITEMS", "BUTTON_DRAWER_LARGE_AVATAR", "BUTTON_DRAWER_SHOW_QR",
-        "BUTTON_ICON_PACKS", "BUTTON_MONET_PICK", "BUTTON_MONET_STYLE",
+        "BUTTON_ICON_PACKS_ON", "BUTTON_MONET_PICK", "BUTTON_MONET_STYLE",
         "BUTTON_OWN_LAST_SEEN_VALUE", "BUTTON_PASSCODE_ACCOUNTS_SETUP", "BUTTON_PILLS", "BUTTON_REGEX_FILTERS_RULES",
         "BUTTON_ROUND_VIDEO_ADVANCED", "BUTTON_ROUND_VIDEO_BITRATE", "BUTTON_ROUND_VIDEO_HIGH_FPS", "BUTTON_SHADOW_BAN_LIST",
+        "BUTTON_FAB_SHAPE",
+        "BUTTON_M3_LOADING", "BUTTON_M3_SLIDER", "BUTTON_M3_SWITCHES", "BUTTON_M3_CHAT_HEADER", "BUTTON_M3_NAV_BAR", "BUTTON_CARDS_DESIGN", "BUTTON_MD3_PLAYER", "BUTTON_MD3_MINI_PLAYER",
+        "BUTTON_IOS_NAV_BAR", "BUTTON_IOS_CHAT_HEADER",
     )
 
     // Rows this build or device does not offer at all, and reports shown only once there is one
@@ -143,6 +146,8 @@ class MZGramSettingsTest {
             MZGramSettingsActivity.SECTION_ADS_AND_FILTERS,
             MZGramSettingsActivity.SECTION_PRIVACY,
             MZGramSettingsActivity.SECTION_AI,
+            MZGramSettingsActivity.SECTION_NAVIGATION,
+            MZGramSettingsActivity.SECTION_HIDING,
         )
         for (section in allSections) {
             // The archive size at the top of Archive is a view, and sliders are slider views, not switches
@@ -162,7 +167,7 @@ class MZGramSettingsTest {
         // None lost: every switch and button is shown, but those under an off switch and those not offered here
         val maybe = notOffered()
         assertEquals("every switch and button is shown", allButtons() - underSwitch.map { button(it) }.toSet() - maybe, shown.toSet() - maybe)
-        val expectedCount = 293 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        val expectedCount = 295 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

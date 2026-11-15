@@ -1585,4 +1585,38 @@
     <string name="MZGramGoogleTranslateExp">Google Translate RPC API (експериментально)</string>
     <string name="MZGramKeepTranslatorPreferences">Зберігати системні налаштування Telegram</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">Синхронізувати налаштування перекладу зі стандартними параметрами Telegram, де це можливо.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">Оформлення</string>
+    <string name="MZGramFolderTabCounterAll">Усі чати</string>
+    <string name="MZGramFolderTabCounterUnmuted">Крім без звуку</string>
+    <string name="MZGramFolderTabCounterOff">Вимкнено</string>
+    <string name="MZGramAppNavigation">Навігація по додатку</string>
+    <string name="MZGramAppNavigationSub">Налаштування верхнього меню і бокового меню</string>
+    <string name="MZGramEmojiSetsInfo">Зміна емодзі у всьому додатку</string>
+    <string name="MZGramPlayerStyleInfo">Обкладинка, розкладка та кольори музичного плеєра</string>
+    <string name="MZGramAppearanceHiding">Приховати елементи</string>
+    <string name="MZGramAppearanceHidingInfo">Історії, кнопки, вкладки та функції ШІ</string>
+    <string name="MZGramUseSystemFonts">Системні шрифти</string>
+    <string name="MZGramUseSystemEmoji">Системні емодзі</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">Заголовок чату</string>
+    <string name="MZGramM3NavBar">Панель навігації</string>
+    <string name="MZGramM3ListItems">Елементи списку</string>
+    <string name="MZGramM3Player">Музичний плеєр</string>
+    <string name="MZGramM3MiniPlayer">Мініплеєр</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">Панель навігації</string>
+    <string name="MZGramIosChatHeader">Заголовок чату iOS</string>
+    <string name="MZGramSectionRadius">Радіус розділів</string>
+    <string name="MZGramSectionRadiusOff">Вимк.</string>
+    <string name="MZGramGlassMessageMenuBlurOff">Для скляного меню потрібне розмиття, яке зараз вимкнено.</string>
+    <string name="MZGramBlurInfo">Ефекти розмиття будуть застосовані до всіх тем, замінюючи їхні стандартні налаштування.</string>
+    <string name="MZGramPowerSaverActive">Енергозбереження увімкнено при заряді нижче %1$d%%, тому розмиття та анімації призупинено. Налаштування збережено і воно відновиться після заряджання.</string>
+    <string name="MZGramPowerSaverSettings">Енергозбереження</string>
+    <string name="MZGramRestartNow">Перезапустити</string>
+    <string name="MZGramNeedRestart">Перезапустіть додаток, щоб застосувати це налаштування.</string>
+    <string name="MZGramMonetStyleHeader">Палітра Monet</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">Класичний</string>
 </resources>

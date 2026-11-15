@@ -13,6 +13,7 @@ package org.telegram.ui.mzgram;
 import static org.telegram.messenger.LocaleController.formatString;
 import static org.telegram.messenger.LocaleController.getString;
 
+import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -405,6 +406,19 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_PUSH_STATUS = 332;
     private static final int BUTTON_BATTERY_OPTIMIZATION = 333;
     private static final int BUTTON_GLYPH = 334;
+    private static final int BUTTON_M3_GROUP = 335;
+    private static final int BUTTON_M3_CHAT_HEADER = 336;
+    private static final int BUTTON_M3_NAV_BAR = 337;
+    private static final int BUTTON_IOS_GROUP = 338;
+    private static final int BUTTON_IOS_NAV_BAR = 339;
+    private static final int BUTTON_IOS_CHAT_HEADER = 340;
+    private static final int BUTTON_NAVIGATION_SECTION = 341;
+    private static final int BUTTON_EMOJI_SETS = 342;
+    private static final int BUTTON_PLAYER_STYLE = 343;
+    private static final int BUTTON_SURFACE_HIDING = 344;
+    private static final int BUTTON_USE_SYSTEM_FONTS = 345;
+    private static final int BUTTON_MD3_PLAYER = 346;
+    private static final int BUTTON_MD3_MINI_PLAYER = 347;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -449,6 +463,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
     public static final int SECTION_AI = 9;
     public static final int SECTION_FEED = 10;
     public static final int SECTION_MESSAGE_MENU = 11;
+    public static final int SECTION_NAVIGATION = 12;
+    public static final int SECTION_HIDING = 13;
 
     // Row ids of the categories on the main page; clear of the BUTTON_ ids,
     // which stay below it.
@@ -553,6 +569,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
         if (section == SECTION_AI) return getString(R.string.MZGramSectionAi);
         if (section == SECTION_MESSAGE_MENU) return getString(R.string.MZGramSectionMessageMenu);
         if (section == SECTION_FEED) return getString(R.string.MZGramFeed);
+        if (section == SECTION_NAVIGATION) return getString(R.string.MZGramAppNavigation);
+        if (section == SECTION_HIDING) return getString(R.string.MZGramAppearanceHiding);
         return "";
     }
 
@@ -570,6 +588,8 @@ public class MZGramSettingsActivity extends UniversalFragment {
             case SECTION_AI: fillAi(items); break;
             case SECTION_MESSAGE_MENU: fillMessageMenu(items); break;
             case SECTION_FEED: fillFeed(items); break;
+            case SECTION_NAVIGATION: fillNavigation(items); break;
+            case SECTION_HIDING: fillHiding(items); break;
             case SECTION_PLUGINS:
                 items.add(UItem.asButton(ROW_PLUGINS, R.drawable.msg_plugins, getString(R.string.MZGramPlugins)));
                 break;
@@ -609,6 +629,13 @@ public class MZGramSettingsActivity extends UniversalFragment {
     }
 
     private MZGramAvatarShapePreview avatarShapePreview;
+    private MZGramAvatarCornersPreviewCell avatarCornersPreviewCell;
+    private MZGramChatListPreviewCell chatListPreviewCell;
+    private MZGramFoldersPreviewCell foldersPreviewCell;
+    private org.telegram.ui.Cells.MZGramFabShapeCell fabShapeCell;
+    private MZGramAvatarCornersSeekBar sectionRadiusSeekBar;
+    private boolean md3Expanded = false;
+    private boolean iosExpanded = false;
     private MZGramAboutHeader aboutHeader;
 
     private void fillArchive(ArrayList<UItem> items) {
@@ -773,11 +800,17 @@ public class MZGramSettingsActivity extends UniversalFragment {
                 editMark(getString(R.string.MZGramTitleText), MZGramConfig.titleTextCustom, text -> {
                     MZGramConfig.setTitleTextCustom(MZGramTitleText.clean(text));
                     MZGramConfig.setTitleText(MZGramTitleText.clean(text).isEmpty() ? MZGramTitleText.LOGO : MZGramTitleText.CUSTOM);
+                    if (chatListPreviewCell != null) {
+                        chatListPreviewCell.updateTitle(true);
+                    }
                     rebuildBelow();
                 });
                 return;
             }
             MZGramConfig.setTitleText(which);
+            if (chatListPreviewCell != null) {
+                chatListPreviewCell.updateTitle(true);
+            }
             rebuildBelow();
             if (listView != null && listView.adapter != null) {
                 listView.adapter.update(true);
@@ -1326,44 +1359,142 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     // Appearance: avatars, the chat list, folders, navigation, style, glass
     private void fillAppearance(ArrayList<UItem> items) {
-        items.add(UItem.asHeader(getString(R.string.MZGramAvatarShape)));
-        if (avatarShapePreview == null) {
-            // The page can be filled before the fragment has a context (tests)
-            avatarShapePreview = new MZGramAvatarShapePreview(getContext() != null ? getContext() : org.telegram.messenger.ApplicationLoader.applicationContext, currentAccount);
+        Context context = getContext() != null ? getContext() : org.telegram.messenger.ApplicationLoader.applicationContext;
+
+        // ==========================================
+        // Card 1: Avatar Corners
+        // ==========================================
+        if (avatarCornersPreviewCell == null) {
+            avatarCornersPreviewCell = new MZGramAvatarCornersPreviewCell(context, null);
         }
-        items.add(UItem.asCustom(avatarShapePreview, MZGramAvatarShapePreview.HEIGHT_DP));
-        items.add(UItem.asIntSlideView(1, org.telegram.messenger.mzgram.MZGramAvatarShape.MIN, MZGramConfig.avatarCorners, org.telegram.messenger.mzgram.MZGramAvatarShape.MAX,
-                val -> Math.round(val * 100f / org.telegram.messenger.mzgram.MZGramAvatarShape.MAX) + "%", val -> {
-                    MZGramConfig.setAvatarCorners(val);
-                    if (avatarShapePreview != null) {
-                        avatarShapePreview.update();
-                    }
-                }));
+        items.add(UItem.asCustom(avatarCornersPreviewCell, 222));
         items.add(UItem.asCheck(BUTTON_SINGLE_CORNER_RADIUS, getString(R.string.MZGramSingleCornerRadius)).setChecked(MZGramConfig.singleCornerRadius));
         items.add(UItem.asShadow(getString(R.string.MZGramSingleCornerRadiusInfo)));
 
+        // ==========================================
+        // Card 2: Chat List
+        // ==========================================
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderChatList)));
+        if (chatListPreviewCell == null) {
+            chatListPreviewCell = new MZGramChatListPreviewCell(context);
+        }
+        items.add(UItem.asCustom(chatListPreviewCell, 100));
         items.add(check(BUTTON_FORCE_SNOW, R.string.MZGramForceSnow, MZGramConfig.forceSnow, R.string.MZGramForceSnowInfo));
-        items.add(UItem.asCheck(BUTTON_HIDE_ACTION_BAR_STATUS, getString(R.string.MZGramHideActionBarStatus)).setChecked(MZGramConfig.hideActionBarStatus));
         items.add(UItem.asCheck(BUTTON_CENTER_TITLE, getString(R.string.MZGramCenterTitle)).setChecked(MZGramConfig.centerTitle));
-        items.add(check(BUTTON_HIDE_STORIES, R.string.MZGramHideStories, MZGramConfig.hideStories, R.string.MZGramHideStoriesInfo));
-        items.add(check(BUTTON_STORIES_NO_BACKGROUND_LOAD, R.string.MZGramStoriesNoBackgroundLoad, MZGramConfig.storiesNoBackgroundLoad, R.string.MZGramStoriesNoBackgroundLoadInfo));
-        items.add(UItem.asCheck(BUTTON_HIDE_FLOATING_BUTTON, getString(R.string.MZGramHideFloatingButton)).setChecked(MZGramConfig.hideFloatingButton));
-        items.add(UItem.asCheck(BUTTON_HIDE_DIALOGS_SEARCH_BAR, getString(R.string.MZGramHideDialogsSearchBar)).setChecked(MZGramConfig.hideDialogsSearchBar));
         items.add(UItem.asCheck(BUTTON_SENDER_MINI_AVATARS, getString(R.string.MZGramSenderMiniAvatars)).setChecked(MZGramConfig.senderMiniAvatars));
         items.add(UItem.asButton(BUTTON_TITLE_TEXT, getString(R.string.MZGramTitleText), titleTextValue()));
         items.add(UItem.asShadow(getString(R.string.MZGramChatListInfo)));
 
+        // ==========================================
+        // Card 3: Folders
+        // ==========================================
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderFolders)));
+        if (foldersPreviewCell == null) {
+            foldersPreviewCell = new MZGramFoldersPreviewCell(context);
+        }
+        items.add(UItem.asCustom(foldersPreviewCell, 50));
         items.add(UItem.asButton(BUTTON_FOLDER_TAB_ICONS, getString(R.string.MZGramFolderTabs), getString(MZGramFolderIcons.MODE_TITLES[MZGramFolderIcons.mode()])));
-        items.add(UItem.asCheck(BUTTON_FOLDER_TAB_COUNTERS, getString(R.string.MZGramFolderTabCounters)).setChecked(MZGramConfig.folderTabCounters));
+        items.add(UItem.asButton(BUTTON_FOLDER_TAB_COUNTERS, getString(R.string.MZGramFolderTabCounters), folderTabCounterValue()));
         items.add(UItem.asCheck(BUTTON_HIDE_ALL_CHATS_TAB, getString(R.string.MZGramHideAllChatsTab)).setChecked(MZGramConfig.hideAllChatsTab));
         items.add(check(BUTTON_FOLDER_TABS_AT_BOTTOM, R.string.MZGramFolderTabsAtBottom, MZGramConfig.folderTabsAtBottom, R.string.MZGramFolderTabsAtBottomInfo));
         items.add(UItem.asButton(BUTTON_LAUNCH_FOLDER, getString(R.string.MZGramLaunchFolder), MZGramLaunchFolder.valueFor(currentAccount)));
         items.add(check(BUTTON_LOCAL_FOLDERS, R.string.MZGramLocalFoldersSwitch, MZGramConfig.localFolders, R.string.MZGramLocalFoldersSwitchInfo));
         items.add(check(BUTTON_EXTENDED_PINS, R.string.MZGramExtendedPins, MZGramConfig.extendedPins, R.string.MZGramExtendedPinsInfo));
-        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsInfo) + "\n\n" + getString(R.string.MZGramHideAllChatsTabInfo)));
+        items.add(UItem.asShadow(getString(R.string.MZGramFolderTabsInfo)));
 
+        // ==========================================
+        // Card 4: Interface Links
+        // ==========================================
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionInterface)));
+        items.add(UItem.asButton(BUTTON_NAVIGATION_SECTION, R.drawable.msg_newphone, getString(R.string.MZGramAppNavigation), getString(R.string.MZGramAppNavigationSub)));
+        items.add(UItem.asButton(BUTTON_ICON_PACKS, R.drawable.msg_sticker, getString(R.string.MZGramIconPacks), getString(R.string.MZGramIconPacksInfo)));
+        items.add(UItem.asButton(BUTTON_EMOJI_SETS, R.drawable.msg_emoji_smiles, getString(R.string.MZGramEmojiSets), getString(R.string.MZGramEmojiSetsInfo)));
+        items.add(UItem.asButton(BUTTON_PILL_STACK, R.drawable.outline_header_search, getString(R.string.MZGramPillStack), getString(R.string.MZGramPillStackInfo)));
+        items.add(UItem.asButton(BUTTON_PLAYER_STYLE, R.drawable.msg_filled_data_music, getString(R.string.MZGramPlayerStyleTitle), getString(R.string.MZGramPlayerStyleInfo)));
+        items.add(UItem.asButton(BUTTON_SURFACE_HIDING, R.drawable.msg_archive_hide, getString(R.string.MZGramAppearanceHiding), getString(R.string.MZGramAppearanceHidingInfo)));
+        items.add(UItem.asShadow(null));
+
+        // ==========================================
+        // Card 5: Appearance General
+        // ==========================================
+        items.add(UItem.asHeader(getString(R.string.MZGramSectionAppearance)));
+        if (fabShapeCell == null) {
+            fabShapeCell = new org.telegram.ui.Cells.MZGramFabShapeCell(context);
+        }
+        items.add(UItem.asCustom(fabShapeCell, 110));
+        items.add(UItem.asCheck(BUTTON_USE_SYSTEM_FONTS, getString(R.string.MZGramUseSystemFonts)).setChecked(MZGramConfig.useSystemFonts));
+        items.add(UItem.asButton(BUTTON_APP_FONT, getString(R.string.MZGramAppFont), MZGramAppFont.title()));
+        items.add(UItem.asExpandableSwitch(BUTTON_M3_GROUP, getString(R.string.MZGramHeaderMaterial3), md3SelectedCount() + "/8")
+                .setChecked(md3SelectedCount() > 0)
+                .setCollapsed(!md3Expanded)
+                .setClickCallback(v -> toggleAllMd3Styles()));
+        if (md3Expanded) {
+            items.add(UItem.asRoundCheckbox(BUTTON_M3_LOADING, getString(R.string.MZGramM3Loading)).setChecked(MZGramConfig.m3Loading).pad());
+            items.add(UItem.asRoundCheckbox(BUTTON_M3_SLIDER, getString(R.string.MZGramM3Slider)).setChecked(MZGramConfig.m3Slider).pad());
+            items.add(UItem.asRoundCheckbox(BUTTON_M3_SWITCHES, getString(R.string.MZGramM3Switches)).setChecked(MZGramConfig.m3Switches).pad());
+            items.add(UItem.asRoundCheckbox(BUTTON_M3_CHAT_HEADER, getString(R.string.MZGramM3ChatHeader)).setChecked(MZGramConfig.m3ChatHeader).pad());
+            items.add(UItem.asRoundCheckbox(BUTTON_M3_NAV_BAR, getString(R.string.MZGramM3NavBar)).setChecked(MZGramConfig.m3NavBar).pad());
+            items.add(UItem.asRoundCheckbox(BUTTON_CARDS_DESIGN, getString(R.string.MZGramCardsDesign)).setChecked(MZGramConfig.cardsDesign).pad());
+            items.add(UItem.asRoundCheckbox(BUTTON_MD3_PLAYER, getString(R.string.MZGramM3Player)).setChecked(MZGramConfig.musicPlayer).pad());
+            items.add(UItem.asRoundCheckbox(BUTTON_MD3_MINI_PLAYER, getString(R.string.MZGramM3MiniPlayer)).setChecked(MZGramConfig.musicPlayerMini).pad());
+        }
+        items.add(UItem.asExpandableSwitch(BUTTON_IOS_GROUP, getString(R.string.MZGramIosDesign), iosSelectedCount() + "/2")
+                .setChecked(iosSelectedCount() > 0)
+                .setCollapsed(!iosExpanded)
+                .setClickCallback(v -> toggleAllIosStyles()));
+        if (iosExpanded) {
+            items.add(UItem.asRoundCheckbox(BUTTON_IOS_NAV_BAR, getString(R.string.MZGramIosNavBar)).setChecked(MZGramConfig.iosNavBar).pad());
+            items.add(UItem.asRoundCheckbox(BUTTON_IOS_CHAT_HEADER, getString(R.string.MZGramIosChatHeader)).setChecked(MZGramConfig.iosChatHeader).pad());
+        }
+        items.add(check(BUTTON_GOOEY_AVATAR_ANIMATION, R.string.MZGramGooeyAvatarAnimation, MZGramConfig.gooeyAvatarAnimation, R.string.MZGramGooeyAvatarAnimationInfo));
+        items.add(check(BUTTON_CUSTOM_CHAT_THEMES, R.string.MZGramCustomChatThemes, MZGramConfig.customChatThemes, R.string.MZGramCustomChatThemesInfo));
+        items.add(UItem.asShadow(getString(R.string.MZGramCustomChatThemesInfo)));
+
+        // ==========================================
+        // Card 6: Sections
+        // ==========================================
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderSections)));
+        if (sectionRadiusSeekBar == null) {
+            sectionRadiusSeekBar = new MZGramAvatarCornersSeekBar(context, val -> {
+                MZGramConfig.setSectionRadius(val);
+            }, 0, MZGramConfig.SECTION_RADIUS_MAX,
+                    getString(R.string.MZGramSectionRadius),
+                    getString(R.string.MZGramOff),
+                    getString(R.string.MZGramSectionRadiusMax));
+            sectionRadiusSeekBar.setValueSuffix("dp");
+        }
+        sectionRadiusSeekBar.setValue(MZGramConfig.sectionRadius);
+        items.add(UItem.asCustom(sectionRadiusSeekBar, 112));
+        items.add(UItem.asButton(BUTTON_DIVIDER_STYLE, getString(R.string.MZGramDividerStyle), getString(DIVIDER_STYLE_TITLES[MZGramConfig.dividerStyle])));
+        items.add(check(BUTTON_SEPARATE_HEADERS, R.string.MZGramSeparateHeaders, MZGramConfig.separatedHeaders(), R.string.MZGramSeparateHeadersInfo)
+                .setEnabled(MZGramConfig.dividerStyle != MZGramConfig.DIVIDER_SEGMENTS));
+        items.add(UItem.asShadow(getString(R.string.MZGramSectionsInfo)));
+
+        // ==========================================
+        // Card 7: Blur Options
+        // ==========================================
+        items.add(UItem.asHeader(getString(R.string.MZGramHeaderGlass)));
+        items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
+        items.add(check(BUTTON_GLASS_MESSAGE_MENU, R.string.MZGramGlassMessageMenu, MZGramConfig.glassMessageMenu, R.string.MZGramGlassMessageMenuInfo));
+        items.add(UItem.asCheck(BUTTON_FORCE_BLUR, getString(R.string.MZGramForceBlur)).setChecked(MZGramConfig.forceBlur));
+        items.add(check(BUTTON_DISABLE_AVATAR_BLUR, R.string.MZGramDisableAvatarBlur, MZGramConfig.disableAvatarBlur, R.string.MZGramDisableAvatarBlurInfo));
+        items.add(UItem.asShadow(getString(R.string.MZGramBlurInfo)));
+
+        // ==========================================
+        // Card 8: MZGram Monet & Themes
+        // ==========================================
+        items.add(check(BUTTON_PREDICTIVE_BACK_ANIMATION, R.string.MZGramPredictiveBackAnimation, MZGramConfig.predictiveBackAnimation, R.string.MZGramPredictiveBackAnimationInfo));
+        if (org.telegram.messenger.mzgram.MZGramMonet.available()) {
+            items.add(check(BUTTON_MONET_THEMES, R.string.MZGramMonetThemes, MZGramConfig.monetThemes, R.string.MZGramMonetThemesInfo));
+            if (MZGramConfig.monetThemes) {
+                items.add(UItem.asButton(BUTTON_MONET_STYLE, getString(R.string.MZGramMonetStyle), org.telegram.messenger.mzgram.MZGramMonet.styleTitle(MZGramConfig.monetStyle)));
+                items.add(UItem.asButton(BUTTON_MONET_PICK, getString(R.string.MZGramMonetPick)));
+            }
+        }
+        items.add(UItem.asShadow(null));
+    }
+
+    private void fillNavigation(ArrayList<UItem> items) {
         items.add(UItem.asHeader(getString(R.string.MZGramHeaderNavigation)));
         items.add(check(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, R.string.MZGramHideBottomNavigationBar, MZGramConfig.hideBottomNavigationBar, R.string.MZGramHideBottomNavigationBarInfo));
         items.add(check(BUTTON_ACCOUNTS_IN_MENU, R.string.MZGramAccountsInMenu, MZGramConfig.accountsInMenu, R.string.MZGramAccountsInMenuInfo));
@@ -1377,56 +1508,70 @@ public class MZGramSettingsActivity extends UniversalFragment {
             items.add(UItem.asButton(BUTTON_DRAWER_HEADER, getString(R.string.MZGramDrawerHeader), MZGramDrawer.headerStyleTitle()));
             items.add(UItem.asCheck(BUTTON_DRAWER_GLASS, getString(R.string.MZGramDrawerGlass)).setChecked(MZGramConfig.drawerGlass));
         }
-        items.add(check(BUTTON_PILL_STACK, R.string.MZGramPillStack, MZGramConfig.pillStack, R.string.MZGramPillStackInfo));
-        if (MZGramConfig.pillStack) {
-            items.add(UItem.asButton(BUTTON_PILLS, getString(R.string.MZGramPills)));
-        }
-        items.add(check(BUTTON_ICON_PACKS_ON, R.string.MZGramIconPacksOn, MZGramConfig.iconPacks, R.string.MZGramIconPacksOnInfo));
-        if (MZGramConfig.iconPacks) {
-            items.add(UItem.asButton(BUTTON_ICON_PACKS, getString(R.string.MZGramIconPacks)));
-        }
         items.add(UItem.asShadow(MZGramConfig.customDrawer ? getString(R.string.MZGramDrawerLookInfo) : null));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramSectionAppearance)));
-        items.add(UItem.asButton(BUTTON_FAB_SHAPE, getString(R.string.MZGramFabShape), getString(MZGramFabShape.TITLES[MZGramConfig.fabShape])));
-        items.add(UItem.asButton(BUTTON_APP_FONT, getString(R.string.MZGramAppFont), MZGramAppFont.title()));
-        items.add(check(BUTTON_GOOEY_AVATAR_ANIMATION, R.string.MZGramGooeyAvatarAnimation, MZGramConfig.gooeyAvatarAnimation, R.string.MZGramGooeyAvatarAnimationInfo));
-        items.add(check(BUTTON_DISABLE_AVATAR_BLUR, R.string.MZGramDisableAvatarBlur, MZGramConfig.disableAvatarBlur, R.string.MZGramDisableAvatarBlurInfo));
-        items.add(check(BUTTON_CUSTOM_CHAT_THEMES, R.string.MZGramCustomChatThemes, MZGramConfig.customChatThemes, R.string.MZGramCustomChatThemesInfo));
-        items.add(check(BUTTON_PREDICTIVE_BACK_ANIMATION, R.string.MZGramPredictiveBackAnimation, MZGramConfig.predictiveBackAnimation, R.string.MZGramPredictiveBackAnimationInfo));
-        if (org.telegram.messenger.mzgram.MZGramMonet.available()) {
-            items.add(check(BUTTON_MONET_THEMES, R.string.MZGramMonetThemes, MZGramConfig.monetThemes, R.string.MZGramMonetThemesInfo));
-            if (MZGramConfig.monetThemes) {
-                items.add(UItem.asButton(BUTTON_MONET_STYLE, getString(R.string.MZGramMonetStyle), org.telegram.messenger.mzgram.MZGramMonet.styleTitle(MZGramConfig.monetStyle)));
-                items.add(UItem.asButton(BUTTON_MONET_PICK, getString(R.string.MZGramMonetPick)));
-            }
-        }
-        items.add(UItem.asShadow(getString(R.string.MZGramAppFontInfo)));
-
-        // Material Design 3: switches, cards of lists, loading, sliders
-        items.add(UItem.asHeader(getString(R.string.MZGramHeaderMaterial3)));
-        items.add(check(BUTTON_M3_SWITCHES, R.string.MZGramM3Switches, MZGramConfig.m3Switches, R.string.MZGramM3SwitchesInfo));
-        items.add(check(BUTTON_CARDS_DESIGN, R.string.MZGramCardsDesign, MZGramConfig.cardsDesign, R.string.MZGramCardsDesignInfo));
-        items.add(check(BUTTON_M3_LOADING, R.string.MZGramM3Loading, MZGramConfig.m3Loading, R.string.MZGramM3LoadingInfo));
-        items.add(check(BUTTON_M3_SLIDER, R.string.MZGramM3Slider, MZGramConfig.m3Slider, R.string.MZGramM3SliderInfo));
+    private void fillHiding(ArrayList<UItem> items) {
+        items.add(UItem.asHeader(getString(R.string.MZGramAppearanceHiding)));
+        items.add(UItem.asCheck(BUTTON_HIDE_ACTION_BAR_STATUS, getString(R.string.MZGramHideActionBarStatus)).setChecked(MZGramConfig.hideActionBarStatus));
+        items.add(check(BUTTON_HIDE_STORIES, R.string.MZGramHideStories, MZGramConfig.hideStories, R.string.MZGramHideStoriesInfo));
+        items.add(check(BUTTON_STORIES_NO_BACKGROUND_LOAD, R.string.MZGramStoriesNoBackgroundLoad, MZGramConfig.storiesNoBackgroundLoad, R.string.MZGramStoriesNoBackgroundLoadInfo));
+        items.add(UItem.asCheck(BUTTON_HIDE_FLOATING_BUTTON, getString(R.string.MZGramHideFloatingButton)).setChecked(MZGramConfig.hideFloatingButton));
+        items.add(UItem.asCheck(BUTTON_HIDE_DIALOGS_SEARCH_BAR, getString(R.string.MZGramHideDialogsSearchBar)).setChecked(MZGramConfig.hideDialogsSearchBar));
         items.add(UItem.asShadow(null));
+    }
 
-        items.add(UItem.asHeader(getString(R.string.MZGramHeaderSections)));
-        items.add(UItem.asIntSlideView(1, 0, MZGramConfig.sectionRadius, MZGramConfig.SECTION_RADIUS_MAX,
-                val -> val == 0 ? getString(R.string.MZGramOff) : val == MZGramConfig.SECTION_RADIUS_MAX ? getString(R.string.MZGramSectionRadiusMax) : val + " dp", val -> {
-                    // Screens opened after the change take it; no rebuild on every step of the slider
-                    MZGramConfig.setSectionRadius(val);
-                }));
-        items.add(UItem.asButton(BUTTON_DIVIDER_STYLE, getString(R.string.MZGramDividerStyle), getString(DIVIDER_STYLE_TITLES[MZGramConfig.dividerStyle])));
-        // Segments always separate the headers: the switch shows it and does not change
-        items.add(check(BUTTON_SEPARATE_HEADERS, R.string.MZGramSeparateHeaders, MZGramConfig.separatedHeaders(), R.string.MZGramSeparateHeadersInfo)
-                .setEnabled(MZGramConfig.dividerStyle != MZGramConfig.DIVIDER_SEGMENTS));
-        items.add(UItem.asShadow(getString(R.string.MZGramSectionsInfo)));
-        items.add(UItem.asHeader(getString(R.string.MZGramHeaderGlass)));
-        items.add(UItem.asButton(BUTTON_GLASS_OUTLINE, getString(R.string.MZGramGlassOutline), getString(MZGramGlassOutline.TITLES[MZGramGlassOutline.style()])));
-        items.add(check(BUTTON_GLASS_MESSAGE_MENU, R.string.MZGramGlassMessageMenu, MZGramConfig.glassMessageMenu, R.string.MZGramGlassMessageMenuInfo));
-        items.add(UItem.asCheck(BUTTON_FORCE_BLUR, getString(R.string.MZGramForceBlur)).setChecked(MZGramConfig.forceBlur));
-        items.add(UItem.asShadow(getString(R.string.MZGramGlassOutlineInfo) + "\n\n" + getString(R.string.MZGramForceBlurInfo)));
+    private int md3SelectedCount() {
+        int count = 0;
+        if (MZGramConfig.m3Loading) count++;
+        if (MZGramConfig.m3Slider) count++;
+        if (MZGramConfig.m3Switches) count++;
+        if (MZGramConfig.m3ChatHeader) count++;
+        if (MZGramConfig.m3NavBar) count++;
+        if (MZGramConfig.cardsDesign) count++;
+        if (MZGramConfig.musicPlayer) count++;
+        if (MZGramConfig.musicPlayerMini) count++;
+        return count;
+    }
+
+    private void toggleAllMd3Styles() {
+        boolean enable = md3SelectedCount() == 0;
+        MZGramConfig.setM3Loading(enable);
+        MZGramConfig.setM3Slider(enable);
+        MZGramConfig.setM3Switches(enable);
+        MZGramConfig.setM3ChatHeader(enable);
+        MZGramConfig.setM3NavBar(enable);
+        MZGramConfig.setCardsDesign(enable);
+        MZGramConfig.setMusicPlayer(enable);
+        MZGramConfig.setMusicPlayerMini(enable);
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
+        }
+    }
+
+    private int iosSelectedCount() {
+        int count = 0;
+        if (MZGramConfig.iosNavBar) count++;
+        if (MZGramConfig.iosChatHeader) count++;
+        return count;
+    }
+
+    private void toggleAllIosStyles() {
+        boolean enable = iosSelectedCount() == 0;
+        MZGramConfig.setIosNavBar(enable);
+        MZGramConfig.setIosChatHeader(enable);
+        if (listView != null && listView.adapter != null) {
+            listView.adapter.update(true);
+        }
+    }
+
+    private String folderTabCounterValue() {
+        if (MZGramConfig.folderTabCounterMode == 1) {
+            return getString(R.string.MZGramFolderTabCounterUnmuted);
+        } else if (MZGramConfig.folderTabCounterMode == 2) {
+            return getString(R.string.MZGramFolderTabCounterOff);
+        }
+        return getString(R.string.MZGramFolderTabCounterAll);
     }
 
     // Chats: stickers, gestures, the chat and its messages, camera, photo,
@@ -1955,15 +2100,29 @@ public class MZGramSettingsActivity extends UniversalFragment {
             ((TextCheckCell) view).setChecked(MZGramConfig.glassMessageMenu);
         } else if (item.id == BUTTON_M3_SLIDER) {
             MZGramConfig.toggleM3Slider();
-            ((TextCheckCell) view).setChecked(MZGramConfig.m3Slider);
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.m3Slider, true);
+            } else if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.m3Slider);
+            }
             rebuildBelow();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
             if (listView != null) {
                 listView.invalidateViews();
             }
         } else if (item.id == BUTTON_M3_LOADING) {
             MZGramConfig.toggleM3Loading();
-            ((TextCheckCell) view).setChecked(MZGramConfig.m3Loading);
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.m3Loading, true);
+            } else if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.m3Loading);
+            }
             rebuildBelow();
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
         } else if (item.id == BUTTON_SEPARATE_HEADERS) {
             if (MZGramConfig.dividerStyle == MZGramConfig.DIVIDER_SEGMENTS) {
                 return;
@@ -2214,11 +2373,30 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_HIDE_ALL_CHATS_TAB) {
             MZGramConfig.toggleHideAllChatsTab();
             ((TextCheckCell) view).setChecked(MZGramConfig.hideAllChatsTab);
+            if (foldersPreviewCell != null) {
+                foldersPreviewCell.setShowAllTab(!MZGramConfig.hideAllChatsTab, true);
+            }
             rebuildBelow();
         } else if (item.id == BUTTON_FOLDER_TAB_COUNTERS) {
-            MZGramConfig.toggleFolderTabCounters();
-            ((TextCheckCell) view).setChecked(MZGramConfig.folderTabCounters);
-            rebuildBelow();
+            if (getParentActivity() == null) {
+                return;
+            }
+            String[] options = new String[]{
+                    getString(R.string.MZGramFolderTabCounterAll),
+                    getString(R.string.MZGramFolderTabCounterUnmuted),
+                    getString(R.string.MZGramFolderTabCounterOff)
+            };
+            showDialog(org.telegram.ui.Components.AlertsCreator.createSingleChoiceDialog(getParentActivity(), options, getString(R.string.MZGramFolderTabCounters), MZGramConfig.folderTabCounterMode, (dialog, which) -> {
+                MZGramConfig.setFolderTabCounterMode(which);
+                MZGramConfig.folderTabCounters = (which != 2);
+                if (foldersPreviewCell != null) {
+                    foldersPreviewCell.updateTabCounter(true);
+                }
+                rebuildBelow();
+                if (listView != null && listView.adapter != null) {
+                    listView.adapter.update(true);
+                }
+            }, getString(R.string.MZGramCancel)));
         } else if (item.id == BUTTON_SINGLE_CORNER_RADIUS) {
             MZGramConfig.toggleSingleCornerRadius();
             ((TextCheckCell) view).setChecked(MZGramConfig.singleCornerRadius);
@@ -2249,6 +2427,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_CENTER_TITLE) {
             MZGramConfig.toggleCenterTitle();
             ((TextCheckCell) view).setChecked(MZGramConfig.centerTitle);
+            if (chatListPreviewCell != null) {
+                chatListPreviewCell.updateCentered(true);
+            }
             rebuildBelow();
         } else if (item.id == BUTTON_DISABLE_UNARCHIVE_SWIPE) {
             MZGramConfig.toggleDisableUnarchiveSwipe();
@@ -2606,6 +2787,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
             });
         } else if (item.id == BUTTON_FOLDER_TAB_ICONS) {
             MZGramFolderIcons.choose(this, () -> {
+                if (foldersPreviewCell != null) {
+                    foldersPreviewCell.updateTabTitle(true);
+                    foldersPreviewCell.updateTabIcons(true);
+                }
                 if (listView != null && listView.adapter != null) {
                     listView.adapter.update(true);
                 }
@@ -2977,13 +3162,24 @@ public class MZGramSettingsActivity extends UniversalFragment {
             ((TextCheckCell) view).setChecked(MZGramConfig.semiTransparentDeleted);
         } else if (item.id == BUTTON_M3_SWITCHES) {
             MZGramConfig.toggleM3Switches();
-            ((TextCheckCell) view).setChecked(MZGramConfig.m3Switches);
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.m3Switches, true);
+            } else if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.m3Switches);
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
             if (listView != null) {
                 listView.invalidate();
             }
         } else if (item.id == BUTTON_CARDS_DESIGN) {
             MZGramConfig.toggleCardsDesign();
-            ((TextCheckCell) view).setChecked(MZGramConfig.cardsDesign);
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.cardsDesign, true);
+            } else if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.cardsDesign);
+            }
             if (listView != null && listView.adapter != null) {
                 if (MZGramConfig.cardsDesign) {
                     listView.setSections();
@@ -3150,6 +3346,86 @@ public class MZGramSettingsActivity extends UniversalFragment {
                     })
                     .setNegativeButton(getString(R.string.MZGramCancel), null)
                     .show();
+        } else if (item.id == BUTTON_M3_GROUP) {
+            md3Expanded = !md3Expanded;
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_M3_CHAT_HEADER) {
+            MZGramConfig.toggleM3ChatHeader();
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.m3ChatHeader, true);
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_M3_NAV_BAR) {
+            MZGramConfig.toggleM3NavBar();
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.m3NavBar, true);
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_MD3_PLAYER) {
+            MZGramConfig.toggleMusicPlayer();
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.musicPlayer, true);
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_MD3_MINI_PLAYER) {
+            MZGramConfig.toggleMusicPlayerMini();
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.musicPlayerMini, true);
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_IOS_GROUP) {
+            iosExpanded = !iosExpanded;
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_IOS_NAV_BAR) {
+            MZGramConfig.toggleIosNavBar();
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.iosNavBar, true);
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_IOS_CHAT_HEADER) {
+            MZGramConfig.toggleIosChatHeader();
+            if (view instanceof org.telegram.ui.Cells.CheckBoxCell) {
+                ((org.telegram.ui.Cells.CheckBoxCell) view).setChecked(MZGramConfig.iosChatHeader, true);
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
+        } else if (item.id == BUTTON_NAVIGATION_SECTION) {
+            presentFragment(new MZGramSettingsActivity(SECTION_NAVIGATION));
+        } else if (item.id == BUTTON_SURFACE_HIDING) {
+            presentFragment(new MZGramSettingsActivity(SECTION_HIDING));
+        } else if (item.id == BUTTON_EMOJI_SETS) {
+            if (getParentActivity() != null) {
+                new org.telegram.ui.ActionBar.AlertDialog.Builder(getParentActivity())
+                        .setTitle(getString(R.string.MZGramEmojiSets))
+                        .setMessage(getString(R.string.MZGramEmojiSetsInfo))
+                        .setPositiveButton(getString(R.string.MZGramOk), null)
+                        .show();
+            }
+        } else if (item.id == BUTTON_PLAYER_STYLE) {
+            org.telegram.ui.mzgram.player.MZGramPlayerSheet.openStyleEditor(this);
+        } else if (item.id == BUTTON_USE_SYSTEM_FONTS) {
+            MZGramConfig.toggleUseSystemFonts();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(MZGramConfig.useSystemFonts);
+            }
+            if (listView != null && listView.adapter != null) {
+                listView.adapter.update(true);
+            }
         }
     }
 
@@ -3392,6 +3668,19 @@ public class MZGramSettingsActivity extends UniversalFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (avatarCornersPreviewCell != null) {
+            avatarCornersPreviewCell.invalidate();
+        }
+        if (chatListPreviewCell != null) {
+            chatListPreviewCell.invalidate();
+        }
+        if (foldersPreviewCell != null) {
+            foldersPreviewCell.invalidate();
+        }
+        if (fabShapeCell != null) {
+            fabShapeCell.updateSelection(false);
+            fabShapeCell.invalidate();
+        }
         // Shows switches changed elsewhere (for example on another page).
         if (listView != null && listView.adapter != null) {
             listView.adapter.update(true);

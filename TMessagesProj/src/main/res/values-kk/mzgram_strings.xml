@@ -1584,4 +1584,38 @@
     <string name="MZGramGoogleTranslateExp">Google Translate RPC API (тәжірибелік)</string>
     <string name="MZGramKeepTranslatorPreferences">Telegram аудармашы баптауларын сақтау</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">Қолдау көрсетілетін жерде аударма баптауларын стандартты Telegram баптауларымен синхрондау.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">Сыртқы түрі</string>
+    <string name="MZGramFolderTabCounterAll">Барлық чаттар</string>
+    <string name="MZGramFolderTabCounterUnmuted">Дыбыссыздардан басқа</string>
+    <string name="MZGramFolderTabCounterOff">Өшірулі</string>
+    <string name="MZGramAppNavigation">Қолданба навигациясы</string>
+    <string name="MZGramAppNavigationSub">Жоғарғы мәзір және бүйірлік мәзір баптаулары</string>
+    <string name="MZGramEmojiSetsInfo">Қолданба эмодзилерін өзгерту</string>
+    <string name="MZGramPlayerStyleInfo">Музыка ойнатқышының мұқабасы, орналасуы және түстері</string>
+    <string name="MZGramAppearanceHiding">Элементтерді жасыру</string>
+    <string name="MZGramAppearanceHidingInfo">Оқиғалар, түймелер, қойындылар және ЖИ мүмкіндіктері</string>
+    <string name="MZGramUseSystemFonts">Жүйелік қаріптерді пайдалану</string>
+    <string name="MZGramUseSystemEmoji">Жүйелік эмодзилерді пайдалану</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">Чат тақырыбы</string>
+    <string name="MZGramM3NavBar">Навигация тақтасы</string>
+    <string name="MZGramM3ListItems">Тізім элементтері</string>
+    <string name="MZGramM3Player">Музыка ойнатқышы</string>
+    <string name="MZGramM3MiniPlayer">Шағын ойнатқыш</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">Навигация тақтасы</string>
+    <string name="MZGramIosChatHeader">iOS чат тақырыбы</string>
+    <string name="MZGramSectionRadius">Бөлімдер радиусы</string>
+    <string name="MZGramSectionRadiusOff">Өшірулі</string>
+    <string name="MZGramGlassMessageMenuBlurOff">Шыны мәзірлер қазір өшірулі тұрған бұлыңғырлықты қажет етеді.</string>
+    <string name="MZGramBlurInfo">Бұлдырлық әсерлері әдепкі параметрлерді алмастыра отырып, барлық тақырыптарға қолданылады.</string>
+    <string name="MZGramPowerSaverActive">Батарея деңгейі %1$d%%-дан төмен болғанда қуат үнемдеу қосылады, сондықтан бұлдырлық пен анимациялар тоқтатылады.</string>
+    <string name="MZGramPowerSaverSettings">Қуат үнемдеу</string>
+    <string name="MZGramRestartNow">Қайта іске қосу</string>
+    <string name="MZGramNeedRestart">Бұл параметрді қолдану үшін қолданбаны қайта іске қосыңыз.</string>
+    <string name="MZGramMonetStyleHeader">Monet палитрасы</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">Классикалық</string>
 </resources>

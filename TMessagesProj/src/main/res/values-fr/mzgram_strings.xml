@@ -1584,4 +1584,38 @@
     <string name="MZGramGoogleTranslateExp">API RPC Google Traduction (expérimental)</string>
     <string name="MZGramKeepTranslatorPreferences">Conserver les préférences du traducteur Telegram</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">Synchroniser les paramètres de traduction avec ceux par défaut de Telegram si pris en charge.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">Apparence</string>
+    <string name="MZGramFolderTabCounterAll">Toutes les discussions</string>
+    <string name="MZGramFolderTabCounterUnmuted">Sauf muets</string>
+    <string name="MZGramFolderTabCounterOff">Désactivé</string>
+    <string name="MZGramAppNavigation">Navigation dans l\'application</string>
+    <string name="MZGramAppNavigationSub">Paramètres du menu supérieur et volet latéral</string>
+    <string name="MZGramEmojiSetsInfo">Changer les emojis dans l\'application</string>
+    <string name="MZGramPlayerStyleInfo">Pochette, disposition et couleurs du lecteur de musique</string>
+    <string name="MZGramAppearanceHiding">Masquer des éléments</string>
+    <string name="MZGramAppearanceHidingInfo">Stories, boutons, onglets et fonctionnalités d\'IA</string>
+    <string name="MZGramUseSystemFonts">Utiliser les polices système</string>
+    <string name="MZGramUseSystemEmoji">Utiliser les emojis système</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">En-tête de discussion</string>
+    <string name="MZGramM3NavBar">Barre de navigation</string>
+    <string name="MZGramM3ListItems">Éléments de liste</string>
+    <string name="MZGramM3Player">Lecteur de musique</string>
+    <string name="MZGramM3MiniPlayer">Mini-lecteur</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">Barre de navigation</string>
+    <string name="MZGramIosChatHeader">En-tête de discussion iOS</string>
+    <string name="MZGramSectionRadius">Rayon des sections</string>
+    <string name="MZGramSectionRadiusOff">Désactivé</string>
+    <string name="MZGramGlassMessageMenuBlurOff">Les menus en verre nécessitent un flou qui est actuellement désactivé.</string>
+    <string name="MZGramBlurInfo">Les effets de flou seront appliqués à tous les thèmes, remplaçant leurs paramètres par défaut.</string>
+    <string name="MZGramPowerSaverActive">L\'économie d\'énergie est activée en dessous de %1$d%% de batterie, suspendant le flou et les animations.</string>
+    <string name="MZGramPowerSaverSettings">Économie d\'énergie</string>
+    <string name="MZGramRestartNow">Redémarrer</string>
+    <string name="MZGramNeedRestart">Redémarrez l\'application pour appliquer ce paramètre.</string>
+    <string name="MZGramMonetStyleHeader">Palette Monet</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">Classique</string>
 </resources>

@@ -1584,4 +1584,38 @@
     <string name="MZGramGoogleTranslateExp">Google Translate RPC API (Experimental)</string>
     <string name="MZGramKeepTranslatorPreferences">Keep Telegram Translator Preferences</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">Synchronize translation settings with standard Telegram preferences where supported.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">Appearance</string>
+    <string name="MZGramFolderTabCounterAll">All chats</string>
+    <string name="MZGramFolderTabCounterUnmuted">Except muted</string>
+    <string name="MZGramFolderTabCounterOff">Off</string>
+    <string name="MZGramAppNavigation">App Navigation</string>
+    <string name="MZGramAppNavigationSub">Top-right menu and drawer settings</string>
+    <string name="MZGramEmojiSetsInfo">Change emoji across the app</string>
+    <string name="MZGramPlayerStyleInfo">Cover, layout and colors of the music player</string>
+    <string name="MZGramAppearanceHiding">Hide Elements</string>
+    <string name="MZGramAppearanceHidingInfo">Stories, buttons, tabs and AI features</string>
+    <string name="MZGramUseSystemFonts">Use system fonts</string>
+    <string name="MZGramUseSystemEmoji">Use system emoji</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">Chat header</string>
+    <string name="MZGramM3NavBar">Navigation bar</string>
+    <string name="MZGramM3ListItems">List items</string>
+    <string name="MZGramM3Player">Music player</string>
+    <string name="MZGramM3MiniPlayer">Mini player</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">Navigation bar</string>
+    <string name="MZGramIosChatHeader">iOS chat header</string>
+    <string name="MZGramSectionRadius">Section radius</string>
+    <string name="MZGramSectionRadiusOff">Off</string>
+    <string name="MZGramGlassMessageMenuBlurOff">Glass menus need blur, which is currently off.</string>
+    <string name="MZGramBlurInfo">Blur effects will be applied to all themes, overriding their default settings.</string>
+    <string name="MZGramPowerSaverActive">Power saving is on below %1$d%% battery, so blur and animations are paused. The setting is saved and turns back on once you charge.</string>
+    <string name="MZGramPowerSaverSettings">Power saving</string>
+    <string name="MZGramRestartNow">Restart</string>
+    <string name="MZGramNeedRestart">Restart the app to apply this setting.</string>
+    <string name="MZGramMonetStyleHeader">Monet palette</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">Classic</string>
 </resources>

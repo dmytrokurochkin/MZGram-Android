@@ -1584,4 +1584,38 @@
     <string name="MZGramGoogleTranslateExp">Google Translate RPC API (تجريبي)</string>
     <string name="MZGramKeepTranslatorPreferences">الحفاظ على تفضيلات مترجم Telegram</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">مزامنة إعدادات الترجمة مع تفضيلات Telegram القياسية حيثما كان ذلك مدعومًا.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">المظهر</string>
+    <string name="MZGramFolderTabCounterAll">كافة المحادثات</string>
+    <string name="MZGramFolderTabCounterUnmuted">باستثناء المكتومة</string>
+    <string name="MZGramFolderTabCounterOff">معطل</string>
+    <string name="MZGramAppNavigation">التنقل في التطبيق</string>
+    <string name="MZGramAppNavigationSub">إعدادات القائمة العلوية والدرج الجانبي</string>
+    <string name="MZGramEmojiSetsInfo">تغيير الرموز التعبيرية في التطبيق</string>
+    <string name="MZGramPlayerStyleInfo">غلاف مشغل الموسيقى وتخطيطه وألوانه</string>
+    <string name="MZGramAppearanceHiding">إخفاء العناصر</string>
+    <string name="MZGramAppearanceHidingInfo">القصص والأزرار والتبويبات وميزات الذكاء الاصطناعي</string>
+    <string name="MZGramUseSystemFonts">استخدام خطوط النظام</string>
+    <string name="MZGramUseSystemEmoji">استخدام رموز النظام التعبيرية</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">ترويسة المحادثة</string>
+    <string name="MZGramM3NavBar">شريط التنقل</string>
+    <string name="MZGramM3ListItems">عناصر القائمة</string>
+    <string name="MZGramM3Player">مشغل الموسيقى</string>
+    <string name="MZGramM3MiniPlayer">المشغل المصغر</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">شريط التنقل</string>
+    <string name="MZGramIosChatHeader">ترويسة محادثة iOS</string>
+    <string name="MZGramSectionRadius">نصف قطر الأقسام</string>
+    <string name="MZGramSectionRadiusOff">معطل</string>
+    <string name="MZGramGlassMessageMenuBlurOff">تحتاج القوائم الزجاجية إلى التمويه، وهو معطل حاليًا.</string>
+    <string name="MZGramBlurInfo">سيتم تطبيق تأثيرات التمويه على جميع السمات، متجاوزة إعداداتها الافتراضية.</string>
+    <string name="MZGramPowerSaverActive">يتم تفعيل توفير الطاقة عند انخفاض البطارية إلى أقل من %1$d%%، مما يوقف التمويه والحركات مؤقتًا.</string>
+    <string name="MZGramPowerSaverSettings">توفير الطاقة</string>
+    <string name="MZGramRestartNow">إعادة التشغيل</string>
+    <string name="MZGramNeedRestart">أعد تشغيل التطبيق لتطبيق هذا الإعداد.</string>
+    <string name="MZGramMonetStyleHeader">لوحة Monet</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">كلاسيكي</string>
 </resources>

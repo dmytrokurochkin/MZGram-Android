@@ -1584,4 +1584,38 @@
     <string name="MZGramGoogleTranslateExp">Google Translate RPC API (экспериментально)</string>
     <string name="MZGramKeepTranslatorPreferences">Сохранять настройки переводчика Telegram</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">Синхронизировать настройки перевода со стандартными параметрами Telegram, где поддерживается.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">Оформление</string>
+    <string name="MZGramFolderTabCounterAll">Все чаты</string>
+    <string name="MZGramFolderTabCounterUnmuted">Кроме без звука</string>
+    <string name="MZGramFolderTabCounterOff">Выключено</string>
+    <string name="MZGramAppNavigation">Навигация по приложению</string>
+    <string name="MZGramAppNavigationSub">Настройки верхнего меню и боковой шторки</string>
+    <string name="MZGramEmojiSetsInfo">Изменение эмодзи во всем приложении</string>
+    <string name="MZGramPlayerStyleInfo">Обложка, макет и цвета музыкального плеера</string>
+    <string name="MZGramAppearanceHiding">Скрыть элементы</string>
+    <string name="MZGramAppearanceHidingInfo">Истории, кнопки, вкладки и функции ИИ</string>
+    <string name="MZGramUseSystemFonts">Системные шрифты</string>
+    <string name="MZGramUseSystemEmoji">Системные эмодзи</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">Заголовок чата</string>
+    <string name="MZGramM3NavBar">Панель навигации</string>
+    <string name="MZGramM3ListItems">Элементы списка</string>
+    <string name="MZGramM3Player">Музыкальный плеер</string>
+    <string name="MZGramM3MiniPlayer">Мини-плеер</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">Панель навигации</string>
+    <string name="MZGramIosChatHeader">Заголовок чата iOS</string>
+    <string name="MZGramSectionRadius">Радиус разделов</string>
+    <string name="MZGramSectionRadiusOff">Выкл.</string>
+    <string name="MZGramGlassMessageMenuBlurOff">Для стеклянного меню требуется размытие, которое сейчас отключено.</string>
+    <string name="MZGramBlurInfo">Эффекты размытия будут применены ко всем темам, заменяя их стандартные настройки.</string>
+    <string name="MZGramPowerSaverActive">Энергосбережение включено при заряде ниже %1$d%%, поэтому размытие и анимации приостановлены.</string>
+    <string name="MZGramPowerSaverSettings">Энергосбережение</string>
+    <string name="MZGramRestartNow">Перезапустить</string>
+    <string name="MZGramNeedRestart">Перезапустите приложение, чтобы применить эту настройку.</string>
+    <string name="MZGramMonetStyleHeader">Палитра Monet</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">Классический</string>
 </resources>

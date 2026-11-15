@@ -24,7 +24,7 @@ class ScreensTest(unittest.TestCase):
         self.assertIn(f'"{name}"', read(BACKUP))
         page = read(PAGE)
         self.assertRegex(page, rf"private static final int {button} = \d+;")
-        self.assertTrue(f"items.add(check({button}, " in page or f"items.add(UItem.asCheck({button}, " in page, button)
+        self.assertTrue(f"items.add(check({button}, " in page or f"items.add(UItem.asCheck({button}, " in page or f"items.add(UItem.asRoundCheckbox({button}, " in page or f"items.add(UItem.asButton({button}, " in page, button)
         self.assertIn(f"item.id == {button})", page)
 
     def test_in_app_vibration(self):
@@ -650,9 +650,9 @@ class ScreensTest(unittest.TestCase):
         self.switch("m3Loading", "false", "BUTTON_M3_LOADING")
         self.switch("m3Slider", "false", "BUTTON_M3_SLIDER")
         page = read(PAGE)
-        header = page.index("items.add(UItem.asHeader(getString(R.string.MZGramHeaderMaterial3)));")
+        header = page.index("items.add(UItem.asExpandableSwitch(BUTTON_M3_GROUP, getString(R.string.MZGramHeaderMaterial3), ")
         for row in ("BUTTON_M3_SWITCHES", "BUTTON_CARDS_DESIGN", "BUTTON_M3_LOADING", "BUTTON_M3_SLIDER"):
-            self.assertGreater(page.index(f"items.add(check({row}, "), header, row)
+            self.assertGreater(page.index(f"items.add(UItem.asRoundCheckbox({row}, "), header, row)
         radial = read(JAVA / "ui/Components/RadialProgressView.java")
         self.assertEqual(2, radial.count("org.telegram.messenger.mzgram.appearance.MZGramM3Loading.drawArc(canvas, cicleRect, radOffset, "))
         self.assertNotIn("canvas.drawArc(", radial)

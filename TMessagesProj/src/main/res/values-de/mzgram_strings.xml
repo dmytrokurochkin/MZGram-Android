@@ -1584,4 +1584,38 @@
     <string name="MZGramGoogleTranslateExp">Google Translate RPC API (Experimentell)</string>
     <string name="MZGramKeepTranslatorPreferences">Telegram-Übersetzungseinstellungen beibehalten</string>
     <string name="MZGramKeepTranslatorPreferencesNotice">Übersetzungseinstellungen mit den Standard-Telegram-Einstellungen synchronisieren, wo unterstützt.</string>
+
+    <!-- Phase C3: Appearance additions -->
+    <string name="MZGramAppearanceTitle">Design</string>
+    <string name="MZGramFolderTabCounterAll">Alle Chats</string>
+    <string name="MZGramFolderTabCounterUnmuted">Außer stumm</string>
+    <string name="MZGramFolderTabCounterOff">Aus</string>
+    <string name="MZGramAppNavigation">App-Navigation</string>
+    <string name="MZGramAppNavigationSub">Menü oben rechts und Seitenleisten-Einstellungen</string>
+    <string name="MZGramEmojiSetsInfo">Emoji in der gesamten App ändern</string>
+    <string name="MZGramPlayerStyleInfo">Cover, Layout und Farben des Musikplayers</string>
+    <string name="MZGramAppearanceHiding">Elemente ausblenden</string>
+    <string name="MZGramAppearanceHidingInfo">Storys, Buttons, Tabs und KI-Funktionen</string>
+    <string name="MZGramUseSystemFonts">Systemschriftarten verwenden</string>
+    <string name="MZGramUseSystemEmoji">System-Emoji verwenden</string>
+    <string name="MZGramMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZGramM3ChatHeader">Chat-Kopfzeile</string>
+    <string name="MZGramM3NavBar">Navigationsleiste</string>
+    <string name="MZGramM3ListItems">Listenelemente</string>
+    <string name="MZGramM3Player">Musikplayer</string>
+    <string name="MZGramM3MiniPlayer">Miniplayer</string>
+    <string name="MZGramIosDesign" translatable="false">iOS Design</string>
+    <string name="MZGramIosNavBar">Navigationsleiste</string>
+    <string name="MZGramIosChatHeader">iOS Chat-Kopfzeile</string>
+    <string name="MZGramSectionRadius">Abschnittsradius</string>
+    <string name="MZGramSectionRadiusOff">Aus</string>
+    <string name="MZGramGlassMessageMenuBlurOff">Glasmenüs erfordern Weichzeichnung, die derzeit deaktiviert ist.</string>
+    <string name="MZGramBlurInfo">Weichzeichnungseffekte werden auf alle Designs angewendet und überschreiben deren Standardeinstellungen.</string>
+    <string name="MZGramPowerSaverActive">Energiesparen ist unter %1$d%% Akku aktiv, daher sind Weichzeichnung und Animationen pausiert.</string>
+    <string name="MZGramPowerSaverSettings">Energiesparen</string>
+    <string name="MZGramRestartNow">Neu starten</string>
+    <string name="MZGramNeedRestart">Starten Sie die App neu, um diese Einstellung zu übernehmen.</string>
+    <string name="MZGramMonetStyleHeader">Monet-Palette</string>
+    <string name="MZGramMonetStyleTelemone">Telemone</string>
+    <string name="MZGramMonetStyleClassic">Klassisch</string>
 </resources>

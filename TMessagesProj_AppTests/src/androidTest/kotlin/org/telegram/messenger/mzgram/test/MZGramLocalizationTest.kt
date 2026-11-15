@@ -53,7 +53,7 @@ class MZGramLocalizationTest {
         "MZGram", "ID", "Segments", "Material", "Design", "UnifiedPush", "DC", "MIME", "FCM", "Google", "GitHub", "SHA",
         "VAPID", "Bot", "Miami", "Amsterdam", "Singapore", "Zalgo", "Unicode",
         "Telegram", "Interface", "Media", "Details", "Message", "Date", "OK",
-        "AI", "Model", "Premium", "Business", "Wallet", "MIUI", "Autostart", "No", "Bots",
+        "AI", "Model", "Premium", "Business", "Wallet", "MIUI", "Autostart", "No", "Bots", "iOS", "Telemone",
         "General", "Links", "Navigation", "Messages", "Chats", "Sections", "Feed",
     )
 

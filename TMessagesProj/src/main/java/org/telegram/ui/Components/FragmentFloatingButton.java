@@ -82,17 +82,31 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
             iBlur3ColorProviderTabs = new BlurredBackgroundColorProviderThemed(null, Theme.key_dialogBackground) {
                 @Override
                 public int getStrokeColorTop() {
+                    if (mzSurfaceFab()) return 0;
                     return isDark() ? 0x06FFFFFF : 0x11000000;
                 }
 
                 @Override
                 public int getStrokeColorBottom() {
+                    if (mzSurfaceFab()) return 0;
                     return isDark() ? 0x11FFFFFF : 0x20000000;
                 }
 
                 @Override
                 public int getShadowColor() {
+                    if (mzSurfaceFab()) return 0;
                     return isDark() ? 0x04FFFFFF : 0x20000000;
+                }
+
+                @Override
+                public int getBackgroundColor() {
+                    if (mzSurfaceFab()) {
+                        // MZGram: the surface container high tone of Material 3, a step above the page (10% of the text colour)
+                        final int page = Theme.getColor(Theme.key_windowBackgroundWhite, FragmentFloatingButton.this.resourcesProvider) | 0xFF000000;
+                        final int text = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, FragmentFloatingButton.this.resourcesProvider) | 0xFF000000;
+                        return androidx.core.graphics.ColorUtils.blendARGB(page, text, 0.1f);
+                    }
+                    return super.getBackgroundColor();
                 }
             };
             iBlur3SourceColor = new GlassSourceColor();
@@ -157,13 +171,19 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
     private int themedBackgroundColor, themedBackgroundPressedColor;
 
     @Override
+    /** MZGram: Material bars. The small button is a solid Material 3 surface FAB instead of glass. */
+    private static boolean mzSurfaceFab() {
+        return app.exteraless.appearance.AppearanceConfig.materialBars();
+    }
+
     public void updateColors() {
         if (imageView == null || progressView == null) {
             return;
         }
         final boolean recolorBackground = themedBackground != null && getBackground() == themedBackground;
         if (isSubButton) {
-            final int iconColor = Theme.getColor(Theme.key_actionBarDefaultIcon, resourcesProvider);
+            // MZGram: a Material 3 surface FAB has its icon in the primary colour
+            final int iconColor = Theme.getColor(mzSurfaceFab() ? Theme.key_featuredStickers_addButton : Theme.key_actionBarDefaultIcon, resourcesProvider);
             if (iconColor != themedIconColor || !themedIconColorSet) {
                 themedIconColor = iconColor;
                 themedIconColorSet = true;

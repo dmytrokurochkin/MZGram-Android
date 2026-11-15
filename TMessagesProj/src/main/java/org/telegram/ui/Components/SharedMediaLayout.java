@@ -3651,7 +3651,33 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
             searchTagsList.setBlurredFactory(iBlur3FactoryLiquidGlass, glassColors);
             searchTagsList.setShown(0f);
             addView(searchTagsList, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.LEFT | Gravity.TOP, 0, 4, 0, 0));
-            if (simpleActionBar == null) {
+            if (simpleActionBar == null && app.exteraless.appearance.AppearanceConfig.materialBars()) {
+                // MZGram: Material bars. The selection takes the place of the tabs on the same flat full-width strip
+                actionModeLayout.setBackground(new android.graphics.drawable.Drawable() {
+                    private final Paint paint = new Paint();
+
+                    @Override
+                    public void draw(@NonNull Canvas canvas) {
+                        paint.setColor(org.telegram.ui.ActionBar.ActionBar.mzPageColor(actionModeLayout, getThemedColor(Theme.key_windowBackgroundGray)));
+                        canvas.drawRect(getBounds(), paint);
+                    }
+
+                    @Override
+                    public void setAlpha(int alpha) {
+                    }
+
+                    @Override
+                    public void setColorFilter(@Nullable android.graphics.ColorFilter colorFilter) {
+                    }
+
+                    @Override
+                    public int getOpacity() {
+                        return android.graphics.PixelFormat.OPAQUE;
+                    }
+                });
+                actionModeLayout.setPadding(dp(8), 0, dp(8), 0);
+                addView(actionModeLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.LEFT | Gravity.TOP));
+            } else if (simpleActionBar == null) {
                 // the selection takes the place of the tabs: the same glass pill
                 final BlurredBackgroundDrawable actionModeBackground = iBlur3FactoryLiquidGlass.create(actionModeLayout, glassColors);
                 actionModeBackground.setRadius(dp(18));

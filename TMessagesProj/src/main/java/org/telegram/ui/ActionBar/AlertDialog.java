@@ -949,8 +949,14 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             titleTextView.cacheType = AnimatedEmojiDrawable.CACHE_TYPE_ALERT_PREVIEW;
             titleTextView.setText(title);
             titleTextView.setTextColor(lastTitleTextColor = getThemedColor(Theme.key_dialogTextBlack)); // re-applied in updateThemeColors unless customTextColor
-            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-            titleTextView.setTypeface(AndroidUtilities.bold());
+            if (app.exteraless.appearance.AppearanceConfig.materialDialogs() && !topAnimationIsNew) {
+                // MZGram: the Material 3 dialog headline, 24 regular instead of 20 bold
+                titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
+                titleTextView.setTypeface(android.graphics.Typeface.DEFAULT);
+            } else {
+                titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                titleTextView.setTypeface(AndroidUtilities.bold());
+            }
             titleTextView.setGravity((topAnimationIsNew ? Gravity.CENTER_HORIZONTAL : LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
             titleContainer.addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (topAnimationIsNew ? Gravity.CENTER_HORIZONTAL : LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 0, 19, 0, topAnimationIsNew ? 4 : (subtitle != null ? 2 : (items != null ? 14 : 10))));
         }

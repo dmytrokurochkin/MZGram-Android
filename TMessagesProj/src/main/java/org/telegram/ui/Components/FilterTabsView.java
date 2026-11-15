@@ -1708,12 +1708,13 @@ public class FilterTabsView extends FrameLayout {
 
             final float add = additionalTabWidth / 2f;
 
-            if (mzFlatStrip) {
+            if (mzFlatStrip || compactHeader && app.exteraless.appearance.AppearanceConfig.materialBars()) {
                 // MZGram: Material bars. A 3dp line under the selected tab, rounded on top. The chat list covers the
                 // strip from 43dp down (checked on a phone), so the line ends 18dp under the text's centre.
+                // In the compact header the tabs are 3dp above the bottom of the top bar, so the line ends at their bottom.
                 final float l = indicatorX - add, r = indicatorX + indicatorWidth + add;
                 final float rad3 = dp(3);
-                final int bottom = height / 2 + dp(18);
+                final int bottom = compactHeader ? height : height / 2 + dp(18);
                 selectorDrawable.setCornerRadii(new float[]{rad3, rad3, rad3, rad3, 0, 0, 0, 0});
                 selectorDrawable.setBounds((int) l, bottom - dp(3), (int) r, bottom);
                 selectorDrawable.setAlpha((int) (255 * listView.getAlpha()));

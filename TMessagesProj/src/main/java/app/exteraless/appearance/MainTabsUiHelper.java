@@ -162,7 +162,9 @@ public final class MainTabsUiHelper {
     }
 
     public static int getMainTabSelectedIndicatorColor(int color, float factor) {
-        return Theme.multAlpha(color, factor * 0.125f);
+        // MZGram: 30% of the accent over the bar gives the secondary container tone of Material 3
+        // (about #4A4458 on a dark bar, #E8DEF8 on a light one); 12.5% was barely visible.
+        return Theme.multAlpha(color, factor * 0.3f);
     }
 
     public static float getMaterial3MainTabIconTopDp() {

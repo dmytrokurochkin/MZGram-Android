@@ -3007,8 +3007,14 @@ public class EmojiView extends FrameLayout implements
         }
         if (typeTabs != null) {
             typeTabs.setBackground(null);
+            typeTabs.setIndicatorColor(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_emojiPanelIconSelected), mzTypeTabsIndicatorAlpha()));
         }
         invalidate();
+    }
+
+    /** MZGram: 25% under the selected type on the flat bar, as the Material 3 secondary container; 8% otherwise. */
+    private int mzTypeTabsIndicatorAlpha() {
+        return mzFlatBarColorKey != -1 ? 0x40 : 20;
     }
 
     private void drawMzFlatBottomBar(Canvas canvas) {
@@ -6040,7 +6046,7 @@ public class EmojiView extends FrameLayout implements
             blurredBackgroundSourceColor.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
         }
         if (typeTabs != null) {
-            typeTabs.setIndicatorColor(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_emojiPanelIconSelected), 20));
+            typeTabs.setIndicatorColor(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_emojiPanelIconSelected), mzTypeTabsIndicatorAlpha()));
         }
     }
 

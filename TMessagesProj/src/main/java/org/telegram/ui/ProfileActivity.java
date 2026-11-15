@@ -3628,7 +3628,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 bottomButtonContainer[a] = new FrameLayout(context);
 
                     bottomButton[a] = new ButtonWithCounterView(context, resourcesProvider);
-                bottomButton[a].setRoundRadius(mzFab ? dp(app.exteraless.appearance.AppearanceConfig.fabCornerRadius(48)) : dp(19));
+                // setRoundRadius takes dp: the original dp(19) is a radius far over half the height, so it was always a pill
+                bottomButton[a].setRoundRadius(mzFab ? app.exteraless.appearance.AppearanceConfig.fabCornerRadius(48) : dp(19));
                 bottomButton[a].setUseWrapContent(true);
                 bottomButton[a].setPadding(dp(16), 0, mzFab ? dp(20) : dp(16), 0);
                 if (a == 0) {

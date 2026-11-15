@@ -43,7 +43,7 @@ import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 
 import xyz.nextalone.nagram.NaConfig;
 
-public class ProfileMusicView extends View {
+public class ProfileMusicView extends View implements Theme.Colorable {
 
     private final Theme.ResourcesProvider resourcesProvider;
     private final PorterDuffColorFilter filterColorWhite = new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
@@ -141,6 +141,12 @@ public class ProfileMusicView extends View {
 
     private boolean isButtonColorLight() {
         return AndroidUtilities.computePerceivedBrightness(buttonColor) > 0.72f;
+    }
+
+    /** MZGram: the tonal content colour comes from the theme, so it is read again when the theme changes. */
+    @Override
+    public void updateColors() {
+        checkTextColor();
     }
 
     private void checkTextColor() {

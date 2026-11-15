@@ -2998,13 +2998,7 @@ public class EmojiView extends FrameLayout implements
     /** Drops the floating pills of the bottom row and draws a solid bar in the given colour under it. */
     public void setMzFlatBottomBar(int colorKey) {
         mzFlatBarColorKey = colorKey;
-        final int ripple = getThemedColor(Theme.key_listSelector);
-        final View[] buttons = {backspaceButton, searchButton, stickerSettingsButton};
-        for (View button : buttons) {
-            if (button != null) {
-                button.setBackground(Theme.createSelectorDrawable(ripple, Theme.RIPPLE_MASK_CIRCLE_20DP));
-            }
-        }
+        mzFlatBarRipples();
         if (typeTabs != null) {
             typeTabs.setBackground(null);
             typeTabs.setIndicatorColor(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_emojiPanelIconSelected), mzTypeTabsIndicatorAlpha()));
@@ -6041,7 +6035,21 @@ public class EmojiView extends FrameLayout implements
         }
     }
 
+    /** The plain round ripples of the flat bar's buttons, made again when the theme changes. */
+    private void mzFlatBarRipples() {
+        final int ripple = getThemedColor(Theme.key_listSelector);
+        final View[] buttons = {backspaceButton, searchButton, stickerSettingsButton};
+        for (View button : buttons) {
+            if (button != null) {
+                button.setBackground(Theme.createSelectorDrawable(ripple, Theme.RIPPLE_MASK_CIRCLE_20DP));
+            }
+        }
+    }
+
     private void updateExtraColors() {
+        if (mzFlatBarColorKey != -1) {
+            mzFlatBarRipples();
+        }
         if (blurredBackgroundSourceColor != null) {
             blurredBackgroundSourceColor.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
         }

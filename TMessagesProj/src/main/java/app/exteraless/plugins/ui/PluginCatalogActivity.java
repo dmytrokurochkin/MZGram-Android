@@ -173,8 +173,8 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         ActionBarMenuItem other = actionBar.createMenu().addItem(MENU_OTHER, R.drawable.ic_ab_other);
         other.addSubItem(MENU_GITHUB, R.drawable.msg_language, getString(R.string.MZPluginsOnGitHub));
 
-        FrameLayout contentView = new FrameLayout(context);
-        contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        // MZGram: the screen's colours are re-applied when the theme changes, see updateScreenColors
+        FrameLayout contentView = new ColorableFrameLayout(context, this::updateScreenColors);
 
         listView = new RecyclerListView(context);
         listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -199,16 +199,12 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         statusColumn.addView(progressView, LayoutHelper.createLinear(48, 48, Gravity.CENTER_HORIZONTAL));
         statusText = new TextView(context);
         statusText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        statusText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
         statusText.setGravity(Gravity.CENTER);
         statusColumn.addView(statusText, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 32, 12, 32, 0));
         retryButton = new TextView(context);
         retryButton.setText(getString(R.string.MZPluginCatalogRetry));
         retryButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         retryButton.setTypeface(AndroidUtilities.bold());
-        retryButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-        retryButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp(16),
-                Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
         retryButton.setPadding(dp(20), dp(8), dp(20), dp(8));
         retryButton.setOnClickListener(v -> loadIndex());
         statusColumn.addView(retryButton, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 16, 0, 0));
@@ -216,6 +212,7 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         contentView.addView(statusView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         fragmentView = contentView;
+        updateScreenColors();
         loadIndex();
         return fragmentView;
     }
@@ -584,9 +581,62 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         view.setGravity(Gravity.CENTER);
         view.setTypeface(AndroidUtilities.bold());
         view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, sizeDp * 0.42f);
+        colorMonogram(view, sizeDp, surface);
+        return view;
+    }
+
+    private static void colorMonogram(TextView view, int sizeDp, int surface) {
         view.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
         view.setBackground(Theme.createCircleDrawable(dp(sizeDp), tonalColor(surface)));
-        return view;
+    }
+
+    /** The colours of the screen around the list, set at creation and again on every theme change. */
+    private void updateScreenColors() {
+        if (fragmentView != null) {
+            fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        }
+        if (statusText != null) {
+            statusText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
+        }
+        if (retryButton != null) {
+            retryButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+            retryButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp(16),
+                    Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
+        }
+    }
+
+    /**
+     * Containers whose colours are computed from the theme (tones blended from several keys). ThemeBind calls
+     * {@link Theme.Colorable#updateColors()} on every Colorable view of every window when the theme changes, so
+     * the screen and the sheet follow a theme switch even while they are open.
+     */
+    private static final class ColorableFrameLayout extends FrameLayout implements Theme.Colorable {
+        private final Runnable apply;
+
+        ColorableFrameLayout(Context context, Runnable apply) {
+            super(context);
+            this.apply = apply;
+        }
+
+        @Override
+        public void updateColors() {
+            apply.run();
+        }
+    }
+
+    private static final class ColorableLinearLayout extends LinearLayout implements Theme.Colorable {
+        Runnable apply;
+
+        ColorableLinearLayout(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void updateColors() {
+            if (apply != null) {
+                apply.run();
+            }
+        }
     }
 
     private static void bindMonogram(TextView view, String name) {
@@ -630,28 +680,20 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             return;
         }
         // MZGram: a Material 3 modal sheet: surface container low over a 32% scrim, with a drag handle
-        final int page = Theme.getColor(Theme.key_windowBackgroundWhite) | 0xFF000000;
-        final int onSurface = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText) | 0xFF000000;
-        final boolean dark = Theme.isCurrentThemeDark();
-        final int surface = ColorUtils.blendARGB(page, onSurface, dark ? 0.07f : 0.04f);
         BottomSheet sheet = new BottomSheet(activity, false);
-        sheet.setBackgroundColor(surface);
-        sheet.fixNavigationBar(surface);
         sheet.setDimBehindAlpha(82);
 
-        LinearLayout layout = new LinearLayout(activity);
+        ColorableLinearLayout layout = new ColorableLinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(dp(24), 0, dp(24), dp(16));
 
         View handle = new View(activity);
-        handle.setBackground(Theme.createRoundRectDrawable(dp(2),
-                ColorUtils.setAlphaComponent(ColorUtils.blendARGB(onSurface, page, 0.3f), 0x66)));
         layout.addView(handle, LayoutHelper.createLinear(32, 4, Gravity.CENTER_HORIZONTAL, 0, 6, 0, 22));
 
         LinearLayout head = new LinearLayout(activity);
         head.setOrientation(LinearLayout.HORIZONTAL);
         head.setGravity(Gravity.CENTER_VERTICAL);
-        TextView avatar = createMonogram(activity, 56, surface);
+        TextView avatar = createMonogram(activity, 56, Theme.getColor(Theme.key_windowBackgroundWhite));
         bindMonogram(avatar, entry.name);
         head.addView(avatar, LayoutHelper.createLinear(56, 56));
 
@@ -660,7 +702,6 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         TextView name = new TextView(activity);
         name.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         name.setTypeface(AndroidUtilities.bold());
-        name.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         name.setMaxLines(2);
         name.setEllipsize(TextUtils.TruncateAt.END);
         name.setText(entry.name);
@@ -674,10 +715,9 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         } else {
             meta = LocaleController.formatString(R.string.MZPluginCatalogVersionSize, entry.version, size);
         }
-        if (!TextUtils.isEmpty(meta)) {
-            TextView metaView = new TextView(activity);
+        final TextView metaView = TextUtils.isEmpty(meta) ? null : new TextView(activity);
+        if (metaView != null) {
             metaView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            metaView.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
             metaView.setText(meta);
             titles.addView(metaView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 2, 0, 0));
         }
@@ -685,10 +725,9 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         layout.addView(head, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         String description = localizedDescription(entry);
-        if (!TextUtils.isEmpty(description)) {
-            TextView descriptionView = new TextView(activity);
+        final TextView descriptionView = TextUtils.isEmpty(description) ? null : new TextView(activity);
+        if (descriptionView != null) {
             descriptionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            descriptionView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
             descriptionView.setLineSpacing(dp(3), 1f);
             descriptionView.setText(description);
             layout.addView(descriptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 20, 0, 0));
@@ -696,7 +735,6 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
 
         TextView info = new TextView(activity);
         info.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
-        info.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
         info.setLineSpacing(dp(2), 1f);
         info.setText(getString(R.string.MZPluginCatalogInfo));
         layout.addView(info, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 16, 0, 0));
@@ -706,7 +744,6 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         button.setTypeface(AndroidUtilities.bold());
         button.setSingleLine(true);
-        styleAction(button, stateOf(entry), dp(24), surface, true);
         button.setOnClickListener(v -> {
             sheet.dismiss();
             if (stateOf(entry) != STATE_INSTALLED) {
@@ -715,6 +752,28 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         });
         layout.addView(button, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48, 0, 24, 0, 0));
 
+        // the tones are blended from several theme keys, so they are computed here and again on a theme change
+        layout.apply = () -> {
+            final int page = Theme.getColor(Theme.key_windowBackgroundWhite) | 0xFF000000;
+            final int onSurface = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText) | 0xFF000000;
+            final int surface = ColorUtils.blendARGB(page, onSurface, Theme.isCurrentThemeDark() ? 0.07f : 0.04f);
+            sheet.setBackgroundColor(surface);
+            sheet.fixNavigationBar(surface);
+            handle.setBackground(Theme.createRoundRectDrawable(dp(2),
+                    ColorUtils.setAlphaComponent(ColorUtils.blendARGB(onSurface, page, 0.3f), 0x66)));
+            colorMonogram(avatar, 56, surface);
+            name.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+            if (metaView != null) {
+                metaView.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
+            }
+            if (descriptionView != null) {
+                descriptionView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+            }
+            info.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
+            styleAction(button, stateOf(entry), dp(24), surface, true);
+        };
+        layout.apply.run();
+
         ScrollView scroll = new ScrollView(activity);
         scroll.addView(layout);
         sheet.setCustomView(scroll);
@@ -722,7 +781,7 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
     }
 
     /** A Material 3 list item: a monogram, the name with its version, two lines of description, the action. */
-    private class CatalogCell extends FrameLayout {
+    private class CatalogCell extends FrameLayout implements Theme.Colorable {
 
         Entry entry;
         private final TextView avatarView;
@@ -734,7 +793,6 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
         CatalogCell(Context context) {
             super(context);
             final int surface = Theme.getColor(Theme.key_windowBackgroundWhite);
-            setBackgroundColor(surface);
 
             LinearLayout row = new LinearLayout(context);
             row.setOrientation(LinearLayout.HORIZONTAL);
@@ -754,20 +812,17 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             nameView = new TextView(context);
             nameView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             nameView.setTypeface(AndroidUtilities.bold());
-            nameView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             nameView.setSingleLine(true);
             nameView.setEllipsize(TextUtils.TruncateAt.END);
             titleRow.addView(nameView, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f));
             versionView = new TextView(context);
             versionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
-            versionView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             versionView.setSingleLine(true);
             titleRow.addView(versionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0, 0));
             column.addView(titleRow, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
             descriptionView = new TextView(context);
             descriptionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            descriptionView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             descriptionView.setMaxLines(2);
             descriptionView.setEllipsize(TextUtils.TruncateAt.END);
             descriptionView.setLineSpacing(dp(1), 1f);
@@ -788,6 +843,21 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             row.addView(actionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 36, Gravity.CENTER_VERTICAL));
 
             addView(row, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            updateColors();
+        }
+
+        /** Every colour of the row; ThemeBind calls it again when the theme changes. */
+        @Override
+        public void updateColors() {
+            final int surface = Theme.getColor(Theme.key_windowBackgroundWhite);
+            setBackgroundColor(surface);
+            colorMonogram(avatarView, 40, surface);
+            nameView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            versionView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
+            descriptionView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
+            if (entry != null) {
+                styleAction(actionView, stateOf(entry), dp(18), surface, false);
+            }
         }
 
         void bind(Entry entry, int state) {

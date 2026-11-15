@@ -25,7 +25,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
  * MZGram: the Material 3 empty state of the plugins: the plugin icon on a tonal circle, a title and a line
  * of text. The ways to get a plugin are the rows above it, so the text only says what plugins are.
  */
-final class PluginsEmptyCell extends FrameLayout {
+final class PluginsEmptyCell extends FrameLayout implements Theme.Colorable {
 
     private final LinearLayout content;
     private final FrameLayout iconCircle;
@@ -72,7 +72,9 @@ final class PluginsEmptyCell extends FrameLayout {
         updateColors();
     }
 
-    void updateColors() {
+    /** ThemeBind calls it again when the theme changes. */
+    @Override
+    public void updateColors() {
         final int page = Theme.getColor(Theme.key_windowBackgroundGray) | 0xFF000000;
         final int accent = Theme.getColor(Theme.key_featuredStickers_addButton) | 0xFF000000;
         iconCircle.setBackground(Theme.createCircleDrawable(dp(88),

@@ -135,18 +135,19 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
             return;
         }
         holder.textView.setText(text);
+        // MZGram: bound to the theme keys, so the labels follow a theme switch inside the chat
         if (mzFlat()) {
-            holder.textView.setTextColor(Theme.getColor(Theme.key_chat_fieldOverlayText, resourcesProvider));
+            ThemeBind.textColor(holder.textView, Theme.key_chat_fieldOverlayText, resourcesProvider);
         } else {
-            holder.textView.setTextColor(Theme.getColor(Theme.key_glass_defaultText, resourcesProvider));
+            ThemeBind.textColor(holder.textView, Theme.key_glass_defaultText, resourcesProvider);
         }
         Drawable image = null;
         if (iconRes != 0) {
             image = getContext().getResources().getDrawable(iconRes).mutate();
             if (mzFlat()) {
-                image.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_fieldOverlayText, resourcesProvider), PorterDuff.Mode.SRC_IN));
+                ThemeBind.drawableColorFilter(holder.textView, image, Theme.key_chat_fieldOverlayText, resourcesProvider, PorterDuff.Mode.SRC_IN);
             } else {
-                image.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+                ThemeBind.drawableColorFilter(holder.textView, image, Theme.key_glass_defaultIcon, resourcesProvider, PorterDuff.Mode.MULTIPLY);
             }
         }
         holder.textView.setCompoundDrawablesWithIntrinsicBounds(iconLeft ? image : null, null, iconLeft ? null : image, null);

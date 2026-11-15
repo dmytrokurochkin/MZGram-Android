@@ -499,12 +499,8 @@ public class OpenExteraAppNavigationActivity extends BaseFragment {
         if (getParentActivity() == null) {
             return;
         }
-        final org.telegram.ui.ActionBar.AlertDialog.Builder builder =
-                new org.telegram.ui.ActionBar.AlertDialog.Builder(getParentActivity());
-        builder.setTitle(title);
-        builder.setItems(options, (dialog, which) -> onSelected.run(which));
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
+        showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), title, options, selected,
+                (dialog, which) -> onSelected.run(which)));
     }
 
     private static ConfigItem mainTabConfig(int id) {

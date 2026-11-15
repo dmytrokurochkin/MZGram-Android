@@ -468,16 +468,13 @@ public class OpenExteraAyuMomentsActivity extends BaseNekoSettingsActivity {
                 getString(R.string.SaveExceptionsAllExceptSelected),
                 getString(R.string.SaveExceptionsOnlySelected)
         };
-        new AlertDialog.Builder(context, getResourceProvider())
-                .setTitle(getString(config.getKey()))
-                .setItems(modes, (dialog, which) -> {
+        showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), getString(config.getKey()), modes,
+                config.Int() == 1 ? 1 : 0, (dialog, which) -> {
                     config.setConfigInt(which);
                     if (listAdapter != null) {
                         listAdapter.notifyItemChanged(row);
                     }
-                })
-                .setNegativeButton(getString(R.string.Cancel), null)
-                .show();
+                }));
     }
 
     private String getSaveExceptionsModeValue(ConfigItem config) {

@@ -539,52 +539,43 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
         if (getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(R.string.OEGeneralMapProvider));
-        builder.setItems(mapProviderOptions(), (dialog, which) -> {
+        showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), getString(R.string.OEGeneralMapProvider), mapProviderOptions(),
+                NekoConfig.useOSMDroidMap.Bool() ? 1 : 0, (dialog, which) -> {
             NekoConfig.useOSMDroidMap.setConfigBool(which == 1);
             ApplicationLoader.resetMapsProvider();
             updateRows();
             if (listAdapter != null) {
                 listAdapter.notifyDataSetChanged();
             }
-        });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
+        }));
     }
 
     private void showMapPreviewSelector() {
         if (getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(R.string.OEGeneralMapPreview));
-        builder.setItems(mapPreviewOptions(), (dialog, which) -> {
+        showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), getString(R.string.OEGeneralMapPreview), mapPreviewOptions(),
+                NekoConfig.mapPreviewProvider.Int(), (dialog, which) -> {
             NekoConfig.mapPreviewProvider.setConfigInt(which);
             if (listAdapter != null) {
                 listAdapter.notifyItemChanged(mapPreviewRow);
             }
-        });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
+        }));
     }
 
     private void showIdAndDcSelector() {
         if (getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(R.string.OEGeneralShowIdAndDc));
-        builder.setItems(idOptions(), (dialog, which) -> {
+        showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), getString(R.string.OEGeneralShowIdAndDc), idOptions(),
+                NaConfig.INSTANCE.getIdDcType().Int(), (dialog, which) -> {
             NaConfig.INSTANCE.getIdDcType().setConfigInt(which);
             if (listAdapter != null) {
                 listAdapter.notifyItemChanged(showIdAndDcRow);
             }
             getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             rebuildAll();
-        });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
+        }));
     }
 
     /**
@@ -682,9 +673,8 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
         if (getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(R.string.DnsType));
-        builder.setItems(dnsTypeOptions(), (dialog, which) -> {
+        showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), getString(R.string.DnsType), dnsTypeOptions(),
+                NekoConfig.dnsType.Int(), (dialog, which) -> {
             if (NekoConfig.dnsType.Int() == which) {
                 return;
             }
@@ -694,9 +684,7 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
                 listAdapter.notifyDataSetChanged();
             }
             showRestartHint();
-        });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
+        }));
     }
 
     private void showCustomDoHDialog() {
@@ -721,9 +709,8 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
         if (getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(R.string.PushServiceType));
-        builder.setItems(pushServiceTypeOptions(), (dialog, which) -> {
+        showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), getString(R.string.PushServiceType), pushServiceTypeOptions(),
+                NaConfig.INSTANCE.getPushServiceType().Int(), (dialog, which) -> {
             if (NaConfig.INSTANCE.getPushServiceType().Int() == which) {
                 return;
             }
@@ -739,9 +726,7 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
                 listAdapter.notifyDataSetChanged();
             }
             showRestartHint();
-        });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
+        }));
     }
 
     private void showPushGatewayDialog() {

@@ -30,4 +30,5 @@
     <string name="MZHeaderInfo">Компактная шапка ставит меню, папки и кнопку поиска в одну строку сверху, без названия приложения. Без вкладок папки открываются долгим нажатием на «Чаты» внизу.</string>
     <string name="MZMaterialSurfaces">Сплошные панели</string>
     <string name="MZMaterialDialogs">Диалоги</string>
+    <string name="MZSolidPanelsBlurInfo">Включены сплошные панели, поэтому стекла и размытия нет. Чтобы вернуть их, выключите «Сплошные панели» в Material Design 3.</string>
 </resources>

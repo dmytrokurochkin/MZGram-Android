@@ -268,7 +268,8 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         // MZGram: with solid Material surfaces there is no glass and no blur to tune.
         boolean solid = AppearanceConfig.materialSurfaces();
         glassOutlineRow = solid ? -1 : addRow("glassOutline");
-        glassMessageMenuRow = addRow("glassMessageMenu");
+        // The glass message menu draws over chat blur, which solid surfaces turn off.
+        glassMessageMenuRow = solid ? -1 : addRow("glassMessageMenu");
         forceBlurRow = solid ? -1 : addRow("forceBlur");
         disableAvatarBlurRow = addRow("disableAvatarBlur");
         blurDividerRow = addRow();
@@ -417,9 +418,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         if (getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(title);
-        builder.setItems(items, (dialog, which) -> {
+        showChoice(title, items, item.Int(), which -> {
             item.setConfigInt(which);
             if (listAdapter != null) {
                 listAdapter.notifyItemChanged(position);
@@ -428,8 +427,15 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                 after.run();
             }
         });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
+    }
+
+    /** MZGram: a Material single-choice dialog, with a radio button on the current option. */
+    private void showChoice(String title, CharSequence[] items, int selected, java.util.function.IntConsumer onPick) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), title, items, selected,
+                (dialog, which) -> onPick.accept(which)));
     }
 
     private CharSequence[] titleTextOptions() {
@@ -446,17 +452,13 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         if (getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(R.string.OEAppearanceTitleText));
-        builder.setItems(titleTextOptions(), (dialog, which) -> {
+        showChoice(getString(R.string.OEAppearanceTitleText), titleTextOptions(), AppearanceConfig.titleText.Int(), which -> {
             if (which == AppearanceConfig.TITLE_TEXT_CUSTOM) {
                 showCustomTitleDialog(onChanged);
             } else {
                 setTitleText(which, onChanged);
             }
         });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
     }
 
     private void setTitleText(int value, Runnable onChanged) {
@@ -692,24 +694,24 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
             showSelector(position, getString(R.string.MZHeaderStyle), new CharSequence[]{
                     getString(R.string.MZHeaderStyleStandard),
                     getString(R.string.MZHeaderStyleCompact)
-            }, AppearanceConfig.dialogsHeaderStyle, this::rebuildAll);
-            return;
-        } else if (position == searchStyleRow) {
-            if (getParentActivity() == null) {
-                return;
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(getString(R.string.MZSearchStyle));
-            builder.setItems(searchStyleOptions(), (dialog, which) -> {
-                AppearanceConfig.hideDialogsSearch.setConfigBool(which == SEARCH_HIDDEN);
-                NaConfig.INSTANCE.getHideDialogsSearchField().setConfigBool(which != SEARCH_FIELD);
-                if (listAdapter != null) {
-                    listAdapter.notifyItemChanged(position);
-                }
+            }, AppearanceConfig.dialogsHeaderStyle, () -> {
+                // The compact header has no search bar, so the Search row's value changes too.
+                notifyRow(searchStyleRow);
                 rebuildAll();
             });
-            builder.setNegativeButton(getString(R.string.Cancel), null);
-            showDialog(builder.create());
+            return;
+        } else if (position == searchStyleRow) {
+            showChoice(getString(R.string.MZSearchStyle), searchStyleOptions(), searchStyleIndex(), which -> {
+                AppearanceConfig.hideDialogsSearch.setConfigBool(which == SEARCH_HIDDEN);
+                NaConfig.INSTANCE.getHideDialogsSearchField().setConfigBool(which != SEARCH_FIELD);
+                if (which == SEARCH_FIELD && AppearanceConfig.compactDialogsHeader()) {
+                    // The search bar only exists in the standard header.
+                    AppearanceConfig.dialogsHeaderStyle.setConfigInt(AppearanceConfig.HEADER_STANDARD);
+                    notifyRow(headerStyleRow);
+                }
+                notifyRow(position);
+                rebuildAll();
+            });
             return;
         } else if (position == folderTabsRow) {
             AppearanceConfig.hideFolderTabs.setConfigBool(!AppearanceConfig.hideFolderTabs.Bool());
@@ -806,9 +808,13 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
             // Порядок пунктов диалога свой, значения NekoConfig.tabsTitleType тоже
             // (0 TEXT, 1 ICON, 2 MIX),
             // поэтому индекс диалога отображается через TAB_TITLE_ORDER.
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(getString(R.string.OEAppearanceTabTitleStyle));
-            builder.setItems(tabTitleOptions(), (dialog, which) -> {
+            int currentTabTitle = -1;
+            for (int i = 0; i < TAB_TITLE_ORDER.length; i++) {
+                if (TAB_TITLE_ORDER[i] == NekoConfig.tabsTitleType.Int()) {
+                    currentTabTitle = i;
+                }
+            }
+            showChoice(getString(R.string.OEAppearanceTabTitleStyle), tabTitleOptions(), currentTabTitle, which -> {
                 NekoConfig.tabsTitleType.setConfigInt(TAB_TITLE_ORDER[clamp(which, TAB_TITLE_ORDER.length)]);
                 if (listAdapter != null) {
                     listAdapter.notifyItemChanged(position);
@@ -819,8 +825,6 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
             });
-            builder.setNegativeButton(getString(R.string.Cancel), null);
-            showDialog(builder.create());
             return;
         } else if (position == tabCounterRow) {
             showSelector(position, getString(R.string.OEAppearanceTabCounter), new CharSequence[]{
@@ -1218,7 +1222,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                     if (position == appearanceDividerRow) {
                         cell.setText(getString(R.string.OEAppearanceCustomThemesInfo));
                     } else if (position == blurDividerRow) {
-                        cell.setText(getString(R.string.OEAppearanceBlurInfo));
+                        cell.setText(getString(AppearanceConfig.materialSurfaces() ? R.string.MZSolidPanelsBlurInfo : R.string.OEAppearanceBlurInfo));
                     } else if (position == avatarsDividerRow) {
                         cell.setText(getString(R.string.OEAppearanceSingleCornerRadiusInfo));
                     } else if (position == chatListDividerRow) {

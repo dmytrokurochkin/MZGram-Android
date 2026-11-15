@@ -978,8 +978,10 @@ public class MZGramSettingsActivity extends UniversalFragment {
 
     private void openBatteryOptimization() {
         try {
-            Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-            startActivity(intent);
+            if (getParentActivity() != null) {
+                Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                getParentActivity().startActivity(intent);
+            }
         } catch (Throwable e) {
             FileLog.e(e);
         }

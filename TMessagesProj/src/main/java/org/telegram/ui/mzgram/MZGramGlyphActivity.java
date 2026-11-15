@@ -87,4 +87,9 @@ public class MZGramGlyphActivity extends UniversalFragment {
             }
         }
     }
+
+    @Override
+    protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
+        return false;
+    }
 }

@@ -61,20 +61,17 @@
     <string name="OEGeneralExportEtgSettings">Экспорт настроек</string>
     <string name="OEGeneralImportEtgSettings">Импорт настроек</string>
     <string name="OEGeneralExportFormatFull">Все настройки (.json)</string>
-    <string name="OEGeneralExportFormatExtera">Формат exteraGram (.extera)</string>
     <string name="OEGeneralImportEtgConfirm">Настроек в файле: %1$d. Текущие значения будут заменены.</string>
-    <string name="OEGeneralImportEtgEmpty">В файле нет настроек exteraGram.</string>
     <string name="OEGeneralImportEtgDone">Импортировано настроек: %1$d</string>
     <string name="OEGeneralResetSettings">Сброс настроек</string>
     <string name="OEGeneralResetSettingsInfo">Все настройки вернутся к значениям по умолчанию, приложение перезапустится.</string>
-    <string name="OEGeneralResetSettingsDone">Настройки exteraless сброшены.</string>
+    <string name="OEGeneralResetSettingsDone">Настройки MZGram сброшены.</string>
     <string name="OEGeneralDeleteAccount">Удалить аккаунт</string>
     <string name="DeepLFormalityDefault">Тон: как есть</string>
     <string name="DeepLFormalityInformal">Тон: неформальный</string>
     <string name="DeepLFormalityFormal">Тон: формальный</string>
     <string name="OEGeneralSavePathInfoFolder">Файлы сохраняются в Downloads/%1$s. Только буквы, цифры, пробел, точка, дефис и подчёркивание.</string>
     <string name="OEGeneralNagramHeader">Дополнительно</string>
-    <string name="OEGeneralNagramSettings">Настройки NagramX</string>
     <string name="OEGeneralAyuMoments">AyuMoments</string>
     <string name="OEGeneralAyuMomentsInfo">Сохранение удалённых и изменённых сообщений, режим призрака и regex-фильтры. Функции работают, пока включены, — даже если не открывать этот экран.</string>
     <string name="OEGeneralAyuMomentsDisableAll">Отключить все функции AyuMoments</string>
@@ -102,7 +99,7 @@
     <string name="OEGeneralMapProvider">Провайдер карт</string>
     <string name="OEGeneralMapPreview">Превью локаций</string>
     <string name="OEGeneralMapDriftingFix">Исправлять смещение карты</string>
-    <string name="OECrashTitle">exteraless аварийно завершился</string>
+    <string name="OECrashTitle">MZGram аварийно завершился</string>
     <string name="OEGeneralNetworkHeader">Сеть</string>
     <string name="OEPrivacyFalseBottom">Двойное дно</string>
     <string name="OEPrivacyFalseBottomShowIn">Показывать в разделе «%1$s»</string>
@@ -117,7 +114,7 @@
     <string name="CloudConfigIncludeApiKeysDesc">Ключи API сервисов ИИ и перевода тоже попадут в облако.</string>
     <string name="OECloudTitle">Облако</string>
     <string name="OECloudHeroTitle">Настройки в облаке</string>
-    <string name="OECloudHeroText">Храните настройки exteraless в Telegram и восстанавливайте их на любом устройстве с этим аккаунтом.</string>
+    <string name="OECloudHeroText">Храните настройки MZGram в Telegram и восстанавливайте их на любом устройстве с этим аккаунтом.</string>
     <string name="OECloudStatus">Состояние</string>
     <string name="OECloudLocal">Это устройство</string>
     <string name="OECloudRemote">Облако</string>
@@ -168,7 +165,6 @@
     <string name="OEAyuSaveInArchivedInfo">Удалённые и изменённые сообщения из чатов в архиве тоже сохраняются.</string>
     <string name="OEAyuDatabaseExport">Экспорт базы</string>
     <string name="OEAyuDatabaseImport">Импорт базы</string>
-    <string name="OEAyuDatabaseImportInfo">Удалённые и изменённые сообщения из файла добавятся к уже сохранённым. Подходят выгрузки exteraless и AyuGram. Медиа из другого приложения могут не открыться.</string>
     <string name="OEAyuDatabaseImportDone">Добавлено сообщений: %1$d</string>
     <string name="OEAyuDatabaseImportFailed">Не удалось импортировать файл</string>
     <string name="OEAyuRegexReversed">Обратный</string>
@@ -190,5 +186,5 @@
     <string name="OEUpdaterAllReleases">Все релизы на GitHub</string>
     <string name="OELiteFollowSystemSaver">Как в системе</string>
     <string name="OELiteFollowSystemSaverInfo">Энергосбережение включается вместе с системным режимом экономии заряда.</string>
-    <string name="OEUnknownSettingsOption">В настройках exteraless нет такой опции.</string>
+    <string name="OEUnknownSettingsOption">В настройках MZGram нет такой опции.</string>
 </resources>

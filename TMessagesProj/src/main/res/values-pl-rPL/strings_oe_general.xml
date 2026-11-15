@@ -46,19 +46,16 @@
     <string name="OEGeneralExportEtgSettings">Eksportuj ustawienia</string>
     <string name="OEGeneralImportEtgSettings">Importuj ustawienia</string>
     <string name="OEGeneralExportFormatFull">Wszystkie ustawienia (.json)</string>
-    <string name="OEGeneralExportFormatExtera">Format exteraGram (.extera)</string>
     <string name="OEGeneralImportEtgConfirm">Ustawienia z tego pliku (%1$d) zastąpią obecne.</string>
-    <string name="OEGeneralImportEtgEmpty">W tym pliku nie znaleziono ustawień exteraGram.</string>
     <string name="OEGeneralImportEtgDone">Zaimportowane ustawienia: %1$d</string>
     <string name="OEGeneralResetSettings">Zresetuj ustawienia</string>
     <string name="OEGeneralResetSettingsInfo">Wszystkie ustawienia zostaną przywrócone do wartości domyślnych, a aplikacja uruchomi się ponownie.</string>
-    <string name="OEGeneralResetSettingsDone">Ustawienia exteraless zostały zresetowane.</string>
+    <string name="OEGeneralResetSettingsDone">Ustawienia MZGram zostały zresetowane.</string>
     <string name="OEGeneralDeleteAccount">Usuń konto</string>
     <string name="DeepLFormalityDefault">Ton: jak w oryginale</string>
     <string name="DeepLFormalityInformal">Ton: nieformalny</string>
     <string name="DeepLFormalityFormal">Ton: formalny</string>
     <string name="OEGeneralNagramHeader">Dodatki</string>
-    <string name="OEGeneralNagramSettings">Ustawienia NagramX</string>
     <string name="OEGeneralAyuMoments">AyuMoments</string>
     <string name="OEGeneralAyuMomentsInfo">Zapisywanie usuniętych i edytowanych wiadomości, tryb ducha i filtry regex. Funkcje działają dalej, nawet gdy nie otwierasz tego ekranu.</string>
     <string name="OEGeneralAyuMomentsDisableAll">Wyłącz wszystkie funkcje AyuMoments</string>
@@ -85,7 +82,7 @@
     <string name="OEGeneralMapProvider">Dostawca map</string>
     <string name="OEGeneralMapPreview">Podglądy lokalizacji</string>
     <string name="OEGeneralMapDriftingFix">Popraw przesunięcie mapy</string>
-    <string name="OECrashTitle">exteraless uległ awarii</string>
+    <string name="OECrashTitle">MZGram uległ awarii</string>
     <string name="OEGeneralNetworkHeader">Sieć</string>
     <string name="OEPrivacyFalseBottom">Podwójne dno</string>
     <string name="OEPrivacyFalseBottomShowIn">Pokazuj w sekcji „%1$s”</string>
@@ -120,7 +117,6 @@
     <string name="OEAyuSaveInArchivedInfo">Usunięte i edytowane wiadomości z zarchiwizowanych czatów też są zapisywane.</string>
     <string name="OEAyuDatabaseExport">Eksportuj bazę danych</string>
     <string name="OEAyuDatabaseImport">Importuj bazę danych</string>
-    <string name="OEAyuDatabaseImportInfo">Usunięte i edytowane wiadomości z tego pliku zostaną dodane do już zapisanych. Obsługiwane są eksporty z exteraless i AyuGram. Multimedia z innej aplikacji mogą być niedostępne.</string>
     <string name="OEAyuDatabaseImportDone">Dodano wiadomości: %1$d</string>
     <string name="OEAyuDatabaseImportFailed">Nie udało się zaimportować pliku</string>
     <string name="OEAyuRegexReversed">Odwrócony</string>
@@ -142,5 +138,5 @@
     <string name="OEUpdaterAllReleases">Wszystkie wydania na GitHubie</string>
     <string name="OELiteFollowSystemSaver">Zgodnie z systemowym oszczędzaniem baterii</string>
     <string name="OELiteFollowSystemSaverInfo">Oszczędzanie energii włącza się razem z systemowym trybem oszczędzania baterii.</string>
-    <string name="OEUnknownSettingsOption">W ustawieniach exteraless nie ma takiej opcji.</string>
+    <string name="OEUnknownSettingsOption">W ustawieniach MZGram nie ma takiej opcji.</string>
 </resources>

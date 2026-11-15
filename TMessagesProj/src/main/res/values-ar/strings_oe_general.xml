@@ -46,19 +46,16 @@
     <string name="OEGeneralExportEtgSettings">تصدير الإعدادات</string>
     <string name="OEGeneralImportEtgSettings">استيراد الإعدادات</string>
     <string name="OEGeneralExportFormatFull">جميع الإعدادات (.json)</string>
-    <string name="OEGeneralExportFormatExtera">صيغة exteraGram (.extera)</string>
     <string name="OEGeneralImportEtgConfirm">ستحل %1$d من الإعدادات في هذا الملف محل الإعدادات الحالية.</string>
-    <string name="OEGeneralImportEtgEmpty">لم يُعثر على إعدادات exteraGram في هذا الملف.</string>
     <string name="OEGeneralImportEtgDone">تم استيراد الإعدادات: %1$d</string>
     <string name="OEGeneralResetSettings">إعادة تعيين الإعدادات</string>
     <string name="OEGeneralResetSettingsInfo">ستُعاد جميع الإعدادات إلى قيمها الافتراضية وسيُعاد تشغيل التطبيق.</string>
-    <string name="OEGeneralResetSettingsDone">تمت إعادة تعيين تفضيلات exteraless.</string>
+    <string name="OEGeneralResetSettingsDone">تمت إعادة تعيين تفضيلات MZGram.</string>
     <string name="OEGeneralDeleteAccount">حذف الحساب</string>
     <string name="DeepLFormalityDefault">النبرة: كما هي</string>
     <string name="DeepLFormalityInformal">النبرة: غير رسمية</string>
     <string name="DeepLFormalityFormal">النبرة: رسمية</string>
     <string name="OEGeneralNagramHeader">إضافات</string>
-    <string name="OEGeneralNagramSettings">إعدادات NagramX</string>
     <string name="OEGeneralAyuMoments">AyuMoments</string>
     <string name="OEGeneralAyuMomentsInfo">حفظ الرسائل المحذوفة والمعدّلة، ووضع الشبح، وفلاتر التعابير النمطية. تستمر الميزات في العمل ما دامت مفعّلة، سواء فتحت هذه الشاشة أم لا.</string>
     <string name="OEGeneralAyuMomentsDisableAll">إيقاف جميع ميزات AyuMoments</string>
@@ -85,7 +82,7 @@
     <string name="OEGeneralMapProvider">مزوّد الخرائط</string>
     <string name="OEGeneralMapPreview">معاينات المواقع</string>
     <string name="OEGeneralMapDriftingFix">إصلاح انزياح الخريطة</string>
-    <string name="OECrashTitle">تعطّل exteraless</string>
+    <string name="OECrashTitle">تعطّل MZGram</string>
     <string name="OEGeneralNetworkHeader">الشبكة</string>
     <string name="OEPrivacyFalseBottom">القاع الزائف</string>
     <string name="OEPrivacyFalseBottomShowIn">إظهار في %1$s</string>
@@ -100,7 +97,7 @@
     <string name="CloudConfigIncludeApiKeysDesc">تُرفع مفاتيح API لخدمات الذكاء الاصطناعي والترجمة إلى السحابة أيضًا.</string>
     <string name="OECloudTitle">السحابة</string>
     <string name="OECloudHeroTitle">الإعدادات في السحابة</string>
-    <string name="OECloudHeroText">احتفظ بإعدادات exteraless في Telegram واستعدها على أي جهاز مسجّل الدخول إلى هذا الحساب.</string>
+    <string name="OECloudHeroText">احتفظ بإعدادات MZGram في Telegram واستعدها على أي جهاز مسجّل الدخول إلى هذا الحساب.</string>
     <string name="OECloudStatus">الحالة</string>
     <string name="OECloudLocal">هذا الجهاز</string>
     <string name="OECloudRemote">السحابة</string>
@@ -151,7 +148,6 @@
     <string name="OEAyuSaveInArchivedInfo">تُحفظ أيضًا الرسائل المحذوفة والمعدّلة من المحادثات المؤرشفة.</string>
     <string name="OEAyuDatabaseExport">تصدير قاعدة البيانات</string>
     <string name="OEAyuDatabaseImport">استيراد قاعدة البيانات</string>
-    <string name="OEAyuDatabaseImportInfo">ستُضاف الرسائل المحذوفة والمعدّلة من هذا الملف إلى الرسائل المحفوظة. ملفات التصدير من exteraless وAyuGram مدعومة. قد لا تتوفر الوسائط من تطبيق آخر.</string>
     <string name="OEAyuDatabaseImportDone">الرسائل المضافة: %1$d</string>
     <string name="OEAyuDatabaseImportFailed">تعذّر استيراد هذا الملف</string>
     <string name="OEAyuRegexReversed">عكسي</string>
@@ -173,5 +169,5 @@
     <string name="OEUpdaterAllReleases">جميع الإصدارات على GitHub</string>
     <string name="OELiteFollowSystemSaver">اتباع موفر البطارية في النظام</string>
     <string name="OELiteFollowSystemSaverInfo">يُفعَّل توفير الطاقة مع تفعيل موفر البطارية في النظام.</string>
-    <string name="OEUnknownSettingsOption">لا يوجد مثل هذا الخيار في إعدادات exteraless.</string>
+    <string name="OEUnknownSettingsOption">لا يوجد مثل هذا الخيار في إعدادات MZGram.</string>
 </resources>

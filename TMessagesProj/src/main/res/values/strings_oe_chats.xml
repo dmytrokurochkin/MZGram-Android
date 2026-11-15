@@ -178,8 +178,8 @@
     <string name="OEInlineDocPercent">Percentages and shorthands</string>
     <string name="OEInlineTapToCopy">Tap an example to copy it.</string>
     <string name="OEChatsInlineMathAnnouncement">Result: %1$s</string>
-    <string name="OELocalPremiumInfo">Premium emoji are sent as links that exteraless and other clients that support this show as the real emoji. Other Premium features work only on this device.</string>
-    <string name="OELocalPremiumEmojiHint">You don\'t have **Telegram Premium**, so this emoji is sent as a link: only users of **exteraless** and clients that support this will see it.</string>
+    <string name="OELocalPremiumInfo">Premium emoji are sent as links that MZGram and other clients that support this show as the real emoji. Other Premium features work only on this device.</string>
+    <string name="OELocalPremiumEmojiHint">You don\'t have **Telegram Premium**, so this emoji is sent as a link: only users of **MZGram** and clients that support this will see it.</string>
     <string name="OEChatsSections">Sections</string>
     <string name="OEChatsMenus">Menus and Buttons</string>
     <string name="OEChatsMenusInfo">Chat, message and media viewer menus</string>

@@ -26,7 +26,9 @@ def buildTimestamp = System.getenv('BUILD_TIMESTAMP') ?: '0'
 def commitId = System.getenv('COMMIT_ID')
 def shortCommit = commitId?.take(7) ?: ''
 def verName = "${APP_VERSION_NAME}${shortCommit ? "-${shortCommit}" : ''}"
-def verCode = 1261
+// MZGram: the version code stays above the installed MZGram's (APP_VERSION_CODE * 10 + ABI digit),
+// otherwise Android refuses to install this build over it.
+def verCode = Integer.parseInt(APP_VERSION_CODE) * 10
 
 def officialVer = APP_VERSION_NAME
 def officialCode = APP_VERSION_CODE
@@ -260,6 +262,9 @@ android {
             multiDexEnabled = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             matchingFallbacks = ['release', 'staging', 'debug']
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
             signingConfig = hasReleaseKeystore ? signingConfigs.release : signingConfigs.debug
         }
 
@@ -271,6 +276,9 @@ android {
             multiDexEnabled = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             matchingFallbacks = ['release', 'staging', 'debug']
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
             signingConfig = hasReleaseKeystore ? signingConfigs.release : signingConfigs.debug
         }
     }
@@ -283,7 +291,7 @@ android {
 androidComponents {
     onVariants(selector().all()) { variant ->
         variant.outputs.forEach { output ->
-            String gramName = 'exteraless'
+            String gramName = 'MZGram'
             String first = String.format('%s-v%s(%s)', gramName, verName, verCode)
             output.outputFileName.set(
                 output.outputFileName.get()

@@ -913,7 +913,7 @@ public final class OnlineLyrics {
     }
 
     private static String userAgent() {
-        return "exteraless/" + BuildVars.BUILD_VERSION_STRING + " (https://github.com/exteraless/exteraless)";
+        return "MZGram/" + BuildVars.BUILD_VERSION_STRING + " (https://github.com/dmytrokurochkin/MZGram-Android)";
     }
 
     private static boolean isTransient(int code) {

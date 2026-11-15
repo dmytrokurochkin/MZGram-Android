@@ -378,7 +378,8 @@ public class AndroidUtil {
     }
 
     public static boolean shouldEnableCrashlytics() {
-        return !BuildConfig.DEBUG
-                && app.exteraless.general.GeneralConfig.crashReports();
+        // MZGram: never send crash reports to Firebase, the project in google-services.json
+        // is not MZGram's. Crashes stay in the local crash log.
+        return false;
     }
 }

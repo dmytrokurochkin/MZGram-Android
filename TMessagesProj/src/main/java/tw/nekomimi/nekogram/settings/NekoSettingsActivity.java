@@ -83,7 +83,8 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity {
         appRestartRow = addRow();
         nSettingsEndRow = addRow();
 
-        aboutRow = addRow();
+        // MZGram: the inherited About screen is about another client, so there is no row for it.
+        aboutRow = -1;
     }
 
     @Override

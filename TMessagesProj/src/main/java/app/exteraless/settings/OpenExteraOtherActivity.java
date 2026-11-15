@@ -129,7 +129,8 @@ public class OpenExteraOtherActivity extends BaseNekoSettingsActivity {
         // мёртвым. На его месте вход в настройки NagramX, выключенный по
         // умолчанию.
         googleHeaderRow = addRow("googleHeader");
-        crashReportsRow = addRow("crashReports");
+        // MZGram: no Firebase crash reports, see AndroidUtil.shouldEnableCrashlytics.
+        crashReportsRow = -1;
         contentCaptureRow = addRow("contentCapture");
         googleDividerRow = addRow();
 

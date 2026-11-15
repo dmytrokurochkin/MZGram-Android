@@ -1293,6 +1293,9 @@ public class FilterTabsView extends FrameLayout {
             return;
         }
         compactHeader = compact;
+        // The 7dp padding under the tabs clips what is drawn there, and the Material line sits at the very
+        // bottom in the compact header, so the padding must not clip it.
+        setClipToPadding(!compact);
         if (compact) {
             blurredBackgroundDrawable = null;
             setBackground(null);
@@ -1709,9 +1712,10 @@ public class FilterTabsView extends FrameLayout {
             final float add = additionalTabWidth / 2f;
 
             if (mzFlatStrip || compactHeader && app.exteraless.appearance.AppearanceConfig.materialBars()) {
-                // MZGram: Material bars. A 3dp line under the selected tab, rounded on top. The chat list covers the
-                // strip from 43dp down (checked on a phone), so the line ends 18dp under the text's centre.
-                // In the compact header the tabs are 3dp above the bottom of the top bar, so the line ends at their bottom.
+                // MZGram: Material bars. A 3dp line under the selected tab, rounded on top. On the strip the 7dp bottom
+                // padding clips from 43dp down, so the line ends 18dp under the text's centre. In the compact header the
+                // padding does not clip and the tabs end 3dp above the bottom of the top bar, so the line ends at their
+                // bottom, 25dp under the text's centre as on a 48dp Material 3 tab.
                 final float l = indicatorX - add, r = indicatorX + indicatorWidth + add;
                 final float rad3 = dp(3);
                 final int bottom = compactHeader ? height : height / 2 + dp(18);

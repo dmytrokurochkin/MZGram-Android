@@ -3613,17 +3613,24 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             bottomButton = new ButtonWithCounterView[2];
             for (int a = 0; a < 2; ++a) {
                 Button2 button2 = new Button2(context);
-                BlurredBackgroundDrawable drawable = getBaseSimpleGlass().factory.create(button2, new BlurredBackgroundColorProviderThemed(resourcesProvider, Theme.key_windowBackgroundWhite));
-                drawable.setPadding(dp(8));
-                drawable.setRadius(dp(22));
-                button2.setBackground(drawable);
+                final boolean mzFab = app.exteraless.appearance.AppearanceConfig.materialBars();
+                if (mzFab) {
+                    // MZGram: Material bars. An extended FAB with no glass ring: 48dp tall in the 60dp row (the list's
+                    // bottom padding counts on 60dp), 10dp above the navigation bar, with the FAB's corners
+                    button2.setPadding(dp(2), dp(2), dp(2), dp(10));
+                } else {
+                    BlurredBackgroundDrawable drawable = getBaseSimpleGlass().factory.create(button2, new BlurredBackgroundColorProviderThemed(resourcesProvider, Theme.key_windowBackgroundWhite));
+                    drawable.setPadding(dp(8));
+                    drawable.setRadius(dp(22));
+                    button2.setBackground(drawable);
+                }
 
                 bottomButtonContainer[a] = new FrameLayout(context);
 
                     bottomButton[a] = new ButtonWithCounterView(context, resourcesProvider);
-                bottomButton[a].setRoundRadius(dp(19));
+                bottomButton[a].setRoundRadius(mzFab ? dp(app.exteraless.appearance.AppearanceConfig.fabCornerRadius(48)) : dp(19));
                 bottomButton[a].setUseWrapContent(true);
-                bottomButton[a].setPadding(dp(16), 0, dp(16), 0);
+                bottomButton[a].setPadding(dp(16), 0, mzFab ? dp(20) : dp(16), 0);
                 if (a == 0) {
                     bottomButtonPostText = new SpannableStringBuilder("c");
                     bottomButtonPostText.setSpan(new ColoredImageSpan(R.drawable.filled_premium_camera), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

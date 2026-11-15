@@ -1132,6 +1132,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
     private View bottomFadeView;
     protected FrameLayout buttonsRecyclerViewWrapper;
+    // MZGram: Material bars. The attach row is a docked bar (full width, down to the screen's bottom edge), not a glass capsule
+    private final boolean mzDockedButtons = app.exteraless.appearance.AppearanceConfig.materialBars();
+    private final Paint mzDockPaint = new Paint();
 
     // exteraGram 12.9.0, ChatAttachAlert.java:238 — при hideCameraTile плитки камеры в сетке нет,
     // и снимок делать неоткуда; exteraGram вешает вместо неё плавающую кнопку поверх шторки.
@@ -2616,13 +2619,26 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         buttonsRecyclerViewWrapper = new FrameLayout(context) {
             @Override
             protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                if (isPollAttach && pollAllowedLayouts != 0) {
+                if (isPollAttach && pollAllowedLayouts != 0 && !mzDockedButtons) {
                     final int width = MeasureSpec.getSize(widthMeasureSpec);
                     final int tWidth = Integer.bitCount(pollAllowedLayouts) * dp(80) + dp(36);
                     super.onMeasure(MeasureSpec.makeMeasureSpec(Math.min(width, tWidth), MeasureSpec.EXACTLY), heightMeasureSpec);
                 } else {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
                 }
+            }
+
+            @Override
+            protected void dispatchDraw(@NonNull Canvas canvas) {
+                if (mzDockedButtons) {
+                    // MZGram: a flat surface from the row's top to the screen's bottom edge (the parent doesn't clip
+                    // its children), with a hairline on top, the same as the main navigation bar
+                    mzDockPaint.setColor(getThemedColor(Theme.key_windowBackgroundGray));
+                    canvas.drawRect(0, 0, getWidth(), getHeight() + AndroidUtilities.navigationBarHeight, mzDockPaint);
+                    mzDockPaint.setColor(Theme.getDividerColor(resourcesProvider));
+                    canvas.drawRect(0, 0, getWidth(), 1, mzDockPaint);
+                }
+                super.dispatchDraw(canvas);
             }
 
             // exteraGram 12.9.0, ChatAttachAlert.java:2913-2925 — FAB камеры едет вместе с рядом
@@ -2771,13 +2787,19 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
         containerView.addView(bottomFadeView, LayoutHelper.createFrameMatchParent());
 
-        BlurredBackgroundDrawable tabsViewBackground = iBlur3FactoryLiquidGlass.create(buttonsRecyclerViewWrapper, BlurredBackgroundProviderImpl.mainTabs(resourcesProvider));
-        tabsViewBackground.setRadius(dp(56 / 2f));
-        tabsViewBackground.setPadding(dp(7));
-        buttonsRecyclerViewWrapper.setBackground(tabsViewBackground);
-        buttonsRecyclerView.setPadding(dp(11), dp(11), dp(11), dp(11));
-        buttonsRecyclerView.setClipToOutline(true);
-        buttonsRecyclerView.setOutlineProvider(ViewOutlineProviderImpl.boundsWithPaddingRoundRect(dp(11), dp(56 / 2f)));
+        if (mzDockedButtons) {
+            // MZGram: Material bars. No glass capsule: the wrapper draws the docked bar, and the tabs are 64dp tall
+            // like the main navigation bar's (the row stays 70dp, so the layouts above it keep their padding)
+            buttonsRecyclerView.setPadding(0, dp(3), 0, dp(3));
+        } else {
+            BlurredBackgroundDrawable tabsViewBackground = iBlur3FactoryLiquidGlass.create(buttonsRecyclerViewWrapper, BlurredBackgroundProviderImpl.mainTabs(resourcesProvider));
+            tabsViewBackground.setRadius(dp(56 / 2f));
+            tabsViewBackground.setPadding(dp(7));
+            buttonsRecyclerViewWrapper.setBackground(tabsViewBackground);
+            buttonsRecyclerView.setPadding(dp(11), dp(11), dp(11), dp(11));
+            buttonsRecyclerView.setClipToOutline(true);
+            buttonsRecyclerView.setOutlineProvider(ViewOutlineProviderImpl.boundsWithPaddingRoundRect(dp(11), dp(56 / 2f)));
+        }
 
         buttonsRecyclerView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
         buttonsRecyclerViewWrapper.addView(buttonsRecyclerView, LayoutHelper.createFrameMatchParent());

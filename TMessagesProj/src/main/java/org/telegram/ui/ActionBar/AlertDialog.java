@@ -282,6 +282,19 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.blurredBackground = blurBackground;
     }
 
+    /**
+     * MZGram: Material dialogs. A Material 3 dialog sits a tone above the page (surface container high), but the
+     * theme's dialog colour is the page's own. So the dialog takes 9% of its text colour over it: lighter in a dark
+     * theme, a little greyer in a light one. Only for the theme's dialog colour, not for a colour a caller sets.
+     */
+    private int mzDialogColor(int color) {
+        if (!app.exteraless.appearance.AppearanceConfig.materialDialogs()) {
+            return color;
+        }
+        final int tone = ColorUtils.blendARGB(color | 0xFF000000, getThemedColor(Theme.key_dialogTextBlack) | 0xFF000000, 0.09f);
+        return (color & 0xFF000000) | (tone & 0x00FFFFFF);
+    }
+
     protected boolean supportsNativeBlur() {
         return false; // Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && LaunchActivity.systemBlurEnabled;
     }
@@ -361,7 +374,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.resourcesProvider = resourcesProvider;
 
         progressViewStyle = progressStyle;
-        backgroundColor = getThemedColor(backgroundColorKey = Theme.key_dialogBackground);
+        backgroundColor = mzDialogColor(getThemedColor(backgroundColorKey = Theme.key_dialogBackground));
         final boolean isDark = AndroidUtilities.computePerceivedBrightness(backgroundColor) < 0.721f;
         blurredNativeBackground = supportsNativeBlur() && progressViewStyle == ALERT_TYPE_MESSAGE;
         blurredBackground = (blurredNativeBackground || !supportsNativeBlur() && SharedConfig.getDevicePerformanceClass() >= SharedConfig.PERFORMANCE_CLASS_HIGH && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR)) && isDark;
@@ -765,7 +778,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         try {
             updateTopAnimationLayerColors();
             if (backgroundColorKey >= 0) {
-                final int color = getThemedColor(backgroundColorKey);
+                final int color = backgroundColorKey == Theme.key_dialogBackground
+                        ? mzDialogColor(getThemedColor(backgroundColorKey))
+                        : getThemedColor(backgroundColorKey);
                 if (color != backgroundColor) {
                     backgroundColor = color;
                     if (shadowDrawable != null) {

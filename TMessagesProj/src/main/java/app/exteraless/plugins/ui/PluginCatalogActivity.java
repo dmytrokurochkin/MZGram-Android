@@ -818,7 +818,8 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             versionView = new TextView(context);
             versionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             versionView.setSingleLine(true);
-            titleRow.addView(versionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0, 0));
+            // an explicit top gravity: LinearLayout aligns baselines only for top or bottom gravity, and 0 would be neither
+            titleRow.addView(versionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 6, 0, 0, 0));
             column.addView(titleRow, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
             descriptionView = new TextView(context);

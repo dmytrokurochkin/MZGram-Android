@@ -32,4 +32,6 @@
     <string name="MZMaterialDialogs">Диалоги</string>
     <string name="MZMaterialBars">Верхняя и нижняя панели</string>
     <string name="MZSolidPanelsBlurInfo">Включены сплошные панели, поэтому стекла и размытия нет. Чтобы вернуть их, выключите «Сплошные панели» в Material Design 3.</string>
+    <string name="MZSwitchStyleRing">Кольцо</string>
+    <string name="MZMarkdownParserExtended">Расширенный</string>
 </resources>

@@ -36,4 +36,6 @@
     <string name="MZMaterialDialogs">Діалоги</string>
     <string name="MZMaterialBars">Верхня й нижня панелі</string>
     <string name="MZSolidPanelsBlurInfo">Увімкнено суцільні панелі, тому скла й розмиття немає. Щоб їх повернути, вимкніть «Суцільні панелі» в Material Design 3.</string>
+    <string name="MZSwitchStyleRing">Кільце</string>
+    <string name="MZMarkdownParserExtended">Розширений</string>
 </resources>

@@ -857,6 +857,14 @@ object AppearanceConfig {
         if (NaConfig.switchStyle.Int() == 1) {
             NaConfig.switchStyle.setConfigInt(2)
         }
+        // MZGram: Material 3 switches, once, over the old default (the ring style); a later pick stays
+        val preferences = getPreferences()
+        if (!preferences.getBoolean("mz_m3_switch_v1", false)) {
+            if (NaConfig.switchStyle.Int() == 2) {
+                NaConfig.switchStyle.setConfigInt(3)
+            }
+            preferences.edit().putBoolean("mz_m3_switch_v1", true).apply()
+        }
         if (NaConfig.sliderStyle.Int() == 1) {
             NaConfig.sliderStyle.setConfigInt(2)
         }

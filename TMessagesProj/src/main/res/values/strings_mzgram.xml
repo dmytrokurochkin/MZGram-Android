@@ -32,4 +32,6 @@
     <string name="MZMaterialDialogs">Dialogs</string>
     <string name="MZMaterialBars">Top and bottom bars</string>
     <string name="MZSolidPanelsBlurInfo">Solid panels are on, so glass and blur are off. Turn off Solid panels under Material Design 3 to use them.</string>
+    <string name="MZSwitchStyleRing">Ring</string>
+    <string name="MZMarkdownParserExtended">Extended</string>
 </resources>

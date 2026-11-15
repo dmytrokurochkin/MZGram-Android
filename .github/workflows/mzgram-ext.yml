@@ -26,7 +26,7 @@ jobs:
       CCACHE_HARDLINK: "true"
       CCACHE_NOHASHDIR: "true"
       CCACHE_MAXSIZE: "2G"
-      NATIVE_TARGET: "arm64-v8a"
+      # No NATIVE_TARGET: the gradle default is arm64-v8a only, and the Verify step checks it
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -106,6 +106,10 @@ jobs:
           BADGING=$("$ANDROID_HOME/build-tools/36.0.0/aapt2" dump badging artifact/MZGram.apk | head -1)
           echo "$BADGING"
           grep -q "name='org.mzgram.messenger'" <<<"$BADGING" || { echo "::error::package name is not org.mzgram.messenger"; exit 1; }
+          # MZGram is for arm64 phones only
+          ABIS=$("$ANDROID_HOME/build-tools/36.0.0/aapt2" dump badging artifact/MZGram.apk | sed -n 's/^native-code: //p')
+          echo "native code: $ABIS"
+          [ "$ABIS" = "'arm64-v8a'" ] || { echo "::error::the APK must hold arm64-v8a native code only, it has $ABIS"; exit 1; }
           # Android refuses an APK whose versionCode is below the installed one, so the code must be above
           # every MZGram release tag (vX.Y.Z or vX.Y.Z-beta.N, code (X*1000000 + Y*10000 + Z*100 + N or 99) * 10 + 9)
           CODE=$(sed -nE "s/.*versionCode='([0-9]+)'.*/\1/p" <<<"$BADGING")

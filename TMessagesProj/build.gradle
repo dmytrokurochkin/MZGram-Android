@@ -96,15 +96,14 @@ android {
     // («Python 3.12 is not available for the ABI»). Вернуть их можно только вместе
     // с откатом Python до 3.11 — тогда та же минорная версия понадобится и на
     // машине сборки, включая CI.
+    // MZGram ships for arm64 phones only (owner's decision, 2026-11-15): an empty NATIVE_TARGET, 'universal'
+    // and 'SKIP' all build arm64-v8a. Another ABI only when NATIVE_TARGET names it, for a test build
+    // on an x86_64 emulator; such an APK is never released.
     def targetAbis
-    if (nativeTarget == 'universal') {
-        targetAbis = ['arm64-v8a', 'x86_64']
-    } else if (nativeTarget == 'SKIP') {
+    if (nativeTarget.isBlank() || nativeTarget == 'universal' || nativeTarget == 'SKIP') {
         targetAbis = ['arm64-v8a']
-    } else if (!nativeTarget.isBlank()) {
-        targetAbis = [nativeTarget]
     } else {
-        targetAbis = ['arm64-v8a', 'x86_64']
+        targetAbis = [nativeTarget]
     }
 
     // splits.abi выключен намеренно, а не по недосмотру. Два ограничения
@@ -122,12 +121,6 @@ android {
         abi {
             enable = false
         }
-    }
-
-    if (targetAbis.size() > 1 && nativeTarget != 'universal') {
-        logger.warn("NATIVE_TARGET не задан: собирается ОДИН APK с ABI " +
-                targetAbis.join(', ') + ". Раздельные APK — по одной сборке на ABI " +
-                "(splits.abi несовместим с Chaquopy).")
     }
 
     defaultConfig {

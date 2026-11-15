@@ -14,7 +14,7 @@ are being moved onto this base step by step.
 The `MZGram on exteraless` workflow in `.github/workflows/mzgram-ext.yml` builds the APK on every
 push to `w-ext` and signs it with the MZGram key. Locally: put `TELEGRAM_APP_ID` and
 `TELEGRAM_APP_HASH` (from https://my.telegram.org) into `local.properties`, then run
-`NATIVE_TARGET=arm64-v8a ./gradlew TMessagesProj:assembleRelease`.
+`./gradlew TMessagesProj:assembleRelease`. The build is for arm64-v8a only.
 
 ## License
 

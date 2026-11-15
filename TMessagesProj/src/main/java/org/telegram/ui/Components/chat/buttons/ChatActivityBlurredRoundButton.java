@@ -54,13 +54,23 @@ public class ChatActivityBlurredRoundButton extends FrameLayout implements Facto
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        backgroundDrawable.setBounds(0, 0, w, h);
+        if (backgroundDrawable != null) {
+            backgroundDrawable.setBounds(0, 0, w, h);
+        }
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        backgroundDrawable.draw(canvas);
+        if (backgroundDrawable != null) {
+            backgroundDrawable.draw(canvas);
+        }
         super.draw(canvas);
+    }
+
+    /** MZGram: Material bars. A plain icon button on the docked bar: no glass circle, only the ripple. */
+    public void setMzFlat() {
+        backgroundDrawable = null;
+        invalidate();
     }
 
     @Override

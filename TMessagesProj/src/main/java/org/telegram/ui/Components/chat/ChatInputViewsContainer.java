@@ -97,6 +97,16 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         mzResourcesProvider = resourcesProvider;
     }
 
+    /** How much of the tonal field to draw: 0 under the channel buttons (Unmute), whose bar stays flat. */
+    private float mzFieldVisibility = 1f;
+
+    public void setMzFieldVisibility(float visibility) {
+        if (mzFieldVisibility != visibility) {
+            mzFieldVisibility = visibility;
+            invalidate();
+        }
+    }
+
     private static boolean mzBars() {
         return app.exteraless.appearance.AppearanceConfig.materialBars();
     }
@@ -121,10 +131,14 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         mzBarPaint.setAlpha(alpha);
         canvas.drawRect(mzBarRect, mzBarPaint);
 
+        final int fieldAlpha = (int) (alpha * mzFieldVisibility);
+        if (fieldAlpha <= 0) {
+            return;
+        }
         final boolean dark = AndroidUtilities.computePerceivedBrightness(panel) < 0.5f;
         final int text = ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelText, mzResourcesProvider), 255);
         mzBarPaint.setColor(ColorUtils.blendARGB(panel, text, dark ? 0.09f : 0.06f));
-        mzBarPaint.setAlpha(alpha);
+        mzBarPaint.setAlpha(fieldAlpha);
         mzFieldRect.set(tmpRect.left + pad, fieldTop, tmpRect.right - pad, fieldBottom);
         final float r = Math.min(dp(INPUT_BUBBLE_RADIUS), mzFieldRect.height() / 2f);
         canvas.drawRoundRect(mzFieldRect, r, r, mzBarPaint);

@@ -126,6 +126,9 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
                 buttonIcons[buttonId],
                 48
             );
+            if (app.exteraless.appearance.AppearanceConfig.materialBars()) {
+                button.setMzFlat();
+            }
 
             if (buttonId == BUTTON_GIFT) {
                 button.setContentDescription(getString(R.string.ProfileActionsGift));

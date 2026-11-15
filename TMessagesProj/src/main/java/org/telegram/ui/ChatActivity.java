@@ -30983,7 +30983,9 @@ public class ChatActivity extends BaseFragment implements
 
 
 
-        bottomOverlayChatText.setTextColorKey(accentTextButton ? Theme.key_featuredStickers_buttonText : Theme.key_glass_defaultText);
+        // MZGram: Material bars. Without the pill, Unmute/Mute reads as a text button in the accent colour.
+        bottomOverlayChatText.setTextColorKey(accentTextButton ? Theme.key_featuredStickers_buttonText
+            : AppearanceConfig.materialBars() ? Theme.key_chat_fieldOverlayText : Theme.key_glass_defaultText);
 
         bottomChannelButtonsLayout.setCenterAccentBackground(accentTextButton, animated);
         bottomChannelButtonsLayout.updateWrappingVisible(animated);
@@ -52346,6 +52348,8 @@ public class ChatActivity extends BaseFragment implements
         if (chatInputViewsContainer != null) {
             chatInputViewsContainer.setInputBubbleAlpha((int) (255 * (1f - hideFactor)));
             chatInputViewsContainer.setInputBubbleTranslationY(dp(54) * hideFactor);
+            // MZGram: Material bars. Under the channel buttons the docked bar has no tonal field.
+            chatInputViewsContainer.setMzFieldVisibility(1f - bottomViewsVisibilityController.getVisibility(BOTTOM_OVERLAY_CHAT_CONTAINER));
         }
 
 

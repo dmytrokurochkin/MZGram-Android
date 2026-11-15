@@ -62,7 +62,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_SHOW_NO_QUOTE_FORWARD = 20;
     private static final int BUTTON_PREDICTIVE_BACK_ANIMATION = 21;
     private static final int BUTTON_GOOEY_AVATAR_ANIMATION = 22;
-    private static final int BUTTON_HIDE_BOTTOM_NAVIGATION_BAR = 23;
+    private static final int BUTTON_BOTTOM_NAV_MODE = 23;
     private static final int BUTTON_GHOST_MODE = 25;
     private static final int BUTTON_SAVE_DELETED_MESSAGES = 26;
     private static final int BUTTON_SAVE_EDIT_HISTORY = 43;
@@ -419,6 +419,15 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private static final int BUTTON_USE_SYSTEM_FONTS = 345;
     private static final int BUTTON_MD3_PLAYER = 346;
     private static final int BUTTON_MD3_MINI_PLAYER = 347;
+    private static final int BUTTON_TABLET_MODE = 348;
+    private static final int BUTTON_ALWAYS_SHOW_DOWNLOADS = 349;
+    private static final int BUTTON_BACK_ANIMATION_STYLE = 350;
+    private static final int BUTTON_PREDICTIVE_INTENSITY = 351;
+    private static final int BUTTON_MAIN_TABS_HIDE_TITLES = 352;
+    private static final int BUTTON_MAIN_TABS_HIDE_CONTACTS = 353;
+    private static final int BUTTON_MAIN_TABS_HIDE_CALLS = 354;
+    private static final int BUTTON_MAIN_TABS_HIDE_PROFILE = 355;
+    private static final int BUTTON_DRAWER_IMMERSIVE = 356;
     private static final int[] ARCHIVE_LIMIT_TITLES = {
             R.string.MZGramArchiveLimitUsers,
             R.string.MZGramArchiveLimitBots,
@@ -634,6 +643,7 @@ public class MZGramSettingsActivity extends UniversalFragment {
     private MZGramFoldersPreviewCell foldersPreviewCell;
     private org.telegram.ui.Cells.MZGramFabShapeCell fabShapeCell;
     private MZGramAvatarCornersSeekBar sectionRadiusSeekBar;
+    private MZGramAvatarCornersSeekBar predictiveIntensitySeekBar;
     private boolean md3Expanded = false;
     private boolean iosExpanded = false;
     private MZGramAboutHeader aboutHeader;
@@ -1495,20 +1505,91 @@ public class MZGramSettingsActivity extends UniversalFragment {
     }
 
     private void fillNavigation(ArrayList<UItem> items) {
-        items.add(UItem.asHeader(getString(R.string.MZGramHeaderNavigation)));
-        items.add(check(BUTTON_HIDE_BOTTOM_NAVIGATION_BAR, R.string.MZGramHideBottomNavigationBar, MZGramConfig.hideBottomNavigationBar, R.string.MZGramHideBottomNavigationBarInfo));
-        items.add(check(BUTTON_ACCOUNTS_IN_MENU, R.string.MZGramAccountsInMenu, MZGramConfig.accountsInMenu, R.string.MZGramAccountsInMenuInfo));
-        items.add(UItem.asButton(BUTTON_ACCOUNT_ORDER, getString(R.string.MZGramAccountOrder)));
-        items.add(check(BUTTON_RECENT_CHATS_ON_BACK, R.string.MZGramRecentChatsOnBack, MZGramConfig.recentChatsOnBack, R.string.MZGramRecentChatsOnBackInfo));
-        items.add(check(BUTTON_CUSTOM_DRAWER, R.string.MZGramDrawer, MZGramConfig.customDrawer, R.string.MZGramDrawerInfo));
+        // ==========================================
+        // Card 1: General
+        // ==========================================
+        items.add(UItem.asHeader(getString(R.string.MZGramNavGeneral)));
+        String tabletModeTitle;
+        if (MZGramConfig.tabletMode == 1) {
+            tabletModeTitle = getString(R.string.MZGramTabletModeOn);
+        } else if (MZGramConfig.tabletMode == 2) {
+            tabletModeTitle = getString(R.string.MZGramTabletModeOff);
+        } else {
+            tabletModeTitle = getString(R.string.MZGramTabletModeAuto);
+        }
+        items.add(UItem.asButton(BUTTON_TABLET_MODE, getString(R.string.MZGramTabletMode), tabletModeTitle));
+        items.add(UItem.asCheck(BUTTON_ALWAYS_SHOW_DOWNLOADS, getString(R.string.MZGramAlwaysShowDownloadIcon)).setChecked(MZGramConfig.alwaysShowDownloadIcon));
+        String backAnimationTitle;
+        if (MZGramConfig.backAnimationStyle == 1) {
+            backAnimationTitle = getString(R.string.MZGramBackAnimationSpring);
+        } else if (MZGramConfig.backAnimationStyle == 2) {
+            backAnimationTitle = getString(R.string.MZGramBackAnimationPredictive);
+        } else if (MZGramConfig.backAnimationStyle == 3 && android.os.Build.VERSION.SDK_INT >= 34) {
+            backAnimationTitle = getString(R.string.MZGramBackAnimationSlide);
+        } else {
+            backAnimationTitle = getString(R.string.MZGramBackAnimationClassic);
+        }
+        items.add(UItem.asButton(BUTTON_BACK_ANIMATION_STYLE, getString(R.string.MZGramBackAnimation), backAnimationTitle));
+        items.add(UItem.asShadow(getString(R.string.MZGramBackAnimationInfo)));
+        if (android.os.Build.VERSION.SDK_INT >= 34) {
+            if (predictiveIntensitySeekBar == null) {
+                predictiveIntensitySeekBar = new MZGramAvatarCornersSeekBar(getContext(), val -> {
+                    MZGramConfig.setPredictiveBackIntensity(val);
+                }, 0, 200,
+                        getString(R.string.MZGramPredictiveBackIntensity),
+                        getString(R.string.MZGramPredictiveBackOff),
+                        getString(R.string.MZGramPredictiveBackMax));
+                predictiveIntensitySeekBar.setValueSuffix("%");
+            }
+            predictiveIntensitySeekBar.setValue(MZGramConfig.predictiveBackIntensity);
+            items.add(UItem.asCustom(BUTTON_PREDICTIVE_INTENSITY, predictiveIntensitySeekBar));
+            items.add(UItem.asShadow(getString(R.string.MZGramPredictiveBackInfo)));
+        }
+
+        // ==========================================
+        // Card 2: Bottom Navigation Bar
+        // ==========================================
+        items.add(UItem.asHeader(getString(R.string.MZGramBottomNavigationBar)));
+        String bottomNavModeTitle;
+        if (MZGramConfig.bottomNavigationMode == 1) {
+            bottomNavModeTitle = getString(R.string.MZGramBottomNavigationModeHide);
+        } else if (MZGramConfig.bottomNavigationMode == 2) {
+            bottomNavModeTitle = getString(R.string.MZGramBottomNavigationModeFloating);
+        } else {
+            bottomNavModeTitle = getString(R.string.MZGramBottomNavigationModeShow);
+        }
+        items.add(UItem.asButton(BUTTON_BOTTOM_NAV_MODE, getString(R.string.MZGramBottomNavigationBarMode), bottomNavModeTitle));
+        if (MZGramConfig.bottomNavigationMode != 1) {
+            items.add(UItem.asCheck(BUTTON_MAIN_TABS_HIDE_TITLES, getString(R.string.MZGramMainTabsHideTitles)).setChecked(MZGramConfig.mainTabsHideTitles));
+            items.add(UItem.asCheck(BUTTON_MAIN_TABS_HIDE_CONTACTS, getString(R.string.MZGramMainTabsHideContacts)).setChecked(MZGramConfig.mainTabsHideContacts));
+            items.add(UItem.asCheck(BUTTON_MAIN_TABS_HIDE_CALLS, getString(R.string.MZGramMainTabsHideCallsSettings)).setChecked(MZGramConfig.mainTabsHideCallsSettings));
+            items.add(UItem.asCheck(BUTTON_MAIN_TABS_HIDE_PROFILE, getString(R.string.MZGramMainTabsHideProfile)).setChecked(MZGramConfig.mainTabsHideProfile));
+        }
+        items.add(UItem.asShadow(null));
+
+        // ==========================================
+        // Card 3: Navigation Drawer
+        // ==========================================
+        items.add(UItem.asHeader(getString(R.string.MZGramNavigationDrawer)));
+        items.add(UItem.asCheck(BUTTON_CUSTOM_DRAWER, getString(R.string.MZGramNavigationDrawer)).setChecked(MZGramConfig.customDrawer));
         if (MZGramConfig.customDrawer) {
-            items.add(UItem.asButton(BUTTON_DRAWER_ITEMS, getString(R.string.MZGramDrawerItems)));
+            items.add(UItem.asCheck(BUTTON_DRAWER_IMMERSIVE, getString(R.string.MZGramNavigationDrawerImmersive)).setChecked(MZGramConfig.drawerImmersiveAnimation));
             items.add(UItem.asCheck(BUTTON_DRAWER_SHOW_QR, getString(R.string.MZGramDrawerShowQr)).setChecked(MZGramConfig.drawerShowQr));
             items.add(UItem.asCheck(BUTTON_DRAWER_LARGE_AVATAR, getString(R.string.MZGramDrawerLargeAvatar)).setChecked(MZGramConfig.drawerLargeAvatar));
             items.add(UItem.asButton(BUTTON_DRAWER_HEADER, getString(R.string.MZGramDrawerHeader), MZGramDrawer.headerStyleTitle()));
             items.add(UItem.asCheck(BUTTON_DRAWER_GLASS, getString(R.string.MZGramDrawerGlass)).setChecked(MZGramConfig.drawerGlass));
         }
-        items.add(UItem.asShadow(MZGramConfig.customDrawer ? getString(R.string.MZGramDrawerLookInfo) : null));
+        items.add(UItem.asShadow(getString(R.string.MZGramNavigationDrawerInfo)));
+
+        // ==========================================
+        // Card 4: Menu Items & Actions
+        // ==========================================
+        items.add(UItem.asHeader(getString(R.string.MZGramMainMenuItems)));
+        items.add(UItem.asButton(BUTTON_DRAWER_ITEMS, getString(R.string.MZGramDrawerItems)));
+        items.add(UItem.asCheck(BUTTON_ACCOUNTS_IN_MENU, getString(R.string.MZGramAccountsInMenu)).setChecked(MZGramConfig.accountsInMenu));
+        items.add(UItem.asButton(BUTTON_ACCOUNT_ORDER, getString(R.string.MZGramAccountOrder)));
+        items.add(UItem.asCheck(BUTTON_RECENT_CHATS_ON_BACK, getString(R.string.MZGramRecentChatsOnBack)).setChecked(MZGramConfig.recentChatsOnBack));
+        items.add(UItem.asShadow(getString(R.string.MZGramMainMenuItemsInfo)));
     }
 
     private void fillHiding(ArrayList<UItem> items) {
@@ -2946,9 +3027,86 @@ public class MZGramSettingsActivity extends UniversalFragment {
         } else if (item.id == BUTTON_GOOEY_AVATAR_ANIMATION) {
             MZGramConfig.toggleGooeyAvatarAnimation();
             ((TextCheckCell) view).setChecked(MZGramConfig.gooeyAvatarAnimation);
-        } else if (item.id == BUTTON_HIDE_BOTTOM_NAVIGATION_BAR) {
-            MZGramConfig.toggleHideBottomNavigationBar();
-            ((TextCheckCell) view).setChecked(MZGramConfig.hideBottomNavigationBar);
+        } else if (item.id == BUTTON_TABLET_MODE) {
+            String[] itemsArray = new String[] {
+                    getString(R.string.MZGramTabletModeAuto),
+                    getString(R.string.MZGramTabletModeOn),
+                    getString(R.string.MZGramTabletModeOff),
+            };
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
+                    .setTitle(getString(R.string.MZGramTabletMode))
+                    .setItems(itemsArray, (dialog, which) -> {
+                        MZGramConfig.setTabletMode(which);
+                        if (listView != null && listView.adapter != null) {
+                            listView.adapter.update(true);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .show();
+        } else if (item.id == BUTTON_ALWAYS_SHOW_DOWNLOADS) {
+            MZGramConfig.toggleAlwaysShowDownloadIcon();
+            ((TextCheckCell) view).setChecked(MZGramConfig.alwaysShowDownloadIcon);
+        } else if (item.id == BUTTON_BACK_ANIMATION_STYLE) {
+            ArrayList<String> options = new ArrayList<>();
+            options.add(getString(R.string.MZGramBackAnimationClassic));
+            options.add(getString(R.string.MZGramBackAnimationSpring));
+            options.add(getString(R.string.MZGramBackAnimationPredictive));
+            if (android.os.Build.VERSION.SDK_INT >= 34) {
+                options.add(getString(R.string.MZGramBackAnimationSlide));
+            }
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
+                    .setTitle(getString(R.string.MZGramBackAnimation))
+                    .setItems(options.toArray(new String[0]), (dialog, which) -> {
+                        MZGramConfig.setBackAnimationStyle(which);
+                        if (listView != null && listView.adapter != null) {
+                            listView.adapter.update(true);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .show();
+        } else if (item.id == BUTTON_BOTTOM_NAV_MODE) {
+            String[] itemsArray = new String[] {
+                    getString(R.string.MZGramBottomNavigationModeShow),
+                    getString(R.string.MZGramBottomNavigationModeHide),
+                    getString(R.string.MZGramBottomNavigationModeFloating),
+            };
+            new org.telegram.ui.ActionBar.AlertDialog.Builder(getContext(), getResourceProvider())
+                    .setTitle(getString(R.string.MZGramBottomNavigationBarMode))
+                    .setItems(itemsArray, (dialog, which) -> {
+                        MZGramConfig.setBottomNavigationMode(which);
+                        if (listView != null && listView.adapter != null) {
+                            listView.adapter.update(true);
+                        }
+                        if (getParentLayout() != null) {
+                            getParentLayout().rebuildAllFragmentViews(false, false);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .show();
+        } else if (item.id == BUTTON_MAIN_TABS_HIDE_TITLES) {
+            MZGramConfig.toggleMainTabsHideTitles();
+            ((TextCheckCell) view).setChecked(MZGramConfig.mainTabsHideTitles);
+            if (getParentLayout() != null) {
+                getParentLayout().rebuildFragments(0);
+            }
+        } else if (item.id == BUTTON_MAIN_TABS_HIDE_CONTACTS) {
+            MZGramConfig.toggleMainTabsHideContacts();
+            ((TextCheckCell) view).setChecked(MZGramConfig.mainTabsHideContacts);
+            if (getParentLayout() != null) {
+                getParentLayout().rebuildFragments(0);
+            }
+        } else if (item.id == BUTTON_MAIN_TABS_HIDE_CALLS) {
+            MZGramConfig.toggleMainTabsHideCallsSettings();
+            ((TextCheckCell) view).setChecked(MZGramConfig.mainTabsHideCallsSettings);
+            if (getParentLayout() != null) {
+                getParentLayout().rebuildFragments(0);
+            }
+        } else if (item.id == BUTTON_MAIN_TABS_HIDE_PROFILE) {
+            MZGramConfig.toggleMainTabsHideProfile();
+            ((TextCheckCell) view).setChecked(MZGramConfig.mainTabsHideProfile);
+            if (getParentLayout() != null) {
+                getParentLayout().rebuildFragments(0);
+            }
         } else if (item.id == BUTTON_RECENT_CHATS_ON_BACK) {
             MZGramConfig.toggleRecentChatsOnBack();
             if (!MZGramConfig.recentChatsOnBack) {
@@ -3007,6 +3165,9 @@ public class MZGramSettingsActivity extends UniversalFragment {
             if (listView != null && listView.adapter != null) {
                 listView.adapter.update(true);
             }
+        } else if (item.id == BUTTON_DRAWER_IMMERSIVE) {
+            MZGramConfig.toggleDrawerImmersiveAnimation();
+            ((TextCheckCell) view).setChecked(MZGramConfig.drawerImmersiveAnimation);
         } else if (item.id == BUTTON_DRAWER_ITEMS) {
             presentFragment(new MZGramDrawerItemsActivity());
         } else if (item.id == BUTTON_DRAWER_SHOW_QR) {

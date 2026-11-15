@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">Monet палитрасы</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">Классикалық</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">Жалпы</string>
+    <string name="MZGramTabletMode">Планшет режимі</string>
+    <string name="MZGramTabletModeAuto">Авто</string>
+    <string name="MZGramTabletModeOn">Қосулы</string>
+    <string name="MZGramTabletModeOff">Өшірулі</string>
+    <string name="MZGramAlwaysShowDownloadIcon">Жүктеу белгішесін әрқашан көрсету</string>
+    <string name="MZGramBackAnimation">«Артқа» анимациясы</string>
+    <string name="MZGramBackAnimationClassic">Классикалық</string>
+    <string name="MZGramBackAnimationSpring">Серіппелі</string>
+    <string name="MZGramBackAnimationPredictive">Болжамды «Артқа»</string>
+    <string name="MZGramBackAnimationSlide">Сырғу</string>
+    <string name="MZGramBackAnimationInfo">Экрандар арасында ауысу және бүйірлік мәзірді ашу кезінде бірқалыпты анимацияларды қосады.</string>
+    <string name="MZGramPredictiveBackIntensity">Қимыл қарқындылығы</string>
+    <string name="MZGramPredictiveBackOff">Өшірулі</string>
+    <string name="MZGramPredictiveBackMax">Ең көп</string>
+    <string name="MZGramPredictiveBackInfo">Артқа сырғыту кезінде экранның қозғалу қашықтығын реттейді.</string>
+    <string name="MZGramBottomNavigationBar">Төменгі тақта</string>
+    <string name="MZGramBottomNavigationBarMode">Төменгі навигация тақтасы</string>
+    <string name="MZGramBottomNavigationModeShow">Көрсету</string>
+    <string name="MZGramBottomNavigationModeHide">Жасыру</string>
+    <string name="MZGramBottomNavigationModeFloating">Қалқымалы</string>
+    <string name="MZGramMainTabsHideTitles">Атауларын жасыру</string>
+    <string name="MZGramMainTabsHideContacts">«Контактілер» қойындысын жасыру</string>
+    <string name="MZGramMainTabsHideCallsSettings">«Қоңыраулар» қойындысын жасыру</string>
+    <string name="MZGramMainTabsHideProfile">«Профиль» қойындысын жасыру</string>
+    <string name="MZGramNavigationDrawer">Бүйірлік навигация пердесі</string>
+    <string name="MZGramNavigationDrawerImmersive">Иммерсивті анимация</string>
+    <string name="MZGramNavigationDrawerInfo">Жоғарғы оң жақтағы мәзірді сырғыту арқылы ашылатын классикалық пердемен және гамбургер батырмасымен ауыстырады.</string>
+    <string name="MZGramMainMenuItems">Мәзір тармақтары</string>
+    <string name="MZGramMainMenuItemsInfo">Тармақтарды көрсету немесе жасыру үшін басыңыз, ретін өзгерту үшін басып тұрыңыз. Орналасу мәзір мен перде арасында ортақ.</string>
+    <string name="MZGramMainMenuAddDivider">Бөлгіш қосу</string>
+    <string name="MZGramMainMenuDivider">Бөлгіш</string>
+    <string name="MZGramMainMenuHiddenItems">Жасырылған мәзір тармақтары</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">Төменгі навигация тақтасы өшірулі кезде «Баптауларды» жасыру мүмкін емес.</string>
+    <string name="MZGramKillApp">Қолданбаны жабу</string>
 </resources>

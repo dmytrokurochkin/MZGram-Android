@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">Monet-Palette</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">Klassisch</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">Allgemein</string>
+    <string name="MZGramTabletMode">Tablet-Modus</string>
+    <string name="MZGramTabletModeAuto">Automatisch</string>
+    <string name="MZGramTabletModeOn">An</string>
+    <string name="MZGramTabletModeOff">Aus</string>
+    <string name="MZGramAlwaysShowDownloadIcon">Download-Symbol immer anzeigen</string>
+    <string name="MZGramBackAnimation">Zurück-Animation</string>
+    <string name="MZGramBackAnimationClassic">Klassisch</string>
+    <string name="MZGramBackAnimationSpring">Federung</string>
+    <string name="MZGramBackAnimationPredictive">Prädiktives Zurück</string>
+    <string name="MZGramBackAnimationSlide">Schieben</string>
+    <string name="MZGramBackAnimationInfo">Aktiviert flüssigere Animationen beim Wechseln von Bildschirmen und Öffnen des Seitenmenüs.</string>
+    <string name="MZGramPredictiveBackIntensity">Gestenintensität</string>
+    <string name="MZGramPredictiveBackOff">Aus</string>
+    <string name="MZGramPredictiveBackMax">Maximum</string>
+    <string name="MZGramPredictiveBackInfo">Passt an, wie weit sich der Bildschirm beim Zurückwischen bewegt.</string>
+    <string name="MZGramBottomNavigationBar">Untere Leiste</string>
+    <string name="MZGramBottomNavigationBarMode">Untere Navigationsleiste</string>
+    <string name="MZGramBottomNavigationModeShow">Anzeigen</string>
+    <string name="MZGramBottomNavigationModeHide">Ausblenden</string>
+    <string name="MZGramBottomNavigationModeFloating">Schwebend</string>
+    <string name="MZGramMainTabsHideTitles">Titel ausblenden</string>
+    <string name="MZGramMainTabsHideContacts">Tab „Kontakte“ ausblenden</string>
+    <string name="MZGramMainTabsHideCallsSettings">Tab „Anrufe“ ausblenden</string>
+    <string name="MZGramMainTabsHideProfile">Tab „Profil“ ausblenden</string>
+    <string name="MZGramNavigationDrawer">Navigations-Seitenleiste</string>
+    <string name="MZGramNavigationDrawerImmersive">Immersive Animation</string>
+    <string name="MZGramNavigationDrawerInfo">Ersetzt das Menü oben rechts durch eine klassische Wisch-Seitenleiste und eine Hamburger-Schaltfläche.</string>
+    <string name="MZGramMainMenuItems">Menüpunkte</string>
+    <string name="MZGramMainMenuItemsInfo">Tippen zum Ein-/Ausblenden, Halten zum Sortieren. Das Layout wird zwischen Menü und Seitenleiste geteilt.</string>
+    <string name="MZGramMainMenuAddDivider">Trennlinie hinzufügen</string>
+    <string name="MZGramMainMenuDivider">Trennlinie</string>
+    <string name="MZGramMainMenuHiddenItems">Ausgeblendete Menüpunkte</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">Einstellungen können nicht ausgeblendet werden, solange die untere Navigationsleiste deaktiviert ist.</string>
+    <string name="MZGramKillApp">App beenden</string>
 </resources>

@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">Monet palette</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">Classic</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">General</string>
+    <string name="MZGramTabletMode">Tablet Mode</string>
+    <string name="MZGramTabletModeAuto">Auto</string>
+    <string name="MZGramTabletModeOn">On</string>
+    <string name="MZGramTabletModeOff">Off</string>
+    <string name="MZGramAlwaysShowDownloadIcon">Always Show Download Icon</string>
+    <string name="MZGramBackAnimation">Back Animation</string>
+    <string name="MZGramBackAnimationClassic">Classic</string>
+    <string name="MZGramBackAnimationSpring">Spring</string>
+    <string name="MZGramBackAnimationPredictive">Predictive Back</string>
+    <string name="MZGramBackAnimationSlide">Slide</string>
+    <string name="MZGramBackAnimationInfo">Enables smoother animations when switching screens and opening the side menu.</string>
+    <string name="MZGramPredictiveBackIntensity">Gesture Intensity</string>
+    <string name="MZGramPredictiveBackOff">Off</string>
+    <string name="MZGramPredictiveBackMax">Max</string>
+    <string name="MZGramPredictiveBackInfo">Adjusts how far the screen moves when swiping back.</string>
+    <string name="MZGramBottomNavigationBar">Bottom Bar</string>
+    <string name="MZGramBottomNavigationBarMode">Bottom Navigation Bar</string>
+    <string name="MZGramBottomNavigationModeShow">Show</string>
+    <string name="MZGramBottomNavigationModeHide">Hide</string>
+    <string name="MZGramBottomNavigationModeFloating">Floating</string>
+    <string name="MZGramMainTabsHideTitles">Hide Titles</string>
+    <string name="MZGramMainTabsHideContacts">Hide Contacts Tab</string>
+    <string name="MZGramMainTabsHideCallsSettings">Hide Calls Tab</string>
+    <string name="MZGramMainTabsHideProfile">Hide Profile Tab</string>
+    <string name="MZGramNavigationDrawer">Navigation Drawer</string>
+    <string name="MZGramNavigationDrawerImmersive">Immersive Animation</string>
+    <string name="MZGramNavigationDrawerInfo">Replaces the top-right menu with a classic swipe-to-open drawer and a hamburger button.</string>
+    <string name="MZGramMainMenuItems">Menu Items</string>
+    <string name="MZGramMainMenuItemsInfo">Tap to show or hide items, hold to reorder. Layout is shared between the menu and the drawer.</string>
+    <string name="MZGramMainMenuAddDivider">Add Divider</string>
+    <string name="MZGramMainMenuDivider">Divider</string>
+    <string name="MZGramMainMenuHiddenItems">Hidden Menu Items</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">Settings cannot be hidden while the bottom navigation bar is disabled.</string>
+    <string name="MZGramKillApp">Close App</string>
 </resources>

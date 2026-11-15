@@ -89,7 +89,16 @@ public class MZGramConfig {
     public static boolean losslessPhotoCrop = false;
     // Write uncaught exceptions to a local file and show it on the next launch (MZGramCrashLog)
     public static boolean crashReports = false;
+    public static int tabletMode = 0;
+    public static boolean alwaysShowDownloadIcon = false;
+    public static int backAnimationStyle = 0;
+    public static int predictiveBackIntensity = 100;
+    public static int bottomNavigationMode = 0;
     public static boolean hideBottomNavigationBar = false;
+    public static boolean mainTabsHideTitles = false;
+    public static boolean mainTabsHideContacts = false;
+    public static boolean mainTabsHideCallsSettings = false;
+    public static boolean mainTabsHideProfile = false;
     // The signed-in accounts at the end of the chat list menu (MZGramAccountsMenu)
     public static boolean accountsInMenu = true;
     // Set once the accounts were put in a new order (MZGramAccountOrderActivity)
@@ -380,6 +389,7 @@ public class MZGramConfig {
     // The MZGram side menu (MZGramDrawer) in place of the popup menu of the
     // three dots of the chat list; its QR button and the larger avatar.
     public static boolean customDrawer = false;
+    public static boolean drawerImmersiveAnimation = false;
     public static boolean drawerShowQr = true;
     public static boolean drawerLargeAvatar = false;
     // Its look: the background of the header (MZGramDrawer.HEADER_*) and the glass panel
@@ -780,7 +790,17 @@ public class MZGramConfig {
             voiceQuality = preferences.getInt("voiceQuality", 0);
             losslessPhotoCrop = preferences.getBoolean("losslessPhotoCrop", false);
             crashReports = preferences.getBoolean("crashReports", false);
+            tabletMode = preferences.getInt("tabletMode", 0);
+            alwaysShowDownloadIcon = preferences.getBoolean("alwaysShowDownloadIcon", false);
+            backAnimationStyle = preferences.getInt("backAnimationStyle", 0);
+            predictiveBackIntensity = preferences.getInt("predictiveBackIntensity", 100);
             hideBottomNavigationBar = preferences.getBoolean("hideBottomNavigationBar", false);
+            bottomNavigationMode = preferences.getInt("bottomNavigationMode", hideBottomNavigationBar ? 1 : 0);
+            hideBottomNavigationBar = (bottomNavigationMode == 1);
+            mainTabsHideTitles = preferences.getBoolean("mainTabsHideTitles", false);
+            mainTabsHideContacts = preferences.getBoolean("mainTabsHideContacts", false);
+            mainTabsHideCallsSettings = preferences.getBoolean("mainTabsHideCallsSettings", false);
+            mainTabsHideProfile = preferences.getBoolean("mainTabsHideProfile", false);
             accountsInMenu = preferences.getBoolean("accountsInMenu", true);
             accountOrderCustomised = preferences.getBoolean("accountOrderCustomised", false);
             recentChatsOnBack = preferences.getBoolean("recentChatsOnBack", false);
@@ -949,6 +969,7 @@ public class MZGramConfig {
             regexFiltersInPrivate = preferences.getBoolean("regexFiltersInPrivate", false);
             regexFiltersNoDownload = preferences.getBoolean("regexFiltersNoDownload", false);
             customDrawer = preferences.getBoolean("customDrawer", false);
+            drawerImmersiveAnimation = preferences.getBoolean("drawerImmersiveAnimation", false);
             drawerShowQr = preferences.getBoolean("drawerShowQr", true);
             drawerLargeAvatar = preferences.getBoolean("drawerLargeAvatar", false);
             drawerHeaderStyle = preferences.getInt("drawerHeaderStyle", 0);
@@ -1459,9 +1480,73 @@ public class MZGramConfig {
         MZGramVoiceQuality.apply();
     }
 
+    public static void setTabletMode(int mode) {
+        tabletMode = Math.max(0, Math.min(2, mode));
+        putInt("tabletMode", tabletMode);
+    }
+
+    public static void toggleAlwaysShowDownloadIcon() {
+        alwaysShowDownloadIcon = !alwaysShowDownloadIcon;
+        putBoolean("alwaysShowDownloadIcon", alwaysShowDownloadIcon);
+        org.telegram.messenger.NotificationCenter.getInstance(org.telegram.messenger.UserConfig.selectedAccount).postNotificationName(org.telegram.messenger.NotificationCenter.onDownloadingFilesChanged);
+    }
+
+    public static void setBackAnimationStyle(int style) {
+        backAnimationStyle = Math.max(0, Math.min(3, style));
+        putInt("backAnimationStyle", backAnimationStyle);
+        if (backAnimationStyle == 1) {
+            org.telegram.messenger.SharedConfig.setAnimationsEnabled(true);
+        }
+    }
+
+    public static void setPredictiveBackIntensity(int intensity) {
+        predictiveBackIntensity = Math.max(0, Math.min(200, intensity));
+        putInt("predictiveBackIntensity", predictiveBackIntensity);
+    }
+
+    public static void setBottomNavigationMode(int mode) {
+        bottomNavigationMode = Math.max(0, Math.min(2, mode));
+        putInt("bottomNavigationMode", bottomNavigationMode);
+        hideBottomNavigationBar = (bottomNavigationMode == 1);
+        putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
+        if (bottomNavigationMode == 2) {
+            m3NavBar = false;
+            putBoolean("m3NavBar", false);
+            iosNavBar = false;
+            putBoolean("iosNavBar", false);
+        }
+    }
+
     public static void toggleHideBottomNavigationBar() {
         hideBottomNavigationBar = !hideBottomNavigationBar;
+        bottomNavigationMode = hideBottomNavigationBar ? 1 : 0;
         putBoolean("hideBottomNavigationBar", hideBottomNavigationBar);
+        putInt("bottomNavigationMode", bottomNavigationMode);
+    }
+
+    public static void toggleMainTabsHideTitles() {
+        mainTabsHideTitles = !mainTabsHideTitles;
+        putBoolean("mainTabsHideTitles", mainTabsHideTitles);
+    }
+
+    public static void toggleMainTabsHideContacts() {
+        mainTabsHideContacts = !mainTabsHideContacts;
+        putBoolean("mainTabsHideContacts", mainTabsHideContacts);
+    }
+
+    public static void toggleMainTabsHideCallsSettings() {
+        mainTabsHideCallsSettings = !mainTabsHideCallsSettings;
+        putBoolean("mainTabsHideCallsSettings", mainTabsHideCallsSettings);
+    }
+
+    public static void toggleMainTabsHideProfile() {
+        mainTabsHideProfile = !mainTabsHideProfile;
+        putBoolean("mainTabsHideProfile", mainTabsHideProfile);
+    }
+
+    public static void toggleDrawerImmersiveAnimation() {
+        drawerImmersiveAnimation = !drawerImmersiveAnimation;
+        putBoolean("drawerImmersiveAnimation", drawerImmersiveAnimation);
     }
 
     public static void setPeerIdMode(int mode) {

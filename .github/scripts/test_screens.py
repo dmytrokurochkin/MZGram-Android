@@ -501,7 +501,7 @@ class ScreensTest(unittest.TestCase):
         under = kotlin.split("private val underSwitch = listOf(", 1)[1].split("\n    )", 1)[0]
         hidden = len(re.findall(r'"BUTTON_\w+"', under))
         expected = int(re.search(r"val expectedCount = (\d+) \+", kotlin).group(1))
-        self.assertEqual(len(buttons) - hidden - 3, expected)
+        self.assertEqual(len(buttons) - hidden - 4, expected)
 
     def test_material3_player_on_by_default(self):
         self.switch("musicPlayer", "true", "BUTTON_MUSIC_PLAYER")

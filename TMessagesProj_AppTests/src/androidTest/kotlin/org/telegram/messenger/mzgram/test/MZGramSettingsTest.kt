@@ -85,7 +85,7 @@ class MZGramSettingsTest {
         "BUTTON_CAMERA_X_WIDE", "BUTTON_CAMERA_X_ZOOM", "BUTTON_CUSTOM_DOH",
         "BUTTON_DELETED_DIALOGS_IN_MAIN_LIST", "BUTTON_DELETED_DIALOGS_OPEN", "BUTTON_DELETED_ICON_COLOR",
         "BUTTON_DOUBLE_TAP_OWN", "BUTTON_DOUBLE_TAP_OTHER",
-        "BUTTON_DRAWER_GLASS", "BUTTON_DRAWER_HEADER", "BUTTON_DRAWER_ITEMS", "BUTTON_DRAWER_LARGE_AVATAR", "BUTTON_DRAWER_SHOW_QR",
+        "BUTTON_DRAWER_GLASS", "BUTTON_DRAWER_HEADER", "BUTTON_DRAWER_IMMERSIVE", "BUTTON_DRAWER_LARGE_AVATAR", "BUTTON_DRAWER_SHOW_QR",
         "BUTTON_ICON_PACKS_ON", "BUTTON_MONET_PICK", "BUTTON_MONET_STYLE",
         "BUTTON_OWN_LAST_SEEN_VALUE", "BUTTON_PASSCODE_ACCOUNTS_SETUP", "BUTTON_PILLS", "BUTTON_REGEX_FILTERS_RULES",
         "BUTTON_ROUND_VIDEO_ADVANCED", "BUTTON_ROUND_VIDEO_BITRATE", "BUTTON_ROUND_VIDEO_HIGH_FPS", "BUTTON_SHADOW_BAN_LIST",
@@ -96,7 +96,7 @@ class MZGramSettingsTest {
 
     // Rows this build or device does not offer at all, and reports shown only once there is one
     private fun notOffered(): Set<Int> {
-        val names = mutableListOf("BUTTON_ENERGY_REPORT", "BUTTON_JANK_REPORT")
+        val names = mutableListOf("BUTTON_ENERGY_REPORT", "BUTTON_JANK_REPORT", "BUTTON_PREDICTIVE_INTENSITY")
         if (!org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) {
             names += "BUTTON_PYTHON_RUNTIME"
         }
@@ -167,7 +167,7 @@ class MZGramSettingsTest {
         // None lost: every switch and button is shown, but those under an off switch and those not offered here
         val maybe = notOffered()
         assertEquals("every switch and button is shown", allButtons() - underSwitch.map { button(it) }.toSet() - maybe, shown.toSet() - maybe)
-        val expectedCount = 295 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
+        val expectedCount = 303 + if (org.telegram.messenger.mzgram.plugins.MZGramPythonRuntime.isAvailable()) 1 else 0
         assertEquals("$expectedCount switches and buttons", expectedCount, shown.size)
         MZGramScreens.log("settings topics: $perTopic, ${shown.size} switches and buttons")
     }

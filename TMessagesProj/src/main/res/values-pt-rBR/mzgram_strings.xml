@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">Paleta Monet</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">Clássico</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">Geral</string>
+    <string name="MZGramTabletMode">Modo tablet</string>
+    <string name="MZGramTabletModeAuto">Automático</string>
+    <string name="MZGramTabletModeOn">Ativado</string>
+    <string name="MZGramTabletModeOff">Desativado</string>
+    <string name="MZGramAlwaysShowDownloadIcon">Sempre mostrar ícone de download</string>
+    <string name="MZGramBackAnimation">Animação de voltar</string>
+    <string name="MZGramBackAnimationClassic">Clássica</string>
+    <string name="MZGramBackAnimationSpring">Elástica</string>
+    <string name="MZGramBackAnimationPredictive">Voltar preditivo</string>
+    <string name="MZGramBackAnimationSlide">Deslizar</string>
+    <string name="MZGramBackAnimationInfo">Ativa animações mais suaves ao alternar entre telas e abrir o menu lateral.</string>
+    <string name="MZGramPredictiveBackIntensity">Intensidade do gesto</string>
+    <string name="MZGramPredictiveBackOff">Desativado</string>
+    <string name="MZGramPredictiveBackMax">Máx.</string>
+    <string name="MZGramPredictiveBackInfo">Ajusta a distância de deslocamento da tela ao deslizar para voltar.</string>
+    <string name="MZGramBottomNavigationBar">Barra inferior</string>
+    <string name="MZGramBottomNavigationBarMode">Barra de navegação inferior</string>
+    <string name="MZGramBottomNavigationModeShow">Mostrar</string>
+    <string name="MZGramBottomNavigationModeHide">Ocultar</string>
+    <string name="MZGramBottomNavigationModeFloating">Flutuante</string>
+    <string name="MZGramMainTabsHideTitles">Ocultar títulos</string>
+    <string name="MZGramMainTabsHideContacts">Ocultar aba Contatos</string>
+    <string name="MZGramMainTabsHideCallsSettings">Ocultar aba Chamadas</string>
+    <string name="MZGramMainTabsHideProfile">Ocultar aba Perfil</string>
+    <string name="MZGramNavigationDrawer">Gaveta de navegação lateral</string>
+    <string name="MZGramNavigationDrawerImmersive">Animação imersiva</string>
+    <string name="MZGramNavigationDrawerInfo">Substitui o menu superior direito por uma gaveta lateral deslizante clássica e botão hambúrguer.</string>
+    <string name="MZGramMainMenuItems">Itens do menu</string>
+    <string name="MZGramMainMenuItemsInfo">Toque para mostrar ou ocultar itens, segure para reordenar. O layout é compartilhado entre o menu e a gaveta.</string>
+    <string name="MZGramMainMenuAddDivider">Adicionar separador</string>
+    <string name="MZGramMainMenuDivider">Separador</string>
+    <string name="MZGramMainMenuHiddenItems">Itens de menu ocultos</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">As Configurações não podem ser ocultadas enquanto a barra de navegação inferior estiver desativada.</string>
+    <string name="MZGramKillApp">Fechar aplicativo</string>
 </resources>

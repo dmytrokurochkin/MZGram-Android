@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">Палітра Monet</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">Класічны</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">Агульныя</string>
+    <string name="MZGramTabletMode">Рэжым планшэта</string>
+    <string name="MZGramTabletModeAuto">Аўта</string>
+    <string name="MZGramTabletModeOn">Укл.</string>
+    <string name="MZGramTabletModeOff">Выкл.</string>
+    <string name="MZGramAlwaysShowDownloadIcon">Заўсёды паказваць значок спампоўкі</string>
+    <string name="MZGramBackAnimation">Анімацыя «Назад»</string>
+    <string name="MZGramBackAnimationClassic">Класічная</string>
+    <string name="MZGramBackAnimationSpring">Пругкая</string>
+    <string name="MZGramBackAnimationPredictive">Прэдыктыўнае «Назад»</string>
+    <string name="MZGramBackAnimationSlide">Зрух</string>
+    <string name="MZGramBackAnimationInfo">Уключае больш плаўныя анімацыі пры пераходзе паміж экранамі і адкрыцці бакавога меню.</string>
+    <string name="MZGramPredictiveBackIntensity">Інтэнсіўнасць жэсту</string>
+    <string name="MZGramPredictiveBackOff">Выкл.</string>
+    <string name="MZGramPredictiveBackMax">Максімум</string>
+    <string name="MZGramPredictiveBackInfo">Наладжвае адлегласць зруху экрана пры свайпе назад.</string>
+    <string name="MZGramBottomNavigationBar">Ніжняя панэль</string>
+    <string name="MZGramBottomNavigationBarMode">Ніжняя панэль навігацыі</string>
+    <string name="MZGramBottomNavigationModeShow">Паказаць</string>
+    <string name="MZGramBottomNavigationModeHide">Схаваць</string>
+    <string name="MZGramBottomNavigationModeFloating">Плавальная</string>
+    <string name="MZGramMainTabsHideTitles">Схаваць назвы</string>
+    <string name="MZGramMainTabsHideContacts">Схаваць укладку «Кантакты»</string>
+    <string name="MZGramMainTabsHideCallsSettings">Схаваць укладку «Званкі»</string>
+    <string name="MZGramMainTabsHideProfile">Схаваць укладку «Профіль»</string>
+    <string name="MZGramNavigationDrawer">Бакавая шторка</string>
+    <string name="MZGramNavigationDrawerImmersive">Імерсіўная анімацыя</string>
+    <string name="MZGramNavigationDrawerInfo">Замяняе меню ў правым верхнім вугле на класічную шторку са свайпам і кнопкай-гамбургерам.</string>
+    <string name="MZGramMainMenuItems">Пункты меню</string>
+    <string name="MZGramMainMenuItemsInfo">Націсніце для паказу або схавання, утрымлівайце для змены парадку. Раскладка агульная для меню і шторкі.</string>
+    <string name="MZGramMainMenuAddDivider">Дадаць падзяляльнік</string>
+    <string name="MZGramMainMenuDivider">Падзяляльнік</string>
+    <string name="MZGramMainMenuHiddenItems">Схаваныя пункты меню</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">Нельга схаваць «Налады», калі адключана ніжняя панэль навігацыі.</string>
+    <string name="MZGramKillApp">Закрыць праграму</string>
 </resources>

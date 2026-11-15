@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">Palette Monet</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">Classique</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">Général</string>
+    <string name="MZGramTabletMode">Mode tablette</string>
+    <string name="MZGramTabletModeAuto">Automatique</string>
+    <string name="MZGramTabletModeOn">Activé</string>
+    <string name="MZGramTabletModeOff">Désactivé</string>
+    <string name="MZGramAlwaysShowDownloadIcon">Toujours afficher l\'icône de téléchargement</string>
+    <string name="MZGramBackAnimation">Animation de retour</string>
+    <string name="MZGramBackAnimationClassic">Classique</string>
+    <string name="MZGramBackAnimationSpring">Ressort</string>
+    <string name="MZGramBackAnimationPredictive">Retour prédictif</string>
+    <string name="MZGramBackAnimationSlide">Glissement</string>
+    <string name="MZGramBackAnimationInfo">Active des animations plus fluides lors du changement d\'écran et de l\'ouverture du menu latéral.</string>
+    <string name="MZGramPredictiveBackIntensity">Intensité du geste</string>
+    <string name="MZGramPredictiveBackOff">Désactivé</string>
+    <string name="MZGramPredictiveBackMax">Maximum</string>
+    <string name="MZGramPredictiveBackInfo">Ajuste la distance de déplacement de l\'écran lors d\'un balayage vers l\'arrière.</string>
+    <string name="MZGramBottomNavigationBar">Barre inférieure</string>
+    <string name="MZGramBottomNavigationBarMode">Barre de navigation inférieure</string>
+    <string name="MZGramBottomNavigationModeShow">Afficher</string>
+    <string name="MZGramBottomNavigationModeHide">Masquer</string>
+    <string name="MZGramBottomNavigationModeFloating">Flottante</string>
+    <string name="MZGramMainTabsHideTitles">Masquer les titres</string>
+    <string name="MZGramMainTabsHideContacts">Masquer l\'onglet Contacts</string>
+    <string name="MZGramMainTabsHideCallsSettings">Masquer l\'onglet Appels</string>
+    <string name="MZGramMainTabsHideProfile">Masquer l\'onglet Profil</string>
+    <string name="MZGramNavigationDrawer">Panneau latéral de navigation</string>
+    <string name="MZGramNavigationDrawerImmersive">Animation immersive</string>
+    <string name="MZGramNavigationDrawerInfo">Remplace le menu supérieur droit par un panneau latéral classique et un bouton hamburger.</string>
+    <string name="MZGramMainMenuItems">Éléments du menu</string>
+    <string name="MZGramMainMenuItemsInfo">Appuyez pour afficher ou masquer, maintenez pour réorganiser. La disposition est partagée entre le menu et le panneau.</string>
+    <string name="MZGramMainMenuAddDivider">Ajouter un séparateur</string>
+    <string name="MZGramMainMenuDivider">Séparateur</string>
+    <string name="MZGramMainMenuHiddenItems">Éléments de menu masqués</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">Les paramètres ne peuvent pas être masqués lorsque la barre de navigation inférieure est désactivée.</string>
+    <string name="MZGramKillApp">Fermer l\'app</string>
 </resources>

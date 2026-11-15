@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">Monet paleti</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">Klasik</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">Genel</string>
+    <string name="MZGramTabletMode">Tablet Modu</string>
+    <string name="MZGramTabletModeAuto">Otomatik</string>
+    <string name="MZGramTabletModeOn">Açık</string>
+    <string name="MZGramTabletModeOff">Kapalı</string>
+    <string name="MZGramAlwaysShowDownloadIcon">İndirme Simgesini Her Zaman Göster</string>
+    <string name="MZGramBackAnimation">Geri Hareketi Animasyonu</string>
+    <string name="MZGramBackAnimationClassic">Klasik</string>
+    <string name="MZGramBackAnimationSpring">Yaylı</string>
+    <string name="MZGramBackAnimationPredictive">Tahmini Geri</string>
+    <string name="MZGramBackAnimationSlide">Kaydırma</string>
+    <string name="MZGramBackAnimationInfo">Ekranlar arasında geçiş yaparken ve yan menüyü açarken daha akıcı animasyonlar sağlar.</string>
+    <string name="MZGramPredictiveBackIntensity">Hareket Yoğunluğu</string>
+    <string name="MZGramPredictiveBackOff">Kapalı</string>
+    <string name="MZGramPredictiveBackMax">Maks</string>
+    <string name="MZGramPredictiveBackInfo">Geri kaydırırken ekranın ne kadar hareket edeceğini ayarlar.</string>
+    <string name="MZGramBottomNavigationBar">Alt Çubuk</string>
+    <string name="MZGramBottomNavigationBarMode">Alt Gezinme Çubuğu</string>
+    <string name="MZGramBottomNavigationModeShow">Göster</string>
+    <string name="MZGramBottomNavigationModeHide">Gizle</string>
+    <string name="MZGramBottomNavigationModeFloating">Kayan</string>
+    <string name="MZGramMainTabsHideTitles">Başlıkları Gizle</string>
+    <string name="MZGramMainTabsHideContacts">Kişiler Sekmesini Gizle</string>
+    <string name="MZGramMainTabsHideCallsSettings">Aramalar Sekmesini Gizle</string>
+    <string name="MZGramMainTabsHideProfile">Profil Sekmesini Gizle</string>
+    <string name="MZGramNavigationDrawer">Gezinme Çekmecesi</string>
+    <string name="MZGramNavigationDrawerImmersive">Sarmal Animasyon</string>
+    <string name="MZGramNavigationDrawerInfo">Sağ üst menüyü klasik kaydırmalı çekmece ve hamburger düğmesiyle değiştirir.</string>
+    <string name="MZGramMainMenuItems">Menü Öğeleri</string>
+    <string name="MZGramMainMenuItemsInfo">Öğeleri göstermek veya gizlemek için dokunun, yeniden sıralamak için basılı tutun. Düzen menü ile çekmece arasında paylaşılır.</string>
+    <string name="MZGramMainMenuAddDivider">Ayırıcı Ekle</string>
+    <string name="MZGramMainMenuDivider">Ayırıcı</string>
+    <string name="MZGramMainMenuHiddenItems">Gizli Menü Öğeleri</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">Alt gezinme çubuğu devre dışıyken Ayarlar gizlenemez.</string>
+    <string name="MZGramKillApp">Uygulamayı Kapat</string>
 </resources>

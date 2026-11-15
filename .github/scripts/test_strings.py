@@ -56,7 +56,7 @@ SHARED_WORDS = {
     "Bots", "ID",
     # "General" in Spanish, "Links" in German and Portuguese, "Navigation"
     # and "Messages" in German and French
-    "General", "Links", "Navigation", "Messages",
+    "General", "Links", "Navigation", "Messages", "Animation", "Immersive",
     # "Chats" in Spanish and German, "Sections" in French
     "Chats", "Sections",
     # "Feed" in Spanish, German and Portuguese

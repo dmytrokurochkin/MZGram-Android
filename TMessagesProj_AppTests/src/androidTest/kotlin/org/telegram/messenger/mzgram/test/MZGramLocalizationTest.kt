@@ -54,7 +54,7 @@ class MZGramLocalizationTest {
         "VAPID", "Bot", "Miami", "Amsterdam", "Singapore", "Zalgo", "Unicode",
         "Telegram", "Interface", "Media", "Details", "Message", "Date", "OK",
         "AI", "Model", "Premium", "Business", "Wallet", "MIUI", "Autostart", "No", "Bots", "iOS", "Telemone",
-        "General", "Links", "Navigation", "Messages", "Chats", "Sections", "Feed",
+        "General", "Links", "Navigation", "Messages", "Chats", "Sections", "Feed", "Animation", "Immersive",
     )
 
     private fun sharedOnly(text: String) = Regex("\\p{L}+").findAll(text).all { it.value in sharedWords }

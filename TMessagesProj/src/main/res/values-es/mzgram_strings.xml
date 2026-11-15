@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">Paleta Monet</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">Clásico</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">General</string>
+    <string name="MZGramTabletMode">Modo tableta</string>
+    <string name="MZGramTabletModeAuto">Automático</string>
+    <string name="MZGramTabletModeOn">Activado</string>
+    <string name="MZGramTabletModeOff">Desactivado</string>
+    <string name="MZGramAlwaysShowDownloadIcon">Mostrar siempre el icono de descargas</string>
+    <string name="MZGramBackAnimation">Animación de retroceso</string>
+    <string name="MZGramBackAnimationClassic">Clásica</string>
+    <string name="MZGramBackAnimationSpring">Elástica</string>
+    <string name="MZGramBackAnimationPredictive">Retroceso predictivo</string>
+    <string name="MZGramBackAnimationSlide">Deslizamiento</string>
+    <string name="MZGramBackAnimationInfo">Permite animaciones más fluidas al cambiar de pantalla y abrir el menú lateral.</string>
+    <string name="MZGramPredictiveBackIntensity">Intensidad del gesto</string>
+    <string name="MZGramPredictiveBackOff">Desactivado</string>
+    <string name="MZGramPredictiveBackMax">Máx.</string>
+    <string name="MZGramPredictiveBackInfo">Ajusta qué tanto se desplaza la pantalla al deslizar hacia atrás.</string>
+    <string name="MZGramBottomNavigationBar">Barra inferior</string>
+    <string name="MZGramBottomNavigationBarMode">Barra de navegación inferior</string>
+    <string name="MZGramBottomNavigationModeShow">Mostrar</string>
+    <string name="MZGramBottomNavigationModeHide">Ocultar</string>
+    <string name="MZGramBottomNavigationModeFloating">Flotante</string>
+    <string name="MZGramMainTabsHideTitles">Ocultar títulos</string>
+    <string name="MZGramMainTabsHideContacts">Ocultar pestaña Contactos</string>
+    <string name="MZGramMainTabsHideCallsSettings">Ocultar pestaña Llamadas</string>
+    <string name="MZGramMainTabsHideProfile">Ocultar pestaña Perfil</string>
+    <string name="MZGramNavigationDrawer">Panel lateral de navegación</string>
+    <string name="MZGramNavigationDrawerImmersive">Animación inmersiva</string>
+    <string name="MZGramNavigationDrawerInfo">Reemplaza el menú superior derecho con un panel lateral deslizante y un botón de hamburguesa.</string>
+    <string name="MZGramMainMenuItems">Elementos del menú</string>
+    <string name="MZGramMainMenuItemsInfo">Toca para mostrar u ocultar elementos, mantén presionado para reordenar. El diseño se comparte entre el menú y el panel lateral.</string>
+    <string name="MZGramMainMenuAddDivider">Añadir separador</string>
+    <string name="MZGramMainMenuDivider">Separador</string>
+    <string name="MZGramMainMenuHiddenItems">Elementos ocultos del menú</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">No se pueden ocultar los Ajustes mientras la barra de navegación inferior esté desactivada.</string>
+    <string name="MZGramKillApp">Cerrar app</string>
 </resources>

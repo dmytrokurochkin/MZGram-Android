@@ -114,6 +114,7 @@ public final class MZGramSettingsBackup {
                 "showMessageDetails", "showQrCode", "showNoQuoteForward", "showAskAi",
                 "saveProtectedContent", "deleteForAllByDefault", "predictiveBackAnimation",
                 "gooeyAvatarAnimation", "losslessPhotoCrop", "crashReports", "hideBottomNavigationBar",
+                "alwaysShowDownloadIcon", "mainTabsHideTitles", "mainTabsHideContacts", "mainTabsHideCallsSettings", "mainTabsHideProfile", "drawerImmersiveAnimation",
                 "accountsInMenu", "recentChatsOnBack", "extendedPins", "localFolders", "lastSeenExact", "pillStack", "iconPacks",
                 "monetThemes", "useCameraX", "cameraXWideLens", "cameraXZoomSlider",
                 "round_video_camera2_enabled", "round_video_high_fps", "musicPlayer",
@@ -178,6 +179,10 @@ public final class MZGramSettingsBackup {
         integer(CONFIG, "stickerSize", 50, 150);
         // MZGramDrawer.HEADER_TITLES
         integer(CONFIG, "drawerHeaderStyle", 0, 3);
+        integer(CONFIG, "tabletMode", 0, 2);
+        integer(CONFIG, "backAnimationStyle", 0, 3);
+        integer(CONFIG, "predictiveBackIntensity", 0, 200);
+        integer(CONFIG, "bottomNavigationMode", 0, 2);
         // MZGramDoubleTap.TITLES
         integer(CONFIG, "doubleTapOwn", 0, 3);
         integer(CONFIG, "doubleTapOther", 0, 3);

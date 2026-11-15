@@ -1618,4 +1618,41 @@
     <string name="MZGramMonetStyleHeader">لوحة Monet</string>
     <string name="MZGramMonetStyleTelemone">Telemone</string>
     <string name="MZGramMonetStyleClassic">كلاسيكي</string>
+
+    <!-- App Navigation (Phase C4) -->
+    <string name="MZGramNavGeneral">عام</string>
+    <string name="MZGramTabletMode">وضع الجهاز اللوحي</string>
+    <string name="MZGramTabletModeAuto">تلقائي</string>
+    <string name="MZGramTabletModeOn">مفعل</string>
+    <string name="MZGramTabletModeOff">معطل</string>
+    <string name="MZGramAlwaysShowDownloadIcon">إظهار أيقونة التنزيل دائمًا</string>
+    <string name="MZGramBackAnimation">حركة الرجوع للخلف</string>
+    <string name="MZGramBackAnimationClassic">كلاسيكي</string>
+    <string name="MZGramBackAnimationSpring">مرن</string>
+    <string name="MZGramBackAnimationPredictive">الرجوع التنبؤي</string>
+    <string name="MZGramBackAnimationSlide">انزلاق</string>
+    <string name="MZGramBackAnimationInfo">تفعيل حركات أكثر سلاسة عند التنقل بين الشاشات وفتح القائمة الجانبية.</string>
+    <string name="MZGramPredictiveBackIntensity">شدة الإيماءة</string>
+    <string name="MZGramPredictiveBackOff">معطل</string>
+    <string name="MZGramPredictiveBackMax">أقصى</string>
+    <string name="MZGramPredictiveBackInfo">يحدد مسافة تحرك الشاشة عند السحب للرجوع.</string>
+    <string name="MZGramBottomNavigationBar">الشريط السفلي</string>
+    <string name="MZGramBottomNavigationBarMode">شريط التنقل السفلي</string>
+    <string name="MZGramBottomNavigationModeShow">إظهار</string>
+    <string name="MZGramBottomNavigationModeHide">إخفاء</string>
+    <string name="MZGramBottomNavigationModeFloating">عائم</string>
+    <string name="MZGramMainTabsHideTitles">إخفاء العناوين</string>
+    <string name="MZGramMainTabsHideContacts">إخفاء تبويب جهات الاتصال</string>
+    <string name="MZGramMainTabsHideCallsSettings">إخفاء تبويب المكالمات</string>
+    <string name="MZGramMainTabsHideProfile">إخفاء تبويب الملف الشخصي</string>
+    <string name="MZGramNavigationDrawer">القائمة الجانبية للتنقل</string>
+    <string name="MZGramNavigationDrawerImmersive">حركة تفاعلية غامرة</string>
+    <string name="MZGramNavigationDrawerInfo">يستبدل القائمة العلوية اليمنى بقائمة جانبية كلاسيكية تفتح بالسحب مع زر القائمة.</string>
+    <string name="MZGramMainMenuItems">عناصر القائمة</string>
+    <string name="MZGramMainMenuItemsInfo">المس لإظهار أو إخفاء العناصر، واضغط مطولاً لإعادة الترتيب. التخطيط مشترك بين القائمة والقائمة الجانبية.</string>
+    <string name="MZGramMainMenuAddDivider">إضافة فاصل</string>
+    <string name="MZGramMainMenuDivider">فاصل</string>
+    <string name="MZGramMainMenuHiddenItems">عناصر القائمة المخفية</string>
+    <string name="MZGramMainMenuRemoveSettingsInfo">لا يمكن إخفاء الإعدادات أثناء تعطيل شريط التنقل السفلي.</string>
+    <string name="MZGramKillApp">إغلاق التطبيق</string>
 </resources>

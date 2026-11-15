@@ -13496,6 +13496,9 @@ public class ChatActivityEnterView extends FrameLayout implements
             emojiView.shouldLightenBackground = false;
             emojiView.setShouldDrawBackground(false);
             emojiView.isNewHeightControl = true;
+            if (app.exteraless.appearance.AppearanceConfig.materialBars()) {
+                emojiView.setMzFlatBottomBar(Theme.key_chat_messagePanelBackground);
+            }
         }
         emojiView.setDelegate(new EmojiView.EmojiViewDelegate() {
 

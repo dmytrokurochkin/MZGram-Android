@@ -2990,6 +2990,40 @@ public class EmojiView extends FrameLayout implements
         }
     }
 
+    // ---- MZGram: Material bars. The Emoji/GIFs/Stickers row sits on a docked full-width bar. ----
+
+    private int mzFlatBarColorKey = -1;
+    private final Paint mzFlatBarPaint = new Paint();
+
+    /** Drops the floating pills of the bottom row and draws a solid bar in the given colour under it. */
+    public void setMzFlatBottomBar(int colorKey) {
+        mzFlatBarColorKey = colorKey;
+        final int ripple = getThemedColor(Theme.key_listSelector);
+        final View[] buttons = {backspaceButton, searchButton, stickerSettingsButton};
+        for (View button : buttons) {
+            if (button != null) {
+                button.setBackground(Theme.createSelectorDrawable(ripple, Theme.RIPPLE_MASK_CIRCLE_20DP));
+            }
+        }
+        if (typeTabs != null) {
+            typeTabs.setBackground(null);
+        }
+        invalidate();
+    }
+
+    private void drawMzFlatBottomBar(Canvas canvas) {
+        if (mzFlatBarColorKey == -1 || !needEmojiSearch || bottomTabContainer == null || bottomTabContainer.getVisibility() != View.VISIBLE) {
+            return;
+        }
+        final float top = bottomTabContainer.getY();
+        if (top >= getMeasuredHeight()) {
+            return;
+        }
+        mzFlatBarPaint.setColor(ColorUtils.setAlphaComponent(getThemedColor(mzFlatBarColorKey), 255));
+        mzFlatBarPaint.setAlpha((int) (255 * bottomTabContainer.getAlpha()));
+        canvas.drawRect(0, top, getMeasuredWidth(), getMeasuredHeight(), mzFlatBarPaint);
+    }
+
 
     private int bottomInset;
 
@@ -4725,6 +4759,9 @@ public class EmojiView extends FrameLayout implements
 
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+        if (child == bottomTabContainer) {
+            drawMzFlatBottomBar(canvas);
+        }
         if (child == pager) {
             canvas.save();
             if (bottomTabContainer.getVisibility() != View.GONE) {

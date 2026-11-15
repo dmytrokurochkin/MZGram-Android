@@ -5329,13 +5329,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (mzTabsInHeader()) {
                 // MZGram: tabs right in the top bar, with no panel of their own.
                 filterTabsView.setCompactHeader(true);
+            } else if (AppearanceConfig.materialBars()) {
+                // MZGram: a solid full-width strip under the top bar, not a floating panel.
+                filterTabsView.setMzFlatStrip();
             } else {
                 BlurredBackgroundDrawable filterTabsViewBackground = iBlur3FactoryLiquidGlass.create(filterTabsView, BlurredBackgroundProviderImpl.topPanel(resourceProvider));
                 filterTabsViewBackground.setRadius(dp(18));
                 filterTabsViewBackground.setPadding(dp(6.666f));
                 filterTabsView.setBlurredBackground(filterTabsViewBackground);
             }
-            contentView.addView(filterTabsView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 36 + 7 + 7, Gravity.TOP, 4, 0, 4, 0));
+            final int tabsSide = !mzTabsInHeader() && AppearanceConfig.materialBars() ? 0 : 4;
+            contentView.addView(filterTabsView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 36 + 7 + 7, Gravity.TOP, tabsSide, 0, tabsSide, 0));
         }
 
         if (fragmentSearchField != null) {

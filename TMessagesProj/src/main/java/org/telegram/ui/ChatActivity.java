@@ -9789,6 +9789,11 @@ public class ChatActivity extends BaseFragment implements
             .setColorProvider(BlurredBackgroundProviderImpl.topPanelChatActivity(themeDelegate))
             .setRadius(dp(18))
             .setPadding(dp(7)));
+        if (AppearanceConfig.materialBars()) {
+            // MZGram: the pinned message and other panels join the top bar as one solid strip.
+            topPanelLayout.setMzFlatBar(() -> actionBar != null ? actionBar.mzBarColor() : getThemedColor(Theme.key_chat_messagePanelBackground));
+            checkUi_topPanelLayoutWidth();
+        }
 
         if (chatMode == MODE_SEARCH && !isFeedSearch()) {
             animatorSearchResultAsListVisibility.setValue(true, false);
@@ -52144,7 +52149,8 @@ public class ChatActivity extends BaseFragment implements
                 * (1f - animatorSearchResultAsListVisibility.getFloatValue())
                 * (1f - getHashtagTabsShownT());
 
-            topPanelLayout.setPadding(dp(7) + (int) sideMenu, dp(7), dp(7), dp(7));
+            final int side = topPanelLayout.isMzFlatBar() ? 0 : dp(7);
+            topPanelLayout.setPadding(side + (int) sideMenu, dp(7), side, dp(7));
         }
     }
 

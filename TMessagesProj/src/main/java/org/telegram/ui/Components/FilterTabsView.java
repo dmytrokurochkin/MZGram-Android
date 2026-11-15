@@ -1309,9 +1309,29 @@ public class FilterTabsView extends FrameLayout {
         return compactHeader;
     }
 
+    private boolean mzFlatStrip;
+
+    /**
+     * MZGram: Material bars. The tabs sit on a solid full-width strip in the page colour
+     * instead of a floating glass panel, so the list does not show under them.
+     * The view loses its side margins, so the list padding grows by the same 4 dp.
+     */
+    public void setMzFlatStrip() {
+        if (mzFlatStrip || compactHeader) {
+            return;
+        }
+        mzFlatStrip = true;
+        blurredBackgroundDrawable = null;
+        setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
+        listViewPaddingH += dp(4);
+        listView.setPadding(listViewPaddingH, 0, listViewPaddingH, 0);
+        updateClipPath(getWidth(), getHeight());
+        invalidate();
+    }
+
     private void updateClipPath(int w, int h) {
         clipPath.rewind();
-        if (compactHeader) {
+        if (compactHeader || mzFlatStrip) {
             clipPath.addRect(0, 0, w, h, Path.Direction.CW);
         } else {
             clipPath.addRoundRect(dp(9), dp(9), w - dp(9), h - dp(9),
@@ -1718,6 +1738,9 @@ public class FilterTabsView extends FrameLayout {
     public void updateColors() {
         if (blurredBackgroundDrawable != null) {
             blurredBackgroundDrawable.updateColors();
+        }
+        if (mzFlatStrip) {
+            setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
         }
         invalidate();
     }

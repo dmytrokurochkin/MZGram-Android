@@ -246,7 +246,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         invalidate();
     }
 
-    private int mzBarColor() {
+    public int mzBarColor() {
         if (mzBarPageColor) {
             return mzPageColor(this, getThemedColor(Theme.key_windowBackgroundGray));
         }

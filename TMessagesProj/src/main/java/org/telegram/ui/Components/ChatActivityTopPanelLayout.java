@@ -5,6 +5,7 @@ import static org.telegram.messenger.AndroidUtilities.dp;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
+
+import java.util.function.IntSupplier;
 
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
@@ -31,6 +35,21 @@ public class ChatActivityTopPanelLayout extends AnimatedLinearLayout {
 
     public void setBlurredBackground(BlurredBackgroundDrawable background) {
         backgroundDrawable = background;
+    }
+
+    // ---- MZGram: Material bars. The pinned message and other panels form a solid strip under the top bar. ----
+
+    private IntSupplier mzFlatColor;
+    private final Paint mzFlatPaint = new Paint();
+
+    public void setMzFlatBar(IntSupplier color) {
+        mzFlatColor = color;
+        checkBoundsAndClipping();
+        invalidate();
+    }
+
+    public boolean isMzFlatBar() {
+        return mzFlatColor != null;
     }
 
     @Override
@@ -68,7 +87,7 @@ public class ChatActivityTopPanelLayout extends AnimatedLinearLayout {
 
         clipRectF.set(getPaddingLeft(), getPaddingTop(), getMeasuredWidth() - getPaddingRight(), getPaddingTop() + bgHeight);
 
-        final float r = Math.min(dp(18), Math.min(clipRectF.width(), clipRectF.height()) / 2f);
+        final float r = mzFlatColor != null ? 0 : Math.min(dp(18), Math.min(clipRectF.width(), clipRectF.height()) / 2f);
         clipPath.rewind();
         clipPath.addRoundRect(clipRectF, r, r, Path.Direction.CW);
 
@@ -106,7 +125,11 @@ public class ChatActivityTopPanelLayout extends AnimatedLinearLayout {
     protected void dispatchDraw(@NonNull Canvas canvas) {
         if (getMetadata().getTotalVisibility() == 0) return;
 
-        if (backgroundDrawable != null) {
+        if (mzFlatColor != null) {
+            final float bgHeight = getMetadata().getTotalHeight();
+            mzFlatPaint.setColor(Theme.multAlpha(ColorUtils.setAlphaComponent(mzFlatColor.getAsInt(), 255), getMetadata().getTotalVisibility()));
+            canvas.drawRect(0, 0, getMeasuredWidth(), getPaddingTop() + getPaddingBottom() + bgHeight, mzFlatPaint);
+        } else if (backgroundDrawable != null) {
             backgroundDrawable.draw(canvas);
         }
 

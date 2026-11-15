@@ -35,6 +35,9 @@ public class ChatActivityBlurredRoundPageDownButton extends FrameLayout {
         this.buttonView = button;
         addView(button, LayoutHelper.createFrame(size, size, Gravity.BOTTOM));
         button.setIconPadding(dp(2));
+        if (app.exteraless.appearance.AppearanceConfig.materialBars()) {
+            button.setMzSmallFab(size);
+        }
     }
 
 

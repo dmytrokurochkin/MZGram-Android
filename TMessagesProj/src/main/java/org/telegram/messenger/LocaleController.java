@@ -1532,8 +1532,27 @@ public class LocaleController {
         }
         if (value == null) {
             value = "LOC_ERR:" + key;
+        } else if (key != null && isAppNameKey(key)) {
+            value = withAppName(value);
         }
         return value;
+    }
+
+    /** MZGram: texts where "Telegram" is the app itself (permission requests), not the network. */
+    private static boolean isAppNameKey(String key) {
+        return key.startsWith("Permission") || key.startsWith("AllowRead") || key.equals("AllowFillNumber")
+            || key.startsWith("ContactsPermission") || key.startsWith("NotificationsPermission")
+            || key.startsWith("QRCodePermission") || key.startsWith("VoipNeed")
+            || key.equals("AgeVerificationNeedCameraPermission");
+    }
+
+    /** The first "Telegram" is the app: it takes the app's name. The rest (the servers, Premium) stay. */
+    private static String withAppName(String value) {
+        final int index = value.indexOf("Telegram");
+        if (index < 0 || value.startsWith(" Premium", index + 8)) {
+            return value;
+        }
+        return value.substring(0, index) + getAppName() + value.substring(index + 8);
     }
 
     public static String getServerString(String key) {

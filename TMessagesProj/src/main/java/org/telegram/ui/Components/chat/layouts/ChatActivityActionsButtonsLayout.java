@@ -51,13 +51,21 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
             context, blurredBackgroundDrawableViewFactory, colorProvider, resourcesProvider
         );
         replyButton.button.setOnClickListener(v -> {});
-        ScaleStateListAnimator.apply(replyButton.button, .065f, 2f);
+        if (mzFlat()) {
+            replyButton.button.setMzFlat();
+        } else {
+            ScaleStateListAnimator.apply(replyButton.button, .065f, 2f);
+        }
 
         forwardButton.button = ChatActivityBlurredRoundButton.create(
             context, blurredBackgroundDrawableViewFactory, colorProvider, resourcesProvider
         );
         forwardButton.button.setOnClickListener(v -> {});
-        ScaleStateListAnimator.apply(forwardButton.button, .065f, 2f);
+        if (mzFlat()) {
+            forwardButton.button.setMzFlat();
+        } else {
+            ScaleStateListAnimator.apply(forwardButton.button, .065f, 2f);
+        }
 
         addTextView(replyButton, LocaleController.getString(R.string.Reply), R.drawable.input_reply, false);
         addTextView(forwardButton, LocaleController.getString(R.string.Forward), R.drawable.input_forward, true);
@@ -105,6 +113,11 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
         }
     }*/
 
+    /** MZGram: Material bars. Text buttons in the accent colour on the docked bar, no glass pills. */
+    private static boolean mzFlat() {
+        return app.exteraless.appearance.AppearanceConfig.materialBars();
+    }
+
     private void addTextView(ButtonHolder button, String text, @DrawableRes int iconRes, boolean iconLeft) {
         TextView textView = new TextView(getContext());
         textView.setGravity(Gravity.CENTER_VERTICAL);
@@ -122,11 +135,19 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
             return;
         }
         holder.textView.setText(text);
-        holder.textView.setTextColor(Theme.getColor(Theme.key_glass_defaultText, resourcesProvider));
+        if (mzFlat()) {
+            holder.textView.setTextColor(Theme.getColor(Theme.key_chat_fieldOverlayText, resourcesProvider));
+        } else {
+            holder.textView.setTextColor(Theme.getColor(Theme.key_glass_defaultText, resourcesProvider));
+        }
         Drawable image = null;
         if (iconRes != 0) {
             image = getContext().getResources().getDrawable(iconRes).mutate();
-            image.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+            if (mzFlat()) {
+                image.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_fieldOverlayText, resourcesProvider), PorterDuff.Mode.SRC_IN));
+            } else {
+                image.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+            }
         }
         holder.textView.setCompoundDrawablesWithIntrinsicBounds(iconLeft ? image : null, null, iconLeft ? null : image, null);
     }

@@ -73,6 +73,17 @@ public class ChatActivityBlurredRoundButton extends FrameLayout implements Facto
         invalidate();
     }
 
+    /** MZGram: Material bars. A small FAB: the shape of the main FAB (a rounded square) instead of a circle. */
+    public void setMzSmallFab(int sizeDp) {
+        final int rad = dp(app.exteraless.appearance.AppearanceConfig.fabCornerRadius(sizeDp - CLICK_ZONE_MARGIN * 2));
+        if (backgroundDrawable != null) {
+            backgroundDrawable.setRadius(rad);
+        }
+        final int color = Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider);
+        setBackground(Theme.createInsetRoundRectDrawable(Theme.multAlpha(color, .15f), rad, dp(CLICK_ZONE_MARGIN)));
+        invalidate();
+    }
+
     @Override
     protected void dispatchDraw(@NonNull Canvas canvas) {
         super.dispatchDraw(canvas);

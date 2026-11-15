@@ -98,6 +98,17 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView implements T
 
     private GradientDrawable selectorDrawable;
 
+    /** MZGram: Material bars. A full-width strip in the page colour, a line under the selected tab. */
+    private boolean mzMaterial;
+    private final Paint mzPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final RectF mzRect = new RectF();
+
+    public void setMzMaterial() {
+        mzMaterial = true;
+        setPadding(0, getPaddingTop(), 0, getPaddingBottom());
+        invalidate();
+    }
+
     private int tabLineColorKey = Theme.key_actionBarTabLine;
     private int activeTextColorKey = Theme.key_actionBarTabActiveText;
     private int unactiveTextColorKey = Theme.key_actionBarTabUnactiveText;
@@ -711,6 +722,12 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView implements T
 
     @Override
     protected void dispatchDraw(@NonNull Canvas canvas) {
+        if (mzMaterial) {
+            mzPaint.setColor(org.telegram.ui.ActionBar.ActionBar.mzPageColor(this, Theme.getColor(Theme.key_windowBackgroundGray, resourcesProvider)));
+            canvas.drawRect(getScrollX(), 0, getScrollX() + getWidth(), getHeight(), mzPaint);
+            super.dispatchDraw(canvas);
+            return;
+        }
         canvas.save();
         if (backgroundDrawable != null) {
             if (rectT.set(1f) < 1) {
@@ -729,7 +746,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView implements T
 
     private boolean isOpen = true;
     public void setOpen(boolean open) {
-        if (open == isOpen) return;
+        if (open == isOpen || mzMaterial) return;
 
         isOpen = open;
 
@@ -761,6 +778,19 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView implements T
             if (reordering && current != null) {
                 l += current.getTranslationX();
                 r += current.getTranslationX();
+            }
+            if (mzMaterial) {
+                // a 3dp line under the text of the selected tab, rounded on top
+                final float textWidth = Math.max(dp(24), Math.min(r - l - dp(16), positionToWidth.get(currentPosition, (int) (r - l)) - dp(32)));
+                final float cx = getPaddingLeft() + (l + r) / 2f;
+                mzPaint.setColor(processColor(Theme.getColor(activeTextColorKey, resourcesProvider)));
+                mzPaint.setAlpha((int) (255 * tabsContainer.getAlpha()));
+                mzRect.set(cx - textWidth / 2f, height - dp(3), cx + textWidth / 2f, height + dp(3));
+                canvas.save();
+                canvas.clipRect(mzRect.left, height - dp(3), mzRect.right, height);
+                canvas.drawRoundRect(mzRect, dp(3), dp(3), mzPaint);
+                canvas.restore();
+                return result;
             }
             int wasAlpha = selectorDrawable.getAlpha();
             selectorDrawable.setAlpha((int) (wasAlpha * tabsContainer.getAlpha()));

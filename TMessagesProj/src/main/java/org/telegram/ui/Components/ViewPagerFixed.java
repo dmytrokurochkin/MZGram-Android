@@ -1665,6 +1665,10 @@ public class ViewPagerFixed extends FrameLayout {
             super(context);
             this.resourcesProvider = resourcesProvider;
 
+            if (tabsSelectorType == SELECTOR_TYPE_BUBBLE_STYLE && app.exteraless.appearance.AppearanceConfig.materialBars()) {
+                // MZGram: Material bars. A line under the selected tab instead of a bubble (the non-glass style)
+                tabsSelectorType = 3;
+            }
             this.selectorType = tabsSelectorType;
             textCounterPaint.setTextSize(dp(13));
             textCounterPaint.setTypeface(AndroidUtilities.bold());

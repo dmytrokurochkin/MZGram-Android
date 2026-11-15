@@ -1708,6 +1708,18 @@ public class FilterTabsView extends FrameLayout {
 
             final float add = additionalTabWidth / 2f;
 
+            if (mzFlatStrip) {
+                // MZGram: Material bars. A 3dp line under the selected tab, rounded on top
+                final float l = indicatorX - add, r = indicatorX + indicatorWidth + add;
+                final float rad3 = dp(3);
+                selectorDrawable.setCornerRadii(new float[]{rad3, rad3, rad3, rad3, 0, 0, 0, 0});
+                selectorDrawable.setBounds((int) l, height - dp(3), (int) r, height);
+                selectorDrawable.setAlpha((int) (255 * listView.getAlpha()));
+                selectorDrawable.draw(canvas);
+                canvas.restore();
+                return;
+            }
+
             final int y = height / 2 - dp(14);
             float internalPadding = FolderIconHelper.getTabInternalPadding();
             float rad = AndroidUtilities.dpf2(com.exteragram.messenger.ExteraConfig.getPillRadius(14));

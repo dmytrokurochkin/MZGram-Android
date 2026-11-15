@@ -4891,6 +4891,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         searchViewPagerIndex = contentView.getChildCount();
 
         searchTabsAndFiltersLayout = new SearchTabsAndFiltersLayout(getContext());
+        if (AppearanceConfig.materialBars()) {
+            // MZGram: Material bars. The search tabs are a flat full-width strip with a line under the selected tab
+            contentView.addView(searchTabsAndFiltersLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, SEARCH_TABS_HEIGHT, Gravity.TOP));
+            searchTabsAndFiltersLayout.setMzFlat();
+        } else {
         contentView.addView(searchTabsAndFiltersLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, SEARCH_TABS_HEIGHT, Gravity.TOP, 4, 0, 4, 0));
 
         BlurredBackgroundDrawable searchTabsViewBackground = iBlur3FactoryLiquidGlass.create(searchTabsAndFiltersLayout, BlurredBackgroundProviderImpl.topPanel(resourceProvider));
@@ -4898,6 +4903,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         searchTabsViewBackground.setPadding(dp(6.666f));
         searchTabsAndFiltersLayout.setPadding(0, dp(7), 0, dp(7));
         searchTabsAndFiltersLayout.setBlurredBackground(searchTabsViewBackground);
+        }
 
         filtersView = new FiltersView(getParentActivity(), null);
         filtersView.setPadding(0, dp(3), 0, dp(3));

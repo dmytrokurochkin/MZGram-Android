@@ -52346,10 +52346,13 @@ public class ChatActivity extends BaseFragment implements
             bottomOverlay.setTranslationY(dp(54) * hideFactor);
         }
         if (chatInputViewsContainer != null) {
-            chatInputViewsContainer.setInputBubbleAlpha((int) (255 * (1f - hideFactor)));
-            chatInputViewsContainer.setInputBubbleTranslationY(dp(54) * hideFactor);
-            // MZGram: Material bars. Under the channel buttons the docked bar has no tonal field.
-            chatInputViewsContainer.setMzFieldVisibility(1f - bottomViewsVisibilityController.getVisibility(BOTTOM_OVERLAY_CHAT_CONTAINER));
+            // MZGram: Material bars. The docked bar stays under the selection buttons and the channel buttons;
+            // only the tonal field goes.
+            final boolean mzBars = AppearanceConfig.materialBars();
+            chatInputViewsContainer.setInputBubbleAlpha(mzBars ? 255 : (int) (255 * (1f - hideFactor)));
+            chatInputViewsContainer.setInputBubbleTranslationY(mzBars ? 0 : dp(54) * hideFactor);
+            chatInputViewsContainer.setMzFieldVisibility((1f - bottomViewsVisibilityController.getVisibility(BOTTOM_OVERLAY_CHAT_CONTAINER))
+                * (1f - bottomViewsVisibilityController.getVisibility(MESSAGE_SEARCH_CONTAINER)) * (1f - hideFactor));
         }
 
 

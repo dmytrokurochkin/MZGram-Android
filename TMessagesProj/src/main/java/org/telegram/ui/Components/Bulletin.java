@@ -832,6 +832,10 @@ public class Bulletin {
 
         public void setBackground(int color, int rounding) {
             if (!hasCustomBackground) {
+                if (app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+                    // MZGram: a Material 3 snackbar has extra-small (4dp) corners
+                    rounding = Math.min(rounding, 4);
+                }
                 background = Theme.createRoundRectDrawable(dp(rounding), color);
             }
         }

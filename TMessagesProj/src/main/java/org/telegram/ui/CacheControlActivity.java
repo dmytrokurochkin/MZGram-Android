@@ -1497,15 +1497,21 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
         };
         tabsContainer = cachedMediaLayout.takeTabsContainer();
+        final boolean mzFlatTabs = app.exteraless.appearance.AppearanceConfig.materialBars();
+        if (mzFlatTabs) {
+            // MZGram: Material bars. The tabs are a flat full-width strip in the page colour, not a floating glass pill
+            tabsContainer.setBackground(new app.exteraless.appearance.MzPageColorDrawable(tabsContainer, Theme.key_windowBackgroundGray, resourceProvider));
+        } else {
         tabsContainer.setBackground(getBaseSimpleGlass().factory
                 .create(tabsContainer)
                 .setColorProvider(BlurredBackgroundProviderImpl.simpleActionBar(resourceProvider))
                 .setPadding(dp(9.66f))
                 .setRadius(dp(18)));
+        }
         scrollCoordinator.setPager(cachedMediaLayout, cachedMediaLayout.getViewPager(), cachedMediaLayout::getPageListView);
         scrollCoordinator.setTabs(tabsContainer, LayoutHelper.WRAP_CONTENT);
         tabsContainer.setLayoutParams(LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.TOP, -4, 0, -4, 0));
+                Gravity.TOP, mzFlatTabs ? 0 : -4, 0, mzFlatTabs ? 0 : -4, 0));
         simpleActionBar.bringToFront();
         tabsContainer.bringToFront();
         cachedMediaLayout.setDelegate(new CachedMediaLayout.Delegate() {

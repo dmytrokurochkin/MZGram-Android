@@ -32794,7 +32794,8 @@ public class ChatActivity extends BaseFragment implements
                     // todo: fix?
                     .create(bulletin.getLayout(), true)
                     .setColorProvider(BlurredBackgroundProviderImpl.bulletin(themeDelegate))
-                    .setRadius(dp(16))
+                    // MZGram: a Material 3 snackbar has extra-small (4dp) corners
+                    .setRadius(dp(app.exteraless.appearance.AppearanceConfig.materialSurfaces() ? 4 : 16))
                 );
             }
         });

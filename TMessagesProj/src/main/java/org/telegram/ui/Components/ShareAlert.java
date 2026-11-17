@@ -181,6 +181,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private int hasPoll;
     private StickerEmptyView searchEmptyView;
     private Drawable shadowDrawable;
+    // MZGram: Material bars. The comment field and copy link sit in bars docked to the bottom of the sheet
+    private final boolean mzDockedBars = app.exteraless.appearance.AppearanceConfig.materialBars();
+    private Drawable mzCaptionBg;
     private View[] shadow = new View[2];
     private AnimatorSet[] shadowAnimation = new AnimatorSet[2];
     protected LongSparseArray<TLRPC.Dialog> selectedDialogs = new LongSparseArray<>();
@@ -1476,11 +1479,14 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 pickerTextView.setPadding(dp(18), 0, dp(18), 0);
                 pickerTextView.setTypeface(AndroidUtilities.bold());
                 pickerTextView.setGravity(Gravity.CENTER);
+                // MZGram: Material bars. Material 3 buttons use sentence case, not capitals
+                final String copyLinkText;
                 if (darkTheme && linkToCopy[1] != null) {
-                    pickerTextView.setText(LocaleController.getString(R.string.VoipGroupCopySpeakerLinkNoCaps).toUpperCase());
+                    copyLinkText = LocaleController.getString(R.string.VoipGroupCopySpeakerLinkNoCaps);
                 } else {
-                    pickerTextView.setText(LocaleController.getString(R.string.CopyLink).toUpperCase());
+                    copyLinkText = LocaleController.getString(R.string.CopyLink);
                 }
+                pickerTextView.setText(mzDockedBars ? copyLinkText : copyLinkText.toUpperCase());
                 // ScaleStateListAnimator.apply(pickerTextView, 0.015f, 1.2f);
                 pickerTextView.setOnClickListener(v -> {
                     if (selectedDialogs.size() == 0 && (isChannel || linkToCopy[0] != null)) {
@@ -1577,8 +1583,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
             @Override
             protected void dispatchDraw(@NonNull Canvas canvas) {
-                captionContainerBg.setBounds(0, (int) captionEditTextTopOffset, getMeasuredWidth(), getMeasuredHeight());
-                captionContainerBg.draw(canvas);
+                final Drawable bg = mzCaptionBg != null ? mzCaptionBg : captionContainerBg;
+                bg.setBounds(0, (int) captionEditTextTopOffset, getMeasuredWidth(), getMeasuredHeight());
+                bg.draw(canvas);
                 canvas.save();
                 canvas.clipRect(0, captionEditTextTopOffset, getMeasuredWidth(), getMeasuredHeight());
                 super.dispatchDraw(canvas);
@@ -1831,8 +1838,17 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         captionContainerBg.setRadius(dp(22));
         captionContainerBg.setPadding(dp(9));
         frameLayout2.setPadding(dp(9), dp(7), dp(9), dp(7));
+        if (mzDockedBars) {
+            // MZGram: Material bars. The comment field sits in a bar docked to the bottom of the sheet, not in a floating pill
+            mzCaptionBg = new app.exteraless.appearance.MzDockedBarDrawable(resourcesProvider, Theme.key_dialogBackground, app.exteraless.appearance.MzDockedBarDrawable.FIELD);
+        }
 
-        if (pickerBottomLayout != null) {
+        if (pickerBottomLayout != null && mzDockedBars) {
+            // MZGram: Material bars. Copy link is a tonal button in a docked bar (in a call, the link row is a field)
+            pickerBottomLayout.setBackground(new app.exteraless.appearance.MzDockedBarDrawable(resourcesProvider, Theme.key_dialogBackground,
+                    darkTheme ? app.exteraless.appearance.MzDockedBarDrawable.FIELD : app.exteraless.appearance.MzDockedBarDrawable.TONAL_BUTTON));
+            pickerBottomLayout.setPadding(dp(9), dp(9), dp(9), dp(9));
+        } else if (pickerBottomLayout != null) {
             BlurredBackgroundDrawable d = iBlur3FactoryLiquidGlass.create(pickerBottomLayout, BlurredBackgroundProviderImpl.inputFieldShareAlert(resourcesProvider));
             d.setPadding(dp(9));
             d.setRadius(dp(22));

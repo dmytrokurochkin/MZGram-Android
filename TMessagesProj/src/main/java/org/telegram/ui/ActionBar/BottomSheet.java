@@ -223,7 +223,8 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     private int focusableSoftInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
 
     protected boolean dimBehind = true;
-    protected int dimBehindAlpha = 51;
+    // MZGram: a Material 3 modal sheet dims the page with a 32% scrim (82 of 255)
+    protected int dimBehindAlpha = app.exteraless.appearance.AppearanceConfig.materialSurfaces() ? 82 : 51;
 
     protected boolean allowNestedScroll = true;
 

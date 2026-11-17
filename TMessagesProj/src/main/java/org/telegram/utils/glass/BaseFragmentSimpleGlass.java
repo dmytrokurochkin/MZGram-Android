@@ -174,7 +174,10 @@ public class BaseFragmentSimpleGlass {
         glassBlurredFadeDrawable.setMaskRange(gradientRangeMask);
         glassBlurredFadeDrawable.setOverlayRange(gradientRangeFade);
 
-        glassBlurredFadeDrawable.setOverlayOnlyAlpha(210);
+        // MZGram: Material surfaces turn the blur off, so this fallback is the whole header. At 210 the rows under it stayed
+        // readable through the title (the profile's collapsed header); solid, it hides them and still fades out over its
+        // last 48dp, the way a Material top bar sits over what scrolls under it.
+        glassBlurredFadeDrawable.setOverlayOnlyAlpha(app.exteraless.appearance.AppearanceConfig.materialSurfaces() ? 255 : 210);
         glassBlurredFadeDrawable.setOverlayOnlyRange(gradientRangeFallback);
 
         glassEngine.registerDrawable(view, glassBlurredFadeDrawable);

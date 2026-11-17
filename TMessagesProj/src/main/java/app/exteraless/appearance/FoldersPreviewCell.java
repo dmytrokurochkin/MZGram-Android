@@ -102,12 +102,17 @@ public class FoldersPreviewCell extends FrameLayout {
         // frame is omitted: the cell itself remains transparent and blends into its row.
         backgroundSource = new GlassSourceColor();
         backgroundSource.setColor(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
-        BlurredBackgroundDrawable background = new BlurredBackgroundDrawableViewFactory(backgroundSource)
-                .create(tabsView, BlurredBackgroundProviderImpl.topPanel(resourcesProvider));
-        background.setRadius(dp(18));
-        background.setPadding(dp(6.666f));
         tabsView.setPadding(0, dp(7), 0, dp(7));
-        tabsView.setBlurredBackground(background);
+        if (AppearanceConfig.materialBars()) {
+            // MZGram: Material bars. The real folder tabs are a flat strip with a line under the selected tab, so the preview is too
+            tabsView.setMzFlatStrip();
+        } else {
+            BlurredBackgroundDrawable background = new BlurredBackgroundDrawableViewFactory(backgroundSource)
+                    .create(tabsView, BlurredBackgroundProviderImpl.topPanel(resourcesProvider));
+            background.setRadius(dp(18));
+            background.setPadding(dp(6.666f));
+            tabsView.setBlurredBackground(background);
+        }
 
         addView(tabsView, LayoutHelper.createFrame(
                 LayoutHelper.MATCH_PARENT, 50, Gravity.CENTER, 21, 0, 21, 0));

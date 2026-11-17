@@ -980,7 +980,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 canvas.clipRect(0, getPaddingTop() + currentPanTranslationY, getMeasuredWidth(), getMeasuredHeight() + currentPanTranslationY + dp(50));
                 super.dispatchDraw(canvas);
                 canvas.restore();
-                if (mzDockedBars && getPaddingBottom() > 0 && (commentTextView == null || !commentTextView.isPopupVisible())) {
+                // the same inset onLayout lifts the bottom children by (the view itself has no bottom padding)
+                final int mzNavInset = systemInsets.bottom;
+                if (mzDockedBars && mzNavInset > 0 && !keyboardVisible && (commentTextView == null || !commentTextView.isPopupVisible())) {
                     // MZGram: Material bars. A docked bottom bar runs on under the navigation bar to the screen edge,
                     // so the list does not show through below it
                     final float captionAlpha = frameLayout2 != null && frameLayout2.getVisibility() == View.VISIBLE ? frameLayout2.getAlpha() : 0f;
@@ -990,7 +992,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     if (bar != null && alpha > 0f) {
                         mzNavStripPaint.setColor(getThemedColor(Theme.key_dialogBackground) | 0xFF000000);
                         mzNavStripPaint.setAlpha((int) (255 * Math.min(1f, alpha)));
-                        canvas.drawRect(bar.getLeft(), getMeasuredHeight() - getPaddingBottom(), bar.getRight(), getMeasuredHeight(), mzNavStripPaint);
+                        canvas.drawRect(bar.getLeft(), getMeasuredHeight() - mzNavInset, bar.getRight(), getMeasuredHeight(), mzNavStripPaint);
                     }
                 }
             }

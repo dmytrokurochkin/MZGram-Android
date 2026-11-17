@@ -29,6 +29,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
@@ -2743,8 +2744,31 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
     private boolean ignoreClipChild;
 
+    /**
+     * MZGram: Material surfaces. A row that paints the card itself (the theme's windowBackgroundWhite, cut to the section by
+     * {@link #clipChild}) takes the card surface, which in a theme whose cards are the page colour sits a tone above the
+     * page. Set once on the row's own colour, so it holds until the row is coloured again.
+     */
+    private void mzLiftCardRow(View child) {
+        final Drawable background = child.getBackground();
+        if (!(background instanceof ColorDrawable)) {
+            return;
+        }
+        final int row = ((ColorDrawable) background).getColor();
+        if (row != Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider)) {
+            return;
+        }
+        final int card = Theme.mzCardSurface(resourcesProvider);
+        if (card != row && isVisualSectionItem(child)) {
+            ((ColorDrawable) background.mutate()).setColor(card);
+        }
+    }
+
     @Override
     public boolean drawChild(Canvas canvas, View child, long drawingTime) {
+        if (child != null && hasSections()) {
+            mzLiftCardRow(child);
+        }
         if (sectionsItemDecoration != null && !ignoreClipChild) {
             canvas.save();
             clipChild(canvas, child);
@@ -3665,7 +3689,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     }
 
     int getSectionColorForDecoration() {
-        return Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider);
+        return Theme.mzCardSurface(resourcesProvider);
     }
 
     int getSectionsBackgroundColorForDecoration() {
@@ -4041,7 +4065,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     private final static float[] radii = new float[8];
     public static void drawBackgroundRect(Canvas canvas, RectF rect, float topRadius, float bottomRadius, float alpha, Theme.ResourcesProvider resourcesProvider) {
         sectionBackgroundPaint.setShadowLayer(0, 0, 0, 0);
-        sectionBackgroundPaint.setColor(multAlpha(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider), alpha));
+        sectionBackgroundPaint.setColor(multAlpha(Theme.mzCardSurface(resourcesProvider), alpha));
         if (topRadius <= 0 && bottomRadius <= 0) {
             canvas.drawRect(rect, sectionBackgroundPaint);
         } else if (topRadius == bottomRadius) {
@@ -4157,7 +4181,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         if (prev && next && !forceRound) {
             prev = top(child) >= rect.top;
             next = bottom(child) <= rect.bottom;
-            if (prev && next) return Theme.createRoundRectDrawable(0, Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
+            if (prev && next) return Theme.createRoundRectDrawable(0, Theme.mzCardSurface(resourcesProvider));
         }
         final Path clipPath = new Path();
         if (!prev && !next || forceRound) {
@@ -4180,7 +4204,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                 canvas.save();
                 canvas.translate(-child.getX(), -child.getY());
                 canvas.clipPath(clipPath);
-                paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider), paint.getAlpha()));
+                paint.setColor(ColorUtils.setAlphaComponent(Theme.mzCardSurface(resourcesProvider), paint.getAlpha()));
                 canvas.drawRect(rect, paint);
                 canvas.restore();
             }

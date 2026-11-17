@@ -67,7 +67,7 @@ public class SectionCardRecyclerView extends BlurredRecyclerView {
         strokePaint.setColor(0);
         strokePaint.setShadowLayer(AndroidUtilities.dpf2(0.33f), 0, 0, Theme.multAlpha(0x0C000000, alpha));
         fillPaint.setShadowLayer(AndroidUtilities.dpf2(2f), 0, AndroidUtilities.dpf2(0.33f), Theme.multAlpha(0x0A000000, alpha));
-        fillPaint.setColor(Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider), alpha));
+        fillPaint.setColor(Theme.multAlpha(Theme.mzCardSurface(resourcesProvider), alpha));
 
         if (topRadius == bottomRadius) {
             canvas.drawRoundRect(rect, topRadius, topRadius, strokePaint);

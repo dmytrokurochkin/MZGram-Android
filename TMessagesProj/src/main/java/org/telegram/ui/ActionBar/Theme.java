@@ -9361,11 +9361,42 @@ public class Theme {
             return menu;
         }
         final boolean dark = AndroidUtilities.computePerceivedBrightness(seen) < .5f;
-        int text = (provider != null ? getColor(key_actionBarDefaultSubmenuItem, provider) : getColor(key_actionBarDefaultSubmenuItem, null, ignoreAnimation)) | 0xFF000000;
-        if (mzColorDistance(text, seen) < 150) {
-            text = dark ? 0xFFFFFFFF : 0xFF000000;
+        final int text = mzToneSource((provider != null ? getColor(key_actionBarDefaultSubmenuItem, provider) : getColor(key_actionBarDefaultSubmenuItem, null, ignoreAnimation)), seen, dark);
+        return ColorUtils.blendARGB(seen, text, dark ? MZ_MENU_TONE_DARK : MZ_MENU_TONE_LIGHT);
+    }
+
+    /*
+     * MZGram: Material surfaces. The tonal steps over a page that gives its cards and menus its own colour. Material 3 lifts a
+     * card one container tone above the page and a menu one more: on black there is no shadow to tell a menu from a card,
+     * so the steps alone carry the levels page < card < menu. Dark: black page, card about #111112, menu about #1D1D1E.
+     */
+    private static final float MZ_CARD_TONE_DARK = 0.07f, MZ_CARD_TONE_LIGHT = 0.03f;
+    private static final float MZ_MENU_TONE_DARK = 0.12f, MZ_MENU_TONE_LIGHT = 0.04f;
+
+    /** The colour a surface is toned towards: the theme's own text on it, or black/white if the theme made that text faint. */
+    private static int mzToneSource(int text, int surface, boolean dark) {
+        text |= 0xFF000000;
+        return mzColorDistance(text, surface) < 150 ? (dark ? 0xFFFFFFFF : 0xFF000000) : text;
+    }
+
+    /**
+     * MZGram: Material surfaces. The colour of a card (a section of a list) laid on the page. A theme whose cards are the
+     * page colour (AMOLED black, "Black White", white on white) leaves the cards invisible, so there the card takes one
+     * tonal step above the page, a smaller one than a menu takes. Any other theme keeps its own card colour.
+     */
+    public static int mzCardSurface(ResourcesProvider provider) {
+        final int card = getColor(key_windowBackgroundWhite, provider);
+        if (!app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+            return card;
         }
-        return ColorUtils.blendARGB(seen, text, dark ? 0.1f : 0.04f);
+        final int page = getColor(key_windowBackgroundGray, provider) | 0xFF000000;
+        final int seen = Color.alpha(card) < 255 ? ColorUtils.compositeColors(card, page) : card;
+        if (mzColorDistance(seen, page) > 24) {
+            return card;
+        }
+        final boolean dark = AndroidUtilities.computePerceivedBrightness(seen) < .5f;
+        final int text = mzToneSource(getColor(key_windowBackgroundWhiteBlackText, provider), seen, dark);
+        return ColorUtils.blendARGB(seen, text, dark ? MZ_CARD_TONE_DARK : MZ_CARD_TONE_LIGHT);
     }
 
     private static int mzColorDistance(int a, int b) {

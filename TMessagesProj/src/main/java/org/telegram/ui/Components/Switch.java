@@ -746,7 +746,7 @@ public class Switch extends View implements Theme.Colorable {
         int md3OffTrackFillColor = 0;
         if (isMd3) {
             md3OffTrackFillColor = processColor(Theme.blendOver(
-                    Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider),
+                    Theme.mzCardSurface(resourcesProvider), // MZGram: the card the switch sits on, a tone above a black page
                     Theme.multAlpha(Theme.getColor(trackColorKey, resourcesProvider), Theme.isCurrentThemeDay() ? 0.2f : 0.1f)
             ));
         }

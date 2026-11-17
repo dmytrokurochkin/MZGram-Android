@@ -106,6 +106,9 @@ public class FoldersPreviewCell extends FrameLayout {
         if (AppearanceConfig.materialBars()) {
             // MZGram: Material bars. The real folder tabs are a flat strip with a line under the selected tab, so the preview is too
             tabsView.setMzFlatStrip();
+            // In the preview the strip is a tile like the avatar and chat list header previews, so it reads as a sample
+            // inside its card rather than a black band cut square into it
+            tabsView.setMzStripTile(new PreviewBackgroundDrawable());
         } else {
             BlurredBackgroundDrawable background = new BlurredBackgroundDrawableViewFactory(backgroundSource)
                     .create(tabsView, BlurredBackgroundProviderImpl.topPanel(resourcesProvider));

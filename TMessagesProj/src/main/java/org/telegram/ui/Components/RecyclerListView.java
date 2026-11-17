@@ -2764,6 +2764,21 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         }
     }
 
+    /**
+     * MZGram: Material surfaces. The colour a row actually sits on: the card surface when its list draws it inside a section,
+     * otherwise the theme's windowBackgroundWhite. For what a row paints in the colour of its background (fades, the rings cut
+     * around overlapping circles), so those do not show as black bands on a card a tone above a black page.
+     */
+    public static int mzRowSurface(View row, Theme.ResourcesProvider resourcesProvider) {
+        if (row != null && row.getParent() instanceof RecyclerListView) {
+            final RecyclerListView list = (RecyclerListView) row.getParent();
+            if (list.hasSections() && list.isVisualSectionItem(row)) {
+                return Theme.mzCardSurface(resourcesProvider);
+            }
+        }
+        return Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider);
+    }
+
     @Override
     public boolean drawChild(Canvas canvas, View child, long drawingTime) {
         if (child != null && hasSections()) {

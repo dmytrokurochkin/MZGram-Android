@@ -140,9 +140,8 @@ public class AboutLinkCell extends FrameLayout implements Theme.Colorable {
         container.addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.BOTTOM, 18, 0, 18, 10));
 
         bottomShadow = new FrameLayout(context);
-        Drawable shadowDrawable = context.getResources().getDrawable(R.drawable.gradient_bottom).mutate();
-        ThemeBind.drawableColorFilter(this, shadowDrawable, Theme.key_windowBackgroundWhite, resourcesProvider, PorterDuff.Mode.SRC_ATOP);
-        bottomShadow.setBackground(shadowDrawable);
+        bottomShadowDrawable = context.getResources().getDrawable(R.drawable.gradient_bottom).mutate();
+        bottomShadow.setBackground(bottomShadowDrawable);
         addView(bottomShadow, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 12, Gravity.BOTTOM | Gravity.FILL_HORIZONTAL, 16, 0, 16, 0));
 
         addView(container, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.FILL_HORIZONTAL));
@@ -185,7 +184,6 @@ public class AboutLinkCell extends FrameLayout implements Theme.Colorable {
         showMoreTextView.setPadding(dp(2), 0, dp(2), 0);
         showMoreTextBackgroundView = new FrameLayout(context);
         showMoreBackgroundDrawable = context.getResources().getDrawable(R.drawable.gradient_left).mutate();
-        ThemeBind.drawableColorFilter(this, showMoreBackgroundDrawable, Theme.key_windowBackgroundWhite, resourcesProvider, PorterDuff.Mode.MULTIPLY);
         showMoreTextBackgroundView.setBackground(showMoreBackgroundDrawable);
         showMoreTextBackgroundView.setPadding(
             showMoreTextBackgroundView.getPaddingLeft() + dp(4),
@@ -195,7 +193,7 @@ public class AboutLinkCell extends FrameLayout implements Theme.Colorable {
         );
         showMoreTextBackgroundView.addView(showMoreTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         addView(showMoreTextBackgroundView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM, 18 - showMoreTextBackgroundView.getPaddingLeft() / AndroidUtilities.density, 0, 18 - showMoreTextBackgroundView.getPaddingRight() / AndroidUtilities.density, 6));
-        backgroundPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
+        mzApplySurface();
 
         setWillNotDraw(false);
     }
@@ -215,7 +213,7 @@ public class AboutLinkCell extends FrameLayout implements Theme.Colorable {
                 lastRippleColor = rippleColor;
                 Theme.setSelectorDrawableColor(rippleBackground, rippleColor, true);
             }
-            backgroundPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
+            mzApplySurface();
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -276,8 +274,33 @@ public class AboutLinkCell extends FrameLayout implements Theme.Colorable {
     }
 
     private Paint backgroundPaint = new Paint();
+    private Drawable bottomShadowDrawable;
+    private boolean mzSurfaceSet;
+    private int mzSurface;
+
+    /**
+     * MZGram: the fade under collapsed text and the one behind "more" are painted in the colour the row sits on. On a card
+     * a tone above a black page that is the card, not windowBackgroundWhite, or they show as a black band across it.
+     */
+    private void mzApplySurface() {
+        final int surface = org.telegram.ui.Components.RecyclerListView.mzRowSurface(this, resourcesProvider);
+        if (mzSurfaceSet && surface == mzSurface) {
+            return;
+        }
+        mzSurfaceSet = true;
+        mzSurface = surface;
+        if (bottomShadowDrawable != null) {
+            bottomShadowDrawable.setColorFilter(new PorterDuffColorFilter(surface, PorterDuff.Mode.SRC_ATOP));
+        }
+        if (showMoreBackgroundDrawable != null) {
+            showMoreBackgroundDrawable.setColorFilter(new PorterDuffColorFilter(surface, PorterDuff.Mode.MULTIPLY));
+        }
+        backgroundPaint.setColor(surface);
+    }
+
     @Override
     public void draw(Canvas canvas) {
+        mzApplySurface();
         super.draw(canvas);
 
         View parent = (View) getParent();

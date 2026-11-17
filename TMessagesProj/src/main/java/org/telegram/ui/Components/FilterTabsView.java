@@ -1332,6 +1332,17 @@ public class FilterTabsView extends FrameLayout {
         invalidate();
     }
 
+    private Drawable mzStripTile;
+
+    /**
+     * MZGram: the settings preview draws the flat strip as a preview tile, rounded and outlined like the other previews
+     * there, instead of a band in the page colour cut square into its card.
+     */
+    public void setMzStripTile(Drawable tile) {
+        mzStripTile = tile;
+        setBackground(tile);
+    }
+
     private void updateClipPath(int w, int h) {
         clipPath.rewind();
         if (compactHeader || mzFlatStrip) {
@@ -1758,7 +1769,7 @@ public class FilterTabsView extends FrameLayout {
         if (blurredBackgroundDrawable != null) {
             blurredBackgroundDrawable.updateColors();
         }
-        if (mzFlatStrip) {
+        if (mzFlatStrip && mzStripTile == null) {
             setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
         }
         invalidate();

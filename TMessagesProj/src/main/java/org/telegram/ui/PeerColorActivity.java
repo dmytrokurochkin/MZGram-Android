@@ -2503,7 +2503,8 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(dp(50) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
+            // MZGram: as tall as the TextCell rows around it (56dp in Material lists)
+            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(dp(app.exteraless.appearance.M3ListItems.rowHeight(50)) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
         }
 
         private int rtl(int x) {
@@ -2518,7 +2519,9 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             DrawableUtils.setBounds(drawable, rtl(dp(33)), getMeasuredHeight() / 2f, Gravity.CENTER);
             drawable.draw(canvas);
             buttonText.ellipsize(getMeasuredWidth() - dp(64 + 7 + 100) - (lock != null ? lock.getIntrinsicWidth() + dp(8) : 0));
-            float textX = LocaleController.isRTL ? getMeasuredWidth() - buttonText.getWidth() - dp(71) : dp(71);
+            // MZGram: Material list rows put the text 60dp in (TextCell); this row stood 11dp to the right of its neighbours
+            final int textLeft = dp(app.exteraless.appearance.M3ListItems.enabled() ? 60 : 71);
+            float textX = LocaleController.isRTL ? getMeasuredWidth() - buttonText.getWidth() - textLeft : textLeft;
             buttonText.draw(canvas, textX, getMeasuredHeight() / 2f);
             if (lock != null) {
                 int x = (int) (textX + buttonText.getWidth() + dp(6));
@@ -2529,18 +2532,18 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             if (isGroup && color2Drawable != null) {
                 int x = LocaleController.isRTL ? dp(24 + 16 + 18) : getMeasuredWidth() - dp(24);
                 color2Drawable.setBounds(x - dp(11), (getMeasuredHeight() - dp(11)) / 2, x, (getMeasuredHeight() + dp(11)) / 2);
-                color2Drawable.stroke(dpf2(3), Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
+                color2Drawable.stroke(dpf2(3), RecyclerListView.mzRowSurface(this, resourcesProvider));
                 color2Drawable.draw(canvas);
             } else if (color1Drawable != null && color2Drawable != null) {
 
                 int x = LocaleController.isRTL ? dp(24 + 16 + 18) : getMeasuredWidth() - dp(24);
                 color2Drawable.setBounds(x - dp(11), (getMeasuredHeight() - dp(11)) / 2, x, (getMeasuredHeight() + dp(11)) / 2);
-                color2Drawable.stroke(dpf2(3), Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
+                color2Drawable.stroke(dpf2(3), RecyclerListView.mzRowSurface(this, resourcesProvider));
                 color2Drawable.draw(canvas);
 
                 x -= dp(18);
                 color1Drawable.setBounds(x - dp(11), (getMeasuredHeight() - dp(11)) / 2, x, (getMeasuredHeight() + dp(11)) / 2);
-                color1Drawable.stroke(dpf2(3), Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
+                color1Drawable.stroke(dpf2(3), RecyclerListView.mzRowSurface(this, resourcesProvider));
                 color1Drawable.draw(canvas);
 
             } else if (userText != null && !isGroup) {

@@ -9342,20 +9342,23 @@ public class Theme {
         resolvingSubmenuColor = true;
         try {
             final int menu = provider != null ? getColor(key_actionBarDefaultSubmenuBackground, provider) : getColor(key_actionBarDefaultSubmenuBackground, isDefault, ignoreAnimation);
-            final int page = provider != null ? getColor(key_windowBackgroundWhite, provider) : getColor(key_windowBackgroundWhite, null, ignoreAnimation);
-            if (Color.alpha(menu) < 255) {
-                return menu;
-            }
-            final int distance = Math.abs(Color.red(menu) - Color.red(page)) + Math.abs(Color.green(menu) - Color.green(page)) + Math.abs(Color.blue(menu) - Color.blue(page));
-            if (distance > 24) {
+            final int page = (provider != null ? getColor(key_windowBackgroundWhite, provider) : getColor(key_windowBackgroundWhite, null, ignoreAnimation)) | 0xFF000000;
+            final int pageGray = (provider != null ? getColor(key_windowBackgroundGray, provider) : getColor(key_windowBackgroundGray, null, ignoreAnimation)) | 0xFF000000;
+            // a see-through menu (a theme made for glass) is seen over the page, so it is judged by what is seen
+            final int seen = Color.alpha(menu) < 255 ? ColorUtils.compositeColors(menu, page) : menu;
+            if (Math.min(mzColorDistance(seen, page), mzColorDistance(seen, pageGray)) > 24) {
                 return menu;
             }
             final int text = (provider != null ? getColor(key_windowBackgroundWhiteBlackText, provider) : getColor(key_windowBackgroundWhiteBlackText, null, ignoreAnimation)) | 0xFF000000;
-            final boolean dark = AndroidUtilities.computePerceivedBrightness(page | 0xFF000000) < .5f;
-            return ColorUtils.blendARGB(menu, text, dark ? 0.1f : 0.04f);
+            final boolean dark = AndroidUtilities.computePerceivedBrightness(page) < .5f;
+            return ColorUtils.blendARGB(seen, text, dark ? 0.1f : 0.04f);
         } finally {
             resolvingSubmenuColor = false;
         }
+    }
+
+    private static int mzColorDistance(int a, int b) {
+        return Math.abs(Color.red(a) - Color.red(b)) + Math.abs(Color.green(a) - Color.green(b)) + Math.abs(Color.blue(a) - Color.blue(b));
     }
 
     /**

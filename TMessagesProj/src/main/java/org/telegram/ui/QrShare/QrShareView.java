@@ -129,6 +129,8 @@ public class QrShareView extends View {
         int mid;                // the backdrop gradient's middle stop (perceptual, OKLab)
         boolean vertical;
         int shade;              // deep tint of this backdrop for the picker panel       // keep the light on top (the default): sway instead of a full turn
+        int mzMid, mzButton, mzContainer; // MZGram: this backdrop's Material tones (QrMaterial), worked out on first use
+        boolean mzReady;
     }
 
     /** What floats on the backdrop: nothing, the picked emoji, or a gift's pattern + model. */
@@ -4498,6 +4500,13 @@ public class QrShareView extends View {
     /** Glass in any outline (the menu droplet): same blur, tint, sheen and rim as the rounded-rect glass. */
     private void drawGlassPath(Canvas c, Path p, RectF bounds, boolean light, float alpha) {
         if (alpha <= 0) return;
+        if (QrMaterial.on()) {
+            // MZGram: Material surfaces: the menu is a flat tonal container (no blur, film, sheen or rim)
+            fill.setColor(mzTone(false));
+            fill.setAlpha((int) (255 * Utilities.clamp01(alpha)));
+            c.drawPath(p, fill);
+            return;
+        }
         c.save();
         c.clipPath(p);
         if (QrRender.hasEffects() && hasBlur(c)) {
@@ -4521,6 +4530,25 @@ public class QrShareView extends View {
 
     private void drawGlass(Canvas c, RectF r, float radius, boolean light, float alpha) {
         if (alpha <= 0) return;
+        if (QrMaterial.on()) {
+            // MZGram: Material surfaces: a flat tonal container instead of the glass (no blur, film, sheen, glint or
+            // rim). Buttons, chips and the toast take the tonal step; the island deepens into the sheet's container as
+            // it opens.
+            final int col;
+            if (liftThis) {
+                col = ColorUtils.blendARGB(mzTone(false), mzTone(true), Utilities.clamp01(sheetLift));
+            } else if (glassFill != 0) {
+                col = scene != null && scene.light ? mzTone(true) : mzTone(false); // the toast: its content is white
+            } else if (glassSheet) {
+                col = mzTone(true);
+            } else {
+                col = mzTone(false);
+            }
+            fill.setColor(col);
+            fill.setAlpha((int) (255 * Utilities.clamp01(alpha)));
+            c.drawRoundRect(r, radius, radius, fill);
+            return;
+        }
         // sheets: the glass body covers the rim's grown 1dp band too (else raw backdrop shows between the glass edge
         // and the outer dark ring: a second dark band along the sides)
         RectF gb = r;
@@ -5125,6 +5153,29 @@ public class QrShareView extends View {
 
     private int glassIconColor() {
         return scene != null && scene.light ? 0xFF1A1D21 : Color.WHITE;
+    }
+
+    /**
+     * MZGram: a Material tone of the backdrop (see QrMaterial): the tonal step for buttons, or the sheet's deeper
+     * container. It follows the wave from the old backdrop to the new one.
+     */
+    private int mzTone(boolean container) {
+        if (scene == null) return container ? 0xFF2B2930 : 0xFF49454F;
+        final int now = mzTone(scene, container);
+        if (wave < 1f && oldScene != null) {
+            return ColorUtils.blendARGB(mzTone(oldScene, container), now, waveEase(wave));
+        }
+        return now;
+    }
+
+    private static int mzTone(Scene s, boolean container) {
+        if (!s.mzReady || s.mzMid != s.mid) {
+            s.mzMid = s.mid;
+            s.mzButton = QrMaterial.button(s.mid, s.light);
+            s.mzContainer = QrMaterial.container(s.mid);
+            s.mzReady = true;
+        }
+        return container ? s.mzContainer : s.mzButton;
     }
 
     private void icon(Canvas c, Drawable d, float cx, float cy, float size, int color, float alpha) {
@@ -5978,7 +6029,7 @@ public class QrShareView extends View {
         // where Plus would turn it into dark dots)
         final float gin = Math.max(0f, -dpf2(RimTune.g[RimTune.SWATCH][RimTune.INSET])) + 1f;
         rect3.set(x - r + gin, y - r + gin, x + r - gin, y + r - gin);
-        swatchRim.draw(c, rect3, r - gin, RimTune.SWATCH, 1f);
+        if (!QrMaterial.on()) swatchRim.draw(c, rect3, r - gin, RimTune.SWATCH, 1f); // MZGram: flat swatches under Material surfaces
         if (selA2 > 0.01f) {
             // selection: a white ring inside the circle (colour shows on both sides). Select: grows 0.8 → 1 with a
             // fade-in. Deselect (mirrored, at the same time): thins to 0 while easing out to the swatch edge; the

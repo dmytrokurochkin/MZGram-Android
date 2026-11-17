@@ -208,8 +208,8 @@ final class EmojiPickOverlay extends View {
             fill.setColor(0x33FFFFFF);
             fill.setAlpha((int) (0x33 * a));
             c.drawRoundRect(islandRect, r, r, fill);
-            // the Dark out rim, like every other glass button (Big group)
-            rim.draw(c, islandRect, r, RimTune.BIG, a);
+            // the Dark out rim, like every other glass button (Big group); MZGram: none under Material surfaces
+            if (!QrMaterial.on()) rim.draw(c, islandRect, r, RimTune.BIG, a);
             // items: slide together, grow in, shrink out
             c.save();
             c.clipRect(islandRect);

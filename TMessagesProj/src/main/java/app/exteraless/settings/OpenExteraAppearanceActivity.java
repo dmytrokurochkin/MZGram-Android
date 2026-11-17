@@ -751,7 +751,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
             rebuildAllAndSelf(view, AppearanceConfig.newChatHeaderStyle.Bool());
             return;
         } else if (position == md3NavBarRow) {
-            boolean enable = !AppearanceConfig.newNavigationBarStyle.Bool();
+            boolean enable = !md3NavBarShown();
             AppearanceConfig.newNavigationBarStyle.setConfigBool(enable);
             if (enable) {
                 AppearanceConfig.iosNavigationBarStyle.setConfigBool(false);
@@ -1149,7 +1149,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                                 AppearanceConfig.newChatHeaderStyle.Bool(), true, true);
                     } else if (position == md3NavBarRow) {
                         cell.setText(getString(R.string.OEAppearanceNewNavigationBarStyle), "",
-                                AppearanceConfig.newNavigationBarStyle.Bool(), true, true);
+                                md3NavBarShown(), true, true);
                     } else if (position == md3ListItemsRow) {
                         cell.setText(getString(R.string.OEAppearanceM3ListItems), "",
                                 AppearanceConfig.m3ListItems.Bool(), true, true);
@@ -1334,7 +1334,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         if (isMd3(NaConfig.INSTANCE.getSliderStyle().Int())) n++;
         if (isMd3Switch(NaConfig.INSTANCE.getSwitchStyle().Int())) n++;
         if (AppearanceConfig.newChatHeaderStyle.Bool()) n++;
-        if (AppearanceConfig.newNavigationBarStyle.Bool()) n++;
+        if (md3NavBarShown()) n++;
         if (AppearanceConfig.m3ListItems.Bool()) n++;
         if (AppearanceConfig.md3Player.Bool()) n++;
         if (AppearanceConfig.md3MiniPlayer.Bool()) n++;
@@ -1361,6 +1361,15 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
      */
     private void toggleAllMd3StylesFromCell() {
         toggleAllMd3Styles();
+    }
+
+    /**
+     * MZGram: the Material 3 bar as the user sees it. Choosing the floating bar keeps the Material 3 setting (so "Show"
+     * brings that bar back), but while the floating bar is on screen the switch reads off, and turning it on leaves the
+     * floating bar, as before.
+     */
+    private static boolean md3NavBarShown() {
+        return AppearanceConfig.newNavigationBarStyle.Bool() && !MainTabsLayout.isBottomNavigationFloating();
     }
 
     private static void leaveFloatingBottomNavigation() {

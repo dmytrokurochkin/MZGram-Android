@@ -810,6 +810,13 @@ public final class QrScanOverlay extends FrameLayout {
         if (alpha <= 0f) {
             return;
         }
+        if (QrMaterial.on()) {
+            // MZGram: Material surfaces: a flat dark container over the camera (no blur, film, sheen or rim)
+            fill.setColor(QrMaterial.CAMERA);
+            fill.setAlpha((int) (Color.alpha(QrMaterial.CAMERA) * Utilities.clamp01(alpha)));
+            canvas.drawRoundRect(rect, radius, radius, fill);
+            return;
+        }
         final int white = (int) (255 * Utilities.clamp01(RimTune.v[RimTune.FILL] / 100f));
         if (blurred && blurReady(canvas)) {
             path.rewind();

@@ -331,9 +331,9 @@ public class OpenExteraAppNavigationActivity extends BaseFragment {
             showChoice(getString(R.string.OEBottomNavigationBarMode), bottomNavigationModes(),
                     MainTabsLayout.getBottomNavigationMode(), which -> {
                         MainTabsLayout.setBottomNavigationMode(which);
-                        if (which == MainTabsLayout.BOTTOM_NAVIGATION_MODE_FLOATING) {
-                            AppearanceConfig.newNavigationBarStyle.setConfigBool(false);
-                        }
+                        // MZGram: the floating bar no longer switches the Material 3 bar off. It only takes its place
+                        // while it is chosen (MainTabsUiHelper.isMaterial3NavigationBar), so "Show" brings the Material
+                        // bar back instead of leaving Telegram's.
                         // Со скрытой панелью «Настройки» доступны только из меню; следить за этим
                         // умеет сама раскладка (MainMenuLayout.ensureSettingsVisibility), поэтому
                         // достаточно перечитать список и пересобрать вьюхи.

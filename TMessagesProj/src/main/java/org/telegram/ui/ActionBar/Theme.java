@@ -9330,6 +9330,34 @@ public class Theme {
      */
     private static boolean resolvingDividerColor;
 
+    /** Lets {@link #mzSubmenuSurface} read the theme's own menu colour without the Material adjustment. */
+    private static boolean resolvingSubmenuColor;
+
+    /**
+     * MZGram: Material surfaces. A Material 3 menu is a surface container a tone above the page. In a theme whose menus
+     * are the page colour (AMOLED black, or white on white) a menu would vanish into the page, so such a menu gets that
+     * tone; a theme whose menus already stand out keeps its colour.
+     */
+    private static int mzSubmenuSurface(ResourcesProvider provider, boolean[] isDefault, boolean ignoreAnimation) {
+        resolvingSubmenuColor = true;
+        try {
+            final int menu = provider != null ? getColor(key_actionBarDefaultSubmenuBackground, provider) : getColor(key_actionBarDefaultSubmenuBackground, isDefault, ignoreAnimation);
+            final int page = provider != null ? getColor(key_windowBackgroundWhite, provider) : getColor(key_windowBackgroundWhite, null, ignoreAnimation);
+            if (Color.alpha(menu) < 255) {
+                return menu;
+            }
+            final int distance = Math.abs(Color.red(menu) - Color.red(page)) + Math.abs(Color.green(menu) - Color.green(page)) + Math.abs(Color.blue(menu) - Color.blue(page));
+            if (distance > 24) {
+                return menu;
+            }
+            final int text = (provider != null ? getColor(key_windowBackgroundWhiteBlackText, provider) : getColor(key_windowBackgroundWhiteBlackText, null, ignoreAnimation)) | 0xFF000000;
+            final boolean dark = AndroidUtilities.computePerceivedBrightness(page | 0xFF000000) < .5f;
+            return ColorUtils.blendARGB(menu, text, dark ? 0.1f : 0.04f);
+        } finally {
+            resolvingSubmenuColor = false;
+        }
+    }
+
     /**
      * Настоящий цвет разделителя. Нужен там, где линию надо нарисовать несмотря на то,
      * что общий {@code key_divider} погашен — сегментный режим и форсированный
@@ -9362,6 +9390,9 @@ public class Theme {
         // (чат-темы, боттом-шиты, профиль): иначе линии остаются там, где цвет берёт провайдер.
         if (key_divider == key && !resolvingDividerColor && app.exteraless.appearance.AppearanceConfig.dividerHidden()) {
             return 0x00ffffff;
+        }
+        if (key_actionBarDefaultSubmenuBackground == key && provider != null && !resolvingSubmenuColor && app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+            return mzSubmenuSurface(provider, null, false);
         }
         if (provider != null) {
             if (provider.isCompactMode()) {
@@ -9403,6 +9434,9 @@ public class Theme {
         }
         if (key_divider == key && !resolvingDividerColor && app.exteraless.appearance.AppearanceConfig.dividerHidden()) {
             return 0x00ffffff;
+        }
+        if (key_actionBarDefaultSubmenuBackground == key && !resolvingSubmenuColor && app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+            return mzSubmenuSurface(null, isDefault, ignoreAnimation);
         }
         return getColorFromTable(currentColors, key, isDefault);
     }

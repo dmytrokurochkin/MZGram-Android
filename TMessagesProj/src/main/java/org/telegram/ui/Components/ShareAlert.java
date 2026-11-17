@@ -184,6 +184,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     // MZGram: Material bars. The comment field and copy link sit in bars docked to the bottom of the sheet
     private final boolean mzDockedBars = app.exteraless.appearance.AppearanceConfig.materialBars();
     private Drawable mzCaptionBg;
+    private final Paint mzNavStripPaint = new Paint();
     private View[] shadow = new View[2];
     private AnimatorSet[] shadowAnimation = new AnimatorSet[2];
     protected LongSparseArray<TLRPC.Dialog> selectedDialogs = new LongSparseArray<>();
@@ -979,6 +980,19 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 canvas.clipRect(0, getPaddingTop() + currentPanTranslationY, getMeasuredWidth(), getMeasuredHeight() + currentPanTranslationY + dp(50));
                 super.dispatchDraw(canvas);
                 canvas.restore();
+                if (mzDockedBars && getPaddingBottom() > 0 && (commentTextView == null || !commentTextView.isPopupVisible())) {
+                    // MZGram: Material bars. A docked bottom bar runs on under the navigation bar to the screen edge,
+                    // so the list does not show through below it
+                    final float captionAlpha = frameLayout2 != null && frameLayout2.getVisibility() == View.VISIBLE ? frameLayout2.getAlpha() : 0f;
+                    final float pickerAlpha = pickerBottom != null && pickerBottom.getVisibility() == View.VISIBLE ? pickerBottom.getAlpha() : 0f;
+                    final View bar = captionAlpha >= pickerAlpha ? frameLayout2 : pickerBottom;
+                    final float alpha = Math.max(captionAlpha, pickerAlpha);
+                    if (bar != null && alpha > 0f) {
+                        mzNavStripPaint.setColor(getThemedColor(Theme.key_dialogBackground) | 0xFF000000);
+                        mzNavStripPaint.setAlpha((int) (255 * Math.min(1f, alpha)));
+                        canvas.drawRect(bar.getLeft(), getMeasuredHeight() - getPaddingBottom(), bar.getRight(), getMeasuredHeight(), mzNavStripPaint);
+                    }
+                }
             }
 
             @Override

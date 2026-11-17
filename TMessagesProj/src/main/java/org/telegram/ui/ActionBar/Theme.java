@@ -9342,44 +9342,30 @@ public class Theme {
         resolvingSubmenuColor = true;
         try {
             final int menu = provider != null ? getColor(key_actionBarDefaultSubmenuBackground, provider) : getColor(key_actionBarDefaultSubmenuBackground, isDefault, ignoreAnimation);
-            return mzLiftMenuColor(menu, provider, ignoreAnimation, "getColor");
+            return mzLiftMenuColor(menu, provider, ignoreAnimation);
         } finally {
             resolvingSubmenuColor = false;
         }
     }
 
     /**
-     * MZGram: Material surfaces. The menu colour a tone above the page when it would vanish into the page; otherwise
-     * the colour as it is. The tone comes from the menu's own text colour, which a theme always makes stand out on its
-     * menus. Repeating it on its own result changes nothing.
+     * The menu colour a tone above the page when it would vanish into the page; otherwise the colour as it is. The tone
+     * comes from the menu's own text colour, which a theme always makes stand out on its menus.
      */
-    public static int mzLiftMenuColor(int menu, ResourcesProvider provider) {
-        return mzLiftMenuColor(menu, provider, false, "popup");
-    }
-
-    private static int mzLastMenuLog;
-
-    private static int mzLiftMenuColor(int menu, ResourcesProvider provider, boolean ignoreAnimation, String from) {
+    private static int mzLiftMenuColor(int menu, ResourcesProvider provider, boolean ignoreAnimation) {
         final int page = (provider != null ? getColor(key_windowBackgroundWhite, provider) : getColor(key_windowBackgroundWhite, null, ignoreAnimation)) | 0xFF000000;
         final int pageGray = (provider != null ? getColor(key_windowBackgroundGray, provider) : getColor(key_windowBackgroundGray, null, ignoreAnimation)) | 0xFF000000;
         // a see-through menu (a theme made for glass) is seen over the page, so it is judged by what is seen
         final int seen = Color.alpha(menu) < 255 ? ColorUtils.compositeColors(menu, page) : menu;
-        int result = menu;
-        int text = 0;
-        if (Math.min(mzColorDistance(seen, page), mzColorDistance(seen, pageGray)) <= 24) {
-            final boolean dark = AndroidUtilities.computePerceivedBrightness(seen) < .5f;
-            text = (provider != null ? getColor(key_actionBarDefaultSubmenuItem, provider) : getColor(key_actionBarDefaultSubmenuItem, null, ignoreAnimation)) | 0xFF000000;
-            if (mzColorDistance(text, seen) < 150) {
-                text = dark ? 0xFFFFFFFF : 0xFF000000;
-            }
-            result = ColorUtils.blendARGB(seen, text, dark ? 0.1f : 0.04f);
+        if (Math.min(mzColorDistance(seen, page), mzColorDistance(seen, pageGray)) > 24) {
+            return menu;
         }
-        final int log = menu * 31 + result;
-        if (log != mzLastMenuLog) {
-            mzLastMenuLog = log;
-            android.util.Log.i("MZMenu", from + " menu=" + Integer.toHexString(menu) + " page=" + Integer.toHexString(page) + " gray=" + Integer.toHexString(pageGray) + " text=" + Integer.toHexString(text) + " -> " + Integer.toHexString(result) + " provider=" + (provider != null));
+        final boolean dark = AndroidUtilities.computePerceivedBrightness(seen) < .5f;
+        int text = (provider != null ? getColor(key_actionBarDefaultSubmenuItem, provider) : getColor(key_actionBarDefaultSubmenuItem, null, ignoreAnimation)) | 0xFF000000;
+        if (mzColorDistance(text, seen) < 150) {
+            text = dark ? 0xFFFFFFFF : 0xFF000000;
         }
-        return result;
+        return ColorUtils.blendARGB(seen, text, dark ? 0.1f : 0.04f);
     }
 
     private static int mzColorDistance(int a, int b) {

@@ -292,10 +292,6 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
 
         public void setBackgroundColor(int color) {
-            if (app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
-                // MZGram: Material surfaces. A menu that would vanish into the page is a tone above it
-                color = Theme.mzLiftMenuColor(color, resourcesProvider);
-            }
             if (backgroundColor != color && backgroundDrawable != null) {
                 backgroundDrawable.setColorFilter(new PorterDuffColorFilter(backgroundColor = color, PorterDuff.Mode.MULTIPLY));
             }

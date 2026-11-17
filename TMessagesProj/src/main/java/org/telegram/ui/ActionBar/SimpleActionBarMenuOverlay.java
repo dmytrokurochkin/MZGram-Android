@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -68,7 +69,16 @@ public class SimpleActionBarMenuOverlay extends FrameLayout {
         @Override
         public int getBackgroundColor() {
             final BlurredBackgroundColorProvider base = base();
-            final int menuColor = base != null ? base.getBackgroundColor() : 0;
+            int menuColor = base != null ? base.getBackgroundColor() : 0;
+            if (bar != null && app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+                // MZGram: Material surfaces. The menu is the theme's menu surface (a tone above the page where the theme
+                // makes it the page colour), solid; the glass of the header is the page colour and the menu vanished in it
+                final Theme.ResourcesProvider rp = bar.getMenuResourcesProvider();
+                menuColor = Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground, rp);
+                if (Color.alpha(menuColor) < 255) {
+                    menuColor = ColorUtils.compositeColors(menuColor, Theme.getColor(Theme.key_windowBackgroundWhite, rp) | 0xFF000000);
+                }
+            }
             if (glassColorsFactor >= 1f || bar == null) {
                 return menuColor;
             }

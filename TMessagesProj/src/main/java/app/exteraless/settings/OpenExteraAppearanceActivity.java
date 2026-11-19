@@ -23,6 +23,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.LiteMode;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
@@ -333,7 +334,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
             case "chatListHeader":
                 return R.drawable.msg_list;
             case "MZHeaderSection":
-                return R.drawable.msg_search;
+                return R.drawable.msg_topics;
             case "foldersHeader":
                 return R.drawable.msg_folders;
             case "appearanceHeader":
@@ -1273,23 +1274,32 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case TYPE_DETAIL_SETTINGS: {
-                    // Иконка слева, подпись под заголовком.
-                    TextDetailSettingsCell cell = (TextDetailSettingsCell) holder.itemView;
+                case TYPE_TEXT: {
+                    // MZGram: the links are the same Material list item as the section rows
+                    // (icon, title, one-line summary, 64 dp, text at 72 dp).
+                    TextCell cell = (TextCell) holder.itemView;
                     if (position == appNavigationRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceNavigation), getString(R.string.OEAppearanceNavigationSub), R.drawable.msg_newphone, true);
+                        cell.setTextAndIcon(getString(R.string.OEAppearanceNavigation), R.drawable.msg_newphone, true);
+                        cell.setSubtitle(getString(R.string.OEAppearanceNavigationSub));
                     } else if (position == iconPacksRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceIconPacks), getString(R.string.OEAppearanceIconPacksInfo), R.drawable.msg_sticker, true);
+                        cell.setTextAndIcon(getString(R.string.OEAppearanceIconPacks), R.drawable.msg_sticker, true);
+                        cell.setSubtitle(getString(R.string.OEAppearanceIconPacksInfo));
                     } else if (position == emojiSetsRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.EmojiSets), getString(NekoConfig.useSystemEmoji.Bool()
-                                ? R.string.OEAppearanceUseSystemEmoji : R.string.OEAppearanceEmojiSetsInfo), R.drawable.msg_emoji_smiles, true);
+                        cell.setTextAndIcon(getString(R.string.EmojiSets), R.drawable.msg_emoji_smiles, true);
+                        cell.setSubtitle(getString(NekoConfig.useSystemEmoji.Bool()
+                                ? R.string.OEAppearanceUseSystemEmoji : R.string.OEAppearanceEmojiSetsInfo));
                     } else if (position == pillStackRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.OEAppearancePillStack), getString(R.string.OEAppearancePillStackInfo), R.drawable.outline_header_search, true);
+                        cell.setTextAndIcon(getString(R.string.OEAppearancePillStack), R.drawable.outline_header_search, true);
+                        cell.setSubtitle(getString(R.string.OEAppearancePillStackInfo));
                     } else if (position == playerStyleRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.OEPlayerStyleTitle), getString(R.string.OEPlayerStyleInfo), R.drawable.msg_filled_data_music, true);
+                        cell.setTextAndIcon(getString(R.string.OEPlayerStyleTitle), R.drawable.msg_filled_data_music, true);
+                        cell.setSubtitle(getString(R.string.OEPlayerStyleInfo));
                     } else if (position == hidingRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceHiding), getString(R.string.OEAppearanceHidingInfo), R.drawable.msg_archive_hide, false);
+                        cell.setTextAndIcon(getString(R.string.OEAppearanceHiding), R.drawable.msg_archive_hide, false);
+                        cell.setSubtitle(getString(R.string.OEAppearanceHidingInfo));
                     }
+                    cell.heightDp = 64;
+                    cell.requestLayout();
                     break;
                 }
                 case TYPE_INFO_PRIVACY: {
@@ -1365,7 +1375,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                 return TYPE_FAB_SHAPE;
             } else if (position == appNavigationRow || position == iconPacksRow
                     || position == emojiSetsRow || position == pillStackRow || position == playerStyleRow || position == hidingRow) {
-                return TYPE_DETAIL_SETTINGS;
+                return TYPE_TEXT;
             } else if (position == md3GroupRow || position == iosGroupRow) {
                 return TYPE_EXPANDABLE_SWITCH;
             } else if (position == md3LoadingRow || position == md3SliderRow

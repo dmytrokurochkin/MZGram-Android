@@ -856,7 +856,7 @@ public class OpenExteraChatsActivity extends BaseNekoSettingsActivity {
             case "doubleTapHeader":
                 return R.drawable.msg_reactions;
             case "chatsHeader":
-                return R.drawable.msg_discussion;
+                return R.drawable.msg_viewchats;
             case "inputHeader":
                 return R.drawable.msg_text_outlined;
             case "searchHeader":
@@ -3026,7 +3026,7 @@ public class OpenExteraChatsActivity extends BaseNekoSettingsActivity {
                 cell.setTextAndIcon(getString(R.string.OEChatsAiChat), aiChatIcon(), true);
                 cell.setSubtitle(getString(R.string.OEChatsAiChatInfo));
             } else if (position == chatSettingsRow) {
-                cell.setTextAndIcon(getString(R.string.OEChatsChatSettings), R.drawable.msg_discussion, false);
+                cell.setTextAndIcon(getString(R.string.OEChatsChatSettings), R.drawable.msg_settings_old, false);
                 cell.setSubtitle(getString(R.string.OEChatsChatSettingsInfo));
             }
             // Обе строки двухстрочные: подпись под заголовком, высота 64,

@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">送信メッセージ</string>
     <string name="TgBrowserOpenFail">内蔵ブラウザは利用できません</string>
     <string name="TgBrowserOpenFail_Desc">内蔵ブラウザが無効化されているため、選択した操作は利用できません。</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">ゴーストモード</string>
     <string name="GhostEssentialsHeader">ゴースト設定</string>
     <string name="EnableGhostMode">ゴースト ON</string>

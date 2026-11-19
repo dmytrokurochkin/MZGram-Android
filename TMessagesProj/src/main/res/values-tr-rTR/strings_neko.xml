@@ -177,7 +177,6 @@
     <string name="LinkedGroupChat">Bağlantılı Grup</string>
     <string name="LinkedChannelChat">Bağlantılı Kanal</string>
     <string name="ChangeTranslateProvider">Sağlayıcıyı Değiştir</string>
-    <string name="ProviderYandexTranslate">Yandex Çeviri</string>
     <string name="GoogleCloudTransKeyNotice">Bir Google Cloud Çeviri Anahtarı ayarlarsanız, çeviri yaparken web sürümüne sahte bir form göndermek yerine bulut çeviri API\'si çağrılacaktır (daha hızlı, daha istikrarlı ve veri tasarrufu sağlar).</string>
     <string name="TransToLang">Hedef Dil</string>
     <string name="TransInputToLang">Gönderme Öncesi Çeviri Dili</string>

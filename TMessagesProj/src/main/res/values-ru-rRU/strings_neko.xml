@@ -181,7 +181,6 @@
     <string name="LinkedGroupChat">Привязанная группа</string>
     <string name="LinkedChannelChat">Привязанный канал</string>
     <string name="ChangeTranslateProvider">Изменить сервис перевода</string>
-    <string name="ProviderYandexTranslate">Яндекс</string>
     <string name="GoogleCloudTransKey">Ключ Google Translation API</string>
     <string name="GoogleCloudTransKeyNotice">Если вы ввели свой ключ, перевод будет быстрее и стабильнее.</string>
     <string name="TransToLang">Язык перевода</string>

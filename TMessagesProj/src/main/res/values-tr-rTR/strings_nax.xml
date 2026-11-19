@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">Giden Mesajlar</string>
     <string name="TgBrowserOpenFail">Uygulama İçi Tarayıcı kullanılamıyor</string>
     <string name="TgBrowserOpenFail_Desc">Uygulama içi tarayıcı devre dışı bırakıldığı için seçilen işlem gerçekleştirilemiyor.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">Hayalet Modu</string>
     <string name="GhostEssentialsHeader">Hayalet Modu Temelleri</string>
     <string name="EnableGhostMode">Hayaleti Etkinleştir</string>

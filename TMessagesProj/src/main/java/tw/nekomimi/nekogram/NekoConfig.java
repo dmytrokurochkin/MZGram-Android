@@ -286,6 +286,13 @@ public class NekoConfig {
             for (int a = 1; a <= 5; a++) {
                 datacenterInfos.add(new DatacenterInfo(a));
             }
+            // MZGram: Yandex Translate and Yandex map previews are gone, a saved choice moves to Google and Telegram previews
+            if (translationProvider.Int() == 3) {
+                translationProvider.setConfigInt(1);
+            }
+            if (mapPreviewProvider.Int() == 1) {
+                mapPreviewProvider.setConfigInt(0);
+            }
             configLoaded = true;
         }
     }

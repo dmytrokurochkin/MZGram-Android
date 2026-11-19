@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">Mensajes salientes</string>
     <string name="TgBrowserOpenFail">El navegador In-App no está disponible</string>
     <string name="TgBrowserOpenFail_Desc">La operación seleccionada no está disponible porque el navegador de la aplicación se ha deshabilitado.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">Modo Fantasma</string>
     <string name="GhostEssentialsHeader">Lo esencial del modo fantasma</string>
     <string name="EnableGhostMode">Habilitar Fantasma</string>

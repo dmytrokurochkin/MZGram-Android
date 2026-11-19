@@ -177,7 +177,6 @@
     <string name="LinkedGroupChat">Gruppo collegato</string>
     <string name="LinkedChannelChat">Canale collegato</string>
     <string name="ChangeTranslateProvider">Cambia provider</string>
-    <string name="ProviderYandexTranslate">Traduttore Yandex</string>
     <string name="GoogleCloudTransKeyNotice">Se si configura Google Cloud Trans Key, durante la traduzione verrà richiamata l\'API di traduzione cloud invece di inviare un modulo falso alla versione web (più veloce, stabile e con risparmio di traffico).</string>
     <string name="TransToLang">Lingua di destinazione</string>
     <string name="TransInputToLang">Lingua di traduzione pre-invio</string>

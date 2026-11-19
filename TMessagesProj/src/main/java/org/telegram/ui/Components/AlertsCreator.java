@@ -1702,7 +1702,7 @@ public class AlertsCreator {
     public static AlertDialog showSecretLocationAlert(Context context, int currentAccount, final Runnable onSelectRunnable, boolean inChat, Theme.ResourcesProvider resourcesProvider) {
         ArrayList<String> arrayList = new ArrayList<>();
         ArrayList<Integer> types = new ArrayList<>();
-        int providers = 5; // MessagesController.getInstance(currentAccount).availableMapProviders;
+        int providers = 1; // MessagesController.getInstance(currentAccount).availableMapProviders; Yandex (4) is not offered
         if ((providers & 1) != 0) {
             arrayList.add(LocaleController.getString(R.string.MapPreviewProviderTelegram));
             types.add(0);
@@ -1710,10 +1710,6 @@ public class AlertsCreator {
         if ((providers & 2) != 0) {
             arrayList.add(LocaleController.getString(R.string.MapPreviewProviderGoogle));
             types.add(1);
-        }
-        if ((providers & 4) != 0) {
-            arrayList.add(LocaleController.getString(R.string.MapPreviewProviderYandex));
-            types.add(3);
         }
         arrayList.add(LocaleController.getString(R.string.MapPreviewProviderNobody));
         types.add(2);

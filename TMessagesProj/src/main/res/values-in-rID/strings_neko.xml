@@ -178,7 +178,6 @@
     <string name="LinkedGroupChat">Grup Tertaut</string>
     <string name="LinkedChannelChat">Saluran Tertaut</string>
     <string name="ChangeTranslateProvider">Ubah Penyedia</string>
-    <string name="ProviderYandexTranslate">Yandex Terjemahan</string>
     <string name="GoogleCloudTransKey">Google Cloud Translate Key</string>
     <string name="GoogleCloudTransKeyNotice">Jika Anda mengatur Google Cloud Trans Key, API terjemahan cloud akan digunakan menggantikan pengiriman formulir palsu ke versi web saat menerjemahkan (lebih cepat, stabil, dan menghemat kuota data).</string>
     <string name="TransToLang">Bahasa Tujuan</string>

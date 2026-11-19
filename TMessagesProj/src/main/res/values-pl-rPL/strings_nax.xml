@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">Wiadomości wychodzące</string>
     <string name="TgBrowserOpenFail">Przeglądarka w aplikacji jest niedostępna</string>
     <string name="TgBrowserOpenFail_Desc">Wybrana operacja jest niedostępna, ponieważ przeglądarka w aplikacji została wyłączona.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">Tryb ducha</string>
     <string name="GhostEssentialsHeader">Niezbędne</string>
     <string name="EnableGhostMode">Włącz tryb ducha</string>

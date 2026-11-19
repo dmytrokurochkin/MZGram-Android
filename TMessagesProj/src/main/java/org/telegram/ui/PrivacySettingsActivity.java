@@ -1271,11 +1271,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                                 value = getString("MapPreviewProviderGoogle", R.string.MapPreviewProviderGoogle);
                                 break;
                             case 2:
-                                value = getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody);
-                                break;
-                            case 3:
                             default:
-                                value = getString("MapPreviewProviderYandex", R.string.MapPreviewProviderYandex);
+                                value = getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody);
                                 break;
                         }
                         textCell.setTextAndValue(getString("MapPreviewProvider", R.string.MapPreviewProvider), value, secretMapUpdate, true);

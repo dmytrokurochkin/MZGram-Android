@@ -5779,14 +5779,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     String[] typeAndKey = mapArgs[0].split(":");
                     if (typeAndKey.length > 0) {
                         if ("yandex".equals(typeAndKey[0])) {
-                            if (a == 0) {
-                                if (mapArgs.length > 1) {
-                                    mapProvider = 3;
-                                } else {
-                                    mapProvider = 1;
-                                }
-                            }
-                            availableMapProviders |= 4;
+                            // MZGram: Yandex maps are never used, Telegram's own previews stay
+                            continue;
                         } else if ("google".equals(typeAndKey[0])) {
                             if (a == 0) {
                                 if (mapArgs.length > 1) {

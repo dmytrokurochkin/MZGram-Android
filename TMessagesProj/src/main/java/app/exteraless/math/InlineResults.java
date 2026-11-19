@@ -26,7 +26,7 @@ public final class InlineResults {
     public static final int MEASURE_IMPERIAL = 2;
 
     private static final Set<String> IMPERIAL_REGIONS = new HashSet<>(Arrays.asList("US", "LR", "MM"));
-    private static final Set<String> CYRILLIC_LANGUAGES = new HashSet<>(Arrays.asList("ru", "uk", "be"));
+    private static final Set<String> CYRILLIC_LANGUAGES = new HashSet<>(Arrays.asList("ru", "uk"));
     private static final long RETRY_MS = 30_000;
 
     private static long requestedAt;
@@ -127,6 +127,8 @@ public final class InlineResults {
         options.grouping = ChatsConfig.inlineMathGrouping.Bool();
         options.imperial = isImperial();
         options.cyrillicLabels = cyrillicLabels();
+        Locale locale = LocaleController.getInstance().getCurrentLocale();
+        options.ukrainian = locale != null && "uk".equals(locale.getLanguage());
         if (everything || ChatsConfig.inlineMathCurrency.Bool()) {
             options.rates = new CachedRates(onRatesUpdated);
             options.localCurrency = localCurrency(options.rates);

@@ -8984,8 +8984,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             provider = -1;
                         } else if (SharedConfig.mapPreviewType == 1) {
                             provider = 4;
-                        } else if (SharedConfig.mapPreviewType == 3) {
-                            provider = 1;
                         } else {
                             provider = -1;
                         }
@@ -9104,16 +9102,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             location.currentMapProvider = 2;
                         } else if (SharedConfig.mapPreviewType == 1) {
                             location.currentMapProvider = 1;
-                        } else if (SharedConfig.mapPreviewType == 3) {
-                            location.currentMapProvider = 1;
                         } else {
                             location.currentMapProvider = -1;
                         }
                     } else {
                         if (NekoConfig.mapPreviewProvider.Int() == 0) {
                             location.currentMapProvider = 2;
-                        } else if (NekoConfig.mapPreviewProvider.Int() == 1) {
-                            location.currentMapProvider = 1;
                         } else {
                             location.currentMapProvider = -1;
                         }

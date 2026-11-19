@@ -595,8 +595,12 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
     private CharSequence[] mapPreviewOptions() {
         return new CharSequence[]{
                 getString(R.string.MapPreviewProviderTelegram),
-                getString(R.string.MapPreviewProviderYandexNax),
                 getString(R.string.MapPreviewProviderNobody)};
+    }
+
+    /** Stored values are 0 Telegram and 2 none (1 was Yandex), the list shows only the first and the last. */
+    private static int mapPreviewIndex() {
+        return NekoConfig.mapPreviewProvider.Int() == 2 ? 1 : 0;
     }
 
     private void showMapProviderSelector() {
@@ -619,8 +623,8 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
             return;
         }
         showDialog(app.exteraless.settings.utils.MZChoice.create(getParentActivity(), getString(R.string.OEGeneralMapPreview), mapPreviewOptions(),
-                NekoConfig.mapPreviewProvider.Int(), (dialog, which) -> {
-            NekoConfig.mapPreviewProvider.setConfigInt(which);
+                mapPreviewIndex(), (dialog, which) -> {
+            NekoConfig.mapPreviewProvider.setConfigInt(which == 1 ? 2 : 0);
             if (listAdapter != null) {
                 listAdapter.notifyItemChanged(mapPreviewRow);
             }
@@ -1112,10 +1116,8 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
                         cell.setTextAndValue(getString(R.string.OEGeneralMapProvider),
                                 mapProviderOptions()[NekoConfig.useOSMDroidMap.Bool() ? 1 : 0], true);
                     } else if (position == mapPreviewRow) {
-                        CharSequence[] previews = mapPreviewOptions();
-                        int preview = NekoConfig.mapPreviewProvider.Int();
                         cell.setTextAndValue(getString(R.string.OEGeneralMapPreview),
-                                previews[preview < 0 || preview >= previews.length ? 0 : preview], false);
+                                mapPreviewOptions()[mapPreviewIndex()], false);
                     } else if (position == showIdAndDcRow) {
                         // Выбор из трёх режимов, а не переключатель: Bot API отличается
                         // от Telegram API префиксом -100 у чатов и каналов.

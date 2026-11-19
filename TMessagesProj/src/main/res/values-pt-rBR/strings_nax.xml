@@ -121,7 +121,6 @@
     <string name="DoubleTapOutgoing">Mensagens enviadas</string>
     <string name="TgBrowserOpenFail">O navegador interno está indisponível</string>
     <string name="TgBrowserOpenFail_Desc">A operação selecionada não está disponível porque o navegador interno foi desativado.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">Modo fantasma</string>
     <string name="GhostEssentialsHeader">Essenciais do modo fantasma</string>
     <string name="EnableGhostMode">Ativar fantasma</string>

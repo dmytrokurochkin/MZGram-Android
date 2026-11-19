@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">Pesan Keluar</string>
     <string name="TgBrowserOpenFail">Peramban dalam aplikasi tidak tersedia</string>
     <string name="TgBrowserOpenFail_Desc">Operasi yang dipilih tidak tersedia karena peramban dalam aplikasi telah dinonaktifkan.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">Mode Hantu</string>
     <string name="GhostEssentialsHeader">Hal Penting Mode Hantu</string>
     <string name="EnableGhostMode">Aktifkan Hantu</string>

@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">발신 메시지</string>
     <string name="TgBrowserOpenFail">인앱 브라우저를 사용할 수 없습니다</string>
     <string name="TgBrowserOpenFail_Desc">인앱 브라우저가 비활성화되어 선택한 작업을 사용할 수 없습니다.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">고스트 모드</string>
     <string name="GhostEssentialsHeader">고스트 모드 기본 설정</string>
     <string name="EnableGhostMode">고스트 켜기</string>

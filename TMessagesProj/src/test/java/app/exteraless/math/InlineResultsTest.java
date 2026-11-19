@@ -200,6 +200,17 @@ public class InlineResultsTest {
     }
 
     @Test
+    public void ukrainian() {
+        InlineOptions options = options();
+        options.cyrillicLabels = true;
+        options.ukrainian = true;
+        assertEquals("2 год 45 хв", run("2 год + 45 хв =", options));
+        assertEquals("1 год 30 хв", run("90 хв =", options));
+        assertEquals("62.14 mph", run("100 км/год у mph =", options));
+        assertEquals("160.93 км/год", run("100 mph =", options));
+    }
+
+    @Test
     public void textAround() {
         assertEquals("4", run("ну типа 2+2 ="));
         assertNull(run("просто текст ="));

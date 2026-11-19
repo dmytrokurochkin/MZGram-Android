@@ -421,9 +421,9 @@ public final class EtgBackup {
         integer(list, "cameraType", ChatsConfig.cameraType, 0, 2);
         integer(list, "videoMessagesCamera", NaConfig.INSTANCE.getCameraInVideoMessages(), 0, 2);
 
-        // Провайдеры перевода нумерованы по-разному: 0/1/2/3 у exteraGram против 8/1/3/7 у NagramX.
+        // Translator ids differ: exteraGram 0/1/2/3 against NagramX 8/1/3/7. Yandex (exteraGram 2) is gone, it becomes Google.
         remap(list, "translationProvider", NekoConfig.translationProvider, 0, 3,
-                new int[]{8, 1, 3, 7}, new int[][]{{8, 0}, {1, 1}, {3, 2}, {7, 3}});
+                new int[]{8, 1, 1, 7}, new int[][]{{8, 0}, {1, 1}, {7, 3}});
         // Вкладки: exteraGram 0 иконки+текст, 1 текст, 2 иконки; NagramX 0 текст, 1 иконки, 2 микс.
         remap(list, "tabIcons", NekoConfig.tabsTitleType, 0, 2,
                 new int[]{2, 0, 1}, new int[][]{{0, 1}, {1, 2}, {2, 0}});

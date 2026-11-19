@@ -143,9 +143,8 @@ public class NekoGeneralSettingsActivity extends BaseNekoXSettingsActivity {
     private final AbstractConfigCell mapDriftingFixForGoogleMapsRow = cellGroup.appendCell(new ConfigCellTextCheck(NekoConfig.mapDriftingFixForGoogleMaps));
     private final AbstractConfigCell mapPreviewRow = cellGroup.appendCell(new ConfigCellSelectBox(null, NekoConfig.mapPreviewProvider, new String[]{
             getString(R.string.MapPreviewProviderTelegram),
-            getString(R.string.MapPreviewProviderYandexNax),
             getString(R.string.MapPreviewProviderNobody)
-    }, null));
+    }, new int[]{0, 2}, null));
     private final AbstractConfigCell dividerMap = cellGroup.appendCell(new ConfigCellDivider());
 
     // Folder

@@ -20,6 +20,8 @@ public final class InlineOptions {
     public boolean grouping;
     public boolean imperial;
     public boolean cyrillicLabels;
+    /** App language is Ukrainian: Ukrainian unit labels, and "год" reads as hours, not years. */
+    public boolean ukrainian;
     public Rates rates;
     public String localCurrency;
     /** Null turns time zones off. */

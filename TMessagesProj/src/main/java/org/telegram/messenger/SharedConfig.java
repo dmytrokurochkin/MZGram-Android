@@ -728,6 +728,19 @@ public class SharedConfig {
             SaveToGallerySettingsHelper.load(preferences);
             mapPreviewType = preferences.getInt("mapPreviewType", 2);
             searchEngineType = preferences.getInt("searchEngineType", 0);
+            if (!preferences.getBoolean("mzNoYandex", false)) {
+                // Yandex map previews and search are gone: Yandex (3) becomes Telegram previews,
+                // the search list lost Yandex at index 5, so Yandex moves to Google and Startpage moves up.
+                if (mapPreviewType == 3) {
+                    mapPreviewType = 0;
+                }
+                if (searchEngineType == 5) {
+                    searchEngineType = 0;
+                } else if (searchEngineType == 6) {
+                    searchEngineType = 5;
+                }
+                preferences.edit().putInt("mapPreviewType", mapPreviewType).putInt("searchEngineType", searchEngineType).putBoolean("mzNoYandex", true).apply();
+            }
             raiseToListen = preferences.getBoolean("raise_to_listen", true);
             raiseToSpeak = preferences.getBoolean("raise_to_speak", false);
             nextMediaTap = preferences.getBoolean("next_media_on_tap", true);

@@ -49,11 +49,18 @@ public class InlineResultsActivity extends BaseFragment {
     private static final String[][] EXAMPLES = {
             {"(120 + 80) / 4 =", "√144 + 2^3 =", "max(12, 40, 7) =", "sin(30) =", "hex(255) =", "dec(ff, 16) =", "0xff + 1 ="},
             {"2300 - 15% =", "12% of 1200 =", "300k / 12 ="},
-            {"100€ =", "500 stars =", "100 dollars to euros =", "5k ₽ to $ ="},
+            {"100€ =", "500 stars =", "100 dollars to euros =", "5k ₴ to $ ="},
             {"72°F =", "10 miles =", "5 kg to lb =", "100 km/h to mph =", "90 min =", "2 h + 45 min ="},
             {"6pm est =", "12:00 in tokyo =", "now in new york ="},
     };
-    private static final String[][] EXAMPLES_CYRILLIC = {
+    private static final String[][] EXAMPLES_UKRAINIAN = {
+            {"(120 + 80) / 4 =", "√144 + 2^3 =", "max(12, 40, 7) =", "sin(30) =", "hex(255) =", "dec(ff, 16) =", "0xff + 1 ="},
+            {"2300 - 15% =", "12% від 1200 =", "300к / 12 ="},
+            {"100€ =", "500 зірок =", "100 доларів у євро =", "5к ₴ у $ ="},
+            {"72°F =", "10 миль =", "5 кг у фунтах =", "100 км/год у mph =", "90 хв =", "2 год + 45 хв ="},
+            {"18:00 utc =", "12:00 у токіо =", "зараз у нью-йорку ="},
+    };
+    private static final String[][] EXAMPLES_RUSSIAN = {
             {"(120 + 80) / 4 =", "√144 + 2^3 =", "max(12, 40, 7) =", "sin(30) =", "hex(255) =", "dec(ff, 16) =", "0xff + 1 ="},
             {"2300 - 15% =", "12% от 1200 =", "300к / 12 ="},
             {"100€ =", "500 звёзд =", "100 долларов в евро =", "5к ₽ в $ ="},
@@ -141,7 +148,10 @@ public class InlineResultsActivity extends BaseFragment {
     private String[][] examples() {
         Locale locale = org.telegram.messenger.LocaleController.getInstance().getCurrentLocale();
         String language = locale == null ? "" : locale.getLanguage();
-        return language.equals("ru") || language.equals("uk") || language.equals("be") ? EXAMPLES_CYRILLIC : EXAMPLES;
+        if (language.equals("uk")) {
+            return EXAMPLES_UKRAINIAN;
+        }
+        return language.equals("ru") ? EXAMPLES_RUSSIAN : EXAMPLES;
     }
 
     private char decimalSeparator() {

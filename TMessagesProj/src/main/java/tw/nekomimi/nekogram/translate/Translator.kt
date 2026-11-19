@@ -63,7 +63,7 @@ interface Translator {
 
         const val providerGoogle = 1
         const val providerGoogleCN = 2 // deprecated
-        const val providerYandex = 3
+        const val providerYandex = 3 // removed, a saved value is moved to Google
         const val providerLingo = 4
         const val providerMicrosoft = 5
         const val providerRealMicrosoft = 6
@@ -300,9 +300,6 @@ interface Translator {
                         "zh-TW"
                     else -> language
                 }
-                providerYandex -> if (language == "pt" && countryUpperCase == "BR") {
-                    language = "pt-BR"
-                }
                 providerMicrosoft, providerRealMicrosoft, providerGoogle -> {
                     if (language == "zh") {
                         if (countryUpperCase == "CN") {
@@ -324,8 +321,7 @@ interface Translator {
                     TelegramAPITranslator.convertLanguageCode(language, country)
             }
             val translator = when (provider) {
-                providerGoogle -> GoogleAppTranslator
-                providerYandex -> YandexTranslator
+                providerGoogle, providerYandex -> GoogleAppTranslator
                 providerLingo -> LingoTranslator
                 providerMicrosoft -> MicrosoftTranslator
                 providerRealMicrosoft -> RealMicrosoftTranslator
@@ -349,7 +345,6 @@ interface Translator {
             companion object {
                 val PROVIDERS = arrayOf(
                     ProviderInfo(providerGoogle, R.string.ProviderGoogleTranslate),
-                    ProviderInfo(providerYandex, R.string.ProviderYandexTranslate),
                     ProviderInfo(providerLingo, R.string.ProviderLingocloud),
                     ProviderInfo(providerMicrosoft, R.string.ProviderMicrosoftTranslator),
                     ProviderInfo(providerRealMicrosoft, R.string.ProviderRealMicrosoftTranslator),

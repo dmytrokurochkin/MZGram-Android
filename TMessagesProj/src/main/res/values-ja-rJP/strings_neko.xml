@@ -177,7 +177,6 @@
     <string name="LinkedGroupChat">リンクされたグループ</string>
     <string name="LinkedChannelChat">リンクされたチャンネル</string>
     <string name="ChangeTranslateProvider">プロバイダを変更</string>
-    <string name="ProviderYandexTranslate">Yandex 翻訳</string>
     <string name="GoogleCloudTransKeyNotice">Google Cloud Trans Key を設定すると、翻訳時に偽のフォームをウェブバージョンに送信する代わりにクラウド翻訳APIが呼び出されます（高速で安定しており、トラフィックの節約になります）</string>
     <string name="TransToLang">翻訳先言語</string>
     <string name="TransInputToLang">入力翻訳先言語</string>

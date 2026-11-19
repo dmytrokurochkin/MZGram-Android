@@ -68,10 +68,6 @@ public final class ExteraConfig {
     private static final ArrayList<String> iconPacksHidden = new ArrayList<>();
     private static final ArrayList<String> doNotMarkAsNew = new ArrayList<>();
     private static final HashMap<String, Long> newFeaturesShowedAt = new HashMap<>();
-    private static final SearchEngine yandexSearchEngine = new SearchEngine(
-            "Yandex", "https://ya.ru/search/?text=",
-            "https://suggestqueries.google.com/complete/search?client=chrome&q=",
-            "https://yandex.ru/legal/confidential");
     private static volatile boolean menuLoaded;
 
     private ExteraConfig() {
@@ -183,13 +179,6 @@ public final class ExteraConfig {
         NaConfig.INSTANCE.getZalgoFilter().setConfigBool(value);
     }
 
-    public static boolean getUseYandexMaps() {
-        return getPreferences().getBoolean("useYandexMaps", false);
-    }
-
-    public static void setUseYandexMaps(boolean value) {
-        getPreferences().edit().putBoolean("useYandexMaps", value).apply();
-    }
 
     public static int getDownloadSpeedBoost() {
         ensureLoaded();
@@ -1861,14 +1850,6 @@ public final class ExteraConfig {
         setSectionsSeparatedHeadersPreference(getDividerStyle() == DividerStyle.SEGMENTS || value);
     }
 
-    public static boolean canUseYandexMaps() {
-        return getUseYandexMaps();
-    }
-
-    public static SearchEngine getYandexSearchEngine() {
-        return yandexSearchEngine;
-    }
-
     public static String getCurrentLangName() {
         String lang = getTargetLang();
         return lang == null || lang.isEmpty() ? "app" : lang;
@@ -2049,7 +2030,6 @@ public final class ExteraConfig {
             new PreferencesUtils.BackupItem("relativeLastSeen", Boolean.class),
             new PreferencesUtils.BackupItem("inAppVibration", Boolean.class),
             new PreferencesUtils.BackupItem("filterZalgo", Boolean.class),
-            new PreferencesUtils.BackupItem("useYandexMaps", Boolean.class),
             new PreferencesUtils.BackupItem("downloadSpeedBoost", Integer.class),
             new PreferencesUtils.BackupItem("uploadSpeedBoost", Boolean.class),
             new PreferencesUtils.BackupItem("hidePhoneNumber", Boolean.class),

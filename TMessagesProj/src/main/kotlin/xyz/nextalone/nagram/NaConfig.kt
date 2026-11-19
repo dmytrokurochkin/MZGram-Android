@@ -1772,6 +1772,10 @@ object NaConfig {
                     resetInvalidConfig(o, e)
                 }
             }
+            // MZGram: Yandex Translate is gone, a saved article translator choice moves to Google
+            if (articleTranslationProvider.Int() == 3) {
+                articleTranslationProvider.setConfigInt(1)
+            }
             configLoaded = true
         }
     }

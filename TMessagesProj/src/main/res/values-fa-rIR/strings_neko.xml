@@ -178,7 +178,6 @@
     <string name="LinkedGroupChat">گروه متصل</string>
     <string name="LinkedChannelChat">کانال متصل</string>
     <string name="ChangeTranslateProvider">تغییر ارائه‌دهنده</string>
-    <string name="ProviderYandexTranslate">Yandex Translate</string>
     <string name="GoogleCloudTransKeyNotice">اگر کلید Google Cloud Translate را تنظیم کنید، هنگام ترجمه به جای ارسال فرم جعلی به نسخه وب، از API ترجمه ابری استفاده می‌شود (سریع‌تر، پایدارتر و با صرفه‌جویی در مصرف داده).</string>
     <string name="TransToLang">زبان مقصد</string>
     <string name="TransInputToLang">زبان ترجمه قبل از ارسال</string>

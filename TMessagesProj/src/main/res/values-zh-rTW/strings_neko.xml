@@ -177,7 +177,6 @@
     <string name="LinkedGroupChat">連結的群組</string>
     <string name="LinkedChannelChat">連結的頻道</string>
     <string name="ChangeTranslateProvider">更換翻譯來源</string>
-    <string name="ProviderYandexTranslate">Yandex 翻譯</string>
     <string name="GoogleCloudTransKey">Google Cloud 翻譯金鑰</string>
     <string name="GoogleCloudTransKeyNotice">如果您設定了一個 Google Cloud 金鑰，雲端翻譯 API 將會被呼叫，而不是提交一個模擬表單（更快速、穩定且節省流量）。</string>
     <string name="TransToLang">翻譯目標語言</string>

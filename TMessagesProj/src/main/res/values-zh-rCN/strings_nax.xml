@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">发送的消息</string>
     <string name="TgBrowserOpenFail">应用内浏览器不可用</string>
     <string name="TgBrowserOpenFail_Desc">因为应用内浏览器已被禁用，此操作不可用。</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">幽灵模式</string>
     <string name="GhostEssentialsHeader">幽灵选项</string>
     <string name="EnableGhostMode">启用幽灵模式</string>

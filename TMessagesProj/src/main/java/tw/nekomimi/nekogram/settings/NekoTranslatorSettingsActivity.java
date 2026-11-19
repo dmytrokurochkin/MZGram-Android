@@ -330,7 +330,6 @@ public class NekoTranslatorSettingsActivity extends BaseNekoXSettingsActivity {
 
         public static final ProviderInfo[] PROVIDERS = {
                 new ProviderInfo(Translator.providerGoogle, R.string.ProviderGoogleTranslate),
-                new ProviderInfo(Translator.providerYandex, R.string.ProviderYandexTranslate),
                 new ProviderInfo(Translator.providerLingo, R.string.ProviderLingocloud),
                 new ProviderInfo(Translator.providerMicrosoft, R.string.ProviderMicrosoftTranslator),
                 new ProviderInfo(Translator.providerRealMicrosoft, R.string.ProviderRealMicrosoftTranslator),

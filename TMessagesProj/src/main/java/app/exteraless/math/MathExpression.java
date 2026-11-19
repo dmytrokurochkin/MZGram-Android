@@ -448,7 +448,7 @@ public final class MathExpression {
                 if (source instanceof String) {
                     target = currencyWord(token.raw);
                 } else if (options.units) {
-                    target = InlineUnits.word(token.raw);
+                    target = InlineUnits.word(token.raw, options);
                 }
             }
             if (target == null || source == null || target.getClass() != source.getClass()) {
@@ -471,7 +471,7 @@ public final class MathExpression {
 
         private Object measureWord(Token token) {
             if (options.units) {
-                InlineUnits.Unit unit = InlineUnits.word(token.raw);
+                InlineUnits.Unit unit = InlineUnits.word(token.raw, options);
                 if (unit != null) {
                     return unit;
                 }
@@ -507,12 +507,11 @@ public final class MathExpression {
 
         private String unitResult(double value, InlineUnits.Unit unit, InlineUnits.Unit target) {
             char mark = separator();
-            boolean cyrillic = options.cyrillicLabels;
             if (target != null) {
                 if (target == unit && !hasOperation) {
                     return null;
                 }
-                return withLabel(formatMeasure(convert(value, unit, target), mark, options.grouping), target.label(cyrillic));
+                return withLabel(formatMeasure(convert(value, unit, target), mark, options.grouping), target.label(options));
             }
             if (InlineUnits.canBreakDown(unit)) {
                 String duration = InlineUnits.formatDuration(value, unit, options);
@@ -521,13 +520,13 @@ public final class MathExpression {
                 }
             }
             if (hasOperation) {
-                return withLabel(formatMeasure(value, mark, options.grouping), unit.label(cyrillic));
+                return withLabel(formatMeasure(value, mark, options.grouping), unit.label(options));
             }
             InlineUnits.Unit implicit = InlineUnits.implicitTarget(unit, value, options.imperial);
             if (implicit == null) {
                 return null;
             }
-            return withLabel(formatMeasure(convert(value, unit, implicit), mark, options.grouping), implicit.label(cyrillic));
+            return withLabel(formatMeasure(convert(value, unit, implicit), mark, options.grouping), implicit.label(options));
         }
 
         private String moneyResult(double value, String code, String target) {

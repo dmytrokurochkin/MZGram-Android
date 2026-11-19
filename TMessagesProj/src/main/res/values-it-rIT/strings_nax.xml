@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">Messaggi in Uscita</string>
     <string name="TgBrowserOpenFail">Il Browser In-App non è disponibile</string>
     <string name="TgBrowserOpenFail_Desc">L\'operazione selezionata non è disponibile a causa del browser in-app disabilitato.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">Modalità Ghost</string>
     <string name="GhostEssentialsHeader">Elementi essenziali per Ghost</string>
     <string name="EnableGhostMode">Abilita Ghost</string>

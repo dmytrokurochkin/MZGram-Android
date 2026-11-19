@@ -13247,8 +13247,6 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
 
                 if (NekoConfig.mapPreviewProvider.Int() == 0) {
                     currentMapProvider = 2;
-                } else if (NekoConfig.mapPreviewProvider.Int() == 1) {
-                    currentMapProvider = 1;
                 } else {
                     currentMapProvider = -1;
                 }

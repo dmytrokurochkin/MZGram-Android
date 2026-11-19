@@ -1581,7 +1581,6 @@
     <string name="MapPreviewProviderTitle">Map preview provider</string>
     <string name="MapPreviewProviderTelegram">Telegram</string>
     <string name="MapPreviewProviderGoogle">Google</string>
-    <string name="MapPreviewProviderYandex">Yandex</string>
     <string name="MapPreviewProviderNobody">No previews</string>
     <string name="InstallGoogleMaps">Install Google Maps?</string>
     <string name="InstallHuaweiMaps">Install Petal Maps?</string>
@@ -8695,10 +8694,6 @@
     <string name="SearchEngine5SearchURL">https://search.brave.com/search?q=</string>
     <string name="SearchEngine5AutocompleteURL">https://search.brave.com/api/suggest?q=</string>
     <string name="SearchEngine5PrivacyPolicyURL">https://search.brave.com/help/privacy-policy</string>
-    <string name="SearchEngine6Name">Yandex</string>
-    <string name="SearchEngine6SearchURL">https://yandex.com/search/?text=</string>
-    <string name="SearchEngine6AutocompleteURL">https://yandex.com/suggest/suggest-ya.cgi?part=</string>
-    <string name="SearchEngine6PrivacyPolicyURL">https://yandex.com/legal/confidential</string>
     <string name="SearchEngine7Name">Startpage</string>
     <string name="SearchEngine7SearchURL">https://www.startpage.com/sp/search?query=</string>
     <string name="SearchEngine7AutocompleteURL">https://www.startpage.com/osuggestions?q=</string>

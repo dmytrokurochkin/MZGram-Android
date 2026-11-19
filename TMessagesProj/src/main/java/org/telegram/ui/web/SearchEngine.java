@@ -98,16 +98,25 @@ public class SearchEngine {
     public static ArrayList<SearchEngine> getSearchEngines() {
         if (searchEngines == null) {
             searchEngines = new ArrayList<>();
-            for (int i = 1; true; ++i) {
+            // Numbers may have gaps: MZGram dropped SearchEngine6 (Yandex), so look a little further than the first gap
+            for (int i = 1; i <= 16; ++i) {
                 final String name =               nullable(getString("SearchEngine" + i + "Name"));
-                if (name == null) break;
+                if (name == null) continue;
                 final String search_url =         nullable(getString("SearchEngine" + i + "SearchURL"));
                 final String autocomplete_url =   nullable(getString("SearchEngine" + i + "AutocompleteURL"));
                 final String privacy_policy_url = nullable(getString("SearchEngine" + i + "PrivacyPolicyURL"));
+                if (isRemovedEngine(name, search_url)) continue;
                 searchEngines.add(new SearchEngine(name, search_url, autocomplete_url, privacy_policy_url));
             }
         }
         return searchEngines;
+    }
+
+    /** MZGram does not offer Yandex. */
+    private static boolean isRemovedEngine(String name, String searchUrl) {
+        final String n = name.toLowerCase(java.util.Locale.ROOT);
+        final String u = searchUrl == null ? "" : searchUrl.toLowerCase(java.util.Locale.ROOT);
+        return n.contains("yandex") || n.contains("яндекс") || u.contains("yandex.") || u.contains("ya.ru");
     }
 
     private static String nullable(String s) {

@@ -178,7 +178,6 @@
     <string name="LinkedGroupChat">Grupo vinculado</string>
     <string name="LinkedChannelChat">Canal vinculado</string>
     <string name="ChangeTranslateProvider">Mudar provedor</string>
-    <string name="ProviderYandexTranslate">Yandex Tradutor</string>
     <string name="GoogleCloudTransKey">Chave do Google Cloud Translate</string>
     <string name="GoogleCloudTransKeyNotice">Se você configurar uma chave de tradução do Google Cloud, a API de tradução em nuvem será chamada em vez de enviar um formulário para a versão web ao traduzir (mais rápido e estável).</string>
     <string name="TransToLang">Idioma de destino</string>

@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">پیام‌های ارسالی</string>
     <string name="TgBrowserOpenFail">مرورگر داخلی در دسترس نیست</string>
     <string name="TgBrowserOpenFail_Desc">عملیات انتخاب شده در دسترس نیست زیرا مرورگر داخلی غیرفعال شده است.</string>
-    <string name="MapPreviewProviderYandexNax">یاندکس</string>
     <string name="GhostMode">حالت روح</string>
     <string name="GhostEssentialsHeader">تنظیمات اصلی حالت روح</string>
     <string name="EnableGhostMode">فعال کردن حالت روح</string>

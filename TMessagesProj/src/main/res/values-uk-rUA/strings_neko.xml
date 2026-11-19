@@ -181,7 +181,6 @@
     <string name="LinkedGroupChat">Зв\'язана група</string>
     <string name="LinkedChannelChat">Зв\'язаний канал</string>
     <string name="ChangeTranslateProvider">Змінити сервіс перекладу</string>
-    <string name="ProviderYandexTranslate">Яндекс</string>
     <string name="GoogleCloudTransKeyNotice">Встановіть ключ Google Cloud Translation, щоб викликати хмарне API перекладу замість імітації надсилання форми у веб-версію (швидше, стабільніше й заощаджує трафік).</string>
     <string name="TransToLang">Цільова мова</string>
     <string name="TransInputToLang">Перекладати з</string>

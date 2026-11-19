@@ -114,7 +114,6 @@
     <string name="DoubleTapOutgoing">Tin nhắn đi</string>
     <string name="TgBrowserOpenFail">Trình duyệt trong ứng dụng không khả dụng</string>
     <string name="TgBrowserOpenFail_Desc">Thao tác đã chọn không khả dụng vì trình duyệt trong ứng dụng đã bị tắt.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">Chế độ Ghost</string>
     <string name="GhostEssentialsHeader">Cơ bản về Ghost</string>
     <string name="EnableGhostMode">Bật Ghost</string>

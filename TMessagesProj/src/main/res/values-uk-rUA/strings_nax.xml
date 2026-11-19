@@ -123,7 +123,6 @@
     <string name="DoubleTapOutgoing">Вихідні повідомлення</string>
     <string name="TgBrowserOpenFail">Вбудований Браузер недоступний</string>
     <string name="TgBrowserOpenFail_Desc">Вибрана операція недоступна, оскільки вбудований браузер вимкнено.</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">Режим привида</string>
     <string name="GhostEssentialsHeader">Налаштування привида</string>
     <string name="EnableGhostMode">Увімкнути привида</string>

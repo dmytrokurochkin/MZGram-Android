@@ -122,7 +122,6 @@
     <string name="DoubleTapOutgoing">傳送的訊息</string>
     <string name="TgBrowserOpenFail">應用內瀏覽器不可用</string>
     <string name="TgBrowserOpenFail_Desc">由於應用內瀏覽器已被停用，所選操作不可用。</string>
-    <string name="MapPreviewProviderYandexNax">Yandex</string>
     <string name="GhostMode">幽靈模式</string>
     <string name="GhostEssentialsHeader">幽靈選項</string>
     <string name="EnableGhostMode">啟用幽靈模式</string>

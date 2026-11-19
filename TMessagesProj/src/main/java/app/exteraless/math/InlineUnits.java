@@ -37,8 +37,14 @@ final class InlineUnits {
             return (value - offset) / scale;
         }
 
-        String label(boolean cyrillic) {
-            return cyrillic ? cyrillicLabel : label;
+        String label(InlineOptions options) {
+            if (options.ukrainian) {
+                String ukrainian = UKRAINIAN_LABELS.get(code);
+                if (ukrainian != null) {
+                    return ukrainian;
+                }
+            }
+            return options.cyrillicLabels ? cyrillicLabel : label;
         }
     }
 
@@ -56,6 +62,8 @@ final class InlineUnits {
     private static final Map<String, String> WORDS = new HashMap<>();
     private static final Map<String, String> COUNTERPARTS = new HashMap<>();
     private static final Map<String, String> COMPOUNDS = new HashMap<>();
+    /** Ukrainian short forms where they differ from the Cyrillic labels below. */
+    private static final Map<String, String> UKRAINIAN_LABELS = new HashMap<>();
     private static final Map<String, Ladder> LADDERS = new HashMap<>();
     private static final String[] BREAKDOWN = {"d", "h", "min", "s"};
 
@@ -123,6 +131,14 @@ final class InlineUnits {
         unit("mo", "mo", "мес", Kind.DURATION, 2592000, 0, null, "mo", "month", "months", "мес", "месяц", "месяца", "месяцев", "месяцах", "місяць", "місяці", "місяців");
         unit("y", "y", "г.", Kind.DURATION, 31536000, 0, null, "y", "yr", "yrs", "year", "years", "год", "года", "лет", "годах", "рік", "роки", "років");
 
+        UKRAINIAN_LABELS.put("kmh", "км/год");
+        UKRAINIAN_LABELS.put("knot", "вуз");
+        UKRAINIAN_LABELS.put("h", "год");
+        UKRAINIAN_LABELS.put("min", "хв");
+        UKRAINIAN_LABELS.put("w", "тиж");
+        UKRAINIAN_LABELS.put("mo", "міс");
+        UKRAINIAN_LABELS.put("y", "р.");
+
         COMPOUNDS.put("km/h", "kmh");
         COMPOUNDS.put("км/ч", "kmh");
         COMPOUNDS.put("км/год", "kmh");
@@ -147,6 +163,13 @@ final class InlineUnits {
     static Unit word(String word) {
         String code = WORDS.get(word.toLowerCase(Locale.ROOT));
         return code == null ? null : UNITS.get(code);
+    }
+
+    static Unit word(String word, InlineOptions options) {
+        if (options != null && options.ukrainian && "год".equals(word.toLowerCase(Locale.ROOT))) {
+            return UNITS.get("h");
+        }
+        return word(word);
     }
 
     static Unit compound(String first, char separator, String second) {
@@ -222,7 +245,7 @@ final class InlineUnits {
                 return null;
             }
             only = "s";
-            parts.add(text + ' ' + UNITS.get("s").label(options.cyrillicLabels));
+            parts.add(text + ' ' + UNITS.get("s").label(options));
         } else {
             long left = Math.round(abs);
             for (String code : BREAKDOWN) {
@@ -232,7 +255,7 @@ final class InlineUnits {
                 if (count > 0) {
                     left -= count * scale;
                     only = code;
-                    parts.add(count + " " + part.label(options.cyrillicLabels));
+                    parts.add(count + " " + part.label(options));
                 }
             }
         }

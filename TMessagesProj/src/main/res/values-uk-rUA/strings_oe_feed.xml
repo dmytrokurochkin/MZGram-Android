@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Feed">Стрічка</string>
+    <string name="FeedAllChannelsExcluded">Усі канали виключено зі стрічки.</string>
+    <string name="FeedBottomTab">Показувати в нижніх вкладках</string>
+    <string name="FeedBottomTabInfo">Стрічка як вкладка нижньої навігації замість «Контактів».</string>
+    <string name="FeedChannelHidden">**%1$s** приховано зі стрічки</string>
+    <string name="FeedChannels">Канали</string>
+    <string name="FeedChannelsInfo">Зніміть позначку з каналу, щоб сховати його дописи зі стрічки. Нові канали показуються автоматично.</string>
+    <string name="FeedHiddenChannels">Приховані</string>
+    <string name="FeedHideChannel">Сховати зі стрічки</string>
+    <string name="FeedUnreadCounter">Лічильник непрочитаних дописів</string>
+    <string name="FeedIncludeArchived">Чати з архіву</string>
+    <string name="FeedIncludeArchivedInfo">Додавати до стрічки також канали з архіву.</string>
+    <string name="FeedMarkAllRead">Позначити всі прочитаними</string>
+    <string name="FeedMarkAllReadConfirm">Позначити всі дописи в каналах стрічки прочитаними? Їх також буде позначено прочитаними в самих каналах.</string>
+    <string name="FeedMarkAllReadDone">Усі дописи позначено прочитаними</string>
+    <string name="FeedNoPosts">Дописів каналів ще немає.</string>
+    <string name="FeedSettings">Налаштування стрічки</string>
+    <string name="FeedShownChannels">Показуються в стрічці</string>
+    <string name="HideFeedTab">Сховати вкладку «Стрічка»</string>
+    <string name="FeedAddNewChannels">Додавати нові канали</string>
+    <string name="FeedAddNewChannelsOnInfo">Нові канали, на які ви підписуєтеся, з\'являються в стрічці автоматично.</string>
+    <string name="FeedAddNewChannelsOffInfo">Нові канали приховані, доки ви не позначите їх нижче.</string>
+    <string name="FeedCategories">Категорії</string>
+    <string name="FeedCategoriesInfo">Категорії — це вкладки вгорі стрічки. Перетягніть, щоб змінити порядок; торкніться ока, щоб сховати вкладку.</string>
+    <string name="FeedCategoryAddChannels">Додати канали</string>
+    <string name="FeedCategoryChannelsInfo">Дописи вибраних каналів з\'являються, коли відкрито цю категорію, навіть якщо канал приховано з «Усіх». Канал може бути в кількох категоріях.</string>
+    <string name="FeedCategoryCreate">Створити категорію</string>
+    <string name="FeedCategoryDelete">Видалити категорію</string>
+    <string name="FeedCategoryDeleteConfirm">Видалити категорію **%1$s**? Її канали залишаться в стрічці.</string>
+    <string name="FeedCategoryEdit">Змінити категорію</string>
+    <string name="FeedCategoryEmpty">У цій категорії немає каналів.</string>
+    <string name="FeedCategoryEmptyInfo">Додайте до неї канали, і їхні дописи з\'являться тут.</string>
+    <string name="FeedCategoryHiddenInfo">**%1$s** приховано. Показати знову можна в налаштуваннях стрічки.</string>
+    <string name="FeedCategoryHide">Сховати категорію</string>
+    <string name="FeedCategoryName">Назва категорії</string>
+    <string name="FeedCategoryNew">Нова категорія</string>
+    <string name="FeedCategoryShow">Показати категорію</string>
+    <string name="FeedCategoryUnsavedChanges">Ви змінили цю категорію. Зберегти зміни?</string>
+    <string name="FeedHiddenFromAll">Приховані з «Усіх»</string>
+    <string name="FeedAllChannelsExcludedInfo">Приховані канали все одно з\'являються у своїх категоріях.</string>
+</resources>

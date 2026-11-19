@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="OEGlyphTitle">Nothing Glyph</string>
+    <string name="OEGlyphEnable">Glyph Interface</string>
+    <string name="OEGlyphNewMessage">Спалах на нові повідомлення</string>
+    <string name="OEGlyphCalls">Світіння під час вхідних дзвінків</string>
+    <string name="OEGlyphRecording">Світіння під час запису</string>
+    <string name="OEGlyphScreenOff">Повідомлення лише при вимкненому екрані</string>
+    <string name="OEGlyphPreview">Перегляд</string>
+    <string name="OEGlyphUnsupported">Glyph Interface є лише на телефонах Nothing</string>
+    <string name="OEGlyphInfo">Вмикає Glyph Interface на задній панелі телефону Nothing: спалах на вхідні повідомлення, логотип MZGram на Glyph Matrix у Phone (3) і «дихальне» світіння під час запису голосових чи вхідного дзвінка. Вимкнені чати ніколи не викликають спалаху.</string>
+</resources>

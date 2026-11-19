@@ -5882,6 +5882,30 @@ public class Theme {
         }
     }
 
+    /** MZGram: the tiles of the Material You themes follow the wallpaper or the picked colour. */
+    private static void mzRefreshMonetPreview(ThemeInfo info) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            return;
+        }
+        switch (info.name) {
+            case "Monet Light":
+                info.previewBackgroundColor = MonetHelper.getColor("surface_light");
+                info.previewInColor = MonetHelper.getColor("neutral_95");
+                info.previewOutColor = MonetHelper.getColor("primary_container_light");
+                break;
+            case "Monet Dark":
+                info.previewBackgroundColor = MonetHelper.getColor("surface_dark");
+                info.previewInColor = MonetHelper.getColor("neutral_20");
+                info.previewOutColor = MonetHelper.getColor("primary_dark");
+                break;
+            case "Monet AMOLED":
+                info.previewBackgroundColor = MonetHelper.getColor("black");
+                info.previewInColor = MonetHelper.getColor("neutral_10");
+                info.previewOutColor = MonetHelper.getColor("primary_dark");
+                break;
+        }
+    }
+
     public static void reloadMonetThemes() {
         String[][] pairs = {
                 {"Monet Light", "monet_light"},
@@ -5895,6 +5919,7 @@ public class Theme {
                 continue;
             }
             info.assetName = monetAssetName(pair[1]);
+            mzRefreshMonetPreview(info);
             if (info == currentTheme) {
                 current = true;
             }

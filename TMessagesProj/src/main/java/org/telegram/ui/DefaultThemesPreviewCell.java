@@ -466,7 +466,9 @@ public class DefaultThemesPreviewCell extends LinearLayout implements Theme.Colo
                 dayNightCell.setColors(-1, Theme.key_windowBackgroundWhiteBlueText4);
             }
             if (browseThemesCell != null) {
-                final int backgroundColor = Theme.getColor(Theme.key_windowBackgroundWhite);
+                // MZGram: see-through like the day/night row above it. A filled page colour made a darker
+                // band where the section card is a tone above the page (Material surfaces in dark themes).
+                final int backgroundColor = 0;
                 final int selectorColor = Theme.getColor(Theme.key_listSelector);
                 final android.graphics.drawable.Drawable bg = browseThemesBackground;
                 if (bg instanceof android.graphics.drawable.RippleDrawable && browseThemesCell.getBackground() == bg

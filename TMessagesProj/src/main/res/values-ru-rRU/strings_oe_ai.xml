@@ -56,4 +56,7 @@
     <string name="OEAiReplaceSummaries">Краткие сводки</string>
     <string name="OEAiReplaceSummariesInfo">Краткое содержание длинных сообщений и постов</string>
     <string name="OEAiTelegramInfo">Выбранные функции работают через ваш ИИ-сервис вместо серверов Telegram и без ограничений Premium.</string>
+    <string name="OEAiRoleAssistant">Ассистент</string>
+    <string name="OEAiRoleSummarizer">Пересказ</string>
+    <string name="OEAiRoleProofreader">Корректор</string>
 </resources>

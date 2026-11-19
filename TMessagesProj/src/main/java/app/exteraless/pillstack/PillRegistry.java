@@ -43,14 +43,25 @@ public class PillRegistry {
     public static class PillInfo {
         public final int id;
         public final CharSequence name;
+        /** MZGram: the name's string, read on every call so a language switch renames the pill at once. */
+        public final int nameRes;
         public final int iconRes;
         public final int iconColorTop;
         public final int iconColorBottom;
         public final PillCreator creator;
 
         public PillInfo(int id, CharSequence name, int iconRes, int iconColorTop, int iconColorBottom, PillCreator creator) {
+            this(id, name, 0, iconRes, iconColorTop, iconColorBottom, creator);
+        }
+
+        public PillInfo(int id, int nameRes, int iconRes, int iconColorTop, int iconColorBottom, PillCreator creator) {
+            this(id, LocaleController.getString(nameRes), nameRes, iconRes, iconColorTop, iconColorBottom, creator);
+        }
+
+        private PillInfo(int id, CharSequence name, int nameRes, int iconRes, int iconColorTop, int iconColorBottom, PillCreator creator) {
             this.id = id;
             this.name = name;
+            this.nameRes = nameRes;
             this.iconRes = iconRes;
             this.iconColorTop = iconColorTop;
             this.iconColorBottom = iconColorBottom;
@@ -62,7 +73,7 @@ public class PillRegistry {
         }
 
         public CharSequence name() {
-            return name;
+            return nameRes != 0 ? LocaleController.getString(nameRes) : name;
         }
 
         public int iconRes() {
@@ -93,35 +104,35 @@ public class PillRegistry {
 
     /** Цвета берутся из общей палитры {@link IconBackgroundColors}, а не подбираются на глаз. */
     private static void registerDefaultPills() {
-        register(new PillInfo(PillType.WEATHER.id, LocaleController.getString(R.string.PillStackWeather),
+        register(new PillInfo(PillType.WEATHER.id, R.string.PillStackWeather,
                 R.drawable.weather_cloudy,
                 IconBackgroundColors.BLUE_ALT.top, IconBackgroundColors.BLUE_ALT.bottom,
                 WeatherPill::new));
-        register(new PillInfo(PillType.CACHE.id, LocaleController.getString(R.string.StorageUsage),
+        register(new PillInfo(PillType.CACHE.id, R.string.StorageUsage,
                 R.drawable.msg_filled_storageusage,
                 IconBackgroundColors.BLUE_DEEP.top, IconBackgroundColors.BLUE_DEEP.bottom,
                 CachePill::new));
-        register(new PillInfo(PillType.PROXY.id, LocaleController.getString(R.string.PillStackProxy),
+        register(new PillInfo(PillType.PROXY.id, R.string.PillStackProxy,
                 R.drawable.drawer_proxy_on,
                 IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom,
                 ProxyPill::new));
-        register(new PillInfo(PillType.GHOST.id, LocaleController.getString(R.string.GhostMode),
+        register(new PillInfo(PillType.GHOST.id, R.string.GhostMode,
                 R.drawable.ayu_ghost,
                 IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom,
                 GhostPill::new));
-        register(new PillInfo(PillType.LAST_SEEN.id, LocaleController.getString(R.string.PillStackLastSeen),
+        register(new PillInfo(PillType.LAST_SEEN.id, R.string.PillStackLastSeen,
                 R.drawable.msg_online,
                 IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom,
                 LastSeenPill::new));
-        register(new PillInfo(PillType.RAM.id, LocaleController.getString(R.string.PillStackRam),
+        register(new PillInfo(PillType.RAM.id, R.string.PillStackRam,
                 R.drawable.pillstack_ram,
                 IconBackgroundColors.CYAN.top, IconBackgroundColors.CYAN.bottom,
                 RamPill::new));
-        register(new PillInfo(PillType.NET_SPEED.id, LocaleController.getString(R.string.PillStackNetSpeed),
+        register(new PillInfo(PillType.NET_SPEED.id, R.string.PillStackNetSpeed,
                 R.drawable.pillstack_netspeed,
                 IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom,
                 NetSpeedPill::new));
-        register(new PillInfo(PillType.DC_PING.id, LocaleController.getString(R.string.PillStackDcPing),
+        register(new PillInfo(PillType.DC_PING.id, R.string.PillStackDcPing,
                 R.drawable.pillstack_ping,
                 IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom,
                 DcPingPill::new));

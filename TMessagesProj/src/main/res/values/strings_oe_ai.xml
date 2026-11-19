@@ -56,4 +56,7 @@
     <string name="OEAiReplaceSummaries">Summaries</string>
     <string name="OEAiReplaceSummariesInfo">Summarize long messages and posts</string>
     <string name="OEAiTelegramInfo">Selected features use your AI service instead of Telegram servers, without Premium limits.</string>
+    <string name="OEAiRoleAssistant">Assistant</string>
+    <string name="OEAiRoleSummarizer">Summarizer</string>
+    <string name="OEAiRoleProofreader">Proofreader</string>
 </resources>

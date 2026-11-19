@@ -56,4 +56,7 @@
     <string name="OEAiReplaceSummaries">Қысқаша мазмұн</string>
     <string name="OEAiReplaceSummariesInfo">Ұзын хабарлар мен жазбалардың қысқаша мазмұны</string>
     <string name="OEAiTelegramInfo">Таңдалған мүмкіндіктер Telegram серверлерінің орнына сіздің AI қызметіңізді Premium шектеулерінсіз пайдаланады.</string>
+    <string name="OEAiRoleAssistant">Көмекші</string>
+    <string name="OEAiRoleSummarizer">Түйіндеме</string>
+    <string name="OEAiRoleProofreader">Түзетуші</string>
 </resources>

@@ -56,4 +56,7 @@
     <string name="OEAiReplaceSummaries">Zusammenfassungen</string>
     <string name="OEAiReplaceSummariesInfo">Lange Nachrichten und Beiträge zusammenfassen</string>
     <string name="OEAiTelegramInfo">Ausgewählte Funktionen nutzen deinen KI-Dienst statt der Telegram-Server, ohne Premium-Grenzen.</string>
+    <string name="OEAiRoleAssistant">Assistent</string>
+    <string name="OEAiRoleSummarizer">Zusammenfassung</string>
+    <string name="OEAiRoleProofreader">Korrektor</string>
 </resources>

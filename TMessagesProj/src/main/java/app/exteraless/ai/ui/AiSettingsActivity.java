@@ -570,7 +570,7 @@ public class AiSettingsActivity extends BaseNekoSettingsActivity {
         String selected = AiController.getSelectedRole().getName();
         for (Role role : AiController.getAllRoles()) {
             boolean current = TextUtils.equals(role.getName(), selected);
-            list.addView(optionRow(context, role.getName(), role.getPrompt(), null, current,
+            list.addView(optionRow(context, role.getDisplayName(), role.getPrompt(), null, current,
                     v -> {
                         dialog.dismiss();
                         AiConfig.setSelectedAiRole(role);
@@ -897,7 +897,7 @@ public class AiSettingsActivity extends BaseNekoSettingsActivity {
                         cell.setDrawLoading(testRequestId != null, 20, true);
                     } else if (position == roleRow) {
                         cell.setTextAndValue(getString(R.string.OEAiRole),
-                                AiController.getSelectedRole().getName(), true);
+                                AiController.getSelectedRole().getDisplayName(), true);
                     } else if (position == clearHistoryRow) {
                         cell.setText(getString(R.string.OEAiClearHistory), false);
                         cell.setTextColor(getThemedColor(Theme.key_text_RedRegular));

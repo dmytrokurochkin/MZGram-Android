@@ -31,7 +31,7 @@
     <string name="ZalgoFilterNotice">Всі \"Z̷͍͌ā̸̜l̸̞̂g̷̝͘o̶̩̓\" символи в нікнеймах або повідомленнях буде видалено.</string>
     <string name="AlwaysShowDownloadIcon">Завжди показувати значок завантаження</string>
     <string name="HideTitle">Сховати заголовок</string>
-    <string name="IgnoreUnreadCount">Приховати кількість непрочитаних</string>
+    <string name="IgnoreUnreadCount">Сховати кількість непрочитаних</string>
     <string name="SendWithoutMarkdown">Відправити без форматування</string>
     <string name="SendAsEmoji">Відправити як емоджі</string>
     <string name="CustomEditedMessage">Підпис змінених повідомлень</string>
@@ -43,7 +43,7 @@
     <string name="DoActionsInCommonGroups">Застосувати у спільних групах</string>
     <string name="ShowFullAbout">Завжди розгортати опис чату</string>
     <string name="TypeMessageHintUseGroupName">Назва групи як текст підказки у полі введення</string>
-    <string name="HideBotButtonInInputField">Приховати кнопку бота в полі вводу</string>
+    <string name="HideBotButtonInInputField">Сховати кнопку бота в полі вводу</string>
     <string name="ShowSendAsUnderMessageHint">Показувати відправника у полі введення</string>
     <string name="CheckAllForum">Додати форум</string>
     <string name="DecorationNone">Не обрано</string>
@@ -59,7 +59,7 @@
     <string name="TipsChannel">Канал з порадами щодо функцій</string>
     <string name="ShowSmallGIF">Маленькі GIF</string>
     <string name="DisableClickCommandToSend">Запитувати перед відправленням команди бота</string>
-    <string name="DisableDialogsFloatingButton">Приховати плаваючу кнопку</string>
+    <string name="DisableDialogsFloatingButton">Сховати плаваючу кнопку</string>
     <string name="CenterActionBarTitleType">Заголовок по центру</string>
     <string name="ShowQuickReplyInBotCommands">Показувати швидку відповідь у командах бота</string>
     <string name="PushServiceType">Служба Push-сповіщень</string>
@@ -68,7 +68,7 @@
     <string name="SendMp4DocumentAsVideo">Надіслати MP4 «без стиснення» як відео</string>
     <string name="StickersChooseShortNameForStickerPack">Виберіть коротке ім\'я для свого набору.</string>
     <string name="StickersCopyStickerSet">Копіювати набір наліпок</string>
-    <string name="DisableChannelMuteButton">Приховати нижню панель у каналах</string>
+    <string name="DisableChannelMuteButton">Сховати нижню панель у каналах</string>
     <string name="DisablePreviewVideoSoundShortcut">Вимкнути вмикання звуку відео кнопками гучності</string>
     <string name="DisablePreviewVideoSoundShortcutNotice">Не вмикати звук у прев\'ю відео кнопкою гучності.</string>
     <string name="PreviewSendPhoto">Надіслати фото</string>

@@ -56,4 +56,7 @@
     <string name="OEAiReplaceSummaries">الملخصات</string>
     <string name="OEAiReplaceSummariesInfo">تلخيص الرسائل والمنشورات الطويلة</string>
     <string name="OEAiTelegramInfo">تستخدم الميزات المحددة خدمة الذكاء الاصطناعي الخاصة بك بدلاً من خوادم Telegram، ومن دون قيود Premium.</string>
+    <string name="OEAiRoleAssistant">مساعد</string>
+    <string name="OEAiRoleSummarizer">ملخِّص</string>
+    <string name="OEAiRoleProofreader">مدقّق لغوي</string>
 </resources>

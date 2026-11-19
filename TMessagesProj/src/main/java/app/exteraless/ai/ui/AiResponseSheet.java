@@ -172,7 +172,7 @@ public class AiResponseSheet extends BottomSheet {
         titleView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         titleView.setSingleLine(true);
         titleView.setEllipsize(TextUtils.TruncateAt.END);
-        titleView.setText(AiController.getSelectedRole().getName());
+        titleView.setText(AiController.getSelectedRole().getDisplayName());
         titles.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT,
                 LayoutHelper.WRAP_CONTENT));
 

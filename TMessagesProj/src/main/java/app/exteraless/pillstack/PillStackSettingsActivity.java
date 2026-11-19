@@ -425,7 +425,7 @@ public class PillStackSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     PillRegistry.PillInfo info = id == -1 ? null : PillRegistry.getPillInfo(id);
                     if (info != null) {
-                        cell.setTextAndValueAndColorfulIcon(info.name.toString(), "", false,
+                        cell.setTextAndValueAndColorfulIcon(info.name().toString(), "", false,
                                 info.iconRes, info.iconColorTop, info.iconColorBottom, divider);
                         cell.setImageLeft(21);
                         cell.setOffsetFromImage(65);

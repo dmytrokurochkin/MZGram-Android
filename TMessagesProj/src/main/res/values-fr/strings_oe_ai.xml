@@ -56,4 +56,7 @@
     <string name="OEAiReplaceSummaries">Résumés</string>
     <string name="OEAiReplaceSummariesInfo">Résumer les longs messages et publications</string>
     <string name="OEAiTelegramInfo">Les fonctions choisies utilisent votre service IA au lieu des serveurs Telegram, sans limites Premium.</string>
+    <string name="OEAiRoleAssistant">Assistant</string>
+    <string name="OEAiRoleSummarizer">Résumé</string>
+    <string name="OEAiRoleProofreader">Correcteur</string>
 </resources>

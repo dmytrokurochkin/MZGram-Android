@@ -56,4 +56,7 @@
     <string name="OEAiReplaceSummaries">Падсумкі</string>
     <string name="OEAiReplaceSummariesInfo">Кароткі змест доўгіх паведамленняў і допісаў</string>
     <string name="OEAiTelegramInfo">Выбраныя функцыі выкарыстоўваюць ваш AI-сэрвіс замест сервераў Telegram, без абмежаванняў Premium.</string>
+    <string name="OEAiRoleAssistant">Асістэнт</string>
+    <string name="OEAiRoleSummarizer">Падсумкі</string>
+    <string name="OEAiRoleProofreader">Карэктар</string>
 </resources>

@@ -21,6 +21,24 @@ public class Role implements Comparable<Role>, Serializable {
         return name;
     }
 
+    /**
+     * MZGram: the name shown on screen. The built-in roles keep their English name as the stored key
+     * (the selected role is saved by name), only the label follows the app language.
+     */
+    public String getDisplayName() {
+        if (suggestion && name != null) {
+            switch (name) {
+                case "Assistant":
+                    return org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.OEAiRoleAssistant);
+                case "Summarizer":
+                    return org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.OEAiRoleSummarizer);
+                case "Proofreader":
+                    return org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.OEAiRoleProofreader);
+            }
+        }
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

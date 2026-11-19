@@ -56,4 +56,7 @@
     <string name="OEAiReplaceSummaries">Özetler</string>
     <string name="OEAiReplaceSummariesInfo">Uzun mesajları ve gönderileri özetle</string>
     <string name="OEAiTelegramInfo">Seçilen özellikler Telegram sunucuları yerine kendi yapay zekâ hizmetinizi kullanır, Premium sınırları olmadan.</string>
+    <string name="OEAiRoleAssistant">Asistan</string>
+    <string name="OEAiRoleSummarizer">Özetleyici</string>
+    <string name="OEAiRoleProofreader">Düzeltmen</string>
 </resources>

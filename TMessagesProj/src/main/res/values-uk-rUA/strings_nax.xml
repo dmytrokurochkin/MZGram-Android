@@ -112,7 +112,7 @@
     <string name="DontAutoPlayNextVoice">Не відтворювати наступне голосове повідомлення</string>
     <string name="SaveToChatSubfolder">Зберегти вкладення від назви чату</string>
     <string name="MessageColoredBackground">Кольорове тло повідомлень</string>
-    <string name="ColoredBackgroundNotice">Колір фону та емодзі для відповідей, цитат і попереднього перегляду посилань.</string>
+    <string name="ColoredBackgroundNotice">Колір фону та емоджі для відповідей, цитат і попереднього перегляду посилань.</string>
     <string name="ChatMenu">Меню чату</string>
     <string name="MediaViewerMenu">Меню Медіа</string>
     <string name="MenuAndButtons">Меню та кнопки</string>
@@ -219,7 +219,7 @@
     <string name="PremiumItemBoosts">Лічильник бустів</string>
     <string name="PremiumItemStickerEffects">Ефекти наклейок</string>
     <string name="PremiumItemEmojiStatus">Емоджі-статуси</string>
-    <string name="PremiumItemEmojiInReplies">Емодзі у відповідях</string>
+    <string name="PremiumItemEmojiInReplies">Емоджі у відповідях</string>
     <string name="PremiumItemCustomColorInReplies">Користувацькі кольори</string>
     <string name="PremiumItemStarInReactions">Зірка у реакціях</string>
     <string name="PremiumItemVideoAvatar">Анімовані аватари</string>
@@ -249,7 +249,7 @@
     <string name="PinnedReactions_Description">Ви можете закріпити реакції з будь-якого пакету.</string>
     <string name="PinnedReactions_Description_Channels">Ви можете закріпити лише реакції за замовчуванням.</string>
     <string name="PinnedReactions_Limit">Ви можете вибрати до %d реакцій.</string>
-    <string name="PinnedReactions_Type">Цей емодзі не підтримується.</string>
+    <string name="PinnedReactions_Type">Це емоджі не підтримується.</string>
     <string name="PinnedReactions_Apply">Оновити закріплені реакції</string>
     <string name="HideStoriesFromHeader">Приховати з заголовка</string>
     <string name="DisableAvatarBlur">Вимкнути розмиття аватара</string>
@@ -316,8 +316,8 @@
     <string name="MainTabsHideContacts">Приховати вкладку «Контакти»</string>
     <string name="PasscodeShowMessagePreviewWhenLocked">Показувати попередній перегляд повідомлень</string>
     <string name="PasscodeShowMessagePreviewWhenLockedAbout">Показувати вміст сповіщень навіть під час блокування паролем.</string>
-    <string name="StickerSavedHint">Стікер збережено в галереї.</string>
-    <string name="StickerCopied">Стікер скопійовано в буфер обміну.</string>
+    <string name="StickerSavedHint">Наліпку збережено в галереї.</string>
+    <string name="StickerCopied">Наліпку скопійовано в буфер обміну.</string>
     <string name="StrokeOnViews">Ефекти відблисків</string>
     <string name="HideBottomNavigationBar">Приховати нижню панель навігації</string>
     <string name="TranslatorMode">З оригінальним текстом</string>
@@ -336,4 +336,16 @@
     <string name="ImportAyuDB">Імпорт бази даних</string>
     <string name="ImportAyuDBAlert">Поточну базу даних повідомлень буде замінено. Після імпорту програма перезапуститься.</string>
     <string name="DisableSwipeToNext">Вимкнути свайп вперед</string>
+    <string name="XChannel">Канал розробника</string>
+    <string name="DeletedMarkColor">Колір позначки видаленого</string>
+    <string name="DeletedMarkColorDefault">Типовий</string>
+    <string name="SaveDeletedExceptionsMode">Винятки для видалених повідомлень</string>
+    <string name="SaveEditedExceptionsMode">Винятки для історії редагувань</string>
+    <string name="SaveExceptionsAllExceptSelected">Усі, крім вибраних</string>
+    <string name="SaveExceptionsOnlySelected">Лише вибрані</string>
+    <string name="SaveExceptionsIncluded">Зберігати</string>
+    <string name="SaveEditedExclusionMenu">Зберігати редагування</string>
+    <string name="UnifiedPushNeverReceivedNotifications">Від запуску застосунку через UnifiedPush не надійшло жодного сповіщення.</string>
+    <string name="UnifiedPushLastReceivedNotification">Останнє сповіщення через UnifiedPush надійшло %1$d с тому.\n\nВід запуску застосунку надійшло сповіщень: %2$d.</string>
+    <string name="ForceFontWeightFallback">Примусова заміна товщини шрифту</string>
 </resources>

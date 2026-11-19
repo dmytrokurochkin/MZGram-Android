@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="OEBotPrivacyEnabled">Cuenta elegida para bots</string>
+    <string name="OEBotPrivacyAccount">Cuenta para bots</string>
+    <string name="OEBotPrivacySelect">Elegir cuenta</string>
+    <string name="OEBotPrivacyChoose">Elige la cuenta para este bot. Las conversaciones existentes mantienen su cuenta original.</string>
+    <string name="OEBotPrivacyInfo">Las nuevas conversaciones privadas con bots usarán esta cuenta. Los bots con los que ya hablaste seguirán usando su cuenta original. Esto separa las cuentas, pero no te hace anónimo ni revoca la información ya compartida. Los grupos, el modo inline, el menú de adjuntos y la autenticación mantienen su propia cuenta.</string>
+    <string name="OEBotPrivacyUnavailable">La cuenta para bots no está disponible. Elige otra cuenta o desactiva la función y vuelve a abrir el bot. No se envió ningún mensaje.</string>
+    <string name="OEBotPrivacyFailed">No se pudo elegir una cuenta de forma segura para este bot. Comprueba tu conexión y vuelve a abrir el bot. Si este chat ya estaba abierto cuando cambiaste el ajuste, vuelve a abrirlo antes de enviar. No se envió ningún mensaje.</string>
+    <string name="OEBotPrivacyOpened">Abierto con %1$s</string>
+    <string name="OEBotPrivacyReady">Cuenta comprobada. Toca Enviar otra vez para enviar tu mensaje.</string>
+    <string name="OEBotPrivacyAlwaysAsk">Preguntar siempre</string>
+    <string name="OEBotPrivacyAlwaysAskInfo">Preguntar qué cuenta usar en cada nueva conversación privada con un bot. Las conversaciones existentes mantienen su cuenta original.</string>
+    <string name="OEBotPrivacyAskPrivacyInfo">Elegir una cuenta no te hace anónimo ni revoca la información ya compartida. Los grupos, el modo inline, el menú de adjuntos y la autenticación mantienen su propia cuenta.</string>
+    <string name="OEBotPrivacyOff">Cuenta actual</string>
+</resources>

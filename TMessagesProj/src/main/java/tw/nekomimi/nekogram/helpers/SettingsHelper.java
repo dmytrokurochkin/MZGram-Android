@@ -429,12 +429,29 @@ public class SettingsHelper {
         return resolved(capitalized);
     }
 
+    /** Titles that are templates, with the word their screen puts in, so summaries and search read like the row. */
+    private static final Map<String, String> TITLE_ARGS = new HashMap<>();
+
+    static {
+        TITLE_ARGS.put("OEChatsReplaceEditedWithIcon", "EditedMessage");
+        TITLE_ARGS.put("OEChatsHideShareButton", "ShareFile");
+        TITLE_ARGS.put("OEChatsHideMoneyButton", "WalletAttachMoney");
+        TITLE_ARGS.put("OEAppearanceHideAllChats", "FilterAllChats");
+    }
+
     private static String resolved(String name) {
         if (LocaleController.getStringResId(name) == 0) {
             return null;
         }
         String value = getString(name);
-        return value == null || value.isEmpty() ? null : value;
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        String arg = TITLE_ARGS.get(name);
+        if (arg != null && value.contains("%1$s")) {
+            value = value.replace("%1$s", getString(arg));
+        }
+        return value;
     }
 
     public interface Callback {

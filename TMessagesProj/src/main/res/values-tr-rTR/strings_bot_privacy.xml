@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="OEBotPrivacyEnabled">Botlar için seçili hesap</string>
+    <string name="OEBotPrivacyAccount">Botlar için hesap</string>
+    <string name="OEBotPrivacySelect">Hesap seç</string>
+    <string name="OEBotPrivacyChoose">Bu bot için hesabı seçin. Mevcut sohbetler kendi hesaplarında kalır.</string>
+    <string name="OEBotPrivacyInfo">Botlarla yeni özel sohbetler bu hesabı kullanır. Daha önce yazıştığınız botlar kendi hesaplarını kullanmaya devam eder. Bu, hesapları ayırır; sizi anonim yapmaz ve önceden paylaşılan bilgileri geri almaz. Gruplar, satır içi mod, ek menüsü ve kimlik doğrulama kendi hesaplarını kullanır.</string>
+    <string name="OEBotPrivacyUnavailable">Botlar için hesap kullanılamıyor. Başka bir hesap seçin veya özelliği kapatın, ardından botu yeniden açın. Mesaj gönderilmedi.</string>
+    <string name="OEBotPrivacyFailed">Bu bot için güvenli şekilde hesap seçilemedi. Bağlantınızı kontrol edip botu yeniden açın. Ayarı değiştirdiğinizde bu sohbet açıksa, göndermeden önce yeniden açın. Mesaj gönderilmedi.</string>
+    <string name="OEBotPrivacyOpened">%1$s ile açıldı</string>
+    <string name="OEBotPrivacyReady">Hesap kontrol edildi. Mesajınızı göndermek için Gönder’e yeniden dokunun.</string>
+    <string name="OEBotPrivacyAlwaysAsk">Her zaman sor</string>
+    <string name="OEBotPrivacyAlwaysAskInfo">Botla her yeni özel sohbette hangi hesabın kullanılacağını sor. Mevcut sohbetler kendi hesaplarında kalır.</string>
+    <string name="OEBotPrivacyAskPrivacyInfo">Hesap seçmek sizi anonim yapmaz ve önceden paylaşılan bilgileri geri almaz. Gruplar, satır içi mod, ek menüsü ve kimlik doğrulama kendi hesaplarını kullanır.</string>
+    <string name="OEBotPrivacyOff">Geçerli hesap</string>
+</resources>

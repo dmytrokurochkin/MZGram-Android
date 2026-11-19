@@ -33,7 +33,7 @@
     <string name="HideTitle">Сховати заголовок</string>
     <string name="IgnoreUnreadCount">Приховати кількість непрочитаних</string>
     <string name="SendWithoutMarkdown">Відправити без форматування</string>
-    <string name="SendAsEmoji">Відправити як емодзі</string>
+    <string name="SendAsEmoji">Відправити як емоджі</string>
     <string name="CustomEditedMessage">Підпис змінених повідомлень</string>
     <string name="NotificationIcon">Значок сповіщень</string>
     <string name="Official">Офіційний</string>
@@ -103,4 +103,6 @@
     <string name="VideoPlayerDecoderPreferSW">Перевага програмному</string>
     <string name="VideoPlayerDecoderHardware">Тільки апаратне декодування</string>
     <string name="VideoPlayerDecoderPreferHW">Перевага HW</string>
+    <string name="CustomTitleHint">Залиште порожнім, щоб показувати MZGram</string>
+    <string name="PushServiceTypeUnifiedGateway">Шлюз Unified Push</string>
 </resources>

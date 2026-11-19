@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="OEBotPrivacyEnabled">حساب مختار للبوتات</string>
+    <string name="OEBotPrivacyAccount">حساب البوتات</string>
+    <string name="OEBotPrivacySelect">اختيار حساب</string>
+    <string name="OEBotPrivacyChoose">اختر الحساب لهذا البوت. تبقى المحادثات الحالية على حساباتها الأصلية.</string>
+    <string name="OEBotPrivacyInfo">ستستخدم المحادثات الخاصة الجديدة مع البوتات هذا الحساب. ستواصل البوتات التي تواصلت معها سابقًا استخدام حساباتها الأصلية. يفصل هذا بين الحسابات، لكنه لا يجعلك مجهول الهوية ولا يلغي المعلومات التي سبقت مشاركتها. تحتفظ المجموعات والوضع المضمّن وقائمة المرفقات وتسجيل الدخول بحساباتها الخاصة.</string>
+    <string name="OEBotPrivacyUnavailable">حساب البوتات غير متاح. اختر حسابًا آخر أو عطّل الميزة، ثم افتح البوت مجددًا. لم تُرسل أي رسالة.</string>
+    <string name="OEBotPrivacyFailed">تعذّر اختيار حساب لهذا البوت بأمان. تحقق من اتصالك وافتح البوت مجددًا. إذا كانت هذه المحادثة مفتوحة عند تغيير الإعداد، فأعد فتحها قبل الإرسال. لم تُرسل أي رسالة.</string>
+    <string name="OEBotPrivacyOpened">فُتح باستخدام %1$s</string>
+    <string name="OEBotPrivacyReady">تم التحقق من الحساب. اضغط «إرسال» مرة أخرى لإرسال رسالتك.</string>
+    <string name="OEBotPrivacyAlwaysAsk">السؤال دائمًا</string>
+    <string name="OEBotPrivacyAlwaysAskInfo">السؤال عن الحساب المستخدم لكل محادثة خاصة جديدة مع بوت. تبقى المحادثات الحالية على حساباتها الأصلية.</string>
+    <string name="OEBotPrivacyAskPrivacyInfo">اختيار حساب لا يجعلك مجهول الهوية ولا يلغي المعلومات التي سبقت مشاركتها. تحتفظ المجموعات والوضع المضمّن وقائمة المرفقات وتسجيل الدخول بحساباتها الخاصة.</string>
+    <string name="OEBotPrivacyOff">الحساب الحالي</string>
+</resources>

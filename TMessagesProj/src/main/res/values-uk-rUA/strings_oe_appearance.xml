@@ -35,7 +35,7 @@
     <string name="OEAppearanceNavigation">Навігація застосунку</string>
     <string name="OEAppearanceGeneral">Вигляд</string>
     <string name="OEAppearanceUseSystemFonts">Системні шрифти</string>
-    <string name="OEAppearanceUseSystemEmoji">Системні емодзі</string>
+    <string name="OEAppearanceUseSystemEmoji">Системні емоджі</string>
     <string name="OEAppearanceSwitchStyle">Перемикачі</string>
     <string name="OEAppearanceSliderStyle">Повзунки</string>
     <string name="OEAppearanceBlur">Розмиття</string>
@@ -114,7 +114,7 @@
     <string name="OEAppearanceTabCounterAll">Усі чати</string>
     <string name="OEAppearanceTabCounterUnmuted">Крім вимкнених</string>
     <string name="OEAppearanceTabCounterOff">Вимк.</string>
-    <string name="OEAppearanceEmojiSetsInfo">Емодзі в усьому застосунку</string>
+    <string name="OEAppearanceEmojiSetsInfo">Емоджі в усьому застосунку</string>
     <string name="OEAppearanceHideSettingsSections">Сховати розділи налаштувань</string>
     <string name="OEBottomNavigationBar">Нижня панель</string>
     <string name="OEProfileMusicDesign">Музика в профілі</string>

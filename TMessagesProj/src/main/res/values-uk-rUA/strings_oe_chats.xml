@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="OEChatsStickerTime">Час на стікерах</string>
+    <string name="OEChatsStickerTime">Час на наліпках</string>
     <string name="OEChatsStickerTimeSide">Збоку</string>
     <string name="OEChatsStickerTimeHidden">Прихований</string>
     <string name="OEChatsReplies">Відповіді</string>
     <string name="OEChatsReplyColors">Кольори тла</string>
-    <string name="OEChatsReplyEmoji">Емодзі</string>
+    <string name="OEChatsReplyEmoji">Емоджі</string>
     <string name="OEChatsReplyBackground">Тло</string>
-    <string name="OEChatsStickerShape">Форма стікерів</string>
+    <string name="OEChatsStickerShape">Форма наліпок</string>
     <string name="OEChatsStickerShapeRounded">Заокруглена</string>
     <string name="OEChatsStickerShapeMessage">Як повідомлення</string>
     <string name="OEChatsDoubleTapInfo">Для деяких дій потрібні права адміністратора в чаті чи каналі.</string>
@@ -35,17 +35,17 @@
     <string name="OEChatsSwipeToPip">Свайп у PiP</string>
     <string name="OEChatsUnmuteWithVolumeButtons">Звук відео кнопками гучності</string>
     <string name="OEChatsUnmuteWithVolumeButtonsInfo">Кнопки гучності вмикають звук відео без звуку, а не змінюють гучність.</string>
-    <string name="OEChatsStickersAndEmoji">Стікери та емодзі</string>
+    <string name="OEChatsStickersAndEmoji">Наліпки та емоджі</string>
     <string name="OEChatsDoubleTap">Подвійний дотик</string>
     <string name="OEChatsMessages">Повідомлення</string>
     <string name="OEChatsVideos">Відео</string>
     <string name="OEChatsUnlimited">Без обмежень</string>
-    <string name="OEChatsUnlimitedStickers">Стікери</string>
+    <string name="OEChatsUnlimitedStickers">Наліпки</string>
     <string name="OEChatsUnlimitedGifs">GIF</string>
     <string name="OEChatsAdminShortcuts">Швидкі дії адміністратора</string>
-    <string name="OEChatsDisableGreetingSticker">Без вітального стікера</string>
+    <string name="OEChatsDisableGreetingSticker">Без вітальної наліпки</string>
     <string name="OEChatsHideSendAsPeer">Сховати кнопку «Надіслати як…»</string>
-    <string name="OEChatsHideSendAsPeerInfo">Меню «Надіслати як…» лишається доступним: утримуйте кнопку емодзі/стікерів/GIF.</string>
+    <string name="OEChatsHideSendAsPeerInfo">Меню «Надіслати як…» лишається доступним: утримуйте кнопку емоджі/наліпок/GIF.</string>
     <string name="OEChatsDisableGlobalSearch">Без глобального пошуку</string>
     <string name="OEChatsTapToSwitchRecord">Дотик перемикає голос і відео</string>
     <string name="OEChatsKeepAttachButton">Кнопка вкладення під час набору</string>
@@ -138,8 +138,8 @@
     <string name="OEChatsTrackingFilterFailed">Не вдалося оновити фільтр</string>
     <string name="OEChatsHdrPhotos">HDR-фото</string>
     <string name="OEChatsHdrPhotosInfo">Показувати HDR-фото на повній яскравості. Вимкніть, якщо фото здаються темними.</string>
-    <string name="SendLockedCustomEmojiAsSticker">Premium-емодзі як стікери</string>
-    <string name="SendLockedCustomEmojiAsStickerInfo">Без Premium преміум-емодзі надсилаються звичайними стікерами. Підтримуються лише емодзі WebP і WebM.</string>
+    <string name="SendLockedCustomEmojiAsSticker">Premium-емоджі як наліпки</string>
+    <string name="SendLockedCustomEmojiAsStickerInfo">Без Premium преміум-емоджі надсилаються звичайними наліпками. Підтримуються лише емоджі WebP і WebM.</string>
     <string name="OEChatsTranslateInSheet">Вікно перекладу Telegram</string>
     <string name="OEChatsTranslateInSheetInfo">Переклад відкривається у вікні з офіційного застосунку з вибором сервісу</string>
     <string name="OEChatsInlineMath">Обчислення під час набору</string>
@@ -167,8 +167,8 @@
     <string name="OEInlineDocPercent">Відсотки та скорочення</string>
     <string name="OEInlineTapToCopy">Торкніться прикладу, щоб скопіювати його.</string>
     <string name="OEChatsInlineMathAnnouncement">Результат: %1$s</string>
-    <string name="OELocalPremiumInfo">Premium-емодзі надсилаються посиланнями, які MZGram та інші клієнти з такою підтримкою показують як справжні емодзі. Інші функції Premium працюють лише на цьому пристрої.</string>
-    <string name="OELocalPremiumEmojiHint">У вас немає **Telegram Premium**, тому це емодзі надіслано посиланням: його побачать лише користувачі **MZGram** і клієнтів із такою підтримкою.</string>
+    <string name="OELocalPremiumInfo">Premium-емоджі надсилаються посиланнями, які MZGram та інші клієнти з такою підтримкою показують як справжні емоджі. Інші функції Premium працюють лише на цьому пристрої.</string>
+    <string name="OELocalPremiumEmojiHint">У вас немає **Telegram Premium**, тому це емоджі надіслано посиланням: його побачать лише користувачі **MZGram** і клієнтів із такою підтримкою.</string>
     <string name="OEChatsSections">Розділи</string>
     <string name="OEChatsMenus">Меню та кнопки</string>
     <string name="OEChatsMenusInfo">Меню чату, повідомлень і перегляду медіа</string>

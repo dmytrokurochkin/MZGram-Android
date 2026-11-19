@@ -527,7 +527,8 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         mzAllSections = true;
         try {
             updateRows();
-            RecyclerView.ViewHolder holder = listAdapter.onCreateViewHolder(listView, TYPE_HEADER);
+            // createViewHolder (not onCreateViewHolder) sets the holder's view type: screens bind by it
+            RecyclerView.ViewHolder holder = listAdapter.createViewHolder(listView, TYPE_HEADER);
             for (java.util.Map.Entry<Integer, String> entry : rowMapReverse.entrySet()) {
                 final String key = entry.getValue();
                 if (!mzIsSectionHeader(key) || listAdapter.getItemViewType(entry.getKey()) != TYPE_HEADER) {

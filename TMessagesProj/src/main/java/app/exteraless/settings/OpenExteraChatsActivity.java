@@ -821,6 +821,33 @@ public class OpenExteraChatsActivity extends BaseNekoSettingsActivity {
         return "linksHeader".equals(section);
     }
 
+    /** The header texts; "Chats" inside Chats is the in-chat behaviour section, named so on its row. */
+    @Override
+    protected int mzSectionTitleRes(String section) {
+        switch (section) {
+            case "stickersHeader":
+                return R.string.OEChatsStickersAndEmoji;
+            case "doubleTapHeader":
+                return R.string.OEChatsDoubleTap;
+            case "chatsHeader":
+                return R.string.OEAppearanceHidingInChats;
+            case "inputHeader":
+                return R.string.OEChatsInputHeader;
+            case "searchHeader":
+                return R.string.Search;
+            case "messagesHeader":
+                return R.string.OEChatsMessages;
+            case "linkConfirmationsHeader":
+                return R.string.OEChatsLinksAndConfirmations;
+            case "channelPostsHeader":
+                return R.string.OEChatsChannelPosts;
+            case "buttonsHeader":
+                return R.string.OEChatsButtonsHeader;
+            default:
+                return 0;
+        }
+    }
+
     @Override
     protected int mzSectionIcon(String section) {
         switch (section) {

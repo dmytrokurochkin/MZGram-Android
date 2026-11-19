@@ -45,4 +45,5 @@
     <string name="MZPluginsEmptyTitle">Henüz eklenti yok</string>
     <string name="MZPluginsEmptyBody">Eklentiler MZGram\'a yeni özellikler katar. Yukarıdaki katalogdan birini seçin ya da bir .plugin dosyası yükleyin.</string>
     <string name="MZPluginCatalogVersionSize">Sürüm %1$s · %2$s</string>
+    <string name="MZSectionStyle">Stil</string>
 </resources>

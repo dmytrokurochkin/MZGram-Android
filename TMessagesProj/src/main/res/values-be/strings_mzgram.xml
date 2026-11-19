@@ -45,4 +45,5 @@
     <string name="MZPluginsEmptyTitle">Плагінаў пакуль няма</string>
     <string name="MZPluginsEmptyBody">Плагіны дадаюць новыя функцыі ў MZGram. Выберыце адзін у каталогу вышэй або ўсталюйце файл .plugin.</string>
     <string name="MZPluginCatalogVersionSize">Версія %1$s · %2$s</string>
+    <string name="MZSectionStyle">Стыль</string>
 </resources>

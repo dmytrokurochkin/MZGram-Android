@@ -45,4 +45,5 @@
     <string name="MZPluginsEmptyTitle">Noch keine Plugins</string>
     <string name="MZPluginsEmptyBody">Plugins bringen neue Funktionen in MZGram. Wähle eines im Katalog oben oder installiere eine .plugin-Datei.</string>
     <string name="MZPluginCatalogVersionSize">Version %1$s · %2$s</string>
+    <string name="MZSectionStyle">Stil</string>
 </resources>

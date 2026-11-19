@@ -177,9 +177,6 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         // При sectionRadius == 0 — стоковый плоский вид (карточки визуально отсутствуют).
         listView.setSections(dp(12), dp(app.exteraless.appearance.AppearanceConfig.sectionRadius()), true);
         setupAdaptiveBackground();
-        if (MZ_HUB.equals(mzSection)) {
-            mzCollectHeaderTitles();
-        }
         return fragmentView;
     }
 
@@ -385,7 +382,6 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     private final HashMap<String, String> mzRowSection = new HashMap<>();
     private final HashMap<Integer, String> mzNavRows = new HashMap<>();
     private final java.util.HashSet<Integer> mzSpacerRows = new java.util.HashSet<>();
-    private final HashMap<String, String> mzHeaderTitles = new HashMap<>();
 
     /** Screens with many rows return true: they open as a list of sections. */
     protected boolean mzUsesSections() {
@@ -409,6 +405,11 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
     protected int mzSectionIcon(String section) {
         return R.drawable.msg_settings_old;
+    }
+
+    /** The title of a section: the string its header shows (0 falls back to the row titles). */
+    protected int mzSectionTitleRes(String section) {
+        return 0;
     }
 
     /** A row key that starts a section. Screens override it for switches whose keys end in "Header". */
@@ -471,7 +472,8 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     public String mzSectionTitle(String section) {
-        String title = mzHeaderTitles.get(section);
+        final int res = mzSectionTitleRes(section);
+        String title = res != 0 ? org.telegram.messenger.LocaleController.getString(res) : null;
         if (title == null) {
             String key = section;
             if (MZ_TOP.equals(section)) {
@@ -518,38 +520,6 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         presentFragment(page);
         if (scrollTo != null) {
             AndroidUtilities.runOnUIThread(() -> page.scrollToRow(scrollTo, null));
-        }
-    }
-
-    /** The headers' own texts, bound by the screen itself: no second copy of every title. */
-    private void mzCollectHeaderTitles() {
-        mzHeaderTitles.clear();
-        mzAllSections = true;
-        try {
-            updateRows();
-            // createViewHolder (not onCreateViewHolder) sets the holder's view type: screens bind by it
-            RecyclerView.ViewHolder holder = listAdapter.createViewHolder(listView, TYPE_HEADER);
-            for (java.util.Map.Entry<Integer, String> entry : rowMapReverse.entrySet()) {
-                final String key = entry.getValue();
-                if (!mzIsSectionHeader(key) || listAdapter.getItemViewType(entry.getKey()) != TYPE_HEADER) {
-                    continue;
-                }
-                listAdapter.onBindViewHolder(holder, entry.getKey(), false);
-                if (holder.itemView instanceof org.telegram.ui.Cells.HeaderCell) {
-                    CharSequence text = ((org.telegram.ui.Cells.HeaderCell) holder.itemView).getTextView().getText();
-                    final String group = mzSectionGroup(key);
-                    if (text != null && text.length() > 0 && (key.equals(group) || !mzHeaderTitles.containsKey(group))) {
-                        mzHeaderTitles.put(group, text.toString());
-                    }
-                }
-            }
-        } catch (Exception e) {
-            org.telegram.messenger.FileLog.e(e);
-        }
-        mzAllSections = false;
-        updateRows();
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
         }
     }
 

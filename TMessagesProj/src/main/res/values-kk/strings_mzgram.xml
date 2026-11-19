@@ -45,4 +45,5 @@
     <string name="MZPluginsEmptyTitle">Әзірге плагин жоқ</string>
     <string name="MZPluginsEmptyBody">Плагиндер MZGram-ға жаңа мүмкіндіктер қосады. Жоғарыдағы каталогтан біреуін таңдаңыз не .plugin файлын орнатыңыз.</string>
     <string name="MZPluginCatalogVersionSize">%1$s нұсқасы · %2$s</string>
+    <string name="MZSectionStyle">Стиль</string>
 </resources>

@@ -45,4 +45,5 @@
     <string name="MZPluginsEmptyTitle">لا توجد إضافات بعد</string>
     <string name="MZPluginsEmptyBody">تضيف الإضافات ميزات جديدة إلى MZGram. اختر واحدة من الكتالوج أعلاه أو ثبّت ملف ‎.plugin.</string>
     <string name="MZPluginCatalogVersionSize">الإصدار %1$s · %2$s</string>
+    <string name="MZSectionStyle">النمط</string>
 </resources>

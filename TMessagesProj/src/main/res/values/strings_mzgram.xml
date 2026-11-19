@@ -45,4 +45,5 @@
     <string name="MZPrefsChatsSummary">Stickers, messages, input, menus, double tap</string>
     <string name="MZPrefsPluginsSummary">Plugin catalog, installed plugins, install from file</string>
     <string name="MZPrefsOtherSummary">Backup, experimental features, reset</string>
+    <string name="MZSectionStyle">Style</string>
 </resources>

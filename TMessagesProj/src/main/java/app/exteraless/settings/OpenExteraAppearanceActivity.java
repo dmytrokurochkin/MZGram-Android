@@ -302,6 +302,29 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         return "linksHeader".equals(section);
     }
 
+    /** The header texts; "Appearance" inside Appearance is the style section, named so on its row. */
+    @Override
+    protected int mzSectionTitleRes(String section) {
+        switch (section) {
+            case MZ_TOP:
+                return R.string.OEAppearanceAvatarCorners;
+            case "chatListHeader":
+                return R.string.OEAppearanceChatList;
+            case "MZHeaderSection":
+                return R.string.MZHeaderSection;
+            case "foldersHeader":
+                return R.string.OEAppearanceFolders;
+            case "appearanceHeader":
+                return R.string.MZSectionStyle;
+            case "sectionsHeader":
+                return R.string.OEAppearanceSections;
+            case "blurHeader":
+                return R.string.OEAppearanceBlur;
+            default:
+                return 0;
+        }
+    }
+
     @Override
     protected int mzSectionIcon(String section) {
         switch (section) {

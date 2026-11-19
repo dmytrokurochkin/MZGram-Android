@@ -251,6 +251,30 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
     }
 
     @Override
+    protected int mzSectionTitleRes(String section) {
+        switch (section) {
+            case "translateHeader":
+                return R.string.OEGeneralTranslateHeader;
+            case "generalHeader":
+                return R.string.OEGeneralSectionHeader;
+            case "speedHeader":
+                return R.string.OEGeneralNetworkSpeedHeader;
+            case "storageHeader":
+                return R.string.OEGeneralStorageHeader;
+            case "profileHeader":
+                return R.string.OEGeneralProfileHeader;
+            case "archiveHeader":
+                return R.string.OEGeneralArchiveHeader;
+            case "mapsHeader":
+                return R.string.OEGeneralMapsHeader;
+            case "notificationsHeader":
+                return R.string.OEGeneralNotificationsHeader;
+            default:
+                return 0;
+        }
+    }
+
+    @Override
     protected int mzSectionIcon(String section) {
         switch (section) {
             case "translateHeader":

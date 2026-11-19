@@ -45,4 +45,5 @@
     <string name="MZPrefsChatsSummary">Стикеры, сообщения, ввод, меню, двойное нажатие</string>
     <string name="MZPrefsPluginsSummary">Каталог плагинов, установленные плагины, установка из файла</string>
     <string name="MZPrefsOtherSummary">Резервная копия, экспериментальные функции, сброс</string>
+    <string name="MZSectionStyle">Стиль</string>
 </resources>

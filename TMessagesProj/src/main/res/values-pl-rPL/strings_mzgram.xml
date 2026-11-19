@@ -45,4 +45,5 @@
     <string name="MZPluginsEmptyTitle">Brak wtyczek</string>
     <string name="MZPluginsEmptyBody">Wtyczki dodają nowe funkcje do MZGram. Wybierz jedną w katalogu powyżej lub zainstaluj plik .plugin.</string>
     <string name="MZPluginCatalogVersionSize">Wersja %1$s · %2$s</string>
+    <string name="MZSectionStyle">Styl</string>
 </resources>

@@ -210,6 +210,12 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     @Keep
     private int bubbleRadiusRow;
     private int monetStyleRow;
+    /** MZGram: the colour of the Material You themes (wallpaper or a seed), only while one is on. */
+    private int monetSeedRow;
+
+    private static boolean mzMonetSeedVisible() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && Theme.getActiveTheme() != null && Theme.getActiveTheme().isMonet();
+    }
 
     private void showMonetStyleOptions(View anchor) {
         int current = AppearanceConfig.monetStyle.Int();
@@ -714,6 +720,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         bubbleRadiusHeaderRow = -1;
         bubbleRadiusRow = -1;
         monetStyleRow = -1;
+        final int prevMonetSeedRow = monetSeedRow;
+        monetSeedRow = -1;
         bubbleRadiusInfoRow = -1;
         chatListHeaderRow = -1;
         chatListRow = -1;
@@ -795,6 +803,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }
             if (hasThemeAccents) {
                 themeAccentListRow = rowCount++;
+            } else if (mzMonetSeedVisible()) {
+                monetSeedRow = rowCount++;
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 monetStyleRow = rowCount++;
@@ -817,6 +827,9 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             themeHeaderRow = rowCount++;
 
             themeListRow2 = rowCount++;
+            if (mzMonetSeedVisible()) {
+                monetSeedRow = rowCount++;
+            }
             themeInfoRow = rowCount++;
 
             bubbleRadiusHeaderRow = rowCount++;
@@ -929,6 +942,12 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         listAdapter.notifyItemInserted(raiseToSpeakRow);
                     } else if (prevRaiseToSpeakRow != -1 && raiseToSpeakRow == -1) {
                         listAdapter.notifyItemRemoved(prevRaiseToSpeakRow);
+                    }
+
+                    if ((prevMonetSeedRow == -1) != (monetSeedRow == -1)) {
+                        listAdapter.notifyDataSetChanged();
+                    } else if (monetSeedRow != -1) {
+                        listAdapter.notifyItemChanged(monetSeedRow);
                     }
                 }
             } else {
@@ -2230,6 +2249,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         private final static int TYPE_SAVE_TO_GALLERY = 19;
         private final static int TYPE_APP_ICON = 20;
         private final static int TYPE_CHOOSE_COLOR = 21;
+        private final static int TYPE_MONET_SEED = 40;
 
         private Context mContext;
         private boolean first = true;
@@ -2629,6 +2649,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 case TYPE_CHOOSE_COLOR:
                     view = new PeerColorActivity.ChangeNameColorCell(currentAccount, 0, mContext, getResourceProvider());
                     break;
+                case TYPE_MONET_SEED:
+                    view = new app.exteraless.appearance.MonetSeedPickerCell(mContext, getResourceProvider(),
+                            tw.nekomimi.nekogram.helpers.MonetHelper::setSeedColor);
+                    break;
             }
             return new RecyclerListView.Holder(view);
         }
@@ -2887,6 +2911,11 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 case TYPE_CHOOSE_COLOR: {
                     PeerColorActivity.ChangeNameColorCell cell = (PeerColorActivity.ChangeNameColorCell) holder.itemView;
                     cell.set(getUserConfig().getCurrentUser());
+                    break;
+                }
+                case TYPE_MONET_SEED: {
+                    ((app.exteraless.appearance.MonetSeedPickerCell) holder.itemView).updateSelection();
+                    break;
                 }
             }
         }
@@ -2954,6 +2983,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 return TYPE_APP_ICON;
             } else if (position == changeUserColor) {
                 return TYPE_CHOOSE_COLOR;
+            } else if (position == monetSeedRow) {
+                return TYPE_MONET_SEED;
             }
             return TYPE_TEXT_SETTING;
         }

@@ -38,4 +38,6 @@
     <string name="MZPluginsEmptyTitle">No plugins yet</string>
     <string name="MZPluginsEmptyBody">Plugins add new features to MZGram. Pick one in the catalog above or install a .plugin file.</string>
     <string name="MZPluginCatalogVersionSize">Version %1$s · %2$s</string>
+    <string name="MZMonetWallpaperColors">Wallpaper colours</string>
+    <string name="MZMonetSeedColor">Colour %1$d</string>
 </resources>

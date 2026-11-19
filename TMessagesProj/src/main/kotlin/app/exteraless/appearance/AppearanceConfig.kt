@@ -90,6 +90,14 @@ object AppearanceConfig {
     val monetStyle =
         addConfig("OEAppearanceMonetStyle", ConfigItem.configTypeInt, MONET_STYLE_TELEMONE)
 
+    /**
+     * MZGram: the colour the Material You themes are made from. 0 takes the colours of the
+     * wallpaper (as Android does); any other value is an ARGB seed colour the person picked, and
+     * the five tonal palettes are made from it the way Android makes them (tonal spot).
+     */
+    @JvmField
+    val monetSeed = addConfig("MZMonetSeed", ConfigItem.configTypeInt, 0)
+
     /** Суффикс файла темы для выбранного набора: пустой для Telemone. */
     @JvmStatic
     fun monetAssetSuffix(): String = when (monetStyle.Int()) {

@@ -15,6 +15,7 @@ import androidx.core.graphics.ColorUtils;
 
 import com.google.android.material.color.utilities.Blend;
 import com.google.android.material.color.utilities.Hct;
+import com.google.android.material.color.utilities.TonalPalette;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
@@ -435,7 +436,7 @@ public class MonetHelper {
 
     private static boolean isAccentPaletteNeutral() {
         try {
-            return Hct.fromInt(ApplicationLoader.applicationContext.getColor(android.R.color.system_accent1_500)).getChroma()
+            return Hct.fromInt(systemColor(android.R.color.system_accent1_500)).getChroma()
                     < NEUTRAL_ACCENT_CHROMA_THRESHOLD;
         } catch (Exception e) {
             return false;
@@ -463,7 +464,7 @@ public class MonetHelper {
 
         Integer id = ids.get(token);
         if (id != null) {
-            return ApplicationLoader.applicationContext.getColor(id);
+            return systemColor(id);
         }
 
         Integer avatarBaseColor = avatarBaseColors.get(token);
@@ -509,7 +510,7 @@ public class MonetHelper {
             if (shadeId == null) {
                 return null;
             }
-            return ApplicationLoader.applicationContext.getColor(shadeId);
+            return systemColor(shadeId);
         }
 
         Integer seed = paletteSeeds.get(prefix);
@@ -605,6 +606,10 @@ public class MonetHelper {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             return null;
         }
+        if (seedColor() != 0) {
+            // the system roles follow the wallpaper, not the colour the person picked
+            return null;
+        }
         if (!frameworkRolesMatchPalettes()) {
             return null;
         }
@@ -642,14 +647,14 @@ public class MonetHelper {
             if (shadeId == null) {
                 return null;
             }
-            return ApplicationLoader.applicationContext.getColor(shadeId);
+            return systemColor(shadeId);
         }
 
         Integer keyId = ids.get(palette + "_600");
         if (keyId == null) {
             return null;
         }
-        return setLuminance(ApplicationLoader.applicationContext.getColor(keyId), tone);
+        return setLuminance(systemColor(keyId), tone);
     }
 
     private static int setLuminance(int color, double luminance) {
@@ -661,8 +666,7 @@ public class MonetHelper {
     }
 
     private static int getCustomPaletteColor(int seed, int tone) {
-        int accentColor = ApplicationLoader.applicationContext.getColor(
-                android.R.color.system_accent1_500);
+        int accentColor = systemColor(android.R.color.system_accent1_500);
         Hct source = Hct.fromInt(Blend.harmonize(seed, accentColor));
         Hct target = Hct.fromInt(accentColor);
         Hct matched = Hct.fromInt(
@@ -675,14 +679,12 @@ public class MonetHelper {
     }
 
     public static int harmonizeColor(int baseColor) {
-        int accentColor = ApplicationLoader.applicationContext.getColor(
-                android.R.color.system_accent1_600);
+        int accentColor = systemColor(android.R.color.system_accent1_600);
         return Blend.harmonize(baseColor, accentColor);
     }
 
     private static int softenColorForDarkText(int color) {
-        int neutralTextColor = ApplicationLoader.applicationContext.getColor(
-                android.R.color.system_neutral1_50);
+        int neutralTextColor = systemColor(android.R.color.system_neutral1_50);
         return ColorUtils.blendARGB(color, neutralTextColor, DARK_NAME_SOFTEN_RATIO);
     }
 
@@ -793,5 +795,89 @@ public class MonetHelper {
         );
 
         lastMonetColor = currentColor;
+    }
+
+    // ---- MZGram: Material You from a colour the person picks instead of the wallpaper ----
+
+    /** Android's tonal-spot scheme: the chroma of each palette made from the seed's hue. */
+    private static final double SEED_PRIMARY_CHROMA = 36d;
+    private static final double SEED_SECONDARY_CHROMA = 16d;
+    private static final double SEED_TERTIARY_CHROMA = 24d;
+    private static final double SEED_TERTIARY_HUE_SHIFT = 60d;
+    private static final double SEED_NEUTRAL_CHROMA = 6d;
+    private static final double SEED_NEUTRAL_VARIANT_CHROMA = 8d;
+
+    /** system_accent1_500 -> "a1_500": the tonal palette ids the seed replaces. */
+    private static final HashMap<Integer, String> paletteNameById = new HashMap<>();
+
+    static {
+        for (java.util.Map.Entry<String, Integer> entry : ids.entrySet()) {
+            String name = entry.getKey();
+            if (name.length() > 3 && name.charAt(2) == '_' && tonalPalettes.containsValue(name.substring(0, 2))) {
+                paletteNameById.put(entry.getValue(), name);
+            }
+        }
+    }
+
+    private static int seedPalettesFor;
+    private static HashMap<String, TonalPalette> seedPalettes;
+
+    /** The seed colour of the Material You themes; 0 means the wallpaper. */
+    public static int seedColor() {
+        try {
+            return app.exteraless.appearance.AppearanceConfig.monetSeed.Int();
+        } catch (Throwable ignore) {
+            return 0;
+        }
+    }
+
+    /**
+     * Picks the seed colour (0 for the wallpaper) and recolours the app: the token cache is
+     * dropped and an open Material You theme is applied again.
+     */
+    public static void setSeedColor(int seed) {
+        if (seedColor() == seed) {
+            return;
+        }
+        app.exteraless.appearance.AppearanceConfig.monetSeed.setConfigInt(seed);
+        invalidateCache();
+        Theme.reloadMonetThemes();
+    }
+
+    /** A system palette colour, or the same tone of the palette made from the picked seed. */
+    private static int systemColor(int id) {
+        int seed = seedColor();
+        if (seed != 0) {
+            String name = paletteNameById.get(id);
+            if (name != null) {
+                return seedTone(seed, name);
+            }
+        }
+        return ApplicationLoader.applicationContext.getColor(id);
+    }
+
+    /** The tonal palettes made from a seed: a1 primary, a2 secondary, a3 tertiary, n1 and n2 neutral. */
+    public static synchronized HashMap<String, TonalPalette> palettesFor(int seed) {
+        if (seedPalettes != null && seedPalettesFor == seed) {
+            return seedPalettes;
+        }
+        double hue = Hct.fromInt(seed).getHue();
+        HashMap<String, TonalPalette> palettes = new HashMap<>();
+        palettes.put("a1", TonalPalette.fromHueAndChroma(hue, SEED_PRIMARY_CHROMA));
+        palettes.put("a2", TonalPalette.fromHueAndChroma(hue, SEED_SECONDARY_CHROMA));
+        palettes.put("a3", TonalPalette.fromHueAndChroma((hue + SEED_TERTIARY_HUE_SHIFT) % 360d, SEED_TERTIARY_CHROMA));
+        palettes.put("n1", TonalPalette.fromHueAndChroma(hue, SEED_NEUTRAL_CHROMA));
+        palettes.put("n2", TonalPalette.fromHueAndChroma(hue, SEED_NEUTRAL_VARIANT_CHROMA));
+        seedPalettes = palettes;
+        seedPalettesFor = seed;
+        return palettes;
+    }
+
+    /** "a1_500" of the seed: shade 0..1000 is tone 100..0 (10 is 99, 50 is 95), as in Android. */
+    private static int seedTone(int seed, String name) {
+        int separator = name.indexOf('_');
+        TonalPalette palette = palettesFor(seed).get(name.substring(0, separator));
+        int shade = Integer.parseInt(name.substring(separator + 1));
+        return palette.tone(100 - shade / 10);
     }
 }

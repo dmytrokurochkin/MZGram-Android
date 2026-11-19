@@ -1834,7 +1834,9 @@ public class Theme {
                 }
 
                 //override default themes
-                if (isHome(themeAccent) && name.equals("Dark Blue") || name.equals("Night") || name.equals("AMOLED")) {
+                // MZGram: only the home accent (id 0 for AMOLED) takes the gradient bubbles. Without the brackets every
+                // Night and AMOLED accent got them, so a picked accent never reached the messages.
+                if (isHome(themeAccent) && (name.equals("Dark Blue") || name.equals("Night")) || name.equals("AMOLED") && themeAccent.id == 0) {
                     themeAccent.myMessagesAccentColor = 0xff258DE5;
                     themeAccent.myMessagesGradientAccentColor1 = 0xff4272DF;
                     themeAccent.myMessagesGradientAccentColor2 = 0xff8146D7;

@@ -43,4 +43,6 @@
     <string name="MZPluginsEmptyBody">Плагіни додають у MZGram нові можливості. Виберіть плагін у каталозі вище або встановіть файл .plugin.</string>
     <string name="MZPluginCatalogVersionSize">Версія %1$s · %2$s</string>
     <string name="PluginsInstallFromFile">Встановити з файлу</string>
+    <string name="MZMonetWallpaperColors">Кольори шпалер</string>
+    <string name="MZMonetSeedColor">Колір %1$d</string>
 </resources>

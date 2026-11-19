@@ -317,6 +317,10 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             Entry entry = new Entry();
             entry.id = p.optString("id", "");
             entry.name = p.optString("name", entry.id);
+            String localizedName = forCurrentLanguage(p.optJSONObject("name_i18n"));
+            if (!TextUtils.isEmpty(localizedName)) {
+                entry.name = localizedName;
+            }
             entry.version = p.optString("version", "");
             entry.file = p.optString("file", "");
             entry.sha256 = p.optString("sha256", "");
@@ -349,6 +353,29 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
             }
         }
         return false;
+    }
+
+    /** The value for the app language from a {"uk": ..., "pt-BR": ...} map, or null. */
+    private static String forCurrentLanguage(JSONObject map) {
+        Locale locale = LocaleController.getInstance().getCurrentLocale();
+        if (map == null || locale == null) {
+            return null;
+        }
+        String lang = locale.getLanguage().toLowerCase(Locale.ROOT);
+        String country = locale.getCountry().toLowerCase(Locale.ROOT);
+        for (java.util.Iterator<String> it = map.keys(); it.hasNext(); ) {
+            String key = it.next();
+            if (key.equalsIgnoreCase(lang + "-" + country)) {
+                return map.optString(key, null);
+            }
+        }
+        for (java.util.Iterator<String> it = map.keys(); it.hasNext(); ) {
+            String key = it.next();
+            if (key.equalsIgnoreCase(lang)) {
+                return map.optString(key, null);
+            }
+        }
+        return null;
     }
 
     private static String localizedDescription(Entry entry) {

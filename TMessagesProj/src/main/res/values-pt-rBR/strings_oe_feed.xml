@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Feed">Feed</string>
+    <string name="FeedAllChannelsExcluded">Todos os canais estão fora do feed.</string>
+    <string name="FeedBottomTab">Mostrar nas abas inferiores</string>
+    <string name="FeedBottomTabInfo">Mostrar o feed como aba de navegação no lugar de Contatos.</string>
+    <string name="FeedChannelHidden">**%1$s** oculto do feed</string>
+    <string name="FeedChannels">Canais</string>
+    <string name="FeedChannelsInfo">Desmarque um canal para ocultar seus posts do feed. Novos canais aparecem automaticamente.</string>
+    <string name="FeedHiddenChannels">Ocultos</string>
+    <string name="FeedHideChannel">Ocultar do feed</string>
+    <string name="FeedUnreadCounter">Contador de posts não lidos</string>
+    <string name="FeedIncludeArchived">Conversas do arquivo</string>
+    <string name="FeedIncludeArchivedInfo">Incluir no feed também os canais das conversas arquivadas.</string>
+    <string name="FeedMarkAllRead">Marcar tudo como lido</string>
+    <string name="FeedMarkAllReadConfirm">Marcar como lidos todos os posts dos canais do feed? Eles também serão marcados como lidos nos canais.</string>
+    <string name="FeedMarkAllReadDone">Todos os posts marcados como lidos</string>
+    <string name="FeedNoPosts">Ainda não há posts de canais.</string>
+    <string name="FeedSettings">Configurações do feed</string>
+    <string name="FeedShownChannels">Mostrados no feed</string>
+    <string name="HideFeedTab">Ocultar aba Feed</string>
+    <string name="FeedAddNewChannels">Adicionar novos canais</string>
+    <string name="FeedAddNewChannelsOnInfo">Novos canais que você segue aparecem no feed automaticamente.</string>
+    <string name="FeedAddNewChannelsOffInfo">Novos canais ficam ocultos até você marcá-los abaixo.</string>
+    <string name="FeedCategories">Categorias</string>
+    <string name="FeedCategoriesInfo">Categorias aparecem como abas no topo do feed. Arraste para reordenar, toque no olho para ocultar uma aba.</string>
+    <string name="FeedCategoryAddChannels">Adicionar canais</string>
+    <string name="FeedCategoryChannelsInfo">Posts dos canais escolhidos aparecem com esta categoria aberta, mesmo se o canal estiver oculto em Todos. Um canal pode estar em várias categorias.</string>
+    <string name="FeedCategoryCreate">Criar categoria</string>
+    <string name="FeedCategoryDelete">Excluir categoria</string>
+    <string name="FeedCategoryDeleteConfirm">Excluir a categoria **%1$s**? Os canais dela continuam no feed.</string>
+    <string name="FeedCategoryEdit">Editar categoria</string>
+    <string name="FeedCategoryEmpty">Nenhum canal nesta categoria.</string>
+    <string name="FeedCategoryEmptyInfo">Adicione canais a ela e os posts deles aparecerão aqui.</string>
+    <string name="FeedCategoryHiddenInfo">**%1$s** está oculta. Você pode mostrá-la de novo nas configurações do feed.</string>
+    <string name="FeedCategoryHide">Ocultar categoria</string>
+    <string name="FeedCategoryName">Nome da categoria</string>
+    <string name="FeedCategoryNew">Nova categoria</string>
+    <string name="FeedCategoryShow">Mostrar categoria</string>
+    <string name="FeedCategoryUnsavedChanges">Você editou esta categoria. Salvar alterações?</string>
+    <string name="FeedHiddenFromAll">Ocultos de Todos</string>
+    <string name="FeedAllChannelsExcludedInfo">Canais ocultos ainda aparecem nas categorias deles.</string>
+</resources>

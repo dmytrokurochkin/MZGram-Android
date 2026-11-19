@@ -50,4 +50,10 @@
     <string name="OEProfileJoinDateUnknown">Data dołączenia jest niedostępna</string>
     <string name="AppIconsSelect">Wybierz</string>
     <string name="AppIconsKeep">Zostaw tę</string>
+    <string name="OEEnergyProfilerStart">Uruchom profiler energii</string>
+    <string name="OEEnergyProfilerStop">Zatrzymaj profiler energii i udostępnij raport</string>
+    <string name="OEEnergyProfilerStarted">Profiler energii działa, także w tle i po ponownym uruchomieniu. Używaj telefonu jak zwykle przez kilka godzin, potem zatrzymaj go tutaj.</string>
+    <string name="OEEnergyProfilerShareCurrent">Udostępnij dotychczasowy raport energii</string>
+    <string name="OEEnergyProfilerShareLast">Udostępnij ostatni raport energii</string>
+    <string name="OEPluginToggleLogShare">Udostępnij dziennik przełączeń wtyczek</string>
 </resources>

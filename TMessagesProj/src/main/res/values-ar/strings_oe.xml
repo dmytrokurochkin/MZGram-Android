@@ -50,4 +50,10 @@
     <string name="OEProfileJoinDateUnknown">تاريخ الانضمام غير متاح</string>
     <string name="AppIconsSelect">اختيار</string>
     <string name="AppIconsKeep">الإبقاء على هذه</string>
+    <string name="OEEnergyProfilerStart">تشغيل محلل الطاقة</string>
+    <string name="OEEnergyProfilerStop">إيقاف محلل الطاقة ومشاركة التقرير</string>
+    <string name="OEEnergyProfilerStarted">محلل الطاقة يعمل، حتى في الخلفية وبعد إعادة التشغيل. استخدم الهاتف كالمعتاد لبضع ساعات ثم أوقفه هنا.</string>
+    <string name="OEEnergyProfilerShareCurrent">مشاركة تقرير الطاقة حتى الآن</string>
+    <string name="OEEnergyProfilerShareLast">مشاركة آخر تقرير للطاقة</string>
+    <string name="OEPluginToggleLogShare">مشاركة سجل تبديل الإضافات</string>
 </resources>

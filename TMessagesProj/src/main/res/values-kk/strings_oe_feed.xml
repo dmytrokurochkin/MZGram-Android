@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Feed">Лента</string>
+    <string name="FeedAllChannelsExcluded">Барлық арналар лентадан шығарылды.</string>
+    <string name="FeedBottomTab">Төменгі қойындыларда көрсету</string>
+    <string name="FeedBottomTabInfo">Лентаны «Контактілер» орнына төменгі навигация қойындысы ретінде көрсету.</string>
+    <string name="FeedChannelHidden">**%1$s** лентадан жасырылды</string>
+    <string name="FeedChannels">Арналар</string>
+    <string name="FeedChannelsInfo">Арнаның жазбаларын лентадан жасыру үшін белгісін алыңыз. Жаңа арналар автоматты түрде көрсетіледі.</string>
+    <string name="FeedHiddenChannels">Жасырын</string>
+    <string name="FeedHideChannel">Лентадан жасыру</string>
+    <string name="FeedUnreadCounter">Оқылмаған жазбалар санағышы</string>
+    <string name="FeedIncludeArchived">Мұрағаттағы чаттар</string>
+    <string name="FeedIncludeArchivedInfo">Мұрағаттағы чаттардың арналарын да лентаға қосу.</string>
+    <string name="FeedMarkAllRead">Барлығын оқылды деп белгілеу</string>
+    <string name="FeedMarkAllReadConfirm">Лента арналарындағы барлық жазбаларды оқылды деп белгілеу керек пе? Олар арналардың өзінде де оқылды болып белгіленеді.</string>
+    <string name="FeedMarkAllReadDone">Барлық жазбалар оқылды деп белгіленді</string>
+    <string name="FeedNoPosts">Арна жазбалары әзірге жоқ.</string>
+    <string name="FeedSettings">Лента параметрлері</string>
+    <string name="FeedShownChannels">Лентада көрсетілетін</string>
+    <string name="HideFeedTab">«Лента» қойындысын жасыру</string>
+    <string name="FeedAddNewChannels">Жаңа арналарды қосу</string>
+    <string name="FeedAddNewChannelsOnInfo">Жазылған жаңа арналар лентада автоматты түрде пайда болады.</string>
+    <string name="FeedAddNewChannelsOffInfo">Жаңа арналар төменде белгілегенше жасырын тұрады.</string>
+    <string name="FeedCategories">Санаттар</string>
+    <string name="FeedCategoriesInfo">Санаттар лентаның жоғарғы жағында қойынды болып көрінеді. Ретін өзгерту үшін сүйреңіз, жасыру үшін көзді түртіңіз.</string>
+    <string name="FeedCategoryAddChannels">Арна қосу</string>
+    <string name="FeedCategoryChannelsInfo">Таңдалған арналардың жазбалары осы санат ашық кезде көрінеді, арна «Барлығы» ішінен жасырылса да. Бір арна бірнеше санатта болуы мүмкін.</string>
+    <string name="FeedCategoryCreate">Санат жасау</string>
+    <string name="FeedCategoryDelete">Санатты жою</string>
+    <string name="FeedCategoryDeleteConfirm">**%1$s** санатын жою керек пе? Оның арналары лентада қалады.</string>
+    <string name="FeedCategoryEdit">Санатты өңдеу</string>
+    <string name="FeedCategoryEmpty">Бұл санатта арна жоқ.</string>
+    <string name="FeedCategoryEmptyInfo">Оған арна қосыңыз, олардың жазбалары осында көрінеді.</string>
+    <string name="FeedCategoryHiddenInfo">**%1$s** жасырылған. Оны лента параметрлерінде қайта көрсетуге болады.</string>
+    <string name="FeedCategoryHide">Санатты жасыру</string>
+    <string name="FeedCategoryName">Санат атауы</string>
+    <string name="FeedCategoryNew">Жаңа санат</string>
+    <string name="FeedCategoryShow">Санатты көрсету</string>
+    <string name="FeedCategoryUnsavedChanges">Сіз бұл санатты өзгерттіңіз. Өзгерістерді сақтау керек пе?</string>
+    <string name="FeedHiddenFromAll">«Барлығы» ішінен жасырын</string>
+    <string name="FeedAllChannelsExcludedInfo">Жасырын арналар өз санаттарында бәрібір көрінеді.</string>
+</resources>

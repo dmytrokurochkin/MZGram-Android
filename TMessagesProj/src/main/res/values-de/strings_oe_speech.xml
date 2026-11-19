@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DownloadingModel">Modell wird geladen…</string>
+    <string name="DownloadingModelInfo">Lass dieses Fenster offen, während das Sprachmodell geladen wird.</string>
+    <string name="ModelUnzipping">Wird entpackt…</string>
+    <string name="VoskTitle">Offline-Erkennung</string>
+    <string name="VoskLanguages">Sprachmodelle</string>
+    <string name="VoskLanguagesInfo">Tippe auf eine Sprache, um ihr Modell zu laden, und erneut, um es zu aktivieren. Halte ein geladenes Modell, um es zu löschen. Die Erkennung läuft auf dem Gerät, die Sprachnachricht wird nirgendwohin gesendet.</string>
+    <string name="VoskModelSelected">Aktiv</string>
+    <string name="VoskModelNotInstalled">Lade zuerst ein Sprachmodell</string>
+    <string name="VoskDownloadBusy">Ein anderes Modell wird geladen</string>
+    <string name="VoskDownloadFailed">Modell konnte nicht geladen werden</string>
+    <string name="VoskDeleteModelConfirm">Dieses Sprachmodell löschen?</string>
+    <string name="VoskModelsShort">Modelle für Offline-Erkennung</string>
+    <string name="TranscribeProviderVosk">Vosk (offline)</string>
+    <string name="VoskNothingRecognized">Keine Sprache erkannt</string>
+    <string name="TranscribeSetupAction">Einrichten</string>
+    <string name="TranscribeSetupCredentials">Keine STT-Zugangsdaten eingerichtet</string>
+    <string name="TranscribeSetupVosk">Kein Offline-Modell geladen</string>
+</resources>

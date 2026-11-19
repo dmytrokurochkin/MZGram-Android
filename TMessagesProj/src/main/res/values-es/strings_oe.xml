@@ -50,4 +50,10 @@
     <string name="OEProfileJoinDateUnknown">La fecha de unión no está disponible</string>
     <string name="AppIconsSelect">Seleccionar</string>
     <string name="AppIconsKeep">Quedarme con este</string>
+    <string name="OEEnergyProfilerStart">Iniciar perfilador de energía</string>
+    <string name="OEEnergyProfilerStop">Detener el perfilador de energía y compartir el informe</string>
+    <string name="OEEnergyProfilerStarted">El perfilador de energía está en marcha, también en segundo plano y tras reinicios. Usa el teléfono como siempre unas horas y luego detenlo aquí.</string>
+    <string name="OEEnergyProfilerShareCurrent">Compartir el informe de energía hasta ahora</string>
+    <string name="OEEnergyProfilerShareLast">Compartir el último informe de energía</string>
+    <string name="OEPluginToggleLogShare">Compartir el registro de activación de plugins</string>
 </resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Feed">Fil</string>
+    <string name="FeedAllChannelsExcluded">Tous les canaux sont exclus du fil.</string>
+    <string name="FeedBottomTab">Afficher dans les onglets du bas</string>
+    <string name="FeedBottomTabInfo">Afficher le fil comme onglet de navigation à la place de Contacts.</string>
+    <string name="FeedChannelHidden">**%1$s** masqué du fil</string>
+    <string name="FeedChannels">Canaux</string>
+    <string name="FeedChannelsInfo">Décochez un canal pour masquer ses publications du fil. Les nouveaux canaux sont affichés automatiquement.</string>
+    <string name="FeedHiddenChannels">Masqués</string>
+    <string name="FeedHideChannel">Masquer du fil</string>
+    <string name="FeedUnreadCounter">Compteur de publications non lues</string>
+    <string name="FeedIncludeArchived">Discussions des archives</string>
+    <string name="FeedIncludeArchivedInfo">Inclure aussi dans le fil les canaux de vos discussions archivées.</string>
+    <string name="FeedMarkAllRead">Tout marquer comme lu</string>
+    <string name="FeedMarkAllReadConfirm">Marquer comme lues toutes les publications de vos canaux du fil ? Elles seront aussi marquées lues dans les canaux.</string>
+    <string name="FeedMarkAllReadDone">Toutes les publications sont marquées lues</string>
+    <string name="FeedNoPosts">Aucune publication de canal pour l’instant.</string>
+    <string name="FeedSettings">Réglages du fil</string>
+    <string name="FeedShownChannels">Affichés dans le fil</string>
+    <string name="HideFeedTab">Masquer l’onglet Fil</string>
+    <string name="FeedAddNewChannels">Ajouter les nouveaux canaux</string>
+    <string name="FeedAddNewChannelsOnInfo">Les nouveaux canaux suivis apparaissent automatiquement dans le fil.</string>
+    <string name="FeedAddNewChannelsOffInfo">Les nouveaux canaux restent masqués jusqu’à ce que vous les cochiez ci-dessous.</string>
+    <string name="FeedCategories">Catégories</string>
+    <string name="FeedCategoriesInfo">Les catégories apparaissent en onglets en haut du fil. Glissez pour réordonner, touchez l’œil pour masquer un onglet.</string>
+    <string name="FeedCategoryAddChannels">Ajouter des canaux</string>
+    <string name="FeedCategoryChannelsInfo">Les publications des canaux choisis apparaissent quand cette catégorie est ouverte, même si un canal est masqué de « Tous ». Un canal peut être dans plusieurs catégories.</string>
+    <string name="FeedCategoryCreate">Créer une catégorie</string>
+    <string name="FeedCategoryDelete">Supprimer la catégorie</string>
+    <string name="FeedCategoryDeleteConfirm">Supprimer la catégorie **%1$s** ? Ses canaux restent dans le fil.</string>
+    <string name="FeedCategoryEdit">Modifier la catégorie</string>
+    <string name="FeedCategoryEmpty">Aucun canal dans cette catégorie.</string>
+    <string name="FeedCategoryEmptyInfo">Ajoutez-y des canaux et leurs publications apparaîtront ici.</string>
+    <string name="FeedCategoryHiddenInfo">**%1$s** est masqué. Vous pouvez le réafficher dans les réglages du fil.</string>
+    <string name="FeedCategoryHide">Masquer la catégorie</string>
+    <string name="FeedCategoryName">Nom de la catégorie</string>
+    <string name="FeedCategoryNew">Nouvelle catégorie</string>
+    <string name="FeedCategoryShow">Afficher la catégorie</string>
+    <string name="FeedCategoryUnsavedChanges">Vous avez modifié cette catégorie. Enregistrer les changements ?</string>
+    <string name="FeedHiddenFromAll">Masqués de « Tous »</string>
+    <string name="FeedAllChannelsExcludedInfo">Les canaux masqués apparaissent quand même dans leurs catégories.</string>
+</resources>

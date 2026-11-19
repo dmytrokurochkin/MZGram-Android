@@ -197,4 +197,9 @@
     <string name="PluginsImportInvalid">هذا الملف ليس نسخة احتياطية للإضافات</string>
     <string name="PluginsRetryHooks">إعادة تفعيل الخطافات</string>
     <string name="PluginsHooksBrokenInfo">توقف التطبيق مرتين أثناء تشغيل محرك الخطافات، لذا أُوقفت خطافات الإضافات. اضغط للمحاولة مرة أخرى، ويسري ذلك بعد إعادة التشغيل.</string>
+    <string name="PluginsNoSettings">لا توجد إعدادات لهذه الإضافة.</string>
+    <string name="PluginsDexTitle">شيفرة Java مضمّنة (DEX)</string>
+    <string name="PluginsDexLoaded">%1$s. تحمّله الإضافة وتشغّله؛ ما يستدعيه محسوب في الأذونات أدناه ومعلَّم بـ«DEX».</string>
+    <string name="PluginsDexUnused">%1$s، لكن لا شيء في الإضافة يحمّله — هذه الشيفرة لا تعمل أبدًا.</string>
+    <string name="PluginsDexClasses">الأصناف: %1$s</string>
 </resources>

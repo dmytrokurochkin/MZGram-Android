@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DownloadingModel">Модель жүктелуде…</string>
+    <string name="DownloadingModelInfo">Тіл моделі жүктеліп жатқанда бұл терезені жаппаңыз.</string>
+    <string name="ModelUnzipping">Ашылуда…</string>
+    <string name="VoskTitle">Офлайн тану</string>
+    <string name="VoskLanguages">Тіл модельдері</string>
+    <string name="VoskLanguagesInfo">Тілдің моделін жүктеу үшін түртіңіз, белсенді ету үшін қайта түртіңіз. Жүктелген модельді жою үшін басып тұрыңыз. Тану құрылғыда жұмыс істейді, дауыстық хабар ешқайда жіберілмейді.</string>
+    <string name="VoskModelSelected">Белсенді</string>
+    <string name="VoskModelNotInstalled">Алдымен тіл моделін жүктеңіз</string>
+    <string name="VoskDownloadBusy">Басқа модель жүктелуде</string>
+    <string name="VoskDownloadFailed">Модельді жүктеу мүмкін болмады</string>
+    <string name="VoskDeleteModelConfirm">Бұл тіл моделін жою керек пе?</string>
+    <string name="VoskModelsShort">Офлайн тану модельдері</string>
+    <string name="TranscribeProviderVosk">Vosk (офлайн)</string>
+    <string name="VoskNothingRecognized">Сөз танылмады</string>
+    <string name="TranscribeSetupAction">Баптау</string>
+    <string name="TranscribeSetupCredentials">STT тіркелгі деректері бапталмаған</string>
+    <string name="TranscribeSetupVosk">Офлайн модель жүктелмеген</string>
+</resources>

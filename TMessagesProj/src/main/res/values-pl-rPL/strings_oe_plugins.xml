@@ -195,4 +195,11 @@ Wtyczka: %1$s
     <string name="PluginsImportInvalid">Ten plik nie jest kopią zapasową wtyczek</string>
     <string name="PluginsRetryHooks">Ponów hooki</string>
     <string name="PluginsHooksBrokenInfo">Aplikacja dwukrotnie się zamknęła podczas uruchamiania silnika hooków, więc hooki wtyczek zostały wyłączone. Dotknij, aby spróbować ponownie — zadziała po ponownym uruchomieniu.</string>
+    <string name="PluginsSafeModeEnabled">Tryb awaryjny włączony. Zadziała przy następnym uruchomieniu.</string>
+    <string name="PluginsSafeModeDisabled">Tryb awaryjny wyłączony. Zadziała przy następnym uruchomieniu.</string>
+    <string name="PluginsNoSettings">Ta wtyczka nie ma ustawień.</string>
+    <string name="PluginsDexTitle">Wbudowany kod Java (DEX)</string>
+    <string name="PluginsDexLoaded">%1$s. Wtyczka go ładuje i uruchamia; to, co wywołuje, jest liczone w uprawnieniach poniżej i oznaczone „DEX”.</string>
+    <string name="PluginsDexUnused">%1$s, ale nic we wtyczce go nie ładuje — ten kod nigdy się nie wykonuje.</string>
+    <string name="PluginsDexClasses">Klasy: %1$s</string>
 </resources>

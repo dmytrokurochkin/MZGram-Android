@@ -166,4 +166,25 @@
     <string name="OEChatsWidgetPlaceholderTap">انقر للتحميل</string>
     <string name="OEChatsWidgetPlaceholderLoading">جارٍ التحميل…</string>
     <string name="OEChatsWidgetPlaceholderPreview">المعاينة معطّلة</string>
+    <string name="OEChatsHideCallButton">إخفاء زر الاتصال</string>
+    <string name="OEInlineTitle">النتائج أثناء الكتابة</string>
+    <string name="OEInlineTitleInfo">الآلة الحاسبة والعملات والوحدات والمناطق الزمنية</string>
+    <string name="OEInlineShow">عرض النتائج</string>
+    <string name="OEInlineFeatures">الميزات</string>
+    <string name="OEInlineCalculator">الآلة الحاسبة</string>
+    <string name="OEInlineCurrencies">العملات</string>
+    <string name="OEInlineUnits">الوحدات</string>
+    <string name="OEInlineTimeZones">المناطق الزمنية</string>
+    <string name="OEInlineGrouping">تجميع الأرقام</string>
+    <string name="OEInlineAngle">الزوايا في sin وcos وtan</string>
+    <string name="OEInlineAngleDegrees">درجات</string>
+    <string name="OEInlineAngleRadians">راديان</string>
+    <string name="OEInlineMeasure">نظام القياس</string>
+    <string name="OEInlineMeasureMetric">متري</string>
+    <string name="OEInlineMeasureImperial">إمبراطوري</string>
+    <string name="OEInlineTargetCurrency">العملة الافتراضية</string>
+    <string name="OEInlineAuto">تلقائي</string>
+    <string name="OEInlineDocArithmetic">الحساب والدوال</string>
+    <string name="OEInlineDocPercent">النسب المئوية والاختصارات</string>
+    <string name="OEInlineTapToCopy">انقر على مثال لنسخه.</string>
 </resources>

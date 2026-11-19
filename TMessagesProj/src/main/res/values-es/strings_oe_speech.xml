@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DownloadingModel">Descargando modelo…</string>
+    <string name="DownloadingModelInfo">Mantén esta ventana abierta mientras se descarga el modelo de idioma.</string>
+    <string name="ModelUnzipping">Descomprimiendo…</string>
+    <string name="VoskTitle">Reconocimiento sin conexión</string>
+    <string name="VoskLanguages">Modelos de idioma</string>
+    <string name="VoskLanguagesInfo">Toca un idioma para descargar su modelo y toca de nuevo para activarlo. Mantén pulsado un modelo descargado para eliminarlo. El reconocimiento funciona en el dispositivo; el mensaje de voz no se envía a ningún sitio.</string>
+    <string name="VoskModelSelected">Activo</string>
+    <string name="VoskModelNotInstalled">Primero descarga un modelo de idioma</string>
+    <string name="VoskDownloadBusy">Se está descargando otro modelo</string>
+    <string name="VoskDownloadFailed">No se pudo descargar el modelo</string>
+    <string name="VoskDeleteModelConfirm">¿Eliminar este modelo de idioma?</string>
+    <string name="VoskModelsShort">Modelos de reconocimiento sin conexión</string>
+    <string name="TranscribeProviderVosk">Vosk (sin conexión)</string>
+    <string name="VoskNothingRecognized">No se reconoció ninguna voz</string>
+    <string name="TranscribeSetupAction">Configurar</string>
+    <string name="TranscribeSetupCredentials">No hay credenciales de STT configuradas</string>
+    <string name="TranscribeSetupVosk">No hay ningún modelo sin conexión descargado</string>
+</resources>

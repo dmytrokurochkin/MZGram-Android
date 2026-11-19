@@ -42,4 +42,10 @@
     <string name="PillStackAddRate">Dodaj kurs</string>
     <string name="PillStackRemoveRate">Usunąć tę pigułkę kursu?</string>
     <string name="PillStackLastSeen">Mój status</string>
+    <string name="PillStackRam">RAM</string>
+    <string name="PillStackCpu">CPU</string>
+    <string name="PillStackNetSpeed">Prędkość internetu</string>
+    <string name="PillStackDcPing">Ping DC</string>
+    <string name="PillStackDcPingValue">%1$d ms</string>
+    <string name="PillStackGold">Złoto</string>
 </resources>

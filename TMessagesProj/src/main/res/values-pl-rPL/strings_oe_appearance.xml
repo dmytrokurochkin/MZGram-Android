@@ -133,4 +133,6 @@
     <string name="OEStartupFolderDontOpen">Nie otwieraj przy starcie</string>
     <string name="OEStartupFolderSet">**%1$s** będzie otwierany przy starcie</string>
     <string name="OEStartupFolderReset">Przy starcie otworzy się pierwszy folder</string>
+    <string name="OEAppearancePowerSaverActive">Oszczędzanie energii włącza się poniżej %1$d%% baterii, więc rozmycie i animacje są wstrzymane. Ustawienie jest zapisane i wróci po naładowaniu.</string>
+    <string name="OEAppearancePowerSaverSettings">Oszczędzanie energii</string>
 </resources>

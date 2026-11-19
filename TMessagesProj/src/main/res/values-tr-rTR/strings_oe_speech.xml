@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DownloadingModel">Model indiriliyor…</string>
+    <string name="DownloadingModelInfo">Dil modeli inerken bu pencereyi açık tutun.</string>
+    <string name="ModelUnzipping">Açılıyor…</string>
+    <string name="VoskTitle">Çevrimdışı tanıma</string>
+    <string name="VoskLanguages">Dil modelleri</string>
+    <string name="VoskLanguagesInfo">Bir dilin modelini indirmek için dokunun, etkinleştirmek için yeniden dokunun. İndirilen bir modeli silmek için basılı tutun. Tanıma cihazda çalışır, sesli mesaj hiçbir yere gönderilmez.</string>
+    <string name="VoskModelSelected">Etkin</string>
+    <string name="VoskModelNotInstalled">Önce bir dil modeli indirin</string>
+    <string name="VoskDownloadBusy">Başka bir model indiriliyor</string>
+    <string name="VoskDownloadFailed">Model indirilemedi</string>
+    <string name="VoskDeleteModelConfirm">Bu dil modeli silinsin mi?</string>
+    <string name="VoskModelsShort">Çevrimdışı tanıma modelleri</string>
+    <string name="TranscribeProviderVosk">Vosk (çevrimdışı)</string>
+    <string name="VoskNothingRecognized">Konuşma tanınmadı</string>
+    <string name="TranscribeSetupAction">Ayarla</string>
+    <string name="TranscribeSetupCredentials">STT kimlik bilgisi ayarlanmadı</string>
+    <string name="TranscribeSetupVosk">Çevrimdışı model indirilmedi</string>
+</resources>

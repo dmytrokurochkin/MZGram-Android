@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Feed">Стужка</string>
+    <string name="FeedAllChannelsExcluded">Усе каналы выключаны са стужкі.</string>
+    <string name="FeedBottomTab">Паказваць у ніжніх укладках</string>
+    <string name="FeedBottomTabInfo">Стужка як укладка ніжняй навігацыі замест «Кантактаў».</string>
+    <string name="FeedChannelHidden">**%1$s** схавана са стужкі</string>
+    <string name="FeedChannels">Каналы</string>
+    <string name="FeedChannelsInfo">Зніміце адзнаку з канала, каб схаваць яго допісы са стужкі. Новыя каналы паказваюцца аўтаматычна.</string>
+    <string name="FeedHiddenChannels">Схаваныя</string>
+    <string name="FeedHideChannel">Схаваць са стужкі</string>
+    <string name="FeedUnreadCounter">Лічыльнік непрачытаных допісаў</string>
+    <string name="FeedIncludeArchived">Чаты з архіва</string>
+    <string name="FeedIncludeArchivedInfo">Дадаваць у стужку таксама каналы з архіва.</string>
+    <string name="FeedMarkAllRead">Пазначыць усе прачытанымі</string>
+    <string name="FeedMarkAllReadConfirm">Пазначыць усе допісы каналаў стужкі прачытанымі? Яны таксама будуць пазначаны прачытанымі ў саміх каналах.</string>
+    <string name="FeedMarkAllReadDone">Усе допісы пазначаны прачытанымі</string>
+    <string name="FeedNoPosts">Допісаў каналаў яшчэ няма.</string>
+    <string name="FeedSettings">Налады стужкі</string>
+    <string name="FeedShownChannels">Паказваюцца ў стужцы</string>
+    <string name="HideFeedTab">Схаваць укладку «Стужка»</string>
+    <string name="FeedAddNewChannels">Дадаваць новыя каналы</string>
+    <string name="FeedAddNewChannelsOnInfo">Новыя каналы, на якія вы падпісваецеся, з\'яўляюцца ў стужцы аўтаматычна.</string>
+    <string name="FeedAddNewChannelsOffInfo">Новыя каналы схаваныя, пакуль вы не адзначыце іх ніжэй.</string>
+    <string name="FeedCategories">Катэгорыі</string>
+    <string name="FeedCategoriesInfo">Катэгорыі — гэта ўкладкі ўверсе стужкі. Перацягніце, каб змяніць парадак; націсніце на вока, каб схаваць укладку.</string>
+    <string name="FeedCategoryAddChannels">Дадаць каналы</string>
+    <string name="FeedCategoryChannelsInfo">Допісы выбраных каналаў з\'яўляюцца, калі адкрыта гэта катэгорыя, нават калі канал схаваны з «Усіх». Канал можа быць у некалькіх катэгорыях.</string>
+    <string name="FeedCategoryCreate">Стварыць катэгорыю</string>
+    <string name="FeedCategoryDelete">Выдаліць катэгорыю</string>
+    <string name="FeedCategoryDeleteConfirm">Выдаліць катэгорыю **%1$s**? Яе каналы застануцца ў стужцы.</string>
+    <string name="FeedCategoryEdit">Змяніць катэгорыю</string>
+    <string name="FeedCategoryEmpty">У гэтай катэгорыі няма каналаў.</string>
+    <string name="FeedCategoryEmptyInfo">Дадайце ў яе каналы, і іх допісы з\'явяцца тут.</string>
+    <string name="FeedCategoryHiddenInfo">**%1$s** схавана. Паказаць зноў можна ў наладах стужкі.</string>
+    <string name="FeedCategoryHide">Схаваць катэгорыю</string>
+    <string name="FeedCategoryName">Назва катэгорыі</string>
+    <string name="FeedCategoryNew">Новая катэгорыя</string>
+    <string name="FeedCategoryShow">Паказаць катэгорыю</string>
+    <string name="FeedCategoryUnsavedChanges">Вы змянілі гэту катэгорыю. Захаваць змены?</string>
+    <string name="FeedHiddenFromAll">Схаваныя з «Усіх»</string>
+    <string name="FeedAllChannelsExcludedInfo">Схаваныя каналы ўсё адно з\'яўляюцца ў сваіх катэгорыях.</string>
+</resources>

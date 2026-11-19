@@ -42,4 +42,10 @@
     <string name="PillStackAddRate">Añadir una tasa</string>
     <string name="PillStackRemoveRate">¿Eliminar esta píldora de tasa?</string>
     <string name="PillStackLastSeen">Mi estado</string>
+    <string name="PillStackRam">RAM</string>
+    <string name="PillStackCpu">CPU</string>
+    <string name="PillStackNetSpeed">Velocidad de internet</string>
+    <string name="PillStackDcPing">Ping del DC</string>
+    <string name="PillStackDcPingValue">%1$d ms</string>
+    <string name="PillStackGold">Oro</string>
 </resources>

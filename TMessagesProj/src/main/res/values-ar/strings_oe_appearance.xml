@@ -132,4 +132,6 @@
     <string name="OEStartupFolderDontOpen">عدم الفتح عند البدء</string>
     <string name="OEStartupFolderSet">سيتم فتح **%1$s** عند البدء</string>
     <string name="OEStartupFolderReset">سيتم فتح المجلد الأول عند البدء</string>
+    <string name="OEAppearancePowerSaverActive">يعمل توفير الطاقة عندما تقل البطارية عن %1$d%%، لذا توقّف التمويه والحركات مؤقتًا. الإعداد محفوظ ويعود عند الشحن.</string>
+    <string name="OEAppearancePowerSaverSettings">توفير الطاقة</string>
 </resources>

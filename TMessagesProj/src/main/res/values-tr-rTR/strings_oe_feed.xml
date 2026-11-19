@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Feed">Akış</string>
+    <string name="FeedAllChannelsExcluded">Tüm kanallar akıştan çıkarıldı.</string>
+    <string name="FeedBottomTab">Alt sekmelerde göster</string>
+    <string name="FeedBottomTabInfo">Akışı Kişiler sekmesi yerine alt gezinme sekmesi olarak göster.</string>
+    <string name="FeedChannelHidden">**%1$s** akıştan gizlendi</string>
+    <string name="FeedChannels">Kanallar</string>
+    <string name="FeedChannelsInfo">Bir kanalın gönderilerini akıştan gizlemek için işaretini kaldırın. Yeni kanallar otomatik gösterilir.</string>
+    <string name="FeedHiddenChannels">Gizli</string>
+    <string name="FeedHideChannel">Akıştan gizle</string>
+    <string name="FeedUnreadCounter">Okunmamış gönderi sayacı</string>
+    <string name="FeedIncludeArchived">Arşivdeki sohbetler</string>
+    <string name="FeedIncludeArchivedInfo">Arşivlenmiş sohbetlerdeki kanalları da akışa ekle.</string>
+    <string name="FeedMarkAllRead">Tümünü okundu işaretle</string>
+    <string name="FeedMarkAllReadConfirm">Akış kanallarınızdaki tüm gönderiler okundu işaretlensin mi? Asıl kanallarda da okundu olarak işaretlenir.</string>
+    <string name="FeedMarkAllReadDone">Tüm gönderiler okundu işaretlendi</string>
+    <string name="FeedNoPosts">Henüz kanal gönderisi yok.</string>
+    <string name="FeedSettings">Akış ayarları</string>
+    <string name="FeedShownChannels">Akışta gösterilen</string>
+    <string name="HideFeedTab">Akış sekmesini gizle</string>
+    <string name="FeedAddNewChannels">Yeni kanalları ekle</string>
+    <string name="FeedAddNewChannelsOnInfo">Takip ettiğiniz yeni kanallar akışta otomatik görünür.</string>
+    <string name="FeedAddNewChannelsOffInfo">Yeni kanallar aşağıda işaretleyene kadar gizli kalır.</string>
+    <string name="FeedCategories">Kategoriler</string>
+    <string name="FeedCategoriesInfo">Kategoriler akışın üstünde sekme olarak görünür. Sıralamak için sürükleyin, gizlemek için göze dokunun.</string>
+    <string name="FeedCategoryAddChannels">Kanal ekle</string>
+    <string name="FeedCategoryChannelsInfo">Seçili kanalların gönderileri bu kategori açıkken görünür, kanal Tümü\'nden gizli olsa bile. Bir kanal birden çok kategoride olabilir.</string>
+    <string name="FeedCategoryCreate">Kategori oluştur</string>
+    <string name="FeedCategoryDelete">Kategoriyi sil</string>
+    <string name="FeedCategoryDeleteConfirm">**%1$s** kategorisi silinsin mi? Kanalları akışta kalır.</string>
+    <string name="FeedCategoryEdit">Kategoriyi düzenle</string>
+    <string name="FeedCategoryEmpty">Bu kategoride kanal yok.</string>
+    <string name="FeedCategoryEmptyInfo">Kanal ekleyin, gönderileri burada görünsün.</string>
+    <string name="FeedCategoryHiddenInfo">**%1$s** gizli. Akış ayarlarından yeniden gösterebilirsiniz.</string>
+    <string name="FeedCategoryHide">Kategoriyi gizle</string>
+    <string name="FeedCategoryName">Kategori adı</string>
+    <string name="FeedCategoryNew">Yeni kategori</string>
+    <string name="FeedCategoryShow">Kategoriyi göster</string>
+    <string name="FeedCategoryUnsavedChanges">Bu kategoriyi düzenlediniz. Değişiklikler kaydedilsin mi?</string>
+    <string name="FeedHiddenFromAll">Tümü\'nden gizli</string>
+    <string name="FeedAllChannelsExcludedInfo">Gizli kanallar kendi kategorilerinde yine görünür.</string>
+</resources>

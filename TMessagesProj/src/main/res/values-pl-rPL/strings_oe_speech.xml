@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DownloadingModel">Pobieranie modelu…</string>
+    <string name="DownloadingModelInfo">Nie zamykaj tego okna, dopóki model językowy się pobiera.</string>
+    <string name="ModelUnzipping">Rozpakowywanie…</string>
+    <string name="VoskTitle">Rozpoznawanie offline</string>
+    <string name="VoskLanguages">Modele językowe</string>
+    <string name="VoskLanguagesInfo">Dotknij języka, aby pobrać jego model, i jeszcze raz, aby go włączyć. Przytrzymaj pobrany model, aby go usunąć. Rozpoznawanie działa na urządzeniu, wiadomość głosowa nigdzie nie jest wysyłana.</string>
+    <string name="VoskModelSelected">Aktywny</string>
+    <string name="VoskModelNotInstalled">Najpierw pobierz model językowy</string>
+    <string name="VoskDownloadBusy">Pobiera się inny model</string>
+    <string name="VoskDownloadFailed">Nie udało się pobrać modelu</string>
+    <string name="VoskDeleteModelConfirm">Usunąć ten model językowy?</string>
+    <string name="VoskModelsShort">Modele rozpoznawania offline</string>
+    <string name="TranscribeProviderVosk">Vosk (offline)</string>
+    <string name="VoskNothingRecognized">Nie rozpoznano mowy</string>
+    <string name="TranscribeSetupAction">Skonfiguruj</string>
+    <string name="TranscribeSetupCredentials">Nie skonfigurowano danych STT</string>
+    <string name="TranscribeSetupVosk">Nie pobrano modelu offline</string>
+</resources>

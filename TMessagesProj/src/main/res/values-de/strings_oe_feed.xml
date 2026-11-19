@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Feed">Feed</string>
+    <string name="FeedAllChannelsExcluded">Alle Kanäle sind vom Feed ausgeschlossen.</string>
+    <string name="FeedBottomTab">In den unteren Tabs zeigen</string>
+    <string name="FeedBottomTabInfo">Den Feed als unteren Navigations-Tab anstelle von Kontakte zeigen.</string>
+    <string name="FeedChannelHidden">**%1$s** aus dem Feed ausgeblendet</string>
+    <string name="FeedChannels">Kanäle</string>
+    <string name="FeedChannelsInfo">Entferne das Häkchen bei einem Kanal, um seine Beiträge aus dem Feed auszublenden. Neue Kanäle werden automatisch gezeigt.</string>
+    <string name="FeedHiddenChannels">Ausgeblendet</string>
+    <string name="FeedHideChannel">Aus dem Feed ausblenden</string>
+    <string name="FeedUnreadCounter">Zähler ungelesener Beiträge</string>
+    <string name="FeedIncludeArchived">Chats aus dem Archiv</string>
+    <string name="FeedIncludeArchivedInfo">Auch Kanäle aus deinen archivierten Chats in den Feed aufnehmen.</string>
+    <string name="FeedMarkAllRead">Alle als gelesen markieren</string>
+    <string name="FeedMarkAllReadConfirm">Alle Beiträge deiner Feed-Kanäle als gelesen markieren? Sie werden auch in den Kanälen selbst als gelesen markiert.</string>
+    <string name="FeedMarkAllReadDone">Alle Beiträge als gelesen markiert</string>
+    <string name="FeedNoPosts">Noch keine Kanalbeiträge.</string>
+    <string name="FeedSettings">Feed-Einstellungen</string>
+    <string name="FeedShownChannels">Im Feed angezeigt</string>
+    <string name="HideFeedTab">Feed-Tab ausblenden</string>
+    <string name="FeedAddNewChannels">Neue Kanäle hinzufügen</string>
+    <string name="FeedAddNewChannelsOnInfo">Neue Kanäle, denen du folgst, erscheinen automatisch im Feed.</string>
+    <string name="FeedAddNewChannelsOffInfo">Neue Kanäle bleiben ausgeblendet, bis du sie unten auswählst.</string>
+    <string name="FeedCategories">Kategorien</string>
+    <string name="FeedCategoriesInfo">Kategorien erscheinen als Tabs oben im Feed. Ziehen zum Sortieren, auf das Auge tippen zum Ausblenden.</string>
+    <string name="FeedCategoryAddChannels">Kanäle hinzufügen</string>
+    <string name="FeedCategoryChannelsInfo">Beiträge der gewählten Kanäle erscheinen, wenn diese Kategorie offen ist, auch wenn ein Kanal in „Alle“ ausgeblendet ist. Ein Kanal kann in mehreren Kategorien sein.</string>
+    <string name="FeedCategoryCreate">Kategorie erstellen</string>
+    <string name="FeedCategoryDelete">Kategorie löschen</string>
+    <string name="FeedCategoryDeleteConfirm">Kategorie **%1$s** löschen? Ihre Kanäle bleiben im Feed.</string>
+    <string name="FeedCategoryEdit">Kategorie bearbeiten</string>
+    <string name="FeedCategoryEmpty">Keine Kanäle in dieser Kategorie.</string>
+    <string name="FeedCategoryEmptyInfo">Füge Kanäle hinzu, dann erscheinen ihre Beiträge hier.</string>
+    <string name="FeedCategoryHiddenInfo">**%1$s** ist ausgeblendet. Du kannst es in den Feed-Einstellungen wieder zeigen.</string>
+    <string name="FeedCategoryHide">Kategorie ausblenden</string>
+    <string name="FeedCategoryName">Kategoriename</string>
+    <string name="FeedCategoryNew">Neue Kategorie</string>
+    <string name="FeedCategoryShow">Kategorie zeigen</string>
+    <string name="FeedCategoryUnsavedChanges">Du hast diese Kategorie bearbeitet. Änderungen speichern?</string>
+    <string name="FeedHiddenFromAll">In „Alle“ ausgeblendet</string>
+    <string name="FeedAllChannelsExcludedInfo">Ausgeblendete Kanäle erscheinen weiterhin in ihren Kategorien.</string>
+</resources>

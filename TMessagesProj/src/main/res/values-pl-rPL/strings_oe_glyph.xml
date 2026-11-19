@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="OEGlyphTitle">Nothing Glyph</string>
+    <string name="OEGlyphEnable">Glyph Interface</string>
+    <string name="OEGlyphNewMessage">Błysk przy nowych wiadomościach</string>
+    <string name="OEGlyphCalls">Świecenie przy połączeniach przychodzących</string>
+    <string name="OEGlyphRecording">Świecenie podczas nagrywania</string>
+    <string name="OEGlyphScreenOff">Wiadomości tylko przy wyłączonym ekranie</string>
+    <string name="OEGlyphPreview">Podgląd</string>
+    <string name="OEGlyphUnsupported">Glyph Interface jest dostępny tylko w telefonach Nothing</string>
+    <string name="OEGlyphInfo">Zapala Glyph Interface na tyle telefonu Nothing: błysk przy nowych wiadomościach, logo MZGram na Glyph Matrix w Phone (3) i oddychające świecenie podczas nagrywania głosówek lub połączenia przychodzącego. Wyciszone czaty nigdy nie wywołują błysku.</string>
+</resources>

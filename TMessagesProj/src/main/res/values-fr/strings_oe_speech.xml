@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DownloadingModel">Téléchargement du modèle…</string>
+    <string name="DownloadingModelInfo">Gardez cette fenêtre ouverte pendant le téléchargement du modèle de langue.</string>
+    <string name="ModelUnzipping">Décompression…</string>
+    <string name="VoskTitle">Reconnaissance hors ligne</string>
+    <string name="VoskLanguages">Modèles de langue</string>
+    <string name="VoskLanguagesInfo">Touchez une langue pour télécharger son modèle, puis de nouveau pour l’activer. Maintenez un modèle téléchargé pour le supprimer. La reconnaissance se fait sur l’appareil, le message vocal n’est envoyé nulle part.</string>
+    <string name="VoskModelSelected">Actif</string>
+    <string name="VoskModelNotInstalled">Téléchargez d’abord un modèle de langue</string>
+    <string name="VoskDownloadBusy">Un autre modèle est en téléchargement</string>
+    <string name="VoskDownloadFailed">Impossible de télécharger le modèle</string>
+    <string name="VoskDeleteModelConfirm">Supprimer ce modèle de langue ?</string>
+    <string name="VoskModelsShort">Modèles de reconnaissance hors ligne</string>
+    <string name="TranscribeProviderVosk">Vosk (hors ligne)</string>
+    <string name="VoskNothingRecognized">Aucune parole reconnue</string>
+    <string name="TranscribeSetupAction">Configurer</string>
+    <string name="TranscribeSetupCredentials">Aucun identifiant STT configuré</string>
+    <string name="TranscribeSetupVosk">Aucun modèle hors ligne téléchargé</string>
+</resources>

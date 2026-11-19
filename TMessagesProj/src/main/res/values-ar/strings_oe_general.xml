@@ -170,4 +170,8 @@
     <string name="OELiteFollowSystemSaver">اتباع موفر البطارية في النظام</string>
     <string name="OELiteFollowSystemSaverInfo">يُفعَّل توفير الطاقة مع تفعيل موفر البطارية في النظام.</string>
     <string name="OEUnknownSettingsOption">لا يوجد مثل هذا الخيار في إعدادات MZGram.</string>
+    <string name="OEGeneralExportFormatExtera">تنسيق متوافق (.extera)</string>
+    <string name="OEGeneralImportEtgEmpty">لا توجد إعدادات متوافقة في هذا الملف.</string>
+    <string name="OEGeneralNagramSettings">الإعدادات المتقدمة</string>
+    <string name="OEAyuDatabaseImportInfo">ستُضاف الرسائل المحذوفة والمعدّلة من هذا الملف إلى المحفوظة مسبقًا. تُدعم الملفات المصدّرة من MZGram وتطبيقات أخرى. قد لا تتوفر الوسائط من تطبيق آخر.</string>
 </resources>

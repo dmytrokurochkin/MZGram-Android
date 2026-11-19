@@ -187,4 +187,8 @@
     <string name="OELiteFollowSystemSaver">Как в системе</string>
     <string name="OELiteFollowSystemSaverInfo">Энергосбережение включается вместе с системным режимом экономии заряда.</string>
     <string name="OEUnknownSettingsOption">В настройках MZGram нет такой опции.</string>
+    <string name="OEGeneralExportFormatExtera">Совместимый формат (.extera)</string>
+    <string name="OEGeneralImportEtgEmpty">В этом файле нет совместимых настроек.</string>
+    <string name="OEGeneralNagramSettings">Расширенные настройки</string>
+    <string name="OEAyuDatabaseImportInfo">Удалённые и изменённые сообщения из этого файла добавятся к уже сохранённым. Поддерживаются экспорты из MZGram и других клиентов. Медиа из другого приложения могут быть недоступны.</string>
 </resources>

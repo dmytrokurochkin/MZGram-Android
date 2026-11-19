@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DownloadingModel">Спампоўка мадэлі…</string>
+    <string name="DownloadingModelInfo">Не закрывайце гэтае акно, пакуль спампоўваецца моўная мадэль.</string>
+    <string name="ModelUnzipping">Распакоўка…</string>
+    <string name="VoskTitle">Афлайн-распазнаванне</string>
+    <string name="VoskLanguages">Моўныя мадэлі</string>
+    <string name="VoskLanguagesInfo">Націсніце мову, каб спампаваць яе мадэль, і яшчэ раз, каб зрабіць яе актыўнай. Утрымлівайце спампаваную мадэль, каб выдаліць яе. Распазнаванне працуе на прыладзе, галасавое паведамленне нікуды не адпраўляецца.</string>
+    <string name="VoskModelSelected">Актыўная</string>
+    <string name="VoskModelNotInstalled">Спачатку спампуйце моўную мадэль</string>
+    <string name="VoskDownloadBusy">Спампоўваецца іншая мадэль</string>
+    <string name="VoskDownloadFailed">Не ўдалося спампаваць мадэль</string>
+    <string name="VoskDeleteModelConfirm">Выдаліць гэту моўную мадэль?</string>
+    <string name="VoskModelsShort">Мадэлі афлайн-распазнавання</string>
+    <string name="TranscribeProviderVosk">Vosk (афлайн)</string>
+    <string name="VoskNothingRecognized">Маўленне не распазнана</string>
+    <string name="TranscribeSetupAction">Наладзіць</string>
+    <string name="TranscribeSetupCredentials">Не наладжаны ўліковыя даныя STT</string>
+    <string name="TranscribeSetupVosk">Не спампавана афлайн-мадэлі</string>
+</resources>

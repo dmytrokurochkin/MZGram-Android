@@ -133,4 +133,6 @@
     <string name="OEStartupFolderDontOpen">No abrir al iniciar</string>
     <string name="OEStartupFolderSet">**%1$s** se abrirá al iniciar</string>
     <string name="OEStartupFolderReset">Al iniciar se abrirá la primera carpeta</string>
+    <string name="OEAppearancePowerSaverActive">El ahorro de energía se activa por debajo del %1$d%% de batería, así que el desenfoque y las animaciones están en pausa. El ajuste se guarda y vuelve al cargar.</string>
+    <string name="OEAppearancePowerSaverSettings">Ahorro de energía</string>
 </resources>

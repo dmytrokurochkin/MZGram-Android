@@ -195,4 +195,11 @@ Código:
     <string name="PluginsImportInvalid">Este archivo no es una copia de seguridad de plugins</string>
     <string name="PluginsRetryHooks">Reintentar hooks</string>
     <string name="PluginsHooksBrokenInfo">La app se cerró dos veces al iniciar el motor de hooks, así que los hooks de los plugins se desactivaron. Toca para reintentarlo; se aplica tras reiniciar.</string>
+    <string name="PluginsSafeModeEnabled">Modo seguro activado. Se aplica en el próximo inicio.</string>
+    <string name="PluginsSafeModeDisabled">Modo seguro desactivado. Se aplica en el próximo inicio.</string>
+    <string name="PluginsNoSettings">Este plugin no tiene ajustes.</string>
+    <string name="PluginsDexTitle">Código Java incrustado (DEX)</string>
+    <string name="PluginsDexLoaded">%1$s. El plugin lo carga y lo ejecuta; lo que llama se cuenta en los permisos de abajo y se marca como «DEX».</string>
+    <string name="PluginsDexUnused">%1$s, pero nada en el plugin lo carga: este código nunca se ejecuta.</string>
+    <string name="PluginsDexClasses">Clases: %1$s</string>
 </resources>

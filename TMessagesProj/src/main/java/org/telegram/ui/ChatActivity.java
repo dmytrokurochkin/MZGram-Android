@@ -5283,6 +5283,7 @@ public class ChatActivity extends BaseFragment implements
         chatInputViewsContainer.drawInputBackground = !isFeedSearch();
         chatInputViewsContainer.setWindowInsetsProvider(windowInsetsStateHolder);
         chatInputViewsContainer.setMzResourcesProvider(themeDelegate);
+        chatInputViewsContainer.setMzActionSplit(true);
         chatInputViewsContainer.setInputIslandBubbleDrawable(
             glassBackgroundDrawableFactory.create(chatInputViewsContainer, blurredBackgroundColorProvider));
         chatInputViewsContainer.setUnderKeyboardBackgroundDrawable(

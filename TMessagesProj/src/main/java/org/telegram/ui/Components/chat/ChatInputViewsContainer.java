@@ -107,6 +107,22 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         }
     }
 
+    /**
+     * The chat input keeps its main action (record / send) out of the field: the pill ends before the
+     * 44dp square at its right, where the action draws its own 40dp circle.
+     */
+    private boolean mzActionSplit;
+
+    public void setMzActionSplit(boolean split) {
+        if (mzActionSplit != split) {
+            mzActionSplit = split;
+            invalidate();
+        }
+    }
+
+    /** Space between the field and the action circle. */
+    private static final int MZ_ACTION_GAP = 5;
+
     private static boolean mzBars() {
         return app.exteraless.appearance.AppearanceConfig.materialBars();
     }
@@ -139,7 +155,13 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         final int text = ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelText, mzResourcesProvider), 255);
         mzBarPaint.setColor(ColorUtils.blendARGB(panel, text, dark ? 0.09f : 0.06f));
         mzBarPaint.setAlpha(fieldAlpha);
-        mzFieldRect.set(tmpRect.left + pad, fieldTop, tmpRect.right - pad, fieldBottom);
+        float fieldRight = tmpRect.right - pad;
+        if (mzActionSplit) {
+            final float circleLeft = fieldRight - dp(org.telegram.ui.Components.ChatActivityEnterView.DEFAULT_HEIGHT)
+                    + AndroidUtilities.dpf2(org.telegram.ui.Components.ChatActivityEnterView.MZ_ACTION_MARGIN);
+            fieldRight = circleLeft - dp(MZ_ACTION_GAP);
+        }
+        mzFieldRect.set(tmpRect.left + pad, fieldTop, fieldRight, fieldBottom);
         final float r = Math.min(dp(INPUT_BUBBLE_RADIUS), mzFieldRect.height() / 2f);
         canvas.drawRoundRect(mzFieldRect, r, r, mzBarPaint);
     }

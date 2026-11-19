@@ -3404,7 +3404,8 @@ public class ChatActivityEnterView extends FrameLayout implements
             @Override
             protected void dispatchDraw(@NonNull Canvas canvas) {
                 boolean isMenuState = isAudioVideoSendButtonInMenuState();
-                if (!audioVideoButtonContainerForbidden && !isMenuState) {
+                final boolean mz = mzActionCircle();
+                if (!audioVideoButtonContainerForbidden && (!isMenuState || mz)) {
                     float s = 1;
                     if (expandStickersButton != null) {
                         if (expandStickersButton.getVisibility() == View.VISIBLE) {
@@ -3412,11 +3413,12 @@ public class ChatActivityEnterView extends FrameLayout implements
                         }
                     }
 
-                    final float r = dpf2(19);
-                    paint.setColor(getThemedColor(Theme.key_chat_messagePanelSend));
-                    final float margin = dpf2(3);
-                    final float height = dpf2(38);
-                    final float width = dpf2(38);
+                    // MZGram: the main action is a 40dp circle beside the field; the menu mode gets a tonal one
+                    final float r = dpf2(mz ? MZ_ACTION_SIZE / 2f : 19);
+                    paint.setColor(isMenuState ? mzTonalActionColor() : getThemedColor(Theme.key_chat_messagePanelSend));
+                    final float margin = dpf2(mz ? MZ_ACTION_MARGIN : 3);
+                    final float height = dpf2(mz ? MZ_ACTION_SIZE : 38);
+                    final float width = height;
                     backgroundRect.set(
                             getMeasuredWidth() - width - margin,
                             getMeasuredHeight() - height - margin,
@@ -12008,8 +12010,10 @@ public class ChatActivityEnterView extends FrameLayout implements
         }
         boolean isMenuState = isAudioVideoSendButtonInMenuState();
         int color = audioVideoButtonContainerForbidden || isMenuState
-                ? getThemedColor(Theme.key_glass_defaultIcon)
-                : Color.WHITE;
+                ? (isMenuState && !audioVideoButtonContainerForbidden && mzActionCircle()
+                        ? getThemedColor(Theme.key_chat_messagePanelSend)
+                        : getThemedColor(Theme.key_glass_defaultIcon))
+                : mzOnAction(getThemedColor(Theme.key_chat_messagePanelSend));
         setIconColorFilter(audioVideoSendButton, new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
         audioVideoButtonContainer.setBackground(isMenuState
                 ? Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector))
@@ -16864,6 +16868,34 @@ public class ChatActivityEnterView extends FrameLayout implements
     }
 
     @SuppressLint("ViewConstructor")
+    // ---- MZGram: the main action (record / send) of the Material input ----
+
+    /** The circle of the main action, in dp: 40dp in the 44dp square right of the field. */
+    public static final float MZ_ACTION_SIZE = 40;
+    public static final float MZ_ACTION_MARGIN = (DEFAULT_HEIGHT - MZ_ACTION_SIZE) / 2f;
+
+    /** With Material bars the record and send buttons share one 40dp circle beside the field. */
+    public static boolean mzActionCircle() {
+        return app.exteraless.appearance.AppearanceConfig.materialBars();
+    }
+
+    /** White on a dark accent; on a light accent (Material You dark themes) a dark tone of it, as on-primary. */
+    public static int mzOnAction(int accent) {
+        if (!mzActionCircle()) {
+            return Color.WHITE;
+        }
+        final int opaque = ColorUtils.setAlphaComponent(accent, 255);
+        return ColorUtils.calculateContrast(Color.WHITE, opaque) >= 3.0 ? Color.WHITE : ColorUtils.blendARGB(opaque, Color.BLACK, 0.72f);
+    }
+
+    /** The tonal container of the menu-mode button: the accent over the input bar, like a secondary container. */
+    private int mzTonalActionColor() {
+        final int panel = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_messagePanelBackground), 255);
+        final int accent = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_messagePanelSend), 255);
+        final boolean dark = AndroidUtilities.computePerceivedBrightness(panel) < 0.5f;
+        return ColorUtils.blendARGB(panel, accent, dark ? 0.22f : 0.14f);
+    }
+
     public static class SendButton extends View implements ItemOptions.ScrimView {
         public static final float INFINITE_LOADING = -3f;
 
@@ -17151,7 +17183,8 @@ public class ChatActivityEnterView extends FrameLayout implements
             updateColors();
             checkBackgroundRect();
             if (isNewDesignSendButton) {
-                canvas.drawRoundRect(backgroundRect, dp(RADIUS), dp(RADIUS), backgroundPaint);
+                final float backgroundRadius = mzActionCircle() ? backgroundRect.height() / 2f : dp(RADIUS);
+                canvas.drawRoundRect(backgroundRect, backgroundRadius, backgroundRadius, backgroundPaint);
             }
 
             final boolean inactive = isInactive();
@@ -17412,7 +17445,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         private int drawableColor, inactiveDrawableColor, drawableInverseColor;
 
         public void updateColors() {
-            int color = isNewDesignSendButton ? Color.WHITE : Theme.getColor(Theme.key_chat_messagePanelSend, resourcesProvider);
+            int color = isNewDesignSendButton ? mzOnAction(Theme.getColor(Theme.key_chat_messagePanelSend, resourcesProvider)) : Theme.getColor(Theme.key_chat_messagePanelSend, resourcesProvider);
             int c = Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider);
             int inverseColor = Theme.getColor(Theme.key_chat_messagePanelVoicePressed, resourcesProvider);
             if (color != drawableColor || c != inactiveDrawableColor || inverseColor != drawableInverseColor) {
@@ -17489,8 +17522,9 @@ public class ChatActivityEnterView extends FrameLayout implements
         private static final int RADIUS = 19;
 
         private void checkBackgroundRect() {
-            final float margin = dpf2(3);
-            final float height = dpf2(38);
+            final boolean mz = mzActionCircle();
+            final float margin = dpf2(mz ? MZ_ACTION_MARGIN : 3);
+            final float height = dpf2(mz ? MZ_ACTION_SIZE : 38);
             final float width = lerp(
                 Math.max(height, dpf2(10 + 10) + priceText.getCurrentWidth()),
                 height, sameWidthFactor);

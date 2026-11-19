@@ -45,4 +45,9 @@
     <string name="PluginsInstallFromFile">Встановити з файлу</string>
     <string name="MZMonetWallpaperColors">Кольори шпалер</string>
     <string name="MZMonetSeedColor">Колір %1$d</string>
+    <string name="MZPrefsGeneralSummary">Переклад, мережа, сховище, архів, сповіщення</string>
+    <string name="MZPrefsAppearanceSummary">Стиль Material, шапка, папки, навігація, іконки</string>
+    <string name="MZPrefsChatsSummary">Стікери, повідомлення, введення, меню, подвійний дотик</string>
+    <string name="MZPrefsPluginsSummary">Каталог плагінів, встановлені плагіни, встановлення з файлу</string>
+    <string name="MZPrefsOtherSummary">Резервна копія, експериментальні функції, скидання</string>
 </resources>

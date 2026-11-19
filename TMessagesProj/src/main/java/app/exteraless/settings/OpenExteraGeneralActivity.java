@@ -232,6 +232,46 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
         notificationsDividerRow = addRow();
     }
 
+    // ---- MZGram: the screen opens as a list of its sections ----
+
+    @Override
+    protected boolean mzUsesSections() {
+        return true;
+    }
+
+    @Override
+    protected BaseNekoSettingsActivity mzCreateSectionPage() {
+        return new OpenExteraGeneralActivity();
+    }
+
+    /** One switch and its note: shown on the list itself, a page of its own would hold one row. */
+    @Override
+    protected boolean mzSectionInline(String section) {
+        return "botPrivacyHeader".equals(section);
+    }
+
+    @Override
+    protected int mzSectionIcon(String section) {
+        switch (section) {
+            case "translateHeader":
+                return R.drawable.msg_translate;
+            case "speedHeader":
+                return R.drawable.msg_speed;
+            case "storageHeader":
+                return R.drawable.msg_download;
+            case "profileHeader":
+                return R.drawable.msg_contacts;
+            case "archiveHeader":
+                return R.drawable.msg_archive;
+            case "mapsHeader":
+                return R.drawable.msg_location;
+            case "notificationsHeader":
+                return R.drawable.msg_notifications;
+            default:
+                return R.drawable.msg_settings_old;
+        }
+    }
+
     @Override
     protected String getActionBarTitle() {
         return getString(R.string.OEGeneralTitle);
@@ -1111,6 +1151,10 @@ public class OpenExteraGeneralActivity extends BaseNekoSettingsActivity {
 
         @Override
         public int getItemViewType(int position) {
+            final int mzType = mzSectionItemViewType(position);
+            if (mzType != -1) {
+                return mzType;
+            }
             if (position == botPrivacyHeaderRow || position == mapsHeaderRow || position == notificationsHeaderRow
                     || position == translateHeaderRow
                     || position == generalHeaderRow || position == networkHeaderRow

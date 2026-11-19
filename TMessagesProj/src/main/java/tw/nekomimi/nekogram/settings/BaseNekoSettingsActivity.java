@@ -110,6 +110,9 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
+        if (mzSection == null && mzUsesSections()) {
+            mzSection = MZ_HUB;
+        }
         updateRows();
 
         return true;
@@ -147,7 +150,14 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         listAdapter = createAdapter(context);
 
         listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener(this::onItemClick);
+        listView.setOnItemClickListener((view, position, x, y) -> {
+            String section = mzNavRows.get(position);
+            if (section != null) {
+                mzOpenSection(section, null);
+                return;
+            }
+            onItemClick(view, position, x, y);
+        });
         listView.setClipToPadding(false);
         listView.setOnItemLongClickListener((view, position, x, y) -> {
             if (onItemLongClick(view, position, x, y)) {
@@ -167,6 +177,9 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         // При sectionRadius == 0 — стоковый плоский вид (карточки визуально отсутствуют).
         listView.setSections(dp(12), dp(app.exteraless.appearance.AppearanceConfig.sectionRadius()), true);
         setupAdaptiveBackground();
+        if (MZ_HUB.equals(mzSection)) {
+            mzCollectHeaderTitles();
+        }
         return fragmentView;
     }
 
@@ -187,7 +200,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             actionBar.setTitleColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             actionBar.setCastShadows(false);
         }
-        actionBar.setTitle(getActionBarTitle());
+        actionBar.setTitle(mzSectionPageTitle != null ? mzSectionPageTitle : getActionBarTitle());
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(int id) {
@@ -270,11 +283,36 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     protected int addRow() {
+        if (mzBuildingSection != null && !mzRowVisible()) {
+            return -1;
+        }
+        mzLastRowWasDivider = true;
         return rowCount++;
     }
 
     // TODO: refactor the whole settings
     protected int addRow(String... keys) {
+        final String first = keys.length > 0 ? keys[0] : null;
+        final boolean header = mzIsSectionHeader(first);
+        boolean opensSection = false;
+        if (header) {
+            opensSection = mzBeginSection(first);
+        } else if (mzBuildingSection == null) {
+            mzBeginSection(MZ_TOP);
+        }
+        if (first != null && !header) {
+            ArrayList<String> rows = mzSectionRows.get(mzBuildingSection);
+            if (rows != null) {
+                rows.add(first);
+            }
+            for (String key : keys) {
+                mzRowSection.put(key, mzBuildingSection);
+            }
+        }
+        if (!mzRowVisible() || opensSection && mzOnSectionPage()) {
+            return -1;
+        }
+        mzLastRowWasDivider = false;
         var row = rowCount++;
         for (var key : keys) {
             rowMap.put(key, row);
@@ -284,6 +322,17 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     public void scrollToRow(String key, Runnable unknown) {
+        if (MZ_HUB.equals(mzSection) && !rowMap.containsKey(key)) {
+            // the row lives on the page of its section
+            String section = mzSectionRows.containsKey(key) ? key : mzRowSection.get(key);
+            if (section == null && mzIsSectionHeader(key)) {
+                section = mzSectionGroup(key);
+            }
+            if (section != null && !mzSectionInline(section)) {
+                mzOpenSection(section, mzIsSectionHeader(key) ? null : key);
+                return;
+            }
+        }
         if (!rowMap.containsKey(key) && expandGroupFor(key) && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -303,6 +352,212 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         rowCount = 0;
         rowMap.clear();
         rowMapReverse.clear();
+        mzBuildingSection = null;
+        mzLastRowWasNav = false;
+        mzLastRowWasDivider = false;
+        mzSectionKeys.clear();
+        mzSectionRows.clear();
+        mzRowSection.clear();
+        mzNavRows.clear();
+        mzSpacerRows.clear();
+    }
+
+    // ---- MZGram: a long settings screen opens as a list of its sections, each on its own page ----
+    // Android settings guidelines: not more than 10-15 items on a screen, 15+ settings go into
+    // subscreens; the row that opens a subscreen carries its title and, below it, what is inside.
+
+    /** {@link #mzSection} value of the list of sections. */
+    public static final String MZ_HUB = "";
+    /** Section of the rows above the first header. */
+    public static final String MZ_TOP = "_top";
+
+    /** null: every row on one screen; {@link #MZ_HUB}: the list of sections; a section key: that section. */
+    protected String mzSection;
+    /** Every row, whatever the mode: rows for search, the header titles. */
+    private boolean mzAllSections;
+    private String mzSectionPageTitle;
+    private String mzBuildingSection;
+    private boolean mzLastRowWasNav;
+    /** The last row on the list is the screen's own divider: no second gap before a section row. */
+    private boolean mzLastRowWasDivider;
+    private final ArrayList<String> mzSectionKeys = new ArrayList<>();
+    private final HashMap<String, ArrayList<String>> mzSectionRows = new HashMap<>();
+    private final HashMap<String, String> mzRowSection = new HashMap<>();
+    private final HashMap<Integer, String> mzNavRows = new HashMap<>();
+    private final java.util.HashSet<Integer> mzSpacerRows = new java.util.HashSet<>();
+    private final HashMap<String, String> mzHeaderTitles = new HashMap<>();
+
+    /** Screens with many rows return true: they open as a list of sections. */
+    protected boolean mzUsesSections() {
+        return false;
+    }
+
+    /** A new page of the same screen; its section is set by the caller. */
+    protected BaseNekoSettingsActivity mzCreateSectionPage() {
+        return null;
+    }
+
+    /** Sections whose rows stay on the list of sections: rows that already open screens. */
+    protected boolean mzSectionInline(String section) {
+        return false;
+    }
+
+    /** Several headers can share one page: the page of the returned section. */
+    protected String mzSectionGroup(String header) {
+        return header;
+    }
+
+    protected int mzSectionIcon(String section) {
+        return R.drawable.msg_settings_old;
+    }
+
+    /** A row key that starts a section. Screens override it for switches whose keys end in "Header". */
+    protected boolean mzIsSectionHeader(String key) {
+        return key != null && (key.endsWith("Header") || key.endsWith("HeaderSection"));
+    }
+
+    /** Starts the section of a header; true when the header opens it (the first row of its page). */
+    private boolean mzBeginSection(String header) {
+        final String section = mzSectionGroup(header);
+        mzBuildingSection = section;
+        if (mzSectionRows.containsKey(section)) {
+            return false;
+        }
+        mzSectionKeys.add(section);
+        mzSectionRows.put(section, new ArrayList<>());
+        if (MZ_HUB.equals(mzSection) && !mzAllSections) {
+            if (mzSectionInline(section)) {
+                if (mzLastRowWasNav) {
+                    mzSpacerRows.add(rowCount++);
+                }
+                mzLastRowWasNav = false;
+                mzLastRowWasDivider = false;
+            } else {
+                if (!mzLastRowWasNav && !mzLastRowWasDivider && rowCount > 0) {
+                    mzSpacerRows.add(rowCount++);
+                }
+                mzNavRows.put(rowCount++, section);
+                mzLastRowWasNav = true;
+                mzLastRowWasDivider = false;
+            }
+        }
+        return true;
+    }
+
+    private boolean mzRowVisible() {
+        if (mzSection == null || mzAllSections) {
+            return true;
+        }
+        if (MZ_HUB.equals(mzSection)) {
+            return mzBuildingSection != null && mzSectionInline(mzBuildingSection);
+        }
+        return mzSection.equals(mzBuildingSection);
+    }
+
+    /** On its own page a section does not repeat its title as a header under the title bar. */
+    private boolean mzOnSectionPage() {
+        return mzSection != null && !mzAllSections && !MZ_HUB.equals(mzSection);
+    }
+
+    /** The type of the rows the list of sections adds, or -1 for the screen's own rows. */
+    public int mzSectionItemViewType(int position) {
+        if (mzNavRows.containsKey(position)) {
+            return TYPE_TEXT;
+        }
+        if (mzSpacerRows.contains(position)) {
+            return TYPE_SHADOW;
+        }
+        return -1;
+    }
+
+    public String mzSectionTitle(String section) {
+        String title = mzHeaderTitles.get(section);
+        if (title == null) {
+            String key = section;
+            if (MZ_TOP.equals(section)) {
+                ArrayList<String> rows = mzSectionRows.get(section);
+                key = rows == null || rows.isEmpty() ? null : rows.get(0);
+            }
+            title = key == null ? null : tw.nekomimi.nekogram.helpers.SettingsHelper.rowTitle(this, key);
+        }
+        return title != null ? title : getActionBarTitle();
+    }
+
+    /** What is in a section: the titles of its first rows, as the Android guidelines show it. */
+    private String mzSectionSummary(String section) {
+        ArrayList<String> rows = mzSectionRows.get(section);
+        if (rows == null) {
+            return null;
+        }
+        StringBuilder summary = new StringBuilder();
+        int count = 0;
+        final String title = mzSectionTitle(section);
+        for (String key : rows) {
+            String rowTitle = tw.nekomimi.nekogram.helpers.SettingsHelper.rowTitle(this, key);
+            if (rowTitle == null || rowTitle.isEmpty() || rowTitle.equals(title)) {
+                continue;
+            }
+            if (count > 0) {
+                summary.append(", ");
+            }
+            summary.append(rowTitle);
+            if (++count == 4) {
+                break;
+            }
+        }
+        return summary.length() == 0 ? null : summary.toString();
+    }
+
+    private void mzOpenSection(String section, String scrollTo) {
+        BaseNekoSettingsActivity page = mzCreateSectionPage();
+        if (page == null) {
+            return;
+        }
+        page.mzSection = section;
+        page.mzSectionPageTitle = mzSectionTitle(section);
+        presentFragment(page);
+        if (scrollTo != null) {
+            AndroidUtilities.runOnUIThread(() -> page.scrollToRow(scrollTo, null));
+        }
+    }
+
+    /** The headers' own texts, bound by the screen itself: no second copy of every title. */
+    private void mzCollectHeaderTitles() {
+        mzHeaderTitles.clear();
+        mzAllSections = true;
+        try {
+            updateRows();
+            RecyclerView.ViewHolder holder = listAdapter.onCreateViewHolder(listView, TYPE_HEADER);
+            for (java.util.Map.Entry<Integer, String> entry : rowMapReverse.entrySet()) {
+                final String key = entry.getValue();
+                if (!mzIsSectionHeader(key) || listAdapter.getItemViewType(entry.getKey()) != TYPE_HEADER) {
+                    continue;
+                }
+                listAdapter.onBindViewHolder(holder, entry.getKey(), false);
+                if (holder.itemView instanceof org.telegram.ui.Cells.HeaderCell) {
+                    CharSequence text = ((org.telegram.ui.Cells.HeaderCell) holder.itemView).getTextView().getText();
+                    final String group = mzSectionGroup(key);
+                    if (text != null && text.length() > 0 && (key.equals(group) || !mzHeaderTitles.containsKey(group))) {
+                        mzHeaderTitles.put(group, text.toString());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            org.telegram.messenger.FileLog.e(e);
+        }
+        mzAllSections = false;
+        updateRows();
+        if (listAdapter != null) {
+            listAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void mzBindNavRow(TextCell cell, int position) {
+        final String section = mzNavRows.get(position);
+        cell.setTextAndIcon(mzSectionTitle(section), mzSectionIcon(section), mzNavRows.containsKey(position + 1));
+        cell.setSubtitle(mzSectionSummary(section));
+        cell.heightDp = 64;
+        cell.requestLayout();
     }
 
     protected static final class CollapsibleGroup {
@@ -346,6 +601,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     public void buildRowsForSearch() {
+        mzAllSections = true;
         List<CollapsibleGroup> groups = collapsibleGroups();
         boolean[] was = new boolean[groups.size()];
         for (int i = 0; i < groups.size(); i++) {
@@ -358,6 +614,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         for (int i = 0; i < groups.size(); i++) {
             groups.get(i).setExpanded.accept(was[i]);
         }
+        mzAllSections = false;
         updateRows();
     }
 
@@ -453,6 +710,14 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if (mzNavRows.containsKey(position) && holder.itemView instanceof TextCell) {
+                mzBindNavRow((TextCell) holder.itemView, position);
+                applySectionBackground(holder, position);
+                return;
+            }
+            if (mzSpacerRows.contains(position)) {
+                return;
+            }
             var payload = holder.getPayload();
             onBindViewHolder(holder, position, PARTIAL.equals(payload));
             applySectionBackground(holder, position);

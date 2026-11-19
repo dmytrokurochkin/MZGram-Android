@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZPrefsGeneralSummary">Çeviri, ağ, depolama, arşiv, bildirimler</string>
+    <string name="MZPrefsAppearanceSummary">Material stili, başlık, klasörler, gezinme, simgeler</string>
+    <string name="MZPrefsChatsSummary">Çıkartmalar, mesajlar, yazma, menüler, çift dokunma</string>
+    <string name="MZPrefsPluginsSummary">Eklenti kataloğu, yüklü eklentiler, dosyadan yükle</string>
+    <string name="MZPrefsOtherSummary">Yedekleme, deneysel özellikler, sıfırlama</string>
+    <string name="MZMonetWallpaperColors">Duvar kağıdı renkleri</string>
+    <string name="MZMonetSeedColor">Renk %1$d</string>
+</resources>

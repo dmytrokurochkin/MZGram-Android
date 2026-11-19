@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZPrefsGeneralSummary">الترجمة، الشبكة، التخزين، الأرشيف، الإشعارات</string>
+    <string name="MZPrefsAppearanceSummary">نمط Material، الترويسة، المجلدات، التنقل، الأيقونات</string>
+    <string name="MZPrefsChatsSummary">الملصقات، الرسائل، الكتابة، القوائم، النقر المزدوج</string>
+    <string name="MZPrefsPluginsSummary">كتالوج الإضافات، الإضافات المثبتة، التثبيت من ملف</string>
+    <string name="MZPrefsOtherSummary">النسخ الاحتياطي، الميزات التجريبية، إعادة التعيين</string>
+    <string name="MZMonetWallpaperColors">ألوان الخلفية</string>
+    <string name="MZMonetSeedColor">اللون %1$d</string>
+</resources>

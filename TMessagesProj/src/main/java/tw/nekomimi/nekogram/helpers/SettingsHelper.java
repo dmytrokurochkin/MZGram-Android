@@ -403,7 +403,7 @@ public class SettingsHelper {
         return moved != null ? moved : fallback;
     }
 
-    private static String rowTitle(BaseNekoSettingsActivity fragment, String key) {
+    public static String rowTitle(BaseNekoSettingsActivity fragment, String key) {
         String title = getString(key);
         if (title != null && !title.isEmpty() && !title.equals(key)) {
             return title;

@@ -794,6 +794,59 @@ public class OpenExteraChatsActivity extends BaseNekoSettingsActivity {
         hidingSettingsDividerRow = addRow();
     }
 
+    // ---- MZGram: the main chats screen opens as a list of its sections ----
+
+    @Override
+    protected boolean mzUsesSections() {
+        return screen == SCREEN_CHATS;
+    }
+
+    @Override
+    protected BaseNekoSettingsActivity mzCreateSectionPage() {
+        return new OpenExteraChatsActivity(SCREEN_CHATS);
+    }
+
+    /** Sticker size, the sticker shape and the sticker options are one page: "Stickers". */
+    @Override
+    protected String mzSectionGroup(String header) {
+        if (MZ_TOP.equals(header) || "stickerShapeHeader".equals(header)) {
+            return "stickersHeader";
+        }
+        return header;
+    }
+
+    /** The links already open screens of their own: they stay on the list. */
+    @Override
+    protected boolean mzSectionInline(String section) {
+        return "linksHeader".equals(section);
+    }
+
+    @Override
+    protected int mzSectionIcon(String section) {
+        switch (section) {
+            case "stickersHeader":
+                return R.drawable.msg_sticker;
+            case "doubleTapHeader":
+                return R.drawable.msg_reactions;
+            case "chatsHeader":
+                return R.drawable.msg_discussion;
+            case "inputHeader":
+                return R.drawable.msg_text_outlined;
+            case "searchHeader":
+                return R.drawable.msg_search;
+            case "messagesHeader":
+                return R.drawable.msg_msgbubble3;
+            case "linkConfirmationsHeader":
+                return R.drawable.msg_link;
+            case "channelPostsHeader":
+                return R.drawable.msg_channel;
+            case "buttonsHeader":
+                return R.drawable.msg_mini_customize;
+            default:
+                return R.drawable.msg_settings_old;
+        }
+    }
+
     @Override
     protected String getActionBarTitle() {
         switch (screen) {
@@ -3052,6 +3105,10 @@ public class OpenExteraChatsActivity extends BaseNekoSettingsActivity {
 
         @Override
         public int getItemViewType(int position) {
+            final int mzType = mzSectionItemViewType(position);
+            if (mzType != -1) {
+                return mzType;
+            }
             if (position == stickerSizeRow) return TYPE_STICKER_SIZE;
             if (position == stickerShapeRow) return TYPE_STICKER_SHAPE;
             if (position == doubleTapRow) return TYPE_DOUBLE_TAP;

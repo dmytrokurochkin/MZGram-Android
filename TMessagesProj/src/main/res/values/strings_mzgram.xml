@@ -40,4 +40,9 @@
     <string name="MZPluginCatalogVersionSize">Version %1$s · %2$s</string>
     <string name="MZMonetWallpaperColors">Wallpaper colours</string>
     <string name="MZMonetSeedColor">Colour %1$d</string>
+    <string name="MZPrefsGeneralSummary">Translation, network, storage, archive, notifications</string>
+    <string name="MZPrefsAppearanceSummary">Material style, header, folders, navigation, icons</string>
+    <string name="MZPrefsChatsSummary">Stickers, messages, input, menus, double tap</string>
+    <string name="MZPrefsPluginsSummary">Plugin catalog, installed plugins, install from file</string>
+    <string name="MZPrefsOtherSummary">Backup, experimental features, reset</string>
 </resources>

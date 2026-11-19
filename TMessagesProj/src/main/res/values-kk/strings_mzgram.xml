@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZPrefsGeneralSummary">Аударма, желі, жад, мұрағат, хабарландырулар</string>
+    <string name="MZPrefsAppearanceSummary">Material стилі, тақырып, қалталар, навигация, белгішелер</string>
+    <string name="MZPrefsChatsSummary">Стикерлер, хабарлар, енгізу, мәзірлер, қос түрту</string>
+    <string name="MZPrefsPluginsSummary">Плагиндер каталогы, орнатылған плагиндер, файлдан орнату</string>
+    <string name="MZPrefsOtherSummary">Сақтық көшірме, эксперименттік мүмкіндіктер, қалпына келтіру</string>
+    <string name="MZMonetWallpaperColors">Тұсқағаз түстері</string>
+    <string name="MZMonetSeedColor">Түс %1$d</string>
+</resources>

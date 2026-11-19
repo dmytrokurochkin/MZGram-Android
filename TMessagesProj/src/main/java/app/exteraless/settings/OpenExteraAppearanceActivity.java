@@ -278,6 +278,52 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
 
     }
 
+    // ---- MZGram: the screen opens as a list of its sections ----
+
+    @Override
+    protected boolean mzUsesSections() {
+        return true;
+    }
+
+    @Override
+    protected BaseNekoSettingsActivity mzCreateSectionPage() {
+        return new OpenExteraAppearanceActivity();
+    }
+
+    /** "md3ChatHeader" and "iosChatHeader" are switches (the chat header style), not section headers. */
+    @Override
+    protected boolean mzIsSectionHeader(String key) {
+        return super.mzIsSectionHeader(key) && !"md3ChatHeader".equals(key) && !"iosChatHeader".equals(key);
+    }
+
+    /** The links already open screens of their own: they stay on the list. */
+    @Override
+    protected boolean mzSectionInline(String section) {
+        return "linksHeader".equals(section);
+    }
+
+    @Override
+    protected int mzSectionIcon(String section) {
+        switch (section) {
+            case MZ_TOP:
+                return R.drawable.msg_contacts;
+            case "chatListHeader":
+                return R.drawable.msg_list;
+            case "MZHeaderSection":
+                return R.drawable.msg_search;
+            case "foldersHeader":
+                return R.drawable.msg_folders;
+            case "appearanceHeader":
+                return R.drawable.msg_palette;
+            case "sectionsHeader":
+                return R.drawable.msg_customize;
+            case "blurHeader":
+                return R.drawable.msg_blur_radial;
+            default:
+                return R.drawable.msg_theme;
+        }
+    }
+
     @Override
     protected String getActionBarTitle() {
         return getString(R.string.OEAppearanceTitle);
@@ -1270,6 +1316,10 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
 
         @Override
         public int getItemViewType(int position) {
+            final int mzType = mzSectionItemViewType(position);
+            if (mzType != -1) {
+                return mzType;
+            }
             if (position == avatarCornersPreviewRow) {
                 return TYPE_AVATAR_CORNERS;
             } else if (position == chatListPreviewRow) {

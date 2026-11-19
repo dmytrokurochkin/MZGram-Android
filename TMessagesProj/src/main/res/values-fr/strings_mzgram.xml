@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZPrefsGeneralSummary">Traduction, réseau, stockage, archives, notifications</string>
+    <string name="MZPrefsAppearanceSummary">Style Material, en-tête, dossiers, navigation, icônes</string>
+    <string name="MZPrefsChatsSummary">Stickers, messages, saisie, menus, double appui</string>
+    <string name="MZPrefsPluginsSummary">Catalogue de plugins, plugins installés, installer depuis un fichier</string>
+    <string name="MZPrefsOtherSummary">Sauvegarde, fonctions expérimentales, réinitialisation</string>
+    <string name="MZMonetWallpaperColors">Couleurs du fond d’écran</string>
+    <string name="MZMonetSeedColor">Couleur %1$d</string>
+</resources>

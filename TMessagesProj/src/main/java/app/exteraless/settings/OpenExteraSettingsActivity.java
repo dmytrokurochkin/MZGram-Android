@@ -204,6 +204,11 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
         }
     }
 
+    private static void mzSummary(TextCell cell, int summary) {
+        cell.setSubtitle(getString(summary));
+        cell.heightDp = 64;
+    }
+
     private class ListAdapter extends BaseListAdapter {
 
         public ListAdapter(Context context) {
@@ -240,16 +245,24 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
                 }
                 case TYPE_TEXT: {
                     TextCell cell = (TextCell) holder.itemView;
+                    cell.setSubtitle(null);
+                    cell.heightDp = 50;
+                    // MZGram: each category says what is inside it, as the Android settings guidelines ask
                     if (position == generalRow) {
-                        cell.setTextAndIcon(getString(R.string.OpenExteraGeneral), R.drawable.msg_media, true);
+                        cell.setTextAndIcon(getString(R.string.OpenExteraGeneral), R.drawable.msg_settings_old, true);
+                        mzSummary(cell, R.string.MZPrefsGeneralSummary);
                     } else if (position == appearanceRow) {
                         cell.setTextAndIcon(getString(R.string.OpenExteraAppearance), R.drawable.msg_theme, true);
+                        mzSummary(cell, R.string.MZPrefsAppearanceSummary);
                     } else if (position == chatsRow) {
                         cell.setTextAndIcon(getString(R.string.OpenExteraChats), R.drawable.msg_discussion, true);
+                        mzSummary(cell, R.string.MZPrefsChatsSummary);
                     } else if (position == pluginsRow) {
                         cell.setTextAndIcon(getString(R.string.OpenExteraPlugins), R.drawable.msg_plugins, true);
+                        mzSummary(cell, R.string.MZPrefsPluginsSummary);
                     } else if (position == otherRow) {
-                        cell.setTextAndIcon(getString(R.string.OpenExteraOther), R.drawable.msg_fave, false);
+                        cell.setTextAndIcon(getString(R.string.OpenExteraOther), R.drawable.msg_customize, false);
+                        mzSummary(cell, R.string.MZPrefsOtherSummary);
                     } else if (position == channelRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.ProfileChannel),
                                 "@exteraless", R.drawable.msg_channel, true);

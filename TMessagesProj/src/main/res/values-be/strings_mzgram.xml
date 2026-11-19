@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZPrefsGeneralSummary">Пераклад, сетка, сховішча, архіў, апавяшчэнні</string>
+    <string name="MZPrefsAppearanceSummary">Стыль Material, шапка, папкі, навігацыя, значкі</string>
+    <string name="MZPrefsChatsSummary">Стыкеры, паведамленні, увод, меню, падвойны дотык</string>
+    <string name="MZPrefsPluginsSummary">Каталог плагінаў, усталяваныя плагіны, усталяванне з файла</string>
+    <string name="MZPrefsOtherSummary">Рэзервовая копія, эксперыментальныя функцыі, скід</string>
+    <string name="MZMonetWallpaperColors">Колеры шпалер</string>
+    <string name="MZMonetSeedColor">Колер %1$d</string>
+</resources>

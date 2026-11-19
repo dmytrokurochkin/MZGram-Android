@@ -40,4 +40,9 @@
     <string name="MZPluginCatalogVersionSize">Версия %1$s · %2$s</string>
     <string name="MZMonetWallpaperColors">Цвета обоев</string>
     <string name="MZMonetSeedColor">Цвет %1$d</string>
+    <string name="MZPrefsGeneralSummary">Перевод, сеть, хранилище, архив, уведомления</string>
+    <string name="MZPrefsAppearanceSummary">Стиль Material, шапка, папки, навигация, значки</string>
+    <string name="MZPrefsChatsSummary">Стикеры, сообщения, ввод, меню, двойное нажатие</string>
+    <string name="MZPrefsPluginsSummary">Каталог плагинов, установленные плагины, установка из файла</string>
+    <string name="MZPrefsOtherSummary">Резервная копия, экспериментальные функции, сброс</string>
 </resources>

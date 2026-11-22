@@ -115,7 +115,7 @@ public class PluginCell extends FrameLayout implements NotificationCenter.Notifi
             id = plugin.id;
             name = plugin.getDisplayName();
             subtitle = plugin.getSubtitle();
-            description = plugin.description;
+            description = plugin.getDisplayDescription();
             loadError = plugin.loadError;
             icon = plugin.icon;
             enabled = plugin.enabled && plugin.loadError == null;

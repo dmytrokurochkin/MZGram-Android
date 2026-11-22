@@ -140,6 +140,7 @@ public class PluginsController extends com.exteragram.messenger.plugins.PluginsC
         if (!isEngineEnabled()) {
             return;
         }
+        PluginCatalogTexts.preload();
         String crashed = watchdog.recoverAfterCrash();
         if (crashed != null) {
             FileLog.e("PluginsController: disabled crashed plugin " + crashed);

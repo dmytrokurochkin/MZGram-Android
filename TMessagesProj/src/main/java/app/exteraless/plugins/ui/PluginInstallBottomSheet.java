@@ -133,13 +133,14 @@ public class PluginInstallBottomSheet extends com.exteragram.messenger.plugins.u
                 org.telegram.ui.LaunchActivity.getSafeLastFragment(), this::dismiss));
         titles.addView(subtitle, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 2, 0, 0));
 
-        if (plugin != null && !TextUtils.isEmpty(plugin.description)) {
+        final String descriptionText = plugin != null ? plugin.getDisplayDescription() : null;
+        if (!TextUtils.isEmpty(descriptionText)) {
             LinkSpanDrawable.LinksTextView description = new LinkSpanDrawable.LinksTextView(context);
             description.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             description.setLineSpacing(dp(2), 1f);
             description.setTextColor(colors.onSurfaceVariant);
             description.setLinkTextColor(colors.primary);
-            description.setText(com.exteragram.messenger.utils.text.LocaleUtils.fullyFormatText(plugin.description));
+            description.setText(com.exteragram.messenger.utils.text.LocaleUtils.fullyFormatText(descriptionText));
             content.addView(description, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT,
                     LayoutHelper.WRAP_CONTENT, 0, 16, 0, 0));
         }

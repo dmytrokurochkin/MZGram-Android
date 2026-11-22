@@ -211,7 +211,17 @@ public class Plugin extends com.exteragram.messenger.plugins.Plugin {
     }
 
     public String getDisplayName() {
+        String catalog = PluginCatalogTexts.name(id);
+        if (catalog != null) {
+            return catalog;
+        }
         return name != null ? name : id;
+    }
+
+    /** The catalog description in the app language for MZGram catalog plugins, else the file's own text. */
+    public String getDisplayDescription() {
+        String catalog = PluginCatalogTexts.description(id);
+        return catalog != null ? catalog : description;
     }
 
     public String getSubtitle() {

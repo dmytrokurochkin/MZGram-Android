@@ -78,7 +78,7 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
     public static final String REPO_URL = "https://github.com/dmytrokurochkin/MZGram-Plugins";
     private static final String RAW_BASE = "https://raw.githubusercontent.com/dmytrokurochkin/MZGram-Plugins/main/";
     private static final String INDEX_URL = RAW_BASE + "index.json";
-    private static final String CACHE_NAME = "mzgram_plugin_catalog.json";
+    private static final String CACHE_NAME = app.exteraless.plugins.PluginCatalogTexts.CACHE_NAME;
     private static final int MAX_INDEX_BYTES = 16 * 1024 * 1024;
     private static final int MAX_PLUGIN_BYTES = 32 * 1024 * 1024;
 
@@ -246,6 +246,7 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
                 try (OutputStream out = new FileOutputStream(cache)) {
                     out.write(data);
                 }
+                app.exteraless.plugins.PluginCatalogTexts.invalidate();
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -357,25 +358,7 @@ public class PluginCatalogActivity extends BaseFragment implements NotificationC
 
     /** The value for the app language from a {"uk": ..., "pt-BR": ...} map, or null. */
     private static String forCurrentLanguage(JSONObject map) {
-        Locale locale = LocaleController.getInstance().getCurrentLocale();
-        if (map == null || locale == null) {
-            return null;
-        }
-        String lang = locale.getLanguage().toLowerCase(Locale.ROOT);
-        String country = locale.getCountry().toLowerCase(Locale.ROOT);
-        for (java.util.Iterator<String> it = map.keys(); it.hasNext(); ) {
-            String key = it.next();
-            if (key.equalsIgnoreCase(lang + "-" + country)) {
-                return map.optString(key, null);
-            }
-        }
-        for (java.util.Iterator<String> it = map.keys(); it.hasNext(); ) {
-            String key = it.next();
-            if (key.equalsIgnoreCase(lang)) {
-                return map.optString(key, null);
-            }
-        }
-        return null;
+        return app.exteraless.plugins.PluginCatalogTexts.forCurrentLanguage(map);
     }
 
     private static String localizedDescription(Entry entry) {

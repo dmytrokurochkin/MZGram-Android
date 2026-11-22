@@ -566,9 +566,10 @@ public class PluginsActivity extends BaseFragment {
             return;
         }
         SpannableStringBuilder message = new SpannableStringBuilder();
-        if (!TextUtils.isEmpty(plugin.description)) {
+        final String description = plugin.getDisplayDescription();
+        if (!TextUtils.isEmpty(description)) {
             message.append(com.exteragram.messenger.utils.text.LocaleUtils
-                    .fullyFormatText(plugin.description)).append("\n\n");
+                    .fullyFormatText(description)).append("\n\n");
         }
         message.append(plugin.getSubtitle());
         if (plugin.requirements != null && !plugin.requirements.isEmpty()) {

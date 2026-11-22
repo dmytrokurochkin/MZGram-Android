@@ -179,7 +179,7 @@ public final class PluginSinkGate {
                 try {
                     String detail = param.thisObject instanceof URL
                             ? String.valueOf(param.thisObject) : describe(param);
-                    if (PluginPermissions.check(pluginId, PluginPermissions.NETWORK)) {
+                    if (permitted(pluginId, PluginPermissions.NETWORK)) {
                         PluginAuditJournal.record(pluginId, owner.getName() + "." + methodName,
                                 "network", detail, true);
                         return;
@@ -265,7 +265,7 @@ public final class PluginSinkGate {
                 }
                 for (String loader : CODE_LOADING_CLASSES) {
                     if (matchesClassName(name, loader)) {
-                        if (!PluginPermissions.check(pluginId, PluginPermissions.HOOKS)) {
+                        if (!permitted(pluginId, PluginPermissions.HOOKS)) {
                             deny(pluginId, event, "native", name,
                                     "missing the 'hooks' permission", param);
                         } else {
@@ -278,7 +278,7 @@ public final class PluginSinkGate {
                     if (!matchesClassName(name, prefix)) {
                         continue;
                     }
-                    if (!PluginPermissions.check(pluginId, PluginPermissions.NETWORK)) {
+                    if (!permitted(pluginId, PluginPermissions.NETWORK)) {
                         deny(pluginId, event, "network", name,
                                 "missing the 'network' permission", param);
                     } else {
@@ -475,18 +475,37 @@ public final class PluginSinkGate {
     }
 
     /**
-     * The first WebView of the process makes Android load the system WebView package
-     * (WebViewFactory, then ApplicationLoaders, then PathClassLoader). That is the framework's own
-     * code, not code a plugin brings, so it needs no 'hooks' permission. Without this, a plugin that
-     * opens a WebView (the arcade games) failed whenever it made the first WebView since app start.
+     * The first WebView of the process makes Android load and start the system WebView package:
+     * WebViewFactory loads its dex (PathClassLoader) and its native library (Runtime.loadLibrary0),
+     * then WebViewChromiumAwInit starts Chromium, whose LibraryLoader calls loadLibrary again.
+     * That is the framework's own code, not code a plugin brings, so none of it needs a plugin
+     * permission. Without this, a plugin that opens a WebView (the arcade games) failed whenever it
+     * made the first WebView since app start. These frames never call back into plugin code, so a
+     * plugin cannot use them to get around the gate; callbacks such as a JavaScript interface run
+     * from other Chromium classes and stay checked.
      */
-    private static boolean isSystemWebViewLoad() {
+    private static boolean isSystemWebViewStartup() {
         for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-            if ("android.webkit.WebViewFactory".equals(element.getClassName())) {
+            String cls = element.getClassName();
+            if ("android.webkit.WebViewFactory".equals(cls)
+                    || cls.endsWith(".WebViewChromiumAwInit")
+                    || "org.chromium.base.library_loader.LibraryLoader".equals(cls)) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * PluginPermissions.check for the gate: the system WebView starting up is not a plugin's
+     * request, so it is allowed and the user gets no denial notice for it. The stack is walked
+     * only when the permission is missing.
+     */
+    private static boolean permitted(String pluginId, String permission) {
+        if (PluginPermissions.has(pluginId, permission) || isSystemWebViewStartup()) {
+            return true;
+        }
+        return PluginPermissions.check(pluginId, permission);
     }
 
     private static String foreignSettingsOwner(Object target) {
@@ -526,13 +545,10 @@ public final class PluginSinkGate {
                                 return;
                             }
                             try {
-                                if (PluginPermissions.check(pluginId, PluginPermissions.HOOKS)) {
+                                if (permitted(pluginId, PluginPermissions.HOOKS)) {
                                     PluginAuditJournal.record(pluginId, "loadDex", "native",
                                             className, true, className.equals("dalvik.system.PathClassLoader")
                                                     ? callerStack() : null);
-                                    return;
-                                }
-                                if (isSystemWebViewLoad()) {
                                     return;
                                 }
                                 // Здесь именно исключение: конструктор нельзя
@@ -595,7 +611,7 @@ public final class PluginSinkGate {
                             ? null : param.args[0];
                     final String name = requestName(request);
                     final String permission = requestPermission(name);
-                    if (PluginPermissions.check(pluginId, permission)) {
+                    if (permitted(pluginId, permission)) {
                         PluginAuditJournal.record(pluginId, "sendRequest", "messages", name, true);
                         return;
                     }
@@ -635,7 +651,7 @@ public final class PluginSinkGate {
                     if (!isRemoteUrl(url)) {
                         return;  // about:blank, data:, file:// — сети тут нет
                     }
-                    if (PluginPermissions.check(pluginId, PluginPermissions.NETWORK)) {
+                    if (permitted(pluginId, PluginPermissions.NETWORK)) {
                         PluginAuditJournal.record(pluginId, "WebView.load", "network", url, true);
                         return;
                     }
@@ -668,7 +684,7 @@ public final class PluginSinkGate {
                     return;
                 }
                 try {
-                    if (PluginPermissions.check(pluginId, PluginPermissions.HOOKS)) {
+                    if (permitted(pluginId, PluginPermissions.HOOKS)) {
                         PluginAuditJournal.record(pluginId, "WindowManager.addView", "overlay",
                                 describe(param), true);
                         return;
@@ -724,7 +740,7 @@ public final class PluginSinkGate {
                         // Адрес спрятан внутри Request и наружу не отдаётся,
                         // поэтому спрашиваем разрешение на саму постановку в
                         // очередь: локальных загрузок у DownloadManager нет.
-                        if (PluginPermissions.check(pluginId, PluginPermissions.NETWORK)) {
+                        if (permitted(pluginId, PluginPermissions.NETWORK)) {
                             PluginAuditJournal.record(pluginId, "DownloadManager.enqueue",
                                     "network", "", true);
                             return;
@@ -766,7 +782,7 @@ public final class PluginSinkGate {
                     if (!isRemoteUrl(url)) {
                         return;  // локальный файл — сети тут нет
                     }
-                    if (PluginPermissions.check(pluginId, PluginPermissions.NETWORK)) {
+                    if (permitted(pluginId, PluginPermissions.NETWORK)) {
                         PluginAuditJournal.record(pluginId, methodName, "network", url, true);
                         return;
                     }
@@ -882,7 +898,7 @@ public final class PluginSinkGate {
                     return;
                 }
                 try {
-                    if (PluginPermissions.check(pluginId, permission)) {
+                    if (permitted(pluginId, permission)) {
                         PluginAuditJournal.record(pluginId, methodName, categoryFor(permission),
                                 describe(param), true);
                         return;
@@ -1045,7 +1061,7 @@ public final class PluginSinkGate {
                     if (permission == null) {
                         return;
                     }
-                    if (PluginPermissions.check(pluginId, permission)) {
+                    if (permitted(pluginId, permission)) {
                         PluginAuditJournal.record(pluginId, event, "files", path, true);
                         return;
                     }
@@ -1182,7 +1198,7 @@ public final class PluginSinkGate {
             return true;
         }
         try {
-            if (PluginPermissions.check(pluginId, PluginPermissions.MESSAGES_READ)) {
+            if (permitted(pluginId, PluginPermissions.MESSAGES_READ)) {
                 PluginAuditJournal.record(pluginId, "getDatabase", "messages", "", true);
                 return true;
             }
@@ -1388,6 +1404,12 @@ public final class PluginSinkGate {
                              String reason, XC_MethodHook.MethodHookParam param) {
         if (PluginPermissions.isUnsafeMode()) {
             PluginAuditJournal.record(pluginId, event, category, detail, true);
+            return;
+        }
+        // Checked here, on the rare deny path, so every gate lets the system WebView start
+        // without a stack walk on each allowed call.
+        if (isSystemWebViewStartup()) {
+            PluginAuditJournal.record(pluginId, event, category, detail + " (system WebView)", true);
             return;
         }
         PluginAuditJournal.record(pluginId, event, category, detail, false, callerStack());

@@ -1519,3 +1519,36 @@ def test_gated_java_import_names_the_missing_permission(loader):
     plain = ModuleNotFoundError("No module named 'org'", name='org')
     plain._exteraless_java_import = ('org.telegram.messenger', ('NoSuchThing',))
     assert loader._gated_java_import(plain) is None
+
+
+def test_deeper_sub_pages_are_built_only_when_opened(sdk, loader, monkeypatch):
+    built, calls = [], []
+
+    def module_page():
+        built.append('module')
+        return [sdk.settings.Text('String', on_click=lambda view: calls.append('deep'))]
+
+    items = [sdk.settings.Text('All modules', create_sub_fragment=lambda: [
+        sdk.settings.Text('Module', create_sub_fragment=module_page)])]
+    settings_record(sdk, loader, monkeypatch, items)
+    root = json.loads(loader.get_settings_json('test_plugin'))
+    module_row = root[0]['sub_page'][0]
+    assert built == []
+    assert module_row.get('sub_page_lazy') is True and 'sub_page' not in module_row
+
+    page = json.loads(loader.get_sub_page_json(
+        'test_plugin', json.dumps([root[0]['row_id'], module_row['row_id']])))
+    assert built == ['module']
+    assert page[0]['text'] == 'String'
+    # a rebuild of the root page keeps the handlers of the open sub-page
+    loader.get_settings_json('test_plugin')
+    loader.dispatch_setting_click('test_plugin', page[0]['callback_id'])
+    assert calls == ['deep']
+
+
+def test_lazy_sub_page_with_an_unknown_path_is_null(sdk, loader, monkeypatch):
+    items = [sdk.settings.Text('Page', create_sub_fragment=lambda: [sdk.settings.Header('Inside')])]
+    settings_record(sdk, loader, monkeypatch, items)
+    assert loader.get_sub_page_json('test_plugin', json.dumps(['nope'])) == 'null'
+    assert loader.get_sub_page_json('test_plugin', '[]') == 'null'
+    assert loader.get_sub_page_json('missing_plugin', '["x"]') == 'null'

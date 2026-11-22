@@ -2945,6 +2945,7 @@ def _mark_disabled(instance) -> None:
 
 def _unload_record(plugin_id: str, quiet: bool, clock=None):
     record = plugins.pop(plugin_id, None)
+    _sub_page_callbacks.pop(plugin_id, None)
     if record is None:
         return
     instance = record.instance
@@ -3367,28 +3368,75 @@ def _from_java_setting(item, kind: str):
     return None
 
 
-def _serialize_setting_item(item, record: PluginRecord, scope: str = "",
-                            index: int = 0, identities: Optional[dict] = None) -> Optional[dict]:
+def _resolve_setting_item(item):
+    """The Python settings item for `item` (Java setting objects are converted), or None to skip it."""
     kind = _java_setting_kind(item)
     if kind is not None:
-        converted = _from_java_setting(item, kind)
-        if converted is None:
-            return None
-        item = converted
+        return _from_java_setting(item, kind)
+    return item
+
+
+def _row_ident(item, scope: str, index: int, identities: Optional[dict]) -> str:
     ident = _item_ident(item, scope, index)
     if identities is not None:
         occurrence = identities.get(ident, 0)
         identities[ident] = occurrence + 1
         ident = json.dumps([ident, occurrence], ensure_ascii=False)
-    ident = hashlib.sha256(ident.encode("utf-8")).hexdigest()
-    data = _serialize_setting_data(item, record, ident)
+    return hashlib.sha256(ident.encode("utf-8")).hexdigest()
+
+
+def _serialize_setting_item(item, record: PluginRecord, scope: str = "",
+                            index: int = 0, identities: Optional[dict] = None,
+                            depth: int = 0) -> Optional[dict]:
+    item = _resolve_setting_item(item)
+    if item is None:
+        return None
+    ident = _row_ident(item, scope, index, identities)
+    data = _serialize_setting_data(item, record, ident, depth)
     if data is not None:
         data["row_id"] = ident
         _put(data, "link_alias", getattr(item, "link_alias", None))
     return data
 
 
-def _serialize_setting_data(item, record: PluginRecord, ident: str) -> Optional[dict]:
+#: Sub-pages are built this many levels ahead of the page being serialized; deeper ones are marked
+#: "sub_page_lazy" and built when opened (get_sub_page_json), as exteraGram does. Building the whole tree up
+#: front froze the app on plugins with large trees (Lang Maker: thousands of string rows).
+_EAGER_SUB_PAGE_DEPTH = 1
+
+#: plugin_id -> {owners path: (click, change, custom views)} registered by get_sub_page_json(), so that a
+#: rebuild of the root page does not drop the handlers of a sub-page that is open.
+_sub_page_callbacks: Dict[str, Dict[str, tuple]] = {}
+
+
+def _attach_sub_page(data: dict, item, record: PluginRecord, ident: str, depth: int) -> None:
+    if item.create_sub_fragment is None:
+        return
+    if depth >= _EAGER_SUB_PAGE_DEPTH:
+        data["sub_page_lazy"] = True
+        return
+    try:
+        sub_items = item.create_sub_fragment()
+    except Exception as e:
+        record.instance.log(f"create_sub_fragment() failed: {type(e).__name__}: {e}")
+        sub_items = None
+    if not sub_items:
+        return
+    sub_page = []
+    identities = {}
+    for sub_index, sub_item in enumerate(sub_items):
+        try:
+            entry = _serialize_setting_item(sub_item, record, ident, sub_index, identities, depth + 1)
+        except Exception as e:
+            record.instance.log(f"settings item skipped: {type(e).__name__}: {e}")
+            continue
+        if entry is not None:
+            sub_page.append(entry)
+    if sub_page:
+        data["sub_page"] = sub_page
+
+
+def _serialize_setting_data(item, record: PluginRecord, ident: str, depth: int = 0) -> Optional[dict]:
     s = ui_settings
     instance = record.instance
 
@@ -3471,25 +3519,7 @@ def _serialize_setting_data(item, record: PluginRecord, ident: str) -> Optional[
         _put(data, "subtext", item.subtext)
         _put(data, "icon", item.icon)
         _attach_callbacks(data, item, record, ident)
-        if item.create_sub_fragment is not None:
-            try:
-                sub_items = item.create_sub_fragment()
-            except Exception as e:
-                instance.log(f"create_sub_fragment() failed: {type(e).__name__}: {e}")
-                sub_items = None
-            if sub_items:
-                sub_page = []
-                identities = {}
-                for sub_index, sub_item in enumerate(sub_items):
-                    try:
-                        entry = _serialize_setting_item(sub_item, record, ident, sub_index, identities)
-                    except Exception as e:
-                        instance.log(f"settings item skipped: {type(e).__name__}: {e}")
-                        continue
-                    if entry is not None:
-                        sub_page.append(entry)
-                if sub_page:
-                    data["sub_page"] = sub_page
+        _attach_sub_page(data, item, record, ident, depth)
         return data
 
     if isinstance(item, s.Custom):
@@ -3497,25 +3527,7 @@ def _serialize_setting_data(item, record: PluginRecord, ident: str) -> Optional[
         record.custom_views[view_id] = item
         data = {"type": "custom", "view_id": view_id}
         _attach_callbacks(data, item, record, ident)
-        if item.create_sub_fragment is not None:
-            try:
-                sub_items = item.create_sub_fragment()
-            except Exception as e:
-                instance.log(f"create_sub_fragment() failed: {type(e).__name__}: {e}")
-                sub_items = None
-            if sub_items:
-                sub_page = []
-                identities = {}
-                for sub_index, sub_item in enumerate(sub_items):
-                    try:
-                        entry = _serialize_setting_item(sub_item, record, ident, sub_index, identities)
-                    except Exception as e:
-                        instance.log(f"settings item skipped: {type(e).__name__}: {e}")
-                        continue
-                    if entry is not None:
-                        sub_page.append(entry)
-                if sub_page:
-                    data["sub_page"] = sub_page
+        _attach_sub_page(data, item, record, ident, depth)
         return data
 
     return None  # unknown item type: skip defensively
@@ -3575,10 +3587,72 @@ def get_settings_json(plugin_id: str) -> str:
         if entry is not None:
             out.append(entry)
     result = json.dumps(out, ensure_ascii=False)
+    # Handlers of sub-pages opened lazily stay; the root page's own ones win on a clash.
+    for click, change, views in _sub_page_callbacks.get(plugin_id, {}).values():
+        for target, source in ((pending.click_callbacks, click), (pending.change_callbacks, change),
+                               (pending.custom_views, views)):
+            for key, value in source.items():
+                target.setdefault(key, value)
     record.click_callbacks = pending.click_callbacks
     record.change_callbacks = pending.change_callbacks
     record.custom_views = pending.custom_views
     return result
+
+
+def get_sub_page_json(plugin_id: str, owners_json: str) -> str:
+    """Serialize one sub-page that get_settings_json() left lazy.
+
+    owners_json is the list of row ids from the root page down to the row that opens the sub-page.
+    """
+    record = plugins.get(plugin_id)
+    if record is None:
+        return "null"
+    instance = record.instance
+    try:
+        owners = [str(owner) for owner in json.loads(owners_json)]
+    except Exception:
+        return "null"
+    if not owners:
+        return "null"
+    try:
+        items = instance.create_settings()
+        scope = ""
+        for owner in owners:
+            holder = None
+            identities = {}
+            for index, item in enumerate(items or []):
+                item = _resolve_setting_item(item)
+                if item is None:
+                    continue
+                if _row_ident(item, scope, index, identities) == owner:
+                    holder = item
+                    break
+            create = getattr(holder, "create_sub_fragment", None)
+            if create is None:
+                return "null"
+            items = create()
+            scope = owner
+    except Exception as e:
+        instance.log(f"sub-page failed: {type(e).__name__}: {e}")
+        return "null"
+
+    pending = replace(record, click_callbacks={}, change_callbacks={}, custom_views={})
+    out = []
+    identities = {}
+    for index, item in enumerate(items or []):
+        try:
+            entry = _serialize_setting_item(item, pending, scope, index, identities)
+        except Exception as e:
+            instance.log(f"settings item skipped: {type(e).__name__}: {e}")
+            continue
+        if entry is not None:
+            out.append(entry)
+    _sub_page_callbacks.setdefault(plugin_id, {})[json.dumps(owners)] = (
+        pending.click_callbacks, pending.change_callbacks, pending.custom_views)
+    record.click_callbacks.update(pending.click_callbacks)
+    record.change_callbacks.update(pending.change_callbacks)
+    record.custom_views.update(pending.custom_views)
+    return json.dumps(out, ensure_ascii=False)
 
 
 # Settings callbacks

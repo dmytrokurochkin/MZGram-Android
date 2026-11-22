@@ -1432,6 +1432,11 @@ public class PluginsController extends com.exteragram.messenger.plugins.PluginsC
         return PythonPluginsEngine.getInstance().getSettingsJson(pluginId);
     }
 
+    /** A sub-page the plugin builds only when it is opened; owners are the row ids on the way to it. */
+    public String getPluginSubPageJson(String pluginId, String[] owners) {
+        return PythonPluginsEngine.getInstance().getSubPageJson(pluginId, owners);
+    }
+
     // ---------- имена API exteraGram ----------
 
     public void init() {

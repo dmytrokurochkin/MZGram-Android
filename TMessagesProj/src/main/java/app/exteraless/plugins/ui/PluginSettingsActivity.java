@@ -466,17 +466,27 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
                         ? subPageOwners[step] : null;
                 JSONObject holder = subPageHolder(array, subPageIndex[step], owner);
                 if (holder == null) {
-                    return null;
+                    // Not in the root JSON: a deeper page the plugin builds only when opened.
+                    return lazySubPageJson();
                 }
                 array = holder.optJSONArray("sub_page");
                 if (array == null) {
-                    return null;
+                    return lazySubPageJson();
                 }
             }
             return array.toString();
         } catch (JSONException e) {
             return null;
         }
+    }
+
+    private String lazySubPageJson() {
+        return subPageOwners == null ? null
+                : PluginsController.getInstance().getPluginSubPageJson(pluginId, subPageOwners);
+    }
+
+    private static boolean opensLazySubPage(JSONObject row) {
+        return row != null && row.optJSONArray("sub_page") == null && row.optBoolean("sub_page_lazy", false);
     }
 
     private static JSONObject subPageHolder(JSONArray array, int index, String owner) {
@@ -660,7 +670,8 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
                 .getPluginSettingsCustomContent(pluginId, viewId, getContext());
         boolean interactive = optNonEmpty(row, "callback_id") != null
                 || optNonEmpty(row, "long_callback_id") != null
-                || row.optJSONArray("sub_page") != null;
+                || row.optJSONArray("sub_page") != null
+                || opensLazySubPage(row);
         UItem item;
         if (content instanceof UItem) {
             item = ((UItem) content).copy();
@@ -863,6 +874,8 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
                 if (customSubPage != null) {
                     presentFragment(newSubPage(pluginId, customSubPage.toString(), getTitle(),
                             pathTo(row), ownersTo(row)));
+                } else if (opensLazySubPage(row)) {
+                    presentFragment(newSubPage(pluginId, null, getTitle(), pathTo(row), ownersTo(row)));
                 } else if (callbackId != null) {
                     controller.dispatchSettingClick(pluginId, callbackId, view);
                 } else {
@@ -874,6 +887,9 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
                 JSONArray subPage = row.optJSONArray("sub_page");
                 if (subPage != null) {
                     presentFragment(newSubPage(pluginId, subPage.toString(), row.optString("text"),
+                            pathTo(row), ownersTo(row)));
+                } else if (opensLazySubPage(row)) {
+                    presentFragment(newSubPage(pluginId, null, row.optString("text"),
                             pathTo(row), ownersTo(row)));
                 } else if (callbackId != null) {
                     controller.dispatchSettingClick(pluginId, callbackId, view);

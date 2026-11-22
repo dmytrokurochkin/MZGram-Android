@@ -467,6 +467,28 @@ public class PythonPluginsEngine extends com.exteragram.messenger.plugins.Python
         }
     }
 
+    /**
+     * One sub-page that {@link #getSettingsJson} left as "sub_page_lazy": the plugin builds it only when it is
+     * opened, as in exteraGram. owners are the row ids from the root page down to the row that opens it.
+     */
+    public String getSubPageJson(String pluginId, String[] owners) {
+        if (!started || owners == null || owners.length == 0) {
+            return null;
+        }
+        PluginsWatchdog watchdog = PluginsController.getInstance().getWatchdog();
+        watchdog.notePluginEnter(pluginId);
+        try {
+            String ownersJson = new org.json.JSONArray(java.util.Arrays.asList(owners)).toString();
+            String json = loader.callAttr("get_sub_page_json", pluginId, ownersJson).toJava(String.class);
+            return json == null || "null".equals(json) ? null : json;
+        } catch (Throwable t) {
+            FileLog.e("PluginsEngine: getSubPageJson failed for " + pluginId, t);
+            return null;
+        } finally {
+            watchdog.notePluginExit(pluginId);
+        }
+    }
+
     public android.view.View getSettingsCustomView(String pluginId, String viewId,
                                                    android.content.Context context) {
         Object content = getSettingsCustomContent(pluginId, viewId, context);

@@ -352,6 +352,9 @@ public class ChatActivityEnterView extends FrameLayout implements
 
         void didPressAttachButton();
 
+        /** MZGram: the camera button of the flat input opens the camera of the attach sheet. */
+        default void mzDidPressCameraButton() {}
+
         default void didPressStreamingStop() {}
 
         default void didPressSuggestionButton() {}
@@ -679,6 +682,8 @@ public class ChatActivityEnterView extends FrameLayout implements
     private LinearLayout attachLayout;
     private ViewPropertyAnimator attachButtonAnimator;
     private ImageView attachButton;
+    /** MZGram: camera button left of attach on the flat (Telegram X) input; shown while the field is empty. */
+    private ImageView mzCameraButton;
     private AiButtonDrawable aiButtonIcon;
     private ImageView aiButton;
     private ImageView richButton;
@@ -2970,6 +2975,29 @@ public class ChatActivityEnterView extends FrameLayout implements
                 });
             }
 
+            // Appended, so it stays the rightmost item of attachLayout, next to the attach button
+            // (bot, gift and suggest buttons are inserted at index 0).
+            mzCameraButton = new ImageView(context) {
+                @Override
+                public boolean dispatchTouchEvent(MotionEvent event) {
+                    if (getAlpha() < 0.5f) return false;
+                    return super.dispatchTouchEvent(event);
+                }
+            };
+            mzCameraButton.setScaleType(ImageView.ScaleType.CENTER);
+            mzCameraButton.setImageResource(R.drawable.msg_camera);
+            ThemeBind.colorFilter(mzCameraButton, Theme.key_glass_defaultIcon, resourcesProvider, PorterDuff.Mode.MULTIPLY);
+            ThemeBind.selectorBackground(mzCameraButton, Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)), null, ThemeBind.of(Theme.key_listSelector), resourcesProvider);
+            mzCameraButton.setContentDescription(getString(R.string.VoipCamera));
+            mzCameraButton.setVisibility(GONE);
+            mzCameraButton.setOnClickListener(v -> {
+                if (adjustPanLayoutHelper != null && adjustPanLayoutHelper.animationInProgress() || attachLayoutPaddingAlpha == 0f || delegate == null) {
+                    return;
+                }
+                delegate.mzDidPressCameraButton();
+            });
+            attachLayout.addView(mzCameraButton, LayoutHelper.createLinear(DEFAULT_HEIGHT, DEFAULT_HEIGHT));
+
             attachButton = new ImageView(context) {
                 @Override
                 public boolean dispatchTouchEvent(MotionEvent event) {
@@ -3404,8 +3432,8 @@ public class ChatActivityEnterView extends FrameLayout implements
             @Override
             protected void dispatchDraw(@NonNull Canvas canvas) {
                 boolean isMenuState = isAudioVideoSendButtonInMenuState();
-                final boolean mz = mzActionCircle();
-                if (!audioVideoButtonContainerForbidden && (!isMenuState || mz)) {
+                // MZGram: with Material bars the record button is a plain icon on the bar, as in Telegram X
+                if (!audioVideoButtonContainerForbidden && !isMenuState && !mzFlatInput()) {
                     float s = 1;
                     if (expandStickersButton != null) {
                         if (expandStickersButton.getVisibility() == View.VISIBLE) {
@@ -3413,11 +3441,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                         }
                     }
 
-                    // MZGram: the main action is a 40dp circle beside the field; the menu mode gets a tonal one
-                    final float r = dpf2(mz ? MZ_ACTION_SIZE / 2f : 19);
-                    paint.setColor(isMenuState ? mzTonalActionColor() : getThemedColor(Theme.key_chat_messagePanelSend));
-                    final float margin = dpf2(mz ? MZ_ACTION_MARGIN : 3);
-                    final float height = dpf2(mz ? MZ_ACTION_SIZE : 38);
+                    final float r = dpf2(19);
+                    paint.setColor(getThemedColor(Theme.key_chat_messagePanelSend));
+                    final float margin = dpf2(3);
+                    final float height = dpf2(38);
                     final float width = height;
                     backgroundRect.set(
                             getMeasuredWidth() - width - margin,
@@ -10252,8 +10279,22 @@ public class ChatActivityEnterView extends FrameLayout implements
     }
 
     private int lastAttachVisible;
+    /** MZGram: the camera button shows on the flat input whenever attach does, except while editing. */
+    private void mzUpdateCameraButton() {
+        if (mzCameraButton == null) {
+            return;
+        }
+        final boolean show = mzFlatInput() && !isStories && editingMessageObject == null
+                && attachButton != null && attachButton.getVisibility() == VISIBLE;
+        final int visibility = show ? VISIBLE : GONE;
+        if (mzCameraButton.getVisibility() != visibility) {
+            mzCameraButton.setVisibility(visibility);
+        }
+    }
+
     private void updateFieldRight(int attachVisible) {
         lastAttachVisible = attachVisible;
+        mzUpdateCameraButton();
         if (messageEditText == null || (editingMessageObject != null && !editingMessageObject.needResendWhenEdit())) {
             return;
         }
@@ -10268,6 +10309,9 @@ public class ChatActivityEnterView extends FrameLayout implements
                 layoutParams.rightMargin = dp(98);
             } else {
                 layoutParams.rightMargin = dp(50);
+            }
+            if (mzCameraButton != null && mzCameraButton.getVisibility() == VISIBLE) {
+                layoutParams.rightMargin += dp(48);
             }
         } else {
             if (scheduledButton != null && scheduledButton.getTag() != null) {
@@ -12009,13 +12053,12 @@ public class ChatActivityEnterView extends FrameLayout implements
             return;
         }
         boolean isMenuState = isAudioVideoSendButtonInMenuState();
-        int color = audioVideoButtonContainerForbidden || isMenuState
-                ? (isMenuState && !audioVideoButtonContainerForbidden && mzActionCircle()
-                        ? getThemedColor(Theme.key_chat_messagePanelSend)
-                        : getThemedColor(Theme.key_glass_defaultIcon))
-                : mzOnAction(getThemedColor(Theme.key_chat_messagePanelSend));
+        // MZGram: with Material bars the mic / camera icon is grey like the other bar icons (Telegram X)
+        int color = audioVideoButtonContainerForbidden || isMenuState || mzFlatInput()
+                ? getThemedColor(Theme.key_glass_defaultIcon)
+                : Color.WHITE;
         setIconColorFilter(audioVideoSendButton, new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
-        audioVideoButtonContainer.setBackground(isMenuState
+        audioVideoButtonContainer.setBackground(isMenuState || mzFlatInput()
                 ? Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector))
                 : null);
     }
@@ -16868,33 +16911,16 @@ public class ChatActivityEnterView extends FrameLayout implements
     }
 
     @SuppressLint("ViewConstructor")
-    // ---- MZGram: the main action (record / send) of the Material input ----
+    // ---- MZGram: the Material input, laid out like Telegram X ----
 
-    /** The circle of the main action, in dp: 40dp in the 44dp square right of the field. */
-    public static final float MZ_ACTION_SIZE = 40;
-    public static final float MZ_ACTION_MARGIN = (DEFAULT_HEIGHT - MZ_ACTION_SIZE) / 2f;
-
-    /** With Material bars the record and send buttons share one 40dp circle beside the field. */
-    public static boolean mzActionCircle() {
+    /**
+     * With Material bars the input is one flat bar: emoji on the left, then the text, then camera, attach and
+     * record as plain grey icons; the send arrow is a plain accent icon. No field pill, no action circle.
+     */
+    public static boolean mzFlatInput() {
         return app.exteraless.appearance.AppearanceConfig.materialBars();
     }
 
-    /** White on a dark accent; on a light accent (Material You dark themes) a dark tone of it, as on-primary. */
-    public static int mzOnAction(int accent) {
-        if (!mzActionCircle()) {
-            return Color.WHITE;
-        }
-        final int opaque = ColorUtils.setAlphaComponent(accent, 255);
-        return ColorUtils.calculateContrast(Color.WHITE, opaque) >= 3.0 ? Color.WHITE : ColorUtils.blendARGB(opaque, Color.BLACK, 0.72f);
-    }
-
-    /** The tonal container of the menu-mode button: the accent over the input bar, like a secondary container. */
-    private int mzTonalActionColor() {
-        final int panel = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_messagePanelBackground), 255);
-        final int accent = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_messagePanelSend), 255);
-        final boolean dark = AndroidUtilities.computePerceivedBrightness(panel) < 0.5f;
-        return ColorUtils.blendARGB(panel, accent, dark ? 0.22f : 0.14f);
-    }
 
     public static class SendButton extends View implements ItemOptions.ScrimView {
         public static final float INFINITE_LOADING = -3f;
@@ -17182,9 +17208,9 @@ public class ChatActivityEnterView extends FrameLayout implements
             }
             updateColors();
             checkBackgroundRect();
-            if (isNewDesignSendButton) {
-                final float backgroundRadius = mzActionCircle() ? backgroundRect.height() / 2f : dp(RADIUS);
-                canvas.drawRoundRect(backgroundRect, backgroundRadius, backgroundRadius, backgroundPaint);
+            // MZGram: with Material bars the send arrow is a plain accent icon (Telegram X); a paid send keeps its pill
+            if (isNewDesignSendButton && !mzPlainSend()) {
+                canvas.drawRoundRect(backgroundRect, dp(RADIUS), dp(RADIUS), backgroundPaint);
             }
 
             final boolean inactive = isInactive();
@@ -17445,7 +17471,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         private int drawableColor, inactiveDrawableColor, drawableInverseColor;
 
         public void updateColors() {
-            int color = isNewDesignSendButton ? mzOnAction(Theme.getColor(Theme.key_chat_messagePanelSend, resourcesProvider)) : Theme.getColor(Theme.key_chat_messagePanelSend, resourcesProvider);
+            int color = isNewDesignSendButton && !mzPlainSend() ? Color.WHITE : Theme.getColor(Theme.key_chat_messagePanelSend, resourcesProvider);
             int c = Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider);
             int inverseColor = Theme.getColor(Theme.key_chat_messagePanelVoicePressed, resourcesProvider);
             if (color != drawableColor || c != inactiveDrawableColor || inverseColor != drawableInverseColor) {
@@ -17521,10 +17547,14 @@ public class ChatActivityEnterView extends FrameLayout implements
         private final RectF backgroundRect = new RectF();
         private static final int RADIUS = 19;
 
+        /** MZGram: no accent pill behind the send arrow, unless a paid send shows its price on it. */
+        private boolean mzPlainSend() {
+            return mzFlatInput() && starsPrice <= 0;
+        }
+
         private void checkBackgroundRect() {
-            final boolean mz = mzActionCircle();
-            final float margin = dpf2(mz ? MZ_ACTION_MARGIN : 3);
-            final float height = dpf2(mz ? MZ_ACTION_SIZE : 38);
+            final float margin = dpf2(3);
+            final float height = dpf2(38);
             final float width = lerp(
                 Math.max(height, dpf2(10 + 10) + priceText.getCurrentWidth()),
                 height, sameWidthFactor);

@@ -107,22 +107,6 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         }
     }
 
-    /**
-     * The chat input keeps its main action (record / send) out of the field: the pill ends before the
-     * 44dp square at its right, where the action draws its own 40dp circle.
-     */
-    private boolean mzActionSplit;
-
-    public void setMzActionSplit(boolean split) {
-        if (mzActionSplit != split) {
-            mzActionSplit = split;
-            invalidate();
-        }
-    }
-
-    /** Space between the field and the action circle. */
-    private static final int MZ_ACTION_GAP = 5;
-
     private static boolean mzBars() {
         return app.exteraless.appearance.AppearanceConfig.materialBars();
     }
@@ -147,23 +131,12 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         mzBarPaint.setAlpha(alpha);
         canvas.drawRect(mzBarRect, mzBarPaint);
 
-        final int fieldAlpha = (int) (alpha * mzFieldVisibility);
-        if (fieldAlpha <= 0) {
-            return;
-        }
+        // Telegram X: one flat bar, no field pill; a hairline on top keeps it apart from bright wallpapers
         final boolean dark = AndroidUtilities.computePerceivedBrightness(panel) < 0.5f;
         final int text = ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelText, mzResourcesProvider), 255);
-        mzBarPaint.setColor(ColorUtils.blendARGB(panel, text, dark ? 0.09f : 0.06f));
-        mzBarPaint.setAlpha(fieldAlpha);
-        float fieldRight = tmpRect.right - pad;
-        if (mzActionSplit) {
-            final float circleLeft = fieldRight - dp(org.telegram.ui.Components.ChatActivityEnterView.DEFAULT_HEIGHT)
-                    + AndroidUtilities.dpf2(org.telegram.ui.Components.ChatActivityEnterView.MZ_ACTION_MARGIN);
-            fieldRight = circleLeft - dp(MZ_ACTION_GAP);
-        }
-        mzFieldRect.set(tmpRect.left + pad, fieldTop, fieldRight, fieldBottom);
-        final float r = Math.min(dp(INPUT_BUBBLE_RADIUS), mzFieldRect.height() / 2f);
-        canvas.drawRoundRect(mzFieldRect, r, r, mzBarPaint);
+        mzBarPaint.setColor(ColorUtils.blendARGB(panel, text, dark ? 0.10f : 0.12f));
+        mzBarPaint.setAlpha(alpha);
+        canvas.drawRect(0, mzBarRect.top, getMeasuredWidth(), mzBarRect.top + Math.max(1, dp(0.5f)), mzBarPaint);
     }
 
     public void setUnderKeyboardBackgroundDrawable(BlurredBackgroundDrawable drawable) {

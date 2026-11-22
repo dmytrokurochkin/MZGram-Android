@@ -2754,6 +2754,17 @@ public class ChatActivity extends BaseFragment implements
         }
 
         @Override
+        public void mzDidPressCameraButton() {
+            if (chatAttachAlert != null) {
+                chatAttachAlert.setEditingMessageObject(0, null);
+            }
+            openAttachMenu();
+            if (chatAttachAlert != null && chatAttachAlert.isShowing()) {
+                chatAttachAlert.getPhotoLayout().mzOpenCameraWhenReady();
+            }
+        }
+
+        @Override
         public void didPressSuggestionButton() {
             new MessageSuggestionOfferSheet(getContext(), currentAccount, dialog_id, messageSuggestionParams != null ? messageSuggestionParams: MessageSuggestionParams.empty(), ChatActivity.this, getResourceProvider(), MessageSuggestionOfferSheet.MODE_INPUT, ChatActivity.this::showFieldPanelForSuggestionParams).show();
         }
@@ -5283,7 +5294,6 @@ public class ChatActivity extends BaseFragment implements
         chatInputViewsContainer.drawInputBackground = !isFeedSearch();
         chatInputViewsContainer.setWindowInsetsProvider(windowInsetsStateHolder);
         chatInputViewsContainer.setMzResourcesProvider(themeDelegate);
-        chatInputViewsContainer.setMzActionSplit(true);
         chatInputViewsContainer.setInputIslandBubbleDrawable(
             glassBackgroundDrawableFactory.create(chatInputViewsContainer, blurredBackgroundColorProvider));
         chatInputViewsContainer.setUnderKeyboardBackgroundDrawable(

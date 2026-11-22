@@ -1563,6 +1563,37 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         } catch (Exception ignore) {}
     }
 
+    /**
+     * MZGram: the camera button of the chat input. The sheet has just been shown, so the in-app camera
+     * opens as soon as its view exists (at most a few seconds); without the permission, with the system
+     * camera or with the instant camera off, the usual path of the sheet's camera button runs at once.
+     */
+    public void mzOpenCameraWhenReady() {
+        final long until = android.os.SystemClock.elapsedRealtime() + 3000;
+        final Runnable[] step = new Runnable[1];
+        step[0] = () -> {
+            if (parentAlert.isDismissed() || parentAlert.baseFragment == null || parentAlert.baseFragment.getParentActivity() == null) {
+                return;
+            }
+            final boolean permission = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                    || ContextCompat.checkSelfPermission(parentAlert.baseFragment.getParentActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+            if (!permission || !SharedConfig.inappCamera || NekoConfig.disableInstantCamera.Bool()) {
+                openCameraWithPermissionCheck();
+                return;
+            }
+            if (cameraView != null && cameraInitAnimation == null && parentAlert.isShowing()) {
+                if (!cameraOpened) {
+                    openCamera(true);
+                }
+                return;
+            }
+            if (android.os.SystemClock.elapsedRealtime() < until) {
+                AndroidUtilities.runOnUIThread(step[0], 60);
+            }
+        };
+        AndroidUtilities.runOnUIThread(step[0], 120);
+    }
+
     // Мост для плавающей кнопки камеры в шторке (ChatAttachAlert.openInAppCameraAction):
     // при скрытой плитке снимок делать неоткуда, кнопка зовёт этот же путь.
     void openCameraWithPermissionCheck() {

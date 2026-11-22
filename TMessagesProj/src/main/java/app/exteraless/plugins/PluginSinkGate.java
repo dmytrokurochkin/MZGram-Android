@@ -474,6 +474,21 @@ public final class PluginSinkGate {
                 + hookAll(owner, "deleteSharedPreferences", hook);
     }
 
+    /**
+     * The first WebView of the process makes Android load the system WebView package
+     * (WebViewFactory, then ApplicationLoaders, then PathClassLoader). That is the framework's own
+     * code, not code a plugin brings, so it needs no 'hooks' permission. Without this, a plugin that
+     * opens a WebView (the arcade games) failed whenever it made the first WebView since app start.
+     */
+    private static boolean isSystemWebViewLoad() {
+        for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+            if ("android.webkit.WebViewFactory".equals(element.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static String foreignSettingsOwner(Object target) {
         String name = target instanceof String ? (String) target
                 : target instanceof java.io.File ? ((java.io.File) target).getName() : null;
@@ -515,6 +530,9 @@ public final class PluginSinkGate {
                                     PluginAuditJournal.record(pluginId, "loadDex", "native",
                                             className, true, className.equals("dalvik.system.PathClassLoader")
                                                     ? callerStack() : null);
+                                    return;
+                                }
+                                if (isSystemWebViewLoad()) {
                                     return;
                                 }
                                 // Здесь именно исключение: конструктор нельзя

@@ -2754,17 +2754,6 @@ public class ChatActivity extends BaseFragment implements
         }
 
         @Override
-        public void mzDidPressCameraButton() {
-            if (chatAttachAlert != null) {
-                chatAttachAlert.setEditingMessageObject(0, null);
-            }
-            openAttachMenu();
-            if (chatAttachAlert != null && chatAttachAlert.isShowing()) {
-                chatAttachAlert.getPhotoLayout().mzOpenCameraWhenReady();
-            }
-        }
-
-        @Override
         public void didPressSuggestionButton() {
             new MessageSuggestionOfferSheet(getContext(), currentAccount, dialog_id, messageSuggestionParams != null ? messageSuggestionParams: MessageSuggestionParams.empty(), ChatActivity.this, getResourceProvider(), MessageSuggestionOfferSheet.MODE_INPUT, ChatActivity.this::showFieldPanelForSuggestionParams).show();
         }

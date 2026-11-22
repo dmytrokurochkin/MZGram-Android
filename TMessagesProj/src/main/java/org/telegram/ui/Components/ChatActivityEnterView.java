@@ -352,9 +352,6 @@ public class ChatActivityEnterView extends FrameLayout implements
 
         void didPressAttachButton();
 
-        /** MZGram: the camera button of the flat input opens the camera of the attach sheet. */
-        default void mzDidPressCameraButton() {}
-
         default void didPressStreamingStop() {}
 
         default void didPressSuggestionButton() {}
@@ -682,8 +679,6 @@ public class ChatActivityEnterView extends FrameLayout implements
     private LinearLayout attachLayout;
     private ViewPropertyAnimator attachButtonAnimator;
     private ImageView attachButton;
-    /** MZGram: camera button left of attach on the flat (Telegram X) input; shown while the field is empty. */
-    private ImageView mzCameraButton;
     private AiButtonDrawable aiButtonIcon;
     private ImageView aiButton;
     private ImageView richButton;
@@ -2974,29 +2969,6 @@ public class ChatActivityEnterView extends FrameLayout implements
                     }
                 });
             }
-
-            // Appended, so it stays the rightmost item of attachLayout, next to the attach button
-            // (bot, gift and suggest buttons are inserted at index 0).
-            mzCameraButton = new ImageView(context) {
-                @Override
-                public boolean dispatchTouchEvent(MotionEvent event) {
-                    if (getAlpha() < 0.5f) return false;
-                    return super.dispatchTouchEvent(event);
-                }
-            };
-            mzCameraButton.setScaleType(ImageView.ScaleType.CENTER);
-            mzCameraButton.setImageResource(R.drawable.msg_camera);
-            ThemeBind.colorFilter(mzCameraButton, Theme.key_glass_defaultIcon, resourcesProvider, PorterDuff.Mode.MULTIPLY);
-            ThemeBind.selectorBackground(mzCameraButton, Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)), null, ThemeBind.of(Theme.key_listSelector), resourcesProvider);
-            mzCameraButton.setContentDescription(getString(R.string.VoipCamera));
-            mzCameraButton.setVisibility(GONE);
-            mzCameraButton.setOnClickListener(v -> {
-                if (adjustPanLayoutHelper != null && adjustPanLayoutHelper.animationInProgress() || attachLayoutPaddingAlpha == 0f || delegate == null) {
-                    return;
-                }
-                delegate.mzDidPressCameraButton();
-            });
-            attachLayout.addView(mzCameraButton, LayoutHelper.createLinear(DEFAULT_HEIGHT, DEFAULT_HEIGHT));
 
             attachButton = new ImageView(context) {
                 @Override
@@ -10279,22 +10251,8 @@ public class ChatActivityEnterView extends FrameLayout implements
     }
 
     private int lastAttachVisible;
-    /** MZGram: the camera button shows on the flat input whenever attach does, except while editing. */
-    private void mzUpdateCameraButton() {
-        if (mzCameraButton == null) {
-            return;
-        }
-        final boolean show = mzFlatInput() && !isStories && editingMessageObject == null
-                && attachButton != null && attachButton.getVisibility() == VISIBLE;
-        final int visibility = show ? VISIBLE : GONE;
-        if (mzCameraButton.getVisibility() != visibility) {
-            mzCameraButton.setVisibility(visibility);
-        }
-    }
-
     private void updateFieldRight(int attachVisible) {
         lastAttachVisible = attachVisible;
-        mzUpdateCameraButton();
         if (messageEditText == null || (editingMessageObject != null && !editingMessageObject.needResendWhenEdit())) {
             return;
         }
@@ -10309,9 +10267,6 @@ public class ChatActivityEnterView extends FrameLayout implements
                 layoutParams.rightMargin = dp(98);
             } else {
                 layoutParams.rightMargin = dp(50);
-            }
-            if (mzCameraButton != null && mzCameraButton.getVisibility() == VISIBLE) {
-                layoutParams.rightMargin += dp(48);
             }
         } else {
             if (scheduledButton != null && scheduledButton.getTag() != null) {

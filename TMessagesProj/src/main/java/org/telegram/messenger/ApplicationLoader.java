@@ -513,6 +513,11 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        // The widget engine's isolated process never started the client (see onCreate): LocaleController reads
+        // SharedPreferences, which an isolated process may not open, and the error killed the engine on rotation.
+        if (org.telegram.utils.twidget.WidgetEngineService.isEngineProcess()) {
+            return;
+        }
         try {
             LocaleController.getInstance().onDeviceConfigurationChange(newConfig);
             AndroidUtilities.checkDisplaySize(applicationContext, newConfig);

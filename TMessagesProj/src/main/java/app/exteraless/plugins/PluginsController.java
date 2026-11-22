@@ -1137,6 +1137,8 @@ public class PluginsController extends com.exteragram.messenger.plugins.PluginsC
                     deliver(callback, false, error, null);
                     return;
                 }
+                // The catalog listens for this: without it, a plugin just installed still showed Install.
+                notifyPluginsChanged();
                 deliver(callback, true, null, p);
             } catch (Exception e) {
                 FileLog.e("PluginsController: install failed", e);
@@ -1178,7 +1180,9 @@ public class PluginsController extends com.exteragram.messenger.plugins.PluginsC
             prefsFile.delete();
         }
         PythonPluginsEngine.getInstance().invalidateSettingsMirror(id);
-        return f.delete();
+        final boolean deleted = f.delete();
+        notifyPluginsChanged();
+        return deleted;
     }
 
     private static void copyFile(File src, File dst) throws Exception {

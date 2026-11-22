@@ -87,6 +87,31 @@ def test_overlay_window_offers_hooks(scanner, tmp_path):
     assert "hooks" in found
 
 
+def test_mzgram_lib_helpers_offer_what_they_do_for_the_plugin(scanner, tmp_path):
+    found = _scan(scanner, tmp_path, (
+        "import zwylib\n"
+        "from zwylib import HookUtils, Requests\n"
+        "def on_plugin_load(self):\n"
+        "    HookUtils.hook_after(method, callback)\n"
+        "    zwylib.command_manager.get_dispatcher(__id__)\n"
+        "async def ban(chat_id, peer_id):\n"
+        "    await Requests.ban(chat_id, peer_id)\n"
+    ))
+    assert "hooks" in found
+    assert "network" in found
+    assert "messages.read" in found
+    assert "messages.send" in found
+
+
+def test_mzgram_lib_logging_alone_is_offered_nothing(scanner, tmp_path):
+    found = _scan(scanner, tmp_path, (
+        "import zwylib\n"
+        "logger = zwylib.build_log(__name__)\n"
+        "L = zwylib.locales_controller.generate_locale_class({'en': {}})\n"
+    ))
+    assert found == {}
+
+
 def test_own_plugin_dir_is_offered_nothing(scanner, tmp_path):
     found = _scan(scanner, tmp_path, (
         "from file_utils import get_plugin_dir, get_plugin_cache_dir\n"

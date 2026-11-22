@@ -129,6 +129,15 @@ _MARKERS = (
     ("TYPE_SYSTEM_ALERT", PERM_HOOKS, "overlay window"),
     ("TYPE_SYSTEM_OVERLAY", PERM_HOOKS, "overlay window"),
     ("LayoutParams.TYPE_PHONE", PERM_HOOKS, "overlay window"),
+    # ---- MZGram Lib (plugin id zwylib) ----
+    # Its helpers run on behalf of the plugin that calls them, and the gates charge that plugin,
+    # so the calls have to be offered at install like the direct ones above.
+    ("HookUtils", PERM_HOOKS, "MZGram Lib hooks"),
+    ("Requests.", PERM_NETWORK, "MZGram Lib requests"),
+    ("Requests.", PERM_MESSAGES_READ, "MZGram Lib requests"),
+    ("Requests.", PERM_MESSAGES_SEND, "MZGram Lib requests"),
+    ("command_manager", PERM_MESSAGES_SEND, "MZGram Lib commands"),
+    ("JsonCacheFile", PERM_FILES, "MZGram Lib cache"),
     # ---- нативный код ----
     ("import ctypes", PERM_NATIVE, "ctypes"),
     ("ctypes.CDLL", PERM_NATIVE, "ctypes"),

@@ -248,6 +248,11 @@
 -keepclassmembers class org.telegram.messenger.MessageObject { *; }
 -keepclassmembers class org.telegram.messenger.SendMessagesHelper { *; }
 -keepclassmembers class org.telegram.messenger.BuildVars { *; }
+# Plugins also hook and read Telegram UI classes by name. Members the app never uses were removed here,
+# so those lookups failed only in release builds (Material Settings List: SettingCell.Factory.ofBot,
+# Formatted Copy: ChatActivity.OPTION_COPY). Keep every member of the classes the app already keeps.
+-keepclassmembers class org.telegram.ui.** { *; }
+-keepclassmembers class org.telegram.messenger.** { *; }
 -keepclassmembers class androidx.media3.exoplayer.ExoPlayerImpl {
     public void setAuxEffectInfo(androidx.media3.common.AuxEffectInfo);
     public void clearAuxEffectInfo();

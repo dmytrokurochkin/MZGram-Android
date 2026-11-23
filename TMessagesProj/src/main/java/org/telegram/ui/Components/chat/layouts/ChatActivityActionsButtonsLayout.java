@@ -113,9 +113,9 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
         }
     }*/
 
-    /** MZGram: Material bars. Text buttons in the accent colour on the docked bar, no glass pills. */
+    /** MZGram: Material input bar. Text buttons in the accent colour on the docked bar, no glass pills. */
     private static boolean mzFlat() {
-        return app.exteraless.appearance.AppearanceConfig.materialBars();
+        return app.exteraless.appearance.AppearanceConfig.materialInput();
     }
 
     private void addTextView(ButtonHolder button, String text, @DrawableRes int iconRes, boolean iconLeft) {

@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">La cabecera compacta pone el menú, las carpetas y el botón de búsqueda en una sola fila superior, sin el título de la app. Sin pestañas, las carpetas se abren manteniendo pulsado Chats abajo.</string>
     <string name="MZMaterialSurfaces">Paneles sólidos</string>
     <string name="MZMaterialDialogs">Diálogos</string>
-    <string name="MZMaterialBars">Barras superior e inferior</string>
+    <string name="MZMaterialBars">Barras superiores</string>
+    <string name="MZMaterialInput">Barra de escritura de mensajes</string>
     <string name="MZSolidPanelsBlurInfo">Los paneles sólidos están activados, así que el cristal y el desenfoque están desactivados. Desactiva Paneles sólidos en Material Design 3 para usarlos.</string>
     <string name="MZSwitchStyleRing">Anillo</string>
     <string name="MZMarkdownParserExtended">Ampliado</string>

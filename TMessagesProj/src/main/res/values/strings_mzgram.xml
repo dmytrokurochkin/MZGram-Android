@@ -30,7 +30,8 @@
     <string name="MZHeaderInfo">The compact header puts the menu, folders and the search button in one top row, without the app title. Folders without tabs open with a long press on Chats at the bottom.</string>
     <string name="MZMaterialSurfaces">Solid panels</string>
     <string name="MZMaterialDialogs">Dialogs</string>
-    <string name="MZMaterialBars">Top and bottom bars</string>
+    <string name="MZMaterialBars">Top bars</string>
+    <string name="MZMaterialInput">Message input bar</string>
     <string name="MZSolidPanelsBlurInfo">Solid panels are on, so glass and blur are off. Turn off Solid panels under Material Design 3 to use them.</string>
     <string name="MZSwitchStyleRing">Ring</string>
     <string name="MZMarkdownParserExtended">Extended</string>

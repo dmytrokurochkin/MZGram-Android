@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">Kompaktowy nagłówek umieszcza menu, foldery i przycisk wyszukiwania w jednym górnym rzędzie, bez tytułu aplikacji. Foldery bez kart otwierasz długim naciśnięciem Czatów na dole.</string>
     <string name="MZMaterialSurfaces">Pełne panele</string>
     <string name="MZMaterialDialogs">Okna dialogowe</string>
-    <string name="MZMaterialBars">Górny i dolny pasek</string>
+    <string name="MZMaterialBars">Górne paski</string>
+    <string name="MZMaterialInput">Pasek wpisywania wiadomości</string>
     <string name="MZSolidPanelsBlurInfo">Pełne panele są włączone, więc szkło i rozmycie są wyłączone. Wyłącz Pełne panele w Material Design 3, aby z nich korzystać.</string>
     <string name="MZSwitchStyleRing">Pierścień</string>
     <string name="MZMarkdownParserExtended">Rozszerzony</string>

@@ -139,7 +139,7 @@ public class ChatActivityFadeView extends View implements Theme.Colorable {
         if (Color.alpha(overlayColor) == 0) {
             return;
         }
-        if (fadeZoneTop > 0 && fadeDrawableTop.getAlpha() > 0) {
+        if (!mzSolidTop && fadeZoneTop > 0 && fadeDrawableTop.getAlpha() > 0) {
             if (overlayShaderTop == null) {
                 overlayShaderTop = createOverlayShader(true);
             }
@@ -147,7 +147,7 @@ public class ChatActivityFadeView extends View implements Theme.Colorable {
             overlayPaint.setAlpha(fadeDrawableTop.getAlpha());
             canvas.drawRect(0, 0, getMeasuredWidth(), fadeZoneTop, overlayPaint);
         }
-        if (fadeZoneBottom > 0) {
+        if (!mzSolidBottom && fadeZoneBottom > 0) {
             if (overlayShaderBottom == null) {
                 overlayShaderBottom = createOverlayShader(false);
             }
@@ -167,12 +167,15 @@ public class ChatActivityFadeView extends View implements Theme.Colorable {
         fadeDrawableBottom.setIgnoreFastWay(ignoreFastWay);
     }
 
-    // MZGram: with Material bars the chat has solid top and bottom bars, so nothing fades under them
-    private boolean mzSolidBars;
+    // MZGram: a solid Material top bar or a docked input bar hides what would fade under it.
+    // The two have separate switches, so each edge is turned off on its own.
+    private boolean mzSolidTop;
+    private boolean mzSolidBottom;
 
-    public void setMzSolidBars(boolean solid) {
-        if (mzSolidBars != solid) {
-            mzSolidBars = solid;
+    public void setMzSolidBars(boolean top, boolean bottom) {
+        if (mzSolidTop != top || mzSolidBottom != bottom) {
+            mzSolidTop = top;
+            mzSolidBottom = bottom;
             invalidate();
         }
     }
@@ -180,14 +183,18 @@ public class ChatActivityFadeView extends View implements Theme.Colorable {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
-        if (mzSolidBars) {
+        if (mzSolidTop && mzSolidBottom) {
             return;
         }
         if (Theme.isCompactMode(resourcesProvider)) {
             drawCompactFades(canvas);
         } else {
-            fadeDrawableTop.draw(canvas);
-            fadeDrawableBottom.draw(canvas);
+            if (!mzSolidTop) {
+                fadeDrawableTop.draw(canvas);
+            }
+            if (!mzSolidBottom) {
+                fadeDrawableBottom.draw(canvas);
+            }
         }
         drawOverlay(canvas);
     }
@@ -212,12 +219,12 @@ public class ChatActivityFadeView extends View implements Theme.Colorable {
             compactShaderTop = new LinearGradient(0, 0, 0, Math.max(1, fadeZoneTop), colors, new float[] { 0, .557f, 1 }, Shader.TileMode.CLAMP);
             compactShaderBottom = new LinearGradient(0, h, 0, h - Math.max(1, fadeZoneBottom), colors, new float[] { 0, .557f, 1 }, Shader.TileMode.CLAMP);
         }
-        if (fadeZoneTop > 0 && fadeDrawableTop.getAlpha() > 0) {
+        if (!mzSolidTop && fadeZoneTop > 0 && fadeDrawableTop.getAlpha() > 0) {
             compactFadePaint.setShader(compactShaderTop);
             compactFadePaint.setAlpha(fadeDrawableTop.getAlpha());
             canvas.drawRect(0, 0, getMeasuredWidth(), fadeZoneTop, compactFadePaint);
         }
-        if (fadeZoneBottom > 0) {
+        if (!mzSolidBottom && fadeZoneBottom > 0) {
             compactFadePaint.setShader(compactShaderBottom);
             compactFadePaint.setAlpha(0xFF);
             canvas.drawRect(0, h - fadeZoneBottom, getMeasuredWidth(), h, compactFadePaint);

@@ -33,6 +33,25 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
 
     public static final int INPUT_BUBBLE_BOTTOM = 9;
 
+    /** MZGram: on the docked input bar the field keeps this many dp to the bar's top and bottom edges. */
+    public static final int MZ_BAR_INSET = 2;
+
+    /**
+     * MZGram: dp between the bottom inset and the input bubble. The floating island keeps 9; the docked
+     * Material input bar keeps the field close to its edges, so the bar is as low as in Telegram X.
+     */
+    public static int bubbleBottomDp() {
+        return mzBars() ? MZ_BAR_INSET : INPUT_BUBBLE_BOTTOM;
+    }
+
+    /**
+     * MZGram: dp from the bottom inset to the input surface's top edge, not counting the bubble height.
+     * Views above the input (the last message, buttons, hints) keep their gap from this edge.
+     */
+    public static int surfaceDp() {
+        return mzBars() ? MZ_BAR_INSET + MZ_BAR_INSET : INPUT_BUBBLE_BOTTOM;
+    }
+
     private WindowInsetsProvider windowInsetsProvider;
 
     private final View fadeView;
@@ -108,7 +127,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
     }
 
     private static boolean mzBars() {
-        return app.exteraless.appearance.AppearanceConfig.materialBars();
+        return app.exteraless.appearance.AppearanceConfig.materialInput();
     }
 
     /** The top corners of the panel under the in-app keyboard: square on a docked bar. */
@@ -126,7 +145,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         final int fieldTop = tmpRect.top + pad;
         final int fieldBottom = tmpRect.bottom - pad;
         final int panel = ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelBackground, mzResourcesProvider), 255);
-        mzBarRect.set(0, fieldTop - dp(8), getMeasuredWidth(), getMeasuredHeight());
+        mzBarRect.set(0, fieldTop - dp(MZ_BAR_INSET), getMeasuredWidth(), getMeasuredHeight());
         mzBarPaint.setColor(panel);
         mzBarPaint.setAlpha(alpha);
         canvas.drawRect(mzBarRect, mzBarPaint);
@@ -197,7 +216,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
     private void checkBlurredHeight(boolean force) {
         checkViewsPositions();
 
-        final int blurredHeight = inputBubbleHeightRound + dp(INPUT_BUBBLE_BOTTOM) + Math.round(maxBottomInset);
+        final int blurredHeight = inputBubbleHeightRound + dp(bubbleBottomDp()) + Math.round(maxBottomInset);
         if (currentBlurredHeight != blurredHeight || force) {
             currentBlurredHeight = blurredHeight;
 
@@ -245,7 +264,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
     }
 
     private void checkViewsPositions() {
-        inputIslandBubbleContainer.setTranslationY(-maxBottomInset - dp(INPUT_BUBBLE_BOTTOM));
+        inputIslandBubbleContainer.setTranslationY(-maxBottomInset - dp(bubbleBottomDp()));
         inAppKeyboardBubbleContainer.setTranslationY(inAppKeyboardBubbleContainer.getMeasuredHeight() - imeBottomInset);
     }
 
@@ -294,7 +313,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
     }
 
     public float getInputBubbleBottom() {
-        return getMeasuredHeight() - maxBottomInset - dp(INPUT_BUBBLE_BOTTOM);
+        return getMeasuredHeight() - maxBottomInset - dp(bubbleBottomDp());
     }
 
     @Override

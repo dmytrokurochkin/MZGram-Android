@@ -320,8 +320,8 @@ object AppearanceConfig {
     }
 
     /**
-     * MZGram: Material bars. Headers are full-width Material top bars with plain icons, and
-     * the chat input sits on a docked bottom bar. Off: floating pills and round buttons.
+     * MZGram: Material bars. Headers are full-width Material top bars with plain icons.
+     * Off: floating pills and round buttons. The chat input has its own switch, [materialInput].
      */
     @JvmField
     val materialBars =
@@ -334,6 +334,23 @@ object AppearanceConfig {
             loadConfig(false)
         }
         return materialBars.Bool()
+    }
+
+    /**
+     * MZGram: the chat input sits on a docked full-width bottom bar laid out like Telegram X,
+     * with the channel and selection buttons on the same bar. Off: the floating input pill.
+     */
+    @JvmField
+    val materialInput =
+        addConfig("MZMaterialInput", ConfigItem.configTypeBool, true)
+
+    @JvmStatic
+    fun materialInput(): Boolean {
+        if (!configLoaded) {
+            if (ApplicationLoader.applicationContext == null) return true
+            loadConfig(false)
+        }
+        return materialInput.Bool()
     }
 
     // ---- MZGram: chat list header ----
@@ -843,6 +860,13 @@ object AppearanceConfig {
         migrateIosChatHeader()
         migrateModernStyles()
         migrateDecorations()
+        migrateMaterialInput()
+    }
+
+    // MZGram: the chat input used to follow the bars switch; keep what the user had there
+    private fun migrateMaterialInput() {
+        if (getPreferences().contains(materialInput.key)) return
+        materialInput.setConfigBool(materialBars.Bool())
     }
 
     private fun migrateCenterTitle() {

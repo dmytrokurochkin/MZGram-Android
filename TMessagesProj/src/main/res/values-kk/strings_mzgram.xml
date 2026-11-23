@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">Ықшам тақырып мәзірді, қалталарды және іздеу түймесін қолданба атауынсыз бір жоғарғы жолға орналастырады. Қойындысыз қалталар төмендегі «Чаттар» түймесін ұзақ басқанда ашылады.</string>
     <string name="MZMaterialSurfaces">Тұтас панельдер</string>
     <string name="MZMaterialDialogs">Диалогтар</string>
-    <string name="MZMaterialBars">Жоғарғы және төменгі панельдер</string>
+    <string name="MZMaterialBars">Жоғарғы панельдер</string>
+    <string name="MZMaterialInput">Хабар енгізу панелі</string>
     <string name="MZSolidPanelsBlurInfo">Тұтас панельдер қосулы, сондықтан шыны мен бұлыңғырлау өшірулі. Оларды пайдалану үшін Material Design 3 ішінде «Тұтас панельдерді» өшіріңіз.</string>
     <string name="MZSwitchStyleRing">Сақина</string>
     <string name="MZMarkdownParserExtended">Кеңейтілген</string>

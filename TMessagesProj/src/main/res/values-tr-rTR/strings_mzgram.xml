@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">Kompakt başlık menüyü, klasörleri ve arama düğmesini uygulama başlığı olmadan tek bir üst satıra koyar. Sekmesiz klasörler alttaki Sohbetler\'e uzun basınca açılır.</string>
     <string name="MZMaterialSurfaces">Düz paneller</string>
     <string name="MZMaterialDialogs">İletişim kutuları</string>
-    <string name="MZMaterialBars">Üst ve alt çubuklar</string>
+    <string name="MZMaterialBars">Üst çubuklar</string>
+    <string name="MZMaterialInput">Mesaj yazma çubuğu</string>
     <string name="MZSolidPanelsBlurInfo">Düz paneller açık, bu yüzden cam ve bulanıklık kapalı. Kullanmak için Material Design 3 altında Düz paneller\'i kapatın.</string>
     <string name="MZSwitchStyleRing">Halka</string>
     <string name="MZMarkdownParserExtended">Genişletilmiş</string>

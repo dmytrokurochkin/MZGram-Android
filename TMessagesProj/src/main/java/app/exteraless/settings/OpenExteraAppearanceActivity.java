@@ -127,6 +127,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
     private int md3SurfacesRow = -1;
     private int md3DialogsRow = -1;
     private int md3BarsRow = -1;
+    private int md3InputRow = -1;
     private boolean md3Expanded;
     private int headerHeaderRow = -1;
     private int headerStyleRow = -1;
@@ -237,6 +238,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
             md3SurfacesRow = addRow("MZMaterialSurfaces");
             md3DialogsRow = addRow("MZMaterialDialogs");
             md3BarsRow = addRow("MZMaterialBars");
+            md3InputRow = addRow("MZMaterialInput");
             md3LoadingRow = addRow("md3Loading");
             md3SliderRow = addRow("md3Slider");
             md3SwitchRow = addRow("md3Switch");
@@ -248,7 +250,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         } else {
             md3LoadingRow = md3SliderRow = md3SwitchRow = md3ChatHeaderRow = md3NavBarRow = md3ListItemsRow = -1;
             md3PlayerRow = md3MiniPlayerRow = -1;
-            md3SurfacesRow = md3DialogsRow = md3BarsRow = -1;
+            md3SurfacesRow = md3DialogsRow = md3BarsRow = md3InputRow = -1;
         }
         iosGroupRow = addRow("iosStyles");
         if (iosExpanded) {
@@ -766,6 +768,10 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
             AppearanceConfig.materialBars.setConfigBool(!AppearanceConfig.materialBars.Bool());
             rebuildAllAndSelf(view, AppearanceConfig.materialBars.Bool());
             return;
+        } else if (position == md3InputRow) {
+            AppearanceConfig.materialInput.setConfigBool(!AppearanceConfig.materialInput.Bool());
+            rebuildAllAndSelf(view, AppearanceConfig.materialInput.Bool());
+            return;
         } else if (position == headerStyleRow) {
             showSelector(position, getString(R.string.MZHeaderStyle), new CharSequence[]{
                     getString(R.string.MZHeaderStyleStandard),
@@ -1205,6 +1211,9 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                     } else if (position == md3BarsRow) {
                         cell.setText(getString(R.string.MZMaterialBars), "",
                                 AppearanceConfig.materialBars.Bool(), true, true);
+                    } else if (position == md3InputRow) {
+                        cell.setText(getString(R.string.MZMaterialInput), "",
+                                AppearanceConfig.materialInput.Bool(), true, true);
                     } else if (position == md3LoadingRow) {
                         cell.setText(getString(R.string.OEAppearanceNewLoadingStyle), "",
                                 AppearanceConfig.newLoadingStyle.Bool(), true, true);
@@ -1383,6 +1392,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                     || position == md3NavBarRow || position == md3ListItemsRow
                     || position == md3PlayerRow || position == md3MiniPlayerRow
                     || position == md3SurfacesRow || position == md3DialogsRow || position == md3BarsRow
+                    || position == md3InputRow
                     || position == iosNavBarRow || position == iosChatHeaderRow) {
                 return TYPE_ROUND_CHECK;
             } else if (position == dividerStyleRow || position == glassOutlineRow
@@ -1397,7 +1407,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
     }
 
     /** Сколько стилей MD3 включено. Счётчик «N/8» рядом с шевроном. */
-    private static final int MD3_STYLE_COUNT = 11;
+    private static final int MD3_STYLE_COUNT = 12;
     /** Значение селектора NagramX, соответствующее Material Design 3. */
     private static final int STYLE_MD3 = 2;
 
@@ -1424,6 +1434,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         if (AppearanceConfig.materialSurfaces.Bool()) n++;
         if (AppearanceConfig.materialDialogs.Bool()) n++;
         if (AppearanceConfig.materialBars.Bool()) n++;
+        if (AppearanceConfig.materialInput.Bool()) n++;
         return n;
     }
 
@@ -1492,6 +1503,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         AppearanceConfig.materialSurfaces.setConfigBool(enable);
         AppearanceConfig.materialDialogs.setConfigBool(enable);
         AppearanceConfig.materialBars.setConfigBool(enable);
+        AppearanceConfig.materialInput.setConfigBool(enable);
         onM3ListItemsChanged();
         if (enable) {
             AppearanceConfig.iosNavigationBarStyle.setConfigBool(false);

@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">L’en-tête compact place le menu, les dossiers et le bouton de recherche sur une seule ligne en haut, sans titre. Sans onglets, les dossiers s’ouvrent par un appui long sur Discussions en bas.</string>
     <string name="MZMaterialSurfaces">Panneaux pleins</string>
     <string name="MZMaterialDialogs">Dialogues</string>
-    <string name="MZMaterialBars">Barres du haut et du bas</string>
+    <string name="MZMaterialBars">Barres du haut</string>
+    <string name="MZMaterialInput">Barre de saisie des messages</string>
     <string name="MZSolidPanelsBlurInfo">Les panneaux pleins sont activés, donc le verre et le flou sont désactivés. Désactivez Panneaux pleins dans Material Design 3 pour les utiliser.</string>
     <string name="MZSwitchStyleRing">Anneau</string>
     <string name="MZMarkdownParserExtended">Étendu</string>

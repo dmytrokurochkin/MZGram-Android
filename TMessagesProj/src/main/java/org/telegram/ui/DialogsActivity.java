@@ -14627,7 +14627,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private int calculateListViewPaddingBottom() {
         if (commentView != null) {
-            return (int) (windowInsetsStateHolder.getAnimatedMaxBottomInset() + dp(9) + chatInputViewsContainer.getInputBubbleHeight() + dp(7) + dp(2));
+            return (int) (windowInsetsStateHolder.getAnimatedMaxBottomInset() + dp(ChatInputViewsContainer.surfaceDp()) + chatInputViewsContainer.getInputBubbleHeight() + dp(7) + dp(2));
         } else if (communityId != 0) {
             return navigationBarHeight + dp(12 + 48 + 12);
         } else {
@@ -14703,7 +14703,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private void checkUi_fadeView() {
         if (chatInputViewsContainer != null) {
-            chatInputViewsContainer.setBlurredBottomHeight(windowInsetsStateHolder.getAnimatedMaxBottomInset() + dp(9) + chatInputViewsContainer.getInputBubbleHeight() + dp(7));
+            chatInputViewsContainer.setBlurredBottomHeight(windowInsetsStateHolder.getAnimatedMaxBottomInset() + dp(ChatInputViewsContainer.surfaceDp()) + chatInputViewsContainer.getInputBubbleHeight() + dp(7));
         }
     }
 

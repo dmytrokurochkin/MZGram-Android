@@ -13498,7 +13498,7 @@ public class ChatActivityEnterView extends FrameLayout implements
             emojiView.shouldLightenBackground = false;
             emojiView.setShouldDrawBackground(false);
             emojiView.isNewHeightControl = true;
-            if (app.exteraless.appearance.AppearanceConfig.materialBars()) {
+            if (app.exteraless.appearance.AppearanceConfig.materialInput()) {
                 emojiView.setMzFlatBottomBar(Theme.key_chat_messagePanelBackground);
             }
         }
@@ -16869,11 +16869,11 @@ public class ChatActivityEnterView extends FrameLayout implements
     // ---- MZGram: the Material input, laid out like Telegram X ----
 
     /**
-     * With Material bars the input is one flat bar: emoji on the left, then the text, then camera, attach and
+     * With the Material input bar the input is one flat bar: emoji on the left, then the text, then attach and
      * record as plain grey icons; the send arrow is a plain accent icon. No field pill, no action circle.
      */
     public static boolean mzFlatInput() {
-        return app.exteraless.appearance.AppearanceConfig.materialBars();
+        return app.exteraless.appearance.AppearanceConfig.materialInput();
     }
 
 

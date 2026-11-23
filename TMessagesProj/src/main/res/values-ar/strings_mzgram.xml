@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">تضع الترويسة المضغوطة القائمة والمجلدات وزر البحث في صف علوي واحد بلا عنوان التطبيق. المجلدات بدون ألسنة تُفتح بالضغط المطوّل على الدردشات في الأسفل.</string>
     <string name="MZMaterialSurfaces">لوحات مصمتة</string>
     <string name="MZMaterialDialogs">مربعات الحوار</string>
-    <string name="MZMaterialBars">الشريطان العلوي والسفلي</string>
+    <string name="MZMaterialBars">الأشرطة العلوية</string>
+    <string name="MZMaterialInput">شريط كتابة الرسائل</string>
     <string name="MZSolidPanelsBlurInfo">اللوحات المصمتة مفعّلة، لذا الزجاج والتمويه معطّلان. أوقف اللوحات المصمتة ضمن Material Design 3 لاستخدامهما.</string>
     <string name="MZSwitchStyleRing">حلقة</string>
     <string name="MZMarkdownParserExtended">موسّع</string>

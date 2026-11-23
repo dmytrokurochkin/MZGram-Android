@@ -7764,7 +7764,8 @@ public class ChatActivity extends BaseFragment implements
         chatActivityFadeView.setup(navbarContentDrawableFactory);
         chatActivityFadeView.setFadeHeightTop(dp(48));
         chatActivityFadeView.setFadeHeightBottom(dp(48));
-        chatActivityFadeView.setMzSolidBars(app.exteraless.appearance.AppearanceConfig.materialBars());
+        chatActivityFadeView.setMzSolidBars(app.exteraless.appearance.AppearanceConfig.materialBars(),
+            app.exteraless.appearance.AppearanceConfig.materialInput());
         contentView.addView(chatActivityFadeView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         if (false/* && getDialogId() != getUserConfig().getClientUserId()*/) {
@@ -12454,13 +12455,13 @@ public class ChatActivity extends BaseFragment implements
             float baseTranslationY2 = -windowInsetsStateHolder.getAnimatedMaxBottomInset()
                 - chatInputViewsContainer.getInputBubbleHeight()
                 - getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
-                - dp(ChatInputViewsContainer.INPUT_BUBBLE_BOTTOM + 4);
+                - dp(ChatInputViewsContainer.surfaceDp() + 4);
             sideControlsButtonsLayout.setTranslationY(baseTranslationY2);
         }
 
         if (suggestEmojiPanel != null) {
             float baseTranslationY2 = -windowInsetsStateHolder.getAnimatedMaxBottomInset()
-                - dp(ChatInputViewsContainer.INPUT_BUBBLE_BOTTOM + 7);
+                - dp(ChatInputViewsContainer.surfaceDp() + 7);
             suggestEmojiPanel.setTranslationY(baseTranslationY2);
         }
     }
@@ -13683,7 +13684,7 @@ public class ChatActivity extends BaseFragment implements
         if (isInsideContainer && parentChatActivity == null && chatMode != MODE_SEARCH) {
             paddingBottom = AndroidUtilities.navigationBarHeight;
         } else {
-            paddingBottom = blurredViewBottomOffset + dp(9 + 7)
+            paddingBottom = blurredViewBottomOffset + dp(ChatInputViewsContainer.surfaceDp() + 7)
                 + inputIslandHeightCurrent
                 + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
                 + windowInsetsStateHolder.getAnimatedMaxBottomInset();
@@ -13718,7 +13719,7 @@ public class ChatActivity extends BaseFragment implements
 
         if (undoView != null) {
             undoView.setAdditionalTranslationY(
-                windowInsetsStateHolder.getAnimatedMaxBottomInset() + dp(9 + 7)
+                windowInsetsStateHolder.getAnimatedMaxBottomInset() + dp(ChatInputViewsContainer.surfaceDp() + 7)
                     + chatInputViewsContainer.getInputBubbleHeight() + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM));
         }
 
@@ -18080,7 +18081,7 @@ public class ChatActivity extends BaseFragment implements
 
                 if (messageObject.isSponsored()) {
                     final float rTop = ViewPositionWatcher.computeYCoordinateInParent(messageCell, contentView);
-                    final boolean isVisible = messageObject.viewsReloaded || rTop < contentView.getMeasuredHeight() - dp(9 + 32) - windowInsetsStateHolder.getAnimatedMaxBottomInset() - getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM) - inputIslandHeightCurrent;
+                    final boolean isVisible = messageObject.viewsReloaded || rTop < contentView.getMeasuredHeight() - dp(ChatInputViewsContainer.surfaceDp() + 32) - windowInsetsStateHolder.getAnimatedMaxBottomInset() - getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM) - inputIslandHeightCurrent;
                     messageCell.setSponsoredMessageVisible(isVisible, isVisible);
                     if (isVisible) {
                         markSponsoredAsRead(messageObject);
@@ -19799,7 +19800,7 @@ public class ChatActivity extends BaseFragment implements
             float canvasOffsetX = chatListView.getLeft() + cell.getX();
             float canvasOffsetY = chatListView.getY() + cell.getY() + cell.getPaddingTop();
             float alpha = cell.shouldDrawAlphaLayer() ? cell.getAlpha() : 1f;
-            canvas.clipRect(chatListView.getLeft(), listTop, chatListView.getRight(), chatListView.getY() + chatListView.getMeasuredHeight() - blurredViewBottomOffset - windowInsetsStateHolder.getCurrentMaxBottomInset() - inputIslandHeightCurrent - dp(9));
+            canvas.clipRect(chatListView.getLeft(), listTop, chatListView.getRight(), chatListView.getY() + chatListView.getMeasuredHeight() - blurredViewBottomOffset - windowInsetsStateHolder.getCurrentMaxBottomInset() - inputIslandHeightCurrent - dp(ChatInputViewsContainer.surfaceDp()));
             canvas.translate(canvasOffsetX, canvasOffsetY);
             cell.setInvalidatesParent(true);
             if (type == 0) {
@@ -20035,7 +20036,7 @@ public class ChatActivity extends BaseFragment implements
                             float viewClipBottom2 = getMeasuredHeight()
                                     - windowInsetsStateHolder.getCurrentMaxBottomInset()
                                     - inputIslandHeightCurrent
-                                    - dp(9)
+                                    - dp(ChatInputViewsContainer.surfaceDp())
                                     - (mentionContainer != null ? mentionContainer.clipBottom() : 0);
 
                             canvas.clipRect(0, listTop + (mentionContainer != null ? mentionContainer.clipTop() : 0), getMeasuredWidth(), viewClipBottom2);
@@ -20056,7 +20057,7 @@ public class ChatActivity extends BaseFragment implements
                             - windowInsetsStateHolder.getCurrentMaxBottomInset()
                             - inputIslandHeightCurrent
                             - getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
-                            - dp(9);
+                            - dp(ChatInputViewsContainer.surfaceDp());
 
                         float clipTop = 0, clipBottom = 0;
                         if (mentionContainer != null) {
@@ -20544,7 +20545,7 @@ public class ChatActivity extends BaseFragment implements
                     int contentWidthSpec = View.MeasureSpec.makeMeasureSpec(widthSize, View.MeasureSpec.EXACTLY);
                     int contentHeightSpec = View.MeasureSpec.makeMeasureSpec(allHeight, View.MeasureSpec.EXACTLY);
                     instantCameraView.setInternalPadding(windowInsetsStateHolder.getCurrentMaxBottomInset()
-                        + (int) inputIslandHeightTarget + dp(9 + 3));
+                        + (int) inputIslandHeightTarget + dp(ChatInputViewsContainer.surfaceDp() + 3));
 
                     child.measure(contentWidthSpec, contentHeightSpec);
                 } else if (child == overlayView) {
@@ -20552,7 +20553,7 @@ public class ChatActivity extends BaseFragment implements
                     int contentHeightSpec = View.MeasureSpec.makeMeasureSpec(allHeight
                         - windowInsetsStateHolder.getCurrentMaxBottomInset()
                         - (int) inputIslandHeightTarget
-                        - dp(9 + 3), View.MeasureSpec.EXACTLY);
+                        - dp(ChatInputViewsContainer.surfaceDp() + 3), View.MeasureSpec.EXACTLY);
                     child.measure(contentWidthSpec, contentHeightSpec);
                 } else if (child == emptyViewContainer) {
                     int contentWidthSpec = View.MeasureSpec.makeMeasureSpec(widthSize, View.MeasureSpec.EXACTLY);
@@ -20721,12 +20722,12 @@ public class ChatActivity extends BaseFragment implements
                         childTop = chatActivityEnterView.getBottom();
                     }
                 } else if (chatActivityEnterView != null && chatActivityEnterView.isRecordCircleOrControlsView(child)) {
-                    childTop -= windowInsetsStateHolder.getCurrentMaxBottomInset() + dp(7);
+                    childTop -= windowInsetsStateHolder.getCurrentMaxBottomInset() + dp(ChatInputViewsContainer.bubbleBottomDp() - 2);
                     childLeft -= dp(3);
                 } else if (child == emojiButtonRed) {
-                    childTop -= windowInsetsStateHolder.getCurrentMaxBottomInset() + dp(7);
+                    childTop -= windowInsetsStateHolder.getCurrentMaxBottomInset() + dp(ChatInputViewsContainer.bubbleBottomDp() - 2);
                 } else if (chatActivityEnterView != null && child == chatActivityEnterView.recordedAudioPanel) {
-                    childTop -= windowInsetsStateHolder.getCurrentMaxBottomInset() + dp(9);
+                    childTop -= windowInsetsStateHolder.getCurrentMaxBottomInset() + dp(ChatInputViewsContainer.bubbleBottomDp());
                 } else if (child == chatListView || child == chatListThanosEffect || child == floatingDateView || child == floatingTopicSeparator || child == infoTopView) {
                     childTop = -blurredViewTopOffset;
                 } else if (child == progressView) {
@@ -22307,7 +22308,7 @@ public class ChatActivity extends BaseFragment implements
                 }
                 object.clipTopAddition = (int) (chatListViewPaddingTop - chatListViewPaddingVisibleOffset - AndroidUtilities.dp(4));
                 object.clipBottomAddition = (int) (blurredViewBottomOffset
-                    + dp(9)
+                    + dp(ChatInputViewsContainer.surfaceDp())
                     + windowInsetsStateHolder.getAnimatedMaxBottomInset()
                     + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
                     + inputIslandHeightCurrent);
@@ -22515,7 +22516,7 @@ public class ChatActivity extends BaseFragment implements
                 object.radius = imageReceiver.getRoundRadius(true);
                 object.clipTopAddition = (int) (chatListViewPaddingTop - chatListViewPaddingVisibleOffset - AndroidUtilities.dp(4));
                 object.clipBottomAddition = (int) (blurredViewBottomOffset
-                    + dp(9)
+                    + dp(ChatInputViewsContainer.surfaceDp())
                     + windowInsetsStateHolder.getAnimatedMaxBottomInset()
                     + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
                     + inputIslandHeightCurrent);
@@ -30983,9 +30984,9 @@ public class ChatActivity extends BaseFragment implements
 
 
 
-        // MZGram: Material bars. Without the pill, Unmute/Mute reads as a text button in the accent colour.
+        // MZGram: Material input bar. Without the pill, Unmute/Mute reads as a text button in the accent colour.
         bottomOverlayChatText.setTextColorKey(accentTextButton ? Theme.key_featuredStickers_buttonText
-            : AppearanceConfig.materialBars() ? Theme.key_chat_fieldOverlayText : Theme.key_glass_defaultText);
+            : AppearanceConfig.materialInput() ? Theme.key_chat_fieldOverlayText : Theme.key_glass_defaultText);
 
         bottomChannelButtonsLayout.setCenterAccentBackground(accentTextButton, animated);
         bottomChannelButtonsLayout.updateWrappingVisible(animated);
@@ -32774,7 +32775,7 @@ public class ChatActivity extends BaseFragment implements
 
                 return Math.round(windowInsetsStateHolder.getAnimatedMaxBottomInset()
                     + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
-                    + (chatInputViewsContainer.getInputBubbleHeight() + dp(9 + 7)));
+                    + (chatInputViewsContainer.getInputBubbleHeight() + dp(ChatInputViewsContainer.surfaceDp() + 7)));
             }
 
             @Override
@@ -51964,7 +51965,7 @@ public class ChatActivity extends BaseFragment implements
         }
 
         final float margin = windowInsetsStateHolder.getAnimatedMaxBottomInset() +
-                (chatInputViewsContainer.getInputBubbleHeight() + dp(9) - dp(5));
+                (chatInputViewsContainer.getInputBubbleHeight() + dp(ChatInputViewsContainer.surfaceDp()) - dp(5));
 
         topicsTabs.setSideMenuBackgroundMarginBottom(margin);
     }
@@ -51972,7 +51973,7 @@ public class ChatActivity extends BaseFragment implements
     private void checkUi_botMenuPosition() {
         final float margin = windowInsetsStateHolder.getAnimatedMaxBottomInset()
             + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
-            + (chatInputViewsContainer.getInputBubbleHeight() + dp(9 + 6));
+            + (chatInputViewsContainer.getInputBubbleHeight() + dp(ChatInputViewsContainer.surfaceDp() + 6));
 
         if (chatActivityEnterView != null && chatActivityEnterView.botCommandsMenuContainer != null) {
             chatActivityEnterView.botCommandsMenuContainer.setTranslationY(-margin);
@@ -52053,7 +52054,7 @@ public class ChatActivity extends BaseFragment implements
     private static final Rect clipBoundsRect = new Rect();
     private void checkUi_BlurHeight() {
         final float inputHeight = shouldHideBottomForGesture() ? 0 : windowInsetsStateHolder.getAnimatedMaxBottomInset()
-            + dp(9) + chatInputViewsContainer.getInputBubbleHeight() + dp(7)
+            + dp(ChatInputViewsContainer.surfaceDp()) + chatInputViewsContainer.getInputBubbleHeight() + dp(7)
             + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM);
 
         chatActivityFadeView.setFadeZoneBottom((int) inputHeight);
@@ -52071,7 +52072,7 @@ public class ChatActivity extends BaseFragment implements
 
     private void checkUi_emptyContainerPosition() {
         if (emptyViewContainer != null) {
-            emptyViewContainer.setTranslationY(-0.5f * (dp(9)
+            emptyViewContainer.setTranslationY(-0.5f * (dp(ChatInputViewsContainer.surfaceDp())
                 + windowInsetsStateHolder.getAnimatedImeBottomInset()
                 + chatInputViewsContainer.getInputBubbleHeight()
             ));
@@ -52347,9 +52348,9 @@ public class ChatActivity extends BaseFragment implements
             bottomOverlay.setTranslationY(dp(54) * hideFactor);
         }
         if (chatInputViewsContainer != null) {
-            // MZGram: Material bars. The docked bar stays under the selection buttons and the channel buttons;
+            // MZGram: Material input bar. The docked bar stays under the selection buttons and the channel buttons;
             // only the tonal field goes.
-            final boolean mzBars = AppearanceConfig.materialBars();
+            final boolean mzBars = AppearanceConfig.materialInput();
             chatInputViewsContainer.setInputBubbleAlpha(mzBars ? 255 : (int) (255 * (1f - hideFactor)));
             chatInputViewsContainer.setInputBubbleTranslationY(mzBars ? 0 : dp(54) * hideFactor);
             chatInputViewsContainer.setMzFieldVisibility((1f - bottomViewsVisibilityController.getVisibility(BOTTOM_OVERLAY_CHAT_CONTAINER))

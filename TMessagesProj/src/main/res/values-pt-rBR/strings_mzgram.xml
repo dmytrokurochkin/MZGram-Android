@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">O cabeçalho compacto põe o menu, as pastas e o botão de pesquisa numa linha no topo, sem o título do app. Sem abas, as pastas abrem segurando Conversas embaixo.</string>
     <string name="MZMaterialSurfaces">Painéis sólidos</string>
     <string name="MZMaterialDialogs">Diálogos</string>
-    <string name="MZMaterialBars">Barras superior e inferior</string>
+    <string name="MZMaterialBars">Barras superiores</string>
+    <string name="MZMaterialInput">Barra de digitação de mensagens</string>
     <string name="MZSolidPanelsBlurInfo">Painéis sólidos estão ativados, então vidro e desfoque estão desligados. Desative Painéis sólidos em Material Design 3 para usá-los.</string>
     <string name="MZSwitchStyleRing">Anel</string>
     <string name="MZMarkdownParserExtended">Estendido</string>

@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">Кампактная шапка змяшчае меню, папкі і кнопку пошуку ў адзін верхні радок, без назвы праграмы. Папкі без укладак адкрываюцца доўгім націскам на «Чаты» ўнізе.</string>
     <string name="MZMaterialSurfaces">Суцэльныя панэлі</string>
     <string name="MZMaterialDialogs">Дыялогі</string>
-    <string name="MZMaterialBars">Верхняя і ніжняя панэлі</string>
+    <string name="MZMaterialBars">Верхнія панэлі</string>
+    <string name="MZMaterialInput">Панэль уводу паведамленняў</string>
     <string name="MZSolidPanelsBlurInfo">Суцэльныя панэлі ўключаны, таму шкло і размыццё выключаны. Выключыце «Суцэльныя панэлі» ў Material Design 3, каб карыстацца імі.</string>
     <string name="MZSwitchStyleRing">Кальцо</string>
     <string name="MZMarkdownParserExtended">Пашыраны</string>

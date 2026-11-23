@@ -37,7 +37,8 @@
     <string name="MZHeaderInfo">Die kompakte Kopfzeile bringt Menü, Ordner und Suchtaste in eine obere Zeile, ohne App-Titel. Ordner ohne Tabs öffnest du mit langem Druck auf „Chats“ unten.</string>
     <string name="MZMaterialSurfaces">Volle Flächen</string>
     <string name="MZMaterialDialogs">Dialoge</string>
-    <string name="MZMaterialBars">Obere und untere Leiste</string>
+    <string name="MZMaterialBars">Obere Leisten</string>
+    <string name="MZMaterialInput">Nachrichten-Eingabeleiste</string>
     <string name="MZSolidPanelsBlurInfo">Volle Flächen sind an, daher sind Glas und Unschärfe aus. Schalte „Volle Flächen“ unter Material Design 3 aus, um sie zu nutzen.</string>
     <string name="MZSwitchStyleRing">Ring</string>
     <string name="MZMarkdownParserExtended">Erweitert</string>

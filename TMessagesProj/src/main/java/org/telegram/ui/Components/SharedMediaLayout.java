@@ -5896,7 +5896,15 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
     public void setVisibleHeight(int height) {
         lastVisibleHeight = height;
         for (int a = 0; a < mediaPages.length; a++) {
-            float t = -(getMeasuredHeight() - Math.max(height, dp(mediaPages[a].selectedType == TAB_STORIES ? 280 : 120))) / 2f;
+            final int type = mediaPages[a].selectedType;
+            final float t;
+            if (type == TAB_STORIES || type == TAB_ARCHIVED_STORIES || isStoryAlbumPageType(type)) {
+                // MZGram: an empty stories page keeps its text in one place on the page, so it scrolls with the
+                // profile like in other clients instead of sliding to the middle of the part that is on screen
+                t = Math.min(0, -(getMeasuredHeight() - dp(280)) / 2f);
+            } else {
+                t = -(getMeasuredHeight() - Math.max(height, dp(120))) / 2f;
+            }
             mediaPages[a].emptyView.setTranslationY(t);
             mediaPages[a].progressView.setTranslationY(-t);
         }
@@ -7495,6 +7503,11 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
                 setSearchItemVisibility(isStoriesView() ? View.GONE : View.INVISIBLE);
             }
             updateOptionsSearch();
+        }
+
+        if (lastVisibleHeight > 0) {
+            // MZGram: a page may have just switched to or from stories; place its empty text now, not on the next scroll
+            setVisibleHeight(lastVisibleHeight);
         }
     }
 

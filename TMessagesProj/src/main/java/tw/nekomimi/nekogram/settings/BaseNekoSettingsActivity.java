@@ -333,6 +333,10 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         if (!rowMap.containsKey(key) && expandGroupFor(key) && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
+        if (listView == null) {
+            // the page was never shown (opening it was refused), so there is nothing to scroll
+            return;
+        }
         if (rowMap.containsKey(key)) {
             listView.highlightRow(() -> {
                 // noinspection ConstantConditions
@@ -517,9 +521,30 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         }
         page.mzSection = section;
         page.mzSectionPageTitle = mzSectionTitle(section);
-        presentFragment(page);
+        if (!presentFragment(page)) {
+            // this page is still sliding in (opened from the settings search or a link):
+            // open the section once the slide is over
+            mzPendingSection = section;
+            mzPendingScroll = scrollTo;
+            return;
+        }
         if (scrollTo != null) {
             AndroidUtilities.runOnUIThread(() -> page.scrollToRow(scrollTo, null));
+        }
+    }
+
+    private String mzPendingSection;
+    private String mzPendingScroll;
+
+    @Override
+    public void onTransitionAnimationEnd(boolean isOpen, boolean backward) {
+        super.onTransitionAnimationEnd(isOpen, backward);
+        String section = mzPendingSection;
+        String scrollTo = mzPendingScroll;
+        mzPendingSection = null;
+        mzPendingScroll = null;
+        if (section != null && isOpen && !backward) {
+            AndroidUtilities.runOnUIThread(() -> mzOpenSection(section, scrollTo));
         }
     }
 

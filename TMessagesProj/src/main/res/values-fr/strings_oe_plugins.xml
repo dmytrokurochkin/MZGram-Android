@@ -57,7 +57,6 @@
     <string name="PluginsDocumentation">Documentation</string>
     <string name="PluginsTrusted">Plugins de confiance</string>
     <string name="PluginsPoweredBy">Propulsé par Chaquopy.</string>
-    <string name="PluginsEmptyHint">Vous trouverez des plugins dans le catalogue.</string>
     <string name="PluginsNotFound">Aucun plugin trouvé</string>
     <string name="EnablePluginsEngine">Activer le moteur de plugins</string>
     <string name="RestartRequired">Redémarrez l’app pour appliquer</string>

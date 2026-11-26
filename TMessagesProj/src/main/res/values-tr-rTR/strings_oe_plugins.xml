@@ -57,7 +57,6 @@
     <string name="PluginsDocumentation">Belgeler</string>
     <string name="PluginsTrusted">Güvenilir eklentiler</string>
     <string name="PluginsPoweredBy">Chaquopy ile çalışır.</string>
-    <string name="PluginsEmptyHint">Eklentileri eklenti kataloğunda bulabilirsiniz.</string>
     <string name="PluginsNotFound">Eklenti bulunamadı</string>
     <string name="EnablePluginsEngine">Eklenti motorunu aç</string>
     <string name="RestartRequired">Uygulamak için uygulamayı yeniden başlatın</string>

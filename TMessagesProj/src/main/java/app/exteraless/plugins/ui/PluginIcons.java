@@ -46,10 +46,6 @@ public final class PluginIcons {
         if (imageView == null || plugin == null || TextUtils.isEmpty(plugin.icon)) {
             return false;
         }
-        // MZGram catalog plugins are MZGram's own: they show the plain plugin icon, not a sticker from someone's pack.
-        if (app.exteraless.plugins.PluginCatalogTexts.name(plugin.id) != null) {
-            return false;
-        }
         final int slash = plugin.icon.lastIndexOf('/');
         if (slash <= 0 || slash == plugin.icon.length() - 1) {
             return false;

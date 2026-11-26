@@ -48,8 +48,6 @@ public class PluginsInfoActivity extends BaseFragment {
     private static final int ID_SAFE_MODE = 4;
     private static final int ID_SDK_VERSION = 5;
     private static final int ID_INSTALL_FROM_FILE = 6;
-    private static final int ID_DOCUMENTATION = 7;
-    private static final int ID_TRUSTED = 8;
     private static final int ID_UNSAFE_MODE = 9;
     private static final int ID_RETRY_HOOKS = 10;
 
@@ -131,15 +129,6 @@ public class PluginsInfoActivity extends BaseFragment {
                 .accent()
                 .setIcon(R.drawable.msg_add));
         items.add(UItem.asShadow(getString(R.string.PluginsPythonSdkInfo)));
-
-        items.add(UItem.asHeader(getString(R.string.PluginsLinks)));
-        // MZGram: the links lead to MZGram's own plugin catalog, not to another app's sites and channels.
-        items.add(UItem.asButton(ID_DOCUMENTATION, getString(R.string.MZPluginCatalog))
-                .accent()
-                .setIcon(R.drawable.menu_shop));
-        items.add(UItem.asButton(ID_TRUSTED, getString(R.string.MZPluginsOnGitHub))
-                .setIcon(R.drawable.msg_language));
-        items.add(UItem.asShadow());
     }
 
     private void onItemClick(UItem item, View view, int position, float x, float y) {
@@ -176,12 +165,6 @@ public class PluginsInfoActivity extends BaseFragment {
                     .show();
         } else if (item.id == ID_INSTALL_FROM_FILE) {
             PluginsActivity.openPluginPicker(this);
-            return;
-        } else if (item.id == ID_DOCUMENTATION) {
-            presentFragment(new PluginCatalogActivity());
-            return;
-        } else if (item.id == ID_TRUSTED) {
-            openUrl(PluginCatalogActivity.REPO_URL);
             return;
         } else {
             return;

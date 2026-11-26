@@ -57,7 +57,6 @@
     <string name="PluginsDocumentation">Құжаттама</string>
     <string name="PluginsTrusted">Сенімді плагиндер</string>
     <string name="PluginsPoweredBy">Chaquopy негізінде жұмыс істейді.</string>
-    <string name="PluginsEmptyHint">Плагиндерді плагин каталогынан табуға болады.</string>
     <string name="PluginsNotFound">Плагиндер табылмады</string>
     <string name="EnablePluginsEngine">Плагин қозғалтқышын қосу</string>
     <string name="RestartRequired">Қолдану үшін қолданбаны қайта іске қосыңыз</string>

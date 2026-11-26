@@ -57,7 +57,6 @@
     <string name="PluginsDocumentation">Дакументацыя</string>
     <string name="PluginsTrusted">Давераныя плагіны</string>
     <string name="PluginsPoweredBy">Працуе на Chaquopy.</string>
-    <string name="PluginsEmptyHint">Плагіны можна знайсці ў каталогу плагінаў.</string>
     <string name="PluginsNotFound">Плагінаў не знойдзена</string>
     <string name="EnablePluginsEngine">Уключыць рухавік плагінаў</string>
     <string name="RestartRequired">Перазапусціце праграму, каб ужыць</string>

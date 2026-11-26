@@ -140,7 +140,8 @@ public class PluginsController extends com.exteragram.messenger.plugins.PluginsC
         if (!isEngineEnabled()) {
             return;
         }
-        PluginCatalogTexts.preload();
+        // The plugin catalog is gone: drop the list it kept on disk.
+        new File(ApplicationLoader.getFilesDirFixed(), "mzgram_plugin_catalog.json").delete();
         String crashed = watchdog.recoverAfterCrash();
         if (crashed != null) {
             FileLog.e("PluginsController: disabled crashed plugin " + crashed);
@@ -1137,7 +1138,7 @@ public class PluginsController extends com.exteragram.messenger.plugins.PluginsC
                     deliver(callback, false, error, null);
                     return;
                 }
-                // The catalog listens for this: without it, a plugin just installed still showed Install.
+                // The plugin list listens for this: a plugin installed from a file shows up at once.
                 notifyPluginsChanged();
                 deliver(callback, true, null, p);
             } catch (Exception e) {

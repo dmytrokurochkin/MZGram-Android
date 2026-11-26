@@ -107,21 +107,56 @@ public final class PluginInstallHelper {
         }
         File file = FileLoader.getInstance(UserConfig.selectedAccount)
                 .getPathToMessage(message.messageOwner);
-        return showDownloadedPlugin(file);
+        return explainOwnPluginsOnly(file);
     }
 
     public static boolean handleFileTap(Activity activity, String name, File file) {
-        return activity != null && pluginExtension(name) != null && showDownloadedPlugin(file);
+        return activity != null && pluginExtension(name) != null && explainOwnPluginsOnly(file);
     }
 
-    private static boolean showDownloadedPlugin(File file) {
+    /**
+     * MZGram installs only plugins the user brings as a file of their own:
+     * a plugin file tapped in a chat is not installed, the tap says where
+     * plugins are added instead.
+     */
+    private static boolean explainOwnPluginsOnly(File file) {
         if (file == null || !file.isFile() || file.length() == 0) {
-            // Ещё не скачан — пусть отработает штатная загрузка.
+            // Not downloaded yet: let the normal download run.
             return false;
         }
-        AndroidUtilities.runOnUIThread(() -> PluginsController.getInstance()
-                .showInstallDialog(null, file.getAbsolutePath(), false));
+        AndroidUtilities.runOnUIThread(() -> {
+            org.telegram.ui.ActionBar.BaseFragment last = org.telegram.ui.LaunchActivity.getLastFragment();
+            org.telegram.ui.Components.BulletinFactory factory = last != null
+                    ? org.telegram.ui.Components.BulletinFactory.of(last)
+                    : org.telegram.ui.Components.BulletinFactory.global();
+            if (factory == null) {
+                return;
+            }
+            factory.createSimpleBulletin(R.raw.info,
+                    LocaleController.getString(R.string.MZPluginsChatTapBlocked),
+                    LocaleController.getString(R.string.OpenExteraPlugins),
+                    () -> {
+                        org.telegram.ui.ActionBar.BaseFragment f = org.telegram.ui.LaunchActivity.getLastFragment();
+                        if (f != null) {
+                            f.presentFragment(new app.exteraless.plugins.ui.PluginsActivity());
+                        }
+                    }).show();
+        });
         return true;
+    }
+
+    /**
+     * True when the call comes from plugin code (Python): a plugin may not
+     * install other plugins, only the user does that from a file.
+     */
+    public static boolean calledFromPlugin() {
+        for (StackTraceElement e : Thread.currentThread().getStackTrace()) {
+            String c = e.getClassName();
+            if (c != null && c.startsWith("com.chaquo.python")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

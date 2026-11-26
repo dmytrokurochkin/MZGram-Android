@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="MZPluginCatalog">Plugin catalog</string>
-    <string name="MZPluginCatalogInstall">Install</string>
-    <string name="MZPluginCatalogInstalled">Installed</string>
-    <string name="MZPluginCatalogUpdate">Update</string>
-    <string name="MZPluginCatalogRetry">Try again</string>
-    <string name="MZPluginCatalogError">Could not load the plugin catalog. Check the connection and try again.</string>
-    <string name="MZPluginCatalogDownloadError">Could not download the plugin. Try again later.</string>
-    <string name="MZPluginCatalogBadFile">The downloaded file does not match the catalog, so it was not installed.</string>
-    <string name="MZPluginCatalogInfo">Plugins come from the MZGram-Plugins repository on GitHub. Before a plugin is installed, you see what it may access.</string>
-    <string name="MZPluginsOnGitHub">Plugins on GitHub</string>
     <string name="MZIconSetRoundedInfo">Soft, rounded shapes</string>
     <string name="MZIconSetLineInfo">Thin, even lines</string>
-    <string name="MZPluginCatalogCount_zero">%1$d plugins</string>
-    <string name="MZPluginCatalogCount_one">%1$d plugin</string>
-    <string name="MZPluginCatalogCount_two">%1$d plugins</string>
-    <string name="MZPluginCatalogCount_few">%1$d plugins</string>
-    <string name="MZPluginCatalogCount_many">%1$d plugins</string>
-    <string name="MZPluginCatalogCount_other">%1$d plugins</string>
     <string name="MZHeaderSection">Chat list header</string>
     <string name="MZHeaderStyle">Header</string>
     <string name="MZHeaderStyleStandard">Standard</string>
@@ -35,16 +19,17 @@
     <string name="MZSolidPanelsBlurInfo">Solid panels are on, so glass and blur are off. Turn off Solid panels under Material Design 3 to use them.</string>
     <string name="MZSwitchStyleRing">Ring</string>
     <string name="MZMarkdownParserExtended">Extended</string>
-    <string name="MZPluginsGet">Get plugins</string>
+    <string name="MZPluginsGet">Add a plugin</string>
     <string name="MZPluginsEmptyTitle">No plugins yet</string>
-    <string name="MZPluginsEmptyBody">Plugins add new features to MZGram. Pick one in the catalog above or install a .plugin file.</string>
-    <string name="MZPluginCatalogVersionSize">Version %1$s · %2$s</string>
+    <string name="MZPluginsEmptyBody">Plugins add new features to MZGram. Write your own and install its .plugin file above.</string>
     <string name="MZMonetWallpaperColors">Wallpaper colours</string>
     <string name="MZMonetSeedColor">Colour %1$d</string>
     <string name="MZPrefsGeneralSummary">Translation, network, storage, archive, notifications</string>
     <string name="MZPrefsAppearanceSummary">Material style, header, folders, navigation, icons</string>
     <string name="MZPrefsChatsSummary">Stickers, messages, input, menus, double tap</string>
-    <string name="MZPrefsPluginsSummary">Plugin catalog, installed plugins, install from file</string>
+    <string name="MZPrefsPluginsSummary">Installed plugins, install from file</string>
     <string name="MZPrefsOtherSummary">Backup, experimental features, reset</string>
     <string name="MZSectionStyle">Style</string>
+    <string name="MZPluginsOwnInfo">Install a .plugin file you wrote yourself. Before a plugin is installed, you see what it may access.</string>
+    <string name="MZPluginsChatTapBlocked">Plugins are installed only from your own file: Plugins → Install from file.</string>
 </resources>

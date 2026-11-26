@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="MZPluginCatalog">Каталог плагінів</string>
-    <string name="MZPluginCatalogInstall">Встановити</string>
-    <string name="MZPluginCatalogInstalled">Встановлено</string>
-    <string name="MZPluginCatalogUpdate">Оновити</string>
-    <string name="MZPluginCatalogRetry">Спробувати ще</string>
-    <string name="MZPluginCatalogError">Не вдалося завантажити каталог плагінів. Перевірте з\'єднання й спробуйте ще раз.</string>
-    <string name="MZPluginCatalogDownloadError">Не вдалося завантажити плагін. Спробуйте пізніше.</string>
-    <string name="MZPluginCatalogBadFile">Завантажений файл не збігається з каталогом, тому його не встановлено.</string>
-    <string name="MZPluginCatalogInfo">Плагіни беруться з репозиторію MZGram-Plugins на GitHub. Перед встановленням плагіна ви бачите, до чого він матиме доступ.</string>
-    <string name="MZPluginsOnGitHub">Плагіни на GitHub</string>
     <string name="MZIconSetRoundedInfo">М\'які округлі форми</string>
     <string name="MZIconSetLineInfo">Тонкі рівні лінії</string>
     <string name="IconReplacementRemix">Лінійні іконки</string>
     <string name="OEGeneralAyuMoments">Архів повідомлень</string>
     <string name="OEGeneralAyuMomentsDisableAll">Вимкнути всі функції архіву повідомлень</string>
     <string name="PluginsEmptyHint">Плагіни можна знайти в каталозі плагінів.</string>
-    <string name="MZPluginCatalogCount_zero">%1$d плагінів</string>
-    <string name="MZPluginCatalogCount_one">%1$d плагін</string>
-    <string name="MZPluginCatalogCount_two">%1$d плагіни</string>
-    <string name="MZPluginCatalogCount_few">%1$d плагіни</string>
-    <string name="MZPluginCatalogCount_many">%1$d плагінів</string>
-    <string name="MZPluginCatalogCount_other">%1$d плагіна</string>
     <string name="MZHeaderSection">Шапка списку чатів</string>
     <string name="MZHeaderStyle">Шапка</string>
     <string name="MZHeaderStyleStandard">Звичайна</string>
@@ -39,17 +23,18 @@
     <string name="MZSolidPanelsBlurInfo">Увімкнено суцільні панелі, тому скла й розмиття немає. Щоб їх повернути, вимкніть «Суцільні панелі» в Material Design 3.</string>
     <string name="MZSwitchStyleRing">Кільце</string>
     <string name="MZMarkdownParserExtended">Розширений</string>
-    <string name="MZPluginsGet">Отримати плагіни</string>
+    <string name="MZPluginsGet">Додати плагін</string>
     <string name="MZPluginsEmptyTitle">Плагінів поки немає</string>
-    <string name="MZPluginsEmptyBody">Плагіни додають у MZGram нові можливості. Виберіть плагін у каталозі вище або встановіть файл .plugin.</string>
-    <string name="MZPluginCatalogVersionSize">Версія %1$s · %2$s</string>
+    <string name="MZPluginsEmptyBody">Плагіни додають у MZGram нові можливості. Напишіть свій і встановіть його файл .plugin вище.</string>
     <string name="PluginsInstallFromFile">Встановити з файлу</string>
     <string name="MZMonetWallpaperColors">Кольори шпалер</string>
     <string name="MZMonetSeedColor">Колір %1$d</string>
     <string name="MZPrefsGeneralSummary">Переклад, мережа, сховище, архів, сповіщення</string>
     <string name="MZPrefsAppearanceSummary">Стиль Material, шапка, папки, навігація, іконки</string>
     <string name="MZPrefsChatsSummary">Наліпки, повідомлення, введення, меню, подвійний дотик</string>
-    <string name="MZPrefsPluginsSummary">Каталог плагінів, встановлені плагіни, встановлення з файлу</string>
+    <string name="MZPrefsPluginsSummary">Встановлені плагіни, встановлення з файлу</string>
     <string name="MZPrefsOtherSummary">Резервна копія, експериментальні функції, скидання</string>
     <string name="MZSectionStyle">Стиль</string>
+    <string name="MZPluginsOwnInfo">Встановіть файл .plugin, який ви написали самі. Перед встановленням ви бачите, до чого плагін матиме доступ.</string>
+    <string name="MZPluginsChatTapBlocked">Плагіни встановлюються лише з власного файлу: Плагіни → Встановити з файлу.</string>
 </resources>

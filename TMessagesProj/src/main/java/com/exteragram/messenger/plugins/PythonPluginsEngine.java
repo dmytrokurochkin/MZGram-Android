@@ -18,6 +18,11 @@ public abstract class PythonPluginsEngine {
         if (params == null || android.text.TextUtils.isEmpty(params.getFilePath())) {
             return;
         }
+        if (app.exteraless.plugins.PluginInstallHelper.calledFromPlugin()) {
+            // A plugin may not install other plugins: only the user adds a plugin, from a file.
+            org.telegram.messenger.FileLog.e("plugins: a plugin tried to install " + params.getFilePath() + ", refused");
+            return;
+        }
         android.app.Activity activity = fragment == null ? null : fragment.getParentActivity();
         if (activity == null) {
             activity = org.telegram.ui.LaunchActivity.instance;
@@ -60,6 +65,13 @@ public abstract class PythonPluginsEngine {
         if (android.text.TextUtils.isEmpty(filePath)) {
             if (callback != null) {
                 callback.run("empty file path");
+            }
+            return;
+        }
+        if (app.exteraless.plugins.PluginInstallHelper.calledFromPlugin()) {
+            // A plugin may not install other plugins: only the user adds a plugin, from a file.
+            if (callback != null) {
+                callback.run("plugins can not install other plugins");
             }
             return;
         }

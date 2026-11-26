@@ -18,6 +18,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -61,7 +62,7 @@ import app.exteraless.plugins.ui.components.PluginSettingsLinkDelegate;
  * живут на втором экране, а не свалены сюда: раньше всё было одним списком, и
  * это ощутимо расходилось с оригиналом.
  */
-public class PluginsActivity extends BaseFragment {
+public class PluginsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private static final int MENU_SEARCH = 0;
     private static final int MENU_INFO = 1;
@@ -70,10 +71,8 @@ public class PluginsActivity extends BaseFragment {
     private static final int MENU_CLEAR_LOGS = 4;
     private static final int MENU_EXPORT_PLUGINS = 5;
     private static final int MENU_IMPORT_PLUGINS = 6;
-    private static final int MENU_CATALOG = 7;
 
     private static final int ID_ENGINE_TOGGLE = -1;
-    private static final int ID_CATALOG_ROW = -2;
     private static final int ID_INSTALL_FILE_ROW = -3;
 
     private static final int REQUEST_CODE_PICK_PLUGIN = 9781;
@@ -96,8 +95,6 @@ public class PluginsActivity extends BaseFragment {
                     finishFragment();
                 } else if (id == MENU_INFO) {
                     presentFragment(new PluginsInfoActivity());
-                } else if (id == MENU_CATALOG) {
-                    presentFragment(new PluginCatalogActivity());
                 } else if (id == MENU_EXPORT_LOGS) {
                     exportPluginLogs();
                 } else if (id == MENU_EXPORT_PLUGINS) {
@@ -131,8 +128,6 @@ public class PluginsActivity extends BaseFragment {
                                     }
                                 });
         search.setSearchFieldHint(getString(R.string.Search));
-        actionBar.createMenu().addItem(MENU_CATALOG, R.drawable.menu_shop)
-                .setContentDescription(getString(R.string.MZPluginCatalog));
         actionBar.createMenu().addItem(MENU_INFO, R.drawable.msg_info);
         org.telegram.ui.ActionBar.ActionBarMenuItem other =
                 actionBar.createMenu().addItem(MENU_OTHER, R.drawable.ic_ab_other);
@@ -309,16 +304,13 @@ public class PluginsActivity extends BaseFragment {
         if (searching) {
             items.add(UItem.asSpace(dp(8)));
         } else {
-            // MZGram: the ways to get a plugin are rows in sight, not icons in the top bar
+            // Plugins come only from the user's own files: there is no catalog to pick from.
             items.add(UItem.asShadow(null));
             items.add(UItem.asHeader(getString(R.string.MZPluginsGet)));
-            items.add(UItem.asButton(ID_CATALOG_ROW, getString(R.string.MZPluginCatalog))
-                    .accent()
-                    .setIcon(R.drawable.menu_shop));
             items.add(UItem.asButton(ID_INSTALL_FILE_ROW, getString(R.string.PluginsInstallFromFile))
                     .accent()
                     .setIcon(R.drawable.msg_filehq));
-            items.add(UItem.asShadow(getString(R.string.MZPluginCatalogInfo)));
+            items.add(UItem.asShadow(getString(R.string.MZPluginsOwnInfo)));
         }
 
         List<Plugin> visible = visiblePlugins();
@@ -526,10 +518,6 @@ public class PluginsActivity extends BaseFragment {
                             }
                         }));
             }
-            return;
-        }
-        if (item.id == ID_CATALOG_ROW) {
-            presentFragment(new PluginCatalogActivity());
             return;
         }
         if (item.id == ID_INSTALL_FILE_ROW) {
@@ -761,6 +749,26 @@ public class PluginsActivity extends BaseFragment {
             FileLog.e("PluginsActivity: cannot resolve file name", e);
         }
         return uri.getLastPathSegment();
+    }
+
+    @Override
+    public boolean onFragmentCreate() {
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.pluginsUpdated);
+        return super.onFragmentCreate();
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.pluginsUpdated);
+        super.onFragmentDestroy();
+    }
+
+    @Override
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.pluginsUpdated && fragmentView != null) {
+            refreshPlugins(false);
+            updateRows();
+        }
     }
 
     @Override

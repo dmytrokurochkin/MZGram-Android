@@ -25,7 +25,6 @@ public class LauncherIconController {
             case BLUEPRINT:
             case RED:
             case NYA:
-            case ARC:
             case QUACK:
             case GO:
             case HAND:

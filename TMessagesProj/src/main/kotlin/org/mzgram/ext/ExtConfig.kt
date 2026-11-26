@@ -213,6 +213,13 @@ object ExtConfig {
             ConfigItem.configTypeBool,
             false
         )
+    // The accounts at the end of the chat list menu, while the navigation drawer is off.
+    val accountsInMenu =
+        addConfig(
+            "AccountsInMenu",
+            ConfigItem.configTypeBool,
+            true
+        )
     val customEditedMessage =
         addConfig(
             "CustomEditedMessage",

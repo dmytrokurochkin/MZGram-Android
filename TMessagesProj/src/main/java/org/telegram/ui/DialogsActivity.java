@@ -14085,6 +14085,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 presentFragment(new SettingsActivity());
             });
         }
+        // MZGram: the signed-in accounts, a tap switches (only while the drawer is off).
+        org.mzgram.chats.AccountsMenu.addTo(io, this);
 
         if (proxyMenuSubItem != null) {
             ThemeBind.textColor(proxyMenuSubItem.subtextView, Theme.key_groupcreate_sectionText, getResourceProvider());

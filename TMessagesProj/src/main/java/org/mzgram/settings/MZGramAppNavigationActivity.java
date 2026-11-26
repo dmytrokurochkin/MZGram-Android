@@ -69,6 +69,7 @@ public class MZGramAppNavigationActivity extends BaseFragment {
     private static final int ID_HIDE_CALLS_TAB = -109;
     private static final int ID_HIDE_PROFILE_TAB = -110;
     private static final int ID_ALWAYS_DOWNLOADS = -111;
+    private static final int ID_ACCOUNTS_MENU = -112;
 
     /** Кнопка «добавить разделитель». */
     private static final int ID_ADD_DIVIDER = -200;
@@ -183,6 +184,10 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         if (AppearanceConfig.navigationDrawer()) {
             items.add(UItem.asCheck(ID_IMMERSIVE, getString(R.string.MZNavigationDrawerImmersive))
                     .setChecked(AppearanceConfig.immersiveDrawerAnimation()));
+        } else {
+            // The drawer lists the accounts itself; without it they can be at the end of the ⋮ menu.
+            items.add(UItem.asCheck(ID_ACCOUNTS_MENU, getString(R.string.AccountsInMenu))
+                    .setChecked(ExtConfig.INSTANCE.getAccountsInMenu().Bool()));
         }
         items.add(UItem.asShadow(getString(R.string.MZNavigationDrawerInfo)));
 
@@ -265,12 +270,12 @@ public class MZGramAppNavigationActivity extends BaseFragment {
     private static final int[] LINK_IDS = {
             ID_TABLET_MODE, ID_BACK_ANIMATION, ID_PREDICTIVE_INTENSITY, ID_BOTTOM_NAVIGATION_BAR,
             ID_HIDE_TAB_TITLES, ID_HIDE_CONTACTS_TAB, ID_HIDE_CALLS_TAB, ID_HIDE_PROFILE_TAB,
-            ID_DRAWER, ID_IMMERSIVE, ID_ALWAYS_DOWNLOADS
+            ID_DRAWER, ID_IMMERSIVE, ID_ALWAYS_DOWNLOADS, ID_ACCOUNTS_MENU
     };
     private static final String[] LINK_KEYS = {
             "tabletMode", "backAnimation", "predictiveBackIntensity", "bottomNavigationBar",
             "MainTabsHideTitles", "MainTabsHideContacts", "MainTabsHideCallsSettings", "MainTabsHideProfile",
-            "navigationDrawer", "immersiveDrawerAnimation", "AlwaysShowDownloadIcon"
+            "navigationDrawer", "immersiveDrawerAnimation", "AlwaysShowDownloadIcon", "AccountsInMenu"
     };
 
     private static String linkKey(int id) {
@@ -381,6 +386,11 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         if (id == ID_HIDE_TAB_TITLES || id == ID_HIDE_CONTACTS_TAB
                 || id == ID_HIDE_CALLS_TAB || id == ID_HIDE_PROFILE_TAB) {
             toggleMainTab(mainTabConfig(id));
+            return;
+        }
+        if (id == ID_ACCOUNTS_MENU) {
+            ExtConfig.INSTANCE.getAccountsInMenu().toggleConfigBool();
+            update();
             return;
         }
         if (id == ID_ALWAYS_DOWNLOADS) {

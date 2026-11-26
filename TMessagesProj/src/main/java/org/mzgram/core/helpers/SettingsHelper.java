@@ -144,6 +144,7 @@ public class SettingsHelper {
         MZGRAM_ROWS.put("MainTabsHideCallsSettings", "navigation");
         MZGRAM_ROWS.put("MainTabsHideProfile", "navigation");
         MZGRAM_ROWS.put("AlwaysShowDownloadIcon", "navigation");
+        MZGRAM_ROWS.put("AccountsInMenu", "navigation");
         MZGRAM_ROWS.put("DisableSystemAccount", "privacy");
         MZGRAM_ROWS.put("PerformanceClass", "powersaving");
         MZGRAM_ROWS.put("VideoPlayerDecoder", "chats");

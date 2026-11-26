@@ -386,7 +386,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 listView.adapter.update(true);
             }
         };
-        search.loadFaqWebPage();
+        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.FAQ)) {
+            search.loadFaqWebPage();
+        }
 
         listView = new UniversalRecyclerView(this, this::fillItems, this::onClick, this::onLongClick);
         listView.setCaptureSectionsDecoratorAllowed(true);
@@ -947,7 +949,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         items.add(SettingCell.Factory.of(-1, 0xFF993C38, 0xFF993C38, R.drawable.mzgram_icon_tile, getString(R.string.MZGramPreferences), getString(R.string.MZGramInfo)));
         items.add(UItem.asShadow(null));
         final boolean walletAbove = getConnectionsManager().getCurrentTime() - 1791538462 < 4 * 7 * 24 * 60 * 60;
-        if (walletAbove && getMessagesController().config.walletAvailable.get()) {
+        final boolean showWallet = getMessagesController().config.walletAvailable.get() && !org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.WALLET);
+        if (walletAbove && showWallet) {
             final GramWallet wallet = GramWallet.getInstance(currentAccount);
             items.add(SettingCell.Factory.of(25, 0, 0, Theme.isCurrentThemeDark() ? R.drawable.settings_wallet_dark : R.drawable.settings_wallet, TextCell.applyNewSpanTimed(getString(R.string.WalletAttachMoney), 1790679020), null, wallet.getBalance() > 0 ? GramWallet.formatGrams(wallet.getBalance()) : null));
             items.add(UItem.asShadow(null));
@@ -966,58 +969,57 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         items.add(SettingCell.Factory.of(9, IconBackgroundColors.ORANGE_DEEP.top, IconBackgroundColors.ORANGE_DEEP.bottom, R.drawable.settings_power, getString(R.string.SettingsPowerSaving), getString(R.string.SettingsPowerSavingInfo)));
         items.add(SettingCell.Factory.of(10, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_language, getString(R.string.SettingsLanguage), null, LocaleController.getCurrentLanguageName()));
 
-        boolean hidePremium = ExtConfig.INSTANCE.getHidePremiumSection().Bool();
-        boolean hideHelp = ExtConfig.INSTANCE.getHideHelpSection().Bool();
-        final boolean walletBelow = !walletAbove && getMessagesController().config.walletAvailable.get();
-
-        if (walletBelow || !(hidePremium && hideHelp)) {
-            items.add(UItem.asShadow(null));
-        }
+        // MZGram: each of these rows can be hidden on its own (Chats settings > Hiding).
+        final boolean walletBelow = !walletAbove && showWallet;
         if (walletBelow) {
+            items.add(UItem.asShadow(null));
             final GramWallet wallet = GramWallet.getInstance(currentAccount);
             items.add(SettingCell.Factory.of(25, 0, 0, Theme.isCurrentThemeDark() ? R.drawable.settings_wallet_dark : R.drawable.settings_wallet, TextCell.applyNewSpanTimed(getString(R.string.WalletAttachMoney), 1790679020), null, wallet.getBalance() > 0 ? GramWallet.formatGrams(wallet.getBalance()) : null));
-            if (!(hidePremium && hideHelp)) {
-                items.add(UItem.asShadow(null));
-            }
         }
 
-        if (!hidePremium) {
-            if (!getMessagesController().premiumFeaturesBlocked()) {
-                items.add(SettingCell.Factory.of(11, 0xFFB659FF, 0xFF617CFF, R.drawable.settings_premium, getString(R.string.TelegramPremium)));
-            }
-            if (getMessagesController().starsPurchaseAvailable()) {
-                StarsController c = StarsController.getInstance(currentAccount);
-                long balance = c.getBalance().amount;
-                items.add(SettingCell.Factory.of(12, 0xFFEFA612, 0xFFE77512, R.drawable.settings_stars, getString(R.string.TelegramStars), null, c.balanceAvailable() && balance > 0 ? StarsIntroActivity.formatStarsAmount(c.getBalance(), 0.85f, ' ') : ""));
-            }
-            StarsController.getInstance(currentAccount, true).getBalance();
-            if (ApplicationLoader.isBetaBuild() || ApplicationLoader.isStandaloneBuild() || ApplicationLoader.isHuaweiStoreBuild() || (StarsController.getInstance(currentAccount, true).balanceAvailable() && (StarsController.getInstance(currentAccount, true).hasTransactions() || StarsController.getInstance(currentAccount, true).getBalance().positive()))) {
-                final StarsController c = StarsController.getTonInstance(currentAccount);
-                final long balance = c.getBalance().amount;
-                items.add(SettingCell.Factory.of(13, 0xFF1BA4ED, 0xFF1488E1, R.drawable.filled_gram_earnings, getString(R.string.GramEarnings), null, c.balanceAvailable() && balance > 0 ? StarsIntroActivity.formatStarsAmount(c.getBalance(), 0.85f, ' ') : ""));
-            }
-
-
-            if (!getMessagesController().premiumFeaturesBlocked()) {
-                items.add(SettingCell.Factory.of(15, 0xFFF45255, 0xFFDF3955, R.drawable.settings_business, getString(R.string.TelegramBusiness)));
-            }
-            if (!getMessagesController().premiumPurchaseBlocked()) {
-                items.add(SettingCell.Factory.of(16, 0xFFF38B31, 0xFFE26314, R.drawable.settings_gift, getString(R.string.SendAGift)));
-            }
-            if (items.get(items.size() - 1).viewType != UniversalAdapter.VIEW_TYPE_SHADOW && !hideHelp) {
-                items.add(UItem.asShadow(null));
-            }
+        final ArrayList<UItem> paid = new ArrayList<>();
+        if (!getMessagesController().premiumFeaturesBlocked() && !org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.PREMIUM)) {
+            paid.add(SettingCell.Factory.of(11, 0xFFB659FF, 0xFF617CFF, R.drawable.settings_premium, getString(R.string.TelegramPremium)));
+        }
+        if (getMessagesController().starsPurchaseAvailable() && !org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.STARS)) {
+            StarsController c = StarsController.getInstance(currentAccount);
+            long balance = c.getBalance().amount;
+            paid.add(SettingCell.Factory.of(12, 0xFFEFA612, 0xFFE77512, R.drawable.settings_stars, getString(R.string.TelegramStars), null, c.balanceAvailable() && balance > 0 ? StarsIntroActivity.formatStarsAmount(c.getBalance(), 0.85f, ' ') : ""));
+        }
+        StarsController.getInstance(currentAccount, true).getBalance();
+        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.EARNINGS) && (ApplicationLoader.isBetaBuild() || ApplicationLoader.isStandaloneBuild() || ApplicationLoader.isHuaweiStoreBuild() || (StarsController.getInstance(currentAccount, true).balanceAvailable() && (StarsController.getInstance(currentAccount, true).hasTransactions() || StarsController.getInstance(currentAccount, true).getBalance().positive())))) {
+            final StarsController c = StarsController.getTonInstance(currentAccount);
+            final long balance = c.getBalance().amount;
+            paid.add(SettingCell.Factory.of(13, 0xFF1BA4ED, 0xFF1488E1, R.drawable.filled_gram_earnings, getString(R.string.GramEarnings), null, c.balanceAvailable() && balance > 0 ? StarsIntroActivity.formatStarsAmount(c.getBalance(), 0.85f, ' ') : ""));
+        }
+        if (!getMessagesController().premiumFeaturesBlocked() && !org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.BUSINESS)) {
+            paid.add(SettingCell.Factory.of(15, 0xFFF45255, 0xFFDF3955, R.drawable.settings_business, getString(R.string.TelegramBusiness)));
+        }
+        if (!getMessagesController().premiumPurchaseBlocked() && !org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.GIFT)) {
+            paid.add(SettingCell.Factory.of(16, 0xFFF38B31, 0xFFE26314, R.drawable.settings_gift, getString(R.string.SendAGift)));
+        }
+        if (!paid.isEmpty()) {
+            items.add(UItem.asShadow(null));
+            items.addAll(paid);
         }
 
-        if (!hideHelp) {
-            if (items.get(items.size() - 1).viewType != UniversalAdapter.VIEW_TYPE_SHADOW) {
-                items.add(UItem.asShadow(null));
-            }
+        final ArrayList<UItem> help = new ArrayList<>();
+        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.ASK)) {
+            help.add(SettingCell.Factory.of(17, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_ask, getString(R.string.AskAQuestion)));
+        }
+        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.FAQ)) {
+            help.add(SettingCell.Factory.of(18, IconBackgroundColors.BLUE_LIGHT.top, IconBackgroundColors.BLUE_LIGHT.bottom, R.drawable.settings_faq, getString(R.string.TelegramFAQ)));
+        }
+        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.FEATURES)) {
+            help.add(SettingCell.Factory.of(23, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_features, getString(R.string.TelegramFeatures)));
+        }
+        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.POLICY)) {
+            help.add(SettingCell.Factory.of(19, IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom, R.drawable.settings_policy, getString(R.string.PrivacyPolicy)));
+        }
+        if (!help.isEmpty()) {
+            items.add(UItem.asShadow(null));
             items.add(UItem.asHeader(getString(R.string.SettingsHelp)));
-            items.add(SettingCell.Factory.of(17, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_ask, getString(R.string.AskAQuestion)));
-            items.add(SettingCell.Factory.of(18, IconBackgroundColors.BLUE_LIGHT.top, IconBackgroundColors.BLUE_LIGHT.bottom, R.drawable.settings_faq, getString(R.string.TelegramFAQ)));
-            items.add(SettingCell.Factory.of(23, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_features, getString(R.string.TelegramFeatures)));
-            items.add(SettingCell.Factory.of(19, IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom, R.drawable.settings_policy, getString(R.string.PrivacyPolicy)));
+            items.addAll(help);
         }
 
         if (BuildVars.LOGS_ENABLED || BuildVars.DEBUG_PRIVATE_VERSION) {

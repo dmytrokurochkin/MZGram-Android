@@ -11512,27 +11512,27 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 devicesRow = rowCount++;
                 languageRow = rowCount++;
                 // hide premium / help
-                boolean hidePremium = ExtConfig.INSTANCE.getHidePremiumSection().Bool();
-                boolean hideHelp = ExtConfig.INSTANCE.getHideHelpSection().Bool();
+                boolean hidePremium = org.mzgram.settings.HiddenSettingsRows.allHidden(org.mzgram.settings.HiddenSettingsRows.PREMIUM, org.mzgram.settings.HiddenSettingsRows.STARS, org.mzgram.settings.HiddenSettingsRows.EARNINGS, org.mzgram.settings.HiddenSettingsRows.BUSINESS, org.mzgram.settings.HiddenSettingsRows.GIFT);
+                boolean hideHelp = org.mzgram.settings.HiddenSettingsRows.allHidden(org.mzgram.settings.HiddenSettingsRows.ASK, org.mzgram.settings.HiddenSettingsRows.FAQ, org.mzgram.settings.HiddenSettingsRows.POLICY);
                 if (!(hidePremium && hideHelp)) {
                     devicesSectionRow = rowCount++;
                 }
                 if (!hidePremium) {
                     if (!getMessagesController().premiumFeaturesBlocked()) {
-                        premiumRow = rowCount++;
+                        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.PREMIUM)) premiumRow = rowCount++;
                     }
                     if (getMessagesController().starsPurchaseAvailable()) {
-                        starsRow = rowCount++;
+                        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.STARS)) starsRow = rowCount++;
                     }
                     StarsController.getInstance(currentAccount, true).getBalance();
                 if (ApplicationLoader.isBetaBuild() || ApplicationLoader.isStandaloneBuild() || (StarsController.getInstance(currentAccount, true).balanceAvailable() && (StarsController.getInstance(currentAccount, true).hasTransactions() || StarsController.getInstance(currentAccount, true).getBalance().positive()))) {
-                        tonRow = rowCount++;
+                        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.EARNINGS)) tonRow = rowCount++;
                     }
                     if (!getMessagesController().premiumFeaturesBlocked()) {
-                        businessRow = rowCount++;
+                        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.BUSINESS)) businessRow = rowCount++;
                     }
                     if (!getMessagesController().premiumPurchaseBlocked()) {
-                        premiumGiftingRow = rowCount++;
+                        if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.GIFT)) premiumGiftingRow = rowCount++;
                     }
                     if ((premiumRow >= 0 || starsRow >= 0 || tonRow >= 0 || businessRow >= 0 || premiumGiftingRow >= 0) && !hideHelp) {
                         premiumSectionsRow = rowCount++;
@@ -11540,9 +11540,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (!hideHelp) {
                     helpHeaderRow = rowCount++;
-                    questionRow = rowCount++;
-                    faqRow = rowCount++;
-                    policyRow = rowCount++;
+                    if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.ASK)) questionRow = rowCount++;
+                    if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.FAQ)) faqRow = rowCount++;
+                    if (!org.mzgram.settings.HiddenSettingsRows.hidden(org.mzgram.settings.HiddenSettingsRows.POLICY)) policyRow = rowCount++;
                 }
                 if (BuildVars.LOGS_ENABLED) {
                     helpSectionCell = rowCount++;
@@ -15456,7 +15456,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (searchArray != null) {
                 return;
             }
-            searchArray = onCreateSearchArray(fragment);
+            searchArray = org.mzgram.settings.HiddenSettingsRows.filterSearch(onCreateSearchArray(fragment));
             updateSearchArray();
         }
 

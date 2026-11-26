@@ -657,11 +657,72 @@ object ExtConfig {
             ConfigItem.configTypeBool,
             false
         )
+    // Old: hid whole sections of Telegram's Settings; HiddenSettingsRows carries them over to hideRow*.
     val hideHelpSection =
         addConfig(
             "HideHelpSection",
             ConfigItem.configTypeBool,
             true
+        )
+    val hideRowWallet =
+        addConfig(
+            "HideRowWallet",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowPremium =
+        addConfig(
+            "HideRowPremium",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowStars =
+        addConfig(
+            "HideRowStars",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowEarnings =
+        addConfig(
+            "HideRowEarnings",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowBusiness =
+        addConfig(
+            "HideRowBusiness",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowGift =
+        addConfig(
+            "HideRowGift",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowAsk =
+        addConfig(
+            "HideRowAsk",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowFaq =
+        addConfig(
+            "HideRowFaq",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowFeatures =
+        addConfig(
+            "HideRowFeatures",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val hideRowPolicy =
+        addConfig(
+            "HideRowPolicy",
+            ConfigItem.configTypeBool,
+            false
         )
     val llmApiUrl =
         addConfig(

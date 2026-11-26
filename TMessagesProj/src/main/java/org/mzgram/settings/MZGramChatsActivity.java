@@ -379,8 +379,7 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
     private int hidingAiDividerRow = -1;
     private int hidingSettingsHeaderRow = -1;
     private int hideSettingsGroupRow = -1;
-    private int hidePremiumSectionRow = -1;
-    private int hideHelpSectionRow = -1;
+    private final int[] hideSettingsRows = new int[HiddenSettingsRows.IDS.length];
     private int hidingSettingsDividerRow = -1;
 
     public MZGramChatsActivity() {
@@ -784,12 +783,14 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         hidingAiDividerRow = addRow();
 
         hidingSettingsHeaderRow = addRow("hidingSettingsHeader");
-        hideSettingsGroupRow = addRow("hideSettingsSections", "HidePremiumSection", "HideHelpSection");
+        hideSettingsGroupRow = addRow("hideSettingsSections", "HideRowWallet", "HideRowPremium", "HideRowStars", "HideRowEarnings", "HideRowBusiness", "HideRowGift", "HideRowAsk", "HideRowFaq", "HideRowFeatures", "HideRowPolicy");
         if (hideSettingsExpanded) {
-            hidePremiumSectionRow = addRow("hidePremiumSection", "HidePremiumSection");
-            hideHelpSectionRow = addRow("hideHelpSection", "HideHelpSection");
+            final ConfigItem[] hideItems = HiddenSettingsRows.items();
+            for (int i = 0; i < hideSettingsRows.length; i++) {
+                hideSettingsRows[i] = addRow(hideItems[i].getKey());
+            }
         } else {
-            hidePremiumSectionRow = hideHelpSectionRow = -1;
+            Arrays.fill(hideSettingsRows, -1);
         }
         hidingSettingsDividerRow = addRow();
     }
@@ -1334,7 +1335,7 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
     }
 
     private static ConfigItem[] hideSettingsItems() {
-        return new ConfigItem[]{ExtConfig.INSTANCE.getHidePremiumSection(), ExtConfig.INSTANCE.getHideHelpSection()};
+        return HiddenSettingsRows.items();
     }
 
     private void toggleAllHideSettings() {
@@ -2127,7 +2128,7 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             return stripTrackingGroupRow;
         } else if (position == hideAiEditorRow || position == hideAiSummaryRow || position == hideAiIvRow) {
             return hideAiGroupRow;
-        } else if (position == hidePremiumSectionRow || position == hideHelpSectionRow) {
+        } else if (hideSettingsIndex(position) >= 0) {
             return hideSettingsGroupRow;
         }
         return -1;
@@ -2297,9 +2298,21 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         if (position == hideAiEditorRow) return AppearanceConfig.hideAiEditor;
         if (position == hideAiSummaryRow) return AppearanceConfig.hideMessageSummary;
         if (position == hideAiIvRow) return AppearanceConfig.hideIvSummary;
-        if (position == hidePremiumSectionRow) return ExtConfig.INSTANCE.getHidePremiumSection();
-        if (position == hideHelpSectionRow) return ExtConfig.INSTANCE.getHideHelpSection();
+        if (hideSettingsIndex(position) >= 0) return HiddenSettingsRows.items()[hideSettingsIndex(position)];
         return null;
+    }
+
+    /** Hide in Telegram's Settings: the index of the row's switch, or -1. */
+    private int hideSettingsIndex(int position) {
+        if (position < 0) {
+            return -1;
+        }
+        for (int i = 0; i < hideSettingsRows.length; i++) {
+            if (hideSettingsRows[i] == position) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /** Слайдер размера стикеров с живым превью переписки. */
@@ -2865,10 +2878,9 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
                 cell.setText(getString(R.string.MZAppearanceHideAiSummary), "", AppearanceConfig.hideMessageSummary.Bool(), true, true);
             } else if (position == hideAiIvRow) {
                 cell.setText(getString(R.string.MZAppearanceHideAiIv), "", AppearanceConfig.hideIvSummary.Bool(), true, true);
-            } else if (position == hidePremiumSectionRow) {
-                cell.setText(getString(R.string.TelegramPremium), "", ExtConfig.INSTANCE.getHidePremiumSection().Bool(), true, true);
-            } else if (position == hideHelpSectionRow) {
-                cell.setText(getString(R.string.SettingsHelp), "", ExtConfig.INSTANCE.getHideHelpSection().Bool(), false, true);
+            } else if (hideSettingsIndex(position) >= 0) {
+                final int i = hideSettingsIndex(position);
+                cell.setText(getString(HiddenSettingsRows.TITLES[i]), "", HiddenSettingsRows.items()[i].Bool(), i < hideSettingsRows.length - 1, true);
             }
             cell.setPad(1);
             // По умолчанию ячейка этого типа красит текст серым; вложенные пункты

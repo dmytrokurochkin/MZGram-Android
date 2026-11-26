@@ -72,6 +72,16 @@ public class SettingsHelper {
         SEARCH_TITLE_ALIASES.put("MZChats:hideAiSummary", "MZAppearanceHideAiSummary");
         SEARCH_TITLE_ALIASES.put("MZChats:hideAiIv", "MZAppearanceHideAiIv");
         SEARCH_TITLE_ALIASES.put("MZChats:hideSettingsSections", "MZAppearanceHideSettingsSections");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowWallet", "WalletAttachMoney");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowPremium", "TelegramPremium");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowStars", "TelegramStars");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowEarnings", "GramEarnings");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowBusiness", "TelegramBusiness");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowGift", "SendAGift");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowAsk", "AskAQuestion");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowFaq", "TelegramFAQ");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowFeatures", "TelegramFeatures");
+        SEARCH_TITLE_ALIASES.put("MZChats:HideRowPolicy", "PrivacyPolicy");
         SEARCH_TITLE_ALIASES.put("MZChats:disableGreeting", "MZChatsDisableGreetingSticker");
         SEARCH_TITLE_ALIASES.put("MZChats:hideKeyboardOnScroll", "HideKeyboardOnChatScroll");
         SEARCH_TITLE_ALIASES.put("MZChats:transcribeProvider", "PremiumPreviewVoiceToText");
@@ -119,7 +129,7 @@ public class SettingsHelper {
         moveRows("appearance", "hiding", "hideActionBarStatus", "hideStories", "HideStoriesFromHeader",
                 "DisableStories", "hideFloatingButton", "hideSearchBar", "hideAllChats", "hideAi", "hideAiEditor",
                 "hideAiSummary", "hideAiIv", "hideSettingsSections", "hidePremiumSection", "HidePremiumSection",
-                "hideHelpSection", "HideHelpSection");
+                "hideHelpSection", "HideHelpSection", "HideRowWallet", "HideRowPremium", "HideRowStars", "HideRowEarnings", "HideRowBusiness", "HideRowGift", "HideRowAsk", "HideRowFaq", "HideRowFeatures", "HideRowPolicy");
         TRANSLATOR_ROWS.put("translateButton", "showTranslate");
         TRANSLATOR_ROWS.put("translateChatButton", "TelegramUIAutoTranslate");
         TRANSLATOR_ROWS.put("translationProvider", "translationProvider");

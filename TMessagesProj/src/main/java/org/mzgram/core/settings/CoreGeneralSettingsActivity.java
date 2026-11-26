@@ -179,8 +179,6 @@ public class CoreGeneralSettingsActivity extends BaseCoreXSettingsActivity {
     private final AbstractConfigCell typefaceRow = cellGroup.appendCell(new ConfigCellTextCheck(CoreConfig.typeface));
     private final AbstractConfigCell alwaysShowDownloadIconRow = cellGroup.appendCell(new ConfigCellTextCheck(ExtConfig.INSTANCE.getAlwaysShowDownloadIcon()));
     private final AbstractConfigCell showStickersInTopLevelRow = cellGroup.appendCell(new ConfigCellTextCheck(ExtConfig.INSTANCE.getShowStickersRowToplevel()));
-    private final AbstractConfigCell hidePremiumSectionRow = cellGroup.appendCell(new ConfigCellTextCheck(ExtConfig.INSTANCE.getHidePremiumSection()));
-    private final AbstractConfigCell hideHelpSectionRow = cellGroup.appendCell(new ConfigCellTextCheck(ExtConfig.INSTANCE.getHideHelpSection()));
     private final AbstractConfigCell iconReplacements = cellGroup.appendCell(new ConfigCellSelectBox("IconReplacements", ExtConfig.INSTANCE.getIconReplacements(), new String[]{
             getString(R.string.Default),
             getString(R.string.IconReplacementSolar),
@@ -381,10 +379,6 @@ public class CoreGeneralSettingsActivity extends BaseCoreXSettingsActivity {
             } else if (key.equals(CoreConfig.typeface.getKey())) {
                 tooltip.showWithAction(0, UndoView.ACTION_NEED_RESTART, null, null);
             } else if (key.equals(ExtConfig.INSTANCE.getDisableDialogsFloatingButton().getKey())) {
-                tooltip.showWithAction(0, UndoView.ACTION_NEED_RESTART, null, null);
-            } else if (key.equals(ExtConfig.INSTANCE.getHidePremiumSection().getKey())) {
-                tooltip.showWithAction(0, UndoView.ACTION_NEED_RESTART, null, null);
-            } else if (key.equals(ExtConfig.INSTANCE.getHideHelpSection().getKey())) {
                 tooltip.showWithAction(0, UndoView.ACTION_NEED_RESTART, null, null);
             } else if (key.equals(ExtConfig.INSTANCE.getAlwaysShowDownloadIcon().getKey())) {
                 tooltip.showWithAction(0, UndoView.ACTION_NEED_RESTART, null, null);

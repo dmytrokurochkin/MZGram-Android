@@ -592,6 +592,12 @@ public abstract class ArcMessageUtils {
         return processAttachment(prefs.getAccountId(), message.media.document);
     }
 
+    /** ArcFetch: the file of an archived deleted message, downloaded after the deletion. */
+    public static String saveFetchedAttachment(ArcSavePreferences prefs) {
+        String path = processAttachment(prefs).getAbsolutePath();
+        return "/".equals(path) ? null : path;
+    }
+
     private static File processAttachment(File source, File target) {
         if (source.exists()) {
             boolean success = ArcUtils.moveOrCopyFile(source, target);

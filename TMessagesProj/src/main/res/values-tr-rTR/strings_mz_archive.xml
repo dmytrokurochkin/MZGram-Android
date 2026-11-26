@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Mesajları sakla</string>
+    <string name="MZArcKeepBots">Botlardan</string>
+    <string name="MZArcLimitsHeader">Önceden indir</string>
+    <string name="MZArcLimitUsers">Kullanıcılar</string>
+    <string name="MZArcLimitBots">Botlar</string>
+    <string name="MZArcLimitGroups">Gruplar</string>
+    <string name="MZArcLimitChannels">Kanallar</string>
+    <string name="MZArcLimitNone">Sınırsız</string>
+    <string name="MZArcLimitsInfo">Bu boyuta kadar olan dosyalar mesaj gelir gelmez indirilir. Bir mesaj silindiğinde, sunucu hâlâ veriyorsa 100 MB\'a kadar daha büyük bir dosya o anda indirilir. Daha önce kaydedilen dosyalar kalır.</string>
+    <string name="MZArcCountersHeader">Kaydedilen dosyalar</string>
+    <string name="MZArcCounterSaved">Kaydedilen: %1$s önceden, %2$s silinirken</string>
+    <string name="MZArcCounterFailed">İndirilemeyen: %1$s</string>
+    <string name="MZArcCounterExpired">Bağlantının süresi doldu: %1$s</string>
+    <string name="MZArcCounterEmpty">İçeriksiz silinen: %1$s</string>
+    <string name="MZArcCountersReset">Sayaçları sıfırla</string>
+    <string name="MZArcCountersInfo">Bu sayılar sınırların bu cihazda nasıl çalıştığını gösterir. \"Bağlantının süresi doldu\", sunucunun silinen bir mesajın dosyasını artık vermediği anlamına gelir.</string>
+    <string name="MZArcSizeHeader">Arşiv boyutu</string>
+    <string name="MZArcSizeCounting">Hesaplanıyor…</string>
+    <string name="MZArcSizeDatabase">Mesajlar</string>
+    <string name="MZArcSizeAttachments">Kaydedilen ekler</string>
+</resources>

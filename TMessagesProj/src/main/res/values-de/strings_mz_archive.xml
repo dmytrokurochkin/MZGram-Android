@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Nachrichten behalten</string>
+    <string name="MZArcKeepBots">Von Bots</string>
+    <string name="MZArcLimitsHeader">Im Voraus herunterladen</string>
+    <string name="MZArcLimitUsers">Nutzer</string>
+    <string name="MZArcLimitBots">Bots</string>
+    <string name="MZArcLimitGroups">Gruppen</string>
+    <string name="MZArcLimitChannels">Kanäle</string>
+    <string name="MZArcLimitNone">Ohne Grenze</string>
+    <string name="MZArcLimitsInfo">Dateien bis zu dieser Größe werden heruntergeladen, sobald eine Nachricht kommt. Wird eine Nachricht gelöscht, wird dann eine bis zu 100 MB größere Datei heruntergeladen, falls der Server sie noch liefert. Früher gespeicherte Dateien bleiben.</string>
+    <string name="MZArcCountersHeader">Gespeicherte Dateien</string>
+    <string name="MZArcCounterSaved">Gespeichert: %1$s im Voraus, %2$s beim Löschen</string>
+    <string name="MZArcCounterFailed">Nicht heruntergeladen: %1$s</string>
+    <string name="MZArcCounterExpired">Link abgelaufen: %1$s</string>
+    <string name="MZArcCounterEmpty">Ohne Inhalt gelöscht: %1$s</string>
+    <string name="MZArcCountersReset">Zähler zurücksetzen</string>
+    <string name="MZArcCountersInfo">Diese Zahlen zeigen, wie die Grenzen auf diesem Gerät wirken. „Link abgelaufen“ heißt, dass der Server die Datei einer gelöschten Nachricht nicht mehr liefert.</string>
+    <string name="MZArcSizeHeader">Größe des Archivs</string>
+    <string name="MZArcSizeCounting">Wird berechnet…</string>
+    <string name="MZArcSizeDatabase">Nachrichten</string>
+    <string name="MZArcSizeAttachments">Gespeicherte Anhänge</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Guardar mensagens</string>
+    <string name="MZArcKeepBots">De bots</string>
+    <string name="MZArcLimitsHeader">Baixar com antecedência</string>
+    <string name="MZArcLimitUsers">Usuários</string>
+    <string name="MZArcLimitBots">Bots</string>
+    <string name="MZArcLimitGroups">Grupos</string>
+    <string name="MZArcLimitChannels">Canais</string>
+    <string name="MZArcLimitNone">Sem limite</string>
+    <string name="MZArcLimitsInfo">Arquivos até este tamanho são baixados assim que uma mensagem chega. Quando uma mensagem é apagada, um arquivo até 100 MB maior é baixado então, se o servidor ainda o entregar. Arquivos salvos antes ficam.</string>
+    <string name="MZArcCountersHeader">Arquivos salvos</string>
+    <string name="MZArcCounterSaved">Salvos: %1$s com antecedência, %2$s ao apagar</string>
+    <string name="MZArcCounterFailed">Não baixados: %1$s</string>
+    <string name="MZArcCounterExpired">Link expirado: %1$s</string>
+    <string name="MZArcCounterEmpty">Apagadas sem conteúdo: %1$s</string>
+    <string name="MZArcCountersReset">Zerar contadores</string>
+    <string name="MZArcCountersInfo">Estes números mostram como os limites funcionam neste dispositivo. \"Link expirado\" significa que o servidor não entrega mais o arquivo de uma mensagem apagada.</string>
+    <string name="MZArcSizeHeader">Tamanho do arquivo</string>
+    <string name="MZArcSizeCounting">Calculando…</string>
+    <string name="MZArcSizeDatabase">Mensagens</string>
+    <string name="MZArcSizeAttachments">Anexos salvos</string>
+</resources>

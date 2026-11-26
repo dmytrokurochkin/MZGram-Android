@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.mzgram.arc.ArcLimits;
 import org.mzgram.arc.database.ArcData;
 import org.mzgram.arc.messages.ArcMessagesController;
 
@@ -58,10 +59,14 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
 
     private static final int TYPE_EXPANDABLE_SWITCH = 104;
     private static final int TYPE_ROUND_CHECK = 105;
+    private static final int TYPE_ARC_SIZE = 106;
+    private static final int[] LIMIT_TITLES = {
+            R.string.MZArcLimitUsers, R.string.MZArcLimitBots, R.string.MZArcLimitGroups, R.string.MZArcLimitChannels,
+    };
     private static final int SAVE_MEDIA_TOTAL = 5;
     private static final int DATABASE_IMPORT_REQUEST_CODE = 41;
 
-    /** Булевы функции секции; режим призрака гасится отдельно — он не один ConfigItem. */
+    /** The switches of this screen; ghost mode is turned off on its own, it is not one ConfigItem. */
     private static final ConfigItem[] ARC_FEATURE_CONFIGS = {
             ExtConfig.INSTANCE.getRegexFiltersEnabled(),
             ExtConfig.INSTANCE.getSaveLocalLastSeen(),
@@ -69,8 +74,6 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
             ExtConfig.INSTANCE.getEnableSaveDeletedMessages(),
             ExtConfig.INSTANCE.getEnableSaveEditsHistory(),
             ExtConfig.INSTANCE.getMessageSavingSaveMedia(),
-            ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser(),
-            ExtConfig.INSTANCE.getSaveDeletedMessageForBot(),
             ExtConfig.INSTANCE.getTranslucentDeletedMessages(),
             ExtConfig.INSTANCE.getUseDeletedIcon(),
             ExtConfig.INSTANCE.getForwardProtectedAsCopy(),
@@ -103,11 +106,28 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
     private int saveMediaPublicGroupsRow;
     private int saveMediaPrivateGroupsRow;
     private boolean saveMediaExpanded;
-    private int botUserRow;
-    private int botChatRow;
-    private int saveDeletedPrivateRow;
-    private int saveDeletedGroupsRow;
-    private int saveDeletedChannelsRow;
+    private int keepHeaderRow;
+    private int keepPrivateChatsRow;
+    private int keepPrivateGroupsRow;
+    private int keepPublicGroupsRow;
+    private int keepPrivateChannelsRow;
+    private int keepPublicChannelsRow;
+    private int keepBotsRow;
+    private int keepInfoRow;
+    private int limitsHeaderRow;
+    private final int[] limitRows = new int[ArcLimits.SOURCES];
+    private int limitsInfoRow;
+    private int countersHeaderRow;
+    private int counterSavedRow;
+    private int counterFailedRow;
+    private int counterExpiredRow;
+    private int counterEmptyRow;
+    private int countersResetRow;
+    private int countersInfoRow;
+    private int sizeHeaderRow;
+    private int sizeRow;
+    private int sizeDividerRow;
+    private boolean sizesLoaded;
     private int replyToDeletedRow;
     private int translucentRow;
     private int deletedIconRow;
@@ -141,9 +161,14 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
 
         boolean saveDeleted = ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool();
         boolean saveEdits = ExtConfig.INSTANCE.getEnableSaveEditsHistory().Bool();
-        saveMediaRow = botUserRow = botChatRow = translucentRow = -1;
+        saveMediaRow = translucentRow = -1;
         deletedExceptionsModeRow = editedExceptionsModeRow = -1;
-        saveDeletedPrivateRow = saveDeletedGroupsRow = saveDeletedChannelsRow = -1;
+        keepHeaderRow = keepPrivateChatsRow = keepPrivateGroupsRow = keepPublicGroupsRow = -1;
+        keepPrivateChannelsRow = keepPublicChannelsRow = keepBotsRow = keepInfoRow = -1;
+        limitsHeaderRow = limitsInfoRow = -1;
+        java.util.Arrays.fill(limitRows, -1);
+        countersHeaderRow = counterSavedRow = counterFailedRow = counterExpiredRow = -1;
+        counterEmptyRow = countersResetRow = countersInfoRow = -1;
         replyToDeletedRow = deletedIconRow = deletedMarkRow = deletedMarkColorRow = -1;
         saveMediaPrivateChatsRow = saveMediaPublicChannelsRow = saveMediaPrivateChannelsRow = -1;
         saveMediaPublicGroupsRow = saveMediaPrivateGroupsRow = -1;
@@ -168,17 +193,40 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                 saveMediaPublicGroupsRow = addRow();
                 saveMediaPrivateGroupsRow = addRow();
             }
-            saveDeletedPrivateRow = addRow(ExtConfig.INSTANCE.getSaveDeletedInPrivateChats().getKey());
-            saveDeletedGroupsRow = addRow(ExtConfig.INSTANCE.getSaveDeletedInGroups().getKey());
-            saveDeletedChannelsRow = addRow(ExtConfig.INSTANCE.getSaveDeletedInChannels().getKey());
-            botUserRow = addRow(ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser().getKey());
-            if (ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser().Bool()) {
-                botChatRow = addRow(ExtConfig.INSTANCE.getSaveDeletedMessageForBot().getKey());
-            }
         }
         saveLastSeenRow = addRow(ExtConfig.INSTANCE.getSaveLocalLastSeen().getKey());
         saveReadDateRow = addRow(ExtConfig.INSTANCE.getSaveReadDate().getKey());
         savingDividerRow = addRow();
+
+        if (saveDeleted || saveEdits) {
+            keepHeaderRow = addRow("keepInHeader");
+            keepPrivateChatsRow = addRow("keepPrivateChats");
+            keepPrivateGroupsRow = addRow("keepPrivateGroups");
+            keepPublicGroupsRow = addRow("keepPublicGroups");
+            keepPrivateChannelsRow = addRow("keepPrivateChannels");
+            keepPublicChannelsRow = addRow("keepPublicChannels");
+            keepBotsRow = addRow("keepBots");
+            keepInfoRow = addRow();
+        }
+
+        if (saveDeleted && ExtConfig.INSTANCE.getMessageSavingSaveMedia().Bool()) {
+            limitsHeaderRow = addRow("limitsHeader");
+            limitRows[ArcLimits.USER] = addRow("limitUsers");
+            limitRows[ArcLimits.BOT] = addRow("limitBots");
+            limitRows[ArcLimits.GROUP] = addRow("limitGroups");
+            limitRows[ArcLimits.CHANNEL] = addRow("limitChannels");
+            limitsInfoRow = addRow();
+        }
+
+        if (saveDeleted) {
+            countersHeaderRow = addRow("countersHeader");
+            counterSavedRow = addRow("counters");
+            counterFailedRow = addRow();
+            counterExpiredRow = addRow();
+            counterEmptyRow = addRow();
+            countersResetRow = addRow("countersReset");
+            countersInfoRow = addRow();
+        }
 
         if (saveDeleted) {
             deletedHeaderRow = addRow("arcDeletedHeader");
@@ -198,6 +246,10 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
         exportDbRow = addRow("databaseExport");
         importDbRow = addRow("databaseImport");
         otherDividerRow = addRow();
+
+        sizeHeaderRow = addRow("sizeHeader");
+        sizeRow = addRow("sizeBar");
+        sizeDividerRow = addRow();
 
         dangerHeaderRow = addRow("arcDangerHeader");
         disableAllRow = addRow("arcDisableAll");
@@ -278,16 +330,15 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
             toggleSaveMediaKind(view, ExtConfig.INSTANCE.getSaveMediaInPublicGroups());
         } else if (position == saveMediaPrivateGroupsRow) {
             toggleSaveMediaKind(view, ExtConfig.INSTANCE.getSaveMediaInPrivateGroups());
-        } else if (position == botUserRow) {
-            toggleArcConfig(view, ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser(), true);
-        } else if (position == botChatRow) {
-            toggleArcConfig(view, ExtConfig.INSTANCE.getSaveDeletedMessageForBot(), false);
-        } else if (position == saveDeletedPrivateRow) {
-            toggleArcConfig(view, ExtConfig.INSTANCE.getSaveDeletedInPrivateChats(), false);
-        } else if (position == saveDeletedGroupsRow) {
-            toggleArcConfig(view, ExtConfig.INSTANCE.getSaveDeletedInGroups(), false);
-        } else if (position == saveDeletedChannelsRow) {
-            toggleArcConfig(view, ExtConfig.INSTANCE.getSaveDeletedInChannels(), false);
+        } else if (keepConfig(position) != null) {
+            toggleArcConfig(view, keepConfig(position), false);
+        } else if (limitSource(position) >= 0) {
+            showLimitDialog(limitSource(position));
+        } else if (position == countersResetRow) {
+            ArcLimits.resetCounters();
+            if (listAdapter != null && counterSavedRow >= 0) {
+                listAdapter.notifyItemRangeChanged(counterSavedRow, 4);
+            }
         } else if (position == replyToDeletedRow) {
             toggleArcConfig(view, ExtConfig.INSTANCE.getReplyToDeletedAsQuote(), false);
         } else if (position == translucentRow) {
@@ -396,7 +447,7 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
         cell.setTextAndCheck(getString(config.getKey()), config.Bool(), divider);
     }
 
-    /** Переключает пункт ArcMoments; rebuild нужен там, где от него зависит состав строк. */
+    /** Toggles a switch of this screen; rows are rebuilt where they depend on it. */
     private void toggleArcConfig(View view, ConfigItem config, boolean affectsRows) {
         boolean enabled = config.toggleConfigBool();
         if (view instanceof TextCheckCell) {
@@ -405,6 +456,75 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
         if (affectsRows) {
             rebuildRowsAndNotify();
         }
+    }
+
+    /** Keep messages: the switch of a row, or null. */
+    private ConfigItem keepConfig(int position) {
+        if (position == keepPrivateChatsRow) {
+            return ExtConfig.INSTANCE.getSaveDeletedInPrivateChats();
+        } else if (position == keepPrivateGroupsRow) {
+            return ExtConfig.INSTANCE.getSaveDeletedInGroups();
+        } else if (position == keepPublicGroupsRow) {
+            return ExtConfig.INSTANCE.getSaveDeletedInPublicGroups();
+        } else if (position == keepPrivateChannelsRow) {
+            return ExtConfig.INSTANCE.getSaveDeletedInChannels();
+        } else if (position == keepPublicChannelsRow) {
+            return ExtConfig.INSTANCE.getSaveDeletedInPublicChannels();
+        } else if (position == keepBotsRow) {
+            return ExtConfig.INSTANCE.getSaveDeletedInBots();
+        }
+        return null;
+    }
+
+    private int keepTitle(int position) {
+        if (position == keepPrivateChatsRow) {
+            return R.string.MZArcKeepPrivateChats;
+        } else if (position == keepPrivateGroupsRow) {
+            return R.string.MZArcKeepPrivateGroups;
+        } else if (position == keepPublicGroupsRow) {
+            return R.string.MZArcKeepPublicGroups;
+        } else if (position == keepPrivateChannelsRow) {
+            return R.string.MZArcKeepPrivateChannels;
+        } else if (position == keepPublicChannelsRow) {
+            return R.string.MZArcKeepPublicChannels;
+        }
+        return R.string.MZArcKeepBots;
+    }
+
+    /** Download in advance: the source (ArcLimits) of a row, or -1. */
+    private int limitSource(int position) {
+        for (int i = 0; i < limitRows.length; i++) {
+            if (limitRows[i] == position) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private static String limitText(int mb) {
+        return mb < 0 ? getString(R.string.MZArcLimitNone) : AndroidUtilities.formatFileSize(mb * 1024L * 1024L);
+    }
+
+    private void showLimitDialog(int source) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        final int current = ArcLimits.limitMb(source);
+        String[] options = new String[ArcLimits.CHOICES.length];
+        int selected = 0;
+        for (int i = 0; i < options.length; i++) {
+            options[i] = limitText(ArcLimits.CHOICES[i]);
+            if (ArcLimits.CHOICES[i] == current) {
+                selected = i;
+            }
+        }
+        showDialog(org.mzgram.settings.utils.MZChoice.create(getParentActivity(), getString(LIMIT_TITLES[source]), options,
+                selected, (dialog, which) -> {
+                    ArcLimits.setLimitMb(source, ArcLimits.CHOICES[which]);
+                    if (listAdapter != null && limitRows[source] >= 0) {
+                        listAdapter.notifyItemChanged(limitRows[source]);
+                    }
+                }));
     }
 
     private void toggleSaveMediaKind(View view, ConfigItem config) {
@@ -454,8 +574,12 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
     }
 
     private void refreshArcDataSize() {
+        sizesLoaded = true;
         if (clearDbRow >= 0 && listAdapter != null) {
             listAdapter.notifyItemChanged(clearDbRow);
+        }
+        if (sizeRow >= 0 && listAdapter != null) {
+            listAdapter.notifyItemChanged(sizeRow);
         }
     }
 
@@ -621,6 +745,10 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                     view = checkBoxCell;
                     break;
                 }
+                case TYPE_ARC_SIZE:
+                    view = new ArcSizeView(mContext);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
                 default:
                     return super.onCreateViewHolder(parent, viewType);
             }
@@ -635,12 +763,15 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
             if (type == TYPE_EXPANDABLE_SWITCH || type == TYPE_ROUND_CHECK) {
                 return true;
             }
+            if (type == TYPE_ARC_SIZE) {
+                return false;
+            }
             return super.isEnabled(holder);
         }
 
         @Override
         protected boolean isSectionContent(int viewType) {
-            if (viewType == TYPE_EXPANDABLE_SWITCH || viewType == TYPE_ROUND_CHECK) {
+            if (viewType == TYPE_EXPANDABLE_SWITCH || viewType == TYPE_ROUND_CHECK || viewType == TYPE_ARC_SIZE) {
                 return true;
             }
             return super.isSectionContent(viewType);
@@ -694,6 +825,14 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                         cell.setText(getString(R.string.MZArcDeletedHeader));
                     } else if (position == otherHeaderRow) {
                         cell.setText(getString(R.string.MZArcOtherHeader));
+                    } else if (position == keepHeaderRow) {
+                        cell.setText(getString(R.string.MZArcKeepInHeader));
+                    } else if (position == limitsHeaderRow) {
+                        cell.setText(getString(R.string.MZArcLimitsHeader));
+                    } else if (position == countersHeaderRow) {
+                        cell.setText(getString(R.string.MZArcCountersHeader));
+                    } else if (position == sizeHeaderRow) {
+                        cell.setText(getString(R.string.MZArcSizeHeader));
                     } else if (position == dangerHeaderRow) {
                         cell.setText(getString(R.string.MZArcDangerHeader));
                     }
@@ -729,16 +868,8 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                                 getString(R.string.MZArcSaveInArchived),
                                 getString(R.string.MZArcSaveInArchivedInfo),
                                 ExtConfig.INSTANCE.getSaveInArchivedChats().Bool(), true, true);
-                    } else if (position == botUserRow) {
-                        bindArcCheck(cell, ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser(), true);
-                    } else if (position == botChatRow) {
-                        bindArcCheck(cell, ExtConfig.INSTANCE.getSaveDeletedMessageForBot(), true);
-                    } else if (position == saveDeletedPrivateRow) {
-                        bindArcCheck(cell, ExtConfig.INSTANCE.getSaveDeletedInPrivateChats(), true);
-                    } else if (position == saveDeletedGroupsRow) {
-                        bindArcCheck(cell, ExtConfig.INSTANCE.getSaveDeletedInGroups(), true);
-                    } else if (position == saveDeletedChannelsRow) {
-                        bindArcCheck(cell, ExtConfig.INSTANCE.getSaveDeletedInChannels(), true);
+                    } else if (keepConfig(position) != null) {
+                        cell.setTextAndCheck(getString(keepTitle(position)), keepConfig(position).Bool(), position != keepBotsRow);
                     } else if (position == replyToDeletedRow) {
                         cell.setTextAndValueAndCheck(
                                 getString(R.string.ReplyToDeletedAsQuote),
@@ -767,6 +898,9 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                     } else if (position == importDbRow) {
                         cell.setColors(Theme.key_windowBackgroundWhiteGrayIcon, Theme.key_windowBackgroundWhiteBlackText);
                         cell.setTextAndIcon(getString(R.string.MZArcDatabaseImport), R.drawable.msg_download, false);
+                    } else if (position == countersResetRow) {
+                        cell.setColors(Theme.key_windowBackgroundWhiteGrayIcon, Theme.key_windowBackgroundWhiteBlackText);
+                        cell.setTextAndIcon(getString(R.string.MZArcCountersReset), R.drawable.msg_reset, false);
                     } else if (position == disableAllRow) {
                         cell.setColors(Theme.key_text_RedRegular, Theme.key_text_RedBold);
                         cell.setTextAndIcon(getString(R.string.MZGeneralArcMomentsDisableAll), R.drawable.msg_block, true);
@@ -789,6 +923,28 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                         cell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                         cell.setTextAndValue(getString(ExtConfig.INSTANCE.getDeletedMarkColor().getKey()),
                                 getDeletedMarkColorValue(), false);
+                    } else if (limitSource(position) >= 0) {
+                        int source = limitSource(position);
+                        cell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+                        cell.setTextAndValue(getString(LIMIT_TITLES[source]), limitText(ArcLimits.limitMb(source)),
+                                source < ArcLimits.SOURCES - 1);
+                    } else if (position == counterSavedRow) {
+                        cell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+                        cell.setText(LocaleController.formatString(R.string.MZArcCounterSaved,
+                                String.valueOf(ArcLimits.counter(ArcLimits.SAVED_AHEAD)),
+                                String.valueOf(ArcLimits.counter(ArcLimits.SAVED_ON_DELETION))), true);
+                    } else if (position == counterFailedRow) {
+                        cell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+                        cell.setText(LocaleController.formatString(R.string.MZArcCounterFailed,
+                                String.valueOf(ArcLimits.counter(ArcLimits.FAILED))), true);
+                    } else if (position == counterExpiredRow) {
+                        cell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+                        cell.setText(LocaleController.formatString(R.string.MZArcCounterExpired,
+                                String.valueOf(ArcLimits.counter(ArcLimits.EXPIRED))), true);
+                    } else if (position == counterEmptyRow) {
+                        cell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+                        cell.setText(LocaleController.formatString(R.string.MZArcCounterEmpty,
+                                String.valueOf(ArcLimits.counter(ArcLimits.DELETED_WITHOUT_CONTENT))), true);
                     } else if (position == clearDbRow) {
                         cell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                         cell.setTextAndValue(getString(R.string.ClearMessageDatabase),
@@ -796,9 +952,24 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                     }
                     break;
                 }
+                case TYPE_ARC_SIZE: {
+                    ArcSizeView sizeView = (ArcSizeView) holder.itemView;
+                    sizeView.updateColors();
+                    if (sizesLoaded) {
+                        sizeView.setSizes(ArcData.dbSize, ArcData.attachmentsSize);
+                    } else {
+                        sizeView.setCounting();
+                    }
+                    break;
+                }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    if (position == dividerRow) {
+                    if (position == keepInfoRow || position == limitsInfoRow || position == countersInfoRow) {
+                        cell.setText(getString(position == keepInfoRow ? R.string.MZArcKeepInInfo
+                                : position == limitsInfoRow ? R.string.MZArcLimitsInfo : R.string.MZArcCountersInfo));
+                        cell.setBackground(Theme.getThemedDrawable(mContext,
+                                R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                    } else if (position == dividerRow) {
                         cell.setText(getString(R.string.MZGeneralArcMomentsInfo));
                         cell.setBackground(Theme.getThemedDrawable(mContext,
                                 R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
@@ -811,19 +982,25 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
         @Override
         public int getItemViewType(int position) {
             if (position == headerRow || position == savingHeaderRow || position == deletedHeaderRow
-                    || position == otherHeaderRow || position == dangerHeaderRow) {
+                    || position == otherHeaderRow || position == dangerHeaderRow || position == keepHeaderRow
+                    || position == limitsHeaderRow || position == countersHeaderRow || position == sizeHeaderRow) {
                 return TYPE_HEADER;
             } else if (position == ghostDividerRow || position == savingDividerRow
-                    || position == deletedDividerRow || position == otherDividerRow) {
+                    || position == deletedDividerRow || position == otherDividerRow || position == sizeDividerRow) {
                 return TYPE_SHADOW;
-            } else if (position == dividerRow) {
+            } else if (position == dividerRow || position == keepInfoRow || position == limitsInfoRow
+                    || position == countersInfoRow) {
                 return TYPE_INFO_PRIVACY;
             } else if (position == ghostRow || position == disableAllRow
-                    || position == exportDbRow || position == importDbRow) {
+                    || position == exportDbRow || position == importDbRow || position == countersResetRow) {
                 return TYPE_TEXT;
             } else if (position == deletedExceptionsModeRow || position == editedExceptionsModeRow
-                    || position == deletedMarkRow || position == deletedMarkColorRow || position == clearDbRow) {
+                    || position == deletedMarkRow || position == deletedMarkColorRow || position == clearDbRow
+                    || limitSource(position) >= 0 || position == counterSavedRow || position == counterFailedRow
+                    || position == counterExpiredRow || position == counterEmptyRow) {
                 return TYPE_SETTINGS;
+            } else if (position == sizeRow) {
+                return TYPE_ARC_SIZE;
             } else if (position == saveMediaRow) {
                 return TYPE_EXPANDABLE_SWITCH;
             } else if (position == saveMediaPrivateChatsRow || position == saveMediaPublicChannelsRow

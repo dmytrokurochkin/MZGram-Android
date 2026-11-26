@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Захоўваць паведамленні</string>
+    <string name="MZArcKeepBots">Ад ботаў</string>
+    <string name="MZArcLimitsHeader">Загружаць загадзя</string>
+    <string name="MZArcLimitUsers">Карыстальнікі</string>
+    <string name="MZArcLimitBots">Боты</string>
+    <string name="MZArcLimitGroups">Групы</string>
+    <string name="MZArcLimitChannels">Каналы</string>
+    <string name="MZArcLimitNone">Без абмежаванняў</string>
+    <string name="MZArcLimitsInfo">Файлы да гэтага памеру загружаюцца адразу, як толькі прыходзіць паведамленне. Калі паведамленне выдаляюць, тады загружаецца файл, большы на 100 МБ, калі сервер яшчэ яго аддае. Захаваныя раней файлы застаюцца.</string>
+    <string name="MZArcCountersHeader">Захаваныя файлы</string>
+    <string name="MZArcCounterSaved">Захавана: %1$s загадзя, %2$s пры выдаленні</string>
+    <string name="MZArcCounterFailed">Не загружана: %1$s</string>
+    <string name="MZArcCounterExpired">Спасылка састарэла: %1$s</string>
+    <string name="MZArcCounterEmpty">Выдаленыя без змесціва: %1$s</string>
+    <string name="MZArcCountersReset">Скінуць лічыльнікі</string>
+    <string name="MZArcCountersInfo">Гэтыя лічбы паказваюць, як працуюць ліміты на гэтай прыладзе. «Спасылка састарэла» азначае, што сервер ужо не аддае файл выдаленага паведамлення.</string>
+    <string name="MZArcSizeHeader">Памер архіва</string>
+    <string name="MZArcSizeCounting">Лічу…</string>
+    <string name="MZArcSizeDatabase">Паведамленні</string>
+    <string name="MZArcSizeAttachments">Захаваныя ўкладанні</string>
+</resources>

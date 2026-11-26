@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Хабарламаларды сақтау</string>
+    <string name="MZArcKeepBots">Боттардан</string>
+    <string name="MZArcLimitsHeader">Алдын ала жүктеу</string>
+    <string name="MZArcLimitUsers">Пайдаланушылар</string>
+    <string name="MZArcLimitBots">Боттар</string>
+    <string name="MZArcLimitGroups">Топтар</string>
+    <string name="MZArcLimitChannels">Арналар</string>
+    <string name="MZArcLimitNone">Шектеусіз</string>
+    <string name="MZArcLimitsInfo">Осы өлшемге дейінгі файлдар хабар келген бойда жүктеледі. Хабар жойылғанда, сервер әлі берсе, 100 МБ-қа дейін үлкенірек файл сол кезде жүктеледі. Бұрын сақталған файлдар қалады.</string>
+    <string name="MZArcCountersHeader">Сақталған файлдар</string>
+    <string name="MZArcCounterSaved">Сақталды: %1$s алдын ала, %2$s жойылғанда</string>
+    <string name="MZArcCounterFailed">Жүктелмеді: %1$s</string>
+    <string name="MZArcCounterExpired">Сілтеме ескірді: %1$s</string>
+    <string name="MZArcCounterEmpty">Мазмұнсыз жойылғандар: %1$s</string>
+    <string name="MZArcCountersReset">Есептегіштерді тастау</string>
+    <string name="MZArcCountersInfo">Бұл сандар осы құрылғыда шектеулердің қалай жұмыс істейтінін көрсетеді. «Сілтеме ескірді» сервер жойылған хабардың файлын енді бермейтінін білдіреді.</string>
+    <string name="MZArcSizeHeader">Мұрағат өлшемі</string>
+    <string name="MZArcSizeCounting">Есептелуде…</string>
+    <string name="MZArcSizeDatabase">Хабарламалар</string>
+    <string name="MZArcSizeAttachments">Сақталған тіркемелер</string>
+</resources>

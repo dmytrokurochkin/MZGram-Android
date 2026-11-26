@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Зберігати повідомлення</string>
+    <string name="MZArcKeepBots">Від ботів</string>
+    <string name="MZArcLimitsHeader">Завантажувати наперед</string>
+    <string name="MZArcLimitUsers">Користувачі</string>
+    <string name="MZArcLimitBots">Боти</string>
+    <string name="MZArcLimitGroups">Групи</string>
+    <string name="MZArcLimitChannels">Канали</string>
+    <string name="MZArcLimitNone">Без обмежень</string>
+    <string name="MZArcLimitsInfo">Файли до цього розміру завантажуються одразу, щойно приходить повідомлення. Коли повідомлення видаляють, тоді завантажується файл, більший на 100 МБ, якщо сервер ще його віддає. Збережені раніше файли лишаються.</string>
+    <string name="MZArcCountersHeader">Збережені файли</string>
+    <string name="MZArcCounterSaved">Збережено: %1$s наперед, %2$s при видаленні</string>
+    <string name="MZArcCounterFailed">Не завантажено: %1$s</string>
+    <string name="MZArcCounterExpired">Посилання застаріло: %1$s</string>
+    <string name="MZArcCounterEmpty">Видалені без вмісту: %1$s</string>
+    <string name="MZArcCountersReset">Скинути лічильники</string>
+    <string name="MZArcCountersInfo">Ці числа показують, як працюють ліміти на цьому пристрої. «Посилання застаріло» означає, що сервер уже не віддає файл видаленого повідомлення.</string>
+    <string name="MZArcSizeHeader">Розмір архіву</string>
+    <string name="MZArcSizeCounting">Рахую…</string>
+    <string name="MZArcSizeDatabase">Повідомлення</string>
+    <string name="MZArcSizeAttachments">Збережені вкладення</string>
+    <string name="MZArcKeepPrivateChats">В особистих чатах</string>
+    <string name="MZArcKeepPrivateGroups">У приватних групах</string>
+    <string name="MZArcKeepPublicGroups">У публічних групах</string>
+    <string name="MZArcKeepPrivateChannels">У приватних каналах</string>
+    <string name="MZArcKeepPublicChannels">У публічних каналах</string>
+    <string name="MZArcKeepInInfo">Повідомлення бота в будь-якому чаті йдуть за «Від ботів»; інші за типом чату. Публічна група чи канал має публічне посилання. Це стосується видалених і змінених повідомлень; вимкнення зупиняє нове збереження, уже збережене лишається.</string>
+</resources>

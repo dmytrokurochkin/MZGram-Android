@@ -86,55 +86,65 @@ public class ArcSavePreferences {
             return false;
         }
 
-        if (!saveDeletedForDialogKind(accountId, dialogId) || !saveInDialogFolder(accountId, dialogId)) {
-            return false;
-        }
-
-        if (userId != 0) {
-            var fromUser = MessagesController.getInstance(accountId).getUser(userId);
-            if (fromUser != null) {
-                return !fromUser.bot || ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser().Bool();
-            } else {
-                final MessagesStorage messagesStorage = MessagesStorage.getInstance(accountId);
-                final TLRPC.User[] user = {null};
-                if (Thread.currentThread() == messagesStorage.getStorageQueue()) {
-                    user[0] = messagesStorage.getUser(userId);
-                } else {
-                    final CountDownLatch countDownLatch = new CountDownLatch(1);
-                    messagesStorage.getStorageQueue().postRunnable(() -> {
-                        user[0] = messagesStorage.getUser(userId);
-                        countDownLatch.countDown();
-                    });
-                    try {
-                        countDownLatch.await();
-                    } catch (Exception ignored) {
-                    }
-                }
-                if (user[0] != null) {
-                    return !user[0].bot || ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser().Bool();
-                }
-            }
-        }
-
-        var user = MessagesController.getInstance(accountId).getUser(Math.abs(dialogId));
-        if (user == null) {
-            return true;
-        }
-
-        return !user.bot || ExtConfig.INSTANCE.getSaveDeletedMessageForBot().Bool();
+        return keepsMessage(accountId, dialogId, userId);
     }
 
-    private static boolean saveDeletedForDialogKind(int accountId, long dialogId) {
+    /**
+     * Message archive > Keep messages: whether a message of this chat from this sender
+     * (0 when not known) is kept when it is deleted or edited. A bot's messages, and a
+     * chat with a bot, follow the bots switch; other messages follow the kind of chat:
+     * a private chat, a private or public group, a private or public channel.
+     */
+    public static boolean keepsMessage(int accountId, long dialogId, long userId) {
+        if (!saveInDialogFolder(accountId, dialogId)) {
+            return false;
+        }
+        if (userId != 0 && isBotUser(accountId, userId)) {
+            return ExtConfig.INSTANCE.getSaveDeletedInBots().Bool();
+        }
         if (dialogId >= 0) {
+            var user = MessagesController.getInstance(accountId).getUser(dialogId);
+            if (user != null && user.bot) {
+                return ExtConfig.INSTANCE.getSaveDeletedInBots().Bool();
+            }
             return ExtConfig.INSTANCE.getSaveDeletedInPrivateChats().Bool();
         }
         var chat = MessagesController.getInstance(accountId).getChat(-dialogId);
         if (chat == null) {
             return true;
         }
-        return ChatObject.isChannelAndNotMegaGroup(chat)
-                ? ExtConfig.INSTANCE.getSaveDeletedInChannels().Bool()
+        final boolean isPublic = ChatObject.isPublic(chat);
+        if (ChatObject.isChannelAndNotMegaGroup(chat)) {
+            return isPublic
+                    ? ExtConfig.INSTANCE.getSaveDeletedInPublicChannels().Bool()
+                    : ExtConfig.INSTANCE.getSaveDeletedInChannels().Bool();
+        }
+        return isPublic
+                ? ExtConfig.INSTANCE.getSaveDeletedInPublicGroups().Bool()
                 : ExtConfig.INSTANCE.getSaveDeletedInGroups().Bool();
+    }
+
+    private static boolean isBotUser(int accountId, long userId) {
+        var fromUser = MessagesController.getInstance(accountId).getUser(userId);
+        if (fromUser != null) {
+            return fromUser.bot;
+        }
+        final MessagesStorage messagesStorage = MessagesStorage.getInstance(accountId);
+        final TLRPC.User[] user = {null};
+        if (Thread.currentThread() == messagesStorage.getStorageQueue()) {
+            user[0] = messagesStorage.getUser(userId);
+        } else {
+            final CountDownLatch countDownLatch = new CountDownLatch(1);
+            messagesStorage.getStorageQueue().postRunnable(() -> {
+                user[0] = messagesStorage.getUser(userId);
+                countDownLatch.countDown();
+            });
+            try {
+                countDownLatch.await();
+            } catch (Exception ignored) {
+            }
+        }
+        return user[0] != null && user[0].bot;
     }
 
     public static boolean saveInDialogFolder(int accountId, long dialogId) {

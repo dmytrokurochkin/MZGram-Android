@@ -1479,6 +1479,27 @@ object ExtConfig {
             ConfigItem.configTypeBool,
             true
         )
+
+    // MZGram: Message archive > Keep messages. SaveDeletedInGroups and SaveDeletedInChannels
+    // are the private ones; a bot's messages follow SaveDeletedInBots in every chat.
+    val saveDeletedInPublicGroups =
+        addConfig(
+            "SaveDeletedInPublicGroups",
+            ConfigItem.configTypeBool,
+            true
+        )
+    val saveDeletedInPublicChannels =
+        addConfig(
+            "SaveDeletedInPublicChannels",
+            ConfigItem.configTypeBool,
+            true
+        )
+    val saveDeletedInBots =
+        addConfig(
+            "SaveDeletedInBots",
+            ConfigItem.configTypeBool,
+            true
+        )
     val saveInArchivedChats =
         addConfig(
             "SaveInArchivedChats",

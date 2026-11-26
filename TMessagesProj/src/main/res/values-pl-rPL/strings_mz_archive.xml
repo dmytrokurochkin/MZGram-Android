@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Zachowuj wiadomości</string>
+    <string name="MZArcKeepBots">Od botów</string>
+    <string name="MZArcLimitsHeader">Pobieraj z wyprzedzeniem</string>
+    <string name="MZArcLimitUsers">Użytkownicy</string>
+    <string name="MZArcLimitBots">Boty</string>
+    <string name="MZArcLimitGroups">Grupy</string>
+    <string name="MZArcLimitChannels">Kanały</string>
+    <string name="MZArcLimitNone">Bez limitu</string>
+    <string name="MZArcLimitsInfo">Pliki do tego rozmiaru są pobierane od razu, gdy przychodzi wiadomość. Gdy wiadomość zostanie usunięta, pobierany jest wtedy plik większy o 100 MB, jeśli serwer jeszcze go udostępnia. Pliki zapisane wcześniej zostają.</string>
+    <string name="MZArcCountersHeader">Zapisane pliki</string>
+    <string name="MZArcCounterSaved">Zapisano: %1$s z wyprzedzeniem, %2$s przy usunięciu</string>
+    <string name="MZArcCounterFailed">Nie pobrano: %1$s</string>
+    <string name="MZArcCounterExpired">Link wygasł: %1$s</string>
+    <string name="MZArcCounterEmpty">Usunięte bez treści: %1$s</string>
+    <string name="MZArcCountersReset">Wyzeruj liczniki</string>
+    <string name="MZArcCountersInfo">Te liczby pokazują, jak działają limity na tym urządzeniu. „Link wygasł” oznacza, że serwer nie udostępnia już pliku usuniętej wiadomości.</string>
+    <string name="MZArcSizeHeader">Rozmiar archiwum</string>
+    <string name="MZArcSizeCounting">Liczę…</string>
+    <string name="MZArcSizeDatabase">Wiadomości</string>
+    <string name="MZArcSizeAttachments">Zapisane załączniki</string>
+</resources>

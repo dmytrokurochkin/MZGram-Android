@@ -20425,6 +20425,11 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     for (var dialogId : dialogIds) {
                         var messagesToSave = MessageHelper.getInstance(currentAccount).getMessagesStorageMessages(dialogId, messageIds);
+                        // MZGram: deleted messages this device had no copy of (Archive > Saved files)
+                        if (dialogIds.size() == 1 && (dialogId == 0 || ArcSavePreferences.saveDeletedMessageFor(currentAccount, dialogId, 0))) {
+                            org.mzgram.arc.ArcLimits.count(org.mzgram.arc.ArcLimits.DELETED_WITHOUT_CONTENT,
+                                    messageIds.size() - (messagesToSave == null ? 0 : messagesToSave.size()));
+                        }
                         if (messagesToSave != null && !messagesToSave.isEmpty()) {
                             for (var msg : messagesToSave) {
                                 var topicId = MessageObject.getTopicId(currentAccount, msg, isForum(dialogId));
@@ -22691,6 +22696,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 // Refresh its action before normal new-message deduplication skips the existing ID.
                 getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, dialogId, gramMessages);
             }
+        }
+        if (!scheduled && !quickReplies && !welcomeMessages) {
+            // MZGram: Message archive > Download in advance
+            org.mzgram.arc.ArcFetch.onNewMessages(currentAccount, dialogId, messages);
         }
         getNotificationCenter().postNotificationName(NotificationCenter.didReceiveNewMessages, dialogId, messages, scheduled, mode);
 

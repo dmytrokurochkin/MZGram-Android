@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Keep messages</string>
+    <string name="MZArcKeepBots">From bots</string>
+    <string name="MZArcLimitsHeader">Download in advance</string>
+    <string name="MZArcLimitUsers">Users</string>
+    <string name="MZArcLimitBots">Bots</string>
+    <string name="MZArcLimitGroups">Groups</string>
+    <string name="MZArcLimitChannels">Channels</string>
+    <string name="MZArcLimitNone">No limit</string>
+    <string name="MZArcLimitsInfo">Files up to this size are downloaded as soon as a message comes. When a message is deleted, a file up to 100 MB larger is downloaded then, if the server still gives it. Files saved earlier stay.</string>
+    <string name="MZArcCountersHeader">Saved files</string>
+    <string name="MZArcCounterSaved">Saved: %1$s in advance, %2$s when deleted</string>
+    <string name="MZArcCounterFailed">Not downloaded: %1$s</string>
+    <string name="MZArcCounterExpired">Link expired: %1$s</string>
+    <string name="MZArcCounterEmpty">Deleted without content: %1$s</string>
+    <string name="MZArcCountersReset">Reset counters</string>
+    <string name="MZArcCountersInfo">These numbers show how the limits work on this device. Link expired means the server no longer gives the file of a deleted message.</string>
+    <string name="MZArcSizeHeader">Archive size</string>
+    <string name="MZArcSizeCounting">Counting…</string>
+    <string name="MZArcSizeDatabase">Messages</string>
+    <string name="MZArcSizeAttachments">Saved Attachments</string>
+    <string name="MZArcKeepPrivateChats">In private chats</string>
+    <string name="MZArcKeepPrivateGroups">In private groups</string>
+    <string name="MZArcKeepPublicGroups">In public groups</string>
+    <string name="MZArcKeepPrivateChannels">In private channels</string>
+    <string name="MZArcKeepPublicChannels">In public channels</string>
+    <string name="MZArcKeepInInfo">A bot\'s messages follow From bots in every chat; other messages follow the kind of chat. A public group or channel is one with a public link. This applies to deleted and edited messages; turning one off stops new saves, what is already kept stays.</string>
+</resources>

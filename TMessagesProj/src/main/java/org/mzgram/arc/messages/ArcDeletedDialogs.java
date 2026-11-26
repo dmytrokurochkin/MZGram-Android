@@ -30,7 +30,7 @@ public final class ArcDeletedDialogs {
     }
 
     private static boolean isEnabledFor(int account, long dialogId) {
-        if (!ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() || !ExtConfig.INSTANCE.getSaveDeletedInPrivateChats().Bool()) {
+        if (!ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
             return false;
         }
         if (!DialogObject.isUserDialog(dialogId) || dialogId == UserConfig.getInstance(account).getClientUserId()) {
@@ -40,7 +40,9 @@ public final class ArcDeletedDialogs {
             return false;
         }
         final TLRPC.User user = MessagesController.getInstance(account).getUser(dialogId);
-        return user == null || !user.bot || ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser().Bool();
+        return user != null && user.bot
+                ? ExtConfig.INSTANCE.getSaveDeletedInBots().Bool()
+                : ExtConfig.INSTANCE.getSaveDeletedInPrivateChats().Bool();
     }
 
     public static void onDialogEmptied(int account, long dialogId) {
@@ -101,7 +103,8 @@ public final class ArcDeletedDialogs {
             return;
         }
         restored[account] = true;
-        if (!ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() || !ExtConfig.INSTANCE.getSaveDeletedInPrivateChats().Bool()) {
+        if (!ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()
+                || !ExtConfig.INSTANCE.getSaveDeletedInPrivateChats().Bool() && !ExtConfig.INSTANCE.getSaveDeletedInBots().Bool()) {
             return;
         }
         final long userId = UserConfig.getInstance(account).getClientUserId();

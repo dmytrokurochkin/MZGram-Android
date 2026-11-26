@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Guardar mensajes</string>
+    <string name="MZArcKeepBots">De bots</string>
+    <string name="MZArcLimitsHeader">Descargar por adelantado</string>
+    <string name="MZArcLimitUsers">Usuarios</string>
+    <string name="MZArcLimitBots">Bots</string>
+    <string name="MZArcLimitGroups">Grupos</string>
+    <string name="MZArcLimitChannels">Canales</string>
+    <string name="MZArcLimitNone">Sin límite</string>
+    <string name="MZArcLimitsInfo">Los archivos de hasta este tamaño se descargan en cuanto llega un mensaje. Cuando se elimina un mensaje, se descarga entonces un archivo hasta 100 MB mayor, si el servidor aún lo entrega. Los archivos guardados antes se quedan.</string>
+    <string name="MZArcCountersHeader">Archivos guardados</string>
+    <string name="MZArcCounterSaved">Guardados: %1$s por adelantado, %2$s al eliminar</string>
+    <string name="MZArcCounterFailed">No descargados: %1$s</string>
+    <string name="MZArcCounterExpired">Enlace caducado: %1$s</string>
+    <string name="MZArcCounterEmpty">Eliminados sin contenido: %1$s</string>
+    <string name="MZArcCountersReset">Restablecer contadores</string>
+    <string name="MZArcCountersInfo">Estos números muestran cómo funcionan los límites en este dispositivo. «Enlace caducado» significa que el servidor ya no entrega el archivo de un mensaje eliminado.</string>
+    <string name="MZArcSizeHeader">Tamaño del archivo</string>
+    <string name="MZArcSizeCounting">Calculando…</string>
+    <string name="MZArcSizeDatabase">Mensajes</string>
+    <string name="MZArcSizeAttachments">Adjuntos guardados</string>
+</resources>

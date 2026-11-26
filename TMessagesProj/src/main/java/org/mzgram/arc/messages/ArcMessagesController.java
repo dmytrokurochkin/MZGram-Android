@@ -128,7 +128,7 @@ public class ArcMessagesController {
         if (!ArcSavePreferences.saveEditedMessageFor(prefs.getDialogId(), prefs.getFromUserId())) {
             return;
         }
-        if (!ArcSavePreferences.saveInDialogFolder(prefs.getAccountId(), prefs.getDialogId())) {
+        if (!ArcSavePreferences.keepsMessage(prefs.getAccountId(), prefs.getDialogId(), prefs.getFromUserId())) {
             return;
         }
         var oldMessage = prefs.getMessage();
@@ -246,6 +246,9 @@ public class ArcMessagesController {
         if (msg != null && msg.reactions != null) {
             processDeletedReactions(fakeMsgId, msg.reactions);
         }
+
+        // MZGram: count the file the device had, else download it now (Download in advance)
+        org.mzgram.arc.ArcFetch.afterDeletion(prefs, deletedMessage.documentType, deletedMessage.mediaPath);
     }
 
     private void processDeletedReactions(long fakeMessageId, TLRPC.TL_messageReactions reactions) {

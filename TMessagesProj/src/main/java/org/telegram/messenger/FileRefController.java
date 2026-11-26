@@ -1081,6 +1081,8 @@ public class FileRefController extends BaseController {
                 FileLoadOperation fileLoadOperation = (FileLoadOperation) args[1];
                 fileLoadOperation.requestingReference = false;
                 FileLog.e("debug_loading: " + fileLoadOperation.getCacheFileFinal().getName() + " reference can't update: fail operation ");
+                // MZGram: the message archive counts it as "link expired"
+                org.mzgram.arc.ArcFetch.noteExpired(fileLoadOperation.getFileName());
                 fileLoadOperation.onFail(false, 0);
             }
         }

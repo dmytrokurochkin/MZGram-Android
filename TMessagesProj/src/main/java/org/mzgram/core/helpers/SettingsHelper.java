@@ -58,6 +58,8 @@ public class SettingsHelper {
         SEARCH_TITLE_ALIASES.put("MZArc:arcGhost", "GhostMode");
         SEARCH_TITLE_ALIASES.put("MZArc:arcDisableAll", "MZGeneralArcMomentsDisableAll");
         SEARCH_TITLE_ALIASES.put("MZArc:arcClearDatabase", "ClearMessageDatabase");
+        SEARCH_TITLE_ALIASES.put("MZArc:counters", "MZArcCountersHeader");
+        SEARCH_TITLE_ALIASES.put("MZArc:sizeBar", "MZArcSizeHeader");
         SEARCH_TITLE_ALIASES.put("MZAppearance:appNavigation", "MZAppearanceNavigation");
         SEARCH_TITLE_ALIASES.put("MZChats:hideStories", "MZAppearanceStories");
         SEARCH_TITLE_ALIASES.put("MZChats:hideActionBarStatus", "MZAppearanceHideActionBarStatus");

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">الاحتفاظ بالرسائل</string>
+    <string name="MZArcKeepBots">من البوتات</string>
+    <string name="MZArcLimitsHeader">التنزيل مسبقًا</string>
+    <string name="MZArcLimitUsers">المستخدمون</string>
+    <string name="MZArcLimitBots">البوتات</string>
+    <string name="MZArcLimitGroups">المجموعات</string>
+    <string name="MZArcLimitChannels">القنوات</string>
+    <string name="MZArcLimitNone">بلا حد</string>
+    <string name="MZArcLimitsInfo">تُنزَّل الملفات حتى هذا الحجم فور وصول الرسالة. عند حذف رسالة يُنزَّل حينها ملف أكبر بما يصل إلى 100 ميغابايت إن كان الخادم لا يزال يتيحه. تبقى الملفات المحفوظة سابقًا.</string>
+    <string name="MZArcCountersHeader">الملفات المحفوظة</string>
+    <string name="MZArcCounterSaved">المحفوظة: %1$s مسبقًا، %2$s عند الحذف</string>
+    <string name="MZArcCounterFailed">لم تُنزَّل: %1$s</string>
+    <string name="MZArcCounterExpired">انتهت صلاحية الرابط: %1$s</string>
+    <string name="MZArcCounterEmpty">محذوفة بلا محتوى: %1$s</string>
+    <string name="MZArcCountersReset">إعادة ضبط العدادات</string>
+    <string name="MZArcCountersInfo">تُظهر هذه الأرقام كيف تعمل الحدود على هذا الجهاز. «انتهت صلاحية الرابط» يعني أن الخادم لم يعد يتيح ملف الرسالة المحذوفة.</string>
+    <string name="MZArcSizeHeader">حجم الأرشيف</string>
+    <string name="MZArcSizeCounting">جارٍ الحساب…</string>
+    <string name="MZArcSizeDatabase">الرسائل</string>
+    <string name="MZArcSizeAttachments">المرفقات المحفوظة</string>
+</resources>

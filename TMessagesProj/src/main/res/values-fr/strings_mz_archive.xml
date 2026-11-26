@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZArcKeepInHeader">Conserver les messages</string>
+    <string name="MZArcKeepBots">Des bots</string>
+    <string name="MZArcLimitsHeader">Télécharger à l’avance</string>
+    <string name="MZArcLimitUsers">Utilisateurs</string>
+    <string name="MZArcLimitBots">Bots</string>
+    <string name="MZArcLimitGroups">Groupes</string>
+    <string name="MZArcLimitChannels">Canaux</string>
+    <string name="MZArcLimitNone">Sans limite</string>
+    <string name="MZArcLimitsInfo">Les fichiers jusqu’à cette taille sont téléchargés dès qu’un message arrive. Quand un message est supprimé, un fichier jusqu’à 100 Mo plus grand est alors téléchargé, si le serveur le fournit encore. Les fichiers enregistrés avant restent.</string>
+    <string name="MZArcCountersHeader">Fichiers enregistrés</string>
+    <string name="MZArcCounterSaved">Enregistrés : %1$s à l’avance, %2$s à la suppression</string>
+    <string name="MZArcCounterFailed">Non téléchargés : %1$s</string>
+    <string name="MZArcCounterExpired">Lien expiré : %1$s</string>
+    <string name="MZArcCounterEmpty">Supprimés sans contenu : %1$s</string>
+    <string name="MZArcCountersReset">Réinitialiser les compteurs</string>
+    <string name="MZArcCountersInfo">Ces nombres montrent comment les limites fonctionnent sur cet appareil. « Lien expiré » signifie que le serveur ne fournit plus le fichier d’un message supprimé.</string>
+    <string name="MZArcSizeHeader">Taille des archives</string>
+    <string name="MZArcSizeCounting">Calcul…</string>
+    <string name="MZArcSizeDatabase">Base des messages</string>
+    <string name="MZArcSizeAttachments">Pièces jointes enregistrées</string>
+</resources>

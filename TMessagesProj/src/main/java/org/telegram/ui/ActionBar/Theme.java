@@ -7286,7 +7286,9 @@ public class Theme {
         loadingRemoteThemes[currentAccount] = true;
         TL_account.getThemes req = new TL_account.getThemes();
         req.format = "android";
-        if (!MediaDataController.getInstance(currentAccount).defaultEmojiThemes.isEmpty()) {
+        // MZGram: the row always has the home theme and the standard themes; only with the
+        // server's own themes in it may the saved hash ask for changes ("not modified").
+        if (org.mzgram.appearance.StandardThemes.hasServerThemes(MediaDataController.getInstance(currentAccount))) {
             req.hash = remoteThemesHash[currentAccount];
         }
         if (BuildVars.LOGS_ENABLED) {

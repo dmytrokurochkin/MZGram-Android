@@ -95,7 +95,8 @@ public class DefaultThemesPreviewCell extends LinearLayout implements Theme.Colo
             ChatThemeBottomSheet.ChatThemeItem chatTheme = adapter.items.get(position);
             Theme.ThemeInfo info = chatTheme.chatTheme.getThemeInfo(themeIndex);
             int accentId = -1;
-            if (chatTheme.chatTheme.getEmoticonOrSlug().equals("\uD83C\uDFE0") || chatTheme.chatTheme.getEmoticonOrSlug().equals("\uD83C\uDFA8")) {
+            // MZGram: a standard theme carries its accent like the home theme
+            if (chatTheme.chatTheme.getEmoticonOrSlug().equals("\uD83C\uDFE0") || chatTheme.chatTheme.getEmoticonOrSlug().equals("\uD83C\uDFA8") || org.mzgram.appearance.StandardThemes.isLocal(chatTheme.chatTheme)) {
                 accentId = chatTheme.chatTheme.getAccentId(themeIndex);
             }
             if (info == null) {
@@ -281,6 +282,16 @@ public class DefaultThemesPreviewCell extends LinearLayout implements Theme.Colo
             }
         }
 
+        setThemes();
+        updateDayNightMode();
+        updateSelectedPosition();
+        updateColors();
+        if (selectedPosition >= 0 && layoutManager != null) {
+            layoutManager.scrollToPositionWithOffset(selectedPosition, AndroidUtilities.dp(16));
+        }
+    }
+
+    private void setThemes() {
         if (!MediaDataController.getInstance(parentFragment.getCurrentAccount()).defaultEmojiThemes.isEmpty()) {
             ArrayList<ChatThemeBottomSheet.ChatThemeItem> themes = new ArrayList<>(MediaDataController.getInstance(parentFragment.getCurrentAccount()).defaultEmojiThemes);
             if (currentType == ThemeActivity.THEME_TYPE_BASIC) {
@@ -294,12 +305,14 @@ public class DefaultThemesPreviewCell extends LinearLayout implements Theme.Colo
 
             adapter.setItems(themes);
         }
+    }
+
+    // MZGram: the list can fill or change after the screen is open (the themes are put
+    // together in the background); ThemeActivity calls this on emojiPreviewThemesChanged,
+    // the row otherwise keeps the list it was made with.
+    public void updateThemes() {
+        setThemes();
         updateDayNightMode();
-        updateSelectedPosition();
-        updateColors();
-        if (selectedPosition >= 0 && layoutManager != null) {
-            layoutManager.scrollToPositionWithOffset(selectedPosition, AndroidUtilities.dp(16));
-        }
     }
 
     public void updateLayoutManager() {
@@ -378,30 +391,42 @@ public class DefaultThemesPreviewCell extends LinearLayout implements Theme.Colo
             return;
         }
         selectedPosition = -1;
-        for (int i = 0; i < adapter.items.size(); i++) {
-            TLRPC.TL_theme theme = adapter.items.get(i).chatTheme.getTlTheme(themeIndex);
-            Theme.ThemeInfo themeInfo = adapter.items.get(i).chatTheme.getThemeInfo(themeIndex);
-            if (theme != null) {
-                int settingsIndex = adapter.items.get(i).chatTheme.getSettingsIndex(themeIndex);
-                String key = Theme.getBaseThemeKey(theme.settings.get(settingsIndex));
-                if (Theme.getActiveTheme().name.equals(key)) {
-                    if (Theme.getActiveTheme().accentsByThemeId == null) {
-                        selectedPosition = i;
-                        break;
-                    } else {
-                        Theme.ThemeAccent accent = Theme.getActiveTheme().accentsByThemeId.get(theme.id);
-                        if (accent != null && accent.id == Theme.getActiveTheme().currentAccentId) {
+        // MZGram: the row shows the Classic variant by day and the Night one at night, but
+        // "Switch to Night Mode" turns on Tinted (and a theme may be on Day): look at the other
+        // variant of the same time of day too, so the theme in use stays selected.
+        int[] variants = currentType == ThemeActivity.THEME_TYPE_BASIC ? new int[]{themeIndex, themeIndex == 0 ? 1 : themeIndex == 2 ? 3 : themeIndex} : new int[]{themeIndex};
+        for (int variant : variants) {
+            for (int i = 0; i < adapter.items.size() && selectedPosition == -1; i++) {
+                if (variant >= adapter.items.get(i).chatTheme.items.size() || adapter.items.get(i).chatTheme.items.get(variant) == null) {
+                    continue;
+                }
+                TLRPC.TL_theme theme = adapter.items.get(i).chatTheme.getTlTheme(variant);
+                Theme.ThemeInfo themeInfo = adapter.items.get(i).chatTheme.getThemeInfo(variant);
+                if (theme != null) {
+                    int settingsIndex = adapter.items.get(i).chatTheme.getSettingsIndex(variant);
+                    String key = Theme.getBaseThemeKey(theme.settings.get(settingsIndex));
+                    if (Theme.getActiveTheme().name.equals(key)) {
+                        if (Theme.getActiveTheme().accentsByThemeId == null) {
                             selectedPosition = i;
                             break;
+                        } else {
+                            Theme.ThemeAccent accent = Theme.getActiveTheme().accentsByThemeId.get(theme.id);
+                            if (accent != null && accent.id == Theme.getActiveTheme().currentAccentId) {
+                                selectedPosition = i;
+                                break;
+                            }
                         }
                     }
+                } else if (themeInfo != null) {
+                    String key = themeInfo.getKey();
+                    if (Theme.getActiveTheme().name.equals(key) && adapter.items.get(i).chatTheme.getAccentId(variant) == Theme.getActiveTheme().currentAccentId) {
+                        selectedPosition = i;
+                        break;
+                    }
                 }
-            } else if (themeInfo != null) {
-                String key = themeInfo.getKey();
-                if (Theme.getActiveTheme().name.equals(key) && adapter.items.get(i).chatTheme.getAccentId(themeIndex) == Theme.getActiveTheme().currentAccentId) {
-                    selectedPosition = i;
-                    break;
-                }
+            }
+            if (selectedPosition != -1) {
+                break;
             }
         }
         if (selectedPosition == -1 && currentType != ThemeActivity.THEME_TYPE_THEMES_BROWSER) {

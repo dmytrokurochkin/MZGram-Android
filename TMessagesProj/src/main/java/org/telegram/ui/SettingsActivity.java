@@ -276,6 +276,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 listView.adapter.update(animated);
             }
         } else if (listView != null && listView.adapter != null) {
+            // MZGram: Show ID and DC may have been changed in MZGram's settings
+            setInfo();
             listView.adapter.update(false);
         }
     }
@@ -422,7 +424,16 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         imageUpdater.parentFragment = this;
         imageUpdater.setDelegate(this);
 
-        topView = new FrameLayout(context);
+        // MZGram: as high as its lines need (the name, the number with the username,
+        // the own ID), never lower than the usual 188dp. The list keeps the height it
+        // gave the view when it first put it in, so the view measures itself.
+        topView = new FrameLayout(context) {
+            @Override
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+                setMeasuredDimension(getMeasuredWidth(), headerHeight());
+            }
+        };
 
         // the avatar is drawn above the list, where it can hide into the camera cutout as in the profile;
         // this view in the list takes its touches, its place and its press scale
@@ -513,7 +524,13 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         titleView.setGravity(Gravity.CENTER);
         titleView.setSingleLine();
         titleView.setEllipsize(TextUtils.TruncateAt.END);
-        topView.addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 16, 138.333f - 12, 16, 0));
+        // MZGram: the name, the number with the username and the ID one under another,
+        // each below the real bottom of the line above: a name in a fallback font
+        // (runes, for one) is taller than a line of the usual font.
+        nameLayout = new LinearLayout(context);
+        nameLayout.setOrientation(LinearLayout.VERTICAL);
+        topView.addView(nameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 138.333f - 12, 0, 0));
+        nameLayout.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
 
         subtitleView = new TextView(context);
         subtitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
@@ -521,7 +538,23 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         subtitleView.setGravity(Gravity.CENTER);
         subtitleView.setSingleLine();
         subtitleView.setEllipsize(TextUtils.TruncateAt.END);
-        topView.addView(subtitleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 168 - 12, 0, 0));
+        nameLayout.addView(subtitleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+        // MZGram: the own ID, by Show ID and DC; a tap copies it
+        idView = new TextView(context);
+        idView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+        idView.setTypeface(AndroidUtilities.regular());
+        idView.setGravity(Gravity.CENTER);
+        idView.setSingleLine();
+        idView.setEllipsize(TextUtils.TruncateAt.END);
+        idView.setVisibility(View.GONE);
+        idView.setOnClickListener(v -> {
+            final String id = ownIdText();
+            if (!TextUtils.isEmpty(id)) {
+                org.mzgram.core.utils.AlertUtil.copyAndAlert(id, this);
+            }
+        });
+        nameLayout.addView(idView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 16, 2, 16, 0));
 
         versionView = new TextView(context);
         versionView.setTypeface(AndroidUtilities.regular());
@@ -621,8 +654,34 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             sb.append(CoreConfig.hidePhone.Bool() ? "@" : " • @").append(username);
         }
         subtitleView.setText(sb);
+        final String id = ownIdText();
+        idView.setText(TextUtils.isEmpty(id) ? "" : "ID: " + id);
+        idView.setVisibility(TextUtils.isEmpty(id) ? View.GONE : View.VISIBLE);
 
         versionView.setText(getVersionName());
+    }
+
+    private static final int HEADER_DP = 200 - 12;
+    private static final int HEADER_BOTTOM_DP = 12;
+    private LinearLayout nameLayout;
+    private TextView idView;
+
+    private int headerHeight() {
+        int height = dp(HEADER_DP);
+        if (nameLayout != null && nameLayout.getVisibility() != View.GONE) {
+            final FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) nameLayout.getLayoutParams();
+            height = Math.max(height, lp.topMargin + nameLayout.getMeasuredHeight() + dp(HEADER_BOTTOM_DP));
+        }
+        return height;
+    }
+
+    /** The own ID as Show ID and DC wants it; empty when hidden. A user's ID is the same in both forms. */
+    private String ownIdText() {
+        if (ExtConfig.INSTANCE.getIdDcType().Int() == 0) {
+            return "";
+        }
+        final long id = getUserConfig().getClientUserId();
+        return id > 0 ? Long.toString(id) : "";
     }
 
 
@@ -631,6 +690,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     public void updateColors() {
         titleView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         subtitleView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
+        if (idView != null) {
+            idView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
+        }
         searchItem.updateColor();
 
         final int navigationBarColor = getThemedColor(Theme.key_windowBackgroundWhite);
@@ -805,7 +867,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             return;
         }
 
-        items.add(UItem.asCustomShadow(topView, 200 - 12));
+        // MZGram: the header measures its own height (headerHeight)
+        items.add(UItem.asCustomShadow(topView, LayoutHelper.WRAP_CONTENT));
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {

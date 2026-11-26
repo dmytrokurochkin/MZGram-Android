@@ -43,6 +43,8 @@ public class EmojiThemes {
     public boolean showAsRemovedStub;
     public ThemeKey key;
     public TLRPC.ChatTheme chatTheme;
+    // MZGram: a standard theme built on the device (StandardThemes), not from the server
+    public boolean standardLocal;
     public String emoji;
     public TLRPC.WallPaper wallpaper;
     int currentIndex = 0;

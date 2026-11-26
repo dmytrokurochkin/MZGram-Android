@@ -46,8 +46,6 @@ import org.mzgram.core.utils.GsonUtil;
 import org.mzgram.core.utils.ShareUtil;
 import org.mzgram.ext.ExtConfig;
 import org.mzgram.ext.helper.BookmarksHelper;
-import org.mzgram.ext.helper.LocalPeerColorHelper;
-import org.mzgram.ext.helper.LocalPremiumStatusHelper;
 
 public final class SettingsBackupHelper {
     public static String backupSettingsJson(boolean isCloud, int indentSpaces) throws JSONException {
@@ -221,8 +219,6 @@ public final class SettingsBackupHelper {
                 LocalNameHelper.chatNameOverridePrefix,
                 LocalNameHelper.userNameOverridePrefix,
                 DialogConfig.customForumTabPrefix,
-                LocalPeerColorHelper.KEY_PREFIX,
-                LocalPremiumStatusHelper.KEY_PREFIX,
                 BookmarksHelper.KEY_PREFIX
         };
 

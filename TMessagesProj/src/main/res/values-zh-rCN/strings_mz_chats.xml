@@ -142,8 +142,6 @@
     <string name="MZChatsInlineMathCurrency">通过 @calcmulabot 换算货币</string>
     <string name="MZChatsInlineMathCurrencyInfo">含货币的算式（如“10 usd to rub =”）会发送给 @calcmulabot 获取汇率。</string>
     <string name="MZChatsInlineMathAnnouncement">结果：%1$s</string>
-    <string name="MZLocalPremiumInfo">高级表情会以链接形式发送，MZGram 及其他支持此功能的客户端会将其显示为真正的表情。其他 Premium 功能仅在此设备上生效。</string>
-    <string name="MZLocalPremiumEmojiHint">你没有 **Telegram Premium**，因此此表情会以链接形式发送：只有 **MZGram** 及支持此功能的客户端用户能看到它。</string>
     <string name="MZChatsSections">分区</string>
     <string name="MZChatsMenus">菜单和按钮</string>
     <string name="MZChatsMenusInfo">对话、消息和媒体查看器菜单</string>

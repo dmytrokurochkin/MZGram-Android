@@ -142,8 +142,6 @@
     <string name="MZChatsInlineMathCurrency">Waluty przez @calcmulabot</string>
     <string name="MZChatsInlineMathCurrencyInfo">Wyrażenia z walutami, np. „10 usd to rub =”, są wysyłane do @calcmulabot po kurs.</string>
     <string name="MZChatsInlineMathAnnouncement">Wynik: %1$s</string>
-    <string name="MZLocalPremiumInfo">Emoji premium są wysyłane jako linki, które MZGram i inne obsługujące to klienty wyświetlają jako prawdziwe emoji. Pozostałe funkcje Premium działają tylko na tym urządzeniu.</string>
-    <string name="MZLocalPremiumEmojiHint">Nie masz **Telegram Premium**, więc to emoji zostanie wysłane jako link: zobaczą je tylko użytkownicy **MZGram** i klientów, które to obsługują.</string>
     <string name="MZChatsSections">Sekcje</string>
     <string name="MZChatsMenus">Menu i przyciski</string>
     <string name="MZChatsMenusInfo">Menu czatu, wiadomości i przeglądarki multimediów</string>

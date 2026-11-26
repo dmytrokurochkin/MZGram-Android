@@ -142,8 +142,6 @@
     <string name="MZChatsInlineMathCurrency">Divisas mediante @calcmulabot</string>
     <string name="MZChatsInlineMathCurrencyInfo">Las expresiones con divisas, como «10 usd to rub =», se envían a @calcmulabot para obtener el tipo de cambio.</string>
     <string name="MZChatsInlineMathAnnouncement">Resultado: %1$s</string>
-    <string name="MZLocalPremiumInfo">Los emoji premium se envían como enlaces que MZGram y otros clientes compatibles muestran como emoji reales. Las demás funciones Premium solo funcionan en este dispositivo.</string>
-    <string name="MZLocalPremiumEmojiHint">No tienes **Telegram Premium**, así que este emoji se envía como enlace: solo lo verán los usuarios de **MZGram** y clientes compatibles.</string>
     <string name="MZChatsSections">Secciones</string>
     <string name="MZChatsMenus">Menús y botones</string>
     <string name="MZChatsMenusInfo">Menús del chat, de los mensajes y del visor</string>

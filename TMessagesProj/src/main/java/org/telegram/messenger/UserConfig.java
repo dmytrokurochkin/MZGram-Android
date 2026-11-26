@@ -599,7 +599,7 @@ public class UserConfig extends BaseController {
         if (user == null) {
             return false;
         }
-        return user.premium || CoreConfig.localPremium.Bool();
+        return user.premium;
     }
 
     public Long getEmojiStatus() {

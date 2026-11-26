@@ -146,8 +146,6 @@
     <string name="MZChatsInlineMathCurrency">العملات عبر @calcmulabot</string>
     <string name="MZChatsInlineMathCurrencyInfo">تُرسل التعبيرات التي تحتوي على عملات مثل «10 usd to rub =» إلى @calcmulabot للحصول على سعر الصرف.</string>
     <string name="MZChatsInlineMathAnnouncement">النتيجة: %1$s</string>
-    <string name="MZLocalPremiumInfo">تُرسل إيموجي Premium كروابط يعرضها MZGram والعملاء الآخرون الداعمون لذلك كإيموجي حقيقية. أما ميزات Premium الأخرى فتعمل على هذا الجهاز فقط.</string>
-    <string name="MZLocalPremiumEmojiHint">ليس لديك **Telegram Premium**، لذا سيُرسل هذا الإيموجي كرابط: سيراه فقط مستخدمو **MZGram** والعملاء الداعمون لذلك.</string>
     <string name="MZChatsSections">الأقسام</string>
     <string name="MZChatsMenus">القوائم والأزرار</string>
     <string name="MZChatsMenusInfo">قوائم المحادثة والرسائل وعارض الوسائط</string>

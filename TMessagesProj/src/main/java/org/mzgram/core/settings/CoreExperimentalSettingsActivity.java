@@ -112,7 +112,6 @@ public class CoreExperimentalSettingsActivity extends BaseCoreXSettingsActivity 
                     getString(R.string.BackAnimationSpring),
             }, null));
     private final AbstractConfigCell springAnimationCrossfadeRow = cellGroup.appendCell(new ConfigCellTextCheck(ExtConfig.INSTANCE.getSpringAnimationCrossfade()));
-    private final AbstractConfigCell localPremiumRow = cellGroup.appendCell(new ConfigCellTextCheck(CoreConfig.localPremium));
     private final AbstractConfigCell unlimitedPinnedDialogsRow = cellGroup.appendCell(new ConfigCellTextCheck(CoreConfig.unlimitedPinnedDialogs, getString(R.string.UnlimitedPinnedDialogsAbout)));
     private final AbstractConfigCell unlimitedFavedStickersRow = cellGroup.appendCell(new ConfigCellTextCheck(CoreConfig.unlimitedFavedStickers, getString(R.string.UnlimitedFavoredStickersAbout)));
     private final AbstractConfigCell dividerGeneral = cellGroup.appendCell(new ConfigCellDivider());
@@ -261,9 +260,6 @@ public class CoreExperimentalSettingsActivity extends BaseCoreXSettingsActivity 
                 checkSaveDeletedRows();
             } else if (key.equals(ExtConfig.INSTANCE.getDisableStories().getKey())) {
                 tooltip.showWithAction(0, UndoView.ACTION_NEED_RESTART, null, null);
-            } else if (key.equals(CoreConfig.localPremium.getKey())) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface);
             } else if (key.equals(ExtConfig.INSTANCE.getUseDeletedIcon().getKey())) {
                 checkUseDeletedIconRows();
             } else if (key.equals(ExtConfig.INSTANCE.getSaveDeletedMessageForBotUser().getKey())) {

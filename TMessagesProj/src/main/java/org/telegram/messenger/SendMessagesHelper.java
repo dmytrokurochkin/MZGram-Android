@@ -3096,7 +3096,6 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
 
         TLRPC.Message newMsg = messageObject.messageOwner;
         messageObject.cancelEditing = false;
-        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), messageObject.editingMessageEntities);
 
         int pollAddingIndex = -1;
 
@@ -3624,7 +3623,6 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (fragment == null || fragment.getParentActivity() == null) {
             return 0;
         }
-        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), entities);
 
         final TLRPC.TL_messages_editMessage req;
         if (messageObject.isEphemeral()) {
@@ -3690,7 +3688,6 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
 
         req.peer = getMessagesController().getInputPeer(messageObject.getDialogId());
-        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), rich);
         req.rich_message = richMessageToInputRichMessage(rich, users);
         req.flags |= TLObject.FLAG_23;
         if (messageObject.scheduled) {
@@ -4527,7 +4524,6 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         final SendMessageParams sendMessageParams = replacement != null ? replacement : originalParams;
         if (org.mzgram.privacy.BotAccountRouter.guardSend(currentAccount, sendMessageParams.peer, () -> sendMessage(sendMessageParams))) return;
         org.mzgram.chats.DeletedReplyQuote.rewrite(currentAccount, sendMessageParams);
-        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, sendMessageParams.peer, sendMessageParams.entities);
         final SendMessageChatArguments sendMessageChatArguments = sendMessageParams.sendMessageChatArguments != null ?
                 sendMessageParams.sendMessageChatArguments : SendMessageChatArguments.EMPTY;
         String message = sendMessageParams.message;
@@ -4598,7 +4594,6 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (richMessage != null && DialogObject.isEncryptedDialog(peer)) {
             return;
         }
-        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, peer, richMessage);
         if (message == null && caption == null && richMessage == null) {
             caption = "";
         }

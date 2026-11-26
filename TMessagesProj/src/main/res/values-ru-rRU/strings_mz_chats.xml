@@ -175,8 +175,6 @@
     <string name="MZInlineDocPercent">Проценты и сокращения</string>
     <string name="MZInlineTapToCopy">Нажмите на пример, чтобы скопировать его.</string>
     <string name="MZChatsInlineMathAnnouncement">Результат: %1$s</string>
-    <string name="MZLocalPremiumInfo">Премиум-эмодзи уходят ссылками, которые MZGram и поддерживающие это клиенты показывают как настоящие эмодзи. Остальные функции Premium работают только на этом устройстве.</string>
-    <string name="MZLocalPremiumEmojiHint">У вас нет **Telegram Premium**, поэтому эмодзи уйдёт ссылкой: увидят его только пользователи **MZGram** и клиентов, поддерживающих это.</string>
     <string name="MZChatsSections">Разделы</string>
     <string name="MZChatsMenus">Меню и кнопки</string>
     <string name="MZChatsMenusInfo">Меню чата, сообщений и просмотра медиа</string>

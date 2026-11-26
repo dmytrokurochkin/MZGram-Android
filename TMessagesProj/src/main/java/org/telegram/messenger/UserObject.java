@@ -17,8 +17,6 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_account;
 
 import org.mzgram.core.helpers.MessageHelper;
-import org.mzgram.ext.helper.LocalPeerColorHelper;
-import org.mzgram.ext.helper.LocalPremiumStatusHelper;
 import java.util.Locale;
 
 public class UserObject {
@@ -181,7 +179,7 @@ public class UserObject {
         if (server != null && server != 0) {
             return server;
         }
-        return LocalPremiumStatusHelper.getDocumentId(user);
+        return null;
     }
 
     public static Long getEmojiStatusDocumentId(TLRPC.EmojiStatus emojiStatus) {
@@ -220,17 +218,11 @@ public class UserObject {
         if (user == null) return 0;
         if (user.color instanceof TLRPC.TL_peerColor && (user.color.flags & 1) != 0) return user.color.color;
 
-        Integer replace = LocalPeerColorHelper.getColorId(user);
-        if (replace != null) return replace;
-
         return (int) (user.id % 7);
     }
 
     public static long getEmojiId(TLRPC.User user) {
         if (user != null && user.color instanceof TLRPC.TL_peerColor && (user.color.flags & 2) != 0) return user.color.background_emoji_id;
-
-        Long replace = LocalPeerColorHelper.getEmojiId(user);
-        if (replace != null) return replace;
 
         return 0;
     }
@@ -238,9 +230,6 @@ public class UserObject {
     public static int getProfileColorId(TLRPC.User user) {
         if (user == null) return 0;
         if (user.profile_color instanceof TLRPC.TL_peerColor && (user.profile_color.flags & 1) != 0) return user.profile_color.color;
-
-        Integer replace = LocalPeerColorHelper.getProfileColorId(user);
-        if (replace != null) return replace;
 
         return -1;
     }
@@ -250,9 +239,6 @@ public class UserObject {
             return ((TLRPC.TL_emojiStatusCollectible) user.emoji_status).pattern_document_id;
         }
         if (user != null && user.profile_color != null && (user.profile_color.flags & 2) != 0) return user.profile_color.background_emoji_id;
-
-        Long replace = LocalPeerColorHelper.getProfileEmojiId(user);
-        if (replace != null) return replace;
 
         return 0;
     }

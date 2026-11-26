@@ -149,7 +149,8 @@ public class LastSeenHelper {
     public static String getFormattedLastSeenOrDefault(TLRPC.User user, boolean[] madeShorter, String defaultValue, boolean relative) {
         int savedLastSeen = getLastSeen(user.id);
         if (savedLastSeen > 0) {
-            return LocaleController.formatDateOnline(savedLastSeen, madeShorter, true, relative);
+            // Shown like any last seen time: the longer "last activity" wording did not fit the chat header.
+            return LocaleController.formatDateOnline(savedLastSeen, madeShorter, false, relative);
         }
         return defaultValue;
     }

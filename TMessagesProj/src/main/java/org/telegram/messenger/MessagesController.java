@@ -149,7 +149,6 @@ import org.mzgram.core.helpers.LocalNameHelper;
 import org.mzgram.core.helpers.MessageHelper;
 import org.mzgram.core.utils.AlertUtil;
 import org.mzgram.ext.ExtConfig;
-import org.mzgram.ext.helper.LocalPremiumStatusHelper;
 
 import org.mzgram.arc.ArcConstants;
 import org.mzgram.arc.messages.ArcSavePreferences;
@@ -886,7 +885,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (dialogFilters.isEmpty()) {
             return;
         }
-        if (!premium && !CoreConfig.localPremium.Bool()) {
+        if (!premium) {
             if (!dialogFilters.get(0).isDefault()) {
                 for (int i = 1; i < dialogFilters.size(); i++) {
                     if (dialogFilters.get(i).isDefault()) {
@@ -919,7 +918,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     if (!filtersSortedById.get(i).locked) {
                         changed = true;
                     }
-                    filtersSortedById.get(i).locked = !CoreConfig.localPremium.Bool();
+                    filtersSortedById.get(i).locked = true;
                 } else {
                     if (filtersSortedById.get(i).locked) {
                         changed = true;
@@ -958,7 +957,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean isPremiumUser(TLRPC.User currentUser) {
-        return currentUser != null && (currentUser.premium || currentUser.id == getUserConfig().getClientUserId() && CoreConfig.localPremium.Bool()) && !isSupportUser(currentUser);
+        return currentUser != null && currentUser.premium && !isSupportUser(currentUser);
     }
 
     public boolean didPressTranscribeButtonEnough() {
@@ -2518,7 +2517,7 @@ public class MessagesController extends BaseController implements NotificationCe
             } else if (response instanceof TLRPC.TL_messages_dialogFilters) {
                 TLRPC.TL_messages_dialogFilters res = (TLRPC.TL_messages_dialogFilters) response;
                 if (folderTags != res.tags_enabled) {
-                    setFolderTags(res.tags_enabled || !getUserConfig().isPremium() && CoreConfig.localPremium.Bool());
+                    setFolderTags(res.tags_enabled);
                     AndroidUtilities.runOnUIThread(() -> {
                         getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
                     });
@@ -2644,7 +2643,6 @@ public class MessagesController extends BaseController implements NotificationCe
                 user.emoji_status = new_emoji_status;
                 getNotificationCenter().postNotificationName(NotificationCenter.userEmojiStatusUpdated, user);
             }
-            LocalPremiumStatusHelper.apply(new_emoji_status);
         } else {
             TLRPC.TL_channels_updateEmojiStatus req = new TLRPC.TL_channels_updateEmojiStatus();
             req.channel = getInputChannel(-dialogId);

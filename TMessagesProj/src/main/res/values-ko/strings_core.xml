@@ -246,7 +246,6 @@
     <string name="StickerSettings">스티커</string>
     <string name="ConfirmSettings">확인</string>
     <string name="InteractionSettings">상호작용</string>
-    <string name="localPremium">로컬 Premium</string>
     <string name="ReactionSettings">반응</string>
     <string name="UpgradeGroup">그룹 업그레이드</string>
     <string name="AccDescrShowKeyboard">키보드 표시</string>

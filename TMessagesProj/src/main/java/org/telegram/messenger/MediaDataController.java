@@ -8149,7 +8149,6 @@ public class MediaDataController extends BaseController {
         }
         if (entities != null && !entities.isEmpty()) {
             draftMessage.entities = new ArrayList<>(entities);
-            LinkedCustomEmoji.replaceForSend(currentAccount, dialogId, draftMessage.entities);
             draftMessage.flags |= 8;
         }
 

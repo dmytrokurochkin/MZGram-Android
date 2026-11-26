@@ -165,8 +165,6 @@
     <string name="MZInlineDocPercent">Porcentagens e atalhos</string>
     <string name="MZInlineTapToCopy">Toque em um exemplo para copiá-lo.</string>
     <string name="MZChatsInlineMathAnnouncement">Resultado: %1$s</string>
-    <string name="MZLocalPremiumInfo">Emoji Premium são enviados como links que o MZGram e outros apps compatíveis mostram como emoji reais. Outros recursos Premium funcionam só neste aparelho.</string>
-    <string name="MZLocalPremiumEmojiHint">Você não tem **Telegram Premium**, então este emoji é enviado como link: só usuários do **MZGram** e de apps compatíveis o verão.</string>
     <string name="MZChatsSections">Seções</string>
     <string name="MZChatsMenus">Menus e botões</string>
     <string name="MZChatsMenusInfo">Menus da conversa, das mensagens e do visualizador</string>

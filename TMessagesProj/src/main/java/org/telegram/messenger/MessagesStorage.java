@@ -3790,7 +3790,6 @@ public class MessagesStorage extends BaseController {
                     }
                 }
 
-                keepLocalDefaultFilterPosition(filtersOrder);
                 if (usersToLoadMap.isEmpty() && chatsToLoadMap.isEmpty() && dialogsToLoadMap.isEmpty()) {
                     processLoadedFilterPeersInternal(dialogs, null, users, chats, filtersToSave, filtersToDelete, filtersOrder, filterDialogRemovals, filtersUnreadCounterReset, onDone);
                 } else {
@@ -3800,25 +3799,6 @@ public class MessagesStorage extends BaseController {
                 checkSQLException(e);
             }
         });
-    }
-
-    private void keepLocalDefaultFilterPosition(ArrayList<Integer> filtersOrder) {
-        if (!CoreConfig.localPremium.Bool() || getUserConfig().isPremium()) {
-            return;
-        }
-        int local = -1;
-        for (int i = 0; i < dialogFilters.size(); i++) {
-            if (dialogFilters.get(i).isDefault()) {
-                local = i;
-                break;
-            }
-        }
-        int remote = filtersOrder.indexOf(0);
-        if (local < 0 || remote < 0 || local == remote) {
-            return;
-        }
-        filtersOrder.remove(remote);
-        filtersOrder.add(Math.min(local, filtersOrder.size()), 0);
     }
 
     private void processLoadedFilterPeersInternal(TLRPC.messages_Dialogs pinnedDialogs, TLRPC.messages_Dialogs pinnedRemoteDialogs, ArrayList<TLRPC.User> users, ArrayList<TLRPC.Chat> chats, ArrayList<MessagesController.DialogFilter> filtersToSave, SparseArray<MessagesController.DialogFilter> filtersToDelete, ArrayList<Integer> filtersOrder, HashMap<Integer, HashSet<Long>> filterDialogRemovals, HashSet<Integer> filtersUnreadCounterReset, Runnable onDone) {

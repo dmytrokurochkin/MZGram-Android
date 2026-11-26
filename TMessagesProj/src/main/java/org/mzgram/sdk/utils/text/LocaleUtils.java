@@ -266,14 +266,6 @@ public abstract class LocaleUtils {
         return builder;
     }
 
-    public static boolean canUseLocalPremiumEmojis() {
-        return canUseLocalPremiumEmojis(UserConfig.selectedAccount);
-    }
-
-    public static boolean canUseLocalPremiumEmojis(int account) {
-        return org.mzgram.chats.LinkedCustomEmoji.canSend(account);
-    }
-
     public static String normalizeResourceLanguage(String language) {
         if (TextUtils.isEmpty(language)) {
             return null;

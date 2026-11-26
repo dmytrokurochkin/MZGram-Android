@@ -247,7 +247,6 @@
     <string name="StickerSettings">貼圖</string>
     <string name="ConfirmSettings">操作確認</string>
     <string name="InteractionSettings">互動</string>
-    <string name="localPremium">本機 Premium</string>
     <string name="ReactionSettings">回應</string>
     <string name="UpgradeGroup">升級群組</string>
     <string name="AccDescrShowKeyboard">顯示鍵盤</string>

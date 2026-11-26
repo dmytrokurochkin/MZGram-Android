@@ -165,8 +165,6 @@
     <string name="MZInlineDocPercent">Yüzdeler ve kısaltmalar</string>
     <string name="MZInlineTapToCopy">Kopyalamak için bir örneğe dokunun.</string>
     <string name="MZChatsInlineMathAnnouncement">Sonuç: %1$s</string>
-    <string name="MZLocalPremiumInfo">Premium emojiler, MZGram ve bunu destekleyen diğer istemcilerin gerçek emoji olarak gösterdiği bağlantılar olarak gönderilir. Diğer Premium özellikler yalnızca bu cihazda çalışır.</string>
-    <string name="MZLocalPremiumEmojiHint">**Telegram Premium**\'unuz yok, bu yüzden bu emoji bağlantı olarak gönderilir: yalnızca **MZGram** ve bunu destekleyen istemcilerin kullanıcıları görür.</string>
     <string name="MZChatsSections">Bölümler</string>
     <string name="MZChatsMenus">Menüler ve düğmeler</string>
     <string name="MZChatsMenusInfo">Sohbet, mesaj ve medya görüntüleyici menüleri</string>

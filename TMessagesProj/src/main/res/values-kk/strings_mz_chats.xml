@@ -165,8 +165,6 @@
     <string name="MZInlineDocPercent">Пайыздар мен қысқартулар</string>
     <string name="MZInlineTapToCopy">Көшіру үшін мысалды түртіңіз.</string>
     <string name="MZChatsInlineMathAnnouncement">Нәтиже: %1$s</string>
-    <string name="MZLocalPremiumInfo">Premium эмодзилер сілтеме ретінде жіберіледі, оларды MZGram және осыны қолдайтын басқа клиенттер нағыз эмодзи ретінде көрсетеді. Басқа Premium мүмкіндіктері тек осы құрылғыда жұмыс істейді.</string>
-    <string name="MZLocalPremiumEmojiHint">Сізде **Telegram Premium** жоқ, сондықтан бұл эмодзи сілтеме ретінде жіберіледі: оны тек **MZGram** және осыны қолдайтын клиенттердің пайдаланушылары көреді.</string>
     <string name="MZChatsSections">Бөлімдер</string>
     <string name="MZChatsMenus">Мәзірлер мен түймелер</string>
     <string name="MZChatsMenusInfo">Чат, хабар және медиа қарау мәзірлері</string>

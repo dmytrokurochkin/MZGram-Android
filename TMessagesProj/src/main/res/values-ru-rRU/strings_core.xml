@@ -251,7 +251,6 @@
     <string name="StickerSettings">Стикеры</string>
     <string name="ConfirmSettings">Подтверждения</string>
     <string name="InteractionSettings">Взаимодействие</string>
-    <string name="localPremium">Локальный Premium</string>
     <string name="ReactionSettings">Реакции</string>
     <string name="UpgradeGroup">Обновить группу</string>
     <string name="AccDescrShowKeyboard">Показать клавиатуру</string>

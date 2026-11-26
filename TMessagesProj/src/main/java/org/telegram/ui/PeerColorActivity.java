@@ -150,7 +150,6 @@ import java.util.List;
 
 import org.mzgram.ux.core.reference.ReferenceList;
 
-import org.mzgram.ext.helper.LocalPeerColorHelper;
 
 public class PeerColorActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1958,7 +1957,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         if (isChannel) {
             finishFragment();
         } else {
-            LocalPeerColorHelper.apply(namePage.selectedColor, namePage.selectedEmoji, profilePage.selectedColor, profilePage.selectedEmoji);
             final TLRPC.User me = getUserConfig().getCurrentUser();
             if (me.color == null) {
                 me.color = new TLRPC.TL_peerColor();

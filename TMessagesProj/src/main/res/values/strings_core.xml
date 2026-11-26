@@ -253,7 +253,6 @@
     <string name="StickerSettings">Stickers</string>
     <string name="ConfirmSettings">Confirmations</string>
     <string name="InteractionSettings">Interactions</string>
-    <string name="localPremium">Local Premium</string>
     <string name="ReactionSettings">Reaction</string>
     <string name="UpgradeGroup">Upgrade Group</string>
     <string name="AccDescrShowKeyboard">Show keyboard</string>

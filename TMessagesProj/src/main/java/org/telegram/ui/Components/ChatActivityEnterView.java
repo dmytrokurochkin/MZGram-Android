@@ -8871,7 +8871,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         if (message == null || parentFragment == null) {
             return false;
         }
-        final boolean isPremium = UserConfig.getInstance(currentAccount).isPremium() || LinkedCustomEmoji.canSend(currentAccount);
+        final boolean isPremium = UserConfig.getInstance(currentAccount).isPremium();
         if (!isPremium && UserConfig.getInstance(currentAccount).getClientUserId() != dialogId && message instanceof Spanned) {
             AnimatedEmojiSpan[] animatedEmojis = ((Spanned) message).getSpans(0, message.length(), AnimatedEmojiSpan.class);
             if (animatedEmojis != null) {
@@ -13491,7 +13491,6 @@ public class ChatActivityEnterView extends FrameLayout implements
             emojiView.updateColors();
         }
         emojiView.setAllow(allowStickers, allowGifs, true);
-        emojiView.allowLocalPremiumEmojis(LinkedCustomEmoji.canSend(currentAccount));
         emojiView.setVisibility(GONE);
         emojiView.setShowing(false);
         if (windowInsetsInAppController != null) {

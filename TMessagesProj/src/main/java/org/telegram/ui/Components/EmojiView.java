@@ -316,7 +316,6 @@ public class EmojiView extends FrameLayout implements
     }
 
     private boolean allowEmojisForNonPremium;
-    private boolean localPremiumEmojis;
     public void allowEmojisForNonPremium(boolean allow) {
         if (allowEmojisForNonPremium == allow) {
             return;
@@ -325,21 +324,6 @@ public class EmojiView extends FrameLayout implements
         if (emojiAdapter != null) {
             emojiAdapter.notifyDataSetChanged(true, isAttachedToWindow());
         }
-    }
-
-    public void allowLocalPremiumEmojis(boolean allow) {
-        localPremiumEmojis = allow;
-        allowEmojisForNonPremium(allow);
-    }
-
-    private void showLocalPremiumEmojiHint(TLRPC.Document document) {
-        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
-        if (preferences.getBoolean("local_premium_emoji_hint", false)) {
-            return;
-        }
-        preferences.edit().putBoolean("local_premium_emoji_hint", true).apply();
-        BulletinFactory factory = fragment != null ? BulletinFactory.of(fragment) : BulletinFactory.of(bulletinContainer, resourcesProvider);
-        factory.createEmojiBulletin(document, AndroidUtilities.replaceTags(getString(R.string.MZLocalPremiumEmojiHint))).show();
     }
 
     public void setShouldDrawBackground(boolean shouldDrawBackground) {
@@ -1483,9 +1467,6 @@ public class EmojiView extends FrameLayout implements
                     }
                     premiumBulletin = !premiumBulletin;
                     return;
-                }
-                if (localPremiumEmojis && !MessageObject.isFreeEmoji(document) && !UserConfig.getInstance(currentAccount).isPremium() && !(delegate != null && delegate.isUserSelf()) && !isGroupEmojis) {
-                    showLocalPremiumEmojiHint(document);
                 }
                 shownBottomTabAfterClick = SystemClock.elapsedRealtime();
                 showBottomTab(true, true);

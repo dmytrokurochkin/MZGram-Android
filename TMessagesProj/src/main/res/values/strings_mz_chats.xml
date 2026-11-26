@@ -178,8 +178,6 @@
     <string name="MZInlineDocPercent">Percentages and shorthands</string>
     <string name="MZInlineTapToCopy">Tap an example to copy it.</string>
     <string name="MZChatsInlineMathAnnouncement">Result: %1$s</string>
-    <string name="MZLocalPremiumInfo">Premium emoji are sent as links that MZGram and other clients that support this show as the real emoji. Other Premium features work only on this device.</string>
-    <string name="MZLocalPremiumEmojiHint">You don\'t have **Telegram Premium**, so this emoji is sent as a link: only users of **MZGram** and clients that support this will see it.</string>
     <string name="MZChatsSections">Sections</string>
     <string name="MZChatsMenus">Menus and Buttons</string>
     <string name="MZChatsMenusInfo">Chat, message and media viewer menus</string>

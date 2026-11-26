@@ -74,7 +74,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
     private int mzgramDividerRow;
 
     private int experimentalHeaderRow;
-    private int localPremiumRow;
     private int unlimitedPinnedDialogsRow;
     private int voiceEnhancementsRow;
     private int enhancedVideoBitrateRow;
@@ -138,7 +137,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
         mzgramDividerRow = addRow();
 
         experimentalHeaderRow = addRow("experimentalHeader");
-        localPremiumRow = addRow("localPremium");
         unlimitedPinnedDialogsRow = -1;
         voiceEnhancementsRow = -1;
         enhancedVideoBitrateRow = -1;
@@ -214,10 +212,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
             }
         } else if (position == arcMomentsRow) {
             presentFragment(new MZGramArcMomentsActivity());
-        } else if (position == localPremiumRow) {
-            toggleCheck(view, CoreConfig.localPremium);
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface);
         } else if (position == unlimitedPinnedDialogsRow) {
             toggleCheck(view, CoreConfig.unlimitedPinnedDialogs);
         } else if (position == voiceEnhancementsRow) {
@@ -513,10 +507,7 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
                         cell.setIcon(R.drawable.msg_settings);
                     } else {
                         cell.setIcon(0);
-                        if (position == localPremiumRow) {
-                            cell.setTextAndValueAndCheck(getString(R.string.localPremium),
-                                    getString(R.string.MZLocalPremiumInfo), CoreConfig.localPremium.Bool(), true, true);
-                        } else if (position == unlimitedPinnedDialogsRow) {
+                        if (position == unlimitedPinnedDialogsRow) {
                             cell.setTextAndValueAndCheck(getString(R.string.UnlimitedPinnedDialogs),
                                     getString(R.string.UnlimitedPinnedDialogsAbout),
                                     CoreConfig.unlimitedPinnedDialogs.Bool(), true, true);

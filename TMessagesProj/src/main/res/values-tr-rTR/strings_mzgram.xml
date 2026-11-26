@@ -28,7 +28,7 @@
     <string name="MZMarkdownParserExtended">Genişletilmiş</string>
     <string name="MZPluginsGet">Eklenti ekle</string>
     <string name="MZPluginsEmptyTitle">Henüz eklenti yok</string>
-    <string name="MZPluginsEmptyBody">Eklentiler MZGram'a yeni özellikler katar. Kendinizinkini yazın ve .plugin dosyasını yukarıdan yükleyin.</string>
+    <string name="MZPluginsEmptyBody">Eklentiler MZGram\'a yeni özellikler katar. Kendinizinkini yazın ve .plugin dosyasını yukarıdan yükleyin.</string>
     <string name="MZSectionStyle">Stil</string>
     <string name="MZPluginsOwnInfo">Kendi yazdığınız bir .plugin dosyasını yükleyin. Yüklemeden önce eklentinin nelere erişebileceğini görürsünüz.</string>
     <string name="MZPluginsChatTapBlocked">Eklentiler yalnızca kendi dosyanızdan yüklenir: Eklentiler → Dosyadan yükle.</string>

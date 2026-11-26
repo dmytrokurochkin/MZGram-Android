@@ -30,6 +30,6 @@
     <string name="MZPluginsEmptyTitle">Aucun plugin pour l’instant</string>
     <string name="MZPluginsEmptyBody">Les plugins ajoutent de nouvelles fonctions à MZGram. Écrivez le vôtre et installez son fichier .plugin ci-dessus.</string>
     <string name="MZSectionStyle">Style</string>
-    <string name="MZPluginsOwnInfo">Installez un fichier .plugin que vous avez écrit vous-même. Avant l'installation, vous voyez à quoi le plugin pourra accéder.</string>
-    <string name="MZPluginsChatTapBlocked">Les plugins s'installent uniquement depuis votre propre fichier : Plugins → Installer depuis un fichier.</string>
+    <string name="MZPluginsOwnInfo">Installez un fichier .plugin que vous avez écrit vous-même. Avant l\'installation, vous voyez à quoi le plugin pourra accéder.</string>
+    <string name="MZPluginsChatTapBlocked">Les plugins s\'installent uniquement depuis votre propre fichier : Plugins → Installer depuis un fichier.</string>
 </resources>

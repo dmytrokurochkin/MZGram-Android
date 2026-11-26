@@ -6725,7 +6725,13 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
+    // MZGram "Save protected content": the app's own checks say "not restricted" while it is on;
+    // the *OnServer ones say what the server enforces, for forwarding such messages as copies.
     public boolean isChatNoForwards(TLRPC.Chat chat) {
+        return !org.mzgram.ext.ProtectedContent.isOn() && isChatNoForwardsOnServer(chat);
+    }
+
+    public boolean isChatNoForwardsOnServer(TLRPC.Chat chat) {
         if (chat == null) {
             return false;
         }
@@ -6743,7 +6749,11 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean isPeerNoForwards(long dialogId) {
-        return dialogId > 0 ? isUserNoForwards(dialogId) : isChatNoForwards(-dialogId);
+        return !org.mzgram.ext.ProtectedContent.isOn() && isPeerNoForwardsOnServer(dialogId);
+    }
+
+    public boolean isPeerNoForwardsOnServer(long dialogId) {
+        return dialogId > 0 ? isUserNoForwardsOnServer(getUserFull(dialogId)) : isChatNoForwardsOnServer(getChat(-dialogId));
     }
 
     public boolean isUserNoForwards(long userId) {
@@ -6751,6 +6761,10 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean isUserNoForwards(TLRPC.UserFull userFull) {
+        return !org.mzgram.ext.ProtectedContent.isOn() && isUserNoForwardsOnServer(userFull);
+    }
+
+    public boolean isUserNoForwardsOnServer(TLRPC.UserFull userFull) {
         if (userFull == null) {
             return false;
         }

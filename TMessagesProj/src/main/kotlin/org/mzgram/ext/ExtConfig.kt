@@ -1449,6 +1449,13 @@ object ExtConfig {
             ConfigItem.configTypeBool,
             false
         )
+    // Save, copy, screenshot and forward (as copies) in chats that restrict saving content.
+    val saveProtectedContent =
+        addConfig(
+            "SaveProtectedContent",
+            ConfigItem.configTypeBool,
+            false
+        )
     val disableGlobalSearch =
         addConfig(
             "DisableGlobalSearch",

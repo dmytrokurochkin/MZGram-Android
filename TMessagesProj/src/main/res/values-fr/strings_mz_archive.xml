@@ -20,4 +20,6 @@
     <string name="MZArcSizeCounting">Calcul…</string>
     <string name="MZArcSizeDatabase">Base des messages</string>
     <string name="MZArcSizeAttachments">Pièces jointes enregistrées</string>
+    <string name="SaveProtectedContent">Transférer et enregistrer le contenu protégé</string>
+    <string name="SaveProtectedContentInfo">Dans les discussions et canaux dont le propriétaire a restreint l’enregistrement du contenu, vous pouvez transférer, enregistrer et copier les messages et médias et faire des captures d’écran comme ailleurs. Telegram ne transfère pas ces messages, ils sont donc envoyés comme de nouveaux messages sans l’expéditeur d’origine ; les médias pas encore téléchargés le sont d’abord.</string>
 </resources>

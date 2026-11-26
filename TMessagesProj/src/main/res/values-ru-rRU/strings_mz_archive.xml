@@ -20,4 +20,6 @@
     <string name="MZArcSizeCounting">Считаю…</string>
     <string name="MZArcSizeDatabase">Сообщения</string>
     <string name="MZArcSizeAttachments">Сохранённые вложения</string>
+    <string name="SaveProtectedContent">Пересылать и сохранять защищённый контент</string>
+    <string name="SaveProtectedContentInfo">В чатах и каналах, владелец которых запретил сохранять контент, можно пересылать, сохранять и копировать сообщения и медиа и делать скриншоты, как везде. Telegram не пересылает такие сообщения, поэтому они отправляются как новые, без исходного отправителя; ещё не загруженные медиа сначала загружаются.</string>
 </resources>

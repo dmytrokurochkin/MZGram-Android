@@ -20,4 +20,6 @@
     <string name="MZArcSizeCounting">Лічу…</string>
     <string name="MZArcSizeDatabase">Паведамленні</string>
     <string name="MZArcSizeAttachments">Захаваныя ўкладанні</string>
+    <string name="SaveProtectedContent">Перасылаць і захоўваць абаронены змест</string>
+    <string name="SaveProtectedContentInfo">У чатах і каналах, уладальнік якіх забараніў захоўваць змест, можна перасылаць, захоўваць і капіраваць паведамленні і медыя і рабіць здымкі экрана, як паўсюль. Telegram не перасылае такія паведамленні, таму яны адпраўляюцца як новыя, без першапачатковага адпраўніка; яшчэ не спампаваныя медыя спачатку спампоўваюцца.</string>
 </resources>

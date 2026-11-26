@@ -20,6 +20,8 @@
     <string name="MZArcSizeCounting">Рахую…</string>
     <string name="MZArcSizeDatabase">Повідомлення</string>
     <string name="MZArcSizeAttachments">Збережені вкладення</string>
+    <string name="SaveProtectedContent">Пересилати і зберігати захищений вміст</string>
+    <string name="SaveProtectedContentInfo">У чатах і каналах, де власник обмежив збереження вмісту, ви можете пересилати, зберігати й копіювати повідомлення і медіа та робити скріншоти, як і деінде. Telegram не пересилає такі повідомлення, тож вони надсилаються як нові, без початкового автора; ще не завантажене медіа спершу завантажується.</string>
     <string name="MZArcKeepPrivateChats">В особистих чатах</string>
     <string name="MZArcKeepPrivateGroups">У приватних групах</string>
     <string name="MZArcKeepPublicGroups">У публічних групах</string>

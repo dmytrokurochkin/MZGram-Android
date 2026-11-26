@@ -20,4 +20,6 @@
     <string name="MZArcSizeCounting">Calculando…</string>
     <string name="MZArcSizeDatabase">Mensagens</string>
     <string name="MZArcSizeAttachments">Anexos salvos</string>
+    <string name="SaveProtectedContent">Encaminhar e salvar conteúdo protegido</string>
+    <string name="SaveProtectedContentInfo">Em conversas e canais cujo dono restringiu salvar conteúdo, você pode encaminhar, salvar e copiar mensagens e mídia e tirar capturas de tela como em qualquer lugar. O Telegram não encaminha essas mensagens, então elas são enviadas como mensagens novas sem o remetente original; a mídia ainda não baixada é baixada primeiro.</string>
 </resources>

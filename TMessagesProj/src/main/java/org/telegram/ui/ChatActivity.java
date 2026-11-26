@@ -2195,7 +2195,7 @@ public class ChatActivity extends BaseFragment implements
                     return false;
                 }
                 selectedObjectGroup = getValidGroupedMessage(selectedObject = ((ChatMessageCell) view).getMessageObject());
-                var noforwards = getMessagesController().isChatNoForwards(currentChat) || message.messageOwner.noforwards;
+                var noforwards = getMessagesController().isChatNoForwards(currentChat) || org.mzgram.ext.ProtectedContent.noforwards(message.messageOwner);
                 var isArcDeleted = message.isArcDeleted();
                 boolean allowChatActions = chatMode != MODE_SCHEDULED && (threadMessageObjects == null || !threadMessageObjects.contains(message)) &&
                         !message.isSponsored() && (getMessageType(message) != MESSAGE_TYPE_SERVICE || message.getDialogId() != mergeDialogId) &&
@@ -3962,7 +3962,7 @@ public class ChatActivity extends BaseFragment implements
             if (selectedView != null && selectedView.getMessageObject() != null && selectedView.getMessageObject().isArcDeleted()) return false;
             final boolean noforwards = (
                 chatActivity != null && chatActivity.isPeerNoForwards() ||
-                selectedView != null && selectedView.getMessageObject() != null && selectedView.getMessageObject().messageOwner != null && selectedView.getMessageObject().messageOwner.noforwards
+                selectedView != null && selectedView.getMessageObject() != null && org.mzgram.ext.ProtectedContent.noforwards(selectedView.getMessageObject().messageOwner)
             );
             return !isFactCheck && (
                 chatActivity != null && chatActivity.getCurrentEncryptedChat() == null &&
@@ -13823,7 +13823,7 @@ public class ChatActivity extends BaseFragment implements
     }
 
     private boolean canSaveSelectedMessage(MessageObject messageObject) {
-        return !isPeerNoForwards() && !(messageObject.messageOwner != null && messageObject.messageOwner.noforwards) && !messageObject.isRoundOnce() && !messageObject.isVoiceOnce();
+        return !isPeerNoForwards() && !org.mzgram.ext.ProtectedContent.noforwards(messageObject.messageOwner) && !messageObject.isRoundOnce() && !messageObject.isVoiceOnce();
     }
 
     private boolean hasSelectedNoforwardsMessage() {
@@ -13901,7 +13901,7 @@ public class ChatActivity extends BaseFragment implements
     }
 
     private boolean canForwardAsCopy(ArrayList<MessageObject> messages) {
-        if (!ExtConfig.INSTANCE.getForwardProtectedAsCopy().Bool()) {
+        if (!ExtConfig.INSTANCE.getForwardProtectedAsCopy().Bool() && !org.mzgram.ext.ProtectedContent.isOn()) {
             return false;
         }
         return messages != null && !messages.isEmpty()
@@ -13954,7 +13954,7 @@ public class ChatActivity extends BaseFragment implements
             if (messageObject.isArcDeleted()) {
                 return true;
             }
-            if (getMessagesController().isPeerNoForwards(messageObject.getDialogId())) {
+            if (getMessagesController().isPeerNoForwardsOnServer(messageObject.getDialogId())) {
                 return true;
             }
         }
@@ -15207,7 +15207,7 @@ public class ChatActivity extends BaseFragment implements
     }
 
     private void showTextSelectionHint(MessageObject messageObject) {
-        if (getParentActivity() == null || getMessagesController().isPeerNoForwards(messageObject.getDialogId()) || (messageObject != null && messageObject.messageOwner != null && messageObject.messageOwner.noforwards)) {
+        if (getParentActivity() == null || getMessagesController().isPeerNoForwards(messageObject.getDialogId()) || (messageObject != null && org.mzgram.ext.ProtectedContent.noforwards(messageObject.messageOwner))) {
             return;
         }
         CharSequence text;
@@ -21602,7 +21602,7 @@ public class ChatActivity extends BaseFragment implements
                                 MessageObject msg = selectedMessagesIds[a].valueAt(i);
                                 if (msg == null) continue;
                                 if (msg.isVoiceOnce() || msg.isRoundOnce()) continue;
-                                if (msg.messageOwner.noforwards) continue;
+                                if (org.mzgram.ext.ProtectedContent.noforwards(msg.messageOwner)) continue;
                                 if (msg.isVoice() || msg.isRoundVideo())
                                     show = true;
                             }
@@ -43944,7 +43944,7 @@ public class ChatActivity extends BaseFragment implements
                 && messageObject.messageOwner != null
                 && chatMode != MODE_SCHEDULED
                 && !isPeerNoForwards()
-                && !messageObject.messageOwner.noforwards
+                && !org.mzgram.ext.ProtectedContent.noforwards(messageObject.messageOwner)
                 && messageObject.type != MessageObject.TYPE_PAID_MEDIA;
         }
 
@@ -51879,7 +51879,7 @@ public class ChatActivity extends BaseFragment implements
                 || message.isPoll() || message.isVoice() || message.isTranslated()) {
             return false;
         }
-        final boolean noforwards = isPeerNoForwards() || message.messageOwner.noforwards || message.type == MessageObject.TYPE_PAID_MEDIA;
+        final boolean noforwards = isPeerNoForwards() || org.mzgram.ext.ProtectedContent.noforwards(message.messageOwner) || message.type == MessageObject.TYPE_PAID_MEDIA;
         final String toLang = org.mzgram.utils.text.TranslatorUtils.getResolvedTargetLanguageCode();
         final String fromLang = message.messageOwner.originalLanguage;
         final Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress = link -> {

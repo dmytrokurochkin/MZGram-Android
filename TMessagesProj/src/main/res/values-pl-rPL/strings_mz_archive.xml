@@ -20,4 +20,6 @@
     <string name="MZArcSizeCounting">Liczę…</string>
     <string name="MZArcSizeDatabase">Wiadomości</string>
     <string name="MZArcSizeAttachments">Zapisane załączniki</string>
+    <string name="SaveProtectedContent">Przekazuj i zapisuj chronione treści</string>
+    <string name="SaveProtectedContentInfo">Na czatach i kanałach, których właściciel ograniczył zapisywanie treści, możesz przekazywać, zapisywać i kopiować wiadomości i multimedia oraz robić zrzuty ekranu jak wszędzie indziej. Telegram nie przekazuje takich wiadomości, więc są wysyłane jako nowe, bez pierwotnego nadawcy; niepobrane jeszcze multimedia są najpierw pobierane.</string>
 </resources>

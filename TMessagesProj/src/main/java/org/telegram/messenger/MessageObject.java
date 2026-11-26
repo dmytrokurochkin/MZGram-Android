@@ -8933,7 +8933,7 @@ public class MessageObject {
             return false;
         } else if (searchType == ChatActivity.SEARCH_PUBLIC_POSTS) {
             return true;
-        } else if (messageOwner.noforwards) {
+        } else if (org.mzgram.ext.ProtectedContent.noforwards(messageOwner)) {
             return false;
         } else if (messageOwner.fwd_from != null && !isOutOwner() && messageOwner.fwd_from.saved_from_peer != null && getDialogId() == UserConfig.getInstance(currentAccount).getClientUserId()) {
             return true;
@@ -9262,7 +9262,7 @@ public class MessageObject {
             return;
         }
         boolean hasUrls = applyEntities();
-        boolean noforwards = messageOwner != null && messageOwner.noforwards;
+        boolean noforwards = org.mzgram.ext.ProtectedContent.noforwards(messageOwner);
         if (!noforwards) {
             final long dialogId = getDialogId();
             noforwards = MessagesController.getInstance(currentAccount).isPeerNoForwards(dialogId);
@@ -9765,7 +9765,7 @@ public class MessageObject {
         public TextLayoutBlocks(MessageObject messageObject, @NonNull CharSequence text, TextPaint textPaint, int width) {
             this.text = text;
             textWidth = 0;
-            boolean noforwards = messageObject != null && messageObject.messageOwner != null && messageObject.messageOwner.noforwards;
+            boolean noforwards = messageObject != null && org.mzgram.ext.ProtectedContent.noforwards(messageObject.messageOwner);
             if (messageObject != null && !noforwards) {
                 final long dialogId = messageObject.getDialogId();
                 noforwards = MessagesController.getInstance(messageObject.currentAccount).isPeerNoForwards(dialogId);
@@ -12293,7 +12293,7 @@ public class MessageObject {
     public boolean canForwardMessage() {
         if (isQuickReply()) return false;
         if (type == TYPE_GIFT_STARS || type == TYPE_GIFT_THEME_UPDATE || type == TYPE_SUGGEST_BIRTHDAY || type == TYPE_GIFT_OFFER || type == TYPE_SHARING_OFFER || type == TYPE_COMMUNITY_CHANGED) return false;
-        return !(messageOwner instanceof TLRPC.TL_message_secret) && !needDrawBluredPreview() && !isLiveLocation() && type != MessageObject.TYPE_PHONE_CALL && !isSponsored() && !messageOwner.noforwards && !isArcDeleted();
+        return !(messageOwner instanceof TLRPC.TL_message_secret) && !needDrawBluredPreview() && !isLiveLocation() && type != MessageObject.TYPE_PHONE_CALL && !isSponsored() && !org.mzgram.ext.ProtectedContent.noforwards(messageOwner) && !isArcDeleted();
     }
 
     public boolean canEditMedia() {

@@ -20,4 +20,6 @@
     <string name="MZArcSizeCounting">جارٍ الحساب…</string>
     <string name="MZArcSizeDatabase">الرسائل</string>
     <string name="MZArcSizeAttachments">المرفقات المحفوظة</string>
+    <string name="SaveProtectedContent">إعادة توجيه المحتوى المحمي وحفظه</string>
+    <string name="SaveProtectedContentInfo">في المحادثات والقنوات التي قيّد مالكها حفظ المحتوى، يمكنك إعادة توجيه الرسائل والوسائط وحفظها ونسخها وأخذ لقطات للشاشة كما في أي مكان آخر. لا يعيد تيليجرام توجيه هذه الرسائل، لذا تُرسل كرسائل جديدة دون المرسل الأصلي؛ وتُنزَّل الوسائط غير المنزّلة أولًا.</string>
 </resources>

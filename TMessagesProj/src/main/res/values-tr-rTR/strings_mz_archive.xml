@@ -20,4 +20,6 @@
     <string name="MZArcSizeCounting">Hesaplanıyor…</string>
     <string name="MZArcSizeDatabase">Mesajlar</string>
     <string name="MZArcSizeAttachments">Kaydedilen ekler</string>
+    <string name="SaveProtectedContent">Korumalı içeriği ilet ve kaydet</string>
+    <string name="SaveProtectedContentInfo">Sahibinin içerik kaydetmeyi kısıtladığı sohbet ve kanallarda, mesajları ve medyayı her yerde olduğu gibi iletebilir, kaydedebilir, kopyalayabilir ve ekran görüntüsü alabilirsiniz. Telegram bu mesajları iletmez, bu yüzden asıl gönderen olmadan yeni mesajlar olarak gönderilirler; henüz indirilmemiş medya önce indirilir.</string>
 </resources>

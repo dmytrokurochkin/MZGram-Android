@@ -2261,6 +2261,12 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (messages == null || messages.isEmpty()) {
             return 0;
         }
+        final ArrayList<MessageObject> notCopied = org.mzgram.ext.ProtectedContent.sendCopies(currentAccount, messages, peer, notify, scheduleDate,
+                replyToTopMsg, payStars, monoForumPeerId, suggestionParams);
+        if (notCopied != null) {
+            return notCopied.isEmpty() ? 0 : sendMessage(notCopied, peer, forwardFromMyName, hideCaption, notify, scheduleDate, scheduleRepeatPeriod,
+                    replyToTopMsg, video_timestamp, payStars, monoForumPeerId, suggestionParams);
+        }
         if (scheduleDate == 0 && payStars == 0 && monoForumPeerId == 0 && suggestionParams == null && shouldGhostSchedule(peer)) {
             return sendMessage(messages, peer, forwardFromMyName, hideCaption, notify, getConnectionsManager().getCurrentTime() + 12, scheduleRepeatPeriod,
                     replyToTopMsg, video_timestamp, payStars, monoForumPeerId, suggestionParams);

@@ -20,6 +20,8 @@
     <string name="MZArcSizeCounting">Counting…</string>
     <string name="MZArcSizeDatabase">Messages</string>
     <string name="MZArcSizeAttachments">Saved Attachments</string>
+    <string name="SaveProtectedContent">Forward and save protected content</string>
+    <string name="SaveProtectedContentInfo">In chats and channels whose owner restricted saving content, you can forward, save and copy messages and media and take screenshots, like anywhere else. Telegram does not forward such messages, so they are sent as new messages without the original sender; media not downloaded yet is downloaded first.</string>
     <string name="MZArcKeepPrivateChats">In private chats</string>
     <string name="MZArcKeepPrivateGroups">In private groups</string>
     <string name="MZArcKeepPublicGroups">In public groups</string>

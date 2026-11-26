@@ -20,4 +20,6 @@
     <string name="MZArcSizeCounting">Calculando…</string>
     <string name="MZArcSizeDatabase">Mensajes</string>
     <string name="MZArcSizeAttachments">Adjuntos guardados</string>
+    <string name="SaveProtectedContent">Reenviar y guardar contenido protegido</string>
+    <string name="SaveProtectedContentInfo">En los chats y canales cuyo propietario restringió guardar contenido, puedes reenviar, guardar y copiar mensajes y multimedia y hacer capturas de pantalla como en cualquier otro sitio. Telegram no reenvía esos mensajes, así que se envían como mensajes nuevos sin el remitente original; la multimedia que aún no se descargó se descarga primero.</string>
 </resources>

@@ -77,6 +77,7 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
             ExtConfig.INSTANCE.getTranslucentDeletedMessages(),
             ExtConfig.INSTANCE.getUseDeletedIcon(),
             ExtConfig.INSTANCE.getForwardProtectedAsCopy(),
+            ExtConfig.INSTANCE.getSaveProtectedContent(),
             ExtConfig.INSTANCE.getAskBeforeOpeningStory(),
     };
 
@@ -134,6 +135,7 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
     private int deletedMarkRow;
     private int deletedMarkColorRow;
     private int forwardProtectedRow;
+    private int saveProtectedRow;
     private int exportDbRow;
     private int importDbRow;
     private int disableAllRow;
@@ -243,6 +245,7 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
         otherHeaderRow = addRow("arcOtherHeader");
         regexRow = addRow(ExtConfig.INSTANCE.getRegexFiltersEnabled().getKey());
         forwardProtectedRow = addRow(ExtConfig.INSTANCE.getForwardProtectedAsCopy().getKey());
+        saveProtectedRow = addRow(ExtConfig.INSTANCE.getSaveProtectedContent().getKey());
         exportDbRow = addRow("databaseExport");
         importDbRow = addRow("databaseImport");
         otherDividerRow = addRow();
@@ -294,7 +297,7 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
         } else if (position == askStoryRow) {
             toggleArcConfig(view, ExtConfig.INSTANCE.getAskBeforeOpeningStory(), false);
         } else if (position == regexRow) {
-            // Как в эталоне: тап по тексту ведёт в список фильтров, тап по переключателю — включает.
+            // A tap on the text opens the filter list, a tap on the switch turns it on or off.
             boolean onSwitch = LocaleController.isRTL
                     ? x <= AndroidUtilities.dp(76)
                     : x >= view.getMeasuredWidth() - AndroidUtilities.dp(76);
@@ -351,6 +354,8 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
             showDeletedMarkColorPicker();
         } else if (position == forwardProtectedRow) {
             toggleArcConfig(view, ExtConfig.INSTANCE.getForwardProtectedAsCopy(), false);
+        } else if (position == saveProtectedRow) {
+            toggleArcConfig(view, ExtConfig.INSTANCE.getSaveProtectedContent(), false);
         } else if (position == exportDbRow) {
             ArcData.exportArcDatabase(this);
         } else if (position == importDbRow) {
@@ -363,9 +368,9 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
     }
 
     /**
-     * Убирает быстрые переключатели призрака. Раскладку меню трогаем только если она
-     * уже своя: пункта нет в раскладке по умолчанию, а запись без нужды сделала бы
-     * её кастомной и заморозила текущий состав.
+     * Removes the ghost mode shortcuts. The menu layout is changed only when it is already
+     * a custom one: the item is not in the default layout, and writing it needlessly would
+     * make the layout custom and freeze its current items.
      */
     private void removeGhostShortcuts() {
         PillStackConfig.setPillActive(PillType.GHOST.id, false);
@@ -424,8 +429,8 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                 config.setConfigBool(false);
             }
         }
-        // Через toggle, а не setGhostMode: он же отправляет пакет онлайна,
-        // без которого мы останемся невидимыми уже без своего ведома.
+        // Through toggle, not setGhostMode: toggle also sends the online status,
+        // without which the user would stay invisible without knowing it.
         if (CoreConfig.isGhostModeActive()) {
             CoreConfig.toggleGhostMode();
             NotificationCenter.getInstance(currentAccount)
@@ -442,7 +447,7 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /** Заголовок берётся из ключа настройки — так же, как это делают ячейки MZGram. */
+    /** The title comes from the setting's key, as MZGram's cells do it. */
     private void bindArcCheck(TextCheckCell cell, ConfigItem config, boolean divider) {
         cell.setTextAndCheck(getString(config.getKey()), config.Bool(), divider);
     }
@@ -884,6 +889,11 @@ public class MZGramArcMomentsActivity extends BaseCoreSettingsActivity {
                                 getString(R.string.ForwardProtectedAsCopy),
                                 getString(R.string.ForwardProtectedAsCopyInfo),
                                 ExtConfig.INSTANCE.getForwardProtectedAsCopy().Bool(), true, true);
+                    } else if (position == saveProtectedRow) {
+                        cell.setTextAndValueAndCheck(
+                                getString(R.string.SaveProtectedContent),
+                                getString(R.string.SaveProtectedContentInfo),
+                                ExtConfig.INSTANCE.getSaveProtectedContent().Bool(), true, true);
                     }
                     break;
                 }

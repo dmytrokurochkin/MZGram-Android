@@ -55,7 +55,7 @@ public final class PlayerActions {
     public static boolean noForwards(MessageObject messageObject) {
         int account = messageObject.currentAccount;
         long dialogId = messageObject.getDialogId();
-        return MessagesController.getInstance(account).isPeerNoForwards(dialogId) || messageObject.messageOwner != null && messageObject.messageOwner.noforwards;
+        return MessagesController.getInstance(account).isPeerNoForwards(dialogId) || org.mzgram.ext.ProtectedContent.noforwards(messageObject.messageOwner);
     }
 
     public static boolean isProfileSavePending(MessageObject messageObject) {

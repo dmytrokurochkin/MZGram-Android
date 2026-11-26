@@ -1445,7 +1445,7 @@ public class MessageHelper extends BaseController {
     }
 
     public boolean shouldRepeatMessagesAsCopy(ArrayList<MessageObject> messages, TLRPC.Chat currentChat) {
-        if (getMessagesController().isChatNoForwards(currentChat)) {
+        if (getMessagesController().isChatNoForwardsOnServer(currentChat)) {
             return true;
         }
         if (messages == null) {

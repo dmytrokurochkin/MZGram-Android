@@ -14914,7 +14914,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         animatorPollAttachButtonsVisibility.setValue(sendPhotoTypeIsPollMediaEdit, false);
 
-        final boolean noforwards = messageObject != null && (MessagesController.getInstance(currentAccount).isPeerNoForwards(messageObject.getDialogId()) || (messageObject.messageOwner != null && messageObject.messageOwner.noforwards) || messageObject.hasRevealedExtendedMedia());
+        final boolean noforwards = messageObject != null && (MessagesController.getInstance(currentAccount).isPeerNoForwards(messageObject.getDialogId()) || org.mzgram.ext.ProtectedContent.noforwards(messageObject.messageOwner) || messageObject.hasRevealedExtendedMedia());
         if (messageObject != null && messages == null) {
             if (messageObject.messageOwner != null && MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC.TL_messageMediaWebPage && MessageObject.getMedia(messageObject.messageOwner).webpage != null) {
                 TLRPC.WebPage webPage = MessageObject.getMedia(messageObject.messageOwner).webpage;
@@ -15369,7 +15369,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             actionBarContainer.setSubtitle(subtitle, animated);
 
             boolean isInvoice = newMessageObject.isInvoice();
-            boolean noforwards = MessagesController.getInstance(currentAccount).isPeerNoForwards(newMessageObject.getDialogId()) || (newMessageObject.messageOwner != null && newMessageObject.messageOwner.noforwards) || newMessageObject.hasRevealedExtendedMedia();
+            boolean noforwards = MessagesController.getInstance(currentAccount).isPeerNoForwards(newMessageObject.getDialogId()) || org.mzgram.ext.ProtectedContent.noforwards(newMessageObject.messageOwner) || newMessageObject.hasRevealedExtendedMedia();
             if (isVideo && !isLivePhoto) {
                 bottomLayout.setVisibility(View.VISIBLE);
                 bottomLayout.setTag(1);
@@ -20471,7 +20471,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         final Object parent = adapter.getParentObject();
         if (parent instanceof MessageObject && ((MessageObject) parent).messageOwner != null) {
             final MessageObject messageObject = (MessageObject) parent;
-            return MessagesController.getInstance(currentAccount).isPeerNoForwards(messageObject.getDialogId()) || messageObject.messageOwner.noforwards || messageObject.hasRevealedExtendedMedia();
+            return MessagesController.getInstance(currentAccount).isPeerNoForwards(messageObject.getDialogId()) || org.mzgram.ext.ProtectedContent.noforwards(messageObject.messageOwner) || messageObject.hasRevealedExtendedMedia();
         }
         return false;
     }

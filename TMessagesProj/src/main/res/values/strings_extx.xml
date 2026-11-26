@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="MZGram" translatable="false">MZGram</string>
     <string name="EnableSaveDeletedMessages">Save Deleted Messages</string>
     <string name="DeletedMessage">deleted</string>
     <string name="EnableSaveEditsHistory">Save Edits History</string>

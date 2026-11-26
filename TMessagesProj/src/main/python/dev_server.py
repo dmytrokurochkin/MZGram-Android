@@ -1,4 +1,4 @@
-"""TCP/JSON development server on 127.0.0.1:42690 — exteraless plugin SDK.
+"""TCP/JSON development server on 127.0.0.1:42690 — mzgram plugin SDK.
 
 Protocol (PLUGINS-API.md §8.2): line-delimited UTF-8 JSON objects; ``"@"``
 is the command name, ``"#"`` the client request id echoed back in the
@@ -6,7 +6,7 @@ response. Every response carries ``{"#": id, "ok": true|false}`` plus either
 a result payload or an ``"error"`` string. Malformed lines get an error
 response and the connection stays open.
 
-Started once from extera_utils.plugin_loader.start_dev_server() (the engine
+Started once from mz_utils.plugin_loader.start_dev_server() (the engine
 calls it in developer mode). Bind failures (port busy) disable the server
 quietly — the plugin engine must keep working without it.
 """
@@ -62,12 +62,12 @@ def _log(message):
         log(f"[dev_server] {message}")
     except Exception:
         import sys
-        print(f"[exteraless:dev_server] {message}", file=sys.stderr)
+        print(f"[mzgram:dev_server] {message}", file=sys.stderr)
 
 
 def _controller():
     from java import jclass
-    return jclass("app.exteraless.plugins.PluginsController").getInstance()
+    return jclass("org.mzgram.plugins.PluginsController").getInstance()
 
 
 def _incoming_plugins_dir() -> str:
@@ -143,7 +143,7 @@ def _cmd_write_plugin(request):
 
     filename = request.get("filename") or (plugin_id + ".py")
     filename = os.path.basename(str(filename))
-    if not filename.endswith((".py", ".elyx", ".eaf", ".plugin")):
+    if not filename.endswith((".py", ".mzpack", ".eaf", ".plugin")):
         filename += ".py"
     target = os.path.join(_incoming_plugins_dir(), filename)
     with open(target, "wb") as handle:
@@ -154,7 +154,7 @@ def _cmd_write_plugin(request):
     from java import dynamic_proxy, jclass
 
     InstallCallback = jclass(
-        "app.exteraless.plugins.PluginsController$InstallCallback")
+        "org.mzgram.plugins.PluginsController$InstallCallback")
     File = jclass("java.io.File")
     done = threading.Event()
     outcome = {}
@@ -178,7 +178,7 @@ def _cmd_remove_plugin(request):
     # Python-side cleanup first (unload + pip refcounts); the controller call
     # afterwards removes the file, prefs and registry entry.
     try:
-        from extera_utils import plugin_loader
+        from mz_utils import plugin_loader
         plugin_loader.uninstall_plugin(plugin_id)
     except Exception as e:
         _log(f"python-side uninstall of {plugin_id!r} failed: {e}")
@@ -227,16 +227,16 @@ def _cmd_stop_debugger(request):
     return {}
 
 
-def _cmd_elyx(request):
-    """elyx_* commands delegate to elyx_runtime (owned by another agent)."""
+def _cmd_mzpack(request):
+    """mzpack_* commands delegate to mzpack_runtime (owned by another agent)."""
     try:
-        import elyx_runtime
+        import mzpack_runtime
     except ImportError:
-        return {"ok": False, "error": "Elyx runtime unavailable"}
-    handler = getattr(elyx_runtime, "handle_dev_command", None)
+        return {"ok": False, "error": "MzPack runtime unavailable"}
+    handler = getattr(mzpack_runtime, "handle_dev_command", None)
     if handler is None:
         return {"ok": False,
-                "error": "Elyx runtime has no handle_dev_command entry point"}
+                "error": "MzPack runtime has no handle_dev_command entry point"}
     result = handler(request)
     return dict(result) if isinstance(result, dict) else {}
 
@@ -268,8 +268,8 @@ def dispatch(request: dict) -> dict:
                 or not secrets.compare_digest(supplied, expected):
             return {**response, "ok": False, "error": "bad or missing token"}
     try:
-        if command.startswith("elyx_") or command == "get_elyx_plugins":
-            payload = _cmd_elyx(request)
+        if command.startswith("mzpack_") or command == "get_mzpack_plugins":
+            payload = _cmd_mzpack(request)
         else:
             handler = _COMMANDS.get(command)
             if handler is None:
@@ -336,7 +336,7 @@ def start() -> bool:
             _log(f"cannot bind {HOST}:{PORT} — dev server disabled: {e}")
             return False
         thread = threading.Thread(target=server.serve_forever,
-                                  name="extera-dev-server", daemon=True)
+                                  name="mz-dev-server", daemon=True)
         thread.start()
         _server = server
         _publish_token(_ensure_token())

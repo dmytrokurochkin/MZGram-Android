@@ -66,7 +66,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class ThemesHorizontalListCell extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate {
 
@@ -202,7 +202,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                         pressed = true;
                     } else {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                         } catch (Exception ignored) {}
                         showOptionsForTheme(themeInfo);
                     }

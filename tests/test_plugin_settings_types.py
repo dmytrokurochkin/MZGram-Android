@@ -17,14 +17,14 @@ PLUGIN_SETTINGS = os.path.join(corpus.PYTHON_ROOT, "plugin_settings.py")
 def settings():
     if not os.path.isfile(PLUGIN_SETTINGS):
         pytest.skip(f"missing {PLUGIN_SETTINGS}")
-    bridge = types.ModuleType("app.exteraless.plugins")
+    bridge = types.ModuleType("org.mzgram.plugins")
     bridge.PythonBridge = None
-    stubs = {"app": types.ModuleType("app"), "app.exteraless": types.ModuleType("app.exteraless"),
-             "app.exteraless.plugins": bridge}
+    stubs = {"app": types.ModuleType("app"), "org.mzgram": types.ModuleType("org.mzgram"),
+             "org.mzgram.plugins": bridge}
     saved = {name: sys.modules.get(name) for name in stubs}
     sys.modules.update(stubs)
     try:
-        spec = importlib.util.spec_from_file_location("exteraless_plugin_settings", PLUGIN_SETTINGS)
+        spec = importlib.util.spec_from_file_location("mzgram_plugin_settings", PLUGIN_SETTINGS)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
     finally:

@@ -41,7 +41,7 @@ import kotlin.Result;
 import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.coroutines.EmptyCoroutineContext;
-import tw.nekomimi.nekogram.NekoXConfig;
+import org.mzgram.core.CoreXConfig;
 
 public class PasskeysController {
 
@@ -171,8 +171,8 @@ public class PasskeysController {
         final Runnable[] cancel = new Runnable[1];
 
         final TL_account.initPasskeyLogin req = new TL_account.initPasskeyLogin();
-        req.api_id = NekoXConfig.currentAppId();
-        req.api_hash = NekoXConfig.currentAppHash();
+        req.api_id = CoreXConfig.currentAppId();
+        req.api_hash = CoreXConfig.currentAppHash();
         final int requestId = ConnectionsManager.getInstance(currentAccount).sendRequestTyped(req, AndroidUtilities::runOnUIThread, (res, err) -> {
             if (cancelled[0]) return;
             if (err != null) {

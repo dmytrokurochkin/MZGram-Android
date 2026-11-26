@@ -44,16 +44,16 @@ import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 
 import java.util.ArrayList;
 
-import me.vkryl.android.AnimatorUtils;
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.AnimatorUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 import java.util.HashSet;
 
 @SuppressLint("ViewConstructor")
 public class FragmentSearchField extends FrameLayout implements FactorAnimator.Target, Theme.Colorable {
-    private app.exteraless.pillstack.PillStackController pillStackController;
+    private org.mzgram.pillstack.PillStackController pillStackController;
 
-    public void setPillStackController(app.exteraless.pillstack.PillStackController controller) {
+    public void setPillStackController(org.mzgram.pillstack.PillStackController controller) {
         pillStackController = controller;
     }
 

@@ -17,20 +17,20 @@ import javaapi
 METHOD_BASELINE = "dynamic_proxy_methods.json"
 ARITY_BASELINE = "dynamic_proxy_arity.json"
 
-OWNED_PREFIXES = ("app.exteraless.", "com.exteragram.", "org.telegram.")
+OWNED_PREFIXES = ("org.mzgram.", "com.mzgram.", "org.telegram.")
 FACTORY_CALLS = ("find_class", "jclass", "autoclass", "load_class", "get_class")
 OBJECT_METHODS = frozenset((
     "toString", "equals", "hashCode", "clone", "finalize", "getClass"))
 
-ALIASES_PATH = os.path.join(corpus.PYTHON_ROOT, "extera_utils", "class_aliases.py")
+ALIASES_PATH = os.path.join(corpus.PYTHON_ROOT, "mz_utils", "class_aliases.py")
 ARCHIVE_DIR = os.environ.get(
-    "EXTERALESS_PLUGIN_ARCHIVES", "/home/coral/openExtera/plugin-corpus/archives")
+    "MZGRAM_PLUGIN_ARCHIVES", "/home/coral/mzGram/plugin-corpus/archives")
 
-DELEGATE_FQCN = "app.exteraless.plugins.ui.components.PluginCellDelegate"
+DELEGATE_FQCN = "org.mzgram.plugins.ui.components.PluginCellDelegate"
 DELEGATE_METHODS = frozenset((
     "sharePlugin", "openInExternalApp", "deletePlugin", "togglePlugin",
     "openPluginSettings", "pinPlugin", "canOpenInExternalApp"))
-PERMISSIONS_FQCN = "app.exteraless.plugins.ui.components.PluginPermissionsDelegate"
+PERMISSIONS_FQCN = "org.mzgram.plugins.ui.components.PluginPermissionsDelegate"
 PERMISSIONS_METHODS = frozenset(("openPluginPermissions",))
 
 MIN_PROXY_CLASSES = 200
@@ -44,7 +44,7 @@ pytestmark = pytest.mark.skipif(
 @functools.lru_cache(maxsize=1)
 def aliases():
     spec = importlib.util.spec_from_file_location(
-        "exteraless_class_aliases_proxy_shape", ALIASES_PATH)
+        "mzgram_class_aliases_proxy_shape", ALIASES_PATH)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module

@@ -22,8 +22,8 @@ import org.telegram.tgnet.tl.TL_account;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.PasscodeHelper;
 
 public class UserConfig extends BaseController {
 
@@ -599,7 +599,7 @@ public class UserConfig extends BaseController {
         if (user == null) {
             return false;
         }
-        return user.premium || NekoConfig.localPremium.Bool();
+        return user.premium || CoreConfig.localPremium.Bool();
     }
 
     public Long getEmojiStatus() {

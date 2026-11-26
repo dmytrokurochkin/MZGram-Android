@@ -50,7 +50,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class ChatGreetingsView extends LinearLayout implements Theme.Colorable {
 
@@ -66,7 +66,7 @@ public class ChatGreetingsView extends LinearLayout implements Theme.Colorable {
     public BackupImageView nextStickerToSendView;
     private final Theme.ResourcesProvider resourcesProvider;
     boolean wasDraw;
-    boolean showSticker = !NekoConfig.dontSendGreetingSticker.Bool();
+    boolean showSticker = !CoreConfig.dontSendGreetingSticker.Bool();
 
     public ChatGreetingsView(Context context, TLRPC.User user, int currentAccount, TLRPC.Document sticker, Theme.ResourcesProvider resourcesProvider) {
         super(context);

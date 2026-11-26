@@ -58,7 +58,7 @@ import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 
 import java.util.ArrayList;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class UniversalAdapter extends AdapterWithDiffUtils {
 
@@ -204,7 +204,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
      * со строки под ним.
      */
     private int skipLeadingHeaders(int start, int end) {
-        if (!app.exteraless.appearance.AppearanceConfig.sectionsSeparatedHeaders()) return start;
+        if (!org.mzgram.appearance.AppearanceConfig.sectionsSeparatedHeaders()) return start;
         int position = start;
         while (position <= end && isHeader(getItemViewType(position))) {
             position++;
@@ -635,7 +635,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         UItem item = getItem(position);
         UItem nextItem = getItem(position + 1);
         if (item == null || nextItem == null || item.hideDivider) return false;
-        if (isHeader(nextItem.viewType) && app.exteraless.appearance.AppearanceConfig.sectionsSeparatedHeaders()) {
+        if (isHeader(nextItem.viewType) && org.mzgram.appearance.AppearanceConfig.sectionsSeparatedHeaders()) {
             return false;
         }
         return isShadow(nextItem.viewType) == isShadow(item.viewType);
@@ -778,7 +778,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     checkCell.setChecked(item.checked);
                 }
                 checkCell.setEnabled(item.enabled, null);
-                // Иконка и подпись — как у exteraGram: setIcon(0) обязателен, иначе
+                // Иконка и подпись — как у MZGram: setIcon(0) обязателен, иначе
                 // переиспользованная ячейка сохранит иконку соседней строки.
                 checkCell.setIcon(item.iconResId);
                 if (TextUtils.isEmpty(item.textValue)) {
@@ -831,7 +831,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     TextInfoPrivacyCell cell2 = (TextInfoPrivacyCell) holder.itemView;
                     if (TextUtils.isEmpty(item.text)) {
                         cell2.setFixedSize(viewType == VIEW_TYPE_LARGE_SHADOW ? 220
-                                : app.exteraless.appearance.M3ListItems.shadowHeight(nextItem != null && isHeader(nextItem.viewType), 12));
+                                : org.mzgram.appearance.M3ListItems.shadowHeight(nextItem != null && isHeader(nextItem.viewType), 12));
                         cell2.setText("");
                     } else {
                         cell2.setFixedSize(0);
@@ -1137,7 +1137,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 switchCell.id = item.id;
                 switchCell.setIcon(item.locked ? R.drawable.permission_locked : 0);
                 if (viewType == VIEW_TYPE_EXPANDABLE_SWITCH) {
-                    final View.OnClickListener onSwitchClick = item.exteraExpandableSwitch
+                    final View.OnClickListener onSwitchClick = item.mzExpandableSwitch
                         ? item.switchClickCallback : item.clickCallback;
                     if (TextUtils.isEmpty(item.animatedText) || onSwitchClick == null) {
                         switchCell.hideCollapseArrow();

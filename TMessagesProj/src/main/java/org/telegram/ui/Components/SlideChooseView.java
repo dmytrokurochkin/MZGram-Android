@@ -23,7 +23,7 @@ import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class SlideChooseView extends View {
 
@@ -239,10 +239,10 @@ public class SlideChooseView extends View {
     /**
      * Material-слайдер включается только для
      * непрерывной шкалы без пунктира и без ограничения снизу.
-     * У NagramX вместо булева флага три стиля (NaConfig.sliderStyle), MD3 — второй.
+     * У MZGram вместо булева флага три стиля (ExtConfig.sliderStyle), MD3 — второй.
      */
     private boolean canUseMaterialSlider() {
-        return NaConfig.INSTANCE.getSliderStyle().Int() == SeekBarView.SLIDER_STYLE_MD3
+        return ExtConfig.INSTANCE.getSliderStyle().Int() == SeekBarView.SLIDER_STYLE_MD3
                 && optionsStr != null && optionsStr.length > 1
                 && dashedFrom < 0 && minIndex <= 0;
     }
@@ -330,13 +330,13 @@ public class SlideChooseView extends View {
     }
 
     /**
-     * MD3-слайдер с засечками. exteraGram встраивает com.google.android.material.slider.Slider
+     * MD3-слайдер с засечками. MZGram встраивает com.google.android.material.slider.Slider
      * (MaterialSliderUiHelper.java:45-69): trackHeight 8dp, thumb 3x24dp, засечки радиусом 2dp,
      * haloRadius 0; зазор 6dp и внутренний угол 2dp — из темы Widget.Material3.Slider
      * (res/values/styles.xml:8902). Зависимости material в дереве нет, рисуем теми же числами.
      * Цвета — SlideChooseView.java:168-171: активная дорожка key_switchTrackChecked,
      * неактивная key_switchTrack, засечки key_windowBackgroundWhite.
-     * Метод drawContent exteraGram не декомпилирован (831 инструкция), поэтому подписи
+     * Метод drawContent MZGram не декомпилирован (831 инструкция), поэтому подписи
      * оставлены на прежних местах.
      */
     private void drawMaterialSlider(Canvas canvas, float thumbCx, int cy) {

@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 /** The shared media of a chat, or the stories of a peer, as a simple glass screen: fullscreen pages under the glass header and tabs. */
 public class MediaActivity extends BaseFragment implements SharedMediaLayout.SharedMediaPreloaderDelegate, FloatingDebugProvider, NotificationCenter.NotificationCenterDelegate {

@@ -124,12 +124,12 @@ public class TextSettingsCell extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int fixed = AndroidUtilities.dp(app.exteraless.appearance.M3ListItems.rowHeight(50));
+        final int fixed = AndroidUtilities.dp(org.mzgram.appearance.M3ListItems.rowHeight(50));
         measureContent(widthMeasureSpec, fixed);
         if (!wrapText) {
             return;
         }
-        // Название в neko-ячейках переносится без ограничения по строкам,
+        // Название в core-ячейках переносится без ограничения по строкам,
         // а высота оставалась фиксированной — со второй строки текст резало.
         // Ширина названия уже посчитана выше, поэтому второй проход нужен
         // только чтобы разложить ячейку на итоговой высоте.
@@ -201,7 +201,7 @@ public class TextSettingsCell extends FrameLayout {
         return textView;
     }
 
-    /** Ячейку могли переиспользовать после neko-привязки — она снимает лимит строк. */
+    /** Ячейку могли переиспользовать после core-привязки — она снимает лимит строк. */
     private void setTitleSingleLine() {
         wrapText = false;
         textView.setLines(1);
@@ -244,8 +244,8 @@ public class TextSettingsCell extends FrameLayout {
         setTextAndValue(text, value, animated, divider, false);
     }
 
-    public void setTextAndValue(CharSequence text, CharSequence value, boolean animated, boolean divider, boolean isNekoCell) {
-        final boolean wrapTitle = isNekoCell && value == null;
+    public void setTextAndValue(CharSequence text, CharSequence value, boolean animated, boolean divider, boolean isCoreCell) {
+        final boolean wrapTitle = isCoreCell && value == null;
         textView.setText(text);
         if (wrapTitle) {
             textView.setLines(0);

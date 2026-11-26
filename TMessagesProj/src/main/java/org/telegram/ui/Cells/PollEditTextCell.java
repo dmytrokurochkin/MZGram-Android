@@ -57,8 +57,8 @@ import org.telegram.ui.Components.poll.PollAttachButton;
 
 import java.util.ArrayList;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.AnchorViewDelegate, FactorAnimator.Target {

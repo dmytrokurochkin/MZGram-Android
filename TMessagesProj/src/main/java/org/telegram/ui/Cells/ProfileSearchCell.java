@@ -75,9 +75,9 @@ import org.telegram.ui.community.CommunityUtils;
 import java.util.Locale;
 import java.util.HashSet;
 
-import xyz.nextalone.nagram.NaConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.CoreConfig;
 
 public class ProfileSearchCell extends BaseCell implements NotificationCenter.NotificationCenterDelegate, Theme.Colorable {
 
@@ -182,7 +182,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
     private boolean allowBotOpenButton;
     private Utilities.Callback<TLRPC.User> onOpenButtonClick;
     public ProfileSearchCell allowBotOpenButton(boolean allow, Utilities.Callback<TLRPC.User> onOpenClick) {
-        allowBotOpenButton = allow && !NaConfig.INSTANCE.getDisableBotOpenButton().Bool();
+        allowBotOpenButton = allow && !ExtConfig.INSTANCE.getDisableBotOpenButton().Bool();
         onOpenButtonClick = onOpenClick;
         return this;
     }
@@ -536,7 +536,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         }
         nameString = AndroidUtilities.replaceNewLines(nameString);
         if (TextUtils.isEmpty(nameString)) {
-            if (NekoConfig.hidePhone.Bool()) {
+            if (CoreConfig.hidePhone.Bool()) {
                 nameString = getString(R.string.MobileHidden);
             } else if (user != null && !TextUtils.isEmpty(user.phone)) {
                 nameString = PhoneFormat.getInstance().format("+" + user.phone);
@@ -876,13 +876,13 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         final int avatarSize = dp(rectangularAvatar ? 42 : 46);
         final int radius;
         if (ChatObject.isCommunity(chat)) {
-            radius = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(avatarSize, app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_COMMUNITY);
+            radius = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(avatarSize, org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_COMMUNITY);
         } else if (chat != null && chat.monoforum) {
             radius = 0;
         } else if (chat != null && chat.forum) {
-            radius = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(avatarSize, app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_FORUM);
+            radius = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(avatarSize, org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_FORUM);
         } else {
-            radius = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(avatarSize);
+            radius = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(avatarSize);
         }
         avatarImage.setAvatarCornersApplied(chat == null || !chat.monoforum);
         avatarImage.setRoundRadius(radius);

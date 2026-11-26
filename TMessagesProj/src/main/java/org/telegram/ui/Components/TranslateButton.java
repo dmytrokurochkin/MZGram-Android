@@ -58,9 +58,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.NekoXConfig;
-import tw.nekomimi.nekogram.translate.Translator;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.CoreXConfig;
+import org.mzgram.core.translate.Translator;
 
 public class TranslateButton extends FrameLayout implements Theme.Colorable {
 
@@ -394,7 +394,7 @@ public class TranslateButton extends FrameLayout implements Theme.Colorable {
         });
         popupLayout.addView(hideButton);
 
-        boolean providerTelegram = NekoConfig.translationProvider.Int() == Translator.providerTelegram;
+        boolean providerTelegram = CoreConfig.translationProvider.Int() == Translator.providerTelegram;
         if (providerTelegram) {
             popupLayout.addView(new ActionBarPopupWindow.GapView(getContext(), resourcesProvider), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 8));
         }
@@ -451,7 +451,7 @@ public class TranslateButton extends FrameLayout implements Theme.Colorable {
                 lng = "en";
             }
             String text;
-            String lang = NekoXConfig.formatLang(lng);
+            String lang = CoreXConfig.formatLang(lng);
             if (TextUtils.isEmpty(lang)) {
                 lang = TranslateAlert2.languageName(lng, accusative);
                 if (TextUtils.isEmpty(lang)) {

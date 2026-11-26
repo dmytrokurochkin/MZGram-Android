@@ -142,9 +142,9 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
-import me.vkryl.android.util.ClickHelper;
-import me.vkryl.core.BitwiseUtils;
-import tw.nekomimi.nekogram.parts.RichMessageTransHelper;
+import org.mzgram.ux.android.util.ClickHelper;
+import org.mzgram.ux.core.BitwiseUtils;
+import org.mzgram.core.parts.RichMessageTransHelper;
 
 public class RichMessageLayout {
 
@@ -8292,7 +8292,7 @@ public class RichMessageLayout {
                 final File file = path();
                 if (activity != null && file != null) {
                     final String fileName = FileLoader.getDocumentFileName(document);
-                    if (!app.exteraless.plugins.PluginInstallHelper.handleFileTap(activity, fileName, file)) {
+                    if (!org.mzgram.plugins.PluginInstallHelper.handleFileTap(activity, fileName, file)) {
                         AndroidUtilities.openForView(file, fileName, document.mime_type, activity, root.resourcesProvider, false);
                     }
                 }

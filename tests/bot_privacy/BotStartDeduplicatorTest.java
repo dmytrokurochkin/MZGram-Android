@@ -1,4 +1,4 @@
-package app.exteraless.privacy;
+package org.mzgram.privacy;
 
 public class BotStartDeduplicatorTest {
     public static void main(String[] args) {

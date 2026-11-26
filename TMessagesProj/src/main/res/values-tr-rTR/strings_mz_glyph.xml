@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphNewMessage">Yeni mesajlarda yanıp sön</string>
+    <string name="MZGlyphCalls">Gelen aramalarda parla</string>
+    <string name="MZGlyphRecording">Kayıt sırasında parla</string>
+    <string name="MZGlyphScreenOff">Mesajlar yalnızca ekran kapalıyken</string>
+    <string name="MZGlyphPreview">Önizleme</string>
+    <string name="MZGlyphUnsupported">Glyph Interface yalnızca Nothing telefonlarda bulunur</string>
+    <string name="MZGlyphInfo">Nothing telefonunuzun arkasındaki Glyph Interface\'i yakar: gelen mesajlar için yanıp sönme, Phone (3) Glyph Matrix\'te MZGram logosu ve sesli mesaj kaydederken veya arama alırken nefes alan bir parıltı. Sessize alınan sohbetler hiçbir zaman yanıp sönme tetiklemez.</string>
+</resources>

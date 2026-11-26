@@ -46,7 +46,7 @@ import org.telegram.ui.Components.StaticLayoutEx;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class ChatPullingDownDrawable implements NotificationCenter.NotificationCenterDelegate {
 
@@ -362,7 +362,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             long time = System.currentTimeMillis();
             if (time - lastHapticTime > 100) {
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) parent.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) parent.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignored) {}
                 lastHapticTime = time;
             }
@@ -540,7 +540,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         } else {
             int oldAlpha1 = getThemedPaint(Theme.key_paint_chatActionBackground).getAlpha();
             getThemedPaint(Theme.key_paint_chatActionBackground).setAlpha((int) (oldAlpha1 * alpha));
-            final float avatarCorners = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(AndroidUtilities.rectTmp.width());
+            final float avatarCorners = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(AndroidUtilities.rectTmp.width());
             canvas.drawRoundRect(AndroidUtilities.rectTmp, avatarCorners, avatarCorners, getThemedPaint(Theme.key_paint_chatActionBackground));
             getThemedPaint(Theme.key_paint_chatActionBackground).setAlpha(oldAlpha1);
             if (hasGradientService()) {

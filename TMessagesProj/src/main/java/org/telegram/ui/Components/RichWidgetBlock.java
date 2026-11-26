@@ -54,7 +54,7 @@ public final class RichWidgetBlock extends RichMessageLayout.RichBlock
     /** Newer layouts of a message get larger serials: the newest attached block runs the widget. */
     public final int serial = serials.incrementAndGet();
     private WidgetSandboxPlayer player;
-    private app.exteraless.chats.WidgetPlaceholder tapPlaceholder;
+    private org.mzgram.chats.WidgetPlaceholder tapPlaceholder;
     // UI: this block runs the widget (WidgetMedia#attach); otherwise it only shows its frames.
     private boolean running;
     /**
@@ -265,7 +265,7 @@ public final class RichWidgetBlock extends RichMessageLayout.RichBlock
     protected void onAttachedToWindow() {
         if (message == null) message = WidgetMedia.find(embed.url);
         if (message == null && tapPlaceholder == null && WidgetMedia.isAutoplayBlocked(embed.url)) {
-            tapPlaceholder = new app.exteraless.chats.WidgetPlaceholder(() -> { if (view != null) view.invalidate(); });
+            tapPlaceholder = new org.mzgram.chats.WidgetPlaceholder(() -> { if (view != null) view.invalidate(); });
         }
         if (message == null) return;
         if (player == null) player = new WidgetSandboxPlayer(this, AndroidUtilities.density);

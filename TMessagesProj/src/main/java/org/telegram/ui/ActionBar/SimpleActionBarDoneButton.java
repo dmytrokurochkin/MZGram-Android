@@ -24,8 +24,8 @@ import org.telegram.ui.Components.CircularProgressDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.utils.settings.SharedSettings;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 /**
  * The confirm button of {@link SimpleActionBar}, placed right of the menu. Its look comes from the

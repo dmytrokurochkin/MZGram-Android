@@ -15,8 +15,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class DialogsActivityStatusLayout extends View implements Theme.Colorable {
     private final BoolAnimator animatorStatusBarVisible = new BoolAnimator(this, CubicBezierInterpolator.EASE_OUT_QUINT, 380L);

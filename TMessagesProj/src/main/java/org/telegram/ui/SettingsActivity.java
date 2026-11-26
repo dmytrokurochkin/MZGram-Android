@@ -1,10 +1,10 @@
 package org.telegram.ui;
 
-import tw.nekomimi.nekogram.utils.ShareUtil;
-import app.exteraless.debug.EnergyProfiler;
-import app.exteraless.debug.JankProfiler;
-import app.exteraless.debug.PluginToggleTrace;
-import app.exteraless.settings.OpenExteraSettingsActivity;
+import org.mzgram.core.utils.ShareUtil;
+import org.mzgram.debug.EnergyProfiler;
+import org.mzgram.debug.JankProfiler;
+import org.mzgram.debug.PluginToggleTrace;
+import org.mzgram.settings.MZGramSettingsActivity;
 
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.replaceSingleTag;
@@ -163,19 +163,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 import java.util.HashSet;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MainTabsHelper;
-import tw.nekomimi.nekogram.helpers.MonetHelper;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
-import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.MainTabsHelper;
+import org.mzgram.core.helpers.MonetHelper;
+import org.mzgram.core.helpers.PasscodeHelper;
+import org.mzgram.core.helpers.remote.UpdateHelper;
+import org.mzgram.core.settings.CoreSettingsActivity;
+import org.mzgram.core.ui.BottomBuilder;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.ext.ExtConfig;
 
 import kotlin.Unit;
 
@@ -248,7 +248,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             hasMainTabs = arguments.getBoolean("hasMainTabs", false);
         }
 
-        additionNavigationBarHeight = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        additionNavigationBarHeight = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
         return super.onFragmentCreate();
     }
 
@@ -301,7 +301,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     @Override
     public View createView(Context context) {
         setHasOwnBackground(true);
-        additionNavigationBarHeight = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        additionNavigationBarHeight = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
 
         contentView = new SizeNotifierFrameLayout(context) {
             @Override
@@ -613,12 +613,12 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         avatarView.setImage(null, null, ImageLocation.getForUserOrChat(currentAccount, user, ImageLocation.TYPE_BIG), "90_90", ImageLocation.getForUserOrChat(currentAccount, user, ImageLocation.TYPE_SMALL), "50_50", avatarDrawable, user);
         titleView.setText(UserObject.getUserName(user));
         final StringBuilder sb = new StringBuilder();
-        if (!NekoConfig.hidePhone.Bool() && user != null) {
+        if (!CoreConfig.hidePhone.Bool() && user != null) {
             sb.append(PhoneFormat.getInstance().format("+" + user.phone));
         }
         final String username = UserObject.getPublicUsername(user);
         if (username != null) {
-            sb.append(NekoConfig.hidePhone.Bool() ? "@" : " • @").append(username);
+            sb.append(CoreConfig.hidePhone.Bool() ? "@" : " • @").append(username);
         }
         subtitleView.setText(sb);
 
@@ -692,7 +692,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
     private ArrayList<Integer> accountNumbers = new ArrayList<>();
 
-    // exteraGram 12.9.0, SettingsActivity.java:984-987 — число активных сессий
+    // MZGram 12.9.0, SettingsActivity.java:984-987 — число активных сессий
     // показывается значением справа от строки «Devices».
     private String getDevicesCount() {
         final int count = getMessagesController().lastKnownSessionsCount;
@@ -873,15 +873,15 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             items.add(UItem.asShadow(null));
         }
 
-        // Настройки NagramX по умолчанию спрятаны: у форка свои экраны, а второй
+        // Настройки MZGram по умолчанию спрятаны: у форка свои экраны, а второй
         // набор тех же настроек рядом только путает. Строку включают на экране
-        // «Other» (GeneralConfig.showNagramSettings).
-        if (app.exteraless.general.GeneralConfig.showNagramSettings()) {
-            items.add(SettingCell.Factory.of(100, 0xFF3CCFFF, 0xFF007AFF, R.drawable.filled_profile_settings, getString(R.string.NekoSettings)));
+        // «Other» (GeneralConfig.showMZGramSettings).
+        if (org.mzgram.general.GeneralConfig.showMZGramSettings()) {
+            items.add(SettingCell.Factory.of(100, 0xFF3CCFFF, 0xFF007AFF, R.drawable.filled_profile_settings, getString(R.string.CoreSettings)));
         }
-        // Как в exteraGram 12.9.0 (SettingsActivity.java:899): знак приложения вместо
+        // Как в MZGram 12.9.0 (SettingsActivity.java:899): знак приложения вместо
         // шестерёнки, акцент фирменного цвета на обе точки градиента.
-        items.add(SettingCell.Factory.of(-1, 0xFF993C38, 0xFF993C38, R.drawable.exteraless_icon_tile, getString(R.string.OpenExteraPreferences), getString(R.string.OpenExteraInfo)));
+        items.add(SettingCell.Factory.of(-1, 0xFF993C38, 0xFF993C38, R.drawable.mzgram_icon_tile, getString(R.string.MZGramPreferences), getString(R.string.MZGramInfo)));
         items.add(UItem.asShadow(null));
         final boolean walletAbove = getConnectionsManager().getCurrentTime() - 1791538462 < 4 * 7 * 24 * 60 * 60;
         if (walletAbove && getMessagesController().config.walletAvailable.get()) {
@@ -892,7 +892,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
         items.add(SettingCell.Factory.of(1, IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom, R.drawable.settings_account, getString(R.string.SettingsAccount), getString(R.string.SettingsAccountInfo)));
         items.add(SettingCell.Factory.of(2, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_chat, getString(R.string.SettingsChat), getString(R.string.SettingsChatInfo)));
-        if (NaConfig.INSTANCE.getShowStickersRowToplevel().Bool()) {
+        if (ExtConfig.INSTANCE.getShowStickersRowToplevel().Bool()) {
             items.add(SettingCell.Factory.of(101, 0xFFF38B31, 0xFFE26314, R.drawable.msg_premium_stickers, getString(R.string.StickersName), getString(R.string.StickersNameInfo2)));
         }
         items.add(SettingCell.Factory.of(3, IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom, R.drawable.settings_privacy, getString(R.string.SettingsPrivacySecurity), getString(R.string.SettingsPrivacySecurityInfo)));
@@ -903,8 +903,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         items.add(SettingCell.Factory.of(9, IconBackgroundColors.ORANGE_DEEP.top, IconBackgroundColors.ORANGE_DEEP.bottom, R.drawable.settings_power, getString(R.string.SettingsPowerSaving), getString(R.string.SettingsPowerSavingInfo)));
         items.add(SettingCell.Factory.of(10, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_language, getString(R.string.SettingsLanguage), null, LocaleController.getCurrentLanguageName()));
 
-        boolean hidePremium = NaConfig.INSTANCE.getHidePremiumSection().Bool();
-        boolean hideHelp = NaConfig.INSTANCE.getHideHelpSection().Bool();
+        boolean hidePremium = ExtConfig.INSTANCE.getHidePremiumSection().Bool();
+        boolean hideHelp = ExtConfig.INSTANCE.getHideHelpSection().Bool();
         final boolean walletBelow = !walletAbove && getMessagesController().config.walletAvailable.get();
 
         if (walletBelow || !(hidePremium && hideHelp)) {
@@ -1103,11 +1103,11 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 break;
             }
             case 100: {
-                presentFragment(new NekoSettingsActivity());
+                presentFragment(new CoreSettingsActivity());
                 break;
             }
             case -1: {
-                presentFragment(new OpenExteraSettingsActivity());
+                presentFragment(new MZGramSettingsActivity());
                 break;
             }
             case 26: {
@@ -1519,11 +1519,11 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 Theme.ResourcesProvider resourcesProvider
         ) {
             final boolean dark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
-            final boolean m3 = app.exteraless.appearance.M3ListItems.enabled();
+            final boolean m3 = org.mzgram.appearance.M3ListItems.enabled();
             iconBackground.setCircle(m3);
             if (m3) {
-                iconBackground.setMonetColor(app.exteraless.appearance.M3ListItems.tonalBackground(iconColorTop, iconColorBottom));
-                iconView.setColorFilter(app.exteraless.appearance.M3ListItems.tonalForeground(iconColorTop, iconColorBottom), PorterDuff.Mode.SRC_IN);
+                iconBackground.setMonetColor(org.mzgram.appearance.M3ListItems.tonalBackground(iconColorTop, iconColorBottom));
+                iconView.setColorFilter(org.mzgram.appearance.M3ListItems.tonalForeground(iconColorTop, iconColorBottom), PorterDuff.Mode.SRC_IN);
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && Theme.getActiveTheme().isMonet()) {
                 iconBackground.setMonetColor(MonetHelper.getColor(dark ? "a1_200" : "a1_600"));
                 iconView.setColorFilter(MonetHelper.getColor(dark ? "a1_800" : "a1_100"), PorterDuff.Mode.SRC_IN);
@@ -1660,10 +1660,10 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 item.id = id;
                 item.iconResId = icon;
                 item.text = title;
-                if (app.exteraless.appearance.M3ListItems.enabled()) {
+                if (org.mzgram.appearance.M3ListItems.enabled()) {
                     item.subtext = subtitle;
                 }
-                // Подпись намеренно отбрасывается — так же, как в exteraGram 12.9.0
+                // Подпись намеренно отбрасывается — так же, как в MZGram 12.9.0
                 // (SettingsActivity.java:539-560: subtext не присваивается вовсе).
                 // Из-за этого twoLines остаётся false и строка меряется в dp(50), а не dp(60).
                 // Параметр оставлен в сигнатуре, чтобы не трогать 11 мест вызова.
@@ -1799,50 +1799,50 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         });
 
         if (BuildConfig.DEBUG_TOOLS) {
-            builder.addItem(getString(JankProfiler.isRunning() ? R.string.OEProfilerStop : R.string.OEProfilerStart), R.drawable.msg_speed, (it) -> {
+            builder.addItem(getString(JankProfiler.isRunning() ? R.string.MZProfilerStop : R.string.MZProfilerStart), R.drawable.msg_speed, (it) -> {
                 final Activity activity = getParentActivity();
                 if (JankProfiler.isRunning()) {
                     JankProfiler.stop(file -> shareProfilerReport(activity, file));
                 } else if (activity != null) {
                     JankProfiler.start(activity);
-                    BulletinFactory.of(SettingsActivity.this).createSimpleBulletin(R.raw.info, getString(R.string.OEProfilerStarted)).show();
+                    BulletinFactory.of(SettingsActivity.this).createSimpleBulletin(R.raw.info, getString(R.string.MZProfilerStarted)).show();
                 }
                 return Unit.INSTANCE;
             });
 
             if (!JankProfiler.isRunning() && JankProfiler.getLastReport() != null) {
-                builder.addItem(getString(R.string.OEProfilerShareLast), R.drawable.msg_share, (it) -> {
+                builder.addItem(getString(R.string.MZProfilerShareLast), R.drawable.msg_share, (it) -> {
                     shareProfilerReport(getParentActivity(), JankProfiler.getLastReport());
                     return Unit.INSTANCE;
                 });
             }
 
-            builder.addItem(getString(EnergyProfiler.isRunning() ? R.string.OEEnergyProfilerStop : R.string.OEEnergyProfilerStart), R.drawable.msg_speed, (it) -> {
+            builder.addItem(getString(EnergyProfiler.isRunning() ? R.string.MZEnergyProfilerStop : R.string.MZEnergyProfilerStart), R.drawable.msg_speed, (it) -> {
                 final Activity activity = getParentActivity();
                 if (EnergyProfiler.isRunning()) {
                     EnergyProfiler.stop(file -> shareProfilerReport(activity, file));
                 } else if (activity != null) {
                     EnergyProfiler.start(activity);
-                    BulletinFactory.of(SettingsActivity.this).createSimpleBulletin(R.raw.info, getString(R.string.OEEnergyProfilerStarted)).show();
+                    BulletinFactory.of(SettingsActivity.this).createSimpleBulletin(R.raw.info, getString(R.string.MZEnergyProfilerStarted)).show();
                 }
                 return Unit.INSTANCE;
             });
 
             if (EnergyProfiler.isRunning()) {
-                builder.addItem(getString(R.string.OEEnergyProfilerShareCurrent), R.drawable.msg_share, (it) -> {
+                builder.addItem(getString(R.string.MZEnergyProfilerShareCurrent), R.drawable.msg_share, (it) -> {
                     final Activity activity = getParentActivity();
                     EnergyProfiler.shareCurrent(file -> shareProfilerReport(activity, file));
                     return Unit.INSTANCE;
                 });
             } else if (EnergyProfiler.getLastReport() != null) {
-                builder.addItem(getString(R.string.OEEnergyProfilerShareLast), R.drawable.msg_share, (it) -> {
+                builder.addItem(getString(R.string.MZEnergyProfilerShareLast), R.drawable.msg_share, (it) -> {
                     shareProfilerReport(getParentActivity(), EnergyProfiler.getLastReport());
                     return Unit.INSTANCE;
                 });
             }
 
             if (PluginToggleTrace.getLog() != null) {
-                builder.addItem(getString(R.string.OEPluginToggleLogShare), R.drawable.msg_share, (it) -> {
+                builder.addItem(getString(R.string.MZPluginToggleLogShare), R.drawable.msg_share, (it) -> {
                     shareProfilerReport(getParentActivity(), PluginToggleTrace.getLog());
                     return Unit.INSTANCE;
                 });
@@ -1856,7 +1856,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         });
 
         String currentChannel = " - ";
-        switch (NaConfig.INSTANCE.getAutoUpdateChannel().Int()) {
+        switch (ExtConfig.INSTANCE.getAutoUpdateChannel().Int()) {
             case UpdateHelper.UPDATE_OFF:
                 currentChannel += getString(R.string.AutoCheckUpdateOFF);
                 break;
@@ -1871,8 +1871,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         builder.addItem(getString(R.string.AutoCheckUpdateSwitch) + currentChannel, R.drawable.sync_outline_28, (it) -> {
             BottomBuilder switchBuilder = new BottomBuilder(getParentActivity());
             switchBuilder.addTitle(getString(R.string.AutoCheckUpdateSwitch));
-            switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateOFF), NaConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_OFF, (radioButtonCell) -> {
-                NaConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_OFF);
+            switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateOFF), ExtConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_OFF, (radioButtonCell) -> {
+                ExtConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_OFF);
                 switchBuilder.doRadioCheck(radioButtonCell);
                 AndroidUtilities.runOnUIThread(() -> {
                     switchBuilder.dismiss();
@@ -1880,8 +1880,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 }, 500);
                 return Unit.INSTANCE;
             });
-            switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateRelease), NaConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_CHANNEL_RELEASE, (radioButtonCell) -> {
-                NaConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_CHANNEL_RELEASE);
+            switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateRelease), ExtConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_CHANNEL_RELEASE, (radioButtonCell) -> {
+                ExtConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_CHANNEL_RELEASE);
                 switchBuilder.doRadioCheck(radioButtonCell);
                 AndroidUtilities.runOnUIThread(() -> {
                     switchBuilder.dismiss();
@@ -1889,8 +1889,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 }, 500);
                 return Unit.INSTANCE;
             });
-            switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateBeta), NaConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_CHANNEL_BETA, (radioButtonCell) -> {
-                NaConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_CHANNEL_BETA);
+            switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateBeta), ExtConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_CHANNEL_BETA, (radioButtonCell) -> {
+                ExtConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_CHANNEL_BETA);
                 switchBuilder.doRadioCheck(radioButtonCell);
                 AndroidUtilities.runOnUIThread(() -> {
                     switchBuilder.dismiss();

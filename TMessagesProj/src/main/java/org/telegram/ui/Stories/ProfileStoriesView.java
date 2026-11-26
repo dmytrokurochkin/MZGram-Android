@@ -56,7 +56,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class ProfileStoriesView extends View implements NotificationCenter.NotificationCenterDelegate {
 
@@ -203,7 +203,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     }
 
     private void updateStories(boolean animated, boolean asUpdate) {
-        if (NaConfig.INSTANCE.getDisableStories().Bool()) return;
+        if (ExtConfig.INSTANCE.getDisableStories().Bool()) return;
         if (isTopic) {
             return;
         }
@@ -903,14 +903,14 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     private final Path forumSegmentPath = new Path();
 
     private boolean useAvatarCornersRing() {
-        return !app.exteraless.appearance.AppearanceConfig.avatarCornersDefault() && expandProgress < 0.2f;
+        return !org.mzgram.appearance.AppearanceConfig.avatarCornersDefault() && expandProgress < 0.2f;
     }
 
     private float avatarCornersRingRadius(RectF oval, boolean isForum) {
         float avatarWidth = rect1.width();
-        float avatarRadius = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(
+        float avatarRadius = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(
                 avatarWidth,
-                isForum ? app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_FORUM : app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT,
+                isForum ? org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_FORUM : org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT,
                 true
         );
         float gap = (oval.width() - avatarWidth) / 2f;

@@ -66,10 +66,10 @@ import org.telegram.ui.LaunchActivity;
 import java.util.List;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.helpers.ChatsHelper;
-import tw.nekomimi.nekogram.llm.LlmConfig;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.utils.AlertUtil;
+import org.mzgram.core.helpers.ChatsHelper;
+import org.mzgram.core.llm.LlmConfig;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.utils.AlertUtil;
 
 public class EditTextCaption extends EditTextBoldCursor implements FloatingToolbar.StyleDelegate {
 
@@ -662,7 +662,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
                     }
                 }
                 try {
-                    editable.setSpan(createUrlSpan(app.exteraless.links.LinkCleaner.cleanUrlString(url).toString()), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    editable.setSpan(createUrlSpan(org.mzgram.links.LinkCleaner.cleanUrlString(url).toString()), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } catch (Exception ignore) {}
                 if (delegate != null) {
                     delegate.onSpansChanged();
@@ -707,7 +707,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
 
             @Override
             public boolean onTextContextMenuItem(int id) {
-                if (id == android.R.id.paste && app.exteraless.links.LinkCleaner.handleContextMenuPaste(this)) {
+                if (id == android.R.id.paste && org.mzgram.links.LinkCleaner.handleContextMenuPaste(this)) {
                     return true;
                 }
                 return super.onTextContextMenuItem(id);
@@ -715,7 +715,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
 
             @Override
             public android.view.inputmethod.InputConnection onCreateInputConnection(android.view.inputmethod.EditorInfo outAttrs) {
-                return app.exteraless.links.LinkCleaner.wrapInputConnection(super.onCreateInputConnection(outAttrs));
+                return org.mzgram.links.LinkCleaner.wrapInputConnection(super.onCreateInputConnection(outAttrs));
             }
         };
         final String def = initial == null ? "" : initial;
@@ -769,7 +769,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
                 FileLog.e(e);
             }
             if (text != null) {
-                editText.setText(app.exteraless.links.LinkCleaner.cleanUrlString(text));
+                editText.setText(org.mzgram.links.LinkCleaner.cleanUrlString(text));
                 editText.setSelection(0, editText.getText().length());
             }
             checkPaste.run();
@@ -794,7 +794,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
                 FileLog.e(e);
             }
             if (text != null) {
-                editText.setText(app.exteraless.links.LinkCleaner.cleanUrlString(text));
+                editText.setText(org.mzgram.links.LinkCleaner.cleanUrlString(text));
                 editText.setSelection(0, editText.getText().length());
             }
         }
@@ -1207,7 +1207,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
             makeSelectedSpoiler();
             return true;
         } else if (itemId == R.id.menu_translate) {
-            // NekoX
+            // CoreX
             makeSelectedTranslate();
             return true;
         } else if (itemId == R.id.menu_quote) {
@@ -1381,7 +1381,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
                     String html = clipData.getItemAt(0).getHtmlText();
                     SpannableStringBuilder pasted = new SpannableStringBuilder(CopyUtilities.fromHTML(html));
                     Emoji.replaceEmoji(pasted, getPaint().getFontMetricsInt(), false, null);
-                    app.exteraless.links.LinkCleaner.cleanSpannedUrls(pasted);
+                    org.mzgram.links.LinkCleaner.cleanSpannedUrls(pasted);
                     AnimatedEmojiSpan[] spans = pasted.getSpans(0, pasted.length(), AnimatedEmojiSpan.class);
                     if (spans != null) {
                         for (int k = 0; k < spans.length; ++k) {
@@ -1407,7 +1407,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
                     FileLog.e(e);
                 }
             }
-            if (app.exteraless.links.LinkCleaner.handleContextMenuPaste(this)) {
+            if (org.mzgram.links.LinkCleaner.handleContextMenuPaste(this)) {
                 return true;
             }
         } else if (id == android.R.id.copy) {
@@ -1445,6 +1445,6 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
 
     @Override
     public android.view.inputmethod.InputConnection onCreateInputConnection(android.view.inputmethod.EditorInfo outAttrs) {
-        return app.exteraless.links.LinkCleaner.wrapInputConnection(super.onCreateInputConnection(outAttrs));
+        return org.mzgram.links.LinkCleaner.wrapInputConnection(super.onCreateInputConnection(outAttrs));
     }
 }

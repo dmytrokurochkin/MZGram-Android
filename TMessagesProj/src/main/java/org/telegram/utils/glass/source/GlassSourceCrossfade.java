@@ -10,7 +10,7 @@ import org.telegram.ui.Components.blur3.BlurredBackgroundDrawableViewFactory;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 import org.telegram.utils.glass.fade.GlassFadeBlurredDrawable;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 /**
  * One source going over to another by alpha, e.g. a menu growing out of a glass button into frosted glass.

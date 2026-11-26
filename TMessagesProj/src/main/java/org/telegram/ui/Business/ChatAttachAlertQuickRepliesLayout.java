@@ -59,8 +59,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAlertLayout implements Theme.Colorable, NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {
@@ -454,7 +454,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
     }
 
     private void showErrorBox(String error) {
-        new AlertDialog.Builder(getContext(), resourcesProvider).setTitle(LocaleController.getString(R.string.NagramX)).setMessage(error).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+        new AlertDialog.Builder(getContext(), resourcesProvider).setTitle(LocaleController.getString(R.string.MZGram)).setMessage(error).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
     }
 
     @Override

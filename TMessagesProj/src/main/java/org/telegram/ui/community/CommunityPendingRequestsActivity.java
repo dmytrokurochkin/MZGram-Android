@@ -43,8 +43,8 @@ import org.telegram.ui.community.sheet.CommunityInviteOnlySheet;
 
 import java.util.ArrayList;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class CommunityPendingRequestsActivity extends BaseFragment implements FactorAnimator.Target {
     private final BoolAnimator animatorIsRequestsEmpty = new BoolAnimator(0, this, CubicBezierInterpolator.EASE_OUT_QUINT, 320);

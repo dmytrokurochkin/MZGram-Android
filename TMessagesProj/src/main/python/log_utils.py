@@ -8,7 +8,7 @@ import traceback
 from typing import Any, Callable, Dict, Optional, Union
 
 
-ELYX_PLUGIN_NAMESPACE = "ElyxPlugins"
+MZPACK_PLUGIN_NAMESPACE = "MzPackPlugins"
 __all__ = ["LogLevel", "LogRecord", "Logger", "get_logger", "dump"]
 
 
@@ -41,7 +41,7 @@ def _coerce_level(value: Union[LogLevel, int, str]) -> LogLevel:
 
 def _plugin_loader():
     import importlib
-    return importlib.import_module("extera_utils.plugin_loader")
+    return importlib.import_module("mz_utils.plugin_loader")
 
 
 def _plugin_id() -> Optional[str]:
@@ -70,7 +70,7 @@ def _write(rec: "LogRecord") -> None:
     if rec.tag.startswith("plugin."):
         plugin_id = rec.tag[len("plugin."):].split(".", 1)[0]
     try:
-        from app.exteraless.plugins import PythonBridge
+        from org.mzgram.plugins import PythonBridge
         if plugin_id:
             PythonBridge.log(plugin_id, f"[{rec.level.name}] {text}")
             return

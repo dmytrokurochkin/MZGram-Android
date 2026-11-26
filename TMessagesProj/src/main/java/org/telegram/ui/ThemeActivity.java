@@ -86,8 +86,8 @@ import org.telegram.ui.Cells.ChatListCell;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Components.ItemOptions;
-import app.exteraless.appicons.AppIconEntryCell;
-import app.exteraless.appearance.AppearanceConfig;
+import org.mzgram.appicons.AppIconEntryCell;
+import org.mzgram.appearance.AppearanceConfig;
 import org.telegram.ui.Cells.NotificationsCheckCell;
 import org.telegram.ui.Cells.RadioButtonCell;
 import org.telegram.ui.Cells.RadioColorCell;
@@ -2650,8 +2650,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     view = new PeerColorActivity.ChangeNameColorCell(currentAccount, 0, mContext, getResourceProvider());
                     break;
                 case TYPE_MONET_SEED:
-                    view = new app.exteraless.appearance.MonetSeedPickerCell(mContext, getResourceProvider(),
-                            tw.nekomimi.nekogram.helpers.MonetHelper::setSeedColor);
+                    view = new org.mzgram.appearance.MonetSeedPickerCell(mContext, getResourceProvider(),
+                            org.mzgram.core.helpers.MonetHelper::setSeedColor);
                     break;
             }
             return new RecyclerListView.Holder(view);
@@ -2914,7 +2914,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     break;
                 }
                 case TYPE_MONET_SEED: {
-                    ((app.exteraless.appearance.MonetSeedPickerCell) holder.itemView).updateSelection();
+                    ((org.mzgram.appearance.MonetSeedPickerCell) holder.itemView).updateSelection();
                     break;
                 }
             }

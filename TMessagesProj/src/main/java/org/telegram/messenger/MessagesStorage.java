@@ -30,7 +30,7 @@ import androidx.annotation.UiThread;
 
 import androidx.collection.LongSparseArray;
 
-import app.exteraless.feed.FeedController;
+import org.mzgram.feed.FeedController;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.SQLite.SQLiteCursor;
@@ -79,17 +79,17 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.filters.AyuFilter;
-import tw.nekomimi.nekogram.helpers.AppRestartHelper;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import xyz.nextalone.nagram.NaConfig;
-import com.radolyn.ayugram.AyuConstants;
-import com.radolyn.ayugram.messages.AyuMessagesController;
-import com.radolyn.ayugram.messages.AyuSavePreferences;
-import com.radolyn.ayugram.proprietary.AyuMessageUtils;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.filters.ArcFilter;
+import org.mzgram.core.helpers.AppRestartHelper;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.arc.ArcConstants;
+import org.mzgram.arc.messages.ArcMessagesController;
+import org.mzgram.arc.messages.ArcSavePreferences;
+import org.mzgram.arc.proprietary.ArcMessageUtils;
 
 public class MessagesStorage extends BaseController {
 
@@ -252,7 +252,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public SQLiteDatabase getDatabase() {
-        if (!app.exteraless.plugins.PluginSinkGate.allowDatabaseAccess()) {
+        if (!org.mzgram.plugins.PluginSinkGate.allowDatabaseAccess()) {
             return null;
         }
         return database;
@@ -487,7 +487,7 @@ public class MessagesStorage extends BaseController {
             "user_contacts_v7",
             "user_phones_v7",
             "dialogs",
-            "dialog_filter_neko",
+            "dialog_filter_core",
             "dialog_filter_ep",
             "dialog_filter_pin_v2",
             "randoms_v2",
@@ -604,7 +604,7 @@ public class MessagesStorage extends BaseController {
         database.executeFast("CREATE INDEX IF NOT EXISTS folder_id_idx_4_dialogs ON dialogs(folder_id);").stepThis().dispose();
         database.executeFast("CREATE INDEX IF NOT EXISTS flags_idx_4_dialogs ON dialogs(flags);").stepThis().dispose();
 
-        database.executeFast("CREATE TABLE dialog_filter_neko(id INTEGER PRIMARY KEY, ord INTEGER, unread_count INTEGER, flags INTEGER, title TEXT, emoticon TEXT, color INTEGER DEFAULT -1, entities BLOB, noanimate INTEGER)").stepThis().dispose();
+        database.executeFast("CREATE TABLE dialog_filter_core(id INTEGER PRIMARY KEY, ord INTEGER, unread_count INTEGER, flags INTEGER, title TEXT, emoticon TEXT, color INTEGER DEFAULT -1, entities BLOB, noanimate INTEGER)").stepThis().dispose();
         database.executeFast("CREATE TABLE dialog_filter_ep(id INTEGER, peer INTEGER, PRIMARY KEY (id, peer))").stepThis().dispose();
         database.executeFast("CREATE TABLE dialog_filter_pin_v2(id INTEGER, peer INTEGER, pin INTEGER, PRIMARY KEY (id, peer))").stepThis().dispose();
 
@@ -802,14 +802,21 @@ public class MessagesStorage extends BaseController {
     }
 
     // A database left by an earlier MZGram keeps the folders in the table dialog_filter, while this
-    // client reads and writes dialog_filter_neko. Without that table every folder save failed and the
+    // client reads and writes dialog_filter_core. Without that table every folder save failed and the
     // folders were gone after each restart. Copy them over once, then reload the folders from the server.
     private void moveFoldersFromMZGramTable() {
         try {
-            if (hasTable("dialog_filter_neko")) {
+            if (hasTable("dialog_filter_core")) {
                 return;
             }
-            database.executeFast("CREATE TABLE dialog_filter_neko(id INTEGER PRIMARY KEY, ord INTEGER, unread_count INTEGER, flags INTEGER, title TEXT, emoticon TEXT, color INTEGER DEFAULT -1, entities BLOB, noanimate INTEGER)").stepThis().dispose();
+            // Test builds before the rename kept the folders under the older table name.
+            String olderTable = org.mzgram.utils.StorageMigration.OLD_FOLDER_TABLE;
+            if (hasTable(olderTable)) {
+                database.executeFast("ALTER TABLE " + olderTable + " RENAME TO dialog_filter_core").stepThis().dispose();
+                FileLog.d("MZGram: folder table renamed");
+                return;
+            }
+            database.executeFast("CREATE TABLE dialog_filter_core(id INTEGER PRIMARY KEY, ord INTEGER, unread_count INTEGER, flags INTEGER, title TEXT, emoticon TEXT, color INTEGER DEFAULT -1, entities BLOB, noanimate INTEGER)").stepThis().dispose();
             if (hasTable("dialog_filter")) {
                 ArrayList<String> columns = new ArrayList<>();
                 SQLiteCursor cursor = database.queryFinalized("PRAGMA table_info(dialog_filter)");
@@ -823,10 +830,10 @@ public class MessagesStorage extends BaseController {
                 cursor.dispose();
                 if (columns.contains("id")) {
                     String list = TextUtils.join(", ", columns);
-                    database.executeFast("INSERT OR IGNORE INTO dialog_filter_neko(" + list + ") SELECT " + list + " FROM dialog_filter").stepThis().dispose();
+                    database.executeFast("INSERT OR IGNORE INTO dialog_filter_core(" + list + ") SELECT " + list + " FROM dialog_filter").stepThis().dispose();
                 }
             }
-            FileLog.d("MZGram: folders moved to dialog_filter_neko");
+            FileLog.d("MZGram: folders moved to dialog_filter_core");
             AndroidUtilities.runOnUIThread(() -> getMessagesController().loadRemoteFilters(true));
         } catch (Exception e) {
             FileLog.e(e);
@@ -1731,7 +1738,7 @@ public class MessagesStorage extends BaseController {
                     cursor.dispose();
                 }
                 reset();
-                // NagramX
+                // MZGram
                 if (restart) {
                     AndroidUtilities.runOnUIThread(() -> {
                         AppRestartHelper.triggerRebirth(ApplicationLoader.applicationContext, new Intent(ApplicationLoader.applicationContext, LaunchActivity.class));
@@ -2766,7 +2773,7 @@ public class MessagesStorage extends BaseController {
 
                 usersToLoad.add(getUserConfig().getClientUserId());
 
-                filtersCursor = database.queryFinalized("SELECT id, ord, unread_count, flags, title, emoticon, color, entities, noanimate FROM dialog_filter_neko WHERE 1");
+                filtersCursor = database.queryFinalized("SELECT id, ord, unread_count, flags, title, emoticon, color, entities, noanimate FROM dialog_filter_core WHERE 1");
 
                 boolean updateCounters = false;
                 boolean hasDefaultFilter = false;
@@ -2855,7 +2862,7 @@ public class MessagesStorage extends BaseController {
                     dialogFiltersMap.put(filter.id, filter);
                     filtersById.put(filter.id, filter);
 
-                    state = database.executeFast("REPLACE INTO dialog_filter_neko VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    state = database.executeFast("REPLACE INTO dialog_filter_core VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     state.bindInteger(1, filter.id);
                     state.bindInteger(2, filter.order);
                     state.bindInteger(3, filter.unreadCount);
@@ -3136,7 +3143,7 @@ public class MessagesStorage extends BaseController {
                         continue;
                     }
                     flags = filter.flags;
-                    ignoreMutedUnreadCount = NaConfig.INSTANCE.getIgnoreUnreadCount().Int() == NekoConfig.DIALOG_FILTER_EXCLUDE_MUTED;
+                    ignoreMutedUnreadCount = ExtConfig.INSTANCE.getIgnoreUnreadCount().Int() == CoreConfig.DIALOG_FILTER_EXCLUDE_MUTED;
                     if (ignoreMutedUnreadCount && (flags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) == 0) {
                         flags |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
                     }
@@ -3383,7 +3390,7 @@ public class MessagesStorage extends BaseController {
                 dialogFiltersMap.put(filter.id, filter);
             }
 
-            state = database.executeFast("REPLACE INTO dialog_filter_neko VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            state = database.executeFast("REPLACE INTO dialog_filter_core VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
             state.bindInteger(1, filter.id);
             state.bindInteger(2, filter.order);
             state.bindInteger(3, filter.unreadCount);
@@ -3796,7 +3803,7 @@ public class MessagesStorage extends BaseController {
     }
 
     private void keepLocalDefaultFilterPosition(ArrayList<Integer> filtersOrder) {
-        if (!NekoConfig.localPremium.Bool() || getUserConfig().isPremium()) {
+        if (!CoreConfig.localPremium.Bool() || getUserConfig().isPremium()) {
             return;
         }
         int local = -1;
@@ -3877,7 +3884,7 @@ public class MessagesStorage extends BaseController {
         try {
             dialogFilters.remove(filter);
             dialogFiltersMap.remove(filter.id);
-            database.executeFast("DELETE FROM dialog_filter_neko WHERE id = " + filter.id).stepThis().dispose();
+            database.executeFast("DELETE FROM dialog_filter_core WHERE id = " + filter.id).stepThis().dispose();
             database.executeFast("DELETE FROM dialog_filter_ep WHERE id = " + filter.id).stepThis().dispose();
             database.executeFast("DELETE FROM dialog_filter_pin_v2 WHERE id = " + filter.id).stepThis().dispose();
         } catch (Exception e) {
@@ -3908,7 +3915,7 @@ public class MessagesStorage extends BaseController {
     public void saveDialogFiltersOrderInternal() {
         SQLitePreparedStatement state = null;
         try {
-            state = database.executeFast("UPDATE dialog_filter_neko SET ord = ?, flags = ? WHERE id = ?");
+            state = database.executeFast("UPDATE dialog_filter_core SET ord = ?, flags = ? WHERE id = ?");
             for (int a = 0, N = dialogFilters.size(); a < N; a++) {
                 MessagesController.DialogFilter filter = dialogFilters.get(a);
                 state.requery();
@@ -5009,13 +5016,13 @@ public class MessagesStorage extends BaseController {
                             if (!addFilesToDelete(message, filesToDelete, idsToDelete, namesToDelete, true)) {
                                 continue;
                             } else {
-                                // --- AyuGram hook
-                                if (NaConfig.INSTANCE.getEnableSaveEditsHistory().Bool()) {
-                                    var prefs = new AyuSavePreferences(message, currentAccount);
+                                // --- MZGram hook
+                                if (ExtConfig.INSTANCE.getEnableSaveEditsHistory().Bool()) {
+                                    var prefs = new ArcSavePreferences(message, currentAccount);
                                     prefs.setDialogId(dialogId);
-                                    AyuMessagesController.getInstance().onMessageEditedForce(prefs);
+                                    ArcMessagesController.getInstance().onMessageEditedForce(prefs);
                                 }
-                                // --- AyuGram hook
+                                // --- MZGram hook
 
                                 if (message.media.document != null) {
                                     message.media.document = new TLRPC.TL_documentEmpty();
@@ -6600,7 +6607,7 @@ public class MessagesStorage extends BaseController {
                 }
                 unreadCount = filter.pendingUnreadCount;
                 flags = filter.flags;
-                ignoreMutedUnreadCount = NaConfig.INSTANCE.getIgnoreUnreadCount().Int() == NekoConfig.DIALOG_FILTER_EXCLUDE_MUTED;
+                ignoreMutedUnreadCount = ExtConfig.INSTANCE.getIgnoreUnreadCount().Int() == CoreConfig.DIALOG_FILTER_EXCLUDE_MUTED;
                 if (ignoreMutedUnreadCount && (flags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) == 0) {
                     flags |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
                 }
@@ -14892,8 +14899,8 @@ public class MessagesStorage extends BaseController {
                 cursor = null;
                 if (!dialogs.isEmpty()) {
                     // save deleted messages from encrypted chats
-                    if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
-                        var ayuMessagesController = AyuMessagesController.getInstance();
+                    if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+                        var arcMessagesController = ArcMessagesController.getInstance();
                         for (int a = 0, N = dialogs.size(); a < N; a++) {
                             long dialogId = dialogs.keyAt(a);
                             ArrayList<Integer> mids = dialogs.valueAt(a);
@@ -14901,9 +14908,9 @@ public class MessagesStorage extends BaseController {
                                 TLRPC.Message msg = getMessageInternalSync(dialogId, msgId);
                                 if (msg != null) {
                                     msg.dialog_id = dialogId;
-                                    var prefs = new AyuSavePreferences(msg, currentAccount);
+                                    var prefs = new ArcSavePreferences(msg, currentAccount);
                                     prefs.setDialogId(dialogId);
-                                    ayuMessagesController.onMessageDeleted(prefs, true);
+                                    arcMessagesController.onMessageDeleted(prefs, true);
                                 }
                             }
                         }
@@ -14912,10 +14919,10 @@ public class MessagesStorage extends BaseController {
                         long dialogId = dialogs.keyAt(a);
                         ArrayList<Integer> mids = dialogs.valueAt(a);
                         // notify about deleted messages
-                        if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+                        if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
                             final long dialogIdFinal = dialogId;
                             final ArrayList<Integer> midsFinal = new ArrayList<>(mids);
-                            AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(AyuConstants.MESSAGES_DELETED_NOTIFICATION, dialogIdFinal, midsFinal));
+                            AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(ArcConstants.MESSAGES_DELETED_NOTIFICATION, dialogIdFinal, midsFinal));
                         }
                         AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.messagesDeleted, mids, 0L, false));
                         updateDialogsWithReadMessagesInternal(mids, null, null, null, null);
@@ -15777,7 +15784,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public ArrayList<Long> markMessagesAsDeleted(long dialogId, ArrayList<Integer> messages, boolean useQueue, boolean deleteFilesOrig, int mode, int topicId) {
-        final boolean deleteFiles = deleteFilesOrig && !AyuMessageUtils.shouldSaveMedia(currentAccount, dialogId);
+        final boolean deleteFiles = deleteFilesOrig && !ArcMessageUtils.shouldSaveMedia(currentAccount, dialogId);
         if (messages.isEmpty()) {
             return null;
         }
@@ -16774,20 +16781,20 @@ public class MessagesStorage extends BaseController {
                                     if (MessageHelper.getInstance(currentAccount).shouldKeepLocalMessageOnRestrictedEdit(oldMessage, message)) {
                                         message = oldMessage;
                                     } else {
-                                        // --- AyuGram hook
+                                        // --- MZGram hook
                                         if (message.from_id != null) {
                                             if (!oldMessage.message.equals(message.message) || !sameMedia) {
-                                                if (NaConfig.INSTANCE.getEnableSaveEditsHistory().Bool()) {
-                                                    var prefs = new AyuSavePreferences(oldMessage, currentAccount);
+                                                if (ExtConfig.INSTANCE.getEnableSaveEditsHistory().Bool()) {
+                                                    var prefs = new ArcSavePreferences(oldMessage, currentAccount);
                                                     prefs.setDialogId(dialogId);
-                                                    AyuMessagesController.getInstance().onMessageEdited(prefs, message);
+                                                    ArcMessagesController.getInstance().onMessageEdited(prefs, message);
                                                 }
                                             }
-                                            if (NaConfig.INSTANCE.getRegexFiltersEnabled().Bool()) {
-                                                AyuFilter.onMessageEdited(message.id, dialogId);
+                                            if (ExtConfig.INSTANCE.getRegexFiltersEnabled().Bool()) {
+                                                ArcFilter.onMessageEdited(message.id, dialogId);
                                             }
                                         }
-                                        // --- AyuGram hook
+                                        // --- MZGram hook
                                         if (!sameMedia) {
                                             addFilesToDelete(oldMessage, filesToDelete, idsToDelete, namesToDelete, false);
                                         }

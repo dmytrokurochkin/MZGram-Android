@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- mzgram: Appearance screen (ported from MZGram) -->
+
+    <string name="MZAppearanceTitle">Appearance</string>
+
+    <!-- Avatars -->
+    <string name="MZAppearanceAvatarCorners">Avatar Corners</string>
+    <string name="MZAppearanceAvatarCornersLeft">Square</string>
+    <string name="MZAppearanceAvatarCornersRight">Circle</string>
+    <string name="MZAppearanceSingleCornerRadius">Single Corner Radius</string>
+    <string name="MZAppearanceSingleCornerRadiusInfo">Forums will have the same avatar shape as chats.</string>
+
+    <!-- Chat List -->
+    <string name="MZAppearanceChatList">Chat List</string>
+    <string name="MZAppearanceForceSnow">Force Snowflakes</string>
+    <string name="MZAppearanceHideActionBarStatus">Hide Status</string>
+    <string name="MZAppearanceCenterTitle">Center Title</string>
+    <string name="MZAppearanceStories">Stories</string>
+    <string name="MZAppearanceStoriesShow">Show</string>
+    <string name="MZAppearanceStoriesHideHeader">Hide from header</string>
+    <string name="MZAppearanceStoriesDisable">Disable</string>
+    <string name="MZAppearanceHideFloatingButton">Hide Floating Button</string>
+    <string name="MZAppearanceHideSearchBar">Hide Search Bar</string>
+    <string name="MZAppearanceSenderMiniAvatars">Sender Mini Avatars</string>
+    <string name="MZAppearanceForceSnowInfo">Falling snowflakes will appear in the action bar, side menu, and chat backgrounds.</string>
+    <string name="MZAppearanceTitleText">Title Text</string>
+    <string name="MZAppearanceTitleTextApp">@string/AppName</string>
+    <string name="MZAppearanceTitleTextUsername">Username</string>
+    <string name="MZAppearanceTitleTextName">First Name</string>
+    <string name="MZAppearanceTitleTextCustom">Custom</string>
+    <string name="MZAppearanceChatListInfo">When \"Icons only\" is enabled for folders, the main title will display the folder name.</string>
+
+    <!-- Folders (Tabs) -->
+    <string name="MZAppearanceFolders">Folders</string>
+    <string name="MZAppearanceInterface">Interface</string>
+    <string name="MZAppearanceTabTitleStyle">Folder Title</string>
+    <string name="MZAppearanceTabTitleStyleTextOnly">Names only</string>
+    <string name="MZAppearanceTabTitleStyleIconsOnly">Icons only</string>
+    <string name="MZAppearanceTabTitleStyleTextWithIcons">Names with Icons</string>
+    <string name="MZAppearanceTabCounter">Notification Counter</string>
+    <string name="MZAppearanceHideAllChats">Hide \"%1$s\" Tab</string>
+    <string name="MZAppearanceFoldersInfo">Icons are synchronized with your account.</string>
+
+    <!-- App Navigation -->
+    <string name="MZAppearanceNavigation">App Navigation</string>
+
+    <!-- General Appearance -->
+    <string name="MZAppearanceGeneral">Appearance</string>
+    <string name="MZAppearanceUseSystemFonts">Use System Fonts</string>
+    <string name="MZAppearanceUseSystemEmoji">Use System Emoji</string>
+    <string name="MZAppearanceSwitchStyle">Switches</string>
+    <string name="MZAppearanceSliderStyle">Sliders</string>
+
+    <!-- Blur &amp; Effects -->
+    <string name="MZAppearanceBlur">Blur Options</string>
+    <string name="MZAppearanceForceBlur">Force Blur</string>
+    <string name="MZAppearanceDisableAvatarBlur">Disable Avatar Blur</string>
+    <string name="MZAppearanceBlurInfo">Blur effects will be applied to all themes, overriding their default settings.</string>
+
+    <string name="MZAppearanceRestartNow">Restart</string>
+    <string name="MZAppearanceNeedRestart">Restart the app to apply this setting.</string>
+
+    <!-- General / Sections / Blur extras (UI only) -->
+    <string name="MZAppearanceMaterialDesign3" translatable="false">Material Design 3</string>
+    <string name="MZAppearanceGooeyAvatar">\"Gooey\" Avatar Animation</string>
+    <string name="MZAppearanceCustomThemes">Custom Themes in Chats</string>
+    <string name="MZAppearanceCustomThemesInfo">Each chat will display the theme that was specifically chosen for it.</string>
+    <string name="MZAppearanceSections">Sections</string>
+    <string name="MZAppearanceSectionRadius">Section Radius</string>
+    <string name="MZAppearanceSectionRadiusOff">Off</string>
+    <string name="MZAppearanceSectionRadiusMax">Max</string>
+    <string name="MZAppearanceSeparateHeaders">Separate Headers</string>
+    <string name="MZAppearanceDividerStyle">Divider Style</string>
+    <string name="MZAppearanceDividerHidden">Hidden</string>
+    <string name="MZAppearanceDividerLine">Line</string>
+    <string name="MZAppearanceDividerSegments">Segments</string>
+    <string name="MZAppearanceGlassOutline">Glass Outline</string>
+    <string name="MZAppearanceGlassOutlineGlare">Glare</string>
+    <string name="MZAppearanceGlassOutlineSolid">Solid</string>
+    <string name="MZAppearanceGlassOutlineHidden">Hidden</string>
+    <string name="MZAppearanceGlassMessageMenu">Glass Message Menu</string>
+    <string name="MZAppearanceGlassMessageMenuInfo">The message menu and the reactions bar become frosted glass.</string>
+    <string name="MZAppearanceGlassMessageMenuBlurOff">Glass menus need blur, which is currently off.</string>
+    <string name="MZAppearancePowerSaverActive">Power saving is on below %1$d%% battery, so blur and animations are paused. The setting is saved and turns back on once you charge.</string>
+    <string name="MZAppearancePowerSaverSettings">Power saving</string>
+    <string name="MZAppearanceIconPacks">Icon Packs</string>
+    <string name="MZAppearanceIconPacksInfo">Customize icons across the app</string>
+    <string name="MZAppearancePillStack">Pill Stack</string>
+    <string name="MZAppearancePillStackInfo">Display interactive pills in the search field</string>
+    <string name="MZAppearanceNavigationSub">Top-right menu and drawer settings</string>
+    <string name="MZAppNavigation">App Navigation</string>
+    <string name="MZGeneral">General</string>
+    <string name="MZTabletMode">Tablet Mode</string>
+    <string name="MZTabletModeAuto">Auto</string>
+    <string name="MZTabletModeOn">On</string>
+    <string name="MZTabletModeOff">Off</string>
+    <string name="MZBottomNavigationBarMode">Bottom Navigation Bar</string>
+    <string name="MZBottomNavigationModeShow">Show</string>
+    <string name="MZBottomNavigationModeHide">Hide</string>
+    <string name="MZBackAnimation">Back Animation</string>
+    <string name="MZBackAnimationClassic">Classic</string>
+    <string name="MZBackAnimationSpring">Spring</string>
+    <string name="MZBackAnimationPredictive">Predictive Back</string>
+    <string name="MZBackAnimationSlide">Slide</string>
+    <string name="MZBackAnimationInfo">Enables smoother animations when switching screens and opening the side menu.</string>
+    <string name="MZPredictiveBackIntensity">Gesture Intensity</string>
+    <string name="MZPredictiveBackOff">Off</string>
+    <string name="MZPredictiveBackMax">Max</string>
+    <string name="MZPredictiveBackInfo">Adjusts how far the screen moves when swiping back.</string>
+    <string name="MZNavigationDrawer">Navigation Drawer</string>
+    <string name="MZNavigationDrawerImmersive">Immersive Animation</string>
+    <string name="MZNavigationDrawerInfo">Replaces the top-right menu with a classic swipe-to-open drawer and a hamburger button.</string>
+    <string name="MZMainMenuItems">Menu Items</string>
+    <string name="MZMainMenuItemsInfo">Tap to show or hide items, hold to reorder. Layout is shared between the menu and the drawer.</string>
+    <string name="MZMainMenuHiddenItems">Hidden Menu Items</string>
+    <string name="MZMainMenuAddDivider">Add Divider</string>
+    <string name="MZMainMenuDivider">Divider</string>
+    <string name="MZMainMenuRemoveSettingsInfo">Settings cannot be hidden while the bottom navigation bar is disabled.</string>
+    <string name="MZAppearanceNewLoadingStyle">Loading Indicators</string>
+    <string name="MZAppearanceNewChatHeaderStyle">Chat Header</string>
+    <string name="MZAppearanceNewNavigationBarStyle">Navigation Bar</string>
+    <string name="MZAppearanceM3ListItems">List Items</string>
+    <string name="MZAppearanceIosDesign" translatable="false">iOS Design</string>
+    <string name="MZAppearanceIosNavigationBarStyle">Navigation Bar</string>
+    <string name="MZAppearanceIosChatHeader">iOS Chat Header</string>
+    <string name="MZAppearanceHideAi">Hide AI</string>
+    <string name="MZAppearanceHideAiEditor">AI Editor</string>
+    <string name="MZAppearanceHideAiSummary">Message Summary</string>
+    <string name="MZAppearanceHideAiIv">Instant View Summary</string>
+    <string name="MonetStyleHeader">Monet palette</string>
+    <string name="MonetStyleTelemone">Telemone</string>
+    <string name="MonetStyleClassic">Classic</string>
+    <string name="MZAppearanceTabCounterAll">All chats</string>
+    <string name="MZAppearanceTabCounterUnmuted">Except muted</string>
+    <string name="MZAppearanceTabCounterOff">Off</string>
+    <string name="MZAppearanceEmojiSetsInfo">Change emoji across the app</string>
+    <string name="MZAppearanceHideSettingsSections">Hide Settings Sections</string>
+    <string name="MZBottomNavigationBar">Bottom Bar</string>
+    <string name="MZProfileMusicDesign">Profile Music</string>
+    <string name="MZProfileMusicUseOfficial">Telegram Style</string>
+    <string name="MZProfileMusicUseOfficialInfo">Show the track under the avatar, like in the official app?</string>
+    <string name="MZProfileMusicUseCard">Card</string>
+    <string name="MZProfileMusicUseCardInfo">Show the track as a card below the profile header?</string>
+    <string name="MZAppearanceHiding">Hide Elements</string>
+    <string name="MZAppearanceHidingInfo">Stories, buttons, tabs and AI features</string>
+    <string name="MZAppearanceHidingInChats">In Chats</string>
+    <string name="MZAppearanceHidingAiPremium">AI and Premium</string>
+    <string name="MZKillApp">Close App</string>
+    <string name="MZStartupFolder">Startup Folder</string>
+    <string name="MZStartupFolderFirst">First Folder</string>
+    <string name="MZStartupFolderLast">Last Opened</string>
+    <string name="MZStartupFolderOpen">Open at Startup</string>
+    <string name="MZStartupFolderDontOpen">Don\'t Open at Startup</string>
+    <string name="MZStartupFolderSet">**%1$s** will open at startup</string>
+    <string name="MZStartupFolderReset">The first folder will open at startup</string>
+</resources>

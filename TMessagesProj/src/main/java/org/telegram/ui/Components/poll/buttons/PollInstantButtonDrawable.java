@@ -17,7 +17,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RadialProgress;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 public class PollInstantButtonDrawable extends PollButtonDrawableBase {
     private final AnimatedTextView.AnimatedTextDrawable buttonTextAnimatedDrawable;

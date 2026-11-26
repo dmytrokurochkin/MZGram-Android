@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 import org.telegram.messenger.BuildConfig;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 /**
  * A thin wrapper around Android {@link Choreographer} that delivers animation

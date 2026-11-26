@@ -18,9 +18,9 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.LayoutHelper;
 
-import me.vkryl.android.animator.ListAnimator;
-import me.vkryl.android.animator.ReplaceAnimator;
-import me.vkryl.core.lambda.Destroyable;
+import org.mzgram.ux.android.animator.ListAnimator;
+import org.mzgram.ux.android.animator.ReplaceAnimator;
+import org.mzgram.ux.core.lambda.Destroyable;
 
 @SuppressLint("ViewConstructor")
 public class ActionBarAnimatedSubtitleOverlayContainer extends FrameLayout implements ReplaceAnimator.Callback {

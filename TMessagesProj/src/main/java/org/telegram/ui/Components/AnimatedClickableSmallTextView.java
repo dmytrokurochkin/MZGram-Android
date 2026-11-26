@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 import org.telegram.ui.ActionBar.Theme;
 
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 /**
  * {@link LinkSpanDrawable.ClickableSmallTextView} whose text can change animated: the old text moves

@@ -396,7 +396,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
                 .setOutputResolution(activeOutputResolution)
                 .setVideoBitrate(SharedSettings.roundVideoVideoBitrate.get())
                 .setCameraResolution(SharedSettings.roundVideoCameraResolution.get())
-                .setFrameRate(app.exteraless.chats.ChatsConfig.extendedFramesPerSecond.Bool() ? RoundVideoSession.FrameRate.FPS_60 : RoundVideoSession.FrameRate.FPS_30)
+                .setFrameRate(org.mzgram.chats.ChatsConfig.extendedFramesPerSecond.Bool() ? RoundVideoSession.FrameRate.FPS_60 : RoundVideoSession.FrameRate.FPS_30)
                 .setCompositionEnabled(SharedSettings.roundVideoComposition.get())
                 .setListener(sessionListener)
                 .setOutputListener(upload)

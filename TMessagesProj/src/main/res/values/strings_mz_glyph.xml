@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Строки интеграции с Nothing Glyph. -->
+<resources>
+    <string name="MZGlyphTitle">Nothing Glyph</string>
+    <string name="MZGlyphEnable">Glyph Interface</string>
+    <string name="MZGlyphNewMessage">Flash on new messages</string>
+    <string name="MZGlyphCalls">Glow on incoming calls</string>
+    <string name="MZGlyphRecording">Glow while recording</string>
+    <string name="MZGlyphScreenOff">Messages only when screen is off</string>
+    <string name="MZGlyphPreview">Preview</string>
+    <string name="MZGlyphUnsupported">Glyph Interface is only available on Nothing phones</string>
+    <string name="MZGlyphInfo">Lights up the Glyph Interface on the back of your Nothing phone: a flash for incoming messages, the MZGram logo on the Phone (3) Glyph Matrix and a breathing glow while recording voice messages or receiving a call. Muted chats never trigger the flash.</string>
+</resources>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGeneralTitle">Основные</string>
+    <string name="MZGeneralOtherTitle">Прочее</string>
+
+    <!-- Translate Messages -->
+    <string name="MZGeneralTranslateHeader">Перевод сообщений</string>
+    <string name="MZGeneralTranslateButton">Кнопка перевода</string>
+    <string name="MZGeneralTranslateWholeChat">Перевод всего чата</string>
+    <string name="MZGeneralTranslationProvider">Сервис перевода</string>
+    <string name="MZGeneralTranslationTarget">Язык перевода</string>
+    <string name="MZGeneralTranslationTargetDefault">Язык приложения</string>
+    <string name="MZGeneralDoNotTranslate">Не переводить</string>
+    <string name="MZGeneralTranslateInfo">Кнопка «Перевести» появится в контекстном меню сообщения.</string>
+
+    <!-- General -->
+    <string name="MZGeneralSectionHeader">Основные</string>
+    <string name="MZGeneralDisableNumberRounding">Не округлять числа</string>
+    <string name="MZGeneralDisableNumberRoundingValue">1,23 тыс. → 1 234</string>
+    <string name="MZGeneralFormatTimeWithSeconds">Показывать секунды</string>
+    <string name="MZGeneralFormatTimeWithSecondsValue">12:34 → 12:34:56</string>
+    <string name="MZGeneralRelativeLastSeen">Относительное время в сети</string>
+    <string name="MZGeneralInAppVibration">Вибрация в приложении</string>
+    <string name="MZGeneralFilterZalgo">Фильтровать «Zalgo»</string>
+    <string name="MZGeneralFilterZalgoInfo">Убирает комбинируемые символы, ломающие вёрстку текста: Z̷͍͌ā̸̜l̸̞̂g̷͍̝o̶̩̓ превращается в Zalgo.</string>
+
+
+    <!-- Download Speed Boost -->
+    <string name="MZGeneralSpeedHeader">Ускорение загрузки</string>
+    <string name="MZGeneralNetworkSpeedHeader">Сеть и загрузка</string>
+    <string name="MZGeneralBackupHeader">Резервная копия</string>
+    <string name="MZGeneralSpeedOff">Выкл.</string>
+    <string name="MZGeneralSpeedFast">Быстро</string>
+    <string name="MZGeneralSpeedUltra">Ультра</string>
+    <string name="MZGeneralUploadBoost">Ускорение выгрузки</string>
+    <string name="MZGeneralSpeedBoostInfo">Режим «Ультра» может вызвать проблемы с сетью или аккумулятором. Ускорение выгрузки отправляет файлы более крупными частями и увеличивает расход трафика.</string>
+
+    <!-- Storage -->
+    <string name="MZGeneralStorageHeader">Хранилище</string>
+    <string name="MZGeneralSavePath">Папка сохранения</string>
+    <string name="MZGeneralSavePathDefault">По умолчанию</string>
+    <string name="MZGeneralSavePathHint">Имя папки</string>
+    <string name="MZGeneralSavePathInfo">Имя папки внутри Downloads, куда сохраняются файлы. Допустимы буквы, цифры, пробел, точка, дефис и подчёркивание.</string>
+
+    <!-- Profile -->
+    <string name="MZGeneralProfileHeader">Профиль</string>
+    <string name="MZGeneralHidePhone">Скрыть номер телефона</string>
+    <string name="MZGeneralShowIdAndDc">Показывать ID и DC</string>
+    <string name="MZGeneralShowIdAndDcInfo">Показывает ID пользователя или чата и номер дата-центра в профиле.</string>
+
+    <!-- Archive -->
+    <string name="MZGeneralArchiveHeader">Список чатов и архив</string>
+    <string name="MZGeneralHideArchive">Скрыть папку «Архив»</string>
+    <string name="MZGeneralArchiveOnPull">Открывать архив потягиванием</string>
+    <string name="MZGeneralDisableUnarchiveSwipe">Отключить свайп «Из архива»</string>
+    <string name="MZGeneralDisableUnarchiveSwipeInfo">Свайп влево не будет убирать чат из архива.</string>
+
+    <!-- Google -->
+
+    <!-- Settings Management -->
+    <string name="MZGeneralExportBackupSettings">Экспорт настроек</string>
+    <string name="MZGeneralImportBackupSettings">Импорт настроек</string>
+    <string name="MZGeneralResetSettings">Сброс настроек</string>
+    <string name="MZGeneralResetSettingsInfo">Все настройки вернутся к значениям по умолчанию, приложение перезапустится.</string>
+    <string name="MZGeneralResetSettingsDone">Настройки MZGram сброшены.</string>
+    <string name="MZGeneralDeleteAccount">Удалить аккаунт</string>
+    <string name="DeepLFormalityDefault">Тон: как есть</string>
+    <string name="DeepLFormalityInformal">Тон: неформальный</string>
+    <string name="DeepLFormalityFormal">Тон: формальный</string>
+    <string name="MZGeneralSavePathInfoFolder">Файлы сохраняются в Downloads/%1$s. Только буквы, цифры, пробел, точка, дефис и подчёркивание.</string>
+    <string name="MZGeneralMZGramHeader">Дополнительно</string>
+    <string name="MZGeneralArcMoments">Архив сообщений</string>
+    <string name="MZGeneralArcMomentsInfo">Сохранение удалённых и изменённых сообщений, режим призрака и regex-фильтры. Функции работают, пока включены, — даже если не открывать этот экран.</string>
+    <string name="MZGeneralArcMomentsDisableAll">Отключить все функции архива сообщений</string>
+    <string name="MZLastActivityFormatted">последняя активность %1$s</string>
+    <string name="MZLastActivityDateFormatted">последняя активность %1$s</string>
+    <string name="MZBottomNavigationModeFloating">Плавающая</string>
+    <string name="MZGeneralNotificationsHeader">Уведомления</string>
+    <string name="MZGeneralPushStatus">Состояние пушей</string>
+    <string name="MZGeneralPushStatusBlocked">заблокированы системой</string>
+    <string name="MZGeneralPushStatusNoToken">нет токена</string>
+    <string name="MZGeneralPushStatusNotRegistered">не зарегистрирован</string>
+    <string name="MZGeneralPushStatusNothing">ничего не приходило</string>
+    <string name="MZGeneralBatteryOptimization">Оптимизация батареи</string>
+    <string name="MZGeneralBatteryOptimizationOn">Включена — пуши могут опаздывать</string>
+    <string name="MZGeneralBatteryOptimizationOff">Отключена</string>
+    <string name="MZGeneralBatteryOptimizationUnavailable">Настройки батареи недоступны на этом устройстве</string>
+    <string name="MZGeneralNotificationsInfo">Нажмите на состояние пушей, чтобы скопировать диагностику в буфер — прикладывайте её к сообщению о проблеме с уведомлениями. Если оптимизация батареи включена, Android может задерживать или терять пуши, пока приложение в фоне.</string>
+    <string name="MZGeneralGoogleHeader">Google</string>
+    <string name="MZGeneralCrashReports">Отчёты о сбоях</string>
+    <string name="MZGeneralCrashReportsInfo">Отправляет стек падений в Firebase Crashlytics, чтобы их чинили без ручных баг-репортов. По умолчанию выключено, и пока выключено, с устройства ничего не уходит.</string>
+    <string name="MZGeneralContentCapture">Доступ системы к тексту на экране</string>
+    <string name="MZGeneralContentCaptureInfo">Нужен для Live Translate на Pixel и системных подсказок. Пока выключено, система не видит текст чатов, а списки листаются плавнее.</string>
+    <string name="MZGeneralMapsHeader">Карты</string>
+    <string name="MZGeneralUseOsmMapInfo">Выбор места и трансляции геопозиции рисуются тайлами OpenStreetMap вместо Google Maps. Превью локаций в сообщениях по-прежнему приходят с серверов Telegram.</string>
+    <string name="MZGeneralMapProvider">Провайдер карт</string>
+    <string name="MZGeneralMapPreview">Превью локаций</string>
+    <string name="MZGeneralMapDriftingFix">Исправлять смещение карты</string>
+    <string name="MZCrashTitle">MZGram аварийно завершился</string>
+    <string name="MZGeneralNetworkHeader">Сеть</string>
+    <string name="MZPrivacyFalseBottom">Двойное дно</string>
+    <string name="MZPrivacyFalseBottomShowIn">Показывать в разделе «%1$s»</string>
+    <string name="AskBeforeOpeningStory">Спрашивать перед открытием истории</string>
+    <string name="AskBeforeOpeningStoryInfo">Предлагает посмотреть её в режиме призрака, обычно или не открывать.</string>
+    <string name="AskBeforeOpeningStoryTitle">Открыть историю?</string>
+    <string name="AskBeforeOpeningStoryGhost">Смотреть в режиме призрака</string>
+    <string name="AskBeforeOpeningStoryNormal">Смотреть</string>
+    <string name="GhostScheduledSend">Отправлять отложкой</string>
+    <string name="GhostScheduledSendNotice">Пока онлайн скрыт, сообщения уходят как отложенные через 12 секунд, и вы не появляетесь в сети.</string>
+    <string name="CloudConfigIncludeApiKeys">Сохранять AI-ключи</string>
+    <string name="CloudConfigIncludeApiKeysDesc">Ключи API сервисов ИИ и перевода тоже попадут в облако.</string>
+    <string name="MZCloudTitle">Облако</string>
+    <string name="MZCloudHeroTitle">Настройки в облаке</string>
+    <string name="MZCloudHeroText">Храните настройки MZGram в Telegram и восстанавливайте их на любом устройстве с этим аккаунтом.</string>
+    <string name="MZCloudStatus">Состояние</string>
+    <string name="MZCloudLocal">Это устройство</string>
+    <string name="MZCloudRemote">Облако</string>
+    <string name="MZCloudChecking">проверка…</string>
+    <string name="MZCloudActions">Действия</string>
+    <string name="MZCloudUpload">Сохранить в облако</string>
+    <string name="MZCloudUploading">Сохранение…</string>
+    <string name="MZCloudUploaded">Настройки сохранены в облако</string>
+    <string name="MZCloudRestore">Восстановить из облака</string>
+    <string name="MZCloudRestoring">Восстановление…</string>
+    <string name="MZCloudRestoreAction">Восстановить</string>
+    <string name="MZCloudRestoreConfirm">Текущие настройки заменятся копией из облака, после чего приложение перезапустится.</string>
+    <string name="MZCloudClear">Очистить облако</string>
+    <string name="MZCloudClearing">Очистка…</string>
+    <string name="MZCloudClearAction">Очистить</string>
+    <string name="MZCloudClearConfirm">Копия в облаке будет удалена. Настройки на этом устройстве останутся как есть.</string>
+    <string name="MZCloudOptions">Параметры</string>
+    <string name="MZCloudAutoSync">Автосинхронизация</string>
+    <string name="MZCloudAutoSyncInfo">Сохранять после каждого изменения настроек</string>
+    <string name="MZArcSaveReadDate">Сохранять дату прочтения</string>
+    <string name="MZArcGhostHeader">Призрак</string>
+    <string name="MZArcSavingHeader">Сохранение</string>
+    <string name="MZArcDeletedHeader">Удалённые в чате</string>
+    <string name="MZArcOtherHeader">Прочее</string>
+    <string name="MZArcDangerHeader">Опасная зона</string>
+    <string name="MZArcSaveReadDateInfo">Запоминает, когда ваши сообщения прочитали и прослушали. Время видно в меню сообщения, если Telegram его не показывает.</string>
+    <string name="MZArcPlayedTodayAt">прослушано в %s</string>
+    <string name="MZArcPlayedYesterdayAt">прослушано вчера в %s</string>
+    <string name="MZArcPlayedDateTimeAt">прослушано %1$s в %2$s</string>
+    <string name="MZArcForwardLoadingMedia">Загрузка медиа</string>
+    <string name="MZArcForwardLoadingCount">Файлов: %1$d из %2$d</string>
+    <string name="MZArcForwardLoadFailed">Не удалось загрузить медиа для пересылки</string>
+    <string name="MZUpdateAvailable">Доступно обновление: %1$s</string>
+    <string name="MZUpdateInstall">Обновить</string>
+    <string name="MZUpdateInstallSize">Обновить (%1$s)</string>
+    <string name="MZUpdateLater">Позже</string>
+    <string name="MZUpdateSkip">Пропустить версию</string>
+    <string name="MZUpdateDownloading">Загрузка обновления</string>
+    <string name="MZUpdateDownloadFailed">Не удалось скачать обновление</string>
+    <string name="MZUpdateCheckFailed">Не удалось проверить обновления</string>
+    <string name="MZUserLookupTitle">Запуск @usinfobot</string>
+    <string name="MZUserLookupStart">Чтобы найти пользователя по ID, нужен бот **@usinfobot**. Он работает только после запуска, поэтому мы отправим ему /start. В списке чатов появится чат с ним.</string>
+    <string name="MZUserLookupStartButton">Запустить</string>
+    <string name="MZUserLookupNotFound">Пользователь %1$d не найден</string>
+    <string name="MZUpdateTitle">Доступно обновление</string>
+    <string name="MZUpdateDownloadProgress">%1$s из %2$s</string>
+    <string name="MZArcSaveInArchived">Сохранять в архивных чатах</string>
+    <string name="MZArcSaveInArchivedInfo">Удалённые и изменённые сообщения из чатов в архиве тоже сохраняются.</string>
+    <string name="MZArcDatabaseExport">Экспорт базы</string>
+    <string name="MZArcDatabaseImport">Импорт базы</string>
+    <string name="MZArcDatabaseImportDone">Добавлено сообщений: %1$d</string>
+    <string name="MZArcDatabaseImportFailed">Не удалось импортировать файл</string>
+    <string name="MZArcRegexReversed">Обратный</string>
+    <string name="MZArcRegexReversedInfo">Скрывать сообщения, которые не совпадают с выражением</string>
+    <string name="MZUpdaterChecking">Проверяем обновления…</string>
+    <string name="MZUpdaterLatest">У вас последняя версия</string>
+    <string name="MZUpdaterAvailable">Доступна версия %1$s</string>
+    <string name="MZUpdaterFailedInfo">Проверьте подключение и попробуйте ещё раз</string>
+    <string name="MZUpdaterCheckedJustNow">Проверено только что</string>
+    <string name="MZUpdaterCheckedAt">Проверено %1$s</string>
+    <string name="MZUpdaterCheckAgain">Проверить снова</string>
+    <string name="MZUpdaterChannel">Автопроверка</string>
+    <string name="MZUpdaterChannelOff">Выкл</string>
+    <string name="MZUpdaterChannelStable">Релизы</string>
+    <string name="MZUpdaterChannelBeta">Бета</string>
+    <string name="MZUpdaterChannelOffInfo">Обновления проверяются, только когда вы нажимаете на логотип.</string>
+    <string name="MZUpdaterChannelStableInfo">Раз в 6 часов проверяются новые релизы на GitHub.</string>
+    <string name="MZUpdaterChannelBetaInfo">Ещё и пре-релизы с GitHub — раньше, чем они станут релизами.</string>
+    <string name="MZUpdaterAllReleases">Все релизы на GitHub</string>
+    <string name="MZLiteFollowSystemSaver">Как в системе</string>
+    <string name="MZLiteFollowSystemSaverInfo">Энергосбережение включается вместе с системным режимом экономии заряда.</string>
+    <string name="MZUnknownSettingsOption">В настройках MZGram нет такой опции.</string>
+    <string name="MZGeneralMZGramSettings">Расширенные настройки</string>
+    <string name="MZArcDatabaseImportInfo">Удалённые и изменённые сообщения из этого файла добавятся к уже сохранённым. Поддерживаются экспорты из MZGram и других клиентов. Медиа из другого приложения могут быть недоступны.</string>
+</resources>

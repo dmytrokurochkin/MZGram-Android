@@ -16,8 +16,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import me.vkryl.android.animator.ListAnimator;
-import me.vkryl.core.lambda.Destroyable;
+import org.mzgram.ux.android.animator.ListAnimator;
+import org.mzgram.ux.core.lambda.Destroyable;
 
 public class AnimatedLinearLayout extends LinearLayout {
     private final HashMap<View, Holder> viewHolders = new HashMap<>();

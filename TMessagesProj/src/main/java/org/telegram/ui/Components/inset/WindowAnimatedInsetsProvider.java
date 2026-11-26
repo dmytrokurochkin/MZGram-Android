@@ -17,8 +17,8 @@ import org.telegram.ui.Components.chat.ViewPositionWatcher;
 
 import java.util.List;
 
-import me.vkryl.core.BitwiseUtils;
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.BitwiseUtils;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 public class WindowAnimatedInsetsProvider extends WindowInsetsAnimationCompat.Callback {
     private final ViewGroup root;

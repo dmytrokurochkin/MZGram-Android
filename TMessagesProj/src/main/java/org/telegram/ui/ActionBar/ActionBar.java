@@ -82,14 +82,14 @@ import org.telegram.ui.MainTabsLayout;
 
 import java.util.ArrayList;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.android.animator.ReplaceAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.ReplaceAnimator;
 import java.util.HashSet;
 
-import app.exteraless.appearance.AppearanceConfig;
-import tw.nekomimi.nekogram.NekoConfig;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.appearance.AppearanceConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class ActionBar extends FrameLayout implements FactorAnimator.Target, Theme.Colorable, MenuOverlayHost {
 
@@ -270,7 +270,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
     }
 
     private boolean mzFlatBar() {
-        return glassMode && app.exteraless.appearance.AppearanceConfig.materialBars();
+        return glassMode && org.mzgram.appearance.AppearanceConfig.materialBars();
     }
 
     public void setChatAvatarContainer(ChatAvatarContainer chatAvatarContainer) {
@@ -294,12 +294,12 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         glassDrawable = factory.create(this)
                 .setColorProvider(colorProvider)
                 .setPadding(dp(6));
-        final int glassAvatarSizeDp = app.exteraless.appearance.ChatHeaderUiHelper.getChatAvatarSizeDp();
-        glassAvatarGap = app.exteraless.appearance.ChatHeaderUiHelper.isMaterial3ChatHeaderStyle()
+        final int glassAvatarSizeDp = org.mzgram.appearance.ChatHeaderUiHelper.getChatAvatarSizeDp();
+        glassAvatarGap = org.mzgram.appearance.ChatHeaderUiHelper.isMaterial3ChatHeaderStyle()
             ? dp(3.33f)
-            : (dp(46) - app.exteraless.appearance.ChatHeaderUiHelper.getAvatarSizePx(glassAvatarSizeDp)) / 2f;
+            : (dp(46) - org.mzgram.appearance.ChatHeaderUiHelper.getAvatarSizePx(glassAvatarSizeDp)) / 2f;
         glassDrawableLeftRadius = Math.min(dp(23),
-            app.exteraless.appearance.ChatHeaderUiHelper.getChatAvatarRadius(glassAvatarSizeDp, isForum, false) + glassAvatarGap);
+            org.mzgram.appearance.ChatHeaderUiHelper.getChatAvatarRadius(glassAvatarSizeDp, isForum, false) + glassAvatarGap);
         glassAvatarRadius = glassDrawableLeftRadius;
         glassMenuAppliedOuterRadius = glassMenuAppliedInnerRadius = -1;
         glassDrawable.setRadius(glassDrawableLeftRadius, dp(23), dp(23), glassDrawableLeftRadius);
@@ -354,11 +354,11 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
             return;
         }
         glassModeIsForum = isForum;
-        glassAvatarGap = app.exteraless.appearance.ChatHeaderUiHelper.isMaterial3ChatHeaderStyle()
+        glassAvatarGap = org.mzgram.appearance.ChatHeaderUiHelper.isMaterial3ChatHeaderStyle()
             ? dp(3.33f)
-            : (dp(46) - app.exteraless.appearance.ChatHeaderUiHelper.getAvatarSizePx(avatarSizeDp)) / 2f;
+            : (dp(46) - org.mzgram.appearance.ChatHeaderUiHelper.getAvatarSizePx(avatarSizeDp)) / 2f;
         final float radius = Math.min(dp(23),
-            app.exteraless.appearance.ChatHeaderUiHelper.getChatAvatarRadius(avatarSizeDp, isForum, hasStories) + glassAvatarGap);
+            org.mzgram.appearance.ChatHeaderUiHelper.getChatAvatarRadius(avatarSizeDp, isForum, hasStories) + glassAvatarGap);
         if (radius == glassDrawableLeftRadius) {
             return;
         }
@@ -674,18 +674,18 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
                     }
                 }
             }
-            if (NekoConfig.actionBarDecoration.Int() == 3) {
+            if (CoreConfig.actionBarDecoration.Int() == 3) {
                 if (snowflakesEffect != null) {
                     snowflakesEffect = null;
                 }
                 if (fireworksEffect != null) {
                     fireworksEffect = null;
                 }
-            } else if (NekoConfig.actionBarDecoration.Int() == 2) {
+            } else if (CoreConfig.actionBarDecoration.Int() == 2) {
                 if (fireworksEffect == null) {
                     fireworksEffect = new FireworksEffect();
                 }
-            } else if (NekoConfig.actionBarDecoration.Int() == 1 || Theme.canStartHolidayAnimation()) {
+            } else if (CoreConfig.actionBarDecoration.Int() == 1 || Theme.canStartHolidayAnimation()) {
                 if (snowflakesEffect == null) {
                     snowflakesEffect = new SnowflakesEffect(0);
                 }
@@ -872,7 +872,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         if (titleTextView[0] != null) {
             titleTextView[0].setVisibility(value != null && !isSearchFieldVisible ? VISIBLE : INVISIBLE);
             titleTextView[0].setText(lastTitle = value);
-            if (UserConfig.getInstance(UserConfig.selectedAccount).isPremiumOrLocal() || (NekoConfig.isGhostModeActive() && NekoConfig.showGhostModeStatus.Bool())) {
+            if (UserConfig.getInstance(UserConfig.selectedAccount).isPremiumOrLocal() || (CoreConfig.isGhostModeActive() && CoreConfig.showGhostModeStatus.Bool())) {
                 if (attached && lastRightDrawable instanceof AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) {
                     ((AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) lastRightDrawable).setParentView(null);
                 }
@@ -2434,7 +2434,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         requestLayout();
     }
 
-    // NagramX: use folder name as title
+    // MZGram: use folder name as title
     public void setTitleAnimatedX(CharSequence title, Drawable rightDrawable, boolean forward, long duration) {
         if (titleTextView[0] == null || title == null) {
             setTitle(title, rightDrawable);
@@ -2910,7 +2910,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         }
     }
 
-    // NekoX Changes
+    // CoreX Changes
 
     private StaticLayout countLayout;
 
@@ -2978,7 +2978,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
     }
 
     public void unreadBadgeSetCount(int count) {
-        if (backButtonImageView != null && NekoConfig.unreadBadgeOnBackButton.Bool()) {
+        if (backButtonImageView != null && CoreConfig.unreadBadgeOnBackButton.Bool()) {
             backButtonImageView.setUnread(count);
         }
     }
@@ -3174,26 +3174,26 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
     }
 
     /**
-     * Центрировать ли заголовок. Порт {@code ActionBar.shouldCenterTitle()} exteraGram
+     * Центрировать ли заголовок. Порт {@code ActionBar.shouldCenterTitle()} MZGram
      * (12.9.0, строка 629): либо экран попросил явно ({@link #centerTitle()}), либо
-     * включена настройка exteraGram.
+     * включена настройка MZGram.
      *
      * Чаты сюда не попадают: там заголовок рисует ChatAvatarContainer, а не
      * titleTextView этого ActionBar. Отдельная центровка заголовка чата — фича
-     * NagramX ({@code NaConfig.centerActionBarTitle}), она живёт своей жизнью и
+     * MZGram ({@code ExtConfig.centerActionBarTitle}), она живёт своей жизнью и
      * этой настройкой не управляется.
      */
     private boolean isCentered() {
         if (forceDisableCenterTitle) {
             return false;
         }
-        return isCenterTitle || app.exteraless.appearance.AppearanceConfig.INSTANCE.centerTitle();
+        return isCenterTitle || org.mzgram.appearance.AppearanceConfig.INSTANCE.centerTitle();
     }
 
     private boolean forceDisableCenterTitle;
 
     /**
-     * Запретить центровку для конкретного ActionBar. У exteraGram так делают
+     * Запретить центровку для конкретного ActionBar. У MZGram так делают
      * AudioPlayerAlert и BottomSheetWithRecyclerListView: там заголовок прижат
      * влево по макету, и центровка его ломает.
      */

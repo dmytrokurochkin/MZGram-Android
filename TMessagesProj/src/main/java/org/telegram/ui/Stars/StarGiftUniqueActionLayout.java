@@ -53,7 +53,7 @@ import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
 
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class StarGiftUniqueActionLayout {
 

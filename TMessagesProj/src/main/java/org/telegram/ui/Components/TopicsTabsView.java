@@ -73,9 +73,9 @@ import org.telegram.ui.TopicCreateFragment;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.core.BitwiseUtils;
 
 @SuppressLint("ViewConstructor")
 public class TopicsTabsView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target, Theme.Colorable {

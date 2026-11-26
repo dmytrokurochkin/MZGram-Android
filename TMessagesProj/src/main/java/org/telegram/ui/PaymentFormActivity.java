@@ -160,7 +160,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class PaymentFormActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private final static List<String> WEBVIEW_PROTOCOLS = Arrays.asList(
@@ -2378,7 +2378,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         AndroidUtilities.shakeViewSpring(recurrentAcceptCell.getTextView(), shiftDp);
                         AndroidUtilities.shakeViewSpring(recurrentAcceptCell.getCheckBox(), shiftDp);
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) recurrentAcceptCell.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                            if (!CoreConfig.disableVibration.Bool()) recurrentAcceptCell.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                         } catch (Exception ignored) {}
                         return;
                     }
@@ -2673,7 +2673,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 }, (allowUnregistered ? ConnectionsManager.RequestFlagWithoutLogin : 0));
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setMessage(LocaleController.getString(R.string.ResendCodeInfo));
-                builder.setTitle(LocaleController.getString(R.string.NagramX));
+                builder.setTitle(LocaleController.getString(R.string.MZGram));
                 builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
                 showDialog(builder.create());
             });
@@ -3527,7 +3527,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 parentLayout.presentFragment(new PremiumPreviewFragment(null).setForcePremium(), !isFinishing());
                 if (parentActivity instanceof LaunchActivity) {
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!CoreConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {
                     }
                     ((LaunchActivity) parentActivity).getFireworksOverlay().start();
@@ -3651,9 +3651,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         } else {
                             timeString = LocaleController.formatPluralString("Minutes", time / 60);
                         }
-                        showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                        showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                     } else {
-                        showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                        showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
                     }
                 }
             }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin);
@@ -3750,7 +3750,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                             } else {
                                 if (error.text.equals("EMAIL_INVALID")) {
-                                    showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.getString(R.string.PasswordEmailInvalid));
+                                    showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.getString(R.string.PasswordEmailInvalid));
                                 } else if (error.text.startsWith("FLOOD_WAIT")) {
                                     int time = Utilities.parseInt(error.text);
                                     String timeString;
@@ -3759,9 +3759,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     } else {
                                         timeString = LocaleController.formatPluralString("Minutes", time / 60);
                                     }
-                                    showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                                    showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                                 } else {
-                                    showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                                    showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
                                 }
                             }
                         }
@@ -4469,7 +4469,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     private void shakeView(View view) {
         try {
-            if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
         } catch (Exception ignored) {}
         AndroidUtilities.shakeViewSpring(view, 2.5f);
     }
@@ -4503,7 +4503,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
         if (inputFields[FIELD_SAVEDPASSWORD].length() == 0) {
             try {
-                if (!NekoConfig.disableVibration.Bool()) inputFields[FIELD_SAVEDPASSWORD].performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                if (!CoreConfig.disableVibration.Bool()) inputFields[FIELD_SAVEDPASSWORD].performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
             } catch (Exception ignored) {}
             AndroidUtilities.shakeViewSpring(inputFields[FIELD_SAVEDPASSWORD], 2.5f);
             return;
@@ -4548,7 +4548,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             } else {
                                 if (error1.text.equals("PASSWORD_HASH_INVALID")) {
                                     try {
-                                        if (!NekoConfig.disableVibration.Bool()) inputFields[FIELD_SAVEDPASSWORD].performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                                        if (!CoreConfig.disableVibration.Bool()) inputFields[FIELD_SAVEDPASSWORD].performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                                     } catch (Exception ignored) {}
                                     AndroidUtilities.shakeViewSpring(inputFields[FIELD_SAVEDPASSWORD], 3.25f);
                                     inputFields[FIELD_SAVEDPASSWORD].setText("");

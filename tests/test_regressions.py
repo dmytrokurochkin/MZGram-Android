@@ -10,18 +10,18 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import corpus
 import javaapi
 
-REPO = os.environ.get("EXTERALESS_REPO", corpus.REPO)
-PYTHON_ROOT = os.environ.get("EXTERALESS_PYTHON_ROOT", corpus.PYTHON_ROOT)
-CLASS_ALIASES = os.path.join(PYTHON_ROOT, "extera_utils", "class_aliases.py")
+REPO = os.environ.get("MZGRAM_REPO", corpus.REPO)
+PYTHON_ROOT = os.environ.get("MZGRAM_PYTHON_ROOT", corpus.PYTHON_ROOT)
+CLASS_ALIASES = os.path.join(PYTHON_ROOT, "mz_utils", "class_aliases.py")
 PROGUARD_RULES = os.path.join(REPO, "TMessagesProj", "proguard-rules.pro")
 USAGE = os.path.join(REPO, "TMessagesProj", "build", "outputs", "mapping", "release", "usage.txt")
 
-EXTERA_CONFIG = "com.exteragram.messenger.ExteraConfig"
+MZ_CONFIG = "org.mzgram.sdk.MZConfig"
 
 PLUGIN_ENTRY_POINTS = (
-    ("com.exteragram.messenger.utils.AppUtils", "getGson"),
-    ("com.exteragram.messenger.plugins.PluginsController", "getEngines"),
-    ("com.exteragram.messenger.utils.chats.ChatUtils", "getDCName"),
+    ("org.mzgram.sdk.utils.AppUtils", "getGson"),
+    ("org.mzgram.sdk.plugins.PluginsController", "getEngines"),
+    ("org.mzgram.sdk.utils.chats.ChatUtils", "getDCName"),
 )
 
 
@@ -37,10 +37,10 @@ def _load(path, name):
 
 @pytest.fixture(scope="module")
 def aliases():
-    return _load(CLASS_ALIASES, "exteraless_class_aliases")
+    return _load(CLASS_ALIASES, "mzgram_class_aliases")
 
 
-class FakeExteraConfig:
+class FakeMZConfig:
 
     calls = 0
 
@@ -62,13 +62,13 @@ class FakeExteraConfig:
 
 @pytest.fixture
 def fake_config():
-    FakeExteraConfig.calls = 0
-    return FakeExteraConfig
+    FakeMZConfig.calls = 0
+    return FakeMZConfig
 
 
 def test_adapt_does_not_wrap_an_already_adapted_class(aliases, fake_config):
-    once = aliases.adapt(EXTERA_CONFIG, fake_config)
-    twice = aliases.adapt(EXTERA_CONFIG, once)
+    once = aliases.adapt(MZ_CONFIG, fake_config)
+    twice = aliases.adapt(MZ_CONFIG, once)
 
     assert aliases.unwrap(once) is fake_config
     assert aliases.unwrap(twice) is fake_config
@@ -82,15 +82,15 @@ def test_adapt_does_not_wrap_an_already_adapted_class(aliases, fake_config):
 
 
 def test_adapt_survives_the_loader_and_find_class_pair(aliases, fake_config):
-    from_jclass = aliases.adapt(EXTERA_CONFIG, fake_config)
-    from_find_class = aliases.adapt(EXTERA_CONFIG, from_jclass)
+    from_jclass = aliases.adapt(MZ_CONFIG, fake_config)
+    from_find_class = aliases.adapt(MZ_CONFIG, from_jclass)
 
     if from_find_class.pluginsSafeMode:
         raise AssertionError("safe mode must read as False, not as a truthy method object")
 
 
 def test_field_shaped_class_calls_only_field_shaped_names(aliases, fake_config):
-    wrapped = aliases.adapt(EXTERA_CONFIG, fake_config)
+    wrapped = aliases.adapt(MZ_CONFIG, fake_config)
 
     assert wrapped.pluginsSafeMode is False
     assert wrapped.iconPack == "solar"
@@ -105,10 +105,10 @@ def test_field_shaped_class_calls_only_field_shaped_names(aliases, fake_config):
 
 
 def test_adapt_leaves_unlisted_classes_alone(aliases, fake_config):
-    other = aliases.adapt("com.exteragram.messenger.plugins.PythonPluginsEngine", fake_config)
+    other = aliases.adapt("org.mzgram.sdk.plugins.PythonPluginsEngine", fake_config)
 
     assert other is fake_config
-    assert aliases.adapt(EXTERA_CONFIG, None) is None
+    assert aliases.adapt(MZ_CONFIG, None) is None
 
 
 def _shape_pair(target):
@@ -172,24 +172,24 @@ def test_resolve_maps_every_prefix(aliases):
 
 def test_resolve_keeps_the_nested_class_suffix(aliases):
     assert aliases.resolve(
-        "com.exteragram.messenger.pillstack.core.PillRegistry$PillInfo") == \
-        "app.exteraless.pillstack.PillRegistry$PillInfo"
+        "org.mzgram.sdk.pillstack.core.PillRegistry$PillInfo") == \
+        "org.mzgram.pillstack.PillRegistry$PillInfo"
     assert aliases.resolve(
-        "com.exteragram.messenger.pillstack.ui.PillStackLayout$Slot") == \
-        "app.exteraless.pillstack.PillStackView$Slot"
+        "org.mzgram.sdk.pillstack.ui.PillStackLayout$Slot") == \
+        "org.mzgram.pillstack.PillStackView$Slot"
 
 
 def test_resolve_leaves_foreign_names_untouched(aliases):
     for name in (
         "org.telegram.messenger.ApplicationLoader",
-        "app.exteraless.plugins.PluginsController",
-        "com.exteragram.messenger.SomethingWeDoNotShip",
+        "org.mzgram.plugins.PluginsController",
+        "org.mzgram.sdk.SomethingWeDoNotShip",
         "java.lang.String",
     ):
         assert aliases.resolve(name) == name
     assert aliases.resolve(None) is None
     assert aliases.is_alias("org.telegram.messenger.ApplicationLoader") is False
-    assert aliases.is_alias(EXTERA_CONFIG) is True
+    assert aliases.is_alias(MZ_CONFIG) is True
 
 
 def _glob_to_regex(pattern):

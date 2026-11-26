@@ -30,8 +30,8 @@ import org.telegram.ui.Components.chat.buttons.ChatActivityBlurredRoundButton;
 
 import java.util.HashSet;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class ChatActivityChannelButtonsLayout extends FrameLayout implements FactorAnimator.Target, Theme.Colorable {
@@ -126,7 +126,7 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
                 buttonIcons[buttonId],
                 48
             );
-            if (app.exteraless.appearance.AppearanceConfig.materialInput()) {
+            if (org.mzgram.appearance.AppearanceConfig.materialInput()) {
                 button.setMzFlat();
             }
 

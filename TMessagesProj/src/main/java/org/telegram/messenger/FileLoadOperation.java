@@ -33,7 +33,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class FileLoadOperation {
 
@@ -302,14 +302,14 @@ public class FileLoadOperation {
 
     private void updateParams() {
         // Ускорение загрузки, три уровня — перенос FileLoadOperation.updateParams
-        // exteraGram (12.9.0, строка 1758). Уровень 2 берёт куски по мегабайту и
+        // MZGram (12.9.0, строка 1758). Уровень 2 берёт куски по мегабайту и
         // двенадцать параллельных запросов.
-        if (app.exteraless.general.GeneralConfig.INSTANCE.downloadSpeedBoost() == 2) {
+        if (org.mzgram.general.GeneralConfig.INSTANCE.downloadSpeedBoost() == 2) {
             downloadChunkSizeBig = 1024 * 1024;
             maxDownloadRequests = 12;
             maxDownloadRequestsBig = 12;
         } else if ((preloadPrefixSize > 0 || MessagesController.getInstance(currentAccount).getfileExperimentalParams
-                || app.exteraless.general.GeneralConfig.INSTANCE.downloadSpeedBoost() == 1) && !forceSmallChunk) {
+                || org.mzgram.general.GeneralConfig.INSTANCE.downloadSpeedBoost() == 1) && !forceSmallChunk) {
             downloadChunkSizeBig = 1024 * 512;
             maxDownloadRequests = 8;
             maxDownloadRequestsBig = 8;

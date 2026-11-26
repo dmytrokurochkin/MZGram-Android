@@ -501,10 +501,10 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                 super.invalidate(l, t, r, b);
             }
         };
-        avatarImage.setRoundRadius(app.exteraless.appearance.AppearanceConfig.getAvatarCorners(
+        avatarImage.setRoundRadius(org.mzgram.appearance.AppearanceConfig.getAvatarCorners(
                 dp(64), chatType == ChatObject.CHAT_TYPE_FORUM
-                        ? app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_FORUM
-                        : app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT));
+                        ? org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_FORUM
+                        : org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT));
         avatarImage.getImageReceiver().setAvatarCornersApplied(true);
         avatarDrawable.setInfo(5, null, null);
         avatarImage.setImageDrawable(avatarDrawable);

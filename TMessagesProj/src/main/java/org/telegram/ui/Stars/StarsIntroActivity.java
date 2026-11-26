@@ -171,7 +171,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 public class StarsIntroActivity extends GradientHeaderActivity implements NotificationCenter.NotificationCenterDelegate {
 

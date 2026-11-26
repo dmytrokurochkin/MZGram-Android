@@ -68,7 +68,7 @@ import org.telegram.ui.web.BotWebViewContainer;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
+import org.mzgram.core.helpers.PasscodeHelper;
 
 public class OAuthSheet {
 

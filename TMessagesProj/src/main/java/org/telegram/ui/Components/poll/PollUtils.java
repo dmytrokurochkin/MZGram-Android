@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class PollUtils {
     public static final int VOTE_RESTRICTED_NOT_SUBSCRIBED_FLAG = 1;

@@ -366,9 +366,9 @@ public class SessionCell extends FrameLayout {
             iconId = R.drawable.device_desktop_osx;
             colorKey = Theme.key_avatar_backgroundCyan;
             colorKey2 = Theme.key_avatar_background2Cyan;
-        } else if (session.app_name.contains("Nagram X") || session.app_name.contains("NagramX")
-                || session.app_name.contains("exteraless") || session.app_name.contains("MZGram")) {
-            iconId = R.drawable.exteraless_notification;
+        } else if (session.app_name.contains("MZGram X") || session.app_name.contains("MZGram")
+                || session.app_name.contains("mzgram") || session.app_name.contains("MZGram")) {
+            iconId = R.drawable.mzgram_notification;
             colorKey = Theme.key_avatar_backgroundBlue;
             colorKey2 = Theme.key_avatar_background2Blue;
         } else if (platform.contains("android")) {

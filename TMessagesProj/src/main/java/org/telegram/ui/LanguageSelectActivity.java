@@ -68,9 +68,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Timer;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.settings.NekoTranslatorSettingsActivity;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.settings.CoreTranslatorSettingsActivity;
+import org.mzgram.ext.ExtConfig;
 
 public class LanguageSelectActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -262,7 +262,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     }
                     return;
                 } else if (view instanceof TextCell) {
-                    presentFragment(new NekoTranslatorSettingsActivity());
+                    presentFragment(new CoreTranslatorSettingsActivity());
                     return;
                 } else if (view instanceof TextSettingsCell) {
 //                    if (listAdapter.getItemViewType(position) == VIEW_TYPE_SETTINGS_2) {
@@ -350,7 +350,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                         });
                     }
 
-                    if (!NaConfig.INSTANCE.getKeepTranslatorPreferences().Bool()) {
+                    if (!ExtConfig.INSTANCE.getKeepTranslatorPreferences().Bool()) {
                         String langCode = localeInfo.pluralLangCode,
                                 prevLangCode = prevLocale.pluralLangCode;
                         HashSet<String> selectedLanguages = RestrictedLanguagesSelectActivity.getRestrictedLanguages();
@@ -746,7 +746,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 }
                 case VIEW_TYPE_SETTINGS: {
                     TextCell textCell = (TextCell) holder.itemView;
-                    textCell.setTextAndValueAndIcon(getString(R.string.TranslatorSettings), NekoTranslatorSettingsActivity.getProviderName(NekoConfig.translationProvider.Int()), R.drawable.ic_translate, false);
+                    textCell.setTextAndValueAndIcon(getString(R.string.TranslatorSettings), CoreTranslatorSettingsActivity.getProviderName(CoreConfig.translationProvider.Int()), R.drawable.ic_translate, false);
                     /*HashSet<String> langCodes = RestrictedLanguagesSelectActivity.getRestrictedLanguages();
                     final String doNotTranslateCellName = LocaleController.getString(R.string.DoNotTranslate);
                     String doNotTranslateCellValue = null;

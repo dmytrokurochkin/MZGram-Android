@@ -3,8 +3,8 @@
     <string name="MZIconSetRoundedInfo">М\'які округлі форми</string>
     <string name="MZIconSetLineInfo">Тонкі рівні лінії</string>
     <string name="IconReplacementRemix">Лінійні іконки</string>
-    <string name="OEGeneralAyuMoments">Архів повідомлень</string>
-    <string name="OEGeneralAyuMomentsDisableAll">Вимкнути всі функції архіву повідомлень</string>
+    <string name="MZGeneralArcMoments">Архів повідомлень</string>
+    <string name="MZGeneralArcMomentsDisableAll">Вимкнути всі функції архіву повідомлень</string>
     <string name="PluginsEmptyHint">Плагіни можна знайти в каталозі плагінів.</string>
     <string name="MZHeaderSection">Шапка списку чатів</string>
     <string name="MZHeaderStyle">Шапка</string>

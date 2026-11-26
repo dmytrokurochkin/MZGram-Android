@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.filters.ReactionFilter;
+import org.mzgram.core.filters.ReactionFilter;
 
 class ChatMessageAccessibilityNodeProvider extends AccessibilityNodeProvider {
 

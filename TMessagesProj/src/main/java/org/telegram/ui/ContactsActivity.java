@@ -50,7 +50,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import tw.nekomimi.nekogram.helpers.MainTabsHelper;
+import org.mzgram.core.helpers.MainTabsHelper;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -106,7 +106,7 @@ import org.telegram.ui.Components.inset.WindowAnimatedInsetsProvider;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class ContactsActivity extends BaseFragment implements FactorAnimator.Target, NotificationCenter.NotificationCenterDelegate, MainTabsActivity.TabFragmentDelegate, WindowAnimatedInsetsProvider.Listener {
     private static final int ANIMATOR_ID_SECTION_LETTERS = 0;
@@ -219,8 +219,8 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
         getContactsController().checkInviteText();
         getContactsController().reloadContactsStatusesMaybe(false);
 
-        additionNavigationBarHeight = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
-        additionFloatingButtonOffset = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
+        additionNavigationBarHeight = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        additionFloatingButtonOffset = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
 
         return true;
     }
@@ -254,8 +254,8 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
         searching = false;
         searchWas = false;
 
-        additionNavigationBarHeight = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
-        additionFloatingButtonOffset = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
+        additionNavigationBarHeight = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        additionFloatingButtonOffset = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
 
         if (destroyAfterSelect) {
             if (returnAsResult) {
@@ -628,7 +628,7 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
                         }
                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                         builder.setMessage(getString(R.string.InviteUser));
-                        builder.setTitle(getString(R.string.NagramX));
+                        builder.setTitle(getString(R.string.MZGram));
                         final String arg1 = usePhone;
                         builder.setPositiveButton(getString(R.string.OK), (dialogInterface, i) -> {
                             try {
@@ -976,7 +976,7 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
                 }
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(getString(R.string.NagramX));
+            builder.setTitle(getString(R.string.MZGram));
             String message = LocaleController.formatStringSimple(selectAlertString, UserObject.getUserName(user));
             EditTextBoldCursor editText = null;
             if (!user.bot && needForwardCount) {

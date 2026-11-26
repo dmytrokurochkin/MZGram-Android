@@ -77,8 +77,8 @@ import org.telegram.utils.glass.BaseFragmentSimpleGlass;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.folder.FolderIconHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.folder.FolderIconHelper;
 
 public class FiltersSetupActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1352,7 +1352,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
 
     protected void onDefaultTabMoved() {
         try {
-            if (!NekoConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+            if (!CoreConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
         } catch (Exception ignore) {}
         BulletinFactory.of(this).createSimpleBulletin(R.raw.filter_reorder, AndroidUtilities.replaceTags(LocaleController.formatString("LimitReachedReorderFolder", R.string.LimitReachedReorderFolder, LocaleController.getString(R.string.FilterAllChats))), LocaleController.getString(R.string.PremiumMore), Bulletin.DURATION_PROLONG, () -> {
             showDialog(new PremiumFeatureBottomSheet(FiltersSetupActivity.this, PremiumPreviewFragment.PREMIUM_FEATURE_ADVANCED_CHAT_MANAGEMENT, true));

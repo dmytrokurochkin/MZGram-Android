@@ -40,8 +40,8 @@ import org.telegram.ui.Components.voip.CellFlickerDrawable;
 
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.TextViewEffects;
-import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
+import org.mzgram.core.TextViewEffects;
+import org.mzgram.core.helpers.remote.UpdateHelper;
 
 public class BlockingUpdateView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, Theme.Colorable {
 
@@ -69,7 +69,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         addView(view, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AndroidUtilities.dp(176) + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
 
         ImageView imageView = new ImageView(context);
-        imageView.setImageResource(R.mipmap.ic_launcher_exteraless);
+        imageView.setImageResource(R.mipmap.ic_launcher_mzgram);
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setPadding(0, 0, 0, AndroidUtilities.dp(14));
         view.addView(imageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, top, 0, 0));
@@ -97,7 +97,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
         titleTextView.setTypeface(AndroidUtilities.bold());
-        titleTextView.setText(LocaleController.getString(R.string.UpdateTelegram).replace("Telegram", LocaleController.getString(R.string.NagramX)));
+        titleTextView.setText(LocaleController.getString(R.string.UpdateTelegram).replace("Telegram", LocaleController.getString(R.string.MZGram)));
         container.addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP));
 
         textView = new TextViewEffects(context);

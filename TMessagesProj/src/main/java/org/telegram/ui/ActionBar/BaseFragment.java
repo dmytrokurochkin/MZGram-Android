@@ -80,12 +80,12 @@ import org.telegram.utils.glass.GlassEngine;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.CloudStorageHelper;
-import tw.nekomimi.nekogram.helpers.UserHelper;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.CloudStorageHelper;
+import org.mzgram.core.helpers.UserHelper;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.ext.ExtConfig;
 
 public abstract class BaseFragment {
 
@@ -378,7 +378,7 @@ public abstract class BaseFragment {
     }
 
     public boolean isActionBarCrossfadeEnabled() {
-        if (NaConfig.INSTANCE.getBackAnimationStyle().Int() == ActionBarLayout.BACK_ANIMATION_SPRING) {
+        if (ExtConfig.INSTANCE.getBackAnimationStyle().Int() == ActionBarLayout.BACK_ANIMATION_SPRING) {
             if (getLastStoryViewer() != null && getLastStoryViewer().attachedToParent()) {
                 return false;
             }
@@ -453,7 +453,7 @@ public abstract class BaseFragment {
     public void setParentFragment(BaseFragment fragment) {
         setParentLayout(fragment.parentLayout);
         fragmentView = createView(parentLayout.getView().getContext());
-        if (NekoConfig.disableVibration.Bool()) {
+        if (CoreConfig.disableVibration.Bool()) {
             AndroidUtil.disableHapticFeedback(fragmentView);
         }
     }

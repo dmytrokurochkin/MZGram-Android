@@ -114,7 +114,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 @SuppressLint("NewApi")
 @OptIn(markerClass = UnstableApi.class)
@@ -286,7 +286,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     private int getPlayerExtensionRendererMode() {
-        return switch (NaConfig.INSTANCE.getPlayerDecoder().Int()) {
+        return switch (ExtConfig.INSTANCE.getPlayerDecoder().Int()) {
             case 0 -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
             case 1 -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON;
             default -> DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER;
@@ -442,7 +442,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                 break;
             default:
                 if (progressiveMediaSourceFactory == null) {
-                    progressiveMediaSourceFactory = new ProgressiveMediaSource.Factory(mediaDataSourceFactory, new app.exteraless.player.SeekableFragmentsExtractorsFactory());
+                    progressiveMediaSourceFactory = new ProgressiveMediaSource.Factory(mediaDataSourceFactory, new org.mzgram.player.SeekableFragmentsExtractorsFactory());
                 }
                 mediaSource = progressiveMediaSourceFactory.createMediaSource(mediaItem);
                 break;
@@ -518,7 +518,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     public static Quality getDefaultSavedQuality(ArrayList<Quality> qualities) {
-        int v = NaConfig.INSTANCE.getDefaultHlsVideoQuality().Int();
+        int v = ExtConfig.INSTANCE.getDefaultHlsVideoQuality().Int();
         Quality q1;
         switch (v) {
             case 0:
@@ -544,13 +544,13 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     public static Quality getSavedQuality(ArrayList<Quality> qualities, MessageObject messageObject) {
-        // exteraGram 12.9.0, VideoPlayer.java:1076-1089: «предпочитать оригинал» стоит выше
+        // MZGram 12.9.0, VideoPlayer.java:1076-1089: «предпочитать оригинал» стоит выше
         // и сохранённого для сообщения выбора, и качества по умолчанию — иначе настройка
         // молча проигрывала бы прошлому выбору пользователя в этом же чате.
         // ensureLoaded обязателен: ChatsConfig грузится лениво, без него поле вернуло бы
         // значение по умолчанию, а не то, что выставил пользователь.
-        app.exteraless.chats.ChatsConfig.ensureLoaded();
-        if (qualities != null && app.exteraless.chats.ChatsConfig.preferOriginalQuality.Bool()) {
+        org.mzgram.chats.ChatsConfig.ensureLoaded();
+        if (qualities != null && org.mzgram.chats.ChatsConfig.preferOriginalQuality.Bool()) {
             for (Quality q : qualities) {
                 if (q.original) return q;
             }

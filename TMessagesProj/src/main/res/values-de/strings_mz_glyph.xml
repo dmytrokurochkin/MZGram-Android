@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphNewMessage">Blitz bei neuen Nachrichten</string>
+    <string name="MZGlyphCalls">Leuchten bei eingehenden Anrufen</string>
+    <string name="MZGlyphRecording">Leuchten beim Aufnehmen</string>
+    <string name="MZGlyphScreenOff">Nachrichten nur bei ausgeschaltetem Bildschirm</string>
+    <string name="MZGlyphPreview">Vorschau</string>
+    <string name="MZGlyphUnsupported">Glyph Interface gibt es nur auf Nothing-Telefonen</string>
+    <string name="MZGlyphInfo">Lässt das Glyph Interface auf der Rückseite deines Nothing-Telefons leuchten: ein Blitz bei eingehenden Nachrichten, das MZGram-Logo auf der Glyph Matrix des Phone (3) und ein atmendes Leuchten beim Aufnehmen von Sprachnachrichten oder bei einem Anruf. Stummgeschaltete Chats lösen nie einen Blitz aus.</string>
+</resources>

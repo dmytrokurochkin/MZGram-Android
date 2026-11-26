@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 public final class AnimatedFileDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
 

@@ -112,8 +112,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Collections;
 
-import tw.nekomimi.nekogram.folder.FolderIconHelper;
-import tw.nekomimi.nekogram.folder.IconSelectorAlert;
+import org.mzgram.core.folder.FolderIconHelper;
+import org.mzgram.core.folder.IconSelectorAlert;
 
 public class FilterCreateActivity extends BaseFragment {
 

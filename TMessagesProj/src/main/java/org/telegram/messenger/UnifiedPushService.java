@@ -22,13 +22,13 @@ import java.security.interfaces.ECPublicKey;
 import java.security.spec.ECGenParameterSpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 
-import tw.nekomimi.nekogram.utils.WebPushDecryptor;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.utils.WebPushDecryptor;
+import org.mzgram.ext.ExtConfig;
 
 @SuppressWarnings("NullableProblems")
 public class UnifiedPushService extends PushService {
 
-    public static final String UP_GATEWAY_DEFAULT = "https://p2p.belloworld.it/"; // https://github.com/Mercurygram/Mercurygram?tab=readme-ov-file#unifiedpush-put-to-post-gateway
+    public static final String UP_GATEWAY_DEFAULT = "https://p2p.belloworld.it/";
 
     private static final String DISTRIBUTOR_NTFY = "io.heckel.ntfy";
     static final String UP_FAILED = "__UNIFIEDPUSH_FAILED__";
@@ -61,7 +61,7 @@ public class UnifiedPushService extends PushService {
                 SharedConfig.pushStringGetTimeEnd = SystemClock.elapsedRealtime();
                 ensureWebPushKeys();
 
-                String gateway = NaConfig.getPreferences().getString(NaConfig.INSTANCE.getPushServiceTypeUnifiedGateway().getKey(), "");
+                String gateway = ExtConfig.getPreferences().getString(ExtConfig.INSTANCE.getPushServiceTypeUnifiedGateway().getKey(), "");
                 if (gateway.isEmpty()) {
                     gateway = UP_GATEWAY_DEFAULT;
                 }
@@ -98,7 +98,7 @@ public class UnifiedPushService extends PushService {
         numOfReceivedNotifications++;
 
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "nagramx:wp");
+        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mzgram:wp");
         wakeLock.acquire(WAKELOCK_TIMEOUT_MS);
 
         loadWebPushKeys();
@@ -180,16 +180,16 @@ public class UnifiedPushService extends PushService {
     }
 
     private static boolean isUnifiedPushDisabled() {
-        return NaConfig.getPreferences().getInt(NaConfig.INSTANCE.getPushServiceType().getKey(), 1) != 2;
+        return ExtConfig.getPreferences().getInt(ExtConfig.INSTANCE.getPushServiceType().getKey(), 1) != 2;
     }
 
     private static synchronized void loadWebPushKeys() {
         if (webPushPrivateKey != null && webPushPublicKey != null && webPushAuthSecret != null) {
             return;
         }
-        String priv = NaConfig.getPreferences().getString(NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPrivateKey().getKey(), "");
-        String pub = NaConfig.getPreferences().getString(NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPublicKey().getKey(), "");
-        String auth = NaConfig.getPreferences().getString(NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushAuthSecret().getKey(), "");
+        String priv = ExtConfig.getPreferences().getString(ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPrivateKey().getKey(), "");
+        String pub = ExtConfig.getPreferences().getString(ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPublicKey().getKey(), "");
+        String auth = ExtConfig.getPreferences().getString(ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushAuthSecret().getKey(), "");
         if (TextUtils.isEmpty(priv) && TextUtils.isEmpty(pub) && TextUtils.isEmpty(auth)) {
             return;
         }
@@ -211,9 +211,9 @@ public class UnifiedPushService extends PushService {
             webPushPrivateKey = null;
             webPushPublicKey = null;
             webPushAuthSecret = null;
-            NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPrivateKey().setConfigString("");
-            NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPublicKey().setConfigString("");
-            NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushAuthSecret().setConfigString("");
+            ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPrivateKey().setConfigString("");
+            ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPublicKey().setConfigString("");
+            ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushAuthSecret().setConfigString("");
             FileLog.e(e);
         }
     }
@@ -236,9 +236,9 @@ public class UnifiedPushService extends PushService {
             Utilities.random.nextBytes(secret);
             webPushAuthSecret = secret;
 
-            NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPrivateKey().setConfigString(Base64.encodeToString(webPushPrivateKey, Base64.DEFAULT));
-            NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPublicKey().setConfigString(Base64.encodeToString(webPushPublicKey, Base64.DEFAULT));
-            NaConfig.INSTANCE.getPushServiceTypeUnifiedWebPushAuthSecret().setConfigString(Base64.encodeToString(webPushAuthSecret, Base64.DEFAULT));
+            ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPrivateKey().setConfigString(Base64.encodeToString(webPushPrivateKey, Base64.DEFAULT));
+            ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushPublicKey().setConfigString(Base64.encodeToString(webPushPublicKey, Base64.DEFAULT));
+            ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushAuthSecret().setConfigString(Base64.encodeToString(webPushAuthSecret, Base64.DEFAULT));
         } catch (Exception e) {
             FileLog.e(e);
         }

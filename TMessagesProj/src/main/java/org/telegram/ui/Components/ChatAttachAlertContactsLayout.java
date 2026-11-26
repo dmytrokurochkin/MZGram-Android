@@ -55,8 +55,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLayout implements Theme.Colorable, NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {
@@ -562,7 +562,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     private void showErrorBox(String error) {
-        new AlertDialog.Builder(getContext(), resourcesProvider).setTitle(LocaleController.getString(R.string.NagramX)).setMessage(error).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+        new AlertDialog.Builder(getContext(), resourcesProvider).setTitle(LocaleController.getString(R.string.MZGram)).setMessage(error).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
     }
 
     private TLRPC.User prepareContact(Object object) {

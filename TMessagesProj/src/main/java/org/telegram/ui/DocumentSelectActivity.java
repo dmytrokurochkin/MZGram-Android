@@ -100,12 +100,12 @@ import java.util.StringTokenizer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.ChatsHelper;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.translate.TranslatorKt;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.ChatsHelper;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.translate.TranslatorKt;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class DocumentSelectActivity extends BaseFragment {
 
@@ -673,7 +673,7 @@ public class DocumentSelectActivity extends BaseFragment {
             if (chatActivity != null && chatActivity.isInScheduleMode()) {
                 AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), (notify, scheduleDate, scheduleRepeatPeriod) -> sendSelectedFiles(notify, scheduleDate));
             } else {
-                sendSelectedFiles(!NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0);
+                sendSelectedFiles(!ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0);
             }
         });
         writeButton.setOnLongClickListener(view -> {
@@ -743,7 +743,7 @@ public class DocumentSelectActivity extends BaseFragment {
                         } else if (num == 1) {
                             AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), (notify, scheduleDate, scheduleRepeatPeriod) -> sendSelectedFiles(notify, scheduleDate));
                         } else if (num == 2) {
-                            sendSelectedFiles(!NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0);
+                            sendSelectedFiles(!ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0);
                         }
                     });
                     itemCells[a].setOnLongClickListener(v -> {
@@ -778,7 +778,7 @@ public class DocumentSelectActivity extends BaseFragment {
             view.getLocationInWindow(location);
             sendPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, location[0] + view.getMeasuredWidth() - sendPopupLayout.getMeasuredWidth() + AndroidUtilities.dp(8), location[1] - sendPopupLayout.getMeasuredHeight() - AndroidUtilities.dp(2));
             sendPopupWindow.dimBehind();
-            if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
 
             return false;
         });
@@ -1280,7 +1280,7 @@ public class DocumentSelectActivity extends BaseFragment {
         if (getParentActivity() == null) {
             return;
         }
-        new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString(R.string.NagramX)).setMessage(error).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
+        new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString(R.string.MZGram)).setMessage(error).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
     @SuppressLint("NewApi")

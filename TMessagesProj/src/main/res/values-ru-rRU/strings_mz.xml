@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGramInfo">Настройте клиент под себя</string>
+
+
+    <string name="MZGramChats">Чаты</string>
+    <string name="AddCommaAfterMention">Запятая после упоминания</string>
+
+
+    <string name="MZGramCategories">Категории</string>
+    <string name="MZGramGeneral">Основные</string>
+    <string name="MZGramAppearance">Внешний вид</string>
+    <string name="MZGramOther">Ещё</string>
+
+    <string name="MZGramLinks">Ссылки</string>
+    <string name="MZGramSource">Исходный код</string>
+    <string name="QrTitleLink">Ссылка</string>
+    <string name="QrTitleWifi">Сеть Wi-Fi</string>
+    <string name="QrTitleLogin">Код входа в Telegram</string>
+    <string name="QrTitleText">Отсканированный текст</string>
+    <string name="QrWifiOpenSettings">Открыть настройки Wi-Fi</string>
+    <string name="QrWifiCopyPassword">Скопировать пароль</string>
+    <string name="QrWifiPasswordCopied">Пароль скопирован</string>
+    <string name="QrWifiUnknownNetwork">В коде нет имени сети</string>
+    <string name="QrLoginHint">Этот код входит в аккаунт. Используйте Настройки → Устройства → Подключить устройство: тот экран проверяет код и защищает аккаунт.</string>
+    <string name="QrLoginConfirm">Этот код входит в ваш аккаунт с нового устройства. Разрешайте, только если входите сами на своём устройстве.</string>
+    <string name="AppIconMZGram" translatable="false">MZGram</string>
+    <string name="AppIconBlueprint" translatable="false">Blueprint</string>
+    <string name="AppIconRed" translatable="false">Red</string>
+    <string name="AppIconNya" translatable="false">Nya</string>
+    <string name="AppIconQuack" translatable="false">Quack</string>
+    <string name="MZGramPreferences">Настройки MZGram</string>
+    <string name="MZGramDesignSection">Дизайн</string>
+    <string name="MZDownloadEmojiPacks">Загружать наборы эмодзи</string>
+    <string name="MZChooseSubtitles">Выбрать субтитры</string>
+    <string name="MZDisableSubtitles">Выключить субтитры</string>
+    <string name="MZSubtitles">Субтитры</string>
+    <string name="MZSubtitlesAdded">Субтитры включены.</string>
+    <string name="MZSubtitlesLoadError">Не удалось загрузить субтитры.</string>
+    <string name="MZSubtitlesRemoved">Субтитры выключены.</string>
+    <string name="MZSubtitlesUnsupportedFormat">Неподдерживаемый формат субтитров.</string>
+    <string name="ProxyDisableOn">Отключать прокси</string>
+    <string name="ProxyDisableNever">Никогда</string>
+    <string name="ProxyDisableAlways">Всегда</string>
+    <string name="ProxyDisableOnMobileData">Мобильный интернет</string>
+    <string name="MainTabsHideCallsSettings">Скрыть вкладку «Звонки»</string>
+    <string name="MainTabsHideProfile">Скрыть вкладку профиля</string>
+    <string name="MZBotWebViewUpdate">Обновить WebView</string>
+    <string name="MZProfilerStart">Запустить профайлер</string>
+    <string name="MZProfilerStop">Остановить профайлер и отправить отчёт</string>
+    <string name="MZProfilerStarted">Профайлер запущен. Пользуйтесь приложением как обычно, потом остановите его здесь же.</string>
+    <string name="MZProfilerShareLast">Отправить последний отчёт профайлера</string>
+    <string name="MZEnergyProfilerStart">Запустить профиль энергопотребления</string>
+    <string name="MZEnergyProfilerStop">Остановить профиль энергопотребления и отправить отчёт</string>
+    <string name="MZEnergyProfilerStarted">Профиль энергопотребления запущен, он работает и в фоне, и после перезапуска. Пользуйтесь телефоном как обычно несколько часов, потом остановите его здесь же.</string>
+    <string name="MZEnergyProfilerShareCurrent">Отправить текущий отчёт об энергопотреблении</string>
+    <string name="MZEnergyProfilerShareLast">Отправить последний отчёт об энергопотреблении</string>
+    <string name="MZPluginToggleLogShare">Отправить журнал включения плагинов</string>
+    <string name="MZProfileIdDate">Дата регистрации и вступления</string>
+    <string name="MZProfileAccountCreated">Аккаунт **%1$s** создан %2$s</string>
+    <string name="MZProfileJoinedChat">Вы вступили в **%1$s** %2$s</string>
+    <string name="MZProfileJoinedChannel">Вы подписались на **%1$s** %2$s</string>
+    <string name="MZProfileChatCreated">**%1$s** создан %2$s</string>
+    <string name="MZProfileJoinDateUnknown">Дата вступления недоступна</string>
+    <string name="AppIconsSelect">Выбрать</string>
+    <string name="AppIconsKeep">Оставить эту</string>
+</resources>

@@ -59453,12 +59453,12 @@ public class TLRPC {
         public long ephemeralReceiverBotId; //custom
         public boolean welcomeTemplateFirst; // custom
 
-        // NekoX Customs
+        // CoreX Customs
         public String translatedMessage; //custom
         public boolean translated; // custom
         public boolean hide; // custom
-        // ayuGram
-        public boolean ayuDeleted;
+        // arcGram
+        public boolean arcDeleted;
 
         private static Message fromConstructor(int constructor) {
             switch (constructor) {
@@ -63786,7 +63786,7 @@ public class TLRPC {
 
         public void serializeToStream(OutputSerializedData stream) {
             if (local) {
-                app.exteraless.chats.LinkedCustomEmoji.toLink(this).serializeToStream(stream);
+                org.mzgram.chats.LinkedCustomEmoji.toLink(this).serializeToStream(stream);
                 return;
             }
             stream.writeInt32(constructor);
@@ -63797,7 +63797,7 @@ public class TLRPC {
 
         @Override public void serializeToJson(TLJsonBuilder builder) {
             if (local) {
-                app.exteraless.chats.LinkedCustomEmoji.toLink(this).serializeToJson(builder);
+                org.mzgram.chats.LinkedCustomEmoji.toLink(this).serializeToJson(builder);
                 return;
             }
             builder.writeString("_", constructorName);

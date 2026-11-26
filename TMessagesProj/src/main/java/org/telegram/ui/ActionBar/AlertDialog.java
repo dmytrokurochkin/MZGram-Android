@@ -288,7 +288,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
      * theme, a little greyer in a light one. Only for the theme's dialog colour, not for a colour a caller sets.
      */
     private int mzDialogColor(int color) {
-        if (!app.exteraless.appearance.AppearanceConfig.materialDialogs()) {
+        if (!org.mzgram.appearance.AppearanceConfig.materialDialogs()) {
             return color;
         }
         final int tone = ColorUtils.blendARGB(color | 0xFF000000, getThemedColor(Theme.key_dialogTextBlack) | 0xFF000000, 0.09f);
@@ -382,7 +382,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         backgroundPaddings = new Rect();
         if (progressStyle != ALERT_TYPE_SPINNER || blurredBackground) {
             shadowDrawable = context.getResources().getDrawable(R.drawable.popup_fixed_alert4).mutate();
-            if (app.exteraless.appearance.AppearanceConfig.materialDialogs()) {
+            if (org.mzgram.appearance.AppearanceConfig.materialDialogs()) {
                 // MZGram: a Material 3 dialog, a flat surface with 28 dp corners. The insets of
                 // the old shadow stay, so the dialog keeps its size.
                 Rect insets = new Rect();
@@ -949,7 +949,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             titleTextView.cacheType = AnimatedEmojiDrawable.CACHE_TYPE_ALERT_PREVIEW;
             titleTextView.setText(title);
             titleTextView.setTextColor(lastTitleTextColor = getThemedColor(Theme.key_dialogTextBlack)); // re-applied in updateThemeColors unless customTextColor
-            if (app.exteraless.appearance.AppearanceConfig.materialDialogs() && !topAnimationIsNew) {
+            if (org.mzgram.appearance.AppearanceConfig.materialDialogs() && !topAnimationIsNew) {
                 // MZGram: the Material 3 dialog headline, 24 regular instead of 20 bold
                 titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
                 titleTextView.setTypeface(android.graphics.Typeface.DEFAULT);

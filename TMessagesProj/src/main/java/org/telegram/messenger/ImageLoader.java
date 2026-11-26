@@ -40,7 +40,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.graphics.ColorUtils;
 
-import com.radolyn.ayugram.AyuConstants;
+import org.mzgram.arc.ArcConstants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -92,7 +92,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 /**
  * image filter types
@@ -1733,11 +1733,11 @@ public class ImageLoader {
         private void onPostExecute(final Drawable drawable) {
             AndroidUtilities.runOnUIThread(() -> {
                 // save deleted media from cache
-                if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() && cacheImage.finalFilePath != null && cacheImage.parentObject instanceof MessageObject messageObject) {
-                    if (messageObject.isAyuDeleted()) {
+                if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() && cacheImage.finalFilePath != null && cacheImage.parentObject instanceof MessageObject messageObject) {
+                    if (messageObject.isArcDeleted()) {
                         String fileName = cacheImage.finalFilePath.getName();
                         if (fileName.endsWith(".jpg") || fileName.endsWith(".mp4")) {
-                            NotificationCenter.getInstance(cacheImage.currentAccount).postNotificationName(AyuConstants.DELETED_MEDIA_LOADED_NOTIFICATION, fileName, cacheImage.finalFilePath);
+                            NotificationCenter.getInstance(cacheImage.currentAccount).postNotificationName(ArcConstants.DELETED_MEDIA_LOADED_NOTIFICATION, fileName, cacheImage.finalFilePath);
                         }
                     }
                 }
@@ -2270,14 +2270,14 @@ public class ImageLoader {
                 public void fileDidLoaded(final String location, final File finalFile, Object parentObject, final int type) {
                     fileProgresses.remove(location);
                     AndroidUtilities.runOnUIThread(() -> {
-                        boolean ayuDeleted = false;
+                        boolean arcDeleted = false;
                         if (finalFile != null && (location.endsWith(".mp4") || location.endsWith(".jpg"))) {
                             FilePathDatabase.FileMeta meta = FileLoader.getFileMetadataFromParent(currentAccount, parentObject);
                             if (meta != null) {
                                 MessageObject messageObject = null;
                                 if (parentObject instanceof MessageObject) {
                                     messageObject = (MessageObject) parentObject;
-                                    ayuDeleted = messageObject.isAyuDeleted();
+                                    arcDeleted = messageObject.isArcDeleted();
                                 }
                                 long dialogId = meta.dialogId;
                                 int flag;
@@ -2296,8 +2296,8 @@ public class ImageLoader {
                             }
                         }
                         NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.fileLoaded, location, finalFile);
-                        if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() && ayuDeleted) {
-                            NotificationCenter.getInstance(currentAccount).postNotificationName(AyuConstants.DELETED_MEDIA_LOADED_NOTIFICATION, location, finalFile);
+                        if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() && arcDeleted) {
+                            NotificationCenter.getInstance(currentAccount).postNotificationName(ArcConstants.DELETED_MEDIA_LOADED_NOTIFICATION, location, finalFile);
                         }
                         ImageLoader.this.fileDidLoaded(location, finalFile, type);
                     });

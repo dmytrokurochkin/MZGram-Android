@@ -18,7 +18,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 
-import app.exteraless.components.ReceiveContentEditText;
+import org.mzgram.components.ReceiveContentEditText;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
@@ -176,7 +176,7 @@ public class EditTextEffects extends ReceiveContentEditText {
                 Layout layout = getLayout();
                 if (text instanceof Spannable && layout != null) {
                     int line = layout.getLineForOffset(start);
-                    // NekoX: Fix official bug: Mention crash
+                    // CoreX: Fix official bug: Mention crash
                     if (start > layout.getText().length())
                         return;
                     int x = (int) layout.getPrimaryHorizontal(start);

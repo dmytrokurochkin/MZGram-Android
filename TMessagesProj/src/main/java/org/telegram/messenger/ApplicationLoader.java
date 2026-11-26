@@ -8,7 +8,7 @@
 
 package org.telegram.messenger;
 
-import app.exteraless.OpenExteraConfig;
+import org.mzgram.MZGramConfig;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -62,9 +62,9 @@ import java.io.File;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.ext.ExtConfig;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import androidx.camera.camera2.Camera2Config;
@@ -109,6 +109,7 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
     protected void attachBaseContext(Context base) {
         systemUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         super.attachBaseContext(base);
+        org.mzgram.utils.StorageMigration.run(base);
         try {
             applicationContext = getApplicationContext();
         } catch (Throwable ignore) {
@@ -128,7 +129,7 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
 
     public static IMapsProvider getMapsProvider() {
         if (mapsProvider == null) {
-            if (NekoConfig.useOSMDroidMap.Bool())
+            if (CoreConfig.useOSMDroidMap.Bool())
                 mapsProvider = new OSMDroidMapsProvider();
             else {
                 mapsProvider = new GoogleMapsProvider();
@@ -286,17 +287,17 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
         }
 
         SharedConfig.loadConfig();
-        NekoConfig.init();
-        NaConfig.init();
-        OpenExteraConfig.init();
-        app.exteraless.icons.IconPacksConfig.init();
-        app.exteraless.pillstack.PillStackConfig.init();
-        app.exteraless.appearance.AppearanceConfig.init();
-        app.exteraless.chats.ChatsConfig.init();
-        app.exteraless.general.GeneralConfig.init();
-        app.exteraless.utils.UtilsConfig.init();
-        app.exteraless.glyph.GlyphConfig.init();
-        app.exteraless.glyph.GlyphController.getInstance().init();
+        CoreConfig.init();
+        ExtConfig.init();
+        MZGramConfig.init();
+        org.mzgram.icons.IconPacksConfig.init();
+        org.mzgram.pillstack.PillStackConfig.init();
+        org.mzgram.appearance.AppearanceConfig.init();
+        org.mzgram.chats.ChatsConfig.init();
+        org.mzgram.general.GeneralConfig.init();
+        org.mzgram.utils.UtilsConfig.init();
+        org.mzgram.glyph.GlyphConfig.init();
+        org.mzgram.glyph.GlyphController.getInstance().init();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             // Суффикс набора Monet запекается в ThemeInfo.assetName при первой загрузке
             // класса Theme. Если она случилась до загрузки конфигов (процесс поднялся
@@ -304,13 +305,13 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
             // умолчанию — патчим assetName после инициализации конфигов.
             org.telegram.ui.ActionBar.Theme.reloadMonetThemes();
         }
-        app.exteraless.plugins.PluginsController.getInstance().init(applicationContext);
+        org.mzgram.plugins.PluginsController.getInstance().init(applicationContext);
         if (BuildConfig.DEBUG_TOOLS) {
-            app.exteraless.debug.EnergyProfiler.resumeIfEnabled(applicationContext);
+            org.mzgram.debug.EnergyProfiler.resumeIfEnabled(applicationContext);
         }
         SharedPrefsHelper.init(applicationContext);
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(AndroidUtil.shouldEnableCrashlytics());
-        Utilities.globalQueue.postRunnable(app.exteraless.crash.CrashLog::reportOutOfMemory);
+        Utilities.globalQueue.postRunnable(org.mzgram.crash.CrashLog::reportOutOfMemory);
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) { //TODO improve account
             UserConfig.getInstance(a).loadConfig();
             MessagesController.getInstance(a);
@@ -438,9 +439,9 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
 
         LauncherIconController.tryFixLauncherIconIfNeeded();
         ProxyRotationController.init();
-        app.exteraless.proxy.ProxyPingController.init();
-        app.exteraless.links.LinkCleaner.preloadIfEnabled();
-        app.exteraless.appearance.M3CircularProgress.prewarm();
+        org.mzgram.proxy.ProxyPingController.init();
+        org.mzgram.links.LinkCleaner.preloadIfEnabled();
+        org.mzgram.appearance.M3CircularProgress.prewarm();
 
         //if (BuildConfig.DEBUG_PRIVATE_VERSION) {
         //    Choreographer60FpsContent.getInstance().addFrameCallback(debugEverySecondChecks, 1);
@@ -458,7 +459,7 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
 
     private static void startPushServiceInternal() {
         SharedPreferences preferences = MessagesController.getNotificationsSettings(UserConfig.selectedAccount);
-        final int pushServiceType = NaConfig.INSTANCE.getPushServiceType().Int();
+        final int pushServiceType = ExtConfig.INSTANCE.getPushServiceType().Int();
         final boolean remoteFailed = TextUtils.isEmpty(SharedConfig.pushString)
                 && ("__FIREBASE_FAILED__".equals(SharedConfig.pushStringStatus)
                 || UnifiedPushService.UP_FAILED.equals(SharedConfig.pushStringStatus));
@@ -919,11 +920,11 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
     private void installCrashReportFilter() {
         Thread.UncaughtExceptionHandler crashlyticsHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler((thread, error) -> {
-            app.exteraless.plugins.PluginsWatchdog.onUncaughtException(error);
-            app.exteraless.crash.CrashLog.record(thread, error);
+            org.mzgram.plugins.PluginsWatchdog.onUncaughtException(error);
+            org.mzgram.crash.CrashLog.record(thread, error);
             if (AndroidUtil.shouldReportCrashToCrashlytics(error)) {
                 if (crashlyticsHandler != null) {
-                    app.exteraless.crash.CrashLog.putCrashlyticsKeys(error);
+                    org.mzgram.crash.CrashLog.putCrashlyticsKeys(error);
                     crashlyticsHandler.uncaughtException(thread, error);
                     return;
                 }

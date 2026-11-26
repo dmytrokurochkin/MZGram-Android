@@ -113,13 +113,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.filters.AyuFilter;
-import tw.nekomimi.nekogram.helpers.EntitiesHelper;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.filters.ArcFilter;
+import org.mzgram.core.helpers.EntitiesHelper;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.ext.ExtConfig;
 
-import app.exteraless.chats.LinkedCustomEmoji;
+import org.mzgram.chats.LinkedCustomEmoji;
 
 @SuppressWarnings("unchecked")
 public class MediaDataController extends BaseController {
@@ -923,11 +923,11 @@ public class MediaDataController extends BaseController {
         if (type == TYPE_PREMIUM_STICKERS) {
             return new ArrayList<>(recentStickers[type]);
         }
-        if (type == TYPE_FAVE && NekoConfig.unlimitedFavedStickers.Bool()) {
+        if (type == TYPE_FAVE && CoreConfig.unlimitedFavedStickers.Bool()) {
             return new ArrayList<>(recentStickers[type]);
         }
-        ArrayList<TLRPC.Document> result = new ArrayList<>(arrayList.subList(0, Math.min(arrayList.size(), NekoConfig.maxRecentStickerCount.Int())));
-        if (firstEmpty && !result.isEmpty() && !StickersAlert.DISABLE_STICKER_EDITOR && !NekoConfig.minimizedStickerCreator.Bool()) {
+        ArrayList<TLRPC.Document> result = new ArrayList<>(arrayList.subList(0, Math.min(arrayList.size(), CoreConfig.maxRecentStickerCount.Int())));
+        if (firstEmpty && !result.isEmpty() && !StickersAlert.DISABLE_STICKER_EDITOR && !CoreConfig.minimizedStickerCreator.Bool()) {
             result.add(0, new TLRPC.TL_documentEmpty());
         }
         return result;
@@ -1015,7 +1015,7 @@ public class MediaDataController extends BaseController {
     }
 
     public TLRPC.InputStickerSet getFaveStickerSet(long documentId) {
-        if (!NekoConfig.unlimitedFavedStickers.Bool()) {
+        if (!CoreConfig.unlimitedFavedStickers.Bool()) {
             return null;
         }
         try {
@@ -1074,7 +1074,7 @@ public class MediaDataController extends BaseController {
             if (remove) {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_STICKER, document, StickerSetBulletinLayout.TYPE_REMOVED_FROM_FAVORITES);
             } else {
-                boolean replace = !NekoConfig.unlimitedFavedStickers.Bool() && recentStickers[type].size() > (getUserConfig().isPremium() ? 10 : getMessagesController().maxFaveStickersCount);
+                boolean replace = !CoreConfig.unlimitedFavedStickers.Bool() && recentStickers[type].size() > (getUserConfig().isPremium() ? 10 : getMessagesController().maxFaveStickersCount);
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_STICKER, document, replace ? StickerSetBulletinLayout.TYPE_REPLACED_TO_FAVORITES : StickerSetBulletinLayout.TYPE_ADDED_TO_FAVORITES);
             }
             TLRPC.TL_messages_faveSticker req = new TLRPC.TL_messages_faveSticker();
@@ -1093,7 +1093,7 @@ public class MediaDataController extends BaseController {
                     AndroidUtilities.runOnUIThread(() -> getMediaDataController().loadRecents(MediaDataController.TYPE_FAVE, false, false, true));
                 }
             });
-            maxCount = NekoConfig.unlimitedFavedStickers.Bool() ? Integer.MAX_VALUE : getUserConfig().isPremium() ? 10 : getMessagesController().maxFaveStickersCount;
+            maxCount = CoreConfig.unlimitedFavedStickers.Bool() ? Integer.MAX_VALUE : getUserConfig().isPremium() ? 10 : getMessagesController().maxFaveStickersCount;
         } else {
             if (type == TYPE_IMAGE && remove) {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_STICKER, document, StickerSetBulletinLayout.TYPE_REMOVED_FROM_RECENT);
@@ -1112,7 +1112,7 @@ public class MediaDataController extends BaseController {
                     }
                 });
             }
-            maxCount = NekoConfig.maxRecentStickerCount.Int()/*getMessagesController().maxRecentStickersCount*/;
+            maxCount = CoreConfig.maxRecentStickerCount.Int()/*getMessagesController().maxRecentStickersCount*/;
         }
         if (recentStickers[type].size() > maxCount || remove) {
             TLRPC.Document old = remove ? document : recentStickers[type].remove(recentStickers[type].size() - 1);
@@ -1207,7 +1207,7 @@ public class MediaDataController extends BaseController {
         if (!found) {
             recentGifs.add(0, document);
         }
-        if (!NaConfig.INSTANCE.getUnlimitedSavedGifs().Bool()
+        if (!ExtConfig.INSTANCE.getUnlimitedSavedGifs().Bool()
                 && ((recentGifs.size() > getMessagesController().savedGifsLimitDefault && !UserConfig.getInstance(currentAccount).isPremium()) || recentGifs.size() > getMessagesController().savedGifsLimitPremium)) {
             TLRPC.Document old = recentGifs.remove(recentGifs.size() - 1);
             getMessagesStorage().getStorageQueue().postRunnable(() -> {
@@ -2205,22 +2205,22 @@ public class MediaDataController extends BaseController {
                     SQLiteDatabase database = getMessagesStorage().getDatabase();
                     int maxCount;
                     if (gif) {
-                        maxCount = NaConfig.INSTANCE.getUnlimitedSavedGifs().Bool() ? Integer.MAX_VALUE : getMessagesController().maxRecentGifsCount;
+                        maxCount = ExtConfig.INSTANCE.getUnlimitedSavedGifs().Bool() ? Integer.MAX_VALUE : getMessagesController().maxRecentGifsCount;
                     } else {
                         if (type == TYPE_GREETINGS || type == TYPE_PREMIUM_STICKERS) {
                             maxCount = 200;
                         } else if (type == TYPE_FAVE) {
-                            maxCount = NekoConfig.unlimitedFavedStickers.Bool() ? Integer.MAX_VALUE : getUserConfig().isPremium() ? 10 : getMessagesController().maxFaveStickersCount;
+                            maxCount = CoreConfig.unlimitedFavedStickers.Bool() ? Integer.MAX_VALUE : getUserConfig().isPremium() ? 10 : getMessagesController().maxFaveStickersCount;
                         } else {
-                            maxCount = NekoConfig.maxRecentStickerCount.Int()/*getMessagesController().maxRecentStickersCount*/;
+                            maxCount = CoreConfig.maxRecentStickerCount.Int()/*getMessagesController().maxRecentStickersCount*/;
                         }
                     }
                     // For unlimited faved stickers, merge with existing database entries
                     ArrayList<TLRPC.Document> finalDocuments = documents;
                     final boolean keepLocalExtras = replace
-                            && (gif ? NaConfig.INSTANCE.getUnlimitedSavedGifs().Bool()
-                            : type == TYPE_FAVE && NekoConfig.unlimitedFavedStickers.Bool()
-                            || type == TYPE_IMAGE && NekoConfig.maxRecentStickerCount.Int() > getMessagesController().maxRecentStickersCount);
+                            && (gif ? ExtConfig.INSTANCE.getUnlimitedSavedGifs().Bool()
+                            : type == TYPE_FAVE && CoreConfig.unlimitedFavedStickers.Bool()
+                            || type == TYPE_IMAGE && CoreConfig.maxRecentStickerCount.Int() > getMessagesController().maxRecentStickersCount);
                     if (keepLocalExtras) {
                         HashSet<Long> serverIds = new HashSet<>();
                         for (TLRPC.Document doc : documents) {
@@ -2441,7 +2441,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void loadFeaturedStickers(boolean emoji, boolean cache) {
-        if (loadingFeaturedStickers[emoji ? 1 : 0] || NekoConfig.disableTrending.Bool()) {
+        if (loadingFeaturedStickers[emoji ? 1 : 0] || CoreConfig.disableTrending.Bool()) {
             return;
         }
         loadingFeaturedStickers[emoji ? 1 : 0] = true;
@@ -4277,7 +4277,7 @@ public class MediaDataController extends BaseController {
                                 getNotificationCenter().postNotificationName(NotificationCenter.chatSearchResultsLoading, guid);
                             }
                             int index = queryWithDialogFinal == dialogId ? 0 : 1;
-                            boolean hideSenders = user == null && chat == null && AyuFilter.shouldHideSenders() && ChatObject.isMegagroup(getMessagesController().getChat(-dialogId));
+                            boolean hideSenders = user == null && chat == null && ArcFilter.shouldHideSenders() && ChatObject.isMegagroup(getMessagesController().getChat(-dialogId));
                             boolean added = false;
                             int hidden = 0;
                             int N = Math.min(res.messages.size(), req.limit - 1);
@@ -4286,7 +4286,7 @@ public class MediaDataController extends BaseController {
                                 if (hideSenders) {
                                     searchRawOffsetId[index] = messageObject.getId();
                                     long fromId = messageObject.getFromChatId();
-                                    if (MessageHelper.getInstance(currentAccount).isBlockedUser(fromId) || AyuFilter.isBlockedChannel(fromId)) {
+                                    if (MessageHelper.getInstance(currentAccount).isBlockedUser(fromId) || ArcFilter.isBlockedChannel(fromId)) {
                                         hidden++;
                                         continue;
                                     }
@@ -5362,7 +5362,7 @@ public class MediaDataController extends BaseController {
                     if (SharedConfig.directShare) {
                         builder.setCategories(category);
                     }
-                    builder.setIcon(app.exteraless.chats.ShortcutIcons.createAvatarIcon(bitmap, user, chat));
+                    builder.setIcon(org.mzgram.chats.ShortcutIcons.createAvatarIcon(bitmap, user, chat));
 
                     if (recreateShortcuts) {
                         ShortcutManagerCompat.pushDynamicShortcut(ApplicationLoader.applicationContext, builder.build());
@@ -5965,7 +5965,7 @@ public class MediaDataController extends BaseController {
                         .setShortLabel(name)
                         .setIntent(shortcutIntent);
 
-                pinShortcutInfo.setIcon(app.exteraless.chats.ShortcutIcons.createAvatarIcon(bitmap, user, chat));
+                pinShortcutInfo.setIcon(org.mzgram.chats.ShortcutIcons.createAvatarIcon(bitmap, user, chat));
 
                 PendingIntent callbackIntent = null;
                 if (callback != null) {
@@ -7521,7 +7521,7 @@ public class MediaDataController extends BaseController {
         boolean isPre = false;
         final String mono = "`";
         final String pre = "```";
-        while (NaConfig.INSTANCE.getMarkdownParser().Int() == NekoConfig.MARKDOWN_PARSER_TELEGRAM && parseMarkdown && (index = TextUtils.indexOf(message[0], !isPre ? mono : pre, lastIndex)) != -1) {
+        while (ExtConfig.INSTANCE.getMarkdownParser().Int() == CoreConfig.MARKDOWN_PARSER_TELEGRAM && parseMarkdown && (index = TextUtils.indexOf(message[0], !isPre ? mono : pre, lastIndex)) != -1) {
             if (start == -1) {
                 isPre = message[0].length() - index > 2 && message[0].charAt(index + 1) == '`' && message[0].charAt(index + 2) == '`';
                 start = index;
@@ -7607,7 +7607,7 @@ public class MediaDataController extends BaseController {
             entities.add(entity);
         }
 
-        if (NaConfig.INSTANCE.getMarkdownParser().Int() == NekoConfig.MARKDOWN_PARSER_NEKO)  {
+        if (ExtConfig.INSTANCE.getMarkdownParser().Int() == CoreConfig.MARKDOWN_PARSER_CORE)  {
             EntitiesHelper.parseMarkdown(message, allowStrike);
         }
 
@@ -7802,7 +7802,7 @@ public class MediaDataController extends BaseController {
         CharSequence cs = message[0];
         if (entities == null) entities = new ArrayList<>();
         addTonAddressEntities(cs, entities);
-        if (NaConfig.INSTANCE.getMarkdownParser().Int() == NekoConfig.MARKDOWN_PARSER_NEKO) return entities;
+        if (ExtConfig.INSTANCE.getMarkdownParser().Int() == CoreConfig.MARKDOWN_PARSER_CORE) return entities;
         if (parseMarkdown) {
             cs = parsePattern(cs, BOLD_PATTERN, entities, obj -> new TLRPC.TL_messageEntityBold());
             cs = parsePattern(cs, ITALIC_PATTERN, entities, obj -> new TLRPC.TL_messageEntityItalic());

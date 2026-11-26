@@ -8,7 +8,7 @@
 
 package org.telegram.ui;
 
-import app.exteraless.utils.AppUtils;
+import org.mzgram.utils.AppUtils;
 
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.lerp;
@@ -241,9 +241,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.telegram.ui.iv.Latex;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.parts.ArticleTransKt;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.parts.ArticleTransKt;
+import org.mzgram.ext.ExtConfig;
 
 public class ArticleViewer extends IArticleViewer implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1211,7 +1211,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
 
         private boolean lastWebviewAllowedScroll;
         public boolean handleTouchEvent(MotionEvent event) {
-            if (NaConfig.INSTANCE.getDisableInAppBrowserGestures().Bool()) {
+            if (ExtConfig.INSTANCE.getDisableInAppBrowserGestures().Bool()) {
                 return false;
             }
             if (pageSwitchAnimation == null && !closeAnimationInProgress && fullscreenVideoContainer.getVisibility() != VISIBLE && !textSelectionHelper.isInSelectionMode()) {
@@ -1467,7 +1467,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
                 checkingForLongPress = false;
                 if (pressedLink != null) {
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!CoreConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}
                     showCopyPopup(pressedLink.getSpan().getUrl());
                     pressedLink = null;
@@ -1483,12 +1483,12 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
                     }
                     if (textSelectionHelper.isInSelectionMode()) {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                            if (!CoreConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                         } catch (Exception ignored) {}
                     }
                 } else if (pressedLinkOwnerLayout != null && pressedLinkOwnerView != null) {
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!CoreConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}
 
                     int[] location = new int[2];
@@ -2010,7 +2010,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
             int count = webPage.cached_page.blocks.size();
             for (int a = 0; a < count; a++) {
                 TL_iv.PageBlock block = webPage.cached_page.blocks.get(a);
-                if (app.exteraless.appearance.AiFeaturesHelper.shouldHideIvBlock(block)) {
+                if (org.mzgram.appearance.AiFeaturesHelper.shouldHideIvBlock(block)) {
                     continue;
                 }
                 if (a == 0) {
@@ -13245,7 +13245,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
                 String currentUrl = AndroidUtilities.formapMapUrl(false, currentBlock.geo.lat, currentBlock.geo._long, (int) (photoWidth / AndroidUtilities.density), (int) (height / AndroidUtilities.density), true, 15);
                 WebFile currentWebFile = WebFile.createWithGeoPoint(currentBlock.geo, (int) (photoWidth / AndroidUtilities.density), (int) (height / AndroidUtilities.density), 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)));
 
-                if (NekoConfig.mapPreviewProvider.Int() == 0) {
+                if (CoreConfig.mapPreviewProvider.Int() == 0) {
                     currentMapProvider = 2;
                 } else {
                     currentMapProvider = -1;

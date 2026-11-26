@@ -4,7 +4,7 @@ import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.find;
 
 import android.text.TextUtils;
-import app.exteraless.utils.MarkdownUtils;
+import org.mzgram.utils.MarkdownUtils;
 import org.telegram.messenger.AndroidUtilities;
 
 import org.commonmark.Extension;
@@ -81,7 +81,7 @@ public class MarkdownParser {
         if (msg == null) return false;
         // третий дизъюнкт — .txt/.json/.kt/.py/Dockerfile и ещё ~60 типов, они открываются
         // тем же вьюером, но одним преформатированным блоком с подсветкой
-        return isExtensionMarkdown(msg.getExtension()) || isMimeMarkdown(msg.getMimeType()) || MarkdownUtils.isExteraMarkdown(msg);
+        return isExtensionMarkdown(msg.getExtension()) || isMimeMarkdown(msg.getMimeType()) || MarkdownUtils.isMZMarkdown(msg);
     }
 
     public static boolean isExtensionMarkdown(String ext) {

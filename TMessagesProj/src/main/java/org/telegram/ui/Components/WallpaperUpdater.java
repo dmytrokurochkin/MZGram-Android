@@ -39,7 +39,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
+import org.mzgram.core.ui.BottomBuilder;
 
 public class WallpaperUpdater {
 

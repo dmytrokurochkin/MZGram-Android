@@ -1433,7 +1433,7 @@ public class DatabaseMigrationHelper {
         }
 
         if (version == 143) {
-            database.executeFast("ALTER TABLE dialog_filter_neko ADD COLUMN color INTEGER default -1").stepThis().dispose();
+            database.executeFast("ALTER TABLE dialog_filter_core ADD COLUMN color INTEGER default -1").stepThis().dispose();
             database.executeFast("PRAGMA user_version = 144").stepThis().dispose();
             version = 144;
         }
@@ -1541,13 +1541,13 @@ public class DatabaseMigrationHelper {
         }
 
         if (version == 159) {
-            database.executeFast("ALTER TABLE dialog_filter_neko ADD COLUMN entities BLOB").stepThis().dispose();
+            database.executeFast("ALTER TABLE dialog_filter_core ADD COLUMN entities BLOB").stepThis().dispose();
             database.executeFast("PRAGMA user_version = 160").stepThis().dispose();
             version = 160;
         }
 
         if (version == 160) {
-            database.executeFast("ALTER TABLE dialog_filter_neko ADD COLUMN noanimate INTEGER").stepThis().dispose();
+            database.executeFast("ALTER TABLE dialog_filter_core ADD COLUMN noanimate INTEGER").stepThis().dispose();
             database.executeFast("PRAGMA user_version = 161").stepThis().dispose();
             version = 161;
         }
@@ -1799,7 +1799,7 @@ public class DatabaseMigrationHelper {
             excludeTables.add("media_counts_v2");
             excludeTables.add("media_counts_topics");
             excludeTables.add("dialogs");
-            excludeTables.add("dialog_filter_neko");
+            excludeTables.add("dialog_filter_core");
             excludeTables.add("dialog_filter_ep");
             excludeTables.add("dialog_filter_pin_v2");
 

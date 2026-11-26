@@ -303,7 +303,7 @@ public class HintDialogCell extends FrameLayout implements Theme.Colorable {
             int cy = imageView.getTop() + imageView.getMeasuredHeight() / 2;
             Theme.checkboxSquare_checkPaint.setColor(Theme.getColor(Theme.key_dialogRoundCheckBox));
             Theme.checkboxSquare_checkPaint.setAlpha((int) (checkBox.getProgress() * 255));
-            final float checkCorners = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(AndroidUtilities.dp(56));
+            final float checkCorners = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(AndroidUtilities.dp(56));
             canvas.drawRoundRect(cx - AndroidUtilities.dp(28), cy - AndroidUtilities.dp(28),
                     cx + AndroidUtilities.dp(28), cy + AndroidUtilities.dp(28),
                     checkCorners, checkCorners, Theme.checkboxSquare_checkPaint);

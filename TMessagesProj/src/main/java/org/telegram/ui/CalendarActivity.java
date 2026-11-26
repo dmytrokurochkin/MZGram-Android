@@ -9,7 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 import android.graphics.RectF;
 import android.graphics.Color;
@@ -76,7 +76,7 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class CalendarActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1019,7 +1019,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
 
                     if (periodDay != null) {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         } catch (Exception ignored) {}
 
                         Bundle bundle = new Bundle();

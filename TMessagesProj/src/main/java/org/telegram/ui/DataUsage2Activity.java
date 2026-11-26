@@ -65,7 +65,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 public class DataUsage2Activity extends BaseFragment {
 

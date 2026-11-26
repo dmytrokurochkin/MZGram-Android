@@ -46,8 +46,8 @@ import org.telegram.ui.Components.FragmentFloatingButton;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class PollAddOptionFieldLayout extends FrameLayout implements ViewTreeObserver.OnPreDrawListener, Theme.Colorable {

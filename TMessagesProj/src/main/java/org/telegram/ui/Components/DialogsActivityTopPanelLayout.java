@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 
-import me.vkryl.android.animator.ListAnimator;
+import org.mzgram.ux.android.animator.ListAnimator;
 
 public class DialogsActivityTopPanelLayout extends AnimatedLinearLayout implements Theme.Colorable {
     public DialogsActivityTopPanelLayout(@NonNull Context context) {

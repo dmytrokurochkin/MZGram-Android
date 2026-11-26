@@ -15,7 +15,7 @@ public class LauncherIconController {
             }
         }
 
-        setIcon(LauncherIcon.EXTERALESS);
+        setIcon(LauncherIcon.MZGRAM);
     }
 
     // MZGram: these icons carry the logos of other apps, so the pickers do not offer them.
@@ -25,7 +25,7 @@ public class LauncherIconController {
             case BLUEPRINT:
             case RED:
             case NYA:
-            case AYU:
+            case ARC:
             case QUACK:
             case GO:
             case HAND:
@@ -49,7 +49,7 @@ public class LauncherIconController {
         // именно она стоит у <application> в манифесте, и переключатель должен
         // показывать выбранным то, что человек видит на рабочем столе.
         return i == PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-                || i == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT && icon == LauncherIcon.EXTERALESS;
+                || i == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT && icon == LauncherIcon.MZGRAM;
     }
 
     public static void setIcon(LauncherIcon icon) {
@@ -62,16 +62,14 @@ public class LauncherIconController {
     }
 
     public enum LauncherIcon {
-        EXTERALESS("ExteralessIcon", R.drawable.exteraless_icon_background,
-                R.drawable.exteraless_icon_foreground, R.string.AppIconExteraless),
+        MZGRAM("MZGramIcon", R.drawable.mzgram_icon_background,
+                R.drawable.mzgram_icon_foreground, R.string.AppIconMZGram),
         BLUEPRINT("BlueprintIcon", R.drawable.blueprint_icon_background,
                 R.drawable.blueprint_icon_foreground, R.string.AppIconBlueprint),
         RED("RedIcon", R.drawable.red_icon_background,
                 R.drawable.red_icon_foreground, R.string.AppIconRed),
         NYA("NyaIcon", R.drawable.nya_icon_background,
                 R.drawable.nya_icon_foreground, R.string.AppIconNya),
-        AYU("AyuIcon", R.drawable.ayu_icon_background,
-                R.drawable.ayu_icon_foreground, R.string.AppIconAyu),
         QUACK("QuackIcon", R.drawable.quack_icon_background,
                 R.drawable.quack_icon_foreground, R.string.AppIconQuack),
         GO("GoIcon", R.drawable.go_icon_background,

@@ -13,7 +13,7 @@ import org.telegram.utils.glass.GlassEngine;
 
 import java.lang.ref.WeakReference;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 public class BlurredBackgroundDrawableViewFactory {
 

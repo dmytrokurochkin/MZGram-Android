@@ -11,9 +11,9 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.android.animator.VariableFloat;
-import me.vkryl.android.animator.VariableRect;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.VariableFloat;
+import org.mzgram.ux.android.animator.VariableRect;
 
 public class WindowInsetsStateHolder implements WindowInsetsProvider, WindowInsetsInAppController, WindowAnimatedInsetsProvider.Listener {
     private final FactorAnimator insetsAnimator;

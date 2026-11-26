@@ -49,9 +49,9 @@ import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.android.util.ClickHelper;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.android.util.ClickHelper;
 
 public class GroupCallMessageCell extends ViewGroup
     implements ClickHelper.Delegate, NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {

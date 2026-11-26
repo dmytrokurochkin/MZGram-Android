@@ -100,7 +100,6 @@
 
     <queries>
         <package android:name="com.google.android.apps.maps"/>
-        <package android:name="com.exteraless.app.mediabridge"/>
         <intent>
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="ton"/>
@@ -114,13 +113,13 @@
         android:restoreAnyVersion="true"
         android:backupAgent=".BackupAgent"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher_exteraless"
-        android:label="@string/NagramX"
+        android:icon="@mipmap/ic_launcher_mzgram"
+        android:label="@string/MZGram"
         android:largeHeap="true"
         android:theme="@style/Theme.TMessages.Start"
         android:manageSpaceActivity="org.telegram.ui.ExternalActionActivity"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/ic_launcher_exteraless_round"
+        android:roundIcon="@mipmap/ic_launcher_mzgram_round"
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
         android:hasFragileUserData="true"
@@ -133,14 +132,14 @@
         <!-- usesCleartextTraffic for browser supporting opening http:// links -->
 
         <!-- Единственный включённый alias: именно он даёт запись в лаунчере.
-             У NagramX эту роль играл BlueIcon, из-за чего на свежей установке
+             У MZGram эту роль играл BlueIcon, из-за чего на свежей установке
              на рабочем столе появлялась синяя иконка апстрима. -->
         <activity-alias
             android:enabled="true"
-            android:name="org.telegram.messenger.ExteralessIcon"
+            android:name="org.telegram.messenger.MZGramIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/ic_launcher_exteraless"
-            android:roundIcon="@mipmap/ic_launcher_exteraless_round"
+            android:icon="@mipmap/ic_launcher_mzgram"
+            android:roundIcon="@mipmap/ic_launcher_mzgram_round"
             android:exported="true">
 
             <intent-filter>
@@ -199,21 +198,6 @@
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity-alias>
 
-        <activity-alias
-            android:enabled="false"
-            android:name="org.telegram.messenger.AyuIcon"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/ic_launcher_ayu"
-            android:roundIcon="@mipmap/ic_launcher_ayu_round"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
 
         <activity-alias
             android:enabled="false"
@@ -463,7 +447,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="vnd.android.cursor.item/vnd.org.mzgram.messenger.android.profile"/>
             </intent-filter>
-            <!-- exteraless plugins: файл плагина, открытый из чата, файлового
+            <!-- mzgram plugins: файл плагина, открытый из чата, файлового
                  менеджера или «Поделиться». Без этого фильтра система показывает
                  обычный выбор приложения, а установить плагин негде. -->
             <intent-filter>
@@ -474,7 +458,7 @@
                 <data android:scheme="content"/>
                 <data android:host="*"/>
                 <data android:pathPattern=".*\\.plugin"/>
-                <data android:pathPattern=".*\\.elyx"/>
+                <data android:pathPattern=".*\\.mzpack"/>
                 <data android:pathPattern=".*\\.eaf"/>
                 <data android:mimeType="application/*"/>
                 <data android:mimeType="text/*"/>
@@ -493,13 +477,13 @@
                 <data android:host="www.keepassdx.com" android:scheme="http" />
                 <data android:host="www.keepassdx.com" android:scheme="https" />
             </intent-filter>
-            <intent-filter android:icon="@mipmap/ic_launcher_exteraless" android:roundIcon="@mipmap/ic_launcher_exteraless_round" android:priority="1">
+            <intent-filter android:icon="@mipmap/ic_launcher_mzgram" android:roundIcon="@mipmap/ic_launcher_mzgram_round" android:priority="1">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="tonsite" />
             </intent-filter>
-            <intent-filter android:icon="@mipmap/ic_launcher_exteraless" android:roundIcon="@mipmap/ic_launcher_exteraless_round" android:priority="1">
+            <intent-filter android:icon="@mipmap/ic_launcher_mzgram" android:roundIcon="@mipmap/ic_launcher_mzgram_round" android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -541,7 +525,7 @@
             </intent-filter>
         </activity-alias>
         <activity
-            android:name="app.exteraless.shortcuts.QuickToggleActivity"
+            android:name="org.mzgram.shortcuts.QuickToggleActivity"
             android:exported="true"
             android:excludeFromRecents="true"
             android:noHistory="true"
@@ -566,7 +550,7 @@
             android:stateNotNeeded="true"
             android:theme="@style/Theme.TMessages.Transparent"
             android:exported="true">
-            <intent-filter android:icon="@mipmap/ic_launcher_exteraless" android:roundIcon="@mipmap/ic_launcher_exteraless_round" android:priority="1">
+            <intent-filter android:icon="@mipmap/ic_launcher_mzgram" android:roundIcon="@mipmap/ic_launcher_mzgram_round" android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -579,7 +563,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
-            <intent-filter android:icon="@mipmap/ic_launcher_exteraless" android:roundIcon="@mipmap/ic_launcher_exteraless_round">
+            <intent-filter android:icon="@mipmap/ic_launcher_mzgram" android:roundIcon="@mipmap/ic_launcher_mzgram_round">
                 <action android:name="org.telegram.passport.AUTHORIZE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
@@ -590,7 +574,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
-            <intent-filter android:icon="@mipmap/ic_launcher_exteraless" android:roundIcon="@mipmap/ic_launcher_exteraless_round">
+            <intent-filter android:icon="@mipmap/ic_launcher_mzgram" android:roundIcon="@mipmap/ic_launcher_mzgram_round">
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
@@ -600,7 +584,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
-            <intent-filter android:icon="@mipmap/ic_launcher_exteraless" android:roundIcon="@mipmap/ic_launcher_exteraless_round">
+            <intent-filter android:icon="@mipmap/ic_launcher_mzgram" android:roundIcon="@mipmap/ic_launcher_mzgram_round">
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
@@ -609,7 +593,7 @@
 <!--            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"-->
 <!--            android:hardwareAccelerated="true"-->
 <!--            android:windowSoftInputMode="adjustPan">-->
-<!--            <intent-filter android:icon="@mipmap/ic_launcher_exteraless" android:roundIcon="@mipmap/ic_launcher_exteraless_round">-->
+<!--            <intent-filter android:icon="@mipmap/ic_launcher_mzgram" android:roundIcon="@mipmap/ic_launcher_mzgram_round">-->
 <!--                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
@@ -644,9 +628,9 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.TMessages.TransparentWithAlerts"/>
         <activity
-            android:name="tw.nekomimi.nekogram.helpers.AppRestartHelper"
+            android:name="org.mzgram.core.helpers.AppRestartHelper"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:process=":nagramx"
+            android:process=":mzgram"
             android:exported="false"
         />
 
@@ -942,13 +926,13 @@
 
         <provider
             android:authorities="${applicationId}.streaming"
-            android:name="tw.nekomimi.nekogram.streaming.MediaStreamingProvider"
+            android:name="org.mzgram.core.streaming.MediaStreamingProvider"
             android:exported="false"
             android:grantUriPermissions="true"/>
 
         <provider
             android:authorities="${applicationId}.icon_pack_provider"
-            android:name="app.exteraless.icons.IconPackProvider"
+            android:name="org.mzgram.icons.IconPackProvider"
             android:exported="false"
             android:grantUriPermissions="true"/>
 
@@ -964,7 +948,7 @@
             android:name="google_analytics_adid_collection_enabled"
             android:value="false" />
 
-        <receiver android:name="tw.nekomimi.nekogram.SaveToDownloadReceiver" android:exported="false">
+        <receiver android:name="org.mzgram.core.SaveToDownloadReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="${applicationId}.CANCEL_SAVE_TO_DOWNLOAD" />
             </intent-filter>

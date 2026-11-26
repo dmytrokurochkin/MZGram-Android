@@ -77,7 +77,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class CustomEmojiReactionsWindow {
 
@@ -215,7 +215,7 @@ public class CustomEmojiReactionsWindow {
             protected void onEmojiSelected(View emojiView, Long documentId, TLRPC.Document document, TL_stars.TL_starGiftUnique gift, Integer until) {
                 if (baseFragment != null && !reactionsContainerLayout.channelReactions && reactionsContainerLayout.getWindowType() != SelectAnimatedEmojiDialog.TYPE_STICKER_SET_EMOJI && !UserConfig.getInstance(baseFragment.getCurrentAccount()).isPremium()) {
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                        if (!CoreConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                     } catch (Exception ignored) {}
                     BulletinFactory.of(windowView, null).createEmojiBulletin(
                             document,

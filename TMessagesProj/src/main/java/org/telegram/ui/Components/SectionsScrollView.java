@@ -92,7 +92,7 @@ public class SectionsScrollView extends ScrollView implements IBlur3Capture {
     }
 
     private void updateSectionRadius() {
-        float radius = dp(app.exteraless.appearance.AppearanceConfig.sectionRadius());
+        float radius = dp(org.mzgram.appearance.AppearanceConfig.sectionRadius());
         if (sectionRadius == radius) {
             return;
         }

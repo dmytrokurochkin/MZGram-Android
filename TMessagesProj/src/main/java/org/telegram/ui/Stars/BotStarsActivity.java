@@ -76,7 +76,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.blur3.drawable.color.impl.BlurredBackgroundProviderImpl;
 import org.telegram.ui.Components.blur3.utils.Blur3Utils;
 import org.telegram.utils.glass.BaseFragmentSimpleGlass;
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;

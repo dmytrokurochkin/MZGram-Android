@@ -17,7 +17,7 @@ public class BlurredBackgroundColorProviderThemed implements BlurredBackgroundCo
     private float alpha;
 
     public BlurredBackgroundColorProviderThemed(Theme.ResourcesProvider resourcesProvider, int backgroundColorId) {
-        this(resourcesProvider, backgroundColorId, app.exteraless.appearance.AppearanceConfig.glassAlpha(0.85f, 0.76f));
+        this(resourcesProvider, backgroundColorId, org.mzgram.appearance.AppearanceConfig.glassAlpha(0.85f, 0.76f));
     }
 
     public BlurredBackgroundColorProviderThemed(Theme.ResourcesProvider resourcesProvider, int backgroundColorId, float alpha) {

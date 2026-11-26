@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="OEBotPrivacyEnabled">Ausgewähltes Konto für Bots</string>
-    <string name="OEBotPrivacyAccount">Konto für Bots</string>
-    <string name="OEBotPrivacySelect">Konto auswählen</string>
-    <string name="OEBotPrivacyChoose">Wähle das Konto für diesen Bot. Bestehende Unterhaltungen behalten ihr ursprüngliches Konto.</string>
-    <string name="OEBotPrivacyInfo">Neue private Unterhaltungen mit Bots verwenden dieses Konto. Bots, die du bereits kontaktiert hast, nutzen weiterhin ihr ursprüngliches Konto. Das trennt Konten, macht dich aber nicht anonym und widerruft keine bereits geteilten Daten. Gruppen, Inline-Modus, Anhangsmenü und Anmeldungen behalten ihr eigenes Konto.</string>
-    <string name="OEBotPrivacyUnavailable">Das Konto für Bots ist nicht verfügbar. Wähle ein anderes Konto oder deaktiviere die Funktion und öffne den Bot dann erneut. Es wurde keine Nachricht gesendet.</string>
-    <string name="OEBotPrivacyFailed">Für diesen Bot konnte kein Konto sicher ausgewählt werden. Prüfe deine Verbindung und öffne den Bot erneut. War der Chat beim Ändern der Einstellung bereits offen, öffne ihn vor dem Senden neu. Es wurde keine Nachricht gesendet.</string>
-    <string name="OEBotPrivacyOpened">Geöffnet mit %1$s</string>
-    <string name="OEBotPrivacyReady">Konto geprüft. Tippe erneut auf Senden, um die Nachricht zu senden.</string>
-    <string name="OEBotPrivacyAlwaysAsk">Immer fragen</string>
-    <string name="OEBotPrivacyAlwaysAskInfo">Bei jeder neuen privaten Unterhaltung mit einem Bot fragen, welches Konto verwendet werden soll. Bestehende Unterhaltungen behalten ihr ursprüngliches Konto.</string>
-    <string name="OEBotPrivacyAskPrivacyInfo">Die Wahl eines Kontos macht dich nicht anonym und widerruft keine bereits geteilten Daten. Gruppen, Inline-Modus, Anhangsmenü und Anmeldungen behalten ihr eigenes Konto.</string>
-    <string name="OEBotPrivacyOff">Aktuelles Konto</string>
+    <string name="MZBotPrivacyEnabled">Ausgewähltes Konto für Bots</string>
+    <string name="MZBotPrivacyAccount">Konto für Bots</string>
+    <string name="MZBotPrivacySelect">Konto auswählen</string>
+    <string name="MZBotPrivacyChoose">Wähle das Konto für diesen Bot. Bestehende Unterhaltungen behalten ihr ursprüngliches Konto.</string>
+    <string name="MZBotPrivacyInfo">Neue private Unterhaltungen mit Bots verwenden dieses Konto. Bots, die du bereits kontaktiert hast, nutzen weiterhin ihr ursprüngliches Konto. Das trennt Konten, macht dich aber nicht anonym und widerruft keine bereits geteilten Daten. Gruppen, Inline-Modus, Anhangsmenü und Anmeldungen behalten ihr eigenes Konto.</string>
+    <string name="MZBotPrivacyUnavailable">Das Konto für Bots ist nicht verfügbar. Wähle ein anderes Konto oder deaktiviere die Funktion und öffne den Bot dann erneut. Es wurde keine Nachricht gesendet.</string>
+    <string name="MZBotPrivacyFailed">Für diesen Bot konnte kein Konto sicher ausgewählt werden. Prüfe deine Verbindung und öffne den Bot erneut. War der Chat beim Ändern der Einstellung bereits offen, öffne ihn vor dem Senden neu. Es wurde keine Nachricht gesendet.</string>
+    <string name="MZBotPrivacyOpened">Geöffnet mit %1$s</string>
+    <string name="MZBotPrivacyReady">Konto geprüft. Tippe erneut auf Senden, um die Nachricht zu senden.</string>
+    <string name="MZBotPrivacyAlwaysAsk">Immer fragen</string>
+    <string name="MZBotPrivacyAlwaysAskInfo">Bei jeder neuen privaten Unterhaltung mit einem Bot fragen, welches Konto verwendet werden soll. Bestehende Unterhaltungen behalten ihr ursprüngliches Konto.</string>
+    <string name="MZBotPrivacyAskPrivacyInfo">Die Wahl eines Kontos macht dich nicht anonym und widerruft keine bereits geteilten Daten. Gruppen, Inline-Modus, Anhangsmenü und Anmeldungen behalten ihr eigenes Konto.</string>
+    <string name="MZBotPrivacyOff">Aktuelles Konto</string>
 </resources>

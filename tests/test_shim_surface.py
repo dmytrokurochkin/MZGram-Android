@@ -6,20 +6,20 @@ import baseline
 import corpus
 import javaapi
 
-SHIM_ROOT = os.path.join(corpus.JAVA_ROOT, "com", "exteragram", "messenger")
+SHIM_ROOT = os.path.join(corpus.JAVA_ROOT, "com", "mzgram", "messenger")
 BASELINE = "shim_surface.json"
 
 IMPL_OF = {
-    "com.exteragram.messenger.plugins.Plugin":
-        "app.exteraless.plugins.Plugin",
-    "com.exteragram.messenger.plugins.PluginsController":
-        "app.exteraless.plugins.PluginsController",
-    "com.exteragram.messenger.plugins.PythonPluginsEngine":
-        "app.exteraless.plugins.PythonPluginsEngine",
-    "com.exteragram.messenger.plugins.ui.PluginSettingsActivity":
-        "app.exteraless.plugins.ui.PluginSettingsActivity",
-    "com.exteragram.messenger.plugins.ui.PluginsActivity":
-        "app.exteraless.plugins.ui.PluginsActivity",
+    "org.mzgram.sdk.plugins.Plugin":
+        "org.mzgram.plugins.Plugin",
+    "org.mzgram.sdk.plugins.PluginsController":
+        "org.mzgram.plugins.PluginsController",
+    "org.mzgram.sdk.plugins.PythonPluginsEngine":
+        "org.mzgram.plugins.PythonPluginsEngine",
+    "org.mzgram.sdk.plugins.ui.PluginSettingsActivity":
+        "org.mzgram.plugins.ui.PluginSettingsActivity",
+    "org.mzgram.sdk.plugins.ui.PluginsActivity":
+        "org.mzgram.plugins.ui.PluginsActivity",
 }
 
 OBJECT_METHODS = {"equals", "hashCode", "toString", "clone", "finalize",

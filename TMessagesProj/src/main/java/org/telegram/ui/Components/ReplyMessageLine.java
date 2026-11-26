@@ -38,7 +38,7 @@ import org.telegram.ui.Cells.ChatMessageCell;
 
 import java.util.ArrayList;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class ReplyMessageLine {
 
@@ -195,7 +195,7 @@ public class ReplyMessageLine {
         }
 
         reversedOut = false;
-        if (oeReplyColors()) {
+        if (mzReplyColors()) {
             color1 = colors.get(0) | 0xFF000000;
             if (hasColor2 = colors.size() >= 2) {
                 color2 = colors.get(1) | 0xFF000000;
@@ -205,10 +205,10 @@ public class ReplyMessageLine {
             }
             nameColor = accent_color | 0xFF000000;
         } else {
-            oeResetReplyColors(resourcesProvider);
+            mzResetReplyColors(resourcesProvider);
         }
-        backgroundColor = oeReplyBackground() ? Theme.multAlpha(oeReplyColors() ? nameColor : color1, 0.10f) : Color.TRANSPARENT;
-        if (oeReplyEmoji()) {
+        backgroundColor = mzReplyBackground() ? Theme.multAlpha(mzReplyColors() ? nameColor : color1, 0.10f) : Color.TRANSPARENT;
+        if (mzReplyEmoji()) {
             emojiDocumentId = p.background_emoji_id;
             stickerDocumentId = p.gift_emoji_id;
         } else {
@@ -243,26 +243,26 @@ public class ReplyMessageLine {
         return nameColorAnimated.set(nameColor);
     }
 
-    // ---- openExtera: оформление блока ответа (ChatsConfig.replyColors / replyEmoji / replyBackground) ----
-    // Перенесено из exteraGram 12.9.0, ReplyMessageLine.check()/resolveCollectionColor().
+    // ---- mzGram: оформление блока ответа (ChatsConfig.replyColors / replyEmoji / replyBackground) ----
+    // Перенесено из MZGram 12.9.0, ReplyMessageLine.check()/resolveCollectionColor().
 
-    private static boolean oeReplyColors() {
-        app.exteraless.chats.ChatsConfig.ensureLoaded();
-        return app.exteraless.chats.ChatsConfig.replyColors.Bool();
+    private static boolean mzReplyColors() {
+        org.mzgram.chats.ChatsConfig.ensureLoaded();
+        return org.mzgram.chats.ChatsConfig.replyColors.Bool();
     }
 
-    private static boolean oeReplyEmoji() {
-        app.exteraless.chats.ChatsConfig.ensureLoaded();
-        return app.exteraless.chats.ChatsConfig.replyEmoji.Bool();
+    private static boolean mzReplyEmoji() {
+        org.mzgram.chats.ChatsConfig.ensureLoaded();
+        return org.mzgram.chats.ChatsConfig.replyEmoji.Bool();
     }
 
-    private static boolean oeReplyBackground() {
-        app.exteraless.chats.ChatsConfig.ensureLoaded();
-        return app.exteraless.chats.ChatsConfig.replyBackground.Bool();
+    private static boolean mzReplyBackground() {
+        org.mzgram.chats.ChatsConfig.ensureLoaded();
+        return org.mzgram.chats.ChatsConfig.replyBackground.Bool();
     }
 
-    /** openExtera: сброс цветов линии/имени к стоковым «серым», когда replyColors выключен. */
-    private void oeResetReplyColors(Theme.ResourcesProvider resourcesProvider) {
+    /** mzGram: сброс цветов линии/имени к стоковым «серым», когда replyColors выключен. */
+    private void mzResetReplyColors(Theme.ResourcesProvider resourcesProvider) {
         hasColor2 = false;
         hasColor3 = false;
         color1 = color2 = color3 = Theme.getColor(Theme.key_chat_inReplyLine, resourcesProvider);
@@ -423,16 +423,16 @@ public class ReplyMessageLine {
             } else {
                 colorId = 0;
             }
-            if (!NaConfig.INSTANCE.getPremiumItemCustomColorInReplies().Bool()) {
+            if (!ExtConfig.INSTANCE.getPremiumItemCustomColorInReplies().Bool()) {
                 colorId = 0;
             }
-            if (oeReplyColors()) {
+            if (mzReplyColors()) {
                 resolveColor(messageObject, colorId, resourcesProvider);
                 nameColor = color1;
             } else {
-                oeResetReplyColors(resourcesProvider);
+                mzResetReplyColors(resourcesProvider);
             }
-            backgroundColor = oeReplyBackground() ? Theme.multAlpha(color1, 0.10f) : Color.TRANSPARENT;
+            backgroundColor = mzReplyBackground() ? Theme.multAlpha(color1, 0.10f) : Color.TRANSPARENT;
         } else if (type == TYPE_REPLY && (
             messageObject.overrideLinkColor >= 0 ||
             messageObject.messageOwner != null &&
@@ -480,21 +480,21 @@ public class ReplyMessageLine {
             } else {
                 colorId = 0;
             }
-            if (!NaConfig.INSTANCE.getPremiumItemCustomColorInReplies().Bool()) {
+            if (!ExtConfig.INSTANCE.getPremiumItemCustomColorInReplies().Bool()) {
                 colorId = 0;
             }
-            if (oeReplyColors()) {
+            if (mzReplyColors()) {
                 resolveColor(messageObject.replyMessageObject, colorId, resourcesProvider);
                 nameColor = color1;
             } else {
-                oeResetReplyColors(resourcesProvider);
+                mzResetReplyColors(resourcesProvider);
             }
-            backgroundColor = oeReplyBackground() ? Theme.multAlpha(color1, 0.10f) : Color.TRANSPARENT;
+            backgroundColor = mzReplyBackground() ? Theme.multAlpha(color1, 0.10f) : Color.TRANSPARENT;
         } else {
             hasColor2 = false;
             hasColor3 = false;
             color1 = color2 = color3 = Theme.getColor(Theme.key_chat_inReplyLine, resourcesProvider);
-            backgroundColor = oeReplyBackground() || type == TYPE_QUOTE ? Theme.multAlpha(color1, 0.10f) : Color.TRANSPARENT;
+            backgroundColor = mzReplyBackground() || type == TYPE_QUOTE ? Theme.multAlpha(color1, 0.10f) : Color.TRANSPARENT;
             nameColor = Theme.getColor(Theme.key_chat_inReplyNameText, resourcesProvider);
         }
         if (messageObject.shouldDrawWithoutBackground()) {
@@ -518,7 +518,7 @@ public class ReplyMessageLine {
                 reversedOut = true;
                 color1 = Theme.multAlpha(color1, .35f);
             }
-            backgroundColor = oeReplyBackground() || type != TYPE_REPLY ? Theme.multAlpha(color3, dark ? 0.12f : 0.10f) : Color.TRANSPARENT;
+            backgroundColor = mzReplyBackground() || type != TYPE_REPLY ? Theme.multAlpha(color3, dark ? 0.12f : 0.10f) : Color.TRANSPARENT;
             nameColor = Theme.getColor(Theme.key_chat_outReplyNameText, resourcesProvider);
             if (messageObject.isCompactMode() && messageObject.isOutOwner()) {
                 // drawn over the solid compact bubble, so blending makes it opaque without changing how it looks
@@ -529,7 +529,7 @@ public class ReplyMessageLine {
         if ((type == TYPE_REPLY || type == TYPE_LINK || type == TYPE_CONTACT) && messageObject != null && messageObject.overrideLinkEmoji != -1) {
             emojiDocumentId = messageObject.overrideLinkEmoji;
         }
-        if (!NaConfig.INSTANCE.getPremiumItemEmojiInReplies().Bool() || !oeReplyEmoji()) {
+        if (!ExtConfig.INSTANCE.getPremiumItemEmojiInReplies().Bool() || !mzReplyEmoji()) {
             emojiDocumentId = 0;
         }
         if (emojiDocumentId != 0 && emoji == null && parentView != null) {

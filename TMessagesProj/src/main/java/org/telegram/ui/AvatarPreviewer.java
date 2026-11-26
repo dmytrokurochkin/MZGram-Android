@@ -66,8 +66,8 @@ import org.telegram.ui.Components.chat.ViewPositionWatcher;
 import java.util.Objects;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.ui.BottomBuilder;
+import org.mzgram.core.CoreConfig;
 
 public class AvatarPreviewer {
 

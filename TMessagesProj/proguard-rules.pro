@@ -171,9 +171,9 @@
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
 }
--keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.ui.cells.AccountCell { <fields>; }
--keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.ui.cells.EmojiSetCell { <fields>; }
--keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.settings.NekoChatSettingsActivity$StickerSizeCell { <fields>; }
+-keepclassmembernames,allowshrinking class org.mzgram.core.ui.cells.AccountCell { <fields>; }
+-keepclassmembernames,allowshrinking class org.mzgram.core.ui.cells.EmojiSetCell { <fields>; }
+-keepclassmembernames,allowshrinking class org.mzgram.core.settings.CoreChatSettingsActivity$StickerSizeCell { <fields>; }
 
 # --- Keep Gson-reflected model fields used by Regex Filters import/export ---
 # Preserve fields annotated with @Expose so Gson can access them in release builds
@@ -182,12 +182,12 @@
 }
 
 # TransferData is an inner static class used only via Gson reflection; keep its fields
--keep class tw.nekomimi.nekogram.filters.RegexFiltersSettingActivity$TransferData { *; }
+-keep class org.mzgram.core.filters.RegexFiltersSettingActivity$TransferData { *; }
 
-# Be explicit for AyuFilter models to be safe
--keepclassmembers class tw.nekomimi.nekogram.filters.AyuFilter$FilterModel { <fields>; }
--keepclassmembers class tw.nekomimi.nekogram.filters.AyuFilter$ChatFilterEntry { <fields>; }
--keepclassmembers class tw.nekomimi.nekogram.filters.AyuFilter$CustomFilteredUser { <fields>; }
+# Be explicit for ArcFilter models to be safe
+-keepclassmembers class org.mzgram.core.filters.ArcFilter$FilterModel { <fields>; }
+-keepclassmembers class org.mzgram.core.filters.ArcFilter$ChatFilterEntry { <fields>; }
+-keepclassmembers class org.mzgram.core.filters.ArcFilter$CustomFilteredUser { <fields>; }
 
 # https://github.com/osmdroid/osmdroid/issues/633
 -dontwarn org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck
@@ -223,15 +223,15 @@
 # --- Движок плагинов -------------------------------------------------------
 # Всё ниже достижимо только из Python через рефлексию Chaquopy, для статического
 # анализатора это мёртвый код. minifyEnabled в релизе вырезал бы его целиком.
--keep class app.exteraless.plugins.** { *; }
--keep class app.exteraless.settings.utils.** { *; }
--keep class app.exteraless.utils.text.** { *; }
--keep class app.exteraless.pillstack.** { *; }
--keep class app.exteraless.player.Md3Player { *; }
--keep class app.exteraless.player.PlayerSheet { *; }
--keep class app.exteraless.appearance.AltSeekbar { *; }
--keep interface app.exteraless.appearance.AltSeekbar$OnDrag { *; }
--keep class com.exteragram.messenger.** { *; }
+-keep class org.mzgram.plugins.** { *; }
+-keep class org.mzgram.settings.utils.** { *; }
+-keep class org.mzgram.utils.text.** { *; }
+-keep class org.mzgram.pillstack.** { *; }
+-keep class org.mzgram.player.Md3Player { *; }
+-keep class org.mzgram.player.PlayerSheet { *; }
+-keep class org.mzgram.appearance.AltSeekbar { *; }
+-keep interface org.mzgram.appearance.AltSeekbar$OnDrag { *; }
+-keep class org.mzgram.sdk.** { *; }
 -keep class de.robv.android.xposed.** { *; }
 -keep class kotlin.** { *; }
 -keep class com.google.android.material.** { *; }

@@ -65,7 +65,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Objects;
 
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
+import org.mzgram.core.helpers.PasscodeHelper;
 
 public class UserInfoActivity extends UniversalFragment implements NotificationCenter.NotificationCenterDelegate {
 

@@ -21,11 +21,11 @@ PARITY_BASELINE = "reference_parity.json"
 MISSING_BASELINE = "reference_missing_classes.json"
 
 REFERENCE_ROOT = javaapi.REFERENCE_ROOT
-OUR_JAVA_ROOT = os.environ.get("EXTERALESS_JAVA_ROOT", corpus.JAVA_ROOT)
+OUR_JAVA_ROOT = os.environ.get("MZGRAM_JAVA_ROOT", corpus.JAVA_ROOT)
 OUR_KOTLIN_ROOT = javaapi.KOTLIN_ROOT
-ALIASES_PATH = os.path.join(corpus.PYTHON_ROOT, "extera_utils", "class_aliases.py")
+ALIASES_PATH = os.path.join(corpus.PYTHON_ROOT, "mz_utils", "class_aliases.py")
 
-EXTERA_ROOT = "com.exteragram.messenger."
+MZ_ROOT = "org.mzgram.sdk."
 MUST_EXIST_THRESHOLD = 5
 GENERATED = ("R", "BuildConfig")
 
@@ -54,7 +54,7 @@ _SYNTHETIC_PARAM = ("DefaultConstructorMarker", "$i$f$")
 
 _WHITESPACE_RUN = re.compile(r"[ \t]{2,}")
 
-_TMPDIR = tempfile.TemporaryDirectory(prefix="exteraless-parity-")
+_TMPDIR = tempfile.TemporaryDirectory(prefix="mzgram-parity-")
 _NORMALISED = {}
 _INDEX_CACHE = {}
 NORMALISE_ERRORS = []
@@ -176,7 +176,7 @@ def kotlin_file_exists(fqcn):
 @functools.lru_cache(maxsize=1)
 def aliases():
     spec = importlib.util.spec_from_file_location(
-        "exteraless_aliases_for_parity", ALIASES_PATH)
+        "mzgram_aliases_for_parity", ALIASES_PATH)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -213,7 +213,7 @@ def reference_refs():
     refs = collections.defaultdict(set)
 
     def add(name, plugin):
-        if not _FQCN.match(name) or not name.startswith(EXTERA_ROOT):
+        if not _FQCN.match(name) or not name.startswith(MZ_ROOT):
             return
         if name.split("$", 1)[0].rsplit(".", 1)[-1] in GENERATED:
             return
@@ -381,12 +381,12 @@ def describe(entry):
 
 if not corpus.load_corpus():
     pytest.skip("нет корпуса плагинов", allow_module_level=True)
-if not os.path.isdir(os.path.join(REFERENCE_ROOT, "com", "exteragram")):
-    pytest.skip("нет эталонных исходников exteraGram", allow_module_level=True)
+if not os.path.isdir(os.path.join(REFERENCE_ROOT, "com", "mzgram")):
+    pytest.skip("нет эталонных исходников MZGram", allow_module_level=True)
 
 
 def test_reference_sources_are_present_and_parsed():
-    anchor = type_in(REFERENCE_ROOT, "com.exteragram.messenger.plugins.Plugin")
+    anchor = type_in(REFERENCE_ROOT, "org.mzgram.sdk.plugins.Plugin")
     assert anchor is not None, (
         f"эталон {REFERENCE_ROOT} есть на диске, но Plugin не разобрался")
     methods, constructors, _, _ = public_surface(anchor, True)
@@ -410,7 +410,7 @@ def test_no_new_reference_gaps():
     new.sort(key=lambda entry: (-users_of(entry.split("|", 1)[0]), entry))
     lines = "\n".join(describe(entry) for entry in new[:40])
     pytest.fail(
-        f"новые расхождения с эталоном exteraGram 12.9.2: {len(new)}\n{lines}\n"
+        f"новые расхождения с эталоном MZGram 12.9.2: {len(new)}\n{lines}\n"
         f"(в базе {PARITY_BASELINE} закрыто {len(gone)} прежних записей)")
 
 
@@ -430,8 +430,8 @@ def test_classes_the_catalogue_uses_exist_on_our_side():
         f"у нас не найдены: {len(new)}\n{lines}")
 
 
-DEX_SHIM = "com.exteragram.messenger.plugins.PluginsController"
-DEX_IMPL = "app.exteraless.plugins.PluginsController"
+DEX_SHIM = "org.mzgram.sdk.plugins.PluginsController"
+DEX_IMPL = "org.mzgram.plugins.PluginsController"
 NOT_DEX_SURFACE = frozenset((
     "executePreRequestHook", "executePostRequestHook", "getWatchdog"))
 
@@ -451,5 +451,5 @@ def test_shim_declares_controller_methods_for_dex():
             if arity in impl.method_arities(name) and arity not in shim.method_arities(name):
                 missing.append(f"{name}/{arity}")
     assert not missing, (
-        "DEX-модули зовут эти методы на классе exteraGram, а он видит только свои "
+        "DEX-модули зовут эти методы на классе MZGram, а он видит только свои "
         "объявления, не наследника: " + ", ".join(missing))

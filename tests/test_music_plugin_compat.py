@@ -9,7 +9,7 @@ import pytest
 import corpus
 from test_sdk_nx_port import loader, sdk
 
-ELYXCORE_ALL = {
+MZPACKCORE_ALL = {
     "Asset", "AssetNotFoundException", "Assets", "AssetsDirNotFoundException",
     "Callback", "Callback2", "Callback3", "CallbackReturn", "LazyDict",
     "OnClickListener", "Runnable", "SettingsController", "Strings",
@@ -23,46 +23,46 @@ PROGUARD_RULES = os.path.join(corpus.REPO, "TMessagesProj", "proguard-rules.pro"
 
 
 @pytest.fixture
-def elyxcore(monkeypatch):
+def mzpackcore(monkeypatch):
     monkeypatch.syspath_prepend(corpus.PYTHON_ROOT)
     before = set(sys.modules)
     try:
-        module = importlib.import_module("elyxcore")
+        module = importlib.import_module("mzpackcore")
     except Exception as exc:
-        pytest.skip(f"elyxcore is not importable here: {exc}")
+        pytest.skip(f"mzpackcore is not importable here: {exc}")
     yield module
     for name in set(sys.modules) - before:
         sys.modules.pop(name, None)
 
 
-def test_elyxcore_exports_the_exteragram_public_api(elyxcore):
-    from elyx_runtime import facade, localization, settings, utils
+def test_mzpackcore_exports_the_mzgram_public_api(mzpackcore):
+    from mzpack_runtime import facade, localization, settings, utils
 
-    assert set(elyxcore.__all__) == ELYXCORE_ALL
-    assert elyxcore.Strings is localization.Strings
-    assert elyxcore.SettingsController is settings.SettingsController
-    assert elyxcore.LazyDict is utils.LazyDict
-    assert elyxcore.gen is facade.gen
+    assert set(mzpackcore.__all__) == MZPACKCORE_ALL
+    assert mzpackcore.Strings is localization.Strings
+    assert mzpackcore.SettingsController is settings.SettingsController
+    assert mzpackcore.LazyDict is utils.LazyDict
+    assert mzpackcore.gen is facade.gen
     with pytest.raises(AttributeError):
-        elyxcore.ElyxEngine
+        mzpackcore.MzPackEngine
 
 
-def test_elyxcore_callback_proxies_are_the_elyx_facade_ones(elyxcore, monkeypatch):
-    from elyx_runtime import facade
+def test_mzpackcore_callback_proxies_are_the_mzpack_facade_ones(mzpackcore, monkeypatch):
+    from mzpack_runtime import facade
 
     built = []
     monkeypatch.setattr(facade, "_jclass", lambda name: name)
     monkeypatch.setattr(facade, "gen", lambda java_class, method, return_value=False:
                         built.append((java_class, method)) or ("proxy", java_class))
     try:
-        from elyxcore import Runnable, Strings
+        from mzpackcore import Runnable, Strings
 
         assert Runnable == ("proxy", "java.lang.Runnable")
-        assert sys.modules["elyx"].Runnable is Runnable
-        assert Strings is elyxcore.Strings
+        assert sys.modules["mzpack"].Runnable is Runnable
+        assert Strings is mzpackcore.Strings
         assert built == [("java.lang.Runnable", "run")]
     finally:
-        sys.modules["elyx"].__dict__.pop("Runnable", None)
+        sys.modules["mzpack"].__dict__.pop("Runnable", None)
 
 
 def _fake_java(monkeypatch, **native_members):
@@ -85,7 +85,7 @@ def test_java_class_loader_api_uses_the_native_bridge(loader, monkeypatch):
     assert java.unload_classes is native.unload_classes
 
 
-def test_java_class_loader_api_fallback_validates_like_exteragram(loader, monkeypatch):
+def test_java_class_loader_api_fallback_validates_like_mzgram(loader, monkeypatch):
     java, _ = _fake_java(monkeypatch)
 
     class ClassLoader:

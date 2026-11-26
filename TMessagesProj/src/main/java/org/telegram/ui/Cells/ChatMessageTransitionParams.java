@@ -28,7 +28,7 @@ import org.telegram.ui.Components.EmptyStubSpan;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class ChatMessageTransitionParams {
 
@@ -320,7 +320,7 @@ public class ChatMessageTransitionParams {
         lastDrawingSideMenuEnabled = cell.isSideMenuEnabled;
         lastDrawingTextBlocks = cell.currentMessageObject != null ? cell.currentMessageObject.textLayoutBlocks : null;
         lastDrawingTextWidth = cell.currentMessageObject != null ? cell.currentMessageObject.textWidth : 0;
-        lastDrawingEdited = cell.edited || cell.ayuDeleted;
+        lastDrawingEdited = cell.edited || cell.arcDeleted;
         lastDrawingRichLayout = cell.currentMessageObject != null ? cell.currentMessageObject.richLayout : null;
 
         lastDrawingCaptionX = cell.captionX;
@@ -539,13 +539,13 @@ public class ChatMessageTransitionParams {
                 changed = true;
             }
         }
-        if ((((cell.edited || cell.ayuDeleted) && !lastDrawingEdited) || (cell.currentMessageObject.translated && !cell.lastTranslated)) && cell.timeLayout != null) {
-            String customStr = NaConfig.INSTANCE.getCustomEditedMessage().String();
+        if ((((cell.edited || cell.arcDeleted) && !lastDrawingEdited) || (cell.currentMessageObject.translated && !cell.lastTranslated)) && cell.timeLayout != null) {
+            String customStr = ExtConfig.INSTANCE.getCustomEditedMessage().String();
             String customStrFin = customStr.equals("") ? getString(R.string.EditedMessage) : customStr;
-            String deletedStr = NaConfig.INSTANCE.getCustomDeletedMark().String();
+            String deletedStr = ExtConfig.INSTANCE.getCustomDeletedMark().String();
             String deletedStrFin = deletedStr.equals("") ? getString(R.string.DeletedMessage) : deletedStr;
             String editedStr;
-            if (cell.edited && !cell.ayuDeleted){
+            if (cell.edited && !cell.arcDeleted){
                 editedStr = customStrFin;
             } else if (!cell.edited) {
                 editedStr = deletedStrFin;
@@ -576,7 +576,7 @@ public class ChatMessageTransitionParams {
                 changed = true;
             }
             cell.accessibilityText = null;
-        } else if (((!(cell.edited || cell.ayuDeleted) && lastDrawingEdited) || (!cell.currentMessageObject.translated && cell.lastTranslated)) && cell.timeLayout != null) {
+        } else if (((!(cell.edited || cell.arcDeleted) && lastDrawingEdited) || (!cell.currentMessageObject.translated && cell.lastTranslated)) && cell.timeLayout != null) {
             animateTimeLayout = lastTimeLayout;
             animateEditedWidthDiff = cell.timeWidth - lastTimeWidth;
             animateEditedEnter = true;

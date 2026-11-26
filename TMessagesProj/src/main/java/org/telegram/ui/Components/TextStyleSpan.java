@@ -8,7 +8,7 @@
 
 package org.telegram.ui.Components;
 
-import static me.vkryl.core.BitwiseUtils.hasFlag;
+import static org.mzgram.ux.core.BitwiseUtils.hasFlag;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;

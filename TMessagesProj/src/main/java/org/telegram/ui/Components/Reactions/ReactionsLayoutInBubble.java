@@ -67,8 +67,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Objects;
 
-import tw.nekomimi.nekogram.filters.ReactionFilter;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.filters.ReactionFilter;
+import org.mzgram.ext.ExtConfig;
 
 public class ReactionsLayoutInBubble {
 
@@ -242,7 +242,7 @@ public class ReactionsLayoutInBubble {
                         reactionCount = visibleReactionCounts.get(i);
                     }
                     ReactionButton old = null;
-                    if (!NaConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && reactionCount.reaction instanceof TLRPC.TL_reactionPaid) {
+                    if (!ExtConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && reactionCount.reaction instanceof TLRPC.TL_reactionPaid) {
                         continue;
                     }
                     for (int j = 0; j < oldButtons.size(); ++j) {
@@ -1004,7 +1004,7 @@ public class ReactionsLayoutInBubble {
             if (!LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) || !LiteMode.isEnabled(LiteMode.FLAG_PARTICLES)) return false;
 
             AndroidUtilities.rectTmp.set(x, y, x + width, y + height);
-            float rad = app.exteraless.appearance.AppearanceConfig.getAvatarCorners((float) height);
+            float rad = org.mzgram.appearance.AppearanceConfig.getAvatarCorners((float) height);
 
             particles.bounds.set(AndroidUtilities.rectTmp);
             particles.bounds.inset(-dp(4), -dp(4));
@@ -1130,7 +1130,7 @@ public class ReactionsLayoutInBubble {
                 canvas.save();
                 canvas.scale(bounceScale, bounceScale, x + w / 2f, y + height / 2f);
             }
-            float rad = app.exteraless.appearance.AppearanceConfig.getAvatarCorners((float) height);
+            float rad = org.mzgram.appearance.AppearanceConfig.getAvatarCorners((float) height);
             if (getDrawServiceShaderBackground() > 0 && !drawBgOnlyIfChosen) {
                 Paint paint1 = Theme.getThemePaint(Theme.key_paint_chatActionBackground, resourcesProvider);
                 Paint paint2 = Theme.getThemePaint(Theme.key_paint_chatActionBackgroundDarken, resourcesProvider);

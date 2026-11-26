@@ -135,7 +135,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 @SuppressLint("ViewConstructor")
 public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -146,7 +146,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private final boolean needCamera;
 
     /**
-     * Показывать ли плитку камеры в сетке. exteraGram 12.9.0 добавляет это условие
+     * Показывать ли плитку камеры в сетке. MZGram 12.9.0 добавляет это условие
      * к каждому месту, где плитка участвует в раскладке или в арифметике позиций
      * (ChatAttachAlertPhotoLayout.java: 22 точки, паттерн
      * `needCamera && ... && (!hideCameraTile || noCameraPermissions)`).
@@ -154,11 +154,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
      * Плитка-заглушка «дайте разрешение» остаётся при любом значении настройки —
      * иначе пользователь не сможет выдать доступ к камере.
      *
-     * Не путать с NekoConfig.disableInstantCamera: тот гасит только живое превью
+     * Не путать с CoreConfig.disableInstantCamera: тот гасит только живое превью
      * внутри плитки, сама плитка остаётся в сетке.
      */
     private boolean showCameraTile() {
-        return !app.exteraless.chats.ChatsConfig.hideCameraTile.Bool() || noCameraPermissions;
+        return !org.mzgram.chats.ChatsConfig.hideCameraTile.Bool() || noCameraPermissions;
     }
 
     private RecyclerListView cameraPhotoRecyclerView;
@@ -855,7 +855,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         gridView.getFastScroll().usePadding = false;
         gridView.getFastScroll().topOffset = ActionBar.getCurrentActionBarHeight(); // + AndroidUtilities.statusBarHeight;
         gridView.setAdapter(adapter = new PhotoAttachAdapter(context, needCamera));
-        // exteraGram зовёт openCamera(boolean) прямо из клик-листенера кнопки
+        // MZGram зовёт openCamera(boolean) прямо из клик-листенера кнопки
         // (ChatAttachAlertPhotoLayout.java:4593); у нас точка входа с проверкой разрешения.
         parentAlert.openInAppCameraAction = this::openCameraWithPermissionCheck;
         gridView.addItemDecoration(cameraViewItemDecoration = new CameraViewItemDecoration(gridView));
@@ -966,7 +966,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 } else if (noGalleryPermissions && position != 0) {
                     try {
                         if (position == adapter.itemsCount - 2) {
-                            menu.onItemClick(open_in); // NekoX: Use system photo picker
+                            menu.onItemClick(open_in); // CoreX: Use system photo picker
                         } else {
                             if (Build.VERSION.SDK_INT >= 33) {
                                 fragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.READ_MEDIA_VIDEO, Manifest.permission.READ_MEDIA_IMAGES}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE);
@@ -1580,7 +1580,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
     private void openCameraByClick() {
         if (SharedConfig.inappCamera) {
-            if (NekoConfig.disableInstantCamera.Bool()) {
+            if (CoreConfig.disableInstantCamera.Bool()) {
                 showCamera();
             }
             openCamera(true);
@@ -2203,7 +2203,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
             @Override
             public boolean cancelButtonPressed() {
-                if (cameraOpened && cameraView != null && !NekoConfig.disableInstantCamera.Bool()) {
+                if (cameraOpened && cameraView != null && !CoreConfig.disableInstantCamera.Bool()) {
                     AndroidUtilities.runOnUIThread(() -> {
                         if (cameraView != null && !parentAlert.isDismissed()) {
                             cameraView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN);
@@ -2490,7 +2490,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 deviceHasGoodCamera = CameraController.getInstance().isCameraInitied();
             }
         }
-        if (deviceHasGoodCamera && NekoConfig.disableInstantCamera.Bool()) {
+        if (deviceHasGoodCamera && CoreConfig.disableInstantCamera.Bool()) {
             // Clear cached bitmap
             File file = new File(ApplicationLoader.getFilesDirFixed(), "cthumb.jpg");
             if (file.exists()) file.delete();
@@ -2498,7 +2498,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if ((old != deviceHasGoodCamera || old2 != noCameraPermissions) && adapter != null) {
             adapter.notifyDataSetChanged();
         }
-        if (!parentAlert.destroyed && parentAlert.isShowing() && deviceHasGoodCamera && parentAlert.getBackDrawable().getAlpha() != 0 && !cameraOpened && !NekoConfig.disableInstantCamera.Bool()) {
+        if (!parentAlert.destroyed && parentAlert.isShowing() && deviceHasGoodCamera && parentAlert.getBackDrawable().getAlpha() != 0 && !cameraOpened && !CoreConfig.disableInstantCamera.Bool()) {
             showCamera();
         }
     }
@@ -2767,7 +2767,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     private void saveLastCameraBitmap() {
-        if (!canSaveCameraPreview || NekoConfig.disableInstantCamera.Bool()) {
+        if (!canSaveCameraPreview || CoreConfig.disableInstantCamera.Bool()) {
             return;
         }
         try {
@@ -3466,7 +3466,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 parentAlert.getPhotoPreviewLayout().invalidateGroupsView();
             }
         } else if (id == open_in) {
-            if (parentAlert.avatarPicker == 0 && app.exteraless.chats.AttachMediaPicker.launchPicker(parentAlert)) {
+            if (parentAlert.avatarPicker == 0 && org.mzgram.chats.AttachMediaPicker.launchPicker(parentAlert)) {
                 return;
             }
             try {
@@ -3949,7 +3949,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     public void setCheckCameraWhenShown(boolean checkCameraWhenShown) {
-        this.checkCameraWhenShown = checkCameraWhenShown && !NekoConfig.disableInstantCamera.Bool();
+        this.checkCameraWhenShown = checkCameraWhenShown && !CoreConfig.disableInstantCamera.Bool();
     }
 
     @Override
@@ -4038,7 +4038,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 //                    afterCameraInitRunnable = null;
 //                    isCameraFrontfaceBeforeEnteringEditMode = null;
 //                };
-                if (!NekoConfig.disableInstantCamera.Bool()) {
+                if (!CoreConfig.disableInstantCamera.Bool()) {
                     showCamera();
                 }
             }
@@ -4165,7 +4165,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
     @Override
     public void onOpenAnimationEnd() {
-        checkCamera(parentAlert != null && parentAlert.baseFragment instanceof ChatActivity && !NekoConfig.disableInstantCamera.Bool());
+        checkCamera(parentAlert != null && parentAlert.baseFragment instanceof ChatActivity && !CoreConfig.disableInstantCamera.Bool());
     }
 
     @Override
@@ -4690,7 +4690,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
             if (noGalleryPermissions && this == adapter) {
                 count++;
-                count++; // NekoX: Additional Open In picker
+                count++; // CoreX: Additional Open In picker
             }
             photosStartRow = count;
             if (!noGalleryPermissions) {

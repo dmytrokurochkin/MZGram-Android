@@ -10,7 +10,7 @@ import org.telegram.tgnet.Vector;
 
 import java.util.ArrayList;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class TL_phone {
 

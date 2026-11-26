@@ -21,9 +21,9 @@ import org.telegram.ui.Components.blur3.BlurredBackgroundDrawableViewFactory;
 import org.telegram.ui.Components.blur3.drawable.color.BlurredBackgroundColorProvider;
 import org.telegram.ui.Components.chat.buttons.ChatActivityBlurredRoundPageDownButton;
 
-import me.vkryl.android.AnimatorUtils;
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.AnimatorUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class ChatActivitySideControlsButtonsLayout extends FrameLayout implements FactorAnimator.Target {

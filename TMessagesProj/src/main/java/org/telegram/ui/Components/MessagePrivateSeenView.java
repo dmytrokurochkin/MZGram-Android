@@ -90,8 +90,8 @@ public class MessagePrivateSeenView extends FrameLayout {
         sent_date = messageObject.messageOwner == null ? 0 : messageObject.messageOwner.date;
         edit_date = messageObject.messageOwner == null ? 0 : messageObject.messageOwner.edit_date;
         fwd_date = messageObject.messageOwner == null || messageObject.messageOwner.fwd_from == null ? 0 : messageObject.messageOwner.fwd_from.date;
-        localReadDate = type == TYPE_SEEN ? com.radolyn.ayugram.messages.AyuSpyController.getReadDate(messageObject) : 0;
-        localPlayedDate = type == TYPE_PLAYED ? com.radolyn.ayugram.messages.AyuSpyController.getContentsReadDate(messageObject) : 0;
+        localReadDate = type == TYPE_SEEN ? org.mzgram.arc.messages.ArcSpyController.getReadDate(messageObject) : 0;
+        localPlayedDate = type == TYPE_PLAYED ? org.mzgram.arc.messages.ArcSpyController.getContentsReadDate(messageObject) : 0;
         final TLRPC.UserFull userFull = DialogObject.isUserDialog(dialogId) ? MessagesController.getInstance(currentAccount).getUserFull(dialogId) : null;
         serverReadDateAvailable = DialogObject.isUserDialog(dialogId) && messageDiff < MessagesController.getInstance(currentAccount).pmReadDateExpirePeriod && (userFull == null || !userFull.read_dates_private);
 
@@ -161,7 +161,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             loadingView.setAlpha(0f);
             premiumTextView.setVisibility(View.GONE);
             valueTextView.setText(type == TYPE_PLAYED
-                ? com.radolyn.ayugram.messages.AyuSpyController.formatPlayedDate(localPlayedDate)
+                ? org.mzgram.arc.messages.ArcSpyController.formatPlayedDate(localPlayedDate)
                 : LocaleController.formatPmSeenDate(localReadDate));
             return;
         }

@@ -79,7 +79,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
@@ -1093,7 +1093,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     int waitingResponseCount;
 
     private boolean globalResultsAllowed() {
-        return allowGlobalSearch && !NaConfig.INSTANCE.getDisableGlobalSearch().Bool();
+        return allowGlobalSearch && !ExtConfig.INSTANCE.getDisableGlobalSearch().Bool();
     }
 
     public void searchDialogs(String text, int folderId, boolean allowPublicPosts) {

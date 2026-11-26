@@ -131,15 +131,15 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.filters.ReactionFilter;
-import xyz.nextalone.nagram.NaConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.filters.ReactionFilter;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.syntaxhighlight.SyntaxHighlight;
 
-import app.exteraless.chats.LinkedCustomEmoji;
+import org.mzgram.chats.LinkedCustomEmoji;
 
 public class MessageObject {
     private static final int MESSAGE_ID_RESERVED_BITS_MASK = 0x70000000;
@@ -277,7 +277,7 @@ public class MessageObject {
     public boolean expandedExplanation;
     public boolean forceShowPollResults;
 
-    public boolean isSpoilersRevealed = NekoConfig.showSpoilersDirectly.Bool();
+    public boolean isSpoilersRevealed = CoreConfig.showSpoilersDirectly.Bool();
     public boolean isMediaSpoilersRevealed;
     public boolean isMediaSpoilersRevealedInSharedMedia;
     public boolean revealingMediaSpoilers;
@@ -664,7 +664,7 @@ public class MessageObject {
     }
 
     public boolean hasMediaSpoilers() {
-        if (NekoConfig.showSpoilersDirectly.Bool()) return false;
+        if (CoreConfig.showSpoilersDirectly.Bool()) return false;
         return !isRepostPreview && (messageOwner.media != null && messageOwner.media.spoiler || needDrawBluredPreview()) || isHiddenSensitive();
     }
 
@@ -724,42 +724,42 @@ public class MessageObject {
     }
 
     public boolean shouldDrawReactions() {
-        if (oeReactionsHiddenForDialog()) {
+        if (mzReactionsHiddenForDialog()) {
             return false;
         }
         return !isRepostPreview;
     }
 
     /**
-     * openExtera: реакции скрыты для типа чата, которому принадлежит сообщение
+     * mzGram: реакции скрыты для типа чата, которому принадлежит сообщение
      * (ChatsConfig.hideReactionsInChannels / InGroups / InPrivate).
      *
-     * В exteraGram (exteraGram 12.9.0) разбивка по типам живёт только в
+     * В MZGram (MZGram 12.9.0) разбивка по типам живёт только в
      * ChatActivity.disabledReactions() и гасит панель реакций; отрисовку реакций
-     * в ячейке гасим здесь — сделано по смыслу, с exteraGram не сверено.
+     * в ячейке гасим здесь — сделано по смыслу, с MZGram не сверено.
      * Результат кэшируется: тип чата у сообщения не меняется.
      */
-    private int oeChatKind; // 0 — не считали, 1 — личка, 2 — канал, 3 — группа
+    private int mzChatKind; // 0 — не считали, 1 — личка, 2 — канал, 3 — группа
 
-    private boolean oeReactionsHiddenForDialog() {
+    private boolean mzReactionsHiddenForDialog() {
         try {
-            app.exteraless.chats.ChatsConfig.ensureLoaded();
-            final boolean inChannels = app.exteraless.chats.ChatsConfig.hideReactionsInChannels.Bool();
-            final boolean inGroups = app.exteraless.chats.ChatsConfig.hideReactionsInGroups.Bool();
-            final boolean inPrivate = app.exteraless.chats.ChatsConfig.hideReactionsInPrivate.Bool();
+            org.mzgram.chats.ChatsConfig.ensureLoaded();
+            final boolean inChannels = org.mzgram.chats.ChatsConfig.hideReactionsInChannels.Bool();
+            final boolean inGroups = org.mzgram.chats.ChatsConfig.hideReactionsInGroups.Bool();
+            final boolean inPrivate = org.mzgram.chats.ChatsConfig.hideReactionsInPrivate.Bool();
             if (!inChannels && !inGroups && !inPrivate) {
                 return false;
             }
-            if (oeChatKind == 0) {
+            if (mzChatKind == 0) {
                 final long dialogId = getDialogId();
                 if (dialogId >= 0) {
-                    oeChatKind = 1;
+                    mzChatKind = 1;
                 } else {
                     TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-dialogId);
-                    oeChatKind = ChatObject.isChannelAndNotMegaGroup(chat) ? 2 : 3;
+                    mzChatKind = ChatObject.isChannelAndNotMegaGroup(chat) ? 2 : 3;
                 }
             }
-            switch (oeChatKind) {
+            switch (mzChatKind) {
                 case 1: return inPrivate;
                 case 2: return inChannels;
                 default: return inGroups;
@@ -1536,8 +1536,8 @@ public class MessageObject {
             calculatedForWideChannelPosts = wideChannelPost;
             if (wideChannelPost) {
                 maxSizeWidth = groupedMediaViewportWidth > 0
-                        ? app.exteraless.chats.WideChannelPostLayout.groupedMediaContentSpanCount(groupedMediaViewportWidth)
-                        : app.exteraless.chats.WideChannelPostLayout.groupedMediaContentSpanCount();
+                        ? org.mzgram.chats.WideChannelPostLayout.groupedMediaContentSpanCount(groupedMediaViewportWidth)
+                        : org.mzgram.chats.WideChannelPostLayout.groupedMediaContentSpanCount();
             } else {
                 maxSizeWidth = 800;
             }
@@ -2031,8 +2031,8 @@ public class MessageObject {
             int expectedSpanCount;
             if (wideChannelPost) {
                 expectedSpanCount = groupedMediaViewportWidth > 0
-                        ? app.exteraless.chats.WideChannelPostLayout.groupedMediaContentSpanCount(groupedMediaViewportWidth)
-                        : app.exteraless.chats.WideChannelPostLayout.groupedMediaContentSpanCount();
+                        ? org.mzgram.chats.WideChannelPostLayout.groupedMediaContentSpanCount(groupedMediaViewportWidth)
+                        : org.mzgram.chats.WideChannelPostLayout.groupedMediaContentSpanCount();
             } else {
                 expectedSpanCount = 800;
             }
@@ -4007,7 +4007,7 @@ public class MessageObject {
         final boolean voiceTranscriptionOpen = messageOwner != null && messageOwner.voiceTranscriptionOpen;
         final boolean manualTranslated = translateController.isManualTranslated(this);
         final boolean autoTranslated = TranslateController.isTranslatable(this) && translateController.isTranslatingDialog(getDialogId());
-        final int translatorMode = NaConfig.INSTANCE.getTranslatorMode().Int();
+        final int translatorMode = ExtConfig.INSTANCE.getTranslatorMode().Int();
         final boolean keepOriginal = MessageHelper.shouldKeepOriginalForDisplay(translatorMode, manualTranslated, autoTranslated);
         final TLRPC.TL_textWithEntities translatedText = messageOwner != null ? (voiceTranscriptionOpen ? messageOwner.translatedVoiceTranscription : messageOwner.translatedText) : null;
         final TLRPC.TL_textWithEntities summarizedText = messageOwner != null && messageOwner.summarizedOpen ? messageOwner.summaryText : null;
@@ -4667,8 +4667,8 @@ public class MessageObject {
         return sponsoredId != null;
     }
 
-    public boolean isAyuDeleted() {
-        return messageOwner != null && messageOwner.ayuDeleted;
+    public boolean isArcDeleted() {
+        return messageOwner != null && messageOwner.arcDeleted;
     }
 
     public boolean isRich() {
@@ -8118,7 +8118,7 @@ public class MessageObject {
             newCaptionTranslated = true;
             text = messageText != null ? messageText.toString() : messageOwner.translatedText.text;
         } else if (messageOwner.translated) {
-            // NekoX Translate
+            // CoreX Translate
             newCaptionSummarized = false;
             newCaptionTranslated = false;
             text = messageOwner.translatedMessage;
@@ -8145,7 +8145,7 @@ public class MessageObject {
         } else if (messageOwner.translatedText != null && translated) {
             entities = MessageHelper.getEntitiesForText(this, text, false);
         } else if (messageOwner.translated) {
-            // NekoX Translate
+            // CoreX Translate
             entities = MessageHelper.getEntitiesForText(this, text, summarized);
         }
         if (!isMediaEmpty() && !(getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) && !TextUtils.isEmpty(text)) {
@@ -8861,7 +8861,7 @@ public class MessageObject {
                     && (run.flags & (TextStyleSpan.FLAG_STYLE_BOLD | TextStyleSpan.FLAG_STYLE_ITALIC)) != 0) {
                 Typeface linkTypeface = run.getTypeface();
                 if (linkTypeface != null) {
-                    spannable.setSpan(new app.exteraless.chats.LinkTypefaceSpan(linkTypeface), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(new org.mzgram.chats.LinkTypefaceSpan(linkTypeface), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
             if (!setRun && (run.flags & TextStyleSpan.FLAG_STYLE_SPOILER) != 0) {
@@ -9026,7 +9026,7 @@ public class MessageObject {
             int leadingInset = sideMenuEnabled
                     ? dp(64)
                     : needDrawAvatarInternal && !isOutOwner() && !messageOwner.isThreadMessage ? dp(52) : 0;
-            maxWidth = app.exteraless.chats.WideChannelPostLayout.messageTextWidth(
+            maxWidth = org.mzgram.chats.WideChannelPostLayout.messageTextWidth(
                     generatedWithMinSize, leadingInset);
         } else if (hasCode && !isSaved) {
             maxWidth = generatedWithMinSize - dp(45 + 15);
@@ -10455,7 +10455,7 @@ public class MessageObject {
 
     public boolean hasWideChannelPostHeader() {
         final boolean inFeed = searchType == 4;
-        if (!(inFeed ? app.exteraless.chats.ChatsConfig.wideFeedPosts() : app.exteraless.chats.ChatsConfig.wideChannelPosts())
+        if (!(inFeed ? org.mzgram.chats.ChatsConfig.wideFeedPosts() : org.mzgram.chats.ChatsConfig.wideChannelPosts())
                 || messageOwner == null
                 || messageOwner.action != null
                 || messageOwner.peer_id == null
@@ -12293,7 +12293,7 @@ public class MessageObject {
     public boolean canForwardMessage() {
         if (isQuickReply()) return false;
         if (type == TYPE_GIFT_STARS || type == TYPE_GIFT_THEME_UPDATE || type == TYPE_SUGGEST_BIRTHDAY || type == TYPE_GIFT_OFFER || type == TYPE_SHARING_OFFER || type == TYPE_COMMUNITY_CHANGED) return false;
-        return !(messageOwner instanceof TLRPC.TL_message_secret) && !needDrawBluredPreview() && !isLiveLocation() && type != MessageObject.TYPE_PHONE_CALL && !isSponsored() && !messageOwner.noforwards && !isAyuDeleted();
+        return !(messageOwner instanceof TLRPC.TL_message_secret) && !needDrawBluredPreview() && !isLiveLocation() && type != MessageObject.TYPE_PHONE_CALL && !isSponsored() && !messageOwner.noforwards && !isArcDeleted();
     }
 
     public boolean canEditMedia() {
@@ -12431,7 +12431,7 @@ public class MessageObject {
         return (
             isStory() && messageOwner != null && messageOwner.dialog_id == UserConfig.getInstance(currentAccount).getClientUserId() ||
             eventId == 0 && sponsoredId == null && canDeleteMessage(currentAccount, inScheduleMode, messageOwner, chat) || isEphemeral() ||
-            isAyuDeleted()
+            isArcDeleted()
         );
     }
 

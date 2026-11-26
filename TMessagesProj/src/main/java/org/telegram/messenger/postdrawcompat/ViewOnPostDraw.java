@@ -8,7 +8,7 @@ import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 class ViewOnPostDraw extends View {
 

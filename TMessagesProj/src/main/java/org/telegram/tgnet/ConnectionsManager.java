@@ -14,7 +14,7 @@ import android.util.Base64;
 
 import androidx.annotation.Keep;
 
-import app.exteraless.feed.FeedRequestNormalizer;
+import org.mzgram.feed.FeedRequestNormalizer;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
@@ -27,7 +27,7 @@ import androidx.media3.exoplayer.upstream.DefaultBandwidthMeter;
 // import com.google.android.play.core.integrity.IntegrityTokenRequest;
 // import com.google.android.play.core.integrity.IntegrityTokenResponse;
 
-import com.radolyn.ayugram.utils.AyuGhostUtils;
+import org.mzgram.arc.utils.ArcGhostUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -87,13 +87,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.net.ssl.SSLException;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.ErrorDatabase;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.ErrorDatabase;
 
-import tw.nekomimi.nekogram.NekoXConfig;
-import tw.nekomimi.nekogram.utils.DnsFactory;
-import tw.nekomimi.nekogram.utils.ProxyUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreXConfig;
+import org.mzgram.core.utils.DnsFactory;
+import org.mzgram.core.utils.ProxyUtil;
+import org.mzgram.ext.ExtConfig;
 
 @OptIn(markerClass = UnstableApi.class)
 public class ConnectionsManager extends BaseController {
@@ -293,7 +293,7 @@ public class ConnectionsManager extends BaseController {
         if (getUserConfig().getCurrentUser() != null) {
             userPremium = getUserConfig().getCurrentUser().premium;
         }
-        init(java.util.Objects.hash(SharedConfig.buildVersion(), TLRPC.LAYER, appVersion), TLRPC.LAYER, NekoXConfig.currentAppId(), deviceModel, systemVersion, appVersion, langCode, systemLangCode, configPath, FileLog.getNetworkLogPath(), pushString, fingerprint, timezoneOffset, getUserConfig().getClientUserId(), userPremium, enablePushConnection);
+        init(java.util.Objects.hash(SharedConfig.buildVersion(), TLRPC.LAYER, appVersion), TLRPC.LAYER, CoreXConfig.currentAppId(), deviceModel, systemVersion, appVersion, langCode, systemLangCode, configPath, FileLog.getNetworkLogPath(), pushString, fingerprint, timezoneOffset, getUserConfig().getClientUserId(), userPremium, enablePushConnection);
     }
 
     private String getRegId() {
@@ -454,7 +454,7 @@ public class ConnectionsManager extends BaseController {
         }
 
         // --- Ghost Mode ---
-        AyuGhostUtils.InterceptResult interceptResult = AyuGhostUtils.interceptRequest(object, onCompleteOrig);
+        ArcGhostUtils.InterceptResult interceptResult = ArcGhostUtils.interceptRequest(object, onCompleteOrig);
         if (interceptResult.blockRequest()) {
             FileLog.d("GhostMode: Request " + object.getClass().getSimpleName() + " blocked by handler.");
             return;
@@ -462,11 +462,11 @@ public class ConnectionsManager extends BaseController {
         final var onComplete = interceptResult.effectiveOnComplete();
         // --- Ghost Mode ---
 
-        // --- exteraless plugins: pre_request_hook (CANCEL = запрос не уходит) ---
+        // --- mzgram plugins: pre_request_hook (CANCEL = запрос не уходит) ---
         TLObject pluginRequest = object;
-        if (app.exteraless.plugins.PluginsController.getInstance().hasAnyRequestHooks()) {
-            app.exteraless.plugins.HookResult preHook = app.exteraless.plugins.PluginsController.getInstance()
-                    .executePreRequestHook(currentAccount, app.exteraless.plugins.PluginsController.hookName(object), object);
+        if (org.mzgram.plugins.PluginsController.getInstance().hasAnyRequestHooks()) {
+            org.mzgram.plugins.HookResult preHook = org.mzgram.plugins.PluginsController.getInstance()
+                    .executePreRequestHook(currentAccount, org.mzgram.plugins.PluginsController.hookName(object), object);
             if (preHook.isCancel()) {
                 FileLog.d("Plugins: request " + object.getClass().getSimpleName() + " cancelled by plugin");
                 return;
@@ -476,7 +476,7 @@ public class ConnectionsManager extends BaseController {
                 pluginRequest = replacement;
             }
         }
-        // --- exteraless plugins ---
+        // --- mzgram plugins ---
 
         try {
             final TLObject normalizedObject = FeedRequestNormalizer.normalize(currentAccount, pluginRequest);
@@ -516,7 +516,7 @@ public class ConnectionsManager extends BaseController {
                         if (BuildVars.LOGS_ENABLED && error.code != -2000) {
                             FileLog.e(normalizedObject + " got error " + error.code + " " + error.text);
                         }
-                        if (NaConfig.INSTANCE.getShowRPCError().Bool()) {
+                        if (ExtConfig.INSTANCE.getShowRPCError().Bool()) {
                             ErrorDatabase.showErrorToast(normalizedObject, errorText);
                         }
                     }
@@ -545,10 +545,10 @@ public class ConnectionsManager extends BaseController {
                     final TLRPC.TL_error finalError = error;
                     Utilities.stageQueue.postRunnable(() -> {
                         TLObject pluginResponse = finalResponse;
-                        // exteraless plugins: post_request_hook
-                        if (app.exteraless.plugins.PluginsController.getInstance().hasAnyRequestHooks()) {
-                            app.exteraless.plugins.HookResult postHook = app.exteraless.plugins.PluginsController.getInstance()
-                                    .executePostRequestHook(currentAccount, app.exteraless.plugins.PluginsController.hookName(normalizedObject), finalResponse, finalError);
+                        // mzgram plugins: post_request_hook
+                        if (org.mzgram.plugins.PluginsController.getInstance().hasAnyRequestHooks()) {
+                            org.mzgram.plugins.HookResult postHook = org.mzgram.plugins.PluginsController.getInstance()
+                                    .executePostRequestHook(currentAccount, org.mzgram.plugins.PluginsController.hookName(normalizedObject), finalResponse, finalError);
                             if (postHook.isCancel()) {
                                 if (onComplete == null && onCompleteTimestamp == null
                                         && finalResponse instanceof TLRPC.Updates) {
@@ -1013,7 +1013,7 @@ public class ConnectionsManager extends BaseController {
                 }
                 lastDnsRequestTime = System.currentTimeMillis();
 
-                if (NekoConfig.dnsType.Int() == NekoConfig.DNS_TYPE_NAX || NekoConfig.dnsType.Int() == NekoConfig.DNS_TYPE_CUSTOM_DOH) {
+                if (CoreConfig.dnsType.Int() == CoreConfig.DNS_TYPE_NAX || CoreConfig.dnsType.Int() == CoreConfig.DNS_TYPE_CUSTOM_DOH) {
                     FileLog.d("start custom dns txt task");
                     DnsTxtLoadTask task = new DnsTxtLoadTask(currentAccount);
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
@@ -1284,7 +1284,7 @@ public class ConnectionsManager extends BaseController {
                 }
             }
             if (hasIpv6) {
-                if (!hasIpv4 || forceTryIpV6 || NekoConfig.useIPv6.Bool()) {
+                if (!hasIpv4 || forceTryIpV6 || CoreConfig.useIPv6.Bool()) {
                     return USE_IPV6_ONLY;
                 } else if (hasStrangeIpv4) {
                     return USE_IPV4_IPV6_RANDOM;
@@ -1330,7 +1330,7 @@ public class ConnectionsManager extends BaseController {
         }
 
         protected ResolvedDomain doInBackground(Void... voids) {
-            if (NekoConfig.dnsType.Int() != NekoConfig.DNS_TYPE_DEFAULT) {
+            if (CoreConfig.dnsType.Int() != CoreConfig.DNS_TYPE_DEFAULT) {
                 return dnsFactoryLookup();
             }
             ByteArrayOutputStream outbuf = null;

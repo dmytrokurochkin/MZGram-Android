@@ -39,8 +39,8 @@ import org.telegram.ui.Components.Text;
 
 import java.util.Locale;
 
-import me.vkryl.android.AnimatorUtils;
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.AnimatorUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 public class PollContentDrawable extends Drawable implements DownloadController.FileDownloadProgressListener, SeekBar.SeekBarDelegate {
     private final BoolAnimator animatorIsPlaying;

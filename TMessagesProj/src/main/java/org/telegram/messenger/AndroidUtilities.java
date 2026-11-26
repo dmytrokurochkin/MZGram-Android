@@ -242,11 +242,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.TypefaceHelper;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.TypefaceHelper;
+import org.mzgram.ext.ExtConfig;
 
 public class AndroidUtilities {
     public final static int REPLACING_TAG_TYPE_LINK = 0;
@@ -265,7 +265,7 @@ public class AndroidUtilities {
     public static final String TYPEFACE_ROBOTO_REGULAR = "fonts/rregular.ttf";
     public static final String TYPEFACE_ROBOTO_ITALIC = TYPEFACE_RITALIC;
     public static final String TYPEFACE_ROBOTO_CONDENSED_BOLD = TYPEFACE_RCONDENSED_BOLD;
-    // Инициалы на аватарках. Перенос из exteraGram 12.9.0, AndroidUtilities.java:247.
+    // Инициалы на аватарках. Перенос из MZGram 12.9.0, AndroidUtilities.java:247.
     public static final String TYPEFACE_NUNITO_EXTRABOLD = "fonts/nunito_extrabold.ttf";
 
     public static Typeface mediumTypeface;
@@ -2561,7 +2561,7 @@ public class AndroidUtilities {
     public static Typeface getTypeface(String assetPath) {
         return typefaceCache.computeIfAbsent(assetPath, path -> {
             try {
-                if (NekoConfig.typeface.Bool()) {
+                if (CoreConfig.typeface.Bool()) {
                     return TypefaceHelper.createTypeface(path);
                 }
                 return TypefaceHelper.createTypefaceFromAsset(path);
@@ -2600,7 +2600,7 @@ public class AndroidUtilities {
     }
 
     public static int getShadowHeight() {
-        if (NaConfig.INSTANCE.getHideDividers().Bool()) {
+        if (ExtConfig.INSTANCE.getHideDividers().Bool()) {
             return 0;
         }
         if (density >= 4.0f) {
@@ -3090,8 +3090,8 @@ public class AndroidUtilities {
     }
 
     public static boolean isTabletForce() {
-        if (NekoConfig.tabletMode.Int() != NekoConfig.TABLET_AUTO) {
-            return NekoConfig.tabletMode.Int() == NekoConfig.TABLET_ENABLE;
+        if (CoreConfig.tabletMode.Int() != CoreConfig.TABLET_AUTO) {
+            return CoreConfig.tabletMode.Int() == CoreConfig.TABLET_ENABLE;
         }
         return ApplicationLoader.applicationContext != null && ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isTablet);
     }
@@ -3798,7 +3798,7 @@ public class AndroidUtilities {
         }
         File storageDir = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            // Имя форка вместо зашитого «Nagram»: каталог видно в галерее и файловом менеджере.
+            // Имя форка вместо зашитого «MZGram»: каталог видно в галерее и файловом менеджере.
             storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                     LocaleController.getAppName());
             if (!storageDir.mkdirs()) {
@@ -4325,8 +4325,8 @@ public class AndroidUtilities {
             f = FileLoader.getInstance(UserConfig.selectedAccount).getPathToMessage(message.messageOwner);
         }
         if (f != null && f.exists()) {
-            // exteraless plugins: плагин может перехватить открытие файла по расширению.
-            if (app.exteraless.plugins.files.FilesControllerJava.dispatchOpenFile(f, fileName, document.mime_type, message, activity, parentFragment, UserConfig.selectedAccount)) {
+            // mzgram plugins: плагин может перехватить открытие файла по расширению.
+            if (org.mzgram.plugins.files.FilesControllerJava.dispatchOpenFile(f, fileName, document.mime_type, message, activity, parentFragment, UserConfig.selectedAccount)) {
                 return;
             }
             if (parentFragment != null && f.getName().toLowerCase().endsWith("attheme")) {
@@ -4404,8 +4404,8 @@ public class AndroidUtilities {
 
     public static boolean openForView(File f, String fileName, String mimeType, final Activity activity, Theme.ResourcesProvider resourcesProvider, boolean restrict) {
         if (f != null && f.exists()) {
-            // exteraless plugins: плагин может перехватить открытие файла по расширению.
-            if (app.exteraless.plugins.files.FilesControllerJava.dispatchOpenFile(f, fileName, mimeType, null, activity, null, UserConfig.selectedAccount)) {
+            // mzgram plugins: плагин может перехватить открытие файла по расширению.
+            if (org.mzgram.plugins.files.FilesControllerJava.dispatchOpenFile(f, fileName, mimeType, null, activity, null, UserConfig.selectedAccount)) {
                 return true;
             }
             String realMimeType = null;
@@ -5642,7 +5642,7 @@ public class AndroidUtilities {
     }
 
     public static boolean shouldShowUrlInAlert(String url) {
-        if (NekoConfig.skipOpenLinkConfirm.Bool()) {
+        if (CoreConfig.skipOpenLinkConfirm.Bool()) {
             return false;
         }
         try {
@@ -6608,22 +6608,22 @@ public class AndroidUtilities {
     }
 
     public static void vibrateCursor(View view) {
-        if (NekoConfig.disableVibration.Bool()) return;
+        if (CoreConfig.disableVibration.Bool()) return;
         try {
             if (view == null || view.getContext() == null) return;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
             if (!((Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE)).hasAmplitudeControl()) return;
-            if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+            if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
         } catch (Exception ignore) {}
     }
 
     public static void vibrate(View view) {
-        if (NekoConfig.disableVibration.Bool()) return;
+        if (CoreConfig.disableVibration.Bool()) return;
         try {
             if (view == null || view.getContext() == null) return;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
             if (!((Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE)).hasAmplitudeControl()) return;
-            if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+            if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
         } catch (Exception ignore) {}
     }
 

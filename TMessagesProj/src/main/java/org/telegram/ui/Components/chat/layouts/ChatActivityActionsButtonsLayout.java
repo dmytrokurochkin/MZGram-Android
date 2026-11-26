@@ -29,9 +29,9 @@ import org.telegram.ui.Components.blur3.BlurredBackgroundDrawableViewFactory;
 import org.telegram.ui.Components.blur3.drawable.color.BlurredBackgroundColorProvider;
 import org.telegram.ui.Components.chat.buttons.ChatActivityBlurredRoundButton;
 
-import me.vkryl.android.AnimatorUtils;
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.AnimatorUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class ChatActivityActionsButtonsLayout extends LinearLayout {
@@ -115,7 +115,7 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
 
     /** MZGram: Material input bar. Text buttons in the accent colour on the docked bar, no glass pills. */
     private static boolean mzFlat() {
-        return app.exteraless.appearance.AppearanceConfig.materialInput();
+        return org.mzgram.appearance.AppearanceConfig.materialInput();
     }
 
     private void addTextView(ButtonHolder button, String text, @DrawableRes int iconRes, boolean iconLeft) {

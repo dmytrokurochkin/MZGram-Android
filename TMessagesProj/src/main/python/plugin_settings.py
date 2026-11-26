@@ -1,4 +1,4 @@
-"""Хранилище настроек плагинов из SDK exteraGram.
+"""Хранилище настроек плагинов из SDK MZGram.
 
 У нас настройки живут на стороне Java (SharedPreferences на плагин), а `BasePlugin`
 ходит в них через `PythonBridge`. Плагины каталога при этом ждут отдельный модуль
@@ -14,11 +14,11 @@ import json as _json
 import threading as _threading
 
 try:
-    from app.exteraless.plugins import PythonBridge as _bridge
+    from org.mzgram.plugins import PythonBridge as _bridge
 except Exception:
     try:
-        from extera_utils.plugin_loader import engine_java_class as _engine_class
-        _bridge = _engine_class("app.exteraless.plugins.PythonBridge")
+        from mz_utils.plugin_loader import engine_java_class as _engine_class
+        _bridge = _engine_class("org.mzgram.plugins.PythonBridge")
     except Exception:
         _bridge = None
 

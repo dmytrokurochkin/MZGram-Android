@@ -148,9 +148,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
-import xyz.nextalone.nagram.helper.LocalPeerColorHelper;
+import org.mzgram.ext.helper.LocalPeerColorHelper;
 
 public class PeerColorActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -2504,7 +2504,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             // MZGram: as tall as the TextCell rows around it (56dp in Material lists)
-            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(dp(app.exteraless.appearance.M3ListItems.rowHeight(50)) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
+            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(dp(org.mzgram.appearance.M3ListItems.rowHeight(50)) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
         }
 
         private int rtl(int x) {
@@ -2520,7 +2520,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             drawable.draw(canvas);
             buttonText.ellipsize(getMeasuredWidth() - dp(64 + 7 + 100) - (lock != null ? lock.getIntrinsicWidth() + dp(8) : 0));
             // MZGram: Material list rows put the text 60dp in (TextCell); this row stood 11dp to the right of its neighbours
-            final int textLeft = dp(app.exteraless.appearance.M3ListItems.enabled() ? 60 : 71);
+            final int textLeft = dp(org.mzgram.appearance.M3ListItems.enabled() ? 60 : 71);
             float textX = LocaleController.isRTL ? getMeasuredWidth() - buttonText.getWidth() - textLeft : textLeft;
             buttonText.draw(canvas, textX, getMeasuredHeight() / 2f);
             if (lock != null) {

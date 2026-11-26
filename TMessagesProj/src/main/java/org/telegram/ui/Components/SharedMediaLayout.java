@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
-import app.exteraless.chats.LinkedCustomEmoji;
-import app.exteraless.utils.AppUtils;
+import org.mzgram.chats.LinkedCustomEmoji;
+import org.mzgram.utils.AppUtils;
 
 import static org.telegram.messenger.AndroidUtilities.dp;
 import org.telegram.utils.glass.BaseFragmentSimpleGlass;
@@ -190,10 +190,10 @@ import java.util.HashSet;
 import java.util.Objects;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import tw.nekomimi.nekogram.utils.ProxyUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.ui.BottomBuilder;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.core.utils.ProxyUtil;
+import org.mzgram.ext.ExtConfig;
 
 @SuppressWarnings("unchecked")
 public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, NotificationCenter.NotificationCenterDelegate, DialogCell.DialogCellDelegate, RecyclerListView.SectionContentAboveTop {
@@ -1690,14 +1690,14 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
             main_tab = null;
         }
         if (initialTab == TAB_GIFTS || initialTab == TAB_RECOMMENDED_CHANNELS || initialTab == TAB_SAVED_DIALOGS || initialTab == TAB_COMMON_GROUPS) {
-            this.initialTab = NaConfig.INSTANCE.getPreferCommonGroupsTab().Bool() && initialTab == TAB_GIFTS && userInfo != null && userInfo.common_chats_count > 0 ? TAB_COMMON_GROUPS : initialTab;
+            this.initialTab = ExtConfig.INSTANCE.getPreferCommonGroupsTab().Bool() && initialTab == TAB_GIFTS && userInfo != null && userInfo.common_chats_count > 0 ? TAB_COMMON_GROUPS : initialTab;
         } else if (user != null && user.bot && user.bot_has_main_app && user.bot_can_edit) {
             this.initialTab = TAB_BOT_PREVIEWS;
         } else if (userInfo != null && userInfo.bot_info != null && userInfo.bot_info.has_preview_medias) {
             this.initialTab = TAB_STORIES;
-        } else if (main_tab instanceof TLRPC.TL_profileTabPosts && !NaConfig.INSTANCE.getDisableStories().Bool() && (userInfo != null && userInfo.stories_pinned_available || chatInfo != null && chatInfo.stories_pinned_available || isStoriesView())) {
+        } else if (main_tab instanceof TLRPC.TL_profileTabPosts && !ExtConfig.INSTANCE.getDisableStories().Bool() && (userInfo != null && userInfo.stories_pinned_available || chatInfo != null && chatInfo.stories_pinned_available || isStoriesView())) {
             this.initialTab = TAB_STORIES;
-        } else if (main_tab instanceof TLRPC.TL_profileTabGifts && (userInfo != null && userInfo.stargifts_count > 0 || chatInfo != null && chatInfo.stargifts_count > 0 && !NaConfig.INSTANCE.getPreferCommonGroupsTab().Bool())) {
+        } else if (main_tab instanceof TLRPC.TL_profileTabGifts && (userInfo != null && userInfo.stargifts_count > 0 || chatInfo != null && chatInfo.stargifts_count > 0 && !ExtConfig.INSTANCE.getPreferCommonGroupsTab().Bool())) {
             this.initialTab = TAB_GIFTS;
         } else if (main_tab instanceof TLRPC.TL_profileTabFiles && (hasMedia[1] == -1 || hasMedia[1] > 0)) {
             this.initialTab = TAB_FILES;
@@ -1709,9 +1709,9 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
             this.initialTab = TAB_AUDIO;
         } else if (main_tab instanceof TLRPC.TL_profileTabVoice && (hasMedia[2] == -1 || hasMedia[2] > 0)) {
             this.initialTab = TAB_VOICE;
-        } else if (!NaConfig.INSTANCE.getDisableStories().Bool() && (userInfo != null && userInfo.stories_pinned_available || chatInfo != null && chatInfo.stories_pinned_available || isStoriesView())) {
+        } else if (!ExtConfig.INSTANCE.getDisableStories().Bool() && (userInfo != null && userInfo.stories_pinned_available || chatInfo != null && chatInfo.stories_pinned_available || isStoriesView())) {
             this.initialTab = getInitialTab();
-        } else if (userInfo != null && userInfo.stargifts_count > 0 || chatInfo != null && chatInfo.stargifts_count > 0 && !NaConfig.INSTANCE.getPreferCommonGroupsTab().Bool()) {
+        } else if (userInfo != null && userInfo.stargifts_count > 0 || chatInfo != null && chatInfo.stargifts_count > 0 && !ExtConfig.INSTANCE.getPreferCommonGroupsTab().Bool()) {
             this.initialTab = TAB_GIFTS;
         } else if (initialTab != -1 && topicId == 0) {
             this.initialTab = initialTab;
@@ -3587,7 +3587,7 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
                 setVisibleHeight(lastVisibleHeight);
             });
 
-            if (app.exteraless.appearance.AppearanceConfig.materialBars()) {
+            if (org.mzgram.appearance.AppearanceConfig.materialBars()) {
                 // MZGram: Material bars. Tabs docked under the header: a full-width strip, a line under the selected tab
                 scrollSlidingTextTabStrip.setPadding(0, dp(7), 0, dp(7));
                 scrollSlidingTextTabStrip.setClipToPadding(false);
@@ -3651,7 +3651,7 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
             searchTagsList.setBlurredFactory(iBlur3FactoryLiquidGlass, glassColors);
             searchTagsList.setShown(0f);
             addView(searchTagsList, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.LEFT | Gravity.TOP, 0, 4, 0, 0));
-            if (simpleActionBar == null && app.exteraless.appearance.AppearanceConfig.materialBars()) {
+            if (simpleActionBar == null && org.mzgram.appearance.AppearanceConfig.materialBars()) {
                 // MZGram: Material bars. The selection takes the place of the tabs on the same flat full-width strip
                 actionModeLayout.setBackground(new android.graphics.drawable.Drawable() {
                     private final Paint paint = new Paint();
@@ -3713,7 +3713,7 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
     }
 
     protected boolean includeStories() {
-        return !NaConfig.INSTANCE.getDisableStories().Bool();
+        return !ExtConfig.INSTANCE.getDisableStories().Bool();
 //        return true;
     }
 
@@ -4874,7 +4874,7 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
     }
 
     protected void onSelectedTabChanged() {
-        boolean pollerEnabled = !NaConfig.INSTANCE.getDisableStories().Bool() && (isStoriesView() || isArchivedOnlyStoriesView());
+        boolean pollerEnabled = !ExtConfig.INSTANCE.getDisableStories().Bool() && (isStoriesView() || isArchivedOnlyStoriesView());
         if (archivedStoriesAdapter.poller != null) {
             archivedStoriesAdapter.poller.start(pollerEnabled && getClosestTab() == TAB_ARCHIVED_STORIES);
         }
@@ -6794,7 +6794,7 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
         boolean hasEditBotPreviews = user != null && user.bot && user.bot_has_main_app && user.bot_can_edit;
         boolean hasBotPreviews = user != null && user.bot && !user.bot_can_edit && (userInfo != null && userInfo.bot_info != null && userInfo.bot_info.has_preview_medias) && !hasEditBotPreviews;
         boolean hasStories = (DialogObject.isUserDialog(dialog_id) || DialogObject.isChatDialog(dialog_id)) && !DialogObject.isEncryptedDialog(dialog_id) && (userInfo != null && userInfo.stories_pinned_available || info != null && info.stories_pinned_available || isStoriesView()) && includeStories();
-        hasStories = !NaConfig.INSTANCE.getDisableStories().Bool() && hasStories;
+        hasStories = !ExtConfig.INSTANCE.getDisableStories().Bool() && hasStories;
         boolean hasGifts = giftsContainer != null && (userInfo != null && userInfo.stargifts_count > 0 || info != null && info.stargifts_count > 0);
         final TLRPC.ProfileTab main_tab = info != null ? info.main_tab : userInfo != null ? userInfo.main_tab : null;
         int changed = 0;
@@ -6908,7 +6908,7 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
             }
             if (hasBotPreviews) {
                 tabs.add(new Pair(TAB_STORIES, getString(R.string.ProfileBotPreviewTab)));
-            } else if (!NaConfig.INSTANCE.getDisableStories().Bool() && ((DialogObject.isUserDialog(dialog_id) || DialogObject.isChatDialog(dialog_id)) && !DialogObject.isEncryptedDialog(dialog_id) && (userInfo != null && userInfo.stories_pinned_available || info != null && info.stories_pinned_available || isStoriesView()) && includeStories())) {
+            } else if (!ExtConfig.INSTANCE.getDisableStories().Bool() && ((DialogObject.isUserDialog(dialog_id) || DialogObject.isChatDialog(dialog_id)) && !DialogObject.isEncryptedDialog(dialog_id) && (userInfo != null && userInfo.stories_pinned_available || info != null && info.stories_pinned_available || isStoriesView()) && includeStories())) {
                 if (isArchivedOnlyStoriesView()) {
                     tabs.add(new Pair(TAB_ARCHIVED_STORIES, getString(R.string.ProfileArchivedStories)));
                     scrollSlidingTextTabStrip.animationDuration = 420;
@@ -7785,8 +7785,8 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
                             }
                             return;
                         }
-                        // exteraless plugins: установить плагин, а не открывать его в просмотрщике.
-                        if (app.exteraless.plugins.PluginInstallHelper.handleMessageTap(profileActivity.getParentActivity(), message)) {
+                        // mzgram plugins: установить плагин, а не открывать его в просмотрщике.
+                        if (org.mzgram.plugins.PluginInstallHelper.handleMessageTap(profileActivity.getParentActivity(), message)) {
                             return;
                         }
                         AndroidUtilities.openDocument(message, profileActivity.getParentActivity(), profileActivity);

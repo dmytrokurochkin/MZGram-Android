@@ -114,10 +114,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.MessageHelper;
 
-import com.radolyn.ayugram.proprietary.AyuMessageUtils;
+import org.mzgram.arc.proprietary.ArcMessageUtils;
 
 public class SecretMediaViewer implements NotificationCenter.NotificationCenterDelegate, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
 
@@ -1172,7 +1172,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         if (!isCaptionEmpty) {
             Theme.createChatResources(null, true);
             CharSequence str;
-            if (messageObject != null /*&& captionTranslated*/ && messageObject.messageOwner != null && messageObject.messageOwner.translatedText != null && TextUtils.equals(messageObject.messageOwner.translatedToLanguage, NekoConfig.translateToLang.String())) {
+            if (messageObject != null /*&& captionTranslated*/ && messageObject.messageOwner != null && messageObject.messageOwner.translatedText != null && TextUtils.equals(messageObject.messageOwner.translatedToLanguage, CoreConfig.translateToLang.String())) {
                 str = caption;
             } else if (messageObject != null && !messageObject.messageOwner.entities.isEmpty()) {
                 Spannable spannableString = new SpannableString(caption);
@@ -1525,7 +1525,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     File encryptedFile = file != null ? new File(file.getAbsolutePath() + ".enc") : null;
                     if (encryptedFile != null && encryptedFile.exists()) {
                         // save deleted: try to decrypt and save to attachments path for persistence
-                        File decryptedFile = AyuMessageUtils.decryptAndSaveMedia(file.getName(), encryptedFile, messageObject);
+                        File decryptedFile = ArcMessageUtils.decryptAndSaveMedia(file.getName(), encryptedFile, messageObject);
                         if (decryptedFile != null && decryptedFile.exists() && decryptedFile.length() > 0) {
                             file = decryptedFile;
                         } else {
@@ -1551,7 +1551,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             File photoFile = FileLoader.getInstance(currentAccount).getPathToAttach(sizeFull, true);
             File encryptedPhotoFile = new File(photoFile.getAbsolutePath() + ".enc");
             if (encryptedPhotoFile.exists()) {
-                File decryptedFile = AyuMessageUtils.decryptAndSaveMedia(photoFile.getName(), encryptedPhotoFile, messageObject);
+                File decryptedFile = ArcMessageUtils.decryptAndSaveMedia(photoFile.getName(), encryptedPhotoFile, messageObject);
                 if (decryptedFile != null && decryptedFile.exists() && decryptedFile.length() > 0) {
                     centerImage.setImage(decryptedFile.getAbsolutePath(), null, currentThumb != null ? new BitmapDrawable(currentThumb.bitmap) : null, "jpg", 0);
                 }

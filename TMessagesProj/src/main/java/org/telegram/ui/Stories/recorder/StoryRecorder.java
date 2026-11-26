@@ -181,7 +181,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class StoryRecorder implements NotificationCenter.NotificationCenterDelegate {
 
@@ -3891,7 +3891,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 takingPhoto = CameraController.getInstance().takePicture(outputFile, true, cameraView.getCameraSessionObject(), (orientation) -> {
                     if (useDisplayFlashlight()) {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                            if (!CoreConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                         } catch (Exception ignore) {}
                     }
                     takingPhoto = false;

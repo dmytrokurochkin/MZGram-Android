@@ -113,13 +113,13 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.ChatsHelper;
-import tw.nekomimi.nekogram.llm.LlmConfig;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.translate.TranslatorKt;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.ChatsHelper;
+import org.mzgram.core.llm.LlmConfig;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.translate.TranslatorKt;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class PhotoPickerActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -406,7 +406,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
 
         @Override
         public boolean cancelButtonPressed() {
-            delegate.actionButtonPressed(true, !NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0);
+            delegate.actionButtonPressed(true, !ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0);
             finishFragment();
             return true;
         }
@@ -1063,7 +1063,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             sizeNotifierFrameLayout.addView(writeButtonContainer, LayoutHelper.createFrame(60, 60, Gravity.RIGHT | Gravity.BOTTOM, 0, 0, 12, 10));
 
             writeButton = new ImageView(context);
-            writeButtonDrawable = app.exteraless.utils.UIUtil.createFabSelectorDrawable(56, Theme.getColor(Theme.key_dialogFloatingButton), Theme.getColor(Build.VERSION.SDK_INT >= 21 ? Theme.key_dialogFloatingButtonPressed : Theme.key_dialogFloatingButton));
+            writeButtonDrawable = org.mzgram.utils.UIUtil.createFabSelectorDrawable(56, Theme.getColor(Theme.key_dialogFloatingButton), Theme.getColor(Build.VERSION.SDK_INT >= 21 ? Theme.key_dialogFloatingButtonPressed : Theme.key_dialogFloatingButton));
             if (Build.VERSION.SDK_INT < 21) {
                 Drawable shadowDrawable = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
                 shadowDrawable.setColorFilter(new PorterDuffColorFilter(0xff000000, PorterDuff.Mode.MULTIPLY));
@@ -1081,9 +1081,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     @SuppressLint("NewApi")
                     @Override
                     public void getOutline(View view, Outline outline) {
-                        if (app.exteraless.appearance.AppearanceConfig.squareFab()) {
+                        if (org.mzgram.appearance.AppearanceConfig.squareFab()) {
                             outline.setRoundRect(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56),
-                                    AndroidUtilities.dp(app.exteraless.appearance.AppearanceConfig.fabCornerRadius(56)));
+                                    AndroidUtilities.dp(org.mzgram.appearance.AppearanceConfig.fabCornerRadius(56)));
                         } else {
                             outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
                         }
@@ -1095,7 +1095,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 if (chatActivity != null && chatActivity.isInScheduleMode()) {
                     AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), (notify, scheduleDate, scheduleRepeatPeriod) -> sendSelectedPhotos(notify, scheduleDate, 0));
                 } else {
-                    sendSelectedPhotos(!NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0);
+                    sendSelectedPhotos(!ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0);
                 }
             });
             writeButton.setOnLongClickListener(view -> {
@@ -1146,7 +1146,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                                 itemCells[a].setTextAndIcon(LocaleController.getString(R.string.ScheduleMessage), R.drawable.msg_calendar2);
                             }
                         } else if (num == 1) {
-                            boolean sendWithoutSoundNax = NaConfig.INSTANCE.getSilentMessageByDefault().Bool();
+                            boolean sendWithoutSoundNax = ExtConfig.INSTANCE.getSilentMessageByDefault().Bool();
                             itemCells[a].setTextAndIcon(sendWithoutSoundNax ? getString(R.string.SendWithSound) : getString(R.string.SendWithoutSound), sendWithoutSoundNax ? R.drawable.input_notify_on : R.drawable.input_notify_off);
                         } else if (num == 2) {
                             String languageText = Translator.getInputTranslateLangForChat(ChatsHelper.getChatId()).toUpperCase();
@@ -1169,7 +1169,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                             if (num == 0) {
                                 AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), (notify, scheduleDate, scheduleRepeatPeriod) -> sendSelectedPhotos(notify, scheduleDate, 0));
                             } else if (num == 1) {
-                                sendSelectedPhotos(NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0); // sendSelectedPhotos(true, 0, 0); ← Telegram bug
+                                sendSelectedPhotos(ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0); // sendSelectedPhotos(true, 0, 0); ← Telegram bug
                             } else if (num == 2 || num == 3) {
                                 translateComment(Translator.getInputTranslateLangLocaleForChat(ChatsHelper.getChatId()), num == 3 ? 0 : Translator.providerLLMTranslator);
                             }
@@ -1208,7 +1208,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 sendPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, location[0] + view.getMeasuredWidth() - sendPopupLayout.getMeasuredWidth() + AndroidUtilities.dp(8), location[1] - sendPopupLayout.getMeasuredHeight() - AndroidUtilities.dp(2));
                 sendPopupWindow.dimBehind();
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignored) {}
 
                 return false;

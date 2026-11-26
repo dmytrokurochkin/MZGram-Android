@@ -166,7 +166,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 @SuppressLint("NewApi")
 public class VoIPService extends Service implements SensorEventListener, AudioManager.OnAudioFocusChangeListener, NotificationCenter.NotificationCenterDelegate, VoIPServiceState {
@@ -4289,7 +4289,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		}
 		stopForeground(true);
 		stopRinging();
-		app.exteraless.glyph.GlyphController.getInstance().onIncomingCallStopped();
+		org.mzgram.glyph.GlyphController.getInstance().onIncomingCallStopped();
 		if (currentAccount >= 0) {
 			if (ApplicationLoader.mainInterfacePaused || !ApplicationLoader.isScreenOn) {
 				MessagesController.getInstance(currentAccount).ignoreSetOnline = false;
@@ -4961,9 +4961,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		}
 		currentState = state;
 		if (state == STATE_WAITING_INCOMING && !isOutgoing) {
-			app.exteraless.glyph.GlyphController.getInstance().onIncomingCallStarted();
+			org.mzgram.glyph.GlyphController.getInstance().onIncomingCallStarted();
 		} else if (state == STATE_ESTABLISHED || state == STATE_ENDED || state == STATE_FAILED || state == STATE_HANGING_UP) {
-			app.exteraless.glyph.GlyphController.getInstance().onIncomingCallStopped();
+			org.mzgram.glyph.GlyphController.getInstance().onIncomingCallStopped();
 		}
 		if (currentState == STATE_ESTABLISHED) {
 			destroyConverting();
@@ -5084,7 +5084,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
 		Sensor proximity = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 		try {
-			if (proximity != null && !NekoConfig.disableProximityEvents.Bool()) {
+			if (proximity != null && !CoreConfig.disableProximityEvents.Bool()) {
 				proximityWakelock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PROXIMITY_SCREEN_OFF_WAKE_LOCK, "telegram-voip-prx");
 				sm.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
 			}
@@ -5122,7 +5122,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			if (audioRouteToSet != AUDIO_ROUTE_EARPIECE || isHeadsetPlugged || vam.isSpeakerphoneOn() || (isBluetoothHeadsetConnected() && vam.isBluetoothOn())) {
 				return;
 			}
-			boolean newIsNear = !NekoConfig.disableProximityEvents.Bool() && event.values[0] < Math.min(event.sensor.getMaximumRange(), 3);
+			boolean newIsNear = !CoreConfig.disableProximityEvents.Bool() && event.values[0] < Math.min(event.sensor.getMaximumRange(), 3);
 			checkIsNear(newIsNear);
 			NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.nearEarEvent, newIsNear);
 		}
@@ -5631,7 +5631,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 					wasEstablished = true;
 					if (!isProximityNear && !privateCall.video) {
 						try {
-							if (!NekoConfig.disableVibration.Bool()) LaunchActivity.getLastFragment().getFragmentView().performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+							if (!CoreConfig.disableVibration.Bool()) LaunchActivity.getLastFragment().getFragmentView().performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
 						} catch (Exception ignore) {}
 					}
 					AndroidUtilities.runOnUIThread(new Runnable() {

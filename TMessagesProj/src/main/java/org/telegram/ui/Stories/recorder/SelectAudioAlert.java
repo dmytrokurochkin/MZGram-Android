@@ -67,9 +67,9 @@ import org.telegram.utils.glass.positions.GlassPositionsMerger;
 import java.io.File;
 import java.util.ArrayList;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class SelectAudioAlert extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate, DownloadController.FileDownloadProgressListener, FactorAnimator.Target {
 

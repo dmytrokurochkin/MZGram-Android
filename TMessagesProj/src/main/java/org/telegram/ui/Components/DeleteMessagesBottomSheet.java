@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.radolyn.ayugram.utils.AyuState;
+import org.mzgram.arc.utils.ArcState;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BotWebViewVibrationEffect;
@@ -56,7 +56,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
     private UniversalAdapter adapter;
@@ -1273,13 +1273,13 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
         } else {
             if (!supergroupMessageIds.isEmpty()) {
                 for (int i = 0; i < supergroupMessageIds.size(); i++) {
-                AyuState.permitDeleteMessage(-inChat.id, supergroupMessageIds.get(i));
+                ArcState.permitDeleteMessage(-inChat.id, supergroupMessageIds.get(i));
             }
             MessagesController.getInstance(currentAccount).deleteMessages(supergroupMessageIds, null, null, -inChat.id, topicId, false, mode);
         }
         if (!groupMessageIds.isEmpty()) {
             for (int i = 0; i < groupMessageIds.size(); i++) {
-                AyuState.permitDeleteMessage(mergeDialogId, groupMessageIds.get(i));
+                ArcState.permitDeleteMessage(mergeDialogId, groupMessageIds.get(i));
             }
                 MessagesController.getInstance(currentAccount).deleteMessages(groupMessageIds, null, null, mergeDialogId, topicId, true, mode);
             }
@@ -1309,7 +1309,7 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
         report.forEachSelected((participant, i) -> {
             final ArrayList<Integer> ids = messages.stream()
                     .filter(msg -> msg.messageOwner.peer_id != null && msg.messageOwner.peer_id.chat_id != -mergeDialogId)
-                    .filter(msg -> !msg.isAyuDeleted())
+                    .filter(msg -> !msg.isArcDeleted())
                     .filter(msg -> {
                         if (participant instanceof TLRPC.User) {
                             return msg.messageOwner.from_id.user_id == ((TLRPC.User) participant).id;
@@ -1442,7 +1442,7 @@ public class DeleteMessagesBottomSheet extends BottomSheetWithRecyclerListView {
     @Override
     protected void onPreDraw(Canvas canvas, int top, float progressToFullView) {
         super.onPreDraw(canvas, top, progressToFullView);
-        if (!NaConfig.INSTANCE.getCenterActionBarTitle().Bool() || NaConfig.INSTANCE.getCenterActionBarTitleType().Int() == 3) {
+        if (!ExtConfig.INSTANCE.getCenterActionBarTitle().Bool() || ExtConfig.INSTANCE.getCenterActionBarTitleType().Int() == 3) {
             return;
         }
         final SimpleTextView titleTextView = actionBar.getTitleTextView();

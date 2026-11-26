@@ -48,12 +48,12 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.MainTabsLayout;
 
-import app.exteraless.appearance.MainTabsUiHelper;
-import app.exteraless.components.ChatActivityEnterViewStaticIconView;
+import org.mzgram.appearance.MainTabsUiHelper;
+import org.mzgram.components.ChatActivityEnterViewStaticIconView;
 
-import me.vkryl.android.AnimatorUtils;
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.AnimatorUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, FactorAnimator.Target, Theme.Colorable {
     private final TextView textView;
@@ -517,7 +517,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
         tab.textView.setPadding(dp(8), 0, dp(8), 0);
         tab.checkPlayAnimation(false);
         tab.imageView.setLayoutParams(LayoutHelper.createFrame(24, 24, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 4, 0, 0));
-        if (app.exteraless.appearance.AppearanceConfig.materialBars()) {
+        if (org.mzgram.appearance.AppearanceConfig.materialBars()) {
             // MZGram: Material bars. The attach row is a docked bar like the main navigation bar, so its tabs take the same layout
             tab.applyMainTabsMaterial3();
         }
@@ -538,7 +538,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
         tab.checkPlayAnimation(false);
         tab.backupImageView = new BackupImageView(context);
         tab.addView(tab.backupImageView, LayoutHelper.createFrame(24, 24, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 4, 0, 0));
-        if (app.exteraless.appearance.AppearanceConfig.materialBars()) {
+        if (org.mzgram.appearance.AppearanceConfig.materialBars()) {
             // MZGram: Material bars. Same layout as the other attach tabs
             tab.applyMainTabsMaterial3();
         }

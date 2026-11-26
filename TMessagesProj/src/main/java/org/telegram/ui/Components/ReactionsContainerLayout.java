@@ -69,7 +69,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
-import app.exteraless.appearance.GlassMenuHelper;
+import org.mzgram.appearance.GlassMenuHelper;
 
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -98,9 +98,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.PinnedElementsHelper;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.PinnedElementsHelper;
+import org.mzgram.ext.ExtConfig;
 
 public class ReactionsContainerLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, Theme.Colorable {
 
@@ -159,7 +159,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     private final Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    // openExtera: матовое стекло под панелью реакций
+    // mzGram: матовое стекло под панелью реакций
     private BlurredBackgroundDrawable glassBackground;
     private BlurredBackgroundProvider glassBackgroundColorProvider;
     private BlurredBackgroundDrawableViewFactory glassBackgroundFactory;
@@ -310,7 +310,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     boolean b2 = newProgress > 1f;
                     if (b1 != b2) {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) recyclerListView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                            if (!CoreConfig.disableVibration.Bool()) recyclerListView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                         } catch (Exception ignore) {}
                     }
                     if (pullingLeftOffset < 0) {
@@ -343,7 +343,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     boolean b2 = newProgress > 1f;
                     if (b1 != b2) {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) recyclerListView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                            if (!CoreConfig.disableVibration.Bool()) recyclerListView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                         } catch (Exception ignore) {}
                     }
                     if (customReactionsContainer != null) {
@@ -752,7 +752,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             if (type == TYPE_STORY || delegate.drawBackground()) {
                 delegate.drawRoundRect(canvas, rect, radius, getX(), getY(), 255, false);
             } else if (glassBackground != null) {
-                // openExtera: стеклянная плашка вместо заливки bgPaint.
+                // mzGram: стеклянная плашка вместо заливки bgPaint.
                 // Ветка восстановлена по поведению:
                 // по аналогии с drawBubbles.
                 GlassMenuHelper.draw(glassBackground, canvas, rect, radius, 255);
@@ -1202,18 +1202,18 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             fillRecentReactionsList(visibleReactions);
         } else if (hitLimit) {
             allReactionsAvailable = false;
-            if (NaConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && reactionsChat != null && reactionsChat.paid_reactions_available) {
+            if (ExtConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && reactionsChat != null && reactionsChat.paid_reactions_available) {
                 hasStar = true;
                 visibleReactions.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
             }
             for (TLRPC.ReactionCount result : messageObject.messageOwner.reactions.results) {
-                if (!NaConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && result.reaction instanceof TLRPC.TL_reactionPaid) {
+                if (!ExtConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && result.reaction instanceof TLRPC.TL_reactionPaid) {
                     continue;
                 }
                 visibleReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTL(result.reaction));
             }
         } else if (reactionsChat != null) {
-            if (NaConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && reactionsChat.paid_reactions_available) {
+            if (ExtConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && reactionsChat.paid_reactions_available) {
                 hasStar = true;
                 visibleReactions.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
             }
@@ -1276,7 +1276,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             allReactionsAvailable = true;
             fillRecentReactionsList(visibleReactions);
         }
-        if (!NaConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && visibleReactions.isEmpty() && reactionsChat != null && reactionsChat.paid_reactions_available) {
+        if (!ExtConfig.INSTANCE.getPremiumItemStarInReactions().Bool() && visibleReactions.isEmpty() && reactionsChat != null && reactionsChat.paid_reactions_available) {
             visibleReactions.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
         }
         filterReactions(visibleReactions);
@@ -1700,7 +1700,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
         if (type == TYPE_MESSAGE_EFFECTS) {
             try {
-                if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
             } catch (Exception ignore) {}
         }
     }
@@ -1803,7 +1803,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     /**
-     * openExtera:
+     * mzGram:
      * Вызывается из GlassMenuHelper.applyToReactions, когда стеклянное меню включено.
      */
     public void setGlassBackground(BlurredBackgroundDrawableViewFactory factory, BlurredBackgroundProvider provider) {
@@ -2405,7 +2405,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             @Override
             public void run() {
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 } catch (Exception ignored) {}
                 pressedReactionPosition = visibleReactionsList.indexOf(currentReaction);
                 pressedReaction = currentReaction;

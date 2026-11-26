@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphTitle">Nothing Glyph</string>
+    <string name="MZGlyphEnable">Glyph Interface</string>
+    <string name="MZGlyphNewMessage">Вспышка при новых сообщениях</string>
+    <string name="MZGlyphCalls">Свечение при входящем звонке</string>
+    <string name="MZGlyphRecording">Свечение при записи голосовых</string>
+    <string name="MZGlyphScreenOff">Сообщения только при выключенном экране</string>
+    <string name="MZGlyphPreview">Предпросмотр</string>
+    <string name="MZGlyphUnsupported">Glyph Interface доступен только на Nothing Phone</string>
+    <string name="MZGlyphInfo">Подсветка задней панели Nothing Phone: вспышка на входящие сообщения, логотип MZGram на Glyph Matrix Phone (3) и «дыхание» во время записи голосовых или входящего звонка. Заглушённые чаты вспышку не вызывают.</string>
+</resources>

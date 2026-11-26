@@ -1,1 +1,1 @@
-"""exteraless plugin SDK: settings UI declarations package."""
+"""mzgram plugin SDK: settings UI declarations package."""

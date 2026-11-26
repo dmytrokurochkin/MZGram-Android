@@ -38,7 +38,7 @@ import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class TextDetailCell extends FrameLayout implements Theme.Colorable {
 
@@ -74,7 +74,7 @@ public class TextDetailCell extends FrameLayout implements Theme.Colorable {
         textView.setOnLinkLongPressListener(span -> {
             if (span != null) {
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                 } catch (Exception ignore) {};
                 span.onClick(textView);
             }
@@ -106,7 +106,7 @@ public class TextDetailCell extends FrameLayout implements Theme.Colorable {
         valueTextView.setOnLinkLongPressListener(span -> {
             if (span != null) {
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                 } catch (Exception ignore) {};
                 span.onClick(valueTextView);
             }
@@ -141,7 +141,7 @@ public class TextDetailCell extends FrameLayout implements Theme.Colorable {
         rightValueTextView.setOnLinkLongPressListener(span -> {
             if (span != null) {
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                 } catch (Exception ignore) {};
                 span.onClick(valueTextView);
             }

@@ -42,7 +42,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import me.vkryl.core.reference.ReferenceMap;
+import org.mzgram.ux.core.reference.ReferenceMap;
 
 public final class LeakDetector {
 

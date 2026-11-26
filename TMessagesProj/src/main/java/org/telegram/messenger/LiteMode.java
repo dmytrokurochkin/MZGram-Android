@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class LiteMode {
 
@@ -214,7 +214,7 @@ public class LiteMode {
             return true;
         }
         if ((flag == FLAG_LIQUID_GLASS || flag == FLAG_CHAT_BLUR)
-                && app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+                && org.mzgram.appearance.AppearanceConfig.materialSurfaces()) {
             // MZGram: Material surfaces are solid, with no blur and no liquid glass.
             return false;
         }

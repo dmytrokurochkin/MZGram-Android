@@ -51,9 +51,9 @@ import androidx.annotation.UiThread;
 import androidx.collection.LongSparseArray;
 import androidx.core.view.inputmethod.InputContentInfoCompat;
 
-import com.radolyn.ayugram.utils.AyuGhostPreferences;
-import com.radolyn.ayugram.utils.AyuGhostUtils;
-import com.radolyn.ayugram.utils.AyuState;
+import org.mzgram.arc.utils.ArcGhostPreferences;
+import org.mzgram.arc.utils.ArcGhostUtils;
+import org.mzgram.arc.utils.ArcState;
 
 import org.json.JSONObject;
 import org.telegram.messenger.audioinfo.AudioInfo;
@@ -135,9 +135,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import tw.nekomimi.nekogram.utils.StringUtils;
-import tw.nekomimi.nekogram.NekoConfig;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.utils.StringUtils;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class SendMessagesHelper extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1718,7 +1718,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 mode = ChatActivity.MODE_SCHEDULED;
             }
             for (int i = 0; i < messageIds.size(); i++) {
-                AyuState.permitDeleteMessage(dialogId, messageIds.get(i));
+                ArcState.permitDeleteMessage(dialogId, messageIds.get(i));
             }
             getMessagesController().deleteMessages(messageIds, null, null, dialogId, topicId, false, mode);
         }
@@ -2265,7 +2265,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             return sendMessage(messages, peer, forwardFromMyName, hideCaption, notify, getConnectionsManager().getCurrentTime() + 12, scheduleRepeatPeriod,
                     replyToTopMsg, video_timestamp, payStars, monoForumPeerId, suggestionParams);
         }
-        if (app.exteraless.privacy.BotAccountRouter.guardSend(currentAccount, peer,
+        if (org.mzgram.privacy.BotAccountRouter.guardSend(currentAccount, peer,
                 () -> sendMessage(messages, peer, forwardFromMyName, hideCaption, notify, scheduleDate, scheduleRepeatPeriod,
                         replyToTopMsg, video_timestamp, payStars, monoForumPeerId, suggestionParams))) return 0;
         int sendResult = 0;
@@ -2548,7 +2548,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     newMsg.message = "";
                 }
 
-                if (!((newMsg.params.containsKey("fwd_id") || newMsg.params.containsKey("fwd_peer")) || msgObj.isForwarded() || MessageObject.isForwardedMessage(newMsg)) && NaConfig.INSTANCE.getEnablePanguOnSending().Bool()) {
+                if (!((newMsg.params.containsKey("fwd_id") || newMsg.params.containsKey("fwd_peer")) || msgObj.isForwarded() || MessageObject.isForwardedMessage(newMsg)) && ExtConfig.INSTANCE.getEnablePanguOnSending().Bool()) {
                     var pair = StringUtils.spacingText(newMsg.message, msgObj.messageOwner.entities);
                     newMsg.message = pair.getFirst();
                     newMsg.entities = pair.getSecond();
@@ -3096,7 +3096,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
 
         TLRPC.Message newMsg = messageObject.messageOwner;
         messageObject.cancelEditing = false;
-        app.exteraless.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), messageObject.editingMessageEntities);
+        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), messageObject.editingMessageEntities);
 
         int pollAddingIndex = -1;
 
@@ -3624,7 +3624,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (fragment == null || fragment.getParentActivity() == null) {
             return 0;
         }
-        app.exteraless.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), entities);
+        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), entities);
 
         final TLRPC.TL_messages_editMessage req;
         if (messageObject.isEphemeral()) {
@@ -3690,7 +3690,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
 
         req.peer = getMessagesController().getInputPeer(messageObject.getDialogId());
-        app.exteraless.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), rich);
+        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, messageObject.getDialogId(), rich);
         req.rich_message = richMessageToInputRichMessage(rich, users);
         req.flags |= TLObject.FLAG_23;
         if (messageObject.scheduled) {
@@ -3944,9 +3944,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
 
     private void markReadOnInteraction(int messageId, TLRPC.InputPeer peer) {
         // --- Ghost Mode ---
-        if (messageId != 0 && NekoConfig.markReadAfterSend.Bool() && !NekoConfig.sendReadMessagePackets.Bool()) {
-            if (!AyuGhostPreferences.getGhostModeReadExclusion(AyuGhostUtils.getDialogId(peer))) {
-                AyuGhostUtils.markReadOnServer(messageId, peer, false);
+        if (messageId != 0 && CoreConfig.markReadAfterSend.Bool() && !CoreConfig.sendReadMessagePackets.Bool()) {
+            if (!ArcGhostPreferences.getGhostModeReadExclusion(ArcGhostUtils.getDialogId(peer))) {
+                ArcGhostUtils.markReadOnServer(messageId, peer, false);
             }
         }
         // --- Ghost Mode ---
@@ -4500,7 +4500,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     private boolean shouldGhostSchedule(long peer) {
-        if (!NaConfig.INSTANCE.getGhostScheduledSend().Bool() || NekoConfig.sendOnlinePackets.Bool()) {
+        if (!ExtConfig.INSTANCE.getGhostScheduledSend().Bool() || CoreConfig.sendOnlinePackets.Bool()) {
             return false;
         }
         if (peer == 0 || DialogObject.isEncryptedDialog(peer) || peer == UserConfig.getInstance(currentAccount).getClientUserId()) {
@@ -4514,10 +4514,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public void sendMessage(SendMessageParams originalParams) {
-        app.exteraless.plugins.HookResult hookResult = app.exteraless.plugins.HookResult.DEFAULT;
-        // exteraless plugins: исходящее сообщение через on_send_message_hook (CANCEL = не отправлять)
-        if (app.exteraless.plugins.PluginsController.getInstance().hasSendMessageHooks()) {
-            hookResult = app.exteraless.plugins.PluginsController.getInstance()
+        org.mzgram.plugins.HookResult hookResult = org.mzgram.plugins.HookResult.DEFAULT;
+        // mzgram plugins: исходящее сообщение через on_send_message_hook (CANCEL = не отправлять)
+        if (org.mzgram.plugins.PluginsController.getInstance().hasSendMessageHooks()) {
+            hookResult = org.mzgram.plugins.PluginsController.getInstance()
                     .executeOnSendMessageHook(currentAccount, originalParams);
             if (hookResult.isCancel()) {
                 return;
@@ -4525,9 +4525,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
         SendMessageParams replacement = hookResult.replacement(SendMessageParams.class);
         final SendMessageParams sendMessageParams = replacement != null ? replacement : originalParams;
-        if (app.exteraless.privacy.BotAccountRouter.guardSend(currentAccount, sendMessageParams.peer, () -> sendMessage(sendMessageParams))) return;
-        app.exteraless.chats.DeletedReplyQuote.rewrite(currentAccount, sendMessageParams);
-        app.exteraless.chats.LinkedCustomEmoji.replaceForSend(currentAccount, sendMessageParams.peer, sendMessageParams.entities);
+        if (org.mzgram.privacy.BotAccountRouter.guardSend(currentAccount, sendMessageParams.peer, () -> sendMessage(sendMessageParams))) return;
+        org.mzgram.chats.DeletedReplyQuote.rewrite(currentAccount, sendMessageParams);
+        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, sendMessageParams.peer, sendMessageParams.entities);
         final SendMessageChatArguments sendMessageChatArguments = sendMessageParams.sendMessageChatArguments != null ?
                 sendMessageParams.sendMessageChatArguments : SendMessageChatArguments.EMPTY;
         String message = sendMessageParams.message;
@@ -4582,7 +4582,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         TL_iv.RichMessage richMessage = sendMessageParams.richMessage;
 
         boolean canSendGames = sendMessageParams.canSendGames;
-        boolean canUsePangu = sendMessageParams.canUsePangu == null ? NaConfig.INSTANCE.getEnablePanguOnSending().Bool() : sendMessageParams.canUsePangu;
+        boolean canUsePangu = sendMessageParams.canUsePangu == null ? ExtConfig.INSTANCE.getEnablePanguOnSending().Bool() : sendMessageParams.canUsePangu;
 
         if (sendMessageChatArguments.welcomeMessageChatId != 0) {
             peer = -sendMessageChatArguments.welcomeMessageChatId;
@@ -4598,7 +4598,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (richMessage != null && DialogObject.isEncryptedDialog(peer)) {
             return;
         }
-        app.exteraless.chats.LinkedCustomEmoji.replaceForSend(currentAccount, peer, richMessage);
+        org.mzgram.chats.LinkedCustomEmoji.replaceForSend(currentAccount, peer, richMessage);
         if (message == null && caption == null && richMessage == null) {
             caption = "";
         }
@@ -7877,7 +7877,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
 
         int reqId = getConnectionsManager().sendRequest(request, (response, error) -> {
-            if (scheduled) app.exteraless.chats.ScheduledGuard.sent(currentAccount, response);
+            if (scheduled) org.mzgram.chats.ScheduledGuard.sent(currentAccount, response);
             if (error != null && FileRefController.isFileRefError(error.text)) {
                 final int fileRefIndex = FileRefController.getFileRefErrorIndex(error.text);
                 if (parentObjects != null) {
@@ -8272,7 +8272,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
 
         newMsgObj.reqId = getConnectionsManager().sendRequest(req, (response, error) -> {
-            if (scheduled) app.exteraless.chats.ScheduledGuard.sent(currentAccount, response);
+            if (scheduled) org.mzgram.chats.ScheduledGuard.sent(currentAccount, response);
             if (error != null && (req instanceof TLRPC.TL_messages_sendMedia || req instanceof TL_ephemeral.TL_sendMessage || req instanceof TLRPC.TL_messages_editMessage || req instanceof TLRPC.TL_messages_addPollAnswer) && FileRefController.isFileRefError(error.text)) {
                 if (FileRefController.isFileRefErrorCover(error.text)) {
                     if (removeCoverFromRequest(req)) {
@@ -11502,7 +11502,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             videoEditedInfo = info.videoEditedInfo != null ? info.videoEditedInfo : createCompressionSettings(info.path, info.livePhotoVideoOffset);
                         }
 
-                        if (NaConfig.INSTANCE.getSendMp4DocumentAsVideo().Bool() || (!forceDocument && (videoEditedInfo != null || info.path.endsWith("mp4")) || info.isLivePhoto)) {
+                        if (ExtConfig.INSTANCE.getSendMp4DocumentAsVideo().Bool() || (!forceDocument && (videoEditedInfo != null || info.path.endsWith("mp4")) || info.isLivePhoto)) {
                             if (info.path == null && info.searchImage != null) {
                                 if (info.searchImage.photo instanceof TLRPC.TL_photo) {
                                     info.path = FileLoader.getInstance(accountInstance.getCurrentAccount()).getPathToAttach(info.searchImage.photo, true).getAbsolutePath();
@@ -12596,7 +12596,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         public MessageObject replyToMsg;
         public MessageObject replyToTopMsg;
         public TLRPC.WebPage webPage;
-        public boolean searchLinks = !NekoConfig.disableLinkPreviewByDefault.Bool();
+        public boolean searchLinks = !CoreConfig.disableLinkPreviewByDefault.Bool();
         public MessageObject retryMessageObject;
         public ArrayList<TLRPC.MessageEntity> entities;
         public TLRPC.ReplyMarkup replyMarkup;

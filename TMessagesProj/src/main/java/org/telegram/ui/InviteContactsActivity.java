@@ -73,7 +73,7 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class InviteContactsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, View.OnClickListener, FactorAnimator.Target, WindowAnimatedInsetsProvider.Listener {
     private static final int search_button = 1;

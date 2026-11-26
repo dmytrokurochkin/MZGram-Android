@@ -40,10 +40,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
-import tw.nekomimi.nekogram.DialogConfig;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.DialogConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class ChatObject {
 
@@ -1969,7 +1969,7 @@ public class ChatObject {
     }
 
     public static boolean isNotInChat(TLRPC.Chat chat) {
-        if (!NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+        if (!ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
             return chat == null || chat instanceof TLRPC.TL_chatEmpty || isForbidden(chat) || chat.left || chat.kicked || chat.deactivated;
         }
 

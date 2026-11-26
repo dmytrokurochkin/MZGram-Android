@@ -28,8 +28,8 @@ import org.telegram.utils.glass.positions.GlassPositionsMerger;
 
 import java.util.ArrayList;
 
-import me.vkryl.core.BitwiseUtils;
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.BitwiseUtils;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 public class GlassEngine {
     public static final int FLAG_INVALIDATED_SCROLL = 1;

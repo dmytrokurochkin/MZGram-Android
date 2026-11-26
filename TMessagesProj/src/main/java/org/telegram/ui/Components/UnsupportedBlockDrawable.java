@@ -30,7 +30,7 @@ import org.telegram.messenger.RichMessageLayout;
 import org.telegram.messenger.utils.DrawableUtils;
 import org.telegram.ui.ActionBar.Theme;
 
-import me.vkryl.android.util.ClickHelper;
+import org.mzgram.ux.android.util.ClickHelper;
 
 public class UnsupportedBlockDrawable extends Drawable {
 

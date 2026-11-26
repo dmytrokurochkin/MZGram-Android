@@ -18,7 +18,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.TypingDotsDrawable;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 @SuppressLint("ViewConstructor")
 public class SendButtonBlockedByTypingView extends View {

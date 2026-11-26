@@ -124,11 +124,11 @@ class _IntentCallback:
 
 def _plugin_services():
     try:
-        from app.exteraless.plugins import PluginServices
+        from org.mzgram.plugins import PluginServices
         return PluginServices
     except Exception:
-        from extera_utils.plugin_loader import engine_java_class
-        return engine_java_class("app.exteraless.plugins.PluginServices")
+        from mz_utils.plugin_loader import engine_java_class
+        return engine_java_class("org.mzgram.plugins.PluginServices")
 
 
 class IntentsManager:
@@ -186,7 +186,7 @@ class IntentsManager:
                                                             priority, filters)
         if not callable(fn):
             raise TypeError("handler must be callable")
-        from extera_utils import plugin_loader
+        from mz_utils import plugin_loader
         plugin_id = plugin_loader.current_plugin_id()
         if not plugin_id:
             raise RuntimeError(
@@ -243,7 +243,7 @@ class IntentsManager:
         }
 
 
-# Called from BasePlugin._exteraless_cleanup_resources() on plugin unload.
+# Called from BasePlugin._mzgram_cleanup_resources() on plugin unload.
 def _unhandle_all_for_plugin(plugin_id: str):
     if not plugin_id:
         return

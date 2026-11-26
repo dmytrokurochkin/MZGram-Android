@@ -70,7 +70,7 @@ public class SimpleActionBarMenuOverlay extends FrameLayout {
         public int getBackgroundColor() {
             final BlurredBackgroundColorProvider base = base();
             int menuColor = base != null ? base.getBackgroundColor() : 0;
-            if (bar != null && app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+            if (bar != null && org.mzgram.appearance.AppearanceConfig.materialSurfaces()) {
                 // MZGram: Material surfaces. The menu is the theme's menu surface (a tone above the page where the theme
                 // makes it the page colour), solid; the glass of the header is the page colour and the menu vanished in it
                 final Theme.ResourcesProvider rp = bar.getMenuResourcesProvider();

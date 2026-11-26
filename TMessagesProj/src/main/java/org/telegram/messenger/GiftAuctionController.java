@@ -23,8 +23,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import me.vkryl.core.reference.ReferenceList;
-import me.vkryl.core.reference.ReferenceMap;
+import org.mzgram.ux.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceMap;
 
 public class GiftAuctionController extends BaseController {
     private final ReferenceMap<Long, OnAuctionUpdateListener> listeners = new ReferenceMap<>(false);

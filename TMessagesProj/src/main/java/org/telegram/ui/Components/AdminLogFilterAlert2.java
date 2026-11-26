@@ -29,7 +29,7 @@ import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
 import java.util.ArrayList;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
 
@@ -420,7 +420,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
     @Override
     protected void onPreDraw(Canvas canvas, int top, float progressToFullView) {
         super.onPreDraw(canvas, top, progressToFullView);
-        if (!NaConfig.INSTANCE.getCenterActionBarTitle().Bool() || NaConfig.INSTANCE.getCenterActionBarTitleType().Int() == 3) {
+        if (!ExtConfig.INSTANCE.getCenterActionBarTitle().Bool() || ExtConfig.INSTANCE.getCenterActionBarTitleType().Int() == 3) {
             return;
         }
         final SimpleTextView titleTextView = actionBar.getTitleTextView();

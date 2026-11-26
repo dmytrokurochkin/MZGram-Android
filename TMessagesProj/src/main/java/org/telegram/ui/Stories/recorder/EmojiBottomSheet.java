@@ -130,7 +130,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1426,7 +1426,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
     public void showPremiumBulletin(String text) {
         try {
-            if (!NekoConfig.disableVibration.Bool()) container.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+            if (!CoreConfig.disableVibration.Bool()) container.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         } catch (Exception ignored) {}
         BulletinFactory.of(container, resourcesProvider).createSimpleBulletin(
                 R.raw.star_premium_2,

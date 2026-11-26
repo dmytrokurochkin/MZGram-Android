@@ -1,4 +1,4 @@
-"""Java reflection helpers (find_class, private fields) — exteraless plugin SDK.
+"""Java reflection helpers (find_class, private fields) — mzgram plugin SDK.
 
 NOTE: Android's hidden-API restrictions may block setAccessible(True) on
 SDK-internal classes on newer Android versions; all helpers fail softly
@@ -15,7 +15,7 @@ def _internal(name):
     module = _internal_modules.get(name)
     if module is None:
         import importlib
-        module = importlib.import_module("extera_utils." + name)
+        module = importlib.import_module("mz_utils." + name)
         _internal_modules[name] = module
     return module
 

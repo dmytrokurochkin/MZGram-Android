@@ -23,8 +23,8 @@ import org.telegram.ui.Cells.StickerEmojiCell;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 import java.util.HashSet;
 
 @SuppressLint("ViewConstructor")

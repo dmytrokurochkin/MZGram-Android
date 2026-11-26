@@ -39,9 +39,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.radolyn.ayugram.utils.LastSeenHelper;
+import org.mzgram.arc.utils.LastSeenHelper;
 
-import app.exteraless.appearance.ChatHeaderUiHelper;
+import org.mzgram.appearance.ChatHeaderUiHelper;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -78,11 +78,11 @@ import org.telegram.ui.community.CommunityArrowDrawable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
-import xyz.nextalone.nagram.NaConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.core.helpers.MessageHelper;
 
 public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.Target, NotificationCenter.NotificationCenterDelegate, Theme.Colorable {
 

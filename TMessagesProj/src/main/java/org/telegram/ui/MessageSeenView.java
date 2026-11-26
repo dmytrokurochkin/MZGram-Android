@@ -54,7 +54,7 @@ import org.telegram.ui.Components.StatusBadgeComponent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import tw.nekomimi.nekogram.filters.ReactionFilter;
+import org.mzgram.core.filters.ReactionFilter;
 
 public class MessageSeenView extends FrameLayout implements Theme.Colorable {
 

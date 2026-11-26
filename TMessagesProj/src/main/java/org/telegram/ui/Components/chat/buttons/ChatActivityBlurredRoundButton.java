@@ -29,8 +29,8 @@ import org.telegram.ui.Components.blur3.BlurredBackgroundDrawableViewFactory;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 import org.telegram.ui.Components.blur3.drawable.color.BlurredBackgroundColorProvider;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class ChatActivityBlurredRoundButton extends FrameLayout implements FactorAnimator.Target, Theme.Colorable {
     public static final int CLICK_ZONE_MARGIN = 6;
@@ -75,7 +75,7 @@ public class ChatActivityBlurredRoundButton extends FrameLayout implements Facto
 
     /** MZGram: Material bars. A small FAB: the shape of the main FAB (a rounded square) instead of a circle. */
     public void setMzSmallFab(int sizeDp) {
-        final int rad = dp(app.exteraless.appearance.AppearanceConfig.fabCornerRadius(sizeDp - CLICK_ZONE_MARGIN * 2));
+        final int rad = dp(org.mzgram.appearance.AppearanceConfig.fabCornerRadius(sizeDp - CLICK_ZONE_MARGIN * 2));
         if (backgroundDrawable != null) {
             backgroundDrawable.setRadius(rad);
         }

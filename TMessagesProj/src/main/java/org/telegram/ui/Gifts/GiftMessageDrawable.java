@@ -38,7 +38,7 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.blur3.utils.NinePatchBuilder;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 public class GiftMessageDrawable extends Drawable {
 

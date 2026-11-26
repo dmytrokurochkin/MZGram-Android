@@ -68,7 +68,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import app.exteraless.components.TranslateBeforeSendWrapper;
+import org.mzgram.components.TranslateBeforeSendWrapper;
 
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.messenger.AccountInstance;
@@ -143,11 +143,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-import me.vkryl.core.BitwiseUtils;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ux.core.BitwiseUtils;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class ShareAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
 
@@ -182,7 +182,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private StickerEmptyView searchEmptyView;
     private Drawable shadowDrawable;
     // MZGram: Material bars. The comment field and copy link sit in bars docked to the bottom of the sheet
-    private final boolean mzDockedBars = app.exteraless.appearance.AppearanceConfig.materialBars();
+    private final boolean mzDockedBars = org.mzgram.appearance.AppearanceConfig.materialBars();
     private Drawable mzCaptionBg;
     private final Paint mzNavStripPaint = new Paint();
     private View[] shadow = new View[2];
@@ -1856,13 +1856,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         frameLayout2.setPadding(dp(9), dp(7), dp(9), dp(7));
         if (mzDockedBars) {
             // MZGram: Material bars. The comment field sits in a bar docked to the bottom of the sheet, not in a floating pill
-            mzCaptionBg = new app.exteraless.appearance.MzDockedBarDrawable(resourcesProvider, Theme.key_dialogBackground, app.exteraless.appearance.MzDockedBarDrawable.FIELD);
+            mzCaptionBg = new org.mzgram.appearance.MzDockedBarDrawable(resourcesProvider, Theme.key_dialogBackground, org.mzgram.appearance.MzDockedBarDrawable.FIELD);
         }
 
         if (pickerBottomLayout != null && mzDockedBars) {
             // MZGram: Material bars. Copy link is a tonal button in a docked bar (in a call, the link row is a field)
-            pickerBottomLayout.setBackground(new app.exteraless.appearance.MzDockedBarDrawable(resourcesProvider, Theme.key_dialogBackground,
-                    darkTheme ? app.exteraless.appearance.MzDockedBarDrawable.FIELD : app.exteraless.appearance.MzDockedBarDrawable.TONAL_BUTTON));
+            pickerBottomLayout.setBackground(new org.mzgram.appearance.MzDockedBarDrawable(resourcesProvider, Theme.key_dialogBackground,
+                    darkTheme ? org.mzgram.appearance.MzDockedBarDrawable.FIELD : org.mzgram.appearance.MzDockedBarDrawable.TONAL_BUTTON));
             pickerBottomLayout.setPadding(dp(9), dp(9), dp(9), dp(9));
         } else if (pickerBottomLayout != null) {
             BlurredBackgroundDrawable d = iBlur3FactoryLiquidGlass.create(pickerBottomLayout, BlurredBackgroundProviderImpl.inputFieldShareAlert(resourcesProvider));
@@ -2400,7 +2400,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             sendWithoutSound.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
             sendWithoutSound.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
         }
-        boolean sendWithoutSoundNax = NaConfig.INSTANCE.getSilentMessageByDefault().Bool();
+        boolean sendWithoutSoundNax = ExtConfig.INSTANCE.getSilentMessageByDefault().Bool();
         sendWithoutSound.setTextAndIcon(sendWithoutSoundNax ? getString(R.string.SendWithSound) : getString(R.string.SendWithoutSound), sendWithoutSoundNax ? R.drawable.input_notify_on : R.drawable.input_notify_off);
         sendWithoutSound.setMinimumWidth(dp(196));
         sendPopupLayout2.addView(sendWithoutSound, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
@@ -2451,7 +2451,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         sendPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, location[0] + view.getMeasuredWidth() - layout.getMeasuredWidth() + dp(8), y);
         sendPopupWindow.dimBehind();
         try {
-            if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
         } catch (Exception ignored) {}
 
         return true;
@@ -2583,7 +2583,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         replyTopMsg.isTopicMainMessage = true;
                     }
                     int result = 0;
-                    if (NekoConfig.sendCommentAfterForward.Bool()) {
+                    if (CoreConfig.sendCommentAfterForward.Bool()) {
                         // send fwd message before comment.
                         result = SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, key, !showSendersName,false, withSound, 0, replyTopMsg, video_timestamp, price == null ? 0 : price);
                     }
@@ -2594,7 +2594,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         params.monoForumPeer = monoForumPeerId;
                         SendMessagesHelper.getInstance(currentAccount).sendMessage(params);
                     }
-                    if (!NekoConfig.sendCommentAfterForward.Bool()) {
+                    if (!CoreConfig.sendCommentAfterForward.Bool()) {
                         // send fwd message after comment.
                         result = SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, key, !showSendersName,false, withSound, 0, 0, replyTopMsg, video_timestamp, price == null ? 0 : price, monoForumPeerId, null);
                     }
@@ -2664,7 +2664,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         long monoForumPeerId = topic != null && isMonoForum ? DialogObject.getPeerDialogId(topic.from_id) : 0;
                         MessageObject replyTopMsg = topic != null && !isMonoForum ? new MessageObject(currentAccount, topic.topicStartMessage, false, false) : null;
                         // send fwd message before comment.
-                        if (NekoConfig.sendCommentAfterForward.Bool()) {
+                        if (CoreConfig.sendCommentAfterForward.Bool()) {
                             SendMessagesHelper.SendMessageParams params2 = SendMessagesHelper.SendMessageParams.of(sendingText[num], key, replyTopMsg, replyTopMsg, null, true, null, null, null, withSound, 0, 0, null, false);
                             params2.payStars = price == null ? 0 : price;
                             SendMessagesHelper.getInstance(currentAccount).sendMessage(params2);
@@ -2677,7 +2677,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             SendMessagesHelper.getInstance(currentAccount).sendMessage(params);
                         }
                         // send fwd message after comment.
-                        if (!NekoConfig.sendCommentAfterForward.Bool()) {
+                        if (!CoreConfig.sendCommentAfterForward.Bool()) {
                             SendMessagesHelper.SendMessageParams params2 = SendMessagesHelper.SendMessageParams.of(sendingText[num], key, replyTopMsg, replyTopMsg, null, true, null, null, null, withSound, 0, 0, null, false);
                             params2.payStars = price == null ? 0 : price;
                             params2.monoForumPeer = monoForumPeerId;SendMessagesHelper.getInstance(currentAccount).sendMessage(params2);

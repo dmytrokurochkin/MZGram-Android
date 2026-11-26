@@ -38,7 +38,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
 
     /**
      * MZGram: dp between the bottom inset and the input bubble. The floating island keeps 9; the docked
-     * Material input bar keeps the field close to its edges, so the bar is as low as in Telegram X.
+     * Material input bar keeps the field close to its edges, so the bar stays low.
      */
     public static int bubbleBottomDp() {
         return mzBars() ? MZ_BAR_INSET : INPUT_BUBBLE_BOTTOM;
@@ -127,7 +127,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
     }
 
     private static boolean mzBars() {
-        return app.exteraless.appearance.AppearanceConfig.materialInput();
+        return org.mzgram.appearance.AppearanceConfig.materialInput();
     }
 
     /** The top corners of the panel under the in-app keyboard: square on a docked bar. */
@@ -150,7 +150,7 @@ public class ChatInputViewsContainer extends FrameLayout implements Theme.Colora
         mzBarPaint.setAlpha(alpha);
         canvas.drawRect(mzBarRect, mzBarPaint);
 
-        // Telegram X: one flat bar, no field pill; a hairline on top keeps it apart from bright wallpapers
+        // One flat bar, no field pill; a hairline on top keeps it apart from bright wallpapers
         final boolean dark = AndroidUtilities.computePerceivedBrightness(panel) < 0.5f;
         final int text = ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelText, mzResourcesProvider), 255);
         mzBarPaint.setColor(ColorUtils.blendARGB(panel, text, dark ? 0.10f : 0.12f));

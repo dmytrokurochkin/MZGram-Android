@@ -2,7 +2,7 @@ package org.telegram.ui.QrShare;
 
 import androidx.core.graphics.ColorUtils;
 
-import app.exteraless.appearance.AppearanceConfig;
+import org.mzgram.appearance.AppearanceConfig;
 
 /**
  * MZGram: the QR screen under Material surfaces. The screen's glass (blur, white film, sheen and the Dark out rim) gives

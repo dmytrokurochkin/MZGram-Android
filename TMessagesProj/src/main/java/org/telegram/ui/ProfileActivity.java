@@ -20,8 +20,8 @@ import static org.telegram.messenger.LocaleController.getString;
 import static org.telegram.ui.Stars.StarGiftSheet.replaceUnderstood;
 import static org.telegram.ui.Stars.StarsIntroActivity.formatStarsAmountShort;
 import static org.telegram.ui.bots.AffiliateProgramFragment.percents;
-import static tw.nekomimi.nekogram.DatacenterActivity.getDCLocation;
-import static tw.nekomimi.nekogram.DatacenterActivity.getDCName;
+import static org.mzgram.core.DatacenterActivity.getDCLocation;
+import static org.mzgram.core.DatacenterActivity.getDCName;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -280,9 +280,9 @@ import org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet;
 import org.telegram.ui.Components.ProfileGalleryView;
 import org.telegram.ui.Components.ProfileGooeyView;
 import org.telegram.ui.Components.ProfileMusicView;
-import app.exteraless.components.ProfileMusicCard;
-import com.exteragram.messenger.api.dto.BadgeDTO;
-import com.exteragram.messenger.badges.BadgesController;
+import org.mzgram.components.ProfileMusicCard;
+import org.mzgram.sdk.api.dto.BadgeDTO;
+import org.mzgram.sdk.badges.BadgesController;
 import org.telegram.ui.Components.ProfileBalanceView;
 import org.telegram.ui.Wallet.ProfileWalletCardDialog;
 import org.telegram.ui.Components.RLottieDrawable;
@@ -370,41 +370,41 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import kotlin.Unit;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.core.reference.ReferenceList;
 
-import tw.nekomimi.nekogram.BackButtonMenuRecent;
-import tw.nekomimi.nekogram.DatacenterActivity;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.filters.AyuFilter;
-import tw.nekomimi.nekogram.filters.RegexChatFiltersListActivity;
-import tw.nekomimi.nekogram.filters.RegexFiltersSettingActivity;
-import tw.nekomimi.nekogram.filters.ShadowBanListActivity;
-import tw.nekomimi.nekogram.helpers.ChatsHelper;
-import tw.nekomimi.nekogram.helpers.LocalNameHelper;
-import tw.nekomimi.nekogram.helpers.MainTabsHelper;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import tw.nekomimi.nekogram.helpers.ProfileDateHelper;
-import tw.nekomimi.nekogram.helpers.SettingsHelper;
-import tw.nekomimi.nekogram.helpers.SettingsSearchResult;
-import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
-import tw.nekomimi.nekogram.settings.NekoPasscodeSettingsActivity;
-import tw.nekomimi.nekogram.llm.LlmConfig;
-import tw.nekomimi.nekogram.menu.forum.CustomForumTabsPopupWrapper;
-import tw.nekomimi.nekogram.menu.ghostmode.GhostModeExclusionPopupWrapper;
-import tw.nekomimi.nekogram.menu.regexfilters.RegexFiltersExclusionPopupWrapper;
-import tw.nekomimi.nekogram.menu.saveDeleted.SaveExclusionPopupWrapper;
-import tw.nekomimi.nekogram.parts.DialogTransKt;
-import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import tw.nekomimi.nekogram.utils.FileUtil;
-import tw.nekomimi.nekogram.utils.ShareUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.BackButtonMenuRecent;
+import org.mzgram.core.DatacenterActivity;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.filters.ArcFilter;
+import org.mzgram.core.filters.RegexChatFiltersListActivity;
+import org.mzgram.core.filters.RegexFiltersSettingActivity;
+import org.mzgram.core.filters.ShadowBanListActivity;
+import org.mzgram.core.helpers.ChatsHelper;
+import org.mzgram.core.helpers.LocalNameHelper;
+import org.mzgram.core.helpers.MainTabsHelper;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.helpers.PasscodeHelper;
+import org.mzgram.core.helpers.ProfileDateHelper;
+import org.mzgram.core.helpers.SettingsHelper;
+import org.mzgram.core.helpers.SettingsSearchResult;
+import org.mzgram.core.helpers.remote.UpdateHelper;
+import org.mzgram.core.settings.CorePasscodeSettingsActivity;
+import org.mzgram.core.llm.LlmConfig;
+import org.mzgram.core.menu.forum.CustomForumTabsPopupWrapper;
+import org.mzgram.core.menu.ghostmode.GhostModeExclusionPopupWrapper;
+import org.mzgram.core.menu.regexfilters.RegexFiltersExclusionPopupWrapper;
+import org.mzgram.core.menu.saveDeleted.SaveExclusionPopupWrapper;
+import org.mzgram.core.parts.DialogTransKt;
+import org.mzgram.core.settings.CoreSettingsActivity;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.ui.BottomBuilder;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.core.utils.FileUtil;
+import org.mzgram.core.utils.ShareUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class ProfileActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, SharedMediaLayout.SharedMediaPreloaderDelegate, ImageUpdater.ImageUpdaterDelegate, SharedMediaLayout.Delegate, MainTabsActivity.TabFragmentDelegate {
     private RecyclerListView listView;
@@ -513,8 +513,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private ActionBarMenuItem videoCallItem;
     private ActionBarMenuItem editItem;
     private ActionBarMenuItem otherItem;
-    // exteraless plugins: подменю PROFILE_ACTION_MENU в меню «⋮».
-    private app.exteraless.plugins.menus.MenuInjector.SwipeBackMenu pluginsMenu;
+    // mzgram plugins: подменю PROFILE_ACTION_MENU в меню «⋮».
+    private org.mzgram.plugins.menus.MenuInjector.SwipeBackMenu pluginsMenu;
     private ActionBarMenuItem searchItem;
     private ActionBarMenuSubItem editColorItem;
     private ActionBarMenuSubItem linkItem;
@@ -700,8 +700,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int settingsSectionRow;
     private int settingsSectionRow2;
     private int notificationRow;
-    private int nekoRow;
-    private int nekoSectionRow;
+    private int coreRow;
+    private int coreSectionRow;
     private int languageRow;
     private int privacyRow;
     private int dataRow;
@@ -1006,7 +1006,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         public void createBlurEffect(int actionsSize) {
             this.actionsSize = actionsSize;
-            this.blurEnabled = !NaConfig.INSTANCE.getDisableAvatarBlur().Bool(); // actionsSize > 0;
+            this.blurEnabled = !ExtConfig.INSTANCE.getDisableAvatarBlur().Bool(); // actionsSize > 0;
         }
 
         public AvatarImageView(Context context) {
@@ -1350,7 +1350,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 actionBarBackgroundColor = currentColor;
                 hasColorById = false;
                 if (AndroidUtilities.computePerceivedBrightness(getThemedColor(Theme.key_actionBarDefault)) > .8f) {
-                    if (NaConfig.INSTANCE.getDisableAvatarBlur().Bool()) {
+                    if (ExtConfig.INSTANCE.getDisableAvatarBlur().Bool()) {
                         if (Theme.getActiveTheme().isMonet()) {
                             emojiColor = getThemedColor(Theme.key_chat_botKeyboardButtonBackground);
                             btnColor = Theme.multAlpha(getThemedColor(Theme.key_chat_botKeyboardButtonBackground), .15f * 3);
@@ -2283,7 +2283,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (chatInfo == null) {
                 chatInfo = getMessagesStorage().loadChatInfo(chatId, false, null, false, false);
             }
-            channelBlocked = AyuFilter.isBlockedChannel(-chatId);
+            channelBlocked = ArcFilter.isBlockedChannel(-chatId);
             updateExceptions();
         } else {
             return false;
@@ -2326,7 +2326,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().addWeakObserver(this, NotificationCenter.profileMusicUpdated);
         getNotificationCenter().addWeakObserver(this, NotificationCenter.updatedChatRanks);
         NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.emojiLoaded);
-        // exteraless plugins: реестр пунктов меняется, когда плагин включают/выключают.
+        // mzgram plugins: реестр пунктов меняется, когда плагин включают/выключают.
         NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.pluginMenuItemsUpdated);
         updateRowsIds();
         if (listAdapter != null) {
@@ -2387,8 +2387,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         setActionsMode();
 
-        additionNavigationBarHeight = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
-        additionFloatingButtonOffset = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
+        additionNavigationBarHeight = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        additionFloatingButtonOffset = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
 
         return true;
     }
@@ -2639,8 +2639,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public View createView(Context context) {
         Theme.createProfileResources(context);
         Theme.createChatResources(context, false);
-        additionNavigationBarHeight = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
-        additionFloatingButtonOffset = hasMainTabs ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
+        additionNavigationBarHeight = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        additionFloatingButtonOffset = hasMainTabs ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
 
         BaseFragment lastFragment = parentLayout.getLastFragment();
         if (lastFragment instanceof ChatActivity && ((ChatActivity) lastFragment).themeDelegate != null && ((ChatActivity) lastFragment).themeDelegate.getCurrentTheme() != null && !((ChatActivity) lastFragment).themeDelegate.isGiftTheme()) {
@@ -3613,7 +3613,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             bottomButton = new ButtonWithCounterView[2];
             for (int a = 0; a < 2; ++a) {
                 Button2 button2 = new Button2(context);
-                final boolean mzFab = app.exteraless.appearance.AppearanceConfig.materialBars();
+                final boolean mzFab = org.mzgram.appearance.AppearanceConfig.materialBars();
                 if (mzFab) {
                     // MZGram: Material bars. An extended FAB with no glass ring: 48dp tall in the 60dp row (the list's
                     // bottom padding counts on 60dp), 10dp above the navigation bar, with the FAB's corners
@@ -3629,7 +3629,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
                     bottomButton[a] = new ButtonWithCounterView(context, resourcesProvider);
                 // setRoundRadius takes dp: the original dp(19) is a radius far over half the height, so it was always a pill
-                bottomButton[a].setRoundRadius(mzFab ? app.exteraless.appearance.AppearanceConfig.fabCornerRadius(48) : dp(19));
+                bottomButton[a].setRoundRadius(mzFab ? org.mzgram.appearance.AppearanceConfig.fabCornerRadius(48) : dp(19));
                 bottomButton[a].setUseWrapContent(true);
                 bottomButton[a].setPadding(dp(16), 0, mzFab ? dp(20) : dp(16), 0);
                 if (a == 0) {
@@ -4629,8 +4629,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 presentFragment(new LiteModeSettingsActivity());
             } else if (position == devicesRow) {
                 presentFragment(new SessionsActivity(0));
-            } else if (position == nekoRow) {
-                presentFragment(new NekoSettingsActivity());
+            } else if (position == coreRow) {
+                presentFragment(new CoreSettingsActivity());
             } else if (position == questionRow) {
                 showDialog(AlertsCreator.createSupportAlert(ProfileActivity.this, resourcesProvider));
             } else if (position == faqRow) {
@@ -4657,7 +4657,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
                 builder1.setMessage(LocaleController.getString(R.string.AreYouSure));
-                builder1.setTitle(LocaleController.getString(R.string.NagramX));
+                builder1.setTitle(LocaleController.getString(R.string.MZGram));
                 builder1.setPositiveButton(LocaleController.getString(R.string.OK), (dialogInterface, i) -> {
                     SharedConfig.pushAuthKey = null;
                     SharedConfig.pushAuthKeyId = null;
@@ -4702,7 +4702,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (position == bioRow) {
                 presentFragment(new UserInfoActivity());
             } else if (position == numberRow) {
-                if (NekoConfig.hidePhone.Bool()) {
+                if (CoreConfig.hidePhone.Bool()) {
                     presentFragment(new ActionIntroActivity(ActionIntroActivity.ACTION_TYPE_CHANGE_PHONE_NUMBER));
                     return;
                 }
@@ -4808,7 +4808,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         });
 
                 String currentChannel = " - ";
-                switch (NaConfig.INSTANCE.getAutoUpdateChannel().Int()) {
+                switch (ExtConfig.INSTANCE.getAutoUpdateChannel().Int()) {
                     case UpdateHelper.UPDATE_OFF:
                         currentChannel += getString(R.string.AutoCheckUpdateOFF);
                         break;
@@ -4823,8 +4823,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 builder.addItem(getString(R.string.AutoCheckUpdateSwitch) + currentChannel, R.drawable.sync_outline_28, (it) -> {
                     BottomBuilder switchBuilder = new BottomBuilder(getParentActivity());
                     switchBuilder.addTitle(getString(R.string.AutoCheckUpdateSwitch));
-                    switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateOFF), NaConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_OFF, (radioButtonCell) -> {
-                        NaConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_OFF);
+                    switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateOFF), ExtConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_OFF, (radioButtonCell) -> {
+                        ExtConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_OFF);
                         switchBuilder.doRadioCheck(radioButtonCell);
                         AndroidUtilities.runOnUIThread(() -> {
                             switchBuilder.dismiss();
@@ -4832,8 +4832,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }, 500);
                         return Unit.INSTANCE;
                     });
-                    switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateRelease), NaConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_CHANNEL_RELEASE, (radioButtonCell) -> {
-                        NaConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_CHANNEL_RELEASE);
+                    switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateRelease), ExtConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_CHANNEL_RELEASE, (radioButtonCell) -> {
+                        ExtConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_CHANNEL_RELEASE);
                         switchBuilder.doRadioCheck(radioButtonCell);
                         AndroidUtilities.runOnUIThread(() -> {
                             switchBuilder.dismiss();
@@ -4841,8 +4841,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }, 500);
                         return Unit.INSTANCE;
                     });
-                    switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateBeta), NaConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_CHANNEL_BETA, (radioButtonCell) -> {
-                        NaConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_CHANNEL_BETA);
+                    switchBuilder.addRadioItem(getString(R.string.AutoCheckUpdateBeta), ExtConfig.INSTANCE.getAutoUpdateChannel().Int() == UpdateHelper.UPDATE_CHANNEL_BETA, (radioButtonCell) -> {
+                        ExtConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(UpdateHelper.UPDATE_CHANNEL_BETA);
                         switchBuilder.doRadioCheck(radioButtonCell);
                         AndroidUtilities.runOnUIThread(() -> {
                             switchBuilder.dismiss();
@@ -5750,7 +5750,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 //        }
         overlaysView = new OverlaysView(context);
         avatarsBlurView = new ProfileGalleryBlurView(context);
-        avatarsBlurView.setSize(NaConfig.INSTANCE.getDisableAvatarBlur().Bool() ? 0 : getActionsExtraHeight());
+        avatarsBlurView.setSize(ExtConfig.INSTANCE.getDisableAvatarBlur().Bool() ? 0 : getActionsExtraHeight());
         avatarsViewPager = new ProfileGalleryView(context, userId != 0 ? userId : -chatId, actionBar, listView, avatarImage, getClassGuid(), overlaysView, avatarsBlurView) {
             @Override
             protected void setCustomAvatarProgress(float progress) {
@@ -6444,7 +6444,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateGooey() {
-        // Перенос из exteraGram 12.9.0, ProfileActivity.java:13215-13236.
+        // Перенос из MZGram 12.9.0, ProfileActivity.java:13215-13236.
         // Было три расхождения: настройка gooeyAvatarAnimation не проверялась вовсе
         // (эффект работал всегда), кривая затухания была линейной за первые 25 %
         // вместо pow(progress, 1.5), и giftsView не гас при отключённом эффекте.
@@ -6452,7 +6452,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         final float fade = (float) Math.pow(progress, 1.5d);
         final boolean animateStory = storyView != null && playProfileAnimation != 2;
 
-        if (isTopic || !app.exteraless.appearance.AppearanceConfig.gooeyAvatarAnimation()) {
+        if (isTopic || !org.mzgram.appearance.AppearanceConfig.gooeyAvatarAnimation()) {
             avatarGooey.setAlpha(1f - fade);
             if (giftsView != null) {
                 giftsView.setAlpha(1f - (float) Math.pow(Math.min(progress, 0.6f) / 0.6f, 1.5d));
@@ -6905,7 +6905,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         boolean hasStories = needInsetForStories();
         float size;
-        int cornerType = app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT;
+        int cornerType = org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT;
         if (chatId != 0) {
             TLRPC.Chat chatLocal = getMessagesController().getChat(chatId);
             if (chatLocal != null) {
@@ -6914,10 +6914,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (ChatObject.isForum(chatLocal)) {
                     size = dp(hasStories ? 48 : 76);
-                    cornerType = app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_FORUM;
+                    cornerType = org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_FORUM;
                 } else if (ChatObject.isCommunity(chatLocal)) {
                     size = dp(100);
-                    cornerType = app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_COMMUNITY;
+                    cornerType = org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_COMMUNITY;
                 } else {
                     size = dp(100);
                 }
@@ -6927,7 +6927,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else {
             size = dp(100);
         }
-        return app.exteraless.appearance.AppearanceConfig.getAvatarCorners(size, cornerType, hasStories);
+        return org.mzgram.appearance.AppearanceConfig.getAvatarCorners(size, cornerType, hasStories);
     }
 
     private void updateTtlIcon() {
@@ -7669,7 +7669,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if (channelParticipant instanceof TLRPC.TL_channelParticipantAdmin || participant instanceof TLRPC.TL_chatParticipantAdmin) {
                             showDialog(
                                     new AlertDialog.Builder(getParentActivity(), resourcesProvider)
-                                        .setTitle(LocaleController.getString(R.string.NagramX))
+                                        .setTitle(LocaleController.getString(R.string.MZGram))
                                             .setMessage(formatString(R.string.AdminWillBeRemoved, ContactsController.formatName(user.first_name, user.last_name)))
                                             .setPositiveButton(LocaleController.getString(R.string.OK), (dialog, which) -> openRightsEdit.run(1))
                                             .setNegativeButton(LocaleController.getString(R.string.Cancel), null)
@@ -8072,7 +8072,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 builder.addItem(getString(R.string.TranslateMessageLLM), R.drawable.magic_stick_solar, __ -> {
                     try {
                         if (!TextUtils.isEmpty(about)) {
-                            DialogTransKt.startTrans(getParentActivity(), about, NekoConfig.translateToLang.String(), Translator.providerLLMTranslator);
+                            DialogTransKt.startTrans(getParentActivity(), about, CoreConfig.translateToLang.String(), Translator.providerLLMTranslator);
                         }
                     } catch (Exception e) {
                         FileLog.e(e);
@@ -9239,7 +9239,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         avatarsViewPager.setVisibility(View.VISIBLE);
 
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) avatarContainer.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                            if (!CoreConfig.disableVibration.Bool()) avatarContainer.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                         } catch (Exception ignore) {
                         }
                     }
@@ -9321,7 +9321,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         expandAnimator.start();
                         ignoreScrollOnFullExpand = false;
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) avatarContainer.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                            if (!CoreConfig.disableVibration.Bool()) avatarContainer.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                         } catch (Exception ignore) {
                         }
                     }
@@ -9716,7 +9716,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     @Override
     public void didReceivedNotification(int id, int account, final Object... args) {
         if (id == NotificationCenter.pluginMenuItemsUpdated) {
-            // exteraless plugins: пересобрать подменю PROFILE_ACTION_MENU.
+            // mzgram plugins: пересобрать подменю PROFILE_ACTION_MENU.
             if (pluginsMenu != null) {
                 pluginsMenu.refresh();
             }
@@ -9956,7 +9956,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             resumeDelayedFragmentAnimation();
                             needLayout(true);
                         }
-                        if (NaConfig.INSTANCE.getPreferCommonGroupsTab().Bool() && userInfo.common_chats_count > 0 && sharedMediaLayout.scrollSlidingTextTabStrip != null && sharedMediaLayout.scrollSlidingTextTabStrip.getCurrentTabId() == SharedMediaLayout.TAB_GIFTS) {
+                        if (ExtConfig.INSTANCE.getPreferCommonGroupsTab().Bool() && userInfo.common_chats_count > 0 && sharedMediaLayout.scrollSlidingTextTabStrip != null && sharedMediaLayout.scrollSlidingTextTabStrip.getCurrentTabId() == SharedMediaLayout.TAB_GIFTS) {
                             AndroidUtilities.runOnUIThread(() -> {
                                 sharedMediaLayout.scrollToPage(SharedMediaLayout.TAB_COMMON_GROUPS);
                                 sharedMediaLayout.scrollSlidingTextTabStrip.selectTabWithId(SharedMediaLayout.TAB_COMMON_GROUPS, 1.0f, true);
@@ -10229,7 +10229,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public boolean needDelayOpenAnimation() {
-        if (NaConfig.INSTANCE.getBackAnimationStyle().Int() == ActionBarLayout.BACK_ANIMATION_SPRING || NaConfig.INSTANCE.getCenterActionBarTitle().Bool() && NaConfig.INSTANCE.getCenterActionBarTitleType().Int() != 2) {
+        if (ExtConfig.INSTANCE.getBackAnimationStyle().Int() == ActionBarLayout.BACK_ANIMATION_SPRING || ExtConfig.INSTANCE.getCenterActionBarTitle().Bool() && ExtConfig.INSTANCE.getCenterActionBarTitleType().Int() != 2) {
             return false;
         } else {
             return playProfileAnimation == 0;
@@ -11302,8 +11302,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         settingsSectionRow = -1;
         settingsSectionRow2 = -1;
         notificationRow = -1;
-        nekoRow = -1;
-        nekoSectionRow = -1;
+        coreRow = -1;
+        coreSectionRow = -1;
         languageRow = -1;
         premiumRow = -1;
         starsRow = -1;
@@ -11443,8 +11443,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (userId != 0) {
             TLRPC.User user = getMessagesController().getUser(userId);
             if (userInfo != null && userInfo.saved_music != null && (imageUpdater == null || myProfile)) {
-                if (app.exteraless.appearance.AppearanceConfig.profileMusicCard()
-                        && app.exteraless.nowplaying.NowPlayingController.shouldShowCard(userInfo.saved_music)) {
+                if (org.mzgram.appearance.AppearanceConfig.profileMusicCard()
+                        && org.mzgram.nowplaying.NowPlayingController.shouldShowCard(userInfo.saved_music)) {
                     hasMusicCard = true;
                 } else {
                     hasMusic = true;
@@ -11474,18 +11474,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     numberRow = rowCount++;
                 }
                 setUsernameRow = rowCount++;
-                if (NaConfig.INSTANCE.getIdDcType().Int() != 0) {
+                if (ExtConfig.INSTANCE.getIdDcType().Int() != 0) {
                     idDcRow = rowCount++;
                 }
                 bioRow = rowCount++;
 
                 settingsSectionRow = rowCount++;
 
-                // Строка настроек NagramX появляется только если её включили на
+                // Строка настроек MZGram появляется только если её включили на
                 // экране «Other» — как и в общем списке настроек.
-                if (app.exteraless.general.GeneralConfig.showNagramSettings()) {
-                    nekoRow = rowCount++;
-                    nekoSectionRow = rowCount++;
+                if (org.mzgram.general.GeneralConfig.showMZGramSettings()) {
+                    coreRow = rowCount++;
+                    coreSectionRow = rowCount++;
                 }
 
                 Set<String> suggestions = getMessagesController().pendingSuggestions;
@@ -11512,8 +11512,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 devicesRow = rowCount++;
                 languageRow = rowCount++;
                 // hide premium / help
-                boolean hidePremium = NaConfig.INSTANCE.getHidePremiumSection().Bool();
-                boolean hideHelp = NaConfig.INSTANCE.getHideHelpSection().Bool();
+                boolean hidePremium = ExtConfig.INSTANCE.getHidePremiumSection().Bool();
+                boolean hideHelp = ExtConfig.INSTANCE.getHideHelpSection().Bool();
                 if (!(hidePremium && hideHelp)) {
                     devicesSectionRow = rowCount++;
                 }
@@ -11580,7 +11580,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (user != null && !user.restriction_reason.isEmpty()) {
                     restrictionReasonRow = rowCount++;
                 }
-                if (!isBot && (hasPhone || !hasInfo) && !hideNumber && !(NekoConfig.hidePhone.Bool() && UserObject.isUserSelf(user))) {
+                if (!isBot && (hasPhone || !hasInfo) && !hideNumber && !(CoreConfig.hidePhone.Bool() && UserObject.isUserSelf(user))) {
                     phoneRow = rowCount++;
                 }
                 if (userInfo != null && !TextUtils.isEmpty(userInfo.about)) {
@@ -11589,7 +11589,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (user != null && username != null) {
                     usernameRow = rowCount++;
                 }
-                if (NaConfig.INSTANCE.getIdDcType().Int() != 0) {
+                if (ExtConfig.INSTANCE.getIdDcType().Int() != 0) {
                     idDcRow = rowCount++;
                 }
                 if (userInfo != null) {
@@ -11699,7 +11699,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     reportDividerRow = rowCount++;
                 }
 
-                if (myProfile && NaConfig.INSTANCE.getDisableStories().Bool()) {
+                if (myProfile && ExtConfig.INSTANCE.getDisableStories().Bool()) {
                     if (userInfo != null && userInfo.stargifts_count > 0) {
                         sharedMediaRow = rowCount++;
                     }
@@ -11771,7 +11771,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     restrictionReasonRow = rowCount++;
                 }
             }
-            if (NaConfig.INSTANCE.getIdDcType().Int() != 0) {
+            if (ExtConfig.INSTANCE.getIdDcType().Int() != 0) {
                 idDcRow = rowCount++;
             }
             if (actionsView == null) {
@@ -11961,12 +11961,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (getParentActivity() == null) {
             return;
         }
-        final boolean card = app.exteraless.appearance.AppearanceConfig.profileMusicCard();
+        final boolean card = org.mzgram.appearance.AppearanceConfig.profileMusicCard();
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-        builder.setTitle(getString(R.string.OEProfileMusicDesign));
-        builder.setMessage(getString(card ? R.string.OEProfileMusicUseOfficialInfo : R.string.OEProfileMusicUseCardInfo));
-        builder.setPositiveButton(getString(card ? R.string.OEProfileMusicUseOfficial : R.string.OEProfileMusicUseCard), (dialog, which) -> {
-            app.exteraless.appearance.AppearanceConfig.profileMusicCard.setConfigBool(!card);
+        builder.setTitle(getString(R.string.MZProfileMusicDesign));
+        builder.setMessage(getString(card ? R.string.MZProfileMusicUseOfficialInfo : R.string.MZProfileMusicUseCardInfo));
+        builder.setPositiveButton(getString(card ? R.string.MZProfileMusicUseOfficial : R.string.MZProfileMusicUseCard), (dialog, which) -> {
+            org.mzgram.appearance.AppearanceConfig.profileMusicCard.setConfigBool(!card);
             updateListAnimated(false);
             needLayout(true);
         });
@@ -12004,7 +12004,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             MediaController.getInstance().getPlaylist().clear();
             MediaController.getInstance().getPlaylist().addAll(savedMusicList.list);
             if (!sameList) MediaController.getInstance().playMessage(savedMusicList.list.get(0));
-            showDialog(app.exteraless.player.Md3Player.create(getContext(), getResourceProvider()));
+            showDialog(org.mzgram.player.Md3Player.create(getContext(), getResourceProvider()));
         }
     }
 
@@ -12320,9 +12320,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (userInfo != null && userInfo.stars_rating != null && userInfo.stars_rating.stars < 0) {
                         newString2 = getString(R.string.StarRatingLevelNegative).toLowerCase(Locale.ROOT);
                     } else {
-                        if (!NekoConfig.sendOnlinePackets.Bool() || NekoConfig.sendOfflinePacketAfterOnline.Bool()) {
-                            final int lastSeen = app.exteraless.ghost.OwnLastSeen.seconds(currentAccount, user);
-                            newString2 = lastSeen > 0 ? app.exteraless.ghost.OwnLastSeen.format(lastSeen) : getString(R.string.VoipOfflineTitle);
+                        if (!CoreConfig.sendOnlinePackets.Bool() || CoreConfig.sendOfflinePacketAfterOnline.Bool()) {
+                            final int lastSeen = org.mzgram.ghost.OwnLastSeen.seconds(currentAccount, user);
+                            newString2 = lastSeen > 0 ? org.mzgram.ghost.OwnLastSeen.format(lastSeen) : getString(R.string.VoipOfflineTitle);
                         } else {
                             newString2 = LocaleController.getString(R.string.Online);
                         }
@@ -13013,7 +13013,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             } else {
                                 otherItem.hideSubItem(bot_privacy);
                             }
-                            boolean customFiltered = AyuFilter.getCustomFilteredUsersList().contains(userId);
+                            boolean customFiltered = ArcFilter.getCustomFilteredUsersList().contains(userId);
                             otherItem.addSubItem(shadow_ban, R.drawable.hide_title, getString(customFiltered ? R.string.UnshadowBan : R.string.ShadowBan));
                             otherItem.addSubItem(report, R.drawable.msg_report, LocaleController.getString(R.string.ReportBot)).setColorKeys(Theme.key_text_RedRegular, Theme.key_text_RedRegular);
                             if (!userBlocked) {
@@ -13022,7 +13022,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 otherItem.addSubItem(block_contact, R.drawable.msg_retry, LocaleController.getString(R.string.BotRestart));
                             }
                         } else {
-                            boolean customFiltered = AyuFilter.getCustomFilteredUsersList().contains(userId);
+                            boolean customFiltered = ArcFilter.getCustomFilteredUsersList().contains(userId);
                             otherItem.addSubItem(shadow_ban, R.drawable.hide_title, getString(customFiltered ? R.string.UnshadowBan : R.string.ShadowBan));
                             otherItem.addSubItem(block_contact, !userBlocked ? R.drawable.msg_block : R.drawable.msg_block, !userBlocked ? LocaleController.getString(R.string.BlockContact) : LocaleController.getString(R.string.Unblock));
                         }
@@ -13038,7 +13038,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (!TextUtils.isEmpty(user.phone)) {
                         otherItem.addSubItem(share_contact, R.drawable.msg_share, LocaleController.getString(R.string.ShareContact));
                     }
-                    boolean customFiltered = AyuFilter.getCustomFilteredUsersList().contains(userId);
+                    boolean customFiltered = ArcFilter.getCustomFilteredUsersList().contains(userId);
                     otherItem.addSubItem(shadow_ban, R.drawable.hide_title, getString(customFiltered ? R.string.UnshadowBan : R.string.ShadowBan));
                     otherItem.addSubItem(block_contact, !userBlocked ? R.drawable.msg_block : R.drawable.msg_block, !userBlocked ? LocaleController.getString(R.string.BlockContact) : LocaleController.getString(R.string.Unblock));
                     otherItem.addSubItem(edit_contact, R.drawable.msg_edit, LocaleController.getString(R.string.EditContact));
@@ -13094,7 +13094,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         editItemVisible = true;
                     }
                 } else {
-                    if (true/*ChatObject.hasAdminRights(chat) || chat.megagroup && ChatObject.canChangeChatInfo(chat)*/) { // NagramX: allow change chat name without admin rights
+                    if (true/*ChatObject.hasAdminRights(chat) || chat.megagroup && ChatObject.canChangeChatInfo(chat)*/) { // MZGram: allow change chat name without admin rights
                         editItemVisible = true;
                     }
                 }
@@ -13266,7 +13266,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             actionsView.commitActions();
         }
 
-        // exteraless plugins: подменю PROFILE_ACTION_MENU в конце меню «⋮».
+        // mzgram plugins: подменю PROFILE_ACTION_MENU в конце меню «⋮».
         if (otherItem != null) {
             java.util.Map<String, Object> pluginMenuContext = new java.util.HashMap<>();
             pluginMenuContext.put("account", currentAccount);
@@ -13283,9 +13283,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 pluginMenuContext.put("chat", getMessagesController().getChat(chatId));
                 pluginMenuContext.put("chatId", chatId);
             }
-            pluginsMenu = app.exteraless.plugins.menus.MenuInjector.attachSwipeBackMenu(
+            pluginsMenu = org.mzgram.plugins.menus.MenuInjector.attachSwipeBackMenu(
                     otherItem,
-                    app.exteraless.plugins.MenuItemRecord.MenuType.PROFILE_ACTION_MENU,
+                    org.mzgram.plugins.MenuItemRecord.MenuType.PROFILE_ACTION_MENU,
                     pluginMenuContext, resourcesProvider, pluginsMenu);
         }
 
@@ -13294,29 +13294,29 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void createGhostModeExclusionItem(long chatId) {
-        if (!NekoConfig.showGhostInDrawer.Bool() || ChatObject.isChannelAndNotMegaGroup(currentChat)) {
+        if (!CoreConfig.showGhostInDrawer.Bool() || ChatObject.isChannelAndNotMegaGroup(currentChat)) {
             return;
         }
         if (currentEncryptedChat instanceof TLRPC.TL_encryptedChat) {
             chatId = currentEncryptedChat.id;
         }
         var ghostModePopupWrapper = new GhostModeExclusionPopupWrapper(ProfileActivity.this, otherItem.getPopupLayout().getSwipeBack(), chatId, getResourceProvider());
-        otherItem.addSwipeBackItem(R.drawable.ayu_ghost_solar, null, getString(R.string.GhostMode), ghostModePopupWrapper.windowLayout);
+        otherItem.addSwipeBackItem(R.drawable.arc_ghost_solar, null, getString(R.string.GhostMode), ghostModePopupWrapper.windowLayout);
     }
 
     private void createSaveExclusionItem(long chatId) {
-        if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+        if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
             var deletedPopupWrapper = new SaveExclusionPopupWrapper(ProfileActivity.this, otherItem.getPopupLayout().getSwipeBack(), chatId, false, getResourceProvider());
             otherItem.addSwipeBackItem(R.drawable.msg_delete_24_solar, null, getString(R.string.SaveDeletedExclusionMenu), deletedPopupWrapper.windowLayout);
         }
-        if (NaConfig.INSTANCE.getEnableSaveEditsHistory().Bool()) {
+        if (ExtConfig.INSTANCE.getEnableSaveEditsHistory().Bool()) {
             var editsPopupWrapper = new SaveExclusionPopupWrapper(ProfileActivity.this, otherItem.getPopupLayout().getSwipeBack(), chatId, true, getResourceProvider());
             otherItem.addSwipeBackItem(R.drawable.msg_edit_24_solar, null, getString(R.string.SaveEditedExclusionMenu), editsPopupWrapper.windowLayout);
         }
     }
 
     private void createMessageFilterItem() {
-        if (!NaConfig.INSTANCE.getRegexFiltersEnabled().Bool()) {
+        if (!ExtConfig.INSTANCE.getRegexFiltersEnabled().Bool()) {
             return;
         }
         var popupLayout = otherItem.getPopupLayout();
@@ -13919,7 +13919,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ArrayList<File> files = new ArrayList<>();
 
                 files.addAll(Arrays.asList(dir.listFiles()));
-                files.addAll(Arrays.asList(app.exteraless.plugins.PluginLog.files()));
+                files.addAll(Arrays.asList(org.mzgram.plugins.PluginLog.files()));
 
                 File filesDir = ApplicationLoader.getFilesDirFixed();
                 filesDir = new File(filesDir, "malformed_database/");
@@ -14403,7 +14403,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         String text;
                         TLRPC.User user = getMessagesController().getUser(userId);
                         String phoneNumber;
-                        boolean shouldHide = NekoConfig.hidePhone.Bool() && (myProfile || (user != null && user.self));
+                        boolean shouldHide = CoreConfig.hidePhone.Bool() && (myProfile || (user != null && user.self));
                         if (!shouldHide && user != null && !TextUtils.isEmpty(vcardPhone)) {
                             text = PhoneFormat.getInstance().format("+" + vcardPhone);
                             phoneNumber = vcardPhone;
@@ -14527,7 +14527,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (position == numberRow) {
                         TLRPC.User user = UserConfig.getInstance(currentAccount).getCurrentUser();
                         String value;
-                        if (NekoConfig.hidePhone.Bool()) {
+                        if (CoreConfig.hidePhone.Bool()) {
                             value = LocaleController.getString(R.string.MobileHidden);
                         } else if (user != null && user.phone != null && user.phone.length() != 0) {
                             value = PhoneFormat.getInstance().format("+" + user.phone);
@@ -14589,7 +14589,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (containsIdDate) {
                         Drawable drawable = ContextCompat.getDrawable(detailCell.getContext(), R.drawable.msg_calendar2);
                         drawable.setColorFilter(new PorterDuffColorFilter(dontApplyPeerColor(getThemedColor(Theme.key_actionBarDefaultIcon), false), PorterDuff.Mode.MULTIPLY));
-                        detailCell.setImage(drawable, LocaleController.getString(R.string.OEProfileIdDate));
+                        detailCell.setImage(drawable, LocaleController.getString(R.string.MZProfileIdDate));
                         detailCell.setImageClickListener(ProfileActivity.this::onTextDetailCellImageClicked);
                     } else {
                         detailCell.setImage(null);
@@ -14796,8 +14796,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         textCell.setTextAndIcon(LocaleController.getString(R.string.ChatSettings), R.drawable.msg2_discussion, true);
                     } else if (position == filtersRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.Filters), R.drawable.msg2_folder, true);
-                    } else if (position == nekoRow) {
-                        textCell.setTextAndIcon(getString(R.string.NekoSettings), R.drawable.msg_settings, false);
+                    } else if (position == coreRow) {
+                        textCell.setTextAndIcon(getString(R.string.CoreSettings), R.drawable.msg_settings, false);
                     } else if (position == liteModeRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.PowerUsage), R.drawable.msg2_battery, true);
                     } else if (position == questionRow) {
@@ -15254,7 +15254,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         position == clearLogsRow || position == switchBackendRow || position == setAvatarRow ||
                         position == addToGroupButtonRow || position == premiumRow || position == premiumGiftingRow ||
                         position == businessRow || position == liteModeRow || position == birthdayRow || position == channelRow ||
-                        position == starsRow || position == tonRow || position == linkedCommunityRow || position == idDcRow || position == nekoRow;
+                        position == starsRow || position == tonRow || position == linkedCommunityRow || position == idDcRow || position == coreRow;
             }
             if (holder.itemView instanceof UserCell) {
                 UserCell userCell = (UserCell) holder.itemView;
@@ -15290,7 +15290,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return VIEW_TYPE_TEXT_DETAIL_MULTILINE_2;
             } else if (position == userInfoRow || position == channelInfoRow || position == bioRow) {
                 return VIEW_TYPE_ABOUT_LINK;
-            } else if (position == nekoRow || position == settingsTimerRow || position == settingsKeyRow || position == reportRow || position == reportReactionRow || position == deleteReactionRow ||
+            } else if (position == coreRow || position == settingsTimerRow || position == settingsKeyRow || position == reportRow || position == reportReactionRow || position == deleteReactionRow ||
                     position == subscribersRow || position == subscribersRequestsRow || position == administratorsRow || position == settingsRow || position == blockedUsersRow ||
                     position == addMemberRow || position == joinRow || position == unblockRow ||
                     position == sendMessageRow || position == notificationRow || position == privacyRow ||
@@ -15562,7 +15562,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }).withLink("tg://settings/privacy/auto-delete"),
                     new SearchResult(108, getString(R.string.Passcode), getString(R.string.PrivacySettings), R.drawable.msg2_secret, () -> f.presentFragment(PasscodeActivity.determineOpenFragment())).withLink("tg://settings/privacy/passcode"),
                     SharedConfig.passcodeHash.isEmpty() ? null : new SearchResult(918, getString(R.string.ScreenCapture), null, getString(R.string.PrivacySettings), getString(R.string.Passcode), R.drawable.msg2_secret, () -> f.presentFragment(PasscodeActivity.determineOpenFragment())),
-                    PasscodeHelper.isSettingsHidden() ? null : new SearchResult(915, getString(R.string.OEPrivacyFalseBottom), getString(R.string.PrivacySettings), R.drawable.msg_archive_hide, () -> f.presentFragment(new NekoPasscodeSettingsActivity())),
+                    PasscodeHelper.isSettingsHidden() ? null : new SearchResult(915, getString(R.string.MZPrivacyFalseBottom), getString(R.string.PrivacySettings), R.drawable.msg_archive_hide, () -> f.presentFragment(new CorePasscodeSettingsActivity())),
                     SharedConfig.hasEmailLogin ? new SearchResult(125, getString(R.string.EmailLogin), "emailLoginRow", getString(R.string.PrivacySettings), R.drawable.msg2_secret, () -> f.presentFragment(new PrivacySettingsActivity())).withLink("tg://settings/privacy/login-email") : null,
                     new SearchResult(101, getString(R.string.BlockedUsers), getString(R.string.PrivacySettings), R.drawable.msg_secret, () -> f.presentFragment(new PrivacyUsersActivity().loadBlocked())).withLink("tg://settings/privacy/blocked"),
                     new SearchResult(110, getString(R.string.SessionsTitle), R.drawable.msg2_secret, () -> f.presentFragment(new SessionsActivity(0))).withLink("tg://settings/devices"),
@@ -15787,11 +15787,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     new SearchResult(403, getString(R.string.TelegramFAQ), getString(R.string.SettingsHelp), R.drawable.msg2_help, () -> Browser.openUrl(f.getParentActivity(), getString(R.string.TelegramFaqUrl))).withLink("tg://settings/faq"),
                     new SearchResult(404, getString(R.string.PrivacyPolicy), getString(R.string.SettingsHelp), R.drawable.msg2_help, () -> Browser.openUrl(f.getParentActivity(), getString(R.string.PrivacyPolicyUrl))).withLink("tg://settings/privacy-policy"),
             };
-            ArrayList<SettingsSearchResult> nagramSettings = SettingsHelper.onCreateSearchArray(
+            ArrayList<SettingsSearchResult> mzgramSettings = SettingsHelper.onCreateSearchArray(
                     fragment -> AndroidUtilities.runOnUIThread(() -> f.presentFragment(fragment, false, false))
             );
             ArrayList<SearchResult> list = new ArrayList<>();
-            for (SettingsSearchResult oldResult: nagramSettings) {
+            for (SettingsSearchResult oldResult: mzgramSettings) {
                 SearchResult result = new SearchResult(
                     oldResult.guid, oldResult.searchTitle, null, oldResult.path1, oldResult.path2, oldResult.iconResId, oldResult.openRunnable
                 );
@@ -16528,7 +16528,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (userId != 0) {
             final TLRPC.User user = getMessagesController().getUser(userId);
             final String name = user != null ? UserObject.getFirstName(user) : String.valueOf(userId);
-            showIdDateHint(anchor, LocaleController.formatString(R.string.OEProfileAccountCreated, name, ProfileDateHelper.getUserTime(userId)));
+            showIdDateHint(anchor, LocaleController.formatString(R.string.MZProfileAccountCreated, name, ProfileDateHelper.getUserTime(userId)));
             return;
         }
         final TLRPC.Chat chat = getMessagesController().getChat(chatId);
@@ -16537,9 +16537,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (ChatObject.isNotInChat(chat)) {
             if (chat.date != 0) {
-                showIdDateHint(anchor, LocaleController.formatString(R.string.OEProfileChatCreated, chat.title, formatIdDate(chat.date)));
+                showIdDateHint(anchor, LocaleController.formatString(R.string.MZProfileChatCreated, chat.title, formatIdDate(chat.date)));
             } else {
-                showIdDateHint(anchor, LocaleController.getString(R.string.OEProfileJoinDateUnknown));
+                showIdDateHint(anchor, LocaleController.getString(R.string.MZProfileJoinDateUnknown));
             }
             return;
         }
@@ -16580,9 +16580,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private void showJoinedHint(View anchor, TLRPC.Chat chat, int date) {
         if (date == 0) {
-            showIdDateHint(anchor, LocaleController.getString(R.string.OEProfileJoinDateUnknown));
+            showIdDateHint(anchor, LocaleController.getString(R.string.MZProfileJoinDateUnknown));
         } else {
-            final int format = ChatObject.isChannelAndNotMegaGroup(chat) ? R.string.OEProfileJoinedChannel : R.string.OEProfileJoinedChat;
+            final int format = ChatObject.isChannelAndNotMegaGroup(chat) ? R.string.MZProfileJoinedChannel : R.string.MZProfileJoinedChat;
             showIdDateHint(anchor, LocaleController.formatString(format, chat.title, formatIdDate(date)));
         }
     }
@@ -16763,8 +16763,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, settingsSectionRow, sparseIntArray);
             put(++pointer, settingsSectionRow2, sparseIntArray);
             put(++pointer, notificationRow, sparseIntArray);
-            put(++pointer, nekoRow, sparseIntArray);
-            put(++pointer, nekoSectionRow, sparseIntArray);
+            put(++pointer, coreRow, sparseIntArray);
+            put(++pointer, coreSectionRow, sparseIntArray);
             put(++pointer, languageRow, sparseIntArray);
             put(++pointer, premiumRow, sparseIntArray);
             put(++pointer, starsRow, sparseIntArray);
@@ -18215,7 +18215,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private long getId(boolean styled) {
         long id = userId != 0 ? userId : chatId != 0 ? chatId : 0;
-        if (styled && chatId != 0 && NaConfig.INSTANCE.getIdDcType().Int() == NekoConfig.ID_TYPE_BOT_API) {
+        if (styled && chatId != 0 && ExtConfig.INSTANCE.getIdDcType().Int() == CoreConfig.ID_TYPE_BOT_API) {
             var chat = getMessagesController().getChat(chatId);
             if (chat != null) {
                 if (ChatObject.isChannel(chat)) {
@@ -18434,9 +18434,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (chat != null && ChatObject.isChannelAndNotMegaGroup(chat)) {
             boolean added = !channelBlocked;
             if (added) {
-                AyuFilter.blockPeer(-chatId);
+                ArcFilter.blockPeer(-chatId);
             } else {
-                AyuFilter.unblockPeer(-chatId);
+                ArcFilter.unblockPeer(-chatId);
             }
             channelBlocked = added;
             createActionBarMenu(true);
@@ -18458,7 +18458,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (user == null || UserObject.isUserSelf(user)) {
             return;
         }
-        ArrayList<Long> userIds = AyuFilter.getCustomFilteredUsersList();
+        ArrayList<Long> userIds = ArcFilter.getCustomFilteredUsersList();
         boolean added;
         if (userIds.contains(userId)) {
             userIds.remove(userId);
@@ -18467,9 +18467,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             userIds.add(userId);
             added = true;
         }
-        AyuFilter.setCustomFilteredUsers(userIds);
+        ArcFilter.setCustomFilteredUsers(userIds);
         if (added) {
-            AyuFilter.updateCustomFilteredUserFromLocalUser(user);
+            ArcFilter.updateCustomFilteredUserFromLocalUser(user);
         }
         if (BulletinFactory.canShowBulletin(this)) {
             Drawable drawable = ContextCompat.getDrawable(getParentActivity(), added ? R.drawable.msg_block2 : R.drawable.msg_block);

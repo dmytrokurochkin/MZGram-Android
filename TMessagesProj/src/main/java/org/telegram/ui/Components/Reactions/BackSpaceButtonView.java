@@ -24,7 +24,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Stories.RoundRectOutlineProvider;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 @SuppressLint("ViewConstructor")
 public class BackSpaceButtonView extends FrameLayout {
@@ -59,7 +59,7 @@ public class BackSpaceButtonView extends FrameLayout {
                         if (onBackspace != null) {
                             onBackspace.run(false);
                             try {
-                                if (!NekoConfig.disableVibration.Bool()) backspaceButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                                if (!CoreConfig.disableVibration.Bool()) backspaceButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                             } catch (Exception ignored) {}
                         }
                     }
@@ -68,7 +68,7 @@ public class BackSpaceButtonView extends FrameLayout {
                 return true;
             }
         };
-        backspaceButton.setHapticFeedbackEnabled(!NekoConfig.disableVibration.Bool());
+        backspaceButton.setHapticFeedbackEnabled(!CoreConfig.disableVibration.Bool());
         backspaceButton.setImageResource(R.drawable.smiles_tab_clear);
         ThemeBind.colorFilter(backspaceButton, Theme.key_chat_emojiPanelBackspace, resourcesProvider, PorterDuff.Mode.MULTIPLY);
         backspaceButton.setScaleType(ImageView.ScaleType.CENTER);
@@ -118,7 +118,7 @@ public class BackSpaceButtonView extends FrameLayout {
             if (onBackspace != null) {
                 onBackspace.run(time < 300);
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) backspaceButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                    if (!CoreConfig.disableVibration.Bool()) backspaceButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                 } catch (Exception ignored) {}
             }
             backspaceOnce = true;

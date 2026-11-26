@@ -148,9 +148,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
-import tw.nekomimi.nekogram.helpers.MonetHelper;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.helpers.MonetHelper;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class Theme {
 
@@ -2328,7 +2328,7 @@ public class Theme {
 
     public static Paint dividerPaint;
     /**
-     * Кисть подшапочной линии. exteraGram рисует ей ровно 1 px вместо градиентной тени
+     * Кисть подшапочной линии. MZGram рисует ей ровно 1 px вместо градиентной тени
      * (12.9.0: Theme.java:425, 6476-6481, ActionBarLayout.java:2603-2615).
      * Цвет берётся из {@link #getDividerColor}, поэтому линия не гаснет в режиме «сегменты»,
      * но исчезает вместе со всеми разделителями в режиме «скрыт».
@@ -4257,7 +4257,7 @@ public class Theme {
             mzApplyMaterialYouOnce(preferences, themeConfig);
 
             String theme = preferences.getString("theme", null);
-            if ("NekoX".equals(theme)) {
+            if ("CoreX".equals(theme)) {
                 theme = "Blue";
                 preferences.edit().putString("theme", theme).apply();
             }
@@ -4297,7 +4297,7 @@ public class Theme {
             }
 
             String lastDayTheme = themeConfig.getString("lastDayTheme", null);
-            if ("NekoX".equals(lastDayTheme)) {
+            if ("CoreX".equals(lastDayTheme)) {
                 themeConfig.edit().putString("lastDayTheme", "Blue").apply();
             }
 
@@ -5819,7 +5819,7 @@ public class Theme {
     }
 
     private static String monetAssetName(String base) {
-        return base + app.exteraless.appearance.AppearanceConfig.monetAssetSuffix() + ".attheme";
+        return base + org.mzgram.appearance.AppearanceConfig.monetAssetSuffix() + ".attheme";
     }
 
     /**
@@ -5869,7 +5869,7 @@ public class Theme {
             case "Default":
             case "Day":
             case "Arctic Blue":
-            case "NekoX":
+            case "CoreX":
                 return "Monet Light";
             case "Dark":
             case "Dark Blue":
@@ -9413,7 +9413,7 @@ public class Theme {
      */
     public static int mzCardSurface(ResourcesProvider provider) {
         final int card = getColor(key_windowBackgroundWhite, provider);
-        if (!app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+        if (!org.mzgram.appearance.AppearanceConfig.materialSurfaces()) {
             return card;
         }
         final int page = getColor(key_windowBackgroundGray, provider) | 0xFF000000;
@@ -9436,8 +9436,8 @@ public class Theme {
      * разделитель под ActionBar.
      */
     public static int getDividerColor(ResourcesProvider provider) {
-        if (app.exteraless.appearance.AppearanceConfig.dividerStyle()
-                == app.exteraless.appearance.AppearanceConfig.DIVIDER_HIDDEN) {
+        if (org.mzgram.appearance.AppearanceConfig.dividerStyle()
+                == org.mzgram.appearance.AppearanceConfig.DIVIDER_HIDDEN) {
             return 0x00ffffff;
         }
         resolvingDividerColor = true;
@@ -9445,8 +9445,8 @@ public class Theme {
             if (provider != null) {
                 return provider.getColor(key_divider);
             }
-            final boolean ignoreAnimation = app.exteraless.appearance.AppearanceConfig.dividerStyle()
-                    != app.exteraless.appearance.AppearanceConfig.DIVIDER_LINE;
+            final boolean ignoreAnimation = org.mzgram.appearance.AppearanceConfig.dividerStyle()
+                    != org.mzgram.appearance.AppearanceConfig.DIVIDER_LINE;
             return getColor(key_divider, null, ignoreAnimation);
         } finally {
             resolvingDividerColor = false;
@@ -9460,10 +9460,10 @@ public class Theme {
     public static int getColor(int key, ResourcesProvider provider) {
         // Скрытие разделителей должно работать и при непустом ResourcesProvider
         // (чат-темы, боттом-шиты, профиль): иначе линии остаются там, где цвет берёт провайдер.
-        if (key_divider == key && !resolvingDividerColor && app.exteraless.appearance.AppearanceConfig.dividerHidden()) {
+        if (key_divider == key && !resolvingDividerColor && org.mzgram.appearance.AppearanceConfig.dividerHidden()) {
             return 0x00ffffff;
         }
-        if (key_actionBarDefaultSubmenuBackground == key && provider != null && !resolvingSubmenuColor && app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+        if (key_actionBarDefaultSubmenuBackground == key && provider != null && !resolvingSubmenuColor && org.mzgram.appearance.AppearanceConfig.materialSurfaces()) {
             return mzSubmenuSurface(provider, null, false);
         }
         if (provider != null) {
@@ -9504,10 +9504,10 @@ public class Theme {
                 return animatingColors.valueAt(index);
             }
         }
-        if (key_divider == key && !resolvingDividerColor && app.exteraless.appearance.AppearanceConfig.dividerHidden()) {
+        if (key_divider == key && !resolvingDividerColor && org.mzgram.appearance.AppearanceConfig.dividerHidden()) {
             return 0x00ffffff;
         }
-        if (key_actionBarDefaultSubmenuBackground == key && !resolvingSubmenuColor && app.exteraless.appearance.AppearanceConfig.materialSurfaces()) {
+        if (key_actionBarDefaultSubmenuBackground == key && !resolvingSubmenuColor && org.mzgram.appearance.AppearanceConfig.materialSurfaces()) {
             return mzSubmenuSurface(null, isDefault, ignoreAnimation);
         }
         return getColorFromTable(currentColors, key, isDefault);

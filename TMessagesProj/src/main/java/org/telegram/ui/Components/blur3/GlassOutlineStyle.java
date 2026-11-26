@@ -1,6 +1,6 @@
 package org.telegram.ui.Components.blur3;
 
-import app.exteraless.appearance.AppearanceConfig;
+import org.mzgram.appearance.AppearanceConfig;
 
 import java.util.Collections;
 import java.util.Set;

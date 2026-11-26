@@ -77,8 +77,8 @@ import java.util.HashSet;
 import java.util.Collections;
 import java.util.List;
 
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import tw.nekomimi.nekogram.utils.ProxyUtil;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.core.utils.ProxyUtil;
 
 public class ProxyListActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private final static boolean IS_PROXY_ROTATION_AVAILABLE = true;
@@ -201,7 +201,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         }
 
         public void setProxy(SharedConfig.ProxyInfo proxyInfo) {
-            textView.setText(app.exteraless.proxy.ProxyController.getInstance().getDisplayName(proxyInfo));
+            textView.setText(org.mzgram.proxy.ProxyController.getInstance().getDisplayName(proxyInfo));
             currentInfo = proxyInfo;
         }
 
@@ -436,7 +436,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                                 continue;
                             }
                             if (!info.available) {
-                                app.exteraless.proxy.ProxyController.getInstance().deleteProxy(info);
+                                org.mzgram.proxy.ProxyController.getInstance().deleteProxy(info);
                             }
                         }
                         if (SharedConfig.currentProxy == null) {
@@ -552,7 +552,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 builder.setTitle(getString(R.string.DeleteProxyTitle));
                 builder.setPositiveButton(getString(R.string.Delete), (dialog, which) -> {
                     for (SharedConfig.ProxyInfo info : proxyList) {
-                        app.exteraless.proxy.ProxyController.getInstance().deleteProxy(info);
+                        org.mzgram.proxy.ProxyController.getInstance().deleteProxy(info);
                     }
                     useProxySettings = false;
                     NotificationCenter.getGlobalInstance().removeObserver(ProxyListActivity.this, NotificationCenter.proxySettingsChanged);
@@ -605,7 +605,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                         builder.setTitle(getString(R.string.DeleteProxyTitle));
                         builder.setPositiveButton(getString(R.string.Delete), (dialog, which) -> {
                             for (SharedConfig.ProxyInfo info : selectedItems) {
-                                app.exteraless.proxy.ProxyController.getInstance().deleteProxy(info);
+                                org.mzgram.proxy.ProxyController.getInstance().deleteProxy(info);
                             }
                             if (SharedConfig.currentProxy == null) {
                                 useProxySettings = false;
@@ -667,8 +667,8 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     private void updateRows(boolean notify) {
         rowCount = 0;
         useProxyRow = rowCount++;
-        // Условия отключения показываем всегда: в exteraGram они на виду, а у нас
-        // раньше лежали в настройках NagramX, спрятанных по умолчанию.
+        // Условия отключения показываем всегда: в MZGram они на виду, а у нас
+        // раньше лежали в настройках MZGram, спрятанных по умолчанию.
         disableConditionsRow = rowCount++;
         if (useProxySettings && SharedConfig.currentProxy != null && SharedConfig.proxyList.size() > 1 && IS_PROXY_ROTATION_AVAILABLE) {
             rotationRow = rowCount++;
@@ -1094,13 +1094,13 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     ThemeBind.backgroundColor(view, Theme.key_windowBackgroundWhite);
                     break;
                 case VIEW_TYPE_DISABLE_CONDITIONS: {
-                    app.exteraless.proxy.ProxyDisableChipsView chips =
-                            new app.exteraless.proxy.ProxyDisableChipsView(mContext, getResourceProvider());
+                    org.mzgram.proxy.ProxyDisableChipsView chips =
+                            new org.mzgram.proxy.ProxyDisableChipsView(mContext, getResourceProvider());
                     // Колбэк сети поднимает LaunchActivity по hasProxyDisableConditions(),
                     // поэтому первое включённое здесь условие надо зарегистрировать самим.
                     chips.setOnChanged(() -> {
-                        if (app.exteraless.OpenExteraConfig.hasProxyDisableConditions()) {
-                            tw.nekomimi.nekogram.utils.ProxyUtil.registerNetworkCallback();
+                        if (org.mzgram.MZGramConfig.hasProxyDisableConditions()) {
+                            org.mzgram.core.utils.ProxyUtil.registerNetworkCallback();
                         }
                     });
                     chips.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));

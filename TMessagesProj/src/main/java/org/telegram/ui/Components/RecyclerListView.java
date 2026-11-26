@@ -99,7 +99,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 @SuppressWarnings("JavaReflectionMemberAccess")
 public class RecyclerListView extends RecyclerView implements IBlur3Capture {
@@ -1237,14 +1237,14 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                     if (onItemLongClickListener != null) {
                         if (onItemLongClickListener.onItemClick(currentChildView, currentChildPosition)) {
                             try {
-                                if (!NekoConfig.disableVibration.Bool()) child.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                                if (!CoreConfig.disableVibration.Bool()) child.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                             } catch (Exception ignored) {}
                             child.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_LONG_CLICKED);
                         }
                     } else {
                         if (onItemLongClickListenerExtended.onItemClick(currentChildView, currentChildPosition, event.getX() - currentChildView.getX(), event.getY() - currentChildView.getY())) {
                             try {
-                                if (!NekoConfig.disableVibration.Bool()) child.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                                if (!CoreConfig.disableVibration.Bool()) child.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                             } catch (Exception ignored) {}
                             child.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_LONG_CLICKED);
                             longPressCalled = true;
@@ -3377,12 +3377,12 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     public static Class[] filterThemeDescription(int changeFlags, Class[] classes) {
         if (classes == null
                 || changeFlags != ThemeDescription.FLAG_CELLBACKGROUNDCOLOR
-                || !app.exteraless.appearance.AppearanceConfig.sectionsSeparatedHeaders()) {
+                || !org.mzgram.appearance.AppearanceConfig.sectionsSeparatedHeaders()) {
             return classes;
         }
         int count = 0;
         for (Class cls : classes) {
-            if (cls != null && !cls.equals(HeaderCell.class) && !cls.equals(tw.nekomimi.nekogram.ui.cells.HeaderCell.class)) {
+            if (cls != null && !cls.equals(HeaderCell.class) && !cls.equals(org.mzgram.core.ui.cells.HeaderCell.class)) {
                 count++;
             }
         }
@@ -3392,7 +3392,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         final Class[] filtered = new Class[count];
         int index = 0;
         for (Class cls : classes) {
-            if (cls != null && !cls.equals(HeaderCell.class) && !cls.equals(tw.nekomimi.nekogram.ui.cells.HeaderCell.class)) {
+            if (cls != null && !cls.equals(HeaderCell.class) && !cls.equals(org.mzgram.core.ui.cells.HeaderCell.class)) {
                 filtered[index++] = cls;
             }
         }
@@ -3489,7 +3489,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     }
 
     /**
-     * Помечает строку как «таблетку». У exteraGram тег ставится прямо в
+     * Помечает строку как «таблетку». У MZGram тег ставится прямо в
      * Вызов вынесен сюда, чтобы ключ тега знал только этот файл.
      */
     public static void setRoundSectionView(View view, boolean round) {
@@ -3604,15 +3604,15 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     }
 
     /**
-     * Радиус карточек-секций берётся из настроек внешнего вида openExtera, чтобы слайдер
+     * Радиус карточек-секций берётся из настроек внешнего вида mzGram, чтобы слайдер
      * «Радиус секций» действовал на всех экранах, а не только на наших. Значение по
-     * умолчанию (20 dp) повторяет exteraGram, 0 даёт стоковые острые углы.
+     * умолчанию (20 dp) повторяет MZGram, 0 даёт стоковые острые углы.
      */
     public void setSections() {
-        setSections(dp(12), dp(app.exteraless.appearance.AppearanceConfig.sectionRadius()), false);
+        setSections(dp(12), dp(org.mzgram.appearance.AppearanceConfig.sectionRadius()), false);
     }
     public void setSections(boolean topPadding) {
-        setSections(dp(12), dp(app.exteraless.appearance.AppearanceConfig.sectionRadius()), topPadding);
+        setSections(dp(12), dp(org.mzgram.appearance.AppearanceConfig.sectionRadius()), topPadding);
     }
     public void setSections(int padding, float roundRadius, boolean topPadding) {
         final Utilities.CallbackReturn<View, Boolean> isSectionView =
@@ -3621,8 +3621,8 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                 view -> !(view instanceof TextInfoPrivacyCell || view instanceof ShadowSectionCell ||
                         view instanceof FiltersSetupActivity.HintInnerCell || view instanceof GraySectionCell ||
                         view instanceof CollapseTextCell)
-                        && !((view instanceof HeaderCell || view instanceof tw.nekomimi.nekogram.ui.cells.HeaderCell)
-                                && app.exteraless.appearance.AppearanceConfig.sectionsSeparatedHeaders())
+                        && !((view instanceof HeaderCell || view instanceof org.mzgram.core.ui.cells.HeaderCell)
+                                && org.mzgram.appearance.AppearanceConfig.sectionsSeparatedHeaders())
                         && !Objects.equals(view.getTag(), TAG_NOT_SECTION);
         final Pair<Utilities.CallbackReturn<View, Boolean>, Utilities.CallbackReturn<Integer, Boolean>> callbacks =
                 cachedIsViewTypeShadow(this, isSectionView);
@@ -3755,7 +3755,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                         if (last) outRect.bottom = padding;
 
                         // В режиме «Сегменты» между строками одного раздела —
-                        // зазор 2dp, иначе карточки склеятся в одну (exteraGram:
+                        // зазор 2dp, иначе карточки склеятся в одну (MZGram:
                         // getItemOffsets, rect.top += dp(2)).
                         if (!first && this.parent.useSegmentedSections()
                                 && this.parent.isViewTypeSection != null
@@ -3799,7 +3799,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     /**
      * Режим «Сегменты»: каждая строка — своя карточка.
      *
-     * Перенос exteraGram 12.9.0 (RecyclerListView: segmentedSectionsEnabled,
+     * Перенос MZGram 12.9.0 (RecyclerListView: segmentedSectionsEnabled,
      * drawSegmentedSections, getSegmentedSectionTop/BottomRadius). Стиль
      * выбирается в настройках внешнего вида и до сих пор был выбираемым, но
      * наполовину рабочим: разделители пропадали, а строки оставались одной
@@ -3808,12 +3808,12 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     private boolean useSegmentedSections() {
         return segmentedSectionsEnabled
                 && sectionsItemDecoration != null
-                && (app.exteraless.appearance.AppearanceConfig.dividerStyle()
-                        == app.exteraless.appearance.AppearanceConfig.DIVIDER_SEGMENTS
-                        || app.exteraless.appearance.M3ListItems.enabled());
+                && (org.mzgram.appearance.AppearanceConfig.dividerStyle()
+                        == org.mzgram.appearance.AppearanceConfig.DIVIDER_SEGMENTS
+                        || org.mzgram.appearance.M3ListItems.enabled());
     }
 
-    /** Внутренний угол сегмента: у exteraGram min(радиус секции, 4dp). */
+    /** Внутренний угол сегмента: у MZGram min(радиус секции, 4dp). */
     private float segmentInnerRadius() {
         return Math.min(sectionRadius, dp(4));
     }

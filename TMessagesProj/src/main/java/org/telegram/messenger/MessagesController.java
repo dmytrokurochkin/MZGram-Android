@@ -139,24 +139,24 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.filters.AyuFilter;
-import tw.nekomimi.nekogram.filters.ReactionFilter;
-import tw.nekomimi.nekogram.helpers.ChatsHelper;
-import tw.nekomimi.nekogram.helpers.LocalNameHelper;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import xyz.nextalone.nagram.NaConfig;
-import xyz.nextalone.nagram.helper.LocalPremiumStatusHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.filters.ArcFilter;
+import org.mzgram.core.filters.ReactionFilter;
+import org.mzgram.core.helpers.ChatsHelper;
+import org.mzgram.core.helpers.LocalNameHelper;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.ext.helper.LocalPremiumStatusHelper;
 
-import com.radolyn.ayugram.AyuConstants;
-import com.radolyn.ayugram.messages.AyuSavePreferences;
-import com.radolyn.ayugram.messages.AyuMessagesController;
-import com.radolyn.ayugram.utils.AyuGhostUtils;
-import com.radolyn.ayugram.utils.AyuState;
-import com.radolyn.ayugram.utils.LastSeenHelper;
+import org.mzgram.arc.ArcConstants;
+import org.mzgram.arc.messages.ArcSavePreferences;
+import org.mzgram.arc.messages.ArcMessagesController;
+import org.mzgram.arc.utils.ArcGhostUtils;
+import org.mzgram.arc.utils.ArcState;
+import org.mzgram.arc.utils.LastSeenHelper;
 
 public class MessagesController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -886,7 +886,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (dialogFilters.isEmpty()) {
             return;
         }
-        if (!premium && !NekoConfig.localPremium.Bool()) {
+        if (!premium && !CoreConfig.localPremium.Bool()) {
             if (!dialogFilters.get(0).isDefault()) {
                 for (int i = 1; i < dialogFilters.size(); i++) {
                     if (dialogFilters.get(i).isDefault()) {
@@ -919,7 +919,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     if (!filtersSortedById.get(i).locked) {
                         changed = true;
                     }
-                    filtersSortedById.get(i).locked = !NekoConfig.localPremium.Bool();
+                    filtersSortedById.get(i).locked = !CoreConfig.localPremium.Bool();
                 } else {
                     if (filtersSortedById.get(i).locked) {
                         changed = true;
@@ -958,7 +958,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean isPremiumUser(TLRPC.User currentUser) {
-        return currentUser != null && (currentUser.premium || currentUser.id == getUserConfig().getClientUserId() && NekoConfig.localPremium.Bool()) && !isSupportUser(currentUser);
+        return currentUser != null && (currentUser.premium || currentUser.id == getUserConfig().getClientUserId() && CoreConfig.localPremium.Bool()) && !isSupportUser(currentUser);
     }
 
     public boolean didPressTranscribeButtonEnough() {
@@ -1454,7 +1454,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 return 0;
             }
         }
-        if (NaConfig.INSTANCE.getSortByUnread().Bool()) {
+        if (ExtConfig.INSTANCE.getSortByUnread().Bool()) {
             boolean priority1 = ChatsHelper.getInstance(currentAccount).isUnreadSortPriority(dialog1);
             boolean priority2 = ChatsHelper.getInstance(currentAccount).isUnreadSortPriority(dialog2);
             if (priority1 != priority2) {
@@ -1497,7 +1497,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 return 0;
             }
         }
-        if (NaConfig.INSTANCE.getSortByUnread().Bool()) {
+        if (ExtConfig.INSTANCE.getSortByUnread().Bool()) {
             boolean priority1 = ChatsHelper.getInstance(currentAccount).isUnreadSortPriority(dialog1);
             boolean priority2 = ChatsHelper.getInstance(currentAccount).isUnreadSortPriority(dialog2);
             if (priority1 != priority2) {
@@ -2518,7 +2518,7 @@ public class MessagesController extends BaseController implements NotificationCe
             } else if (response instanceof TLRPC.TL_messages_dialogFilters) {
                 TLRPC.TL_messages_dialogFilters res = (TLRPC.TL_messages_dialogFilters) response;
                 if (folderTags != res.tags_enabled) {
-                    setFolderTags(res.tags_enabled || !getUserConfig().isPremium() && NekoConfig.localPremium.Bool());
+                    setFolderTags(res.tags_enabled || !getUserConfig().isPremium() && CoreConfig.localPremium.Bool());
                     AndroidUtilities.runOnUIThread(() -> {
                         getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
                     });
@@ -6890,7 +6890,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         fromCache = fromCache && user.id / 1000 != 333 && user.id != 777000;
         TLRPC.User oldUser = users.get(user.id);
-        if (NaConfig.INSTANCE.getSaveLocalLastSeen().Bool() && user.id != getUserConfig().getClientUserId() && user.status instanceof TLRPC.TL_userStatusOffline) {
+        if (ExtConfig.INSTANCE.getSaveLocalLastSeen().Bool() && user.id != getUserConfig().getClientUserId() && user.status instanceof TLRPC.TL_userStatusOffline) {
             int lastSeen = user.status.expires;
             if (lastSeen > 0) {
                 LastSeenHelper.saveLastSeen(user.id, lastSeen);
@@ -9106,7 +9106,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 loadingBlockedPeers = false;
                 getNotificationCenter().postNotificationName(NotificationCenter.blockedUsersDidLoad);
-                if (!reset && !blockedEndReached && NekoConfig.ignoreBlocked.Bool()) {
+                if (!reset && !blockedEndReached && CoreConfig.ignoreBlocked.Bool()) {
                     getBlockedPeers(false);
                 }
             }
@@ -9538,17 +9538,17 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
 
-        // --- AyuGram hook
-        int ayuDeletedMessagesCount = 0;
-        if (!scheduled && NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
-            var ayuMessagesController = AyuMessagesController.getInstance();
+        // --- MZGram hook
+        int arcDeletedMessagesCount = 0;
+        if (!scheduled && ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+            var arcMessagesController = ArcMessagesController.getInstance();
             if (DialogObject.isEncryptedDialog(dialogId) && messages != null && !messages.isEmpty()) { // process TTL messages from secrets
                 final ArrayList<Integer> messagesCopy = new ArrayList<>(messages);
                 final long dialogIdFinal = dialogId;
                 getMessagesStorage().getStorageQueue().postRunnable(() -> {
                     for (int a = 0; a < messagesCopy.size(); a++) {
                         int msgId = messagesCopy.get(a);
-                        if (AyuState.isDeletePermitted(dialogIdFinal, msgId)) {
+                        if (ArcState.isDeletePermitted(dialogIdFinal, msgId)) {
                             continue;
                         }
                         MessageObject obj = dialogMessagesByIds.get(msgId);
@@ -9560,13 +9560,13 @@ public class MessagesController extends BaseController implements NotificationCe
                             }
                         }
                         if (obj != null) {
-                            var prefs = new AyuSavePreferences(obj.messageOwner, currentAccount);
+                            var prefs = new ArcSavePreferences(obj.messageOwner, currentAccount);
                             prefs.setDialogId(dialogIdFinal);
-                            ayuMessagesController.onMessageDeleted(prefs);
+                            arcMessagesController.onMessageDeleted(prefs);
                         }
                     }
                     AndroidUtilities.runOnUIThread(() -> {
-                        getNotificationCenter().postNotificationName(AyuConstants.MESSAGES_DELETED_NOTIFICATION, dialogIdFinal, messagesCopy);
+                        getNotificationCenter().postNotificationName(ArcConstants.MESSAGES_DELETED_NOTIFICATION, dialogIdFinal, messagesCopy);
                     });
                 });
             } else if (messages != null && !messages.isEmpty() && (taskId != 0 || cacheOnly)) { // process TTL messages
@@ -9575,7 +9575,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 getMessagesStorage().getStorageQueue().postRunnable(() -> {
                     var invalidate = new ArrayList<Integer>();
                     for (var msgId : messagesCopy) {
-                        if (AyuState.isDeletePermitted(dialogIdFinal, msgId)) {
+                        if (ArcState.isDeletePermitted(dialogIdFinal, msgId)) {
                             continue;
                         }
                         MessageObject obj = dialogMessagesByIds.get(msgId);
@@ -9583,35 +9583,35 @@ public class MessagesController extends BaseController implements NotificationCe
                         if (msg != null) {
                             if (msg.ttl > 0 || msg.ttl_period > 0) {
                                 invalidate.add(msgId);
-                                var prefs = new AyuSavePreferences(msg, currentAccount);
+                                var prefs = new ArcSavePreferences(msg, currentAccount);
                                 prefs.setDialogId(dialogIdFinal);
-                                ayuMessagesController.onMessageDeleted(prefs);
+                                arcMessagesController.onMessageDeleted(prefs);
                             }
                         }
                     }
                     AndroidUtilities.runOnUIThread(() -> {
-                        getNotificationCenter().postNotificationName(AyuConstants.MESSAGES_DELETED_NOTIFICATION, dialogIdFinal, invalidate);
+                        getNotificationCenter().postNotificationName(ArcConstants.MESSAGES_DELETED_NOTIFICATION, dialogIdFinal, invalidate);
                     });
                 });
             } else if ((messages != null && !messages.isEmpty())) { // process manual deletion of deleted messages
                 var userId = UserConfig.getInstance(currentAccount).clientUserId;
-                ArrayList<Integer> permittedForAyuDeletion = new ArrayList<>();
+                ArrayList<Integer> permittedForArcDeletion = new ArrayList<>();
                 for (var msgId : messages) {
-                    if (!AyuState.isDeleteKept(dialogId, msgId) && !AyuState.isDeletePermitted(dialogId, msgId)) {
-                        AyuState.permitDeleteMessage(dialogId, msgId);
+                    if (!ArcState.isDeleteKept(dialogId, msgId) && !ArcState.isDeletePermitted(dialogId, msgId)) {
+                        ArcState.permitDeleteMessage(dialogId, msgId);
                     }
-                    if (AyuState.isDeletePermitted(dialogId, msgId)) {
-                        permittedForAyuDeletion.add(msgId);
+                    if (ArcState.isDeletePermitted(dialogId, msgId)) {
+                        permittedForArcDeletion.add(msgId);
                     }
                 }
-                var existingMessageIds = ayuMessagesController.getExistingMessageIds(userId, dialogId, permittedForAyuDeletion);
+                var existingMessageIds = arcMessagesController.getExistingMessageIds(userId, dialogId, permittedForArcDeletion);
                 if (!existingMessageIds.isEmpty()) {
-                    Utilities.globalQueue.postRunnable(() -> ayuMessagesController.deleteMessages(userId, dialogId, existingMessageIds));
-                    ayuDeletedMessagesCount = existingMessageIds.size();
+                    Utilities.globalQueue.postRunnable(() -> arcMessagesController.deleteMessages(userId, dialogId, existingMessageIds));
+                    arcDeletedMessagesCount = existingMessageIds.size();
                 }
             }
         }
-        // --- AyuGram hook
+        // --- MZGram hook
 
         ArrayList<Integer> toSend = null;
         long channelId;
@@ -9667,8 +9667,8 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
 
-       // nax: do not send request if deleting ayuDeleted messages
-        if (messages != null && messages.size() == ayuDeletedMessagesCount) {
+       // nax: do not send request if deleting arcDeleted messages
+        if (messages != null && messages.size() == arcDeletedMessagesCount) {
             return;
         }
 
@@ -10140,7 +10140,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public ArrayList<TLRPC.Dialog> getDialogs(int folderId) {
         if (folderId == 0) {
-            final boolean hideArchive = NaConfig.INSTANCE.getHideArchive().Bool();
+            final boolean hideArchive = ExtConfig.INSTANCE.getHideArchive().Bool();
             final boolean hasArchiveDialog = dialogs_dict.get(DialogObject.makeFolderDialogId(1)) != null;
             if (hideArchive && hasArchiveDialog) {
                 removeFolder(1);
@@ -10370,14 +10370,14 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     protected void deleteDialog(long did, int first, int onlyHistory, int max_id, boolean revoke, TLRPC.InputPeer peer, long taskId) {
-        if (onlyHistory == 3 && NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+        if (onlyHistory == 3 && ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
             if (first == 1) {
-                com.radolyn.ayugram.messages.AyuDeletedDialogs.onDialogEmptied(currentAccount, did);
+                org.mzgram.arc.messages.ArcDeletedDialogs.onDialogEmptied(currentAccount, did);
             }
             return;
         }
         if (first == 1 && (onlyHistory == 0 || onlyHistory == 1)) {
-            com.radolyn.ayugram.messages.AyuDeletedDialogs.forget(currentAccount, did);
+            org.mzgram.arc.messages.ArcDeletedDialogs.forget(currentAccount, did);
         }
         if (onlyHistory == 2) {
             if (did == getUserConfig().getClientUserId()) {
@@ -11519,12 +11519,12 @@ public class MessagesController extends BaseController implements NotificationCe
                 Integer threadId = threadEntry.getKey();
                 ArrayList<PrintingUser> arr = threadEntry.getValue();
                 // ignoreBlocked start
-                if (AyuFilter.shouldHideSenders()) {
-                    boolean hideBlocked = NekoConfig.ignoreBlocked.Bool();
+                if (ArcFilter.shouldHideSenders()) {
+                    boolean hideBlocked = CoreConfig.ignoreBlocked.Bool();
                     LongSparseIntArray blockePeersCopy = blockePeers.clone();
                     ArrayList<PrintingUser> filteredArr = new ArrayList<>();
                     for (PrintingUser pu : arr) {
-                        if ((!hideBlocked || blockePeersCopy.indexOfKey(pu.userId) < 0) && !AyuFilter.isCustomFilteredPeer(pu.userId)) {
+                        if ((!hideBlocked || blockePeersCopy.indexOfKey(pu.userId) < 0) && !ArcFilter.isCustomFilteredPeer(pu.userId)) {
                             filteredArr.add(pu);
                         }
                     }
@@ -11799,7 +11799,7 @@ public class MessagesController extends BaseController implements NotificationCe
             } else if (action == 9) {
                 req.action = new TLRPC.TL_sendMessageUploadAudioAction();
             } else if (action == 10) {
-                if (NekoConfig.disableChoosingSticker.Bool())
+                if (CoreConfig.disableChoosingSticker.Bool())
                     req.action = new TLRPC.TL_sendMessageTypingAction();
                 else
                     req.action = new TLRPC.TL_sendMessageChooseStickerAction();
@@ -12044,7 +12044,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         if (res instanceof TLRPC.TL_messages_messagesNotModified) {
                             return;
                         }
-                        if (app.exteraless.chats.ScheduledGuard.stale(currentAccount, dialogId, res)) {
+                        if (org.mzgram.chats.ScheduledGuard.stale(currentAccount, dialogId, res)) {
                             AndroidUtilities.runOnUIThread(() -> lastScheduledServerQueryTime.remove(dialogId));
                             return;
                         }
@@ -12726,7 +12726,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void checkArchiveFolder() {
-        if (NaConfig.INSTANCE.getHideArchive().Bool()) {
+        if (ExtConfig.INSTANCE.getHideArchive().Bool()) {
             if (dialogs_dict.get(DialogObject.makeFolderDialogId(1)) != null) {
                 removeFolder(1);
             }
@@ -14250,7 +14250,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 loadUnreadDialogs();
                 if (loadType == DIALOGS_LOAD_TYPE_CACHE && folderId == 0) {
-                    com.radolyn.ayugram.messages.AyuDeletedDialogs.restore(currentAccount);
+                    org.mzgram.arc.messages.ArcDeletedDialogs.restore(currentAccount);
                 }
                 if (dialogsRes.dialogs != null) {
                     for (int i = 0; i < dialogsRes.dialogs.size(); i++) {
@@ -14912,13 +14912,13 @@ public class MessagesController extends BaseController implements NotificationCe
                 return;
             }
             req.id.add(mid);
-            getConnectionsManager().sendRequest(AyuGhostUtils.bypass(req), (response, error) -> {
+            getConnectionsManager().sendRequest(ArcGhostUtils.bypass(req), (response, error) -> {
 
             });
         } else {
             TLRPC.TL_messages_readMessageContents req = new TLRPC.TL_messages_readMessageContents();
             req.id.add(mid);
-            getConnectionsManager().sendRequest(AyuGhostUtils.bypass(req), (response, error) -> {
+            getConnectionsManager().sendRequest(ArcGhostUtils.bypass(req), (response, error) -> {
                 if (error == null) {
                     TLRPC.TL_messages_affectedMessages res = (TLRPC.TL_messages_affectedMessages) response;
                     processNewDifferenceParams(-1, res.pts, -1, res.pts_count);
@@ -16049,7 +16049,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }, ConnectionsManager.RequestFlagInvokeAfter);
     }
 
-    private final app.exteraless.privacy.BotStartDeduplicator botPrivacyStarts = new app.exteraless.privacy.BotStartDeduplicator();
+    private final org.mzgram.privacy.BotStartDeduplicator botPrivacyStarts = new org.mzgram.privacy.BotStartDeduplicator();
 
     public void sendBotStart(final TLRPC.User user, String botHash) {
         sendBotStart(user, botHash, false);
@@ -16057,12 +16057,12 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public void sendBotStart(final TLRPC.User user, String botHash, boolean fromInlineSwitch) {
         // Inline switch-to-PM must return to the originating account's inline query.
-        if (!fromInlineSwitch && user != null && app.exteraless.privacy.BotAccountRouter.guardSend(currentAccount, user.id, () -> sendBotStart(user, botHash))) return;
+        if (!fromInlineSwitch && user != null && org.mzgram.privacy.BotAccountRouter.guardSend(currentAccount, user.id, () -> sendBotStart(user, botHash))) return;
         if (user == null) {
             return;
         }
         final long botPrivacyIdentity = getUserConfig().getClientUserId();
-        final boolean botPrivacyDedupe = !fromInlineSwitch && app.exteraless.privacy.BotAccountRouter.enabled();
+        final boolean botPrivacyDedupe = !fromInlineSwitch && org.mzgram.privacy.BotAccountRouter.enabled();
         if (botPrivacyDedupe && !botPrivacyStarts.begin(botPrivacyIdentity, user.id, botHash)) return;
         TLRPC.TL_messages_startBot req = new TLRPC.TL_messages_startBot();
         req.bot = getInputUser(user);
@@ -16718,7 +16718,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         boolean registeredForCurrentPush = getUserConfig().registeredForPush && pushType == SharedConfig.pushType && regid.equals(SharedConfig.pushString);
         if (pushType == PushListenerController.PUSH_TYPE_WEB) {
-            String simplePushToken = NaConfig.INSTANCE.getPushServiceTypeUnifiedSimple().String();
+            String simplePushToken = ExtConfig.INSTANCE.getPushServiceTypeUnifiedSimple().String();
             if (!registeredForCurrentPush || !simplePushToken.equals(registeredSimplePushToken)) {
                 registerSimplePush(simplePushToken);
             }
@@ -18010,7 +18010,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 getMessagesStorage().getStorageQueue().postRunnable(() -> AndroidUtilities.runOnUIThread(() -> {
                     loadingPinnedDialogs.delete(folderId);
                     applyDialogsNotificationsSettings(newPinnedDialogs);
-                    final boolean keepLocalPins = NekoConfig.unlimitedPinnedDialogs.Bool();
+                    final boolean keepLocalPins = CoreConfig.unlimitedPinnedDialogs.Bool();
                     boolean changed = false;
                     boolean added = false;
                     int maxPinnedNum = 0;
@@ -18437,11 +18437,11 @@ public class MessagesController extends BaseController implements NotificationCe
 
     // must be run from Utilities.stageQueue
     public void processUpdates(final TLRPC.Updates originalUpdates, boolean fromQueue) {
-        // exteraless plugins: on_updates_hook (CANCEL = контейнер не обрабатывается)
-        app.exteraless.plugins.HookResult hookResult = app.exteraless.plugins.PluginsController.getInstance().hasAnyUpdatesContainerHooks()
-                ? app.exteraless.plugins.PluginsController.getInstance()
-                        .executeOnUpdatesHook(currentAccount, app.exteraless.plugins.PluginsController.hookName(originalUpdates), originalUpdates)
-                : app.exteraless.plugins.HookResult.DEFAULT;
+        // mzgram plugins: on_updates_hook (CANCEL = контейнер не обрабатывается)
+        org.mzgram.plugins.HookResult hookResult = org.mzgram.plugins.PluginsController.getInstance().hasAnyUpdatesContainerHooks()
+                ? org.mzgram.plugins.PluginsController.getInstance()
+                        .executeOnUpdatesHook(currentAccount, org.mzgram.plugins.PluginsController.hookName(originalUpdates), originalUpdates)
+                : org.mzgram.plugins.HookResult.DEFAULT;
         if (hookResult.isCancel()) {
             return;
         }
@@ -19018,16 +19018,16 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             return true;
         }
-        // exteraless plugins: on_update_hook (CANCEL = апдейт выкидывается из обработки).
+        // mzgram plugins: on_update_hook (CANCEL = апдейт выкидывается из обработки).
         // Список принадлежит вызывающему (res.other_updates, updates.updates) и в
         // некоторых ветках обрабатывается повторно, поэтому фильтруем в копию,
         // а не мутируем чужое.
-        if (app.exteraless.plugins.PluginsController.getInstance().hasAnyUpdateHooks()) {
+        if (org.mzgram.plugins.PluginsController.getInstance().hasAnyUpdateHooks()) {
             ArrayList<TLRPC.Update> allowed = null;
             int updateIndex = 0;
             for (TLRPC.Update u : updates) {
-                app.exteraless.plugins.HookResult updateResult = app.exteraless.plugins.PluginsController.getInstance()
-                        .executeOnUpdateHook(currentAccount, app.exteraless.plugins.PluginsController.hookName(u), u);
+                org.mzgram.plugins.HookResult updateResult = org.mzgram.plugins.PluginsController.getInstance()
+                        .executeOnUpdateHook(currentAccount, org.mzgram.plugins.PluginsController.hookName(u), u);
                 TLRPC.Update replacement = updateResult.replacement(TLRPC.Update.class);
                 if (allowed == null && (updateResult.isCancel() || (replacement != null && replacement != u))) {
                     allowed = new ArrayList<>(updates.size());
@@ -20231,7 +20231,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 long dialogId = MessageObject.getPeerId(update.peer);
 
                 ignorePendingReadReactions(dialogId, update.msg_id, update.reactions);
-                if (NaConfig.INSTANCE.getSaveLocalLastSeen().Bool()) {
+                if (ExtConfig.INSTANCE.getSaveLocalLastSeen().Bool()) {
                     LastSeenHelper.saveLastSeenFromMessageReactions(update.reactions, getUserConfig().getClientUserId());
                 }
 
@@ -20405,9 +20405,9 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
 
-        // --- AyuGram request hook
-        if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() && deletedMessages != null) {
-            var ayuMessagesController = AyuMessagesController.getInstance();
+        // --- MZGram request hook
+        if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() && deletedMessages != null) {
+            var arcMessagesController = ArcMessagesController.getInstance();
             var deletedMessagesFinal = deletedMessages.clone();
             getMessagesStorage().getStorageQueue().postRunnable(() -> {
                 var notificationsToSend = new LongSparseArray<ArrayList<Integer>>();
@@ -20430,8 +20430,8 @@ public class MessagesController extends BaseController implements NotificationCe
                         if (messagesToSave != null && !messagesToSave.isEmpty()) {
                             for (var msg : messagesToSave) {
                                 var topicId = MessageObject.getTopicId(currentAccount, msg, isForum(dialogId));
-                                var prefs = new AyuSavePreferences(msg, currentAccount, dialogId, topicId, msg.id, (int)(currentTime / 1000));
-                                ayuMessagesController.onMessageDeleted(prefs);
+                                var prefs = new ArcSavePreferences(msg, currentAccount, dialogId, topicId, msg.id, (int)(currentTime / 1000));
+                                arcMessagesController.onMessageDeleted(prefs);
                             }
                         }
                         notificationsToSend.put(dialogId, messageIds);
@@ -20442,13 +20442,13 @@ public class MessagesController extends BaseController implements NotificationCe
                         for (int i = 0, n = notificationsToSend.size(); i < n; i++) {
                             long dialogId = notificationsToSend.keyAt(i);
                             ArrayList<Integer> messageIds = notificationsToSend.valueAt(i);
-                            getNotificationCenter().postNotificationName(AyuConstants.MESSAGES_DELETED_NOTIFICATION, dialogId, messageIds);
+                            getNotificationCenter().postNotificationName(ArcConstants.MESSAGES_DELETED_NOTIFICATION, dialogId, messageIds);
                         }
                     });
                 }
             });
         }
-        // --- AyuGram request hook
+        // --- MZGram request hook
 
         if (messages != null) {
             for (int a = 0, size = messages.size(); a < size; a++) {
@@ -20648,7 +20648,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else if (update.status instanceof TLRPC.TL_userStatusLastMonth) {
                             update.status.expires = -102;
                         }
-                        if (NaConfig.INSTANCE.getSaveLocalLastSeen().Bool() && update.status instanceof TLRPC.TL_userStatusOffline) {
+                        if (ExtConfig.INSTANCE.getSaveLocalLastSeen().Bool() && update.status instanceof TLRPC.TL_userStatusOffline) {
                             int lastSeen = update.status.expires;
                             if (lastSeen > 0) {
                                 LastSeenHelper.saveLastSeen(update.user_id, lastSeen);
@@ -21921,7 +21921,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (webPages != null) {
             getMessagesStorage().putWebPages(webPages);
         }
-        com.radolyn.ayugram.messages.AyuSpyController.onUpdatesRead(currentAccount, markAsReadMessagesOutbox, markAsReadEncrypted, markContentAsReadMessages, markContentAsReadMessagesDate, date);
+        org.mzgram.arc.messages.ArcSpyController.onUpdatesRead(currentAccount, markAsReadMessagesOutbox, markAsReadEncrypted, markContentAsReadMessages, markContentAsReadMessagesDate, date);
         if (markAsReadMessagesInbox != null || markAsReadMessagesOutbox != null || markAsReadEncrypted != null || markContentAsReadMessages != null || stillUnreadMessagesCount != null) {
             if (markAsReadMessagesInbox != null || markAsReadMessagesOutbox != null || markContentAsReadMessages != null || stillUnreadMessagesCount != null) {
                 getMessagesStorage().updateDialogsWithReadMessages(markAsReadMessagesInbox, markAsReadMessagesOutbox, markContentAsReadMessages, stillUnreadMessagesCount, true);
@@ -23360,7 +23360,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public String getRestrictionReason(ArrayList<TLRPC.RestrictionReason> reasons) {
-        if (reasons.isEmpty() || NekoConfig.ignoreContentRestrictions.Bool()) {
+        if (reasons.isEmpty() || CoreConfig.ignoreContentRestrictions.Bool()) {
             return null;
         }
         for (int a = 0, N = reasons.size(); a < N; a++) {
@@ -24473,7 +24473,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean storiesEnabled() {
-        if (NaConfig.INSTANCE.getDisableStories().Bool()) return false;
+        if (ExtConfig.INSTANCE.getDisableStories().Bool()) return false;
         switch (storiesPosting) {
             case "premium":
                 return getUserConfig().isPremium();
@@ -26400,7 +26400,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (registrationId != simplePushRegistrationId) {
                     return;
                 }
-                String currentToken = NaConfig.getPreferences().getString(NaConfig.INSTANCE.getPushServiceTypeUnifiedSimple().getKey(), "");
+                String currentToken = ExtConfig.getPreferences().getString(ExtConfig.INSTANCE.getPushServiceTypeUnifiedSimple().getKey(), "");
                 boolean currentRegistration = token.equals(currentToken);
                 if (response instanceof TLRPC.TL_boolTrue && currentRegistration) {
                     FileLog.d("account " + currentAccount + " registered simple push");

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
 
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class GroupCallMessage {
     public final int currentAccount;

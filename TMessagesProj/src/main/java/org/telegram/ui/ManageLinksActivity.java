@@ -91,7 +91,7 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class ManageLinksActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -673,7 +673,7 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
                 LinkCell cell = (LinkCell) view;
                 cell.optionsView.callOnClick();
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignored) {}
                 return true;
             }

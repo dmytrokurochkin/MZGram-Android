@@ -80,9 +80,9 @@ import org.telegram.utils.glass.GlassEngine;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.AppRestartHelper;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.AppRestartHelper;
+import org.mzgram.ext.ExtConfig;
 
 public class LiteModeSettingsActivity extends BaseFragment {
 
@@ -292,10 +292,10 @@ public class LiteModeSettingsActivity extends BaseFragment {
             if (!LiteMode.isFollowSystemPowerSaver()) {
                 items.add(Item.asSlider());
             }
-            items.add(Item.asSwitch(LocaleController.getString(R.string.OELiteFollowSystemSaver), SWITCH_TYPE_FOLLOW_SYSTEM_SAVER));
+            items.add(Item.asSwitch(LocaleController.getString(R.string.MZLiteFollowSystemSaver), SWITCH_TYPE_FOLLOW_SYSTEM_SAVER));
             items.add(Item.asInfo(
                 LiteMode.isFollowSystemPowerSaver() ?
-                    LocaleController.getString(R.string.OELiteFollowSystemSaverInfo) :
+                    LocaleController.getString(R.string.MZLiteFollowSystemSaverInfo) :
                 LiteMode.getPowerSaverLevel() <= 0 ?
                     LocaleController.getString(R.string.LiteBatteryInfoDisabled) :
                 LiteMode.getPowerSaverLevel() >= 100 ?
@@ -324,7 +324,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             }
             items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsSpoiler"), LiteMode.FLAG_CHAT_SPOILER));
             // MZGram: solid Material surfaces have no blur or glass to switch here.
-            final boolean materialSurfaces = app.exteraless.appearance.AppearanceConfig.materialSurfaces();
+            final boolean materialSurfaces = org.mzgram.appearance.AppearanceConfig.materialSurfaces();
             if (!materialSurfaces && (SharedConfig.getDevicePerformanceClass() >= SharedConfig.PERFORMANCE_CLASS_AVERAGE || BuildVars.DEBUG_PRIVATE_VERSION)) {
                 items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur2"), LiteMode.FLAG_CHAT_BLUR));
             }
@@ -364,12 +364,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
         if (getParentActivity() == null) {
             return;
         }
-        final int current = NaConfig.INSTANCE.getPerformanceClass().Int();
+        final int current = ExtConfig.INSTANCE.getPerformanceClass().Int();
         showDialog(AlertsCreator.createSingleChoiceDialog(getParentActivity(), performanceClassOptions(), LocaleController.getString(R.string.PerformanceClass), current, (dialog, which) -> {
             if (which == current) {
                 return;
             }
-            NaConfig.INSTANCE.getPerformanceClass().setConfigInt(which);
+            ExtConfig.INSTANCE.getPerformanceClass().setConfigInt(which);
             adapter.notifyItemChanged(position);
             showRestartHint();
         }));
@@ -377,8 +377,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
 
     private void showRestartHint() {
         BulletinFactory.of(this)
-                .createSimpleBulletin(R.raw.info, LocaleController.getString(R.string.OEAppearanceNeedRestart),
-                        LocaleController.getString(R.string.OEAppearanceRestartNow),
+                .createSimpleBulletin(R.raw.info, LocaleController.getString(R.string.MZAppearanceNeedRestart),
+                        LocaleController.getString(R.string.MZAppearanceRestartNow),
                         () -> {
                             Activity activity = getParentActivity();
                             if (activity != null) {
@@ -527,7 +527,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 TextCell textCell = (TextCell) holder.itemView;
                 if (item.type == TYPE_PERFORMANCE_CLASS) {
                     String[] options = performanceClassOptions();
-                    int index = Math.max(0, Math.min(NaConfig.INSTANCE.getPerformanceClass().Int(), options.length - 1));
+                    int index = Math.max(0, Math.min(ExtConfig.INSTANCE.getPerformanceClass().Int(), options.length - 1));
                     textCell.setTextAndValue(item.text, options[index], false);
                 }
             }
@@ -866,7 +866,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
 
                         if (newValue <= 0 || newValue >= 100) {
                             try {
-                                if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                                if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                             } catch (Exception e) {}
                         }
                     }

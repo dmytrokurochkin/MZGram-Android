@@ -123,9 +123,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.LocalNameHelper;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.LocalNameHelper;
+import org.mzgram.core.utils.AndroidUtil;
 
 public class ChatEditActivity extends BaseFragment implements ImageUpdater.ImageUpdaterDelegate, NotificationCenter.NotificationCenterDelegate {
 
@@ -728,9 +728,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 super.invalidate(l, t, r, b);
             }
         };
-        avatarImage.setRoundRadius(app.exteraless.appearance.AppearanceConfig.getAvatarCorners(
-                dp(64), forum ? app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_FORUM
-                             : app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT));
+        avatarImage.setRoundRadius(org.mzgram.appearance.AppearanceConfig.getAvatarCorners(
+                dp(64), forum ? org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_FORUM
+                             : org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT));
         avatarImage.getImageReceiver().setAvatarCornersApplied(true);
 
         if (canEditBotInfo() || currentUser == null && ChatObject.canChangeChatInfo(currentChat)) {
@@ -1154,7 +1154,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         }
                         BulletinFactory.of(this).createSimpleBulletin(R.raw.topics, text).show();
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) frameLayout.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                            if (!CoreConfig.disableVibration.Bool()) frameLayout.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                         } catch (Exception ignored) {}
                         return;
                     }

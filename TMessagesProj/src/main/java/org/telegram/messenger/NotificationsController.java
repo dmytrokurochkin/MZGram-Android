@@ -8,7 +8,7 @@
 
 package org.telegram.messenger;
 
-import app.exteraless.notifications.NotificationsHelper;
+import org.mzgram.notifications.NotificationsHelper;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -103,11 +103,11 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.NekoXConfig;
-import tw.nekomimi.nekogram.filters.AyuFilter;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.CoreXConfig;
+import org.mzgram.core.filters.ArcFilter;
+import org.mzgram.core.helpers.PasscodeHelper;
+import org.mzgram.ext.ExtConfig;
 
 public class NotificationsController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1209,7 +1209,7 @@ public class NotificationsController extends BaseController implements Notificat
         }
 
         if (isLast) {
-            app.exteraless.glyph.GlyphController.getInstance().onNewMessages(messageObjects, currentAccount);
+            org.mzgram.glyph.GlyphController.getInstance().onNewMessages(messageObjects, currentAccount);
         }
 
         ArrayList<MessageObject> popupArrayAdd = new ArrayList<>(0);
@@ -1235,13 +1235,13 @@ public class NotificationsController extends BaseController implements Notificat
                     }
                     continue;
                 }
-                if (NekoConfig.ignoreBlocked.Bool() && getMessagesController().blockePeers.indexOfKey(messageObject.getFromChatId()) >= 0 || AyuFilter.isCustomFilteredPeer(messageObject.getFromChatId())) {
+                if (CoreConfig.ignoreBlocked.Bool() && getMessagesController().blockePeers.indexOfKey(messageObject.getFromChatId()) >= 0 || ArcFilter.isCustomFilteredPeer(messageObject.getFromChatId())) {
                     continue;
                 }
-                if (AyuFilter.isBlockedChannel(messageObject.getFromChatId())) {
+                if (ArcFilter.isBlockedChannel(messageObject.getFromChatId())) {
                     continue;
                 }
-                if (!messageObject.isOauthPush && AyuFilter.isFiltered(messageObject, null)) {
+                if (!messageObject.isOauthPush && ArcFilter.isFiltered(messageObject, null)) {
                     continue;
                 }
                 if (messageObject.isStoryPush) {
@@ -1964,7 +1964,7 @@ public class NotificationsController extends BaseController implements Notificat
 
     private boolean shouldHideNotificationContentForPasscode() {
         return (AndroidUtilities.needShowPasscode() || SharedConfig.isWaitingForPasscodeEnter) &&
-                !NaConfig.INSTANCE.getShowNotificationPreviewWhenLocked().Bool();
+                !ExtConfig.INSTANCE.getShowNotificationPreviewWhenLocked().Bool();
     }
 
     public String getShortStringForMessage(MessageObject messageObject, String[] userName, boolean[] preview) {
@@ -2647,7 +2647,7 @@ public class NotificationsController extends BaseController implements Notificat
             return null;
         }
         StringBuilder stringBuilder = new StringBuilder(text);
-        if (NekoConfig.showSpoilersDirectly.Bool())
+        if (CoreConfig.showSpoilersDirectly.Bool())
             return stringBuilder.toString();
         if (messageObject != null && messageObject.didSpoilLoginCode()) {
             return stringBuilder.toString();
@@ -3835,7 +3835,7 @@ public class NotificationsController extends BaseController implements Notificat
             } else {
                 icon = IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group);
             }
-            if (supportsBubble && !NekoConfig.disableNotificationBubbles.Bool()) {
+            if (supportsBubble && !CoreConfig.disableNotificationBubbles.Bool()) {
                 NotificationCompat.BubbleMetadata.Builder bubbleBuilder =
                         new NotificationCompat.BubbleMetadata.Builder(
                                 PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT),
@@ -4597,7 +4597,7 @@ public class NotificationsController extends BaseController implements Notificat
             }
             SharedPreferences preferences = getAccountInstance().getNotificationsSettings();
             int dismissDate = preferences.getInt("dismissDate", 0);
-            if (!lastMessageObject.isStoryPush && (lastMessageObject.messageOwner.date <= dismissDate && NaConfig.INSTANCE.getPushServiceType().Int() != 3)) {
+            if (!lastMessageObject.isStoryPush && (lastMessageObject.messageOwner.date <= dismissDate && ExtConfig.INSTANCE.getPushServiceType().Int() != 3)) {
                 dismissNotification();
                 return;
             }
@@ -4674,7 +4674,7 @@ public class NotificationsController extends BaseController implements Notificat
                         name = LocaleController.getString(R.string.NotificationHiddenName);
                     }
                 } else {
-                    name = LocaleController.getString(R.string.NagramX);
+                    name = LocaleController.getString(R.string.MZGram);
                 }
                 replace = false;
             } else {
@@ -4743,7 +4743,7 @@ public class NotificationsController extends BaseController implements Notificat
                 for (int i = 0; i < count; i++) {
                     MessageObject messageObject = pushMessages.get(i);
                     String message = getStringForMessage(messageObject, false, text, null);
-                    if (message == null || !messageObject.isStoryPush && (messageObject.messageOwner.date <= dismissDate && NaConfig.INSTANCE.getPushServiceType().Int() != 3)) {
+                    if (message == null || !messageObject.isStoryPush && (messageObject.messageOwner.date <= dismissDate && ExtConfig.INSTANCE.getPushServiceType().Int() != 3)) {
                         continue;
                     }
                     if (silent == 2) {
@@ -4878,7 +4878,7 @@ public class NotificationsController extends BaseController implements Notificat
                     .setGroupSummary(true)
                     .setShowWhen(true)
                     .setWhen(((long) lastMessageObject.messageOwner.date) * 1000)
-                    .setColor(NekoXConfig.getNotificationColor());
+                    .setColor(CoreXConfig.getNotificationColor());
 
             long[] vibrationPattern = null;
             Uri sound = null;
@@ -5137,7 +5137,7 @@ public class NotificationsController extends BaseController implements Notificat
             long dialog_id = messageObject.getDialogId();
             long topicId = MessageObject.getTopicId(currentAccount, messageObject.messageOwner, getMessagesController().isForum(messageObject));
             int dismissDate = preferences.getInt("dismissDate" + dialog_id, 0);
-            if (!messageObject.isStoryPush && (messageObject.messageOwner.date <= dismissDate && NaConfig.INSTANCE.getPushServiceType().Int() != 3)) {
+            if (!messageObject.isStoryPush && (messageObject.messageOwner.date <= dismissDate && ExtConfig.INSTANCE.getPushServiceType().Int() != 3)) {
                 FileLog.d("showExtraNotifications: dialog " + dialog_id + " is skipped, message date (" + messageObject.messageOwner.date + " <= " + dismissDate + ")");
                 continue;
             }
@@ -5202,7 +5202,7 @@ public class NotificationsController extends BaseController implements Notificat
 
         long selfUserId = getUserConfig().getClientUserId();
         boolean waitingForPasscode = AndroidUtilities.needShowPasscode() || SharedConfig.isWaitingForPasscodeEnter;
-        boolean hideNotificationContent = waitingForPasscode && !NaConfig.INSTANCE.getShowNotificationPreviewWhenLocked().Bool();
+        boolean hideNotificationContent = waitingForPasscode && !ExtConfig.INSTANCE.getShowNotificationPreviewWhenLocked().Bool();
         boolean passcode = SharedConfig.passcodeHash.length() > 0;
         FileLog.d("showExtraNotifications: passcode="+passcode+" waitingForPasscode=" + waitingForPasscode + " hideNotificationContent=" + hideNotificationContent + " selfUserId=" + selfUserId + " useSummaryNotification=" + useSummaryNotification);
 
@@ -5563,13 +5563,13 @@ public class NotificationsController extends BaseController implements Notificat
                         FileLog.d("showExtraNotifications: ["+dialogId+"] continue; topic id is not equal: topicId=" + topicId + " messageTopicId=" + messageTopicId + "; selfId=" + getUserConfig().getClientUserId());
                         continue;
                     }
-                    if (NekoConfig.ignoreBlocked.Bool() && getMessagesController().blockePeers.indexOfKey(messageObject.getFromChatId()) >= 0 || AyuFilter.isCustomFilteredPeer(messageObject.getFromChatId())) {
+                    if (CoreConfig.ignoreBlocked.Bool() && getMessagesController().blockePeers.indexOfKey(messageObject.getFromChatId()) >= 0 || ArcFilter.isCustomFilteredPeer(messageObject.getFromChatId())) {
                         continue;
                     }
-                    if (AyuFilter.isBlockedChannel(messageObject.getFromChatId())) {
+                    if (ArcFilter.isBlockedChannel(messageObject.getFromChatId())) {
                         continue;
                     }
-                    if (!messageObject.isOauthPush && AyuFilter.isFiltered(messageObject, null)) {
+                    if (!messageObject.isOauthPush && ArcFilter.isFiltered(messageObject, null)) {
                         continue;
                     }
                     String message = getShortStringForMessage(messageObject, senderName, preview);
@@ -5891,7 +5891,7 @@ public class NotificationsController extends BaseController implements Notificat
                     .setContentText(text.toString())
                     .setAutoCancel(true)
                     .setNumber(dialogKey.story ? storyPushMessages.size() : messageObjects.size())
-                    .setColor(NekoXConfig.getNotificationColor())
+                    .setColor(CoreXConfig.getNotificationColor())
                     .setGroupSummary(false)
                     .setWhen(date)
                     .setShowWhen(true)
@@ -6632,15 +6632,15 @@ public class NotificationsController extends BaseController implements Notificat
     }
 
     private int getNotificationIconResId() {
-        int notificationIconConfigValue = NaConfig.INSTANCE.getNotificationIcon().Int();
+        int notificationIconConfigValue = ExtConfig.INSTANCE.getNotificationIcon().Int();
         switch (notificationIconConfigValue) {
             case 0:
                 return R.drawable.notification;
             case 1:
-                return R.drawable.exteraless_notification;
+                return R.drawable.mzgram_notification;
         }
 
-        return R.drawable.exteraless_notification;
+        return R.drawable.mzgram_notification;
     }
 
     public void loadTopicsNotificationsExceptions(long dialogId, Consumer<HashSet<Integer>> consumer) {

@@ -273,19 +273,19 @@ import java.util.zip.ZipInputStream;
 import java.util.HashSet;
 
 import kotlin.text.StringsKt;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MonetHelper;
-import tw.nekomimi.nekogram.helpers.SettingsHelper;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
-import tw.nekomimi.nekogram.helpers.remote.PagePreviewRulesHelper;
-import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
-import app.exteraless.chats.UserLookup;
-import app.exteraless.settings.OpenExteraSettingsActivity;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import tw.nekomimi.nekogram.utils.ProxyUtil;
-import xyz.nextalone.nagram.NaConfig;
-import tw.nekomimi.nekogram.ui.icons.IconsResources;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.MonetHelper;
+import org.mzgram.core.helpers.SettingsHelper;
+import org.mzgram.core.helpers.remote.EmojiHelper;
+import org.mzgram.core.helpers.remote.PagePreviewRulesHelper;
+import org.mzgram.core.helpers.remote.UpdateHelper;
+import org.mzgram.chats.UserLookup;
+import org.mzgram.settings.MZGramSettingsActivity;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.core.utils.ProxyUtil;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.core.ui.icons.IconsResources;
 
 public class LaunchActivity extends BasePermissionsActivity implements INavigationLayout.INavigationLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
     public final static String EXTRA_FORCE_NOT_INTERNAL_APPS = "force_not_internal_apps";
@@ -490,7 +490,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         flagSecureReason.attach();
 
         super.onCreate(savedInstanceState);
-        app.exteraless.general.GeneralHelper.applyContentCapture(this);
+        org.mzgram.general.GeneralHelper.applyContentCapture(this);
         if (Build.VERSION.SDK_INT >= 24) {
             AndroidUtilities.isInMultiwindow = isInMultiWindowMode();
         }
@@ -794,9 +794,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
         RestrictedLanguagesSelectActivity.checkRestrictedLanguages(false);
         // Жест «назад» системы (Android 14+) обязан двигать экран на любом фрагменте.
-        // Раньше эта регистрация висела на NaConfig.backAnimationStyle == PREDICTIVE,
+        // Раньше эта регистрация висела на ExtConfig.backAnimationStyle == PREDICTIVE,
         // а мы по умолчанию ставим SPRING (без него не видно пружинных переходов
-        // NagramX) — и системный жест не анимировал ничего вообще: SystemUI рисовал
+        // MZGram) — и системный жест не анимировал ничего вообще: SystemUI рисовал
         // свою стрелку, приложение стояло на месте. Регистрируем всегда: M3-карточка
         // не зависит от стиля переходов, а переключателя у неё больше нет — он
         // менялся на лету, тогда как колбэк ставится один раз при создании активити,
@@ -1372,9 +1372,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (drawerLayoutContainer == null) {
             return;
         }
-        if (app.exteraless.appearance.AppearanceConfig.navigationDrawer()) {
+        if (org.mzgram.appearance.AppearanceConfig.navigationDrawer()) {
             if (drawerLayoutContainer.getDrawerContainer() == null) {
-                drawerLayoutContainer.setDrawerContainer(new app.exteraless.drawer.DrawerContainer(this));
+                drawerLayoutContainer.setDrawerContainer(new org.mzgram.drawer.DrawerContainer(this));
             }
         } else if (drawerLayoutContainer.getDrawerContainer() != null) {
             drawerLayoutContainer.setDrawerContainer(null);
@@ -1664,21 +1664,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         return handleIntent(intent, isNew, restore, fromPassword, null, true, false);
     }
 
-    // exteraless plugins: обёртка маршрутизации интентов с before/after-хендлерами плагинов.
+    // mzgram plugins: обёртка маршрутизации интентов с before/after-хендлерами плагинов.
     // before, вернувший true, глотает интент (оригинальная обработка не выполняется);
     // after зовётся всегда (finally) после оригинальной обработки.
     private boolean handleIntent(Intent intent, boolean isNew, boolean restore, boolean fromPassword, Browser.Progress progress, boolean rebuildFragments, boolean openedTelegram) {
-        if (intent != null && app.exteraless.plugins.PluginsController.getInstance().isEngineEnabled()
-                && app.exteraless.plugins.intents.IntentsDispatcher.hasHandlers()) {
-            java.util.Map<String, Object> pluginContext = app.exteraless.plugins.intents.IntentsDispatcher.buildIntentContext(
+        if (intent != null && org.mzgram.plugins.PluginsController.getInstance().isEngineEnabled()
+                && org.mzgram.plugins.intents.IntentsDispatcher.hasHandlers()) {
+            java.util.Map<String, Object> pluginContext = org.mzgram.plugins.intents.IntentsDispatcher.buildIntentContext(
                     intent, intent.getIntExtra("currentAccount", UserConfig.selectedAccount), true);
-            if (app.exteraless.plugins.intents.IntentsDispatcher.dispatchBefore(pluginContext)) {
+            if (org.mzgram.plugins.intents.IntentsDispatcher.dispatchBefore(pluginContext)) {
                 return true;
             }
             try {
                 return handleIntentInternal(intent, isNew, restore, fromPassword, progress, rebuildFragments, openedTelegram);
             } finally {
-                app.exteraless.plugins.intents.IntentsDispatcher.dispatchAfter(pluginContext);
+                org.mzgram.plugins.intents.IntentsDispatcher.dispatchAfter(pluginContext);
             }
         }
         return handleIntentInternal(intent, isNew, restore, fromPassword, progress, rebuildFragments, openedTelegram);
@@ -1865,7 +1865,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             } else if ((text.startsWith("http://") || text.startsWith("https://")) && !TextUtils.isEmpty(subject)) {
                                 text = subject + "\n" + text;
                             }
-                            sendingText = app.exteraless.links.LinkCleaner.cleanString(text);
+                            sendingText = org.mzgram.links.LinkCleaner.cleanString(text);
                         } else if (!TextUtils.isEmpty(subject)) {
                             sendingText = subject;
                         }
@@ -2089,9 +2089,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
                     Uri data = intent.getData();
 
-                    // exteraless plugins: файл плагина, открытый снаружи (тап в чате,
+                    // mzgram plugins: файл плагина, открытый снаружи (тап в чате,
                     // файловый менеджер). Проверка по расширению, до разбора ссылок.
-                    if (app.exteraless.plugins.PluginInstallHelper.handleViewIntent(this, data)) {
+                    if (org.mzgram.plugins.PluginInstallHelper.handleViewIntent(this, data)) {
                         return true;
                     }
 
@@ -2186,8 +2186,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         String path = data.getPath();
                                         if (path != null && path.length() > 1) {
                                             path = path.substring(1);
-                                            if (app.exteraless.plugins.PluginsController.isSettingsLink(path, data)) {
-                                                app.exteraless.plugins.PluginsController.openSettingsLink(data);
+                                            if (org.mzgram.plugins.PluginsController.isSettingsLink(path, data)) {
+                                                org.mzgram.plugins.PluginsController.openSettingsLink(data);
                                             } else if (path.startsWith("$")) {
                                                 inputInvoiceSlug = path.substring(1);
                                             } else if (path.startsWith("invoice/")) {
@@ -2314,7 +2314,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         actionBarLayout.showLastFragment();
                                                         rightActionBarLayout.showLastFragment();
                                                     }
-                                                }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString(R.string.OEUnknownSettingsOption))));
+                                                }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString(R.string.MZUnknownSettingsOption))));
                                             } else if (path.startsWith("msg/") || path.startsWith("share/")) {
                                                 message = data.getQueryParameter("url");
                                                 if (message == null) {
@@ -2858,7 +2858,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             open_settings = 8;
                                         } else if (url.contains("?disablelogs")) {
                                             open_settings = 9;
-                                        } else if (url.contains("neko")) {
+                                        } else if (url.contains("mzgram")) {
                                             open_settings = 100;
                                         } else if (url.contains("premium_sms")) {
                                             open_settings = 13;
@@ -2889,8 +2889,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             FileLog.e(e);
                                         }
                                         checkAppUpdate(true, null, updateAlways);
-                                    } else if (url.startsWith("tg:neko") || url.startsWith("tg://neko")) {
-                                        url = url.replace("tg:neko", "tg://t.me/nasettings").replace("tg://neko", "tg://t.me/nasettings");
+                                    } else if (url.startsWith("tg:mzgram") || url.startsWith("tg://mzgram")) {
+                                        url = url.replace("tg:mzgram", "tg://t.me/coresettings").replace("tg://mzgram", "tg://t.me/coresettings");
                                         data = Uri.parse(url);
                                         SettingsHelper.processDeepLink(this, data, fragment -> {
                                             AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
@@ -2898,7 +2898,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 actionBarLayout.showLastFragment();
                                                 rightActionBarLayout.showLastFragment();
                                             }
-                                        }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString(R.string.OEUnknownSettingsOption))));
+                                        }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString(R.string.MZUnknownSettingsOption))));
                                     } else if ((url.startsWith("tg:search") || url.startsWith("tg://search"))) {
                                         url = url.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org");
                                         data = Uri.parse(url);
@@ -3286,7 +3286,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             args.putLong("user_id", user.id);
                             presentFragment(new ProfileActivity(args));
                         } else {
-                            BulletinFactory.of(lastFragment).createErrorBulletin(LocaleController.formatString(R.string.OEUserLookupNotFound, lookupUserId)).show();
+                            BulletinFactory.of(lastFragment).createErrorBulletin(LocaleController.formatString(R.string.MZUserLookupNotFound, lookupUserId)).show();
                         }
                     });
                 } else {
@@ -3362,7 +3362,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else if (showPlayer) {
                 if (!actionBarLayout.getFragmentStack().isEmpty()) {
                     BaseFragment fragment = actionBarLayout.getFragmentStack().get(0);
-                    fragment.showDialog(app.exteraless.player.Md3Player.create(this, null));
+                    fragment.showDialog(org.mzgram.player.Md3Player.create(this, null));
                 }
                 pushOpened = false;
             } else if (showLocations) {
@@ -3462,7 +3462,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
                     fragment = null;
                 } else if (open_settings == 100) {
-                    fragment = new OpenExteraSettingsActivity();
+                    fragment = new MZGramSettingsActivity();
                 } else if (ApplicationLoader.applicationLoaderInstance != null) {
                     fragment = ApplicationLoader.applicationLoaderInstance.openSettings(open_settings);
                 } else {
@@ -3658,7 +3658,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (fragment != null) {
                 Bulletin.make(fragment, layout, duration).show();
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) fragment.fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) fragment.fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignored) {}
             }
         });
@@ -4394,7 +4394,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didReceiveSmsCode, code);
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                builder.setTitle(LocaleController.getString(R.string.NagramX));
+                builder.setTitle(LocaleController.getString(R.string.MZGram));
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.OtherLoginCode, code)));
                 builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
                 showAlertDialog(builder);
@@ -4617,30 +4617,30 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (progress != null) {
                 progress.init();
             }
-            app.exteraless.privacy.BotAccountRouter.enabled();
+            org.mzgram.privacy.BotAccountRouter.enabled();
             final long botPrivacyIdentity = UserConfig.getInstance(intentAccount).getClientUserId();
             final int botPrivacyActive = UserConfig.selectedAccount;
-            final long botPrivacySetting = app.exteraless.general.GeneralConfig.botPrivacyUserId.Long();
-            final boolean botPrivacyAlwaysAsk = app.exteraless.general.GeneralConfig.botPrivacyAlwaysAsk.Bool();
+            final long botPrivacySetting = org.mzgram.general.GeneralConfig.botPrivacyUserId.Long();
+            final boolean botPrivacyAlwaysAsk = org.mzgram.general.GeneralConfig.botPrivacyAlwaysAsk.Bool();
             MessagesController.getInstance(intentAccount).getUserNameResolver().resolve(username, referrer, (peerId) -> {
-                if (app.exteraless.privacy.BotAccountRouter.enabled() &&
+                if (org.mzgram.privacy.BotAccountRouter.enabled() &&
                         (botPrivacyIdentity != UserConfig.getInstance(intentAccount).getClientUserId() ||
                          botPrivacyActive != UserConfig.selectedAccount ||
-                         botPrivacySetting != app.exteraless.general.GeneralConfig.botPrivacyUserId.Long() ||
-                         botPrivacyAlwaysAsk != app.exteraless.general.GeneralConfig.botPrivacyAlwaysAsk.Bool())) {
+                         botPrivacySetting != org.mzgram.general.GeneralConfig.botPrivacyUserId.Long() ||
+                         botPrivacyAlwaysAsk != org.mzgram.general.GeneralConfig.botPrivacyAlwaysAsk.Bool())) {
                     dismissLoading.run();
                     return;
                 }
                 if (peerId != null && peerId > 0 && state != 2 && game == null && auth == null &&
                         botChat == null && botChannel == null && setAsAttachBot == null && attachMenuBotToOpen == null &&
                         storyId == 0 && !liveStory && storyAlbumId == 0 && messageId == null &&
-                        app.exteraless.privacy.BotAccountRouter.enabled()) {
+                        org.mzgram.privacy.BotAccountRouter.enabled()) {
                     TLRPC.User bot = MessagesController.getInstance(intentAccount).getUser(peerId);
                     if (bot != null && bot.bot) {
                         dismissLoading.run();
-                        app.exteraless.privacy.BotAccountRouter.resolve(this, bot, intentAccount, false, account -> {
+                        org.mzgram.privacy.BotAccountRouter.resolve(this, bot, intentAccount, false, account -> {
                             if (account != UserConfig.selectedAccount) switchToAccount(account, true);
-                            app.exteraless.privacy.BotAccountRouter.allowNextOpen(account, bot.id);
+                            org.mzgram.privacy.BotAccountRouter.allowNextOpen(account, bot.id);
                             runLinkRequest(account, username, group, sticker, emoji, botUser, botChat, botChannel, botChatAdminParams, message, contactToken, folderSlug, text, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, loginToken, wallPaper, inputInvoiceSlug, uniqueGiftSlug, theme, voicechat, videochat, livestream, 2, videoTimestamp, setAsAttachBot, attachMenuBotToOpen, attachMenuBotChoose, botAppMaybe, botAppStartParam, progress, forceNotInternalForApps, storyId, liveStory, storyAlbumId, giftCollectionId, auctionSlug, stargiftPreviewSlug, isBoost, chatLinkSlug, botCompact, botFullscreen, openedTelegram, openProfile, forceRequest, referrer, taskId, openDirect, pollOptionId);
                         });
                         return;
@@ -5392,7 +5392,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             BulletinFactory.of(getSafeLastFragment()).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.InviteExpired)).show();
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                            builder.setTitle(LocaleController.getString(R.string.NagramX));
+                            builder.setTitle(LocaleController.getString(R.string.MZGram));
                             if (error.text.startsWith("FLOOD_WAIT")) {
                                 builder.setMessage(LocaleController.getString(R.string.FloodWait));
                             } else if (error.text.startsWith("INVITE_HASH_EXPIRED")) {
@@ -5460,7 +5460,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 }
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                                builder.setTitle(LocaleController.getString(R.string.NagramX));
+                                builder.setTitle(LocaleController.getString(R.string.MZGram));
                                 if (error.text.startsWith("FLOOD_WAIT")) {
                                     builder.setMessage(LocaleController.getString(R.string.FloodWait));
                                 } else if (error.text.equals("USERS_TOO_MUCH")) {
@@ -6394,12 +6394,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public void checkAppUpdate(boolean force, Browser.Progress progress, boolean updateAlways) {
-        if (!tw.nekomimi.nekogram.helpers.remote.BaseRemoteHelper.hasMetadataChannel()) {
+        if (!org.mzgram.core.helpers.remote.BaseRemoteHelper.hasMetadataChannel()) {
             UpdateHelper.cleanAppUpdate();
             if (progress != null) {
                 progress.end();
             }
-            app.exteraless.updater.GitHubUpdater.check(force || progress != null);
+            org.mzgram.updater.GitHubUpdater.check(force || progress != null);
             return;
         }
        /*if (!ApplicationLoader.isStandaloneBuild() && !ApplicationLoader.isBetaBuild()) {
@@ -7177,12 +7177,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     @Override
     protected void onPause() {
         // Пауза голосовых и кружков при сворачивании приложения.
-        // exteraGram зовёт это из didReceivedNotification по stopAllHeavyOperations(4096);
+        // MZGram зовёт это из didReceivedNotification по stopAllHeavyOperations(4096);
         // у нас такой ветки нет, а onPause наступает ровно в тот же момент.
         MediaController.getInstance().pauseInBackgroundIfNeeded();
         super.onPause();
         isResumed = false;
-        app.exteraless.plugins.PluginsController.getInstance().executeOnAppEvent(app.exteraless.plugins.PluginsConstants.EVENT_APP_PAUSE);
+        org.mzgram.plugins.PluginsController.getInstance().executeOnAppEvent(org.mzgram.plugins.PluginsConstants.EVENT_APP_PAUSE);
         WidgetMedia.onAppPaused(true);
         PipCoordinator.getInstance().onActivityPause(this);
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 4096);
@@ -7378,8 +7378,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     @Override
     protected void onDestroy() {
-        app.exteraless.icons.picker.IconPickerController.onDestroy();
-        app.exteraless.plugins.PluginsController.getInstance().executeOnAppEvent(app.exteraless.plugins.PluginsConstants.EVENT_APP_STOP);
+        org.mzgram.icons.picker.IconPickerController.onDestroy();
+        org.mzgram.plugins.PluginsController.getInstance().executeOnAppEvent(org.mzgram.plugins.PluginsConstants.EVENT_APP_STOP);
         GramWalletStorageAuth.onActivityDestroyed(this);
         PipCoordinator.getInstance().onActivityDestroy(this);
         isActive = false;
@@ -7506,9 +7506,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         super.onResume();
         WidgetMedia.onAppPaused(false);
         isResumed = true;
-        app.exteraless.plugins.PluginsController.getInstance().executeOnAppEvent(app.exteraless.plugins.PluginsConstants.EVENT_APP_RESUME);
-        app.exteraless.plugins.PluginDenialNotice.flush();
-        app.exteraless.crash.CrashReportDialog.showIfPending(this);
+        org.mzgram.plugins.PluginsController.getInstance().executeOnAppEvent(org.mzgram.plugins.PluginsConstants.EVENT_APP_RESUME);
+        org.mzgram.plugins.PluginDenialNotice.flush();
+        org.mzgram.crash.CrashReportDialog.showIfPending(this);
         PipCoordinator.getInstance().onActivityResume(this);
         if (onResumeStaticCallback != null) {
             onResumeStaticCallback.run();
@@ -7564,7 +7564,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         }
 
-        if (app.exteraless.OpenExteraConfig.hasProxyDisableConditions()) {
+        if (org.mzgram.MZGramConfig.hasProxyDisableConditions()) {
             ProxyUtil.registerNetworkCallback();
         }
 
@@ -7773,7 +7773,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(LocaleController.getString(R.string.NagramX));
+            builder.setTitle(LocaleController.getString(R.string.MZGram));
             if (fragment != null) {
                 Map<String, Integer> colorsReplacement = new HashMap<>();
                 colorsReplacement.put("info1", fragment.getThemedColor(Theme.key_dialogTopBackground));
@@ -7841,7 +7841,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         } else if (id == NotificationCenter.wasUnableToFindCurrentLocation) {
             final HashMap<String, MessageObject> waitingForLocation = (HashMap<String, MessageObject>) args[0];
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(LocaleController.getString(R.string.NagramX));
+            builder.setTitle(LocaleController.getString(R.string.MZGram));
             builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
             builder.setNegativeButton(LocaleController.getString(R.string.ShareYouLocationUnableManually), (dialogInterface, i) -> {
                 if (mainFragmentsStack.isEmpty()) {
@@ -8911,7 +8911,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public boolean onBackPressed(boolean invoked) {
-        if (app.exteraless.icons.picker.IconPickerController.onBackPressed(invoked)) {
+        if (org.mzgram.icons.picker.IconPickerController.onBackPressed(invoked)) {
             return false;
         }
         if (FloatingDebugController.onBackPressed(invoked)) {
@@ -9051,7 +9051,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         showVoiceChatTooltip(mute ? UndoView.ACTION_VOIP_SOUND_MUTED : UndoView.ACTION_VOIP_SOUND_UNMUTED);
                     }
                 }
-            } else if (app.exteraless.chats.ChatsConfig.INSTANCE.unmuteWithVolumeButtons()
+            } else if (org.mzgram.chats.ChatsConfig.INSTANCE.unmuteWithVolumeButtons()
                     && !mainFragmentsStack.isEmpty() && (!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && event.getRepeatCount() == 0) {
                 BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
                 if (fragment instanceof ChatActivity && !BaseFragment.hasSheets(fragment)) {
@@ -9102,7 +9102,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     @Override
     public boolean needPresentFragment(INavigationLayout layout, INavigationLayout.NavigationParams params) {
-        if (app.exteraless.privacy.BotAccountRouter.interceptChat(this, layout, params)) return false;
+        if (org.mzgram.privacy.BotAccountRouter.interceptChat(this, layout, params)) return false;
         BaseFragment fragment = params.fragment;
         boolean removeLast = params.removeLast;
         boolean forceWithoutAnimation = params.noAnimation;
@@ -9712,8 +9712,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     private static void dismissPlayerSheets() {
-        if (app.exteraless.player.PlayerSheet.instance != null) {
-            app.exteraless.player.PlayerSheet.instance.dismissImmediately();
+        if (org.mzgram.player.PlayerSheet.instance != null) {
+            org.mzgram.player.PlayerSheet.instance.dismissImmediately();
         }
         if (AudioPlayerAlert.instance != null) {
             AudioPlayerAlert.instance.dismiss();

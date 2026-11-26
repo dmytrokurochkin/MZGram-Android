@@ -106,11 +106,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
-import me.vkryl.android.animator.ListAnimator;
-import me.vkryl.android.animator.ReplaceAnimator;
-import me.vkryl.core.lambda.Destroyable;
+import org.mzgram.ux.android.animator.ListAnimator;
+import org.mzgram.ux.android.animator.ReplaceAnimator;
+import org.mzgram.ux.core.lambda.Destroyable;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class FragmentContextView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, VoIPService.StateListener, GroupCallMessagesController.CallMessageListener, Theme.Colorable  {
     public final static int STYLE_NOT_SET = -1,
@@ -602,7 +602,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
 
                 AndroidUtilities.runOnUIThread(toggleMicRunnable, 90);
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) muteButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) muteButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignore) {}
             };
 
@@ -639,7 +639,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                             if (VoIPService.getSharedInstance() != null) {
                                 VoIPService.getSharedInstance().setMicMute(true, true, false);
                                 try {
-                                    if (!NekoConfig.disableVibration.Bool()) muteButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                                    if (!CoreConfig.disableVibration.Bool()) muteButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                                 } catch (Exception ignore) {}
                             }
                             pressed = false;
@@ -698,7 +698,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             Theme.getFragmentContextViewWavesDrawable().updateState(true);
             capsuleBlobDrawable.updateState(true);
             try {
-                if (!NekoConfig.disableVibration.Bool()) muteButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                if (!CoreConfig.disableVibration.Bool()) muteButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
             } catch (Exception ignore) {}
         });
 
@@ -742,7 +742,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     ThemeBind.textColor(button, Theme.key_text_RedBold, resourcesProvider);
                 }
             } else {
-                if (app.exteraless.player.Md3Player.miniEnabled()) {
+                if (org.mzgram.player.Md3Player.miniEnabled()) {
                     MediaController.getInstance().clearMusicPlaylistState();
                 }
                 MediaController.getInstance().cleanupPlayer(true, true);
@@ -778,9 +778,9 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     if (messageObject.isMusic() || messageObject.isVoice()) {
                         final Activity activity = AndroidUtilities.findActivity(getContext());
                         if (activity instanceof LaunchActivity) {
-                            app.exteraless.player.Md3Player.create(activity, resourcesProvider).show();
+                            org.mzgram.player.Md3Player.create(activity, resourcesProvider).show();
                         } else if (AndroidUtilities.isContextSafe(LaunchActivity.instance)) {
-                            app.exteraless.player.Md3Player.create(LaunchActivity.instance, resourcesProvider).show();
+                            org.mzgram.player.Md3Player.create(LaunchActivity.instance, resourcesProvider).show();
                         }
                     } else {
                         long dialogId = 0;
@@ -1662,15 +1662,15 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     float micAmplitude;
 
     public int getStyleHeight() {
-        return currentStyle == STYLE_INACTIVE_GROUP_CALL ? 48 : md3Music ? app.exteraless.player.PlayerBarView.HEIGHT_DP : 36;
+        return currentStyle == STYLE_INACTIVE_GROUP_CALL ? 48 : md3Music ? org.mzgram.player.PlayerBarView.HEIGHT_DP : 36;
     }
 
-    private app.exteraless.player.PlayerBarView md3Bar;
+    private org.mzgram.player.PlayerBarView md3Bar;
     private boolean md3Music;
 
     private boolean computeMd3Music() {
         MessageObject messageObject = MediaController.getInstance().getPlayingMessageObject();
-        return currentStyle == STYLE_AUDIO_PLAYER && app.exteraless.player.Md3Player.miniEnabled() && messageObject != null && messageObject.isMusic();
+        return currentStyle == STYLE_AUDIO_PLAYER && org.mzgram.player.Md3Player.miniEnabled() && messageObject != null && messageObject.isMusic();
     }
 
     private void checkMd3Bar() {
@@ -1678,8 +1678,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         boolean changed = value != md3Music;
         md3Music = value;
         if (value && md3Bar == null) {
-            md3Bar = new app.exteraless.player.PlayerBarView(getContext(), resourcesProvider, this::performClick, () -> closeButton.performClick());
-            addView(md3Bar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, app.exteraless.player.PlayerBarView.HEIGHT_DP, Gravity.TOP | Gravity.LEFT));
+            md3Bar = new org.mzgram.player.PlayerBarView(getContext(), resourcesProvider, this::performClick, () -> closeButton.performClick());
+            addView(md3Bar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, org.mzgram.player.PlayerBarView.HEIGHT_DP, Gravity.TOP | Gravity.LEFT));
         }
         if (md3Bar != null) {
             md3Bar.setVisibility(value ? VISIBLE : GONE);
@@ -1925,7 +1925,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
         }
         boolean wasVisible = visible;
-        if (messageObject == null || messageObject.getId() == 0 || messageObject.isVideo() || app.exteraless.player.Md3Player.hidesContextPlayer(fragment, messageObject)) {
+        if (messageObject == null || messageObject.getId() == 0 || messageObject.isVideo() || org.mzgram.player.Md3Player.hidesContextPlayer(fragment, messageObject)) {
             lastMessageObject = null;
             boolean callAvailable = supportsCalls && VoIPService.getSharedInstance() != null && !VoIPService.getSharedInstance().isHangingUp() && VoIPService.getSharedInstance().getCallState() != VoIPService.STATE_WAITING_INCOMING && !GroupCallPip.isShowing();
             if (!isPlayingVoice() && !callAvailable && chatActivity != null && !GroupCallPip.isShowing()) {

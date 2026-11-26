@@ -126,8 +126,8 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     private BaseFragment fragment;
     private Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress;
     private boolean firstTranslation = true;
-    private final boolean nekoProviders = app.exteraless.chats.ChatsConfig.translateInSheet.Bool();
-    private int sheetProvider = tw.nekomimi.nekogram.NekoConfig.translationProvider.Int();
+    private final boolean coreProviders = org.mzgram.chats.ChatsConfig.translateInSheet.Bool();
+    private int sheetProvider = org.mzgram.core.CoreConfig.translationProvider.Int();
 
     public TranslateAlert2(
         Context context,
@@ -328,8 +328,8 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             aiReplacementCancel = null;
         }
 
-        if (nekoProviders && reqRichMessage == null && !reqSum
-                && sheetProvider != tw.nekomimi.nekogram.translate.Translator.providerTelegram) {
+        if (coreProviders && reqRichMessage == null && !reqSum
+                && sheetProvider != org.mzgram.core.translate.Translator.providerTelegram) {
             translateWithProvider();
             return;
         }
@@ -415,17 +415,17 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                     adapter.updateMainView(textViewContainer);
                 }
             };
-            if (app.exteraless.ai.TelegramAiReplacement.replacesSummaries(currentAccount)) {
-                aiReplacementCancel = app.exteraless.ai.TelegramAiReplacement.translate(textWithEntities.text, lang, res -> {
+            if (org.mzgram.ai.TelegramAiReplacement.replacesSummaries(currentAccount)) {
+                aiReplacementCancel = org.mzgram.ai.TelegramAiReplacement.translate(textWithEntities.text, lang, res -> {
                     aiReplacementCancel = null;
                     onResult.run(res, null);
                 }, (code, message) -> {
                     aiReplacementCancel = null;
                     if (firstTranslation) {
                         dismiss();
-                        com.exteragram.messenger.ai.AiController.showErrorBulletin(org.telegram.ui.LaunchActivity.getSafeLastFragment(), code);
+                        org.mzgram.sdk.ai.AiController.showErrorBulletin(org.telegram.ui.LaunchActivity.getSafeLastFragment(), code);
                     } else {
-                        com.exteragram.messenger.ai.AiController.showErrorBulletin((FrameLayout) containerView, resourcesProvider, code);
+                        org.mzgram.sdk.ai.AiController.showErrorBulletin((FrameLayout) containerView, resourcesProvider, code);
                         headerView.toLanguageTextView.setText(languageName(toLanguage = prevToLanguage));
                         adapter.updateMainView(textViewContainer);
                     }
@@ -492,7 +492,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
 
     private void translateWithProvider() {
         final int request = ++providerRequest;
-        app.exteraless.utils.text.TranslatorUtils.translate(reqText == null ? "" : reqText, toLanguage, providerEntities, new app.exteraless.utils.text.TranslatorUtils.TranslateCallback() {
+        org.mzgram.utils.text.TranslatorUtils.translate(reqText == null ? "" : reqText, toLanguage, providerEntities, new org.mzgram.utils.text.TranslatorUtils.TranslateCallback() {
             @Override
             public void onSuccess(TLRPC.TL_textWithEntities result) {
                 if (request != providerRequest || isDismissed() || result == null) {
@@ -529,10 +529,10 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             return;
         }
         sheetProvider = provider;
-        if (provider != tw.nekomimi.nekogram.translate.Translator.providerTelegram || org.telegram.messenger.UserConfig.getInstance(currentAccount).isPremium()) {
-            tw.nekomimi.nekogram.NekoConfig.translationProvider.setConfigInt(provider);
+        if (provider != org.mzgram.core.translate.Translator.providerTelegram || org.telegram.messenger.UserConfig.getInstance(currentAccount).isPremium()) {
+            org.mzgram.core.CoreConfig.translationProvider.setConfigInt(provider);
         }
-        headerView.titleTextView.setText(tw.nekomimi.nekogram.settings.NekoTranslatorSettingsActivity.getProviderName(provider));
+        headerView.titleTextView.setText(org.mzgram.core.settings.CoreTranslatorSettingsActivity.getProviderName(provider));
         adapter.updateMainView(reqRichMessage != null ? richLoadingPreviewView : loadingTextView);
         translate();
     }
@@ -1318,8 +1318,8 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             titleTextView.setText(LocaleController.getString(R.string.AutomaticTranslation));
             titleTextView.setPivotX(0);
             titleTextView.setPivotY(0);
-            if (nekoProviders) {
-                titleTextView.setText(tw.nekomimi.nekogram.settings.NekoTranslatorSettingsActivity.getProviderName(sheetProvider));
+            if (coreProviders) {
+                titleTextView.setText(org.mzgram.core.settings.CoreTranslatorSettingsActivity.getProviderName(sheetProvider));
                 titleTextView.setSingleLine(true);
                 titleTextView.setEllipsize(TextUtils.TruncateAt.END);
                 Drawable arrow = ContextCompat.getDrawable(context, R.drawable.ic_arrow_drop_down);
@@ -1334,7 +1334,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                     }
                 }
                 titleTextView.setCompoundDrawablePadding(dp(2));
-                titleTextView.setOnClickListener(v -> tw.nekomimi.nekogram.translate.Translator.showProviderSelect(titleTextView, provider -> {
+                titleTextView.setOnClickListener(v -> org.mzgram.core.translate.Translator.showProviderSelect(titleTextView, provider -> {
                     onProviderSelected(provider);
                     return kotlin.Unit.INSTANCE;
                 }));

@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
@@ -533,7 +533,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 break;
             }
         }
-        if (NekoConfig.disableTrending.Bool() && !isPremium && !hasInstalledUnlockedPacks) {
+        if (CoreConfig.disableTrending.Bool() && !isPremium && !hasInstalledUnlockedPacks) {
             showSettingsTab();
             return;
         }

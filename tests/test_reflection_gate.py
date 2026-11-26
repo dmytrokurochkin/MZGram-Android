@@ -9,9 +9,9 @@ from test_sdk_nx_port import loader, sdk
 @pytest.fixture
 def audit(monkeypatch):
     records = []
-    module = types.ModuleType('extera_utils.audit_gate')
+    module = types.ModuleType('mz_utils.audit_gate')
     module.note_denied_class = lambda pid, name, perm: records.append((pid, name, perm))
-    monkeypatch.setitem(sys.modules, 'extera_utils.audit_gate', module)
+    monkeypatch.setitem(sys.modules, 'mz_utils.audit_gate', module)
     return records
 
 
@@ -42,10 +42,10 @@ def test_ordinary_targets_allowed_without_frame_walk(loader, monkeypatch):
 
 def test_interior_targets_denied_for_plugin_frames(loader, monkeypatch, audit):
     gate = owner_gate(loader, monkeypatch)
-    for target in ["app.exteraless.plugins.PluginRuntime",
-                   "app.exteraless.plugins.PluginGrantStore",
-                   "app.exteraless.plugins.PluginPermissions",
-                   "app.exteraless.plugins.PluginTrustLevel"]:
+    for target in ["org.mzgram.plugins.PluginRuntime",
+                   "org.mzgram.plugins.PluginGrantStore",
+                   "org.mzgram.plugins.PluginPermissions",
+                   "org.mzgram.plugins.PluginTrustLevel"]:
         for op in ["Class.forName", "ClassLoader.loadClass", "Method.invoke",
                    "Field.get", "Field.set", "AccessibleObject.setAccessible",
                    "Constructor.newInstance", "Class.newInstance", "cast",
@@ -56,11 +56,11 @@ def test_interior_targets_denied_for_plugin_frames(loader, monkeypatch, audit):
 
 def test_published_plugin_surface_stays_reflectable(loader, monkeypatch, audit):
     gate = owner_gate(loader, monkeypatch)
-    for target in ["app.exteraless.plugins.PluginsController",
-                   "app.exteraless.plugins.ui.PluginSettingsActivity",
-                   "app.exteraless.plugins.models.SwitchSetting",
-                   "com.exteragram.messenger.plugins.PluginsController",
-                   "com.exteragram.messenger.plugins.ui.PluginSettingsActivity"]:
+    for target in ["org.mzgram.plugins.PluginsController",
+                   "org.mzgram.plugins.ui.PluginSettingsActivity",
+                   "org.mzgram.plugins.models.SwitchSetting",
+                   "org.mzgram.sdk.plugins.PluginsController",
+                   "org.mzgram.sdk.plugins.ui.PluginSettingsActivity"]:
         for op in ["Class.forName", "Method.invoke", "Field.get",
                    "AccessibleObject.setAccessible"]:
             assert gate(op, target, "member") is True
@@ -69,23 +69,23 @@ def test_published_plugin_surface_stays_reflectable(loader, monkeypatch, audit):
 
 def test_interior_targets_allowed_for_engine_frames(loader, monkeypatch):
     gate = owner_gate(loader, monkeypatch, owner=None)
-    assert gate("Class.forName", "app.exteraless.plugins.PluginRuntime", None) is True
-    assert gate("Method.invoke", "app.exteraless.plugins.PluginSinkGate", "hook") is True
+    assert gate("Class.forName", "org.mzgram.plugins.PluginRuntime", None) is True
+    assert gate("Method.invoke", "org.mzgram.plugins.PluginSinkGate", "hook") is True
 
 
 def test_interior_denied_via_alias_and_signatures(loader, monkeypatch):
     gate = owner_gate(loader, monkeypatch)
-    assert gate("Class.forName", "com.exteragram.messenger.plugins.PluginRuntime",
+    assert gate("Class.forName", "org.mzgram.sdk.plugins.PluginRuntime",
                 None) is False
-    assert gate("Class.forName", "[Lapp/exteraless/plugins/PluginRuntime;", None) is False
-    assert gate("ClassLoader.loadClass", "app/exteraless/plugins/PluginRuntime",
+    assert gate("Class.forName", "[Lorg/mzgram/plugins/PluginRuntime;", None) is False
+    assert gate("ClassLoader.loadClass", "org/mzgram/plugins/PluginRuntime",
                 None) is False
 
 
 def test_alias_resolution_keeps_plain_targets_plain(loader, monkeypatch):
     gate = owner_gate(loader, monkeypatch)
-    assert gate("Class.forName", "com.exteragram.messenger.ExteraConfig", None) is True
-    assert gate("Class.forName", "com.exteragram.messenger.utils.SomeUtil", None) is True
+    assert gate("Class.forName", "org.mzgram.sdk.MZConfig", None) is True
+    assert gate("Class.forName", "org.mzgram.sdk.utils.SomeUtil", None) is True
     assert gate("Class.forName", "[Ljava/lang/String;", None) is True
 
 
@@ -124,16 +124,16 @@ def test_proxy_interface_tuples(loader, monkeypatch):
                 None) is True
     assert gate("Proxy.newProxyInstance",
                 ("com.chaquo.python.DynamicProxy",
-                 "app.exteraless.plugins.PluginRuntime"), None) is False
+                 "org.mzgram.plugins.PluginRuntime"), None) is False
     assert gate("Proxy.getProxyClass", (), None) is True
 
 
 def test_unsafe_mode_and_engine_lookup_allow_everything(loader, monkeypatch):
     gate = owner_gate(loader, monkeypatch, unsafe=True, perms=())
-    assert gate("Class.forName", "app.exteraless.plugins.PluginRuntime", None) is True
+    assert gate("Class.forName", "org.mzgram.plugins.PluginRuntime", None) is True
     assert gate("Unsafe", "sun.misc.Unsafe", "allocateInstance") is True
     gate = owner_gate(loader, monkeypatch, engine=True, perms=())
-    assert gate("Method.invoke", "app.exteraless.plugins.PluginRuntime", "run") is True
+    assert gate("Method.invoke", "org.mzgram.plugins.PluginRuntime", "run") is True
 
 
 def test_non_string_targets_allowed(loader, monkeypatch):
@@ -150,8 +150,8 @@ def test_verdict_cache_reuses_classification(loader, monkeypatch):
     assert 'org.telegram.messenger.MessagesStorage' in cache
     assert cache['org.telegram.messenger.MessagesStorage'] == \
         ('perm', 'messages.read')
-    assert gate("Class.forName", "app.exteraless.plugins.PluginRuntime", None) is False
-    assert cache['app.exteraless.plugins.PluginRuntime'] == 'deny'
+    assert gate("Class.forName", "org.mzgram.plugins.PluginRuntime", None) is False
+    assert cache['org.mzgram.plugins.PluginRuntime'] == 'deny'
 
 
 def test_install_reflection_gate_installs_policy(loader, monkeypatch):

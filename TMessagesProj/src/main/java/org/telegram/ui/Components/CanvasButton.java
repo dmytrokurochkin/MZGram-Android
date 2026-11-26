@@ -24,7 +24,7 @@ import org.telegram.ui.Cells.BaseCell;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class CanvasButton {
 
@@ -44,7 +44,7 @@ public class CanvasButton {
         @Override
         public void run() {
             checkTouchEvent(MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, 0, 0, 0));
-            if (!NekoConfig.disableVibration.Bool()) parent.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            if (!CoreConfig.disableVibration.Bool()) parent.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             if (longPressRunnable != null) {
                 longPressRunnable.run();
             }

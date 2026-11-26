@@ -16,12 +16,12 @@ import android.view.View;
 
 import androidx.core.graphics.ColorUtils;
 
-import app.exteraless.appearance.AppearanceConfig;
+import org.mzgram.appearance.AppearanceConfig;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class DividerCell extends View {
 
@@ -46,11 +46,11 @@ public class DividerCell extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // Линия рисуется только в режиме «Линия» — как у exteraGram
+        // Линия рисуется только в режиме «Линия» — как у MZGram
         // (12.9.0:DividerCell.java:39). Ветка forceDarkTheme берёт цвет не из
         // key_divider, поэтому патча в Theme.getColor тут не хватает: в режиме
         // «Сегменты» линия иначе осталась бы поверх карточек.
-        if (NaConfig.INSTANCE.getHideDividers().Bool() || AppearanceConfig.dividerHidden()) {
+        if (ExtConfig.INSTANCE.getHideDividers().Bool() || AppearanceConfig.dividerHidden()) {
             return;
         }
         if (forceDarkTheme) {

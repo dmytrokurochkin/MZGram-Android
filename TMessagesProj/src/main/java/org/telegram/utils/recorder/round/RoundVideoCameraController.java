@@ -1650,7 +1650,7 @@ final class RoundVideoCameraController {
                         + ", active=" + activeControls);
             }
         }
-        if (app.exteraless.chats.ChatsConfig.cameraStabilization.Bool()) {
+        if (org.mzgram.chats.ChatsConfig.cameraStabilization.Bool()) {
             applyStabilization(builder, selection.characteristics);
         }
         if (activeControls) {

@@ -60,7 +60,7 @@ import org.telegram.ui.Components.URLSpanBotCommand;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Stories.recorder.DominantColors;
 
-import tw.nekomimi.nekogram.helpers.MessageHelper;
+import org.mzgram.core.helpers.MessageHelper;
 
 class ChatMessageLinkPreview {
 

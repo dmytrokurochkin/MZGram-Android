@@ -51,8 +51,8 @@ public class UItem extends AdapterWithDiffUtils.Item implements Cloneable {
     public int spanCount = MAX_SPAN_COUNT;
     public int parentSpanCount;
 
-    /** Модель строки настроек плагина, если строку собрал плагин через SDK exteraGram. */
-    public app.exteraless.plugins.models.SettingItem settingItem;
+    /** Модель строки настроек плагина, если строку собрал плагин через SDK MZGram. */
+    public org.mzgram.plugins.models.SettingItem settingItem;
 
     public boolean include;
     public long dialogId;
@@ -67,7 +67,7 @@ public class UItem extends AdapterWithDiffUtils.Item implements Cloneable {
     public View.OnClickListener clickCallback;
     public View.OnClickListener clickCallback2;
     public View.OnClickListener switchClickCallback;
-    public boolean exteraExpandableSwitch;
+    public boolean mzExpandableSwitch;
     public Utilities.Callback<View> bind;
 
     public Object object;
@@ -613,10 +613,10 @@ public class UItem extends AdapterWithDiffUtils.Item implements Cloneable {
         return item;
     }
 
-    public static UItem asExteraExpandableSwitch(int id, CharSequence text, CharSequence subText,
+    public static UItem asMZExpandableSwitch(int id, CharSequence text, CharSequence subText,
                                                  View.OnClickListener switchClickCallback) {
         UItem item = asExpandableSwitch(id, text, subText);
-        item.exteraExpandableSwitch = true;
+        item.mzExpandableSwitch = true;
         item.switchClickCallback = switchClickCallback;
         return item;
     }
@@ -813,13 +813,13 @@ public class UItem extends AdapterWithDiffUtils.Item implements Cloneable {
         return this;
     }
 
-    public UItem setSearchable(com.exteragram.messenger.preferences.BasePreferencesActivity fragment) {
-        app.exteraless.settings.utils.SettingsRegistry.getInstance().addSearchEntry(fragment, this);
+    public UItem setSearchable(org.mzgram.sdk.preferences.BasePreferencesActivity fragment) {
+        org.mzgram.settings.utils.SettingsRegistry.getInstance().addSearchEntry(fragment, this);
         return this;
     }
 
-    public UItem setLinkAlias(String alias, com.exteragram.messenger.preferences.BasePreferencesActivity fragment) {
-        app.exteraless.settings.utils.SettingsRegistry.getInstance().addLinkAliasForOption(alias, fragment, this);
+    public UItem setLinkAlias(String alias, org.mzgram.sdk.preferences.BasePreferencesActivity fragment) {
+        org.mzgram.settings.utils.SettingsRegistry.getInstance().addLinkAliasForOption(alias, fragment, this);
         return this;
     }
 

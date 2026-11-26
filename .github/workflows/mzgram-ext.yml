@@ -1,6 +1,6 @@
-name: MZGram on exteraless
+name: MZGram
 
-# Builds the MZGram APK of the w-ext branch (MZGram on the exteraless base) for arm64 phones,
+# Builds the MZGram APK of the w-ext branch for arm64 phones,
 # signed with the MZGram key like the MZGram releases, so it installs over the installed MZGram.
 
 on:

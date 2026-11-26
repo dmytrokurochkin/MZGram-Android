@@ -87,8 +87,8 @@ import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.ui.EditTextAutoFill;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.ui.EditTextAutoFill;
 
 public class TwoStepVerificationSetupActivity extends BaseFragment {
 
@@ -1401,9 +1401,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                                     } else {
                                         timeString = LocaleController.formatPluralString("Minutes", time / 60);
                                     }
-                                    showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                                    showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                                 } else {
-                                    showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                                    showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
                                 }
                             });
                         }
@@ -1436,7 +1436,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 if (!editTextFirstRow.getText().toString().equals(firstPassword) && currentType == TYPE_CREATE_PASSWORD_STEP_2) {
                     AndroidUtilities.shakeViewSpring(outlineTextFirstRow, 5);
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) outlineTextFirstRow.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!CoreConfig.disableVibration.Bool()) outlineTextFirstRow.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}
                     try {
                         Toast.makeText(getParentActivity(), LocaleController.getString(R.string.PasswordDoNotMatch), Toast.LENGTH_SHORT).show();
@@ -1590,9 +1590,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                             } else {
                                 timeString = LocaleController.formatPluralString("Minutes", time / 60);
                             }
-                            showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                            showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                         } else {
-                            showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                            showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
                         }
                     }
                 }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin);
@@ -2000,9 +2000,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                         presentFragment(fragment, true);
                     } else {
                         if ("EMAIL_INVALID".equals(error.text)) {
-                            showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.getString(R.string.PasswordEmailInvalid));
+                            showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.getString(R.string.PasswordEmailInvalid));
                         } else if ("EMAIL_NOT_ALLOWED".equals(error.text)) {
-                            showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.getString(R.string.EmailNotAllowed));
+                            showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.getString(R.string.EmailNotAllowed));
                         } else if (error.text.startsWith("FLOOD_WAIT")) {
                             int time = Utilities.parseInt(error.text);
                             String timeString;
@@ -2011,9 +2011,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                             } else {
                                 timeString = LocaleController.formatPluralString("Minutes", time / 60);
                             }
-                            showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                            showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                         } else {
-                            showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                            showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
                         }
                     }
                 }
@@ -2081,7 +2081,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             return;
         }
         try {
-            if (!NekoConfig.disableVibration.Bool()) field.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            if (!CoreConfig.disableVibration.Bool()) field.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
         } catch (Exception ignored) {}
         if (clear) {
             field.setText("");

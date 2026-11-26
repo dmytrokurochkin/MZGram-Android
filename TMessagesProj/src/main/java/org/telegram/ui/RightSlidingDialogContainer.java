@@ -1,6 +1,6 @@
 package org.telegram.ui;
 
-import app.exteraless.utils.AppUtils;
+import org.mzgram.utils.AppUtils;
 
 import static org.telegram.ui.ActionBar.ActionBarLayout.findScrollingChild;
 

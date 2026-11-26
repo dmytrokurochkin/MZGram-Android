@@ -52,7 +52,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.PremiumPreviewFragment;
 
-import app.exteraless.chats.LinkedCustomEmoji;
+import org.mzgram.chats.LinkedCustomEmoji;
 
 public class EditTextEmoji extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate {
 
@@ -964,7 +964,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             @Override
             public void onClearEmojiRecent() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), resourcesProvider);
-                builder.setTitle(LocaleController.getString(R.string.NagramX));
+                builder.setTitle(LocaleController.getString(R.string.MZGram));
                 builder.setMessage(LocaleController.getString(R.string.ClearRecentEmojiText));
                 builder.setPositiveButton(LocaleController.getString(R.string.ClearButton), (dialogInterface, i) -> emojiView.clearRecentEmoji());
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);

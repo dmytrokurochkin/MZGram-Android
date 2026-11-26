@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.radolyn.ayugram.utils.LastSeenHelper;
+import org.mzgram.arc.utils.LastSeenHelper;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MessageObject;
@@ -38,7 +38,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-import tw.nekomimi.nekogram.filters.ReactionFilter;
+import org.mzgram.core.filters.ReactionFilter;
 
 public class ReactedUsersListView extends FrameLayout {
 

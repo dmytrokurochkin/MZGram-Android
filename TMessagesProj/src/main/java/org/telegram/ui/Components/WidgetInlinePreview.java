@@ -28,7 +28,7 @@ public final class WidgetInlinePreview implements WidgetSandboxPlayer.Host {
     private final Theme.ResourcesProvider resourcesProvider;
     private final Paint background = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Path clip = new Path();
-    private app.exteraless.chats.WidgetPlaceholder tapPlaceholder;
+    private org.mzgram.chats.WidgetPlaceholder tapPlaceholder;
     private WidgetSandboxPlayer player;
     private int widthPx;
     private boolean shown;
@@ -76,7 +76,7 @@ public final class WidgetInlinePreview implements WidgetSandboxPlayer.Host {
 
     public void draw(Canvas canvas, float x, float y) {
         if (widthPx <= 0) return;
-        if (message == null && tapPlaceholder == null && WidgetMedia.isAutoplayBlocked(url)) tapPlaceholder = new app.exteraless.chats.WidgetPlaceholder(view::invalidate);
+        if (message == null && tapPlaceholder == null && WidgetMedia.isAutoplayBlocked(url)) tapPlaceholder = new org.mzgram.chats.WidgetPlaceholder(view::invalidate);
         if (message == null && tapPlaceholder == null) return;
         int height = heightPx(widthPx);
         // The bubble the result will be sent in has the chat's radius.

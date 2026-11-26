@@ -69,9 +69,9 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import java.util.concurrent.atomic.AtomicReference;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.ui.BottomBuilder;
+import org.mzgram.ext.ExtConfig;
 
 public class AboutLinkCell extends FrameLayout implements Theme.Colorable {
 
@@ -447,7 +447,7 @@ public class AboutLinkCell extends FrameLayout implements Theme.Colorable {
                 }
 
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignore) {}
 
                 final Layout layout = pressedLinkLayout;
@@ -758,7 +758,7 @@ public class AboutLinkCell extends FrameLayout implements Theme.Colorable {
             textLayout = makeTextLayout(stringBuilder, maxWidth);
             shouldExpand = textLayout.getLineCount() >= 4; // && valueTextView.getVisibility() != View.VISIBLE;
 
-            if (NaConfig.INSTANCE.getShowFullAbout().Bool() && shouldExpand) {
+            if (ExtConfig.INSTANCE.getShowFullAbout().Bool() && shouldExpand) {
                 shouldExpand = false;
             }
 

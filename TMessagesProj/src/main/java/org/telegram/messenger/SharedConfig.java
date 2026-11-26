@@ -64,8 +64,8 @@ import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.ext.ExtConfig;
 
 import java.util.List;
 import java.util.Locale;
@@ -1867,7 +1867,7 @@ public class SharedConfig {
             return overrideDevicePerformanceClass;
         }
         if (devicePerformanceClass == -1) {
-            switch (NaConfig.INSTANCE.getPerformanceClass().Int()) {
+            switch (ExtConfig.INSTANCE.getPerformanceClass().Int()) {
                 case 1:
                     devicePerformanceClass = PERFORMANCE_CLASS_HIGH;
                     break;

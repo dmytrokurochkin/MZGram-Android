@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="OEBotPrivacyEnabled">Compte choisi pour les bots</string>
-    <string name="OEBotPrivacyAccount">Compte pour les bots</string>
-    <string name="OEBotPrivacySelect">Choisir un compte</string>
-    <string name="OEBotPrivacyChoose">Choisissez le compte pour ce bot. Les conversations existantes gardent leur compte d’origine.</string>
-    <string name="OEBotPrivacyInfo">Les nouvelles conversations privées avec des bots utiliseront ce compte. Les bots déjà contactés continueront d’utiliser leur compte d’origine. Cela sépare les comptes, mais ne vous rend pas anonyme et ne révoque pas les informations déjà partagées. Les groupes, le mode inline, le menu des pièces jointes et l’authentification gardent leur propre compte.</string>
-    <string name="OEBotPrivacyUnavailable">Le compte pour les bots n’est pas disponible. Choisissez un autre compte ou désactivez la fonction, puis rouvrez le bot. Aucun message n’a été envoyé.</string>
-    <string name="OEBotPrivacyFailed">Impossible de choisir un compte en toute sécurité pour ce bot. Vérifiez votre connexion et rouvrez le bot. Si cette discussion était déjà ouverte quand vous avez modifié le réglage, rouvrez-la avant d’envoyer. Aucun message n’a été envoyé.</string>
-    <string name="OEBotPrivacyOpened">Ouvert avec %1$s</string>
-    <string name="OEBotPrivacyReady">Compte vérifié. Appuyez à nouveau sur Envoyer pour envoyer votre message.</string>
-    <string name="OEBotPrivacyAlwaysAsk">Toujours demander</string>
-    <string name="OEBotPrivacyAlwaysAskInfo">Demander quel compte utiliser pour chaque nouvelle conversation privée avec un bot. Les conversations existantes gardent leur compte d’origine.</string>
-    <string name="OEBotPrivacyAskPrivacyInfo">Choisir un compte ne vous rend pas anonyme et ne révoque pas les informations déjà partagées. Les groupes, le mode inline, le menu des pièces jointes et l’authentification gardent leur propre compte.</string>
-    <string name="OEBotPrivacyOff">Compte actuel</string>
+    <string name="MZBotPrivacyEnabled">Compte choisi pour les bots</string>
+    <string name="MZBotPrivacyAccount">Compte pour les bots</string>
+    <string name="MZBotPrivacySelect">Choisir un compte</string>
+    <string name="MZBotPrivacyChoose">Choisissez le compte pour ce bot. Les conversations existantes gardent leur compte d’origine.</string>
+    <string name="MZBotPrivacyInfo">Les nouvelles conversations privées avec des bots utiliseront ce compte. Les bots déjà contactés continueront d’utiliser leur compte d’origine. Cela sépare les comptes, mais ne vous rend pas anonyme et ne révoque pas les informations déjà partagées. Les groupes, le mode inline, le menu des pièces jointes et l’authentification gardent leur propre compte.</string>
+    <string name="MZBotPrivacyUnavailable">Le compte pour les bots n’est pas disponible. Choisissez un autre compte ou désactivez la fonction, puis rouvrez le bot. Aucun message n’a été envoyé.</string>
+    <string name="MZBotPrivacyFailed">Impossible de choisir un compte en toute sécurité pour ce bot. Vérifiez votre connexion et rouvrez le bot. Si cette discussion était déjà ouverte quand vous avez modifié le réglage, rouvrez-la avant d’envoyer. Aucun message n’a été envoyé.</string>
+    <string name="MZBotPrivacyOpened">Ouvert avec %1$s</string>
+    <string name="MZBotPrivacyReady">Compte vérifié. Appuyez à nouveau sur Envoyer pour envoyer votre message.</string>
+    <string name="MZBotPrivacyAlwaysAsk">Toujours demander</string>
+    <string name="MZBotPrivacyAlwaysAskInfo">Demander quel compte utiliser pour chaque nouvelle conversation privée avec un bot. Les conversations existantes gardent leur compte d’origine.</string>
+    <string name="MZBotPrivacyAskPrivacyInfo">Choisir un compte ne vous rend pas anonyme et ne révoque pas les informations déjà partagées. Les groupes, le mode inline, le menu des pièces jointes et l’authentification gardent leur propre compte.</string>
+    <string name="MZBotPrivacyOff">Compte actuel</string>
 </resources>

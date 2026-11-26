@@ -57,7 +57,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
+import org.mzgram.core.helpers.PasscodeHelper;
 
 public class WearAuthSheet {
 

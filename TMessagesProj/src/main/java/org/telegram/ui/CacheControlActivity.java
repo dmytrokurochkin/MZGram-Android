@@ -63,7 +63,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import app.exteraless.appearance.AppearanceConfig;
+import org.mzgram.appearance.AppearanceConfig;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
@@ -137,7 +137,7 @@ import org.telegram.ui.Components.blur3.drawable.color.impl.BlurredBackgroundPro
 import org.telegram.ui.Components.blur3.utils.Blur3Utils;
 import org.telegram.ui.Storage.CacheModel;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -146,9 +146,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 
-import tw.nekomimi.nekogram.helpers.LocalNameHelper;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
-import xyz.nextalone.nagram.helper.BookmarksHelper;
+import org.mzgram.core.helpers.LocalNameHelper;
+import org.mzgram.core.helpers.remote.EmojiHelper;
+import org.mzgram.ext.helper.BookmarksHelper;
 
 public class CacheControlActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1497,10 +1497,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
         };
         tabsContainer = cachedMediaLayout.takeTabsContainer();
-        final boolean mzFlatTabs = app.exteraless.appearance.AppearanceConfig.materialBars();
+        final boolean mzFlatTabs = org.mzgram.appearance.AppearanceConfig.materialBars();
         if (mzFlatTabs) {
             // MZGram: Material bars. The tabs are a flat full-width strip in the page colour, not a floating glass pill
-            tabsContainer.setBackground(new app.exteraless.appearance.MzPageColorDrawable(tabsContainer, Theme.key_windowBackgroundGray, resourceProvider));
+            tabsContainer.setBackground(new org.mzgram.appearance.MzPageColorDrawable(tabsContainer, Theme.key_windowBackgroundGray, resourceProvider));
         } else {
         tabsContainer.setBackground(getBaseSimpleGlass().factory
                 .create(tabsContainer)

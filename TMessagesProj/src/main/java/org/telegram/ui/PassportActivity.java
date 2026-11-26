@@ -146,7 +146,7 @@ import java.util.TimerTask;
 
 import javax.crypto.Cipher;
 
-import tw.nekomimi.nekogram.ui.EditTextAutoFill;
+import org.mzgram.core.ui.EditTextAutoFill;
 
 public class PassportActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1000,7 +1000,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     int num = a;
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                                     builder.setMessage(LocaleController.formatString("PassportNameCheckAlert", R.string.PassportNameCheckAlert, firstName, middleName, lastName));
-                                    builder.setTitle(LocaleController.getString(R.string.NagramX));
+                                    builder.setTitle(LocaleController.getString(R.string.MZGram));
                                     builder.setPositiveButton(LocaleController.getString(R.string.Done), (dialogInterface, i) -> {
                                         inputFields[FIELD_NAME].setText(firstName);
                                         inputFields[FIELD_MIDNAME].setText(middleName);
@@ -1667,9 +1667,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             } else {
                                 timeString = LocaleController.formatPluralString("Minutes", time / 60);
                             }
-                            showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                            showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                         } else {
-                            showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                            showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
                         }
                     }
                 }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin);
@@ -1908,7 +1908,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                             if ("APP_VERSION_OUTDATED".equals(error1.text)) {
                                                 AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString(R.string.UpdateAppAlert), true);
                                             } else {
-                                                showAlertWithText(LocaleController.getString(R.string.NagramX), error1.text);
+                                                showAlertWithText(LocaleController.getString(R.string.MZGram), error1.text);
                                             }
                                             showEditDoneProgress(true, false);
                                         }
@@ -1940,9 +1940,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     } else {
                                         timeString = LocaleController.formatPluralString("Minutes", time / 60);
                                     }
-                                    showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                                    showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                                 } else {
-                                    showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                                    showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
                                 }
                             }
                         });
@@ -2399,7 +2399,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     if ("APP_VERSION_OUTDATED".equals(error.text)) {
                         AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString(R.string.UpdateAppAlert), true);
                     } else {
-                        showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                        showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
                     }
                 }
             }));
@@ -3548,7 +3548,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             finishFragment();
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-        builder.setTitle(LocaleController.getString(R.string.NagramX));
+        builder.setTitle(LocaleController.getString(R.string.MZGram));
         if (documentOnly && currentDocumentsType == null && currentType.type instanceof TLRPC.TL_secureValueTypeAddress) {
             builder.setMessage(LocaleController.getString(R.string.PassportDeleteAddressAlert));
         } else if (documentOnly && currentDocumentsType == null && currentType.type instanceof TLRPC.TL_secureValueTypePersonalDetails) {
@@ -4911,7 +4911,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 builder.setMessage(LocaleController.getString(R.string.PassportDeleteScan));
             }
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-            builder.setTitle(LocaleController.getString(R.string.NagramX));
+            builder.setTitle(LocaleController.getString(R.string.MZGram));
             builder.setPositiveButton(LocaleController.getString(R.string.OK), (dialog, which) -> {
                 documentsCells.remove(document);
                 if (type == UPLOADING_TYPE_SELFIE) {
@@ -5830,7 +5830,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (errorRunnable != null) {
                     errorRunnable.onError(error.text, null);
                 }
-                showAlertWithText(LocaleController.getString(R.string.NagramX), error.text);
+                showAlertWithText(LocaleController.getString(R.string.MZGram), error.text);
             } else {
                 if (documentOnly) {
                     if (documentRequiredType != null) {
@@ -5992,7 +5992,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             deleteValueInternal(requiredType, null, null, true, this::needHideProgress, (error, text) -> needHideProgress(), documentOnly);
                         });
                         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                        builder.setTitle(LocaleController.getString(R.string.NagramX));
+                        builder.setTitle(LocaleController.getString(R.string.MZGram));
                         builder.setMessage(phoneField ? LocaleController.getString(R.string.PassportDeletePhoneAlert) : LocaleController.getString(R.string.PassportDeleteEmailAlert));
                         showDialog(builder.create());
                         return;
@@ -6290,7 +6290,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (!permissionsItems.isEmpty()) {
                     if (getParentActivity().shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                        builder.setTitle(LocaleController.getString(R.string.NagramX));
+                        builder.setTitle(LocaleController.getString(R.string.MZGram));
                         builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
                         builder.setMessage(LocaleController.getString(R.string.AllowReadCall));
                         permissionsDialog = showDialog(builder.create());
@@ -6651,7 +6651,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
                 if (grantResults != null && grantResults.length != 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                    builder.setTitle(LocaleController.getString(R.string.NagramX));
+                    builder.setTitle(LocaleController.getString(R.string.MZGram));
                     builder.setMessage(LocaleController.getString(R.string.PermissionNoAudioVideoWithHint));
                     builder.setNegativeButton(LocaleController.getString(R.string.PermissionOpenSettings), (dialog, which) -> {
                         try {
@@ -6823,7 +6823,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             return;
         }
         if (uploadingFileType == UPLOADING_TYPE_DOCUMENTS && documents.size() >= 20) {
-            showAlertWithText(LocaleController.getString(R.string.NagramX), LocaleController.formatString("PassportUploadMaxReached", R.string.PassportUploadMaxReached, LocaleController.formatPluralString("Files", 20)));
+            showAlertWithText(LocaleController.getString(R.string.MZGram), LocaleController.formatString("PassportUploadMaxReached", R.string.PassportUploadMaxReached, LocaleController.formatPluralString("Files", 20)));
             return;
         }
         createChatAttachView();
@@ -7876,7 +7876,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         public boolean onBackPressed(boolean force) {
             if (!force) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString(R.string.NagramX));
+                builder.setTitle(LocaleController.getString(R.string.MZGram));
                 builder.setMessage(LocaleController.getString(R.string.StopVerification));
                 builder.setPositiveButton(LocaleController.getString(R.string.Continue), null);
                 builder.setNegativeButton(LocaleController.getString(R.string.Stop), (dialogInterface, i) -> {

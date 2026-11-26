@@ -224,7 +224,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
 
     protected boolean dimBehind = true;
     // MZGram: a Material 3 modal sheet dims the page with a 32% scrim (82 of 255)
-    protected int dimBehindAlpha = app.exteraless.appearance.AppearanceConfig.materialSurfaces() ? 82 : 51;
+    protected int dimBehindAlpha = org.mzgram.appearance.AppearanceConfig.materialSurfaces() ? 82 : 51;
 
     protected boolean allowNestedScroll = true;
 
@@ -2226,7 +2226,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     }
 
     // ---- Predictive back для шторки ----
-    // Перенос из exteraGram 12.9.0, BottomSheet.java:1579-1670, :1224/:1235, :1816.
+    // Перенос из MZGram 12.9.0, BottomSheet.java:1579-1670, :1224/:1235, :1816.
     // У нас BottomSheet вообще не знал про OnBackAnimationCallback: шторки закрывались
     // мгновенно, без следования за жестом.
 

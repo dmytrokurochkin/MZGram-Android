@@ -75,13 +75,13 @@ import org.telegram.ui.RestrictedLanguagesSelectActivity;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.EntitiesHelper;
-import tw.nekomimi.nekogram.llm.LlmConfig;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.translate.TranslatorKt;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import tw.nekomimi.nekogram.utils.ProxyUtil;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.EntitiesHelper;
+import org.mzgram.core.llm.LlmConfig;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.translate.TranslatorKt;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.core.utils.ProxyUtil;
 
 public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.SelectableView> {
 
@@ -291,7 +291,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
 
                 selectedView = newView;
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) textSelectionOverlay.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) textSelectionOverlay.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                 } catch (Exception ignored) {}
                 AndroidUtilities.cancelRunOnUIThread(showActionsRunnable);
                 AndroidUtilities.runOnUIThread(showActionsRunnable);
@@ -1637,7 +1637,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                 if (pasteItem != null) {
                     pasteItem.setVisible(canPaste() && clipboardHasContent());
                 }
-                // NekoX: Merge 8.5.0, remove due to removing LanguageDetector
+                // CoreX: Merge 8.5.0, remove due to removing LanguageDetector
                 MenuItem addToFilterItem = menu.findItem(ADD_TO_FILTER);
                 if (addToFilterItem != null) {
                     addToFilterItem.setVisible(canShowAddToFilter());
@@ -1717,7 +1717,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                     Activity activity = ProxyUtil.getOwnerActivity(contextView.getContext());
                     AlertDialog pro = AlertUtil.showProgress(activity);
                     pro.show();
-                    Translator.translate(TranslatorKt.getCode2Locale(NekoConfig.translateToLang.String()), urlFinal, LlmConfig.isLLMTranslatorAvailable() ? Translator.providerLLMTranslator : 0, new Translator.Companion.TranslateCallBack() {
+                    Translator.translate(TranslatorKt.getCode2Locale(CoreConfig.translateToLang.String()), urlFinal, LlmConfig.isLLMTranslatorAvailable() ? Translator.providerLLMTranslator : 0, new Translator.Companion.TranslateCallBack() {
                         @Override
                         public void onSuccess(@NotNull String translation) {
                             pro.dismiss();

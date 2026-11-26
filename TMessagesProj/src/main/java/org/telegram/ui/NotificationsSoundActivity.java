@@ -74,7 +74,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class NotificationsSoundActivity extends BaseFragment implements ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate, NotificationCenter.NotificationCenterDelegate {
 
@@ -466,7 +466,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             if (view instanceof ToneCell) {
                 ToneCell cell = (ToneCell) view;
                 checkSelection(cell.tone);
-                if (!NekoConfig.disableVibration.Bool()) cell.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                if (!CoreConfig.disableVibration.Bool()) cell.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
             return false;
         });

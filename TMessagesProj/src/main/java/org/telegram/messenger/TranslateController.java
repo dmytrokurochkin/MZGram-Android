@@ -53,12 +53,12 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.translate.TranslatorKt;
-import tw.nekomimi.nekogram.translate.source.LLMTranslator;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.translate.TranslatorKt;
+import org.mzgram.core.translate.source.LLMTranslator;
+import org.mzgram.ext.ExtConfig;
 
 public class TranslateController extends BaseController {
 
@@ -102,7 +102,7 @@ public class TranslateController extends BaseController {
 
     public boolean isFeatureAvailable() {
         boolean isRealPremium = UserConfig.getInstance(currentAccount).isPremium();
-        return NaConfig.INSTANCE.getTelegramUIAutoTranslate().Bool() && (isRealPremium || NekoConfig.translationProvider.Int() != Translator.providerTelegram);
+        return ExtConfig.INSTANCE.getTelegramUIAutoTranslate().Bool() && (isRealPremium || CoreConfig.translationProvider.Int() != Translator.providerTelegram);
     }
 
     public boolean isFeatureAvailable(long dialogId) {
@@ -294,9 +294,9 @@ public class TranslateController extends BaseController {
     public String getDialogTranslateTo(long dialogId) {
         String lang = translateDialogLanguage.get(dialogId);
         if (TextUtils.isEmpty(lang)) {
-            String nekoTranslateToLang = NekoConfig.translateToLang.String();
-            if (!TextUtils.isEmpty(nekoTranslateToLang)) {
-                lang = nekoTranslateToLang;
+            String coreTranslateToLang = CoreConfig.translateToLang.String();
+            if (!TextUtils.isEmpty(coreTranslateToLang)) {
+                lang = coreTranslateToLang;
             } else {
                 lang = currentLanguage();
             }
@@ -1025,9 +1025,9 @@ public class TranslateController extends BaseController {
 
         loadingSummarizations.add(id);
 
-        if (app.exteraless.ai.TelegramAiReplacement.replacesSummaries(currentAccount)) {
+        if (org.mzgram.ai.TelegramAiReplacement.replacesSummaries(currentAccount)) {
             final String targetLanguage = language != null ? language : message.messageOwner.summary_from_language;
-            app.exteraless.ai.TelegramAiReplacement.summarize(message.messageOwner.message, targetLanguage, text -> {
+            org.mzgram.ai.TelegramAiReplacement.summarize(message.messageOwner.message, targetLanguage, text -> {
                 loadingSummarizations.remove(id);
                 callback.run(text);
             }, (code, error) -> {
@@ -1035,7 +1035,7 @@ public class TranslateController extends BaseController {
                 final long now = System.currentTimeMillis();
                 if (lastFragment != null && now - lastSummaryErrorBulletinTime > 5000) {
                     lastSummaryErrorBulletinTime = now;
-                    com.exteragram.messenger.ai.AiController.showErrorBulletin(lastFragment, code);
+                    org.mzgram.sdk.ai.AiController.showErrorBulletin(lastFragment, code);
                 }
                 loadingSummarizations.remove(id);
                 callback.run(null);
@@ -1109,12 +1109,12 @@ public class TranslateController extends BaseController {
             source.entities = message.messageOwner.entities;
         }
 
-        // --- NagramX Start ---
+        // --- MZGram Start ---
         if (MessageHelper.shouldSkipTranslation(message.messageOwner.message)) {
             return;
         }
 
-        if (NekoConfig.translationProvider.Int() != Translator.providerTelegram) {
+        if (CoreConfig.translationProvider.Int() != Translator.providerTelegram) {
             synchronized (this) {
                 loadingTranslations.add(message.getId());
             }
@@ -1147,7 +1147,7 @@ public class TranslateController extends BaseController {
             });
             return;
         }
-        // --- NagramX End ---
+        // --- MZGram End ---
 
         PendingTranslation pendingTranslation;
         synchronized (this) {
@@ -1438,8 +1438,8 @@ public class TranslateController extends BaseController {
 
         long dialogId = message.getDialogId();
 
-        // --- NagramX Start ---
-        if (NekoConfig.translationProvider.Int() != Translator.providerTelegram) {
+        // --- MZGram Start ---
+        if (CoreConfig.translationProvider.Int() != Translator.providerTelegram) {
             final TLRPC.MessageMedia media = MessageObject.getMedia(message);
             if (!(media instanceof TLRPC.TL_messageMediaPoll)) {
                 return;
@@ -1478,7 +1478,7 @@ public class TranslateController extends BaseController {
             });
             return;
         }
-        // --- NagramX End ---
+        // --- MZGram End ---
 
         PendingPollTranslation pendingTranslation;
         synchronized (this) {
@@ -2067,7 +2067,7 @@ public class TranslateController extends BaseController {
 
     public boolean canTranslateStory(TL_stories.StoryItem storyItem) {
         return storyItem != null && !TextUtils.isEmpty(storyItem.caption) && !Emoji.fullyConsistsOfEmojis(storyItem.caption) && (
-            storyItem.detectedLng == null && storyItem.translatedText != null && TextUtils.equals(storyItem.translatedLng, NekoConfig.translateToLang.String()) ||
+            storyItem.detectedLng == null && storyItem.translatedText != null && TextUtils.equals(storyItem.translatedLng, CoreConfig.translateToLang.String()) ||
             storyItem.detectedLng != null && !isLanguageRestricted(storyItem.detectedLng)
         );
     }
@@ -2079,7 +2079,7 @@ public class TranslateController extends BaseController {
 
         final StoryKey key = new StoryKey(storyItem);
 
-        String toLang = NekoConfig.translateToLang.String();
+        String toLang = CoreConfig.translateToLang.String();
 
         if (storyItem.translatedText != null && TextUtils.equals(storyItem.translatedLng, toLang)) {
             if (done != null) {
@@ -2096,12 +2096,12 @@ public class TranslateController extends BaseController {
 
         translatingStories.add(key);
 
-        // --- NagramX Start ---
-        if (NekoConfig.translationProvider.Int() != Translator.providerTelegram) {
+        // --- MZGram Start ---
+        if (CoreConfig.translationProvider.Int() != Translator.providerTelegram) {
             Translator.translate(storyItem.caption, storyItem.entities, new Translator.Companion.TranslateCallBack2() {
                 @Override
                 public void onSuccess(@NonNull TLRPC.TL_textWithEntities finalText) {
-                    storyItem.translatedLng = NekoConfig.translateToLang.String();
+                    storyItem.translatedLng = CoreConfig.translateToLang.String();
                     storyItem.translatedText = finalText;
                     getMessagesController().getStoriesController().getStoriesStorage().putStoryInternal(storyItem.dialogId, storyItem);
                     translatingStories.remove(key);
@@ -2116,7 +2116,7 @@ public class TranslateController extends BaseController {
                         if (unsupported) {
                             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString(R.string.TranslationFailedAlert2) + " " + error);
                         }
-                        storyItem.translatedLng = NekoConfig.translateToLang.String();
+                        storyItem.translatedLng = CoreConfig.translateToLang.String();
                         storyItem.translatedText = null;
                         getMessagesController().getStoriesController().getStoriesStorage().putStoryInternal(storyItem.dialogId, storyItem);
                         translatingStories.remove(key);
@@ -2128,7 +2128,7 @@ public class TranslateController extends BaseController {
             });
             return;
         }
-        // --- NagramX End ---
+        // --- MZGram End ---
 
         final TLRPC.TL_messages_translateText req = new TLRPC.TL_messages_translateText();
         req.flags |= 2;
@@ -2235,7 +2235,7 @@ public class TranslateController extends BaseController {
             detectedLanguage = messageObject.messageOwner.originalLanguage;
         }
         return messageObject != null && messageObject.messageOwner != null && !TextUtils.isEmpty(messageObject.messageOwner.message) && (
-            detectedLanguage == null && messageObject.messageOwner.translatedText != null && TextUtils.equals(messageObject.messageOwner.translatedToLanguage, NekoConfig.translateToLang.String()) ||
+            detectedLanguage == null && messageObject.messageOwner.translatedText != null && TextUtils.equals(messageObject.messageOwner.translatedToLanguage, CoreConfig.translateToLang.String()) ||
             detectedLanguage != null && !isLanguageRestricted(messageObject.messageOwner.originalLanguage)
         ) && !messageObject.translated;
     }
@@ -2247,7 +2247,7 @@ public class TranslateController extends BaseController {
 
         final MessageKey key = new MessageKey(messageObject);
 
-        String toLang = NekoConfig.translateToLang.String();
+        String toLang = CoreConfig.translateToLang.String();
 
         if (messageObject.messageOwner.translatedText != null && TextUtils.equals(messageObject.messageOwner.translatedToLanguage, toLang)) {
             if (done != null) {
@@ -2264,13 +2264,13 @@ public class TranslateController extends BaseController {
 
         translatingPhotos.add(key);
 
-        // --- NagramX Start ---
-        if (NekoConfig.translationProvider.Int() != Translator.providerTelegram) {
+        // --- MZGram Start ---
+        if (CoreConfig.translationProvider.Int() != Translator.providerTelegram) {
             final long start = System.currentTimeMillis();
             Translator.translate(messageObject.messageOwner.message, messageObject.messageOwner.entities, new Translator.Companion.TranslateCallBack2() {
                 @Override
                 public void onSuccess(@NonNull TLRPC.TL_textWithEntities finalText) {
-                    messageObject.messageOwner.translatedToLanguage = NekoConfig.translateToLang.String().toLowerCase();
+                    messageObject.messageOwner.translatedToLanguage = CoreConfig.translateToLang.String().toLowerCase();
                     messageObject.messageOwner.translatedText = finalText;
                     getMessagesStorage().updateMessageCustomParams(key.dialogId, messageObject.messageOwner);
                     AndroidUtilities.runOnUIThread (() -> NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.messageTranslated, messageObject));
@@ -2286,7 +2286,7 @@ public class TranslateController extends BaseController {
                         if (unsupported) {
                             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString(R.string.TranslationFailedAlert2) + " " + error);
                         }
-                        messageObject.messageOwner.translatedToLanguage = NekoConfig.translateToLang.String().toLowerCase();
+                        messageObject.messageOwner.translatedToLanguage = CoreConfig.translateToLang.String().toLowerCase();
                         messageObject.messageOwner.translatedText = null;
                         getMessagesStorage().updateMessageCustomParams(key.dialogId, messageObject.messageOwner);
                         translatingPhotos.remove(key);
@@ -2298,7 +2298,7 @@ public class TranslateController extends BaseController {
             });
             return;
         }
-        // --- NagramX End ---
+        // --- MZGram End ---
 
         final TLRPC.TL_messages_translateText req = new TLRPC.TL_messages_translateText();
         req.flags |= 2;
@@ -2719,13 +2719,13 @@ public class TranslateController extends BaseController {
 
     @Nullable
     private String buildLlmAutoTranslateContext(@NonNull MessageObject message) {
-        if (!NaConfig.INSTANCE.getLlmUseContext().Bool()) {
+        if (!ExtConfig.INSTANCE.getLlmUseContext().Bool()) {
             return null;
         }
-        if (!NaConfig.INSTANCE.getLlmUseContextInAutoTranslate().Bool()) {
+        if (!ExtConfig.INSTANCE.getLlmUseContextInAutoTranslate().Bool()) {
             return null;
         }
-        if (NekoConfig.translationProvider.Int() != Translator.providerLLMTranslator) {
+        if (CoreConfig.translationProvider.Int() != Translator.providerLLMTranslator) {
             return null;
         }
 

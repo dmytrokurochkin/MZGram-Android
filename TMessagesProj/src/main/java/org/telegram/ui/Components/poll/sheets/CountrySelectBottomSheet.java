@@ -64,8 +64,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class CountrySelectBottomSheet extends BottomSheetWithRecyclerListView implements FactorAnimator.Target {
     private static final int ANIMATOR_ID_SELECTED_CONTAINER_HEIGHT = 3;

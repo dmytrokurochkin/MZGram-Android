@@ -1,6 +1,6 @@
 # Bot Privacy Account
 
-Settings → exteraless → General → Bot Privacy Account. The feature is off by
+Settings → MZGram Preferences → General → Bot Privacy Account. The feature is off by
 default. Enabling it opens the native account picker. Both the picker and setting
 show names and public usernames. The global preference stores the Telegram user ID,
 not the reusable account slot. GeneralConfig supplies persistence, typed backup

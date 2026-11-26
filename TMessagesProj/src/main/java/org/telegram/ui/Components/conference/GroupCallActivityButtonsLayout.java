@@ -16,8 +16,8 @@ import org.telegram.ui.Components.voip.VoIPToggleButton;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class GroupCallActivityButtonsLayout extends ViewGroup {
     private static final int BUTTON_WIDTH = 50;

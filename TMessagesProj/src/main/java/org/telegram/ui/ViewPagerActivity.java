@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.FileLog;
 import java.util.HashSet;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public abstract class ViewPagerActivity extends BaseFragment {
     protected final SparseArray<FragmentState> fragmentsArr = new SparseArray<>();
@@ -187,7 +187,7 @@ public abstract class ViewPagerActivity extends BaseFragment {
     @Override
     public void clearViews() {
         if (viewPager != null) {
-            initialFragmentPosition = NaConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? 0 : viewPager.getCurrentPosition();
+            initialFragmentPosition = ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? 0 : viewPager.getCurrentPosition();
         }
         for (int a = 0, N = fragmentsArr.size(); a < N; a++) {
             final FragmentState state = fragmentsArr.valueAt(a);

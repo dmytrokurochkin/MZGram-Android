@@ -143,8 +143,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.location.NekoLocation;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.location.CoreLocation;
 
 public class LocationActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -2428,8 +2428,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             for (int i = providers.size() - 1; i >= 0; i--) {
                 l = lm.getLastKnownLocation(providers.get(i));
                 if (l != null) {
-                    if (NekoConfig.fixDriftingForGoogleMaps()) {
-                        NekoLocation.transform(l);
+                    if (CoreConfig.fixDriftingForGoogleMaps()) {
+                        CoreLocation.transform(l);
                     }
                     break;
                 }

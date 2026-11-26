@@ -8,7 +8,7 @@
 
 package org.telegram.messenger;
 
-import app.exteraless.OpenExteraConfig;
+import org.mzgram.MZGramConfig;
 
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.formatWholeNumber;
@@ -68,9 +68,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.shamsicalendar.PersianDate;
-import com.radolyn.ayugram.utils.LastSeenHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.shamsicalendar.PersianDate;
+import org.mzgram.arc.utils.LastSeenHelper;
 
 public class LocaleController {
 
@@ -104,7 +104,7 @@ public class LocaleController {
     }
 
     private static String withSeconds(String pattern) {
-        if (pattern == null || !NekoConfig.showSeconds.Bool() || hasSecondsField(pattern)) {
+        if (pattern == null || !CoreConfig.showSeconds.Bool() || hasSecondsField(pattern)) {
             return pattern;
         }
         return pattern.replace(":mm", ":mm:ss");
@@ -152,7 +152,7 @@ public class LocaleController {
                         lang = "en";
                     }
                     lang = lang.toLowerCase();
-                    formatterConstDay = createFormatter(lang.toLowerCase().equals("ar") || lang.toLowerCase().equals("ko") ? locale : Locale.US, (is24HourFormat ? "HH:mm" : "h:mm a").replace(":mm", NekoConfig.showSeconds.Bool() ? ":mm:ss" : ":mm"), (is24HourFormat ? "HH:mm" : "h:mm a").replace(":mm", NekoConfig.showSeconds.Bool() ? ":mm:ss" : ":mm"));
+                    formatterConstDay = createFormatter(lang.toLowerCase().equals("ar") || lang.toLowerCase().equals("ko") ? locale : Locale.US, (is24HourFormat ? "HH:mm" : "h:mm a").replace(":mm", CoreConfig.showSeconds.Bool() ? ":mm:ss" : ":mm"), (is24HourFormat ? "HH:mm" : "h:mm a").replace(":mm", CoreConfig.showSeconds.Bool() ? ":mm:ss" : ":mm"));
                 }
             }
         }
@@ -457,7 +457,7 @@ public class LocaleController {
     private HashMap<String, String> translitChars;
     private HashMap<String, String> ruTranslitChars;
 
-    public static boolean usePersianCalendar = NekoConfig.usePersianCalendar.Bool();
+    public static boolean usePersianCalendar = CoreConfig.usePersianCalendar.Bool();
 
     private class TimeZoneChangedReceiver extends BroadcastReceiver {
         @Override
@@ -1497,14 +1497,14 @@ public class LocaleController {
     /** Имя форка. */
     public static String getAppName() {
         try {
-            return ApplicationLoader.applicationContext.getString(R.string.OpenExtera);
+            return ApplicationLoader.applicationContext.getString(R.string.MZGram);
         } catch (Exception ignore) {
             return "MZGram";
         }
     }
 
     private String getStringInternal(String key, String fallback, int fallbackRes, int res) {
-        // exteraGram 12.9.0, LocaleController.java:2301 — перехват ДО обращения к localeValues.
+        // MZGram 12.9.0, LocaleController.java:2301 — перехват ДО обращения к localeValues.
         // Иначе на любом облачном языке (русский — облачный) ключ AppName подтягивается
         // из языкового пакета телеграма и форк снова называется «Telegram» во всех диалогах,
         // где заголовок берут как getString(R.string.AppName).
@@ -2836,11 +2836,11 @@ public class LocaleController {
     }
 
     public static String formatDateOnline(long date, boolean[] madeShorter, boolean localActivity, boolean relative) {
-        final int seenRes = localActivity ? R.string.OELastActivityFormatted : R.string.LastSeenFormatted;
-        final String seenDateKey = localActivity ? "OELastActivityDateFormatted" : "LastSeenDateFormatted";
-        final int seenDateRes = localActivity ? R.string.OELastActivityDateFormatted : R.string.LastSeenDateFormatted;
+        final int seenRes = localActivity ? R.string.MZLastActivityFormatted : R.string.LastSeenFormatted;
+        final String seenDateKey = localActivity ? "MZLastActivityDateFormatted" : "LastSeenDateFormatted";
+        final int seenDateRes = localActivity ? R.string.MZLastActivityDateFormatted : R.string.LastSeenDateFormatted;
         try {
-            if (relative && OpenExteraConfig.relativeLastSeen()) {
+            if (relative && MZGramConfig.relativeLastSeen()) {
                 long diff = System.currentTimeMillis() / 1000 - date;
                 if (diff < 0) {
                     diff = 0;
@@ -3122,7 +3122,7 @@ public class LocaleController {
     }
 
     public static String formatShortNumber(int number, int[] rounded) {
-        if (NekoConfig.disableNumberRounding.Bool()) {
+        if (CoreConfig.disableNumberRounding.Bool()) {
             if (rounded != null) {
                 rounded[0] = number;
             }

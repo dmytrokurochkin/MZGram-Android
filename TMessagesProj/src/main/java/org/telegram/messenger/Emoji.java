@@ -45,9 +45,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.helpers.remote.EmojiHelper;
 
 public class Emoji {
 
@@ -97,7 +97,7 @@ public class Emoji {
     }
 
     public static boolean isSelectedCustomPack() {
-        return isSelectedEmojiPack || NekoConfig.useSystemEmoji.Bool();
+        return isSelectedEmojiPack || CoreConfig.useSystemEmoji.Bool();
     }
 
     public static void reloadEmoji() {
@@ -147,7 +147,7 @@ public class Emoji {
             loadingEmoji[page][page2] = true;
             Utilities.globalQueue.postRunnable(() -> {
                 Bitmap bitmap;
-                if (NekoConfig.useSystemEmoji.Bool() || isSelectedEmojiPack) {
+                if (CoreConfig.useSystemEmoji.Bool() || isSelectedEmojiPack) {
                     int emojiSize = 66;
                     bitmap = Bitmap.createBitmap(emojiSize, emojiSize, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
@@ -718,9 +718,9 @@ public class Emoji {
         boolean replacedAppleLogo = EmojiHelper.replaceAppleLogo(s, fontMetrics);
         ArrayList<EmojiSpanRange> emojis = parseEmojis(s, emojiOnly);
         if (emojis.isEmpty()) {
-            // exteraGram фильтрует зальго на обоих выходах replaceEmoji
+            // MZGram фильтрует зальго на обоих выходах replaceEmoji
             // (12.9.0:Emoji.java:887,920) — то есть во всём приложении, а не
-            // в отдельных ячейках, как это делает NagramX.
+            // в отдельных ячейках, как это делает MZGram.
             return MessageHelper.zalgoFilter(replacedAppleLogo ? s : cs);
         }
 
@@ -787,7 +787,7 @@ public class Emoji {
         if (cs == null || cs.length() == 0) {
             return cs;
         }
-        if (NekoConfig.useSystemEmoji.Bool() && !EmojiHelper.containsAppleLogo(cs)) {
+        if (CoreConfig.useSystemEmoji.Bool() && !EmojiHelper.containsAppleLogo(cs)) {
             return cs;
         }
 
@@ -798,7 +798,7 @@ public class Emoji {
             s = Spannable.Factory.getInstance().newSpannable(cs.toString());
         }
         boolean replacedAppleLogo = EmojiHelper.replaceAppleLogo(s, fontMetrics);
-        if (NekoConfig.useSystemEmoji.Bool()) {
+        if (CoreConfig.useSystemEmoji.Bool()) {
             return replacedAppleLogo ? s : cs;
         }
         final int currentAccount = UserConfig.selectedAccount;

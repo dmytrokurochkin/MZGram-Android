@@ -160,7 +160,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.HashSet;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StoryRecorder.Touchable {
     private PaintCancelView cancelButton;
@@ -1961,7 +1961,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                     }
                     if (widgetsCount >= MessagesController.getInstance(currentAccount).storiesSuggestedReactionsLimitPremium) {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) container.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                            if (!CoreConfig.disableVibration.Bool()) container.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                         } catch (Exception ignored) {}
                         BulletinFactory.of(container, resourcesProvider).createSimpleBulletin(R.raw.chats_infotip,
                                 getString("LimitReached", R.string.LimitReached),
@@ -2028,7 +2028,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             } else if (widgetId == EmojiBottomSheet.WIDGET_LINK) {
                 if (!UserConfig.getInstance(currentAccount).isPremium()) {
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) alert.container.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                        if (!CoreConfig.disableVibration.Bool()) alert.container.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                     } catch (Exception ignored) {}
                     BulletinFactory.of(alert.container, resourcesProvider).createSimpleBulletin(R.raw.star_premium_2,
                         AndroidUtilities.premiumText(getString(R.string.StoryLinkPremium), () -> {

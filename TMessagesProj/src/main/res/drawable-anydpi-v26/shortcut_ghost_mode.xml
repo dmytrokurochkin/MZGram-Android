@@ -3,7 +3,7 @@
     <background android:drawable="@color/shortcut_icon_background" />
     <foreground>
         <inset
-            android:drawable="@drawable/ayu_ghost"
+            android:drawable="@drawable/arc_ghost"
             android:inset="34dp" />
     </foreground>
 </adaptive-icon>

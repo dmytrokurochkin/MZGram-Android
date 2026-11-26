@@ -37,9 +37,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
-import tw.nekomimi.nekogram.filters.AyuFilter;
-import xyz.nextalone.nagram.NaConfig;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
+import org.mzgram.core.filters.ArcFilter;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.core.utils.AndroidUtil;
 
 public class DownloadController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -614,7 +614,7 @@ public class DownloadController extends BaseController implements NotificationCe
 
     public boolean canDownloadMedia(MessageObject messageObject) {
         if (messageObject.getDocument() != null) {
-            if (AndroidUtil.isAutoDownloadDisabledFor(messageObject.getDocumentName()) || AyuFilter.isFiltered(messageObject, null)) {
+            if (AndroidUtil.isAutoDownloadDisabledFor(messageObject.getDocumentName()) || ArcFilter.isFiltered(messageObject, null)) {
                 return false;
             }
         }
@@ -676,7 +676,7 @@ public class DownloadController extends BaseController implements NotificationCe
         if (messageObject.isHiddenSensitive())
             return 0;
         if (messageObject.getDocument() != null) {
-            if (AndroidUtil.isAutoDownloadDisabledFor(messageObject.getDocumentName()) || AyuFilter.isFiltered(messageObject, null)) {
+            if (AndroidUtil.isAutoDownloadDisabledFor(messageObject.getDocumentName()) || ArcFilter.isFiltered(messageObject, null)) {
                 return 0;
             }
         }
@@ -879,7 +879,7 @@ public class DownloadController extends BaseController implements NotificationCe
             return canPreloadStories() ? 2 : 0;
         }
 
-        if (NaConfig.INSTANCE.getRegexFiltersEnabled().Bool() && AyuFilter.isFiltered(new MessageObject(currentAccount, message, false, false), null)) {
+        if (ExtConfig.INSTANCE.getRegexFiltersEnabled().Bool() && ArcFilter.isFiltered(new MessageObject(currentAccount, message, false, false), null)) {
             return 0;
         }
 
@@ -1589,7 +1589,7 @@ public class DownloadController extends BaseController implements NotificationCe
             }
             if (removed) {
                 getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged);
-                if (reason == 0 && !parentObject.isAyuDeleted()) {
+                if (reason == 0 && !parentObject.isArcDeleted()) {
                     NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.formatString("MessageNotFound", R.string.MessageNotFound));
                 } else if (reason == -1) {
                     LaunchActivity.checkFreeDiscSpaceStatic(2);

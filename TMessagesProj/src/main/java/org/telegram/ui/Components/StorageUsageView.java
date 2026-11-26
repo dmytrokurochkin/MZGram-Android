@@ -22,7 +22,7 @@ import org.telegram.ui.ActionBar.ThemeBind;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class StorageUsageView extends FrameLayout implements Theme.Colorable {
 
@@ -228,7 +228,7 @@ public class StorageUsageView extends FrameLayout implements Theme.Colorable {
             }
             calculatingTextView.setVisibility(View.GONE);
             if (totalSize > 0) {
-                divider.setVisibility(NaConfig.INSTANCE.getHideDividers().Bool() ? GONE : VISIBLE);
+                divider.setVisibility(ExtConfig.INSTANCE.getHideDividers().Bool() ? GONE : VISIBLE);
                 textSettingsCell.setVisibility(VISIBLE);
                 telegramCacheTextView.setVisibility(View.VISIBLE);
                 telegramDatabaseTextView.setVisibility(GONE);

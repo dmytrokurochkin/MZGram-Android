@@ -1,4 +1,4 @@
-"""Telegram client helpers: queues, requests, controllers, sending — exteraless plugin SDK.
+"""Telegram client helpers: queues, requests, controllers, sending — mzgram plugin SDK.
 
 All Java interop is lazy; importing this module on a host interpreter is
 safe, calling into it requires the Android runtime.
@@ -46,7 +46,7 @@ def _jclass(name: str):
     from java import jclass
     cls = jclass(name)
     try:
-        from extera_utils.plugin_loader import plain_java_class
+        from mz_utils.plugin_loader import plain_java_class
         if plain_java_class(name):
             _jclass_cache[name] = cls
     except Exception:
@@ -59,7 +59,7 @@ def _log(message):
         from android_utils import log
         log(message)
     except Exception:
-        print(f"[exteraless:client_utils] {message}", file=sys.stderr)
+        print(f"[mzgram:client_utils] {message}", file=sys.stderr)
 
 
 def _require(perm: str, what: str, detail=None):
@@ -173,7 +173,7 @@ def get_queue_by_name(name: str):
 
 
 def show_error_bulletin(message, fragment=None):
-    """Ошибка плашкой. Есть в SDK exteraGram и зовётся плагинами из client_utils,
+    """Ошибка плашкой. Есть в SDK MZGram и зовётся плагинами из client_utils,
     хотя реализация живёт в ui.bulletin, — без этого имени они не грузятся."""
     from ui.bulletin import BulletinHelper
     BulletinHelper.show_error(message, fragment)
@@ -246,8 +246,8 @@ def _request_delegate_type():
     class _RequestDelegate(dynamic_proxy(RequestDelegate)):
         def run(self, response, error):
             # Колбэк уходит в Java: ошибка плагина не должна ронять приложение.
-            with hook_scope(self._exteraless_account):
-                safe_call(self._exteraless_fn, response, error)
+            with hook_scope(self._mzgram_account):
+                safe_call(self._mzgram_fn, response, error)
 
     _request_delegate_class = _RequestDelegate
     return _RequestDelegate
@@ -269,11 +269,11 @@ def RequestCallback(fn, account=None):
     """
     resolved = _resolve_account(account, "RequestCallback")
     proxy = _request_delegate_type()()
-    proxy._exteraless_fn = fn
-    proxy._exteraless_account = resolved
+    proxy._mzgram_fn = fn
+    proxy._mzgram_account = resolved
     # Marks an already-wrapped callback so send_request does not double-wrap.
     try:
-        proxy.__dict__["_exteraless_request_delegate"] = True
+        proxy.__dict__["_mzgram_request_delegate"] = True
     except Exception:
         pass
     return proxy
@@ -281,7 +281,7 @@ def RequestCallback(fn, account=None):
 
 def _is_request_delegate(fn) -> bool:
     """True when *fn* is already a Java RequestDelegate rather than a callable."""
-    if getattr(fn, "_exteraless_request_delegate", False):
+    if getattr(fn, "_mzgram_request_delegate", False):
         return True
     # A dynamic_proxy instance exposes run() but is not callable itself;
     # every plain Python callback is callable. That is the discriminator.
@@ -320,7 +320,7 @@ def send_request(request, fn, account=None) -> int:
 
 def _plugin_services():
     try:
-        from app.exteraless.plugins import PluginServices
+        from org.mzgram.plugins import PluginServices
         return PluginServices
     except Exception:
         return None
@@ -453,7 +453,7 @@ def _apply_parse_mode(params, field: str, text, parse_mode):
     """Replace params.message/params.caption with parsed text + entities."""
     if not parse_mode or text is None:
         return
-    from extera_utils.text_formatting import parse_text
+    from mz_utils.text_formatting import parse_text
 
     parsed = parse_text(str(text), parse_mode, is_caption=(field == "caption"))
     plain = parsed.get(field, str(text))
@@ -469,7 +469,7 @@ def _parse_caption(caption, parse_mode):
         return None, None
     if not parse_mode:
         return str(caption), None
-    from extera_utils.text_formatting import parse_text
+    from mz_utils.text_formatting import parse_text
 
     parsed = parse_text(str(caption), parse_mode, is_caption=True)
     plain = parsed.get("caption", str(caption))
@@ -675,7 +675,7 @@ def send_audio(peer_id, path, caption=None, parse_mode=None,
 
 
 def _media_services():
-    from app.exteraless.plugins import PluginMediaServices
+    from org.mzgram.plugins import PluginMediaServices
     return PluginMediaServices
 
 
@@ -773,7 +773,7 @@ def edit_message(message_obj, text=None, file_path=None, with_spoiler=False,
     entities = None
     message = str(text)
     if parse_mode:
-        from extera_utils.text_formatting import parse_text
+        from mz_utils.text_formatting import parse_text
 
         parsed = parse_text(message, parse_mode)
         message = parsed.get("message", message)
@@ -921,7 +921,7 @@ def _internal(name):
     module = _internal_modules.get(name)
     if module is None:
         import importlib
-        module = importlib.import_module("extera_utils." + name)
+        module = importlib.import_module("mz_utils." + name)
         _internal_modules[name] = module
     return module
 
@@ -950,7 +950,7 @@ class NotificationCenterDelegate(_notification_delegate_base()):
     """Python base for NotificationCenter.NotificationCenterDelegate.
 
     The instance itself is the Java delegate: pass it straight to
-    addObserver/removeObserver, like on exteraGram. Override
+    addObserver/removeObserver, like on MZGram. Override
     didReceivedNotification(id, account, args) in a subclass or assign it on
     the instance. `.java` is kept for plugins written against the old proxy.
 

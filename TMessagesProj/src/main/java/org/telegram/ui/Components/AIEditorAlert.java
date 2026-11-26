@@ -97,7 +97,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class AIEditorAlert extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
 
@@ -679,7 +679,7 @@ public class AIEditorAlert extends BottomSheetWithRecyclerListView implements No
     @Override
     protected void onPreDraw(Canvas canvas, int top, float progressToFullView) {
         super.onPreDraw(canvas, top, progressToFullView);
-        if (!NaConfig.INSTANCE.getCenterActionBarTitle().Bool() || NaConfig.INSTANCE.getCenterActionBarTitleType().Int() == 3) {
+        if (!ExtConfig.INSTANCE.getCenterActionBarTitle().Bool() || ExtConfig.INSTANCE.getCenterActionBarTitleType().Int() == 3) {
             return;
         }
         final SimpleTextView titleTextView = actionBar.getTitleTextView();
@@ -1395,14 +1395,14 @@ public class AIEditorAlert extends BottomSheetWithRecyclerListView implements No
 
             adapter.update(true);
         };
-        if (app.exteraless.ai.TelegramAiReplacement.replacesEditor(currentAccount)) {
+        if (org.mzgram.ai.TelegramAiReplacement.replacesEditor(currentAccount)) {
             if (aiFallbackCancel != null) {
                 aiFallbackCancel.run();
             }
-            aiFallbackCancel = app.exteraless.ai.TelegramAiReplacement.compose(req, styleTabs.getSelectedTone(), from_lang,
+            aiFallbackCancel = org.mzgram.ai.TelegramAiReplacement.compose(req, styleTabs.getSelectedTone(), from_lang,
                 res -> onResult.run(res, null),
                 (code, error) -> {
-                    com.exteragram.messenger.ai.AiController.showErrorBulletin(bulletinContainer, resourcesProvider, code);
+                    org.mzgram.sdk.ai.AiController.showErrorBulletin(bulletinContainer, resourcesProvider, code);
                     aiFallbackFailed = true;
                     onResult.run(null, null);
                 });

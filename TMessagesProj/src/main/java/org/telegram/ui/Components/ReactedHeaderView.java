@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Consumer;
 
-import com.radolyn.ayugram.utils.LastSeenHelper;
+import org.mzgram.arc.utils.LastSeenHelper;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -37,7 +37,7 @@ import org.telegram.ui.ActionBar.ThemeBind;
 import java.util.ArrayList;
 import java.util.List;
 
-import tw.nekomimi.nekogram.filters.ReactionFilter;
+import org.mzgram.core.filters.ReactionFilter;
 
 public class ReactedHeaderView extends FrameLayout {
     private FlickerLoadingView flickerLoadingView;

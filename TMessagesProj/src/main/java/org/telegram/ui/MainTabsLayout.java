@@ -28,17 +28,17 @@ import org.telegram.ui.Components.AnimatedLinearLayout;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.glass.GlassTabView;
 
-import app.exteraless.appearance.MainTabsUiHelper;
+import org.mzgram.appearance.MainTabsUiHelper;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.ListAnimator;
-import me.vkryl.android.util.ClickHelper;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.ListAnimator;
+import org.mzgram.ux.android.util.ClickHelper;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.ext.ExtConfig;
 
 @SuppressLint("ViewConstructor")
 public class MainTabsLayout extends AnimatedLinearLayout {
@@ -47,7 +47,7 @@ public class MainTabsLayout extends AnimatedLinearLayout {
     public static final int BOTTOM_NAVIGATION_MODE_HIDE = 1;
     public static final int BOTTOM_NAVIGATION_MODE_FLOATING = 2;
 
-    private static final String KEY_BOTTOM_NAVIGATION_FLOATING = "OEAppearanceBottomNavigationFloating";
+    private static final String KEY_BOTTOM_NAVIGATION_FLOATING = "MZAppearanceBottomNavigationFloating";
 
     private static Boolean bottomNavigationFloating;
 
@@ -59,7 +59,7 @@ public class MainTabsLayout extends AnimatedLinearLayout {
     }
 
     public static void setBottomNavigationMode(int mode) {
-        NaConfig.INSTANCE.getHideBottomNavigationBar().setConfigBool(mode == BOTTOM_NAVIGATION_MODE_HIDE);
+        ExtConfig.INSTANCE.getHideBottomNavigationBar().setConfigBool(mode == BOTTOM_NAVIGATION_MODE_HIDE);
         final boolean floating = mode == BOTTOM_NAVIGATION_MODE_FLOATING;
         bottomNavigationFloating = floating;
         final SharedPreferences preferences = getBottomNavigationPreferences();
@@ -69,7 +69,7 @@ public class MainTabsLayout extends AnimatedLinearLayout {
     }
 
     public static boolean isBottomNavigationHidden() {
-        return NaConfig.INSTANCE.getHideBottomNavigationBar().Bool();
+        return ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool();
     }
 
     public static boolean isBottomNavigationVisible() {
@@ -91,7 +91,7 @@ public class MainTabsLayout extends AnimatedLinearLayout {
     }
 
     private static SharedPreferences getBottomNavigationPreferences() {
-        return ApplicationLoader.applicationContext == null ? null : NekoConfig.getPreferences();
+        return ApplicationLoader.applicationContext == null ? null : CoreConfig.getPreferences();
     }
 
     private final Theme.ResourcesProvider resourcesProvider;

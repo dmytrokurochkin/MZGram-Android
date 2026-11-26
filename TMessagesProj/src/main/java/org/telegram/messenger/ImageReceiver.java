@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class ImageReceiver implements NotificationCenter.NotificationCenterDelegate, AnimatedEmojiSpan.InvalidateHolder {
 
@@ -435,11 +435,11 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             parentObject = object;
         }
         setUseRoundForThumbDrawable(true);
-        if (!oeIsAvatar) {
-            // openExtera: это аватарка — пересчитываем радиус под настройку закругления.
-            oeIsAvatar = true;
+        if (!mzIsAvatar) {
+            // mzGram: это аватарка — пересчитываем радиус под настройку закругления.
+            mzIsAvatar = true;
             if (imageW > 0) {
-                oeRadiusWidth = imageW;
+                mzRadiusWidth = imageW;
             }
             applyRoundRadiusInternal();
         }
@@ -463,7 +463,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                         }
                     }
                 }
-                if (NaConfig.INSTANCE.getPremiumItemVideoAvatar().Bool() && vectorImageMarkup == null && animationEnabled && MessagesController.getInstance(currentAccount).isPremiumUser(user) && user.photo.has_video && LiteMode.isEnabled(LiteMode.FLAG_AUTOPLAY_VIDEOS)) {
+                if (ExtConfig.INSTANCE.getPremiumItemVideoAvatar().Bool() && vectorImageMarkup == null && animationEnabled && MessagesController.getInstance(currentAccount).isPremiumUser(user) && user.photo.has_video && LiteMode.isEnabled(LiteMode.FLAG_AUTOPLAY_VIDEOS)) {
                     final TLRPC.UserFull userFull = MessagesController.getInstance(currentAccount).getUserFull(user.id);
                     if (userFull == null) {
                         MessagesController.getInstance(currentAccount).loadFullUser(user, currentGuid, false);
@@ -2564,59 +2564,59 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         setRoundRadius(new int[]{tl, tr, br, bl});
     }
 
-    // openExtera: закругление аватарок. Храним запрошенный радиус, чтобы пересчитать его,
+    // mzGram: закругление аватарок. Храним запрошенный радиус, чтобы пересчитать его,
     // когда ресивер уже после setRoundRadius узнает, что рисует аватарку.
-    private final int[] oeRequestedRoundRadius = new int[4];
-    private boolean oeIsAvatar;
-    private float oeRadiusWidth;
-    // openExtera: радиус посчитан вызывающим через AppearanceConfig.getAvatarCorners(сторона) —
+    private final int[] mzRequestedRoundRadius = new int[4];
+    private boolean mzIsAvatar;
+    private float mzRadiusWidth;
+    // mzGram: радиус посчитан вызывающим через AppearanceConfig.getAvatarCorners(сторона) —
     // масштабировать его второй раз нельзя. См. setAvatarCornersApplied.
-    private boolean oeAvatarCornersApplied;
+    private boolean mzAvatarCornersApplied;
 
     public void setRoundRadius(int[] value) {
-        System.arraycopy(value, 0, oeRequestedRoundRadius, 0, Math.min(4, value.length));
+        System.arraycopy(value, 0, mzRequestedRoundRadius, 0, Math.min(4, value.length));
         applyRoundRadiusInternal();
     }
 
     /**
-     * openExtera: отключает глобальное масштабирование радиуса для этого ресивера.
+     * mzGram: отключает глобальное масштабирование радиуса для этого ресивера.
      * <p>
-     * Хук ниже умножает <b>запрошенный</b> радиус на corners/28 и совпадает с exteraGram только
+     * Хук ниже умножает <b>запрошенный</b> радиус на corners/28 и совпадает с MZGram только
      * там, где сток просит ровно половину стороны. Где сток просит больше (радиус во всю сторону
-     * ради гарантированного круга), масштабирование даёт круг и на середине слайдера — exteraGram
-     * в таких местах зовёт {@code ExteraConfig.getAvatarCorners(сторона)} напрямую
+     * ради гарантированного круга), масштабирование даёт круг и на середине слайдера — MZGram
+     * в таких местах зовёт {@code MZConfig.getAvatarCorners(сторона)} напрямую
      *. Вызывающий, сделавший так же,
      * обязан взвести этот флаг.
      */
     public void setAvatarCornersApplied(boolean applied) {
-        if (oeAvatarCornersApplied != applied) {
-            oeAvatarCornersApplied = applied;
+        if (mzAvatarCornersApplied != applied) {
+            mzAvatarCornersApplied = applied;
             applyRoundRadiusInternal();
         }
     }
 
     /**
-     * openExtera: радиус для аватарки со стороной {@code sizePx} пикселей — ровно контракт exteraGram
-     * {@code ExteraConfig.getAvatarCorners(f, true)}. Порядок вызовов не важен: флаг взводится до
+     * mzGram: радиус для аватарки со стороной {@code sizePx} пикселей — ровно контракт MZGram
+     * {@code MZConfig.getAvatarCorners(f, true)}. Порядок вызовов не важен: флаг взводится до
      * записи радиуса.
      */
     public void setRoundRadiusForAvatar(float sizePx) {
-        oeAvatarCornersApplied = true;
-        setRoundRadius(app.exteraless.appearance.AppearanceConfig.getAvatarCorners(sizePx));
+        mzAvatarCornersApplied = true;
+        setRoundRadius(org.mzgram.appearance.AppearanceConfig.getAvatarCorners(sizePx));
     }
 
     private void updateAvatarRadiusWidth() {
-        if (!oeIsAvatar || imageW <= 0 || Math.abs(oeRadiusWidth - imageW) < 1f) {
+        if (!mzIsAvatar || imageW <= 0 || Math.abs(mzRadiusWidth - imageW) < 1f) {
             return;
         }
-        oeRadiusWidth = imageW;
+        mzRadiusWidth = imageW;
         applyRoundRadiusInternal();
     }
 
     private void applyRoundRadiusInternal() {
-        int[] value = oeRequestedRoundRadius;
-        if (oeIsAvatar && !oeAvatarCornersApplied && !app.exteraless.appearance.AppearanceConfig.avatarCornersDefault()) {
-            if (app.exteraless.appearance.AppearanceConfig.singleCornerRadius()) {
+        int[] value = mzRequestedRoundRadius;
+        if (mzIsAvatar && !mzAvatarCornersApplied && !org.mzgram.appearance.AppearanceConfig.avatarCornersDefault()) {
+            if (org.mzgram.appearance.AppearanceConfig.singleCornerRadius()) {
                 // When "singleCornerRadius" is ON, all avatars must get the same corners
                 // regardless of what radius the stock code requested (circle vs squircle).
                 // Infer the avatar diameter from the max requested radius (= half-side for circles)
@@ -2624,25 +2624,25 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 int maxR = 0;
                 for (int a = 0; a < 4; a++) {
                     int r = value[a];
-                    if (oeRadiusWidth > 0) {
-                        r = Math.min(r, (int) Math.ceil(oeRadiusWidth / 2f));
+                    if (mzRadiusWidth > 0) {
+                        r = Math.min(r, (int) Math.ceil(mzRadiusWidth / 2f));
                     }
                     if (r > maxR) maxR = r;
                 }
-                int uniformCorner = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(maxR * 2f);
+                int uniformCorner = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(maxR * 2f);
                 int[] scaled = new int[4];
                 for (int a = 0; a < 4; a++) {
                     scaled[a] = uniformCorner;
                 }
                 value = scaled;
             } else {
-                int corners = app.exteraless.appearance.AppearanceConfig.avatarCorners();
-                int max = app.exteraless.appearance.AppearanceConfig.AVATAR_CORNERS_MAX;
+                int corners = org.mzgram.appearance.AppearanceConfig.avatarCorners();
+                int max = org.mzgram.appearance.AppearanceConfig.AVATAR_CORNERS_MAX;
                 int[] scaled = new int[4];
                 for (int a = 0; a < 4; a++) {
                     int r = value[a];
-                    if (oeRadiusWidth > 0) {
-                        r = Math.min(r, (int) Math.ceil(oeRadiusWidth / 2f));
+                    if (mzRadiusWidth > 0) {
+                        r = Math.min(r, (int) Math.ceil(mzRadiusWidth / 2f));
                     }
                     scaled[a] = (int) Math.ceil(r * corners / (float) max);
                 }

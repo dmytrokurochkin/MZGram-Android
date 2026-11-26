@@ -16,7 +16,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.google.android.material.loadingindicator.LoadingIndicator;
 
-import app.exteraless.appearance.M3CircularProgress;
+import org.mzgram.appearance.M3CircularProgress;
 
 import org.telegram.messenger.AndroidUtilities;
 
@@ -25,7 +25,7 @@ public class CircularProgressDrawable extends Drawable implements Drawable.Callb
     public float size = AndroidUtilities.dp(18);
     public float thickness = AndroidUtilities.dp(2.25f);
 
-    // Стиль 1 рисует LoadingIndicator из com.google.android.material, как у exteraGram;
+    // Стиль 1 рисует LoadingIndicator из com.google.android.material, как у MZGram;
     // дуга с дорожкой (стили 2 и 3) считается вручную в M3CircularProgress.
     private int currentStyle = M3CircularProgress.STYLE_LEGACY;
     private int trackColor;

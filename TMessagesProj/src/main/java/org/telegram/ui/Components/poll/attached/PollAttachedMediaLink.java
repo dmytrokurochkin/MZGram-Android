@@ -30,8 +30,8 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.PorterDuffColorFilterState;
 import org.telegram.ui.Components.poll.PollAttachedMedia;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class PollAttachedMediaLink extends PollAttachedMedia implements Drawable.Callback, FactorAnimator.Target {
     public final String url;

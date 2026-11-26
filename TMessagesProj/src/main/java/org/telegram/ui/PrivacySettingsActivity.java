@@ -84,9 +84,9 @@ import org.telegram.utils.glass.BaseFragmentSimpleGlass;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import tw.nekomimi.nekogram.settings.NekoPasscodeSettingsActivity;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.PasscodeHelper;
+import org.mzgram.core.settings.CorePasscodeSettingsActivity;
 
 public class PrivacySettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -478,7 +478,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                             Bulletin.make(PrivacySettingsActivity.this, layout, duration).show();
 
                             try {
-                                if (!NekoConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                                if (!CoreConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                             } catch (Exception ignored) {}
 
                             loadPasswordSettings();
@@ -529,7 +529,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             } else if (position == passcodeRow) {
                 presentFragment(PasscodeActivity.determineOpenFragment());
             } else if (position == falseBottomRow) {
-                presentFragment(new NekoPasscodeSettingsActivity());
+                presentFragment(new CorePasscodeSettingsActivity());
             } else if (position == secretWebpageRow) {
                 if (getMessagesController().secretWebpagePreview == 1) {
                     getMessagesController().secretWebpagePreview = 0;
@@ -602,8 +602,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     ((TextCheckCell) view).setChecked(newSync);
                 }
             } else if (position == disableSystemAccountRow) {
-                final boolean disable = !NekoConfig.disableSystemAccount.Bool();
-                NekoConfig.disableSystemAccount.setConfigBool(disable);
+                final boolean disable = !CoreConfig.disableSystemAccount.Bool();
+                CoreConfig.disableSystemAccount.setConfigBool(disable);
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(disable);
                 }
@@ -1335,7 +1335,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     } else if (position == contactsSuggestRow) {
                         textCheckCell.setTextAndCheck(getString("SuggestContacts", R.string.SuggestContacts), newSuggest, true);
                     } else if (position == disableSystemAccountRow) {
-                        textCheckCell.setTextAndCheck(getString(R.string.DisableSystemAccount), NekoConfig.disableSystemAccount.Bool(), false);
+                        textCheckCell.setTextAndCheck(getString(R.string.DisableSystemAccount), CoreConfig.disableSystemAccount.Bool(), false);
                     } else if (position == newChatsRow) {
                         textCheckCell.setTextAndCheck(getString("ArchiveAndMute", R.string.ArchiveAndMute), archiveChats, false);
                     }
@@ -1425,7 +1425,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                         }
                         textCell2.setTextAndValueAndIcon(getString(R.string.Passcode), value, true, icon, true);
                     } else if (position == falseBottomRow) {
-                        textCell2.setTextAndValueAndIcon(getString(R.string.OEPrivacyFalseBottom), "", true, R.drawable.msg_archive_hide, true);
+                        textCell2.setTextAndValueAndIcon(getString(R.string.MZPrivacyFalseBottom), "", true, R.drawable.msg_archive_hide, true);
                     } else if (position == blockedRow) {
                         int totalCount = getMessagesController().totalBlockedCount;
                         if (totalCount == 0) {

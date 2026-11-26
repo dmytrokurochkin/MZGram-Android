@@ -56,7 +56,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class LimitPreviewView extends LinearLayout implements Theme.Colorable {
 
@@ -480,7 +480,7 @@ public class LimitPreviewView extends LinearLayout implements Theme.Colorable {
                     if (!wasHaptic) {
                         wasHaptic = true;
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) limitIcon.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                            if (!CoreConfig.disableVibration.Bool()) limitIcon.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                         } catch (Exception ignored) {}
                     }
                     limitIcon.setRotation(limitIconRotation + (v - 1f) * 60);

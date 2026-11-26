@@ -85,12 +85,12 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.ChatsHelper;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.translate.TranslatorKt;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.ChatsHelper;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.translate.TranslatorKt;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class PhotoAlbumPickerActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -417,7 +417,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         sizeNotifierFrameLayout.addView(writeButtonContainer, LayoutHelper.createFrame(60, 60, Gravity.RIGHT | Gravity.BOTTOM, 0, 0, 12, 10));
 
         writeButton = new ImageView(context);
-        writeButtonDrawable = app.exteraless.utils.UIUtil.createFabSelectorDrawable(56, Theme.getColor(Theme.key_dialogFloatingButton), Theme.getColor(Build.VERSION.SDK_INT >= 21 ? Theme.key_dialogFloatingButtonPressed : Theme.key_dialogFloatingButton));
+        writeButtonDrawable = org.mzgram.utils.UIUtil.createFabSelectorDrawable(56, Theme.getColor(Theme.key_dialogFloatingButton), Theme.getColor(Build.VERSION.SDK_INT >= 21 ? Theme.key_dialogFloatingButtonPressed : Theme.key_dialogFloatingButton));
         if (Build.VERSION.SDK_INT < 21) {
             Drawable shadowDrawable = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
             shadowDrawable.setColorFilter(new PorterDuffColorFilter(0xff000000, PorterDuff.Mode.MULTIPLY));
@@ -435,9 +435,9 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 @SuppressLint("NewApi")
                 @Override
                 public void getOutline(View view, Outline outline) {
-                    if (app.exteraless.appearance.AppearanceConfig.squareFab()) {
+                    if (org.mzgram.appearance.AppearanceConfig.squareFab()) {
                         outline.setRoundRect(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56),
-                                AndroidUtilities.dp(app.exteraless.appearance.AppearanceConfig.fabCornerRadius(56)));
+                                AndroidUtilities.dp(org.mzgram.appearance.AppearanceConfig.fabCornerRadius(56)));
                     } else {
                         outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
                     }
@@ -452,7 +452,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                     finishFragment();
                 });
             } else {
-                sendSelectedPhotos(selectedPhotos, selectedPhotosOrder, !NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0);
+                sendSelectedPhotos(selectedPhotos, selectedPhotosOrder, !ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0);
                 finishFragment();
             }
         });
@@ -506,7 +506,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                             itemCells[a].setTextAndIcon(LocaleController.getString(R.string.ScheduleMessage), R.drawable.msg_calendar2);
                         }
                     } else {
-                        boolean sendWithoutSoundNax = NaConfig.INSTANCE.getSilentMessageByDefault().Bool();
+                        boolean sendWithoutSoundNax = ExtConfig.INSTANCE.getSilentMessageByDefault().Bool();
                         itemCells[a].setTextAndIcon(sendWithoutSoundNax ? getString(R.string.SendWithSound) : getString(R.string.SendWithoutSound), sendWithoutSoundNax ? R.drawable.input_notify_on : R.drawable.input_notify_off);
                     }
                     itemCells[a].setMinimumWidth(AndroidUtilities.dp(196));
@@ -525,7 +525,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                                 finishFragment();
                             });
                         } else if (num == 2) {
-                            sendSelectedPhotos(selectedPhotos, selectedPhotosOrder, NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0);
+                            sendSelectedPhotos(selectedPhotos, selectedPhotosOrder, ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0);
                             finishFragment();
                         }
                     });
@@ -563,7 +563,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             sendPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, location[0] + view.getMeasuredWidth() - sendPopupLayout.getMeasuredWidth() + AndroidUtilities.dp(8), location[1] - sendPopupLayout.getMeasuredHeight() - AndroidUtilities.dp(2));
             sendPopupWindow.dimBehind();
             try {
-                if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
             } catch (Exception ignored) {}
 
             return false;

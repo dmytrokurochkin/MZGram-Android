@@ -40,11 +40,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.math.MathUtils;
 import androidx.core.view.WindowInsetsCompat;
 
-import app.exteraless.appearance.AppearanceConfig;
-import app.exteraless.appearance.MainTabsUiHelper;
-import app.exteraless.feed.FeedController;
-import app.exteraless.feed.ui.FeedActivity;
-import app.exteraless.feed.ui.FeedChannelsActivity;
+import org.mzgram.appearance.AppearanceConfig;
+import org.mzgram.appearance.MainTabsUiHelper;
+import org.mzgram.feed.FeedController;
+import org.mzgram.feed.ui.FeedActivity;
+import org.mzgram.feed.ui.FeedChannelsActivity;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -101,17 +101,17 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Collections;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import tw.nekomimi.nekogram.BackButtonMenuRecent;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.AppRestartHelper;
-import tw.nekomimi.nekogram.helpers.MainTabsHelper;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import tw.nekomimi.nekogram.settings.GhostModeActivity;
-import tw.nekomimi.nekogram.ui.BookmarkManagerActivity;
-import tw.nekomimi.nekogram.utils.BrowserUtils;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.core.BackButtonMenuRecent;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.AppRestartHelper;
+import org.mzgram.core.helpers.MainTabsHelper;
+import org.mzgram.core.helpers.PasscodeHelper;
+import org.mzgram.core.settings.GhostModeActivity;
+import org.mzgram.core.ui.BookmarkManagerActivity;
+import org.mzgram.core.utils.BrowserUtils;
+import org.mzgram.ext.ExtConfig;
 
 public class MainTabsActivity extends ViewPagerActivity implements NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {
 
@@ -180,12 +180,12 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     private boolean dropCallsFragmentAfterPageScroll;
 
     private UpdateLayoutWrapper updateLayoutWrapper;
-    private app.exteraless.player.PlayerMiniView miniPlayer;
+    private org.mzgram.player.PlayerMiniView miniPlayer;
     private FrameLayout tabsViewWrapper;
     private MainTabsLayout tabsView;
     private BlurredBackgroundDrawable tabsViewBackground;
     private View fadeView;
-    private boolean lastHideContacts = NaConfig.INSTANCE.getMainTabsHideContacts().Bool();
+    private boolean lastHideContacts = ExtConfig.INSTANCE.getMainTabsHideContacts().Bool();
     private boolean lastHideCalls = MainTabsHelper.isCallsTabHidden();
     private boolean lastHideProfile = MainTabsHelper.isProfileTabHidden();
 
@@ -205,7 +205,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             @Override
             public int getBottomOffset(int tag) {
                 // В M3 всегда 64
-                return navigationBarHeight + (NaConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? 0 : dp(MainTabsUiHelper.getTabsFabOffsetDp())) + (miniPlayer != null ? (int) miniPlayer.getVisibleOffset() : 0);
+                return navigationBarHeight + (ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? 0 : dp(MainTabsUiHelper.getTabsFabOffsetDp())) + (miniPlayer != null ? (int) miniPlayer.getVisibleOffset() : 0);
             }
         };
 
@@ -484,9 +484,9 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         contentView.addView(fadeView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 0, Gravity.BOTTOM));
 
-        miniPlayer = new app.exteraless.player.PlayerMiniView(context, this, resourceProvider);
+        miniPlayer = new org.mzgram.player.PlayerMiniView(context, this, resourceProvider);
         miniPlayer.setOffsetListener(this::onMiniPlayerOffsetChanged);
-        contentView.addView(miniPlayer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, app.exteraless.player.PlayerMiniView.HEIGHT_DP + 16, Gravity.BOTTOM));
+        contentView.addView(miniPlayer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, org.mzgram.player.PlayerMiniView.HEIGHT_DP + 16, Gravity.BOTTOM));
         contentView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(@NonNull View v) {
@@ -552,7 +552,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             presentFragment(new CallLogActivity(args));
         });
         o.add(R.drawable.msg_archive_hide, getString(R.string.MainTabsHideContacts), () -> {
-            NaConfig.INSTANCE.getMainTabsHideContacts().setConfigBool(true);
+            ExtConfig.INSTANCE.getMainTabsHideContacts().setConfigBool(true);
             AndroidUtilities.runOnUIThread(this::rebuildContactsSlot);
         });
         o.setBlur(true);
@@ -1130,7 +1130,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     }
 
     private boolean canScrollInternal(MotionEvent ev, boolean forward) {
-        if (NaConfig.INSTANCE.getHideBottomNavigationBar().Bool()) {
+        if (ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool()) {
             return false;
         }
         final BaseFragment fragment = getCurrentVisibleFragment();
@@ -1165,7 +1165,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         ViewGroup.MarginLayoutParams lp;
         {
-            final int height = navigationBarHeight + updateLayoutHeight + (NaConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? 0 : dp(MainTabsUiHelper.getTabsViewHeightDp()));
+            final int height = navigationBarHeight + updateLayoutHeight + (ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? 0 : dp(MainTabsUiHelper.getTabsViewHeightDp()));
             lp = (ViewGroup.MarginLayoutParams) fadeView.getLayoutParams();
             if (lp.height != height) {
                 lp.height = height;
@@ -1299,7 +1299,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     }
 
     private void checkUi_fadeView() {
-        if (viewPager == null || fadeView == null || NaConfig.INSTANCE.getHideBottomNavigationBar().Bool()) {
+        if (viewPager == null || fadeView == null || ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool()) {
             return;
         }
 
@@ -1320,7 +1320,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         if (miniPlayer == null || updateLayoutWrapper == null) {
             return;
         }
-        final boolean hidden = NaConfig.INSTANCE.getHideBottomNavigationBar().Bool();
+        final boolean hidden = ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool();
         final int updateLayoutHeight = updateLayoutWrapper.isUpdateLayoutVisible() ? dp(UpdateLayoutWrapper.HEIGHT) : 0;
         final int tabsHeight = hidden ? 0 : dp(MainTabsUiHelper.getTabsViewHeightDp());
         final int gap = hidden || MainTabsUiHelper.isMaterial3NavigationBar() ? dp(12) : dp(4);
@@ -1381,7 +1381,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     private void checkUi_tabsPosition() {
         checkUi_miniPlayer();
         if (tabsView == null) return;
-        if (NaConfig.INSTANCE.getHideBottomNavigationBar().Bool()) {
+        if (ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool()) {
             tabsView.setVisibility(View.GONE);
             return;
         }
@@ -1507,7 +1507,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     private boolean accountSwitchHintShown;
 
     private void showAccountChangeHint() {
-        if (accountSwitchHintShown || NaConfig.INSTANCE.getHideBottomNavigationBar().Bool()) return;
+        if (accountSwitchHintShown || ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool()) return;
 
         if (accountSwitchHint == null && HintsController.Hint.AccountSwitchHint.show()) {
             AndroidUtilities.runOnUIThread(() -> {
@@ -1669,15 +1669,15 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         }
         if (index == INDEX_SETTINGS) {
             ItemOptions o = ItemOptions.makeOptions(this, button);
-            if (NekoConfig.showGhostInDrawer.Bool()) {
-                final String msg = NekoConfig.isGhostModeActive()
+            if (CoreConfig.showGhostInDrawer.Bool()) {
+                final String msg = CoreConfig.isGhostModeActive()
                     ? getString(R.string.DisableGhostMode)
                     : getString(R.string.EnableGhostMode);
-                o.add(R.drawable.ayu_ghost, msg, () -> presentFragment(new GhostModeActivity()), () -> {
-                    final String toggleMsg = NekoConfig.isGhostModeActive()
+                o.add(R.drawable.arc_ghost, msg, () -> presentFragment(new GhostModeActivity()), () -> {
+                    final String toggleMsg = CoreConfig.isGhostModeActive()
                         ? getString(R.string.GhostModeDisabled)
                         : getString(R.string.GhostModeEnabled);
-                    NekoConfig.toggleGhostMode();
+                    CoreConfig.toggleGhostMode();
                     BulletinFactory.of(contentView, resourceProvider).createSuccessBulletin(toggleMsg).show();
                     NotificationCenter.getInstance(UserConfig.selectedAccount).postNotificationName(NotificationCenter.mainUserInfoChanged);
                 });
@@ -1725,7 +1725,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             args.putLong("user_id", UserConfig.getInstance(currentAccount).getClientUserId());
             presentFragment(new ChatActivity(args));
         });
-        if (NaConfig.INSTANCE.getShowAddToBookmark().Bool()) {
+        if (ExtConfig.INSTANCE.getShowAddToBookmark().Bool()) {
             o.add(R.drawable.msg_fave, getString(R.string.BookmarksManager), () -> presentFragment(new BookmarkManagerActivity()));
         }
     }

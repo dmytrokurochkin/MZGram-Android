@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class SpoilersTextView extends TextView implements TextSelectionHelper.SimpleSelectabeleView {
     private SpoilersClickDetector clickDetector;
@@ -220,7 +220,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         revealGeneration++;
         revealPending = false;
         revealInProgress = false;
-        isSpoilersRevealed = NekoConfig.showSpoilersDirectly.Bool();
+        isSpoilersRevealed = CoreConfig.showSpoilersDirectly.Bool();
         super.setText(text, type);
     }
 

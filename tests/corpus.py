@@ -9,7 +9,7 @@ PYTHON_ROOT = os.path.join(REPO, "TMessagesProj", "src", "main", "python")
 JAVA_ROOT = os.path.join(REPO, "TMessagesProj", "src", "main", "java")
 MAPPING_DIR = os.path.join(REPO, "TMessagesProj", "build", "outputs", "mapping", "release")
 CORPUS_DIR = os.environ.get(
-    "EXTERALESS_PLUGIN_CORPUS", "/home/coral/openExtera/plugin-corpus/all")
+    "MZGRAM_PLUGIN_CORPUS", "/home/coral/mzGram/plugin-corpus/all")
 
 JAVA_ROOTS = (
     "java", "javax", "android", "androidx", "org", "com", "kotlin", "dalvik")

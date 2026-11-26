@@ -109,8 +109,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class ResaleGiftsFragment extends BaseFragment implements FactorAnimator.Target {
     private static final int ANIMATOR_ID_CLEAR_FILTERS_BUTTON_VISIBLE = 0;

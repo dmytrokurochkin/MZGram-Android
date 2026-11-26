@@ -69,8 +69,8 @@ import org.telegram.ui.LaunchActivity;
 import java.io.File;
 import java.util.Collections;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class StoriesUtilities {
 
@@ -203,7 +203,7 @@ public class StoriesUtilities {
             params.inc = false;
         }
         params.showProgress = showProgress;
-        if (NaConfig.INSTANCE.getDisableStories().Bool() || params.currentState == STATE_EMPTY && params.progressToSate == 1f) {
+        if (ExtConfig.INSTANCE.getDisableStories().Bool() || params.currentState == STATE_EMPTY && params.progressToSate == 1f) {
             avatarImage.setImageCoords(params.originalAvatarRect);
             canvas.save();
             canvas.scale(scale, scale, params.originalAvatarRect.centerX(), params.originalAvatarRect.centerY());
@@ -676,19 +676,19 @@ public class StoriesUtilities {
     private static final RectF forumRect = new RectF();
 
     /**
-     * Радиус кольца сторис. exteraGram рисует кольцо по форме аватарки, а не всегда кругом
+     * Радиус кольца сторис. MZGram рисует кольцо по форме аватарки, а не всегда кругом
      * (StoriesUtilities.java:805-819). Форумы с дефолтным слайдером сохраняют прежний dp(18).
      */
     private static float storyRingCorners(RectF outlineRect, AvatarStoryParams params, boolean isForum) {
-        if (isForum && app.exteraless.appearance.AppearanceConfig.avatarCornersDefault()) {
+        if (isForum && org.mzgram.appearance.AppearanceConfig.avatarCornersDefault()) {
             return dp(18);
         }
         float avatarWidth = params != null && params.originalAvatarRect != null && params.originalAvatarRect.width() > 0
                 ? params.originalAvatarRect.width()
                 : outlineRect.width() - dp(8);
-        float avatarRadius = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(
+        float avatarRadius = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(
                 avatarWidth,
-                isForum ? app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_FORUM : app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT,
+                isForum ? org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_FORUM : org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_DEFAULT,
                 false
         );
         float gap = (outlineRect.width() - avatarWidth) / 2f;
@@ -696,7 +696,7 @@ public class StoriesUtilities {
     }
 
     private static void drawCircleInternal(Canvas canvas, View view, AvatarStoryParams params, Paint paint, boolean isForum) {
-        if (isForum || !app.exteraless.appearance.AppearanceConfig.avatarCornersDefault()) {
+        if (isForum || !org.mzgram.appearance.AppearanceConfig.avatarCornersDefault()) {
             forumRect.set(rectTmp);
             forumRect.inset(dp(0.5f), dp(0.5f));
             final float r = storyRingCorners(forumRect, params, isForum);
@@ -716,9 +716,9 @@ public class StoriesUtilities {
     private static final Path forumSegmentPath = new Path();
 
     private static void drawSegment(Canvas canvas, RectF rectTmp, Paint paint, float startAngle, float endAngle, AvatarStoryParams params, boolean isForum) {
-        if (isForum || !app.exteraless.appearance.AppearanceConfig.avatarCornersDefault()) {
+        if (isForum || !org.mzgram.appearance.AppearanceConfig.avatarCornersDefault()) {
             // Сегментированное кольцо тоже идёт по форме аватарки.
-            float r = isForum && app.exteraless.appearance.AppearanceConfig.avatarCornersDefault()
+            float r = isForum && org.mzgram.appearance.AppearanceConfig.avatarCornersDefault()
                     ? rectTmp.height() * 0.32f
                     : storyRingCorners(rectTmp, params, isForum);
             float rotateAngle = (((int)(startAngle)) / 90) * 90 + 90;
@@ -1370,7 +1370,7 @@ public class StoriesUtilities {
                         }
                         AndroidUtilities.runOnUIThread(longPressRunnable = () -> {
                             try {
-                                if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                                if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                             } catch (Exception ignored) {}
                             if (buttonBounce != null) {
                                 buttonBounce.setPressed(false);

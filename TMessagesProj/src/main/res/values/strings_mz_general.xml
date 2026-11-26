@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGeneralTitle">General</string>
+    <string name="MZGeneralOtherTitle">Other</string>
+
+    <!-- Translate Messages -->
+    <string name="MZGeneralTranslateHeader">Translate Messages</string>
+    <string name="MZGeneralTranslateButton">Translate Button</string>
+    <string name="MZGeneralTranslateWholeChat">Translate Whole Chat</string>
+    <string name="MZGeneralTranslationProvider">Translation Provider</string>
+    <string name="MZGeneralTranslationTarget">Target Language</string>
+    <string name="MZGeneralTranslationTargetDefault">App Language</string>
+    <string name="MZGeneralDoNotTranslate">Do Not Translate</string>
+    <string name="MZGeneralTranslateInfo">The \'Translate\' button will appear in the message context menu.</string>
+
+    <!-- App Navigation -->
+    <string name="MZBottomNavigationModeFloating">Floating</string>
+
+    <!-- General -->
+    <string name="MZGeneralSectionHeader">General</string>
+    <string name="MZGeneralDisableNumberRounding">Disable Number Rounding</string>
+    <string name="MZGeneralDisableNumberRoundingValue">1.23K → 1,234</string>
+    <string name="MZGeneralFormatTimeWithSeconds">Format Time with Seconds</string>
+    <string name="MZGeneralFormatTimeWithSecondsValue">12:34 → 12:34:56</string>
+    <string name="MZGeneralRelativeLastSeen">Relative Last Seen</string>
+    <string name="MZGeneralInAppVibration">In-App Vibration</string>
+    <string name="MZGeneralFilterZalgo">Filter \"Zalgo\"</string>
+    <string name="MZGeneralFilterZalgoInfo">Removes stacked combining marks that break text layout. Example: %1$s</string>
+
+
+    <!-- Download Speed Boost -->
+    <string name="MZGeneralSpeedHeader">Download Speed Boost</string>
+    <string name="MZGeneralNetworkSpeedHeader">Network and downloads</string>
+    <string name="MZGeneralBackupHeader">Backup</string>
+    <string name="MZGeneralSpeedOff">Off</string>
+    <string name="MZGeneralSpeedFast">Fast</string>
+    <string name="MZGeneralSpeedUltra">Ultra</string>
+    <string name="MZGeneralUploadBoost">Upload Speed Boost</string>
+    <string name="MZGeneralSpeedBoostInfo">Ultra Boost can cause problems with your network or battery. Upload Speed Boost uploads files in bigger chunks and increases traffic usage.</string>
+
+    <!-- Storage -->
+    <string name="MZGeneralStorageHeader">Storage</string>
+    <string name="MZGeneralSavePath">Save Path</string>
+    <string name="MZGeneralSavePathDefault">Default</string>
+    <string name="MZGeneralSavePathHint">Folder name</string>
+    <string name="MZGeneralSavePathInfo">Name of the folder inside Downloads where saved files are placed. Letters, digits, spaces, dot, dash and underscore only.</string>
+    <string name="MZGeneralSavePathInfoFolder">Saved files are placed in Downloads/%1$s. Letters, digits, spaces, dot, dash and underscore only.</string>
+
+    <!-- Profile -->
+    <string name="MZGeneralProfileHeader">Profile</string>
+    <string name="MZGeneralHidePhone">Hide Phone Number</string>
+    <string name="MZGeneralShowIdAndDc">Show ID and DC</string>
+    <string name="MZGeneralShowIdAndDcInfo">Shows the user or chat ID and the data center number on the profile page.</string>
+
+    <!-- Archive -->
+    <string name="MZGeneralArchiveHeader">Chat List and Archive</string>
+    <string name="MZGeneralHideArchive">Hide Archive Folder</string>
+    <string name="MZGeneralArchiveOnPull">Open Archive on Pull-down</string>
+    <string name="MZGeneralDisableUnarchiveSwipe">Disable \"Unarchive\" Swipe</string>
+    <string name="MZGeneralDisableUnarchiveSwipeInfo">Swiping left will not remove a chat from the archive.</string>
+
+    <!-- Google -->
+
+    <!-- Settings Management -->
+    <string name="MZGeneralExportBackupSettings">Export settings</string>
+    <string name="MZGeneralImportBackupSettings">Import settings</string>
+    <string name="MZGeneralResetSettings">Reset Settings</string>
+    <string name="MZGeneralResetSettingsInfo">All settings will be reset to their default values, and the app will restart.</string>
+    <string name="MZGeneralResetSettingsDone">MZGram preferences have been reset.</string>
+    <string name="MZGeneralDeleteAccount">Delete Account</string>
+    <string name="DeepLFormalityDefault">Tone: as it comes</string>
+    <string name="DeepLFormalityInformal">Tone: informal</string>
+    <string name="DeepLFormalityFormal">Tone: formal</string>
+    <string name="MZGeneralMZGramHeader">Extras</string>
+    <string name="MZGeneralMZGramSettings">Advanced settings</string>
+    <string name="MZGeneralArcMoments">Message archive</string>
+    <string name="MZGeneralArcMomentsInfo">Saving deleted and edited messages, ghost mode and regex filters. The features keep working while they are on, whether or not you open this screen.</string>
+    <string name="MZGeneralArcMomentsDisableAll">Turn off all message archive features</string>
+    <string name="MZLastActivityFormatted">last activity %1$s</string>
+    <string name="MZLastActivityDateFormatted">last activity %1$s</string>
+    <string name="MZGeneralNotificationsHeader">Notifications</string>
+    <string name="MZGeneralPushStatus">Push status</string>
+    <string name="MZGeneralPushStatusBlocked">blocked by system</string>
+    <string name="MZGeneralPushStatusNoToken">no token</string>
+    <string name="MZGeneralPushStatusNotRegistered">not registered</string>
+    <string name="MZGeneralPushStatusNothing">nothing received</string>
+    <string name="MZGeneralBatteryOptimization">Battery optimization</string>
+    <string name="MZGeneralBatteryOptimizationOn">Enabled — pushes may be delayed</string>
+    <string name="MZGeneralBatteryOptimizationOff">Disabled</string>
+    <string name="MZGeneralBatteryOptimizationUnavailable">Battery settings are unavailable on this device</string>
+    <string name="MZGeneralNotificationsInfo">Tap the push status to copy diagnostics to the clipboard — attach it when reporting a notification problem. If battery optimization is enabled, Android may delay or drop pushes while the app is in the background.</string>
+    <string name="MZGeneralGoogleHeader">Google</string>
+    <string name="MZGeneralCrashReports">Crash reports</string>
+    <string name="MZGeneralCrashReportsInfo">Sends crash stack traces to Firebase Crashlytics so failures can be fixed without a manual report. Off by default; nothing leaves the device while it is off.</string>
+    <string name="MZGeneralContentCapture">Share screen content with Android</string>
+    <string name="MZGeneralContentCaptureInfo">Needed for Pixel Live Translate and system on-screen suggestions. While off, the system does not see chat text and lists scroll smoother.</string>
+    <string name="MZGeneralMapsHeader">Maps</string>
+    <string name="MZGeneralUseOsmMapInfo">Draws the location picker and live locations with OpenStreetMap tiles instead of Google Maps. Location previews inside messages still come from Telegram servers.</string>
+    <string name="MZGeneralMapProvider">Map provider</string>
+    <string name="MZGeneralMapPreview">Location previews</string>
+    <string name="MZGeneralMapDriftingFix">Fix map drifting</string>
+    <string name="MZCrashTitle">MZGram crashed</string>
+    <string name="MZGeneralNetworkHeader">Network</string>
+    <string name="MZGeneralDnsOverHttps" translatable="false">DNS over HTTPS</string>
+    <string name="MZPrivacyFalseBottom">False Bottom</string>
+    <string name="MZPrivacyFalseBottomShowIn">Show in %1$s</string>
+    <string name="AskBeforeOpeningStory">Ask before opening a story</string>
+    <string name="AskBeforeOpeningStoryInfo">Offers to view it in ghost mode, normally or not at all.</string>
+    <string name="AskBeforeOpeningStoryTitle">Open story?</string>
+    <string name="AskBeforeOpeningStoryGhost">View in ghost mode</string>
+    <string name="AskBeforeOpeningStoryNormal">View</string>
+    <string name="GhostScheduledSend">Send as scheduled</string>
+    <string name="GhostScheduledSendNotice">While your online status is hidden, messages are sent as scheduled ones 12 seconds later, so you don\'t appear online.</string>
+    <string name="CloudConfigIncludeApiKeys">Save AI keys</string>
+    <string name="CloudConfigIncludeApiKeysDesc">API keys of AI and translation services are uploaded to the cloud too.</string>
+    <string name="MZCloudTitle">Cloud</string>
+    <string name="MZCloudHeroTitle">Settings in the cloud</string>
+    <string name="MZCloudHeroText">Keep your MZGram settings in Telegram and restore them on any device signed in to this account.</string>
+    <string name="MZCloudStatus">Status</string>
+    <string name="MZCloudLocal">This device</string>
+    <string name="MZCloudRemote">Cloud</string>
+    <string name="MZCloudChecking">checking…</string>
+    <string name="MZCloudActions">Actions</string>
+    <string name="MZCloudUpload">Upload to cloud</string>
+    <string name="MZCloudUploading">Uploading…</string>
+    <string name="MZCloudUploaded">Settings uploaded to the cloud</string>
+    <string name="MZCloudRestore">Restore from cloud</string>
+    <string name="MZCloudRestoring">Restoring…</string>
+    <string name="MZCloudRestoreAction">Restore</string>
+    <string name="MZCloudRestoreConfirm">Your current settings will be replaced with the cloud copy, then the app restarts.</string>
+    <string name="MZCloudClear">Clear cloud</string>
+    <string name="MZCloudClearing">Clearing…</string>
+    <string name="MZCloudClearAction">Clear</string>
+    <string name="MZCloudClearConfirm">The cloud copy will be deleted. Settings on this device stay as they are.</string>
+    <string name="MZCloudOptions">Options</string>
+    <string name="MZCloudAutoSync">Auto-sync</string>
+    <string name="MZCloudAutoSyncInfo">Upload after every settings change</string>
+    <string name="MZArcSaveReadDate">Save Read Date</string>
+    <string name="MZArcGhostHeader">Ghost</string>
+    <string name="MZArcSavingHeader">Saving</string>
+    <string name="MZArcDeletedHeader">Deleted messages in chat</string>
+    <string name="MZArcOtherHeader">Other</string>
+    <string name="MZArcDangerHeader">Danger zone</string>
+    <string name="MZArcSaveReadDateInfo">Remembers when your messages were read and listened to. Shown in the message menu when Telegram doesn\'t provide the time.</string>
+    <string name="MZArcPlayedTodayAt">listened at %s</string>
+    <string name="MZArcPlayedYesterdayAt">listened yesterday at %s</string>
+    <string name="MZArcPlayedDateTimeAt">listened %1$s at %2$s</string>
+    <string name="MZArcForwardLoadingMedia">Loading media</string>
+    <string name="MZArcForwardLoadingCount">Files: %1$d of %2$d</string>
+    <string name="MZArcForwardLoadFailed">Couldn\'t load media for forwarding</string>
+    <string name="MZUpdateAvailable">Update available: %1$s</string>
+    <string name="MZUpdateInstall">Update</string>
+    <string name="MZUpdateInstallSize">Update (%1$s)</string>
+    <string name="MZUpdateLater">Later</string>
+    <string name="MZUpdateSkip">Skip this version</string>
+    <string name="MZUpdateDownloading">Downloading update</string>
+    <string name="MZUpdateDownloadFailed">Could not download the update</string>
+    <string name="MZUpdateCheckFailed">Could not check for updates</string>
+    <string name="MZUserLookupTitle">Starting @usinfobot</string>
+    <string name="MZUserLookupStart">Finding a user by ID requires **@usinfobot**. It only works once started, so we\'ll send it /start. A chat with it will appear in your chat list.</string>
+    <string name="MZUserLookupStartButton">Start</string>
+    <string name="MZUserLookupNotFound">User %1$d not found</string>
+    <string name="MZUpdateTitle">Update available</string>
+    <string name="MZUpdateDownloadProgress">%1$s of %2$s</string>
+    <string name="MZArcSaveInArchived">Save in archived chats</string>
+    <string name="MZArcSaveInArchivedInfo">Deleted and edited messages from chats in the archive are saved too.</string>
+    <string name="MZArcDatabaseExport">Export database</string>
+    <string name="MZArcDatabaseImport">Import database</string>
+    <string name="MZArcDatabaseImportInfo">Deleted and edited messages from this file will be added to the ones already saved. Exports from MZGram and other clients are supported. Media from another app may be unavailable.</string>
+    <string name="MZArcDatabaseImportDone">Messages added: %1$d</string>
+    <string name="MZArcDatabaseImportFailed">Couldn\'t import this file</string>
+    <string name="MZArcRegexReversed">Reversed</string>
+    <string name="MZArcRegexReversedInfo">Hide messages that don\'t match the expression</string>
+    <string name="MZUpdaterChecking">Checking for updates…</string>
+    <string name="MZUpdaterLatest">You have the latest version</string>
+    <string name="MZUpdaterAvailable">Version %1$s is available</string>
+    <string name="MZUpdaterFailedInfo">Check your connection and try again</string>
+    <string name="MZUpdaterCheckedJustNow">Checked just now</string>
+    <string name="MZUpdaterCheckedAt">Checked %1$s</string>
+    <string name="MZUpdaterCheckAgain">Check again</string>
+    <string name="MZUpdaterChannel">Automatic check</string>
+    <string name="MZUpdaterChannelOff">Off</string>
+    <string name="MZUpdaterChannelStable">Releases</string>
+    <string name="MZUpdaterChannelBeta">Beta</string>
+    <string name="MZUpdaterChannelOffInfo">Updates are checked only when you tap the logo.</string>
+    <string name="MZUpdaterChannelStableInfo">New releases on GitHub are checked every 6 hours.</string>
+    <string name="MZUpdaterChannelBetaInfo">Also offers GitHub pre-releases before they become releases.</string>
+    <string name="MZUpdaterAllReleases">All releases on GitHub</string>
+    <string name="MZLiteFollowSystemSaver">Follow system battery saver</string>
+    <string name="MZLiteFollowSystemSaverInfo">Power saving turns on together with the system battery saver.</string>
+    <string name="MZUnknownSettingsOption">There is no such option in MZGram settings.</string>
+</resources>

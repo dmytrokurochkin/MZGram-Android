@@ -8,7 +8,7 @@
 
 package org.telegram.ui.Cells;
 
-import app.exteraless.chats.ChatsConfig;
+import org.mzgram.chats.ChatsConfig;
 import org.telegram.messenger.FileLog;
 import android.content.Context;
 import android.graphics.PorterDuff;

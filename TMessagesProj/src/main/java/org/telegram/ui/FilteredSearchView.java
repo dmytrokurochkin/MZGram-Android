@@ -93,13 +93,13 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Locale;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import tw.nekomimi.nekogram.utils.ProxyUtil;
+import org.mzgram.core.ui.BottomBuilder;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.core.utils.ProxyUtil;
 
 @SuppressLint("ViewConstructor")
 public class FilteredSearchView extends FrameLayout implements Theme.Colorable, NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {
@@ -1163,8 +1163,8 @@ public class FilteredSearchView extends FrameLayout implements Theme.Colorable, 
                         }
                         return;
                     }
-                    // exteraless plugins: установить плагин, а не открывать его в просмотрщике.
-                    if (app.exteraless.plugins.PluginInstallHelper.handleMessageTap(parentActivity, message)) {
+                    // mzgram plugins: установить плагин, а не открывать его в просмотрщике.
+                    if (org.mzgram.plugins.PluginInstallHelper.handleMessageTap(parentActivity, message)) {
                         return;
                     }
                     AndroidUtilities.openDocument(message, parentActivity, parentFragment);

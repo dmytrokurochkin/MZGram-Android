@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="OEBotPrivacyEnabled">Conta escolhida para bots</string>
-    <string name="OEBotPrivacyAccount">Conta para bots</string>
-    <string name="OEBotPrivacySelect">Escolher conta</string>
-    <string name="OEBotPrivacyChoose">Escolha a conta para este bot. Conversas existentes mantêm a conta original.</string>
-    <string name="OEBotPrivacyInfo">Novas conversas privadas com bots usarão esta conta. Bots com que você já conversou continuarão usando a conta original. Isso separa as contas, mas não deixa você anônimo nem revoga informações já compartilhadas. Grupos, modo inline, menu de anexos e autenticação mantêm a própria conta.</string>
-    <string name="OEBotPrivacyUnavailable">A conta para bots não está disponível. Escolha outra conta ou desative o recurso e abra o bot novamente. Nenhuma mensagem foi enviada.</string>
-    <string name="OEBotPrivacyFailed">Não foi possível escolher uma conta com segurança para este bot. Verifique sua conexão e abra o bot novamente. Se este chat já estava aberto quando você mudou a configuração, reabra-o antes de enviar. Nenhuma mensagem foi enviada.</string>
-    <string name="OEBotPrivacyOpened">Aberto com %1$s</string>
-    <string name="OEBotPrivacyReady">Conta verificada. Toque em Enviar novamente para enviar sua mensagem.</string>
-    <string name="OEBotPrivacyAlwaysAsk">Sempre perguntar</string>
-    <string name="OEBotPrivacyAlwaysAskInfo">Perguntar qual conta usar em cada nova conversa privada com um bot. Conversas existentes mantêm a conta original.</string>
-    <string name="OEBotPrivacyAskPrivacyInfo">Escolher uma conta não deixa você anônimo nem revoga informações já compartilhadas. Grupos, modo inline, menu de anexos e autenticação mantêm a própria conta.</string>
-    <string name="OEBotPrivacyOff">Conta atual</string>
+    <string name="MZBotPrivacyEnabled">Conta escolhida para bots</string>
+    <string name="MZBotPrivacyAccount">Conta para bots</string>
+    <string name="MZBotPrivacySelect">Escolher conta</string>
+    <string name="MZBotPrivacyChoose">Escolha a conta para este bot. Conversas existentes mantêm a conta original.</string>
+    <string name="MZBotPrivacyInfo">Novas conversas privadas com bots usarão esta conta. Bots com que você já conversou continuarão usando a conta original. Isso separa as contas, mas não deixa você anônimo nem revoga informações já compartilhadas. Grupos, modo inline, menu de anexos e autenticação mantêm a própria conta.</string>
+    <string name="MZBotPrivacyUnavailable">A conta para bots não está disponível. Escolha outra conta ou desative o recurso e abra o bot novamente. Nenhuma mensagem foi enviada.</string>
+    <string name="MZBotPrivacyFailed">Não foi possível escolher uma conta com segurança para este bot. Verifique sua conexão e abra o bot novamente. Se este chat já estava aberto quando você mudou a configuração, reabra-o antes de enviar. Nenhuma mensagem foi enviada.</string>
+    <string name="MZBotPrivacyOpened">Aberto com %1$s</string>
+    <string name="MZBotPrivacyReady">Conta verificada. Toque em Enviar novamente para enviar sua mensagem.</string>
+    <string name="MZBotPrivacyAlwaysAsk">Sempre perguntar</string>
+    <string name="MZBotPrivacyAlwaysAskInfo">Perguntar qual conta usar em cada nova conversa privada com um bot. Conversas existentes mantêm a conta original.</string>
+    <string name="MZBotPrivacyAskPrivacyInfo">Escolher uma conta não deixa você anônimo nem revoga informações já compartilhadas. Grupos, modo inline, menu de anexos e autenticação mantêm a própria conta.</string>
+    <string name="MZBotPrivacyOff">Conta atual</string>
 </resources>

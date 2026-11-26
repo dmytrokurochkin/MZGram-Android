@@ -99,13 +99,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Objects;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.android.animator.ReplaceAnimator;
-import app.exteraless.appearance.AppearanceConfig;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.TypefaceHelper;
-import tw.nekomimi.nekogram.ui.components.AnimatedTitleView;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.ReplaceAnimator;
+import org.mzgram.appearance.AppearanceConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.TypefaceHelper;
+import org.mzgram.core.ui.components.AnimatedTitleView;
 
 @SuppressLint("ViewConstructor")
 public class DialogStoriesCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {
@@ -461,7 +461,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             return;
         }
         try {
-            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         } catch (Exception ignored) {}
         if (cell.isSelf && !storiesController.hasSelfStories()) {
             if (!MessagesController.getInstance(currentAccount).storiesEnabled()) {
@@ -1090,7 +1090,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                     public void onAnimationStart(Animator animation) {
                         super.onAnimationStart(animation);
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                         } catch (Exception ignored) {}
                     }
                 });

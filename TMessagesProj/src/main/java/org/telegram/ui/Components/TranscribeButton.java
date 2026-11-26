@@ -52,13 +52,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.helpers.TranscribeHelper;
-import tw.nekomimi.nekogram.llm.LlmConfig;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.translate.TranslatorKt;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.helpers.TranscribeHelper;
+import org.mzgram.core.llm.LlmConfig;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.translate.TranslatorKt;
+import org.mzgram.core.utils.AndroidUtil;
 
 public class TranscribeButton {
 
@@ -907,7 +907,7 @@ public class TranscribeButton {
         transcribeOperationsByDialogPosition.put(reqInfoHash(messageObject), messageObject);
 
         String textToTranslate = MessageHelper.getMessagePlainText(messageObject, null);
-        locale = locale != null ? locale : TranslatorKt.getCode2Locale(NekoConfig.translateToLang.String());
+        locale = locale != null ? locale : TranslatorKt.getCode2Locale(CoreConfig.translateToLang.String());
         Translator.translate(locale, textToTranslate, LlmConfig.isLLMTranslatorAvailable() ? Translator.providerLLMTranslator : 0, new Translator.Companion.TranslateCallBack() {
             @Override
             public void onSuccess(@NonNull String translatedText) {

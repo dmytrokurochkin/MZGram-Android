@@ -12,16 +12,16 @@ def test_bot_account_policy(tmp_path, name):
     if not shutil.which('javac'):
         pytest.skip('JDK required')
     subprocess.run(['javac', '-d', str(tmp_path),
-        str(ROOT / f'TMessagesProj/src/main/java/app/exteraless/privacy/{name}.java'),
+        str(ROOT / f'TMessagesProj/src/main/java/org/mzgram/privacy/{name}.java'),
         str(ROOT / f'tests/bot_privacy/{name}Test.java')], check=True)
     subprocess.run(['java', '-cp', str(tmp_path),
-        f'app.exteraless.privacy.{name}Test'], check=True)
+        f'org.mzgram.privacy.{name}Test'], check=True)
 
 
 def test_bot_account_navigation_keeps_destination_chat_list(tmp_path):
     if not shutil.which('javac'):
         pytest.skip('JDK required')
-    source = (ROOT / 'TMessagesProj/src/main/java/app/exteraless/privacy/BotAccountRouter.java').read_text()
+    source = (ROOT / 'TMessagesProj/src/main/java/org/mzgram/privacy/BotAccountRouter.java').read_text()
     start = source.index('                    boolean switched = account != UserConfig.selectedAccount;')
     end = source.index('                    if (switched) showAccount(fragment, account);', start)
     harness = (ROOT / 'tests/bot_privacy/BotAccountNavigationTest.java').read_text()

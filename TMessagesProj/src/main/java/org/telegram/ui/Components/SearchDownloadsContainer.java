@@ -164,8 +164,8 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                         PhotoViewer.getInstance().openPhoto(documents, 0, 0, 0, 0, new PhotoViewer.EmptyPhotoViewerProvider());
                         return;
                     }
-                    // exteraless plugins: установить плагин, а не открывать его в просмотрщике.
-                    if (app.exteraless.plugins.PluginInstallHelper.handleMessageTap(parentActivity, message)) {
+                    // mzgram plugins: установить плагин, а не открывать его в просмотрщике.
+                    if (org.mzgram.plugins.PluginInstallHelper.handleMessageTap(parentActivity, message)) {
                         return;
                     }
                     AndroidUtilities.openDocument(message, parentActivity, parentFragment);

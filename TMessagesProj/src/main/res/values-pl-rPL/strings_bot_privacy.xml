@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="OEBotPrivacyEnabled">Wybrane konto dla botów</string>
-    <string name="OEBotPrivacyAccount">Konto dla botów</string>
-    <string name="OEBotPrivacySelect">Wybierz konto</string>
-    <string name="OEBotPrivacyChoose">Wybierz konto dla tego bota. Istniejące rozmowy zachowują swoje pierwotne konta.</string>
-    <string name="OEBotPrivacyInfo">Nowe prywatne rozmowy z botami będą korzystać z tego konta. Boty, z którymi już rozmawiałeś, nadal będą używać swoich pierwotnych kont. To rozdziela konta, ale nie czyni cię anonimowym ani nie cofa już udostępnionych informacji. Grupy, tryb inline, menu załączników i uwierzytelnianie zachowują własne konto.</string>
-    <string name="OEBotPrivacyUnavailable">Konto dla botów jest niedostępne. Wybierz inne konto lub wyłącz funkcję, a potem ponownie otwórz bota. Nie wysłano żadnej wiadomości.</string>
-    <string name="OEBotPrivacyFailed">Nie udało się bezpiecznie wybrać konta dla tego bota. Sprawdź połączenie i ponownie otwórz bota. Jeśli ten czat był już otwarty, gdy zmieniałeś ustawienie, otwórz go ponownie przed wysłaniem. Nie wysłano żadnej wiadomości.</string>
-    <string name="OEBotPrivacyOpened">Otwarto za pomocą %1$s</string>
-    <string name="OEBotPrivacyReady">Konto sprawdzone. Stuknij Wyślij ponownie, aby wysłać wiadomość.</string>
-    <string name="OEBotPrivacyAlwaysAsk">Zawsze pytaj</string>
-    <string name="OEBotPrivacyAlwaysAskInfo">Pytaj, którego konta użyć przy każdej nowej prywatnej rozmowie z botem. Istniejące rozmowy zachowują swoje pierwotne konta.</string>
-    <string name="OEBotPrivacyAskPrivacyInfo">Wybór konta nie czyni cię anonimowym ani nie cofa już udostępnionych informacji. Grupy, tryb inline, menu załączników i uwierzytelnianie zachowują własne konto.</string>
-    <string name="OEBotPrivacyOff">Bieżące konto</string>
+    <string name="MZBotPrivacyEnabled">Wybrane konto dla botów</string>
+    <string name="MZBotPrivacyAccount">Konto dla botów</string>
+    <string name="MZBotPrivacySelect">Wybierz konto</string>
+    <string name="MZBotPrivacyChoose">Wybierz konto dla tego bota. Istniejące rozmowy zachowują swoje pierwotne konta.</string>
+    <string name="MZBotPrivacyInfo">Nowe prywatne rozmowy z botami będą korzystać z tego konta. Boty, z którymi już rozmawiałeś, nadal będą używać swoich pierwotnych kont. To rozdziela konta, ale nie czyni cię anonimowym ani nie cofa już udostępnionych informacji. Grupy, tryb inline, menu załączników i uwierzytelnianie zachowują własne konto.</string>
+    <string name="MZBotPrivacyUnavailable">Konto dla botów jest niedostępne. Wybierz inne konto lub wyłącz funkcję, a potem ponownie otwórz bota. Nie wysłano żadnej wiadomości.</string>
+    <string name="MZBotPrivacyFailed">Nie udało się bezpiecznie wybrać konta dla tego bota. Sprawdź połączenie i ponownie otwórz bota. Jeśli ten czat był już otwarty, gdy zmieniałeś ustawienie, otwórz go ponownie przed wysłaniem. Nie wysłano żadnej wiadomości.</string>
+    <string name="MZBotPrivacyOpened">Otwarto za pomocą %1$s</string>
+    <string name="MZBotPrivacyReady">Konto sprawdzone. Stuknij Wyślij ponownie, aby wysłać wiadomość.</string>
+    <string name="MZBotPrivacyAlwaysAsk">Zawsze pytaj</string>
+    <string name="MZBotPrivacyAlwaysAskInfo">Pytaj, którego konta użyć przy każdej nowej prywatnej rozmowie z botem. Istniejące rozmowy zachowują swoje pierwotne konta.</string>
+    <string name="MZBotPrivacyAskPrivacyInfo">Wybór konta nie czyni cię anonimowym ani nie cofa już udostępnionych informacji. Grupy, tryb inline, menu załączników i uwierzytelnianie zachowują własne konto.</string>
+    <string name="MZBotPrivacyOff">Bieżące konto</string>
 </resources>

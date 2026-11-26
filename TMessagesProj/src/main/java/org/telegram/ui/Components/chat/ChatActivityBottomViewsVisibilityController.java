@@ -2,10 +2,10 @@ package org.telegram.ui.Components.chat;
 
 import java.util.Arrays;
 
-import me.vkryl.android.AnimatorUtils;
-import me.vkryl.android.animator.ListAnimator;
-import me.vkryl.android.animator.ReplaceAnimator;
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.android.AnimatorUtils;
+import org.mzgram.ux.android.animator.ListAnimator;
+import org.mzgram.ux.android.animator.ReplaceAnimator;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class ChatActivityBottomViewsVisibilityController implements ReplaceAnimator.Callback {
     private final float[] visibilityValues = new float[32];

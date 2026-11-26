@@ -22,7 +22,7 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class NotificationsService extends Service {
 
@@ -37,11 +37,11 @@ public class NotificationsService extends Service {
     }
 
     private void goForeground() {
-        final boolean visible = NaConfig.INSTANCE.getPushServiceTypeInAppDialog().Bool();
+        final boolean visible = ExtConfig.INSTANCE.getPushServiceTypeInAppDialog().Bool();
         final String channelId = visible ? CHANNEL_ID : CHANNEL_ID_QUIET;
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel channel = new NotificationChannel(channelId,
-                LocaleController.getString(R.string.NagramXPushService),
+                LocaleController.getString(R.string.MZGramPushService),
                 visible ? NotificationManager.IMPORTANCE_DEFAULT : NotificationManager.IMPORTANCE_MIN);
         channel.setShowBadge(false);
         notificationManager.createNotificationChannel(channel);
@@ -49,8 +49,8 @@ public class NotificationsService extends Service {
                 .setShowWhen(false)
                 .setOngoing(true)
                 .setPriority(visible ? NotificationCompat.PRIORITY_DEFAULT : NotificationCompat.PRIORITY_MIN)
-                .setSmallIcon(R.drawable.exteraless_notification)
-                .setContentText(LocaleController.getString(R.string.NagramXPushService))
+                .setSmallIcon(R.drawable.mzgram_notification)
+                .setContentText(LocaleController.getString(R.string.MZGramPushService))
                 .build();
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {

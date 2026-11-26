@@ -60,7 +60,7 @@ import org.telegram.ui.Components.inset.WindowAnimatedInsetsProvider;
 import org.telegram.ui.Components.inset.WindowInsetsStateHolder;
 import org.telegram.ui.Stories.recorder.PreviewView;
 
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class GiftMessageBottomSheet extends BottomSheet {
     public static final long TRANSITION_DURATION = 350;

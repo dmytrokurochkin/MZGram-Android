@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphTitle">Nothing Glyph</string>
+    <string name="MZGlyphEnable">واجهة Glyph</string>
+    <string name="MZGlyphNewMessage">وميض عند الرسائل الجديدة</string>
+    <string name="MZGlyphCalls">توهج عند المكالمات الواردة</string>
+    <string name="MZGlyphRecording">توهج أثناء التسجيل</string>
+    <string name="MZGlyphScreenOff">الرسائل فقط عندما تكون الشاشة مطفأة</string>
+    <string name="MZGlyphPreview">معاينة</string>
+    <string name="MZGlyphUnsupported">واجهة Glyph متاحة فقط على هواتف Nothing</string>
+    <string name="MZGlyphInfo">تُضيء واجهة Glyph على ظهر هاتف Nothing: وميض للرسائل الواردة، وشعار MZGram على Glyph Matrix في Phone (3)، وتوهج متنفّس أثناء تسجيل الرسائل الصوتية أو استقبال مكالمة. المحادثات المكتومة لا تُطلق الوميض أبدًا.</string>
+</resources>

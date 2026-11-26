@@ -13,7 +13,7 @@ POSITIONAL_BASELINE = "sdk_signature_positional.json"
 REQUIRED_BASELINE = "sdk_signature_required.json"
 
 ARCHIVE_DIR = os.environ.get(
-    "EXTERALESS_PLUGIN_ARCHIVES", "/home/coral/openExtera/plugin-corpus/archives")
+    "MZGRAM_PLUGIN_ARCHIVES", "/home/coral/mzGram/plugin-corpus/archives")
 
 WIDGET_MODULE = "ui.settings"
 WIDGET_MIN_PLUGINS = 3
@@ -532,7 +532,7 @@ def _describe(key):
         if module in ("base_plugin", "client_utils", "hook_utils", "android_utils",
                       "plugin_settings", "markdown_utils", "file_utils", "intents"):
             return f"{module}:{'.'.join(parts[cut:])}"
-    if len(parts) >= 3 and parts[0] in ("ui", "elyx_runtime", "extera_utils"):
+    if len(parts) >= 3 and parts[0] in ("ui", "mzpack_runtime", "mz_utils"):
         return f"{parts[0]}.{parts[1]}:{'.'.join(parts[2:])}"
     return f"{'.'.join(parts[:-1])}:{parts[-1]}"
 

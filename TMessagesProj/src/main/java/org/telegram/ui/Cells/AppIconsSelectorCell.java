@@ -82,7 +82,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
                 holderView.bind(icon);
                 ThemeBind.selectorBackground(holderView.iconView, Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(ICONS_ROUND_RADIUS), Color.TRANSPARENT, Theme.getColor(Theme.key_listSelector), Color.BLACK), null, ThemeBind.of(Theme.key_listSelector));
                 holderView.iconView.setForeground(icon.foreground);
-                holderView.iconView.setIsNekoXIcon(false);
+                holderView.iconView.setIsCoreXIcon(false);
             }
 
             @Override
@@ -316,7 +316,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
     }
 
     public static class AdaptiveIconImageView extends ImageView {
-        private boolean isNekoXIcon = false;
+        private boolean isCoreXIcon = false;
         private Drawable foreground;
         private Path path = new Path();
         private int outerPadding = AndroidUtilities.dp(5);
@@ -331,8 +331,8 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             invalidate();
         }
 
-        public void setIsNekoXIcon(boolean value) {
-            this.isNekoXIcon = value;
+        public void setIsCoreXIcon(boolean value) {
+            this.isCoreXIcon = value;
         }
 
         @Override
@@ -357,12 +357,12 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         public void draw(Canvas canvas) {
             canvas.save();
             canvas.clipPath(path);
-            if (!this.isNekoXIcon)
+            if (!this.isCoreXIcon)
                 canvas.scale(1f + backgroundOuterPadding / (float) getWidth(), 1f + backgroundOuterPadding / (float) getHeight(), getWidth() / 2f, getHeight() / 2f);
             super.draw(canvas);
             canvas.restore();
 
-            if (foreground != null && !this.isNekoXIcon) {
+            if (foreground != null && !this.isCoreXIcon) {
                 canvas.save();
                 canvas.clipPath(path);
                 foreground.setBounds(-outerPadding, -outerPadding, getWidth() + outerPadding, getHeight() + outerPadding);

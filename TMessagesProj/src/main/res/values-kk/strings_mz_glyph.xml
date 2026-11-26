@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphNewMessage">Жаңа хабарларда жыпылықтау</string>
+    <string name="MZGlyphCalls">Кіріс қоңырауларда жарқырау</string>
+    <string name="MZGlyphRecording">Жазу кезінде жарқырау</string>
+    <string name="MZGlyphScreenOff">Хабарлар тек экран сөнгенде</string>
+    <string name="MZGlyphPreview">Алдын ала қарау</string>
+    <string name="MZGlyphUnsupported">Glyph Interface тек Nothing телефондарында бар</string>
+    <string name="MZGlyphInfo">Nothing телефонының артқы жағындағы Glyph Interface-ті жағады: кіріс хабарларға жыпылықтау, Phone (3) Glyph Matrix-те MZGram логотипі және дауыстық хабар жазғанда не қоңырау келгенде «тыныс алатын» жарқырау. Дыбысы өшірілген чаттар ешқашан жыпылықтатпайды.</string>
+</resources>

@@ -21,7 +21,7 @@ import java.util.function.IntSupplier;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 
-import me.vkryl.android.animator.ListAnimator;
+import org.mzgram.ux.android.animator.ListAnimator;
 
 public class ChatActivityTopPanelLayout extends AnimatedLinearLayout {
     public ChatActivityTopPanelLayout(@NonNull Context context) {

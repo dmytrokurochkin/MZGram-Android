@@ -46,7 +46,7 @@ import org.telegram.ui.Components.RadialProgress2;
 
 import java.util.List;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 public class PollButtonDrawable extends Drawable implements DownloadController.FileDownloadProgressListener {
     private final AnimatedTextView.AnimatedTextDrawable votersCountDrawable;

@@ -71,8 +71,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.AppRestartHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.AppRestartHelper;
 
 @SuppressWarnings("FieldCanBeLocal")
 // @Deprecated // use Bulletin instead
@@ -1247,7 +1247,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
             if (hapticDelay > 0) {
                 leftImageView.postDelayed(() -> {
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) leftImageView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!CoreConfig.disableVibration.Bool()) leftImageView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}
                 }, hapticDelay);
             }

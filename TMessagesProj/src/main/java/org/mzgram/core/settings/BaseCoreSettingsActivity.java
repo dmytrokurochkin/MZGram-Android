@@ -1,0 +1,1080 @@
+package org.mzgram.core.settings;
+
+import static android.view.View.OVER_SCROLL_NEVER;
+import static org.telegram.messenger.AndroidUtilities.dp;
+import static org.telegram.messenger.LocaleController.getString;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.R;
+import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.ActionBarLayout;
+import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.CheckBoxCell;
+import org.telegram.ui.Cells.CreationTextCell;
+import org.telegram.ui.Cells.NotificationsCheckCell;
+import org.telegram.ui.Cells.SettingsSearchCell;
+import org.telegram.ui.Cells.ShadowSectionCell;
+import org.telegram.ui.Cells.TextCell;
+import org.telegram.ui.Cells.TextCheckCell;
+import org.telegram.ui.Cells.TextCheckCell2;
+import org.telegram.ui.Cells.TextCheckbox2Cell;
+import org.telegram.ui.Cells.TextDetailSettingsCell;
+import org.telegram.ui.Cells.TextInfoPrivacyCell;
+import org.telegram.ui.Cells.TextRadioCell;
+import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.BlurredRecyclerView;
+import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.EditTextBoldCursor;
+import org.telegram.ui.Components.FlickerLoadingView;
+import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.SizeNotifierFrameLayout;
+import org.telegram.ui.Components.URLSpanNoUnderline;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+
+import org.mzgram.core.helpers.SettingsHelper;
+import org.mzgram.core.helpers.SettingsSearchResult;
+import org.mzgram.core.ui.cells.AccountCell;
+import org.mzgram.core.ui.cells.EmojiSetCell;
+import org.mzgram.core.ui.cells.HeaderCell;
+
+public abstract class BaseCoreSettingsActivity extends BaseFragment {
+
+    public static final Object PARTIAL = new Object();
+
+    public static final int TYPE_SHADOW = 1;
+    public static final int TYPE_SETTINGS = 2;
+    public static final int TYPE_CHECK = 3;
+    public static final int TYPE_HEADER = 4;
+    public static final int TYPE_NOTIFICATION_CHECK = 5;
+    public static final int TYPE_DETAIL_SETTINGS = 6;
+    public static final int TYPE_INFO_PRIVACY = 7;
+    public static final int TYPE_TEXT = 8;
+    public static final int TYPE_CHECKBOX = 9;
+    public static final int TYPE_RADIO = 10;
+    public static final int TYPE_ACCOUNT = 11;
+    public static final int TYPE_EMOJI = 12;
+    public static final int TYPE_EMOJI_SELECTION = 13;
+    public static final int TYPE_CREATION = 14;
+    public static final int TYPE_FLICKER = 15;
+    public static final int TYPE_CHECK2 = 16;
+    public static final int TYPE_CHECKBOX2 = 17;
+
+    protected BlurredRecyclerView listView;
+    protected BaseListAdapter listAdapter;
+    protected LinearLayoutManager layoutManager;
+    protected Theme.ResourcesProvider resourcesProvider;
+
+    protected int rowCount;
+    protected HashMap<String, Integer> rowMap = new HashMap<>(20);
+    protected HashMap<Integer, String> rowMapReverse = new HashMap<>(20);
+
+
+    @Override
+    public boolean onFragmentCreate() {
+        super.onFragmentCreate();
+
+        if (mzSection == null && mzUsesSections()) {
+            mzSection = MZ_HUB;
+        }
+        updateRows();
+
+        return true;
+    }
+
+    @Override
+    public View createView(Context context) {
+        fragmentView = new BlurContentView(context);
+        fragmentView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
+        SizeNotifierFrameLayout frameLayout = (SizeNotifierFrameLayout) fragmentView;
+
+        if (needActionBarBlur()) {
+            actionBar.setDrawBlurBackground(frameLayout);
+        }
+
+        listView = new org.mzgram.appearance.SectionCardRecyclerView(context);
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                frameLayout.invalidateBlur();
+            }
+        });
+        listView.additionalClipBottom = dp(200);
+        listView.setLayoutManager(layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        listView.setVerticalScrollBarEnabled(false);
+
+        DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setChangeDuration(350);
+        itemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        itemAnimator.setDelayAnimations(false);
+        itemAnimator.setSupportsChangeAnimations(false);
+        listView.setItemAnimator(itemAnimator);
+        frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+
+        listAdapter = createAdapter(context);
+
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener((view, position, x, y) -> {
+            String section = mzNavRows.get(position);
+            if (section != null) {
+                mzOpenSection(section, null);
+                return;
+            }
+            onItemClick(view, position, x, y);
+        });
+        listView.setClipToPadding(false);
+        listView.setOnItemLongClickListener((view, position, x, y) -> {
+            if (onItemLongClick(view, position, x, y)) {
+                return true;
+            }
+            var holder = listView.findViewHolderForAdapterPosition(position);
+            var key = getKey();
+            if (key != null && holder != null && listAdapter.isEnabled(holder) && rowMapReverse.containsKey(position)) {
+                org.mzgram.settings.utils.SettingsRowMenu.show(this, view, String.format(Locale.getDefault(), "https://%s/%s?r=%s", getMessagesController().linkPrefix, org.mzgram.core.helpers.SettingsHelper.linkPathFor(getKey()), rowMapReverse.get(position)));
+                return true;
+            }
+            return false;
+        });
+
+        // Карточки-секции: штатная геометрия декоратора + радиус из AppearanceConfig.
+        // Тень-elevation форсируется в SectionCardRecyclerView.drawBackgroundRect.
+        // При sectionRadius == 0 — стоковый плоский вид (карточки визуально отсутствуют).
+        listView.setSections(dp(12), dp(org.mzgram.appearance.AppearanceConfig.sectionRadius()), true);
+        setupAdaptiveBackground();
+        return fragmentView;
+    }
+
+    // @Override
+    protected void setParentLayout(ActionBarLayout layout) {
+        if (layout != null && !hasWhiteActionBar()) {
+            resourcesProvider = layout.getLastFragment().getResourceProvider();
+        }
+        super.setParentLayout(layout);
+    }
+
+    @Override
+    public ActionBar createActionBar(Context context) {
+        ActionBar actionBar = super.createActionBar(context);
+        if (hasWhiteActionBar()) {
+            actionBar.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+            actionBar.setItemsColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText), false);
+            actionBar.setTitleColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+            actionBar.setCastShadows(false);
+        }
+        actionBar.setTitle(mzSectionPageTitle != null ? mzSectionPageTitle : getActionBarTitle());
+        actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
+            @Override
+            public void onItemClick(int id) {
+                if (id == -1) {
+                    finishFragment();
+                }
+            }
+        });
+        actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        if (AndroidUtilities.isTablet()) {
+            actionBar.setOccupyStatusBar(false);
+        }
+        return actionBar;
+    }
+
+    /**
+     * Фон actionBar, зависящий от прокрутки. Вынесено в метод, чтобы экран мог
+     * сделать шапку прозрачной наверху (topColorKey = -1) — как корневой экран mzgram.
+     * Повторный вызов setAdaptiveBackground после первого не перекрашивает шапку,
+     * поэтому настраивать нужно именно здесь, а не после createView.
+     */
+    /**
+     * Рисовать ли блюр-подложку под actionBar. Экраны с прозрачной шапкой
+     * (корневой экран mzgram) её отключают: подложка закрывает контент под шапкой.
+     * Снять её после вызова нельзя — {@code setDrawBlurBackground(null)} падает.
+     */
+    protected boolean needActionBarBlur() {
+        return true;
+    }
+
+    protected void setupAdaptiveBackground() {
+        actionBar.setAdaptiveBackground(listView);
+    }
+
+    protected String getKey() {
+        return null;
+    }
+
+    protected abstract void onItemClick(View view, int position, float x, float y);
+
+    protected boolean onItemLongClick(View view, int position, float x, float y) {
+        return false;
+    }
+
+    protected abstract BaseListAdapter createAdapter(Context context);
+
+    protected abstract String getActionBarTitle();
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (listAdapter != null) {
+            listAdapter.notifyDataSetChanged();
+        }
+    }
+
+    protected boolean hasWhiteActionBar() {
+        return true;
+    }
+
+    protected CharSequence getSpannedString(int id) {
+        var text = getString(id);
+        var builder = new SpannableStringBuilder(text);
+        int index1 = text.indexOf("**");
+        int index2 = text.lastIndexOf("**");
+        if (index1 >= 0 && index2 >= 0 && index1 != index2) {
+            builder.replace(index2, index2 + 2, "");
+            builder.replace(index1, index1 + 2, "");
+            builder.setSpan(new URLSpanNoUnderline("https://core.telegram.org/api/datacenter"), index1, index2 - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return builder;
+    }
+
+    @Override
+    public boolean isLightStatusBar() {
+        if (!hasWhiteActionBar()) return super.isLightStatusBar();
+        int color = getThemedColor(Theme.key_windowBackgroundWhite);
+        return ColorUtils.calculateLuminance(color) > 0.7f;
+    }
+
+    protected int addRow() {
+        if (mzBuildingSection != null && !mzRowVisible()) {
+            return -1;
+        }
+        mzLastRowWasDivider = true;
+        return rowCount++;
+    }
+
+    // TODO: refactor the whole settings
+    protected int addRow(String... keys) {
+        final String first = keys.length > 0 ? keys[0] : null;
+        final boolean header = mzIsSectionHeader(first);
+        boolean opensSection = false;
+        if (header) {
+            opensSection = mzBeginSection(first);
+        } else if (mzBuildingSection == null) {
+            mzBeginSection(MZ_TOP);
+        }
+        if (first != null && !header) {
+            ArrayList<String> rows = mzSectionRows.get(mzBuildingSection);
+            if (rows != null) {
+                rows.add(first);
+            }
+            for (String key : keys) {
+                mzRowSection.put(key, mzBuildingSection);
+            }
+        }
+        if (!mzRowVisible() || opensSection && mzOnSectionPage()) {
+            return -1;
+        }
+        mzLastRowWasDivider = false;
+        var row = rowCount++;
+        for (var key : keys) {
+            rowMap.put(key, row);
+        }
+        rowMapReverse.put(row, keys[0]);
+        return row;
+    }
+
+    public void scrollToRow(String key, Runnable unknown) {
+        if (MZ_HUB.equals(mzSection) && !rowMap.containsKey(key)) {
+            // the row lives on the page of its section
+            String section = mzSectionRows.containsKey(key) ? key : mzRowSection.get(key);
+            if (section == null && mzIsSectionHeader(key)) {
+                section = mzSectionGroup(key);
+            }
+            if (section != null && !mzSectionInline(section)) {
+                mzOpenSection(section, mzIsSectionHeader(key) ? null : key);
+                return;
+            }
+        }
+        if (!rowMap.containsKey(key) && expandGroupFor(key) && listAdapter != null) {
+            listAdapter.notifyDataSetChanged();
+        }
+        if (listView == null) {
+            // the page was never shown (opening it was refused), so there is nothing to scroll
+            return;
+        }
+        if (rowMap.containsKey(key)) {
+            listView.highlightRow(() -> {
+                // noinspection ConstantConditions
+                int position = rowMap.get(key);
+                layoutManager.scrollToPositionWithOffset(position, dp(60));
+                return position;
+            });
+        } else if (unknown != null) {
+            unknown.run();
+        }
+    }
+
+    protected void updateRows() {
+        rowCount = 0;
+        rowMap.clear();
+        rowMapReverse.clear();
+        mzBuildingSection = null;
+        mzLastRowWasNav = false;
+        mzLastRowWasDivider = false;
+        mzSectionKeys.clear();
+        mzSectionRows.clear();
+        mzRowSection.clear();
+        mzNavRows.clear();
+        mzSpacerRows.clear();
+    }
+
+    // ---- MZGram: a long settings screen opens as a list of its sections, each on its own page ----
+    // Android settings guidelines: not more than 10-15 items on a screen, 15+ settings go into
+    // subscreens; the row that opens a subscreen carries its title and, below it, what is inside.
+
+    /** {@link #mzSection} value of the list of sections. */
+    public static final String MZ_HUB = "";
+    /** Section of the rows above the first header. */
+    public static final String MZ_TOP = "_top";
+
+    /** null: every row on one screen; {@link #MZ_HUB}: the list of sections; a section key: that section. */
+    protected String mzSection;
+    /** Every row, whatever the mode: rows for search, the header titles. */
+    private boolean mzAllSections;
+    private String mzSectionPageTitle;
+    private String mzBuildingSection;
+    private boolean mzLastRowWasNav;
+    /** The last row on the list is the screen's own divider: no second gap before a section row. */
+    private boolean mzLastRowWasDivider;
+    private final ArrayList<String> mzSectionKeys = new ArrayList<>();
+    private final HashMap<String, ArrayList<String>> mzSectionRows = new HashMap<>();
+    private final HashMap<String, String> mzRowSection = new HashMap<>();
+    private final HashMap<Integer, String> mzNavRows = new HashMap<>();
+    private final java.util.HashSet<Integer> mzSpacerRows = new java.util.HashSet<>();
+
+    /** Screens with many rows return true: they open as a list of sections. */
+    protected boolean mzUsesSections() {
+        return false;
+    }
+
+    /** A new page of the same screen; its section is set by the caller. */
+    protected BaseCoreSettingsActivity mzCreateSectionPage() {
+        return null;
+    }
+
+    /** Sections whose rows stay on the list of sections: rows that already open screens. */
+    protected boolean mzSectionInline(String section) {
+        return false;
+    }
+
+    /** Several headers can share one page: the page of the returned section. */
+    protected String mzSectionGroup(String header) {
+        return header;
+    }
+
+    protected int mzSectionIcon(String section) {
+        return R.drawable.msg_settings_old;
+    }
+
+    /** The title of a section: the string its header shows (0 falls back to the row titles). */
+    protected int mzSectionTitleRes(String section) {
+        return 0;
+    }
+
+    /** A row key that starts a section. Screens override it for switches whose keys end in "Header". */
+    protected boolean mzIsSectionHeader(String key) {
+        return key != null && (key.endsWith("Header") || key.endsWith("HeaderSection"));
+    }
+
+    /** Starts the section of a header; true when the header opens it (the first row of its page). */
+    private boolean mzBeginSection(String header) {
+        final String section = mzSectionGroup(header);
+        mzBuildingSection = section;
+        if (mzSectionRows.containsKey(section)) {
+            return false;
+        }
+        mzSectionKeys.add(section);
+        mzSectionRows.put(section, new ArrayList<>());
+        if (MZ_HUB.equals(mzSection) && !mzAllSections) {
+            if (mzSectionInline(section)) {
+                if (mzLastRowWasNav) {
+                    mzSpacerRows.add(rowCount++);
+                }
+                mzLastRowWasNav = false;
+                mzLastRowWasDivider = false;
+            } else {
+                if (!mzLastRowWasNav && !mzLastRowWasDivider && rowCount > 0) {
+                    mzSpacerRows.add(rowCount++);
+                }
+                mzNavRows.put(rowCount++, section);
+                mzLastRowWasNav = true;
+                mzLastRowWasDivider = false;
+            }
+        }
+        return true;
+    }
+
+    private boolean mzRowVisible() {
+        if (mzSection == null || mzAllSections) {
+            return true;
+        }
+        if (MZ_HUB.equals(mzSection)) {
+            return mzBuildingSection != null && mzSectionInline(mzBuildingSection);
+        }
+        return mzSection.equals(mzBuildingSection);
+    }
+
+    /** On its own page a section does not repeat its title as a header under the title bar. */
+    private boolean mzOnSectionPage() {
+        return mzSection != null && !mzAllSections && !MZ_HUB.equals(mzSection);
+    }
+
+    /** The type of the rows the list of sections adds, or -1 for the screen's own rows. */
+    public int mzSectionItemViewType(int position) {
+        if (mzNavRows.containsKey(position)) {
+            return TYPE_TEXT;
+        }
+        if (mzSpacerRows.contains(position)) {
+            return TYPE_SHADOW;
+        }
+        return -1;
+    }
+
+    public String mzSectionTitle(String section) {
+        final int res = mzSectionTitleRes(section);
+        String title = res != 0 ? org.telegram.messenger.LocaleController.getString(res) : null;
+        if (title == null) {
+            String key = section;
+            if (MZ_TOP.equals(section)) {
+                ArrayList<String> rows = mzSectionRows.get(section);
+                key = rows == null || rows.isEmpty() ? null : rows.get(0);
+            }
+            title = key == null ? null : org.mzgram.core.helpers.SettingsHelper.rowTitle(this, key);
+        }
+        return title != null ? title : getActionBarTitle();
+    }
+
+    /** What is in a section: the titles of its first rows, as the Android guidelines show it. */
+    private String mzSectionSummary(String section) {
+        ArrayList<String> rows = mzSectionRows.get(section);
+        if (rows == null) {
+            return null;
+        }
+        StringBuilder summary = new StringBuilder();
+        int count = 0;
+        final String title = mzSectionTitle(section);
+        for (String key : rows) {
+            String rowTitle = org.mzgram.core.helpers.SettingsHelper.rowTitle(this, key);
+            if (rowTitle == null || rowTitle.isEmpty() || rowTitle.equals(title)) {
+                continue;
+            }
+            if (count > 0) {
+                summary.append(", ");
+            }
+            summary.append(rowTitle);
+            if (++count == 4) {
+                break;
+            }
+        }
+        return summary.length() == 0 ? null : summary.toString();
+    }
+
+    private void mzOpenSection(String section, String scrollTo) {
+        BaseCoreSettingsActivity page = mzCreateSectionPage();
+        if (page == null) {
+            return;
+        }
+        page.mzSection = section;
+        page.mzSectionPageTitle = mzSectionTitle(section);
+        if (!presentFragment(page)) {
+            // this page is still sliding in (opened from the settings search or a link):
+            // open the section once the slide is over
+            mzPendingSection = section;
+            mzPendingScroll = scrollTo;
+            return;
+        }
+        if (scrollTo != null) {
+            AndroidUtilities.runOnUIThread(() -> page.scrollToRow(scrollTo, null));
+        }
+    }
+
+    private String mzPendingSection;
+    private String mzPendingScroll;
+
+    @Override
+    public void onTransitionAnimationEnd(boolean isOpen, boolean backward) {
+        super.onTransitionAnimationEnd(isOpen, backward);
+        String section = mzPendingSection;
+        String scrollTo = mzPendingScroll;
+        mzPendingSection = null;
+        mzPendingScroll = null;
+        if (section != null && isOpen && !backward) {
+            AndroidUtilities.runOnUIThread(() -> mzOpenSection(section, scrollTo));
+        }
+    }
+
+    private void mzBindNavRow(TextCell cell, int position) {
+        final String section = mzNavRows.get(position);
+        cell.setTextAndIcon(mzSectionTitle(section), mzSectionIcon(section), mzNavRows.containsKey(position + 1));
+        cell.setSubtitle(mzSectionSummary(section));
+        cell.heightDp = 64;
+        cell.requestLayout();
+    }
+
+    protected static final class CollapsibleGroup {
+        private final BooleanSupplier expanded;
+        private final Consumer<Boolean> setExpanded;
+
+        public CollapsibleGroup(BooleanSupplier expanded, Consumer<Boolean> setExpanded) {
+            this.expanded = expanded;
+            this.setExpanded = setExpanded;
+        }
+    }
+
+    protected List<CollapsibleGroup> collapsibleGroups() {
+        return Collections.emptyList();
+    }
+
+    private boolean expandGroupFor(String key) {
+        for (CollapsibleGroup group : collapsibleGroups()) {
+            if (group.expanded.getAsBoolean()) {
+                continue;
+            }
+            group.setExpanded.accept(true);
+            updateRows();
+            if (rowMap.containsKey(key)) {
+                return true;
+            }
+            group.setExpanded.accept(false);
+        }
+        updateRows();
+        return false;
+    }
+
+    private final HashMap<Integer, String> searchRows = new HashMap<>();
+
+    public HashMap<Integer, String> getSearchRows() {
+        return searchRows;
+    }
+
+    public HashMap<Integer, String> getRowMapReverse() {
+        return rowMapReverse;
+    }
+
+    public void buildRowsForSearch() {
+        mzAllSections = true;
+        List<CollapsibleGroup> groups = collapsibleGroups();
+        boolean[] was = new boolean[groups.size()];
+        for (int i = 0; i < groups.size(); i++) {
+            was[i] = groups.get(i).expanded.getAsBoolean();
+            groups.get(i).setExpanded.accept(true);
+        }
+        updateRows();
+        searchRows.clear();
+        searchRows.putAll(rowMapReverse);
+        for (int i = 0; i < groups.size(); i++) {
+            groups.get(i).setExpanded.accept(was[i]);
+        }
+        mzAllSections = false;
+        updateRows();
+    }
+
+    public int getSearchGuid() {
+        return 0;
+    }
+
+    public int getSearchIcon() {
+        return 0;
+    }
+
+    public String getSearchPrefix() {
+        return null;
+    }
+
+    public String getSearchTitle() {
+        return getActionBarTitle();
+    }
+
+    @Override
+    public Theme.ResourcesProvider getResourceProvider() {
+        return resourcesProvider;
+    }
+
+    @Override
+    public boolean isSupportEdgeToEdge() {
+        return true;
+    }
+
+    @Override
+    public void onInsets(int left, int top, int right, int bottom) {
+        listView.setPadding(0, 0, 0, bottom);
+        listView.setClipToPadding(false);
+    }
+
+    private class BlurContentView extends SizeNotifierFrameLayout {
+
+        public Paint blurScrimPaint = new Paint();
+        Rect rectTmp = new Rect();
+
+        public BlurContentView(Context context) {
+            super(context);
+            needBlur = hasWhiteActionBar();
+            blurBehindViews.add(this);
+        }
+
+        @Override
+        protected void drawList(Canvas blurCanvas, boolean top, ArrayList<IViewWithInvalidateCallback> views) {
+            for (int j = 0; j < listView.getChildCount(); j++) {
+                View child = listView.getChildAt(j);
+                if (child.getY() < listView.blurTopPadding + dp(100)) {
+                    int restore = blurCanvas.save();
+                    blurCanvas.translate(getX() + child.getX(), getY() + listView.getY() + child.getY());
+                    child.draw(blurCanvas);
+                    blurCanvas.restoreToCount(restore);
+                }
+            }
+        }
+
+        @Override
+        protected void dispatchDraw(Canvas canvas) {
+            super.dispatchDraw(canvas);
+            if (hasWhiteActionBar() && listView.canScrollVertically(-1)) {
+                rectTmp.set(0, 0, getMeasuredWidth(), 1);
+                blurScrimPaint.setColor(getThemedColor(Theme.key_divider));
+                drawBlurRect(canvas, getY(), rectTmp, blurScrimPaint, true);
+            }
+        }
+    }
+
+    protected abstract class BaseListAdapter extends RecyclerListView.SelectionAdapter {
+
+        protected final Context mContext;
+
+        public BaseListAdapter(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public int getItemCount() {
+            return rowCount;
+        }
+
+        @Override
+        public boolean isEnabled(RecyclerView.ViewHolder holder) {
+            int type = holder.getItemViewType();
+            return type == TYPE_SETTINGS || type == TYPE_CHECK || type == TYPE_NOTIFICATION_CHECK || type == TYPE_DETAIL_SETTINGS || type == TYPE_TEXT | type == TYPE_CHECKBOX || type == TYPE_RADIO || type == TYPE_ACCOUNT || type == TYPE_EMOJI || type == TYPE_EMOJI_SELECTION || type == TYPE_CREATION || type == TYPE_CHECK2 || type == TYPE_CHECKBOX2;
+        }
+
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if (mzNavRows.containsKey(position) && holder.itemView instanceof TextCell) {
+                mzBindNavRow((TextCell) holder.itemView, position);
+                applySectionBackground(holder, position);
+                return;
+            }
+            if (mzSpacerRows.contains(position)) {
+                return;
+            }
+            var payload = holder.getPayload();
+            onBindViewHolder(holder, position, PARTIAL.equals(payload));
+            applySectionBackground(holder, position);
+        }
+
+        /**
+         * mzGram: готовит фон ячейки под механизм карточек-секций.
+         * Единый скруглённый фон группы с тенью-elevation рисует сам список
+         * ({@link org.mzgram.appearance.SectionCardRecyclerView}) в {@code dispatchDraw}
+         * позади контента. Здесь остаётся только выставить прозрачность ячейки:
+         * при sectionRadius > 0 фон ячейки прозрачный (просвечивает карточка), селектор
+         * нажатия рисует сам список отдельно — кликаемость не страдает. При sectionRadius == 0
+         * поведение полностью стоковое: сплошной фон, как задавалось при создании ячейки.
+         */
+        protected void applySectionBackground(@NonNull RecyclerView.ViewHolder holder, int position) {
+            int viewType = holder.getItemViewType();
+            if (!isSectionContent(viewType)) {
+                return;
+            }
+            int radiusDp = org.mzgram.appearance.AppearanceConfig.sectionRadius();
+            if (radiusDp <= 0) {
+                // Дефолт-safe (0) = сток: сплошной фон, ровно как задавалось при создании ячейки.
+                holder.itemView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                return;
+            }
+            // Карточка-фон рисуется списком; ячейка должна быть прозрачной, чтобы просвечивала.
+            holder.itemView.setBackground(null);
+        }
+
+        /**
+         * true, если ячейки [posA] и [posB] (соседние) принадлежат одной карточке.
+         * Обе должны быть контентными; при separateHeaders заголовок обособляется в свою карточку.
+         */
+        protected boolean cardConnected(int posA, int posB) {
+            int typeA = getItemViewType(posA);
+            int typeB = getItemViewType(posB);
+            if (!isSectionContent(typeA) || !isSectionContent(typeB)) {
+                return false;
+            }
+            if (org.mzgram.appearance.AppearanceConfig.separateHeaders()
+                    && (typeA == TYPE_HEADER || typeB == TYPE_HEADER)) {
+                return false;
+            }
+            return true;
+        }
+
+        /** Типы ячеек со сплошным белым фоном — из них собираются карточки-секции. */
+        protected boolean isSectionContent(int viewType) {
+            // MZGram: при вынесенных заголовках заголовок лежит на фоне окна,
+            // а не в своей карточке — поэтому он вообще не участвует в секциях.
+            if (viewType == TYPE_HEADER && org.mzgram.appearance.AppearanceConfig.separateHeaders()) {
+                return false;
+            }
+            switch (viewType) {
+                case TYPE_SETTINGS:
+                case TYPE_CHECK:
+                case TYPE_HEADER:
+                case TYPE_NOTIFICATION_CHECK:
+                case TYPE_DETAIL_SETTINGS:
+                case TYPE_TEXT:
+                case TYPE_CHECKBOX:
+                case TYPE_RADIO:
+                case TYPE_ACCOUNT:
+                case TYPE_EMOJI:
+                case TYPE_EMOJI_SELECTION:
+                case TYPE_CREATION:
+                case TYPE_FLICKER:
+                case TYPE_CHECK2:
+                case TYPE_CHECKBOX2:
+                    return true;
+                default:
+                    // TYPE_SHADOW, TYPE_INFO_PRIVACY и кастомные типы подклассов (>= 100)
+                    // считаем границами секций.
+                    return false;
+            }
+        }
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = null;
+            switch (viewType) {
+                case TYPE_SHADOW:
+                    view = new ShadowSectionCell(mContext, resourcesProvider);
+                    break;
+                case TYPE_SETTINGS:
+                    view = new TextSettingsCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_CHECK:
+                    view = new TextCheckCell(mContext, resourcesProvider);
+                    ((TextCheckCell) view).setWrapTitle(true);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_HEADER: {
+                    HeaderCell headerCell = new HeaderCell(mContext, resourcesProvider);
+                    // MZGram: вынесенный заголовок лежит на фоне окна — без белой подложки
+                    // и вне карточки. Группировку карточек делает RecyclerListView.setSections
+                    // по предикату вью, поэтому исключаем заголовок именно тегом.
+                    if (org.mzgram.appearance.AppearanceConfig.separateHeaders()) {
+                        headerCell.setTag(RecyclerListView.TAG_NOT_SECTION);
+                        // Метрики сняты с 12.9.0 на устройстве (420 dpi): контейнер 114px,
+                        // сверху 16, текст 90, снизу 8 до карточки; левый отступ 63px.
+                        headerCell.setPadding(AndroidUtilities.dp(24), AndroidUtilities.dp(6),
+                                AndroidUtilities.dp(24), AndroidUtilities.dp(3));
+                        headerCell.setHeight(34);
+                    } else {
+                        headerCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    }
+                    view = headerCell;
+                    break;
+                }
+                case TYPE_NOTIFICATION_CHECK:
+                    view = new NotificationsCheckCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_DETAIL_SETTINGS:
+                    view = new TextDetailSettingsCell(mContext);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_INFO_PRIVACY:
+                    view = new TextInfoPrivacyCell(mContext, resourcesProvider);
+                    view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
+                    break;
+                case TYPE_TEXT:
+                    view = new TextCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_CHECKBOX:
+                    view = new TextCheckbox2Cell(mContext);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_RADIO:
+                    view = new TextRadioCell(mContext);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_ACCOUNT:
+                    view = new AccountCell(mContext);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_EMOJI:
+                case TYPE_EMOJI_SELECTION:
+                    view = new EmojiSetCell(mContext, viewType == TYPE_EMOJI_SELECTION);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_CREATION:
+                    CreationTextCell creationTextCell = new CreationTextCell(mContext, 70, resourcesProvider);
+                    creationTextCell.startPadding = 61;
+                    view = creationTextCell;
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_FLICKER:
+                    view = new FlickerLoadingView(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_CHECK2:
+                    view = new TextCheckCell2(mContext);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_CHECKBOX2:
+                    CheckBoxCell checkBoxCell = new CheckBoxCell(mContext, CheckBoxCell.TYPE_CHECK_BOX_ROUND, 21, getResourceProvider());
+                    checkBoxCell.getCheckBoxRound().setDrawBackgroundAsArc(14);
+                    checkBoxCell.getCheckBoxRound().setColor(Theme.key_switch2TrackChecked, Theme.key_radioBackground, Theme.key_checkboxCheck);
+                    checkBoxCell.setEnabled(true);
+                    view = checkBoxCell;
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+            }
+            // noinspection ConstantConditions
+            view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+            return new RecyclerListView.Holder(view);
+        }
+    }
+
+    /**
+     * @noinspection SizeReplaceableByIsEmpty
+     */
+    protected void showSettingsSearchDialog() {
+        try {
+            Activity parent = getParentActivity();
+            if (parent == null) return;
+
+            ArrayList<SettingsSearchResult> results = SettingsHelper.onCreateSearchArray(fragment -> AndroidUtilities.runOnUIThread(() -> {
+                try {
+                    presentFragment(fragment);
+                } catch (Exception ignore) {
+                }
+            }));
+
+            final ArrayList<SettingsSearchResult> filtered = new ArrayList<>(results);
+            final String[] currentQuery = new String[]{""};
+            final int searchHeight = dp(36);
+            final int clearSize = dp(36);
+            final int pad = dp(12);
+
+            LinearLayout containerLayout = new LinearLayout(parent);
+            containerLayout.setOrientation(LinearLayout.VERTICAL);
+            containerLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+            FrameLayout searchFrame = new FrameLayout(parent);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, searchHeight + dp(12));
+            layoutParams.leftMargin = dp(10);
+            layoutParams.rightMargin = dp(10);
+            layoutParams.topMargin = dp(6);
+            layoutParams.bottomMargin = dp(2);
+            searchFrame.setLayoutParams(layoutParams);
+            searchFrame.setClipToPadding(true);
+            searchFrame.setClipChildren(true);
+
+            ImageView searchIcon = new ImageView(parent);
+            searchIcon.setScaleType(ImageView.ScaleType.CENTER);
+            searchIcon.setImageResource(R.drawable.ic_ab_search_solar);
+            searchIcon.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+            searchFrame.addView(searchIcon, LayoutHelper.createFrame(48, 48, Gravity.LEFT | Gravity.CENTER_VERTICAL));
+
+            EditTextBoldCursor searchField = new EditTextBoldCursor(parent);
+            searchField.setHint(getString(R.string.Search));
+            searchField.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
+            searchField.setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
+            searchField.setSingleLine(true);
+            searchField.setBackground(null);
+            searchField.setInputType(InputType.TYPE_CLASS_TEXT);
+            searchField.setLineColors(getThemedColor(Theme.key_windowBackgroundWhiteInputField), getThemedColor(Theme.key_windowBackgroundWhiteInputFieldActivated), getThemedColor(Theme.key_text_RedRegular));
+            searchField.setPadding(dp(61), pad / 2, dp(48), pad / 2);
+            searchField.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER_VERTICAL));
+            searchFrame.addView(searchField);
+
+            ImageView clearButton = new ImageView(parent);
+            clearButton.setScaleType(ImageView.ScaleType.CENTER);
+            clearButton.setImageResource(R.drawable.ic_close_white);
+            clearButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), Theme.RIPPLE_MASK_CIRCLE_20DP));
+            clearButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+            clearButton.setLayoutParams(new FrameLayout.LayoutParams(clearSize, clearSize, Gravity.END | Gravity.CENTER_VERTICAL));
+            searchFrame.addView(clearButton);
+            containerLayout.addView(searchFrame);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(parent, resourceProvider);
+            builder.setView(containerLayout);
+            builder.setNegativeButton(getString(R.string.Close), null);
+            final AlertDialog dialog = builder.create();
+            dialog.setOnShowListener(d -> {
+                try {
+                    searchField.requestFocus();
+                    AndroidUtilities.showKeyboard(searchField);
+                } catch (Exception ignore) {
+                }
+            });
+
+            RecyclerListView searchListView = new RecyclerListView(parent);
+            searchListView.setOverScrollMode(OVER_SCROLL_NEVER);
+            searchListView.setLayoutManager(new LinearLayoutManager(parent, LinearLayoutManager.VERTICAL, false));
+
+            var adapter = new RecyclerListView.SelectionAdapter() {
+                @Override
+                public boolean isEnabled(RecyclerView.ViewHolder holder) {
+                    return true;
+                }
+
+                @NonNull
+                @Override
+                public RecyclerListView.Holder onCreateViewHolder(@NonNull ViewGroup parent1, int viewType) {
+                    View view = new SettingsSearchCell(parent);
+                    view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+                    return new RecyclerListView.Holder(view);
+                }
+
+                @Override
+                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+                    SettingsSearchCell cell = (SettingsSearchCell) holder.itemView;
+                    SettingsSearchResult r = filtered.get(position);
+                    String[] path = r.path2 != null ? new String[]{r.path1, r.path2} : new String[]{r.path1};
+                    CharSequence titleToSet = r.searchTitle == null ? "" : r.searchTitle;
+                    String q = currentQuery[0];
+                    if (q != null && !q.isEmpty() && titleToSet.length() > 0) {
+                        SpannableStringBuilder ss = new SpannableStringBuilder(titleToSet);
+                        String lower = titleToSet.toString().toLowerCase();
+                        String[] parts = q.split("\\s+");
+                        int highlightColor = getThemedColor(Theme.key_windowBackgroundWhiteBlueText4);
+                        for (String p : parts) {
+                            if (p.isEmpty()) continue;
+                            int idx = 0;
+                            while (true) {
+                                int found = lower.indexOf(p, idx);
+                                if (found == -1) break;
+                                try {
+                                    ss.setSpan(new ForegroundColorSpan(highlightColor), found, found + p.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                } catch (Exception ignore) {
+                                }
+                                idx = found + p.length();
+                            }
+                        }
+                        titleToSet = ss;
+                    }
+                    cell.setTextAndValueAndIcon(titleToSet, path, r.iconResId, position < filtered.size() - 1);
+                }
+
+                @Override
+                public int getItemCount() {
+                    return filtered.size();
+                }
+            };
+
+            searchListView.setAdapter(adapter);
+            searchListView.setOnItemClickListener((v, position) -> {
+                if (position < 0 || position >= filtered.size()) return;
+                SettingsSearchResult r = filtered.get(position);
+                try {
+                    if (r.openRunnable != null) r.openRunnable.run();
+                } catch (Exception ignore) {
+                }
+                dialog.dismiss();
+            });
+
+            containerLayout.addView(searchListView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+            searchField.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String q = s.toString().toLowerCase().trim();
+                    currentQuery[0] = q;
+                    filtered.clear();
+                    if (q.isEmpty()) {
+                        filtered.addAll(results);
+                    } else {
+                        String[] parts = q.split("\\s+");
+                        for (SettingsSearchResult item : results) {
+                            String title = item.searchTitle == null ? "" : item.searchTitle.toLowerCase();
+                            boolean ok = true;
+                            for (String p : parts) {
+                                if (!title.contains(p)) {
+                                    ok = false;
+                                    break;
+                                }
+                            }
+                            if (ok) filtered.add(item);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    searchIcon.setVisibility(q.length() > 20 ? View.GONE : View.VISIBLE);
+                    clearButton.setVisibility(q.isEmpty() ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            clearButton.setOnClickListener(v -> {
+                searchField.setText("");
+                searchField.requestFocus();
+                AndroidUtilities.showKeyboard(searchField);
+            });
+            clearButton.setVisibility(View.GONE);
+
+            showDialog(dialog);
+        } catch (Exception ignore) {
+        }
+    }
+}

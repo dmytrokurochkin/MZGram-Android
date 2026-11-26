@@ -9,5 +9,5 @@
         android:width="26dp"
         android:height="26dp"
         android:gravity="center"
-        android:drawable="@drawable/ayu_ghost" />
+        android:drawable="@drawable/arc_ghost" />
 </layer-list>

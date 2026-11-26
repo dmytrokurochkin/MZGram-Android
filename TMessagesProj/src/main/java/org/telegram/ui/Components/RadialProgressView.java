@@ -23,8 +23,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.loadingindicator.LoadingIndicator;
 
-import app.exteraless.appearance.AppearanceConfig;
-import app.exteraless.appearance.M3CircularProgress;
+import org.mzgram.appearance.AppearanceConfig;
+import org.mzgram.appearance.M3CircularProgress;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
@@ -64,7 +64,7 @@ public class RadialProgressView extends View implements Drawable.Callback, Theme
     private boolean noProgress = true;
     private final Theme.ResourcesProvider resourcesProvider;
 
-    // Стиль 1 рисует LoadingIndicator из com.google.android.material, как у exteraGram;
+    // Стиль 1 рисует LoadingIndicator из com.google.android.material, как у MZGram;
     // дуга с дорожкой и зазором (стили 2 и 3) считается вручную в M3CircularProgress.
     private int currentStyle = M3CircularProgress.STYLE_LEGACY;
     private int trackColor;
@@ -387,7 +387,7 @@ public class RadialProgressView extends View implements Drawable.Callback, Theme
         if (currentStyle != M3CircularProgress.STYLE_WAVY || m3 == null) {
             return;
         }
-        // amplitudeRampProgressMin у exteraGram относится к MDC-спеку; в ручной отрисовке не участвует
+        // amplitudeRampProgressMin у MZGram относится к MDC-спеку; в ручной отрисовке не участвует
         m3.setWavyValues(wavelength, amplitude, speed);
     }
 

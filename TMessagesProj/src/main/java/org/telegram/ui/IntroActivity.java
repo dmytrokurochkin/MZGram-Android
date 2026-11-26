@@ -97,7 +97,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL10;
 
-import tw.nekomimi.nekogram.helpers.LocaleHelper;
+import org.mzgram.core.helpers.LocaleHelper;
 
 public class IntroActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private final static int ICON_WIDTH_DP = 200, ICON_HEIGHT_DP = 150;
@@ -730,7 +730,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             Bitmap icon = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
             Canvas iconCanvas = new Canvas(icon);
             Resources resources = getParentActivity().getResources();
-            for (int resId : new int[]{R.drawable.exteraless_icon_background, R.drawable.exteraless_icon_foreground}) {
+            for (int resId : new int[]{R.drawable.mzgram_icon_background, R.drawable.mzgram_icon_foreground}) {
                 Drawable layer = resources.getDrawable(resId);
                 if (layer == null) {
                     continue;

@@ -1,6 +1,6 @@
 package org.telegram.utils.recorder.audio;
 
-import xyz.nextalone.nagram.helper.AudioEnhance;
+import org.mzgram.ext.helper.AudioEnhance;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;

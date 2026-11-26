@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphNewMessage">Piscar com novas mensagens</string>
+    <string name="MZGlyphCalls">Brilho em chamadas recebidas</string>
+    <string name="MZGlyphRecording">Brilho ao gravar</string>
+    <string name="MZGlyphScreenOff">Mensagens só com a tela desligada</string>
+    <string name="MZGlyphPreview">Prévia</string>
+    <string name="MZGlyphUnsupported">A Glyph Interface só existe em telefones Nothing</string>
+    <string name="MZGlyphInfo">Acende a Glyph Interface na traseira do seu Nothing: um piscar para mensagens recebidas, o logo do MZGram na Glyph Matrix do Phone (3) e um brilho pulsante ao gravar voz ou receber uma chamada. Conversas silenciadas nunca acionam o piscar.</string>
+</resources>

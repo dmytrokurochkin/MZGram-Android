@@ -81,9 +81,9 @@ import org.telegram.utils.glass.positions.GlassPositionsMerger;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class StarGiftPreviewSheet extends BottomSheetWithRecyclerListView {
     private static final int TAB_MODELS = 0;

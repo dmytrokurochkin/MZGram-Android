@@ -7,8 +7,8 @@ import corpus
 KOTLIN_ROOT = os.path.join(corpus.REPO, "TMessagesProj", "src", "main", "kotlin")
 
 REFERENCE_ROOT = os.environ.get(
-    "EXTERALESS_REFERENCE_SOURCES",
-    "/home/coral/openExtera/exteragram-new/sources")
+    "MZGRAM_REFERENCE_SOURCES",
+    "/home/coral/mzGram/mzgram-new/sources")
 
 _BLOCK_COMMENT = re.compile(r"/\*.*?\*/", re.S)
 _LINE_COMMENT = re.compile(r"//[^\n]*")

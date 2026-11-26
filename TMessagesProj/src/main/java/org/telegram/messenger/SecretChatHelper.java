@@ -35,11 +35,11 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import xyz.nextalone.nagram.NaConfig;
-import com.radolyn.ayugram.AyuConstants;
-import com.radolyn.ayugram.messages.AyuMessagesController;
-import com.radolyn.ayugram.messages.AyuSavePreferences;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.arc.ArcConstants;
+import org.mzgram.arc.messages.ArcMessagesController;
+import org.mzgram.arc.messages.ArcSavePreferences;
 
 public class SecretChatHelper extends BaseController {
 
@@ -256,7 +256,7 @@ public class SecretChatHelper extends BaseController {
         }
         if (newChat instanceof TLRPC.TL_encryptedChatDiscarded && newChat.history_deleted) {
             // don't delete encrypted chat dialog if save deleted messages is enabled
-            if (!NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+            if (!ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
                 AndroidUtilities.runOnUIThread(() -> getMessagesController().deleteDialog(dialog_id, 0));
             }
         }
@@ -1150,7 +1150,7 @@ public class SecretChatHelper extends BaseController {
                 } else if (serviceMessage.action instanceof TLRPC.TL_decryptedMessageActionFlushHistory) {
                     long did = DialogObject.makeEncryptedDialogId(chat.id);
                     // save all messages before flushing encrypted chat history
-                    if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+                    if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
                         getMessagesStorage().getStorageQueue().postRunnable(() -> {
                             saveAllMessagesFromEncryptedChat(did);
                             AndroidUtilities.runOnUIThread(() -> performFlushEncryptedHistory(did));
@@ -2040,7 +2040,7 @@ public class SecretChatHelper extends BaseController {
                                     FileLog.e(e);
                                 }
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setTitle(LocaleController.getString(R.string.NagramX));
+                                builder.setTitle(LocaleController.getString(R.string.MZGram));
                                 builder.setMessage(LocaleController.getString(R.string.CreateEncryptedChatError));
                                 builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
                                 builder.show().setCanceledOnTouchOutside(true);
@@ -2076,7 +2076,7 @@ public class SecretChatHelper extends BaseController {
         SQLiteCursor cursor = null;
         NativeByteBuffer data = null;
         try {
-            var ayuMessagesController = AyuMessagesController.getInstance();
+            var arcMessagesController = ArcMessagesController.getInstance();
             cursor = getMessagesStorage().getDatabase().queryFinalized("SELECT data FROM messages_v2 WHERE uid = " + dialogId);
             ArrayList<Integer> savedMessageIds = new ArrayList<>();
             while (cursor.next()) {
@@ -2086,9 +2086,9 @@ public class SecretChatHelper extends BaseController {
                     if (message != null) {
                         message.readAttachPath(data, getUserConfig().clientUserId);
                         message.dialog_id = dialogId;
-                        var prefs = new AyuSavePreferences(message, currentAccount);
+                        var prefs = new ArcSavePreferences(message, currentAccount);
                         prefs.setDialogId(dialogId);
-                        ayuMessagesController.onMessageDeleted(prefs, false);
+                        arcMessagesController.onMessageDeleted(prefs, false);
                         savedMessageIds.add(message.id);
                     }
                     data.reuse();
@@ -2096,7 +2096,7 @@ public class SecretChatHelper extends BaseController {
             }
             if (!savedMessageIds.isEmpty()) {
                 AndroidUtilities.runOnUIThread(() -> {
-                    getNotificationCenter().postNotificationName(AyuConstants.MESSAGES_DELETED_NOTIFICATION, dialogId, savedMessageIds);
+                    getNotificationCenter().postNotificationName(ArcConstants.MESSAGES_DELETED_NOTIFICATION, dialogId, savedMessageIds);
                 });
             }
         } catch (Exception e) {

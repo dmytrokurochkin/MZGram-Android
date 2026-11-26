@@ -30,7 +30,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.radolyn.ayugram.utils.AyuFileLocation;
+import org.mzgram.arc.utils.ArcFileLocation;
 
 public class FileLoader extends BaseController {
 
@@ -1434,19 +1434,19 @@ public class FileLoader extends BaseController {
             }
         }
 
-        // --- AyuGram hook
+        // --- MZGram hook
         if (attach instanceof TLRPC.PhotoSize photoSize) {
-            if (photoSize.location instanceof AyuFileLocation) {
-                return new File(((AyuFileLocation) photoSize.location).path);
+            if (photoSize.location instanceof ArcFileLocation) {
+                return new File(((ArcFileLocation) photoSize.location).path);
             }
         } else if (attach instanceof TLRPC.TL_videoSize videoSize) {
-            if (videoSize.location instanceof AyuFileLocation) {
-                return new File(((AyuFileLocation) videoSize.location).path);
+            if (videoSize.location instanceof ArcFileLocation) {
+                return new File(((ArcFileLocation) videoSize.location).path);
             }
-        } else if (attach instanceof AyuFileLocation ayuFileLocation) {
-            return new File(ayuFileLocation.path);
+        } else if (attach instanceof ArcFileLocation arcFileLocation) {
+            return new File(arcFileLocation.path);
         }
-        // --- AyuGram hook
+        // --- MZGram hook
 
         if (dir == null) {
             return new File("");

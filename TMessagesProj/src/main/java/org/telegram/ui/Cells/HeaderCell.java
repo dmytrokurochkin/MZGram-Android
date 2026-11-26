@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import androidx.core.view.ViewCompat;
 
-import app.exteraless.appearance.AppearanceConfig;
+import org.mzgram.appearance.AppearanceConfig;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;

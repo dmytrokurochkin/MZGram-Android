@@ -308,7 +308,7 @@ def chaquopyRuntimeTasks = chaquopyAbis.collect { String abi ->
                 "com.chaquo.python:target:${chaquopyTarget.key}-${chaquopyTarget.value}:${abi}@zip"))
         def outputDir = new File(chaquopyRuntimeDir, abi)
         inputs.files(fileTree(chaquopySourceDir) {
-            include 'exteraless/build.sh'
+            include 'mzgram/build.sh'
             include 'product/runtime/CMakeLists.txt'
             include 'product/runtime/src/main/c/**'
             include 'product/runtime/src/main/python/**/*.pyx'
@@ -317,7 +317,7 @@ def chaquopyRuntimeTasks = chaquopyAbis.collect { String abi ->
         }).withPathSensitivity(PathSensitivity.RELATIVE)
         inputs.files(targetZip).withPathSensitivity(PathSensitivity.NAME_ONLY)
         outputs.dir(outputDir)
-        commandLine 'bash', new File(chaquopySourceDir, 'exteraless/build.sh').path
+        commandLine 'bash', new File(chaquopySourceDir, 'mzgram/build.sh').path
         environment('ABI', abi)
         environment('OUT', outputDir.path)
         environment('WORKSPACE', layout.buildDirectory.dir('chaquopy/work').get().asFile.path)
@@ -391,7 +391,7 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.1.0'
     implementation 'androidx.car.app:app:1.7.0'
     implementation 'androidx.car.app:app-projected:1.7.0'
-    // CameraX для круглых видеосообщений (app.exteraless.camera.CameraXSession).
+    // CameraX для круглых видеосообщений (org.mzgram.camera.CameraXSession).
     // Не ниже 1.6: в 1.5 нет SessionConfig, setPreviewStabilizationEnabled
     // и параллельной привязки двух камер. 1.6.2 чинит краш записи на Android 16.
     implementation 'androidx.camera:camera-core:1.6.2'
@@ -458,7 +458,7 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.8.4'
     // add for keep formatting in translations
     implementation 'org.apache.commons:commons-text:1.15.0'
-    // translator from nekogram
+    // translator from mzgram
     implementation 'app.nekogram.translator:translator:1.6.1'
 
     // plugins engine: Xposed-совместимые хуки (LSPlant), MVEL-фильтры, генерация классов

@@ -45,8 +45,8 @@ import org.telegram.utils.glass.source.GlassSourceCrossfade;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 import org.telegram.ui.Components.blur3.drawable.color.BlurredBackgroundColorProvider;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 /**
  * Lightweight header for the "simple glass" screens (settings-like lists under a progressive blur).
@@ -338,7 +338,7 @@ public class SimpleActionBar extends FrameLayout implements FactorAnimator.Targe
         final int p = dp(6);
         // MZGram: Material bars, plain icons without glass pills. A solid bar in the page colour
         // shows together with the title (when the list is scrolled), so nothing shows through.
-        final boolean mzFlat = app.exteraless.appearance.AppearanceConfig.materialBars();
+        final boolean mzFlat = org.mzgram.appearance.AppearanceConfig.materialBars();
         if (mzFlat && glassColorProvider != null) {
             final float barAlpha = Math.max(titlesAlpha, Math.max(getSearchFactor(), getActionModeFactor()));
             if (barAlpha > 0) {

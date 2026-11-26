@@ -29,7 +29,7 @@ def gate(monkeypatch, tmp_path):
     file_utils._is_own_path = is_own_path
     monkeypatch.setitem(sys.modules, "file_utils", file_utils)
 
-    path = Path(corpus.PYTHON_ROOT, "extera_utils", "audit_gate.py")
+    path = Path(corpus.PYTHON_ROOT, "mz_utils", "audit_gate.py")
     spec = importlib.util.spec_from_file_location("audit_gate_under_test", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -60,7 +60,7 @@ def check(gate, event, *args):
 
 def test_files_permission_does_not_open_settings_for_writing(gate):
     gate.granted.add("files")
-    target = str(gate.root / "shared_prefs" / "exteraless_plugin_grants.xml")
+    target = str(gate.root / "shared_prefs" / "mzgram_plugin_grants.xml")
     with pytest.raises(PermissionError):
         check(gate, "open", target, "w", os.O_WRONLY | os.O_CREAT)
     with pytest.raises(PermissionError):
@@ -222,7 +222,7 @@ def test_session_files_under_a_runtime_path_still_need_files(gate, monkeypatch):
 
 def test_settings_and_foreign_plugin_data_are_never_runtime_files(gate, monkeypatch):
     monkeypatch.setattr(gate.module, "_runtime_prefixes", (os.path.realpath(gate.root),))
-    prefs = gate.root / "shared_prefs" / "exteraless_plugin_grants.xml"
+    prefs = gate.root / "shared_prefs" / "mzgram_plugin_grants.xml"
     prefs.write_text("<map/>")
     foreign = gate.plugins / ".data" / "other" / "secret.json"
     foreign.write_text("{}")

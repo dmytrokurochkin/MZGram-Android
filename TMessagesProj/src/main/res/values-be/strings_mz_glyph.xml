@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphNewMessage">Успышка на новыя паведамленні</string>
+    <string name="MZGlyphCalls">Свячэнне пры ўваходных званках</string>
+    <string name="MZGlyphRecording">Свячэнне падчас запісу</string>
+    <string name="MZGlyphScreenOff">Паведамленні толькі пры выключаным экране</string>
+    <string name="MZGlyphPreview">Прагляд</string>
+    <string name="MZGlyphUnsupported">Glyph Interface ёсць толькі на тэлефонах Nothing</string>
+    <string name="MZGlyphInfo">Уключае Glyph Interface на задняй панэлі тэлефона Nothing: успышка на ўваходныя паведамленні, лагатып MZGram на Glyph Matrix у Phone (3) і «дыхальнае» свячэнне падчас запісу галасавых ці ўваходнага званка. Выключаныя чаты ніколі не выклікаюць успышкі.</string>
+</resources>

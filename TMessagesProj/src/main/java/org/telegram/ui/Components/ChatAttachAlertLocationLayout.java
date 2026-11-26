@@ -90,9 +90,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.location.NekoLocation;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.location.CoreLocation;
+import org.mzgram.core.ui.BottomBuilder;
 
 public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLayout implements Theme.Colorable, NotificationCenter.NotificationCenterDelegate {
 
@@ -1454,8 +1454,8 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
             for (int i = providers.size() - 1; i >= 0; i--) {
                 l = lm.getLastKnownLocation(providers.get(i));
                 if (l != null) {
-                    if (NekoConfig.fixDriftingForGoogleMaps()) {
-                        NekoLocation.transform(l);
+                    if (CoreConfig.fixDriftingForGoogleMaps()) {
+                        CoreLocation.transform(l);
                     }
                     break;
                 }
@@ -1687,7 +1687,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         return themeDescriptions;
     }
 
-    // NekoX: OpenStreetMap
+    // CoreX: OpenStreetMap
     private TextView getAttributionOverlay(Context context) {
         attributionOverlay = new TextView(context);
         attributionOverlay.setText(Html.fromHtml("© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"));

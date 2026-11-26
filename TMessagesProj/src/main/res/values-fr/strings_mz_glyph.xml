@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphNewMessage">Flash pour les nouveaux messages</string>
+    <string name="MZGlyphCalls">Lueur lors des appels entrants</string>
+    <string name="MZGlyphRecording">Lueur pendant l’enregistrement</string>
+    <string name="MZGlyphScreenOff">Messages seulement écran éteint</string>
+    <string name="MZGlyphPreview">Aperçu</string>
+    <string name="MZGlyphUnsupported">Glyph Interface n’existe que sur les téléphones Nothing</string>
+    <string name="MZGlyphInfo">Allume la Glyph Interface au dos de votre téléphone Nothing : un flash pour les messages entrants, le logo MZGram sur la Glyph Matrix du Phone (3) et une lueur pulsée pendant l’enregistrement vocal ou un appel. Les discussions en sourdine ne déclenchent jamais le flash.</string>
+</resources>

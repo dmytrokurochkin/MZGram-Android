@@ -493,7 +493,7 @@ public class AudioPlayerCell extends FrameLayout implements DownloadController.F
 
     private void loadId3Cover(boolean crossfade) {
         final MessageObject messageObject = currentMessageObject;
-        app.exteraless.player.AudioFileCover.loadSmallCover(messageObject, cover -> {
+        org.mzgram.player.AudioFileCover.loadSmallCover(messageObject, cover -> {
             if (currentMessageObject != messageObject) {
                 return;
             }

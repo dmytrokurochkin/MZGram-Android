@@ -77,7 +77,7 @@ import org.telegram.ui.Wallet.WalletDiamondView;
 
 import java.util.ArrayList;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
 public class TONIntroActivity extends GradientHeaderActivity implements NotificationCenter.NotificationCenterDelegate {
 

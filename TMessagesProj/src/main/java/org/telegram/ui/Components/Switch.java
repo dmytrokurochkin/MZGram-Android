@@ -46,11 +46,11 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.BaseCell;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MonetHelper;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.MonetHelper;
+import org.mzgram.ext.ExtConfig;
 
 public class Switch extends View implements Theme.Colorable {
 
@@ -158,7 +158,7 @@ public class Switch extends View implements Theme.Colorable {
         checkDrawable = ContextCompat.getDrawable(context, R.drawable.floating_check).mutate();
         checkDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(trackCheckedColorKey, resourcesProvider), PorterDuff.Mode.MULTIPLY));
 
-        setHapticFeedbackEnabled(!NekoConfig.disableVibration.Bool());
+        setHapticFeedbackEnabled(!CoreConfig.disableVibration.Bool());
     }
 
     @Keep
@@ -200,22 +200,22 @@ public class Switch extends View implements Theme.Colorable {
         }
     }
 
-    /** Новый (exteraGram) стиль тумблера — тот же слот, что рисует {@code drawExteraSwitch}. */
-    private static boolean isExteraSwitchStyle() {
-        int style = NaConfig.INSTANCE.getSwitchStyle().Int();
+    /** Новый (MZGram) стиль тумблера — тот же слот, что рисует {@code drawMZSwitch}. */
+    private static boolean isMZSwitchStyle() {
+        int style = ExtConfig.INSTANCE.getSwitchStyle().Int();
         return style == SWITCH_STYLE_MD3 || style == SWITCH_STYLE_M3;
     }
 
     private static boolean isMaterial3SwitchStyle() {
-        return NaConfig.INSTANCE.getSwitchStyle().Int() == SWITCH_STYLE_M3;
+        return ExtConfig.INSTANCE.getSwitchStyle().Int() == SWITCH_STYLE_M3;
     }
 
     /**
      * Запас вокруг тумблера для overlay-битмапов: капсула нового стиля вылезает
-     * за measuredWidth/Height (exteraGram: {@code Switch.getOverlayPadding()} = dp(5)).
+     * за measuredWidth/Height (MZGram: {@code Switch.getOverlayPadding()} = dp(5)).
      */
     private int getOverlayPadding() {
-        return isExteraSwitchStyle() ? dp(5) : 0;
+        return isMZSwitchStyle() ? dp(5) : 0;
     }
 
     private void cancelIconAnimator() {
@@ -273,7 +273,7 @@ public class Switch extends View implements Theme.Colorable {
             rippleDrawable.setCallback(this);
         }
         if (Build.VERSION.SDK_INT >= 23) {
-            rippleDrawable.setRadius(isMaterial3SwitchStyle() ? app.exteraless.appearance.Material3SwitchHelper.stateLayerRadius() : AndroidUtilities.dp(18));
+            rippleDrawable.setRadius(isMaterial3SwitchStyle() ? org.mzgram.appearance.Material3SwitchHelper.stateLayerRadius() : AndroidUtilities.dp(18));
         }
         if (isChecked && colorSet != 2 || !isChecked && colorSet != 1) {
             int color = Theme.getColor(isChecked ? Theme.key_switchTrackBlueSelectorChecked : Theme.key_switchTrackBlueSelector, resourcesProvider);
@@ -321,8 +321,8 @@ public class Switch extends View implements Theme.Colorable {
             checkSpringAnimator.start();
             return;
         }
-        if (isExteraSwitchStyle()) {
-            // exteraGram: SpringForce(target).setDampingRatio(0.9f).setStiffness(1400f), minimumVisibleChange 0.001f
+        if (isMZSwitchStyle()) {
+            // MZGram: SpringForce(target).setDampingRatio(0.9f).setStiffness(1400f), minimumVisibleChange 0.001f
             checkSpringAnimator = new SpringAnimation(this, PROGRESS_PROPERTY)
                     .setSpring(new SpringForce(newCheckedState ? 1f : 0f)
                             .setDampingRatio(0.9f)
@@ -360,7 +360,7 @@ public class Switch extends View implements Theme.Colorable {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         attachedToWindow = true;
-        // Стиль exteraGram рисует дорожку шире собственных границ вьюхи
+        // Стиль MZGram рисует дорожку шире собственных границ вьюхи
         // (-2dp слева, +3dp справа, высота 26dp против 20-22dp у ячейки), и
         // клип по границам ребёнка срезает капсуле бока. TextCheckCell снимает
         // клип у себя, но переключатель живёт ещё в восьми ячейках — проще
@@ -382,8 +382,8 @@ public class Switch extends View implements Theme.Colorable {
 
     @Override
     public void setAlpha(float alpha) {
-        // exteraGram: при новом стиле альфа не уходит во View, иначе гаснут overlay-битмапы
-        if (!isExteraSwitchStyle()) {
+        // MZGram: при новом стиле альфа не уходит во View, иначе гаснут overlay-битмапы
+        if (!isMZSwitchStyle()) {
             overrideAlpha = 1.0f;
             super.setAlpha(alpha);
         } else {
@@ -499,7 +499,7 @@ public class Switch extends View implements Theme.Colorable {
             return;
         }
 
-        int switchStyle = NaConfig.INSTANCE.getSwitchStyle().Int();
+        int switchStyle = ExtConfig.INSTANCE.getSwitchStyle().Int();
         if (switchStyle != SWITCH_STYLE_DEFAULT) {
             drawCustomSwitch(canvas, switchStyle);
             return;
@@ -699,11 +699,11 @@ public class Switch extends View implements Theme.Colorable {
     }
 
     private void drawCustomSwitch(Canvas canvas, int switchStyle) {
-        // exteraGram "new switch" look reversed from exteraGram 12.9.0 onDraw (exteraSwitch.smali).
+        // MZGram "new switch" look reversed from MZGram 12.9.0 onDraw (mzSwitch.smali).
         // We reuse the MD3 slot (SWITCH_STYLE_MD3 == 2, the current default) to render it 1:1:
         // a fully-filled capsule track (no border, no icon) with a solid round thumb.
         if (switchStyle == SWITCH_STYLE_MD3) {
-            drawExteraSwitch(canvas);
+            drawMZSwitch(canvas);
             return;
         }
         if (switchStyle == SWITCH_STYLE_M3) {
@@ -877,8 +877,8 @@ public class Switch extends View implements Theme.Colorable {
     }
 
     /**
-     * exteraGram "new switch" style, reversed from exteraGram 12.9.0 Switch.onDraw
-     * (tools/exteraSwitch.smali, method onDraw, ExteraConfig.getNewSwitchStyle()==true branch).
+     * MZGram "new switch" style, reversed from MZGram 12.9.0 Switch.onDraw
+     * (tools/mzSwitch.smali, method onDraw, MZConfig.getNewSwitchStyle()==true branch).
      *
      * All const/high16 float values below were decoded as Float.intBitsToFloat(N << 16):
      *   16888->31  16848->26  16736->14  16640->8  16768->16  16608->7  16448->3
@@ -898,7 +898,7 @@ public class Switch extends View implements Theme.Colorable {
      * Colors: track lerp(trackColorKey -> trackCheckedColorKey), thumb lerp(thumbColorKey -> thumbCheckedColorKey).
      * No googleBorderPaint stroke and no drawIconType lines are emitted here (screenshot shows a plain toggle).
      */
-    private void drawExteraSwitch(Canvas canvas) {
+    private void drawMZSwitch(Canvas canvas) {
         final int measuredWidth = getMeasuredWidth();
         final int measuredHeight = getMeasuredHeight();
 
@@ -963,7 +963,7 @@ public class Switch extends View implements Theme.Colorable {
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
         final int pad = getOverlayPadding();
-        final int stateLayer = app.exteraless.appearance.Material3SwitchHelper.stateLayerRadius();
+        final int stateLayer = org.mzgram.appearance.Material3SwitchHelper.stateLayerRadius();
         final int alphaSave = overrideAlpha < 1f
                 ? canvas.saveLayerAlpha(-stateLayer, -stateLayer, width + stateLayer, height + stateLayer, (int) (255 * Utilities.clamp01(overrideAlpha)))
                 : -1;
@@ -971,12 +971,12 @@ public class Switch extends View implements Theme.Colorable {
             outlinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             outlinePaint.setStyle(Paint.Style.STROKE);
         }
-        final float cx = app.exteraless.appearance.Material3SwitchHelper.thumbCenterX(width, progress);
+        final float cx = org.mzgram.appearance.Material3SwitchHelper.thumbCenterX(width, progress);
         final float cy = height / 2f;
-        final int trackOff = processColor(app.exteraless.appearance.Material3SwitchHelper.unselectedTrackColor(trackColorKey, resourcesProvider));
+        final int trackOff = processColor(org.mzgram.appearance.Material3SwitchHelper.unselectedTrackColor(trackColorKey, resourcesProvider));
         final int trackOn = processColor(Theme.getColor(trackCheckedColorKey, resourcesProvider));
-        final int thumbOff = processColor(app.exteraless.appearance.Material3SwitchHelper.unselectedThumbColor(trackColorKey, resourcesProvider));
-        final int thumbOn = processColor(app.exteraless.appearance.Material3SwitchHelper.selectedThumbColor(thumbCheckedColorKey, resourcesProvider));
+        final int thumbOff = processColor(org.mzgram.appearance.Material3SwitchHelper.unselectedThumbColor(trackColorKey, resourcesProvider));
+        final int thumbOn = processColor(org.mzgram.appearance.Material3SwitchHelper.selectedThumbColor(thumbCheckedColorKey, resourcesProvider));
 
         for (int a = 0; a < 2; a++) {
             if (a == 1 && overrideColorProgress == 0) {
@@ -997,13 +997,13 @@ public class Switch extends View implements Theme.Colorable {
             final int trackColor = lerpColor(trackOff, trackOn, colorProgress);
             paint.setColor(trackColor);
             paint2.setColor(trackColor);
-            app.exteraless.appearance.Material3SwitchHelper.setTrackBounds(rectF, width, height);
+            org.mzgram.appearance.Material3SwitchHelper.setTrackBounds(rectF, width, height);
             rectF.offset(offset, offset);
             final float trackRadius = rectF.height() / 2f;
             target.drawRoundRect(rectF, trackRadius, trackRadius, paint);
             final float outlineAlpha = 1f - colorProgress;
             if (outlineAlpha > 0f) {
-                final float stroke = app.exteraless.appearance.Material3SwitchHelper.trackOutlineWidth();
+                final float stroke = org.mzgram.appearance.Material3SwitchHelper.trackOutlineWidth();
                 outlinePaint.setColor(Theme.multAlpha(thumbOff, outlineAlpha));
                 outlinePaint.setStrokeWidth(stroke);
                 rectF.inset(stroke / 2f, stroke / 2f);
@@ -1034,7 +1034,7 @@ public class Switch extends View implements Theme.Colorable {
             final float iconFactor = drawIconType == 1 || drawIconType == 2 || iconAnimator != null
                     ? 1f
                     : (iconDrawable != null ? animatorIconVisibility.getFloatValue() : 0f);
-            app.exteraless.appearance.Material3SwitchHelper.setThumbBounds(rectF, cx + offset, cy + offset, progress, isChecked, iconFactor, animatorPressed.getFloatValue());
+            org.mzgram.appearance.Material3SwitchHelper.setThumbBounds(rectF, cx + offset, cy + offset, progress, isChecked, iconFactor, animatorPressed.getFloatValue());
             final float thumbRadius = rectF.height() / 2f;
             target.drawRoundRect(rectF, thumbRadius, thumbRadius, paint);
             if (a == 0) {
@@ -1043,7 +1043,7 @@ public class Switch extends View implements Theme.Colorable {
                     if (visibility > 0f) {
                         final int iconWidth = iconDrawable.getIntrinsicWidth();
                         final int iconHeight = iconDrawable.getIntrinsicHeight();
-                        final float scale = visibility * app.exteraless.appearance.Material3SwitchHelper.thumbIconScale(iconWidth, iconHeight);
+                        final float scale = visibility * org.mzgram.appearance.Material3SwitchHelper.thumbIconScale(iconWidth, iconHeight);
                         canvas.save();
                         canvas.translate(cx - iconWidth / 2f, cy - iconHeight / 2f);
                         canvas.scale(scale, scale, iconWidth / 2f, iconHeight / 2f);
@@ -1052,16 +1052,16 @@ public class Switch extends View implements Theme.Colorable {
                         canvas.restore();
                     }
                 } else if (drawIconType == 1) {
-                    paint2.setStrokeWidth(app.exteraless.appearance.Material3SwitchHelper.iconStrokeWidth());
-                    app.exteraless.appearance.Material3SwitchHelper.setCheckIconLines(iconLines, cx, cy, progress);
+                    paint2.setStrokeWidth(org.mzgram.appearance.Material3SwitchHelper.iconStrokeWidth());
+                    org.mzgram.appearance.Material3SwitchHelper.setCheckIconLines(iconLines, cx, cy, progress);
                     target.drawLines(iconLines, paint2);
                 } else if (drawIconType == 2 || iconAnimator != null) {
                     paint2.setAlpha((int) (255 * (1f - iconProgress)));
-                    paint2.setStrokeWidth(app.exteraless.appearance.Material3SwitchHelper.iconStrokeWidth());
-                    target.drawLine(cx, cy, cx, cy - app.exteraless.appearance.Material3SwitchHelper.clockHandLength(true), paint2);
+                    paint2.setStrokeWidth(org.mzgram.appearance.Material3SwitchHelper.iconStrokeWidth());
+                    target.drawLine(cx, cy, cx, cy - org.mzgram.appearance.Material3SwitchHelper.clockHandLength(true), paint2);
                     target.save();
                     target.rotate(-90f * iconProgress, cx, cy);
-                    target.drawLine(cx, cy, cx + app.exteraless.appearance.Material3SwitchHelper.clockHandLength(false), cy, paint2);
+                    target.drawLine(cx, cy, cx + org.mzgram.appearance.Material3SwitchHelper.clockHandLength(false), cy, paint2);
                     target.restore();
                 }
             }

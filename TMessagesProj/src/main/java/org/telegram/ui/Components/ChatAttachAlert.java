@@ -182,24 +182,24 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import app.exteraless.chats.ChatsConfig;
+import org.mzgram.chats.ChatsConfig;
 import kotlin.Unit;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.ChatsHelper;
-import tw.nekomimi.nekogram.llm.LlmConfig;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.translate.TranslatorKt;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.ChatsHelper;
+import org.mzgram.core.llm.LlmConfig;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.translate.TranslatorKt;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.ext.ExtConfig;
 
 import java.util.Objects;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.android.animator.ListAnimator;
-import me.vkryl.android.animator.ReplaceAnimator;
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.ListAnimator;
+import org.mzgram.ux.android.animator.ReplaceAnimator;
+import org.mzgram.ux.core.BitwiseUtils;
 
 public class ChatAttachAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, BottomSheet.BottomSheetDelegateInterface, FactorAnimator.Target {
 
@@ -1133,15 +1133,15 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     private View bottomFadeView;
     protected FrameLayout buttonsRecyclerViewWrapper;
     // MZGram: Material bars. The attach row is a docked bar (full width, down to the screen's bottom edge), not a glass capsule
-    private final boolean mzDockedButtons = app.exteraless.appearance.AppearanceConfig.materialBars();
+    private final boolean mzDockedButtons = org.mzgram.appearance.AppearanceConfig.materialBars();
     private final Paint mzDockPaint = new Paint();
 
-    // exteraGram 12.9.0, ChatAttachAlert.java:238 — при hideCameraTile плитки камеры в сетке нет,
-    // и снимок делать неоткуда; exteraGram вешает вместо неё плавающую кнопку поверх шторки.
+    // MZGram 12.9.0, ChatAttachAlert.java:238 — при hideCameraTile плитки камеры в сетке нет,
+    // и снимок делать неоткуда; MZGram вешает вместо неё плавающую кнопку поверх шторки.
     private FragmentFloatingButton cameraFloatingButton;
 
     /**
-     * Мост к камере плитки. exteraGram зовёт публичный ChatAttachAlertPhotoLayout.openCamera(boolean)
+     * Мост к камере плитки. MZGram зовёт публичный ChatAttachAlertPhotoLayout.openCamera(boolean)
      * (ChatAttachAlertPhotoLayout.java:4593) прямо из клик-листенера; у нас этот метод private
      * (ChatAttachAlertPhotoLayout.java:2490), а файл правит другой агент. Достаточно одной строки
      * в конструкторе ChatAttachAlertPhotoLayout:
@@ -2634,7 +2634,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     // MZGram: a flat surface from the row's top to the screen's bottom edge (the parent doesn't clip
                     // its children), with a hairline on top, the same as the main navigation bar
                     // the same tone as the main navigation bar: a Material 3 bottom bar a step above the page
-                    mzDockPaint.setColor(app.exteraless.appearance.MainTabsUiHelper.getMaterial3BarColor(resourcesProvider));
+                    mzDockPaint.setColor(org.mzgram.appearance.MainTabsUiHelper.getMaterial3BarColor(resourcesProvider));
                     canvas.drawRect(0, 0, getWidth(), getHeight() + AndroidUtilities.navigationBarHeight, mzDockPaint);
                     mzDockPaint.setColor(Theme.getDividerColor(resourcesProvider));
                     canvas.drawRect(0, 0, getWidth(), 1, mzDockPaint);
@@ -2642,7 +2642,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 super.dispatchDraw(canvas);
             }
 
-            // exteraGram 12.9.0, ChatAttachAlert.java:2913-2925 — FAB камеры едет вместе с рядом
+            // MZGram 12.9.0, ChatAttachAlert.java:2913-2925 — FAB камеры едет вместе с рядом
             // кнопок вложений, поэтому пересчитываем её положение на каждое их движение.
             @Override
             public void setAlpha(float alpha) {
@@ -3020,7 +3020,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         botProgressView.setVisibility(View.GONE);
         containerView.addView(botProgressView, LayoutHelper.createFrame(28, 28, Gravity.BOTTOM | Gravity.RIGHT, 0, 0, 10, 10));
 
-        // exteraGram 12.9.0, ChatAttachAlert.java:3119-3136 — плавающая кнопка камеры.
+        // MZGram 12.9.0, ChatAttachAlert.java:3119-3136 — плавающая кнопка камеры.
         cameraFloatingButton = new FragmentFloatingButton(context, resourcesProvider);
         cameraFloatingButton.setImageResource(R.drawable.camera);
         cameraFloatingButton.setOnClickListener(v -> {
@@ -3038,8 +3038,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         });
         cameraFloatingButton.setOnLongClickListener(v -> {
             // ChatAttachAlert.java:4276-4284 (lambda$new$18) — долгий тап отдаёт съёмку системной камере.
-            // exteraGram передаёт invertMedia = false, хотя аналогичный лонг-тап по плитке
-            // (ChatAttachAlertPhotoLayout.java:2509) передаёт isCaptionAbove(); повторяем exteraGram.
+            // MZGram передаёт invertMedia = false, хотя аналогичный лонг-тап по плитке
+            // (ChatAttachAlertPhotoLayout.java:2509) передаёт isCaptionAbove(); повторяем MZGram.
             if (delegate != null) {
                 delegate.didPressedButton(0, false, true, 0, 0, 0, false, false, 0);
             }
@@ -3722,7 +3722,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     AndroidUtilities.shakeView(captionLimitView);
                     AndroidUtilities.shakeView(topCaptionLimitView);
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) writeButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!CoreConfig.disableVibration.Bool()) writeButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}
                     if (!MessagesController.getInstance(currentAccount).premiumFeaturesBlocked() && MessagesController.getInstance(currentAccount).captionLengthLimitPremium > codepointCount) {
                         showCaptionLimitBulletin(parentFragment);
@@ -3752,9 +3752,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 } else {
                     boolean shownDialog = false;
                     if (currentAttachLayout == photoLayout || currentAttachLayout == photoPreviewLayout) {
-                        shownDialog = sendPressed(!NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, effectId, isCaptionAbove());
+                        shownDialog = sendPressed(!ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, effectId, isCaptionAbove());
                     } else {
-                        if (!currentAttachLayout.sendSelectedItems(!NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, effectId, isCaptionAbove())) {
+                        if (!currentAttachLayout.sendSelectedItems(!ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, effectId, isCaptionAbove())) {
                             allowPassConfirmationAlert = true;
                             dismiss();
                         }
@@ -4088,7 +4088,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 });
             }
             if (editingMessageObject == null && !self) {
-                boolean sendWithoutSoundNax = NaConfig.INSTANCE.getSilentMessageByDefault().Bool();
+                boolean sendWithoutSoundNax = ExtConfig.INSTANCE.getSilentMessageByDefault().Bool();
                 options.add(sendWithoutSoundNax ? R.drawable.input_notify_on : R.drawable.input_notify_off, sendWithoutSoundNax ? getString(R.string.SendWithSound) : getString(R.string.SendWithoutSound), () -> {
                     final long effectId = messageSendPreview != null ? messageSendPreview.getSelectedEffect() : 0;
                     writeButton.setEffect(ChatAttachAlert.this.effectId = effectId);
@@ -4204,7 +4204,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             messageSendPreview.show();
 
             try {
-                if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
             } catch (Exception ignored) {}
 
             return true;
@@ -4253,7 +4253,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
         BlurredBackgroundProvider colorProvider = new BlurredBackgroundProviderBuilder(resourcesProvider)
             .setBackgroundColor((r, isDark) -> {
-                final float alpha = app.exteraless.appearance.AppearanceConfig.glassAlpha(0.85f, 0.76f);
+                final float alpha = org.mzgram.appearance.AppearanceConfig.glassAlpha(0.85f, 0.76f);
                 final int colorBg = Theme.getColor(isDark ? Theme.key_windowBackgroundGray : Theme.key_dialogBackgroundGray, r);
                 final int colorTarget = Theme.getColor(Theme.key_windowBackgroundWhite, r);
                 if (hasOverridenWebviewBackgroundColor) {
@@ -4431,7 +4431,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             AndroidUtilities.shakeView(captionLimitView);
             AndroidUtilities.shakeView(topCaptionLimitView);
             try {
-                if (!NekoConfig.disableVibration.Bool()) writeButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                if (!CoreConfig.disableVibration.Bool()) writeButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
             } catch (Exception ignored) {}
 
             if (!MessagesController.getInstance(currentAccount).premiumFeaturesBlocked() && MessagesController.getInstance(currentAccount).captionLengthLimitPremium > codepointCount) {
@@ -4452,9 +4452,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }, resourcesProvider);
         } else {
             if (currentAttachLayout == photoLayout || currentAttachLayout == photoPreviewLayout) {
-                sendPressed(!NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, effectId, isCaptionAbove());
+                sendPressed(!ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, effectId, isCaptionAbove());
             } else {
-                if (!currentAttachLayout.sendSelectedItems(!NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, effectId, isCaptionAbove())) {
+                if (!currentAttachLayout.sendSelectedItems(!ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, effectId, isCaptionAbove())) {
                     allowPassConfirmationAlert = true;
                     dismiss();
                 }
@@ -4854,7 +4854,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         nextAttachLayout.onShow(currentAttachLayout);
         nextAttachLayout.setVisibility(View.VISIBLE);
-        updateCameraButtonVisibility(); // exteraGram 12.9.0, ChatAttachAlert.java:5882
+        updateCameraButtonVisibility(); // MZGram 12.9.0, ChatAttachAlert.java:5882
 
         if (layout.getParent() != null) {
             containerView.removeView(nextAttachLayout);
@@ -5468,7 +5468,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 commentTextView.setLayoutParams(lp);
             }
         }
-        updateCameraButtonVisibility(); // exteraGram 12.9.0, ChatAttachAlert.java:5811
+        updateCameraButtonVisibility(); // MZGram 12.9.0, ChatAttachAlert.java:5811
         return true;
     }
 
@@ -6126,11 +6126,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
             }
         }
-        updateCameraButtonVisibility(); // exteraGram 12.9.0, ChatAttachAlert.java:6118
+        updateCameraButtonVisibility(); // MZGram 12.9.0, ChatAttachAlert.java:6118
     }
 
     /**
-     * exteraGram 12.9.0, ChatAttachAlert.java:6121-6150. Кнопка живёт только на вкладке галереи,
+     * MZGram 12.9.0, ChatAttachAlert.java:6121-6150. Кнопка живёт только на вкладке галереи,
      * только при скрытой плитке и только пока ничего не выбрано — иначе её место занимает
      * кнопка отправки.
      */
@@ -6138,7 +6138,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         if (cameraFloatingButton == null) {
             return;
         }
-        final boolean show = app.exteraless.chats.ChatsConfig.hideCameraTile.Bool()
+        final boolean show = org.mzgram.chats.ChatsConfig.hideCameraTile.Bool()
                 && (nextAttachLayout != null ? nextAttachLayout == photoLayout : currentAttachLayout == photoLayout)
                 && photoLayout != null
                 && hasGoodCameraForFloatingButton()
@@ -6165,7 +6165,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /**
-     * exteraGram читает package-private ChatAttachAlertPhotoLayout.deviceHasGoodCamera
+     * MZGram читает package-private ChatAttachAlertPhotoLayout.deviceHasGoodCamera
      * (ChatAttachAlertPhotoLayout.java:153). У нас поле приватное, а файл чужой, поэтому тот же
      * признак собираем из публичного состояния: deviceHasGoodCamera выставляется ровно так же —
      * false без inappCamera и false пока камера не инициализирована (в том числе когда
@@ -6175,7 +6175,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         return SharedConfig.inappCamera && CameraController.getInstance().isCameraInitied();
     }
 
-    /** exteraGram 12.9.0, ChatAttachAlert.java:6722 — вызывается из ChatAttachAlertPhotoLayout. */
+    /** MZGram 12.9.0, ChatAttachAlert.java:6722 — вызывается из ChatAttachAlertPhotoLayout. */
     public void onCameraStateChanged() {
         updateCameraButtonVisibility();
     }
@@ -6213,7 +6213,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         } else if (dy != 0) {
             previousScrollOffsetY = scrollOffsetY[idx];
         }
-        updateCameraButtonVisibility(); // exteraGram 12.9.0, ChatAttachAlert.java:7775
+        updateCameraButtonVisibility(); // MZGram 12.9.0, ChatAttachAlert.java:7775
     }
 
     @Override
@@ -6816,7 +6816,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
     private boolean shownAiButton;
     private void showAiButton(boolean show_) {
-        final boolean show = show_ && (baseFragment instanceof ChatActivity && !((ChatActivity) baseFragment).isSecretChat()) && !app.exteraless.appearance.AiFeaturesHelper.isAiEditorHidden();
+        final boolean show = show_ && (baseFragment instanceof ChatActivity && !((ChatActivity) baseFragment).isSecretChat()) && !org.mzgram.appearance.AiFeaturesHelper.isAiEditorHidden();
 
         if (shownAiButton == show) return;
         if (show) {

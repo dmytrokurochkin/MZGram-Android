@@ -8,15 +8,15 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import corpus
 
-PYTHON_ROOT = os.environ.get("EXTERALESS_PYTHON_ROOT", corpus.PYTHON_ROOT)
-SCANNER = os.path.join(PYTHON_ROOT, "extera_utils", "capability_scan.py")
+PYTHON_ROOT = os.environ.get("MZGRAM_PYTHON_ROOT", corpus.PYTHON_ROOT)
+SCANNER = os.path.join(PYTHON_ROOT, "mz_utils", "capability_scan.py")
 
 
 @pytest.fixture(scope="module")
 def scanner():
     if not os.path.isfile(SCANNER):
         pytest.skip(f"missing {SCANNER}")
-    spec = importlib.util.spec_from_file_location("exteraless_capability_scan", SCANNER)
+    spec = importlib.util.spec_from_file_location("mzgram_capability_scan", SCANNER)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -142,7 +142,7 @@ _STUB_DEX = """\
 def test_unused_embedded_dex_is_reported_without_permissions(scanner, tmp_path):
     found = _scan(scanner, tmp_path, "print('hi')\r\n" + _STUB_DEX.replace("\n", "\r\n"))
     assert found["dex"] == ["size:920", "loaded:no",
-                            "class:com.exteraplugins.send_sticker_as_own.Main"]
+                            "class:com.mzplugins.send_sticker_as_own.Main"]
     assert set(found) == {"dex"}
 
 

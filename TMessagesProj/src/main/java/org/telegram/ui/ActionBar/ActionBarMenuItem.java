@@ -65,7 +65,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.view.WindowInsetsCompat;
 
-import app.exteraless.components.ActionRow;
+import org.mzgram.components.ActionRow;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
@@ -96,8 +96,8 @@ import org.telegram.ui.Components.blur3.drawable.color.impl.BlurredBackgroundPro
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 public class ActionBarMenuItem extends FrameLayout {
 
@@ -1499,14 +1499,14 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /**
-     * Центрирование заголовка включается либо нашим ключом (порт exteraGram), либо
-     * флагом NagramX, который читает ActionBar.isCentered(). Проверка нужна только чтобы
+     * Центрирование заголовка включается либо нашим ключом (порт MZGram), либо
+     * флагом MZGram, который читает ActionBar.isCentered(). Проверка нужна только чтобы
      * не дёргать лишний requestLayout при выключенной фиче.
-     * (там ключ один — ExteraConfig.getCenterTitle()).
+     * (там ключ один — MZConfig.getCenterTitle()).
      */
     private static boolean isCenterTitleEnabled() {
-        return app.exteraless.appearance.AppearanceConfig.centerTitle()
-                || xyz.nextalone.nagram.NaConfig.INSTANCE.getCenterActionBarTitle().Bool();
+        return org.mzgram.appearance.AppearanceConfig.centerTitle()
+                || org.mzgram.ext.ExtConfig.INSTANCE.getCenterActionBarTitle().Bool();
     }
 
     @Override

@@ -46,9 +46,9 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.ui.icons.IconsResources;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.ui.icons.IconsResources;
+import org.mzgram.ext.ExtConfig;
 
 public class QuickShareSelectorDrawable extends Drawable implements Animator.AnimatorListener {
     public static class Sizes {
@@ -139,7 +139,7 @@ public class QuickShareSelectorDrawable extends Drawable implements Animator.Ani
 
         cell.setHideSideButtonByQuickShare(true);
 
-        if (!NekoConfig.disableVibration.Bool()) parent.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+        if (!CoreConfig.disableVibration.Bool()) parent.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
 
         updateColors();
 
@@ -264,7 +264,7 @@ public class QuickShareSelectorDrawable extends Drawable implements Animator.Ani
     }
 
     private void closeImpl () {
-        if (NaConfig.INSTANCE.getIconReplacements().Int() == IconsResources.ICON_REPLACE_SOLAR) {
+        if (ExtConfig.INSTANCE.getIconReplacements().Int() == IconsResources.ICON_REPLACE_SOLAR) {
             if (openAnimation.isRunning()) {
                 openAnimation.cancel();
                 openAnimation.setFloatValues(openProgress, 0);
@@ -595,7 +595,7 @@ public class QuickShareSelectorDrawable extends Drawable implements Animator.Ani
             return;
         }
 
-        if (!NekoConfig.disableVibration.Bool()) parent.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+        if (!CoreConfig.disableVibration.Bool()) parent.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
         selectedIndex = index;
         for (int i = 0; i < avatarCells.length; i++) {
             avatarCells[i].setSelected(index == i, true);

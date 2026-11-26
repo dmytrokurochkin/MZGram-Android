@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Строки фич, перенесённых из MZGram. -->
+<resources>
+    <string name="MZGram" translatable="false">MZGram</string>
+    <string name="MZGramInfo">Make the client truly yours</string>
+
+
+    <string name="MZGramChats">Chats</string>
+    <string name="AddCommaAfterMention">Add Comma after Mention</string>
+
+
+    <string name="MZGramCategories">Categories</string>
+    <string name="MZGramGeneral">General</string>
+    <string name="MZGramAppearance">Appearance</string>
+    <string name="MZGramOther">Other</string>
+
+    <string name="MZGramLinks">Links</string>
+    <string name="MZGramSource">Source Code</string>
+    <string name="QrTitleLink">Link</string>
+    <string name="QrTitleWifi">Wi-Fi network</string>
+    <string name="QrTitleLogin">Telegram login code</string>
+    <string name="QrTitleText">Scanned text</string>
+    <string name="QrWifiOpenSettings">Open Wi-Fi settings</string>
+    <string name="QrWifiCopyPassword">Copy password</string>
+    <string name="QrWifiPasswordCopied">Password copied</string>
+    <string name="QrWifiUnknownNetwork">Network name is missing from the code</string>
+    <string name="QrLoginHint">This code logs into an account. Use Settings → Devices → Link Desktop Device — that screen checks the code and protects your account.</string>
+    <string name="QrLoginConfirm">This code signs a new device into your account. Allow only if you are logging in on your own device.</string>
+    <string name="AppIconMZGram" translatable="false">MZGram</string>
+    <string name="AppIconBlueprint" translatable="false">Blueprint</string>
+    <string name="AppIconRed" translatable="false">Red</string>
+    <string name="AppIconNya" translatable="false">Nya</string>
+    <string name="AppIconQuack" translatable="false">Quack</string>
+    <string name="AppIconGo" translatable="false">Go</string>
+    <string name="AppIconHand" translatable="false">Hand</string>
+    <string name="AppIconMono" translatable="false">Mono</string>
+    <string name="AppIconNothing" translatable="false">Nothing</string>
+    <string name="AppIconPlus" translatable="false">Plus</string>
+    <string name="AppIconsSelect">Select</string>
+    <string name="AppIconsKeep">Keep this one</string>
+    <string name="AppIconInfoMZGram"><!-- сюда подпись --></string>
+    <string name="AppIconInfoBlueprint"><!-- сюда подпись --></string>
+    <string name="AppIconInfoRed"><!-- сюда подпись --></string>
+    <string name="AppIconInfoNya"><!-- сюда подпись --></string>
+    <string name="AppIconInfoArc"><!-- сюда подпись --></string>
+    <string name="AppIconInfoQuack"><!-- сюда подпись --></string>
+    <string name="AppIconInfoGo"><!-- сюда подпись --></string>
+    <string name="AppIconInfoHand"><!-- сюда подпись --></string>
+    <string name="AppIconInfoMono"><!-- сюда подпись --></string>
+    <string name="AppIconInfoNothing"><!-- сюда подпись --></string>
+    <string name="AppIconInfoPlus"><!-- сюда подпись --></string>
+    <string name="AppIconInfoTelegram"><!-- сюда подпись --></string>
+    <string name="AppIconInfoVintage"><!-- сюда подпись --></string>
+    <string name="AppIconInfoAqua"><!-- сюда подпись --></string>
+    <string name="AppIconInfoPremium"><!-- сюда подпись --></string>
+    <string name="AppIconInfoTurbo"><!-- сюда подпись --></string>
+    <string name="AppIconInfoNox"><!-- сюда подпись --></string>
+    <string name="MZGramPreferences">MZGram Preferences</string>
+    <string name="MZGramDesignSection">Design</string>
+    <string name="MZDownloadEmojiPacks">Download emoji packs</string>
+
+    <string name="MZSubtitles">Subtitles</string>
+    <string name="MZChooseSubtitles">Choose Subtitles</string>
+    <string name="MZDisableSubtitles">Disable Subtitles</string>
+    <string name="MZSubtitlesAdded">Subtitles enabled.</string>
+    <string name="MZSubtitlesRemoved">Subtitles disabled.</string>
+    <string name="MZSubtitlesLoadError">Couldn\'t load subtitles.</string>
+    <string name="MZSubtitlesUnsupportedFormat">Unsupported subtitle format.</string>
+    <string name="ProxyDisableOn">Disable proxy</string>
+    <string name="ProxyDisableNever">Never</string>
+    <string name="ProxyDisableAlways">Always</string>
+    <string name="ProxyDisableOnVpn" translatable="false">VPN</string>
+    <string name="ProxyDisableOnMobileData">Mobile data</string>
+    <string name="ProxyDisableOnWiFi" translatable="false">Wi-Fi</string>
+    <string name="MainTabsHideCallsSettings">Hide Calls tab</string>
+    <string name="MainTabsHideProfile">Hide Profile tab</string>
+    <string name="MZBotWebViewUpdate">Update WebView</string>
+    <string name="MZProfilerStart">Start jank profiler</string>
+    <string name="MZProfilerStop">Stop profiler and share report</string>
+    <string name="MZProfilerStarted">Profiler is running. Use the app as usual, then stop it here.</string>
+    <string name="MZProfilerShareLast">Share last profiler report</string>
+    <string name="MZEnergyProfilerStart">Start energy profiler</string>
+    <string name="MZEnergyProfilerStop">Stop energy profiler and share report</string>
+    <string name="MZEnergyProfilerStarted">Energy profiler is running, also in the background and after restarts. Use the phone as usual for a few hours, then stop it here.</string>
+    <string name="MZEnergyProfilerShareCurrent">Share energy report so far</string>
+    <string name="MZEnergyProfilerShareLast">Share last energy report</string>
+    <string name="MZPluginToggleLogShare">Share plugin toggle log</string>
+    <string name="MZProfileIdDate">Registration and join date</string>
+    <string name="MZProfileAccountCreated">**%1$s** joined Telegram %2$s</string>
+    <string name="MZProfileJoinedChat">You joined **%1$s** on %2$s</string>
+    <string name="MZProfileJoinedChannel">You subscribed to **%1$s** on %2$s</string>
+    <string name="MZProfileChatCreated">**%1$s** was created on %2$s</string>
+    <string name="MZProfileJoinDateUnknown">Join date is unavailable</string>
+</resources>

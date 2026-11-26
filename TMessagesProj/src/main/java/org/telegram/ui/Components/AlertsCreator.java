@@ -178,16 +178,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static tw.nekomimi.nekogram.settings.NekoChatSettingsActivity.getDeleteMenuChecks;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import tw.nekomimi.nekogram.helpers.ScheduleTimeHelper;
-import tw.nekomimi.nekogram.NekoConfig;
-import xyz.nextalone.nagram.NaConfig;
+import static org.mzgram.core.settings.CoreChatSettingsActivity.getDeleteMenuChecks;
+import org.mzgram.core.helpers.PasscodeHelper;
+import org.mzgram.core.helpers.ScheduleTimeHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.ext.ExtConfig;
 
-import com.radolyn.ayugram.AyuConstants;
-import com.radolyn.ayugram.messages.AyuMessagesController;
-import com.radolyn.ayugram.messages.AyuSavePreferences;
-import com.radolyn.ayugram.utils.AyuState;
+import org.mzgram.arc.ArcConstants;
+import org.mzgram.arc.messages.ArcMessagesController;
+import org.mzgram.arc.messages.ArcSavePreferences;
+import org.mzgram.arc.utils.ArcState;
 
 public class AlertsCreator {
 
@@ -740,7 +740,7 @@ public class AlertsCreator {
             return null;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(LocaleController.getString(R.string.NagramX));
+        builder.setTitle(LocaleController.getString(R.string.MZGram));
         builder.setMessage(text);
         builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
         /*if (updateApp) {
@@ -908,7 +908,7 @@ public class AlertsCreator {
             return null;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-        builder.setTitle(title == null ? LocaleController.getString(R.string.NagramX) : title);
+        builder.setTitle(title == null ? LocaleController.getString(R.string.MZGram) : title);
         builder.setMessage(text);
         if (positiveButton == null) {
             builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
@@ -989,7 +989,7 @@ public class AlertsCreator {
                     s.delete(maxLength, s.length());
                     AndroidUtilities.shakeView(editText);
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) editText.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!CoreConfig.disableVibration.Bool()) editText.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignore) {}
                     ignoreTextChange = false;
                 }
@@ -1807,7 +1807,7 @@ public class AlertsCreator {
     public static void showOpenUrlAlert(Context context, String url, boolean punycode, boolean tryTelegraph, boolean ask, boolean forceNotInternalForApps, long inlineReturn, Browser.Progress progress, @Nullable TLRPC.WebPage webPage, Theme.ResourcesProvider resourcesProvider) {
         if (!AndroidUtilities.isContextSafe(context)) return;
         final String scheme = url == null ? null : Uri.parse(url).getScheme();
-        if ((Browser.isInternalUrl(url, null) || !ask || "mailto".equalsIgnoreCase(scheme) || NekoConfig.skipOpenLinkConfirm.Bool()) && !NaConfig.INSTANCE.getConfirmAllLinks().Bool()) {
+        if ((Browser.isInternalUrl(url, null) || !ask || "mailto".equalsIgnoreCase(scheme) || CoreConfig.skipOpenLinkConfirm.Bool()) && !ExtConfig.INSTANCE.getConfirmAllLinks().Bool()) {
             Browser.openUrl(context, Uri.parse(url), inlineReturn == 0, tryTelegraph, forceNotInternalForApps && checkInternalBotApp(url), progress, null, false, true, false);
             return;
         }
@@ -2777,7 +2777,7 @@ public class AlertsCreator {
             } else if (clear) {
                 cell[0].setText(LocaleController.formatString(R.string.ClearHistoryOptionAlso, UserObject.getFirstName(user)), "", false, false);
             } else {
-                deleteForAll[0] = NaConfig.INSTANCE.getDeleteChatForBothSides().Bool();
+                deleteForAll[0] = ExtConfig.INSTANCE.getDeleteChatForBothSides().Bool();
                 cell[0].setText(LocaleController.formatString(R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", deleteForAll[0], false);
             }
             cell[0].setMultiline(true);
@@ -3090,7 +3090,7 @@ public class AlertsCreator {
         textView.setSingleLine(true);
         textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        deleteForAll[0] = NaConfig.INSTANCE.getDeleteChatForBothSides().Bool();
+        deleteForAll[0] = ExtConfig.INSTANCE.getDeleteChatForBothSides().Bool();
         if (canDeleteHistory) {
             if (hasDialogsToRevoke) {
                 cell[0] = new CheckBoxCell(context, 1, resourcesProvider);
@@ -6794,7 +6794,7 @@ public class AlertsCreator {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getParentActivity());
-        builder.setTitle(LocaleController.getString(R.string.NagramX));
+        builder.setTitle(LocaleController.getString(R.string.MZGram));
         builder.setMessage(LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
         builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
         fragment.showDialog(builder.create(), true, null);
@@ -6865,7 +6865,7 @@ public class AlertsCreator {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getParentActivity());
-        builder.setTitle(LocaleController.getString(R.string.NagramX));
+        builder.setTitle(LocaleController.getString(R.string.MZGram));
         switch (error.text) {
             case "PEER_FLOOD":
                 builder.setMessage(LocaleController.getString(R.string.NobodyLikesSpam2));
@@ -7776,22 +7776,22 @@ public class AlertsCreator {
             count = selectedMessages[0].size() + selectedMessages[1].size();
         }
 
-        // --- AyuGram hook
-        FrameLayout ayuFrameLayout = null;
-        boolean hasAyuDeletedMessages = false;
+        // --- MZGram hook
+        FrameLayout arcFrameLayout = null;
+        boolean hasArcDeletedMessages = false;
         if (selectedMessage != null) {
-            hasAyuDeletedMessages = selectedMessage.isAyuDeleted();
+            hasArcDeletedMessages = selectedMessage.isArcDeleted();
         } else {
             for (SparseArray<MessageObject> message : selectedMessages) {
                 for (int j = 0; j < message.size(); ++j) {
                     MessageObject msg = message.valueAt(j);
-                    if (msg != null && msg.isAyuDeleted()) {
-                        hasAyuDeletedMessages = true;
+                    if (msg != null && msg.isArcDeleted()) {
+                        hasArcDeletedMessages = true;
                     }
                 }
             }
         }
-        // --- AyuGram hook
+        // --- MZGram hook
 
         long dialogId;
         if (encryptedChat != null) {
@@ -8079,7 +8079,7 @@ public class AlertsCreator {
             } else if (!hasNotOut && myMessagesCount > 0 && hasNonDiceMessages) {
                 hasDeleteForAllCheck = true;
                 FrameLayout frameLayout = new FrameLayout(activity);
-                ayuFrameLayout = frameLayout;
+                arcFrameLayout = frameLayout;
                 CheckBoxCell cell = new CheckBoxCell(activity, 1, resourcesProvider);
                 cell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 if (chat != null && hasNotOut) {
@@ -8137,12 +8137,12 @@ public class AlertsCreator {
             if (myMessagesCount > 0 && hasNonDiceMessages && (user == null || !UserObject.isDeleted(user))) {
                 hasDeleteForAllCheck = true;
                 FrameLayout frameLayout = new FrameLayout(activity);
-                ayuFrameLayout = frameLayout;
+                arcFrameLayout = frameLayout;
                 CheckBoxCell cell = new CheckBoxCell(activity, 1, resourcesProvider);
                 cell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                deleteForAll[0] = NaConfig.INSTANCE.getDeleteChatForBothSides().Bool();
+                deleteForAll[0] = ExtConfig.INSTANCE.getDeleteChatForBothSides().Bool();
                 if (canDeleteInbox) {
-                    cell.setVisibility(hasAyuDeletedMessages ? View.GONE : View.VISIBLE);
+                    cell.setVisibility(hasArcDeletedMessages ? View.GONE : View.VISIBLE);
                     cell.setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", deleteForAll[0], false);
                 } else if (chat != null && (hasNotOut || myMessagesCount == count)) {
                     cell.setText(LocaleController.getString(R.string.DeleteForAll), "", deleteForAll[0], false);
@@ -8161,23 +8161,23 @@ public class AlertsCreator {
             }
         }
 
-        // --- AyuGram hook
+        // --- MZGram hook
         final boolean[] keepLocally = {false};
-        if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() && (selectedMessage == null || !selectedMessage.isEphemeral())) {
-            if (ayuFrameLayout == null) {
-                ayuFrameLayout = new FrameLayout(activity);
-                builder.setView(ayuFrameLayout);
+        if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool() && (selectedMessage == null || !selectedMessage.isEphemeral())) {
+            if (arcFrameLayout == null) {
+                arcFrameLayout = new FrameLayout(activity);
+                builder.setView(arcFrameLayout);
                 builder.setCustomViewOffset(9);
             }
 
             CheckBoxCell cell = new CheckBoxCell(activity, 1, resourcesProvider);
             cell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
             cell.setText(LocaleController.getString(R.string.DeleteKeepLocally), "", false, false);
-            cell.setVisibility(hasAyuDeletedMessages ? View.GONE : View.VISIBLE);
+            cell.setVisibility(hasArcDeletedMessages ? View.GONE : View.VISIBLE);
             cell.setTag(4);
 
             cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
-            ayuFrameLayout.addView(cell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.TOP | Gravity.LEFT, 0, 48 * ayuFrameLayout.getChildCount(), 0, 0));
+            arcFrameLayout.addView(cell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.TOP | Gravity.LEFT, 0, 48 * arcFrameLayout.getChildCount(), 0, 0));
 
             cell.setOnClickListener(v -> {
                 CheckBoxCell cell1 = (CheckBoxCell) v;
@@ -8185,11 +8185,11 @@ public class AlertsCreator {
                 cell1.setChecked(keepLocally[0], true);
             });
         }
-        // --- AyuGram hook
+        // --- MZGram hook
 
         AlertDialog.OnButtonClickListener deleteAction = (dialogInterface, i) -> {
             if (keepLocally[0]) {
-                AyuState.setHideSelection(true, 1);
+                ArcState.setHideSelection(true, 1);
             }
 
             ArrayList<Integer> ids = null;
@@ -8210,15 +8210,15 @@ public class AlertsCreator {
                         }
 
                         ids.add(messageObject.getId());
-                        // --- AyuGram hook
+                        // --- MZGram hook
                         if (!keepLocally[0]) {
-                            AyuState.permitDeleteMessage(dialogId, messageObject.getId());
+                            ArcState.permitDeleteMessage(dialogId, messageObject.getId());
                         } else {
-                            var prefs = new AyuSavePreferences(messageObject.messageOwner, currentAccount);
+                            var prefs = new ArcSavePreferences(messageObject.messageOwner, currentAccount);
                             prefs.setDialogId(dialogId);
-                            AyuMessagesController.getInstance().onMessageDeleted(prefs);
+                            ArcMessagesController.getInstance().onMessageDeleted(prefs);
                         }
-                        // --- AyuGram hook
+                        // --- MZGram hook
                         if (encryptedChat != null && messageObject.messageOwner.random_id != 0 && messageObject.type != 10) {
                             if (random_ids == null) {
                                 random_ids = new ArrayList<>();
@@ -8231,13 +8231,13 @@ public class AlertsCreator {
                         ephemeralMessages.add(selectedMessage);
                     } else {
                         ids.add(selectedMessage.getId());
-                        // --- AyuGram hook
+                        // --- MZGram hook
                     if (!keepLocally[0]) {
-                        AyuState.permitDeleteMessage(dialogId, selectedMessage.getId());
+                        ArcState.permitDeleteMessage(dialogId, selectedMessage.getId());
                     } else {
-                        var prefs = new AyuSavePreferences(selectedMessage.messageOwner, currentAccount);
+                        var prefs = new ArcSavePreferences(selectedMessage.messageOwner, currentAccount);
                         prefs.setDialogId(dialogId);
-                        AyuMessagesController.getInstance().onMessageDeleted(prefs);
+                        ArcMessagesController.getInstance().onMessageDeleted(prefs);
                     }
 
                     if (encryptedChat != null && selectedMessage.messageOwner.random_id != 0 && selectedMessage.type != 10) {
@@ -8248,21 +8248,21 @@ public class AlertsCreator {
                 if (mergeDialogId != 0 && selectedMessage.messageOwner.peer_id != null && selectedMessage.messageOwner.peer_id.chat_id == -mergeDialogId) {
                     thisDialogId = mergeDialogId;
                 }
-                // --- AyuGram hook
-                if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+                // --- MZGram hook
+                if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
                     ArrayList<Integer> finalIds = ids;
                     AndroidUtilities.runOnUIThread(() -> {
                         // invalidating views
-                        NotificationCenter.getInstance(currentAccount).postNotificationName(AyuConstants.MESSAGES_DELETED_NOTIFICATION, dialogId, finalIds);
+                        NotificationCenter.getInstance(currentAccount).postNotificationName(ArcConstants.MESSAGES_DELETED_NOTIFICATION, dialogId, finalIds);
                     });
                 }
-                // --- AyuGram hook
+                // --- MZGram hook
                 if (!ids.isEmpty()) {
                     if (keepLocally[0]) {
-                        AyuState.keepDeletedMessages(thisDialogId, ids);
+                        ArcState.keepDeletedMessages(thisDialogId, ids);
                     }
                     MessagesController.getInstance(currentAccount).deleteMessages(ids, random_ids, encryptedChat, thisDialogId, topicId, deleteForAll[0], mode);
-                    AyuState.releaseKeptMessages(thisDialogId);
+                    ArcState.releaseKeptMessages(thisDialogId);
                 }
                 for (MessageObject msg: ephemeralMessages) {
                     MessagesController.getInstance(currentAccount).deleteEphemeralMessage(thisDialogId, topicId, msg);
@@ -8272,15 +8272,15 @@ public class AlertsCreator {
                     ids = new ArrayList<>();
                     for (int b = 0; b < selectedMessages[a].size(); b++) {
                         ids.add(selectedMessages[a].keyAt(b));
-                        // --- AyuGram hook
+                        // --- MZGram hook
                         if (!keepLocally[0]) {
-                            AyuState.permitDeleteMessage(dialogId, selectedMessages[a].keyAt(b));
+                            ArcState.permitDeleteMessage(dialogId, selectedMessages[a].keyAt(b));
                         } else {
-                            var prefs = new AyuSavePreferences(selectedMessages[a].valueAt(b).messageOwner, currentAccount);
+                            var prefs = new ArcSavePreferences(selectedMessages[a].valueAt(b).messageOwner, currentAccount);
                             prefs.setDialogId(dialogId);
-                            AyuMessagesController.getInstance().onMessageDeleted(prefs);
+                            ArcMessagesController.getInstance().onMessageDeleted(prefs);
                         }
-                        // --- AyuGram hook
+                        // --- MZGram hook
                     }
                     ArrayList<Long> random_ids = null;
                     if (encryptedChat != null) {
@@ -8292,21 +8292,21 @@ public class AlertsCreator {
                             }
                         }
                     }
-                    // --- AyuGram hook
-                    if (NaConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
+                    // --- MZGram hook
+                    if (ExtConfig.INSTANCE.getEnableSaveDeletedMessages().Bool()) {
                         ArrayList<Integer> finalIds = ids;
                         AndroidUtilities.runOnUIThread(() -> {
                             // invalidating views
-                            NotificationCenter.getInstance(currentAccount).postNotificationName(AyuConstants.MESSAGES_DELETED_NOTIFICATION, dialogId, finalIds);
+                            NotificationCenter.getInstance(currentAccount).postNotificationName(ArcConstants.MESSAGES_DELETED_NOTIFICATION, dialogId, finalIds);
                         });
                     }
-                    // --- AyuGram hook
+                    // --- MZGram hook
                     long targetDialogId = (a == 1 && mergeDialogId != 0) ? mergeDialogId : thisDialogId;
                     if (keepLocally[0]) {
-                        AyuState.keepDeletedMessages(targetDialogId, ids);
+                        ArcState.keepDeletedMessages(targetDialogId, ids);
                     }
                     MessagesController.getInstance(currentAccount).deleteMessages(ids, random_ids, encryptedChat, targetDialogId, topicId, deleteForAll[0], mode);
-                    AyuState.releaseKeptMessages(targetDialogId);
+                    ArcState.releaseKeptMessages(targetDialogId);
                     selectedMessages[a].clear();
                 }
             }
@@ -8350,7 +8350,7 @@ public class AlertsCreator {
                 builder.setMessage(replaceTags(LocaleController.formatString("DeleteMessagesText", R.string.DeleteMessagesText, LocaleController.formatPluralString("messages", myMessagesCount), UserObject.getFirstName(user))));
             }
         } else {
-            if (chat != null && chat.megagroup && !scheduled && !hasAyuDeletedMessages) {
+            if (chat != null && chat.megagroup && !scheduled && !hasArcDeletedMessages) {
                 if (count == 1) {
                     builder.setMessage(LocaleController.getString(selectedMessage != null && selectedMessage.isEphemeral() ?
                         R.string.AreYouSureDeleteSingleMessage :

@@ -51,7 +51,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 @SuppressLint("ViewConstructor")
 public class ProfileActionsView extends View {
@@ -487,7 +487,7 @@ public class ProfileActionsView extends View {
 
     /** MZGram: Material surfaces. The profile's buttons are solid Material 3 tonal buttons instead of glass. */
     public static boolean mzTonal() {
-        return app.exteraless.appearance.AppearanceConfig.materialSurfaces();
+        return org.mzgram.appearance.AppearanceConfig.materialSurfaces();
     }
 
     /**
@@ -566,7 +566,7 @@ public class ProfileActionsView extends View {
                 if (eventAction == MotionEvent.ACTION_UP && hit.rect.contains(x, y)) {
                     if (System.currentTimeMillis() - downTime > 250) {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                         } catch (Exception ignore) {
                         }
                     }

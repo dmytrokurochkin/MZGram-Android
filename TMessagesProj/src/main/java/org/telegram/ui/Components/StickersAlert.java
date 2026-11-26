@@ -112,11 +112,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import xyz.nextalone.nagram.NaConfig;
-import xyz.nextalone.nagram.helper.StickerSetHelper;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.ext.ExtConfig;
+import org.mzgram.ext.helper.StickerSetHelper;
 
-import app.exteraless.chats.UserLookup;
+import org.mzgram.chats.UserLookup;
 
 public class StickersAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1205,7 +1205,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 hidePreview();
                 selectedStickerPath = null;
             } else {
-                delegate.onStickerSelected(selectedSticker, null, stickerSet, null, clearsInputField, !NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0);
+                delegate.onStickerSelected(selectedSticker, null, stickerSet, null, clearsInputField, !ExtConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0);
                 dismiss();
             }
         });
@@ -1839,7 +1839,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 if (!lastNameAvailable) {
                     AndroidUtilities.shakeView(editText);
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) editText.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!CoreConfig.disableVibration.Bool()) editText.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}
                 }
                 AndroidUtilities.hideKeyboard(editText);

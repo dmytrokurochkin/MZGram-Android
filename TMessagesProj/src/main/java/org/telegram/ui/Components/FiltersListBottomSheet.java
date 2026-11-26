@@ -41,7 +41,7 @@ import org.telegram.ui.ActionBar.ThemeBind;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.folder.FolderIconHelper;
+import org.mzgram.core.folder.FolderIconHelper;
 
 public class FiltersListBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
 

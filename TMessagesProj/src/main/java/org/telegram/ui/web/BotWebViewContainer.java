@@ -324,7 +324,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         webViewNotAvailableContainer.addView(webViewNotAvailableText, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         TextView updateWebViewButton = new TextView(context);
-        updateWebViewButton.setText(getString(R.string.OEBotWebViewUpdate));
+        updateWebViewButton.setText(getString(R.string.MZBotWebViewUpdate));
         updateWebViewButton.setTextColor(getColor(Theme.key_featuredStickers_addButton));
         updateWebViewButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         updateWebViewButton.setGravity(Gravity.CENTER);

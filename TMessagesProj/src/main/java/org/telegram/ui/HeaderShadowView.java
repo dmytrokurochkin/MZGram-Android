@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class HeaderShadowView extends View implements FactorAnimator.Target {

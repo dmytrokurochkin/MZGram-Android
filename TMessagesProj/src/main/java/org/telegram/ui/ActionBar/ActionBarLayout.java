@@ -8,7 +8,7 @@
 
 package org.telegram.ui.ActionBar;
 
-import app.exteraless.utils.AppUtils;
+import org.mzgram.utils.AppUtils;
 
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.dpf2;
@@ -98,9 +98,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class ActionBarLayout extends FrameLayout implements INavigationLayout, FloatingDebugProvider {
 
@@ -1071,7 +1071,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (!SharedConfig.drawActionBarShadow) {
             return;
         }
-        // exteraGram 12.9.0, ActionBarLayout.java:2603-2615 — вместо градиентной тени
+        // MZGram 12.9.0, ActionBarLayout.java:2603-2615 — вместо градиентной тени
         // ровно одна линия в 1 px цветом разделителя.
         final Paint forced = Theme.forcedDividerPaint;
         if (forced != null) {
@@ -1210,10 +1210,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             canvas.clipPath(clipPath);
         }
         if (m3BackTransition() && predictiveBackBackgroundDrawable != null) {
-            app.exteraless.utils.PredictiveBackAnimationHelper.drawTransitionBackground(
+            org.mzgram.utils.PredictiveBackAnimationHelper.drawTransitionBackground(
                     canvas, predictiveBackBackgroundDrawable, getWidth(), getHeight(), predictiveBackTmpRect);
         } else if (springRouteBackgroundDrawable != null) {
-            app.exteraless.utils.PredictiveBackAnimationHelper.drawTransitionBackground(
+            org.mzgram.utils.PredictiveBackAnimationHelper.drawTransitionBackground(
                     canvas, springRouteBackgroundDrawable, getWidth(), getHeight(), predictiveBackTmpRect);
         }
         super.dispatchDraw(canvas);
@@ -1278,7 +1278,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             canvas.restoreToCount(restoreCount2);
             return m3Result;
         }
-        // exteraGram 12.9.0, drawChild: на «пружинном маршруте» (открытие/закрытие фрагмента
+        // MZGram 12.9.0, drawChild: на «пружинном маршруте» (открытие/закрытие фрагмента
         // без жеста предиктивного назад) уезжающий экран дополнительно притемняется.
         // Множитель гаснет по мере ухода фрагмента вправо. Заметно в тёмной теме.
         if (springRouteBackgroundDrawable != null && child == containerView) {
@@ -1292,7 +1292,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 final WindowInsets insets = getRootWindowInsets();
                 if (insets != null) {
                     AndroidUtilities.rectTmp.set(translationX, 0, translationX + getWidth(), getHeight());
-                    if (newBackTransitions() && NaConfig.INSTANCE.getBackAnimationStyle().Int() != BACK_ANIMATION_SLIDE) {
+                    if (newBackTransitions() && ExtConfig.INSTANCE.getBackAnimationStyle().Int() != BACK_ANIMATION_SLIDE) {
                         final float scale;
                         if (predictiveBackInProgress) {
                             scale = lerp(1.00f, lerp(0.90f, 0.85f, 1.0f - containerView.getAlpha()), clamp01(translationX / dpf2(56)));
@@ -1383,9 +1383,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 }
             } else if (child == containerViewBack) {
                 float opacity = MathUtils.clamp(widthOffset / (float) width, 0, 0.8f);
-                // exteraGram 12.9.0, drawChild: (springAnimations ? 102 : 120) * opacity.
+                // MZGram 12.9.0, drawChild: (springAnimations ? 102 : 120) * opacity.
                 // У нас при пружинах было 0x7a=122 — нижний экран затемнялся заметно сильнее.
-                // Режим crossfade — специфика NagramX, у exteraGram его нет, значение оставлено.
+                // Режим crossfade — специфика MZGram, у MZGram его нет, значение оставлено.
                 scrimPaint.setColor(Color.argb((int) ((USE_SPRING_ANIMATION ? USE_ACTIONBAR_CROSSFADE ? 0x29 : 102 : 120) * opacity), 0x00, 0x00, 0x00));
                 if (overrideWidthOffset != -1) {
                     canvas.drawRect(0, top, getWidth(), getHeight() * 1.5f, scrimPaint);
@@ -1472,7 +1472,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     }
 
     private void onSlideAnimationEnd(final boolean backAnimation) {
-        // openExtera: контейнеры ниже меняются местами — масштаб карточки надо снять до этого
+        // mzGram: контейнеры ниже меняются местами — масштаб карточки надо снять до этого
         springRouteYRatio = 0f;
         springRouteBackgroundDrawable = null;
         containerView.setScaleX(1f);
@@ -1574,7 +1574,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 ViewCompat.setOnApplyWindowInsetsListener(fragmentView, lastFragment::onInsetsInternal);
                 containerViewBack.invalidate();
             }
-            if (fragmentView != null && NekoConfig.disableVibration.Bool()) {
+            if (fragmentView != null && CoreConfig.disableVibration.Bool()) {
                 AndroidUtil.disableHapticFeedback(fragmentView);
             }
         }
@@ -1682,7 +1682,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                     swipeProgress = MathUtils.clamp((float) dx / containerView.getMeasuredWidth(), 0f, 1f);
                                 }
                                 if (containerView.getMeasuredWidth() > 0) {
-                                    // openExtera: карточка сжимается и следует за пальцем по вертикали
+                                    // mzGram: карточка сжимается и следует за пальцем по вертикали
                                     final float m3s = AndroidUtilities.lerp(1.0f, 0.85f,
                                             MathUtils.clamp((float) dx / containerView.getMeasuredWidth(), 0f, 1f));
                                     containerView.setScaleX(m3s);
@@ -1765,8 +1765,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private float predictiveBackY;
     private boolean predictiveBackLeft;
 
-    // ---- Material 3 predictive back (порт exteraGram) ----
-    private final app.exteraless.utils.PredictiveBackAnimationHelper predictiveBackAnimation = new app.exteraless.utils.PredictiveBackAnimationHelper();
+    // ---- Material 3 predictive back (порт MZGram) ----
+    private final org.mzgram.utils.PredictiveBackAnimationHelper predictiveBackAnimation = new org.mzgram.utils.PredictiveBackAnimationHelper();
     private final RectF predictiveBackRect = new RectF();
     private final Rect predictiveBackTmpRect = new Rect();
     private Drawable predictiveBackBackgroundDrawable;
@@ -1775,7 +1775,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     /**
      * Подложка нижележащего фрагмента на время обычного (не жестового) пружинного перехода.
-     * Без неё уменьшенный экран открывает щель в цвет окна. Порт exteraGram:
+     * Без неё уменьшенный экран открывает щель в цвет окна. Порт MZGram:
      * ActionBarLayout.springRouteBackgroundDrawable.
      */
     private Drawable springRouteBackgroundDrawable;
@@ -1933,7 +1933,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         predictiveInput = true;
         predictiveBackLeft = touchX < AndroidUtilities.displaySize.x / 2f;
         predictiveBackY = touchY;
-        m3PredictiveBack = !isSheet && NaConfig.INSTANCE.getBackAnimationStyle().Int() == BACK_ANIMATION_PREDICTIVE;
+        m3PredictiveBack = !isSheet && ExtConfig.INSTANCE.getBackAnimationStyle().Int() == BACK_ANIMATION_PREDICTIVE;
         if (m3PredictiveBack) {
             predictiveBackAnimation.start(
                     containerView.getMeasuredWidth(),
@@ -1945,7 +1945,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
         prepareForMoving();
         if (m3PredictiveBack) {
-            predictiveBackBackgroundDrawable = app.exteraless.utils.PredictiveBackAnimationHelper
+            predictiveBackBackgroundDrawable = org.mzgram.utils.PredictiveBackAnimationHelper
                     .getTransitionBackground(fragmentsStack, getLastFragment());
         }
         if (parentActivity != null && parentActivity.getCurrentFocus() != null) {
@@ -1963,8 +1963,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (!predictiveInput) return;
         // Чувствительность применяется только к живому жесту; докат и откат зовут
         // applyPredictiveBackProgress напрямую, иначе множитель наложился бы дважды
-        t = app.exteraless.utils.UtilsConfig.adjustPredictiveBackProgress(t);
-        if (NaConfig.INSTANCE.getBackAnimationStyle().Int() == BACK_ANIMATION_SLIDE) {
+        t = org.mzgram.utils.UtilsConfig.adjustPredictiveBackProgress(t);
+        if (ExtConfig.INSTANCE.getBackAnimationStyle().Int() == BACK_ANIMATION_SLIDE) {
             final float dx = dp(180) * CubicBezierInterpolator.StandardDecelerate.getInterpolation(t);
             predictiveBackHasProgress = t > 0;
             containerView.setTranslationX(dx);
@@ -2029,10 +2029,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                             .setStiffness(SPRING_STIFFNESS)
                             .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY));
             if (velX != 0) {
-                // exteraGram 12.9.0, onTouchEvent/ACTION_UP: скорость переводится в ту же
+                // MZGram 12.9.0, onTouchEvent/ACTION_UP: скорость переводится в ту же
                 // нормированную шкалу 0..1000, в которой живёт пружина. У нас было velX/15 —
                 // на экране 1080 px это в ~14 раз слабее, флик почти не докидывал экран.
-                // exteraGram задаёт стартовую скорость и в ветке отката тоже.
+                // MZGram задаёт стартовую скорость и в ветке отката тоже.
                 currentSpringAnimation.setStartVelocity((velX / containerView.getMeasuredWidth()) * SPRING_MULTIPLIER);
             }
             currentSpringAnimation.addUpdateListener((animation, value, velocity) -> {
@@ -2044,7 +2044,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     swipeProgress = progress;
                 }
                 if (!m3PredictiveBack && !predictiveBackInProgress) {
-                    // openExtera: доводим масштаб и вертикальный сдвиг карточки после отпускания
+                    // mzGram: доводим масштаб и вертикальный сдвиг карточки после отпускания
                     final float m3s = AndroidUtilities.lerp(1.0f, 0.85f, MathUtils.clamp(progress, 0f, 1f));
                     containerView.setScaleX(m3s);
                     containerView.setScaleY(m3s);
@@ -2198,7 +2198,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             }
             currentSpringAnimation = null;
         }
-        // openExtera: подложка и масштаб карточки живут только на время перехода
+        // mzGram: подложка и масштаб карточки живут только на время перехода
         springRouteBackgroundDrawable = null;
         springRouteYRatio = 0f;
         if (containerView != null) {
@@ -2322,11 +2322,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 invalidateActionBars();
             }
             if (!preview && !predictiveBackInProgress) {
-                // openExtera: фон нижележащего фрагмента, чтобы за уменьшенной карточкой
-                // не зияла щель в цвет окна (exteraGram: springRouteBackgroundDrawable)
+                // mzGram: фон нижележащего фрагмента, чтобы за уменьшенной карточкой
+                // не зияла щель в цвет окна (MZGram: springRouteBackgroundDrawable)
                 springRouteYRatio = 0f;
                 springRouteBackgroundDrawable =
-                        app.exteraless.utils.PredictiveBackAnimationHelper.getTransitionBackground(
+                        org.mzgram.utils.PredictiveBackAnimationHelper.getTransitionBackground(
                                 fragmentsStack, getLastFragment());
             }
             FloatValueHolder valueHolder = new FloatValueHolder(0);
@@ -2380,7 +2380,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         containerView.setTranslationX((1.0f - interpolated) * widthNoPaddings);
                         containerViewBack.setTranslationX(-interpolated * 0.35f * widthNoPaddings);
                         setInnerTranslationX((1.0f - interpolated) * widthNoPaddings);
-                        // openExtera: открывающийся экран разжимается карточкой (exteraGram)
+                        // mzGram: открывающийся экран разжимается карточкой (MZGram)
                         final float m3s = AndroidUtilities.lerp(0.85f, 1.0f, interpolated);
                         containerView.setScaleX(m3s);
                         containerView.setScaleY(m3s);
@@ -2405,7 +2405,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         containerViewBack.setTranslationX(interpolated * widthNoPaddings);
                         containerView.setTranslationX(-(1f - interpolated) * 0.35f * widthNoPaddings);
                         setInnerTranslationX(interpolated * widthNoPaddings);
-                        // openExtera: закрывающийся экран сжимается карточкой (exteraGram)
+                        // mzGram: закрывающийся экран сжимается карточкой (MZGram)
                         final float m3s = AndroidUtilities.lerp(1.0f, 0.85f, interpolated);
                         containerViewBack.setScaleX(m3s);
                         containerViewBack.setScaleY(m3s);
@@ -2623,7 +2623,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 ViewCompat.setOnApplyWindowInsetsListener(fragmentView, fragment::onInsetsInternal);
                 containerViewBack.invalidate();
             }
-            if (NekoConfig.disableVibration.Bool()) {
+            if (CoreConfig.disableVibration.Bool()) {
                 AndroidUtil.disableHapticFeedback(fragmentView);
             }
         } else {
@@ -3129,7 +3129,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 fragment.onPreviewOpenAnimationEnd();
             });
             currentSpringAnimation.start();
-            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
             fragment.setInPreviewMode(false);
             fragment.setInMenuMode(false);
@@ -3153,7 +3153,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         });
         animatorSet.start();
         try {
-            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         } catch (Exception ignore) {}
 
         containerView.setShouldHandleBottomInsets(fragment.getEdgeToEdgeSupportMode());
@@ -3226,7 +3226,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     ViewCompat.setOnApplyWindowInsetsListener(fragmentView, previousFragment::onInsetsInternal);
                     containerView.invalidate();
                 }
-                if (NekoConfig.disableVibration.Bool()) {
+                if (CoreConfig.disableVibration.Bool()) {
                     AndroidUtil.disableHapticFeedback(fragmentView);
                 }
             }
@@ -3405,7 +3405,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 ViewCompat.setOnApplyWindowInsetsListener(fragmentView, previousFragment::onInsetsInternal);
                 containerView.invalidate();
             }
-            if (NekoConfig.disableVibration.Bool()) {
+            if (CoreConfig.disableVibration.Bool()) {
                 AndroidUtil.disableHapticFeedback(fragmentView);
             }
         } else {
@@ -4262,8 +4262,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     public static final int BACK_ANIMATION_SPRING = 1;
     public static final int BACK_ANIMATION_PREDICTIVE = 2;
     public static final int BACK_ANIMATION_SLIDE = 3;
-    private static final boolean USE_SPRING_ANIMATION = NaConfig.INSTANCE.getBackAnimationStyle().Int() == BACK_ANIMATION_SPRING;
-    private static final boolean USE_ACTIONBAR_CROSSFADE = USE_SPRING_ANIMATION && NaConfig.INSTANCE.getSpringAnimationCrossfade().Bool();
+    private static final boolean USE_SPRING_ANIMATION = ExtConfig.INSTANCE.getBackAnimationStyle().Int() == BACK_ANIMATION_SPRING;
+    private static final boolean USE_ACTIONBAR_CROSSFADE = USE_SPRING_ANIMATION && ExtConfig.INSTANCE.getSpringAnimationCrossfade().Bool();
     private static final float SPRING_STIFFNESS = 900f;
     private static final float SPRING_STIFFNESS_PREVIEW = 650f;
     private static final float SPRING_STIFFNESS_PREVIEW_OUT = 800f;
@@ -4289,7 +4289,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             return false;
         }
         // Во время M3-жеста заголовок обязан ехать вместе с карточкой.
-        // Кроссфейд NagramX рисует общий ActionBar поверх всего в draw(), а сами
+        // Кроссфейд MZGram рисует общий ActionBar поверх всего в draw(), а сами
         // фрагменты свой при этом не рисуют — и получалось, что экран уменьшался,
         // а шапка оставалась висеть на месте во всю ширину.
         if (m3BackTransition() || newBackTransitions()) {

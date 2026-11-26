@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MZGlyphTitle">Nothing Glyph</string>
+    <string name="MZGlyphEnable">Glyph Interface</string>
+    <string name="MZGlyphNewMessage">Destello con mensajes nuevos</string>
+    <string name="MZGlyphCalls">Brillo en llamadas entrantes</string>
+    <string name="MZGlyphRecording">Brillo al grabar</string>
+    <string name="MZGlyphScreenOff">Mensajes solo con la pantalla apagada</string>
+    <string name="MZGlyphPreview">Vista previa</string>
+    <string name="MZGlyphUnsupported">Glyph Interface solo está disponible en teléfonos Nothing</string>
+    <string name="MZGlyphInfo">Enciende la Glyph Interface en la parte trasera de tu teléfono Nothing: un destello con mensajes entrantes, el logo de MZGram en la Glyph Matrix del Phone (3) y un brillo pulsante al grabar mensajes de voz o recibir una llamada. Los chats silenciados nunca provocan el destello.</string>
+</resources>

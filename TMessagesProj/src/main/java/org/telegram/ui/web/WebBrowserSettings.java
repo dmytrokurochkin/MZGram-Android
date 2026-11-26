@@ -66,7 +66,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.ext.ExtConfig;
 
 public class WebBrowserSettings extends UniversalFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -362,8 +362,8 @@ items.add(UItem.asShadow(LocaleController.getString(R.string.BrowserSettingsNeve
             items.add(UItem.asCheck(12, "adaptable colors").setChecked(SharedConfig.adaptableColorInBrowser));
             items.add(UItem.asCheck(13, "only local IV").setChecked(SharedConfig.onlyLocalInstantView));
         }
-        items.add(UItem.asHeader(getString(R.string.NekoSettings)));
-        items.add(UItem.asCheck(14, getString(R.string.DisableInAppBrowserGestures)).setChecked(NaConfig.INSTANCE.getDisableInAppBrowserGestures().Bool()));
+        items.add(UItem.asHeader(getString(R.string.CoreSettings)));
+        items.add(UItem.asCheck(14, getString(R.string.DisableInAppBrowserGestures)).setChecked(ExtConfig.INSTANCE.getDisableInAppBrowserGestures().Bool()));
     }
 
     @Override
@@ -375,7 +375,7 @@ items.add(UItem.asShadow(LocaleController.getString(R.string.BrowserSettingsNeve
             SharedConfig.toggleLocalInstantView();
             ((TextCheckCell) view).setChecked(SharedConfig.onlyLocalInstantView);
         } else if (item.id == 14) {
-            ((TextCheckCell) view).setChecked(NaConfig.INSTANCE.getDisableInAppBrowserGestures().toggleConfigBool());
+            ((TextCheckCell) view).setChecked(ExtConfig.INSTANCE.getDisableInAppBrowserGestures().toggleConfigBool());
         } else if (item.id == BUTTON_BROWSER_CLOSE_BUTTON) {
             final boolean newUseCustomTabs = !getMessagesController().isWebBrowserUseCustomTabs();
 

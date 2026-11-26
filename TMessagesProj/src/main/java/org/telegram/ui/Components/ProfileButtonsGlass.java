@@ -27,7 +27,7 @@ import org.telegram.utils.glass.fade.GlassFadeBlurredDrawable;
 import org.telegram.utils.glass.source.GlassSource;
 import org.telegram.utils.glass.source.GlassSourceCrossfade;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 /**
  * The glass of the profile's buttons: the action buttons, the music pills and the header's buttons are made of the same thing.

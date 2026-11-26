@@ -1,6 +1,6 @@
 package org.telegram.ui.Wallet;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.lerp;
 import static org.telegram.messenger.Utilities.clamp01;
@@ -196,7 +196,7 @@ final class WalletGiftStickers extends View {
             touched.z = ++z;
             touched.image.setAllowStartLottieAnimation(true);
             touched.image.startAnimation();
-            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             wake();
         } else if (ownsTouch) {
             WalletGiftCell cell = cell(touched);
@@ -206,7 +206,7 @@ final class WalletGiftStickers extends View {
     private final Runnable pickUp = () -> {
         if (!pending || touched == null) return;
         claim();
-        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
+        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
         WalletGiftCell c = cell(touched);
         if (c != null) {
             c.takeDrawnScale();
@@ -596,7 +596,7 @@ final class WalletGiftStickers extends View {
             c.setScaleY(.93f);
             c.animate().scaleX(1).scaleY(1).setDuration(260).setInterpolator(new android.view.animation.OvershootInterpolator(2)).start();
         }
-        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         save();
         wake();
     }
@@ -627,7 +627,7 @@ final class WalletGiftStickers extends View {
             wake();
         });
         menu.show();
-        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
     }
 
     boolean touch(MotionEvent event) {
@@ -781,7 +781,7 @@ final class WalletGiftStickers extends View {
         knobAngle = a;
         float target = knobBase + knobTotal, nearest = Math.round(target / 90) * 90;
         boolean snap = Math.abs(target - nearest) < 5;
-        if (snap && !snapped && !NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
+        if (snap && !snapped && !CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
         snapped = snap;
         s.rotation.with(900, .95f).to(snap ? nearest : target);
     }
@@ -822,7 +822,7 @@ final class WalletGiftStickers extends View {
         dragX = p[0] - pointerX;
         dragY = p[1] - pointerY;
         bin.to(peeled ? 1 : 0);
-        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
     }
 
     private void drag(Sticker s, float x, float y) {
@@ -831,7 +831,7 @@ final class WalletGiftStickers extends View {
         float[] p = local(x + dragX, y + dragY);
         boolean over = p[0] >= 0 && p[0] <= width && p[1] >= 0 && p[1] <= height;
         boolean near = peeled && !over && dist(x, y, getWidth() / 2f, binY()) < dp(78);
-        if (near != overBin && !NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
+        if (near != overBin && !CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
         overBin = near;
         bin.to(peeled && !over ? 1 : 0);
         binHover.to(near ? 1 : 0);
@@ -877,7 +877,7 @@ final class WalletGiftStickers extends View {
                     s.lift.to(0);
                     s.rotation.to(0);
                     if (s.key.equals(styleKey)) clearStyle();
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.CONFIRM);
                 } else {
                     float[] from = local(s.x.value, s.y.value);
                     boolean over = from[0] >= 0 && from[0] <= width && from[1] >= 0 && from[1] <= height;
@@ -910,7 +910,7 @@ final class WalletGiftStickers extends View {
                     s.playStarted = false;
                     s.image.setAllowStartLottieAnimation(true);
                     s.image.startAnimation();
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                 }
             }
         }
@@ -1022,7 +1022,7 @@ final class WalletGiftStickers extends View {
         s.border.set(0);
         s.lift.set(1);
         place(s, local(tile.centerX(), tile.centerY()), fit, true);
-        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
     }
 
     private void place(Sticker s, float[] from, float[] to, boolean tossed) {
@@ -1479,7 +1479,7 @@ final class WalletGiftStickers extends View {
                     if (!s.slapped && s.curl.value < .3f) {
                         s.slapped = true;
                         s.scale.velocity -= 1.4f;
-                        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                     }
                     if (s.slapped && d < .5f && Math.abs(s.scale.value - 1) < .004f && Math.abs(s.scale.velocity) < .02f) {
                         s.state = CARD;

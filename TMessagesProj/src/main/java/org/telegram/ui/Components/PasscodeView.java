@@ -86,9 +86,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.PasscodeHelper;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 public class PasscodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final static float BACKGROUND_SPRING_STIFFNESS = 300f;
@@ -174,7 +174,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 return;
             }
             try {
-                if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -297,7 +297,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 return false;
             }
             try {
-                if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -1416,7 +1416,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                         }
                     });
                     final BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                            .setTitle(LocaleController.getString(R.string.UnlockToUse).replace("Telegram", LocaleController.getString(R.string.NagramX)))
+                            .setTitle(LocaleController.getString(R.string.UnlockToUse).replace("Telegram", LocaleController.getString(R.string.MZGram)))
                             .setNegativeButtonText(LocaleController.getString(R.string.UsePIN))
                             .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
                             .build();
@@ -1569,7 +1569,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                     showPin(true);
                     AndroidUtilities.runOnUIThread(() -> {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) imageView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                            if (!CoreConfig.disableVibration.Bool()) imageView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                         } catch (Exception ignore) {}
                     }, 350);
                     AnimatorSet animatorSet = showAnimator = new AnimatorSet();

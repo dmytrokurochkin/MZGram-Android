@@ -9,9 +9,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import corpus
 
-PY_ALIASES = os.path.join(corpus.PYTHON_ROOT, "extera_utils", "class_aliases.py")
-JAVA_ALIASES = os.path.join(corpus.JAVA_ROOT, "app", "exteraless", "plugins", "ClassAliases.java")
-GATE = os.path.join(corpus.JAVA_ROOT, "app", "exteraless", "plugins", "PluginSinkGate.java")
+PY_ALIASES = os.path.join(corpus.PYTHON_ROOT, "mz_utils", "class_aliases.py")
+JAVA_ALIASES = os.path.join(corpus.JAVA_ROOT, "app", "mzgram", "plugins", "ClassAliases.java")
+GATE = os.path.join(corpus.JAVA_ROOT, "app", "mzgram", "plugins", "PluginSinkGate.java")
 
 _PAIR = re.compile(r'\{"([^"]+)",\s*"([^"]+)"\}')
 
@@ -33,9 +33,9 @@ def _block(source, name):
 def python_aliases():
     if not os.path.isfile(PY_ALIASES):
         pytest.skip(f"missing {PY_ALIASES}")
-    spec = importlib.util.spec_from_file_location("exteraless_aliases_bridge", PY_ALIASES)
+    spec = importlib.util.spec_from_file_location("mzgram_aliases_bridge", PY_ALIASES)
     module = importlib.util.module_from_spec(spec)
-    sys.modules["exteraless_aliases_bridge"] = module
+    sys.modules["mzgram_aliases_bridge"] = module
     spec.loader.exec_module(module)
     return module
 
@@ -71,4 +71,4 @@ def test_class_resolution_hook_falls_back_to_aliases():
         source = handle.read()
     assert "ClassAliases.resolve" in source, (
         "подмена имён в Class.forName пропала — плагины с зашитым DEX перестанут "
-        "находить наши классы по именам exteraGram")
+        "находить наши классы по именам MZGram")

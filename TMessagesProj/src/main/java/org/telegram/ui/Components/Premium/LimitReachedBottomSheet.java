@@ -118,7 +118,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     public static final int TYPE_PIN_DIALOGS = 0;
@@ -528,7 +528,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             recyclerListView.getOnItemClickListener().onItemClick(view, position);
             if (type != TYPE_BOOSTS_FOR_USERS) {
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 } catch (Exception ignored) {}
             }
             return false;
@@ -850,7 +850,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         updateButton();
         fireworksOverlay.start();
         try {
-            if (!NekoConfig.disableVibration.Bool()) fireworksOverlay.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+            if (!CoreConfig.disableVibration.Bool()) fireworksOverlay.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         } catch (Exception ignored) {}
         headerView.boostCounterView.setCount(canApplyBoost.boostCount, true);
         recyclerListView.smoothScrollToPosition(0);

@@ -26,8 +26,8 @@ import org.telegram.ui.ActionBar.Theme;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.vkryl.android.animator.ListAnimator;
-import me.vkryl.core.lambda.Destroyable;
+import org.mzgram.ux.android.animator.ListAnimator;
+import org.mzgram.ux.core.lambda.Destroyable;
 
 public class AvatarsListDrawable extends Drawable {
 

@@ -8,13 +8,13 @@
 
 package org.telegram.ui;
 
-import app.exteraless.appearance.AppearanceConfig;
-import app.exteraless.components.TranslateBeforeSendWrapper;
-import app.exteraless.drawer.DrawerContainer;
-import app.exteraless.drawer.MainMenuHelper;
-import app.exteraless.drawer.MainMenuItem;
-import app.exteraless.drawer.MainMenuLayout;
-import app.exteraless.utils.AppUtils;
+import org.mzgram.appearance.AppearanceConfig;
+import org.mzgram.components.TranslateBeforeSendWrapper;
+import org.mzgram.drawer.DrawerContainer;
+import org.mzgram.drawer.MainMenuHelper;
+import org.mzgram.drawer.MainMenuItem;
+import org.mzgram.drawer.MainMenuLayout;
+import org.mzgram.utils.AppUtils;
 
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.dpf2;
@@ -106,7 +106,7 @@ import org.telegram.ui.recyclerview.LinearSmoothScrollerCustom;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.radolyn.ayugram.utils.LastSeenHelper;
+import org.mzgram.arc.utils.LastSeenHelper;
 
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
@@ -292,22 +292,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
-import me.vkryl.android.util.ClickHelper;
-import me.vkryl.core.BitwiseUtils;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
+import org.mzgram.ux.android.util.ClickHelper;
+import org.mzgram.ux.core.BitwiseUtils;
 
-import tw.nekomimi.nekogram.BackButtonMenuRecent;
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MainTabsHelper;
-import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import tw.nekomimi.nekogram.helpers.TypefaceHelper;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
-import tw.nekomimi.nekogram.settings.GhostModeActivity;
-import tw.nekomimi.nekogram.translate.Translator;
-import tw.nekomimi.nekogram.ui.BookmarkManagerActivity;
-import tw.nekomimi.nekogram.utils.AlertUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.BackButtonMenuRecent;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.helpers.MainTabsHelper;
+import org.mzgram.core.helpers.PasscodeHelper;
+import org.mzgram.core.helpers.TypefaceHelper;
+import org.mzgram.core.helpers.remote.EmojiHelper;
+import org.mzgram.core.settings.GhostModeActivity;
+import org.mzgram.core.translate.Translator;
+import org.mzgram.core.ui.BookmarkManagerActivity;
+import org.mzgram.core.utils.AlertUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, FloatingDebugProvider, FactorAnimator.Target, MainTabsActivity.TabFragmentDelegate {
     private final int ADDITIONAL_LIST_HEIGHT_DP = Build.VERSION.SDK_INT >= 31 ? 48 : 0;
@@ -2338,7 +2338,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 if (!canShowHiddenArchive) {
                                     canShowHiddenArchive = true;
                                     try {
-                                        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                                        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                                     } catch (Exception ignored) {}
                                     if (parentPage.pullForegroundDrawable != null) {
                                         parentPage.pullForegroundDrawable.colorize(true);
@@ -2350,7 +2350,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                     AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.getString(R.string.AccDescrArchivedChatsShown));
                                 }
 
-                                if (NekoConfig.openArchiveOnPull.Bool()) {
+                                if (CoreConfig.openArchiveOnPull.Bool()) {
                                     AndroidUtilities.runOnUIThread(() -> {
                                         // Open the folder.
                                         // Delay was taken from PullForegroundDrawable::startOutAnimation().
@@ -2525,7 +2525,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         currentDialogsType = parentPage.dialogsAdapter.getDialogsType();
                     } catch (Exception ignore) {
                     }
-                    if (folderId != 0 && NaConfig.INSTANCE.getDoNotUnarchiveBySwipe().Bool() && !DialogObject.isFolderDialogId(dialogId)) {
+                    if (folderId != 0 && ExtConfig.INSTANCE.getDoNotUnarchiveBySwipe().Bool() && !DialogObject.isFolderDialogId(dialogId)) {
                         dialogCell.setSliding(false);
                         return 0;
                     }
@@ -2990,8 +2990,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         BirthdayController.getInstance(currentAccount).check();
-        additionNavigationBarHeight = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() && !MainTabsLayout.isBottomNavigationFloating() ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
-        additionFloatingButtonOffset = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
+        additionNavigationBarHeight = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() && !MainTabsLayout.isBottomNavigationFloating() ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        additionFloatingButtonOffset = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
 
         LastSeenHelper.preload();
 
@@ -3045,9 +3045,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (statusDrawable == null || actionBar == null) {
             return;
         }
-        if (NekoConfig.isGhostModeActive() && NekoConfig.showGhostModeStatus.Bool()) {
+        if (CoreConfig.isGhostModeActive() && CoreConfig.showGhostModeStatus.Bool()) {
             if (ghostDrawable == null) {
-                ghostDrawable = getContext().getResources().getDrawable(R.drawable.ayu_ghost).mutate();
+                ghostDrawable = getContext().getResources().getDrawable(R.drawable.arc_ghost).mutate();
                 ghostDrawable = new AnimatedEmojiDrawable.WrapSizeDrawable(ghostDrawable, dp(20), dp(20)) {
                     @Override
                     public void draw(@NonNull Canvas canvas) {
@@ -3278,8 +3278,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         filterTabsView = null;
         selectedDialogs.clear();
 
-        additionNavigationBarHeight = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() && !MainTabsLayout.isBottomNavigationFloating() ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
-        additionFloatingButtonOffset = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() ? dp(app.exteraless.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
+        additionNavigationBarHeight = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() && !MainTabsLayout.isBottomNavigationFloating() ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        additionFloatingButtonOffset = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() ? dp(org.mzgram.appearance.MainTabsUiHelper.getTabsFabOffsetDp()) : 0;
 
         maximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
 
@@ -3365,8 +3365,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 return super.dispatchTouchEvent(ev);
             }
         };
-        // openExtera: полоса пилюль в строке поиска, вся логика — в PillStackController
-        app.exteraless.pillstack.PillStackController.attach(fragmentSearchField, fragmentSearchField.editText);
+        // mzGram: полоса пилюль в строке поиска, вся логика — в PillStackController
+        org.mzgram.pillstack.PillStackController.attach(fragmentSearchField, fragmentSearchField.editText);
         fragmentSearchField.setPadding(dp(4), dp(4), dp(4), dp(4));
         fragmentSearchField.setPivotX(0);
         fragmentSearchField.setPivotY(0);
@@ -3595,7 +3595,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             ThemeBind.backgroundColor(actionBar, Theme.key_windowBackgroundWhite, getResourceProvider());
             actionBar.setOnLongClickListener(v -> {
-                if (NekoConfig.hideAllTab.Bool() && filterTabsView != null && filterTabsView.getDefaultTabId() != filterTabsView.getCurrentTabId()) {
+                if (CoreConfig.hideAllTab.Bool() && filterTabsView != null && filterTabsView.getDefaultTabId() != filterTabsView.getCurrentTabId()) {
                     filterTabsView.toggleAllTabs(true);
                     filterTabsView.selectDefaultTab();
                 }
@@ -3623,7 +3623,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 statusDrawable.center = true;
                 actionBar.setTitle(actionBarTitleNax = TypefaceHelper.getTitleText(currentAccount), statusDrawable);
                 actionBar.setOnLongClickListener(v -> {
-                    if (NekoConfig.hideAllTab.Bool() && filterTabsView != null && filterTabsView.getCurrentTabId() != Integer.MAX_VALUE) {
+                    if (CoreConfig.hideAllTab.Bool() && filterTabsView != null && filterTabsView.getCurrentTabId() != Integer.MAX_VALUE) {
                         filterTabsView.toggleAllTabs(true);
                         filterTabsView.selectDefaultTab();
                     }
@@ -3667,7 +3667,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 protected void onDefaultTabMoved() {
                     if (!getMessagesController().premiumFeaturesBlocked()) {
                         try {
-                            if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                            if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                         } catch (Exception ignore) {}
                         topBulletin = BulletinFactory.of(DialogsActivity.this).createSimpleBulletin(R.raw.filter_reorder, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.LimitReachedReorderFolder, LocaleController.getString(R.string.FilterAllChats))), LocaleController.getString(R.string.PremiumMore), Bulletin.DURATION_PROLONG, () -> {
                             showDialog(new PremiumFeatureBottomSheet(DialogsActivity.this, PremiumPreviewFragment.PREMIUM_FEATURE_ADVANCED_CHAT_MANAGEMENT, true));
@@ -3778,7 +3778,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                 @Override
                 public int getTabCounter(int tabId) {
-                    if (NaConfig.INSTANCE.getIgnoreUnreadCount().Int() == NekoConfig.DIALOG_FILTER_EXCLUDE_ALL) {
+                    if (ExtConfig.INSTANCE.getIgnoreUnreadCount().Int() == CoreConfig.DIALOG_FILTER_EXCLUDE_ALL) {
                         return 0;
                     }
 
@@ -3878,7 +3878,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     final ArrayList<MessagesController.DialogFilter> allFilters = getMessagesController().getDialogFilters();
                     final MessagesController.DialogFilter startupMenuFilter = !isMainFolderList() || allFilters.size() < 2 || tabView.getId() < 0 || tabView.getId() >= allFilters.size()
                             ? null : allFilters.get(tabView.getId());
-                    final boolean startupMenuSelected = startupMenuFilter != null && app.exteraless.chats.StartupFolder.getMode(currentAccount) == startupMenuFilter.id;
+                    final boolean startupMenuSelected = startupMenuFilter != null && org.mzgram.chats.StartupFolder.getMode(currentAccount) == startupMenuFilter.id;
 
                     filterOptions = ItemOptions.makeOptions(DialogsActivity.this, tabView)
                             .setScrimViewBackground(new Drawable() {
@@ -3916,7 +3916,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 filterTabsView.setIsEditing(true);
                                 showDoneItem(true);
                             })
-                            .addIf(startupMenuFilter != null, R.drawable.msg_home, getString(startupMenuSelected ? R.string.OEStartupFolderDontOpen : R.string.OEStartupFolderOpen), () -> {
+                            .addIf(startupMenuFilter != null, R.drawable.msg_home, getString(startupMenuSelected ? R.string.MZStartupFolderDontOpen : R.string.MZStartupFolderOpen), () -> {
                                 toggleStartupFolder(startupMenuFilter);
                             })
                             .add(R.drawable.msg_edit, defaultTab ? LocaleController.getString(R.string.FilterEditAll) : LocaleController.getString(R.string.FilterEdit), () -> {
@@ -3976,7 +3976,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (actionBar == null) return;
                     final ArrayList<MessagesController.DialogFilter> startupFilters = getMessagesController().getDialogFilters();
                     if (startupFolderApplied && isMainFolderList() && tab.id >= 0 && tab.id < startupFilters.size()) {
-                        app.exteraless.chats.StartupFolder.rememberLast(currentAccount, startupFilters.get(tab.id).id);
+                        org.mzgram.chats.StartupFolder.rememberLast(currentAccount, startupFilters.get(tab.id).id);
                     }
                     if (AppearanceConfig.folderNameAsTitle()) {
                         CharSequence title = tab.isDefault ? actionBarTitleNax : EmojiHelper.removeEmojiSpans(tab.realTitle);
@@ -4473,7 +4473,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 canShowHiddenArchive = canShowInternal;
                                 if (viewPage.archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN) {
                                     try {
-                                        if (!NekoConfig.disableVibration.Bool()) viewPage.listView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                                        if (!CoreConfig.disableVibration.Bool()) viewPage.listView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                                     } catch (Exception ignored) {}
                                     if (viewPage.pullForegroundDrawable != null) {
                                         viewPage.pullForegroundDrawable.colorize(canShowInternal);
@@ -5368,7 +5368,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 } catch (Exception ignored) {}
                 if (dialogId == UserConfig.getInstance(currentAccount).getClientUserId()) {
                     if (!storiesEnabled) {
@@ -5551,7 +5551,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         undoView[1] = null;
 
         if (hasMainTabs) {
-            actionBar.getTitlesContainer().setTranslationX(NaConfig.INSTANCE.getCenterActionBarTitle().Bool() && NaConfig.INSTANCE.getCenterActionBarTitleType().Int() != 3 ? 0 : dp(4));
+            actionBar.getTitlesContainer().setTranslationX(ExtConfig.INSTANCE.getCenterActionBarTitle().Bool() && ExtConfig.INSTANCE.getCenterActionBarTitleType().Int() != 3 ? 0 : dp(4));
             ThemeBind.actionBarTitleColor(actionBar, Theme.key_telegram_color_dialogsLogo, getResourceProvider());
         }
 
@@ -7088,11 +7088,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void toggleStartupFolder(MessagesController.DialogFilter filter) {
-        boolean selected = app.exteraless.chats.StartupFolder.getMode(currentAccount) == filter.id;
-        app.exteraless.chats.StartupFolder.setMode(currentAccount, selected ? app.exteraless.chats.StartupFolder.MODE_FIRST : filter.id);
+        boolean selected = org.mzgram.chats.StartupFolder.getMode(currentAccount) == filter.id;
+        org.mzgram.chats.StartupFolder.setMode(currentAccount, selected ? org.mzgram.chats.StartupFolder.MODE_FIRST : filter.id);
         CharSequence text = selected
-                ? getString(R.string.OEStartupFolderReset)
-                : AndroidUtilities.replaceTags(LocaleController.formatString(R.string.OEStartupFolderSet,
+                ? getString(R.string.MZStartupFolderReset)
+                : AndroidUtilities.replaceTags(LocaleController.formatString(R.string.MZStartupFolderSet,
                         filter.isDefault() ? getString(R.string.FilterAllChats) : filter.name));
         BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, text).show();
     }
@@ -7135,13 +7135,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 int startupIndex = -1;
                 if (!startupFolderApplied) {
                     startupFolderApplied = true;
-                    startupIndex = isMainFolderList() ? app.exteraless.chats.StartupFolder.targetIndex(currentAccount, filters) : -1;
+                    startupIndex = isMainFolderList() ? org.mzgram.chats.StartupFolder.targetIndex(currentAccount, filters) : -1;
                 }
                 if (startupIndex >= 0 && filterTabsView.selectTabWithStableId(filters.get(startupIndex).isDefault() ? 0 : filters.get(startupIndex).localId)) {
                     id = startupIndex;
                     updateCurrentTab = true;
                     viewPages[0].selectedType = id;
-                } else if (NekoConfig.hideAllTab.Bool() && stableId <= 0) {
+                } else if (CoreConfig.hideAllTab.Bool() && stableId <= 0) {
                     id = filterTabsView.getFirstTabId();
                     updateCurrentTab = true;
                     viewPages[0].selectedType = id;
@@ -7214,7 +7214,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                 filterTabsView.resetTabId();
 
-                // NagramX: use folder name as title
+                // MZGram: use folder name as title
                 if (dialogStoriesCell != null) {
                     dialogStoriesCell.setLogoTitle(actionBarTitleNax, true, animated && AppearanceConfig.folderNameAsTitle(), false);
                 }
@@ -7507,7 +7507,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         updateVisibleRows(0, false);
         updateProxyButton(false, true);
         updateStoriesVisibility(false);
-        if (NaConfig.INSTANCE.getDisableDialogsFloatingButton().Bool()) {
+        if (ExtConfig.INSTANCE.getDisableDialogsFloatingButton().Bool()) {
             hideFloatingButton(true);
         }
         checkSuggestClearDatabase();
@@ -8757,7 +8757,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private void onArchiveLongPress(View view) {
         try {
-            if (!NekoConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            if (!CoreConfig.disableVibration.Bool()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
         } catch (Exception ignored) {}
         BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity());
         final boolean hasUnread = getMessagesStorage().getArchiveUnreadCount() != 0;
@@ -9196,7 +9196,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             floatingButton3.setButtonVisible(isVisible, animated);
         }
         if (floatingButtonStories != null) {
-            floatingButtonStories.setButtonVisible(isVisible && !NaConfig.INSTANCE.getDisableStories().Bool(), animated);
+            floatingButtonStories.setButtonVisible(isVisible && !ExtConfig.INSTANCE.getDisableStories().Bool(), animated);
         }
     }
 
@@ -9266,7 +9266,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    public boolean storiesEnabled = !NaConfig.INSTANCE.getDisableStories().Bool();
+    public boolean storiesEnabled = !ExtConfig.INSTANCE.getDisableStories().Bool();
     private void updateStoriesPosting() {
         final boolean storiesEnabled = getMessagesController().storiesEnabled();
         if (this.storiesEnabled != storiesEnabled) {
@@ -9380,7 +9380,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             if (isOpen && afterSignup) {
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignored) {}
                 if (getParentActivity() instanceof LaunchActivity) {
                     ((LaunchActivity) getParentActivity()).getFireworksOverlay().start();
@@ -9631,7 +9631,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int maxPinnedCount;
             if (containsFilter) {
                 maxPinnedCount = 100 - filter.alwaysShow.size();
-            } else if (NekoConfig.unlimitedPinnedDialogs.Bool() || folderId != 0 || filter != null) {
+            } else if (CoreConfig.unlimitedPinnedDialogs.Bool() || folderId != 0 || filter != null) {
                 if (UserConfig.getInstance(currentAccount).isPremium()) {
                     maxPinnedCount = getMessagesController().maxFolderPinnedDialogsCountPremium;
                 } else {
@@ -10645,7 +10645,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 break;
             }
         }
-        if (NaConfig.INSTANCE.getAlwaysShowDownloadIcon().Bool()) {
+        if (ExtConfig.INSTANCE.getAlwaysShowDownloadIcon().Bool()) {
             showDownloads = true;
         }
         if ((getDownloadController().hasUnviewedDownloads() || showDownloads || (downloadsItem.getVisibility() == View.VISIBLE && downloadsItem.getAlpha() == 1 && !force))) {
@@ -11597,7 +11597,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private void hideFloatingButton(boolean hide, boolean byScroll) {
         final boolean hideByScroll = hide;
-        if (NaConfig.INSTANCE.getDisableDialogsFloatingButton().Bool()) {
+        if (ExtConfig.INSTANCE.getDisableDialogsFloatingButton().Bool()) {
             floatingForceVisible = false;
             hide = true;
         }
@@ -12410,7 +12410,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
         final boolean onlyMyselfFinal = onlyMyself;
-        boolean sendWithoutSoundNax = NaConfig.INSTANCE.getSilentMessageByDefault().Bool();
+        boolean sendWithoutSoundNax = ExtConfig.INSTANCE.getSilentMessageByDefault().Bool();
 
         boolean canSendDocs = hasSharedMediaEntries() && canSendDocumentsToSelectedDialogs();
         if (canSendDocs) {
@@ -12999,7 +12999,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void updateStoriesVisibility(boolean animated) {
-        if (NaConfig.INSTANCE.getHideStoriesFromHeader().Bool() || mzCompactHeader()) {
+        if (ExtConfig.INSTANCE.getHideStoriesFromHeader().Bool() || mzCompactHeader()) {
             // MZGram: the compact header has no row of stories.
             return;
         }
@@ -13023,7 +13023,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         hasOnlySlefStories = onlySelfStories;
 
         boolean oldStoriesCellVisibility = dialogStoriesCellVisible;
-        dialogStoriesCellVisible = !NaConfig.INSTANCE.getHideStoriesFromHeader().Bool() && (onlySelfStories || newVisibility);
+        dialogStoriesCellVisible = !ExtConfig.INSTANCE.getHideStoriesFromHeader().Bool() && (onlySelfStories || newVisibility);
 
         if (newVisibility || dialogStoriesCellVisible) {
             dialogStoriesCell.updateItems(animated, dialogStoriesCellVisible != oldStoriesCellVisibility);
@@ -13837,7 +13837,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                 Bulletin.make(DialogsActivity.this, layout, duration).show();
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignored) {}
 
             }, () -> getMessagesController().removeSuggestion(0, "SETUP_LOGIN_EMAIL"),
@@ -13931,7 +13931,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         final boolean isCurrentThemeDark;
-        final boolean hideBottomNavigationBar = NaConfig.INSTANCE.getHideBottomNavigationBar().Bool();
+        final boolean hideBottomNavigationBar = ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool();
             if (resourceProvider != null) {
                 isCurrentThemeDark = resourceProvider.isDark();
             } else {
@@ -13976,7 +13976,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     });
             io.addGap();
             // Пользователь настроил свой порядок пунктов (dialogs-03) — берём его вместо
-            // захардкоженного списка. Пока OEAppearanceMainMenuLayout пуст, меню в точности
+            // захардкоженного списка. Пока MZAppearanceMainMenuLayout пуст, меню в точности
             // такое же, как было. BOTS и SETTINGS пропускаем: они уже есть ниже по коду.
             if (MainMenuLayout.isCustomized()) {
                 MainMenuHelper.addConfiguredItemOptions(io,
@@ -14020,7 +14020,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     BackButtonMenuRecent.show(currentAccount, this, optionsItem);
                 });
             }
-            if (hideBottomNavigationBar && NaConfig.INSTANCE.getHideArchive().Bool()) {
+            if (hideBottomNavigationBar && ExtConfig.INSTANCE.getHideArchive().Bool()) {
                 io.add(R.drawable.msg_archive, getString(R.string.ArchivedChats), () -> {
                     Bundle args = new Bundle();
                     args.putInt("folderId", 1);
@@ -14036,18 +14036,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 io.add(R.drawable.ic_gram, getString(R.string.WalletTitle), () -> presentFragment(new WalletActivity()));
             }
             }
-            if (hideBottomNavigationBar && NaConfig.INSTANCE.getShowAddToBookmark().Bool()) {
+            if (hideBottomNavigationBar && ExtConfig.INSTANCE.getShowAddToBookmark().Bool()) {
                 io.add(R.drawable.msg_fave, getString(R.string.BookmarksManager), () -> presentFragment(new BookmarkManagerActivity()));
             }
-            if (NekoConfig.showGhostInDrawer.Bool()) {
-                final String ghostModeText = NekoConfig.isGhostModeActive()
+            if (CoreConfig.showGhostInDrawer.Bool()) {
+                final String ghostModeText = CoreConfig.isGhostModeActive()
                         ? getString(R.string.DisableGhostMode)
                         : getString(R.string.EnableGhostMode);
-                io.add(R.drawable.ayu_ghost, ghostModeText, () -> presentFragment(new GhostModeActivity()), () -> {
-                    final String toggleMsg = NekoConfig.isGhostModeActive()
+                io.add(R.drawable.arc_ghost, ghostModeText, () -> presentFragment(new GhostModeActivity()), () -> {
+                    final String toggleMsg = CoreConfig.isGhostModeActive()
                             ? getString(R.string.GhostModeDisabled)
                             : getString(R.string.GhostModeEnabled);
-                    NekoConfig.toggleGhostMode();
+                    CoreConfig.toggleGhostMode();
                     BulletinFactory.of(this).createSuccessBulletin(toggleMsg).show();
                     NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.mainUserInfoChanged);
                 });
@@ -14107,8 +14107,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
-        // exteraless plugins: пункты плагинов (MAIN_MENU) в конце меню «⋮».
-        app.exteraless.plugins.menus.MenuInjector.appendMainMenuItems(io, currentAccount, this);
+        // mzgram plugins: пункты плагинов (MAIN_MENU) в конце меню «⋮».
+        org.mzgram.plugins.menus.MenuInjector.appendMainMenuItems(io, currentAccount, this);
 
         io.show();
         io.setTranslationY(-dp(64));
@@ -14421,7 +14421,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean shouldUseDrawerActionBarLayout() {
-        // communityId в exteraGram нет: у сообщества свой заголовок со стрелкой «назад», бургер там нельзя.
+        // communityId в MZGram нет: у сообщества свой заголовок со стрелкой «назад», бургер там нельзя.
         return AppearanceConfig.navigationDrawer() && !onlySelect && initialDialogsType == DIALOGS_TYPE_DEFAULT
                 && folderId == 0 && communityId == 0 && searchString == null;
     }
@@ -14457,7 +14457,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (fragmentView.getGlobalVisibleRect(bounds)) {
                 final int y = ((int) ev.getRawY()) - bounds.top;
                 final int bottom = fragmentView.getMeasuredHeight() - navigationBarHeight;
-                if (y >= bottom - dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) && y <= bottom) {
+                if (y >= bottom - dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) && y <= bottom) {
                     return false;
                 }
             }
@@ -14607,7 +14607,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
             boolean hasBottomBlur = false;
             if (hasMainTabs && MainTabsLayout.isBottomNavigationVisible()) {
-                app.exteraless.appearance.MainTabsUiHelper.setBlurBounds(iBlur3PositionMainTabs, fragmentView, navigationBarHeight);
+                org.mzgram.appearance.MainTabsUiHelper.setBlurBounds(iBlur3PositionMainTabs, fragmentView, navigationBarHeight);
                 iBlur3PositionMainTabs.inset(0, LiteMode.isEnabled(LiteMode.FLAG_LIQUID_GLASS) ? 0 : -dp(48));
 
                 hasBottomBlur = true;
@@ -14639,7 +14639,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (commentView != null || !hasMainTabs || !MainTabsLayout.isBottomNavigationFloating()) {
             return 0;
         }
-        return dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp());
+        return dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp());
     }
 
     @Override
@@ -14657,7 +14657,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         // Как в Telegram для iOS: тап по вкладке «Чаты» сначала возвращает в первую папку,
         // и только потом крутит список наверх. switchToCurrentSelectedMode уже ставит
         // список нужной папки в начало, поэтому отдельный scrollToTop тут не нужен.
-        if (app.exteraless.appearance.MainTabsUiHelper.isIosNavigationBar()
+        if (org.mzgram.appearance.MainTabsUiHelper.isIosNavigationBar()
                 && filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE
                 && !tabsAnimationInProgress && !filterTabsView.isAnimatingIndicator() && !startedTracking
                 && !filterTabsView.isFirstTabSelected()
@@ -14887,7 +14887,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean shouldShowIdleSearchField() {
-        return !NaConfig.INSTANCE.getHideDialogsSearchField().Bool() && !mzCompactHeader() && !mzSearchHidden();
+        return !ExtConfig.INSTANCE.getHideDialogsSearchField().Bool() && !mzCompactHeader() && !mzSearchHidden();
     }
 
     // ---- MZGram: chat list header (standard or compact, search and folder tabs) ----

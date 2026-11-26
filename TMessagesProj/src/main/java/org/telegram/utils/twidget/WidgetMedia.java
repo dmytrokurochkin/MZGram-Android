@@ -365,7 +365,7 @@ public final class WidgetMedia {
 
     public static boolean isAutoplayBlocked(String url) {
         Entry entry = isWidgetUrl(url) ? entries.get(url) : null;
-        return entry != null && !WidgetSandboxSession.disabledByConfig() && !app.exteraless.chats.WidgetAutoplay.mayRun(entry.storageKey());
+        return entry != null && !WidgetSandboxSession.disabledByConfig() && !org.mzgram.chats.WidgetAutoplay.mayRun(entry.storageKey());
     }
 
     public static void onAutoplayDisabled() {
@@ -379,7 +379,7 @@ public final class WidgetMedia {
 
     public static void allowAutoplay(String url) {
         Entry entry = isWidgetUrl(url) ? entries.get(url) : null;
-        if (entry != null) app.exteraless.chats.WidgetAutoplay.allow(entry.storageKey());
+        if (entry != null) org.mzgram.chats.WidgetAutoplay.allow(entry.storageKey());
     }
 
     /** The widget's width in px: the bubble's (`width` 0) or the anchor clamped to [200, bubble]. */

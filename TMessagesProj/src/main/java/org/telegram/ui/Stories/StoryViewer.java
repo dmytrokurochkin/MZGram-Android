@@ -91,7 +91,7 @@ import org.telegram.ui.Stories.recorder.LivePlayerView;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public class StoryViewer implements NotificationCenter.NotificationCenterDelegate, BaseFragment.AttachedSheet {
 
@@ -389,7 +389,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         chosen[0] = true;
                         if (which == 0) {
                             ownsStoryGhostSession = true;
-                            com.radolyn.ayugram.utils.AyuGhostUtils.storyGhostSession = true;
+                            org.mzgram.arc.utils.ArcGhostUtils.storyGhostSession = true;
                         }
                         storyAskPassed = true;
                         try {
@@ -512,7 +512,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                                 swipeToReplyWaitingKeyboard = true;
                                 showKeyboard();
                                 try {
-                                    if (!NekoConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                                    if (!CoreConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                                 } catch (Exception ignored) {}
                             }
                             swipeToReplyProgress = Utilities.clamp(swipeToReplyOffset / maxOffset, 1f, 0);
@@ -567,7 +567,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         if (velocityY < -1000 && !swipeToReplyWaitingKeyboard) {
                             swipeToReplyWaitingKeyboard = true;
                             try {
-                                if (!NekoConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                                if (!CoreConfig.disableVibration.Bool()) windowView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                             } catch (Exception ignored) {}
                             showKeyboard();
                         }
@@ -1045,7 +1045,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                                     final float nowSeek = currentPlayerScope.player.seek((x - lastTouchX) / dp(220), videoDuration);
                                     if ((int) (nowSeek * 10) != (int) (wasSeek * 10)) {
                                         try {
-                                            if (!NekoConfig.disableVibration.Bool()) peerView.performHapticFeedback(9, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                                            if (!CoreConfig.disableVibration.Bool()) peerView.performHapticFeedback(9, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                                         } catch (Exception ignore) {}
                                     }
                                     peerView.storyContainer.invalidate();
@@ -2720,7 +2720,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     private boolean shouldAskBeforeOpening(int account, TL_stories.StoryItem storyItem, ArrayList<Long> peerIds, int position) {
-        if (!xyz.nextalone.nagram.NaConfig.INSTANCE.getAskBeforeOpeningStory().Bool() || !NekoConfig.sendReadStoriesPackets.Bool()) {
+        if (!org.mzgram.ext.ExtConfig.INSTANCE.getAskBeforeOpeningStory().Bool() || !CoreConfig.sendReadStoriesPackets.Bool()) {
             return false;
         }
         long dialogId = 0;
@@ -2735,7 +2735,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     private void releaseStoryGhostSession() {
         if (ownsStoryGhostSession) {
             ownsStoryGhostSession = false;
-            com.radolyn.ayugram.utils.AyuGhostUtils.storyGhostSession = false;
+            org.mzgram.arc.utils.ArcGhostUtils.storyGhostSession = false;
         }
     }
 

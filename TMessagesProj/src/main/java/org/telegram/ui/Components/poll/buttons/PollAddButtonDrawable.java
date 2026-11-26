@@ -24,8 +24,8 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.poll.PollAttachedMedia;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("UseCompatLoadingForDrawables")
 public class PollAddButtonDrawable extends PollButtonDrawableBase implements FactorAnimator.Target {

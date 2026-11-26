@@ -1,6 +1,6 @@
 package org.telegram.ui.QrShare;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.lerp;
 
@@ -893,13 +893,13 @@ public final class QrScanOverlay extends FrameLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 if (pressed == 0) {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                     close();
                 } else if (pressed == 1) {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                     toggleTorch();
                 } else if (pressed == 2 && onGallery != null) {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                     onGallery.run();
                 } else if (cameraView != null) {
                     cameraView.focusToPoint((int) x, (int) y);
@@ -1051,7 +1051,7 @@ public final class QrScanOverlay extends FrameLayout {
         }
         found = true;
         scanning = false;
-        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
         final boolean outlined = scanned.points.length >= 3;
         if (outlined) {
             foundPoints = scanned.points;

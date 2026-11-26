@@ -24,7 +24,7 @@ import androidx.annotation.Nullable;
 import org.telegram.messenger.FileLog;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.core.CoreConfig;
 
 public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLayout.IViewWithInvalidateCallback {
 
@@ -46,7 +46,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
                 checkingForLongPress = false;
                 if (onLongPress()) {
                     try {
-                        if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                        if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     } catch (Exception ignore) {}
                     MotionEvent event = MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, 0, 0, 0);
                     onTouchEvent(event);
@@ -65,7 +65,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         super(context);
         setWillNotDraw(false);
         setFocusable(true);
-        setHapticFeedbackEnabled(!NekoConfig.disableVibration.Bool());
+        setHapticFeedbackEnabled(!CoreConfig.disableVibration.Bool());
     }
 
     public static void setDrawableBounds(Drawable drawable, int x, int y) {

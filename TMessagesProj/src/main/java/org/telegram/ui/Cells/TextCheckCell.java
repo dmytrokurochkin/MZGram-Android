@@ -31,7 +31,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import app.exteraless.components.VerticalImageSpan;
+import org.mzgram.components.VerticalImageSpan;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
@@ -182,12 +182,12 @@ public class TextCheckCell extends FrameLayout {
             }
         } else {
             final boolean detail = valueTextView.getVisibility() == VISIBLE;
-            final float shift = detail ? AndroidUtilities.dp(app.exteraless.appearance.M3ListItems.detailRowHeight(64) - 64) / 2f : 0;
+            final float shift = detail ? AndroidUtilities.dp(org.mzgram.appearance.M3ListItems.detailRowHeight(64) - 64) / 2f : 0;
             textView.setTranslationY(shift);
             valueTextView.setTranslationY(shift);
             final int fixed = AndroidUtilities.dp(detail
-                    ? app.exteraless.appearance.M3ListItems.detailRowHeight(64)
-                    : app.exteraless.appearance.M3ListItems.rowHeight(height));
+                    ? org.mzgram.appearance.M3ListItems.detailRowHeight(64)
+                    : org.mzgram.appearance.M3ListItems.rowHeight(height));
             final int width = MeasureSpec.getSize(widthMeasureSpec);
             int wanted = fixed;
             if (detail) {
@@ -199,7 +199,7 @@ public class TextCheckCell extends FrameLayout {
                 ((LayoutParams) valueTextView.getLayoutParams()).topMargin = valueTop;
                 wanted += valueTop - AndroidUtilities.dp(35);
             } else if (wrapText) {
-                // Название в neko-ячейках переносится без ограничения по строкам,
+                // Название в core-ячейках переносится без ограничения по строкам,
                 // а высота оставалась фиксированной — со второй строки текст резало.
                 final int titleHeight = measureTitle(width);
                 if (textView.getLineCount() > 1) {
@@ -248,10 +248,10 @@ public class TextCheckCell extends FrameLayout {
         setTextAndCheck(text, checked, divider, false);
     }
 
-    public void setTextAndCheck(CharSequence text, boolean checked, boolean divider, boolean isNekoCell) {
+    public void setTextAndCheck(CharSequence text, boolean checked, boolean divider, boolean isCoreCell) {
         AvatarSpan.checkSpansParent(text, this);
         textView.setText(text);
-        if (isNekoCell || wrapTitle) {
+        if (isCoreCell || wrapTitle) {
             textView.setLines(0);
             textView.setMaxLines(0);
             textView.setSingleLine(false);
@@ -262,7 +262,7 @@ public class TextCheckCell extends FrameLayout {
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
         }
-        wrapText = isNekoCell || wrapTitle;
+        wrapText = isCoreCell || wrapTitle;
         isMultiline = false;
         if (checkBox != null) {
             checkBox.setVisibility(View.VISIBLE);
@@ -336,7 +336,7 @@ public class TextCheckCell extends FrameLayout {
         setTextAndValueAndCheck(text, value, checked, multiline, divider, false);
     }
 
-    public void setTextAndValueAndCheck(String text, String value, boolean checked, boolean multiline, boolean divider, boolean isNekoCell) {
+    public void setTextAndValueAndCheck(String text, String value, boolean checked, boolean multiline, boolean divider, boolean isCoreCell) {
         AvatarSpan.checkSpansParent(text, this);
         textView.setText(text);
         if (value != null && value.contains(ARROW_PLACEHOLDER)) {
@@ -356,13 +356,13 @@ public class TextCheckCell extends FrameLayout {
         wrapText = wrapTitle && !multiline;
         isMultiline = multiline;
         if (multiline) {
-            if (isNekoCell) {
+            if (isCoreCell) {
                 if (!TextUtils.isEmpty(value)) {
                     textView.setMaxLines(1);
                     textView.setEllipsize(TextUtils.TruncateAt.END);
                 }
             } else {
-                // Ячейку могли переиспользовать после setTextAndCheck(isNekoCell),
+                // Ячейку могли переиспользовать после setTextAndCheck(isCoreCell),
                 // а он оставляет у названия свои настройки строк.
                 textView.setLines(0);
                 textView.setMaxLines(Integer.MAX_VALUE);

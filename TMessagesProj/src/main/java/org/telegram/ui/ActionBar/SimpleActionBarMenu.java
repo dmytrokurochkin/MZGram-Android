@@ -17,8 +17,8 @@ import org.telegram.ui.Components.RLottieDrawable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.vkryl.android.animator.ListAnimator;
-import me.vkryl.core.lambda.Destroyable;
+import org.mzgram.ux.android.animator.ListAnimator;
+import org.mzgram.ux.core.lambda.Destroyable;
 
 /**
  * Row of buttons of {@link SimpleActionBar}, used for the regular menu and for the action mode.

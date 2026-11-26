@@ -38,8 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.location.NekoLocation;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.location.CoreLocation;
 
 @SuppressLint("MissingPermission")
 public class LocationController extends BaseController implements NotificationCenter.NotificationCenterDelegate, ILocationServiceProvider.IAPIConnectionCallbacks, ILocationServiceProvider.IAPIOnConnectionFailedListener {
@@ -534,8 +534,8 @@ public class LocationController extends BaseController implements NotificationCe
         if (location != null && (SystemClock.elapsedRealtimeNanos() - location.getElapsedRealtimeNanos()) / 1000000000 > 60 * 5) {
             return;
         }
-        if (NekoConfig.fixDriftingForGoogleMaps() && location != null) {
-            NekoLocation.transform(location);
+        if (CoreConfig.fixDriftingForGoogleMaps() && location != null) {
+            CoreLocation.transform(location);
         }
         lastKnownLocation = location;
         if (lastKnownLocation != null) {

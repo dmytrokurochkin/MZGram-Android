@@ -149,15 +149,15 @@ import java.util.Objects;
 import java.util.Stack;
 import java.util.TimeZone;
 
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 import java.util.HashSet;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.filters.AyuFilter;
-import tw.nekomimi.nekogram.filters.ReactionFilter;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-import tw.nekomimi.nekogram.utils.AndroidUtil;
-import xyz.nextalone.nagram.NaConfig;
+import org.mzgram.core.CoreConfig;
+import org.mzgram.core.filters.ArcFilter;
+import org.mzgram.core.filters.ReactionFilter;
+import org.mzgram.core.helpers.MessageHelper;
+import org.mzgram.core.utils.AndroidUtil;
+import org.mzgram.ext.ExtConfig;
 
 public class DialogCell extends BaseCell implements StoriesListPlaceProvider.AvatarOverlaysView, Theme.Colorable {
 
@@ -537,7 +537,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     private boolean allowBotOpenButton;
     private Utilities.Callback<TLRPC.User> onOpenButtonClick;
     public DialogCell allowBotOpenButton(boolean allow, Utilities.Callback<TLRPC.User> onOpenClick) {
-        allowBotOpenButton = allow && !NaConfig.INSTANCE.getDisableBotOpenButton().Bool();
+        allowBotOpenButton = allow && !ExtConfig.INSTANCE.getDisableBotOpenButton().Bool();
         onOpenButtonClick = onOpenClick;
         return this;
     }
@@ -794,20 +794,20 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         addView(botVerificationView);
         botVerification = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(botVerificationView, dp(17));
         avatarImage.setAllowLoadingOnAttachedOnly(true);
-        // openExtera: мини-аватарка отправителя в превью сообщения (AppearanceConfig.senderMiniAvatars)
+        // mzGram: мини-аватарка отправителя в превью сообщения (AppearanceConfig.senderMiniAvatars)
         messageAvatarSpan = new AvatarSpan(this, currentAccount, 18.0f);
         messageAvatarSpan.needDrawShadow = false;
     }
 
-    /** openExtera: спан мини-аватарки отправителя, см. {@link #addSenderAvatar}. */
+    /** mzGram: спан мини-аватарки отправителя, см. {@link #addSenderAvatar}. */
     private final AvatarSpan messageAvatarSpan;
 
     /**
-     * openExtera: подставляет перед именем отправителя его мини-аватарку.
-     * Перенесено из exteraGram 12.9.0 (DialogCell.addSenderAvatar).
+     * mzGram: подставляет перед именем отправителя его мини-аватарку.
+     * Перенесено из MZGram 12.9.0 (DialogCell.addSenderAvatar).
      */
     private CharSequence addSenderAvatar(CharSequence name, MessageObject messageObject) {
-        if (!app.exteraless.appearance.AppearanceConfig.senderMiniAvatars() || messageObject == null || TextUtils.isEmpty(name)) {
+        if (!org.mzgram.appearance.AppearanceConfig.senderMiniAvatars() || messageObject == null || TextUtils.isEmpty(name)) {
             return name;
         }
         long fromId = messageObject.getFromChatId();
@@ -1759,7 +1759,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         if (draftMessage != null) {
                             MediaDataController.addTextStyleRuns(draftMessage, messSpan, TextStyleSpan.FLAG_STYLE_SPOILER | TextStyleSpan.FLAG_STYLE_STRIKE);
                             if (draftMessage != null && draftMessage.entities != null) {
-                                app.exteraless.chats.LinkedCustomEmoji.parse(draftMessage.message, draftMessage.entities);
+                                org.mzgram.chats.LinkedCustomEmoji.parse(draftMessage.message, draftMessage.entities);
                                 MediaDataController.addAnimatedEmojiSpans(draftMessage.entities, messSpan, currentMessagePaint == null ? null : currentMessagePaint.getFontMetricsInt());
                             }
                         } else if (draftVoice) {
@@ -2029,7 +2029,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                             if (message != null) {
                                                 message.spoilLoginCode();
                                             }
-                                            if (!NekoConfig.showSpoilersDirectly.Bool())
+                                            if (!CoreConfig.showSpoilersDirectly.Bool())
                                                 MediaDataController.addTextStyleRuns(message.messageOwner.entities, message.caption, msgBuilder, TextStyleSpan.FLAG_STYLE_SPOILER | TextStyleSpan.FLAG_STYLE_STRIKE);
                                             MediaDataController.addAnimatedEmojiSpans(message.messageOwner.entities, msgBuilder, currentMessagePaint == null ? null : currentMessagePaint.getFontMetricsInt());
                                         }
@@ -2120,7 +2120,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                             if (message != null) {
                                                 message.spoilLoginCode();
                                             }
-                                            if (!NekoConfig.showSpoilersDirectly.Bool())
+                                            if (!CoreConfig.showSpoilersDirectly.Bool())
                                                 MediaDataController.addTextStyleRuns(message, stringBuilder, TextStyleSpan.FLAG_STYLE_SPOILER | TextStyleSpan.FLAG_STYLE_STRIKE);
                                             if (message != null && message.messageOwner != null) {
                                                 MediaDataController.addAnimatedEmojiSpans(message.messageOwner.entities, stringBuilder, currentMessagePaint == null ? null : currentMessagePaint.getFontMetricsInt());
@@ -2933,7 +2933,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             }
             spoilersPool.addAll(spoilers);
             spoilers.clear();
-            if (!NekoConfig.showSpoilersDirectly.Bool())
+            if (!CoreConfig.showSpoilersDirectly.Bool())
                 SpoilerEffect.addSpoilers(this, messageLayout, -2, -2, spoilersPool, spoilers);
         } catch (Exception e) {
             messageLayout = null;
@@ -3424,21 +3424,21 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             boolean blocked = false;
                             boolean replyBlocked = false;
                             boolean needsReplyTargetCheck = false;
-                            if (AyuFilter.shouldHideSenders() && ChatObject.isMegagroup(MessagesController.getInstance(currentAccount).getChat(-dialog.id))) {
-                                blocked = NekoConfig.ignoreBlocked.Bool() && MessagesController.getInstance(currentAccount).blockePeers.indexOfKey(message.getFromChatId()) >= 0;
-                                blocked = blocked || AyuFilter.isCustomFilteredPeer(message.getFromChatId());
-                                blocked = blocked || AyuFilter.isBlockedChannel(message.getFromChatId());
+                            if (ArcFilter.shouldHideSenders() && ChatObject.isMegagroup(MessagesController.getInstance(currentAccount).getChat(-dialog.id))) {
+                                blocked = CoreConfig.ignoreBlocked.Bool() && MessagesController.getInstance(currentAccount).blockePeers.indexOfKey(message.getFromChatId()) >= 0;
+                                blocked = blocked || ArcFilter.isCustomFilteredPeer(message.getFromChatId());
+                                blocked = blocked || ArcFilter.isBlockedChannel(message.getFromChatId());
                                 if (message.replyMessageObject != null) {
                                     long fromId = message.replyMessageObject.getFromChatId();
-                                    replyBlocked = NekoConfig.ignoreBlocked.Bool() && MessagesController.getInstance(currentAccount).blockePeers.indexOfKey(fromId) >= 0;
-                                    replyBlocked = replyBlocked || AyuFilter.isCustomFilteredPeer(fromId);
-                                    replyBlocked = replyBlocked || AyuFilter.isBlockedChannel(fromId);
+                                    replyBlocked = CoreConfig.ignoreBlocked.Bool() && MessagesController.getInstance(currentAccount).blockePeers.indexOfKey(fromId) >= 0;
+                                    replyBlocked = replyBlocked || ArcFilter.isCustomFilteredPeer(fromId);
+                                    replyBlocked = replyBlocked || ArcFilter.isBlockedChannel(fromId);
                                 } else if (message.getReplyMsgId() != 0) {
                                     // reply sender is unresolved in the in-memory preview message, fallback to async DB lookup
                                     needsReplyTargetCheck = true;
                                 }
                             }
-                            boolean hardFiltered = blocked || replyBlocked || AyuFilter.isFiltered(message, null);
+                            boolean hardFiltered = blocked || replyBlocked || ArcFilter.isFiltered(message, null);
                             boolean softReplyCheckPending = needsReplyTargetCheck && !hardFiltered;
                             boolean inNullRetryCooldown = lastFilteredNullMessageId == currentMessageId && System.currentTimeMillis() - lastFilteredNullTime < FILTERED_NULL_RETRY_COOLDOWN_MS;
                             if (hardFiltered || softReplyCheckPending) {
@@ -3921,12 +3921,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (drawMonoforumAvatar) {
                 avatarRadius = 1;
             } else if (drawCommunityAvatar) {
-                avatarRadius = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(avatarSize, app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_COMMUNITY);
+                avatarRadius = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(avatarSize, org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_COMMUNITY);
             } else if ((chat != null && chat.forum && currentDialogFolderId == 0 && !useFromUserAsAvatar)
                     || !isSavedDialog && user != null && user.self && MessagesController.getInstance(currentAccount).savedViewAsChats) {
-                avatarRadius = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(avatarSize, app.exteraless.appearance.AppearanceConfig.CORNER_TYPE_FORUM);
+                avatarRadius = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(avatarSize, org.mzgram.appearance.AppearanceConfig.CORNER_TYPE_FORUM);
             } else {
-                avatarRadius = app.exteraless.appearance.AppearanceConfig.getAvatarCorners(avatarSize);
+                avatarRadius = org.mzgram.appearance.AppearanceConfig.getAvatarCorners(avatarSize);
             }
 
             avatarImage.setAvatarCornersApplied(!drawMonoforumAvatar);
@@ -4000,7 +4000,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             drawRevealBackground = Math.abs(translationX) >= getMeasuredWidth() * 0.45f;
             if (prevValue != drawRevealBackground && archiveHidden == SharedConfig.archiveHidden) {
                 try {
-                    if (!NekoConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    if (!CoreConfig.disableVibration.Bool()) performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignore) {}
             }
         }
@@ -5927,7 +5927,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         if (message == null) {
             return;
         }
-        if (!NekoConfig.mediaPreview.Bool())  {
+        if (!CoreConfig.mediaPreview.Bool())  {
             return;
         }
         String restrictionReason = MessagesController.getInstance(message.currentAccount).getRestrictionReason(message.messageOwner.restriction_reason);
@@ -6221,7 +6221,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (message != null) {
                     message.spoilLoginCode();
                 }
-                if (!NekoConfig.showSpoilersDirectly.Bool())
+                if (!CoreConfig.showSpoilersDirectly.Bool())
                     MediaDataController.addTextStyleRuns(message.messageOwner.entities, mess, msgBuilder, TextStyleSpan.FLAG_STYLE_SPOILER | TextStyleSpan.FLAG_STYLE_STRIKE);
                 if (message != null && message.messageOwner != null) {
                     MediaDataController.addAnimatedEmojiSpans(message.messageOwner.entities, msgBuilder, currentMessagePaint == null ? null : currentMessagePaint.getFontMetricsInt());
@@ -6339,7 +6339,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (message != null) {
                 message.spoilLoginCode();
             }
-            if (!NekoConfig.showSpoilersDirectly.Bool())
+            if (!CoreConfig.showSpoilersDirectly.Bool())
                 MediaDataController.addTextStyleRuns(message, (Spannable) mess, TextStyleSpan.FLAG_STYLE_SPOILER | TextStyleSpan.FLAG_STYLE_STRIKE);
             if (message != null && message.messageOwner != null) {
                 MediaDataController.addAnimatedEmojiSpans(message.messageOwner.entities, mess, currentMessagePaint == null ? null : currentMessagePaint.getFontMetricsInt());

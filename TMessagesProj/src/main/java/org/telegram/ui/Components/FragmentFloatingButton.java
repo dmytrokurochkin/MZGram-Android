@@ -28,8 +28,8 @@ import org.telegram.utils.glass.source.GlassSourceColor;
 
 import java.util.ArrayList;
 
-import me.vkryl.android.animator.BoolAnimator;
-import me.vkryl.android.animator.FactorAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
 public class FragmentFloatingButton extends FrameLayout implements FactorAnimator.Target, Theme.Colorable {
@@ -71,8 +71,8 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
 
         ScaleStateListAnimator.apply(this);
         if (!isSubButton) {
-            // exteraGram 12.9.0, FragmentFloatingButton.java:67 — squircle вместо круга.
-            setOutlineProvider(app.exteraless.appearance.AppearanceConfig.squareFab()
+            // MZGram 12.9.0, FragmentFloatingButton.java:67 — squircle вместо круга.
+            setOutlineProvider(org.mzgram.appearance.AppearanceConfig.squareFab()
                     ? ViewOutlineProviderImpl.boundsWithPaddingRoundRect(0, dp(14))
                     : ViewOutlineProviderImpl.BOUNDS_OVAL);
             setTranslationZ(dpf2(0.5f));
@@ -113,7 +113,7 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
             iBlur3Background = new BlurredBackgroundDrawable(iBlur3SourceColor);
             iBlur3Background.setColorProvider(iBlur3ColorProviderTabs);
             iBlur3Background.setStrokeWidth(dpf2(0.4f), dpf2(0.4f));
-            iBlur3Background.setRadius(dp(app.exteraless.appearance.AppearanceConfig.squareFab() ? 10 : 18));
+            iBlur3Background.setRadius(dp(org.mzgram.appearance.AppearanceConfig.squareFab() ? 10 : 18));
             iBlur3Background.setPadding(dp(5.66f));
         }
 
@@ -172,7 +172,7 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
 
     /** MZGram: Material bars. The small button is a solid Material 3 surface FAB instead of glass. */
     private static boolean mzSurfaceFab() {
-        return app.exteraless.appearance.AppearanceConfig.materialBars();
+        return org.mzgram.appearance.AppearanceConfig.materialBars();
     }
 
     @Override
@@ -202,7 +202,7 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
             }
             invalidate();
 
-            int rad = dp(app.exteraless.appearance.AppearanceConfig.squareFab() ? 10 : 18);
+            int rad = dp(org.mzgram.appearance.AppearanceConfig.squareFab() ? 10 : 18);
             int pressedColor = Theme.getColor(Theme.key_listSelector, resourcesProvider);
             if (recolorBackground) {
                 if (pressedColor != themedBackgroundPressedColor) {
@@ -233,7 +233,7 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
             } else {
                 themedBackgroundColor = color;
                 themedBackgroundPressedColor = pressedColor;
-                setBackground(themedBackground = app.exteraless.utils.UIUtil.createFabSelectorDrawable(48, color, pressedColor));
+                setBackground(themedBackground = org.mzgram.utils.UIUtil.createFabSelectorDrawable(48, color, pressedColor));
             }
         }
     }

@@ -102,7 +102,7 @@ import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.Components.SiblingRecyclerPagerLayout;
 import org.telegram.ui.Components.blur3.capture.IBlur3Capture;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-import me.vkryl.android.animator.BoolAnimator;
+import org.mzgram.ux.android.animator.BoolAnimator;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 import org.telegram.ui.Components.blur3.drawable.color.impl.BlurredBackgroundProviderImpl;
 import org.telegram.ui.Components.blur3.utils.Blur3Utils;
@@ -626,12 +626,12 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
 
         tabs = tabViews.toArray(new GlassTabView[0]);
         tabsView = new MainTabsLayout(context, resourceProvider);
-        app.exteraless.appearance.MainTabsUiHelper.applyTabsLayoutStyle(tabsView, dp(328 + DialogsActivity.MAIN_TABS_MARGIN * 2));
+        org.mzgram.appearance.MainTabsUiHelper.applyTabsLayoutStyle(tabsView, dp(328 + DialogsActivity.MAIN_TABS_MARGIN * 2));
         tabsView.setClipChildren(false);
 
         tabsViewWrapper = new FrameLayout(context);
         tabsViewWrapper.setOnClickListener(view -> {});
-        tabsViewWrapper.addView(tabsView, LayoutHelper.createFrame(app.exteraless.appearance.MainTabsUiHelper.getTabsViewWidth(), app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
+        tabsViewWrapper.addView(tabsView, LayoutHelper.createFrame(org.mzgram.appearance.MainTabsUiHelper.getTabsViewWidth(), org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
         tabsViewWrapper.setClipToPadding(false);
         for (int index = 0; index < tabs.length; index++) {
             final GlassTabView view = tabs[index];
@@ -944,8 +944,8 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
         BlurredBackgroundDrawable tabsViewBackground = getBaseSimpleGlass().factory
             .create(tabsView, BlurredBackgroundProviderImpl.mainTabs(resourceProvider));
-        tabsViewBackground.setRadius(app.exteraless.appearance.MainTabsUiHelper.getBackgroundRadius());
-        tabsViewBackground.setPadding(app.exteraless.appearance.MainTabsUiHelper.getBackgroundInset());
+        tabsViewBackground.setRadius(org.mzgram.appearance.MainTabsUiHelper.getBackgroundRadius());
+        tabsViewBackground.setPadding(org.mzgram.appearance.MainTabsUiHelper.getBackgroundInset());
         tabsView.setBackground(tabsViewBackground);
 
         glassEngine.addScrolledView(viewPagerFixed);
@@ -3519,9 +3519,9 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     private void checkUi_listPaddings() {
         int pt = ActionBar.getCurrentActionBarHeight();
         updateHeaderOverlayHeight();
-        int pb = showTabs ? AndroidUtilities.dp(app.exteraless.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
+        int pb = showTabs ? AndroidUtilities.dp(org.mzgram.appearance.MainTabsUiHelper.getTabsViewHeightDp()) : 0;
         AndroidUtilities.setViewLayoutMargins(avatarContainer.avatarImageView, 0, mSystemInsets.top + ((ActionBar.getCurrentActionBarHeight() - AndroidUtilities.dp(42.0f)) / 2), AndroidUtilities.dp(6.0f), 0);
-        app.exteraless.appearance.MainTabsUiHelper.applyTabsBottomInset(tabsView, tabsViewWrapper, mSystemInsets.bottom, 0, 0);
+        org.mzgram.appearance.MainTabsUiHelper.applyTabsBottomInset(tabsView, tabsViewWrapper, mSystemInsets.bottom, 0, 0);
         if (recyclerListView != null) {
             BaseFragmentSimpleGlass.setListViewParams(recyclerListView, mSystemInsets.top, mSystemInsets.bottom, pt, pb);
         }

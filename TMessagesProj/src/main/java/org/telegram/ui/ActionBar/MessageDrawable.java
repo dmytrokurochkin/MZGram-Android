@@ -390,7 +390,7 @@ public class MessageDrawable extends Drawable {
 
         boolean drawWithShadow = shadow && gradientShader == null && !isSelected && !isCrossfadeBackground && !isCompact();
         int shadowColor = getColor(isOut ? Theme.key_chat_outBubbleShadow : Theme.key_chat_inBubbleShadow);
-        boolean noTail = oeRemoveMessageTail();
+        boolean noTail = mzRemoveMessageTail();
         if (lastDrawWithShadow != drawWithShadow || currentBackgroundDrawableRadius[idx2][idx] != newRad || (drawWithShadow && shadowDrawableColor[idx] != shadowColor) || backgroundDrawableColor[idx2][idx] != color || backgroundDrawableNoTail[idx2][idx] != noTail) {
             backupRect.set(getBounds());
             renderingBackgroundCache = true;
@@ -712,12 +712,12 @@ public class MessageDrawable extends Drawable {
         if (rad > heightHalf) {
             rad = heightHalf;
         }
-        final boolean oeNoTail = oeRemoveMessageTail();
+        final boolean mzNoTail = mzRemoveMessageTail();
         if (isOut) {
             // LEFT-BOTTOM <- RIGHT-BOTTOM
             if (drawFullBubble || currentType == TYPE_PREVIEW || customPaint || drawFullBottom) {
                 int radToUse = botButtonsBottom ? nearRad : rad;
-                if (currentType == TYPE_MEDIA || oeNoTail) {
+                if (currentType == TYPE_MEDIA || mzNoTail) {
                     path.moveTo(bounds.right - dp(8) - radToUse, bounds.bottom - padding);
                 } else {
                     path.moveTo(bounds.right - dp(2.6f), bounds.bottom - padding);
@@ -769,7 +769,7 @@ public class MessageDrawable extends Drawable {
                 }
             } else {
                 if (drawFullBubble || currentType == TYPE_PREVIEW || customPaint || drawFullBottom) {
-                    if (oeNoTail) {
+                    if (mzNoTail) {
                         int radToUse = isBottomNear || botButtonsBottom ? nearRad : rad;
                         path.lineTo(bounds.right - dp(8), bounds.bottom - padding - radToUse);
                         rect.set(bounds.right - dp(8) - radToUse * 2, bounds.bottom - padding - radToUse * 2, bounds.right - dp(8), bounds.bottom - padding);
@@ -787,7 +787,7 @@ public class MessageDrawable extends Drawable {
             if (drawFullBubble || currentType == TYPE_PREVIEW || customPaint || drawFullBottom) {
                 int radToUse = botButtonsBottom ? nearRad : rad;
 
-                if (currentType == TYPE_MEDIA || oeNoTail) {
+                if (currentType == TYPE_MEDIA || mzNoTail) {
                     path.moveTo(bounds.left + dp(8) + radToUse, bounds.bottom - padding);
                 } else {
                     path.moveTo(bounds.left + dp(2.6f), bounds.bottom - padding);
@@ -833,7 +833,7 @@ public class MessageDrawable extends Drawable {
                 }
             } else {
                 if (drawFullBubble || currentType == TYPE_PREVIEW || customPaint || drawFullBottom) {
-                    if (oeNoTail) {
+                    if (mzNoTail) {
                         int radToUse = isBottomNear || botButtonsBottom ? nearRad : rad;
                         path.lineTo(bounds.left + dp(8), bounds.bottom - padding - radToUse);
                         rect.set(bounds.left + dp(8), bounds.bottom - padding - radToUse * 2, bounds.left + dp(8) + radToUse * 2, bounds.bottom - padding);
@@ -907,11 +907,11 @@ public class MessageDrawable extends Drawable {
         this.resourcesProvider = resourcesProvider;
     }
 
-    /** openExtera: убрать «хвостик» пузыря сообщения (ChatsConfig.removeMessageTail). */
-    private static boolean oeRemoveMessageTail() {
+    /** mzGram: убрать «хвостик» пузыря сообщения (ChatsConfig.removeMessageTail). */
+    private static boolean mzRemoveMessageTail() {
         try {
-            app.exteraless.chats.ChatsConfig.ensureLoaded();
-            return app.exteraless.chats.ChatsConfig.removeMessageTail.Bool();
+            org.mzgram.chats.ChatsConfig.ensureLoaded();
+            return org.mzgram.chats.ChatsConfig.removeMessageTail.Bool();
         } catch (Exception e) {
             return false;
         }
@@ -922,13 +922,13 @@ public class MessageDrawable extends Drawable {
         Rect lastRect = new Rect();
         boolean lastDrawFullTop;
         boolean lastDrawFullBottom;
-        /** openExtera: чтобы кэш пути сбрасывался при переключении «убрать хвостик». */
-        boolean lastNoTail = oeRemoveMessageTail();
+        /** mzGram: чтобы кэш пути сбрасывался при переключении «убрать хвостик». */
+        boolean lastNoTail = mzRemoveMessageTail();
 
         public boolean invalidatePath(Rect bounds, boolean drawFullBottom, boolean drawFullTop) {
-            boolean oeNoTail = oeRemoveMessageTail();
-            boolean invalidate = lastNoTail != oeNoTail || lastRect.isEmpty() || lastRect.top != bounds.top || lastRect.bottom != bounds.bottom || lastRect.right != bounds.right || lastRect.left != bounds.left || lastDrawFullTop != drawFullTop || lastDrawFullBottom != drawFullBottom || !drawFullTop || !drawFullBottom;
-            lastNoTail = oeNoTail;
+            boolean mzNoTail = mzRemoveMessageTail();
+            boolean invalidate = lastNoTail != mzNoTail || lastRect.isEmpty() || lastRect.top != bounds.top || lastRect.bottom != bounds.bottom || lastRect.right != bounds.right || lastRect.left != bounds.left || lastDrawFullTop != drawFullTop || lastDrawFullBottom != drawFullBottom || !drawFullTop || !drawFullBottom;
+            lastNoTail = mzNoTail;
             lastDrawFullTop = drawFullTop;
             lastDrawFullBottom = drawFullBottom;
             lastRect.set(bounds);

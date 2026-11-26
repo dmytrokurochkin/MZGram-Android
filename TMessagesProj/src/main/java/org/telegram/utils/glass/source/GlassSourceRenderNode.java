@@ -20,7 +20,7 @@ import org.telegram.utils.glass.GlassCaptureSourceCanvas;
 import org.telegram.utils.glass.GlassEngine;
 import org.telegram.utils.glass.fade.GlassFadeBlurredDrawable;
 
-import me.vkryl.core.reference.ReferenceList;
+import org.mzgram.ux.core.reference.ReferenceList;
 
 @RequiresApi(api = Build.VERSION_CODES.Q)
 public final class GlassSourceRenderNode implements GlassSource, BlurredBackgroundDrawableViewFactory.DrawableOwner, GlassFadeBlurredDrawable.GlassFadeDownsampledSource {

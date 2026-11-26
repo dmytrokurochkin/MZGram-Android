@@ -1,6 +1,6 @@
 package org.telegram.ui.Components;
 
-import app.exteraless.utils.AppUtils;
+import org.mzgram.utils.AppUtils;
 
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.Utilities.swapItems;
@@ -1665,7 +1665,7 @@ public class ViewPagerFixed extends FrameLayout {
             super(context);
             this.resourcesProvider = resourcesProvider;
 
-            if (tabsSelectorType == SELECTOR_TYPE_BUBBLE_STYLE && app.exteraless.appearance.AppearanceConfig.materialBars()) {
+            if (tabsSelectorType == SELECTOR_TYPE_BUBBLE_STYLE && org.mzgram.appearance.AppearanceConfig.materialBars()) {
                 // MZGram: Material bars. A line under the selected tab instead of a bubble (the non-glass style)
                 tabsSelectorType = 3;
             }

@@ -94,8 +94,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import me.vkryl.core.BitwiseUtils;
-import tw.nekomimi.nekogram.NekoConfig;
+import org.mzgram.ux.core.BitwiseUtils;
+import org.mzgram.core.CoreConfig;
 class ChatMessagePoll {
 
     private final ChatMessageCell cell;
@@ -376,7 +376,7 @@ class ChatMessagePoll {
         int maxVote = 0;
         if (!animateAnswer && cell.pollVoteInProgress && cell.vibrateOnPollVote) {
             try {
-                if (!NekoConfig.disableVibration.Bool()) cell.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                if (!CoreConfig.disableVibration.Bool()) cell.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
             } catch (Exception ignored) {}
         }
         animateAnswer = cell.attachedToWindow && (cell.pollVoteInProgress || cell.pollUnvoteInProgress);

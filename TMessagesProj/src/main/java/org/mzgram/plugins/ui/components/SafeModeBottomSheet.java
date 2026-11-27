@@ -19,12 +19,6 @@ import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
 import org.mzgram.plugins.PluginsController;
 
-/**
- * Предложение выйти из безопасного режима движка плагинов.
- *
- * Имя и конструктор совпадают с {@code org.mzgram.sdk.plugins.ui.components
- * .SafeModeBottomSheet}: плагины каталога зовут {@code SafeModeBottomSheet(fragment).show()}.
- */
 public class SafeModeBottomSheet extends BottomSheet {
 
     private static final String STICKER_PACK = "AnimatedEmojies";

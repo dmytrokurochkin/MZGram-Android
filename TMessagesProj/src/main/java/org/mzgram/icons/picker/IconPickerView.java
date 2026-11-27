@@ -48,19 +48,6 @@ import org.mzgram.icons.IconPackManager;
 import org.mzgram.icons.IconPackStorage;
 import org.mzgram.icons.IconPacksConfig;
 
-/**
- * Плавающий пикер иконок (порт {@code org.mzgram.sdk.icons.ui.picker.IconPickerView}).
- *
- * Живёт поверх интерфейса: перетаскиваемая кнопка, по нажатию раскрывающаяся в панель со списком
- * иконок, которые запросил текущий экран ({@link IconObserver}). Тап по иконке открывает
- * {@link ReplaceIconBottomSheet} — точечную замену внутри редактируемого пака.
- *
- * MZGram использует пружинные анимации {@code DynamicAnimation} и {@code UniversalRecyclerView};
- * здесь то же поведение собрано на {@code ViewPropertyAnimator} и {@link RecyclerListView},
- * чтобы не тянуть зависимостей за пределы модуля.
- *
- * Пустой список — не ошибка: значит, текущий экран ещё не запрашивал ни одной заменяемой иконки.
- */
 @SuppressLint("ViewConstructor")
 public class IconPickerView extends FrameLayout {
 
@@ -92,7 +79,6 @@ public class IconPickerView extends FrameLayout {
 
         setWillNotDraw(false);
 
-        // ---- панель ----
         panel = new FrameLayout(context) {
             private final RectF rect = new RectF();
             private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -165,7 +151,6 @@ public class IconPickerView extends FrameLayout {
 
         addView(panel, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 320, Gravity.BOTTOM, 8, 0, 8, 8));
 
-        // ---- кнопка ----
         fabIcon = new ImageView(context);
         fabIcon.setScaleType(ImageView.ScaleType.CENTER);
         fabIcon.setImageResource(R.drawable.msg_photoeditor);
@@ -185,11 +170,9 @@ public class IconPickerView extends FrameLayout {
         addView(fab, LayoutHelper.createFrame(52, 52, Gravity.TOP | Gravity.LEFT));
     }
 
-    // ---- прокидывание касаний вниз ----
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // фон пикера прозрачен для касаний: под ним обычный интерфейс, им надо пользоваться
         return false;
     }
 
@@ -225,7 +208,6 @@ public class IconPickerView extends FrameLayout {
         }
     }
 
-    // ---- показ/скрытие ----
 
     public void showFab() {
         fab.animate().cancel();
@@ -279,9 +261,7 @@ public class IconPickerView extends FrameLayout {
         }
     }
 
-    // ---- содержимое ----
 
-    /** Пересобирает список иконок, замеченных на текущем экране. */
     public void updateItems() {
         IconObserver.setSuspended(true);
         try {
@@ -320,7 +300,6 @@ public class IconPickerView extends FrameLayout {
         }
     }
 
-    // ---- перетаскивание кнопки ----
 
     private class DragTouchListener implements OnTouchListener {
 
@@ -365,7 +344,6 @@ public class IconPickerView extends FrameLayout {
         }
     }
 
-    // ---- список ----
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
@@ -394,7 +372,6 @@ public class IconPickerView extends FrameLayout {
         }
     }
 
-    /** Ячейка сетки: сама иконка (уже с учётом активных паков) и имя ресурса под ней. */
     private static class IconCell extends FrameLayout {
 
         private final ImageView imageView;

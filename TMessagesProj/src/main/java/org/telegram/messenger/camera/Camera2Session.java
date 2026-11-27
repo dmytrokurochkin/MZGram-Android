@@ -198,8 +198,6 @@ public class Camera2Session {
             sensorSize = cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
             final Float value = cameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
             maxZoom = (value == null || value < 1f) ? 1f : value;
-            // Кратность вместо кропа: у логической камеры диапазон начинается ниже единицы
-            // (ширик основной, полный сенсор фронталки), кроп-регион туда не достаёт.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 zoomRatioRange = cameraCharacteristics.get(CameraCharacteristics.CONTROL_ZOOM_RATIO_RANGE);
                 if (zoomRatioRange != null) {
@@ -382,7 +380,6 @@ public class Camera2Session {
 
     private final Rect cropRegion = new Rect();
     public void setZoom(float value) {
-        // Запоминаем и до открытия: стартовый запрос возьмёт это значение сам.
         currentZoom = Utilities.clamp(value, maxZoom, minZoom);
         if (!isInitiated()) return;
         if (captureRequestBuilder == null || cameraDevice == null || sensorSize == null) return;
@@ -534,8 +531,6 @@ public class Camera2Session {
             captureRequestBuilder.set(CaptureRequest.FLASH_MODE, flashing ? (recordingVideo ? CaptureRequest.FLASH_MODE_TORCH : CaptureRequest.FLASH_MODE_SINGLE) : CaptureRequest.FLASH_MODE_OFF);
 
             if (recordingVideo) {
-                // MZGram 12.9.0, Camera2Session.java:545-560. У апстрима здесь просто
-                // просят диапазон 30-60 (драйвер почти всегда выбирает 30) и не трогают AE.
                 captureRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                 recordingFrameRate = 30;
                 Range<Integer> extendedFps;
@@ -551,7 +546,7 @@ public class Camera2Session {
                 if (org.mzgram.chats.ChatsConfig.cameraStabilization.Bool()) {
                     chooseStabilizationMode(captureRequestBuilder);
                 }
-                chooseFocusMode(captureRequestBuilder);   // без настройки, как в MZGram
+                chooseFocusMode(captureRequestBuilder);
             }
 
             if (zoomRatioRange != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -578,11 +573,9 @@ public class Camera2Session {
         }
     }
 
-    // ---- Перенос из MZGram 12.9.0, Camera2Session.java:336-357, 513-530, 617, 715 ----
 
     private volatile int recordingFrameRate = 30;
 
-    /** Реальная частота кадров текущей записи: 60 только если драйвер её подтвердил. */
     public int getRecordingFrameRate() {
         return recordingFrameRate;
     }
@@ -603,7 +596,6 @@ public class Camera2Session {
         return null;
     }
 
-    /** Оптическая стабилизация в приоритете над электронной, они взаимоисключающие. */
     private void chooseStabilizationMode(CaptureRequest.Builder builder) {
         final int[] ois = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
         if (ois != null) {
@@ -630,7 +622,6 @@ public class Camera2Session {
         FileLog.d("Camera2Session: stabilization not available");
     }
 
-    /** Непрерывный автофокус на время записи. У MZGram без настройки. */
     private void chooseFocusMode(CaptureRequest.Builder builder) {
         final int[] modes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
         if (modes != null) {

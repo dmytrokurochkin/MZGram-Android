@@ -7,23 +7,11 @@ import android.animation.StateListAnimator;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
-/**
- * UI-утилиты, перенесённые из MZGram
- */
 public final class UIUtil {
 
     private UIUtil() {
     }
 
-    /**
-     * «Вдавливание» вью при нажатии: 80 мс до {@code 1 - scale}, отпускание — 350 мс
-     * с {@link OvershootInterpolator}.
-     *
-     * MZGram дополнительно поджимает маску ripple ({@code Theme.RippleRadMaskDrawable}
-     * с padding'ом), но у нас {@code RippleRadMaskDrawable} не умеет padding, а
-     * {@code Theme.java} правит другой агент — поэтому здесь только масштаб.
-     * Визуально основную часть эффекта даёт именно он.
-     */
     public static void applyScaleStateListAnimator(View view, float scale, float tension) {
         if (view == null) {
             return;
@@ -53,13 +41,6 @@ public final class UIUtil {
         view.setStateListAnimator(animator);
     }
 
-    /**
-     * Фон плавающей кнопки. Апстрим всегда рисует круг
-     * ({@code Theme.createSimpleSelectorCircleDrawable}); MZGram при включённом
-     * squareFab рисует «squircle» с радиусом ceil(size * 16 / 56) dp
-     *
-     * @param size сторона кнопки в dp
-     */
     public static Drawable createFabSelectorDrawable(int size, int color, int pressedColor) {
         if (size == 40) {
             final int background = org.telegram.ui.ActionBar.Theme.getColor(

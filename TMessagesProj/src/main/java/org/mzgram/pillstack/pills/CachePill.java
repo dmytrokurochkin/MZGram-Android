@@ -38,7 +38,6 @@ import org.mzgram.pillstack.PillStackEvents;
 import org.mzgram.pillstack.PillStackSettingsActivity;
 import org.mzgram.pillstack.PillType;
 
-/** Размер кэша Telegram и заполненность накопителя. */
 @SuppressLint("ViewConstructor")
 public class CachePill extends BasePill implements PillStackEvents.Listener {
 
@@ -51,7 +50,6 @@ public class CachePill extends BasePill implements PillStackEvents.Listener {
     private final AnimatedTextView textView;
     private final StorageProgressDrawable progressDrawable;
 
-    /** Кольцо вокруг иконки: доля занятого места на устройстве. */
     public static class StorageProgressDrawable extends Drawable {
 
         private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);

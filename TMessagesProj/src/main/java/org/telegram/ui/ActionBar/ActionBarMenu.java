@@ -602,9 +602,6 @@ public class ActionBarMenu extends LinearLayout {
         return w;
     }
 
-    /**
-     * Ширина ребёнка вместе с его горизонтальными отступами.
-     */
     private int getMeasuredWidthWithMargins(View view) {
         final int width = view.getMeasuredWidth();
         final ViewGroup.LayoutParams lp = view.getLayoutParams();
@@ -615,12 +612,6 @@ public class ActionBarMenu extends LinearLayout {
         return width + mlp.leftMargin + mlp.rightMargin;
     }
 
-    /**
-     * Сколько пунктов меню реально занимают место при центрированном заголовке.
-     * В отличие от {@link #getVisibleItemsMeasuredWidth()} учитывает альфу: пункт,
-     * который сейчас проявляется, считается уже видимым, а исчезающий — уже нет,
-     * иначе заголовок дёргается на каждой анимации.
-     */
     public int getVisibleItemsCount() {
         int count = 0;
         for (int i = 0, n = getChildCount(); i < n; i++) {
@@ -632,11 +623,6 @@ public class ActionBarMenu extends LinearLayout {
         return count;
     }
 
-    /**
-     * Суммарная ширина видимых детей (с отступами) для расчёта центра заголовка.
-     * Не-ActionBarMenuItem дети (разделители, кастомные вьюхи) учитываются просто
-     * по видимости.
-     */
     public int getVisibleItemsMeasuredWidthForCenterTitle() {
         int w = 0;
         for (int i = 0, n = getChildCount(); i < n; i++) {

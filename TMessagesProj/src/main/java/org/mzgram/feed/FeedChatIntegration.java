@@ -19,16 +19,6 @@ import org.telegram.ui.Components.BulletinFactory;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-/**
- * Прослойка между лентой и встроенным ChatActivity: лента показывается как синтетический чат,
- * поэтому весь список строк живёт в хосте, а этот класс отвечает за то, что в нём лежит.
- * Сюда собрано всё, что нельзя выразить одним лишь источником данных: разделитель непрочитанного
- * и прокрутка к нему, заголовки дат, сверка списка со снимком {@link FeedStore}, счётчик кнопки
- * «вниз», дозагрузка реакций видимых постов и скрытие канала с возможностью отмены.
- *
- * <p>Хост ({@link Host}) реализует ChatActivity: класс никогда не трогает список напрямую в обход
- * уведомлений адаптера — на каждую вставку и удаление идёт notify, иначе RecyclerView разъедется.
- */
 public class FeedChatIntegration {
 
     private static final int PAGEDOWN_SCROLL_THRESHOLD = AndroidUtilities.dp(100.0f);
@@ -67,10 +57,6 @@ public class FeedChatIntegration {
     private final LongSparseArray<ArrayList<Integer>> pendingReactionIds = new LongSparseArray<>();
     private final Runnable reactionsRefreshRunnable = this::flushReactionsRefresh;
 
-    /**
-     * Всё, что интеграции нужно от экрана-хозяина: доступ к списку строк, уведомления адаптера,
-     * состояние прокрутки и кнопки «вниз».
-     */
     public interface Host {
         boolean canScrollToNewer();
 
@@ -133,9 +119,6 @@ public class FeedChatIntegration {
         int stableIdForDateHeader(int dateKey);
     }
 
-    /**
-     * Строка списка и её отступ от верха — точка, за которую держится прокрутка при перестройке.
-     */
     public static final class ScrollAnchor {
         public final int offsetTop;
         public final MessageObject row;
@@ -512,10 +495,6 @@ public class FeedChatIntegration {
                 && !BaseFragment.hasSheets(host.getFragment());
     }
 
-    /**
-     * Синтетические id строк канала, которые надо убрать из списка: либо перечисленные явно,
-     * либо все настоящие id вплоть до {@code maxId}.
-     */
     public ArrayList<Integer> collectLocalRowIds(long dialogId, ArrayList<Integer> realIds, int maxId) {
         ArrayList<Integer> result = new ArrayList<>();
         HashSet<Integer> realIdSet = realIds != null ? new HashSet<>(realIds) : null;
@@ -554,10 +533,6 @@ public class FeedChatIntegration {
         pendingInitialScrollRestore = null;
     }
 
-    /**
-     * Прячет канал из ленты сразу, но показывает бюллетень с отменой: до истечения таймера
-     * {@link #undoHideChannel()} может вернуть всё назад.
-     */
     public void hideChannelWithUndo(final long dialogId, CharSequence title) {
         FeedConfig feedConfig = FeedConfig.getInstance(currentAccount);
         FeedController feedController = FeedController.getInstance(currentAccount);
@@ -580,10 +555,6 @@ public class FeedChatIntegration {
                 .show();
     }
 
-    /**
-     * Догружает ответы: посты ленты пришли из разных каналов, поэтому запрос идёт по каждому диалогу
-     * отдельно.
-     */
     public void loadReplyMessages(ArrayList<MessageObject> rows, int chatMode, int classGuid) {
         if (rows == null || rows.isEmpty()) {
             return;
@@ -657,10 +628,6 @@ public class FeedChatIntegration {
         host.notifyMessageRemoved(dividerIndex);
     }
 
-    /**
-     * Первая порция строк доехала до списка: решает, куда встать — на сохранённую позицию из шторки
-     * или на разделитель непрочитанного.
-     */
     public void onMessagesLoaded() {
         if (host.getFragment().isPaused() || !host.isListReady() || !hasMaterializedPostRows()) {
             return;
@@ -747,10 +714,6 @@ public class FeedChatIntegration {
         AndroidUtilities.runOnUIThread(settleAtNewestRunnable);
     }
 
-    /**
-     * Кнопка «вниз» в ленте живёт по своим правилам: при непрочитанных она видна всегда,
-     * иначе появляется и прячется по накопленному сдвигу прокрутки.
-     */
     public void onScrolled(int dy) {
         if (!viewportActive || !host.isListReady() || host.isScrollAnimationRunning()) {
             return;
@@ -802,10 +765,6 @@ public class FeedChatIntegration {
         updatePagedownCounter();
     }
 
-    /**
-     * Сводит показанный список со снимком {@link FeedStore}: убирает строки, которых в снимке уже нет,
-     * вставляет появившиеся, чинит заголовки дат и восстанавливает прокрутку.
-     */
     public void reconcileWithStore() {
         if (!host.isListReady()) {
             return;
@@ -1003,10 +962,6 @@ public class FeedChatIntegration {
         cancelPendingReactionsRefresh();
     }
 
-    /**
-     * Помечает прочитанным всё до нижней видимой строки — а если список уже у самого свежего края,
-     * то и весь остаток, чтобы разделитель не подвисал под кнопкой «вниз».
-     */
     public void settleUnreadDivider() {
         if (!canMarkVisibleAsRead() || !host.isListReady()) {
             return;

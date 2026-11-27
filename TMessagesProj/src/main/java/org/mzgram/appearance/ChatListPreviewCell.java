@@ -34,16 +34,6 @@ import java.util.ArrayList;
 
 import org.mzgram.core.helpers.TypefaceHelper;
 
-/**
- * Превью шапки списка чатов. Порт
- * {@code org.mzgram.sdk.preferences.appearance.components.ChatListPreviewCell} (12.9.0).
- *
- * Ключевое отличие от прошлой версии: внутри не рисованный макет, а настоящий
- * {@link ActionBar} на подложке {@link PreviewBackgroundDrawable}. За счёт этого
- * превью показывает ровно то, что увидит пользователь: тот же заголовок
- * (через {@link TypefaceHelper#getTitleText(int)}, как в DialogsActivity:3645),
- * тот же эмодзи-статус и ту же центровку, которую считает сам ActionBar.
- */
 @SuppressLint("ViewConstructor")
 public class ChatListPreviewCell extends FrameLayout {
 
@@ -58,7 +48,6 @@ public class ChatListPreviewCell extends FrameLayout {
         setWillNotDraw(false);
         setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
 
-        // parentView = null: его выставит ActionBar.setTitle, повесив дровабл на titleTextView.
         statusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(null, AndroidUtilities.dp(26));
         statusDrawable.center = true;
 
@@ -75,7 +64,6 @@ public class ChatListPreviewCell extends FrameLayout {
         refreshTitlePosition(false);
     }
 
-    /** ActionBar превью — на случай, если экрану понадобится донастроить его под себя. */
     public ActionBar getActionBar() {
         return actionBar;
     }
@@ -87,16 +75,10 @@ public class ChatListPreviewCell extends FrameLayout {
         }
     }
 
-    /** Перечитать заголовок: сменился {@code AppearanceConfig.titleText} или имя аккаунта. */
     public void updateTitle(boolean animated) {
         updateStatus(animated);
     }
 
-    /**
-     * Перечитать эмодзи-статус справа от заголовка. Логика повторяет
-     * DialogsActivity.updateStatus (:3066): сначала кастомный статус, иначе
-     * премиум-звезда, иначе ничего.
-     */
     public void updateStatus(boolean animated) {
         final int account = UserConfig.selectedAccount;
         final TLRPC.User user = UserConfig.getInstance(account).getCurrentUser();
@@ -136,13 +118,6 @@ public class ChatListPreviewCell extends FrameLayout {
         }
     }
 
-    /**
-     * Переставить заголовок под текущее значение {@code AppearanceConfig.centerTitle}.
-     * Метода вроде {@code ActionBar.refreshTitlePosition} у нас нет, поэтому логика
-     * собрана снаружи из публичного API: гравитация текстовым вьюхам, requestLayout,
-     * а анимация —
-     * доводкой translationX/Y от старой позиции к новой в OnPreDrawListener.
-     */
     public void updateCentered(boolean animated) {
         refreshTitlePosition(animated);
     }
@@ -217,8 +192,6 @@ public class ChatListPreviewCell extends FrameLayout {
     public void invalidate() {
         super.invalidate();
         if (actionBar != null) {
-            // Цвета ActionBar выставляются один раз в конструкторе, поэтому смену темы
-            // надо донести руками — экран зовёт invalidate() в onResume.
             setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             actionBar.setItemsColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), false);
             statusDrawable.setColor(Theme.getColor(Theme.key_profile_verifiedBackground));
@@ -244,8 +217,6 @@ public class ChatListPreviewCell extends FrameLayout {
         if (!needDivider) {
             return;
         }
-        // Отступ, как у остальных ячеек экрана: у MZGram линия во всю ширину,
-        // но там нет карточек-секций, внутри которых линия упирается в скругление.
         canvas.drawLine(LocaleController.isRTL ? 0 : AndroidUtilities.dp(21), getMeasuredHeight() - 1,
                 getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(21) : 0), getMeasuredHeight() - 1,
                 Theme.dividerPaint);

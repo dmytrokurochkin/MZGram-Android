@@ -3,7 +3,6 @@ package org.mzgram.icons;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 
-/** Причины отказа при установке пака иконок (порт IconPackStorageError). */
 public enum IconPackStorageError {
 
     INVALID_ARCHIVE,

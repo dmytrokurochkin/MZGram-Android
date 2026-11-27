@@ -10,13 +10,6 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 
-/**
- * Счётчик непрочитанных на пункте бокового меню.
- * MZGram: {@code org/mzgram/sdk/drawer/DrawerUnreadBadge.java} (79 строк).
- *
- * Рисуется поверх пункта, а подпись пункта получает увеличенный правый отступ,
- * чтобы длинное имя не залезло под бейдж.
- */
 final class DrawerUnreadBadge {
 
     private final RectF rect = new RectF();
@@ -36,7 +29,6 @@ final class DrawerUnreadBadge {
         update(textView);
     }
 
-    /** Высота 23dp, радиус 11.5dp, отступ сверху 12.5dp. */
     void draw(View view, Canvas canvas) {
         if (!visible) {
             return;

@@ -12,57 +12,12 @@ import java.util.List;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 
-/**
- * Гейт на Java-стоках: то, чего Python-аудит увидеть не может.
- *
- * Python-гейт (mz_utils/audit_gate.py) ловит действия внутри CPython.
- * Но Chaquopy отдаёт плагину живые Java-объекты, и дальше всё происходит в
- * JVM: {@code java.net.URL.openConnection()}, {@code Runtime.exec()},
- * {@code Class.forName(...)} — ни одного события PEP 578. Проверено на
- * устройстве: рефлексией до {@code Runtime.exec("id")} плагин дошёл за шесть
- * событий, из которых пять — импорт {@code java.lang}.
- *
- * Здесь стоят хуки на сами стоки. Проверка идёт только если на этом потоке
- * стоит метка {@link PluginRuntime}, то есть исполняется код плагина; для
- * приложения хук — один ThreadLocal.get() и выход.
- *
- * Набор стоков сознательно узкий: запуск процессов, загрузка нативных
- * библиотек, сеть и резолв классов. Хуки на {@code FileInputStream} и прочую
- * горячую механику java.io не ставятся — цена высокая, а файловую сторону
- * закрывает Python-гейт (плагины работают с файлами через open()).
- *
- * Чего он не держит:
- * <ul>
- *   <li>плагин с разрешением {@code hooks} снимает эти хуки — против него
- *       защиты нет и быть не может.</li>
- * </ul>
- *
- * Отложенная работа закрыта: колбэк, пришедший из Java в python мимо SDK
- * (свой {@code dynamic_proxy}, поставленный в чужую очередь), метки на потоке
- * не имеет, поэтому на входе в {@code PyInvocationHandler.invoke} отмечается
- * сам факт исполнения python-кода, а владелец достаётся по кадрам питоновского
- * стека — и только если сток действительно сработал.
- */
 public final class PluginSinkGate {
 
     private static volatile boolean installed;
 
-    /**
-     * Защита от рекурсии. Проверка внутри хука сама трогает классы и настройки,
-     * а значит снова попадает в {@code loadClass} — без флага это бесконечный
-     * спуск на первом же отказе.
-     */
     private static final ThreadLocal<Boolean> INSIDE = new ThreadLocal<>();
 
-    /**
-     * Классы, недоступные плагину ни при каких разрешениях.
-     *
-     * {@code java.lang.Runtime} здесь не место: класс нужен и ради
-     * {@code exit}, {@code gc}, {@code availableProcessors}, а запрет на
-     * резолв ронял плагин на строке импорта, до всякого разрешения. Опасное в
-     * нём закрыто по методам: {@code exec} — hookDeny, {@code load0} и
-     * {@code loadLibrary0} — hookNativeLoad.
-     */
     private static final String[] DENIED_CLASSES = {
             "java.lang.ProcessBuilder",
             "java.lang.Process",
@@ -81,16 +36,6 @@ public final class PluginSinkGate {
             "org.mzgram.plugins.menus.MenusController",
     };
 
-    /**
-     * Загрузка скомпилированного кода на ходу.
-     *
-     * Сначала эти классы стояли в списке «никогда», и это было ошибкой сразу с
-     * двух сторон. По совместимости: 33 плагина каталога грузят dex через
-     * InMemoryDexClassLoader — запрет молча сломал бы каждый одиннадцатый. По
-     * смыслу: загруженный dex — это произвольный Java-код в нашем процессе,
-     * ровно та же власть, что у Xposed-хуков. Значит и разрешение то же:
-     * hooks, уровень, про который на экране прямо сказано, что защиты дальше нет.
-     */
     private static final String[] CODE_LOADING_CLASSES = {
             "de.robv.android.xposed.",
             "dalvik.system.DexClassLoader",
@@ -101,7 +46,6 @@ public final class PluginSinkGate {
             "android.security.keystore.",
     };
 
-    /** Классы, требующие разрешения network. */
     private static final String[] NETWORK_CLASSES = {
             "java.net.URL",
             "java.net.Socket",
@@ -119,10 +63,6 @@ public final class PluginSinkGate {
     private PluginSinkGate() {
     }
 
-    /**
-     * Поставить хуки. Идемпотентно, ошибки не фатальны: без Aliuhook просто
-     * остаётся Python-гейт.
-     */
     public static synchronized void install() {
         if (installed) {
             return;
@@ -148,7 +88,6 @@ public final class PluginSinkGate {
         FileLog.d("PluginSinkGate: " + ok + " hooks installed");
     }
 
-    // ---------- стоки ----------
 
     private static int hookDeny(Class<?> owner, String methodName, String what, String category) {
         return hookAll(owner, methodName, new XC_MethodHook() {
@@ -193,17 +132,6 @@ public final class PluginSinkGate {
         });
     }
 
-    /**
-     * Резолв классов. Без него сеть закрывается на один шаг: плагин, которому
-     * запрещён {@code java.net.URL}, достаёт тот же класс через
-     * {@code Class.forName}.
-     *
-     * Только {@code Class.forName}: хук на {@code ClassLoader.loadClass} ронял
-     * приложение изнутри ART. Резолвя класс, ClassLinker сам зовёт loadClass
-     * загрузчика приложения, и с хуком это заход в сгенерированный LSPlant
-     * класс прямо из середины DefineClass — рекурсия по загрузке классов,
-     * которая изредка кончалась SIGSEGV на чужом потоке.
-     */
     private static int hookClassResolution() {
         XC_MethodHook hook = new XC_MethodHook() {
             @Override
@@ -292,16 +220,6 @@ public final class PluginSinkGate {
                 String.class, boolean.class, ClassLoader.class);
     }
 
-    /**
-     * Загрузка нативных библиотек.
-     *
-     * Хук стоит на внутренних {@code Runtime.load0/loadLibrary0}, а не на
-     * {@code System.loadLibrary}: последний определяет загрузчик по кадру
-     * вызывающего ({@code VMStack.getCallingClassLoader}), а после хука этим
-     * кадром становится сгенерированный LSPlant класс с boot-загрузчиком —
-     * и приложение перестаёт находить собственные .so. Внутренние методы
-     * получают загрузчик аргументом, поэтому хук им не мешает.
-     */
     private static int hookNativeLoad() {
         XC_MethodHook hook = new XC_MethodHook() {
             @Override
@@ -336,26 +254,6 @@ public final class PluginSinkGate {
         return count;
     }
 
-    /**
-     * Почему этот вызов {@code loadLibrary} не считается загрузкой плагина.
-     *
-     * Метка на потоке говорит лишь, что где-то ниже по стеку исполняется
-     * плагин, — а .so грузит не он. Плагин зовёт публичный API, тот уходит в
-     * платформу, и библиотеку тянет уже она. На vivo так падало приложение:
-     * плагин вызывал {@code CameraManager.getCameraIdList()},
-     * {@code VivoJavaJsonOperate.<clinit>} звал {@code System.loadLibrary},
-     * наш отказ прилетал исключением из статического инициализатора —
-     * и класс платформы оставался испорченным до конца жизни процесса.
-     * Следующий колбэк камеры получал {@code NoClassDefFoundError} на
-     * binder-потоке, где обработчика нет.
-     *
-     * Отсюда два послабления. Загрузчик boot — код платформы, плагину такой
-     * класс не принадлежит. Статический инициализатор — отказ там бьёт не по
-     * вызову, а по классу целиком, включая тех, кто плагина в глаза не видел.
-     *
-     * Собственная загрузка плагина под них не подходит: его классы приходят
-     * из своего загрузчика, а вызов идёт из обычного метода.
-     */
     private static String allowNativeLoadReason(XC_MethodHook.MethodHookParam param) {
         final Object[] args = param.args;
         final Class<?>[] types = param.method instanceof Method
@@ -385,18 +283,6 @@ public final class PluginSinkGate {
         return null;
     }
 
-    /**
-     * Стоки самого мессенджера.
-     *
-     * Разбор каталога плагинов показал, чего не хватало: 30 плагинов шлют
-     * сообщения через SendMessagesHelper, 19 — произвольные запросы через
-     * ConnectionsManager, 17 читают базу напрямую. Всё это шло мимо проверок:
-     * они стояли на регистрации хуков нашего SDK, а не на самих действиях.
-     *
-     * Классы берутся по имени и могут отсутствовать (сборка без части
-     * подсистем) — поэтому через Class.forName с тихим пропуском, а не
-     * ссылкой на класс.
-     */
     private static final String[][] SEND_SINKS = {
             {"sendMessage", "send a message"},
             {"prepareSendingText", "send a message"},
@@ -425,8 +311,6 @@ public final class PluginSinkGate {
             count += hookByName("org.telegram.messenger.SendMessagesHelper", sink[0],
                     PluginPermissions.MESSAGES_SEND, sink[1]);
         }
-        // Ключ к базе сообщений: получив её, плагин читает переписку запросами
-        // мимо всякого API.
         count += hookConnectionsManager();
         count += hookCodeLoaders();
         count += hookWebView();
@@ -520,13 +404,6 @@ public final class PluginSinkGate {
         return name.substring(PluginsConstants.SETTINGS_PREFS_PREFIX.length());
     }
 
-    /**
-     * Конструкторы загрузчиков dex.
-     *
-     * Имя класса плагин может и не называть: 18 плагинов каталога берут
-     * InMemoryDexClassLoader обычным импортом `from dalvik.system import ...`,
-     * а его проверка по имени не видит. Конструктор видит любой путь.
-     */
     private static int hookCodeLoaders() {
         int count = 0;
         for (String className : CODE_LOADING_CLASSES) {
@@ -551,9 +428,6 @@ public final class PluginSinkGate {
                                                     ? callerStack() : null);
                                     return;
                                 }
-                                // Здесь именно исключение: конструктор нельзя
-                                // «не выполнить», вернув пустое значение, —
-                                // объект всё равно оказался бы на руках.
                                 deny(pluginId, "loadDex", "native", className,
                                         "missing the 'hooks' permission", param);
                             } finally {
@@ -570,11 +444,6 @@ public final class PluginSinkGate {
         return count;
     }
 
-    /**
-     * Произвольный запрос к серверу. Разрешение зависит от запроса: чтение
-     * истории — это messages.read, отправка и правка — messages.send.
-     * Различаем по имени класса запроса, других данных на этом уровне нет.
-     */
     private static int hookConnectionsManager() {
         final Class<?> owner = classForName("org.telegram.tgnet.ConnectionsManager");
         if (owner == null) {
@@ -624,15 +493,6 @@ public final class PluginSinkGate {
         });
     }
 
-    /**
-     * WebView — дыра в сетевом гейте, найденная разбором ещё семи каналов: там
-     * его создают 32 плагина из 153. Свои запросы WebView делает сам, нативно,
-     * мимо socket.connect и мимо URL.openConnection, поэтому плагин без
-     * разрешения на сеть мог загрузить любой адрес — с данными в параметрах.
-     *
-     * Гейтим загрузку, а не сам класс: WebView с локальной разметкой сети не
-     * требует, и запрещать его целиком означало бы ломать разметку ни за что.
-     */
     private static int hookWebView() {
         final Class<?> owner = classForName("android.webkit.WebView");
         if (owner == null) {
@@ -649,7 +509,7 @@ public final class PluginSinkGate {
                     final String url = param.args == null || param.args.length == 0
                             ? "" : String.valueOf(param.args[0]);
                     if (!isRemoteUrl(url)) {
-                        return;  // about:blank, data:, file:// — сети тут нет
+                        return;
                     }
                     if (permitted(pluginId, PluginPermissions.NETWORK)) {
                         PluginAuditJournal.record(pluginId, "WebView.load", "network", url, true);
@@ -708,19 +568,6 @@ public final class PluginSinkGate {
                 && type <= android.view.WindowManager.LayoutParams.LAST_SYSTEM_WINDOW;
     }
 
-    /**
-     * Загрузка чужими руками.
-     *
-     * Плагину не обязательно открывать сокет самому: скачать по адресу может
-     * загрузчик самого приложения, системный DownloadManager или проигрыватель.
-     * По подсчёту на 512 плагинах: ImageReceiver/FileLoader зовут 86,
-     * MediaPlayer.setDataSource — 23, DownloadManager — 17. Данные при этом
-     * уходят так же, как из своего сокета.
-     *
-     * Гейтим точки, где адрес виден и однозначен. ImageReceiver целиком не
-     * трогаем — им 86 плагинов показывают обычные телеграмные картинки, а
-     * загрузка по URL идёт отдельным методом ImageLoader.loadHttpFile.
-     */
     private static int hookIndirectDownloads() {
         int count = 0;
         count += hookRemoteUrlArgument("org.telegram.messenger.ImageLoader", "loadHttpFile",
@@ -737,9 +584,6 @@ public final class PluginSinkGate {
                         return;
                     }
                     try {
-                        // Адрес спрятан внутри Request и наружу не отдаётся,
-                        // поэтому спрашиваем разрешение на саму постановку в
-                        // очередь: локальных загрузок у DownloadManager нет.
                         if (permitted(pluginId, PluginPermissions.NETWORK)) {
                             PluginAuditJournal.record(pluginId, "DownloadManager.enqueue",
                                     "network", "", true);
@@ -756,7 +600,6 @@ public final class PluginSinkGate {
         return count;
     }
 
-    /** Хук на метод, у которого первый строковый аргумент — адрес. */
     private static int hookRemoteUrlArgument(String className, String methodName, String what) {
         final Class<?> owner = classForName(className);
         if (owner == null) {
@@ -780,7 +623,7 @@ public final class PluginSinkGate {
                         }
                     }
                     if (!isRemoteUrl(url)) {
-                        return;  // локальный файл — сети тут нет
+                        return;
                     }
                     if (permitted(pluginId, PluginPermissions.NETWORK)) {
                         PluginAuditJournal.record(pluginId, methodName, "network", url, true);
@@ -795,7 +638,6 @@ public final class PluginSinkGate {
         });
     }
 
-    /** Адрес ведёт наружу, а не в локальную разметку. */
     private static boolean isRemoteUrl(String url) {
         if (url == null) {
             return false;
@@ -806,7 +648,6 @@ public final class PluginSinkGate {
                 || lower.startsWith("ftp://");
     }
 
-    /** Запрос меняет что-то на сервере, а не только читает. */
     static String requestName(Object request) {
         if (request == null) {
             return "";
@@ -878,12 +719,10 @@ public final class PluginSinkGate {
         try {
             return Class.forName(name, false, PluginSinkGate.class.getClassLoader());
         } catch (Throwable ignored) {
-            // Класса нет в этой сборке — гейтить нечего.
             return null;
         }
     }
 
-    /** Хук на метод класса, взятого по имени: отказ = нет разрешения. */
     private static int hookByName(String className, String methodName,
                                   String permission, String what) {
         final Class<?> owner = classForName(className);
@@ -922,14 +761,7 @@ public final class PluginSinkGate {
         return "messages";
     }
 
-    // ---------- инфраструктура ----------
 
-    /**
-     * Колбэки, пришедшие из Java в python. Метку с id здесь поставить нечем:
-     * Chaquopy зовёт объект, а владельца знает только питоновский стек. Поэтому
-     * отмечается сам факт исполнения python-кода, а id достаётся в
-     * {@link #enterCheck()} и только если сток действительно сработал.
-     */
     private static int hookPythonCallbacks() {
         return hookAll(com.chaquo.python.PyInvocationHandler.class, "invoke", new XC_MethodHook() {
             @Override
@@ -1252,7 +1084,6 @@ public final class PluginSinkGate {
         return true;
     }
 
-    /** id плагина, если проверять надо; null — приложение или мы уже внутри проверки. */
     private static String enterCheck() {
         return enterCheck(true);
     }
@@ -1375,15 +1206,6 @@ public final class PluginSinkGate {
         return count;
     }
 
-    /**
-     * Отказ без исключения: метод просто не выполняется и возвращает пустое
-     * значение своего типа.
-     *
-     * Для отправки сообщения и чтения базы это честнее исключения: плагин
-     * зовёт их как обычные методы и обработчика для SecurityException не имеет,
-     * так что упал бы весь его сценарий. Пустой результат он переживает — так
-     * же, как неудачную отправку.
-     */
     private static void denySilently(String pluginId, String event, String category, String detail,
                                      String reason, XC_MethodHook.MethodHookParam param) {
         if (PluginPermissions.isUnsafeMode()) {
@@ -1395,7 +1217,6 @@ public final class PluginSinkGate {
         param.setResult(emptyResultFor(param));
     }
 
-    /** Пустое значение под тип возврата метода: у примитивов null уронил бы распаковку. */
     private static Object emptyResultFor(XC_MethodHook.MethodHookParam param) {
         return zeroValueFor(param.method instanceof Method ? (Method) param.method : null);
     }
@@ -1417,16 +1238,6 @@ public final class PluginSinkGate {
         param.setThrowable(denialFor(event, category, pluginId, reason));
     }
 
-    /**
-     * Чем отвечать на отказ.
-     *
-     * Плагин умеет обрабатывать отказы сети и отсутствие класса — этих ошибок
-     * он ждёт. SecurityException из середины openConnection он не ждёт, и
-     * команда просто молча ничего не делала: со стороны неотличимо от поломки.
-     * Поэтому сетевой отказ выглядит сетевым, отказ в резолве класса —
-     * ClassNotFoundException (он и объявлен у forName/loadClass), и только
-     * запуск процессов остаётся SecurityException: там нечего изображать.
-     */
     private static String callerStack() {
         StringBuilder sb = new StringBuilder();
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
@@ -1475,7 +1286,6 @@ public final class PluginSinkGate {
         return false;
     }
 
-    /** Загрузчики кода: требуют hooks, а не «никогда». */
     static boolean isCodeLoader(String className) {
         for (String loader : CODE_LOADING_CLASSES) {
             if (matchesClassName(className, loader)) {

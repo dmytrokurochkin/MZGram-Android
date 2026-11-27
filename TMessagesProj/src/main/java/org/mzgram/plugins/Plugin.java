@@ -3,12 +3,6 @@ package org.mzgram.plugins;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Модель плагина: метаданные, прочитанные из .py-файла (AST-парсинг на Python-стороне,
- * сюда приезжают уже готовыми полями), состояние и путь к файлу.
- *
- * Аналог org.mzgram.sdk.plugins.Plugin.
- */
 public class Plugin extends org.mzgram.sdk.plugins.Plugin {
 
     public Plugin() {
@@ -30,7 +24,6 @@ public class Plugin extends org.mzgram.sdk.plugins.Plugin {
     public String description;
     public String author;
     public String version = "1.0";
-    /** StickerPackShortName/index, например "mzPlugins/1". */
     public String icon;
     public String engine = PluginsConstants.PYTHON;
     public String appVersion;
@@ -38,39 +31,18 @@ public class Plugin extends org.mzgram.sdk.plugins.Plugin {
     public boolean beta;
     public List<String> requirements = new ArrayList<>();
 
-    /**
-     * MzPack {@code requires}: id требуемого плагина → {минимальная версия, ссылка}.
-     * Обе части могут быть null: версия не обязательна, ссылку автор указывает
-     * не всегда.
-     */
     public java.util.Map<String, String[]> requires = new java.util.LinkedHashMap<>();
 
-    /**
-     * Объявленные в {@code __permissions__} разрешения (уже проверенные ключи,
-     * см. {@link PluginPermissions}). Пустой список при {@code __permissions__ = []}.
-     */
     public List<String> permissions = new ArrayList<>();
-    /**
-     * Было ли объявление {@code __permissions__} в файле вообще. Отличать «объявил пусто»
-     * от «не объявлял»: плагин без объявления, установленный до появления модели,
-     * работает в режиме совместимости (см. PluginPermissions.getEffective).
-     */
     public boolean permissionsDeclared;
 
-    /** Абсолютный путь к файлу плагина в filesDir/plugins. */
     public String path;
 
-    /** Включён ли пользователем (персистентно). */
     public boolean enabled = true;
-    /** Загружен ли сейчас в Python-рантайм. */
     public transient boolean loaded;
-    /** Есть ли у плагина create_settings (показывать ли экран настроек). */
     public transient boolean hasSettings;
-    /** Текст последней ошибки загрузки/валидации; null если всё хорошо. */
     public String loadError;
-    /** Полный отчёт о той же ошибке: traceback и окружение, для кнопки «копировать». */
     public transient String loadDebug;
-    /** Отметка сторожа: плагин завис в текущем вызове. */
     public transient boolean notResponding;
     public transient volatile boolean handlesAppEvent = true;
     public transient volatile boolean handlesPreRequest = true;
@@ -79,12 +51,6 @@ public class Plugin extends org.mzgram.sdk.plugins.Plugin {
     public transient volatile boolean handlesUpdates = true;
     public transient volatile boolean handlesSendMessage = true;
 
-    /**
-     * Геттеры в форме MZGram. У эталона Plugin — Kotlin-класс с приватными
-     * полями, и плагины каталога зовут именно методы; наши публичные поля
-     * Chaquopy отдаёт как атрибуты, но {@code plugin.getEngine()} без этого
-     * блока падает с AttributeError.
-     */
     public String getEngine() {
         return engine;
     }
@@ -185,7 +151,6 @@ public class Plugin extends org.mzgram.sdk.plugins.Plugin {
         notResponding = value;
     }
 
-    /** Стикерпак иконки: часть {@link #icon} до слэша. */
     public String getPack() {
         if (icon == null) {
             return null;
@@ -194,7 +159,6 @@ public class Plugin extends org.mzgram.sdk.plugins.Plugin {
         return slash < 0 ? icon : icon.substring(0, slash);
     }
 
-    /** Номер стикера в паке: часть {@link #icon} после слэша. */
     public int getIndex() {
         if (icon == null) {
             return 0;

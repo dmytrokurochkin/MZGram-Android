@@ -32,10 +32,6 @@ import org.mzgram.core.CoreConfig;
 import org.mzgram.core.config.ConfigItem;
 import org.mzgram.ext.ExtConfig;
 
-/**
- * Мелкие помощники для экранов «General» и «Other» раздела mzGram.
- * Собственных состояний не держит, методов фреймворка не переопределяет.
- */
 public final class GeneralHelper {
 
     private GeneralHelper() {
@@ -59,10 +55,6 @@ public final class GeneralHelper {
         void run(String value);
     }
 
-    /**
-     * Простой диалог ввода строки (по образцу ConfigCellTextDetail).
-     * Значение отдаётся уже «как есть», нормализацию делает вызывающий.
-     */
     public static void showTextInputDialog(BaseFragment fragment,
                                            String title,
                                            String hint,
@@ -108,7 +100,6 @@ public final class GeneralHelper {
         fragment.showDialog(dialog);
     }
 
-    /** Нормализует имя папки сохранения так же, как это делает CoreGeneralSettingsActivity. */
     public static String sanitizeSavePath(String input) {
         if (TextUtils.isEmpty(input)) {
             return "";
@@ -123,10 +114,6 @@ public final class GeneralHelper {
         return (String) CoreConfig.customSavePath.defaultValue;
     }
 
-    /**
-     * Сброс всех настроек mzGram к значениям по умолчанию — так обещает диалог
-     * MZGeneralResetSettingsInfo. Настройки MZGram, кроме перечисленных ниже, не трогаются.
-     */
     public static void resetSettings() {
         MZGramConfig.reset();
         GeneralConfig.reset();

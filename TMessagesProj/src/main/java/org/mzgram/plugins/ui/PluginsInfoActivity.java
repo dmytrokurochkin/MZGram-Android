@@ -23,23 +23,6 @@ import java.util.ArrayList;
 import org.mzgram.plugins.PluginsConstants;
 import org.mzgram.plugins.PluginsController;
 
-/**
- * Экран «Plugins Engine» — то, что у MZGram открывается кнопкой (i) в шапке
- * списка плагинов. Порт
- * {@code org/mzgram/sdk/plugins/ui/PluginsInfoActivity.java}.
- *
- * Порядок секций и строк повторяет MZGram: Settings (Developer Mode, Compact
- * View, Compatibility Mode, Safe Mode) → пояснение про safe mode → Python SDK
- * → Links → «Powered by Chaquopy».
- *
- * Расхождения, осознанные:
- *  - у MZGram SDK докачивается с сервера (авто-обновление, бета-канал,
- *    «проверить обновления»); у нас SDK собран внутрь APK, поэтому вместо трёх
- *    неработающих переключателей — строка с его версией;
- *  - «Установить из файла» перенесено сюда с главного экрана: у MZGram его нет
- *    вовсе (там ставят только тапом по .plugin), но убирать единственный
- *    надёжный способ установки было бы регрессом.
- */
 public class PluginsInfoActivity extends BaseFragment {
 
     private static final int ID_DEVELOPER_MODE = 1;

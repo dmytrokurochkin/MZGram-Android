@@ -18,11 +18,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 
-/**
- * Чтение ленты из локальной базы: перечисление каналов пользователя и выборка их сообщений,
- * слитых в один поток по ключу (date, uid, mid) в порядке убывания.
- * Все методы выполняются на очереди MessagesStorage.
- */
 final class FeedTimelineLoader {
 
     private static final int CHUNK_SIZE = 30;
@@ -434,11 +429,6 @@ final class FeedTimelineLoader {
         return message;
     }
 
-    /**
-     * Возвращает состав ленты: все подходящие каналы аккаунта и снимки тех из них,
-     * что не скрыты пользователем. Результат кэшируется до смены поколения сессии
-     * или настроек; forceRefresh пересобирает его принудительно.
-     */
     public ChannelEnumeration enumerateChannels(FeedConfig feedConfig, int sessionGen, boolean forceRefresh) {
         ChannelSet channelSet = channelSetCache;
         int configGen = feedConfig.getGeneration();
@@ -460,11 +450,6 @@ final class FeedTimelineLoader {
         channelSetCache = null;
     }
 
-    /**
-     * Перечитывает уже показанный отрезок ленты между двумя курсорами включительно.
-     * Если отрезок вырос сверх лимита, страница помечается truncated и вызывающий
-     * перестраивает ленту с нуля.
-     */
     public WindowPage loadChannelWindow(ArrayList<Long> dialogIds, Cursor newest, Cursor oldest) {
         WindowPage page = new WindowPage();
         if (dialogIds.isEmpty() || newest.isEmpty() || oldest.isEmpty()) {
@@ -513,10 +498,6 @@ final class FeedTimelineLoader {
         return page;
     }
 
-    /**
-     * Догружает сообщения новее переданного курсора — то, что пришло в каналы,
-     * пока лента была открыта. hasMore выставляется, когда страница заполнена целиком.
-     */
     public NewerPage loadNewerPage(ArrayList<ChannelSnapshot> channels, Cursor newest) {
         NewerPage page = new NewerPage();
         page.first.set(newest.date, newest.uid, newest.mid);
@@ -564,13 +545,6 @@ final class FeedTimelineLoader {
         return page;
     }
 
-    /**
-     * Основная выборка ленты вниз от курсора. Сначала выясняет, докуда у каждого канала
-     * есть локальная история: каналы, чей кэш обрывается выше общей границы, попадают в
-     * backfillCandidates, а нижняя граница выборки поднимается до их глубины, чтобы не
-     * показать дыру. Если хотя бы одному кандидату нечего показать вовсе, страница
-     * возвращается пустой — сначала докачка с сервера.
-     */
     public OlderPage loadOlderPage(ArrayList<ChannelSnapshot> channels, Cursor from, HashSet<Long> completeDialogIds) {
         OlderPage page = new OlderPage();
         boolean fromTimelineStart = from.isEmpty();

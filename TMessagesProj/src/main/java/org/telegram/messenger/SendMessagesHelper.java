@@ -4518,7 +4518,6 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
 
     public void sendMessage(SendMessageParams originalParams) {
         org.mzgram.plugins.HookResult hookResult = org.mzgram.plugins.HookResult.DEFAULT;
-        // mzgram plugins: исходящее сообщение через on_send_message_hook (CANCEL = не отправлять)
         if (org.mzgram.plugins.PluginsController.getInstance().hasSendMessageHooks()) {
             hookResult = org.mzgram.plugins.PluginsController.getInstance()
                     .executeOnSendMessageHook(currentAccount, originalParams);

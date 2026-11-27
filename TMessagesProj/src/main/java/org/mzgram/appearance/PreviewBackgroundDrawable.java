@@ -13,14 +13,6 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 
-/**
- * Подложка превью: скруглённый прямоугольник с контуром, который «загорается»
- * акцентом, когда карточка выбрана. Порт
- * {@code org.mzgram.sdk.preferences.components.PreviewBackgroundDrawable} (12.9.0).
- *
- * Цвета берутся из {@link PreviewColors} прямо в draw(), поэтому смена темы
- * подхватывается сама.
- */
 public class PreviewBackgroundDrawable extends Drawable {
 
     private final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -40,7 +32,6 @@ public class PreviewBackgroundDrawable extends Drawable {
         radius = AndroidUtilities.dp(cornerRadiusDp);
     }
 
-    /** Контур наружу отдан затем же, зачем у MZGram: превью подкрашивают его вручную. */
     public Paint getStrokePaint() {
         return strokePaint;
     }
@@ -49,7 +40,6 @@ public class PreviewBackgroundDrawable extends Drawable {
         return selectionProgress;
     }
 
-    /** 0 — обычная карточка, 1 — выбранная: контур толще и акцентного цвета. */
     public void setSelectionProgress(float progress) {
         if (selectionProgress == progress) {
             return;
@@ -63,7 +53,6 @@ public class PreviewBackgroundDrawable extends Drawable {
         backgroundPaint.setColor(PreviewColors.getBackgroundColor());
         strokePaint.setColor(ColorUtils.blendARGB(PreviewColors.getOutlineColor(),
                 Theme.getColor(Theme.key_windowBackgroundWhiteValueText), selectionProgress));
-        // setColor затирает альфу, поэтому setAlpha применяется после него, а не один раз.
         if (alpha != 0xFF) {
             backgroundPaint.setAlpha(backgroundPaint.getAlpha() * alpha / 0xFF);
             strokePaint.setAlpha(strokePaint.getAlpha() * alpha / 0xFF);

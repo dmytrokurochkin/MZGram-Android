@@ -362,9 +362,6 @@ public class Browser {
         openUrl(context, uri, _allowCustom, tryTelegraph, forceNotInternalForApps, inCaseLoading, browser, allowIntent, allowInAppBrowser, forceRequest, false);
     }
 
-    // mzgram plugins: обёртка с before/after-хендлерами плагинов (from_intent=false).
-    // Все публичные openUrl(...) сходятся сюда; внутренние tg://-ссылки дополнительно
-    // пройдут через диспетч LaunchActivity.handleIntent (там from_intent=true).
     public static void openUrl(final Context context, Uri uri, boolean _allowCustom, boolean tryTelegraph, boolean forceNotInternalForApps, Progress inCaseLoading, String browser, boolean allowIntent, boolean allowInAppBrowser, boolean forceRequest, boolean keepWebAuthTokens) {
         uri = org.mzgram.links.LinkCleaner.clean(uri);
         if (uri != null && org.mzgram.plugins.PluginsController.getInstance().isEngineEnabled()

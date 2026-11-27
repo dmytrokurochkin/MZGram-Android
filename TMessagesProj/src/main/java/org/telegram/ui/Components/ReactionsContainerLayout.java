@@ -159,7 +159,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     private final Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    // mzGram: матовое стекло под панелью реакций
     private BlurredBackgroundDrawable glassBackground;
     private BlurredBackgroundProvider glassBackgroundColorProvider;
     private BlurredBackgroundDrawableViewFactory glassBackgroundFactory;
@@ -752,9 +751,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             if (type == TYPE_STORY || delegate.drawBackground()) {
                 delegate.drawRoundRect(canvas, rect, radius, getX(), getY(), 255, false);
             } else if (glassBackground != null) {
-                // mzGram: стеклянная плашка вместо заливки bgPaint.
-                // Ветка восстановлена по поведению:
-                // по аналогии с drawBubbles.
                 GlassMenuHelper.draw(glassBackground, canvas, rect, radius, 255);
             } else {
                 if (blurredBackgroundDrawable != null) {
@@ -1802,10 +1798,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.currentAccount = currentAccount;
     }
 
-    /**
-     * mzGram:
-     * Вызывается из GlassMenuHelper.applyToReactions, когда стеклянное меню включено.
-     */
     public void setGlassBackground(BlurredBackgroundDrawableViewFactory factory, BlurredBackgroundProvider provider) {
         glassBackgroundFactory = factory;
         glassBackgroundColorProvider = provider;
@@ -1813,7 +1805,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         invalidate();
     }
 
-    /** Фабрика и провайдер нужны, чтобы применить то же стекло к CustomEmojiReactionsWindow. */
     public BlurredBackgroundDrawableViewFactory getGlassBackgroundFactory() {
         return glassBackgroundFactory;
     }

@@ -53,9 +53,6 @@ public class AvatarSpan extends ReplacementSpan {
     public boolean needDrawShadow = true;
 
     public void setSize(float sz) {
-        // mzGram: сток просил радиус во всю сторону, из-за чего глобальное масштабирование
-        // в ImageReceiver держало спан круглым до середины слайдера. MZGram считает радиус от
-        // стороны: org/telegram/ui/AvatarSpan.java:143 — setRoundRadius(getAvatarCorners(f)).
         imageReceiver.setRoundRadiusForAvatar(dp(sz));
         this.sz = sz;
     }
@@ -147,9 +144,6 @@ public class AvatarSpan extends ReplacementSpan {
                 shadowPaint.setAlpha(shadowPaintAlpha = paint.getAlpha());
                 shadowPaint.setShadowLayer(dp(1), 0, dp(.66f), Theme.multAlpha(0x33000000, shadowPaintAlpha / 255f));
             }
-            // mzGram: тень должна повторять форму аватарки, иначе под квадратным спаном
-            // остаётся круглый ореол, поэтому рисуем drawRoundRect с getAvatarCorners(sz).
-            // Круг оставлен быстрым путём для дефолтной настройки.
             final float size = dp(sz);
             if (AppearanceConfig.avatarCornersDefault()) {
                 canvas.drawCircle(translateX + x + size / 2f, translateY + (top + bottom) / 2f, size / 2f, shadowPaint);

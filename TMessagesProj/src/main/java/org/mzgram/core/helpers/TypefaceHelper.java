@@ -325,9 +325,6 @@ public class TypefaceHelper {
 
     public static SpannableStringBuilder getTitleText(int currentAccount) {
         String title = (String) ExtConfig.INSTANCE.getCustomTitle().defaultValue;
-        // mzGram: заголовок списка чатов (AppearanceConfig.titleText).
-        // Перенесено из MZGram 12.9.0, LocaleUtils.getActionBarTitle(int).
-        // 0 — имя приложения (MZGram customTitle), 1 — username, 2 — имя, 3 — «Чаты».
         final int mzTitleText = org.mzgram.appearance.AppearanceConfig.titleText();
         if (mzTitleText == 3) {
             title = LocaleController.getString(R.string.FilterChats);

@@ -28,7 +28,6 @@ def _internal(name):
     return module
 
 
-# Имя разрешения на файлы вне своего каталога.
 _PERM_FILES = "files"
 
 
@@ -44,14 +43,11 @@ def get_plugins_dir() -> str:
 
 
 def _mkdirs(path: str) -> str:
-    """Создать каталог без проверки разрешения — для внутренних вызовов SDK."""
     os.makedirs(path, exist_ok=True)
     return path
 
 
 def _owner_plugin_id() -> Optional[str]:
-    """Плагин по стеку вызова: работает и там, где plugin_context не выставлен
-    (колбэки из Java), в отличие от _current_plugin_id()."""
     try:
         caller_plugin_id = _internal("plugin_loader").caller_plugin_id
         return caller_plugin_id()
@@ -60,13 +56,6 @@ def _owner_plugin_id() -> Optional[str]:
 
 
 def get_plugin_dir(plugin_id: Optional[str] = None) -> Optional[str]:
-    """Собственный каталог плагина: <plugins_dir>/.data/<id>, создаётся на месте.
-
-    Он и есть «свой каталог» из PLUGINS-SECURITY.md: читать и писать здесь
-    можно без разрешения ``files``. Имя с точки — движок при сканировании
-    берёт только файлы (PluginsController.rescanPlugins: `if (!f.isFile())`),
-    так что подкаталог его не смущает.
-    """
     plugin_id = plugin_id or _owner_plugin_id()
     if not plugin_id:
         return None
@@ -77,11 +66,6 @@ def get_plugin_dir(plugin_id: Optional[str] = None) -> Optional[str]:
 
 
 def get_plugin_cache_dir(plugin_id: Optional[str] = None) -> Optional[str]:
-    """Свой временный каталог плагина: <cache_dir>/plugins/<id>.
-
-    Тоже «свой»: разрешение ``files`` не нужно. Систему устраивает чистить
-    кэш — постоянные данные класть в get_plugin_dir().
-    """
     plugin_id = plugin_id or _owner_plugin_id()
     if not plugin_id:
         return None
@@ -94,19 +78,15 @@ def get_plugin_cache_dir(plugin_id: Optional[str] = None) -> Optional[str]:
         return None
 
 
-# Разрешение "files": доступ вне своего каталога (PLUGINS-SECURITY.md)
 
 _own_roots_cache = {}
 
 
 def _real(path) -> str:
-    # realpath, а не abspath: иначе символьная ссылка из своего каталога
-    # наружу обходила бы проверку.
     return os.path.normcase(os.path.realpath(str(path)))
 
 
 def _own_roots(plugin_id: str):
-    """Каталоги, которые плагин считает своими (см. get_plugin_dir)."""
     roots = _own_roots_cache.get(plugin_id)
     if roots is not None:
         return roots
@@ -122,8 +102,6 @@ def _own_roots(plugin_id: str):
         plugins_dir = None
     if plugins_dir:
         for parent in (".data", ".mzpack_extracted", "mzpack_local_libs"):
-            # .mzpack_extracted / mzpack_local_libs — распакованный код самого
-            # плагина (mzpack_runtime/archive.py:38-39): читать себя он вправе.
             roots.append(_real(os.path.join(plugins_dir, parent, plugin_id)))
     media_cache = _media_cache_dir()
     app_cache = _app_cache_dir()
@@ -144,7 +122,6 @@ _own_files_cache = {}
 
 
 def _own_files(plugin_id: str):
-    """Файлы самого плагина: читать собственный исходник — не «вне каталога»."""
     try:
         plugin_files = _internal("plugin_loader").plugin_files
         raw = tuple(sorted(plugin_files(plugin_id)))
@@ -169,18 +146,12 @@ def _is_own_path(plugin_id: str, path) -> bool:
 
 
 def _require_files(path, what: str) -> None:
-    """PermissionError, если плагин лезет по *path* вне своего каталога.
-
-    Проверка стоит ДО try/except в вызывающей функции: read_file и подобные
-    гасят любые ошибки и возвращают None/False, а отказ должен долететь до
-    safe_call и попасть в лог, а не притвориться «файла нет».
-    """
     _module = _internal("plugin_loader")
     caller_plugin_id = _module.caller_plugin_id
     require_permission = _module.require_permission
     plugin_id = caller_plugin_id()
     if plugin_id is None:
-        return  # не код плагина (SDK, движок) — гейтить нечего
+        return
     if _is_own_path(plugin_id, path):
         return
     require_permission(_PERM_FILES, what, detail=str(path), plugin_id=plugin_id)
@@ -499,10 +470,6 @@ class FilesController(metaclass=_FilesControllerMeta):
                 "FilesController.register must be called from a plugin context "
                 "(on_plugin_load / a hook callback)")
 
-        # Перехват открытия файлов закрывается разрешением "files"
-        # (PLUGINS-SECURITY.md, таблица точек проверки). Java-сторона
-        # registerFileHandler проверяет то же самое и возвращает null;
-        # проверяем здесь, чтобы плагин получил внятный текст, а не
         # "registerFileHandler failed".
         require_permission = _internal("plugin_loader").require_permission
         require_permission(_PERM_FILES, "intercept file opening",

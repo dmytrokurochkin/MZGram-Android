@@ -12,10 +12,6 @@ import java.io.FileReader;
 
 import org.mzgram.pillstack.PillType;
 
-/**
- * Загрузка CPU в процентах по /proc/stat: доля занятых тиков между двумя замерами.
- * Первый замер только запоминает базу — процента до второго замера нет.
- */
 @SuppressLint("ViewConstructor")
 public class CpuPill extends TelemetryPill {
 
@@ -64,7 +60,6 @@ public class CpuPill extends TelemetryPill {
         }
     }
 
-    /** [0] — idle+iowait, [1] — сумма всех тиков. */
     private static long[] readCpuStat() {
         try (BufferedReader reader = new BufferedReader(new FileReader("/proc/stat"))) {
             String line = reader.readLine();

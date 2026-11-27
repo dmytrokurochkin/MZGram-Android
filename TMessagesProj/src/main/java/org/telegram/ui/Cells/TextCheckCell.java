@@ -114,8 +114,6 @@ public class TextCheckCell extends FrameLayout {
         this.resourcesProvider = resourcesProvider;
 
         this.padding = padding;
-        // Исходный отступ в dp: setIcon перебивает поле padding пикселями,
-        // а при переиспользовании ячейки без иконки его надо вернуть.
         this.defaultPaddingDp = padding;
 
         textView = new TextView(context);
@@ -167,9 +165,6 @@ public class TextCheckCell extends FrameLayout {
             final int exactWidth = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY);
             final int freeHeight = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
             super.onMeasure(exactWidth, freeHeight);
-            // Подпись прибита к 35dp сверху, а название в этой ветке переносится:
-            // на двух строках оно доезжало до подписи и налезало на неё. Ниже
-            // 35dp не опускаем — на однострочном названии верстка остаётся прежней.
             if (valueTextView.getVisibility() == VISIBLE) {
                 final LayoutParams valueParams = (LayoutParams) valueTextView.getLayoutParams();
                 final LayoutParams titleParams = (LayoutParams) textView.getLayoutParams();
@@ -199,8 +194,6 @@ public class TextCheckCell extends FrameLayout {
                 ((LayoutParams) valueTextView.getLayoutParams()).topMargin = valueTop;
                 wanted += valueTop - AndroidUtilities.dp(35);
             } else if (wrapText) {
-                // Название в core-ячейках переносится без ограничения по строкам,
-                // а высота оставалась фиксированной — со второй строки текст резало.
                 final int titleHeight = measureTitle(width);
                 if (textView.getLineCount() > 1) {
                     wanted = Math.max(fixed, titleHeight + AndroidUtilities.dp(30));
@@ -233,13 +226,6 @@ public class TextCheckCell extends FrameLayout {
         setWillNotDraw(!divider);
     }
 
-    /**
-     * Меняет только подпись под названием, не трогая переключатель.
-     *
-     * Нужно там, где подпись — живое превью самой настройки: пересобирать ячейку
-     * целиком нельзя, {@link #setTextAndValueAndCheck} ставит переключатель без
-     * анимации и обрывает ту, что уже идёт после нажатия.
-     */
     public void setValueText(CharSequence value) {
         valueTextView.setText(value);
     }
@@ -362,8 +348,6 @@ public class TextCheckCell extends FrameLayout {
                     textView.setEllipsize(TextUtils.TruncateAt.END);
                 }
             } else {
-                // Ячейку могли переиспользовать после setTextAndCheck(isCoreCell),
-                // а он оставляет у названия свои настройки строк.
                 textView.setLines(0);
                 textView.setMaxLines(Integer.MAX_VALUE);
                 textView.setSingleLine(false);
@@ -386,8 +370,6 @@ public class TextCheckCell extends FrameLayout {
                 textView.setSingleLine(false);
                 textView.setEllipsize(null);
             } else {
-                // Высота ячейки здесь фиксированная (64dp), опустить подпись некуда,
-                // поэтому название держим в одну строку.
                 textView.setLines(1);
                 textView.setMaxLines(1);
                 textView.setSingleLine(true);
@@ -597,14 +579,6 @@ public class TextCheckCell extends FrameLayout {
         attached = false;
     }
 
-    /**
-     * Обычная серая иконка слева от заголовка.
-     * В отличие от {@link #setColorfullIcon} — без цветной подложки, именно так
-     * выглядят строки на экране настроек движка плагинов.
-     *
-     * {@code resId == 0} убирает иконку и возвращает исходные отступы: ячейки
-     * переиспользуются, и без сброса иконка «залипала» бы на соседней строке.
-     */
     public void setIcon(int resId) {
         if (resId == 0) {
             if (imageView != null) {

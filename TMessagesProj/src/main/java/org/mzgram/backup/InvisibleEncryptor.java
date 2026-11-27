@@ -6,14 +6,6 @@ import org.telegram.messenger.FileLog;
 
 import java.nio.charset.StandardCharsets;
 
-/**
- * Обёртка бэкапа настроек в невидимые символы Unicode.
- *
- * Побайтовый порт org/mzgram/sdk/backup/InvisibleEncryptor.java из MZGram 12.9.0:
- * каждый байт UTF-8 пишется в системе счисления по основанию 11 алфавитом из невидимых
- * символов, байты разделяются U+2000, вся строка начинается с U+2001 U+2002. Формат обязан
- * совпадать до символа — иначе MZGram не прочитает наш файл, а мы не прочитаем его.
- */
 public final class InvisibleEncryptor {
 
     private static final String PREFIX = "\u2001\u2002";
@@ -22,11 +14,6 @@ public final class InvisibleEncryptor {
             "\u200a\u200b\u200c\u200f\u202f\u206a\u206b\u206c\u206d\u206e\u206f";
     private static final int BASE = 11;
 
-    /**
-     * У MZGram в классе символов нет разделителя U+2000: на Android он проходит по {@code \s},
-     * потому что регулярки там ICU-шные. Мы добавляем его явно — тот же смысл, но без зависимости
-     * от реализации регулярок.
-     */
     private static final String PATTERN =
             "^" + PREFIX + "([" + ALPHABET + SEPARATOR + "\\s]*)";
 

@@ -460,7 +460,6 @@ public final class MathExpression {
         private String currencyWord(String raw) {
             String code = InlineCurrencies.word(raw);
             if (code == null) {
-                // "фунт" and "pound" mean mass unless money is already involved
                 InlineUnits.Unit unit = InlineUnits.word(raw);
                 if (unit != null && unit.code.equals("lb")) {
                     code = "GBP";

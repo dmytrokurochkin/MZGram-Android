@@ -2,13 +2,6 @@ package org.mzgram.plugins.models;
 
 import com.chaquo.python.PyObject;
 
-/**
- * Базовая модель строки настроек плагина из SDK MZGram.
- *
- * У нас строки описываются питоновскими датаклассами из `ui/settings.py`, но плагины
- * каталога наследуют джавовые модели напрямую (`@java_subclass(CustomSetting.Factory)`),
- * поэтому классы обязаны существовать с теми же именами и полями.
- */
 public abstract class SettingItem {
 
     private String type;
@@ -37,7 +30,6 @@ public abstract class SettingItem {
         }
     }
 
-    /** Глубокая ссылка на строку настроек; null, если у строки нет псевдонима. */
     public final String getLink(String pluginId, String prefix) {
         if (linkAlias == null || linkAlias.isEmpty() || pluginId == null || pluginId.isEmpty()) {
             return null;

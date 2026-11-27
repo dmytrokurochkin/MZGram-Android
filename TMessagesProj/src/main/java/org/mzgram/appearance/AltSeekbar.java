@@ -24,21 +24,6 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SeekBarView;
 
-/**
- * Слайдер экстеры: заголовок с «пилюлей» текущего значения, подписи по краям
- * и вибро-отклик на упорах. Порт
- * {@code org.mzgram.sdk.preferences.components.AltSeekbar} (12.9.0).
- *
- * Работает в единицах настройки, а не в долях: {@link #setProgress(float)} принимает
- * значение из диапазона [min..max] — так же, как у MZGram, и так его зовут превью
- * (SliderPreviewCell:52). Не путать с {@link AvatarCornersSeekBar}, у которого
- * setProgress принимает 0..1; тот появился раньше и остаётся ради экранов,
- * которые уже на него завязаны.
- *
- * Ветку MZGram с {@code com.google.android.material.slider.Slider} перенести
- * нельзя — библиотеки Material Components в дереве нет; MD3-вид слайдера у нас
- * рисует сам {@link SeekBarView} (SeekBarView.java:469).
- */
 @SuppressLint("ViewConstructor")
 public class AltSeekbar extends FrameLayout {
 
@@ -140,15 +125,9 @@ public class AltSeekbar extends FrameLayout {
         addView(seekBarView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 44,
                 Gravity.TOP, 6, 68, 6, 0));
 
-        // Стартуем с min, а не с нуля: у MZGram поле currentValue инициализировано нулём
-        // и при min > 0 ползунок на миг уезжает за левый край. Реальное значение
-        // владелец выставляет своим setProgress сразу после конструктора.
         setProgress(min);
     }
 
-    /**
-     * @param value значение настройки в диапазоне [min..max]
-     */
     public void setProgress(float value) {
         currentValue = value;
         roundedValue = Math.round(value);
@@ -159,7 +138,6 @@ public class AltSeekbar extends FrameLayout {
         updateValues();
     }
 
-    /** Обновить только подписи: сам ползунок уже стоит там, где надо (идёт перетаскивание). */
     public void updateHeader(float value) {
         currentValue = value;
         roundedValue = Math.round(value);
@@ -171,15 +149,10 @@ public class AltSeekbar extends FrameLayout {
         updateValues();
     }
 
-    /**
-     * true — щёлкать по упору только при точном попадании в min/max, а не при
-     * округлении к нему. Нужно слайдерам с дробным шагом.
-     */
     public boolean useExactEndpointHaptic() {
         return false;
     }
 
-    /** Текст «пилюли»: на краях — подпись края, между — само число. */
     public CharSequence getTextForHeader() {
         CharSequence text;
         if (roundedValue == min) {
@@ -214,7 +187,6 @@ public class AltSeekbar extends FrameLayout {
         }
     }
 
-    /** Подпись края подсвечивается акцентом по мере приближения ползунка к ней. */
     protected void updateValues() {
         int middle = (max - min) / 2 + min;
         float rightThreshold = middle * 1.5f - min * 0.5f;
@@ -243,7 +215,6 @@ public class AltSeekbar extends FrameLayout {
         if (leftTextView == null || seekBarView == null) {
             return;
         }
-        // Цвета подписей выставлены разово, поэтому смену темы доносим руками.
         updateValues();
         headerValue.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
         seekBarView.invalidate();

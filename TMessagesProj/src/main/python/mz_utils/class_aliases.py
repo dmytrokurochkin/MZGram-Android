@@ -1,15 +1,3 @@
-"""Имена Java-классов MZGram → имена классов mzgram.
-
-Плагины каталога написаны под MZGram и берут его классы по полному имени:
-``find_class("org.mzgram.sdk.pillstack.core.PillRegistry")``,
-``jclass(...)`` или ``from org.mzgram.sdk.plugins import PluginsController``.
-У нас тот же код лежит в ``org.mzgram.*``, поэтому без подстановки плагин
-получает ``None`` и падает на первом же обращении.
-
-Подстановка работает только на имени: если класса с полученным именем у нас нет,
-вызывающий получает прежний отказ. Разрешения проверяются уже по нашему имени —
-правила в ``plugin_loader._JAVA_CLASS_RULES`` записаны для ``org.mzgram.*``.
-"""
 
 import importlib as _importlib
 import importlib.util as _importlib_util
@@ -147,7 +135,6 @@ _NO_SHAPE = object()
 
 
 def resolve(name):
-    """Наше имя класса для имени MZGram; чужие имена возвращаются как есть."""
     if not isinstance(name, str):
         return name
     cached = _resolve_cache.get(name)
@@ -379,7 +366,6 @@ _WRAP_RESULT = {
 
 
 class _FieldShapedObject:
-    """Java-объект, поля которого у эталона есть, а у нас переехали в геттеры."""
 
     def __init__(self, java_obj, fields):
         getters, setters = {}, {}
@@ -430,14 +416,6 @@ def wrap_instance(obj, java_name):
 
 
 class _FieldShapedClass:
-    """Java-класс, у которого часть статических методов читается как поля.
-
-    У MZGram это поля (Kotlin-делегаты), у нас — методы: поле не умеет
-    отдавать живое значение настройки. Chaquopy различает вызов и чтение
-    атрибута, поэтому плагин, написанный под поле, получал объект метода —
-    всегда истинный. Так zwylib считал, что включён safe mode, и молча
-    отключал свои хуки.
-    """
 
     def __init__(self, java_class, fields, wraps=None):
         getters = {}
@@ -479,7 +457,6 @@ class _FieldShapedClass:
 
 
 def unwrap(obj):
-    """Настоящий Java-класс из обёртки; чужие объекты возвращаются как есть."""
     if isinstance(obj, (_FieldShapedClass, _FieldShapedObject)):
         return object.__getattribute__(obj, "_mzgram_java")
     return obj
@@ -506,7 +483,6 @@ def _field_shape_uncached(name):
 
 
 def adapt(name, obj):
-    """Обёртка над классом, форма которого у нас разошлась с эталоном."""
     if obj is None or isinstance(obj, _FieldShapedClass):
         return obj
     replacement = substitute(name)
@@ -557,7 +533,6 @@ def is_plain(name):
 
 
 def is_alias(name):
-    """Стоит ли пытаться подставлять это имя."""
     return isinstance(name, str) and _under_root(name)
 
 
@@ -570,7 +545,6 @@ def _find_class(name):
 
 
 class _AliasModule(_types.ModuleType):
-    """Пакет-заглушка: атрибут сначала пробуется как класс, потом как подпакет."""
 
     def __getattr__(self, attr):
         if attr.startswith("__"):
@@ -591,11 +565,6 @@ class _AliasModule(_types.ModuleType):
 
 
 class _AliasFinder:
-    """sys.meta_path-финдер на ``com.mzgram.*``.
-
-    Нужен для формы ``from org.mzgram.sdk.plugins import PluginsController``:
-    она идёт мимо find_class и jclass, в машинерию импорта.
-    """
 
     PACKAGE = "com.mzgram"
     PACKAGES = ("com.mzgram", MEDIA_ROOT)
@@ -622,11 +591,6 @@ class _AliasLoader:
 
 
 def _ensure_root_package():
-    """Создаёт пакет ``com``, если его не даёт Chaquopy.
-
-    На устройстве ``com`` существует (com.google, com.android), и подменять его
-    нельзя. Заглушка ставится только там, где импорт вообще не проходит.
-    """
     try:
         _importlib.import_module("com")
         return
@@ -638,7 +602,6 @@ def _ensure_root_package():
 
 
 def install_import_hook():
-    """Ставит финдер в sys.meta_path. Идемпотентно, ничего не бросает."""
     try:
         if any(isinstance(finder, _AliasFinder) for finder in _sys.meta_path):
             return

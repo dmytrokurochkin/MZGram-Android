@@ -14,12 +14,10 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 
-/** Список целевых валют и форматирование цен для пилюль курсов. */
 public class PillCurrencies {
 
     public static final String AUTO = PillStackConfig.CURRENCY_AUTO;
 
-    /** Символы, которые без кода валюты читаются неоднозначно. */
     private static final HashSet<String> AMBIGUOUS_SYMBOLS = new HashSet<>(Arrays.asList("$", "kr", "Fr", "₩"));
 
     private static class CurrencyInfo {
@@ -66,7 +64,6 @@ public class PillCurrencies {
         return code == null ? "" : code.trim().toUpperCase(Locale.ROOT);
     }
 
-    /** Список валют без базовой (для USD-пилюли нет смысла показывать USD). */
     public static String[] getTargetCurrencies(String excludeCode) {
         if (excludeCode == null || excludeCode.isEmpty()) {
             return TARGET_CURRENCIES;
@@ -112,7 +109,6 @@ public class PillCurrencies {
         }
     }
 
-    /** «$95 240,12» / «95 240,12 ₽». Возвращает null, если отформатировать не вышло. */
     public static String formatFiatPrice(BigDecimal value, String code) {
         if (value == null || code == null || code.isEmpty()) {
             return null;

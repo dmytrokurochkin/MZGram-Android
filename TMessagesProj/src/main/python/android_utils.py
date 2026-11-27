@@ -83,13 +83,6 @@ def log(data):
 
 @contextlib.contextmanager
 def _plugin_mark(fn):
-    """Пометить поток на Java-стороне владельцем колбэка.
-
-    Владелец берётся из файла самой функции, а не из стека: в момент вызова
-    кадра плагина на стеке ещё нет — колбэк прилетел из Java. Без метки
-    Java-гейт (PluginSinkGate) не знает, чей код побежит, и пропускает
-    обращения плагина к сети и рефлексии из UI-колбэков.
-    """
     try:
         plugin_loader = _internal("plugin_loader")
         owner = plugin_loader.owner_of_function(fn)
@@ -108,26 +101,12 @@ def _plugin_mark(fn):
 
 
 def safe_call(fn, *args, **kwargs):
-    """Вызвать колбэк плагина так, чтобы ошибка не убила приложение.
-
-    Колбэки уезжают в Java через dynamic_proxy, и исключение из Python
-    поднимается по стеку прямо в UI-поток Android: одна опечатка в плагине
-    роняла всё приложение с FATAL EXCEPTION. Здесь ошибка логируется и
-    гасится — ровно как это делает Java-сторона на своих точках входа.
-
-    ``fn is None`` — не ошибка: у кнопок диалога это штатный способ сказать
-    «просто закрой» (так делают 18 плагинов из публичного каталога).
-    """
     if fn is None:
         return None
     try:
         with _plugin_mark(fn):
             return fn(*args, **kwargs)
     except PermissionError as e:
-        # Отказ в разрешении — не поломка плагина, а его собственный выбор не
-        # объявлять разрешение (отказ не роняет
-        # плагин»). Трассировка тут ничего не объясняет, текст исключения
-        # объясняет всё, а сам отказ уже записан на Java-стороне.
         log(f"permission denied: {e}")
         return None
     except Exception as e:
@@ -184,14 +163,6 @@ def R(fn):
 
 
 def run_on_ui_thread(func, delay=0):
-    """Run *func* on the Android UI thread, optionally after *delay* ms.
-
-    Колбэк уходит в Java как обычный объект, а Runnable создаётся там же. Через
-    ``R(func)`` этого делать нельзя: в Handler попадал бы python-прокси, и
-    Chaquopy разворачивал бы его обратно в момент срабатывания. Если к этому
-    времени плагин успели перезагрузить, разворот падает NotImplementedError
-    прямо в UI-потоке и роняет приложение — поймать это из python нечем.
-    """
     if func is None:
         return
     services = _services()

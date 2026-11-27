@@ -37,18 +37,6 @@ import org.mzgram.icons.IconPacksConfig;
 import org.mzgram.icons.IconPacksEditorActivity;
 import org.mzgram.icons.picker.IconPickerController;
 
-/**
- * Шторка создания пака иконок и правки его метаданных
- * (порт {@code org.mzgram.sdk.icons.ui.components.NewIconPackBottomSheet}).
- *
- * <p>Три поля — имя, автор, версия — и одна кнопка. Без пака в конструкторе шторка создаёт
- * новый пак, включает его, делает редактируемым и сразу открывает
- * {@link IconPacksEditorActivity}; с паком — только переписывает metadata.json.
- *
- * <p>Отличия от эталона: id нового пака собирается из имени (как это уже делал наш
- * экран списка), а не из UUID, и вместо {@code NotificationCenter.iconPackUpdated}
- * вызывающий получает {@link #setOnDone(Runnable)} — в форке такого уведомления нет.
- */
 public class NewIconPackBottomSheet extends BottomSheet {
 
     private static final int MAX_NAME_LENGTH = 64;
@@ -254,7 +242,6 @@ public class NewIconPackBottomSheet extends BottomSheet {
                 .show());
     }
 
-    /** Автор по умолчанию — свой @username, если он есть. */
     private static String defaultAuthor() {
         try {
             org.telegram.tgnet.TLRPC.User self = org.telegram.messenger.UserConfig
@@ -266,7 +253,6 @@ public class NewIconPackBottomSheet extends BottomSheet {
         }
     }
 
-    /** Из имени делаем безопасный id; при коллизии добавляем суффикс. */
     private static String generatePackId(String name) {
         StringBuilder sb = new StringBuilder();
         String lower = name.toLowerCase(Locale.ROOT);
@@ -287,10 +273,6 @@ public class NewIconPackBottomSheet extends BottomSheet {
         return id;
     }
 
-    /**
-     * Ограничение имени пака в {@value #MAX_NAME_LENGTH} символов: при упоре в лимит
-     * поле дрожит, как в эталоне, а суррогатная пара не режется пополам.
-     */
     private class NameLengthFilter implements InputFilter {
 
         @Override

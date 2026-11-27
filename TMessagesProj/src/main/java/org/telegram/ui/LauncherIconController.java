@@ -44,9 +44,6 @@ public class LauncherIconController {
     public static boolean isEnabled(LauncherIcon icon) {
         Context ctx = ApplicationLoader.applicationContext;
         int i = ctx.getPackageManager().getComponentEnabledSetting(icon.getComponentName(ctx));
-        // Пока пользователь ничего не выбирал, включённой считается наша иконка:
-        // именно она стоит у <application> в манифесте, и переключатель должен
-        // показывать выбранным то, что человек видит на рабочем столе.
         return i == PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                 || i == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT && icon == LauncherIcon.MZGRAM;
     }

@@ -220,9 +220,9 @@
 -dontoptimize
 -dontobfuscate
 
-# --- Движок плагинов -------------------------------------------------------
-# Всё ниже достижимо только из Python через рефлексию Chaquopy, для статического
-# анализатора это мёртвый код. minifyEnabled в релизе вырезал бы его целиком.
+# --- Plugins engine ---------------------------------------------------------
+# Everything below is reachable only from Python through Chaquopy reflection; to the static
+# analyser it is dead code. minifyEnabled in release would strip all of it.
 -keep class org.mzgram.plugins.** { *; }
 -keep class org.mzgram.settings.utils.** { *; }
 -keep class org.mzgram.utils.text.** { *; }
@@ -242,8 +242,8 @@
 -dontwarn com.android.dx.**
 -dontwarn org.mvel2.**
 
-# Классы Telegram, к которым плагины обращаются по имени: обфускация выключена
-# (-dontobfuscate), но шринкер всё равно убирает недостижимые члены.
+# Telegram classes that plugins reach by name: obfuscation is off
+# (-dontobfuscate), but the shrinker still removes unreachable members.
 -keepclassmembers class org.telegram.tgnet.** { *; }
 -keepclassmembers class org.telegram.messenger.MessageObject { *; }
 -keepclassmembers class org.telegram.messenger.SendMessagesHelper { *; }

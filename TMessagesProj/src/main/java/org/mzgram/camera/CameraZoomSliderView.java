@@ -38,21 +38,6 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import java.util.Arrays;
 import java.util.Locale;
 
-/**
- * Ползунок зума камеры в духе системной камеры Pixel: перенос
- * {@code org.mzgram.sdk.camera.CameraZoomSliderView} из MZGram 12.9.0.
- *
- * У вида два состояния. Сжатое — ряд круглых делений («.5», «1», «2», «5»), выбранное
- * подсвечено кружком. Развёрнутое — линейка с засечками, подписями на опорных значениях
- * и пузырём текущего зума сверху; в неё переходят долгим нажатием или горизонтальным
- * протягиванием, обратно — само по таймауту.
- *
- * Шкала логарифмическая: {@link #zoomToTick} и {@link #tickToZoom} переводят кратность в
- * позицию засечки и обратно, причём единица закреплена за отдельной засечкой
- * ({@code oneXTick}), чтобы «1×» не уезжала между делениями на камерах с шириком.
- *
- * Подложку рисует наследник — {@link #drawPillBackground}.
- */
 public abstract class CameraZoomSliderView extends View {
 
     public interface OnZoomChangeListener {
@@ -100,7 +85,6 @@ public abstract class CameraZoomSliderView extends View {
             }
         };
 
-    /** Таблица разгона анимации зума: у экстеры это ровно такой же массив из 201 точки. */
     public static final class ZoomLookupInterpolator implements TimeInterpolator {
 
         private static final float[] VALUES = {
@@ -262,16 +246,11 @@ public abstract class CameraZoomSliderView extends View {
 
     public abstract boolean drawPillBackground(Canvas canvas, RectF bounds, float radius);
 
-    // ---------- геометрия шкалы ----------
 
     private static float clamp(float value, float min, float max) {
         return Math.max(min, Math.min(max, value));
     }
 
-    /**
-     * Позиция засечки для кратности. Отрезок до единицы и после неё масштабируются
-     * независимо, поэтому «1×» всегда попадает ровно в {@code oneXTick}.
-     */
     private float zoomToTick(float value) {
         final float clamped = clamp(value, minZoom, maxZoom);
         if (clamped <= minZoom) {
@@ -395,11 +374,6 @@ public abstract class CameraZoomSliderView extends View {
         return Math.max(0, Math.min(toggleStops.length - 1, index));
     }
 
-    /**
-     * Номер засечки-«якоря», в чьём отрезке сейчас палец. Направление движения нужно,
-     * чтобы на самой засечке отрезок не дребезжал: при движении вправо она считается
-     * началом следующего отрезка, при движении влево — концом предыдущего.
-     */
     private int findPrimarySegment(float tick, float delta) {
         if (primaryTickIndices.length == 0) {
             return Integer.MIN_VALUE;
@@ -419,7 +393,6 @@ public abstract class CameraZoomSliderView extends View {
         return primaryTickIndices[primaryTickIndices.length - 1];
     }
 
-    // ---------- подписи ----------
 
     private float normalizeDisplayZoom(float value) {
         final float normalized = value / displayNormalizationFactor;
@@ -469,7 +442,6 @@ public abstract class CameraZoomSliderView extends View {
         return formatToggle(toggleStops[index]);
     }
 
-    // ---------- размеры ----------
 
     private float getCompactWidth() {
         return AndroidUtilities.dp(TOGGLE_SIZE_DP) * toggleStops.length;
@@ -525,7 +497,6 @@ public abstract class CameraZoomSliderView extends View {
         rulerTouchBounds.set(rulerBounds);
     }
 
-    // ---------- отрисовка ----------
 
     private SpringAnimation createSpring(FloatPropertyCompat<CameraZoomSliderView> property,
                                          float damping, float stiffness, float minimumVisibleChange) {
@@ -715,7 +686,6 @@ public abstract class CameraZoomSliderView extends View {
         setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(height, heightMeasureSpec));
     }
 
-    // ---------- состояние ----------
 
     private void animateExpandedProgress(float target, boolean animated) {
         if (expandedAnimator != null) {
@@ -906,7 +876,6 @@ public abstract class CameraZoomSliderView extends View {
         postDelayed(autoCollapseRunnable, AUTO_COLLAPSE_DELAY);
     }
 
-    // ---------- жесты ----------
 
     protected void beginDrag(float x) {
         if (stopZoomAnimator()) {
@@ -1182,7 +1151,6 @@ public abstract class CameraZoomSliderView extends View {
         return true;
     }
 
-    // ---------- жизненный цикл ----------
 
     @Override
     protected void onAttachedToWindow() {
@@ -1220,7 +1188,6 @@ public abstract class CameraZoomSliderView extends View {
         invalidate();
     }
 
-    // ---------- доступность ----------
 
     @Override
     public CharSequence getAccessibilityClassName() {
@@ -1273,7 +1240,6 @@ public abstract class CameraZoomSliderView extends View {
         return super.performAccessibilityAction(action, arguments);
     }
 
-    // ---------- публичный интерфейс ----------
 
     public float getZoom() {
         return zoom;

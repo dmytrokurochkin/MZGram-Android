@@ -22,29 +22,6 @@ import java.util.regex.Pattern;
 import org.mzgram.plugins.PluginsController;
 import org.mzgram.plugins.PluginsWatchdog;
 
-/**
- * Java-сторона IntentsManager: глобальные before/after-хендлеры ссылок и интентов.
- * Сигнатуры финальны — их зовёт {@link org.mzgram.plugins.PluginServices}
- * и Python-SDK (intents.IntentsManager).
- *
- * Точки вызова из ядра: {@link #dispatchBefore(java.util.Map)} /
- * {@link #dispatchAfter(java.util.Map)} — из обёртки {@code LaunchActivity.handleIntent}
- * (from_intent=true) и обёртки {@code Browser.openUrl} (from_intent=false).
- * Матчинг по фильтрам выполняется здесь (Java-side), в Python уходят только подошедшие.
- *
- * filtersJson (все поля опциональны):
- * {"schemes":["tg","https"], "hosts":["t.me"], "path_template":"/{username}",
- *  "query_args":["start"], "categories":[...], "flags":[int,...], "priority":int}
- *  - schemes/hosts — членство (ignore-case);
- *  - path_template — сегменты через '/', "{var}" захватывает сегмент в контекст по имени
- *    (и в подмапу "path_vars"); форма "host/path" дополнительно матчит host по '.'-сегментам;
- *  - query_args — имена query-параметров, которые обязаны присутствовать;
- *  - categories — все перечисленные должны быть в категориях интента;
- *  - flags — каждый int должен быть выставлен в intent.getFlags() ((ctx & f) == f);
- *  - priority в JSON, если задан, переопределяет аргумент priority.
- * Сортировка хендлеров — по priority desc. before-хендлер, вернувший truthy, обрывает
- * остальные хендлеры и оригинальную обработку. after-хендлеры — fire-and-forget.
- */
 public final class IntentsDispatcher {
 
     private static final class Handler {
@@ -77,15 +54,12 @@ public final class IntentsDispatcher {
         }
     }
 
-    /** Регистрация редкая, диспетч частый — COW-список, отсортирован по priority desc. */
     private static final List<Handler> handlers = new CopyOnWriteArrayList<>();
 
     private IntentsDispatcher() {
     }
 
-    // ---------- регистрация (зовётся из PluginServices/Python) ----------
 
-    /** @return handler id (UUID) или null при некорректных аргументах. */
     public static String registerHandler(String pluginId, boolean before, String filtersJson,
                                          int priority, PyObject callback) {
         if (pluginId == null || callback == null) {
@@ -125,7 +99,6 @@ public final class IntentsDispatcher {
         }
         Handler handler = new Handler(UUID.randomUUID().toString(), pluginId, before,
                 effectivePriority, callback, schemes, hosts, pathTemplate, queryArgs, categories, flags);
-        // Вставка с сохранением порядка priority desc (без List.sort — его нет у COW на старых API).
         int index = 0;
         while (index < handlers.size() && handlers.get(index).priority >= effectivePriority) {
             index++;
@@ -148,7 +121,6 @@ public final class IntentsDispatcher {
         handlers.removeIf(h -> h.pluginId.equals(pluginId));
     }
 
-    // ---------- гейты для патчей ядра ----------
 
     public static boolean hasHandlers() {
         return !handlers.isEmpty();
@@ -172,9 +144,7 @@ public final class IntentsDispatcher {
         return false;
     }
 
-    // ---------- диспетч (зовётся из патчей ядра) ----------
 
-    /** @return true, если before-хендлер оборвал обработку (оригинал не выполняется). */
     public static boolean dispatchBefore(Map<String, Object> context) {
         if (handlers.isEmpty() || !PluginsController.getInstance().isEngineEnabled()) {
             return false;
@@ -221,9 +191,7 @@ public final class IntentsDispatcher {
         }
     }
 
-    // ---------- построение контекста (зовётся из патчей ядра) ----------
 
-    /** Контекст из Intent (LaunchActivity.handleIntent). */
     public static Map<String, Object> buildIntentContext(Intent intent, int account, boolean fromIntent) {
         Map<String, Object> context = new HashMap<>();
         context.put("from_intent", fromIntent);
@@ -258,7 +226,6 @@ public final class IntentsDispatcher {
         return context;
     }
 
-    /** Контекст из Uri (Browser.openUrl — клик по ссылке внутри приложения). */
     public static Map<String, Object> buildUriContext(Uri uri, int account, boolean fromIntent) {
         Map<String, Object> context = new HashMap<>();
         context.put("from_intent", fromIntent);
@@ -271,7 +238,6 @@ public final class IntentsDispatcher {
         return context;
     }
 
-    /** scheme/host/path/query из Uri; opaque-URI (tg:resolve?...) нормализуется в иерархический. */
     private static void fillUriParts(Map<String, Object> context, Uri uri) {
         if (uri == null) {
             return;
@@ -291,12 +257,10 @@ public final class IntentsDispatcher {
                 query.put(name, uri.getQueryParameter(name));
             }
         } catch (Throwable ignored) {
-            // Неиерархический/битый URI — query просто пустой.
         }
         context.put("query", query);
     }
 
-    /** tg:resolve?domain=x -> tg://resolve?domain=x (как делает сам LaunchActivity). */
     private static Uri normalizeOpaque(Uri uri) {
         try {
             if (uri.isOpaque() && uri.getScheme() != null) {
@@ -310,7 +274,6 @@ public final class IntentsDispatcher {
         return uri;
     }
 
-    // ---------- матчинг ----------
 
     private static boolean matches(Handler handler, Map<String, Object> context) {
         if (context == null) {
@@ -334,7 +297,6 @@ public final class IntentsDispatcher {
         if (pathTemplate != null) {
             int slash = pathTemplate.indexOf('/');
             if (slash > 0) {
-                // Форма "host/path": префикс до первого '/' — шаблон хоста.
                 hostTemplate = pathTemplate.substring(0, slash);
                 pathTemplate = pathTemplate.substring(slash);
             }
@@ -381,7 +343,6 @@ public final class IntentsDispatcher {
             }
         }
 
-        // Переменные из шаблона — в контекст по имени (и копией в "path_vars").
         if (!extracted.isEmpty()) {
             context.putAll(extracted);
             Object pathVars = context.get("path_vars");
@@ -393,7 +354,6 @@ public final class IntentsDispatcher {
         return true;
     }
 
-    /** Сегментный матч: "{var}" захватывает непустой сегмент, литералы — equalsIgnoreCase. */
     private static boolean matchTemplate(String template, String value, String separatorRegex,
                                          Map<String, String> extracted) {
         if (value == null) {
@@ -418,7 +378,6 @@ public final class IntentsDispatcher {
         return true;
     }
 
-    /** Разбить без ведущего/хвостового разделителя; пустая строка -> 0 сегментов. */
     private static String[] splitSegments(String s, String separatorRegex) {
         String stripped = s;
         if ("/".equals(separatorRegex)) {

@@ -350,7 +350,6 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
             }
         }
         avatarImageView.setContentDescription(getString(R.string.AccDescrProfilePicture));
-        // Радиус зависит от размера аватарки
         applyAvatarRadius(avatarSizeInDp, false, false);
         addView(avatarImageView);
         if (avatarClickable) {
@@ -853,8 +852,6 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int padding = isCentered() ? dp(isPreviewMode() ? 35 : 10) : 0;
         final int width = MeasureSpec.getSize(widthMeasureSpec);
-        // Ширина под текст считается от размера аватарки,
-        // сама аватарка меряется с отступом ChatHeaderUiHelper.getAvatarInsetPx (при 42dp — как было)
         final int availableWidth = width - dp(((avatarImageView.getVisibility() == VISIBLE || isCentered()) ? avatarSizeInDp + 12 : 0) + 16);
         final int avatarSizePx = ChatHeaderUiHelper.getAvatarSizePx(avatarSizeInDp);
         avatarImageView.measure(MeasureSpec.makeMeasureSpec(avatarSizePx, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(avatarSizePx, MeasureSpec.EXACTLY));
@@ -954,9 +951,6 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
             subtitleTextView.setTextSizePx(dp(13.5f));
         }
         glassMode = true;
-        // Там setGlassMode()
-        // и setAvatarSizeInDp(46) вызываются вместе из ChatActivity; у нас ChatActivity чужой,
-        // поэтому размер применяется здесь же — результат тот же
         setAvatarSizeInDp(ChatHeaderUiHelper.getChatAvatarSizeDp());
     }
 
@@ -971,7 +965,6 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        // M3-шапка двигает аватарку и подписи
         final boolean material3 = ChatHeaderUiHelper.isMaterial3ChatHeaderStyle();
         final int avatarInsetPx = ChatHeaderUiHelper.getAvatarInsetPx();
         final float avatarSizeDiff = avatarSizeInDp - 42f;
@@ -1030,7 +1023,6 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
                 viewTop - dp(8) + timeItem.getMeasuredHeight()
             );
         }
-        // Значки привязаны к размеру аватарки
         final int starItemLeft = leftPadding + dp(avatarSizeInDp - 14);
         final int starItemTop = viewTop + dp(avatarSizeInDp - 18);
         if (starBgItem != null) {

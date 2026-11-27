@@ -14,31 +14,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Что плагин может делать по его исходнику — и хранение этого разбора.
- *
- * Разбор делает Python-сторона ({@code mz_utils/capability_scan.py}): AST
- * и поиск по тексту, без запуска кода. Здесь только вызов, разбор JSON и
- * запись рядом с разрешениями.
- *
- * Хранить обязательно: разбор нужен не только в момент установки, но и потом
- * на экране разрешений — там человек спрашивает «почему приложение решило, что
- * плагину нужна сеть», и ответ должен быть под рукой, а не после переустановки.
- * Перечитывать файл заново каждый раз нельзя: это чтение с диска и запуск
- * Python на открытии экрана.
- */
 public final class PluginCapabilityScan {
 
     private static final String PREFIX = "plugin_scan_";
 
-    /** Ключ разбора, который не является разрешением: код плагина нечитаем. */
     public static final String KEY_OBFUSCATION = "obfuscation";
     public static final String KEY_DEX = "dex";
 
     private PluginCapabilityScan() {
     }
 
-    /** Статический разбор исходника; пустая карта, если движок молчит. */
     public static Map<String, List<String>> scan(File file) {
         Map<String, List<String>> result = new LinkedHashMap<>();
         if (file == null) {
@@ -64,7 +49,7 @@ public final class PluginCapabilityScan {
             for (Iterator<String> keys = parsed.keys(); keys.hasNext(); ) {
                 String key = keys.next();
                 if (!PluginPermissions.isKnown(key) && !KEY_OBFUSCATION.equals(key) && !KEY_DEX.equals(key)) {
-                    continue;  // "error" и всё незнакомое
+                    continue;
                 }
                 JSONArray array = parsed.optJSONArray(key);
                 List<String> evidence = new ArrayList<>();
@@ -101,7 +86,6 @@ public final class PluginCapabilityScan {
         }
     }
 
-    /** Что нашлось при установке; пустая карта для плагинов, поставленных раньше. */
     public static Map<String, List<String>> load(String pluginId) {
         if (TextUtils.isEmpty(pluginId)) {
             return new LinkedHashMap<>();
@@ -113,15 +97,6 @@ public final class PluginCapabilityScan {
         return parse(prefs.getString(PREFIX + pluginId, null));
     }
 
-    /**
-     * Разобрать плагин, если разбора ещё нет.
-     *
-     * Плагины, поставленные до появления разбора (и все, что стояли раньше
-     * этой версии), записи не имеют — и раскрывать на экране разрешений было
-     * бы нечего. Разбор идёт на фоновом потоке: это чтение файла и Python.
-     *
-     * @param onReady выполнится на UI-потоке, только если что-то нашлось.
-     */
     public static void ensureScanned(Plugin plugin, Runnable onReady) {
         if (plugin == null || TextUtils.isEmpty(plugin.id) || TextUtils.isEmpty(plugin.path)) {
             return;
@@ -141,7 +116,6 @@ public final class PluginCapabilityScan {
         });
     }
 
-    /** Улики нечитаемости кода; пустой список, если разбор ничего не нашёл. */
     public static List<String> obfuscationEvidence(Map<String, List<String>> capabilities) {
         return evidenceOf(capabilities, KEY_OBFUSCATION);
     }
@@ -191,7 +165,6 @@ public final class PluginCapabilityScan {
         return info;
     }
 
-    /** Улики одного разрешения; пустой список, если разбора нет. */
     public static List<String> evidenceOf(Map<String, List<String>> capabilities, String permission) {
         List<String> evidence = capabilities == null ? null : capabilities.get(permission);
         return evidence == null ? new ArrayList<>() : evidence;
@@ -207,7 +180,6 @@ public final class PluginCapabilityScan {
         }
     }
 
-    /** Разрешения из разбора в порядке экрана плагина. */
     public static List<String> ordered(Map<String, List<String>> capabilities) {
         List<String> out = new ArrayList<>();
         if (capabilities == null) {

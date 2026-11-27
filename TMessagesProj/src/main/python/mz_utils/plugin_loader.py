@@ -71,7 +71,6 @@ __all__ = [
     "dispatch_setting_click",
     "is_loaded", "plugins", "PluginRecord", "start_dev_server",
     "plugin_context", "current_plugin_id",
-    # песочница
     "caller_plugin_id", "has_permission", "require_permission", "plugin_files",
     "unsafe_mode", "set_unsafe_mode",
     "PERM_UI", "PERM_MESSAGES_READ", "PERM_MESSAGES_SEND", "PERM_NETWORK",
@@ -106,8 +105,6 @@ _context_state = threading.local()
 
 
 class ClassNotFoundError(Exception):
-    """Плагину не дали класс. Текст совпадает с обычной ошибкой Chaquopy,
-    чтобы плагин обработал это как «класса нет», а не как поломку."""
 
     def __init__(self, name):
         super().__init__(f"no class named {name}")
@@ -118,7 +115,6 @@ _java_runtime_class = _RUNTIME_UNSET
 
 
 def _java_runtime():
-    """org.mzgram.plugins.PluginRuntime или None (нет JVM / старая сборка)."""
     global _java_runtime_class
     if _java_runtime_class is _RUNTIME_UNSET:
         try:
@@ -131,12 +127,6 @@ def _java_runtime():
 
 @contextlib.contextmanager
 def java_runtime_mark(plugin_id: Optional[str]):
-    """Пометить поток на Java-стороне: чей код сейчас исполняется.
-
-    Нужно PluginSinkGate: в стеке JVM между плагином и стоком лежит Chaquopy,
-    и по нему владельца не определить. Метку ставим там, где управление
-    переходит к коду плагина.
-    """
     runtime = _java_runtime()
     if runtime is None or plugin_id is None:
         yield
@@ -157,7 +147,6 @@ def java_runtime_mark(plugin_id: Optional[str]):
 
 
 def owner_of_function(fn) -> Optional[str]:
-    """id плагина, которому принадлежит функция-колбэк (по файлу её кода)."""
     try:
         path = fn.__code__.co_filename
     except Exception:
@@ -195,13 +184,6 @@ def current_plugin_id() -> Optional[str]:
 
 
 def _ensure_plugins_dir_on_path() -> None:
-    """Каталог плагинов — в конец sys.path.
-
-    Оттуда импортируются и вспомогательные пакеты плагинов (zwylib пишет
-    `zwylib_companion/__init__.py`), и сами плагины: установленный лежит как
-    `<id>.py`, и соседи берут его по этому имени (`import zwylib`).
-    Путь идёт в конец: модули SDK не должны перекрываться.
-    """
     plugins_dir = _plugins_dir_path()
     if plugins_dir and plugins_dir not in sys.path:
         sys.path.append(plugins_dir)
@@ -224,7 +206,6 @@ def _plugins_dir_path() -> Optional[str]:
 
 
 def _sdk_module_names() -> frozenset:
-    """Верхнеуровневые имена модулей SDK — их плагин перекрывать не вправе."""
     global _sdk_names_cache
     if _sdk_names_cache is not None:
         return _sdk_names_cache
@@ -250,15 +231,6 @@ _JAVA_ROOT_PACKAGES = frozenset({
 
 
 def _module_name_for(plugin_id: str) -> str:
-    """Имя плагина в sys.modules — его собственный id.
-
-    Плагины каталога зависят друг от друга по id: material_settings_list
-    начинается с `import zwylib`. Под искусственным именем такой импорт не
-    находил бы уже загруженный модуль и поднимал бы из файла вторую копию —
-    со своими глобалами, повторной регистрацией Java-фабрик, хуков и задач
-    автообновления. Занятые имена (SDK, stdlib, пакеты Chaquopy, поставленные
-    через requirements) не трогаем: id плагина не вправе подменить чужой модуль.
-    """
     name = str(plugin_id)
     if not name.isidentifier():
         return "mz_plugin_" + re.sub(r"[^0-9A-Za-z_]", "_", name)
@@ -285,13 +257,7 @@ def _same_file(a: Optional[str], b: Optional[str]) -> bool:
     return os.path.normcase(os.path.abspath(a)) == os.path.normcase(os.path.abspath(b))
 
 
-# Песочница: разрешения плагинов
 #
-# Граница честная и узкая: проверки ловят обращения ЧЕРЕЗ SDK и импорты из кода
-# плагина. Плагин, который дёргает Java напрямую (`from java.lang import ...`,
-# Chaquopy), проходит мимо — спецификация это признаёт («Честная граница
-# применимости»). Задача — сделать намерения видимыми и ограничить случайный
-# вред, а не построить границу против атакующего.
 
 from .metadata_parser import KNOWN_PERMISSIONS, PERMISSION_UI  # noqa: F401
 
@@ -309,31 +275,17 @@ _OUT_OF_SYNC = [p for p in (PERM_UI, PERM_MESSAGES_READ, PERM_MESSAGES_SEND,
                             PERM_NETWORK, PERM_FILES, PERM_INTENTS,
                             PERM_SETTINGS, PERM_HOOKS, PERM_NATIVE)
                 if p not in KNOWN_PERMISSIONS]
-if _OUT_OF_SYNC:  # набор разошёлся с metadata_parser/PluginPermissions — это баг
+if _OUT_OF_SYNC:
     print(f"[mzgram:plugin_loader] unknown permission keys {_OUT_OF_SYNC}",
           file=sys.stderr)
 
-# Файл плагина -> его id. Заполняется ДО exec_module, иначе импорты верхнего
-# уровня плагина (а их большинство) проверить было бы некому.
 #
-# Ключ — путь, а НЕ имя модуля: `__name__` у плагина занято метаданными
-# (`__name__ = "Мой плагин"` есть у каждого второго в каталоге), так что
-# f_globals["__name__"] к коду плагина отношения не имеет. co_filename кадра
-# плагин переписать не может.
 _owner_files: Dict[str, str] = {}
 _path_owner_cache: Dict[str, Optional[str]] = {}
 
-# Каталоги MzPack: <plugins_dir>/.mzpack_extracted/<id>/<sha>/ и
 # <plugins_dir>/mzpack_local_libs/<id>/<wheel>/ (mzpack_runtime/archive.py:38,39).
-# Владелец вычисляется из самого пути — регистрировать его негде: модули
-# MzPack-плагина исполняются внутри mzpack_runtime.load_plugin_record, то есть
-# раньше, чем управление вернётся к нам.
 _MZPACK_DIR_MARKERS = (".mzpack_extracted", "mzpack_local_libs", "MzPackPlugins")
 
-# Кадры, которые НЕ считаются «тем, кто импортирует»: машинерия импорта, мы сами
-# и per-module __import__ MzPack (mzpack_runtime/namespace.py:_make_plugin_import) —
-# он стоит между кодом плагина и нами, и без этого пропуска любой импорт
-# MzPack-плагина выглядел бы как импорт из mzpack_runtime.
 _IMPORT_MACHINERY = frozenset({
     __name__, "importlib", "importlib._bootstrap", "importlib._bootstrap_external",
     "importlib.util", "importlib.machinery", "importlib.abc",
@@ -345,10 +297,6 @@ _MZPACK_NAMESPACE_FILE = os.path.normcase(os.path.join(
 
 _MAX_FRAMES = 60
 
-# Таблица импорт-хука (PLUGINS-SECURITY.md, «Python, импорт-хук»).
-# Ключ — точный dotted-префикс: "urllib" целиком гейтить нельзя, urllib.parse
-# это чистый разбор строк и им пользуется половина каталога.
-# Значение None — не выдаётся никогда, ни при каком разрешении.
 _IMPORT_RULES = {
     "subprocess": None,
     "_posixsubprocess": None,
@@ -376,16 +324,9 @@ _IMPORT_RULES = {
     "shutil": PERM_FILES,
 }
 
-# Дешёвый префильтр: враппер __import__ стоит на пути ВСЕХ импортов процесса,
-# поэтому в общем случае он должен стоить один lookup в множестве.
 _GATED_ROOTS = frozenset(key.partition(".")[0] for key in _IMPORT_RULES)
 
-#: Внутренние модули движка: плагину они не отдаются вовсе.
 #:
-#: Импорты вообще-то не запрещаются (см. _guard_import: запрет ломал плагины
-#: целиком), но здесь импорт и есть действие: `from mz_utils import
-#: audit_gate; audit_gate._WATCHED.clear()` выключал весь гейт одной строкой.
-#: Плагины каталога берут из пакета только classes и text_formatting.
 _INTERNAL_MODULES = frozenset({
     "mz_utils.audit_gate",
     "mz_utils.plugin_loader",
@@ -400,7 +341,6 @@ _INTERNAL_MODULES = frozenset({
 
 
 def _deny_internal_import(name, fromlist=()) -> None:
-    """Бросить ImportError, если плагин лезет во внутренний модуль движка."""
     if type(name) is not str:
         return
     candidates = [name]
@@ -415,7 +355,7 @@ def _deny_internal_import(name, fromlist=()) -> None:
         try:
             pid = _direct_plugin_caller()
         except Exception:
-            return  # сломанная атрибуция не должна ломать импорты процесса
+            return
         if pid is None:
             return
         _log_once(f"{pid}|internal|{candidate}",
@@ -425,13 +365,7 @@ def _deny_internal_import(name, fromlist=()) -> None:
             f"to plugins")
 
 
-#: Java-классы, за которыми стоит разрешение. Ключ — точное имя или префикс
-#: с точкой на конце.
 #:
-#: Сюда попало только однозначное. MessagesController, например, здесь нет:
-#: его 71 плагин из каталога зовёт ради имени пользователя по id, и отказ
-#: сломал бы их, ничего не защитив, — за чтение переписки отвечает
-#: MessagesStorage, он и закрыт.
 _JAVA_CLASS_RULES = {
     "org.telegram.messenger.SendMessagesHelper": "messages.send",
     "org.telegram.messenger.MessagesStorage": "messages.read",
@@ -441,9 +375,6 @@ _JAVA_CLASS_RULES = {
     "de.robv.android.xposed.": "hooks",
     "java.security.KeyStore": "hooks",
     "android.security.keystore.": "hooks",
-    # Загрузка dex — произвольный Java-код в нашем процессе, та же власть,
-    # что у хуков. 33 плагина каталога этим пользуются, поэтому запрет
-    # «никогда» им не подходит: это разрешение hooks, а не отказ.
     "dalvik.system.DexClassLoader": "hooks",
     "dalvik.system.PathClassLoader": "hooks",
     "dalvik.system.InMemoryDexClassLoader": "hooks",
@@ -456,12 +387,8 @@ _JAVA_CLASS_RULES = {
     "java.nio.channels.ServerSocketChannel": PERM_NETWORK,
 }
 
-#: Java-классы, которые плагину не отдаются ни при каком разрешении.
 #:
-#: Это управляющий слой самого движка: он хранит уровни доверия, разрешения и
-#: журнал. Раньше их не было ни в одном списке, поэтому плагин двумя вызовами
 #: (`PluginTrustLevel.setLevel(id, 2)`, `PluginPermissions.grant(id, "native")`)
-#: выдавал себе TRUSTED. Ни один плагин каталога эти классы не зовёт.
 _JAVA_CLASS_DENIED = frozenset({
     "org.mzgram.plugins.PluginPermissions",
     "org.mzgram.plugins.PluginTrustLevel",
@@ -515,7 +442,6 @@ _NO_PERMISSION = object()
 
 
 def java_class_permission(name):
-    """Разрешение, нужное для класса, или None."""
     if not name:
         return None
     cached = _class_permission_cache.get(name)
@@ -556,27 +482,12 @@ def plain_java_class(name) -> bool:
 
 
 def engine_java_class(name):
-    """Java-класс движка для кода SDK — в обход привязки к плагину.
-
-    `guard_java_class` считает просителем любой кадр плагина на стеке, и для
-    find_class это верно: SDK там пересылает просьбу плагина. Но сам SDK тоже
-    ходит за своими классами — `PluginServices`, `PythonBridge`, — и делает
-    это из кода, который запускают хуки и колбэки плагина. Такой запрос
-    записывался на плагин и отклонялся: `PluginServices` становился None, а
-    дальше hook_method молча возвращал None, и хуки не ставились при живых
-    разрешениях.
-
-    Флаг ставится только здесь и снимается сразу; плагину функция недоступна —
-    модуль лежит в _INTERNAL_MODULES.
-    """
     previous = getattr(_context_state, "engine_lookup", False)
     _context_state.engine_lookup = True
     try:
         from java import jclass
         return jclass(name)
     except Exception as e:
-        # Не через _log: он ходит в android_utils.log, а тот сам резолвит мост
-        # этой же функцией — на хосте без Chaquopy получалась бы рекурсия.
         print(f"[mzgram:plugin_loader] engine class {name!r} unavailable: {e}",
               file=sys.stderr)
         return None
@@ -589,19 +500,6 @@ def _engine_lookup() -> bool:
 
 
 def guard_java_class(name):
-    """Можно ли плагину получить этот Java-класс.
-
-    Возвращает True/False, ничего не бросая: вызывающий (find_class и обёртка
-    jclass) отдаёт None, а None у find_class — штатный ответ «класса нет», его
-    проверяют 188 мест в каталоге. Отказ через исключение ломал бы плагины,
-    которые до сих пор работали.
-
-    Полной эту проверку считать нельзя: 210 плагинов каталога тянут
-    org.telegram.* обычным импортом на верхнем уровне модуля, и туда она не
-    достаёт. Настоящая граница — хуки на самих действиях
-    (org.mzgram.plugins.PluginSinkGate), эта проверка лишь снимает самый
-    ходовой путь: 178 плагинов зовут find_class, 94 — jclass.
-    """
     if unsafe_mode() or _engine_lookup():
         return True
     if name in _JAVA_CLASS_DENIED:
@@ -761,18 +659,15 @@ _logged_denials = set()
 
 
 def _log_once(mark: str, message: str) -> None:
-    """Лог отказа один раз на процесс: отказ в цикле иначе зальёт лог."""
     if mark in _logged_denials:
         return
     if len(_logged_denials) > 256:
-        # В ключе бывает путь к файлу — множество иначе растёт без границы.
         _logged_denials.clear()
     _logged_denials.add(mark)
     _log(message)
 
 
 def log_denial(plugin_id: str, event: str, what: str) -> None:
-    """Отказ audit-гейта в общий лог, один раз на (плагин, событие)."""
     _log_once(f"{plugin_id}|audit|{event}",
               f"plugin {plugin_id!r}: {what} refused ({event})")
 
@@ -797,13 +692,6 @@ def _forget_owner(path: str) -> None:
 
 
 def _installed_plugin_owner(full: str) -> Optional[str]:
-    """`<plugins_dir>/<id>.py` — файл установленного плагина, владелец — <id>.
-
-    Нужно, когда плагина подняли как зависимость раньше, чем движок дошёл до
-    него сам: записи в _owner_files ещё нет, а его код уже исполняется. Без
-    этого разрешения считались бы по импортёру — соседу, который про чужие
-    хуки и файлы ничего не объявлял.
-    """
     root = _plugins_dir_path()
     if not root:
         return None
@@ -836,13 +724,6 @@ def _resolve_owner(path: str) -> Optional[str]:
 
 
 def plugin_files(plugin_id: str):
-    """Пути файлов самого плагина.
-
-    Регистрация идёт до exec_module, поэтому список полон уже во время
-    исполнения модуля плагина — а запись в ``plugins`` появляется только
-    после него, и по ней «читаю сам себя» на загрузке выглядело бы как
-    доступ наружу.
-    """
     out = [path for path, owner in _owner_files.items() if owner == plugin_id]
     record = plugins.get(plugin_id)
     path = getattr(record, "path", None) if record is not None else None
@@ -852,7 +733,6 @@ def plugin_files(plugin_id: str):
 
 
 def _owner_of_frame(frame) -> Optional[str]:
-    """id плагина, чей файл исполняется в кадре, или None (SDK / чужой код)."""
     path = frame.f_code.co_filename
     if not path or path.startswith("<"):  # <string>, <frozen importlib._bootstrap>
         return None
@@ -867,7 +747,6 @@ def _owner_of_frame(frame) -> Optional[str]:
 
 
 def _frame_is_machinery(frame) -> bool:
-    """Кадр импортной машинерии, нашего враппера или import-шима MzPack."""
     if frame.f_globals.get("__name__") in _IMPORT_MACHINERY:
         return True
     path = frame.f_code.co_filename
@@ -877,28 +756,11 @@ def _frame_is_machinery(frame) -> bool:
 
 
 def caller_plugin_id() -> Optional[str]:
-    """Чей код привёл нас сюда: самый внутренний кадр плагина на стеке.
-
-    Через стек, а не через plugin_context: контекст выставлен только вокруг
-    load/unload и диспетчеризации хуков, а колбэки плагина прилетают ещё и из
-    Java (OnClickListener, RequestDelegate, настройки) — там контекста нет,
-    и проверка молча пропускала бы всё. Кадр плагина на стеке есть всегда,
-    когда исполняется его код.
-    """
     owner = plugin_frame_owner()
     return owner if owner is not None else current_plugin_id()
 
 
 def plugin_frame_owner() -> Optional[str]:
-    """Только по кадрам, без подстановки plugin_context.
-
-    Для audit-гейта: контекст выставлен на всё время load/unload, а внутри
-    загрузки SDK делает свою работу (распаковка MzPack-архива, pip, чтение
-    метаданных). С подстановкой контекста эти операции выглядели бы как
-    действия плагина и упирались бы в его разрешения ещё до того, как он
-    вообще начал исполняться. Кадр плагина на стеке — признак того, что
-    действие исходит именно от его кода.
-    """
     try:
         frame = sys._getframe(1)
     except Exception:
@@ -947,15 +809,6 @@ def _least_trusted(owners):
 
 
 def _direct_plugin_caller() -> Optional[str]:
-    """Кто вызвал напрямую: ПЕРВЫЙ кадр вне машинерии импорта и нас самих.
-
-    Именно первый, а не любой кадр плагина на стеке. Для импорта: если socket
-    тянет наш SDK или библиотека, поставленная плагином (requests тянет
-    urllib3), импортирует не плагин, и запрещать нечего — гейтился сам
-    `import requests` в коде плагина. Для open(): если файл открывает SDK по
-    просьбе плагина, проверка уже стоит в file_utils. Так ни SDK, ни чужие
-    плагины не задеваются.
-    """
     try:
         frame = sys._getframe(1)
     except Exception:
@@ -988,7 +841,6 @@ def _permissions():
 
 
 def has_permission(perm: str, plugin_id: Optional[str] = None) -> bool:
-    """Тихая проверка. Вне кода плагина и без JVM — True (гейтить нечего)."""
     if unsafe_mode():
         return True
     pid = plugin_id or caller_plugin_id()
@@ -1030,17 +882,6 @@ def unsafe_mode() -> bool:
 
 def require_permission(perm: str, what: str, detail: Optional[str] = None,
                        plugin_id: Optional[str] = None) -> None:
-    """Проверка в точке вызова; при отказе — PermissionError с внятным текстом.
-
-    Отказ не роняет плагин: исключение ловит android_utils.safe_call на
-    колбэках и _dispatch_hook на хуках, и уходит в лог, как любая другая
-    ошибка плагина.
-
-    *what* — короткое имя точки («send_text»), оно уходит в Java-лог и
-    дедуплицируется там; *detail* (путь, имя модуля) идёт только в текст
-    исключения, иначе множество дедупликации на Java-стороне росло бы
-    на каждый новый путь.
-    """
     if unsafe_mode():
         return
     pid = plugin_id or caller_plugin_id()
@@ -1052,7 +893,7 @@ def require_permission(perm: str, what: str, detail: Optional[str] = None,
     try:
         allowed = bool(java.checkPermission(pid, perm, what))
     except Exception:
-        return  # мост сломан — не мешаем работать
+        return
     if allowed:
         return
     where = what if detail is None else f"{what} ({detail})"
@@ -1067,10 +908,8 @@ def _log_permission_error(plugin_id: Optional[str], exc: BaseException) -> None:
     _log_once(f"{plugin_id}|{exc}", f"permission denied: {exc}")
 
 
-# ---- импорт-хук ----
 
 def _gate_for(name: str):
-    """(правило, разрешение) для модуля, или (None, None) если не гейтится."""
     parts = name.split(".")
     for i in range(len(parts), 0, -1):
         key = ".".join(parts[:i])
@@ -1080,19 +919,6 @@ def _gate_for(name: str):
 
 
 def _guard_import(name: str, fromlist=()) -> None:
-    """Записать в лог интересный импорт плагина. Ничего не запрещает.
-
-    Раньше отсюда летел PermissionError, и это ломало плагины целиком:
-    `import requests` стоит в шапке модуля почти у каждого сетевого плагина,
-    поэтому плагин без разрешения на сеть не загружался вовсе — не «терял
-    сеть», а переставал существовать. У пользователя это выглядело так:
-    выключаешь сеть плагину, и его команды перестают отвечать совсем.
-
-    Сам по себе импорт ничего не делает. Запрещать надо действие, и оно
-    запрещается в mz_utils/audit_gate.py — событием на уровне C, которое
-    не обойти через sys.modules. Здесь остаётся только запись в лог: видно,
-    что плагин собирался делать, и это не мешает ему работать в остальном.
-    """
     candidates = [name]
     if fromlist:
         candidates.extend(f"{name}.{item}" for item in fromlist
@@ -1103,7 +929,7 @@ def _guard_import(name: str, fromlist=()) -> None:
             continue
         pid = _direct_plugin_caller()
         if pid is None:
-            return  # импортирует не плагин
+            return
         _log_once(f"{pid}|import|{key}",
                   f"plugin {pid!r} imports {key!r}"
                   + ("" if perm is None else f" (needs {perm!r} to use it)"))
@@ -1111,20 +937,13 @@ def _guard_import(name: str, fromlist=()) -> None:
 
 
 class _PermissionFinder:
-    """sys.meta_path-финдер: замечает импорт ещё не загруженных модулей.
-
-    Ничего не находит сам (всегда None) и ничего не запрещает — только даёт
-    записи в лог для модулей, которые загружаются впервые (враппер
-    builtins.__import__ этот случай тоже видит, но не всегда: importlib
-    ходит в машинерию напрямую).
-    """
 
     def find_spec(self, fullname, path=None, target=None):
         if fullname.partition(".")[0] in _GATED_ROOTS:
             try:
                 _guard_import(fullname)
             except Exception:
-                pass  # запись в лог не должна ломать импорт
+                pass
         return None
 
 
@@ -1133,11 +952,6 @@ _original_import_module = None
 
 
 def _sandboxed_import_module(name, package=None):
-    """Обёртка importlib.import_module.
-
-    Отдельно от __import__: import_module идёт в машинерию напрямую, минуя
-    builtins.__import__, а для уже загруженного модуля — ещё и минуя meta_path.
-    """
     if package is None and type(name) is str and name in sys.modules and _plain_import(name):
         module = sys.modules[name]
         if module is not None:
@@ -1161,12 +975,6 @@ _sandboxed_import_module._mzgram_sandbox = True
 
 
 def _log_neighbour_import_failure(name, exc) -> None:
-    """Плагин не смог импортировать соседа: настоящая причина — в лог.
-
-    Плагины каталога ловят такой сбой сами и показывают своё «библиотека не
-    установлена», подменяя причину. Без этой записи в логах не остаётся
-    ничего: ни имени модуля, ни исключения.
-    """
     try:
         pid = _direct_plugin_caller()
         if pid is None:
@@ -1229,12 +1037,6 @@ def _plain_import(name) -> bool:
 
 
 def _sandboxed_import(name, globals=None, locals=None, fromlist=(), level=0):
-    """Обёртка builtins.__import__.
-
-    Одного meta_path-финдера мало: socket, http и urllib.request к моменту
-    старта движка уже лежат в sys.modules, а закэшированный импорт до
-    meta_path вообще не доходит. Враппер ловит именно этот случай — для лога.
-    """
     if level == 0 and type(name) is str and name in sys.modules and _plain_import(name):
         if fromlist:
             return _original_import(name, globals, locals, fromlist, level)
@@ -1269,8 +1071,6 @@ def _sandboxed_import(name, globals=None, locals=None, fromlist=(), level=0):
     try:
         module = _original_import(name, globals, locals, fromlist, level)
     except ModuleNotFoundError as exc:
-        # Chaquopy отдаёт «No module named 'org'» — корень пакета, а не то, что
-        # действительно не нашлось. Настоящий запрос знает только этот кадр.
         if getattr(exc, "_mzgram_java_import", None) is None:
             exc._mzgram_java_import = (name, tuple(fromlist or ()))
         raise
@@ -1299,18 +1099,11 @@ def _cacheable_java_import(module, name, fromlist) -> bool:
     return True
 
 
-# ---- прямой доступ к файлам из кода плагина ----
 
 _original_open = None
 
 
 def _sandboxed_open(file, mode="r", *args, **kwargs):
-    """Обёртка builtins.open.
-
-    Плагины пишут файлы через open(), а не через file_utils, — без этой
-    обёртки разрешение "files" закрывало бы только парадный вход. Проверяется
-    только прямой вызов из кода плагина: у SDK своя проверка в file_utils.
-    """
     checked = None
     try:
         pid = _direct_plugin_caller()
@@ -1326,7 +1119,7 @@ def _sandboxed_open(file, mode="r", *args, **kwargs):
     except PermissionError:
         raise
     except Exception:
-        pass  # сломанная проверка не должна ломать открытие файлов
+        pass
     if checked is None:
         return _original_open(file, mode, *args, **kwargs)
     previous = getattr(_context_state, "open_checked", None)
@@ -1340,19 +1133,13 @@ def _sandboxed_open(file, mode="r", *args, **kwargs):
 _sandboxed_open._mzgram_sandbox = True
 
 
-#: Функции os, работающие с уже открытым дескриптором или со ссылкой.
 #:
-#: Событий PEP 578 у них нет вовсе (проверено на CPython 3.12): плагин мог
-#: читать чужой дескриптор через os.pread, не имея разрешения files. Своего
-#: пути к чужому дескриптору у плагина быть не должно, поэтому правило простое:
-#: прямой вызов из кода плагина требует files.
 _FD_FUNCTIONS = ("pread", "preadv", "readlink", "dup", "dup2", "fdopen")
 
 _original_fd_functions = {}
 
 
 def _install_fd_guards() -> None:
-    """Обернуть функции os без audit-событий. Идемпотентно, не бросает."""
     try:
         for name in _FD_FUNCTIONS:
             original = getattr(os, name, None)
@@ -1383,7 +1170,6 @@ def _install_fd_guards() -> None:
 
 
 def owner_of_object(obj) -> Optional[str]:
-    """Владелец функции, метода или класса — по файлу его кода."""
     for candidate in (obj, getattr(obj, "__func__", None), getattr(obj, "run", None)):
         if candidate is None:
             continue
@@ -1394,16 +1180,6 @@ def owner_of_object(obj) -> Optional[str]:
 
 
 def _install_thread_marking() -> None:
-    """Перенести метку владельца в потоки, которые плагин создаёт сам.
-
-    Проверено на устройстве: без этого плагин, которому запрещена сеть,
-    получал java.net.URL из собственного threading.Thread — метка потока там
-    не стоит, и Java-гейт пропускал. Патчим Thread.run (он исполняется уже на
-    новом потоке), а не start.
-
-    Потоки приложения не задеты: если владельца нет, обёртка сразу зовёт
-    оригинал.
-    """
     try:
         import threading
         original_run = threading.Thread.run
@@ -1433,11 +1209,6 @@ def _install_thread_marking() -> None:
         original_start = threading.Thread.start
         if not getattr(original_start, "_mzgram_marked", False):
             def start(self):
-                # Владельца берём в момент запуска, на стеке создателя: у
-                # threading.Timer колбэк лежит в .function, а воркеры
-                # ThreadPoolExecutor создаются с target из стандартной
-                # библиотеки — по объекту потока владелец в обоих случаях
-                # не определяется, и поток уходил без метки.
                 try:
                     if getattr(self, "_mzgram_owner", None) is None:
                         self._mzgram_owner = plugin_frame_owner()
@@ -1934,12 +1705,6 @@ def _install_java_getters() -> None:
 
 
 def _install_jclass_guard() -> None:
-    """Обернуть java.jclass проверкой разрешений. Идемпотентно, не бросает.
-
-    Плагины берут Java-классы по имени двумя способами: наш find_class и
-    java.jclass напрямую (94 плагина каталога). Второй мимо SDK, поэтому
-    оборачиваем сам jclass.
-    """
     try:
         import java
         original = getattr(java, "jclass", None)
@@ -1967,7 +1732,7 @@ def _install_jclass_guard() -> None:
             except ClassNotFoundError:
                 raise
             except Exception:
-                pass  # сломанная проверка не должна ломать доступ к Java
+                pass
             found = original(name, *args, **kwargs)
             try:
                 return adapt(requested, found)
@@ -2385,14 +2150,10 @@ def _install_log_capture() -> None:
 
 
 def _install_sandbox() -> None:
-    """Поставить финдер и врапперы импорта/open. Идемпотентно, не бросает."""
     global _original_import, _original_import_module, _original_open
     try:
         import builtins
         if _original_import is None:
-            # Ровно один раз: если кто-то встанет поверх нас позже, повторный
-            # захват сделал бы _original_import ссылкой на обёртку над нами —
-            # то есть бесконечную рекурсию на первом же импорте.
             _original_import = builtins.__import__
             builtins.__import__ = _sandboxed_import
         if _original_import_module is None:
@@ -2403,9 +2164,6 @@ def _install_sandbox() -> None:
             _original_open = builtins.open
             builtins.open = _sandboxed_open
         _install_fd_guards()
-        # Audit hook (PEP 578) — принуждение уровня действия. Врапперы выше
-        # остаются: они дают внятный текст ошибки в точке импорта, а гейт
-        # ловит то, что мимо них проходит (sys.modules, importlib изнутри C).
         from . import audit_gate
         audit_gate.install(sys.modules[__name__])
         _install_thread_marking()
@@ -2424,9 +2182,6 @@ def _install_sandbox() -> None:
         from . import class_aliases
         class_aliases.install_import_hook()
         if not any(isinstance(finder, _PermissionFinder) for finder in sys.meta_path):
-            # В начало: mzpack_runtime ставит свой финдер тоже в начало и может
-            # оказаться перед нами — это безопасно, для не-MzPackPlugins имён он
-            # возвращает None и передаёт очередь дальше.
             sys.meta_path.insert(0, _PermissionFinder())
     except Exception as e:
         print(f"[mzgram:plugin_loader] sandbox install failed: {e}",
@@ -2435,12 +2190,10 @@ def _install_sandbox() -> None:
 
 # Loading / unloading
 
-#: Верхние пакеты, которые импортом достаёт Chaquopy, а не питон.
 _JAVA_ROOTS = ("java", "javax", "org", "com", "android", "androidx", "dalvik", "kotlin")
 
 
 def _failing_line(exc: BaseException) -> Optional[str]:
-    """Последний кадр из файла плагина: «путь:строка: исходный код»."""
     import traceback
     frames = traceback.extract_tb(exc.__traceback__)
     if not frames:
@@ -2460,12 +2213,6 @@ def _failing_line(exc: BaseException) -> Optional[str]:
 
 
 def _missing_java_classes(exc: BaseException) -> List[str]:
-    """Какие именно классы не достались из запрошенного пакета.
-
-    Имя запроса приходит из `_sandboxed_import`: сам ModuleNotFoundError знает
-    только корень («org»), а плагину нужно увидеть полное имя класса —
-    в форке половина классов эталона называется иначе или отсутствует.
-    """
     requested = getattr(exc, "_mzgram_java_import", None)
     if not requested:
         return []
@@ -2509,14 +2256,6 @@ def _gated_java_import(exc: BaseException) -> Optional[str]:
 
 
 def _java_import_hint(exc: BaseException) -> Optional[str]:
-    """Настоящая причина отказа импорта java-пакета.
-
-    Сообщение питона тут врёт: на `from org.telegram... import X` Chaquopy
-    сначала пробует обычный импорт, ловит ModuleNotFoundError и только потом
-    идёт за Java-классом. Не достался класс — наружу уходит исходная
-    питоновская ошибка «No module named 'org'», в которой не видно ни имени
-    класса, ни причины. Здесь причина добывается пробой.
-    """
     if not isinstance(exc, ModuleNotFoundError):
         return None
     root = (getattr(exc, "name", "") or "").partition(".")[0]
@@ -2546,7 +2285,6 @@ def _java_import_hint(exc: BaseException) -> Optional[str]:
 
 
 def _error_report(exc: BaseException, summary: str) -> str:
-    """Полный отчёт для кнопки «копировать»: он уедет в чужой чат, не в наш лог."""
     import platform
     import traceback
     lines = [summary, "", "traceback:"]
@@ -2574,8 +2312,6 @@ def _error_json(exc: BaseException) -> str:
     if hint:
         parts.append(hint)
     summary = "\n".join(parts)
-    # Иначе провал загрузки виден только в диалоге у пользователя, а по чужому
-    # скриншоту не понять, какой класс не нашёлся.
     _log("plugin load failed: " + summary.replace("\n", " | "))
     try:
         debug = _error_report(exc, summary)
@@ -2697,15 +2433,9 @@ def _import_module(path: str, plugin_id: str):
         raise ImportError(f"cannot create a module spec for {path!r}")
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module  # needed by dataclasses/pickles inside the module
-    # Владельца регистрируем ДО exec_module: импорт-хук определяет плагина по
-    # имени модуля в кадре, а импорты верхнего уровня выполняются уже внутри
-    # exec_module — после него регистрировать было бы поздно.
     _register_owner(path, plugin_id)
     before = set(sys.modules)
     try:
-        # Контекст нужен и на верхнем уровне модуля: плагины каталога создают там
-        # джавовые подклассы и трогают SDK, а проверки разрешений отказывают,
-        # когда текущий плагин не установлен (pluginId == null).
         with plugin_context(plugin_id):
             spec.loader.exec_module(module)
     except Exception:
@@ -2756,7 +2486,6 @@ def _find_plugin_class(module, path: str, plugin_id: Optional[str] = None):
 
 
 def _ensure_requirements(plugin_id: str, requirements) -> None:
-    """Поставить зависимости плагина и убедиться, что они импортируются."""
     if pip_controller is None:
         raise RuntimeError(
             "механизм зависимостей недоступен, поставить "
@@ -2784,12 +2513,6 @@ def _ensure_requirements(plugin_id: str, requirements) -> None:
 
 
 def _dependency_available(name: str) -> bool:
-    """Есть ли зависимость.
-
-    Имя пакета и имя модуля совпадают далеко не всегда — pillow импортируется
-    как PIL, beautifulsoup4 как bs4, — и проверка по имени модуля их не
-    находила, хотя пакет стоит.
-    """
     if pip_controller is not None:
         try:
             return pip_controller.is_provided(name)
@@ -2825,7 +2548,7 @@ class _PhaseClock:
 def load_plugin(path: str, plugin_id: str) -> str:
     """Validate metadata, install requirements, import and start the plugin."""
     clock = _PhaseClock()
-    _install_sandbox()  # идемпотентно; на случай, если импорт модуля не прошёл
+    _install_sandbox()
     clock.lap("sandbox")
     if str(path).endswith((".mzpack", ".eaf")):
         return clock.attach(_load_mzpack_plugin(path, plugin_id, clock))
@@ -2976,9 +2699,6 @@ def _unload_record(plugin_id: str, quiet: bool, clock=None):
             if clock is not None:
                 clock.lap("mzpack teardown")
         else:
-            # Не по module.__name__: плагины переписывают его себе в шапке
-            # (zwylib ставит "ZwyLib"), и запись в sys.modules пережила бы
-            # выгрузку — следующая загрузка досталась бы старому модулю.
             name = getattr(record, "module_name", None)
             if name:
                 sys.modules.pop(name, None)
@@ -3033,7 +2753,6 @@ def uninstall_plugin(plugin_id: str) -> None:
                   f"failed: {e}", file=sys.stderr)
         finally:
             _context_state.engine_write = previous
-    # MzPack: вычистить экстракции и локальные wheels (<plugins_dir>/.mzpack_extracted/<id>).
     try:
         import mzpack_runtime
         if hasattr(mzpack_runtime, "purge_plugin"):
@@ -3068,7 +2787,7 @@ def call_app_event(plugin_id: str, event: str) -> None:
         return None
     try:
         instance.on_app_event(app_event)
-    except PermissionError as e:  # отказ разрешения — не поломка плагина
+    except PermissionError as e:
         _log_permission_error(plugin_id, e)
     return None
 
@@ -3086,13 +2805,6 @@ def _strategy_of(result) -> str:
 
 
 def _dispatch_hook(plugin_id: str, account: int, fn, *args, result_field=None):
-    """Вызвать хук в scope аккаунта и вернуть стратегию.
-
-    PermissionError гасится здесь: движок трактует исключение из хука как
-    поломку и отключает плагин целиком, а отказ в разрешении — не поломка
-    (PLUGINS-SECURITY.md: «Отказ не роняет плагин»). Остальные исключения
-    уходят в Java как раньше.
-    """
     previous_plugin = getattr(_context_state, "plugin_id", None)
     _context_state.plugin_id = plugin_id
     previous_account = client_utils._enter_hook_account(account)
@@ -3562,8 +3274,6 @@ def get_settings_json(plugin_id: str) -> str:
     except Exception as e:
         summary = f"create_settings() failed: {type(e).__name__}: {e}"
         instance.log(summary)
-        # Пустой экран не говорит пользователю ничего и выглядит как наша поломка.
-        # Показываем причину прямо строкой на месте настроек.
         import traceback
         print(f"[{plugin_id}] {summary}\n{traceback.format_exc()}", file=sys.stderr)
         instance.log(traceback.format_exc())
@@ -3691,7 +3401,7 @@ def notify_setting_changed(plugin_id: str, key: str, json_value: str) -> None:
     if callback is not None:
         try:
             _call_with_optional_arg(callback, value)
-        except PermissionError as e:  # отказ разрешения — не поломка плагина
+        except PermissionError as e:
             _log_permission_error(plugin_id, e)
     return None
 
@@ -3708,11 +3418,6 @@ def invalidate_settings_mirror(plugin_id: str) -> None:
 
 
 def dispatch_setting_click(plugin_id: str, callback_id: str, view=None) -> None:
-    """Invoke the on_click callback registered under *callback_id*.
-
-    Вьюха нажатой строки передаётся первым аргументом: у MZGram колбэк
-    зовётся как ``callback.call(view)``, и плагины привязывают к ней меню.
-    """
     record = plugins.get(plugin_id)
     if record is None:
         return None
@@ -3720,18 +3425,12 @@ def dispatch_setting_click(plugin_id: str, callback_id: str, view=None) -> None:
     if callback is not None:
         try:
             _call_with_optional_arg(callback, view)
-        except PermissionError as e:  # отказ разрешения — не поломка плагина
+        except PermissionError as e:
             _log_permission_error(plugin_id, e)
     return None
 
 
 def _build_custom_view(item, context):
-    """Готовая Android-вьюха элемента Custom или None.
-
-    Три источника, в порядке того, как это пишут плагины: явная вьюха
-    (`Custom(view=...)`), она же под именем `item`, и фабрика
-    SimpleSettingFactory с `create_view`/`bind_view`.
-    """
     view = getattr(item, "view", None)
     if view is None:
         view = getattr(item, "item", None)
@@ -3774,7 +3473,6 @@ def _build_custom_view(item, context):
 
 
 def get_custom_setting_view(plugin_id: str, view_id: str, context=None):
-    """Вьюха для строки `{"type": "custom"}` — зовётся с UI-потока Java."""
     record = plugins.get(plugin_id)
     if record is None:
         return None
@@ -3794,7 +3492,6 @@ def get_custom_setting_view(plugin_id: str, view_id: str, context=None):
 # Dev server (port 42690; started by the engine in developer mode)
 
 def scan_capabilities_json(path: str) -> str:
-    """Что плагин может делать — по исходнику, без запуска (для диалога установки)."""
     try:
         from . import capability_scan
         return capability_scan.scan_json(path)
@@ -3803,7 +3500,6 @@ def scan_capabilities_json(path: str) -> str:
 
 
 def get_audit_journal_json(plugin_id: Optional[str] = None, limit: int = 100) -> str:
-    """Последние наблюдения audit-гейта (для экрана «Что делал плагин»)."""
     try:
         from . import audit_gate
         return json.dumps(audit_gate.get_journal(plugin_id, limit), ensure_ascii=False)
@@ -3812,7 +3508,6 @@ def get_audit_journal_json(plugin_id: Optional[str] = None, limit: int = 100) ->
 
 
 def get_audit_profile_json(plugin_id: Optional[str] = None) -> str:
-    """Счётчики по категориям: что плагин делал по факту, а не по манифесту."""
     try:
         from . import audit_gate
         return json.dumps(audit_gate.get_profile(plugin_id), ensure_ascii=False)
@@ -3876,10 +3571,6 @@ def _extract_native_assets() -> None:
 
 _extract_native_assets()
 
-# Песочницу ставим на импорте модуля: враппер builtins.__import__ должен
-# оказаться в цепочке ДО того, как mzpack_runtime.namespace захватит себе
-# _ORIGINAL_IMPORT (mzpack_runtime/namespace.py:53) — иначе импорты MzPack-плагинов
-# пойдут мимо нас. plugin_loader импортируется движком раньше mzpack_runtime.
 _install_sandbox()
 
 # Re-expose previously installed shared libs (pip_controller) at engine start.

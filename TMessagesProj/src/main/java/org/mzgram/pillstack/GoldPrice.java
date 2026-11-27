@@ -18,11 +18,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.mzgram.core.utils.HttpClient;
 
-/**
- * Спотовая цена золота с gold-api.com (бесплатный эндпоинт без ключа).
- * Храним одно число — цену тройской унции в USD — с кэшем и склейкой
- * параллельных запросов, как в {@link ExchangeRates}.
- */
 public class GoldPrice {
 
     private static final String URL = "https://api.gold-api.com/price/XAU";

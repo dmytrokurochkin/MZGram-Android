@@ -1163,7 +1163,6 @@ public class FilteredSearchView extends FrameLayout implements Theme.Colorable, 
                         }
                         return;
                     }
-                    // mzgram plugins: установить плагин, а не открывать его в просмотрщике.
                     if (org.mzgram.plugins.PluginInstallHelper.handleMessageTap(parentActivity, message)) {
                         return;
                     }

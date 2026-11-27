@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Строки фич, перенесённых из MZGram. -->
 <resources>
     <string name="MZGram" translatable="false">MZGram</string>
     <string name="MZGramInfo">Make the client truly yours</string>

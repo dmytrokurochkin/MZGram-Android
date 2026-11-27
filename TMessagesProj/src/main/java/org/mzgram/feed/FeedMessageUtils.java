@@ -15,18 +15,8 @@ import org.mzgram.ext.helper.DoubleTap;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Утилиты над сообщениями ленты.
- * Лента показывает посты из чужих каналов в одном синтетическом чате, поэтому её объекты
- * живут под сквозными id. Здесь собрано всё, что нужно для перехода между синтетическим
- * и настоящим представлением поста: копии сообщений, служебные строки (дата, разделитель
- * непрочитанного) и фильтр пунктов контекстного меню.
- */
 public abstract class FeedMessageUtils {
 
-    /**
-     * Значение {@link MessageObject#searchType} у постов ленты.
-     */
     public static final int SEARCH_TYPE_FEED = 4;
 
     private static final int CONTENT_TYPE_ACTION = 1;
@@ -41,9 +31,6 @@ public abstract class FeedMessageUtils {
 
     private static final int[] EXTRA_ALLOWED_FEED_OPTIONS = {36, 200, 203, 206};
 
-    /**
-     * Копирует ссылку на пост ленты: id берётся настоящий, канал — тот, из которого пост.
-     */
     public static void copyFeedPostLink(final ChatActivity chatActivity, MessageObject message) {
         if (chatActivity == null || message == null) {
             return;
@@ -59,9 +46,6 @@ public abstract class FeedMessageUtils {
                 AndroidUtilities.runOnUIThread(() -> onPostLinkExported(response, chatActivity)));
     }
 
-    /**
-     * Переносит результат перевода и пересказа на новый объект сообщения.
-     */
     public static void copyTranslationState(MessageObject from, MessageObject to) {
         if (from == null || to == null || from == to) {
             return;
@@ -81,9 +65,6 @@ public abstract class FeedMessageUtils {
         target.translatedSummaryLanguage = source.translatedSummaryLanguage;
     }
 
-    /**
-     * Служебная строка с датой над постом; дата округляется до начала суток.
-     */
     public static MessageObject createDateHeader(int currentAccount, MessageObject message, int stableId) {
         TLRPC.TL_message header = new TLRPC.TL_message();
         header.message = LocaleController.formatDateChat(message.messageOwner.date);
@@ -105,9 +86,6 @@ public abstract class FeedMessageUtils {
         return result;
     }
 
-    /**
-     * Строит копию поста в синтетической нумерации ленты и подменяет ею объект в хранилище.
-     */
     public static MessageObject createReplacement(int currentAccount, long dialogId, MessageObject original) {
         if (original == null) {
             return null;
@@ -154,10 +132,6 @@ public abstract class FeedMessageUtils {
         return result;
     }
 
-    /**
-     * Выкидывает из уже собранного контекстного меню пункты, неприменимые в ленте.
-     * Три списка идут параллельно и режутся синхронно, начиная с конца.
-     */
     public static void filterAllowedOptions(ArrayList<CharSequence> items, ArrayList<Integer> options, ArrayList<Integer> icons) {
         for (int i = options.size() - 1; i >= 0; i--) {
             if (!isAllowedFeedOption(options.get(i))) {
@@ -168,9 +142,6 @@ public abstract class FeedMessageUtils {
         }
     }
 
-    /**
-     * Для пересылки и открытия обсуждений нужен пост в настоящей нумерации канала.
-     */
     public static MessageObject getForwardingMessageObject(int currentAccount, boolean isFeedSearch, MessageObject message) {
         if (!isFeedSearch || message == null || message.getId() == message.getRealId()) {
             return message;
@@ -188,9 +159,6 @@ public abstract class FeedMessageUtils {
         return result;
     }
 
-    /**
-     * В ленте запрос по сообщению адресуется каналу поста, а не синтетическому диалогу.
-     */
     public static TLRPC.InputPeer getInputPeerForMessageRequest(MessagesController messagesController, long dialogId, boolean isFeedSearch, MessageObject message) {
         if (isFeedSearch && message != null) {
             dialogId = message.getDialogId();
@@ -198,9 +166,6 @@ public abstract class FeedMessageUtils {
         return messagesController.getInputPeer(dialogId);
     }
 
-    /**
-     * Куда скроллить обычный чат, когда играет трек, открытый из ленты.
-     */
     public static int getPlaybackScrollMessageId(boolean isFeedSearch, long dialogId, MessageObject playingMessage) {
         if (playingMessage == null) {
             return 0;
@@ -241,9 +206,6 @@ public abstract class FeedMessageUtils {
         }
     }
 
-    /**
-     * Настоящий пост, а не служебная строка ленты и не реклама.
-     */
     public static boolean isPostRow(MessageObject message) {
         return message != null
                 && !message.isDateObject
@@ -251,9 +213,6 @@ public abstract class FeedMessageUtils {
                 && !message.isSponsored();
     }
 
-    /**
-     * Совпадает ли играющее сообщение с уведомлением плеера, пришедшим по синтетическому id.
-     */
     public static boolean matchesPlaybackNotification(int currentAccount, MessageObject message, int messageId) {
         if (message == null) {
             return false;

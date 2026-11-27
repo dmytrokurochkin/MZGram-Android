@@ -7,13 +7,6 @@ import org.telegram.ui.Components.ChatActivityTopPanelLayout;
 import org.telegram.ui.Components.ChatAvatarContainer;
 import org.telegram.ui.Components.chat.layouts.ChatActivityFadeView;
 
-/**
- * Material 3 для шапки чата.
- * MZGram: org/mzgram/sdk/utils/ui/ChatHeaderUiHelper.java (233 строки).
- *
- * Перенесены только те методы, у которых в нашем дереве есть на что опереться;
- * ProfileTransitionState опущен — см. notes.
- */
 public final class ChatHeaderUiHelper {
 
     private ChatHeaderUiHelper() {
@@ -23,7 +16,6 @@ public final class ChatHeaderUiHelper {
         return AppearanceConfig.newChatHeaderStyle();
     }
 
-    /** Назад ? 4 : (m3 ? 57 : 52). */
     public static int getAvatarContainerLeftMargin(boolean withBackButton) {
         if (withBackButton) {
             return 4;
@@ -31,7 +23,6 @@ public final class ChatHeaderUiHelper {
         return isMaterial3ChatHeaderStyle() ? 57 : 52;
     }
 
-    /** M3 ? 0 : 1 пиксель отступа вокруг аватарки. */
     public static int getAvatarInsetPx() {
         return isMaterial3ChatHeaderStyle() ? 0 : 1;
     }
@@ -45,12 +36,6 @@ public final class ChatHeaderUiHelper {
         return isMaterial3ChatHeaderStyle() ? 46 : 42;
     }
 
-    /**
-     * Радиус аватарки в шапке. У MZGram это MZConfig.getAvatarCorners
-     * (ChatHeaderUiHelper.java:159-165) из отдельного среза «углы аватарок»; у нас его нет,
-     * поэтому радиусы пропорциональны размеру. При 42dp значения совпадают с прежними
-     * (21 / 16 / 11 — ChatAvatarContainer.java:1510, 1618, 1626).
-     */
     public static int getChatAvatarRadius(int sizeDp, boolean forum, boolean hasStories) {
         return AppearanceConfig.getAvatarCorners(AndroidUtilities.dp(sizeDp),
                 forum ? AppearanceConfig.CORNER_TYPE_FORUM : AppearanceConfig.CORNER_TYPE_DEFAULT, hasStories);
@@ -114,7 +99,6 @@ public final class ChatHeaderUiHelper {
         return AndroidUtilities.computePerceivedBrightness(color) > 0.721f;
     }
 
-    /** M3 убирает среднюю стеклянную плашку под заголовком и её тень. */
     public static void applyChatHeaderGlassStyle(ActionBar actionBar) {
         if (isMaterial3ChatHeaderStyle()) {
             actionBar.setDrawGlassMiddlePill(false);

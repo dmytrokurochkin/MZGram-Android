@@ -301,9 +301,6 @@ public class FileLoadOperation {
     }
 
     private void updateParams() {
-        // Ускорение загрузки, три уровня — перенос FileLoadOperation.updateParams
-        // MZGram (12.9.0, строка 1758). Уровень 2 берёт куски по мегабайту и
-        // двенадцать параллельных запросов.
         if (org.mzgram.general.GeneralConfig.INSTANCE.downloadSpeedBoost() == 2) {
             downloadChunkSizeBig = 1024 * 1024;
             maxDownloadRequests = 12;

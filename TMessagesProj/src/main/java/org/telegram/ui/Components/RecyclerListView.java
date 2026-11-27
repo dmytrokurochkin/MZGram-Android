@@ -1636,8 +1636,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                 backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             }
             backgroundPaint.setColor(color);
-            // Подсветка одиночной строки-таблетки должна
-            // повторять её форму, иначе цвет вылезает прямоугольником за скруглённый фон.
             if (fromAdapterPosition != toAdapterPosition || !roundSection) {
                 canvas.drawRect(0, top - topMargin, getWidth(), bottom + bottomMargin, backgroundPaint);
                 return;
@@ -3473,31 +3471,17 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
     public static final int TAG_NOT_SECTION = -33024;
 
-    /**
-     * Ключ keyed-тега «секция-таблетка»: секция, состоящая ровно из одной такой строки,
-     * рисуется не радиусом sectionRadius, а полной таблеткой height/2 — так у экстеры
-     * выглядят мастер-тумблеры на «Автозагрузке медиа», «Прокси» и universal-экранах.
-     * Там ключом служит R.id.round_section_tag;
-     * ресурсный id нам здесь заводить нечем, поэтому ключ — константа рядом с TAG_NOT_SECTION:
-     * View.setTag(int, Object) требует лишь (key >>> 24) >= 2, отрицательное значение это
-     * условие выполняет и с настоящими R.id (0x7f……) не пересекается.
-     */
     public static final int TAG_ROUND_SECTION = -33025;
 
     public static boolean isRoundSectionView(View view) {
         return view != null && Boolean.TRUE.equals(view.getTag(TAG_ROUND_SECTION));
     }
 
-    /**
-     * Помечает строку как «таблетку». У MZGram тег ставится прямо в
-     * Вызов вынесен сюда, чтобы ключ тега знал только этот файл.
-     */
     public static void setRoundSectionView(View view, boolean round) {
         if (view == null) return;
         view.setTag(TAG_ROUND_SECTION, round ? Boolean.TRUE : null);
     }
 
-    /** Дешёвый вызов, потому и годится в onDraw. */
     private float getSingleSectionRadius(RectF rect) {
         return rect.height() / 2.0f;
     }
@@ -3603,11 +3587,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         }
     }
 
-    /**
-     * Радиус карточек-секций берётся из настроек внешнего вида mzGram, чтобы слайдер
-     * «Радиус секций» действовал на всех экранах, а не только на наших. Значение по
-     * умолчанию (20 dp) повторяет MZGram, 0 даёт стоковые острые углы.
-     */
     public void setSections() {
         setSections(dp(12), dp(org.mzgram.appearance.AppearanceConfig.sectionRadius()), false);
     }
@@ -3616,8 +3595,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
     }
     public void setSections(int padding, float roundRadius, boolean topPadding) {
         final Utilities.CallbackReturn<View, Boolean> isSectionView =
-                // Вынесенный заголовок секции в карточку не входит — иначе он
-                // оказывается её первой строкой, а смысл выноса ровно обратный
                 view -> !(view instanceof TextInfoPrivacyCell || view instanceof ShadowSectionCell ||
                         view instanceof FiltersSetupActivity.HintInnerCell || view instanceof GraySectionCell ||
                         view instanceof CollapseTextCell)
@@ -3754,9 +3731,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                         if (first) outRect.top = enableTopPadding ? padding : dp(4);
                         if (last) outRect.bottom = padding;
 
-                        // В режиме «Сегменты» между строками одного раздела —
-                        // зазор 2dp, иначе карточки склеятся в одну (MZGram:
-                        // getItemOffsets, rect.top += dp(2)).
                         if (!first && this.parent.useSegmentedSections()
                                 && this.parent.isViewTypeSection != null
                                 && this.parent.isViewTypeSection.run(adapter.getItemViewType(position - 1))) {
@@ -3796,15 +3770,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         }
     }
 
-    /**
-     * Режим «Сегменты»: каждая строка — своя карточка.
-     *
-     * Перенос MZGram 12.9.0 (RecyclerListView: segmentedSectionsEnabled,
-     * drawSegmentedSections, getSegmentedSectionTop/BottomRadius). Стиль
-     * выбирается в настройках внешнего вида и до сих пор был выбираемым, но
-     * наполовину рабочим: разделители пропадали, а строки оставались одной
-     * общей карточкой.
-     */
     private boolean useSegmentedSections() {
         return segmentedSectionsEnabled
                 && sectionsItemDecoration != null
@@ -3813,7 +3778,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                         || org.mzgram.appearance.M3ListItems.enabled());
     }
 
-    /** Внутренний угол сегмента: у MZGram min(радиус секции, 4dp). */
     private float segmentInnerRadius() {
         return Math.min(sectionRadius, dp(4));
     }
@@ -3837,8 +3801,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
             Math.min(sectionsEdgeBottom(), bottom(to) + (hasBelow ? sectionRadius : 0) - bottomMargin)
         );
         if (AndroidUtilities.rectTmp.bottom < AndroidUtilities.rectTmp.top) return;
-        // Секция из одной строки-таблетки — полукруглые торцы,
-        // во всех остальных случаях обычный радиус секции.
         final float radius = (from != to || hasAbove || hasBelow || !isRoundSectionView(from))
             ? sectionRadius : getSingleSectionRadius(AndroidUtilities.rectTmp);
         drawSectionBackgroundRect(canvas, AndroidUtilities.rectTmp, radius, radius, from.getAlpha());
@@ -3848,11 +3810,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         drawSectionBackground.run(canvas, rect, topRadius, bottomRadius, alpha);
     }
 
-    /**
-     * Каждая строка — отдельная карточка. Соседство считается по позициям
-     * адаптера, а не по группе на экране: так частично видимая группа не меняет
-     * форму строк при прокрутке.
-     */
     private boolean hasSegmentedSectionNeighbor(View child, int delta) {
         if (child == null || getAdapter() == null || isViewTypeSection == null) return false;
         final int position = getChildAdapterPosition(child);
@@ -4137,7 +4094,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         }
         if (!prev && !next) {
             clipPath.rewind();
-            // Клип по той же форме, иначе ripple вылезет за фон.
             final float radius = isRoundSectionView(child) ? getSingleSectionRadius(AndroidUtilities.rectTmp) : sectionRadius;
             clipPath.addRoundRect(AndroidUtilities.rectTmp, radius, radius, Path.Direction.CW);
             canvas.clipPath(clipPath);
@@ -4201,7 +4157,6 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         final Path clipPath = new Path();
         if (!prev && !next || forceRound) {
             clipPath.rewind();
-            // Та же таблетка, что и в clipChild.
             final float radius = isRoundSectionView(child) ? getSingleSectionRadius(rect) : sectionRadius;
             clipPath.addRoundRect(rect, radius, radius, Path.Direction.CW);
         } else if (!prev) {

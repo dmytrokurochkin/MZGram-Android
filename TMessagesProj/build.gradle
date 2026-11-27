@@ -89,13 +89,13 @@ android {
         }
     }
 
-    // Целевые ABI. Ограничение живёт в ndk.abiFilters — этого требует Chaquopy;
-    // см. комментарий у splits ниже.
-    // 32-битных ABI в списке нет намеренно: Chaquopy собирает Python 3.12 только
-    // под arm64-v8a и x86_64, и на armeabi-v7a конфигурация падает ещё до сборки
-    // («Python 3.12 is not available for the ABI»). Вернуть их можно только вместе
-    // с откатом Python до 3.11 — тогда та же минорная версия понадобится и на
-    // машине сборки, включая CI.
+    // Target ABIs. The restriction lives in ndk.abiFilters because Chaquopy requires it;
+    // see the comment at splits below.
+    // 32-bit ABIs are left out on purpose: Chaquopy builds Python 3.12 only
+    // for arm64-v8a and x86_64, and on armeabi-v7a the configuration fails before the build
+    // ("Python 3.12 is not available for the ABI"). They can come back only together
+    // with a downgrade to Python 3.11, and then the build machine, CI included, needs
+    // the same minor version.
     // MZGram ships for arm64 phones only (owner's decision, 2026-11-15): an empty NATIVE_TARGET, 'universal'
     // and 'SKIP' all build arm64-v8a. Another ABI only when NATIVE_TARGET names it, for a test build
     // on an x86_64 emulator; such an APK is never released.
@@ -106,17 +106,17 @@ android {
         targetAbis = [nativeTarget]
     }
 
-    // splits.abi выключен намеренно, а не по недосмотру. Два ограничения
-    // несовместимы, оба проверены на этом дереве:
-    //   * без ndk.abiFilters Chaquopy падает на конфигурации
+    // splits.abi is off on purpose, not by mistake. Two restrictions
+    // conflict, both checked on this tree:
+    //   * without ndk.abiFilters Chaquopy fails at configuration
     //     («Chaquopy requires ndk.abiFilters»);
-    //   * с abiFilters AGP отвергает splits.abi.include
+    //   * with abiFilters AGP rejects splits.abi.include
     //     («Conflicting configuration ... cannot be present when splits abi
     //     filters are set»).
-    // Поэтому раздельные APK получаются не сплитами, а отдельной сборкой на
-    // каждый ABI: NATIVE_TARGET=arm64-v8a, затем NATIVE_TARGET=x86_64.
-    // Пустой NATIVE_TARGET даёт ОДИН APK с обоими ABI (~+51 МБ на второй
-    // libtmessages.so) — о чём ниже предупреждение в лог.
+    // So separate APKs come from a separate build per ABI, not from splits:
+    // NATIVE_TARGET=arm64-v8a, then NATIVE_TARGET=x86_64.
+    // An empty NATIVE_TARGET gives ONE APK with both ABIs (about +51 MB for the second
+    // libtmessages.so); a warning about it goes to the log below.
     splits {
         abi {
             enable = false
@@ -157,8 +157,8 @@ android {
         // so a key taken from another build shows an empty map.
         def mapsKey = 'AIzaSyDE_x6GRKJCSfCY33soBYUQ2piYsgjVpVE'
 
-        // Nothing Glyph SDK. «test» — отладочный ключ из Glyph Developer Kit, боевой
-        // запрашивается у Nothing под package name приложения.
+        // Nothing Glyph SDK. "test" is the debug key from the Glyph Developer Kit; the production key
+        // is requested from Nothing for the app's package name.
         def glyphKey = 'test'
 
         if (properties != null) {
@@ -221,9 +221,9 @@ android {
         }
     }
 
-    // Ключ подписи в репозиторий не кладётся. Положи свой release.keystore рядом
-    // с этим файлом и пропиши KEYSTORE_PASS / ALIAS_NAME / ALIAS_PASS в
-    // local.properties; без него сборка подписывается отладочным ключом Android.
+    // The signing key is not kept in the repository. Put your release.keystore next to
+    // this file and set KEYSTORE_PASS / ALIAS_NAME / ALIAS_PASS in
+    // local.properties; without it the build is signed with the Android debug key.
     def releaseKeystore = project.file('release.keystore')
     def hasReleaseKeystore = releaseKeystore.exists() && keystorePwd != null && alias != null
 
@@ -391,9 +391,9 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.1.0'
     implementation 'androidx.car.app:app:1.7.0'
     implementation 'androidx.car.app:app-projected:1.7.0'
-    // CameraX для круглых видеосообщений (org.mzgram.camera.CameraXSession).
-    // Не ниже 1.6: в 1.5 нет SessionConfig, setPreviewStabilizationEnabled
-    // и параллельной привязки двух камер. 1.6.2 чинит краш записи на Android 16.
+    // CameraX for round video messages (org.mzgram.camera.CameraXSession).
+    // At least 1.6: 1.5 has no SessionConfig, setPreviewStabilizationEnabled
+    // or parallel binding of two cameras. 1.6.2 fixes a recording crash on Android 16.
     implementation 'androidx.camera:camera-core:1.6.2'
     implementation 'androidx.camera:camera-camera2:1.6.2'
     implementation 'androidx.camera:camera-lifecycle:1.6.2'
@@ -461,7 +461,7 @@ dependencies {
     // translator library
     implementation 'app.nekogram.translator:translator:1.6.1'
 
-    // plugins engine: Xposed-совместимые хуки (LSPlant), MVEL-фильтры, генерация классов
+    // plugins engine: Xposed-compatible hooks (LSPlant), MVEL filters, class generation
     implementation 'com.aliucord:Aliuhook:1.1.4'
     implementation 'org.mvel:mvel2:2.5.2.Final'
     implementation 'com.linkedin.dexmaker:dexmaker:2.28.6'
@@ -474,6 +474,6 @@ dependencies {
     api project(":TMessagesProj_Modules:media3:media-lib-session")
 
     compileOnly fileTree('libs')
-    // Nothing Glyph SDK (Glyph Interface + Glyph Matrix), локальный AAR
+    // Nothing Glyph SDK (Glyph Interface + Glyph Matrix), local AAR
     implementation files('libs/glyph-matrix-sdk-2.0.aar')
 }

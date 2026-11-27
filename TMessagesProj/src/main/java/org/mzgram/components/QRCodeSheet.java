@@ -41,23 +41,6 @@ import org.telegram.ui.Components.LayoutHelper;
 
 import java.util.HashMap;
 
-/**
- * Что делать с отсканированным QR-кодом.
- *
- * Перенос {@code org.mzgram.sdk.components.QRCodeSheet}: сканер сам
- * по себе бесполезен, если результат некуда деть. Лист показывает содержимое
- * кода и предлагает действие по его виду — открыть ссылку, скопировать текст,
- * подключиться к сети.
- *
- * Отличия от MZGram названы прямо:
- * <ul>
- *   <li>Wi-Fi MZGram подключает сам; мы показываем имя сети и пароль и открываем
- *       системные настройки Wi-Fi. Программное подключение на Android 10+ идёт
- *       через предложения сети и всё равно упирается в системный диалог, а на
- *       разных прошивках ведёт себя по-разному — обещать «подключено» было бы
- *       враньём.</li>
- * </ul>
- */
 public class QRCodeSheet extends BottomSheet {
 
     private static final int TYPE_URL = 0;
@@ -175,7 +158,6 @@ public class QRCodeSheet extends BottomSheet {
         setCustomView(root);
     }
 
-    // ---------- содержимое ----------
 
     private static int detectType(String content) {
         String lower = content.toLowerCase(java.util.Locale.ROOT);
@@ -212,12 +194,6 @@ public class QRCodeSheet extends BottomSheet {
         return content;
     }
 
-    /**
-     * Разбор строки {@code WIFI:S:<ssid>;T:<type>;P:<password>;;}.
-     *
-     * Точка с запятой и двоеточие внутри значений экранируются обратным слэшем —
-     * без этого сеть с точкой с запятой в имени разбиралась бы обрывком.
-     */
     private void parseWifi(String content) {
         String body = content.substring("WIFI:".length());
         StringBuilder value = new StringBuilder();
@@ -258,7 +234,6 @@ public class QRCodeSheet extends BottomSheet {
         }
     }
 
-    // ---------- действия ----------
 
     private void copy(String value, String toast) {
         try {

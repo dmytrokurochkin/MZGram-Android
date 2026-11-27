@@ -29,7 +29,6 @@ import org.telegram.ui.ProxyListActivity;
 import org.mzgram.pillstack.PillStackSettingsActivity;
 import org.mzgram.pillstack.PillType;
 
-/** Состояние прокси: выключен / подключается / пинг. */
 @SuppressLint("ViewConstructor")
 public class ProxyPill extends BasePill implements NotificationCenter.NotificationCenterDelegate {
 

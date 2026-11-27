@@ -674,7 +674,6 @@ public class ChatActivity extends BaseFragment implements
     private ActionBarMenuItem.Item feeItemGap;
     private ActionBarMenuItem.Item feeItemText;
     private ChatNotificationsPopupWrapper chatNotificationsPopupWrapper;
-    // mzgram plugins: подменю CHAT_ACTION_MENU в меню «⋮».
     private org.mzgram.plugins.menus.MenuInjector.SwipeBackMenu pluginsMenu;
     // private ChatActivitySideControlsButtonsLayout topButtonsLayout;
     private ChatActivitySideControlsButtonsLayout sideControlsButtonsLayout;
@@ -3274,7 +3273,6 @@ public class ChatActivity extends BaseFragment implements
         // na: unread count
         getNotificationCenter().addObserver(this, NotificationCenter.dialogsUnreadCounterChanged);
 
-        // mzgram plugins: реестр пунктов меняется, когда плагин включают/выключают.
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.pluginMenuItemsUpdated);
 
         if (chatMode != MODE_SCHEDULED) {
@@ -5239,8 +5237,6 @@ public class ChatActivity extends BaseFragment implements
             headerItem.lazilyAddSubItem(888, R.drawable.menu_download_round, "Dump Canvas");
         }
 
-        // mzgram plugins: подменю CHAT_ACTION_MENU в конце меню «⋮».
-        // Место общее для всех веток выше — headerItem здесь уже собран целиком.
         if (headerItem != null) {
             java.util.Map<String, Object> pluginMenuContext = new java.util.HashMap<>();
             pluginMenuContext.put("account", currentAccount);
@@ -22915,7 +22911,6 @@ public class ChatActivity extends BaseFragment implements
     @Override
     public void didReceivedNotification(int id, int account, final Object... args) {
         if (id == NotificationCenter.pluginMenuItemsUpdated) {
-            // mzgram plugins: пересобрать подменю CHAT_ACTION_MENU.
             if (pluginsMenu != null) {
                 pluginsMenu.refresh();
             }
@@ -34180,7 +34175,7 @@ public class ChatActivity extends BaseFragment implements
 
             List<TLRPC.TL_availableReaction> availableReacts = getMediaDataController().getEnabledReactionsList();
             final boolean isEphemeral = message != null && message.isEphemeral();
-            final boolean coreXShowReactionsView = !disabledReactions() && (ExtConfig.INSTANCE.getShowReactions().Bool() || onDoubleTapped); // Show reactions and hide them from tap; mzGram: + разбивка по типам чатов
+            final boolean coreXShowReactionsView = !disabledReactions() && (ExtConfig.INSTANCE.getShowReactions().Bool() || onDoubleTapped);
             boolean isReactionsViewAvailable = coreXShowReactionsView && !isEphemeral && !suggestEdit && !isSecretChat() && !isInScheduleMode() && currentUser == null && primaryMessage.hasReactions() && (!ChatObject.isChannel(currentChat) || currentChat.megagroup) && !ChatObject.isMonoForum(currentChat) && !availableReacts.isEmpty() && primaryMessage.messageOwner.reactions.can_see_list && !primaryMessage.isSecretMedia();
             final boolean isReactionsAvailable;
             if (suggestEdit || isEphemeral) {
@@ -34237,9 +34232,6 @@ public class ChatActivity extends BaseFragment implements
             Drawable shadowDrawable = getParentActivity().getResources().getDrawable(R.drawable.popup_fixed_alert4).mutate();
             shadowDrawable.getPadding(backgroundPaddings);
             ThemeBind.backgroundColor(popupLayout, Theme.key_actionBarDefaultSubmenuBackground, getResourceProvider());
-            // mzGram: матовое стекло под меню сообщения.
-            // Гейт тот же, что в MZGram: настройка + доступный блюр.
-            // Флаг выключен или блюр недоступен -> ниже ничего не меняется, popup остаётся прежним.
             final boolean glassMenu = GlassMenuHelper.isEnabled(currentAccount, themeDelegate);
             if (glassMenu) {
                 GlassMenuHelper.applyToPopup(scrimBlur3Factory, themeDelegate, popupLayout);
@@ -35467,7 +35459,6 @@ public class ChatActivity extends BaseFragment implements
                     scrimPopupContainerLayout.addView(reactionsLayout, params);
                     scrimPopupContainerLayout.setReactionsLayout(reactionsLayout);
                     scrimPopupContainerLayout.setClipChildren(false);
-                    // mzGram: стекло под панелью реакций
                     if (glassMenu) {
                         GlassMenuHelper.applyToReactions(scrimBlur3Factory, themeDelegate, reactionsLayout);
                     }
@@ -35533,7 +35524,6 @@ public class ChatActivity extends BaseFragment implements
                     shadowDrawable2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarDefaultSubmenuBackground), PorterDuff.Mode.MULTIPLY));
 
                     FrameLayout fl = new FrameLayout(contentView.getContext());
-                    // mzGram: нижняя плашка тоже стеклянная
                     if (glassMenu) {
                         fl.setBackground(GlassMenuHelper.createPanelBackground(scrimBlur3Factory, themeDelegate, fl));
                     } else {
@@ -35562,7 +35552,6 @@ public class ChatActivity extends BaseFragment implements
                     shadowDrawable2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarDefaultSubmenuBackground), PorterDuff.Mode.MULTIPLY));
 
                     FrameLayout fl = new FrameLayout(contentView.getContext());
-                    // mzGram: нижняя плашка тоже стеклянная
                     if (glassMenu) {
                         fl.setBackground(GlassMenuHelper.createPanelBackground(scrimBlur3Factory, themeDelegate, fl));
                     } else {
@@ -35632,8 +35621,6 @@ public class ChatActivity extends BaseFragment implements
             if (reactionsLayout != null) {
                 reactionsLayout.setParentLayout(scrimPopupContainerLayout);
             }
-            // mzGram: на стекле сплошной разделитель между группами пунктов заменяется
-            // еле заметной подложкой
             if (glassMenu) {
                 GlassMenuHelper.applyToGaps(popupLayout, GlassMenuHelper.separatorColor(true, themeDelegate));
             }
@@ -35755,8 +35742,6 @@ public class ChatActivity extends BaseFragment implements
             }
             chatListView.stopScroll();
             chatLayoutManager.setCanScrollVertically(false);
-            // mzGram: снимок экрана как источник блюра для меню
-            // dimBehindView(v, true) идёт без блюра, поэтому scrimBlur3SourceBitmap иначе остался бы пустым.
             if (glassMenu && scrimBlur3SourceBitmap.getBitmap() == null) {
                 GlassMenuHelper.captureBlur(scrimBlur3SourceBitmap, scrimBlur3Factory, fragmentView);
             }
@@ -36643,7 +36628,6 @@ public class ChatActivity extends BaseFragment implements
         if (selectedObject == null || getParentActivity() == null) {
             return;
         }
-        // mzgram plugins: id пунктов плагинов живут в своём диапазоне (MenuInjector).
         if (option == oebtn_ask_ai) {
             MessageObject target = selectedObject;
             String content = getMessageContent(target);
@@ -39117,10 +39101,6 @@ public class ChatActivity extends BaseFragment implements
         return ChatObject.isChannelAndNotMegaGroup(currentChat);
     }
 
-    /**
-     * mzGram: реакции отключены для этого типа чата.
-     * Перенесено из MZGram 12.9.0, ChatActivity.disabledReactions().
-     */
     public boolean disabledReactions() {
         org.mzgram.chats.ChatsConfig.ensureLoaded();
         if (org.mzgram.chats.ChatsConfig.hideReactionsInChannels.Bool() && isChannel()) {
@@ -45866,9 +45846,6 @@ public class ChatActivity extends BaseFragment implements
                         }
                     };
 
-                    // mzgram plugins: файл плагина ставится, а не открывается
-                    // в подсветке кода (.plugin зарегистрирован как Python
-                    // в MarkdownUtils). Проверка идёт до просмотрщиков, как у MZGram.
                     if (org.mzgram.plugins.PluginInstallHelper.handleMessageTap(getParentActivity(), message)) {
                         return;
                     }
@@ -46205,7 +46182,6 @@ public class ChatActivity extends BaseFragment implements
                 } else if (org.mzgram.backup.ArcDatabaseImport.isMZGramExport(message.getDocumentName())) {
                     org.mzgram.backup.ArcDatabaseImport.confirm(ChatActivity.this, locFile);
                 } else if (org.mzgram.icons.IconPackManager.isIconPack(message)) {
-                    // mzGram: иконпак, присланный файлом в чат
                     org.mzgram.icons.IconPackManager.getInstance()
                             .handleIconPack(ChatActivity.this, locFile);
                 } else if (message.getDocumentName().toLowerCase().endsWith("attheme")) {
@@ -46227,9 +46203,6 @@ public class ChatActivity extends BaseFragment implements
                     File finalLocFile = locFile;
                     SettingsBackupHelper.importSettings(getParentActivity(), finalLocFile);
                 } else {
-                    // mzgram plugins: файл плагина ставится, а не открывается
-                    // в подсветке кода (.plugin зарегистрирован как Python
-                    // в MarkdownUtils). Проверка идёт до просмотрщиков, как у MZGram.
                     if (org.mzgram.plugins.PluginInstallHelper.handleMessageTap(getParentActivity(), message)) {
                         return;
                     }
@@ -48062,8 +48035,6 @@ public class ChatActivity extends BaseFragment implements
         }
 
         private void setupChatTheme(EmojiThemes chatTheme, TLRPC.WallPaper wallPaper, boolean withAnimation, boolean createNewResources) {
-            // Перенос MZGram 12.9.0:ChatActivity:12501: при выключенных
-            // индивидуальных темах чат остаётся в общей теме приложения.
             if (!AppearanceConfig.customThemes()) return;
             if (parentThemeDelegate != null) return;
 
@@ -51895,7 +51866,6 @@ public class ChatActivity extends BaseFragment implements
             options.add(oebtn_ask_ai_site);
             icons.add(R.drawable.msg_bot);
         }
-        // mzgram plugins: пункты плагинов в конце контекстного меню сообщения.
         org.mzgram.plugins.menus.MenuInjector.fillMessageMenu(this, message, currentChat, currentUser, currentEncryptedChat, dialog_id, currentAccount, icons, items, options);
         if (isFeedSearch()) {
             FeedMessageUtils.filterAllowedOptions(items, options, icons);

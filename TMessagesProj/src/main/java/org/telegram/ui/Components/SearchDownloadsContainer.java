@@ -164,7 +164,6 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                         PhotoViewer.getInstance().openPhoto(documents, 0, 0, 0, 0, new PhotoViewer.EmptyPhotoViewerProvider());
                         return;
                     }
-                    // mzgram plugins: установить плагин, а не открывать его в просмотрщике.
                     if (org.mzgram.plugins.PluginInstallHelper.handleMessageTap(parentActivity, message)) {
                         return;
                     }

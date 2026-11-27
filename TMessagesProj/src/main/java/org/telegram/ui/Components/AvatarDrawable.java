@@ -129,8 +129,6 @@ public class AvatarDrawable extends Drawable {
         super();
         this.resourcesProvider = resourcesProvider;
         namePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        // MZGram 12.9.0, AvatarDrawable.java:96-107 — инициалы рисуются Nunito ExtraBold,
-        // а не системным жирным. Единственное место, где этот шрифт используется.
         namePaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_NUNITO_EXTRABOLD));
         namePaint.setTextSize(dp(18));
     }
@@ -828,13 +826,6 @@ public class AvatarDrawable extends Drawable {
         return Theme.getColor(key, resourcesProvider);
     }
 
-    /**
-     * Подложка аватарки формой из настроек: круг, либо скруглённый квадрат.
-     *
-     * scale < 1 нужен раскрытию архива: там подложка вырастает из центра, и
-     * пока это был drawCircle, при квадратных аватарках внутри квадрата
-     * оставался круг чужого цвета.
-     */
     private void drawBackgroundShape(Canvas canvas, int size, float scale, Paint paint) {
         final float half = size / 2.0f;
         int radius = roundRadius;

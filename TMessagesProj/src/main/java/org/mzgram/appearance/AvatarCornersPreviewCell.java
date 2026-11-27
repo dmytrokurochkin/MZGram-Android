@@ -14,10 +14,6 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 
-/**
- * Превью закругления аватарок со слайдером «Квадрат ↔ Круг».
- * Порт AvatarCornersPreviewCell из MZGram.
- */
 @SuppressLint("ViewConstructor")
 public class AvatarCornersPreviewCell extends FrameLayout {
 
@@ -75,8 +71,6 @@ public class AvatarCornersPreviewCell extends FrameLayout {
                         w - AndroidUtilities.dp(50), h / 2.0f + AndroidUtilities.dp(15.5f),
                         w / 2.0f, w / 2.0f, Theme.dialogs_onlineCirclePaint);
 
-                // Аватарка у MZGram рисуется ярким мок-цветом, а не тем же, что вторая строка
-                // (AvatarCornersPreviewCell.java:188 — brightMockPaint).
                 Theme.dialogs_onlineCirclePaint.setColor(PreviewColors.getMockColor(true));
                 float corners = AppearanceConfig.getAvatarCorners(AndroidUtilities.dp(56));
                 canvas.drawRoundRect(AndroidUtilities.dp(20), h / 2.0f - AndroidUtilities.dp(28),
@@ -86,7 +80,6 @@ public class AvatarCornersPreviewCell extends FrameLayout {
             }
         };
         preview.setWillNotDraw(false);
-        // Подложка превью общая для всех экранов настроек.
         preview.setBackground(new PreviewBackgroundDrawable());
         addView(preview, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.CENTER, 21, 112, 21, 21));
     }

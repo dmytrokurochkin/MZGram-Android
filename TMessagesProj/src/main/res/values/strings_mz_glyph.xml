@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Строки интеграции с Nothing Glyph. -->
 <resources>
     <string name="MZGlyphTitle">Nothing Glyph</string>
     <string name="MZGlyphEnable">Glyph Interface</string>

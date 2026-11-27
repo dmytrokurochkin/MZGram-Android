@@ -10,23 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Журнал наблюдений за плагинами: что каждый реально делал, а не что обещал
- * в {@code __permissions__}.
- *
- * Здесь копятся только события Java-стороны ({@link PluginSinkGate}); события
- * Python-гейта живут в его собственном кольцевом буфере и подмешиваются при
- * показе (mz_utils/audit_gate.py:get_journal). Так на горячем пути нет ни
- * JNI-перехода, ни блокировки.
- *
- * Всё в памяти: журнал — инструмент «посмотреть, что этот плагин делает»,
- * а не аудиторская запись. Переживать перезапуск ему незачем, а запись на
- * диск с горячего пути — та самая ошибка, из-за которой пришлось переписывать
- * PluginsWatchdog.
- */
 public final class PluginAuditJournal {
 
-    /** Хватает, чтобы увидеть поведение плагина; больше — только память. */
     private static final int LIMIT = 200;
 
     private static final ArrayDeque<Entry> ENTRIES = new ArrayDeque<>(LIMIT);
@@ -43,7 +28,6 @@ public final class PluginAuditJournal {
         public final String detail;
         public final boolean allowed;
         public final String stack;
-        /** Сколько раз подряд повторилось одно и то же обращение. */
         public int count = 1;
 
         Entry(String pluginId, String event, String category, String detail, boolean allowed) {
@@ -85,7 +69,6 @@ public final class PluginAuditJournal {
             Entry last = ENTRIES.peekLast();
             if (last != null && last.pluginId.equals(pluginId) && last.event.equals(event)
                     && last.detail.equals(trimmed) && last.allowed == allowed) {
-                // Одно и то же обращение подряд — счётчик, а не новая строка.
                 last.count++;
             } else {
                 if (ENTRIES.size() >= LIMIT) {
@@ -107,7 +90,6 @@ public final class PluginAuditJournal {
         }
     }
 
-    /** Записи по плагину (или все, если {@code pluginId == null}), новые последними. */
     public static List<Entry> entries(String pluginId) {
         List<Entry> out = new ArrayList<>();
         synchronized (ENTRIES) {
@@ -120,7 +102,6 @@ public final class PluginAuditJournal {
         return out;
     }
 
-    /** Категория -> {разрешено, отказано}. */
     public static Map<String, int[]> profile(String pluginId) {
         synchronized (ENTRIES) {
             Map<String, int[]> perPlugin = PROFILE.get(pluginId);
@@ -142,10 +123,6 @@ public final class PluginAuditJournal {
         }
     }
 
-    /**
-     * Java-события + события Python-гейта одним списком, отсортированным по времени.
-     * Python-часть берётся через мост; если движок не поднят — только Java-часть.
-     */
     public static List<Entry> merged(String pluginId) {
         List<Entry> out = entries(pluginId);
         try {
@@ -171,7 +148,6 @@ public final class PluginAuditJournal {
                 }
             }
         } catch (Throwable ignored) {
-            // Журнал не должен ронять экран: показываем то, что есть на Java.
         }
         Collections.sort(out, (a, b) -> Long.compare(a.ts, b.ts));
         return out;

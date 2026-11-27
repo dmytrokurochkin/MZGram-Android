@@ -395,11 +395,8 @@ public class NotificationCenter {
     public static final int updateLoginToken = totalEvents++;
 
     // mzgram plugins
-    /** Плагин завис или отвис: слушатели перерисовывают его строку. */
     public static final int pluginIsNotResponding = totalEvents++;
-    /** Реестр пунктов меню плагинов изменился: пересобрать подменю. */
     public static final int pluginMenuItemsUpdated = totalEvents++;
-    /** Состав плагинов изменился; имя из MZGram — на него ссылаются dex-модули. */
     public static final int pluginsUpdated = totalEvents++;
 
     public static final int pluginSettingsRegistered = totalEvents++;

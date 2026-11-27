@@ -34,25 +34,8 @@ import org.mzgram.utils.UtilsConfig;
 import org.mzgram.core.CoreConfig;
 import org.mzgram.ext.ExtConfig;
 
-/**
- * Шим {@code org.mzgram.sdk.MZConfig} — статика, к которой
- * обращаются плагины оформления.
- *
- * У MZGram это поля, а не геттеры, но поле не может читать живое значение
- * настройки, поэтому здесь методы. Chaquopy различает вызов и чтение атрибута,
- * так что плагин, написанный под поле, получил бы объект метода вместо значения;
- * форму выравнивает обёртка {@code mz_utils.class_aliases._FieldShapedClass},
- * которой перечислены имена из {@code _FIELD_SHAPED}. Новый метод, который у
- * эталона поле, надо дописывать туда же.
- *
- * Настройки, у которых есть аналог в форке, читаются и пишутся через него
- * (AppearanceConfig, ChatsConfig, ExtConfig, CoreConfig, PluginsController).
- * Остальные лежат в собственном файле {@code mzconfig} — плагин видит
- * полный API эталона, значение переживает перезапуск, но на приложение не влияет.
- */
 public final class MZConfig {
 
-    /** Значения совпадают с MZGram: 0 — стоковые, 1 — Solar, 2 — Remix. */
     public static final int ICON_PACK_DEFAULT = BaseIconPacks.BASE_DEFAULT;
     public static final int ICON_PACK_SOLAR = BaseIconPacks.BASE_SOLAR;
     public static final int ICON_PACK_REMIX = BaseIconPacks.BASE_REMIX;
@@ -1776,11 +1759,6 @@ public final class MZConfig {
         }
     }
 
-    /**
-     * Радиус скругления аватарки для стороны {@code size} в dp — как у MZGram,
-     * где эта перегрузка сама переводит результат в пиксели. Наш AppearanceConfig
-     * считает от пикселей, поэтому перевод делается здесь.
-     */
     public static int getAvatarCorners(float size) {
         return getAvatarCorners(size, false, AvatarCornerType.DEFAULT, false);
     }

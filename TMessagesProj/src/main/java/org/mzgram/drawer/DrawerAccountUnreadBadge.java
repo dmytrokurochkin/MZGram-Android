@@ -11,10 +11,6 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 
-/**
- * Счётчик непрочитанных на строке аккаунта.
- * MZGram: {@code org/mzgram/sdk/drawer/DrawerAccountUnreadBadge.java} (68 строк).
- */
 final class DrawerAccountUnreadBadge {
 
     private final RectF rect = new RectF();
@@ -30,7 +26,6 @@ final class DrawerAccountUnreadBadge {
         update(nameView);
     }
 
-    /** Бейдж по центру строки, отступ справа 12.5dp. */
     void draw(View view, Canvas canvas) {
         if (!visible) {
             return;
@@ -45,7 +40,6 @@ final class DrawerAccountUnreadBadge {
         canvas.drawText(text, rect.left + ((rect.width() - textWidth) / 2.0f), centerY, Theme.dialogs_countTextPaint);
     }
 
-    /** При одном аккаунте бейдж не нужен. */
     void update(SimpleTextView nameView) {
         visible = false;
         text = null;

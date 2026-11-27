@@ -18,15 +18,8 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 
-/**
- * Скролл со списком пунктов бокового меню.
- * MZGram: {@code org/mzgram/sdk/drawer/DrawerMenuView.java} (161 строка).
- *
- * Сверху — градиент затухания высотой 16dp, он рисуется только когда список прокручен.
- */
 public class DrawerMenuView extends ScrollView {
 
-    /** Ровно 1 физический пиксель. */
     private static final float DIVIDER_HEIGHT_DP = 1.0f / AndroidUtilities.density;
     private static final int COLOR_KEY_BACKGROUND = Theme.key_windowBackgroundWhite;
 
@@ -56,10 +49,6 @@ public class DrawerMenuView extends ScrollView {
         container.removeAllViews();
     }
 
-    /**
-     * MZGram: {@code DrawerMenuView.rebuildMenu} — идёт по сохранённой раскладке,
-     * разделитель ставится «отложенно», поэтому висящие в начале и в конце схлопываются.
-     */
     public void rebuildMenu(int currentAccount, BaseFragment fragment) {
         clearMenu();
         updateGradient();
@@ -112,7 +101,6 @@ public class DrawerMenuView extends ScrollView {
             }
             hasAnyItem = true;
         }
-        // mzgram plugins: пункты плагинов (DRAWER_MENU) в конце шторки.
         org.mzgram.plugins.menus.MenuInjector.appendDrawerItems(container, currentAccount, onItemClick);
     }
 
@@ -149,7 +137,6 @@ public class DrawerMenuView extends ScrollView {
     }
 
     private static LinearLayout.LayoutParams createDividerLayoutParams() {
-        // gravity 87 из MZGram = Gravity.BOTTOM | Gravity.FILL_HORIZONTAL
         final int inset = DrawerMaterial.enabled() ? (int) DrawerMaterial.DIVIDER_INSET_DP : 12;
         return LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, DIVIDER_HEIGHT_DP,
                 Gravity.BOTTOM | Gravity.FILL_HORIZONTAL, inset, 8, inset, 8);

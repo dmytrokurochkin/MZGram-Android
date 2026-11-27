@@ -32,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-// Экстера подменила предка на
-// ReceiveContentEditText, чтобы вставка и drag&drop картинок работали во всех полях ввода
 public class EditTextEffects extends ReceiveContentEditText {
     private final static int SPOILER_TIMEOUT = 10000;
 

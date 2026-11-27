@@ -25,17 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Провайдер файлов иконок (порт {@code org.mzgram.sdk.icons.IconPackProvider}).
- *
- * Системе уведомлений нельзя отдать {@code Drawable} — только ресурс или {@code content://} URI.
- * Провайдер отдаёт растеризованный PNG иконки из пака по адресу
- * {@code content://<applicationId>.icon_pack_provider/icon/<packId>/<resourceName>}.
- * Растр кладётся в {@code cacheDir/notification_icons} и переиспользуется, пока файл иконки
- * не изменился (в имени кэша — хэш пути, mtime, размера и плотности).
- *
- * ВНИМАНИЕ: провайдер работает только после объявления в AndroidManifest, см. отчёт.
- */
 public class IconPackProvider extends ContentProvider {
 
     private static final List<String> SUPPORTED = Arrays.asList("png", "webp", "jpg", "jpeg", "svg");
@@ -45,7 +34,6 @@ public class IconPackProvider extends ContentProvider {
         return ApplicationLoader.getApplicationId() + ".icon_pack_provider";
     }
 
-    /** URI иконки из пака или null, если такой замены нет. */
     @Nullable
     public static Uri getIconUri(String packId, String resourceName) {
         IconPack pack = IconPackStorage.findPackById(packId);
@@ -63,7 +51,6 @@ public class IconPackProvider extends ContentProvider {
                 .appendPath("icon")
                 .appendPath(packId)
                 .appendPath(resourceName)
-                // версия в query — чтобы система не отдала устаревший закэшированный растр
                 .appendQueryParameter("v", file.lastModified() + "_" + file.length())
                 .build();
     }
@@ -131,7 +118,6 @@ public class IconPackProvider extends ContentProvider {
         throw new UnsupportedOperationException("read-only provider");
     }
 
-    // ---- внутреннее ----
 
     private boolean isIconUri(Uri uri) {
         List<String> segments = uri.getPathSegments();
@@ -196,7 +182,6 @@ public class IconPackProvider extends ContentProvider {
         Bitmap get();
     }
 
-    /** Пишет растр в кэш атомарно: сначала во временный файл, затем переименование. */
     @Nullable
     private File materialize(String name, BitmapSource source) {
         Context context = getContext();

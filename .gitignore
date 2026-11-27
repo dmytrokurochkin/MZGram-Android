@@ -15,7 +15,7 @@ TMessagesProj/jniLibs/
 TMessagesProj/jniRes/
 TMessagesProj/afat/
 TMessagesProj/jni/ffmpeg/build_android
-# Python-артефакты
+# Python artifacts
 __pycache__/
 *.pyc
 
@@ -23,7 +23,7 @@ __pycache__/
 hs_err_pid*.log
 replay_pid*.log
 
-# Ключ подписи
+# Signing key
 TMessagesProj/release.keystore
 TMessagesProj/release/
 tests/local/

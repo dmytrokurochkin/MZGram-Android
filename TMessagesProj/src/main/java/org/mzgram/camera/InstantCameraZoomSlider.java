@@ -30,17 +30,6 @@ import java.util.List;
 
 import org.mzgram.chats.ChatsConfig;
 
-/**
- * Ползунок зума для кружка: перенос {@code InstantCameraZoomSlider} из MZGram 12.9.0.
- *
- * Привязывается к любому из трёх бэкендов камеры и берёт у него настоящие пределы зума,
- * поэтому «.5» на делениях — это реальный ширик, а не цифровое увеличение. У Camera1 зум
- * задаётся индексом в таблице кратностей, у Camera2 — числом, у CameraX — через
- * {@link ZoomState}, за которым вид следит подпиской.
- *
- * Сессия готова не сразу, поэтому привязка повторяется до 25 раз с шагом 100 мс; пока
- * пределы неизвестны, вид скрыт.
- */
 @SuppressLint("ViewConstructor")
 public class InstantCameraZoomSlider extends CameraZoomSliderView {
 
@@ -132,7 +121,6 @@ public class InstantCameraZoomSlider extends CameraZoomSliderView {
         setToggleTextColor(text);
     }
 
-    // ---------- деления ----------
 
     private static void addDistinctStop(ArrayList<Float> stops, float value) {
         for (int i = 0; i < stops.size(); i++) {
@@ -179,11 +167,8 @@ public class InstantCameraZoomSlider extends CameraZoomSliderView {
         return buildRulerStops(min, max, 1f);
     }
 
-    /** {@code unit} — реальная кратность, которая подписывается как «1×». */
     private static float[] buildRulerStops(float min, float max, float unit) {
         final float[] stops = boundStops(new float[]{min, unit, 2f * unit, 5f * unit, 10f * unit, 30f * unit}, min, max, false);
-        // Край подписываем отдельно, только если он заметно дальше последнего деления:
-        // иначе на фронталке Pixel рядом встают «10» и «11».
         if (stops.length == 0 || stops[stops.length - 1] * 1.15f < max) {
             return boundStops(stops, min, max, true);
         }
@@ -257,15 +242,7 @@ public class InstantCameraZoomSlider extends CameraZoomSliderView {
         return best;
     }
 
-    // ---------- зум ----------
 
-    /**
-     * Ставит зум в очередь вместо немедленной отправки в камеру.
-     *
-     * Слайдер двигается по каждому событию касания, а камера принимает изменения
-     * не чаще кадра записи; без очереди лишние вызовы копятся в очереди камеры
-     * и зум отстаёт от пальца.
-     */
     private void applyZoom(float value) {
         pendingZoom = value;
         scheduleZoomFlush();
@@ -448,7 +425,6 @@ public class InstantCameraZoomSlider extends CameraZoomSliderView {
         }
     }
 
-    // ---------- привязка к сессии ----------
 
     public void bindSession(CameraXSession session) {
         final boolean morph = session != null && getVisibility() == VISIBLE && isLaidOut()
@@ -616,8 +592,6 @@ public class InstantCameraZoomSlider extends CameraZoomSliderView {
             return;
         }
 
-        // Фронталка: её минимум — полный сенсор, а не другая линза (Pixel: 0.9×), и это
-        // штатный угол. Подписываем его как «1×» и от него же считаем «2×».
         displayOneZoom = frontFace ? minRatio : 1f;
         defaultZoom = clamp(displayOneZoom, minRatio, maxRatio);
         wideZoom = minRatio;
@@ -646,7 +620,6 @@ public class InstantCameraZoomSlider extends CameraZoomSliderView {
         showAnimated();
     }
 
-    // ---------- жесты снаружи ----------
 
     public void beginExternalZoomGesture() {
         if (backend != Backend.CAMERA_X) {
@@ -670,7 +643,6 @@ public class InstantCameraZoomSlider extends CameraZoomSliderView {
         setExpanded(true, true);
     }
 
-    // ---------- появление и место на экране ----------
 
     private void applyAppearProgress() {
         setAlpha(openAlpha * appearProgress);

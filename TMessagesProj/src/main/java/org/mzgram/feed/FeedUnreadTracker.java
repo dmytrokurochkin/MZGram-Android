@@ -12,11 +12,6 @@ import org.telegram.tgnet.TLRPC;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-/**
- * Учёт непрочитанного в ленте.
- * Держит по каждому каналу максимальный прочитанный id, копит увиденные посты и отправляет
- * их на сервер пачкой с задержкой, чтобы прокрутка ленты не превращалась в поток запросов.
- */
 final class FeedUnreadTracker {
 
     private static final long FLUSH_DELAY_MS = 1000L;
@@ -38,18 +33,12 @@ final class FeedUnreadTracker {
         this.timeline = timeline;
     }
 
-    /**
-     * Обновляет известный максимум прочитанного, пришедший извне (из диалога или с сервера).
-     */
     public void applyReadInboxMax(long dialogId, int maxReadId) {
         if (maxReadId > readInboxMaxByDialog.get(dialogId, NO_READ_ID)) {
             readInboxMaxByDialog.put(dialogId, maxReadId);
         }
     }
 
-    /**
-     * Досылает накопленное и сбрасывает состояние — вызывается при перезагрузке ленты.
-     */
     public void clear() {
         if (flushScheduled) {
             AndroidUtilities.cancelRunOnUIThread(flushRunnable);
@@ -59,9 +48,6 @@ final class FeedUnreadTracker {
         readInboxMaxByDialog.clear();
     }
 
-    /**
-     * Считает непрочитанные посты в первых {@code count} строках ленты.
-     */
     public int countUnreadBelow(ArrayList<MessageObject> messages, int count) {
         if (messages == null || readInboxMaxByDialog.isEmpty()) {
             return 0;
@@ -77,9 +63,6 @@ final class FeedUnreadTracker {
         return unread;
     }
 
-    /**
-     * Индекс самого старого непрочитанного поста — место для разделителя «непрочитанное».
-     */
     public int findFirstUnreadIndex(ArrayList<MessageObject> messages) {
         if (messages != null && !readInboxMaxByDialog.isEmpty()) {
             for (int i = messages.size() - 1; i >= 0; i--) {
@@ -91,9 +74,6 @@ final class FeedUnreadTracker {
         return -1;
     }
 
-    /**
-     * Суммарный счётчик непрочитанного по каналам, попадающим в ленту.
-     */
     public int getUnreadCount() {
         ArrayList<TLRPC.Dialog> unreadDialogs = collectUnreadFeedDialogs();
         int total = 0;
@@ -109,9 +89,6 @@ final class FeedUnreadTracker {
                 && message.getRealId() > getEffectiveReadInboxMax(message.getDialogId());
     }
 
-    /**
-     * Отмечает прочитанными все каналы ленты и всё, что уже загружено в таймлайн.
-     */
     public void markAllRead() {
         MessagesController messagesController = MessagesController.getInstance(currentAccount);
         HashSet<Long> touchedDialogs = new HashSet<>();
@@ -159,9 +136,6 @@ final class FeedUnreadTracker {
         }
     }
 
-    /**
-     * Пост показан пользователю: запоминаем и планируем отложенную отправку прочтения.
-     */
     public void onPostSeen(long dialogId, int messageId) {
         if (dialogId == 0 || messageId <= 0 || messageId <= getEffectiveReadInboxMax(dialogId)) {
             return;

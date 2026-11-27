@@ -34,18 +34,6 @@ import org.mzgram.sdk.utils.text.LocaleUtils;
 
 import org.mzgram.plugins.ui.PluginIcons;
 
-/**
- * Карточка плагина: иконка, имя, версия с автором, описание и ряд действий.
- *
- * Перенос {@code plugins/ui/components/PluginCell}. До этого плагин занимал
- * обычную строку списка с тумблером: описание не помещалось, иконки не было
- * вовсе, а всё, кроме включения, пряталось в меню по долгому нажатию — то есть
- * было невидимо. MZGram показывает карточку, где действия лежат прямо под
- * описанием, и это единственное место, где их вообще видно.
- *
- * Компактный режим ({@link PluginsController#isCompactView()}) сжимает карточку
- * до строки с иконкой слева, как у MZGram.
- */
 public class PluginCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
     private final View card;
@@ -192,8 +180,6 @@ public class PluginCell extends FrameLayout implements NotificationCenter.Notifi
         setClipChildren(false);
         setClipToPadding(false);
         setPadding(AndroidUtilities.dp(12), 0, AndroidUtilities.dp(12), AndroidUtilities.dp(8));
-        // Фон рисуем сами: секция списка округляет плашку по своей высоте, и
-        // высокая карточка превращалась в «таблетку» с полукруглыми боками.
         card = new View(context);
         addView(card, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
@@ -202,11 +188,6 @@ public class PluginCell extends FrameLayout implements NotificationCenter.Notifi
         addView(root, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
                 Gravity.TOP | Gravity.FILL_HORIZONTAL, 12, 16, 12, 8));
 
-        // Строка шапки: слева иконка с текстами, справа тумблер. Раньше тумблер
-        // висел отдельным ребёнком поверх карточки, и от её скруглённого края
-        // его отделяло то, что осталось от отступа после вычета вылета карточки
-        // — на глаз «тумблер не помещается». Заодно длинная строка автора
-        // больше не может затечь под него: у колонки текстов своя ширина.
         LinearLayout headerRow = new LinearLayout(context);
         headerRow.setOrientation(LinearLayout.HORIZONTAL);
         root.addView(headerRow, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT,
@@ -278,13 +259,9 @@ public class PluginCell extends FrameLayout implements NotificationCenter.Notifi
         settingsButton.setVisibility(GONE);
         actions.addView(settingsButton, LayoutHelper.createLinear(40, 40, Gravity.LEFT, 0, 0, 8, 0));
 
-        // Распорка: удаление уезжает к правому краю карточки, но остаётся в
-        // общем ряду — так у него те же отступы, что и у остальных кнопок.
         View spacer = new View(context);
         actions.addView(spacer, LayoutHelper.createLinear(0, 1, 1f));
 
-        // Соседство с остальными кнопками означало бы промах пальцем ценой
-        // удалённого плагина, поэтому оно одно у противоположного края.
         deleteButton = createButton(context, R.drawable.msg_delete, true,
                 v -> callDelegate(Action.DELETE));
         actions.addView(deleteButton, LayoutHelper.createLinear(40, 40, Gravity.RIGHT));
@@ -295,14 +272,11 @@ public class PluginCell extends FrameLayout implements NotificationCenter.Notifi
                 Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
         checkBox.setFocusable(false);
         checkBox.setOnClickListener(v -> callDelegate(Action.TOGGLE));
-        // 4dp справа: у Switch трек уже своей вьюхи, и без этого он оказывается
-        // ближе к краю карточки, чем текст слева.
         headerRow.addView(checkBox, LayoutHelper.createLinear(37, 40, Gravity.TOP,
                 12, 0, 4, 0));
         updateCardBackground();
     }
 
-    /** Радиус карточки — общий для приложения (настройка «скругление секций»). */
     private void updateCardBackground() {
         card.setBackground(Theme.createRoundRectDrawable(
                 AndroidUtilities.dp(org.mzgram.appearance.AppearanceConfig.sectionRadius()),
@@ -329,7 +303,6 @@ public class PluginCell extends FrameLayout implements NotificationCenter.Notifi
         }
     }
 
-    /** Кнопка действия: круглый селектор и «пружинка» на нажатие, как у MZGram. */
     private ImageView createButton(Context context, int iconRes, boolean red,
                                    OnClickListener listener) {
         ImageView button = new ImageView(context);
@@ -451,8 +424,6 @@ public class PluginCell extends FrameLayout implements NotificationCenter.Notifi
         subtitleView.setText(org.mzgram.sdk.utils.text.LocaleUtils.formatWithUsernames(model.subtitle));
 
         if (model.loadError != null) {
-            // Ошибка вытесняет описание: если плагин не поднялся, всё остальное
-            // про него сейчас неважно.
             descriptionView.setText(model.loadError);
             descriptionView.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
             descriptionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
@@ -476,10 +447,6 @@ public class PluginCell extends FrameLayout implements NotificationCenter.Notifi
         updateLayout();
     }
 
-    /**
-     * Компактный режим: иконка уезжает влево, тексты — в одну строку.
-     * MZGram: {@code PluginCell.updateLayout}.
-     */
     private void updateLayout() {
         headerLayout.setOrientation(compact ? LinearLayout.HORIZONTAL : LinearLayout.VERTICAL);
         LinearLayout.LayoutParams iconParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();

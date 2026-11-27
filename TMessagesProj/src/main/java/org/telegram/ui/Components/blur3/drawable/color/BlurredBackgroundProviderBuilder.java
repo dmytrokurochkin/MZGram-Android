@@ -23,7 +23,6 @@ public class BlurredBackgroundProviderBuilder implements BlurredBackgroundProvid
     private ColorProvider shadowColor;
     private ColorProvider strokeColorTop;
     private ColorProvider strokeColorBottom;
-    // Цвет сплошного контура
     private ColorProvider strokeColorFull;
     private ColorProvider backgroundColor;
     private float strokeWidthTop, strokeWidthBottom, shadowRadius, shadowDx, shadowDy;
@@ -108,10 +107,6 @@ public class BlurredBackgroundProviderBuilder implements BlurredBackgroundProvid
         return get(strokeColorBottom, 0);
     }
 
-    /**
-     * Если цвет не задан явно,
-     * берётся цвет разделителя (а не 0, как у остальных обводок).
-     */
     @Override
     public int getStrokeColorFull() {
         return strokeColorFull != null ? get(strokeColorFull, 0) : Theme.getDividerColor(resourcesProvider);

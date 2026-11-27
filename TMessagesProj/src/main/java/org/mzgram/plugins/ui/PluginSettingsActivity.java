@@ -50,20 +50,6 @@ import org.mzgram.plugins.PluginsController;
 import org.mzgram.plugins.PluginsWatchdog;
 import org.mzgram.sdk.preferences.BasePreferencesActivity;
 
-/**
- * Экран настроек плагина, строящийся из JSON-описания (ui.settings Python SDK).
- * Поддерживает вложенные подстраницы (sub_page) — тогда JSON приходит готовым,
- * без обращения к движку.
- *
- * Список собирается через {@link #fillItems(ArrayList, UniversalAdapter)} —
- * ровно как у MZGram. Плагины каталога хукают этот метод, чтобы дорисовать
- * себе шапку, и ищут у фрагмента приватное поле {@code plugin}; и то и другое
- * здесь есть намеренно.
- *
- * Строка «Разрешения» добавляется НЕ внутри {@code fillItems}, а после него, в
- * {@link #fillItemsWithPermissions}: иначе плагин, заменивший или очистивший
- * список в своём хуке, убрал бы у пользователя вход в разрешения.
- */
 public class PluginSettingsActivity extends BasePreferencesActivity {
 
     private static final int ID_PERMISSIONS = -1;
@@ -78,11 +64,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
 
     private String pluginId;
 
-    /**
-     * Плагин этого экрана. Держим объектом, а не только id: плагины каталога
-     * достают поле с этим именем рефлексией и зовут у него {@code getId()},
-     * чтобы понять, свой ли экран они украшают.
-     */
     private Plugin plugin;
 
     private String targetSetting;
@@ -93,7 +74,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
     private int[] subPageIndex;
     private String[] subPageOwners;
 
-    /** Строки экрана в исходном виде — как их отдал Python-SDK. */
     private final ArrayList<JSONObject> rows = new ArrayList<>();
     private String lastJson;
     private final IdentityHashMap<UItem, JSONObject> rowsByItem = new IdentityHashMap<>();
@@ -102,12 +82,10 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
     public PluginSettingsActivity() {
     }
 
-    /** Конструктор для шима внешнего API: {@code PluginSettingsActivity(plugin)}. */
     public PluginSettingsActivity(String pluginId) {
         this.pluginId = pluginId;
     }
 
-    /** Плагины каталога передают сюда сам объект плагина, а не его id. */
     public PluginSettingsActivity(Plugin plugin) {
         this.pluginId = plugin == null ? null : plugin.id;
         this.plugin = plugin;
@@ -162,8 +140,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         final FrameLayout contentView = new FrameLayout(context);
         contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
 
-        // Список наполняет обёртка, а не сам fillItems: строка разрешений должна
-        // пережить хук плагина, а хук срабатывает на возврате из fillItems.
         listView = new UniversalRecyclerView(this, this::fillItemsWithPermissions,
                 this::onClick, this::onLongClick);
         listView.setSections();
@@ -173,8 +149,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
                 LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         actionBar.setAdaptiveBackground(listView);
 
-        // Кнопка сброса — как у MZGram: только на корневом экране плагина и
-        // только когда есть что сбрасывать.
         if (subPageIndex == null) {
             resetItem = actionBar.createMenu().addItem(0, R.drawable.msg_reset);
             resetItem.setContentDescription(getString(R.string.PluginsResetSettings));
@@ -234,8 +208,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
     @Override
     public void onResume() {
         super.onResume();
-        // Возврат с подстраницы: там могли переключить то, от чего зависит состав
-        // строк на этом экране.
         if (lastJson != null && sameRowsOnThisPage(lastJson, fetchJson())) {
             return;
         }
@@ -267,21 +239,14 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return array.toString();
     }
 
-    /**
-     * Перестроить экран из движка. Публичный метод — его зовут и плагины:
-     * экранов у MZGram два (свой и наш), и плагины ищут у фрагмента именно
-     * {@code updateItems()}, а не найдя — лезут чистить приватные поля рефлексией.
-     */
     public void updateItems() {
         AndroidUtilities.runOnUIThread(this::rebuildFromEngine);
     }
 
-    /** Движок просит перестроить экран (плагин изменил настройки из кода). Зовётся на UI-потоке. */
     private void rebuildFromEngine() {
         if (listView == null || listView.adapter == null) {
             return;
         }
-        // Плагин удалили или выгрузили — экран его настроек больше ни о чём.
         if (subPageIndex == null && PluginsController.getInstance().getPlugin(pluginId) == null) {
             finishFragment();
             return;
@@ -291,19 +256,10 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         ensureListVisible();
     }
 
-    /** Анимации плагинов короткие (десятые доли секунды) — проверяем после них. */
     private void scheduleVisibilityCheck() {
         AndroidUtilities.runOnUIThread(this::ensureListVisible, 600);
     }
 
-    /**
-     * Вернуть список в видимое состояние.
-     *
-     * Плагины обновляют экран с анимацией: гасят список в прозрачность, в
-     * withEndAction перестраивают его и возвращают обратно. Если их код между
-     * этими шагами бросит исключение (а ловят они молча), список навсегда
-     * остаётся прозрачным — экран выглядит пустым, хотя строки на месте.
-     */
     private void ensureListVisible() {
         if (listView == null) {
             return;
@@ -323,17 +279,11 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return plugin;
     }
 
-    /**
-     * Итоговый список: сначала строки плагина (их правит его же хук на
-     * {@code fillItems}), потом наши — вход в разрешения.
-     */
     private void fillItemsWithPermissions(ArrayList<UItem> items, UniversalAdapter adapter) {
         resolvePlugin();
         try {
             fillItems(items, adapter);
         } catch (Throwable t) {
-            // Упасть здесь — значит показать пустой экран: fillItems исполняет и
-            // чужой код, приделанный хуком.
             FileLog.e("PluginSettingsActivity: fillItems failed for " + pluginId, t);
         }
         appendPermissionsRow(items);
@@ -361,10 +311,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         }
     }
 
-    /**
-     * Строки самого плагина. Точка расширения: плагины каталога хукают именно
-     * этот метод и вставляют в {@code items} свою шапку.
-     */
     @Override
     public void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         reloadRows();
@@ -382,16 +328,10 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         }
     }
 
-    /**
-     * Вход в разрешения — только на корневом экране плагина: подстраница
-     * (sub_page) принадлежит самому плагину, разрешениям там не место.
-     */
     private void appendPermissionsRow(ArrayList<UItem> items) {
         if (subPageIndex != null) {
             return;
         }
-        // Разделитель нужен, только когда выше стоит карточка настроек плагина:
-        // строка «плагин не загружен» уже рисует тень под собой сама.
         if (!endsWithShadow(items)) {
             items.add(UItem.asShadow(ID_PERMISSIONS_SHADOW, null));
         }
@@ -413,7 +353,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return UniversalAdapter.isShadow(items.get(items.size() - 1).viewType);
     }
 
-    /** Свежий JSON экрана в {@link #rows}. */
     private void reloadRows() {
         ArrayList<JSONObject> previous = new ArrayList<>(rows);
         rows.clear();
@@ -433,9 +372,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
                 FileLog.e(e);
             }
         }
-        // Пересборка вернула пустоту там, где только что были строки: движок мог
-        // не ответить, плагин — не пережить перезагрузку. Стереть экран хуже, чем
-        // оставить прошлый список.
         if (rows.isEmpty() && !previous.isEmpty()) {
             FileLog.e("PluginSettingsActivity: empty rebuild for " + pluginId
                     + ", keeping " + previous.size() + " previous rows");
@@ -511,12 +447,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
                 && (owner == null || owner.equals(subPageOwner(obj)));
     }
 
-    /**
-     * Путь до строки на этом экране, считая от корневого списка плагина.
-     *
-     * Считаем по самому объекту, а не по позиции в списке: плагин мог вставить
-     * туда свои строки, и позиция уже не равна индексу в JSON.
-     */
     private int[] pathTo(JSONObject row) {
         int index = rows.indexOf(row);
         int[] parent = subPageIndex == null ? new int[0] : subPageIndex;
@@ -546,10 +476,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return target != null ? target.getDisplayName() : getString(R.string.PluginSettingsTitle);
     }
 
-    /**
-     * Значение строки «Разрешения»: сколько из запрошенного сейчас выдано.
-     * Цифрами, а не словами, — строка справа узкая, а перевода не требует.
-     */
     private String permissionsValue() {
         int total = 0;
         int granted = 0;
@@ -568,7 +494,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return granted + "/" + total;
     }
 
-    // ---------- строка JSON -> UItem ----------
 
     private int rowId(JSONObject item, HashMap<String, Integer> occurrences) {
         final String identity = rowIdentity(item);
@@ -636,7 +561,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return item;
     }
 
-    /** Строка-текст: selector, input, edittext и просто text. */
     private UItem textRow(JSONObject row, int id, String type) {
         final boolean isText = "text".equals(type);
         final String subtext = optNonEmpty(row, "subtext");
@@ -651,12 +575,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         });
     }
 
-    /**
-     * Подпись живёт под заголовком, а не справа: у плагинов это предложение
-     * целиком, справа от него остаётся многоточие. Геометрия иконки — как у
-     * TextSettingsCell и TextCheckCell: на одном экране строки разных типов
-     * идут вперемешку, и штатные 58dp у TextCell дают рваный левый край.
-     */
     private static void applyTextCellGeometry(TextCell cell, String subtext) {
         cell.setImageLeft(21);
         cell.setOffsetFromImage(71);
@@ -690,15 +608,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return item;
     }
 
-    /**
-     * Строка с вьюхой самого плагина.
-     *
-     * Своя фабрика, а не {@code UItem.asCustom}: у штатного VIEW_TYPE_CUSTOM
-     * нажатие не ловится вовсе, а строке {@code ui.settings.Custom(on_click=...)}
-     * оно нужно. Тождество строки считаем по id, а не по вьюхе: плагин отдаёт
-     * её заново на каждой пересборке, и по вьюхе diff перекладывал бы строку
-     * целиком при каждом обновлении.
-     */
     public static class PluginCustomRowFactory extends UItem.UItemFactory<FrameLayout> {
 
         @Override
@@ -722,9 +631,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
             if (item.view == null) {
                 return;
             }
-            // Вьюха живёт в объекте плагина и переживает переработку строки:
-            // тот же экземпляр может ещё висеть в прошлом контейнере, и addView
-            // без этого бросит IllegalState.
             AndroidUtilities.removeFromParent(item.view);
             container.addView(item.view, LayoutHelper.createFrame(
                     LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
@@ -741,7 +647,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         }
     }
 
-    /** Иконки приезжают именем drawable («msg_settings»); неизвестные молча пропускаем. */
     private static int resolveIcon(JSONObject item) {
         String name = org.mzgram.plugins.JsonUtils.optStringOrNull(item, "icon");
         if (TextUtils.isEmpty(name)) {
@@ -754,7 +659,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         }
     }
 
-    /** Заголовок строки: у EditText его нет — там подпись живёт в hint. */
     private static String rowTitle(JSONObject item) {
         String text = optNonEmpty(item, "text");
         if (text != null) {
@@ -764,7 +668,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return hint != null ? hint : "";
     }
 
-    /** Правая колонка строки: выбранный пункт для selector, значение для остальных. */
     private static String rowValue(JSONObject item) {
         if ("selector".equals(item.optString("type"))) {
             JSONArray options = item.optJSONArray("items");
@@ -788,9 +691,7 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         return TextUtils.isEmpty(value) ? null : value;
     }
 
-    // ---------- нажатия ----------
 
-    /** JSON-строка, стоящая за элементом списка, или null, если элемент чужой. */
     private JSONObject rowOf(UItem item) {
         return item == null ? null : rowsByItem.get(item);
     }
@@ -905,11 +806,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         }
     }
 
-    /**
-     * Выбор из списка — как у MZGram
-     * ({@code plugins/ui/PluginSettingsActivity.showSelectorDialog}): строки с
-     * радиокнопками и отмеченным текущим значением, а не голый список.
-     */
     private void showSelectorDialog(JSONObject item, String key) {
         Activity activity = getParentActivity();
         JSONArray options = item.optJSONArray("items");
@@ -954,12 +850,6 @@ public class PluginSettingsActivity extends BasePreferencesActivity {
         showDialog(dialog[0]);
     }
 
-    /**
-     * Диалог ввода значения — как у MZGram
-     * ({@code plugins/ui/PluginSettingsActivity.showStringInputDialog}):
-     * подпись строки над полем, поле EditTextBoldCursor с подчёркиванием и
-     * курсором темы, ширина 292dp, кнопка «Готово» и клавиатура сразу.
-     */
     private void showInputDialog(JSONObject item, String key, boolean multiline) {
         Activity activity = getParentActivity();
         if (activity == null) {

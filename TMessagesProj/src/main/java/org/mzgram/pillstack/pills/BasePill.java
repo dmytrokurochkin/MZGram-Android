@@ -23,7 +23,6 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LoadingDrawable;
 
-/** Общая база для пилюль: автообновление, шиммер загрузки, анимация смены размера. */
 public abstract class BasePill extends FrameLayout {
 
     private static final SparseArray<Long> globalLastUpdateTimes = new SparseArray<>();
@@ -53,7 +52,6 @@ public abstract class BasePill extends FrameLayout {
 
     public abstract int getPillId();
 
-    /** 0 — не обновлять по таймеру. */
     public abstract long getRefreshInterval();
 
     public abstract void onUpdateData(boolean force);

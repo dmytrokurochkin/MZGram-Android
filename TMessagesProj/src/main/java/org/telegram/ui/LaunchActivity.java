@@ -793,14 +793,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         BackupAgent.requestBackup();
 
         RestrictedLanguagesSelectActivity.checkRestrictedLanguages(false);
-        // Жест «назад» системы (Android 14+) обязан двигать экран на любом фрагменте.
-        // Раньше эта регистрация висела на ExtConfig.backAnimationStyle == PREDICTIVE,
-        // а мы по умолчанию ставим SPRING (без него не видно пружинных переходов
-        // MZGram) — и системный жест не анимировал ничего вообще: SystemUI рисовал
-        // свою стрелку, приложение стояло на месте. Регистрируем всегда: M3-карточка
-        // не зависит от стиля переходов, а переключателя у неё больше нет — он
-        // менялся на лету, тогда как колбэк ставится один раз при создании активити,
-        // и после переключения жест оставался наполовину чужим до перезапуска.
         if (Build.VERSION.SDK_INT >= 34) {
             if (onBackAnimationCallback == null) {
                 onBackAnimationCallback =  new OnBackAnimationCallback() {
@@ -810,7 +802,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     private boolean started = false;
                     private boolean invoked = false;
 
-                    /** Шторка перехватывает жест «назад». */
                     private boolean drawerPredictiveBackStarted = false;
 
                     @Override
@@ -1357,7 +1348,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         updateCurrentConnectionState(currentAccount);
 
-        // Шторка перечитывает шапку, аккаунты и пункты меню.
         if (drawerLayoutContainer != null && drawerLayoutContainer.getDrawerContainer() != null) {
             drawerLayoutContainer.getDrawerContainer().onAccountChanged();
         }
@@ -1365,9 +1355,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         switchingAccount = false;
     }
 
-    /**
-     * Пока настройка выключена, шторка вообще не создаётся — UI остаётся стоковым.
-     */
     public void syncDrawerContainerEnabled() {
         if (drawerLayoutContainer == null) {
             return;
@@ -1664,9 +1651,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         return handleIntent(intent, isNew, restore, fromPassword, null, true, false);
     }
 
-    // mzgram plugins: обёртка маршрутизации интентов с before/after-хендлерами плагинов.
-    // before, вернувший true, глотает интент (оригинальная обработка не выполняется);
-    // after зовётся всегда (finally) после оригинальной обработки.
     private boolean handleIntent(Intent intent, boolean isNew, boolean restore, boolean fromPassword, Browser.Progress progress, boolean rebuildFragments, boolean openedTelegram) {
         if (intent != null && org.mzgram.plugins.PluginsController.getInstance().isEngineEnabled()
                 && org.mzgram.plugins.intents.IntentsDispatcher.hasHandlers()) {
@@ -2089,8 +2073,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
                     Uri data = intent.getData();
 
-                    // mzgram plugins: файл плагина, открытый снаружи (тап в чате,
-                    // файловый менеджер). Проверка по расширению, до разбора ссылок.
                     if (org.mzgram.plugins.PluginInstallHelper.handleViewIntent(this, data)) {
                         return true;
                     }
@@ -7176,9 +7158,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     @Override
     protected void onPause() {
-        // Пауза голосовых и кружков при сворачивании приложения.
-        // MZGram зовёт это из didReceivedNotification по stopAllHeavyOperations(4096);
-        // у нас такой ветки нет, а onPause наступает ровно в тот же момент.
         MediaController.getInstance().pauseInBackgroundIfNeeded();
         super.onPause();
         isResumed = false;

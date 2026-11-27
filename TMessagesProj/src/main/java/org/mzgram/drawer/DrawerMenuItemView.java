@@ -20,9 +20,6 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 
-/**
- * Один пункт бокового меню: иконка 24dp слева, жирная подпись 15sp, бейдж непрочитанных справа.
- */
 public class DrawerMenuItemView extends FrameLayout {
 
     private static final int COLOR_KEY_SELECTOR = Theme.key_listSelector;
@@ -49,8 +46,6 @@ public class DrawerMenuItemView extends FrameLayout {
         }
         setLayoutParams(lp);
         setBackground(createSelectorDrawable());
-        // MZGram зовёт UIUtil.applyScaleStateListAnimator(this, 16f, false, false, 2, 0.04f, 1.5f);
-        // у нас перенесена короткая форма — масштаб 0.04 и tension 1.5 те же.
         UIUtil.applyScaleStateListAnimator(this, 0.04f, 1.5f);
 
         iconView = new ImageView(context);

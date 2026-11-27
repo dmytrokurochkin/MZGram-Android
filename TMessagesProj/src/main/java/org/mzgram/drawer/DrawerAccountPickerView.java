@@ -60,14 +60,6 @@ import org.telegram.ui.LoginActivity;
 
 import org.mzgram.core.helpers.PasscodeHelper;
 
-/**
- * Раскрывающийся список аккаунтов под шапкой шторки.
- * MZGram: {@code org/mzgram/sdk/drawer/DrawerAccountPickerView.java} (858 строк).
- *
- * Не переносится «бейдж MZGram» ({@code BadgesController} / {@code BadgeDTO}) — это
- * запрос к серверу MZGram, которого у нас нет. Из-за этого убраны {@code badgeOverride},
- * {@code loadAccounts(BadgeDTO)} и второй правый drawable у имени.
- */
 public class DrawerAccountPickerView extends FrameLayout {
 
     private static final int COLOR_KEY_BACKGROUND = Theme.key_windowBackgroundGray;
@@ -282,14 +274,12 @@ public class DrawerAccountPickerView extends FrameLayout {
         clipWrapper.setLayoutParams(lp);
     }
 
-    /** MZGram: высота списка = 48dp * min(itemCount, 5.5) + 4dp сверху и снизу. */
     private int getMaxListHeight() {
         final int itemCount = adapter.getItemCount();
         return (int) ((AndroidUtilities.dp(48.0f) * (itemCount <= 6 ? itemCount : 5.5f))
                 + (AndroidUtilities.dp(4.0f) * 2));
     }
 
-    /** Перетаскиваемая строка рисуется поверх остальных. */
     private int resolveDragDrawingOrder(int childCount, int i) {
         if (draggingItemView != null) {
             final int index = recyclerView.indexOfChild(draggingItemView);
@@ -321,7 +311,6 @@ public class DrawerAccountPickerView extends FrameLayout {
         this.onAccountLongClick = onAccountLongClick;
     }
 
-    /** Порядок по {@code loginTime}. */
     public void loadAccounts() {
         accounts.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
@@ -329,8 +318,6 @@ public class DrawerAccountPickerView extends FrameLayout {
                 accounts.add(a);
             }
         }
-        // Компаратор восстановлен по поведению:
-        // но swapElements меняет местами именно loginTime — сортировка по нему.
         accounts.sort(Comparator.comparingLong(account -> UserConfig.getInstance(account).loginTime));
         adapter.notifyDataSetChanged();
     }
@@ -360,7 +347,6 @@ public class DrawerAccountPickerView extends FrameLayout {
         recyclerView.stopScroll();
     }
 
-    /** 250 мс по высоте. */
     public void setExpanded(boolean expand) {
         if (expanded == expand) {
             return;
@@ -428,17 +414,11 @@ public class DrawerAccountPickerView extends FrameLayout {
         animator.start();
     }
 
-    // ---- добавление аккаунта ----
 
     private boolean canAddAccount() {
         return getAvailableAccountForAdd() != null;
     }
 
-    /**
-     * MZGram: {@code freeAccountsForAdd()} — без премиума доступна лишь половина слотов.
-     * У MZGram {@code MAX_ACCOUNT_COUNT} = 16 и вычитается 8; у нас константа 10,
-     * поэтому вычитается её половина.
-     */
     private int freeAccountsForAdd() {
         int free = 0;
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
@@ -494,9 +474,7 @@ public class DrawerAccountPickerView extends FrameLayout {
                 Theme.getColor(COLOR_KEY_SELECTOR));
     }
 
-    // ---- строка аккаунта ----
 
-    /** 44dp, аватар 34dp. */
     public static class AccountRowView extends FrameLayout {
 
         private final AvatarDrawable avatarDrawable;
@@ -674,7 +652,6 @@ public class DrawerAccountPickerView extends FrameLayout {
         }
     }
 
-    // ---- адаптер ----
 
     private class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -729,7 +706,6 @@ public class DrawerAccountPickerView extends FrameLayout {
                 }
             });
             rowView.setOnLongClickListener(v -> {
-                // MZGram: текущий аккаунт тащится, остальные открывают превью.
                 if (account == UserConfig.selectedAccount) {
                     itemTouchHelper.startDrag(holder);
                     return true;
@@ -753,7 +729,6 @@ public class DrawerAccountPickerView extends FrameLayout {
             });
         }
 
-        /** Порядок хранится в {@code loginTime}. */
         void swapElements(int from, int to) {
             if (from < 0 || to < 0 || from >= accounts.size() || to >= accounts.size()) {
                 return;

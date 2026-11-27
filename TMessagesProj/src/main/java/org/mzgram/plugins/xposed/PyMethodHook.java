@@ -8,16 +8,6 @@ import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
 
-/**
- * before/after-хук: вызывает Python-методы {@code before_hooked_method(param)} и
- * {@code after_hooked_method(param)}. Отсутствующий метод и пустой метод, унаследованный
- * от MethodHook, не вызываются: это решается один раз при регистрации. MethodHookParam передаётся в Python как есть,
- * Chaquopy оборачивает его в прокси (param.thisObject, param.args, param.getResult(),
- * param.setResult(...) доступны из Python).
- *
- * Фильтры считаются на Java-стороне ДО входа в Python: "before"-фильтры гейтят
- * before_hooked_method, "after"-фильтры — after_hooked_method.
- */
 public class PyMethodHook extends XC_MethodHook {
 
     private final String pluginId;

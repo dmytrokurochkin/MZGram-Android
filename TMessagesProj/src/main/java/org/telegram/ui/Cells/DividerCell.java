@@ -46,10 +46,6 @@ public class DividerCell extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // Линия рисуется только в режиме «Линия» — как у MZGram
-        // (12.9.0:DividerCell.java:39). Ветка forceDarkTheme берёт цвет не из
-        // key_divider, поэтому патча в Theme.getColor тут не хватает: в режиме
-        // «Сегменты» линия иначе осталась бы поверх карточек.
         if (ExtConfig.INSTANCE.getHideDividers().Bool() || AppearanceConfig.dividerHidden()) {
             return;
         }

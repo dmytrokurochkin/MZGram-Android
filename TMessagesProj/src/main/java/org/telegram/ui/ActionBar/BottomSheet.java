@@ -362,11 +362,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         private Paint backgroundPaint = new Paint();
         private boolean keyboardChanged;
 
-        /**
-         * Сброс состояния перетаскивания. Нужен predictive back'у: жест «назад» приходит
-         * поверх уже начатого касания, и без сброса шторка после отмены жеста остаётся
-         * в режиме drag.
-         */
         public void resetTouch() {
             startedTracking = false;
             maybeStartTracking = false;
@@ -707,8 +702,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             }
             keyboardVisible = keyboardHeight > dp(20);
             if (Build.VERSION.SDK_INT >= 34) {
-                // С открытой клавиатурой колбэк снимается, иначе жест «назад» закрывал бы
-                // шторку вместо клавиатуры.
                 updateBackCallbackState();
             }
             if (lastInsets != null) {
@@ -2225,10 +2218,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
 
     }
 
-    // ---- Predictive back для шторки ----
-    // Перенос из MZGram 12.9.0, BottomSheet.java:1579-1670, :1224/:1235, :1816.
-    // У нас BottomSheet вообще не знал про OnBackAnimationCallback: шторки закрывались
-    // мгновенно, без следования за жестом.
 
     private Object backAnimationCallback;
     private android.window.OnBackInvokedDispatcher onBackInvokedDispatcher;
@@ -2236,7 +2225,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     protected boolean predictiveBackAnimationInProgress;
     private boolean customBackAnimation;
 
-    /** Приоритет колбэка: выше системного, чтобы шторка перехватывала жест первой. */
     private static final int BACK_CALLBACK_PRIORITY = 1_000_000;
 
     protected boolean onCustomBackStarted(int swipeDirection) {
@@ -2266,7 +2254,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             onBackInvokedDispatcher = ((Activity) getContext()).getOnBackInvokedDispatcher();
         }
         if (onBackInvokedDispatcher == null) {
-            // Диспетчера ещё нет — повторить после следующего прохода лэйаута.
             if (container != null) {
                 container.post(this::registerBackCallback);
             }

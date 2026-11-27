@@ -550,7 +550,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean downloadsItemVisible;
     public ActionBarMenuItem searchItem;
     private ActionBarMenuItem optionsItem;
-    /** Бургер вместо стрелки «назад», когда включена своя шторка. */
     private MenuDrawable menuDrawable;
     private ActionBarMenuItem speedItem;
     public static boolean switchingTheme;
@@ -1410,7 +1409,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             filterTabsView != null && !filterTabsView.isEditing() &&
                             !searching &&
                             !rightSlidingDialogContainer.hasFragment() &&
-                            // При открытой шторке вкладки не листаются.
                             (drawerContainer() == null || !drawerContainer().isDrawerOpen()) &&
                             !parentLayout.checkTransitionAnimation() && !parentLayout.isInPreviewMode() && !parentLayout.isPreviewOpenAnimationInProgress() &&
                             (
@@ -3365,7 +3363,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 return super.dispatchTouchEvent(ev);
             }
         };
-        // mzGram: полоса пилюль в строке поиска, вся логика — в PillStackController
         org.mzgram.pillstack.PillStackController.attach(fragmentSearchField, fragmentSearchField.editText);
         fragmentSearchField.setPadding(dp(4), dp(4), dp(4), dp(4));
         fragmentSearchField.setPivotX(0);
@@ -4020,7 +4017,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
                 if (id == -1) {
-                    // Левая кнопка переключает свою шторку.
                     if (!actionBar.isActionModeShowed() && AppearanceConfig.navigationDrawer() && drawerContainer() != null && canOpenDrawer()) {
                         drawerContainer().toggleDrawer();
                         return;
@@ -5517,7 +5513,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
         dialogStoriesCell.updateStatus(UserConfig.getInstance(currentAccount).getCurrentUser(), false);
-        // Бургер занимает место архива.
         dialogStoriesCell.setMenuItemsOffset(getDialogStoriesMenuItemsOffset());
         dialogStoriesCell.allowGlobalUpdates = false;
         dialogStoriesCell.setVisibility(View.GONE);
@@ -5857,8 +5852,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         checkUi_mainTabsVisible();
         checkUi_forwardCommentFieldVisible();
         checkUi_searchFieldStyle();
-        // Бургер ставится и при создании: иначе до первого mainUserInfoChanged
-        // кнопки слева не будет.
         updateDrawerButton();
 
         glassEngine.setGlassInvalidationListener(this::invalidateBlurCaptures);
@@ -6947,7 +6940,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         // actionMode.setBackgroundColor(Color.TRANSPARENT);
         // actionMode.drawBlur = false;
 
-        // При своей шторке слева уже есть бургер/стрелка.
         actionModeCloseView = null;
         if (hasMainTabs && !AppearanceConfig.navigationDrawer()) {
             actionModeCloseView = new ImageView(getContext());
@@ -7573,7 +7565,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public boolean onBackPressed(boolean invoked) {
-        // Сначала закрывается шторка.
         if (drawerContainer() != null && drawerContainer().isDrawerOpen()) {
             if (invoked) {
                 drawerContainer().closeDrawer(true);
@@ -9416,7 +9407,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (backDrawable != null) {
             backDrawable.setRotation(0, true);
         }
-        // После режима выделения возвращаем бургер.
         if (menuDrawable != null && actionBar.getBackButton() != null
                 && !(actionBar.getBackButton().getDrawable() instanceof MenuDrawable)) {
             actionBar.setBackButtonDrawable(menuDrawable);
@@ -13975,9 +13965,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         });
                     });
             io.addGap();
-            // Пользователь настроил свой порядок пунктов (dialogs-03) — берём его вместо
-            // захардкоженного списка. Пока MZAppearanceMainMenuLayout пуст, меню в точности
-            // такое же, как было. BOTS и SETTINGS пропускаем: они уже есть ниже по коду.
             if (MainMenuLayout.isCustomized()) {
                 MainMenuHelper.addConfiguredItemOptions(io,
                         MainMenuHelper.createMenuContext(currentAccount, this),
@@ -14111,7 +14098,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
-        // mzgram plugins: пункты плагинов (MAIN_MENU) в конце меню «⋮».
         org.mzgram.plugins.menus.MenuInjector.appendMainMenuItems(io, currentAccount, this);
 
         io.show();
@@ -14425,7 +14411,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean shouldUseDrawerActionBarLayout() {
-        // communityId в MZGram нет: у сообщества свой заголовок со стрелкой «назад», бургер там нельзя.
         return AppearanceConfig.navigationDrawer() && !onlySelect && initialDialogsType == DIALOGS_TYPE_DEFAULT
                 && folderId == 0 && communityId == 0 && searchString == null;
     }
@@ -14434,10 +14419,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         return (isArchive() || shouldUseDrawerActionBarLayout()) ? dp(68) : dpf2(16.66f);
     }
 
-    /**
-     * Шторку нельзя дёргать во время поиска, выделения, перетаскивания вкладок
-     * и превью справа.
-     */
     public boolean canOpenDrawer() {
         if (!AppearanceConfig.navigationDrawer() || onlySelect || folderId != 0 || communityId != 0
                 || initialDialogsType != DIALOGS_TYPE_DEFAULT || searching
@@ -14451,9 +14432,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         return filterTabsView == null || (!filterTabsView.isEditing() && !filterTabsView.isAnimatingIndicator());
     }
 
-    /**
-     * Свайп не ловится в полосе нижних вкладок и не конфликтует со свайпом папок.
-     */
     public boolean canOpenDrawerBySwipe(MotionEvent ev) {
         final boolean bottomBarVisible = hasMainTabs && MainTabsLayout.isBottomNavigationVisible() && !mainTabsHiddenByScroll;
         if (ev != null && bottomBarVisible && fragmentView != null) {
@@ -14471,7 +14449,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 || filterTabsView.getCurrentTabId() == filterTabsView.getFirstTabId());
     }
 
-    /** Бургер вместо «⋮». */
     private void updateDrawerButton() {
         if (dialogStoriesCell != null) {
             dialogStoriesCell.setMenuItemsOffset(getDialogStoriesMenuItemsOffset());
@@ -14513,7 +14490,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         final float factor1 = 1f - animatorSearchVisible.getFloatValue();
         final float factor2 = 1f - getRightSlidingProgress();
         final float factor3 = 1f - animatorDoneButtonVisible.getFloatValue();
-        // Со своей шторкой пункты уезжают в неё, «⋮» не нужен.
         final float factor4 = AppearanceConfig.navigationDrawer() ? 0f : 1f;
         final float factor = factor1 * factor2 * factor3 * factor4;
         FragmentFloatingButton.setAnimatedVisibility(optionsItem, factor);
@@ -14658,9 +14634,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public void onParentScrollToTop() {
-        // Как в Telegram для iOS: тап по вкладке «Чаты» сначала возвращает в первую папку,
-        // и только потом крутит список наверх. switchToCurrentSelectedMode уже ставит
-        // список нужной папки в начало, поэтому отдельный scrollToTop тут не нужен.
         if (org.mzgram.appearance.MainTabsUiHelper.isIosNavigationBar()
                 && filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE
                 && !tabsAnimationInProgress && !filterTabsView.isAnimatingIndicator() && !startedTracking

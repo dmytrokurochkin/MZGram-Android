@@ -794,18 +794,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         addView(botVerificationView);
         botVerification = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(botVerificationView, dp(17));
         avatarImage.setAllowLoadingOnAttachedOnly(true);
-        // mzGram: мини-аватарка отправителя в превью сообщения (AppearanceConfig.senderMiniAvatars)
         messageAvatarSpan = new AvatarSpan(this, currentAccount, 18.0f);
         messageAvatarSpan.needDrawShadow = false;
     }
 
-    /** mzGram: спан мини-аватарки отправителя, см. {@link #addSenderAvatar}. */
     private final AvatarSpan messageAvatarSpan;
 
-    /**
-     * mzGram: подставляет перед именем отправителя его мини-аватарку.
-     * Перенесено из MZGram 12.9.0 (DialogCell.addSenderAvatar).
-     */
     private CharSequence addSenderAvatar(CharSequence name, MessageObject messageObject) {
         if (!org.mzgram.appearance.AppearanceConfig.senderMiniAvatars() || messageObject == null || TextUtils.isEmpty(name)) {
             return name;

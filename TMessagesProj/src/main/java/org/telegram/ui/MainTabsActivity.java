@@ -204,7 +204,6 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         Bulletin.Delegate delegate = new Bulletin.Delegate() {
             @Override
             public int getBottomOffset(int tag) {
-                // В M3 всегда 64
                 return navigationBarHeight + (ExtConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? 0 : dp(MainTabsUiHelper.getTabsFabOffsetDp())) + (miniPlayer != null ? (int) miniPlayer.getVisibleOffset() : 0);
             }
         };
@@ -394,8 +393,6 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         tabsView = new MainTabsLayout(context, resourceProvider);
         tabsView.setClipChildren(false);
-        // В M3 панель без внутренних
-        // отступов и без ограничения ширины
         MainTabsUiHelper.applyTabsLayoutStyle(tabsView, dp(328 + DialogsActivity.MAIN_TABS_MARGIN * 2));
 
         tabs = new GlassTabView[6];
@@ -501,8 +498,6 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         tabsViewWrapper = new FrameLayout(context);
         tabsViewWrapper.setOnClickListener(v -> {});
-        // В M3 панель во всю ширину,
-        // высота досчитывается вместе с нижним системным отступом в applyTabsBottomInset
         tabsViewWrapper.addView(tabsView, LayoutHelper.createFrame(MainTabsUiHelper.getTabsViewWidth(), MainTabsUiHelper.getTabsViewHeightDp(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
         tabsViewWrapper.setClipToPadding(false);
         contentView.addView(tabsViewWrapper, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
@@ -1186,8 +1181,6 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             }
         }
 
-        // В M3 системный отступ
-        // уходит внутрь панели, а обёртка его не держит
         MainTabsUiHelper.applyTabsBottomInset(tabsView, tabsViewWrapper, navigationBarHeight, systemInsets.left, systemInsets.right);
 
         final WindowInsetsCompat consumed = isUpdateLayoutVisible ?

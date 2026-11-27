@@ -79,8 +79,6 @@ public class HeaderCell extends FrameLayout {
     public HeaderCell(Context context, int textColorKey, int padding, int topMargin, int bottomMargin, boolean text2, boolean animated, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.resourcesProvider = resourcesProvider;
-        // Вынесенный заголовок живёт вне карточки, поэтому у него свои отступы:
-        // 24 по краям вместо 18 и 3 снизу.
         boolean separated = AppearanceConfig.sectionsSeparatedHeaders();
         this.padding = separated ? 24 : padding;
         this.bottomMargin = separated ? 3 : bottomMargin;
@@ -127,12 +125,6 @@ public class HeaderCell extends FrameLayout {
         return animatedTextView.getDrawable().getCurrentWidth();
     }
 
-    /**
-     * Дальше — сеттеры, которыми экраны подгоняют заголовок под карточку:
-     * подложка, высота, отступы. Для вынесенного заголовка всё это лишнее и
-     * гасится целиком, иначе каждый экран пересчитывал бы геометрию под старую
-     * раскладку.
-     */
     @Override
     public void setBackground(android.graphics.drawable.Drawable background) {
         if (AppearanceConfig.sectionsSeparatedHeaders()) {

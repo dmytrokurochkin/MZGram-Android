@@ -23,10 +23,6 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SeekBarView;
 
-/**
- * Слайдер с заголовком и подписями по краям — как в MZGram (AltSeekbar).
- * Используется для закругления аватарок: слева «Квадрат», справа «Круг».
- */
 @SuppressLint("ViewConstructor")
 public class AvatarCornersSeekBar extends FrameLayout {
 
@@ -162,11 +158,6 @@ public class AvatarCornersSeekBar extends FrameLayout {
         updateValues();
     }
 
-    /**
-     * Единица измерения для промежуточных значений, например «dp» у радиуса секций
-     * (MZGram: formatSectionRadius — 0 «Off», 28 «Max», иначе «N dp»).
-     * Пусто у закругления аватарок, где число выводится без единиц.
-     */
     private String valueSuffix = "";
 
     public void setValueSuffix(String suffix) {
@@ -182,8 +173,6 @@ public class AvatarCornersSeekBar extends FrameLayout {
         } else {
             text = valueSuffix.isEmpty() ? String.valueOf(roundedValue) : roundedValue + " " + valueSuffix;
         }
-        // Верхний регистр нужен закруглению аватарок («CIRCLE»), но не радиусу секций:
-        // у экстеры там «20 dp», «Off», «Max» как есть.
         return valueSuffix.isEmpty() ? text.toString().toUpperCase() : text;
     }
 

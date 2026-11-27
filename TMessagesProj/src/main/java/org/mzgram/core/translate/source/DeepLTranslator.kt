@@ -97,9 +97,6 @@ object DeepLTranslator : Translator {
         if (html) {
             formBodyBuilder.add("tag_handling", "html")
         }
-        // Тон перевода. prefer_*, а не more/less: строгие значения DeepL
-        // отвергает с ошибкой для языков, где формальности нет, и перевод
-        // просто падал бы вместо того, чтобы вернуться обычным.
         when (ExtConfig.deepLFormality.Int()) {
             FORMALITY_INFORMAL -> formBodyBuilder.add("formality", "prefer_less")
             FORMALITY_FORMAL -> formBodyBuilder.add("formality", "prefer_more")

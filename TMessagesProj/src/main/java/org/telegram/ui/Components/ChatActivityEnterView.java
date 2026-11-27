@@ -6167,8 +6167,6 @@ public class ChatActivityEnterView extends FrameLayout implements
             if (id == android.R.id.paste) {
                 isPaste = true;
             }
-            // Картинку из буфера дальше разбирает
-            // ReceiveContentEditText: он отдаёт приёмнику весь ClipData, а не только первый элемент
             return super.onTextContextMenuItem(id);
         }
 
@@ -6333,20 +6331,12 @@ public class ChatActivityEnterView extends FrameLayout implements
         return keyboardName == null || !keyboardName.startsWith("com.samsung");
     }
 
-    // Типы, которые поле ввода готово принять
     private static final String[] RECEIVE_CONTENT_MIME_TYPES = new String[]{"image/gif", "image/*", "image/jpg", "image/png", "image/webp"};
 
-    /**
-     * Один вход для трёх источников сразу: клавиатуры, «Вставить» и drag&drop. Возвращаем то,
-     * что не разобрали (обычный текст), — его доклеит штатное поведение TextView.
-     */
     private ContentInfoCompat onReceiveMediaContent(ContentInfoCompat payload) {
         final Pair<ContentInfoCompat, ContentInfoCompat> split = payload.partition(item -> item.getUri() != null);
         final ContentInfoCompat withUri = split.first;
         final ContentInfoCompat rest = split.second;
-        // isEditingBusinessLink()/isLiveComment выставляются уже ПОСЛЕ createMessageEditText(),
-        // так что условие MZGram при регистрации всегда истинно — реальный отсев здесь.
-        // Возвращаем rest: текст вставится, а медиа-элементы просто выбрасываем
         if (withUri == null || parentFragment == null || isEditingBusinessLink() || isLiveComment) {
             return rest;
         }
@@ -6355,10 +6345,8 @@ public class ChatActivityEnterView extends FrameLayout implements
         final ArrayList<SendMessagesHelper.SendingMediaInfo> photos = new ArrayList<>();
         for (int i = 0; i < clip.getItemCount(); ++i) {
             final Uri uri = clip.getItemAt(i).getUri();
-            // у ClipData типов может быть меньше, чем элементов, — тогда берём общий
             final int mimeCount = clipDescription == null ? 0 : clipDescription.getMimeTypeCount();
             final String mime = mimeCount == 0 ? null : clipDescription.getMimeType(Math.min(i, mimeCount - 1));
-            // одиночный gif/webp-стикер прямо из клавиатуры уходит в чат без редактора
             final boolean isGboardSticker = clipDescription != null && clipDescription.getExtras() != null && clipDescription.getExtras().getBoolean("com.google.android.inputmethod.content.IS_STICKER");
             final boolean sendAsIs = payload.getSource() == ContentInfoCompat.SOURCE_INPUT_METHOD && clip.getItemCount() == 1
                     && ((mime != null && mime.equalsIgnoreCase("image/gif")) || isGboardSticker || (mime != null && mime.equalsIgnoreCase("image/webp") && SendMessagesHelper.shouldSendWebPAsSticker(null, uri)));
@@ -6378,7 +6366,6 @@ public class ChatActivityEnterView extends FrameLayout implements
         return rest;
     }
 
-    /** Бывший ChatActivityEditTextCaption.send(). */
     private void sendReceivedMedia(String mime, Uri uri, boolean notify, int scheduleDate, int scheduleRepeatPeriod) {
         if (delegate != null) {
             delegate.beforeMessageSend(null, notify, scheduleDate, 0);
@@ -6691,8 +6678,6 @@ public class ChatActivityEnterView extends FrameLayout implements
                 }
             }
         };
-        // Вместо голого InputConnectionCompat поле получает
-        // полноценный приёмник контента: клавиатура, «Вставить» и drag&drop идут одной дорогой
         if (parentFragment != null && !isEditingBusinessLink() && !isLiveComment) {
             ViewCompat.setOnReceiveContentListener(messageEditText, RECEIVE_CONTENT_MIME_TYPES, (view, payload) -> onReceiveMediaContent(payload));
         }

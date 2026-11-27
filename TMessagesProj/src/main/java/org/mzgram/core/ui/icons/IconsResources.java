@@ -35,7 +35,6 @@ public class IconsResources extends Resources {
     @Nullable
     @Override
     public Drawable getDrawableForDensity(int id, int density, @Nullable Theme theme) {
-        // mzGram: сначала спрашиваем установленные паки иконок
         Drawable fromPack = IconPackManager.getInstance().getDrawable(this, id, density, theme);
         if (fromPack != null) {
             return fromPack;
@@ -49,10 +48,6 @@ public class IconsResources extends Resources {
         return getDrawableForDensity(id, density, null);
     }
 
-    /**
-     * mzGram: оригинальный drawable (с учётом Solar-подмены, но без паков иконок).
-     * Нужен менеджеру паков, чтобы узнать исходный размер иконки без рекурсии.
-     */
     @Nullable
     public Drawable getOriginalDrawableForDensity(int id, int density, @Nullable Theme theme) {
         int converted = getConversion(id);
@@ -61,10 +56,6 @@ public class IconsResources extends Resources {
         if (state != null) {
             return state.newDrawable(this).mutate();
         }
-        // Только super.getDrawableForDensity: это терминальная реализация в Resources.
-        // super.getDrawable(...) звать нельзя — он внутри вызывает виртуальный
-        // getDrawableForDensity, попадает обратно в наш override и уходит в рекурсию.
-        // density == 0 базовый Resources трактует как «без переопределения плотности».
         Drawable drawable = super.getDrawableForDensity(converted, density, theme);
         Drawable.ConstantState loaded = drawable != null ? drawable.getConstantState() : null;
         if (loaded == null || loaded.canApplyTheme()) {

@@ -1,13 +1,5 @@
 package org.mzgram.sdk.plugins;
 
-/**
- * Основание контроллера плагинов под именем MZGram.
- *
- * dex-модули берут именно этот класс (`PluginsController.class`) и перебирают его
- * `getDeclaredMethods()`, поэтому всё, что они зовут, обязано быть объявлено здесь,
- * а не только у наследника: унаследованные и объявленные ниже по иерархии методы
- * такой перебор не видит.
- */
 public abstract class PluginsController {
 
     public final java.util.Map<String, PythonPluginsEngine> engines = new java.util.AbstractMap<String, PythonPluginsEngine>() {

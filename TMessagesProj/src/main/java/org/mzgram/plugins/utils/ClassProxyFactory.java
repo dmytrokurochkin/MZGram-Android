@@ -41,36 +41,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import dalvik.system.InMemoryDexClassLoader;
 
-/**
- * Фабрика классов-прокси (dexmaker). Сигнатуры финальны — их зовёт
- * {@link org.mzgram.plugins.PluginServices} и Python-SDK (mz_utils.classes).
- *
- * Схема JSON-спеки (generateProxyClass):
- * <pre>{
- *   "name": "сегмент имени класса (custom_name или имя Python-класса)",
- *   "superclass": "fqcn (по умолчанию java.lang.Object)",
- *   "interfaces": ["fqcn", ...],
- *   "fields": [{"name", "type", "static": false, "initial": json, "getter": null, "setter": null}],
- *   "constructors": [{"sig": "(...)V", "super_sig": "(...)V"}],   // опц.; по умолчанию — все не-private ctor'ы суперкласса
- *   "methods": [{"key", "name", "sig": "(...)R"|null, "return": "void|fqcn|primitive"|null,
- *                "super": true|false, "mvel": "expr"|null}]
- * }</pre>
- *
- * Диспетчеризация: каждый сгенерированный метод — статический вызов
- * {@link #dispatch(String, String, Object, Object, Object[])} с зашитыми в байткод
- * classKey/methodKey; peer (PyObject) лежит в volatile-поле {@code __mz_peer__}
- * самого инстанса (реестр не нужен; освобождение — {@link #releaseProxyInstance(Object)}
- * или Python-side Base.release()).
- *
- * super(): в классе генерируется публичный trampoline {@code super$<name>(args)} с
- * прямым invoke-super; {@link #invokeSuper} находит его рефлексией по methodSig
- * (= spec key; перегрузки различаются по арности args).
- *
- * ClassLoader: цепочка InMemoryDexClassLoader (minSdk=27), каждый следующий класс
- * грузится лоадером с parent = предыдущий лоадер — видны все ранее сгенерированные
- * классы (прокси может наследовать прокси), коллизий имён нет за счёт random-суффикса.
- * Повторный (pluginId + sha256(spec)) → кэш, класс не перегенерируется.
- */
 public final class ClassProxyFactory {
 
     static {
@@ -86,9 +56,7 @@ public final class ClassProxyFactory {
     private static final String CLASSES_MODULE = "mz_utils.classes";
     private static final Object[] EMPTY_ARGS = new Object[0];
 
-    /** classKey -> сгенерированный класс и его методы. */
     private static final ConcurrentHashMap<String, ClassRecord> CLASSES = new ConcurrentHashMap<>();
-    /** pluginId -> classKey'и (для releaseAllForPlugin). */
     private static final ConcurrentHashMap<String, Set<String>> PLUGIN_CLASSES = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Serializable> MVEL_CACHE = new ConcurrentHashMap<>();
     private static final Object GENERATE_LOCK = new Object();
@@ -107,14 +75,12 @@ public final class ClassProxyFactory {
     private static final MethodId PRECONSTRUCT_ID = SELF_ID.getMethod(OBJECT_ARRAY_ID, "preConstruct",
             TypeId.STRING, TypeId.STRING, OBJECT_ARRAY_ID);
 
-    /** Текст последнего отказа генератора: питон видит только «see logcat». */
     private static volatile String lastError;
 
     public static String getLastError() {
         return lastError;
     }
 
-    /** Отказ до генератора (нет прав, нет контекста) тоже должен доезжать до плагина. */
     public static void setLastError(String error) {
         lastError = error;
     }
@@ -122,14 +88,11 @@ public final class ClassProxyFactory {
     private ClassProxyFactory() {
     }
 
-    // ---------- публичный фасад (сигнатуры финальны) ----------
 
     public static String generateProxyClass(String pluginId, String specJson) {
         try {
             return generateInternal(pluginId, specJson);
         } catch (Throwable t) {
-            // Через logcat, а не только FileLog: причина нужна и тогда, когда логи выключены,
-            // иначе плагин видит лишь «see logcat», а в logcat пусто.
             android.util.Log.e(TAG, "generateProxyClass failed for plugin " + pluginId, t);
             FileLog.e(TAG + ": generateProxyClass failed for plugin " + pluginId, t);
             lastError = t.getClass().getSimpleName() + ": " + t.getMessage();
@@ -243,7 +206,6 @@ public final class ClassProxyFactory {
         }
     }
 
-    /** Отвязать Python-peer от инстанса (разрывает cross-heap цикл proxy<->peer). */
     public static void releaseProxyInstance(Object proxy) {
         if (proxy == null) {
             return;
@@ -255,11 +217,6 @@ public final class ClassProxyFactory {
         }
     }
 
-    /**
-     * Выгрузка классов плагина из реестров. Сами dex-классы остаются загруженными
-     * (ART не выгружает классы); диспетчеризация по удалённым ключам становится no-op.
-     * Интегратору: звать из PluginsController при unload плагина.
-     */
     public static void releaseAllForPlugin(String pluginId) {
         Set<String> keys = PLUGIN_CLASSES.remove(pluginId);
         if (keys == null) {
@@ -270,12 +227,7 @@ public final class ClassProxyFactory {
         }
     }
 
-    // ---------- точки входа из сгенерированного байткода (public!) ----------
 
-    /**
-     * Единая диспетчеризация методов прокси. peer == null (конструктор суперкласса,
-     * прямое Java-создание) → fallback на super-trampoline или default-значение.
-     */
     public static Object dispatch(String classKey, String methodKey, Object peer, Object proxy, Object[] args) {
         ClassRecord rec = CLASSES.get(classKey);
         if (rec == null) {
@@ -312,11 +264,6 @@ public final class ClassProxyFactory {
         return defaultValue(mr.returnType);
     }
 
-    /**
-     * Pre-construct hook: вызывается из сгенерированного конструктора ДО super.&lt;init&gt;.
-     * Идёт в Python-модуль mz_utils.classes (classKey зарегистрирован там Python-стороной
-     * до первой инстанциации). Возврат: новые аргументы или null (= оставить как есть).
-     */
     public static Object[] preConstruct(String classKey, String ctorSig, Object[] args) {
         try {
             if (!Python.isStarted()) {
@@ -359,7 +306,6 @@ public final class ClassProxyFactory {
         }
     }
 
-    /** Боксинг/анбоксинг для сгенерированного байткода (public — зовётся из dex). */
     public static final class TypeHelper {
         public static Object box(byte v) { return v; }
         public static Object box(char v) { return v; }
@@ -385,14 +331,13 @@ public final class ClassProxyFactory {
         public static short unboxShort(Object v) { return v instanceof Number ? ((Number) v).shortValue() : 0; }
     }
 
-    // ---------- записи реестра ----------
 
     private static final class MethodRecord {
-        String pyKey;          // spec "key" — его знает Python-сторона
+        String pyKey;
         Class<?>[] paramTypes;
         Class<?> returnType;
-        String mvel;           // null → диспетчеризация в Python
-        volatile Method trampoline;  // super$<name> или null (abstract/interface/new)
+        String mvel;
+        volatile Method trampoline;
     }
 
     private static final class FieldInitial {
@@ -408,7 +353,7 @@ public final class ClassProxyFactory {
     private static final class ClassRecord {
         final Class<?> clazz;
         final Map<String, MethodRecord> methods = new ConcurrentHashMap<>();       // expandedKey -> record
-        final Map<String, List<MethodRecord>> byPyKey = new ConcurrentHashMap<>(); // pyKey -> перегрузки
+        final Map<String, List<MethodRecord>> byPyKey = new ConcurrentHashMap<>();
         final List<FieldInitial> instanceInitials = new ArrayList<>();
 
         ClassRecord(Class<?> clazz) {
@@ -441,11 +386,10 @@ public final class ClassProxyFactory {
         Class<?> returnType;
         String pyKey;
         String mvel;
-        Method superMethod;  // null → новый метод (jmethod)
+        Method superMethod;
         boolean trampoline;
     }
 
-    // ---------- генерация ----------
 
     private static String generateInternal(String pluginId, String specJson) throws Exception {
         String classKey = (pluginId != null ? pluginId : "?") + ":" + sha256Hex(specJson);
@@ -503,7 +447,6 @@ public final class ClassProxyFactory {
                                           Class<?> superclass, List<Class<?>> interfaces,
                                           List<FieldSpecLite> fieldSpecs, List<MethodSpecLite> methodSpecs,
                                           ClassLoader resolveLoader) throws Exception {
-        // --- разрешение методов спеки в конкретные сигнатуры ---
         Map<String, Method> overridable = getAllOverridableMethods(superclass, interfaces);
         LinkedHashMap<String, PendingMethod> pending = new LinkedHashMap<>();
         for (MethodSpecLite ms : methodSpecs) {
@@ -542,8 +485,6 @@ public final class ClassProxyFactory {
                 }
             }
         }
-        // Непокрытые abstract-методы — иначе класс не загрузится. Тело — обычная
-        // диспетчеризация; Python-обработчика нет → default-значение.
         for (Method m : overridable.values()) {
             if (Modifier.isAbstract(m.getModifiers()) && !pending.containsKey(expandedKey(m))) {
                 PendingMethod pm = new PendingMethod();
@@ -557,7 +498,6 @@ public final class ClassProxyFactory {
             }
         }
 
-        // --- имя класса ---
         String simple = superclass.getSimpleName();
         if (simple.isEmpty()) {
             simple = "Anonymous";
@@ -615,7 +555,6 @@ public final class ClassProxyFactory {
 
         byte[] dex = dexMaker.generate();
 
-        // --- загрузка: цепочка InMemoryDexClassLoader ---
         Class<?> cls;
         synchronized (GENERATE_LOCK) {
             ClassLoader parent = sharedGeneratedClassLoader != null
@@ -700,12 +639,7 @@ public final class ClassProxyFactory {
         pending.put(key, pm);
     }
 
-    // ---------- кодогенерация dexmaker ----------
 
-    // ВНИМАНИЕ: com.android.dx API строго generic-типизирован (move/compare требуют
-    // одинаковый T с обеих сторон, invokeDirect — receiver Local<? extends D> от D
-    // MethodId). Capture'ы от TypeId<?> между собой не унифицируются, поэтому вся
-    // кодогенерация ниже работает на raw Local/MethodId/FieldId (как и референс).
     @SuppressWarnings({"rawtypes", "unchecked"})
     private static void generateDispatchMethod(DexMaker dexMaker, TypeId<?> proxyType, String name,
                                                Class<?> returnType, Class<?>[] paramTypes,
@@ -721,8 +655,6 @@ public final class ClassProxyFactory {
         Local sizeLocal = code.newLocal(TypeId.INT);
         Local indexLocal = code.newLocal(TypeId.INT);
         Local resultLocal = code.newLocal(OBJECT_ID);
-        // dexmaker разрешает заводить локальные только до первой инструкции,
-        // поэтому и боксы аргументов, и переменная возврата объявляются здесь.
         Local[] boxedLocals = new Local[paramTypes.length];
         for (int i = 0; i < paramTypes.length; i++) {
             boxedLocals[i] = code.newLocal(OBJECT_ID);
@@ -876,7 +808,6 @@ public final class ClassProxyFactory {
         code.returnValue(typed);
     }
 
-    // ---------- разбор спеки ----------
 
     private static List<FieldSpecLite> parseFields(JSONObject spec, ClassLoader cl) throws ClassNotFoundException {
         List<FieldSpecLite> out = new ArrayList<>();
@@ -964,13 +895,10 @@ public final class ClassProxyFactory {
         return out;
     }
 
-    // ---------- рефлексия/типы ----------
 
     private static Map<String, Method> getAllOverridableMethods(Class<?> superclass,
                                                                 List<Class<?>> interfaces) {
         Map<String, Method> out = new LinkedHashMap<>();
-        // Сначала иерархия классов (конкретные реализации побеждают interface-abstract),
-        // включая Object (equals/hashCode/toString переопределять можно).
         Set<String> sealed = new HashSet<>();
         for (Class<?> c = superclass; c != null; c = c.getSuperclass()) {
             collectDeclared(c, out);
@@ -980,7 +908,6 @@ public final class ClassProxyFactory {
                 }
             }
         }
-        // Затем интерфейсы (BFS по всей иерархии).
         ArrayDeque<Class<?>> queue = new ArrayDeque<>(interfaces);
         for (Class<?> c = superclass; c != null; c = c.getSuperclass()) {
             Collections.addAll(queue, c.getInterfaces());
@@ -1161,7 +1088,6 @@ public final class ClassProxyFactory {
         return 0;
     }
 
-    // ---------- имена/дескрипторы ----------
 
     private static String resolutionKey(String name, Class<?>[] params) {
         return name + "|" + paramsDescriptor(params);
@@ -1294,7 +1220,6 @@ public final class ClassProxyFactory {
         }
     }
 
-    // ---------- утилиты ----------
 
     private static ClassLoader appClassLoader() {
         if (ApplicationLoader.applicationContext != null) {

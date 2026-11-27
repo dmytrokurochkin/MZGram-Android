@@ -42,12 +42,7 @@ public class LineProgressView extends FrameLayout {
 
     CellFlickerDrawable cellFlickerDrawable;
 
-    // M3-полоса загрузки — официальный LinearProgressIndicator (material 1.14).
-    // Волна включается метриками M3 Expressive: wavelength dp(40), waveAmplitude dp(3),
-    // waveSpeed dp(15). Контекст оборачивается в Material3-тему только для конструктора,
-    // цвета всегда задаются из темы Telegram через setProgressColor/setBackColor.
     public int type;
-    // Пока setProgressType никто не звал, тип не задан явно — тогда по умолчанию волна.
     private boolean typeSet;
     private LinearProgressIndicator m3Indicator;
     private boolean m3Failed;
@@ -94,7 +89,6 @@ public class LineProgressView extends FrameLayout {
         final int thickness = Math.min(h > 0 ? h : AndroidUtilities.dp(4), AndroidUtilities.dp(4));
         m3Indicator.setTrackThickness(thickness);
         m3Indicator.setTrackCornerRadius(thickness / 2);
-        // Волна только если тип не переопределён в плоский и высоты хватает на амплитуду
         final boolean wavy = effectiveType() == 1;
         final int amplitude = wavy ? Math.min(AndroidUtilities.dp(3), Math.max(0, (h - thickness) / 2)) : 0;
         m3Indicator.setWaveAmplitude(amplitude);
@@ -103,12 +97,10 @@ public class LineProgressView extends FrameLayout {
         if (progressColor != 0) {
             m3Indicator.setIndicatorColor(progressColor);
         }
-        // Без заданного фона трек прозрачный, как в старой отрисовке
         m3Indicator.setTrackColor(backColor != 0 ? backColor : Color.TRANSPARENT);
         m3Indicator.setProgressCompat((int) (currentProgress * 10000), false);
     }
 
-    /** M3 Expressive: без явного setProgressType полоса по умолчанию волнистая. */
     private int effectiveType() {
         return typeSet ? type : 1;
     }
@@ -185,11 +177,6 @@ public class LineProgressView extends FrameLayout {
         return currentProgress;
     }
 
-    /**
-     * Тип 0 обычная полоса, тип 1 волнистая
-     * (wavelengthDeterminate dp(40), waveAmplitude dp(3), waveSpeed dp(15)).
-     * При выключенном newLoadingStyle тип принудительно 0, как в MZGram.
-     */
     public void setProgressType(int type) {
         typeSet = true;
         if (!AppearanceConfig.newLoadingStyle()) {

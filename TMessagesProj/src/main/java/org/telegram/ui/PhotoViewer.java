@@ -1060,8 +1060,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private Theme.ResourcesProvider resourcesProvider;
 
     private boolean pausedOnPause = false;
-    // Аудиофокус просмотрщика, перенос из MZGram 12.9.0 (PhotoViewer.java:537, 6424).
-    // Без него музыка соседнего приложения не глохнет на видео и не возвращается после.
     private boolean hasAudioFocus;
     private final AudioManager photoViewerAudioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService(Context.AUDIO_SERVICE);
 
@@ -1559,14 +1557,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    // Перенос из MZGram 12.9.0, PhotoViewer.java:15029-15031. Фокусом рулим только когда
-    // включена пауза при сворачивании: иначе просмотрщик ведёт себя как в ванили.
     private boolean shouldManageAudioFocus() {
         return CoreConfig.autoPauseVideo.Bool();
     }
 
-    // Первая ветка отдаёт фокус даже на request=true: опция, выключенная во время
-    // просмотра, сразу возвращает звук чужому плееру.
     public void requestAudioFocus(boolean request) {
         if (photoViewerAudioManager == null) {
             return;
@@ -1584,7 +1578,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    // Колбэк приходит с потока аудиосистемы, плеер трогаем только с UI.
     @Override
     public void onAudioFocusChange(int focusChange) {
         AndroidUtilities.runOnUIThread(() -> {
@@ -9466,8 +9459,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (videoPlayer == null || !textureUploaded || changingTextureView || switchingInlineMode || isInline) {
             return;
         }
-        // При включённой паузе-при-сворачивании фокус остаётся за нами — иначе PiP
-        // заиграл бы, отдав звук чужому плееру.
         if (!shouldManageAudioFocus()) {
             requestAudioFocus(false);
         }
@@ -10013,8 +10004,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
         } else {
             pipVideoOverlayAnimateFlag = false;
-            // С включённой опцией по home-кнопке не уходим в PiP — видео просто
-            // встаёт на паузу в onPause().
             if (shouldManageAudioFocus()) {
                 return;
             }
@@ -14359,7 +14348,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             playVideoOrWeb();
         }
-        // На паузе фокус отдаём, на старте забираем обратно.
         requestAudioFocus(!playing);
         containerView.invalidate();
     }
@@ -21964,7 +21952,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         return current != C.TIME_UNSET && total > 15 * 1000 && (!forward || total - current > doubleTapSeekMillis());
     }
 
-    /** Шаг перемотки двойным тапом, ChatsConfig.doubleTapSeekDuration (5/10/15/30 с). */
     private static long doubleTapSeekMillis() {
         return org.mzgram.chats.ChatsConfig.seekDurationSeconds() * 1000L;
     }
@@ -22042,8 +22029,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         return true;
     }
 
-    // Перенос из MZGram 12.9.0, PhotoViewer.java:8489-8491. До этого метод был заглушкой
-    // на `return false`, хотя тумблер в настройках стоял и точка вызова была готова.
     private boolean enableSwipeToPiP() {
         return (pipItem.getVisibility() == View.VISIBLE
                     || (menuItem.getVisibility() == View.VISIBLE && menuItem.isSubItemVisible(gallery_menu_pip)))

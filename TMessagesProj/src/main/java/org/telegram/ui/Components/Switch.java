@@ -89,7 +89,6 @@ public class Switch extends View implements Theme.Colorable {
 
     private ObjectAnimator checkAnimator;
     private SpringAnimation checkSpringAnimator;
-    /** Альфа при новом стиле пишется сюда, а не во View (иначе ломаются overlay-битмапы). */
     private float overrideAlpha = 1.0f;
     private ObjectAnimator iconAnimator;
 
@@ -200,7 +199,6 @@ public class Switch extends View implements Theme.Colorable {
         }
     }
 
-    /** Новый (MZGram) стиль тумблера — тот же слот, что рисует {@code drawMZSwitch}. */
     private static boolean isMZSwitchStyle() {
         int style = ExtConfig.INSTANCE.getSwitchStyle().Int();
         return style == SWITCH_STYLE_MD3 || style == SWITCH_STYLE_M3;
@@ -210,10 +208,6 @@ public class Switch extends View implements Theme.Colorable {
         return ExtConfig.INSTANCE.getSwitchStyle().Int() == SWITCH_STYLE_M3;
     }
 
-    /**
-     * Запас вокруг тумблера для overlay-битмапов: капсула нового стиля вылезает
-     * за measuredWidth/Height (MZGram: {@code Switch.getOverlayPadding()} = dp(5)).
-     */
     private int getOverlayPadding() {
         return isMZSwitchStyle() ? dp(5) : 0;
     }
@@ -360,11 +354,6 @@ public class Switch extends View implements Theme.Colorable {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         attachedToWindow = true;
-        // Стиль MZGram рисует дорожку шире собственных границ вьюхи
-        // (-2dp слева, +3dp справа, высота 26dp против 20-22dp у ячейки), и
-        // клип по границам ребёнка срезает капсуле бока. TextCheckCell снимает
-        // клип у себя, но переключатель живёт ещё в восьми ячейках — проще
-        // попросить об этом родителя отсюда, чем помнить про каждую новую.
         if (getParent() instanceof ViewGroup) {
             ((ViewGroup) getParent()).setClipChildren(false);
         }
@@ -382,7 +371,6 @@ public class Switch extends View implements Theme.Colorable {
 
     @Override
     public void setAlpha(float alpha) {
-        // MZGram: при новом стиле альфа не уходит во View, иначе гаснут overlay-битмапы
         if (!isMZSwitchStyle()) {
             overrideAlpha = 1.0f;
             super.setAlpha(alpha);
@@ -902,7 +890,6 @@ public class Switch extends View implements Theme.Colorable {
         final int measuredWidth = getMeasuredWidth();
         final int measuredHeight = getMeasuredHeight();
 
-        // overrideAlpha: при новом стиле View-альфа не используется (см. setAlpha)
         final int alphaSave;
         if (overrideAlpha < 1f) {
             final int pad = dp(8);

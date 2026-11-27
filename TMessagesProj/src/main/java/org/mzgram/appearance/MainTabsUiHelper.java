@@ -19,13 +19,6 @@ import org.telegram.ui.MainTabsLayout;
 
 import org.mzgram.core.helpers.MainTabsHelper;
 
-/**
- * Material 3 для нижней панели вкладок.
- *
- * Размеры не-M3 варианта берутся из MainTabsHelper (в MZGram есть компактный режим
- * без подписей), поэтому «старая» ветка возвращает текущие значения форка, а не
- * зашитые 72/28/7.666 — при выключенном флаге поведение остаётся прежним.
- */
 public final class MainTabsUiHelper {
 
     private MainTabsUiHelper() {
@@ -35,33 +28,24 @@ public final class MainTabsUiHelper {
         return AppearanceConfig.newNavigationBarStyle() && !MainTabsLayout.isBottomNavigationFloating();
     }
 
-    /**
-     * Панель как в Telegram iOS: капсула почти во всю ширину экрана, 60dp высотой,
-     * вкладки растянуты по ширине. Это та же не-M3 ветка, только шире и выше,
-     * поэтому все размеры считаются через MainTabsHelper. M3 приоритетнее.
-     */
     public static boolean isIosNavigationBar() {
         return AppearanceConfig.iosNavigationBarStyle() && !isMaterial3NavigationBar();
     }
 
-    /** В iOS-стиле обёртка добавляет к системным инсетам ещё 8dp по бокам — вместе с подложкой выходит 16dp. */
     private static int getWrapperSideInset() {
         return isIosNavigationBar() ? AndroidUtilities.dp(8) : 0;
     }
 
-    /** M3 — 64dp, иначе высота из MainTabsHelper. */
     public static int getTabsViewHeightDp() {
         return isMaterial3NavigationBar() ? 64 : MainTabsHelper.getMainTabsHeightWithMargins();
     }
 
-    /** M3 — dp(64) плюс системный отступ снизу, иначе высота из MainTabsHelper. */
     public static int getTabsViewHeight(int bottomInset) {
         return isMaterial3NavigationBar()
                 ? AndroidUtilities.dp(64) + bottomInset
                 : AndroidUtilities.dp(MainTabsHelper.getMainTabsHeightWithMargins());
     }
 
-    /** В iOS-стиле капсула на 4dp выше, но таб внутри остаётся 48dp — лишнее уходит в паддинг. */
     public static int getTabsInnerPaddingVertical() {
         if (isMaterial3NavigationBar()) {
             return 0;
@@ -73,27 +57,22 @@ public final class MainTabsUiHelper {
         return isMaterial3NavigationBar() ? 0 : AndroidUtilities.dp(MainTabsHelper.getMainTabsMargin() + 4);
     }
 
-    /** В M3 подложка без отступа от краёв. */
     public static int getBackgroundInset() {
         return isMaterial3NavigationBar() ? 0 : AndroidUtilities.dp(MainTabsHelper.getMainTabsMargin() - 0.334f);
     }
 
-    /** В M3 подложка прямоугольная, иначе скругление в половину высоты. */
     public static float getBackgroundRadius() {
         return isMaterial3NavigationBar() ? 0 : AndroidUtilities.dp(MainTabsHelper.getMainTabsHeight() / 2f);
     }
 
-    /** В M3 и iOS-стиле панель растянута на всю ширину. */
     public static int getTabsViewWidth() {
         return isMaterial3NavigationBar() || isIosNavigationBar() ? LayoutHelper.MATCH_PARENT : MainTabsHelper.getTabsViewWidth();
     }
 
-    /** Сдвиг кнопки «написать» над панелью: в M3 всегда 64. */
     public static int getTabsFabOffsetDp() {
         return isMaterial3NavigationBar() ? 64 : MainTabsHelper.getMainTabsHeight() + MainTabsHelper.getMainTabsMargin();
     }
 
-    /** В M3 и iOS-стиле панель во всю ширину (в M3 ещё и без внутренних отступов). */
     public static void applyTabsLayoutStyle(MainTabsLayout layout, int legacyMaxWidthPx) {
         final int paddingH = getTabsInnerPaddingHorizontal();
         final int paddingV = getTabsInnerPaddingVertical();
@@ -101,10 +80,6 @@ public final class MainTabsUiHelper {
         layout.setMaxWidth(isMaterial3NavigationBar() || isIosNavigationBar() ? 0 : legacyMaxWidthPx);
     }
 
-    /**
-     * В M3 нижний системный отступ уходит внутрь панели, а обёртка его не держит.
-     * Левый и правый инсеты несёт обёртка, поэтому переданы отдельно.
-     */
     public static void applyTabsBottomInset(MainTabsLayout layout, View wrapper, int bottomInset, int leftInset, int rightInset) {
         applyTabsBottomInset(layout, bottomInset);
         final int side = getWrapperSideInset();
@@ -124,7 +99,6 @@ public final class MainTabsUiHelper {
         }
     }
 
-    /** В M3 обводки у панели нет; значения не-M3 ветки — те же, что в mainTabs. */
     public static BlurredBackgroundProviderBuilder applyBackgroundStroke(BlurredBackgroundProviderBuilder builder) {
         if (isMaterial3NavigationBar()) {
             return builder

@@ -44,7 +44,6 @@ NAMESPACE_ROOT = "MzPackPlugins"
 DATA_FILE_EXTENSIONS = (".json", ".yaml", ".yml", ".txt")
 
 # Top-level import roots that always stay with the ordinary runtime
-# (PLUGINS-MZPACK.md §6 "Зарезервированные и внешние top-level модули").
 RESERVED_ROOTS = frozenset({
     "android", "androidx", "base_plugin", "client_utils", "com", "de",
     "mzpack", "hook_utils", "importlib", "java", "org", "ui",

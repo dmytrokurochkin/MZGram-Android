@@ -192,18 +192,12 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     private Size aspectRatio = SharedConfig.roundCamera16to9 ? new Size(16, 9) : new Size(4, 3);
     private TextureView textureView;
     private BackupImageView textureOverlayView;
-    /**
-     * Чем снимаем кружок. MZGram держит здесь трёхпозиционный CameraType
-     * (InstantCameraView.java:1235); у нас системный вариант остаётся за
-     * SharedConfig, как было, а два других выбираются явно в настройках.
-     */
     private final int cameraType = org.mzgram.chats.ChatsConfig.cameraType();
     private final boolean useCameraX = cameraType == org.mzgram.chats.ChatsConfig.CAMERA_TYPE_CAMERA_X;
     private final boolean useCamera2 = !useCameraX
             && (cameraType == org.mzgram.chats.ChatsConfig.CAMERA_TYPE_CAMERA_2
                 || cameraType == org.mzgram.chats.ChatsConfig.CAMERA_TYPE_TELEGRAM
                 || SharedConfig.isUsingCamera2(currentAccount));
-    /** Зум у Camera2 и CameraX — кратность (min..max), у Camera1 — доля 0..1. */
     private final boolean useRatioZoom = useCamera2 || useCameraX;
     private CameraSession cameraSession;
     private boolean bothCameras;
@@ -329,8 +323,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         rect = new RectF();
 
         flashViews = new FlashViews(getContext(), null, this, null);
-        // Тёплость и яркость фронтальной вспышки берём из настроек, а не константой.
-        // ensureLoaded — на случай раннего вызова до init().
         org.mzgram.chats.ChatsConfig.ensureLoaded();
         flashViews.setWarmth(org.mzgram.chats.ChatsConfig.flashWarmth());
         flashViews.setIntensity(org.mzgram.chats.ChatsConfig.flashIntensity());
@@ -444,14 +436,10 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             flashing = !flashing;
             updateFlash();
         });
-        // Долгий тап по вспышке открывает регулировку тёплости и яркости.
-        // Только на фронталке: у тыльной это обычный торч, крутить там нечего.
         flashButton.setOnLongClickListener(v -> {
             if (!isFrontface || !cameraReady || !isCameraSessionInitiated() || cameraThread == null) {
                 return false;
             }
-            // Пока попап открыт, подсветку включаем принудительно — иначе ползунки нечем оценить;
-            // если до тапа она была выключена, на закрытии возвращаем как было.
             final boolean wasFlashing = flashing;
             if (!wasFlashing) {
                 flashing = true;
@@ -468,7 +456,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                 )
                 .addSpaceGap()
                 .addView(
-                    // нижняя граница яркости у кружка 0.5f, а не.65f как в сторис
                     new SliderView(getContext(), SliderView.TYPE_INTENSITY)
                         .setMinMax(.5f, 1f)
                         .setValue(org.mzgram.chats.ChatsConfig.flashIntensity())
@@ -554,7 +541,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         }
 
         if (useCameraX) {
-            // Подсветку гасит сама сессия, когда снимает фронталка.
             if (isCameraSessionInitiated() && cameraXSession != null) {
                 cameraXSession.setTorchEnabled(flashing && recording);
             }
@@ -829,8 +815,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             return;
         }
         if (useCameraX && camLifecycle == null) {
-            // CameraX привязывается к чужому жизненному циклу, а у кружка своей
-            // Activity нет — держим собственный.
             camLifecycle = new org.mzgram.camera.CameraXSession.CameraLifecycle();
         }
 
@@ -910,8 +894,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         if (useCameraX) {
             bothCameras = org.mzgram.camera.CameraXSession.isRoundDualAvailable(getContext());
             surfaceIndex = (!bothCameras || isFrontface) ? 0 : 1;
-            // Размер превью CameraX сообщает уже после привязки, а GL-потоку он нужен
-            // сразу — до первого кадра ставим квадрат по размеру кружка.
             if (previewSize[0] == null) {
                 final int side = org.mzgram.sdk.utils.system.SystemUtils
                         .getRoundVideoResolution();
@@ -1281,8 +1263,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
     }
 
     public void hideCamera(boolean async) {
-        // Попап регулировки вспышки закрываем до destroy: он держит ссылку на flashButton,
-        // а его onDismiss дёргает updateFlash() — сессии камеры к тому моменту должны быть живы.
         if (flashOptions != null) {
             flashOptions.dismiss();
             flashOptions = null;
@@ -1305,11 +1285,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         cameraContainer.setImageReceiver(null);
     }
 
-    /**
-     * Переключение камеры на CameraX. При двух привязанных линзах (бесшовный режим)
-     * сессия не пересобирается — меняется активная камера и порядок поверхностей,
-     * поэтому картинка не гаснет.
-     */
     private void switchCameraX() {
         if (!useCameraX) {
             return;
@@ -1387,9 +1362,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             }
         }
         isFrontface = !isFrontface;
-        // MZGram 12.9.0, InstantCameraView.java:2597-2600: «запоминать последнюю камеру»
-        // дописывает выбор в ту же настройку, из которой камера берётся при старте записи
-        // (см. :801 выше). Режим «спрашивать» (2) не трогаем — запоминать в нём нечего.
         org.mzgram.chats.ChatsConfig.ensureLoaded();
         if (org.mzgram.chats.ChatsConfig.rememberLastUsedCamera.Bool()
                 && ExtConfig.INSTANCE.getCameraInVideoMessages().Int() != 2) {
@@ -1627,8 +1599,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                         if (cameraXSession != session) {
                             return;
                         }
-                        // Железо могло не дать две линзы разом — тогда вторая поверхность
-                        // не нужна, и порядок надо вернуть к одиночному.
                         final boolean dual = session.isDualMode();
                         if (!dual && bothCameras && surfaceIndex != 0 && cameraThread != null) {
                             cameraThread.flipSurfaces();
@@ -2098,7 +2068,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
             }
         }
 
-        /** Размер превью CameraX приезжает уже после привязки — и может ещё уточниться. */
         public void setCameraXPreviewSize(int index, int width, int height) {
             if (index < 0 || index >= previewSize.length || width <= 0 || height <= 0) {
                 return;
@@ -2348,7 +2317,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                     break;
                 }
                 case DO_SETORIENTATION_MESSAGE: {
-                    // У CameraX нет getWorldAngle(): поворот берём с дисплея.
                     final org.mzgram.camera.CameraXSession session = cameraXSession;
                     final int rotationAngle = session != null ? session.getDisplayOrientation() : 0;
                     android.opengl.Matrix.setIdentityM(mMVPMatrix, 0);
@@ -2503,12 +2471,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         private static final int FRAME_RATE = 30;
         private static final int IFRAME_INTERVAL = 1;
 
-        /**
-         * Реальная частота кадров для энкодера. Перенос из MZGram 12.9.0,
-         * InstantCameraView.java:2429: 60 отдаётся только если драйвер подтвердил
-         * расширенный диапазон, иначе кадры снимутся в 60, а запишутся как 30.
-         */
-        /** Частота, с которой энкодер реально настроен: она же уходит в VideoEditedInfo. */
         private int encoderFrameRate = FRAME_RATE;
 
         private int resolveEncoderFrameRate() {
@@ -4278,13 +4240,9 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
 
     ValueAnimator finishZoomTransition;
 
-    // ---- Зум кнопками громкости при записи кружка ----
-    // Перенос из MZGram 12.9.0, InstantCameraView.java:3012-3022 (onKeyDown)
-    // и :1421-1508 (adjustZoom). Настройки у MZGram нет, фича захардкожена.
 
     private ValueAnimator volumeZoomAnimator;
 
-    /** База геометрического шага зума: столько «ступеней» укладывается в диапазон. */
     private static final double ZOOM_STEP_BASE = 1.75d;
 
     @Override
@@ -4302,11 +4260,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * Шаг зума. У Camera2 диапазон мультипликативный, поэтому шаг геометрический:
-     * число ступеней считается как log(max)/log(1.75), а множитель — max^(1/ступени).
-     * У Camera1 диапазон нормированный 0..1, там шаг линейный, 0.125.
-     */
     private void adjustZoom(boolean up) {
         cancelZoomAnimations();
         zoomSlider.beginSteppedZoomGesture();
@@ -4385,7 +4338,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         volumeZoomAnimator.start();
     }
 
-    /** Отменяет и шаговый зум, и откат после щипка. */
     private void cancelZoomAnimations() {
         if (volumeZoomAnimator != null) {
             volumeZoomAnimator.cancel();
@@ -4399,8 +4351,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
 
     public void finishZoom() {
         zoomSlider.endPinchZoomGesture();
-        // MZGram 12.9.0, InstantCameraView.java:2856-2860 — при staticZoom зум остаётся
-        // там, где его оставили пальцы, и не анимируется обратно.
         if (finishZoomTransition != null || org.mzgram.chats.ChatsConfig.staticZoom.Bool()) {
             return;
         }
@@ -4468,7 +4418,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         return lockedZoom;
     }
 
-    // ---- Зум-кратность: одинаково для Camera2 и CameraX ----
 
     private boolean hasRatioZoomSession() {
         return useCameraX ? cameraXSession != null : camera2SessionCurrent != null;
@@ -4533,8 +4482,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         }
         final float min = session.getMinZoom();
         final float max = session.getMaxZoom();
-        // Пока зум не трогали: основная — 1×, ширик только по настройке; фронталка —
-        // полный сенсор (её минимум), как в CameraXSession.wantsWideAngleStart.
         if (session.isFront() || org.mzgram.chats.ChatsConfig.startWithWideAngleCamera.Bool()) {
             return min;
         }
@@ -4568,10 +4515,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         zoomControlView.setZoom(value, false);
     }
 
-    /**
-     * Ползунок сам поставил зум камере — нам остаётся запомнить его как «отпущенный»,
-     * иначе {@link #finishZoom()} после щипка утянет кратность обратно.
-     */
     private void onZoomSliderChanged(float zoom, boolean fromUser) {
         if (!fromUser) {
             return;
@@ -4589,7 +4532,6 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
         }
     }
 
-    /** Привязать ползунок к текущей сессии: пределы зума он берёт у неё. */
     private void bindZoomSlider() {
         AndroidUtilities.runOnUIThread(() -> {
             if (useCameraX) {

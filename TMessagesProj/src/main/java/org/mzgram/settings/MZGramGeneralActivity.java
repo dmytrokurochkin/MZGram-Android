@@ -63,25 +63,14 @@ import org.mzgram.notifications.DeviceCheckActivity;
 import org.mzgram.notifications.PushDiagnostics;
 import org.mzgram.notifications.PushTest;
 
-/**
- * Экран «General» раздела mzGram — визуально 1:1 повторяет General из MZGram.
- * Настройки по возможности привязаны к уже существующим ConfigItem MZGram; новые заводятся
- * только там, где в MZGram нет аналога, и помечены «UI-only» (без бэкенда, как в MZGram 12.9.0).
- */
 public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
 
     private static final int TYPE_SLIDE = 100;
     private static final int PUSH_SERVICE_IN_APP = 0;
     private static final int PUSH_SERVICE_UNIFIED = 2;
 
-    /** Проверяется имя папки, а не путь. */
     private static final Pattern SAVE_PATH_PATTERN = Pattern.compile("^(?!\\.{1,2}$)[A-Za-z0-9._ -]{1,255}$");
 
-    /**
-     * «Зальго»-образец для подписи под переключателем фильтра. У нашего фильтра порог срабатывания —
-     * четыре подряд идущих комбинирующих знака (MessageHelper.ZALGO_PATTERN, :887), поэтому у образца
-     * их по четыре на букву, иначе строка выглядела бы одинаково при включённом и выключенном фильтре.
-     */
     private static final String ZALGO_SAMPLE =
             "Z\u0334\u034d\u030c\u0301a\u0308\u0325\u0347\u0303l\u0302\u031e\u0356\u0300"
                     + "g\u0300\u035d\u0345\u0330o\u0304\u0353\u0359\u0306";
@@ -151,7 +140,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
     private int glyphRow;
     private int notificationsDividerRow;
 
-    /** Момент «пять минут назад» для живого примера в строке Relative Last Seen. */
     private int fiveMinutesAgo;
 
     public MZGramGeneralActivity() {
@@ -210,8 +198,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
         sortByUnreadRow = addRow("sortByUnread", "SortByUnread");
         unlimitedPinnedRow = addRow("unlimitedPinnedDialogs", "UnlimitedPinnedDialogs");
         hideArchiveRow = addRow("hideArchive");
-        // Когда архив скрыт, строка уходит целиком: «открывать архив потягиванием»
-        // нечего, если папки архива нет в списке.
         archiveOnPullRow = ExtConfig.INSTANCE.getHideArchive().Bool() ? -1 : addRow("archiveOnPull");
         disableUnarchiveSwipeRow = addRow("disableUnarchiveSwipe");
         archiveDividerRow = addRow();
@@ -405,7 +391,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /** Перерисовать экраны под нами. */
     private void rebuildAll() {
         if (getParentLayout() != null) {
             getParentLayout().rebuildAllFragmentViews(false, false);
@@ -502,7 +487,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
         } else if (position == relativeLastSeenRow) {
             item = MZGramConfig.relativeLastSeen;
         } else if (position == inAppVibrationRow) {
-            // CoreConfig.disableVibration инвертирована относительно подписи «In-App Vibration».
             item = CoreConfig.disableVibration;
             inverted = true;
         } else if (position == filterZalgoRow) {
@@ -544,8 +528,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
         }
 
         if (position == translateButtonRow || position == translateChatButtonRow) {
-            // Поиск по настройкам переиндексируется, экраны пересобираются — пункт
-            // «Translate» появляется и исчезает в меню сообщения.
             getNotificationCenter().postNotificationName(NotificationCenter.updateSearchSettings);
             rebuildAll();
         }
@@ -554,13 +536,10 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
             rebuildAll();
         }
         if (position == filterZalgoRow) {
-            // Подпись секции показывает результат работы фильтра, значит меняется вместе с ним.
             listAdapter.notifyItemChanged(generalDividerRow);
             rebuildAll();
         }
         if (position == relativeLastSeenRow && view instanceof TextCheckCell) {
-            // Подпись строки — живое превью самой настройки. Меняем только подпись:
-            // пересборка ячейки оборвала бы анимацию переключателя, которая уже идёт.
             ((TextCheckCell) view).setValueText(
                     LocaleController.formatDateOnline(fiveMinutesAgo, new boolean[1], new boolean[1]));
         }
@@ -576,12 +555,8 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
             showRestartHint();
         }
         if (position == hideArchiveRow) {
-            // Папка архива пересобирается сразу.
             getMessagesController().checkArchiveFolder();
             getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload, true);
-            // Со скрытым архивом строке «открывать архив потягиванием» нечего открывать,
-            // она уходит из списка — но с анимацией: notifyDataSetChanged её убивает,
-            // и строка исчезает рывком.
             final int wasPullRow = archiveOnPullRow;
             updateRows();
             if (listAdapter != null) {
@@ -656,10 +631,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
         }));
     }
 
-    /**
-     * Диалог имени папки сохранения: неподходящее имя не «чинится» молча, а отбивается
-     * тряской поля, диалог остаётся открытым.
-     */
     private void showCustomSavePathDialog() {
         Context context = getParentActivity();
         if (context == null) {
@@ -702,7 +673,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
             CoreConfig.customSavePath.setConfigString(value);
             if (listAdapter != null) {
                 listAdapter.notifyItemChanged(savePathRow);
-                // Подпись секции зависит от значения — обновляем вместе со строкой.
                 listAdapter.notifyItemChanged(storageDividerRow);
             }
             dialog.dismiss();
@@ -715,10 +685,7 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
             editText.setSelection(editText.length());
             AndroidUtilities.showKeyboard(editText);
         });
-        // Без этого диалог закрылся бы раньше проверки и «тряска» была бы не видна.
         dialog.setDismissDialogByButtons(false);
-        // Слушателя закрытия ставим через showDialog: BaseFragment.showDialog (:834)
-        // затирает тот, что назначен диалогу напрямую.
         showDialog(dialog, d -> AndroidUtilities.hideKeyboard(editText));
     }
 
@@ -1054,7 +1021,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
                                 getString(R.string.UnlimitedPinnedDialogsAbout),
                                 CoreConfig.unlimitedPinnedDialogs.Bool(), true, true);
                     } else if (position == relativeLastSeenRow) {
-                        // Значение строки — живой пример «был(а) 5 минут назад».
                         cell.setTextAndValueAndCheck(getString(R.string.MZGeneralRelativeLastSeen),
                                 LocaleController.formatDateOnline(fiveMinutesAgo, new boolean[1], new boolean[1]),
                                 MZGramConfig.relativeLastSeen.Bool(), false, true);
@@ -1118,8 +1084,6 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
                         cell.setTextAndValue(getString(R.string.MZGeneralMapPreview),
                                 mapPreviewOptions()[mapPreviewIndex()], false);
                     } else if (position == showIdAndDcRow) {
-                        // Выбор из трёх режимов, а не переключатель: Bot API отличается
-                        // от Telegram API префиксом -100 у чатов и каналов.
                         int type = ExtConfig.INSTANCE.getIdDcType().Int();
                         CharSequence[] options = idOptions();
                         cell.setTextAndValue(getString(R.string.MZGeneralShowIdAndDc),

@@ -1128,7 +1128,6 @@ public class ActionBarPopupWindow extends PopupWindow {
     public static class GapView extends FrameLayout {
 
         Drawable shadowDrawable;
-        // По умолчанию true, т.е. как было
         boolean dividerVisible = true;
 
         public GapView(Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -1149,7 +1148,6 @@ public class ActionBarPopupWindow extends PopupWindow {
             setBackgroundColor(color);
         }
 
-        /** На стекле разделитель гасится. */
         public void setDividerVisible(boolean dividerVisible) {
             this.dividerVisible = dividerVisible;
             invalidate();

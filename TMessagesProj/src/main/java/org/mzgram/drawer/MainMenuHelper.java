@@ -54,24 +54,11 @@ import org.telegram.ui.web.SearchEngine;
 import org.mzgram.core.CoreConfig;
 import org.mzgram.core.settings.GhostModeActivity;
 
-/**
- * Резолвер пунктов главного меню: id из {@link MainMenuLayout} → иконка, подпись и действие.
- *
- * MZGram: {@code org/mzgram/sdk/utils/chats/MainMenuHelper.java} (12.9.0, 819 строк).
- * Из {@code MenuContext} убран {@code pluginContextData}.
- */
 public final class MainMenuHelper {
 
     private MainMenuHelper() {
     }
 
-    /**
-     * Контекст резолва. MZGram: {@code MainMenuHelper.MenuContext} — record из четырёх полей,
-     * из них {@code pluginContextData} выброшен вместе с движком плагинов.
-     *
-     * @param archiveClick своё действие для «Архива»: в списке чатов архив открывается
-     *                     не новым фрагментом, а прокруткой
-     */
     public record MenuContext(int currentAccount, BaseFragment fragment, Runnable archiveClick) {
     }
 
@@ -90,17 +77,11 @@ public final class MainMenuHelper {
         return new MenuContext(currentAccount, fragment, archiveClick);
     }
 
-    // ---- меню «⋮» ----
 
     public static void addConfiguredItemOptions(ItemOptions io, MenuContext ctx) {
         addConfiguredItemOptions(io, ctx, id -> false);
     }
 
-    /**
-     * Разделитель ставится «отложенно»: висящие в начале и в конце схлопываются.
-     *
-     * @param skip пункты, которые в этом конкретном меню дублируют что-то другое
-     */
     public static void addConfiguredItemOptions(ItemOptions io, MenuContext ctx, IntPredicate skip) {
         boolean hasAnyItem = false;
         boolean dividerPending = false;
@@ -195,7 +176,6 @@ public final class MainMenuHelper {
         return true;
     }
 
-    /** Длинное нажатие закрывает меню. */
     private static void bindLongClick(ItemOptions io, Runnable onLongClick) {
         if (onLongClick == null) {
             return;
@@ -211,7 +191,6 @@ public final class MainMenuHelper {
         });
     }
 
-    // ---- шторка ----
 
     public static List<MenuItemInfo> resolveDrawerMenuItems(int id, MenuContext ctx) {
         final MainMenuItem item = MainMenuItem.getById(id);
@@ -225,7 +204,6 @@ public final class MainMenuHelper {
             return resolveDrawerPluginMenuItems(ctx);
         }
         if (item == MainMenuItem.ARCHIVE && !hasArchivedChats(ctx.currentAccount())) {
-            // Пустой архив в шторке не показывается.
             return Collections.emptyList();
         }
         final MenuItemInfo info = resolveMenuItem(id, ctx);
@@ -257,7 +235,6 @@ public final class MainMenuHelper {
         return result;
     }
 
-    // ---- сам резолвер ----
 
     public static MenuItemInfo resolveMenuItem(int id, MenuContext ctx) {
         final MainMenuItem item = MainMenuItem.getById(id);
@@ -374,7 +351,6 @@ public final class MainMenuHelper {
         org.mzgram.core.BackButtonMenuRecent.show(currentAccount, fragment, anchor);
     }
 
-    /** Заголовок зависит от состояния: пункт и показывает его, и переключает. */
     private static CharSequence ghostModeTitle() {
         return LocaleController.getString(CoreConfig.isGhostModeActive()
                 ? R.string.DisableGhostMode
@@ -403,11 +379,6 @@ public final class MainMenuHelper {
         }
     }
 
-    /**
-     * MZGram: {@code MainMenuHelper.$r8$lambda$saqA7TDqFSmi2ZXfA6fwir6uv4I} — открывает
-     * домашнюю страницу поисковика во встроенном браузере. В нашем {@code SearchEngine}
-     * нет {@code getHomepage()}, поэтому берётся {@code search_url}.
-     */
     private static void openBrowserHomepage(BaseFragment fragment) {
         final SearchEngine engine = SearchEngine.getCurrent();
         final Activity activity = fragment.getParentActivity();
@@ -417,16 +388,6 @@ public final class MainMenuHelper {
         Browser.openInTelegramBrowser(activity, engine.search_url, null);
     }
 
-    /**
-     * Сканер QR со своим листом результата — как у MZGram
-     * ({@code MainMenuHelper} → {@code CameraScanActivity.showAsSheet} →
-     * {@code QRCodeSheet}).
-     *
-     * Раньше отсюда открывался стоковый экран привязки устройства: своего листа
-     * не было, а сканер без него бесполезен — результат некуда деть. Делегат
-     * безопасен: {@code getSubtitleText()} у интерфейса объявлен со значением по
-     * умолчанию (CameraScanActivity:174), так что переопределять его не нужно.
-     */
     private static void openQrScanner(BaseFragment fragment) {
         if (fragment.getParentActivity() == null) {
             return;
@@ -435,8 +396,6 @@ public final class MainMenuHelper {
                 new CameraScanActivity.CameraScanActivityDelegate() {
                     @Override
                     public boolean processQr(String text, Runnable onLoadEnd) {
-                        // Возвращаем true: экран закрывается сам, а лист
-                        // показываем после закрытия, иначе он окажется под ним.
                         AndroidUtilities.runOnUIThread(() -> {
                             onLoadEnd.run();
                             AndroidUtilities.runOnUIThread(() -> {
@@ -451,12 +410,6 @@ public final class MainMenuHelper {
                 });
     }
 
-    /**
-     * Иконка и подпись пункта без действия — для экрана-редактора раскладки,
-     * где фрагмента-получателя ещё нет. {@link MainMenuItem#DIVIDER} возвращает
-     * {@code null}: подпись разделителя — дело редактора (строки {@code MainMenuDivider}
-     * в ресурсах форка пока нет).
-     */
     public static MenuItemInfo describeItem(int id) {
         final MainMenuItem item = MainMenuItem.getById(id);
         if (item == null) {
@@ -487,7 +440,6 @@ public final class MainMenuHelper {
         };
     }
 
-    // ---- attach-menu-боты ----
 
     public static List<AttachMenuBotInfo> getAttachMenuBotItems(MenuContext ctx) {
         final BaseFragment fragment = ctx.fragment();
@@ -546,10 +498,6 @@ public final class MainMenuHelper {
         return activity instanceof LaunchActivity ? (LaunchActivity) activity : LaunchActivity.instance;
     }
 
-    /**
-     * MZGram: {@code ChatUtils.hasArchivedChats()} → {@code MessagesController.hasArchivedChatsActual()}.
-     * У нас поле {@code hasArchivedChats} приватное, поэтому смотрим сам список папки 1.
-     */
     public static boolean hasArchivedChats(int currentAccount) {
         try {
             final List<TLRPC.Dialog> archived = MessagesController.getInstance(currentAccount).getDialogs(1);

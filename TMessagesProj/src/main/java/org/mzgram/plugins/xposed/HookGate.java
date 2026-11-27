@@ -16,19 +16,6 @@ import java.util.concurrent.TimeUnit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 
-/**
- * Закрывает гонку установки хука в Aliuhook 1.1.4.
- *
- * XposedBridge.hookMethod сначала зовёт нативный hook0 (метод с этого момента уже
- * перехвачен), и только потом проставляет HookInfo.backup и добавляет колбэк. Вызов
- * метода с другого потока, попавший в это окно, видит ноль колбэков и backup == null
- * и падает NPE внутри XposedBridge.invokeMethod.
- *
- * Здесь тот же самый сценарий выполняется в безопасном порядке: запись создаётся
- * заранее, в неё кладётся барьер-колбэк, и только после этого ставится нативный хук.
- * Поток, попавший в окно, паркуется на барьере, пока backup не проставлен. Дальше
- * XposedBridge.hookMethod находит готовую запись и просто добавляет колбэк.
- */
 public final class HookGate {
 
     private static final long BARRIER_TIMEOUT_MS = 2000L;

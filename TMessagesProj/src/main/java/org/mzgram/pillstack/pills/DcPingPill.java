@@ -11,10 +11,6 @@ import org.telegram.ui.ActionBar.Theme;
 
 import org.mzgram.pillstack.PillType;
 
-/**
- * Пинг до дата-центра текущего аккаунта. Число берём у нативного MTProto-соединения
- * ({@code native_getCurrentPingTime}) — никаких своих сокетов не открываем.
- */
 @SuppressLint("ViewConstructor")
 public class DcPingPill extends TelemetryPill {
 

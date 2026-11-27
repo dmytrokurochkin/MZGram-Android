@@ -21,10 +21,6 @@ import org.telegram.ui.LaunchActivity;
 
 import org.mzgram.pillstack.PillStackSettingsActivity;
 
-/**
- * База для пилюль локальной телеметрии (RAM, CPU, сеть, пинг): нейтральный фон
- * как у кэша/прокси, текст замеряется локально без сети, тап — обновить.
- */
 @SuppressLint("ViewConstructor")
 public abstract class TelemetryPill extends BasePill {
 
@@ -62,7 +58,6 @@ public abstract class TelemetryPill extends BasePill {
         ScaleStateListAnimator.apply(layout);
     }
 
-    /** Снять замер и вернуть текст пилюли; null — данных ещё нет, покажем прочерк. */
     protected abstract String measureText();
 
     @Override

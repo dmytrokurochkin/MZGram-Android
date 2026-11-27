@@ -730,16 +730,7 @@ public class MessageObject {
         return !isRepostPreview;
     }
 
-    /**
-     * mzGram: реакции скрыты для типа чата, которому принадлежит сообщение
-     * (ChatsConfig.hideReactionsInChannels / InGroups / InPrivate).
-     *
-     * В MZGram (MZGram 12.9.0) разбивка по типам живёт только в
-     * ChatActivity.disabledReactions() и гасит панель реакций; отрисовку реакций
-     * в ячейке гасим здесь — сделано по смыслу, с MZGram не сверено.
-     * Результат кэшируется: тип чата у сообщения не меняется.
-     */
-    private int mzChatKind; // 0 — не считали, 1 — личка, 2 — канал, 3 — группа
+    private int mzChatKind;
 
     private boolean mzReactionsHiddenForDialog() {
         try {

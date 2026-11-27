@@ -14,11 +14,6 @@ import org.telegram.ui.Components.ItemOptions;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-/**
- * Меню по тапу на аватар канала в ленте: открыть канал, спрятать его из ленты, выйти.
- * Выход из канала сразу вычищает его посты из ленты — иначе строки остались бы висеть
- * до следующей полной перезагрузки.
- */
 public abstract class FeedChannelAvatarMenu {
 
     private static void deleteFeedRows(ChatActivity chatActivity, long dialogId, Consumer<ArrayList<Integer>> onRowsDeleted) {

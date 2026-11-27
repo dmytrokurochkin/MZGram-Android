@@ -74,13 +74,10 @@ public class MarkdownParser {
 
     private static final int MAX_RICH_TEXT_LEN = 8192;
     private static final int MAX_FILE_SIZE = 64 * 1024;
-    /** Размер куска, на которые режется код в Instant View. */
     private static final int PREFORMATTED_CHUNK_SIZE = 8192;
 
     public static boolean isMarkdown(MessageObject msg) {
         if (msg == null) return false;
-        // третий дизъюнкт — .txt/.json/.kt/.py/Dockerfile и ещё ~60 типов, они открываются
-        // тем же вьюером, но одним преформатированным блоком с подсветкой
         return isExtensionMarkdown(msg.getExtension()) || isMimeMarkdown(msg.getMimeType()) || MarkdownUtils.isMZMarkdown(msg);
     }
 
@@ -338,9 +335,6 @@ public class MarkdownParser {
             }
             if (fileText.length() > MAX_FILE_SIZE) return null;
 
-            // код и текстовые конфиги markdown-парсеру отдавать нельзя: он съест решётки как
-            // заголовки, а звёздочки как курсив. Такой файл кладём целиком в pageBlockPreformatted,
-            // ArticleViewer подсветит его по language
             final String language = MarkdownUtils.getPreformattedLanguage(filename, messageObject.getExtension(), messageObject.getMimeType());
             if (TextUtils.isEmpty(language)) {
                 final String title = parse(fileText, page.blocks);

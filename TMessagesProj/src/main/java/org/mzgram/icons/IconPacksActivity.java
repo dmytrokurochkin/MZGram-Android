@@ -33,11 +33,6 @@ import org.mzgram.icons.ui.NewIconPackBottomSheet;
 import org.mzgram.core.settings.BaseCoreSettingsActivity;
 import org.mzgram.core.ui.cells.HeaderCell;
 
-/**
- * Экран управления паками иконок (порт org.mzgram.sdk.icons.ui.IconPacksActivity).
- *
- * Подключается к общим настройкам по полному имени {@code org.mzgram.icons.IconPacksActivity}.
- */
 public class IconPacksActivity extends BaseCoreSettingsActivity {
 
     private int basePacksHeaderRow;
@@ -79,10 +74,6 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
         packs.clear();
         packs.addAll(sortByPriority(IconPackStorage.getInstalledPacks()));
 
-        // Секция «Базовые наборы» — порт IconPacksActivity.fillItems:254 (заголовок BasePacks).
-        // В MZGram активен ровно один встроенный набор: первый id "base.*" в iconPacksLayout,
-        // по умолчанию "base.default". У нас выбор лежит в ExtConfig.iconReplacements
-        // (0/1/2), см. BaseIconPacks — отдельного ключа под это заводить не стали.
         basePacksHeaderRow = addRow("iconPacksBase");
         baseDefaultRow = addRow("iconPackBaseDefault");
         baseSolarRow = addRow("iconPackBaseSolar");
@@ -124,14 +115,6 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
         return "iconpacks";
     }
 
-    /**
-     * Активные паки — вперёд, в своём порядке; остальные следом.
-     *
-     * Порядок активных и есть приоритет при конфликте имён иконок: побеждает
-     * первый (IconPacksConfig.activePacks — упорядоченный список). Поэтому
-     * перетаскивание должно быть видимым, а для этого активные обязаны идти
-     * подряд и сверху.
-     */
     private List<IconPack> sortByPriority(List<IconPack> installed) {
         List<String> active = IconPacksConfig.getActivePackIds();
         List<IconPack> result = new ArrayList<>();
@@ -171,7 +154,6 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
                 listAdapter.notifyItemRangeChanged(baseDefaultRow, 3);
             }
             IconPackManager.getInstance().reload();
-            // IconsResources кэширует выбранный набор до перезапуска процесса
             showRestartHint();
         } else if (position == enableRow) {
             boolean value = IconPacksConfig.enabled.toggleConfigBool();
@@ -214,15 +196,11 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /** Меню пака: точечное редактирование, поделиться, удалить. */
     private void showPackMenu(IconPack pack) {
         Context context = getParentActivity();
         if (context == null) {
             return;
         }
-        // Приоритет показываем только у активных паков и только когда их
-        // больше одного: у единственного двигать нечего, у выключенного
-        // приоритета нет вовсе.
         final int priority = IconPacksConfig.getActivePackIds().indexOf(pack.getId());
         final int activeCount = IconPacksConfig.getActivePackIds().size();
         final boolean canRaise = priority > 0;
@@ -259,16 +237,6 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
         showDialog(builder.create());
     }
 
-    /**
-     * Сдвинуть пак в списке приоритета.
-     *
-     * Порядок активных паков решает, чья иконка победит при совпадении имён:
-     * берётся первая найденная (IconPackManager). MZGram двигает паки
-     * перетаскиванием за ручку (IconPacksActivity: allowReorder +
-     * setReorderHandleOnly), но там строка пака — своя ячейка с ручкой, а у нас
-     * обычный TextCheckCell с переключателем; отдельная ячейка с превью — своя
-     * задача, до неё двигаем через меню.
-     */
     private void movePriority(IconPack pack, int delta) {
         List<String> order = IconPacksConfig.getActivePackIds();
         int index = order.indexOf(pack.getId());
@@ -283,10 +251,6 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
         showRestartHint();
     }
 
-    /**
-     * Включает режим точечной замены: пак становится «редактируемым», и поверх интерфейса
-     * появляется плавающий пикер, показывающий иконки текущего экрана.
-     */
     private void startEditing(IconPack pack) {
         if (!IconPacksConfig.enabled()) {
             IconPacksConfig.enabled.setConfigBool(true);
@@ -298,7 +262,6 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
         IconPackManager.getInstance().reload();
         updateRowsAndNotify();
         finishFragment();
-        // подсказку показываем уже на экране, куда вернулись, иначе она уедет вместе с настройками
         AndroidUtilities.runOnUIThread(() -> {
             org.telegram.ui.ActionBar.BaseFragment target = org.telegram.ui.LaunchActivity.getSafeLastFragment();
             if (target != null) {
@@ -309,10 +272,6 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
         }, 350);
     }
 
-    /**
-     * Экран со списком всех иконок пака (порт IconPacksActivity.java:409): открывается
-     * вместе с включением режима точечной замены, как в MZGram.
-     */
     private void openEditor(IconPack pack) {
         if (!IconPacksConfig.enabled()) {
             IconPacksConfig.enabled.setConfigBool(true);
@@ -358,11 +317,6 @@ public class IconPacksActivity extends BaseCoreSettingsActivity {
         });
     }
 
-    /**
-     * Создание пака и правка его метаданных — одна и та же шторка
-     * (порт NewIconPackBottomSheet): без пака она создаёт новый и уводит в редактор,
-     * с паком — переписывает имя, автора и версию.
-     */
     private void showPackInfoSheet(IconPack pack) {
         Context context = getParentActivity();
         if (context == null) {

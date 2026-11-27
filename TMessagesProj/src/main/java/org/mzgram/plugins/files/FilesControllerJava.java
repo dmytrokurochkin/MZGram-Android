@@ -21,29 +21,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.mzgram.plugins.PluginsController;
 import org.mzgram.plugins.PluginsWatchdog;
 
-/**
- * Java-сторона FilesController: реестр обработчиков открытия файлов по расширению.
- * Сигнатуры register/unregister/isIconsSupported финальны — их зовёт
- * {@link org.mzgram.plugins.PluginServices} и Python-SDK (file_utils.FilesController).
- *
- * ОТКЛОНЕНИЕ ОТ ИСХОДНОГО КОНТРАКТА (задокументировано): исходный
- * {@code FilesController.register(FileInfo(ext=..., on_click=...))} передаёт Python-колбэк
- * при регистрации, а 5-аргументная сигнатура его не несла. Поэтому добавлена перегрузка
- * {@link #register(String, String, String, String, boolean, PyObject)}; старая
- * 5-аргументная делегирует ей с {@code onClick == null} (хендлер без колбэка ничего
- * не перехватывает). В PluginServices добавлена зеркальная перегрузка registerFileHandler.
- *
- * Точка вызова из ядра: {@link #dispatchOpenFile} из патчей
- * {@code AndroidUtilities.openDocument}/{@code openForView}; возвращает true, если
- * хендлер плагина обработал файл (дефолтный флоу открытия пропускается).
- */
 public final class FilesControllerJava {
 
     private static final class FileHandler {
         final String pluginId;
         final String ext;
         final String secret;
-        /** Подстроки имени файла в lower case; пустой список = без ограничений. */
         final List<String> whitelist;
         final List<String> blacklist;
         final boolean hasIcon;
@@ -61,24 +44,17 @@ public final class FilesControllerJava {
         }
     }
 
-    /** ext (нормализованное, без точки, lower case) -> хендлер. */
     private static final Map<String, FileHandler> handlers = new ConcurrentHashMap<>();
 
     private FilesControllerJava() {
     }
 
-    // ---------- регистрация (зовётся из PluginServices/Python) ----------
 
     public static String register(String pluginId, String ext, String whitelistJson,
                                   String blacklistJson, boolean hasIcon) {
         return register(pluginId, ext, whitelistJson, blacklistJson, hasIcon, null);
     }
 
-    /**
-     * @return secret хендлера (UUID) или null: расширение занято другим плагином
-     *         (Python-сторона по null бросает ExtensionAlreadyRegistered) либо
-     *         некорректные аргументы.
-     */
     public static String register(String pluginId, String ext, String whitelistJson,
                                   String blacklistJson, boolean hasIcon, PyObject onClick) {
         String normalized = normalizeExt(ext);
@@ -90,14 +66,12 @@ public final class FilesControllerJava {
             FileLog.d("FilesControllerJava: ." + normalized + " already registered by " + existing.pluginId);
             return null;
         }
-        // Повторная регистрация тем же плагином — замена (как registerMenuItem у контроллера).
         FileHandler handler = new FileHandler(pluginId, normalized, UUID.randomUUID().toString(),
                 parseJsonArray(whitelistJson), parseJsonArray(blacklistJson), hasIcon, onClick);
         handlers.put(normalized, handler);
         return handler.secret;
     }
 
-    /** Снять хендлер; secret обязателен (чужой хендлер снять нельзя). Молчаливая no-op при несовпадении. */
     public static void unregister(String pluginId, String ext, String secret) {
         String normalized = normalizeExt(ext);
         if (pluginId == null || normalized == null || secret == null) {
@@ -105,7 +79,6 @@ public final class FilesControllerJava {
         }
         FileHandler handler = handlers.get(normalized);
         if (handler == null || !handler.pluginId.equals(pluginId) || !handler.secret.equals(secret)) {
-            // MZGram бросает ExtensionNotRegistered/SecretInvalid; сигнатура void — только лог.
             FileLog.d("FilesControllerJava: unregister rejected for ." + normalized + " from " + pluginId);
             return;
         }
@@ -120,25 +93,14 @@ public final class FilesControllerJava {
     }
 
     public static boolean isIconsSupported() {
-        // Кастомные иконки типов файлов в списке документов — отдельный глубокий UI-патч,
-        // честно сообщаем Python-стороне, что их нет.
         return false;
     }
 
-    /** Дешёвый гейт для патчей ядра. */
     public static boolean hasHandlers() {
         return !handlers.isEmpty();
     }
 
-    // ---------- диспетч (зовётся из патчей ядра) ----------
 
-    /**
-     * Хелпер для патчей открытия файлов: собрать args-мапу и вызвать {@link #dispatchOpen}.
-     * Ключи args: file_name, path, file (File), mime, message?, account, activity?,
-     * parent_fragment?, place (simpleName фрагмента или "UNKNOWN").
-     *
-     * @return true, если открытие перехвачено плагином.
-     */
     public static boolean dispatchOpenFile(File file, String fileName, String mimeType,
                                            MessageObject message, Activity activity,
                                            BaseFragment parentFragment, int account) {
@@ -173,7 +135,6 @@ public final class FilesControllerJava {
         return dispatchOpen(fileName.substring(dot + 1), args);
     }
 
-    /** @return true, если открытие перехвачено плагином. */
     public static boolean dispatchOpen(String ext, Map<String, Object> args) {
         String normalized = normalizeExt(ext);
         if (normalized == null) {
@@ -203,9 +164,7 @@ public final class FilesControllerJava {
         }
     }
 
-    // ---------- внутреннее ----------
 
-    /** "zip"/".ZIP"/"Zip" -> "zip"; пустое -> null. */
     private static String normalizeExt(String ext) {
         if (ext == null) {
             return null;
@@ -215,7 +174,6 @@ public final class FilesControllerJava {
         return normalized.isEmpty() ? null : normalized;
     }
 
-    /** JSON-массив строк -> lower-case список подстрок; null/битый -> пустой список. */
     private static List<String> parseJsonArray(String json) {
         List<String> result = new ArrayList<>();
         if (json == null || json.isEmpty()) {
@@ -254,7 +212,6 @@ public final class FilesControllerJava {
         return null;
     }
 
-    /** whitelist (если задан) — хотя бы одна подстрока; blacklist — ни одной. По имени файла, ignore-case. */
     private static boolean passesFilters(FileHandler handler, String fileName) {
         String name = fileName != null ? fileName.toLowerCase(Locale.ROOT) : "";
         if (!handler.whitelist.isEmpty()) {

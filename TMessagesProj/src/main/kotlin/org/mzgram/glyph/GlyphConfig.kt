@@ -6,12 +6,6 @@ import org.telegram.messenger.FileLog
 import org.mzgram.core.CoreConfig
 import org.mzgram.core.config.ConfigItem
 
-/**
- * Настройки интеграции с Nothing Glyph (подсветка задней панели Nothing Phone).
- *
- * Схема повторяет [org.mzgram.MZGramConfig]: те же SharedPreferences,
- * тот же [ConfigItem]. Ключи с префиксом MZGlyph.
- */
 object GlyphConfig {
 
     private val sync = Any()
@@ -26,23 +20,18 @@ object GlyphConfig {
     @JvmStatic
     fun getPreferences(): SharedPreferences = CoreConfig.getPreferences()
 
-    /** Мастер-переключатель: без него контроллер не биндится к системному сервису глифов. */
     @JvmField
     val enabled = addConfig("MZGlyphEnabled", ConfigItem.configTypeBool, false)
 
-    /** Вспышка глифов на входящее сообщение. */
     @JvmField
     val onNewMessage = addConfig("MZGlyphNewMessage", ConfigItem.configTypeBool, true)
 
-    /** «Дыхание» глифов, пока идёт запись голосового. */
     @JvmField
     val onRecording = addConfig("MZGlyphRecording", ConfigItem.configTypeBool, true)
 
-    /** «Дыхание» глифов, пока звонит входящий VoIP-звонок. */
     @JvmField
     val onCall = addConfig("MZGlyphCalls", ConfigItem.configTypeBool, true)
 
-    /** Реагировать на сообщения только при выключенном экране. */
     @JvmField
     val screenOffOnly = addConfig("MZGlyphScreenOff", ConfigItem.configTypeBool, false)
 

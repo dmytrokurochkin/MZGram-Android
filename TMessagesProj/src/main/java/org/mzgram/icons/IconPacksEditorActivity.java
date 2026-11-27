@@ -45,36 +45,6 @@ import org.mzgram.icons.ui.NewIconPackBottomSheet;
 import org.mzgram.core.settings.BaseCoreSettingsActivity;
 import org.mzgram.core.ui.icons.IconsResources;
 
-/**
- * Экран-редактор пака: список <b>всех</b> иконок приложения с заменой по тапу
- * (порт {@code org.mzgram.sdk.icons.ui.IconPacksEditorActivity}, 447 строк).
- *
- * <p>Что перенесено из MZGram:
- * <ul>
- *   <li>поиск в шапке с дебаунсом 200 мс ({@code IconPacksEditorActivity.java:47});</li>
- *   <li>три фильтра — все / заменённые / незаменённые ({@code :186–188});</li>
- *   <li>статический кэш списка иконок на процесс ({@code cachedIconItems}, {@code isIconsLoaded},
- *       {@code isLoading}) — список строится один раз;</li>
- *   <li>строка показывает обе иконки: оригинал слева, заменённая справа
- *       ({@code EditorIconCell.Factory.bindView}).</li>
- * </ul>
- *
- * <p>Отличия:
- * <ul>
- *   <li>MZGram живёт на {@code BasePreferencesActivity} + {@code UniversalRecyclerView};
- *       у нас база — {@link BaseCoreSettingsActivity}, поэтому ячейка своя
- *       ({@code TextCell.setTextAndIconAndValueDrawable} в форке нет), тип строки — 100;</li>
- *   <li>«сохранить и выйти» ({@code :195}) сделан пунктом меню, как в MZGram, но завершает
- *       редактирование через {@link IconPickerController#finishEditing()};</li>
- *   <li>пункт «Edit» открывает {@link NewIconPackBottomSheet} в режиме правки метаданных, как
- *       в MZGram ({@code :317}); список обновляется через колбэк, потому что
- *       {@code NotificationCenter.iconPackUpdated} в форке нет;</li>
- *   <li>подписи фильтров ждут строк {@code IconPickerAllIcons} / {@code IconPickerReplacedIcons} /
- *       {@code IconPickerNotReplacedIcons} / {@code IconPickerFilter} / {@code IconPickerSaveAndExit}:
- *       строки правит только координатор, поэтому резолвим их по имени и до появления
- *       показываем английский текст MZGram (см. {@link #localized(String, String)}).</li>
- * </ul>
- */
 public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
 
     private static final int TYPE_ICON = 100;
@@ -85,12 +55,10 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
     private static final int MENU_EDIT_INFO = 3;
     private static final int MENU_FILTER_BASE = 10;
 
-    /** Фильтры списка иконок. */
     private static final int FILTER_ALL = 0;
     private static final int FILTER_REPLACED = 1;
     private static final int FILTER_NOT_REPLACED = 2;
 
-    /** Список иконок приложения строится один раз на процесс — как {@code cachedIconItems}. */
     private static final ArrayList<IconEntry> cachedIcons = new ArrayList<>();
     private static volatile boolean iconsLoaded;
     private static volatile boolean loading;
@@ -111,7 +79,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         this.packId = packId;
     }
 
-    // ---- жизненный цикл ----
 
     @Override
     public boolean onFragmentCreate() {
@@ -161,7 +128,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
 
             @Override
             public void onTextChanged(EditText editText) {
-                // дебаунс 200 мс
                 if (searchRunnable != null) {
                     AndroidUtilities.cancelRunOnUIThread(searchRunnable);
                 }
@@ -186,8 +152,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         if (IconPacksConfig.isEditing()) {
             ActionBarMenuSubItem saveItem = otherItem.addSubItem(MENU_SAVE_AND_EXIT, R.drawable.ic_ab_done,
                     localized("IconPickerSaveAndExit", "Save and exit"));
-            // MZGram красит пункт в key_featuredStickers_addButtonPressed
-            // (IconPacksEditorActivity.java:196); в форке у ActionBarMenuSubItem нет setColors(int,int)
             int accent = getThemedColor(Theme.key_featuredStickers_addButtonPressed);
             saveItem.setTextColor(accent);
             saveItem.setIconColor(accent);
@@ -223,7 +187,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         return false;
     }
 
-    /** Пункт «Edit» из меню: та же шторка, что создаёт паки, но в режиме правки метаданных. */
     private void showPackInfoSheet() {
         Context context = getParentActivity();
         if (context == null || pack == null) {
@@ -238,9 +201,7 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         showDialog(sheet);
     }
 
-    // ---- данные ----
 
-    /** Один ресурс приложения: id и имя. Аналог {@code UItem} с {@code id}/{@code text} у MZGram. */
     private static class IconEntry {
         final int id;
         final String name;
@@ -251,10 +212,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /**
-     * Разовое построение списка иконок в фоне (порт {@code loadIconsAsync}).
-     * Список статический, поэтому повторный вход на экран мгновенный.
-     */
     private void loadIconsAsync() {
         if (loading || (iconsLoaded && !cachedIcons.isEmpty())) {
             return;
@@ -331,7 +288,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         return pack != null && pack.getIcons().containsKey(name);
     }
 
-    // ---- клик ----
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
@@ -342,21 +298,13 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
             return;
         }
         IconEntry entry = visible.get(position);
-        // saveCustomIcon/resetCustomIcon сами чистят кэши и перечитывают паки,
-        // здесь остаётся перечитать метаданные и перерисовать список
         showDialog(new ReplaceIconBottomSheet(getParentActivity(), packId, entry.id, () -> {
             pack = IconPackStorage.findPackById(packId);
             updateList();
         }));
     }
 
-    // ---- ячейка ----
 
-    /**
-     * Строка списка: слева оригинал, справа замена из пака (порт {@code EditorIconCell},
-     * {@code IconPacksEditorActivity.java:63}; в MZGram это {@code TextCell} с
-     * {@code setTextAndIconAndValueDrawable} + {@code setOffsetFromImage(68)}).
-     */
     private static class EditorIconCell extends FrameLayout {
 
         private final ImageView originalView;
@@ -389,7 +337,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setGravity((rtl ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
-            // 68 dp от края — offsetFromImage MZGram
             addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
                     (rtl ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL,
                     rtl ? 56 : 68, 0, rtl ? 68 : 56, 0));
@@ -428,7 +375,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    // ---- адаптер ----
 
     @Override
     protected BaseListAdapter createAdapter(Context context) {
@@ -451,7 +397,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
             return holder.getItemViewType() == TYPE_ICON || super.isEnabled(holder);
         }
 
-        /** Строки иконок собираются в карточку-секцию наравне со штатными ячейками. */
         @Override
         protected boolean isSectionContent(int viewType) {
             return viewType == TYPE_ICON || super.isSectionContent(viewType);
@@ -481,14 +426,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /**
-     * Оригинальная иконка без пользовательских паков — аналог
-     * {@code MZResources.getOriginalDrawable(id)} ({@code MZResources.java:38}).
-     * Ресурсы приложения не обёрнуты: подмену ставит только {@code LaunchActivity.getResources()}
-     * ({@code LaunchActivity.java:419}), поэтому обычно сюда попадает стоковый drawable.
-     * Проверка на {@link IconsResources} оставлена на случай, если обёртка переедет выше:
-     * {@code getOriginalDrawableForDensity} в паки не ходит и рекурсии не даёт.
-     */
     private static Drawable originalDrawable(int resId) {
         try {
             Resources resources = ApplicationLoader.applicationContext.getResources();
@@ -501,11 +438,6 @@ public class IconPacksEditorActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /**
-     * Строка по имени ресурса: строки подсистемы иконок заводит координатор, и пока их нет,
-     * экран не должен ломать сборку. Как только ключ появится в {@code res/values/strings_mz_icons.xml},
-     * подпись подхватится автоматически.
-     */
     private static String localized(String key, String fallback) {
         try {
             Context context = ApplicationLoader.applicationContext;

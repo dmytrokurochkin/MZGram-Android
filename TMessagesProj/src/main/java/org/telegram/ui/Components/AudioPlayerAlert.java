@@ -511,7 +511,6 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
         };
         actionBar.setBackgroundColor(0);
-        // MZGram: здесь заголовок прижат влево по макету, центровка его ломает.
         actionBar.setForceDisableCenterTitle(true);
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         ThemeBind.actionBarItemsColor(actionBar, Theme.key_player_actionBarTitle, resourcesProvider, false);

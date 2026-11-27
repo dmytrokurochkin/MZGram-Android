@@ -51,18 +51,6 @@ import org.mzgram.pillstack.PillType;
 import org.mzgram.core.settings.BaseCoreSettingsActivity;
 import org.mzgram.core.ui.cells.HeaderCell;
 
-/**
- * Экран настроек погодной пилюли (порт
- * {@code org.mzgram.sdk.pillstack.ui.pills.weather.WeatherSettingsActivity}).
- *
- * Выбор источника координат: текущая геопозиция либо точка на карте. Во втором случае
- * показывается статичное превью карты (тот же WebFile-рендер, что и в стоковом Telegram)
- * и подпись адреса; тап по превью открывает {@link LocationActivity}.
- *
- * Экран MZGram построен на {@code BasePreferencesActivity}/{@code UItem}; у нас общий предок
- * настроек — {@link BaseCoreSettingsActivity}, поэтому кастомные строки (превью и адрес)
- * вынесены в собственные типы вьюхолдеров (>= 100).
- */
 public class WeatherSettingsActivity extends BaseCoreSettingsActivity {
 
     private static final int TYPE_MAP_PREVIEW = 100;
@@ -96,9 +84,7 @@ public class WeatherSettingsActivity extends BaseCoreSettingsActivity {
         PillStackConfig.init();
     }
 
-    // ---- Состояние геолокации ----
 
-    /** Выдано ли хотя бы одно из разрешений на геопозицию. */
     public static boolean isLocationPermissionGranted() {
         if (Build.VERSION.SDK_INT < 23) {
             return true;
@@ -111,7 +97,6 @@ public class WeatherSettingsActivity extends BaseCoreSettingsActivity {
                 || context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-    /** Включены ли службы геолокации в системе. */
     public static boolean isLocationEnabled() {
         try {
             Context context = ApplicationLoader.applicationContext;
@@ -370,7 +355,6 @@ public class WeatherSettingsActivity extends BaseCoreSettingsActivity {
     @Override
     public void onResume() {
         super.onResume();
-        // разрешение/службы могли поменяться в системных настройках — пересобираем список
         updateRowsAndNotify();
     }
 

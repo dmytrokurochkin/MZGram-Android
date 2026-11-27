@@ -18,12 +18,6 @@ import java.util.List;
 
 import org.mzgram.pillstack.pills.BasePill;
 
-/**
- * Вся склейка Pill Stack со строкой поиска.
- *
- * Наружу торчит один метод — {@link #attach(FrameLayout, EditText)}: контроллер сам создаёт,
- * пересобирает и убирает полосу пилюль, поэтому в экране-хосте правок почти нет.
- */
 public class PillStackController implements PillStackEvents.Listener {
 
     private final FrameLayout container;
@@ -32,12 +26,10 @@ public class PillStackController implements PillStackEvents.Listener {
     private boolean attached;
     private int builtLayoutVersion = -1;
 
-    /** Подключает полосу пилюль к контейнеру строки поиска. */
     public static PillStackController attach(FrameLayout container, EditText editText) {
         if (container == null) {
             return null;
         }
-        // на случай, если init() ещё не вызвали из ApplicationLoader
         PillStackConfig.init();
         return new PillStackController(container, editText);
     }
@@ -97,7 +89,6 @@ public class PillStackController implements PillStackEvents.Listener {
         rebuild();
     }
 
-    /** Пересобирает полосу по текущей раскладке. */
     public void rebuild() {
         if (container instanceof org.telegram.ui.Components.FragmentSearchField) {
             ((org.telegram.ui.Components.FragmentSearchField) container).updatePillStack(false);
@@ -127,11 +118,6 @@ public class PillStackController implements PillStackEvents.Listener {
         }
         if (stackView == null) {
             stackView = new PillStackView(container.getContext());
-            // Отступ от края строки поиска — 6dp с обеих сторон, как в MZGram
-            // (FragmentSearchField.updatePillStack, :421). Раньше со стороны края
-            // стояло 44dp «под крестик очистки», из-за чего полоса заметно не
-            // доходила до правого бока поиска; крестика при пустом поле нет, а с
-            // набранным текстом пилюли и так спрятаны.
             container.addView(stackView, LayoutHelper.createFrame(
                     LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT,
                     (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL,
@@ -165,7 +151,6 @@ public class PillStackController implements PillStackEvents.Listener {
         updateVisibility();
     }
 
-    /** Пока в поиске что-то набрано, пилюли прячутся, чтобы не мешать тексту. */
     private void updateVisibility() {
         if (stackView == null) {
             return;

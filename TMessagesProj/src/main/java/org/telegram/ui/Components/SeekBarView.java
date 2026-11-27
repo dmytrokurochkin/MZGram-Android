@@ -461,10 +461,6 @@ public class SeekBarView extends FrameLayout implements Theme.Colorable {
             setProgress(progressToSet);
             progressToSet = -100;
         }
-        // Тянуть ползунок у края экрана мешает системный жест «назад»: он
-        // перехватывает касание раньше приложения, и вместо перетаскивания
-        // начинается выход из экрана. Стоковый SlideIntChooseView отдаёт
-        // системе те же 80dp с обеих сторон (SlideIntChooseView:301).
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             gestureExclusionRects.clear();
             gestureExclusionRects.add(new Rect(0, 0, dp(80), getMeasuredHeight()));
@@ -508,23 +504,12 @@ public class SeekBarView extends FrameLayout implements Theme.Colorable {
         return configStyle;
     }
 
-    // Метрики MD3-слайдера. MZGram встраивает настоящий com.google.android.material.slider.Slider
-    // (org/mzgram/sdk/utils/ui/MaterialSliderUiHelper.java:60-69): trackHeight 8dp,
-    // thumbHeight 24dp, thumbWidth 3dp, trackStopIndicatorSize 0, haloRadius 0; из темы
-    // Widget.Material3.Slider (res/values/styles.xml:8902) — thumbTrackGapSize 6dp,
-    // trackInsideCornerSize 2dp. Зависимости material в дереве нет — рисуем сами теми же числами.
     private static final int MD3_TRACK_HEIGHT_DP = 8;
     private static final float MD3_THUMB_WIDTH_DP = 3;
     private static final float MD3_THUMB_HEIGHT_DP = 24;
     private static final float MD3_THUMB_TRACK_GAP_DP = 6;
     private static final float MD3_TRACK_INSIDE_CORNER_DP = 2;
 
-    /**
-     * Material-слайдер не включается для двусторонней шкалы,
-     * при заданном минимуме, при буферизации, при своей толщине линии и при наличии таймкодов.
-     * Условие MZGram {@code lineWidthDp != 3} у нас выражено флагом hasCustomLineWidthValue:
-     * lineWidthDp мы сами переписываем под стиль.
-     */
     private boolean canUseMaterialSlider() {
         if (twoSided || minProgress > 0f || bufferedProgress > 0f || hasCustomLineWidthValue) {
             return false;
@@ -661,8 +646,6 @@ public class SeekBarView extends FrameLayout implements Theme.Colorable {
                 canvas.drawCircle(thumbX + selectorWidth / 2, y + thumbSize / 2, currentRadius, outerPaint1);
             }
         } else if (needCustomDraw() == SLIDER_STYLE_MD3) {
-            // геометрия по MZGram: дорожка 8dp, торцы скруглены наполовину (4dp),
-            // внутренние углы у ползунка 2dp, зазор 6dp, ползунок 3x24dp
             float radius = AndroidUtilities.dp(MD3_TRACK_HEIGHT_DP / 2f);
             float radius2 = AndroidUtilities.dp(MD3_TRACK_INSIDE_CORNER_DP);
             float indicatorRadius = thumbSize / 2f;

@@ -61,23 +61,6 @@ import org.telegram.ui.ThemeActivity;
 
 import org.mzgram.ext.ExtConfig;
 
-/**
- * Собственная шторка бокового меню MZGram: панель шириной min(300dp, экран − 56dp),
- * жесты от левого края, затемнение и сдвиг контента.
- *
- * MZGram: {@code org/mzgram/sdk/drawer/DrawerContainer.java} (1655 строк).
- * Включается флагом {@link AppearanceConfig#navigationDrawer()}; при выключенном флаге
- * {@code LaunchActivity} даже не создаёт этот вид, а {@link #handleEdgeSwipeIntercept}
- * и {@link #openDrawer} выходят сразу — поведение остаётся стоковым.
- *
- * Что не перенесено (и почему):
- * — «бейдж MZGram» ({@code showBadgeSelect}, {@code BadgesController}) — сервер MZGram;
- * — превью аккаунта по долгому нажатию ({@code showAccountPreview}): у нашего
- *   {@code MainTabsActivity} нет конструктора с {@code Bundle} и режима {@code drawer_account_preview},
- *   а {@code DrawerLayoutContainer} не рисует превью поверх шторки. Долгое нажатие на чужой
- *   аккаунт переключает на него, как тап;
- * — наблюдатель {@code pluginMenuItemsUpdated}: такого уведомления в форке нет.
- */
 public class DrawerContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
     private static final int COLOR_KEY_DRAWER_BACKGROUND = Theme.key_windowBackgroundWhite;
@@ -133,8 +116,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
     public DrawerContainer(Context context) {
         super(context);
         setVisibility(View.GONE);
-        // Тег важен: DrawerLayoutContainer.dispatchApplyWindowInsetsInternal пропускает
-        // только детей без тега, шторка вставки себе не двигает.
         setTag("drawer_container");
 
         drawerWidth = calculateDrawerWidth();
@@ -169,13 +150,11 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         headerView.setChevronExpanded(accountPickerView.isExpanded());
     }
 
-    // ---- публичный API ----
 
     public boolean isDrawerOpen() {
         return progress > 0.001f || isAnimating || predictiveBackInProgress;
     }
 
-    /** При выключенном флаге сразу закрывается. */
     public void openDrawer(boolean animated) {
         if (!AppearanceConfig.navigationDrawer()) {
             onCloseComplete();
@@ -225,7 +204,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         refreshContents();
     }
 
-    /** Зовётся из {@code setDrawerContainer(null)}. */
     public void dispose() {
         cancelAnimations();
         onCloseComplete();
@@ -235,7 +213,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         resetNavigationTranslationTarget();
     }
 
-    // ---- предиктивное «назад» ----
 
     public boolean startPredictiveBack() {
         if (predictiveBackInProgress || tracking || startedEdgeSwipe || getVisibility() != View.VISIBLE) {
@@ -284,7 +261,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         }
     }
 
-    // ---- жесты от края экрана (зовёт DrawerLayoutContainer) ----
 
     public boolean handleEdgeSwipeIntercept(MotionEvent ev) {
         if (!AppearanceConfig.navigationDrawer()) {
@@ -357,7 +333,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         return true;
     }
 
-    // ---- собственные касания ----
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -386,10 +361,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         return tapClosePending;
     }
 
-    /**
-     * Ветки ACTION_DOWN/MOVE/UP/CANCEL и {@code tapClosePending} — тап по затемнённой
-     * области справа от панели закрывает её.
-     */
     @Override
     @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent ev) {
@@ -441,9 +412,7 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         return true;
     }
 
-    // ---- отрисовка ----
 
-    /** Скрим 102/255 или 160/255 в иммерсиве. */
     @Override
     protected void dispatchDraw(Canvas canvas) {
         if (progress <= 0.0f) {
@@ -472,7 +441,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         super.dispatchDraw(canvas);
     }
 
-    /** В неиммерсивном режиме правый край скруглён. */
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         if (child != drawerPanel || AppearanceConfig.immersiveDrawerAnimation()) {
@@ -502,7 +470,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         return result;
     }
 
-    /** Системные радиусы углов, API 31+. */
     @Override
     public WindowInsets onApplyWindowInsets(WindowInsets insets) {
         if (!AppearanceConfig.immersiveDrawerAnimation()) {
@@ -552,7 +519,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         unregisterNotifications();
     }
 
-    // ---- анимация ----
 
     private void animateProgress(float target) {
         animateProgress(target, false, 0.0f);
@@ -618,10 +584,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         animator.start();
     }
 
-    /**
-     * Аналог {@code MZConfig.getSpringAnimations()} (дефолт true) у нас живёт
-     * в MZGram как стиль анимации «назад» (см. {@code UtilsConfig.applyMotionDefaults}).
-     */
     private static boolean useSpringAnimations() {
         try {
             return ExtConfig.INSTANCE.getBackAnimationStyle().Int() == ActionBarLayout.BACK_ANIMATION_SPRING;
@@ -709,7 +671,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         menuView.clearMenu();
     }
 
-    /** Иммерсивный режим уводит контент на всю ширину панели, обычный — на 30 %. */
     private float getNavigationLayoutTranslation(float progress) {
         if (AppearanceConfig.immersiveDrawerAnimation()) {
             return drawerWidth * progress;
@@ -755,7 +716,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         }
     }
 
-    // ---- геометрия и жесты ----
 
     private int calculateDrawerWidth() {
         // MZGram: the Material 3 modal drawer is up to 360 dp wide and leaves 56 dp of the screen
@@ -867,7 +827,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         }
     }
 
-    /** Порог 1/5 при открытии и 1/1.25 при закрытии. */
     private void finishTracking() {
         float xVelocity = 0.0f;
         float yVelocity = 0.0f;
@@ -896,7 +855,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         tapClosePending = false;
     }
 
-    /** Свайп только с «чистого» экрана. */
     private boolean canStartClosedDrawerSwipe(MotionEvent ev) {
         if (!canOpen(ev)) {
             return false;
@@ -967,7 +925,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
                 ? ((MainTabsActivity) lastFragment).getCurrentVisibleFragment() : lastFragment;
     }
 
-    // ---- содержимое ----
 
     private void refreshContents() {
         headerView.updateUserInfo();
@@ -1022,18 +979,11 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         menuView.setOnItemClick(() -> closeDrawer(true));
     }
 
-    /** Сначала закрыть шторку, через 200 мс открыть экран. */
     private void closeDrawerAndRun(Runnable action) {
         closeDrawer(true);
         AndroidUtilities.runOnUIThread(action, 200L);
     }
 
-    /**
-     * MZGram открывает превью {@code MainTabsActivity} чужого аккаунта
-     * ({@code DrawerContainer.showAccountPreview} :855). У нас нет ни его конструктора
-     * с {@code Bundle}, ни отрисовки превью поверх шторки, поэтому долгое нажатие
-     * делает то же, что тап: закрывает шторку и переключает аккаунт.
-     */
     private void onAccountLongClick(int account, View view) {
         if (account == UserConfig.selectedAccount) {
             return;
@@ -1045,12 +995,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         }
     }
 
-    /**
-     * MZGram: {@code lambda$setupCallbacks$2} — метод «не декомпилирован», но байткод читаемый
-     * и восстановлен по нему: выбираются последняя дневная и последняя ночная темы, при
-     * совпадении — разводятся к «Blue»/«Dark Blue», дальше уведомление
-     * {@code needSetDayNightTheme} с центром круга на кнопке переключателя.
-     */
     private void toggleTheme() {
         if (DialogsActivity.switchingTheme) {
             return;
@@ -1092,7 +1036,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         }
     }
 
-    // ---- выбор эмодзи-статуса ----
 
     private int getPopupWidth() {
         return (int) Math.min(AndroidUtilities.dp(324.0f), AndroidUtilities.displaySize.x * 0.95f);
@@ -1185,7 +1128,6 @@ public class DrawerContainer extends FrameLayout implements NotificationCenter.N
         window.dimBehind();
     }
 
-    // ---- уведомления ----
 
     private void registerNotifications() {
         if (notificationsRegistered) {

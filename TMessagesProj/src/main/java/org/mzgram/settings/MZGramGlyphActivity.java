@@ -19,11 +19,6 @@ import org.mzgram.glyph.GlyphController;
 import org.mzgram.core.settings.BaseCoreSettingsActivity;
 import org.mzgram.core.ui.cells.HeaderCell;
 
-/**
- * Экран «Nothing Glyph» раздела mzgram: подсветка задней панели Nothing Phone
- * на события клиента. На устройствах других вендоров переключатели видны, но
- * контроллер не инициализируется — превью об этом честно сообщает.
- */
 public class MZGramGlyphActivity extends BaseCoreSettingsActivity {
 
     private int glyphHeaderRow;

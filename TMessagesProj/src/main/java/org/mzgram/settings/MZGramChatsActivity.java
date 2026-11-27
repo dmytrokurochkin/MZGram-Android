@@ -71,15 +71,6 @@ import org.mzgram.core.ui.cells.StickerSizePreviewMessagesCell;
 import org.mzgram.ext.ExtConfig;
 import org.mzgram.ext.helper.DoubleTap;
 
-/**
- * Экран «Chats» раздела mzGram — визуальный порт экрана MZGram
- * (org.mzgram.sdk.preferences.ChatsPreferencesActivity, читаемый исходник 10.10.1).
- *
- * Настройки, которые уже есть в MZGram, переиспользуются из {@link CoreConfig} / {@link ExtConfig};
- * то, чего нет — новые ConfigItem в {@link ChatsConfig} (помечены «только UI»).
- * Группы-мультивыбор (Replies, Hide Reactions, Quick Swipe Transition, Message Menu,
- * Extended Settings, Auto-Pause) сделаны разворачивающимися: строка «x/y» + чекбоксы.
- */
 public class MZGramChatsActivity extends BaseCoreSettingsActivity {
 
     public static final int SCREEN_CHATS = 0;
@@ -93,13 +84,10 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
     private static final int TYPE_STICKER_SHAPE = 101;
     private static final int TYPE_DOUBLE_TAP = 102;
     private static final int TYPE_SET_REACTION = 103;
-    /** Сворачиваемая группа со счётчиком и шевроном. */
     private static final int TYPE_EXPANDABLE_SWITCH = 104;
-    /** Круглая галочка внутри группы. */
     private static final int TYPE_ROUND_CHECK = 105;
     private static final int TYPE_WIDE_CHANNEL_PREVIEW = 106;
 
-    /** Размер стикеров по умолчанию: к нему возвращает кнопка сброса в шапке. */
     private static final float STICKER_SIZE_DEFAULT = 14.0f;
 
     private StickerSizeCell stickerSizeCell;
@@ -644,32 +632,26 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         cameraTypeRow = addRow("cameraType");
         seamlessSwitchingRow = extendedFpsRow = cameraStabilizationRow = -1;
         cameraMirrorModeRow = startWithWideAngleRow = -1;
-        // При системной камере вся группа скрыта: расширенные настройки
-        // относятся только к Camera2 и CameraX.
         if (cameraTypeIndex() != CAMERA_TYPE_SYSTEM) {
             extendedSettingsGroupRow = addRow("extendedSettings");
             if (extendedSettingsExpanded) {
-                // Бесшовное переключение есть не на всяком железе.
                 if (cameraTypeIndex() != CAMERA_TYPE_TELEGRAM && isSeamlessSwitchingAvailable()) {
                     seamlessSwitchingRow = addRow();
                 }
                 extendedFpsRow = addRow();
                 cameraStabilizationRow = addRow();
-                // Зеркало и широкий угол умеет только CameraX.
                 if (cameraTypeIndex() == CAMERA_TYPE_CAMERA_X) {
                     cameraMirrorModeRow = addRow();
                     startWithWideAngleRow = addRow();
                 }
             }
             if (!isSeamlessSwitchingAvailable() && isSeamlessSwitchingEnabled()) {
-                // На устройстве без второй камеры флаг гасится принудительно.
                 setSeamlessSwitching(false);
             }
         } else {
             extendedSettingsGroupRow = -1;
         }
         videoMessagesCameraRow = addRow("videoMessagesCamera");
-        // Запоминать нечего, пока камера спрашивается каждый раз.
         if (ExtConfig.INSTANCE.getCameraInVideoMessages().Int() != VIDEO_CAMERA_ASK) {
             rememberLastUsedCameraRow = addRow("rememberLastUsedCamera");
         } else {
@@ -948,7 +930,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /** Пересобрать открытые чаты: часть настроек видна прямо в них. */
     private void rebuildChats() {
         if (parentLayout != null) {
             parentLayout.rebuildFragments(0);
@@ -958,15 +939,9 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
     @Override
     public View createView(Context context) {
         View view = super.createView(context);
-        // Кнопка сброса размера стикеров в шапке: появляется, как только
-        // размер отличается от стандартного.
         if (actionBar != null && screen == SCREEN_CHATS) {
             resetItem = actionBar.createMenu().addItem(0, R.drawable.msg_reset);
             resetItem.setContentDescription(getString(R.string.Reset));
-            // Только через updateViewVisibilityAnimated: она проставляет и видимость,
-            // и тег. Прямой setVisibility оставлял тег от addItem (id = 0, то есть
-            // не null), а показ в updateViewVisibilityAnimated идёт по ветке
-            // tag == null — кнопка навсегда оставалась скрытой.
             AndroidUtilities.updateViewVisibilityAnimated(resetItem,
                     CoreConfig.stickerSize.Float() != STICKER_SIZE_DEFAULT, 0.5f, false);
             resetItem.setOnClickListener(v -> resetStickerSize());
@@ -974,7 +949,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         return view;
     }
 
-    /** Плавный возврат слайдера к стандартному размеру за 200 мс. */
     private void resetStickerSize() {
         if (resetItem != null) {
             AndroidUtilities.updateViewVisibilityAnimated(resetItem, false, 0.5f, true);
@@ -991,14 +965,12 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         animator.start();
     }
 
-    /** Кнопка возвращается при первом же движении слайдера. */
     private void showResetItem() {
         if (resetItem != null && resetItem.getVisibility() != View.VISIBLE) {
             AndroidUtilities.updateViewVisibilityAnimated(resetItem, true, 0.5f, true);
         }
     }
 
-    // ---- Сворачиваемые группы: счётчики и мастер-переключатели ----
 
     private static final int REPLIES_TOTAL = 3;
     private static final int HIDE_REACTIONS_TOTAL = 3;
@@ -1080,18 +1052,13 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
                 ChatsConfig.pauseOnMinimizeRound.Bool());
     }
 
-    /**
-     * Знаменатель «N/M» считается по реально показанным строкам. Зеркалирование и
-     * широкоугольная камера считаются только при CameraX: обе настройки применяет
-     * CameraXSession, другим движкам их передать некуда.
-     */
     private static int cameraSettingsTotal() {
         if (ChatsConfig.cameraType() == CAMERA_TYPE_TELEGRAM) {
             return 2;
         }
         int total = isSeamlessSwitchingAvailable() ? 3 : 2;
         if (ChatsConfig.cameraType() == CAMERA_TYPE_CAMERA_X) {
-            total += 2;  // зеркало и широкий угол
+            total += 2;
         }
         return total;
     }
@@ -1219,7 +1186,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
     private void toggleAllCameraSettings() {
         boolean enable = cameraSettingsSelected() == 0;
         if (ChatsConfig.cameraType() != CAMERA_TYPE_TELEGRAM) {
-            // При недоступном железе флаг всегда гасится.
             setSeamlessSwitching(enable && isSeamlessSwitchingAvailable());
         }
         ChatsConfig.extendedFramesPerSecond.setConfigBool(enable);
@@ -1430,9 +1396,7 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    // ---- Настройки, которые лежат не в ConfigItem ----
 
-    /** «Быстрый свайп-переход» — это ключи CoreConfig.disableSwipeToNext*, только наоборот. */
     private static boolean quickTransitionForChannels() {
         return !CoreConfig.disableSwipeToNext.Bool();
     }
@@ -1441,7 +1405,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         return !CoreConfig.disableSwipeToNextTopic.Bool();
     }
 
-    /** Вторая камера для «бесшовного переключения» есть не на всех устройствах. */
     private static boolean isSeamlessSwitchingAvailable() {
         Context context = ApplicationLoader.applicationContext;
         return context != null && org.mzgram.camera.CameraXSession.isSeamlessSwitchingAvailable(context);
@@ -1452,10 +1415,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         return context != null && DualCameraView.roundDualAvailableStatic(context);
     }
 
-    /**
-     * Настройка живёт в глобальных префах, а не в ChatsConfig: этот же ключ
-     * читает InstantCameraView.
-     */
     private static void setSeamlessSwitching(boolean value) {
         MessagesController.getGlobalMainSettings().edit().putBoolean("rounddual_available", value).apply();
     }
@@ -1464,14 +1423,8 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
     private static final int CAMERA_TYPE_CAMERA2 = 1;
     private static final int CAMERA_TYPE_CAMERA_X = 2;
     private static final int CAMERA_TYPE_TELEGRAM = 3;
-    /** Индекс варианта «спрашивать каждый раз» в ExtConfig.cameraInVideoMessages. */
     private static final int VIDEO_CAMERA_ASK = 2;
 
-    /**
-     * Тип камеры для кружков. Системный вариант оставлен за SharedConfig — там же, где
-     * его переключает отладочное меню Telegram; два других выбираются явно и живут в
-     * своём ключе, потому что булевым флагом три состояния не выразить.
-     */
     private int cameraTypeIndex() {
         return ChatsConfig.cameraType();
     }
@@ -1482,10 +1435,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /**
-     * Иконка строки AI-чата. Варианты под иконпаки нужны потому, что BaseIconPacks
-     * подменяет иконки по всему приложению — здесь должно быть так же.
-     */
     private static int aiChatIcon() {
         switch (BaseIconPacks.getSelected()) {
             case BaseIconPacks.BASE_SOLAR:
@@ -1497,7 +1446,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    // ---- Значения для строк с выбором ----
 
     private void setBottomButton(int index) {
         ChatsConfig.bottomButton.setConfigInt(index);
@@ -1634,11 +1582,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         builder.show();
     }
 
-    /**
-     * Иконки действий двойного тапа по индексам {@link DoubleTap} (0..10).
-     * Такая же таблица есть в DoubleTapCell, но она приватная — при случае стоит открыть её там
-     * и удалить этот дубль.
-     */
     private static final int[] DOUBLE_TAP_ICONS = new int[]{
             R.drawable.msg_block,
             R.drawable.msg_reactions,
@@ -1655,10 +1598,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             R.drawable.msg_download
     };
 
-    /**
-     * Список с заголовком и иконками действий, а не голый попап. Набор действий
-     * наш, из MZGram: TRANSLATE_LLM и REPEAT_AS_COPY.
-     */
     private void showDoubleTapOptions(int position, boolean outgoing) {
         if (getParentActivity() == null) {
             return;
@@ -1700,7 +1639,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
                 ExtConfig.INSTANCE.getDoubleTapAction().setConfigInt(action);
             }
             if (doubleTapCell != null) {
-                // 1 — обновить только входящее сообщение, 2 — только исходящее.
                 doubleTapCell.updateIcons(outgoing ? 2 : 1, true);
                 doubleTapCell.invalidate();
             }
@@ -1716,11 +1654,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         showDialog(builder.create());
     }
 
-    /**
-     * «Безлимит недавних стикеров» из MZGram — один тумблер поверх двух рабочих ключей
-     * MZGram: лимита недавних ({@link CoreConfig#maxRecentStickerCount}, шкала 20…200) и
-     * безлимитных избранных ({@link CoreConfig#unlimitedFavedStickers}).
-     */
     private static final int RECENT_STICKERS_DEFAULT = 20;
     private static final int RECENT_STICKERS_MAX = 200;
 
@@ -1734,11 +1667,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         CoreConfig.unlimitedFavedStickers.setConfigBool(value);
     }
 
-    /**
-     * «Быстрые действия администратора» из MZGram — один тумблер поверх пяти пунктов меню чата
-     * MZGram ({@code ExtConfig.shortcuts*}) и пункта «Права администратора» в меню сообщения
-     * ({@link CoreConfig#showAdminActions}). Включён, пока включён хотя бы один пункт.
-     */
     private static ConfigItem[] adminShortcutItems() {
         return new ConfigItem[]{
                 ExtConfig.INSTANCE.getShortcutsAdministrators(),
@@ -1779,8 +1707,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
-        // Клик по телу строки-группы только сворачивает её; мастер-переключатель живёт
-        // в правой зоне TextCheckCell2 за разделителем.
         if (position == repliesGroupRow) {
             repliesExpanded = !repliesExpanded;
             reloadList();
@@ -1855,7 +1781,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             return;
         }
 
-        // Строки с выбором из списка
         if (position == doubleTapIncomingRow) {
             showDoubleTapOptions(position, false);
             return;
@@ -1884,14 +1809,12 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         } else if (position == cameraTypeRow) {
             showOptions(view, cameraTypeOptions(), index -> {
                 setCameraTypeIndex(index);
-                // от типа камеры зависит, показывать ли группу расширенных настроек
                 reloadList();
             });
             return;
         } else if (position == videoMessagesCameraRow) {
             showOptions(view, videoMessagesCameraOptions(), index -> {
                 ExtConfig.INSTANCE.getCameraInVideoMessages().setConfigInt(index);
-                // от варианта зависит, показывать ли «запоминать последнюю камеру»
                 reloadList();
             });
             return;
@@ -1988,11 +1911,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             ((TextCheckCell) view).setChecked(value);
         }
         if (position == removeMessageTailRow) {
-            // Пузырь рисуется закешированным drawable — без сброса эффекта не видно.
-            // Обнуление и пересоздание — строго вместе: Theme.createChatResources
-            // восстанавливает весь блок именно по условию chat_msgInDrawable == null.
-            // Обнулить без активити означало бы оставить статик null и уронить
-            // отрисовку первого же пузыря.
             Activity activity = getParentActivity();
             if (activity != null) {
                 Theme.chat_msgInDrawable = null;
@@ -2031,7 +1949,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /** Клик по вложенному пункту группы: переключить, обновить счётчик заголовка, применить. */
     private void onGroupItemClick(View view, int position) {
         boolean value = !isRowChecked(position);
         setRowChecked(position, value);
@@ -2048,7 +1965,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             }
             rebuildChats();
         } else if (header == chatMenuGroupRow || header == messageMenuGroupRow) {
-            // Меню сообщения собирается при создании фрагмента чата.
             rebuildChats();
         } else if (header == premiumElementsGroupRow) {
             if (stickerSizeCell != null) {
@@ -2065,7 +1981,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /** Заголовок группы, которой принадлежит строка, либо -1 для одиночных строк. */
     private int groupHeaderFor(int position) {
         if (position < 0) {
             return -1;
@@ -2315,13 +2230,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
         return -1;
     }
 
-    /** Слайдер размера стикеров с живым превью переписки. */
-    /**
-     * Слайдер размера стикеров. Оформление перенесено из MZGram 12.9.0
-     * (AltSeekbar): синий жирный заголовок 15sp, рядом плашка со значением
-     * (12sp bold, фон — тот же цвет с alpha 0.15, скругление 4dp), под слайдером
-     * серые подписи краёв 13sp. Диапазон 4..20.
-     */
     private class StickerSizeCell extends FrameLayout {
 
         private final StickerSizePreviewMessagesCell messagesCell;
@@ -2399,7 +2307,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             headerValue.setText(String.valueOf(Math.round(CoreConfig.stickerSize.Float())));
         }
 
-        /** Программная установка размера — ею пользуется кнопка сброса в шапке. */
         void setStickerSize(float size) {
             CoreConfig.stickerSize.setConfigFloat(size);
             sizeBar.setProgress((size - startStickerSize) / (float) (endStickerSize - startStickerSize));
@@ -2471,7 +2378,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_ROUND_CHECK: {
-                    // Тип 4 — круглая галочка с отступом под вложенный пункт.
                     CheckBoxCell checkBoxCell = new CheckBoxCell(mContext, 4, 21, resourcesProvider);
                     checkBoxCell.getCheckBoxRound().setColor(Theme.key_switch2TrackChecked,
                             Theme.key_radioBackground, Theme.key_checkboxCheck);
@@ -2500,10 +2406,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             return super.isEnabled(holder);
         }
 
-        /**
-         * Без этого карточка-секция обрывается на каждой строке-группе: базовый класс
-         * знает только про свои типы, а 104/105 — обычные строки той же секции.
-         */
         @Override
         protected boolean isSectionContent(int viewType) {
             if (viewType == TYPE_EXPANDABLE_SWITCH || viewType == TYPE_ROUND_CHECK
@@ -2597,17 +2499,8 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             }
         }
 
-        /**
-         * Заголовок сворачиваемой группы: мастер-переключатель слева от шеврона,
-         * счётчик «N/M» рядом с ним.
-         */
         private void bindGroupHeader(TextCheckCell2 cell, int position) {
-            // Иначе заголовок группы красный, пока в ней ничего не выбрано:
-            // Switch по умолчанию идёт в «разрешительных» цветах экрана прав.
             cell.useStandardSwitchColors();
-            // Третий аргумент setTextAndCheck — разделитель. У свёрнутой группы
-            // заголовок оказывается последней строкой карточки, и линия под ним
-            // висела бы в воздухе; поэтому разделитель = «группа раскрыта».
             if (position == repliesGroupRow) {
                 int selected = repliesSelectedCount();
                 cell.setTextAndCheck(getString(R.string.MZChatsReplies), selected > 0, repliesExpanded);
@@ -2883,8 +2776,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
                 cell.setText(getString(HiddenSettingsRows.TITLES[i]), "", HiddenSettingsRows.items()[i].Bool(), i < hideSettingsRows.length - 1, true);
             }
             cell.setPad(1);
-            // По умолчанию ячейка этого типа красит текст серым; вложенные пункты
-            // должны быть того же цвета, что и обычные строки.
             cell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         }
 
@@ -2914,13 +2805,11 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
             } else if (position == unreadCapsuleRow) {
                 cell.setTextAndCheck(getString(R.string.MZChatsUnreadCapsule), ChatsConfig.unreadCapsule.Bool(), true);
             } else if (position == replaceEditedRow) {
-                // В подпись подставляется локализованное «edited».
                 cell.setTextAndCheck(LocaleController.formatString(R.string.MZChatsReplaceEditedWithIcon,
                         getString(R.string.EditedMessage)), ExtConfig.INSTANCE.getUseEditedIcon().Bool(), true);
             } else if (position == showOnlineStatusRow) {
                 cell.setTextAndCheck(getString(R.string.MZChatsShowOnlineStatus), ExtConfig.INSTANCE.getShowOnlineStatus().Bool(), true);
             } else if (position == hideShareButtonRow) {
-                // В подпись подставляется название кнопки «Share».
                 cell.setTextAndCheck(LocaleController.formatString(R.string.MZChatsHideShareButton,
                         getString(R.string.ShareFile)), ExtConfig.INSTANCE.getHideShareButtonInChannel().Bool(), true);
             } else if (position == hideGiftButtonRow) {
@@ -3041,9 +2930,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
                 cell.setTextAndIcon(getString(R.string.MZChatsChatSettings), R.drawable.msg_settings_old, false);
                 cell.setSubtitle(getString(R.string.MZChatsChatSettingsInfo));
             }
-            // Обе строки двухстрочные: подпись под заголовком, высота 64,
-            // отступ текста от иконки 60. Ставится после setTextAndIcon —
-            // тот сбрасывает offsetFromImage.
             cell.heightDp = 64;
             cell.offsetFromImage = 60;
         }
@@ -3133,8 +3019,6 @@ public class MZGramChatsActivity extends BaseCoreSettingsActivity {
                 cell.setText(getString(R.string.MZChatsPauseOnMinimizeInfo));
             } else {
                 cell.setText(null);
-                // Без текста у TextInfoPrivacyCell остаются футерные отступы 10+17dp
-                // и пустая строка — между карточками зияет дыра. Фиксируем высоту.
                 cell.setFixedSize(12);
             }
             cell.setBackground(Theme.getThemedDrawable(mContext,

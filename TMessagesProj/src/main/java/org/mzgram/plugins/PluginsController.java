@@ -42,18 +42,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.mzgram.debug.PluginToggleTrace;
 
-/**
- * Реестр и фасад движка плагинов. Аналог PluginsController.java MZGram (1842 строки),
- * упрощённо: без диалогов установки из чата, без pip, без автообновлений SDK.
- *
- * Обязанности:
- *  - сканирование filesDir/plugins, чтение метаданных (через движок, AST);
- *  - установка/удаление/включение/выключение/перезагрузка;
- *  - per-plugin хранилище настроек (JSON-значения в plugin_settings_<id>);
- *  - реестры хуков (send_message, pre/post request) и меню;
- *  - диспетчер событий приложения и хуков в PythonPluginsEngine;
- *  - watchdog + safe mode.
- */
 public class PluginsController extends org.mzgram.sdk.plugins.PluginsController {
 
     private static volatile PluginsController instance;
@@ -77,28 +65,16 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
     private SharedPreferences preferences;
     private PluginsWatchdog watchdog;
 
-    /**
-     * ConcurrentHashMap, а не LinkedHashMap: карта отдаётся плагинам наружу
-     * через шим {@code org.mzgram.sdk.plugins.PluginsController.plugins},
-     * и они читают её из своих потоков параллельно с пересканированием.
-     * Порядок вставки здесь не нужен — список плагинов сортируется по имени в UI.
-     * У MZGram это поле тоже ConcurrentHashMap.
-     */
     public final Map<String, Plugin> plugins = new ConcurrentHashMap<>();
 
     private final Map<String, String> knownPaths = new ConcurrentHashMap<>();
 
     private static final java.util.regex.Pattern PLUGIN_ID =
             java.util.regex.Pattern.compile("^[A-Za-z][A-Za-z0-9_-]{1,31}$");
-    /** pluginId -> приоритет. */
     private final Map<String, Integer> sendMessageHooks = new ConcurrentHashMap<>();
-    /** requestName -> список pluginId (точное совпадение). */
     private final Map<String, List<String>> requestHooks = new ConcurrentHashMap<>();
-    /** подстрока -> список pluginId. */
     private final Map<String, List<String>> requestHooksSubstring = new ConcurrentHashMap<>();
-    /** updateName (TL_update*) -> список pluginId. */
     private final Map<String, List<String>> updateHooks = new ConcurrentHashMap<>();
-    /** имя контейнера апдейтов (TL_updates и т.п.) -> список pluginId. */
     private final Map<String, List<String>> updatesContainerHooks = new ConcurrentHashMap<>();
 
     private final Map<String, Integer> hookPriorities = new ConcurrentHashMap<>();
@@ -109,7 +85,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
     private final HookTargetCache updatesTargetsCache = new HookTargetCache();
 
     private final List<MenuItemRecord> menuItems = Collections.synchronizedList(new ArrayList<>());
-    /** Слушатель открытого экрана настроек плагина. */
     private final Map<String, List<Runnable>> settingsReloadListeners = new ConcurrentHashMap<>();
 
     private final ExecutorService fileExecutor = Executors.newSingleThreadExecutor(r ->
@@ -122,7 +97,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
 
     // ---------- init ----------
 
-    /** Вызывается из ApplicationLoader.onCreate. Быстрый: тяжёлое уходит в фон. */
     public void init(Context context) {
         if (PluginSinkGate.refuseFromPlugin("init", true)) {
             return;
@@ -157,7 +131,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
             org.mzgram.plugins.xposed.XposedHooks.ensureReady();
         }
         watchdog.scheduleEarlyCrashReset();
-        // Планировщик детекта зависаний живёт столько же, сколько движок.
         watchdog.start();
         PythonPluginsEngine.getInstance().ensureStarted(appContext, ok -> {
             if (ok) {
@@ -186,13 +159,7 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return new File(appContext.getFilesDir(), "plugins");
     }
 
-    // ---------- флаги движка ----------
 
-    /**
-     * Хранилище настроек движка. Имя поля и геттера совпадают с MZGram:
-     * опубликованные плагины достают его рефлексией по имени
-     * ({@code get_private_field(PluginsController.getInstance(), "preferences")}).
-     */
     public SharedPreferences getPreferences() {
         return preferences;
     }
@@ -270,7 +237,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         preferences.edit().putBoolean(PluginsConstants.KEY_DEVELOPER_MODE, developerMode).apply();
     }
 
-    // ---------- реестр плагинов ----------
 
     public boolean isCompactView() {
         return preferences != null && preferences.getBoolean(PluginsConstants.KEY_COMPACT_VIEW, false);
@@ -280,12 +246,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         preferences.edit().putBoolean(PluginsConstants.KEY_COMPACT_VIEW, value).apply();
     }
 
-    /**
-     * Режим совместимости. ART Profile Saver со временем перекомпилирует методы
-     * и сбивает установленные хуки; MZGram лечит это вызовом
-     * {@code XposedBridge.disableProfileSaver()} при инициализации движка.
-     * Требует перезапуска — на живых хуках вызывать поздно.
-     */
     public boolean isCompatibilityMode() {
         return preferences != null
                 && preferences.getBoolean(PluginsConstants.KEY_COMPATIBILITY_MODE, false);
@@ -295,12 +255,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         preferences.edit().putBoolean(PluginsConstants.KEY_COMPATIBILITY_MODE, value).apply();
     }
 
-    /**
-     * Закреплённые плагины идут в списке первыми.
-     *
-     * Ключ на плагин, а не общий список: плагины удаляются и ставятся заново, и
-     * общий список пришлось бы чистить от исчезнувших id вручную.
-     */
     public static boolean isPluginPinned(String id) {
         SharedPreferences prefs = getInstance().preferences;
         return id != null && prefs != null && prefs.getBoolean("plugin_pinned_" + id, false);
@@ -350,10 +304,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return new ArrayList<>(plugins.values());
     }
 
-    /**
-     * Живая карта id → плагин, как {@code getPlugins()} эталона: dex-модули берут
-     * её рефлексией и зовут у результата {@code values()}.
-     */
     @Override
     public Map<String, Plugin> getPlugins() {
         return plugins;
@@ -367,22 +317,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return plugins.get(id);
     }
 
-    /** Сканировать каталог и перечитать метаданные всех файлов. Нужен запущенный движок. */
-    /**
-     * Перечитать каталог плагинов с диска.
-     *
-     * Рантайм-состояние ({@code loaded}, {@code hasSettings}) живёт в Python и
-     * этим сканом не восстанавливается, поэтому объекты уже загруженных
-     * плагинов переиспользуются, а не создаются заново. Прежняя версия делала
-     * {@code plugins.clear()} и клала свежие объекты с {@code loaded = false} —
-     * из-за чего каждый заход на экран «Плагины» (updateRows зовёт rescan)
-     * гасил кнопку настроек у работающего плагина, будто он упал.
-     */
-    /**
-     * Установленный плагин обязан лежать как {@code <id>.py}: под этим именем
-     * его ищут плагины каталога (zwylib читает исходник соседа по такому пути).
-     * {@code .plugin} — расширение для передачи файла, а не для хранения.
-     */
     private File normalizeInstalledName(File file) {
         String name = file.getName();
         if (!name.endsWith(PluginsConstants.PLUGIN_EXT)) {
@@ -468,8 +402,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
             if (existing != null && existing.loaded) {
                 existing.path = freshPath;
                 knownPaths.put(fresh.id, freshPath);
-                // Тот же файл, плагин исполняется — обновляем метаданные,
-                // рантайм-состояние сохраняем.
                 existing.name = fresh.name;
                 existing.description = fresh.description;
                 existing.author = fresh.author;
@@ -489,7 +421,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
             knownPaths.put(fresh.id, freshPath);
             plugins.put(fresh.id, fresh);
         }
-        // Файлы, которых больше нет: выгрузить и забыть.
         for (Iterator<Map.Entry<String, Plugin>> it = plugins.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<String, Plugin> entry = it.next();
             if (seen.contains(entry.getKey())) {
@@ -589,10 +520,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
                     p.requirements.add(reqs.optString(i));
                 }
             }
-            // __permissions__: ключи уже проверены AST-парсером, неизвестный ключ
-            // приезжает как ok=false выше. permissions_declared отличает
-            // «объявил пусто» от «не объявлял» — от этого зависит режим
-            // совместимости в PluginPermissions.getEffective.
             p.permissions = new ArrayList<>();
             p.permissionsDeclared = meta.optBoolean("permissions_declared", false);
             JSONArray perms = meta.optJSONArray("permissions");
@@ -634,7 +561,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    /** Проверка __app_version__/__sdk_version__ (операторы >=, <=, ==, >, <; без оператора — >=). */
     private String checkVersionConstraints(Plugin p) {
         if (p.appVersion != null && !checkVersionConstraint(p.appVersion, BuildVars.BUILD_VERSION_STRING)) {
             return "requires app " + p.appVersion;
@@ -651,9 +577,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
         String op = ">=";
         String version = constraint.trim();
-        // Ограничение без единой цифры — это не версия: пустая строка, "null",
-        // мусор из метаданных. Считать такое невыполненным нельзя, иначе плагин
-        // отвергается на ровном месте.
         boolean hasDigit = false;
         for (int i = 0; i < version.length(); i++) {
             if (Character.isDigit(version.charAt(i))) {
@@ -702,9 +625,7 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    // ---------- загрузка/выгрузка ----------
 
-    /** Пересканировать каталог и загрузить все включённые плагины (safe mode — ничего). */
     public void rescanAndLoadEnabled() {
         rescanPlugins();
         if (isSafeMode()) {
@@ -756,11 +677,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return path.endsWith(PluginsConstants.PLUGIN_EXT_MZPACK) || path.endsWith(PluginsConstants.PLUGIN_EXT_EAF);
     }
 
-    /**
-     * MzPack {@code requires}: требуемый плагин должен быть установлен, включён и
-     * не старше объявленной версии. Проверяем перед загрузкой — иначе плагин
-     * падает уже внутри своего кода, и причина теряется.
-     */
     private String checkRequiredPlugins(Plugin p) {
         if (p.requires == null || p.requires.isEmpty()) {
             return null;
@@ -984,7 +900,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    // ---------- установка/удаление ----------
 
     public interface InstallCallback {
         void onResult(boolean ok, String error, Plugin plugin);
@@ -1023,11 +938,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return started[0];
     }
 
-    /**
-     * Прочитать метаданные файла, не устанавливая его. Разбор идёт AST-парсером,
-     * без выполнения кода плагина — можно показывать пользователю до согласия.
-     * Колбэк зовётся в потоке файловых операций.
-     */
     public void readMetadataAsync(File source, org.telegram.messenger.Utilities.Callback<Plugin> callback) {
         fileExecutor.execute(() -> {
             Plugin plugin = null;
@@ -1044,10 +954,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         });
     }
 
-    /**
-     * Установить плагин из .py/.plugin-файла. Асинхронно, колбэк на UI-потоке.
-     * Валидация метаданных — до копирования; при совпадении id — перезапись.
-     */
     public void installPlugin(File source, InstallCallback callback) {
         installPlugin(source, true, callback);
     }
@@ -1082,8 +988,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
                     deliver(callback, false, "invalid plugin id", null);
                     return;
                 }
-                // Сохраняем исходное расширение: .mzpack/.eaf — ZIP-архивы, их нельзя
-                // переименовывать в .py.
                 String srcName = source.getName().toLowerCase();
                 String ext = PluginsConstants.PLUGIN_EXT_PY;
                 if (srcName.endsWith(PluginsConstants.PLUGIN_EXT_MZPACK)) {
@@ -1117,9 +1021,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
                 }
                 p.enabled = enabled;
                 preferences.edit().putBoolean(PluginsConstants.KEY_PLUGIN_ENABLED_PREFIX + id, enabled).apply();
-                // Согласие пользователя записывает диалог установки (PluginPermissions.setGranted).
-                // Если он этого не сделал (установка другим плагином, dev-сервер), плагин
-                // не получает ничего, а пользователю показывается, что он появился.
                 if (!PluginPermissions.hasRecord(id)) {
                     markUnconsented(id);
                 }
@@ -1131,8 +1032,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
                     loadPluginInternal(p);
                 }
                 if (p.loadError != null) {
-                    // Иначе упавший плагин остаётся в списке установленных: запись о нём
-                    // появляется до загрузки, а загрузка только проставляет loadError.
                     final String error = p.loadError;
                     uninstallPlugin(id);
                     deliver(callback, false, error, null);
@@ -1160,21 +1059,18 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
             unregisterPluginHooks(id);
             PythonPluginsEngine.getInstance().unload(p);
         }
-        // pip-зависимости (refcount) и mzpack-экстракции чистятся на Python-стороне.
         PythonPluginsEngine.getInstance().uninstallPlugin(id);
         synchronized (this) {
             plugins.remove(id);
             knownPaths.remove(id);
         }
         preferences.edit().remove(PluginsConstants.KEY_PLUGIN_ENABLED_PREFIX + id).apply();
-        // Иначе переустановка того же id молча унаследует старое согласие.
         PluginPermissions.clear(id);
         PluginTrustLevel.clear(id);
         PluginCapabilityScan.clear(id);
         setPluginPinned(id, false);
         PythonPluginsEngine.getInstance().forgetAudit(id);
         File f = new File(p.path);
-        // SharedPreferences plugin_settings_<id> — отдельный файл, удаляем напрямую.
         File prefsFile = new File(appContext.getFilesDir().getParentFile(),
                 "shared_prefs/" + PluginsConstants.SETTINGS_PREFS_PREFIX + id + ".xml");
         if (prefsFile.exists()) {
@@ -1205,7 +1101,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
                 callback.onResult(ok, error, plugin));
     }
 
-    // ---------- настройки плагинов (хранилище, зовётся из PythonBridge) ----------
 
     private SharedPreferences pluginPrefs(String pluginId) {
         String caller = PluginSinkGate.callingPlugin();
@@ -1240,7 +1135,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    /** Есть ли у плагина сохранённые настройки (кнопка сброса показывается только тогда). */
     private static void notifyPluginSettings(String pluginId, boolean hasSettings) {
         if (pluginId == null || pluginId.isEmpty()) {
             return;
@@ -1254,7 +1148,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return appContext != null && pluginId != null && !pluginPrefs(pluginId).getAll().isEmpty();
     }
 
-    /** Сброс настроек плагина: значения стираются, открытый экран пересобирается. */
     public void clearPluginSettingsPreferences(String pluginId) {
         if (appContext == null || pluginId == null) {
             return;
@@ -1278,7 +1171,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return obj.toString();
     }
 
-    /** Переписывает настройки плагина целиком: ключи, которых нет в json, исчезают. */
     public void replacePluginSettings(String pluginId, String json) {
         if (appContext == null) {
             return;
@@ -1327,15 +1219,10 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         org.mzgram.plugins.xposed.XposedHooks.removePluginUnhook(pluginId, unhook);
     }
 
-    /** Имя из SDK MZGram; у нас перерисовка экрана и есть перезагрузка настроек. */
     public void loadPluginSettings(String pluginId) {
         reloadSettingsScreen(pluginId);
     }
 
-    /**
-     * Движки по имени языка. У нас он один, но плагины каталога берут его
-     * через карту: PluginUtils.get_python_engine() в zwylib.
-     */
     public static Map<String, PythonPluginsEngine> getEngines() {
         Map<String, PythonPluginsEngine> engines = new ConcurrentHashMap<>();
         engines.put(PluginsConstants.PYTHON, PythonPluginsEngine.getInstance());
@@ -1426,9 +1313,7 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    // ---------- экран настроек плагина (UI <- JSON) ----------
 
-    /** @return JSON-список элементов ui.settings с текущими значениями или null. */
     public String getPluginSettingsJson(String pluginId) {
         return PythonPluginsEngine.getInstance().getSettingsJson(pluginId);
     }
@@ -1438,7 +1323,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return PythonPluginsEngine.getInstance().getSubPageJson(pluginId, owners);
     }
 
-    // ---------- имена API MZGram ----------
 
     public void init() {
         if (PluginSinkGate.refuseFromPlugin("init", true)) {
@@ -1731,23 +1615,14 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return PythonPluginsEngine.getInstance().getSettingsCustomView(pluginId, viewId, context);
     }
 
-    /** Из UI: пользователь изменил значение. */
     public void notifySettingChanged(String pluginId, String key, String jsonValue) {
         PythonPluginsEngine.getInstance().notifySettingChanged(pluginId, key, jsonValue);
     }
 
-    /** Из UI: пользователь нажал элемент с on_click. Вьюха строки уезжает в плагин:
-     * MZGram зовёт колбэк как {@code callback.call(view)}, и плагины на это
-     * рассчитывают — привязывают к ней меню и всплывашки. */
     public void dispatchSettingClick(String pluginId, String callbackId, android.view.View view) {
         PythonPluginsEngine.getInstance().dispatchSettingClick(pluginId, callbackId, view);
     }
 
-    /**
-     * Слушателей на плагин может быть несколько: подстраницы настроек живут
-     * отдельными фрагментами поверх корневого, и перестроиться должен каждый
-     * открытый — иначе экран под пальцем остаётся со старым списком.
-     */
     public void addSettingsReloadListener(String pluginId, Runnable listener) {
         if (pluginId == null || listener == null) {
             return;
@@ -1782,14 +1657,11 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    // ---------- реестры хуков (зовётся из PythonBridge) ----------
 
     public void registerSendMessageHook(String pluginId, int priority) {
         if (PluginSinkGate.refuseForeign(pluginId, "registerSendMessageHook")) {
             return;
         }
-        // PLUGINS-SECURITY.md, «Точки проверки»: хук исходящих даёт и чтение текста,
-        // и отмену отправки. Отказ — молча не регистрируем, плагин продолжает жить.
         if (!PluginPermissions.check(pluginId, PluginPermissions.MESSAGES_SEND,
                 "send-message hook")) {
             return;
@@ -1805,15 +1677,10 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         if (pluginId == null || requestName == null || requestName.isEmpty()) {
             return;
         }
-        // PLUGINS-SECURITY.md: update/updates/post-request хуки требуют messages.read.
-        // Pre- и post-request живут в одном реестре (findRequestHookTargets), разделить
-        // их на регистрации нечем — поэтому гейт стоит на всей регистрации.
         if (!PluginPermissions.check(pluginId, PluginPermissions.MESSAGES_READ,
                 "request hook " + requestName)) {
             return;
         }
-        // Маршрутизация по имени: TL_updates* — контейнеры апдейтов, TL_update* —
-        // одиночные апдейты, остальное — TL-запросы (pre/post request hook).
         Map<String, List<String>> target;
         if (matchSubstring) {
             target = requestHooksSubstring;
@@ -1853,7 +1720,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
 
 
 
-    /** Снять один request-хук плагина (SDK: {@code remove_hook(name)}). */
     public void unregisterRequestHook(String pluginId, String requestName) {
         if (PluginSinkGate.refuseForeign(pluginId, "unregisterRequestHook")) {
             return;
@@ -1877,7 +1743,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         invalidateHookTargets();
     }
 
-    /** Снять хук исходящих сообщений (SDK: {@code remove_hook("on_send_message_hook")}). */
     public void unregisterSendMessageHook(String pluginId) {
         if (PluginSinkGate.refuseForeign(pluginId, "unregisterSendMessageHook")) {
             return;
@@ -1900,11 +1765,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    /**
-     * Опустевший ключ удаляется вместе со списком: иначе hasAnyRequestHooks() и
-     * hasAnyUpdateHooks() остаются true навсегда, и каждый запрос платит за поиск
-     * по карте, в которой уже никого нет.
-     */
     private static void dropPluginFrom(Map<String, List<String>> hooks, String pluginId) {
         hooks.values().removeIf(list -> {
             list.remove(pluginId);
@@ -1920,7 +1780,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         synchronized (menuItems) {
             menuItems.removeIf(item -> item.pluginId.equals(pluginId));
         }
-        // Подсистемы с собственными реестрами.
         org.mzgram.plugins.files.FilesControllerJava.unregisterAllForPlugin(pluginId);
         org.mzgram.plugins.intents.IntentsDispatcher.unregisterAllForPlugin(pluginId);
         org.mzgram.plugins.utils.ClassProxyFactory.releaseAllForPlugin(pluginId);
@@ -1985,9 +1844,7 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         unregisterRequestHook(pluginId, hookName);
     }
 
-    // ---------- диспетчеры (зовутся из ядра Telegram) ----------
 
-    /** События приложения из LaunchActivity: app_start/app_stop/app_pause/app_resume. */
     public void executeOnAppEvent(String event) {
         if (!PythonPluginsEngine.getInstance().isStarted()) {
             return;
@@ -2009,9 +1866,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
                 }
             });
         }
-        // Уход в фон: приложение дожило до сюда без падения. Снимаем маркер
-        // (дальше процесс может убить сам Android, и это не вина плагина) и
-        // обнуляем накопленные страйки загруженных плагинов.
         if (PluginsConstants.EVENT_APP_PAUSE.equals(event)
                 || PluginsConstants.EVENT_APP_STOP.equals(event)) {
             PluginsWatchdog wd = getWatchdog();
@@ -2042,12 +1896,10 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return name;
     }
 
-    /** Дешёвый гейт для ConnectionsManager: есть ли вообще request-хуки. */
     public boolean hasAnyRequestHooks() {
         return !requestHooks.isEmpty() || !requestHooksSubstring.isEmpty();
     }
 
-    /** Исходящее сообщение из SendMessagesHelper. CANCEL = не отправлять. */
     public HookResult executeOnSendMessageHook(int account, Object params) {
         if (sendMessageHooks.isEmpty() || !PythonPluginsEngine.getInstance().isStarted()) {
             return HookResult.DEFAULT;
@@ -2077,7 +1929,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return last;
     }
 
-    /** Перед отправкой TL-запроса. CANCEL = запрос не уходит. */
     public HookResult executePreRequestHook(int account, String requestName, Object request) {
         List<String> targets = findRequestHookTargets(requestName);
         if (targets.isEmpty() || !PythonPluginsEngine.getInstance().isStarted()) {
@@ -2108,7 +1959,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return last;
     }
 
-    /** После ответа на TL-запрос. */
     public HookResult executePostRequestHook(int account, String requestName, Object response, Object error) {
         List<String> targets = findRequestHookTargets(requestName);
         if (targets.isEmpty() || !PythonPluginsEngine.getInstance().isStarted()) {
@@ -2143,7 +1993,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return requestTargetsCache.get(requestName, () -> resolveRequestHookTargets(requestName));
     }
 
-    // ---------- хуки апдейтов ----------
 
     public boolean hasAnyUpdateHooks() {
         return !updateHooks.isEmpty() || !requestHooksSubstring.isEmpty();
@@ -2153,7 +2002,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return !updatesContainerHooks.isEmpty() || !requestHooksSubstring.isEmpty();
     }
 
-    /** Одиночный апдейт из MessagesController.processUpdateArray. CANCEL = не обрабатывать. */
     public HookResult executeOnUpdateHook(int account, String updateName, Object update) {
         List<String> targets = updateTargetsCache.get(updateName, () -> resolveHookTargets(updateName, updateHooks));
         if (targets.isEmpty() || !PythonPluginsEngine.getInstance().isStarted()) {
@@ -2184,7 +2032,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return last;
     }
 
-    /** Контейнер апдейтов из MessagesController.processUpdates. CANCEL = не обрабатывать. */
     public HookResult executeOnUpdatesHook(int account, String containerName, Object updates) {
         List<String> targets = updatesTargetsCache.get(containerName, () -> resolveHookTargets(containerName, updatesContainerHooks));
         if (targets.isEmpty() || !PythonPluginsEngine.getInstance().isStarted()) {
@@ -2215,7 +2062,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return last;
     }
 
-    /** Пункты меню для типа, отсортированные по priority (desc). Зовут патчи ядра при построении меню. */
     public List<MenuItemRecord> getMenuItemsFor(MenuItemRecord.MenuType type) {
         List<MenuItemRecord> result = new ArrayList<>();
         synchronized (menuItems) {
@@ -2229,9 +2075,7 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         return result;
     }
 
-    // ---------- клики по пунктам меню (зовутся из патчей ядра) ----------
 
-    /** Найти пункт меню и вызвать его Python on_click с Map-контекстом. */
     public void dispatchMenuClick(String pluginId, String itemId, java.util.Map<String, Object> context) {
         MenuItemRecord target = null;
         synchronized (menuItems) {
@@ -2256,7 +2100,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    // ---------- меню ----------
 
     private static final AtomicLong generatedMenuItemId = new AtomicLong();
 
@@ -2342,10 +2185,6 @@ public class PluginsController extends org.mzgram.sdk.plugins.PluginsController 
         }
     }
 
-    /**
-     * Реестр пунктов изменился — экраны с подменю плагинов пересобирают его.
-     * Зовётся при регистрации/снятии пункта и при выгрузке плагина.
-     */
     private final Runnable menuItemsUpdatedRunnable = () ->
             org.telegram.messenger.NotificationCenter.getGlobalInstance()
                     .postNotificationName(org.telegram.messenger.NotificationCenter.pluginMenuItemsUpdated);

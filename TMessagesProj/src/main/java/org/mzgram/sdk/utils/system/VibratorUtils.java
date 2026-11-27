@@ -13,7 +13,6 @@ import org.mzgram.sdk.MZConfig;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 
-/** Шим {@code org.mzgram.sdk.utils.system.VibratorUtils}. */
 public final class VibratorUtils {
 
     private VibratorUtils() {

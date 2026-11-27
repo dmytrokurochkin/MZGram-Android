@@ -34,11 +34,6 @@ public class DrawerLayoutContainer extends FrameLayout {
     private ActionBarLayout actionBarLayout;
     private boolean inLayout;
 
-    /**
-     * Своя шторка MZGram. null, пока выключена настройка navigationDrawer —
-     * тогда контейнер ведёт себя ровно как раньше (MZGram:
-     * {@code org/telegram/ui/ActionBar/DrawerLayoutContainer.java:32,136,276}).
-     */
     private DrawerContainer drawerContainer;
 
     public DrawerLayoutContainer(Context context) {
@@ -64,11 +59,6 @@ public class DrawerLayoutContainer extends FrameLayout {
         return drawerContainer;
     }
 
-    /**
-     * Старая шторка освобождается и убирается из иерархии, новая кладётся поверх
-     * на весь экран.
-     * Зовётся только из {@code LaunchActivity.syncDrawerContainerEnabled()}.
-     */
     public void setDrawerContainer(DrawerContainer container) {
         if (drawerContainer == container) {
             return;

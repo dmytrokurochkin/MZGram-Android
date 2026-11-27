@@ -25,8 +25,6 @@ public class CircularProgressDrawable extends Drawable implements Drawable.Callb
     public float size = AndroidUtilities.dp(18);
     public float thickness = AndroidUtilities.dp(2.25f);
 
-    // Стиль 1 рисует LoadingIndicator из com.google.android.material, как у MZGram;
-    // дуга с дорожкой (стили 2 и 3) считается вручную в M3CircularProgress.
     private int currentStyle = M3CircularProgress.STYLE_LEGACY;
     private int trackColor;
     private int currentColor;
@@ -47,7 +45,6 @@ public class CircularProgressDrawable extends Drawable implements Drawable.Callb
         setColor(color);
         setStyle(M3CircularProgress.STYLE_LOADING_INDICATOR, AndroidUtilities.getActivity());
     }
-    // Конструктор с цветом дорожки включает стиль 2
     public CircularProgressDrawable(float size, float thickness, int trackColor, int color) {
         this.size = size;
         this.thickness = thickness;
@@ -57,7 +54,6 @@ public class CircularProgressDrawable extends Drawable implements Drawable.Callb
         setTrackColor(trackColor);
     }
 
-    /** Context нужен стилю 1: LoadingIndicator читает атрибуты темы. */
     public void setStyle(int style, Context context) {
         style = M3CircularProgress.degradeStyle(style);
         if (currentStyle == style
@@ -109,7 +105,6 @@ public class CircularProgressDrawable extends Drawable implements Drawable.Callb
         }
     }
 
-    /** (амплитуда, длина волны, скорость) в dp. */
     public void setWavyValues(float amplitude, float wavelength, float speed) {
         if (m3 == null) {
             return;

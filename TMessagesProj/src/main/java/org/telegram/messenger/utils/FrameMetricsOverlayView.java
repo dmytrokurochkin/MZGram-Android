@@ -250,7 +250,6 @@ public final class FrameMetricsOverlayView extends View {
         choreographerCallback = frameTimeNanos -> {
             if (!running.get()) return;
             if (vsyncWindowStartNs == 0) {
-                // первый тик — только открываем окно, не считаем
                 vsyncWindowStartNs = frameTimeNanos;
             } else if (frameTimeNanos - vsyncWindowStartNs >= 1_000_000_000L) {
                 vsyncPerSecond     = vsyncCountAccum;

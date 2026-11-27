@@ -17,12 +17,6 @@ import java.util.List;
 
 import org.mzgram.pillstack.pills.BasePill;
 
-/**
- * Полоса пилюль: показывает одну пилюлю, вертикальный свайп переключает на соседнюю.
- *
- * Переписано по мотивам MZGram — обработчик касаний в декомпиляте не восстановился,
- * поэтому логика жестов написана заново.
- */
 public class PillStackView extends FrameLayout {
 
     private final List<BasePill> pills = new ArrayList<>();
@@ -108,7 +102,6 @@ public class PillStackView extends FrameLayout {
         }
     }
 
-    /** 0 — полоса скрыта, 1 — показана целиком. */
     public void setVisibilityFactor(float factor) {
         if (visibilityFactor == factor) {
             return;
@@ -138,7 +131,6 @@ public class PillStackView extends FrameLayout {
         }
     }
 
-    // ---- Жесты ----
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
@@ -304,7 +296,6 @@ public class PillStackView extends FrameLayout {
             }
         }
         if (!PillStackConfig.infiniteScrolling() && (next >= pills.size() || next < 0)) {
-            // некуда листать — оттягиваем текущую с сопротивлением
             float overscroll = getHeight() * (float) (1.0 - 1.0 / (progress * 0.18f + 1.0));
             current.setTranslationY(up ? -overscroll : overscroll);
             current.setAlpha(1f);

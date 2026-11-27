@@ -24,13 +24,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
-/**
- * Центральный класс ленты: держит состояние синтетического чата (страницы, курсоры,
- * непрочитанное), ходит за данными через {@link FeedTimelineLoader}, копит их в
- * {@link FeedStore} и рассылает результаты через NotificationCenter так, как их ждёт
- * ChatActivity в режиме поиска. Переживает изменения {@link FeedConfig}, сверяясь
- * с его generation.
- */
 public class FeedController implements NotificationCenter.NotificationCenterDelegate {
 
     private static final int FULL_CHUNK_ROW_COUNT = 30;
@@ -151,10 +144,6 @@ public class FeedController implements NotificationCenter.NotificationCenterDele
         return Instance[account];
     }
 
-    /**
-     * Канал годится для ленты, если это именно канал (не супергруппа и не сообщество)
-     * и пользователь из него не вышел.
-     */
     public static boolean isEligibleChannel(TLRPC.Chat chat) {
         return chat != null
                 && ChatObject.isChannelAndNotMegaGroup(chat)
@@ -634,10 +623,6 @@ public class FeedController implements NotificationCenter.NotificationCenterDele
         }
     }
 
-    /**
-     * Перечитывает набор каналов после смены настроек ленты и сообщает вызвавшему,
-     * пришлось ли выкинуть уже загруженное окно постов.
-     */
     public void applyConfigChange(Utilities.Callback<Boolean> callback) {
         configGeneration = FeedConfig.getInstance(currentAccount).getGeneration();
         reconcileChannelSet(callback);
@@ -808,10 +793,6 @@ public class FeedController implements NotificationCenter.NotificationCenterDele
         });
     }
 
-    /**
-     * Отдаёт уже накопленное окно постов сразу, если оно есть; иначе запускает загрузку
-     * и запоминает вызвавшего, чтобы ответить ему по её завершении. true — данные ушли синхронно.
-     */
     public boolean loadInitial(int classGuid, int loadIndex) {
         ensureCurrentConfig();
         if (store.isEmpty()) {
@@ -914,10 +895,6 @@ public class FeedController implements NotificationCenter.NotificationCenterDele
         FeedConfig.getInstance(currentAccount).setScrollPosition(new SavedScrollPosition(dialogId, messageId, date, offsetTop).serialize());
     }
 
-    /**
-     * Считает открытые экраны ленты: на первом включает её, на последнем гасит загрузки
-     * и подрезает кэш.
-     */
     public void setUiActive(boolean active) {
         if (!active) {
             if (uiActiveClients == 0) {

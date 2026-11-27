@@ -15,25 +15,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Разбор JPEG-заголовка и чистка геометок EXIF.
- *
- * Перенос MZGram 12.9.0:utils/MediaUtils.java.
- *
- * Платформа определяется по первым байтам файла: JFIF-заголовок и начало
- * таблицы квантования у Android, iOS, macOS и десктопных редакторов различаются
- * побайтово, поэтому по префиксу видно, чем снимок сделан или обработан. Это
- * догадка по сигнатуре, а не метаданные, и на пересохранённом файле она скажет
- * про последний редактор, а не про камеру.
- *
- * Важно: в декомпиляции MZGram цикл сравнения сломан — внутренний {@code break}
- * выходит только из перебора байтов, после чего значение возвращается всегда,
- * то есть любой JPEG опознавался бы как «Desktop». Здесь реализовано то, что
- * очевидно имелось в виду: полное совпадение префикса.
- */
 public final class MediaUtils {
 
-    /** Сколько байт заголовка хватает всем сигнатурам (самая длинная — 64). */
     private static final int HEADER_BYTES = 64;
 
     private static final Map<byte[], String> PLATFORM_HEADERS = new LinkedHashMap<>();
@@ -49,7 +32,6 @@ public final class MediaUtils {
         PLATFORM_HEADERS.put(hex("FFD8FFE000104A46494600010101004800480000FFE201DB4943435F50524F46494C45000101000001CB00000000024000006D6E74725247422058595A200000"), "macOS");
     }
 
-    /** GPS-теги EXIF, доступные на всех поддерживаемых версиях Android. */
     private static final String[] GEO_TAGS = {
             ExifInterface.TAG_GPS_ALTITUDE,
             ExifInterface.TAG_GPS_ALTITUDE_REF,
@@ -65,11 +47,6 @@ public final class MediaUtils {
     private MediaUtils() {
     }
 
-    /**
-     * Чем снят или обработан снимок: {@code "Android"}, {@code "iOS"},
-     * {@code "macOS"}, {@code "Desktop"}, {@code "Web"} — или {@code null},
-     * если сигнатура незнакомая.
-     */
     public static String getPhotoPlatform(String path) {
         byte[] header = readFileHeader(path, HEADER_BYTES);
         if (header == null) {
@@ -94,11 +71,6 @@ public final class MediaUtils {
         return null;
     }
 
-    /**
-     * Скопировать файл, вычистив из копии координаты съёмки.
-     *
-     * @return true, если хотя бы один тег был найден и убран.
-     */
     public static boolean removeGeolocation(String sourcePath, String targetPath) throws IOException {
         File source = new File(sourcePath);
         if (!source.exists()) {
@@ -144,7 +116,6 @@ public final class MediaUtils {
                 exif.setAttribute(tag, null);
                 changed = true;
             } catch (Exception ignored) {
-                // Тег есть, но записи не поддаётся — остальные всё равно чистим.
             }
         }
         if (!changed) {
@@ -154,8 +125,6 @@ public final class MediaUtils {
             exif.saveAttributes();
             return true;
         } catch (IOException e) {
-            // Копия осталась с координатами — отдавать её нельзя.
-            //noinspection ResultOfMethodCallIgnored
             target.delete();
             throw e;
         }

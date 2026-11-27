@@ -4538,12 +4538,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         wasPlayingAudioBeforePause = false;
     }
 
-    /**
-     * Приложение уходит в фон: остановить голосовое или кружок, если это включено
-     * в настройках. Перенос {@code MediaController.pauseInBackgroundIfNeeded}
-     * MZGram (12.9.0, строка 4728). Музыка продолжает играть — её ставить на
-     * паузу при сворачивании незачем.
-     */
     public void pauseInBackgroundIfNeeded() {
         MessageObject playing = getPlayingMessageObject();
         if (playing == null) {

@@ -20,15 +20,6 @@ import org.telegram.ui.Components.blur3.drawable.color.impl.BlurredBackgroundPro
 import org.telegram.utils.glass.source.GlassSourceBitmap;
 import org.telegram.ui.Components.blur3.utils.Blur3Utils;
 
-/**
- * Матовое стекло под меню сообщения и панелью реакций.
- *
- * <p>Ключ — {@link AppearanceConfig#glassMessageMenu()} (дефолт true, как в MZGram).
- * Стекло включается только когда блюр реально доступен: тот же гейт, что и в MZGram —
- * {@code BlurredBackgroundProviderImpl.checkBlurEnabled} (SharedConfig.chatBlurEnabled плюс
- * серверные флаги disableBlurInLight/DarkTheme). Если блюр недоступен — вызывающий код
- * должен оставить обычный popup, поведение при этом ровно прежнее.
- */
 public abstract class GlassMenuHelper {
 
     private GlassMenuHelper() {
@@ -39,10 +30,6 @@ public abstract class GlassMenuHelper {
             && BlurredBackgroundProviderImpl.checkBlurEnabled(currentAccount, resourcesProvider);
     }
 
-    /**
-     * Отличие от апстримного {@code BlurredBackgroundProviderImpl.scrimMenuBackground} —
-     * обводки нет совсем.
-     */
     private static BlurredBackgroundProviderBuilder scrimMenuGlass(Theme.ResourcesProvider resourcesProvider) {
         return new BlurredBackgroundProviderBuilder(resourcesProvider)
             .setBackgroundColor((r, isDark) -> Theme.multAlpha(
@@ -86,10 +73,6 @@ public abstract class GlassMenuHelper {
         draw(drawable, canvas, rect, radius, alpha, 0.0f, 0.0f);
     }
 
-    /**
-     * Смещение компенсируется сдвигом холста: сам drawable рисуется по целым
-     * координатам, поэтому его двигают вместе с канвасом.
-     */
     public static void draw(BlurredBackgroundDrawable drawable, Canvas canvas, RectF rect,
                             float radius, int alpha, float offsetX, float offsetY) {
         final boolean translate = offsetX != 0.0f || offsetY != 0.0f;
@@ -114,7 +97,6 @@ public abstract class GlassMenuHelper {
         applyToGaps(view, color, false);
     }
 
-    /** Рекурсивно по всем {@code GapView} внутри меню. */
     public static void applyToGaps(View view, int color, boolean dividerVisible) {
         if (view instanceof ActionBarPopupWindow.GapView) {
             final ActionBarPopupWindow.GapView gapView = (ActionBarPopupWindow.GapView) view;
@@ -128,11 +110,6 @@ public abstract class GlassMenuHelper {
         }
     }
 
-    /**
-     * Не перенесено: {@code popupLayout.getSwipeBack().setForegroundDrawable(createFill(...))} —
-     * у нашего {@code PopupSwipeBackLayout} нет {@code setForegroundDrawable}. Подпанель
-     * swipe-back остаётся непрозрачной, как в апстриме.
-     */
     public static void applyToPopup(BlurredBackgroundDrawableViewFactory factory,
                                     Theme.ResourcesProvider resourcesProvider,
                                     ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout) {
@@ -145,10 +122,6 @@ public abstract class GlassMenuHelper {
         reactionsContainerLayout.setGlassBackground(factory, scrimMenuBackgroundFill(resourcesProvider));
     }
 
-    /**
-     * Переиспользуемое меню переключают между стеклом
-     * и обычным popup'ом на лету.
-     */
     public static void applyToReusedMenu(BlurredBackgroundDrawableViewFactory factory,
                                          GlassSourceBitmap sourceBitmap,
                                          Theme.ResourcesProvider resourcesProvider,
@@ -170,7 +143,6 @@ public abstract class GlassMenuHelper {
         }
     }
 
-    /** Снимок экрана под меню для источника блюра. */
     public static void captureBlur(final GlassSourceBitmap sourceBitmap,
                                    final BlurredBackgroundDrawableViewFactory factory,
                                    final View view) {
@@ -181,10 +153,6 @@ public abstract class GlassMenuHelper {
         });
     }
 
-    /**
-     * Цвет «зазора» между группами пунктов.
-     * На стекле сплошной разделитель заменяется еле заметной подложкой цвета текста.
-     */
     public static int separatorColor(boolean glass, Theme.ResourcesProvider resourcesProvider) {
         if (!glass) {
             return Theme.getColor(Theme.key_actionBarDefaultSubmenuSeparator, resourcesProvider);

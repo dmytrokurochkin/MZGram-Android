@@ -37,34 +37,16 @@ import org.mzgram.drawer.MainMenuLayout;
 import org.mzgram.plugins.MenuItemRecord;
 import org.mzgram.plugins.PluginsController;
 
-/**
- * Рендерер пунктов меню плагинов в меню Telegram. Зовётся из патчей ядра:
- *  - {@link #fillMessageMenu} — конец {@code ChatActivity.fillMessageMenu} (MESSAGE_CONTEXT_MENU);
- *  - {@link #handleMessageMenuOption} — начало {@code ChatActivity.processSelectedOption};
- *  - {@link #appendDrawerItems} — конец {@code DrawerMenuView.rebuildMenu} (DRAWER_MENU);
- *  - {@link #appendMainMenuItems} — {@code DialogsActivity.showItemOptions} перед io.show() (MAIN_MENU).
- *
- * Видимость пункта — MVEL-выражение {@link MenuItemRecord#condition} над Map-контекстом
- * (null/ошибка = пункт виден). Клик уходит в
- * {@link PluginsController#dispatchMenuClick(String, String, Map)}.
- *
- * Всё зовётся на UI-потоке; при выключенном движке или пустом реестре работа не делается.
- */
 public final class MenuInjector {
 
     static {
         OptimizerFactory.setDefaultOptimizer(OptimizerFactory.SAFE_REFLECTIVE);
     }
 
-    /**
-     * База id пунктов меню сообщения. Стоковые OPTION_* — 0..152, nkbtn_* — 2008..2101,
-     * ArcConstants.OPTION_* — 133801+, поэтому 9_000_000 не пересекается ни с чем.
-     */
     private static final int MESSAGE_OPTION_BASE = 9_000_000;
     public static final int MESSAGE_PLUGINS_OPTION = MESSAGE_OPTION_BASE - 1;
     private static Map<String, Object> messageMenuContext;
 
-    /** Пункт последнего построенного меню сообщения: option id = BASE + индекс. Только UI-поток. */
     private static final class MessageMenuEntry {
         final MenuItemRecord record;
         final Map<String, Object> context;
@@ -100,9 +82,7 @@ public final class MenuInjector {
         }
     }
 
-    // ---------- общее ----------
 
-    /** Видимость пункта по MVEL-condition; null/пустое = виден, ошибка вычисления = скрыт. */
     public static boolean isVisible(MenuItemRecord item, Map<String, Object> context) {
         if (item.condition == null || item.condition.isEmpty()) {
             return true;
@@ -161,7 +141,6 @@ public final class MenuInjector {
         return true;
     }
 
-    /** icon — имя drawable-ресурса приложения; не резолвится → 0 (пункт без иконки). */
     public static int resolveIcon(Context context, String icon) {
         if (icon == null || icon.isEmpty()) {
             return 0;
@@ -186,10 +165,6 @@ public final class MenuInjector {
 
     // ---------- MESSAGE_CONTEXT_MENU (ChatActivity) ----------
 
-    /**
-     * Дописать пункты плагинов в параллельные массивы меню сообщения.
-     * Зовётся в конце {@code ChatActivity.fillMessageMenu}.
-     */
     public static void fillMessageMenu(BaseFragment fragment, MessageObject message, TLRPC.Chat chat,
                                        TLRPC.User user, TLRPC.EncryptedChat encryptedChat,
                                        long dialogId, int account,
@@ -281,12 +256,6 @@ public final class MenuInjector {
         }.getSwipeBack();
     }
 
-    /**
-     * Перехват клика по пункту плагина. Зовётся в начале
-     * {@code ChatActivity.processSelectedOption}.
-     *
-     * @return true, если option — пункт плагина и клик обработан.
-     */
     public static boolean handleMessageMenuOption(int option) {
         int index = option - MESSAGE_OPTION_BASE;
         if (index < 0 || index >= messageMenuEntries.size()) {
@@ -300,13 +269,6 @@ public final class MenuInjector {
 
     // ---------- DRAWER_MENU (DrawerMenuView) ----------
 
-    /**
-     * Добавить пункты плагинов в конец боковой шторки. Зовётся в конце
-     * {@code DrawerMenuView.rebuildMenu}.
-     *
-     * @param container   LinearLayout внутри DrawerMenuView, куда кладутся DrawerMenuItemView
-     * @param onItemClick колбэк закрытия шторки из DrawerMenuView (может быть null)
-     */
     public static void appendDrawerItems(LinearLayout container, int currentAccount, Runnable onItemClick) {
         if (container == null || !PluginsController.getInstance().isEngineEnabled()
                 || MainMenuLayout.getLayout().contains(MainMenuItem.PLUGINS.getId())) {
@@ -325,7 +287,6 @@ public final class MenuInjector {
                 continue;
             }
             DrawerMenuItemView itemView = new DrawerMenuItemView(context);
-            // layoutButtonId используется только для бейджа непрочитанных «Архива» — 0 его не даёт.
             itemView.setMenuItem(0, currentAccount, resolveIcon(context, record.icon),
                     record.text != null ? record.text : record.itemId);
             itemView.setOnClickListener(v -> {
@@ -341,24 +302,7 @@ public final class MenuInjector {
         }
     }
 
-    // ---------- CHAT_ACTION_MENU / PROFILE_ACTION_MENU (swipe-back подменю) ----------
 
-    /**
-     * Повесить подменю плагинов на всплывающее меню «⋮».
-     *
-     * Пунктов у плагинов бывает много (в публичном каталоге CHAT_ACTION_MENU —
-     * самое популярное место, его занимают 70 плагинов из 361), поэтому они
-     * уезжают в отдельный swipe-back-слой, а не в основное меню; так же в
-     * MZGram.
-     *
-     * @param previous результат прошлого вызова на том же экране (или null):
-     *                 обёртка переиспользуется, пересоздаётся только пункт.
-     * @return подменю и открывающий его пункт — владелец зовёт
-     *         {@link SwipeBackMenu#refresh()} на
-     *         {@code NotificationCenter.pluginMenuItemsUpdated}; null, если
-     *         движок выключен или вешать некуда.
-     */
-    /** Пара «подменю + пункт, который его открывает»: владельцу нужны оба. */
     public static final class SwipeBackMenu {
         public final PluginsMenuWrapper wrapper;
         public final ActionBarMenuItem.Item item;
@@ -370,7 +314,6 @@ public final class MenuInjector {
             this.headerItem = headerItem;
         }
 
-        /** Пересобрать и спрятать пункт, если плагины не дали ни одного. */
         public void refresh() {
             boolean hasItems = wrapper.hasItems();
             if (hasItems) {
@@ -393,9 +336,6 @@ public final class MenuInjector {
             return previous;
         }
         try {
-            // Экраны, которые пересобирают меню (ProfileActivity зовёт
-            // removeAllSubItems на каждом createActionBarMenu), теряют пункт,
-            // но не слой swipe-back: обёртку переиспользуем, иначе слои копятся.
             final boolean sameHost = previous != null && previous.headerItem == headerItem;
             PluginsMenuWrapper wrapper = sameHost ? previous.wrapper : new PluginsMenuWrapper(
                     popupLayout.getSwipeBack(), menuType, contextData, resourcesProvider) {
@@ -424,10 +364,6 @@ public final class MenuInjector {
 
     // ---------- MAIN_MENU (DialogsActivity «⋮») ----------
 
-    /**
-     * Добавить пункты плагинов в меню «⋮» главного экрана. Зовётся в
-     * {@code DialogsActivity.showItemOptions} перед {@code io.show()}.
-     */
     public static List<MainMenuHelper.MenuItemInfo> mainMenuItems(int currentAccount, BaseFragment fragment) {
         if (!PluginsController.getInstance().isEngineEnabled()) {
             return Collections.emptyList();

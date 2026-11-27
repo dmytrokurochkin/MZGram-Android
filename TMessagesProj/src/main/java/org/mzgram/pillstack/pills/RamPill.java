@@ -9,7 +9,6 @@ import org.telegram.ui.ActionBar.Theme;
 
 import org.mzgram.pillstack.PillType;
 
-/** Занятость оперативной памяти в процентах. */
 @SuppressLint("ViewConstructor")
 public class RamPill extends TelemetryPill {
 

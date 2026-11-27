@@ -172,9 +172,6 @@ public abstract class BaseCoreSettingsActivity extends BaseFragment {
             return false;
         });
 
-        // Карточки-секции: штатная геометрия декоратора + радиус из AppearanceConfig.
-        // Тень-elevation форсируется в SectionCardRecyclerView.drawBackgroundRect.
-        // При sectionRadius == 0 — стоковый плоский вид (карточки визуально отсутствуют).
         listView.setSections(dp(12), dp(org.mzgram.appearance.AppearanceConfig.sectionRadius()), true);
         setupAdaptiveBackground();
         return fragmentView;
@@ -213,17 +210,6 @@ public abstract class BaseCoreSettingsActivity extends BaseFragment {
         return actionBar;
     }
 
-    /**
-     * Фон actionBar, зависящий от прокрутки. Вынесено в метод, чтобы экран мог
-     * сделать шапку прозрачной наверху (topColorKey = -1) — как корневой экран mzgram.
-     * Повторный вызов setAdaptiveBackground после первого не перекрашивает шапку,
-     * поэтому настраивать нужно именно здесь, а не после createView.
-     */
-    /**
-     * Рисовать ли блюр-подложку под actionBar. Экраны с прозрачной шапкой
-     * (корневой экран mzgram) её отключают: подложка закрывает контент под шапкой.
-     * Снять её после вызова нельзя — {@code setDrawBlurBackground(null)} падает.
-     */
     protected boolean needActionBarBlur() {
         return true;
     }
@@ -719,15 +705,6 @@ public abstract class BaseCoreSettingsActivity extends BaseFragment {
             applySectionBackground(holder, position);
         }
 
-        /**
-         * mzGram: готовит фон ячейки под механизм карточек-секций.
-         * Единый скруглённый фон группы с тенью-elevation рисует сам список
-         * ({@link org.mzgram.appearance.SectionCardRecyclerView}) в {@code dispatchDraw}
-         * позади контента. Здесь остаётся только выставить прозрачность ячейки:
-         * при sectionRadius > 0 фон ячейки прозрачный (просвечивает карточка), селектор
-         * нажатия рисует сам список отдельно — кликаемость не страдает. При sectionRadius == 0
-         * поведение полностью стоковое: сплошной фон, как задавалось при создании ячейки.
-         */
         protected void applySectionBackground(@NonNull RecyclerView.ViewHolder holder, int position) {
             int viewType = holder.getItemViewType();
             if (!isSectionContent(viewType)) {
@@ -735,18 +712,12 @@ public abstract class BaseCoreSettingsActivity extends BaseFragment {
             }
             int radiusDp = org.mzgram.appearance.AppearanceConfig.sectionRadius();
             if (radiusDp <= 0) {
-                // Дефолт-safe (0) = сток: сплошной фон, ровно как задавалось при создании ячейки.
                 holder.itemView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                 return;
             }
-            // Карточка-фон рисуется списком; ячейка должна быть прозрачной, чтобы просвечивала.
             holder.itemView.setBackground(null);
         }
 
-        /**
-         * true, если ячейки [posA] и [posB] (соседние) принадлежат одной карточке.
-         * Обе должны быть контентными; при separateHeaders заголовок обособляется в свою карточку.
-         */
         protected boolean cardConnected(int posA, int posB) {
             int typeA = getItemViewType(posA);
             int typeB = getItemViewType(posB);
@@ -760,10 +731,7 @@ public abstract class BaseCoreSettingsActivity extends BaseFragment {
             return true;
         }
 
-        /** Типы ячеек со сплошным белым фоном — из них собираются карточки-секции. */
         protected boolean isSectionContent(int viewType) {
-            // MZGram: при вынесенных заголовках заголовок лежит на фоне окна,
-            // а не в своей карточке — поэтому он вообще не участвует в секциях.
             if (viewType == TYPE_HEADER && org.mzgram.appearance.AppearanceConfig.separateHeaders()) {
                 return false;
             }
@@ -785,8 +753,6 @@ public abstract class BaseCoreSettingsActivity extends BaseFragment {
                 case TYPE_CHECKBOX2:
                     return true;
                 default:
-                    // TYPE_SHADOW, TYPE_INFO_PRIVACY и кастомные типы подклассов (>= 100)
-                    // считаем границами секций.
                     return false;
             }
         }
@@ -810,13 +776,8 @@ public abstract class BaseCoreSettingsActivity extends BaseFragment {
                     break;
                 case TYPE_HEADER: {
                     HeaderCell headerCell = new HeaderCell(mContext, resourcesProvider);
-                    // MZGram: вынесенный заголовок лежит на фоне окна — без белой подложки
-                    // и вне карточки. Группировку карточек делает RecyclerListView.setSections
-                    // по предикату вью, поэтому исключаем заголовок именно тегом.
                     if (org.mzgram.appearance.AppearanceConfig.separateHeaders()) {
                         headerCell.setTag(RecyclerListView.TAG_NOT_SECTION);
-                        // Метрики сняты с 12.9.0 на устройстве (420 dpi): контейнер 114px,
-                        // сверху 16, текст 90, снизу 8 до карточки; левый отступ 63px.
                         headerCell.setPadding(AndroidUtilities.dp(24), AndroidUtilities.dp(6),
                                 AndroidUtilities.dp(24), AndroidUtilities.dp(3));
                         headerCell.setHeight(34);

@@ -2,10 +2,6 @@ package org.mzgram.plugins;
 
 import com.chaquo.python.PyObject;
 
-/**
- * Пункт меню, добавленный плагином. Аналог hooks/MenuItemRecord.java MZGram.
- * Колбэк хранится как PyObject и зовётся напрямую с Map-контекстом.
- */
 public class MenuItemRecord {
 
     public enum MenuType {
@@ -30,10 +26,8 @@ public class MenuItemRecord {
     public final String text;
     public final String subtext;
     public final String icon;
-    /** MVEL-выражение видимости (вычисляется при построении меню; null = всегда виден). */
     public final String condition;
     public final int priority;
-    /** Python-колбэк on_click(context_map). */
     public final transient PyObject onClick;
 
     public MenuItemRecord(String pluginId, String itemId, MenuType menuType, String text,

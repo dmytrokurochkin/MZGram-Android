@@ -34,7 +34,6 @@ import org.mzgram.pillstack.PillStackEvents;
 import org.mzgram.pillstack.PillStackSettingsActivity;
 import org.mzgram.pillstack.RateInstances;
 
-/** Курс одной валюты к другой. Пара выбирается пользователем и живёт в {@link RateInstances}. */
 @SuppressLint("ViewConstructor")
 public class RatePill extends BasePill implements PillStackEvents.Listener {
 

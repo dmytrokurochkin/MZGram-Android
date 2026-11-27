@@ -45,27 +45,9 @@ import org.mzgram.plugins.PluginPermissions;
 import org.mzgram.plugins.ui.components.PluginAiReview;
 import org.mzgram.plugins.ui.components.PluginFileViewer;
 
-/**
- * Лист установки плагина.
- *
- * Раньше здесь был системный AlertDialog со списком галочек: он не показывал ни
- * иконки, ни описания, а на длинном списке разрешений упирался в собственную
- * высоту. MZGram ({@code plugins/ui/components/InstallPluginBottomSheet}) на
- * этом месте показывает карточку — иконка, имя, версия и автор, описание, — и
- * ставит рядом с кнопкой отдельную галочку «включить после установки».
- *
- * Наше отличие от MZGram одно и намеренное: в списке под описанием стоят
- * разрешения, которые нашёл статический разбор, и у каждого своя раскрывашка с
- * именами из исходника. MZGram вместо этого показывает бейдж «источник
- * неизвестен»; бейдж говорит о канале, а не о плагине, и ничего не решает.
- */
 public class PluginInstallBottomSheet extends org.mzgram.sdk.plugins.ui.components.InstallPluginBottomSheet {
 
     public interface Delegate {
-        /**
-         * @param granted           отмеченные разрешения
-         * @param enableAfterInstall включать ли плагин сразу после установки
-         */
         void onInstall(List<String> granted, boolean enableAfterInstall);
     }
 
@@ -392,12 +374,6 @@ public class PluginInstallBottomSheet extends org.mzgram.sdk.plugins.ui.componen
         }
     }
 
-    /**
-     * Предупреждение о нечитаемом коде.
-     *
-     * Стоит отдельным блоком, а не строкой в списке разрешений: разбор выше
-     * перечисляет то, что нашлось, а здесь речь о том, что искать бесполезно.
-     */
     public static android.view.View createObfuscationWarning(Context context, List<String> evidence) {
         return createWarningBox(context, getString(R.string.PluginsObfuscated),
                 getString(R.string.PluginsObfuscatedInfo),
@@ -441,13 +417,6 @@ public class PluginInstallBottomSheet extends org.mzgram.sdk.plugins.ui.componen
         return box;
     }
 
-    /**
-     * Иконка: стикер из набора плагина, если он его указал, иначе наш значок.
-     *
-     * Загрузка идёт сетевым запросом за набором стикеров, поэтому картинка
-     * появляется позже остального листа — это нормально и лучше, чем держать
-     * лист закрытым до её приезда.
-     */
     private static android.view.View createIcon(Context context, Plugin plugin, PlayerColors colors) {
         FrameLayout frame = new FrameLayout(context);
         frame.setBackground(Theme.createRoundRectDrawable(dp(20), colors.primaryContainer));
@@ -461,8 +430,6 @@ public class PluginInstallBottomSheet extends org.mzgram.sdk.plugins.ui.componen
         image.setRoundRadius(dp(20));
         frame.addView(image, LayoutHelper.createFrame(64, 64, Gravity.CENTER));
         image.setVisibility(android.view.View.GONE);
-        // Наш значок стоит до тех пор, пока не приедет иконка плагина: она
-        // может и не приехать, а пустое место вместо неё — хуже заглушки.
         PluginIcons.apply(image, plugin, () -> {
             fallback.setVisibility(android.view.View.GONE);
             frame.setBackground(null);

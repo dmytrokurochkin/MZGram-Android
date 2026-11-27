@@ -32,12 +32,6 @@ def _java_module():
 
 
 def find_class(name: str):
-    """Java-класс по имени или None, если его нет или он плагину не положен.
-
-    None здесь — штатный ответ, а не поломка: плагины его проверяют (188 мест
-    в каталоге). Поэтому отказ в разрешении выглядит для плагина так же, как
-    отсутствующий класс, и обрабатывается его же кодом.
-    """
     try:
         plain = _internal("plugin_loader").plain_java_class(name)
     except Exception:
@@ -58,7 +52,7 @@ def find_class(name: str):
         if not guard_java_class(name):
             return None
     except Exception:
-        pass  # сломанная проверка не должна закрывать доступ к Java
+        pass
     try:
         from java import jclass
         found = jclass(name)

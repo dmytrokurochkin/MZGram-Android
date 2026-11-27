@@ -12,14 +12,6 @@ import org.telegram.ui.LaunchActivity;
 
 import org.mzgram.icons.IconPacksConfig;
 
-/**
- * Контроллер плавающего пикера иконок (порт
- * {@code org.mzgram.sdk.icons.ui.picker.IconPickerController}).
- *
- * Держит единственный экземпляр {@link IconPickerView}, добавленный поверх основного контейнера
- * {@link LaunchActivity}. Появляется сам, как только {@link IconObserver} видит первую иконку
- * в режиме редактирования пака.
- */
 public class IconPickerController {
 
     @Nullable
@@ -33,7 +25,6 @@ public class IconPickerController {
         return pickerView != null;
     }
 
-    /** Включает/выключает пикер. Безопасно звать с любого потока. */
     public static void setActive(LaunchActivity activity, boolean active) {
         if (Looper.myLooper() != Looper.getMainLooper()) {
             AndroidUtilities.runOnUIThread(() -> setActive(activity, active));
@@ -91,7 +82,6 @@ public class IconPickerController {
         }
     }
 
-    /** Обновляет список иконок после смены экрана. */
     public static void invalidateIcons() {
         IconPickerView view = pickerView;
         if (view != null) {
@@ -99,16 +89,11 @@ public class IconPickerController {
         }
     }
 
-    /**
-     * Точка для {@code LaunchActivity.onBackPressed}: свёрнутый пикер назад не перехватывает,
-     * развёрнутый — сворачивается и съедает нажатие.
-     */
     public static boolean onBackPressed(boolean invoked) {
         IconPickerView view = pickerView;
         return view != null && view.onBackPressed(invoked);
     }
 
-    /** Точка для {@code LaunchActivity.onDestroy}. */
     public static void onDestroy() {
         IconPickerView view = pickerView;
         pickerView = null;
@@ -118,7 +103,6 @@ public class IconPickerController {
         }
     }
 
-    /** Завершает сессию редактирования и убирает пикер. */
     public static void finishEditing() {
         IconPacksConfig.setEditingPackId(null);
         setActive(LaunchActivity.instance, false);

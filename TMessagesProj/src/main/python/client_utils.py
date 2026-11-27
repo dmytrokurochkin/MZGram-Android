@@ -63,12 +63,6 @@ def _log(message):
 
 
 def _require(perm: str, what: str, detail=None):
-    """Проверить разрешение плагина.
-
-    Импорт ленивый: plugin_loader импортирует client_utils первым, на уровне
-    модуля это был бы цикл. Плагин определяется по стеку, поэтому проверка
-    работает и в колбэках из Java, где plugin_context не выставлен.
-    """
     require_permission = _internal("plugin_loader").require_permission
     require_permission(perm, what, detail=detail)
 
@@ -173,14 +167,11 @@ def get_queue_by_name(name: str):
 
 
 def show_error_bulletin(message, fragment=None):
-    """Ошибка плашкой. Есть в SDK MZGram и зовётся плагинами из client_utils,
-    хотя реализация живёт в ui.bulletin, — без этого имени они не грузятся."""
     from ui.bulletin import BulletinHelper
     BulletinHelper.show_error(message, fragment)
 
 
 def show_info_bulletin(message, fragment=None):
-    """Сообщение плашкой; парная к show_error_bulletin."""
     from ui.bulletin import BulletinHelper
     BulletinHelper.show_info(message, fragment)
 
@@ -196,9 +187,6 @@ def run_on_queue(fn, queue: str = PLUGINS_QUEUE, delay: int = 0, delay_ms: int =
     if delay_ms is not None:
         delay = delay_ms
     account = get_hook_account()
-    # Владельца берём в момент постановки в очередь: исполняться _run будет на
-    # чужом потоке, где кадра плагина на стеке уже нет, и Java-гейт без метки
-    # пропустил бы обращения плагина к сети и рефлексии.
     _module = _internal("plugin_loader")
     java_runtime_mark = _module.java_runtime_mark
     plugin_frame_owner = _module.plugin_frame_owner
@@ -245,7 +233,6 @@ def _request_delegate_type():
 
     class _RequestDelegate(dynamic_proxy(RequestDelegate)):
         def run(self, response, error):
-            # Колбэк уходит в Java: ошибка плагина не должна ронять приложение.
             with hook_scope(self._mzgram_account):
                 safe_call(self._mzgram_fn, response, error)
 
@@ -298,8 +285,6 @@ def send_request(request, fn, account=None) -> int:
     the scope of the account the request was sent on. Returns the
     ConnectionsManager request id.
     """
-    # TL-запрос из кода плагина — это сетевой запрос из кода плагина, то есть
-    # ровно то, что закрывает "network" (PLUGINS-SECURITY.md, набор разрешений).
     _require("network", "send_request")
     resolved = _resolve_account(account, "send_request")
     if _is_request_delegate(fn):
@@ -534,10 +519,6 @@ def send_message(params: dict, parse_mode=None, account=None):
     for key, value in params.items():
         if value is None:
             continue
-        # Списковые поля SendMessageParams — java.util.ArrayList. Питоновский
-        # список Chaquopy в него не превращает, setattr падал, а ошибка уходила
-        # в лог, и сообщение отправлялось без форматирования: плагин строит
-        # entities сам и кладёт их обычным list'ом.
         if isinstance(value, (list, tuple)):
             value = _to_array_list(value)
         elif isinstance(value, dict):
@@ -622,7 +603,6 @@ def send_video(peer_id, path, caption=None, parse_mode=None,
 
 def _send_document_like(peer_id, path, caption, parse_mode, replyToMsg, resolved,
                         mime, helper_name, replyToTopMsg=None):
-    # Одна проверка на send_document/send_audio: обе идут сюда.
     _require("messages.send", helper_name)
     caption_str, entities = _parse_caption(caption, parse_mode)
 

@@ -28,10 +28,6 @@ _start_lock = threading.Lock()
 
 _debugger = {"listening": False, "host": None, "port": None, "platform": None}
 
-# Токен сессии. Порт слушается на 127.0.0.1, но на Android это не граница:
-# любое приложение на устройстве может подключиться и через write_plugin
-# поставить свой плагин. Токен пишется в файл внутри каталога приложения и в
-# лог, так что инструмент разработчика достаёт его через adb.
 _token = None
 TOKEN_FILE = ".devserver_token"
 _FREE_COMMANDS = frozenset({"ping"})
@@ -149,7 +145,6 @@ def _cmd_write_plugin(request):
     with open(target, "wb") as handle:
         handle.write(data)
 
-    # Штатный загрузчик: PluginsController.installPlugin (async, UI-thread
     # callback) — wait for it here; the dev-server handler thread is ours.
     from java import dynamic_proxy, jclass
 

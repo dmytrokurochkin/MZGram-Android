@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** "18:00 utc =", "6pm est =", "12:00 в токио =", "сейчас в нью-йорке =". */
 final class InlineTime {
 
     private static final Set<String> TARGET_MARKERS = new HashSet<>(Arrays.asList("в", "во", "у", "to", "in"));

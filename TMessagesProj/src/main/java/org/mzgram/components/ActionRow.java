@@ -21,12 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Ряд круглых кнопок-действий для выпадающего меню.
- *
- * Показывает не больше {@link #MAX_ITEMS} кнопок: сначала доступные, затем
- * недоступные (они рисуются полупрозрачными и не реагируют на нажатие).
- */
 @SuppressLint("ViewConstructor")
 public class ActionRow extends FrameLayout {
 

@@ -345,8 +345,6 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                     videoPlayImageView.setVisibility(GONE);
                     videoInfoContainer.setVisibility(INVISIBLE);
                 } else {
-                    // Бейдж инвертирован: HD включён по умолчанию, поэтому помечаем
-                    // те кадры, которые уйдут в обычном качестве.
                     videoInfoContainer.setVisibility(VISIBLE);
                     videoPlayImageView.setVisibility(GONE);
                     ((LayoutParams) videoTextView.getLayoutParams()).leftMargin = dp(0);

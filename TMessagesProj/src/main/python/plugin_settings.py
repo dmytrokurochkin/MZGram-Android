@@ -1,14 +1,3 @@
-"""Хранилище настроек плагинов из SDK MZGram.
-
-У нас настройки живут на стороне Java (SharedPreferences на плагин), а `BasePlugin`
-ходит в них через `PythonBridge`. Плагины каталога при этом ждут отдельный модуль
-`plugin_settings` с функциями уровня модуля и — как zwylib — лезут в его приватные
-`_lock`, `_settings_cache` и `_save_settings_to_file`, чтобы удалить ключ.
-
-Поэтому модуль держит зеркало настроек в памяти и синхронизирует его с Java:
-чтение и запись идут в обе стороны, а `_save_settings_to_file` переписывает
-хранилище целиком — иначе выкинутый из кэша ключ остался бы в SharedPreferences.
-"""
 
 import json as _json
 import threading as _threading

@@ -17,14 +17,6 @@ import org.telegram.ui.Components.UniversalRecyclerView;
 
 import java.util.ArrayList;
 
-/**
- * Базовый экран настроек MZGram — для dex-модулей плагинов.
- *
- * Плагины каталога подгружают собственный dex, скомпилированный против классов
- * MZGram, и наследуют этот экран напрямую. Подстановка имён из
- * `mz_utils/class_aliases.py` работает только для Python, поэтому имя пакета
- * здесь настоящее, а не наше.
- */
 public abstract class BasePreferencesActivity extends BaseFragment {
 
     protected UniversalRecyclerView listView;

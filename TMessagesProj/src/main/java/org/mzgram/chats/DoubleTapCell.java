@@ -45,11 +45,6 @@ import java.util.List;
 
 import org.mzgram.ext.ExtConfig;
 
-/**
- * Превью двойного тапа: два пузыря с анимированной реакцией и иконкой действия.
- * Порт компонента MZGram (10.10.1), адаптирован под индексы действий MZGram
- * ({@link org.mzgram.ext.helper.DoubleTap}).
- */
 public class DoubleTapCell extends LinearLayout {
 
     private final RectF rect = new RectF();
@@ -61,7 +56,6 @@ public class DoubleTapCell extends LinearLayout {
             new MessageDrawable(MessageDrawable.TYPE_TEXT, true, false)
     };
 
-    // Иконки по индексам действий MZGram DoubleTap (0..10).
     private static final int[] doubleTapIcons = new int[]{
             R.drawable.msg_block,          // 0 NONE
             R.drawable.msg_reactions,      // 1 SEND_REACTIONS
@@ -259,7 +253,6 @@ public class DoubleTapCell extends LinearLayout {
         super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(170), MeasureSpec.EXACTLY));
     }
 
-    /** Строка «Quick Reactions» с выбором реакции для двойного тапа. */
     public static class SetReactionCell extends FrameLayout {
 
         private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;

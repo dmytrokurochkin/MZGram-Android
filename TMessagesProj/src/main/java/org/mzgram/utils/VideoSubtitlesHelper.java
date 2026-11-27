@@ -23,16 +23,6 @@ import java.io.File;
 import java.util.Locale;
 import java.util.Objects;
 
-/**
- * Внешние субтитры к видео в просмотрщике.
- *
- * Перенос MZGram 12.9.0:utils/VideoSubtitlesHelper.java.
- *
- * Выбранный пользователем файл .srt/.vtt запоминается для конкретного видео:
- * ключ считается по документу, пути, uri или id блока статьи, значение лежит
- * в отдельном SharedPreferences. Файл из content-провайдера копируется в кэш,
- * потому что ExoPlayer читает дорожку субтитров как обычный файл.
- */
 public final class VideoSubtitlesHelper {
 
     public static final int SUBTITLE_PICKER_REQUEST_CODE = 231;

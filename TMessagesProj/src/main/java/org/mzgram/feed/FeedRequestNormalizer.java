@@ -10,12 +10,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Переводит исходящие запросы из синтетической нумерации ленты в настоящую.
- * Сообщения ленты живут под сквозными идентификаторами, поэтому перед отправкой на сервер
- * у запроса подменяются поля с id сообщений, а заодно и адресат (peer или channel),
- * если по восстановленным id видно, что запрос относится к другому диалогу.
- */
 public abstract class FeedRequestNormalizer {
 
     private static final String TL_PACKAGE_PREFIX = "org.telegram.tgnet.";
@@ -145,11 +139,6 @@ public abstract class FeedRequestNormalizer {
         return 0L;
     }
 
-    /**
-     * Единственная точка входа: получает запрос перед отправкой и возвращает его же,
-     * но с настоящими id сообщений и адресатом. Запросы, не относящиеся к ленте,
-     * и любые не-TL объекты проходят насквозь без изменений.
-     */
     public static TLObject normalize(int currentAccount, TLObject request) {
         if (request == null) {
             return request;

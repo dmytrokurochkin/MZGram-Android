@@ -8,17 +8,6 @@ import org.mzgram.appearance.AppearanceConfig;
 
 import org.telegram.ui.MainTabsLayout;
 
-/**
- * Порядок и видимость пунктов главного меню.
- *
- * MZGram хранит два JSON-массива, {@code mainMenuLayout} и {@code mainMenuHiddenItems}
- * ({@code org/mzgram/sdk/MZConfig.java:1333-1380}, сохранение — {@code :1474}).
- * У нас координатор завёл один строковый ключ {@code MZAppearanceMainMenuLayout}, поэтому оба
- * списка лежат в нём: {@code "видимые;скрытые"}, id через запятую. Пустая строка — «настройку
- * не трогали», тогда берётся дефолт из {@link #getDefaultLayout()}.
- *
- * Формат намеренно текстовый: его читает и пишет ещё и экран-редактор пунктов.
- */
 public final class MainMenuLayout {
 
     private static final String SECTION_SEPARATOR = ";";
@@ -27,11 +16,6 @@ public final class MainMenuLayout {
     private MainMenuLayout() {
     }
 
-    /**
-     * Дефолтная раскладка: состав зависит от того, скрыта ли нижняя панель. Когда она
-     * видна, «Профиль», «Контакты» и «Настройки» уже лежат во вкладках и в меню не
-     * дублируются. Порядок пунктов — как в {@code MZConfig.getDefaultMainMenuLayout()}.
-     */
     public static List<Integer> getDefaultLayout() {
         final boolean bottomBarHidden = isBottomNavigationBarHidden();
         final ArrayList<Integer> layout = new ArrayList<>();
@@ -53,21 +37,14 @@ public final class MainMenuLayout {
         return layout;
     }
 
-    /** Видимые пункты в порядке показа. Разделители ({@link MainMenuItem#DIVIDER}) тоже здесь. */
     public static List<Integer> getLayout() {
         return parse()[0];
     }
 
-    /** Спрятанные пункты — их показывает только экран-редактор. */
     public static List<Integer> getHiddenItems() {
         return parse()[1];
     }
 
-    /**
-     * Записывает раскладку. Перед записью прогоняется
-     * {@link #ensureSettingsVisibility(List, List)}: «Настройки» нельзя спрятать, когда
-     * нижняя панель выключена — иначе до них не добраться.
-     */
     public static void save(List<Integer> layout, List<Integer> hidden) {
         final ArrayList<Integer> visibleCopy = new ArrayList<>(layout);
         final ArrayList<Integer> hiddenCopy = new ArrayList<>(hidden);
@@ -75,22 +52,16 @@ public final class MainMenuLayout {
         AppearanceConfig.mainMenuLayout.setConfigString(serialize(visibleCopy, hiddenCopy));
     }
 
-    /** Сбрасывает раскладку в дефолт (пустая строка = «не настраивали»). */
     public static void reset() {
         AppearanceConfig.mainMenuLayout.setConfigString("");
     }
 
-    /**
-     * Настраивал ли пользователь раскладку. Пока нет — потребители обязаны показывать
-     * ровно то, что показывали до появления настройки (правило «дефолт = как было»).
-     */
     public static boolean isCustomized() {
         AppearanceConfig.ensureLoaded();
         final String raw = AppearanceConfig.mainMenuLayout.String();
         return raw != null && !raw.isEmpty();
     }
 
-    /** Все известные пункты, кроме разделителя, — для экрана-редактора. */
     public static List<Integer> getAllItemIds() {
         final ArrayList<Integer> ids = new ArrayList<>();
         for (MainMenuItem item : MainMenuItem.values()) {
@@ -101,21 +72,15 @@ public final class MainMenuLayout {
         return ids;
     }
 
-    // ---- внутреннее ----
 
     private static boolean isBottomNavigationBarHidden() {
         try {
-            // Тот же смысл, что у BottomNavigationBar.hidden().
             return MainTabsLayout.isBottomNavigationHidden();
         } catch (Exception e) {
             return false;
         }
     }
 
-    /**
-     * Возвращает {@code [видимые, скрытые]}. Неизвестные id выкидываются, новые
-     * (появившиеся с обновлением) дописываются в скрытые — как в MZGram при миграции.
-     */
     private static List<Integer>[] parse() {
         AppearanceConfig.ensureLoaded();
         final String raw = AppearanceConfig.mainMenuLayout.String();
@@ -131,7 +96,6 @@ public final class MainMenuLayout {
             readIds(sections.length > 1 ? sections[1] : "", hidden, false);
         }
 
-        // Пункты, которых нет ни там, ни там, — скрыты.
         for (Integer id : getAllItemIds()) {
             if (!visible.contains(id) && !hidden.contains(id)) {
                 hidden.add(id);
@@ -200,17 +164,14 @@ public final class MainMenuLayout {
         return sb.toString();
     }
 
-    /** Утилита для редактора: раскладка «как сейчас», но уже изменяемая. */
     public static ArrayList<Integer> getLayoutMutable() {
         return new ArrayList<>(getLayout());
     }
 
-    /** Утилита для редактора: скрытые пункты, но уже изменяемые. */
     public static ArrayList<Integer> getHiddenItemsMutable() {
         return new ArrayList<>(getHiddenItems());
     }
 
-    /** Для тестов и отладки: разбор произвольной строки в том же формате. */
     static List<Integer> parseIds(String section) {
         final ArrayList<Integer> out = new ArrayList<>();
         readIds(section, out, true);

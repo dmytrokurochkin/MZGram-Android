@@ -468,7 +468,6 @@ public class ActionBarMenuSubItem extends FrameLayout implements Theme.Colorable
 
     public void updateBackground() {
         setBackground(appliedSelectorBackground = Theme.createRadSelectorDrawable(selectorColor, top ? selectorRad : 0, bottom ? selectorRad : 0));
-        // MZGram: «вдавливание» пункта меню при нажатии (MZGram — UIUtil.applyScaleStateListAnimator(this, ..., 0.04f, 1.5f))
         org.mzgram.utils.UIUtil.applyScaleStateListAnimator(this, 0.04f, 1.5f);
     }
 

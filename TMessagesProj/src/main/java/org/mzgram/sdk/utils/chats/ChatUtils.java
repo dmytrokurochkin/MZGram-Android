@@ -10,18 +10,6 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.mzgram.core.helpers.MessageHelper;
 
-/**
- * Шим {@code org.mzgram.sdk.utils.chats.ChatUtils}.
- *
- * Нужен настоящим плагинам: из семи новых каналов его зовут 13 штук, и без
- * него они не грузятся вовсе. Используют ровно три метода — путь к файлу
- * сообщения (46 вызовов), текст сообщения (3) и разбор ссылки на канал (1),
- * поэтому шим повторяет их, а не весь класс MZGram.
- *
- * За каждым методом стоит наш собственный код (MZGram MessageHelper,
- * MessagesController), а не перенос: смысл шима в имени, которое плагины
- * ожидают увидеть.
- */
 public final class ChatUtils {
 
     private static final AtomicReferenceArray<ChatUtils> instances =
@@ -74,7 +62,6 @@ public final class ChatUtils {
         return ((id >> 24) & 255) != 0 ? owner + 4294967296L : owner;
     }
 
-    /** Путь к скачанному файлу сообщения или null, если файла нет. */
     public String getPathToMessage(MessageObject messageObject) {
         if (messageObject == null) {
             return null;
@@ -82,7 +69,6 @@ public final class ChatUtils {
         return MessageHelper.getPathToMessage(messageObject);
     }
 
-    /** Текст сообщения без разметки; пустая строка вместо null — как ждут плагины. */
     public CharSequence getMessageText(MessageObject messageObject) {
         return getMessageText(messageObject, null);
     }
@@ -96,12 +82,6 @@ public final class ChatUtils {
         return text == null ? "" : text;
     }
 
-    /**
-     * Канал по @username из кэша.
-     *
-     * Сетевого запроса здесь нет намеренно: плагины зовут это из отрисовки, а
-     * поход на сервер оттуда означал бы подвисания. Нет в кэше — null.
-     */
     public TLRPC.Chat resolveChannel(String username) {
         if (username == null || username.isEmpty()) {
             return null;

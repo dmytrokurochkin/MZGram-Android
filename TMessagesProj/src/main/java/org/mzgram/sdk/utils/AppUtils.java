@@ -28,7 +28,6 @@ import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.Locale;
 
-/** Шим {@code org.mzgram.sdk.utils.AppUtils}: то, что плагины зовут по имени MZGram. */
 public final class AppUtils {
 
     private static final String RELEASE_SIGNATURE = "n4MjWgos1KTzGpMSD4ztPg==";

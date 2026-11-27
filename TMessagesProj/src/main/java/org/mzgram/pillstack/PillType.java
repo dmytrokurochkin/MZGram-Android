@@ -1,9 +1,5 @@
 package org.mzgram.pillstack;
 
-/**
- * Типы пилюль. Идентификаторы совпадают с оригиналом из MZGram,
- * чтобы раскладка читалась одинаково.
- */
 public enum PillType {
     WEATHER(1),
     GRAM(2),
@@ -11,9 +7,7 @@ public enum PillType {
     USD(4),
     CACHE(5),
     PROXY(6),
-    /** Идентификатора в MZGram нет — пилюля наша, поэтому номер после последнего чужого. */
     GHOST(7),
-    // Собственные пилюли mzgram, номера дальше по порядку.
     RAM(8),
     CPU(9),
     NET_SPEED(10),

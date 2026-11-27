@@ -145,18 +145,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private static final int SHOW_FAST_SCROLL_MIN_COUNT = 30;
     private final boolean needCamera;
 
-    /**
-     * Показывать ли плитку камеры в сетке. MZGram 12.9.0 добавляет это условие
-     * к каждому месту, где плитка участвует в раскладке или в арифметике позиций
-     * (ChatAttachAlertPhotoLayout.java: 22 точки, паттерн
-     * `needCamera && ... && (!hideCameraTile || noCameraPermissions)`).
-     *
-     * Плитка-заглушка «дайте разрешение» остаётся при любом значении настройки —
-     * иначе пользователь не сможет выдать доступ к камере.
-     *
-     * Не путать с CoreConfig.disableInstantCamera: тот гасит только живое превью
-     * внутри плитки, сама плитка остаётся в сетке.
-     */
     private boolean showCameraTile() {
         return !org.mzgram.chats.ChatsConfig.hideCameraTile.Bool() || noCameraPermissions;
     }
@@ -855,8 +843,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         gridView.getFastScroll().usePadding = false;
         gridView.getFastScroll().topOffset = ActionBar.getCurrentActionBarHeight(); // + AndroidUtilities.statusBarHeight;
         gridView.setAdapter(adapter = new PhotoAttachAdapter(context, needCamera));
-        // MZGram зовёт openCamera(boolean) прямо из клик-листенера кнопки
-        // (ChatAttachAlertPhotoLayout.java:4593); у нас точка входа с проверкой разрешения.
         parentAlert.openInAppCameraAction = this::openCameraWithPermissionCheck;
         gridView.addItemDecoration(cameraViewItemDecoration = new CameraViewItemDecoration(gridView));
         adapter.createCache();
@@ -1563,8 +1549,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         } catch (Exception ignore) {}
     }
 
-    // Мост для плавающей кнопки камеры в шторке (ChatAttachAlert.openInAppCameraAction):
-    // при скрытой плитке снимок делать неоткуда, кнопка зовёт этот же путь.
     void openCameraWithPermissionCheck() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(parentAlert.baseFragment.getParentActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -2550,7 +2534,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (showCameraTile()) {
                 animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f, 1.0f));
             } else {
-                // Морфить не из чего — плитки в сетке нет.
                 setCameraOpenProgress(1.0f);
             }
             animators.add(ObjectAnimator.ofFloat(cameraPanel, View.ALPHA, 1.0f));

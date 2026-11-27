@@ -145,9 +145,6 @@ public class CoreTranslatorSettingsActivity extends BaseCoreXSettingsActivity {
     );
     private final AbstractConfigCell googleCloudTranslateKeyRow = cellGroup.appendCell(new ConfigCellTextDetail(CoreConfig.googleCloudTranslateKey, (view, position) -> showConfigDialog(position, CoreConfig.googleCloudTranslateKey, getString(R.string.GoogleCloudTransKeyNotice), getString(R.string.LlmApiKey)), getString(R.string.None), true));
     private final AbstractConfigCell deepLTranslateKeyRow = cellGroup.appendCell(new ConfigCellTextDetail(ExtConfig.INSTANCE.getDeepLTranslateKey(), (view, position) -> showConfigDialog(position, ExtConfig.INSTANCE.getDeepLTranslateKey(), getString(R.string.DeepLTranslateKeyNotice), getString(R.string.LlmApiKey)), getString(R.string.None), true));
-    // Тон перевода DeepL — единственная часть переводчиков MZGram, которой
-    // у MZGram не было (12.9.0: TranslationFormality). Действует только по
-    // своему ключу API, о чём сказано в подписи строки.
     private final AbstractConfigCell deepLFormalityRow = cellGroup.appendCell(new ConfigCellSelectBox(null, ExtConfig.INSTANCE.getDeepLFormality(), new String[]{
             getString(R.string.DeepLFormalityDefault),
             getString(R.string.DeepLFormalityInformal),

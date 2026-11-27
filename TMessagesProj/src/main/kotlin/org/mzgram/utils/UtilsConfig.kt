@@ -7,13 +7,6 @@ import org.mzgram.core.CoreConfig
 import org.mzgram.core.config.ConfigItem
 import org.mzgram.ext.ExtConfig
 
-/**
- * Настройки перенесённых из MZGram анимаций и жестов.
- *
- * Схема та же, что у [org.mzgram.MZGramConfig]. Ключи с префиксом OE.
- * Загрузка ленивая ([ensureLoaded]) — эти значения читаются из ActionBarLayout,
- * то есть раньше, чем экраны настроек успевают позвать init().
- */
 object UtilsConfig {
 
     /** ActionBarLayout.BACK_ANIMATION_SPRING */
@@ -31,12 +24,6 @@ object UtilsConfig {
     @JvmStatic
     fun getPreferences(): SharedPreferences = CoreConfig.getPreferences()
 
-    /**
-     * Чувствительность жеста «назад»: множитель прогресса. Хранится целым в процентах
-     * (100 = 1.0), потому что ConfigItem не умеет float. Диапазон MZGram — 0..2,
-     * при нуле жест вообще не двигает экран (MZConfig.predictiveBackIntensity,
-     * FloatPref(1.0f)).
-     */
     @JvmField
     val predictiveBackIntensity =
         addConfig("MZPredictiveBackIntensity", ConfigItem.configTypeInt, 100)
@@ -47,7 +34,6 @@ object UtilsConfig {
         return (predictiveBackIntensity.Int() / 100f).coerceIn(0f, 2f)
     }
 
-    /** Прогресс жеста с учётом чувствительности. */
     @JvmStatic
     fun adjustPredictiveBackProgress(progress: Float): Float =
         (progress * predictiveBackIntensity()).coerceIn(0f, 1f)
@@ -64,15 +50,6 @@ object UtilsConfig {
         applyMotionDefaults()
     }
 
-    /**
-     * В MZGram пружинные переходы включены по умолчанию (springAnimations = true).
-     * У MZGram же BackAnimationStyle по умолчанию 0 (Classic), а весь пружинный путь
-     * в ActionBarLayout — включая перенесённый масштаб карточки — живёт под
-     * USE_SPRING_ANIMATION == SPRING. Без этого перенос анимаций не виден вообще.
-     *
-     * Трогаем только если пользователь стиль явно не выбирал: его выбор важнее нашего.
-     * Читается один раз при старте, до загрузки класса ActionBarLayout.
-     */
     @JvmStatic
     fun applyMotionDefaults() {
         try {
@@ -123,7 +100,6 @@ object UtilsConfig {
         }
     }
 
-    /** Сбрасывает настройки к значениям по умолчанию. */
     @JvmStatic
     fun reset() {
         synchronized(sync) {

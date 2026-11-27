@@ -29,18 +29,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.mzgram.plugins.ui.PluginPermissionsActivity;
 import org.mzgram.plugins.ui.PluginsActivity;
 
-/**
- * Сообщить пользователю, что плагину чего-то не хватило.
- *
- * Отказ не роняет плагин: команда просто ничего не делает, и со стороны это
- * неотличимо от поломки — «нажал, и тишина». Здесь появляется единственный
- * ответ на вопрос «почему не работает»: короткое сообщение с именем плагина и
- * тем, чего ему не дали.
- *
- * Показываем не чаще одного раза на пару (плагин, разрешение) за запуск: хуки
- * срабатывают часто, и повторять одно и то же на каждый вызов — верный способ
- * сделать сообщение фоновым шумом, который перестают читать.
- */
 public final class PluginDenialNotice {
 
     private static final Set<String> SHOWN = ConcurrentHashMap.newKeySet();
@@ -66,8 +54,6 @@ public final class PluginDenialNotice {
         if (TextUtils.isEmpty(pluginId) || TextUtils.isEmpty(permission)) {
             return;
         }
-        // ui выдан всегда; отказ по нему означал бы, что плагина нет в реестре —
-        // сообщать пользователю тут нечего.
         if (PluginPermissions.UI.equals(permission)) {
             return;
         }
@@ -250,7 +236,6 @@ public final class PluginDenialNotice {
                 .show();
     }
 
-    /** Забыть показанное (удаление плагина, смена разрешений). */
     public static void reset(String pluginId) {
         if (TextUtils.isEmpty(pluginId)) {
             return;

@@ -544,11 +544,6 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     public static Quality getSavedQuality(ArrayList<Quality> qualities, MessageObject messageObject) {
-        // MZGram 12.9.0, VideoPlayer.java:1076-1089: «предпочитать оригинал» стоит выше
-        // и сохранённого для сообщения выбора, и качества по умолчанию — иначе настройка
-        // молча проигрывала бы прошлому выбору пользователя в этом же чате.
-        // ensureLoaded обязателен: ChatsConfig грузится лениво, без него поле вернуло бы
-        // значение по умолчанию, а не то, что выставил пользователь.
         org.mzgram.chats.ChatsConfig.ensureLoaded();
         if (qualities != null && org.mzgram.chats.ChatsConfig.preferOriginalQuality.Bool()) {
             for (Quality q : qualities) {

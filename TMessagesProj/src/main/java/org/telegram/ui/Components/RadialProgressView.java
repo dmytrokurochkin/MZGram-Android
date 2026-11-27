@@ -64,14 +64,10 @@ public class RadialProgressView extends View implements Drawable.Callback, Theme
     private boolean noProgress = true;
     private final Theme.ResourcesProvider resourcesProvider;
 
-    // Стиль 1 рисует LoadingIndicator из com.google.android.material, как у MZGram;
-    // дуга с дорожкой и зазором (стили 2 и 3) считается вручную в M3CircularProgress.
     private int currentStyle = M3CircularProgress.STYLE_LEGACY;
     private int trackColor;
     private boolean trackColorCustom;
     private M3CircularProgress m3;
-    // Автовыбор стиля по настройке «MD3 Loaders»: при включённой спиннеры — LoadingIndicator
-    // (морф-фигура), детерминированный прогресс — волнистая дуга с дорожкой (CircularProgressIndicator + волна).
     private int configuredStyle = -1;
     private boolean manualStyle;
 
@@ -290,10 +286,6 @@ public class RadialProgressView extends View implements Drawable.Callback, Theme
         }
     }
 
-    /**
-     * Стиль 0 — сток, 1 — LoadingIndicator из M3 Expressive,
-     * 2 — CircularProgressIndicator, 3 — он же с волной.
-     */
     public void setStyle(int style) {
         manualStyle = true;
         setStyleInternal(style);
@@ -387,7 +379,6 @@ public class RadialProgressView extends View implements Drawable.Callback, Theme
         if (currentStyle != M3CircularProgress.STYLE_WAVY || m3 == null) {
             return;
         }
-        // amplitudeRampProgressMin у MZGram относится к MDC-спеку; в ручной отрисовке не участвует
         m3.setWavyValues(wavelength, amplitude, speed);
     }
 

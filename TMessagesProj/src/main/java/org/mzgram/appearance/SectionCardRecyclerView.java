@@ -10,26 +10,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BlurredRecyclerView;
 
-/**
- * mzGram: список настроек с единой скруглённой карточкой-секцией и мягкой тенью-elevation,
- * точно как в MZGram 12.9.0.
- *
- * <p>Геометрию (группировку смежных ячеек в секцию, горизонтальные отступы, раздельные радиусы
- * top/bottom крайних ячеек, клип к области видимости) полностью обеспечивает уже присутствующий
- * в проекте штатный механизм {@code RecyclerListView} — {@code ListSectionsDecoration} +
- * {@code drawSectionsBackgrounds()}, включаемый через {@code listView.setSections(...)}. Он
- * вызывает {@link #drawBackgroundRect(Canvas, RectF, float, float, float)} для каждой секции,
- * рисуя фон ПОД ячейками (в {@code ItemDecoration.onDraw}, до контента).</p>
- *
- * <p>Единственное отличие от стока: штатный {@code drawBackgroundRect} рисует тень только при
- * глобальном флаге {@code SharedConfig.shadowsInSections} (по умолчанию выключен). Здесь тень
- * форсируется ЛОКАЛЬНО — только для экранов настроек mzgram/Core — без правки глобального
- * {@code RecyclerListView} и без изменения глобального конфига. Порт логики
- * {@code RecyclerListView.drawBackgroundRect} один-в-один, но с всегда включённой тенью.</p>
- *
- * <p>При {@code AppearanceConfig.sectionRadius() <= 0} метод делегирует в {@code super} —
- * поведение полностью стоковое (без карточек/тени), дефолт-safe.</p>
- */
 public class SectionCardRecyclerView extends BlurredRecyclerView {
 
     private final Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -37,7 +17,6 @@ public class SectionCardRecyclerView extends BlurredRecyclerView {
     private final Path path = new Path();
     private final float[] radii = new float[8];
 
-    // Тень-elevation включена всегда — именно она даёт «экстеровский» вид карточки.
     private boolean forceShadows = true;
 
     public SectionCardRecyclerView(Context context) {
@@ -48,18 +27,9 @@ public class SectionCardRecyclerView extends BlurredRecyclerView {
         forceShadows = value;
     }
 
-    /**
-     * Вызывается штатным {@code drawSectionsBackgrounds} как {@code drawSectionBackground}-колбэк
-     * (см. {@code setSections(..., this::drawBackgroundRect, ...)}). Рисует скруглённый фон секции
-     * цветом {@code key_windowBackgroundWhite} с тенью-elevation.
-     *
-     * <p>Внутри — только Canvas-примитивы и {@link Theme#getColor}/{@link Theme#multAlpha}; никаких
-     * виртуальных вызовов, ведущих обратно в отрисовку (иначе рекурсия/краш).</p>
-     */
     @Override
     public void drawBackgroundRect(Canvas canvas, RectF rect, float topRadius, float bottomRadius, float alpha) {
         if (!forceShadows || AppearanceConfig.sectionRadius() <= 0) {
-            // Дефолт-safe: сток (тень по глобальному флагу; при радиусе 0 карточек фактически нет).
             super.drawBackgroundRect(canvas, rect, topRadius, bottomRadius, alpha);
             return;
         }

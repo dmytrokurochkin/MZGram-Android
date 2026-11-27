@@ -18,11 +18,6 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.mzgram.core.settings.BaseCoreSettingsActivity;
 import org.mzgram.core.ui.cells.HeaderCell;
 
-/**
- * Корневой экран раздела mzgram.
- * Структура повторяет настройки MZGram: About-шапка + категории с иконками.
- * Открывается из главных настроек (SettingsActivity, id 102).
- */
 public class MZGramSettingsActivity extends BaseCoreSettingsActivity {
 
     private static final int MENU_CLOUD = 1;
@@ -68,17 +63,11 @@ public class MZGramSettingsActivity extends BaseCoreSettingsActivity {
         linksDividerRow = addRow();
     }
 
-    /**
-     * У экстеры корневой экран устроен так: actionBar не занимает места и прозрачен,
-     * пока список не прокручен, поэтому логотип стоит выше (в 12.9.0 верх логотипа
-     * y=242 при низе actionBar 283). Заголовок проявляется вместе с фоном шапки.
-     */
     @Override
     public View createView(Context context) {
         View view = super.createView(context);
         getMessagesController().getContentSettings(null);
         if (actionBar != null && fragmentView instanceof android.widget.FrameLayout) {
-            // 1:1 с MainPreferencesActivity.createView из 12.9.0.
             actionBar.setBackground(null);
             actionBar.setCastShadows(false);
             actionBar.setAddToContainer(false);
@@ -111,23 +100,10 @@ public class MZGramSettingsActivity extends BaseCoreSettingsActivity {
         return view;
     }
 
-    /**
-     * Базовый класс в onInsets обнуляет верхний отступ списка. Нам он нужен: actionBar
-     * прозрачный и не занимает места, поэтому без отступа контент уезжает под строку
-     * состояния и логотип срезает.
-     */
-    /**
-     * У экстеры на корневом экране адаптивный фон НЕ включается вовсе:
-     * {@code BasePreferencesActivity.createView} вызывает {@code setAdaptiveBackground}
-     * только при {@code !hasHeaderCell()}, а у {@code MainPreferencesActivity}
-     * {@code hasHeaderCell()} возвращает true. Шапка остаётся прозрачной всегда,
-     * заголовок не проявляется даже при прокрутке.
-     */
     @Override
     protected void setupAdaptiveBackground() {
     }
 
-    /** Блюр-подложка MZGram закрывает верх логотипа; у экстеры её нет. */
     @Override
     protected boolean needActionBarBlur() {
         return false;
@@ -205,7 +181,6 @@ public class MZGramSettingsActivity extends BaseCoreSettingsActivity {
             if (viewType == TYPE_ABOUT) {
                 AboutHeaderCell view = new AboutHeaderCell(mContext);
                 view.setOnLogoClickListener(v -> showDialog(new org.mzgram.updater.UpdaterSheet(MZGramSettingsActivity.this)));
-                // У экстеры шапка лежит на фоне окна, а не в карточке-секции.
                 view.setTag(RecyclerListView.TAG_NOT_SECTION);
                 view.setLayoutParams(new RecyclerView.LayoutParams(
                         RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
@@ -252,9 +227,6 @@ public class MZGramSettingsActivity extends BaseCoreSettingsActivity {
                         cell.setTextAndValueAndIcon(getString(R.string.MZGramSource),
                                 "GitHub", R.drawable.msg_language, false);
                     }
-                    // ВАЖНО: только после setTextAndIcon* — они сбрасывают imageLeft в 16dp.
-                    // Метрики сняты с 12.9.0 (420 dpi): иконка 88px от края экрана, текст 219px,
-                    // то есть 21dp и 71dp вместо дефолтных 16dp и 58dp.
                     cell.setImageLeft(21);
                     cell.setOffsetFromImage(71);
                     break;
@@ -284,8 +256,6 @@ public class MZGramSettingsActivity extends BaseCoreSettingsActivity {
                     || position == designHeaderRow) {
                 return TYPE_HEADER;
             } else if (position == categoriesDividerRow || position == linksDividerRow) {
-                // Промежуток между секциями — тень фиксированной высоты. TextInfoPrivacyCell
-                // здесь держал высоту под подпись, которой нет, и оставлял пустое поле.
                 return TYPE_SHADOW;
             } else if (position == designDividerRow) {
                 return TYPE_INFO_PRIVACY;

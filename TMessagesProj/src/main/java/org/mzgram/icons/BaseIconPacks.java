@@ -6,46 +6,14 @@ import org.telegram.messenger.R;
 
 import org.mzgram.ext.ExtConfig;
 
-/**
- * Встроенные наборы иконок (порт {@code org.mzgram.sdk.icons.BaseIconPacks}, 1223 строки).
- *
- * MZGram держит три ленивых {@link SparseIntArray} «id базовой иконки → id иконки набора»:
- * {@code remix} ({@code BaseIconPacks.java:53}, {@code new SparseIntArray(590)}, 565 put),
- * {@code solar} ({@code BaseIconPacks.java:624}, 563 put) и {@code def}
- * ({@code BaseIconPacks.java:41}, 3 put). Пак выбирается в
- * {@code IconManager.getIcon(resId)} ({@code IconManager.java:1741}) — первый активный
- * базовый пак, у которого есть запись для этого ресурса.
- *
- * <p>Отличия порта от MZGram:
- * <ul>
- *   <li>Выбор набора хранится не в {@code MZConfig.iconPack} (enum IconPackType), а в
- *       уже существующем ключе форка {@code ExtConfig.iconReplacements}: 0 — стоковые иконки,
- *       1 — Solar, 2 — Remix. Значения 0/1 совпадают с прежней семантикой MZGram
- *       ({@code IconsResources.ICON_REPLACE_SOLAR == 1}), 2 добавлено этим портом.</li>
- *   <li>Набор {@code def} MZGram схлопывает {@code popup_fixed_alert/2/3} в
- *       {@code popup_fixed_alert4}. У нас он перенесён, но при выборе «Default» НЕ применяется:
- *       дефолт обязан оставаться стоковым.</li>
- *   <li>{@value #SKIPPED_PUTS} подмен MZGram пропущены — базовых drawable нет в нашем дереве
- *       Список — в комментарии ниже.</li>
- * </ul>
- */
 public final class BaseIconPacks {
 
-    /** Стоковые иконки Telegram — подмены нет. */
     public static final int BASE_DEFAULT = 0;
     /** Solar Icon Set (@Design480). */
     public static final int BASE_SOLAR = 1;
     /** Remix Icon (Remix-Design). */
     public static final int BASE_REMIX = 2;
 
-    /**
-     * Сколько put-ов MZGram пропущено: их базовых drawable нет в нашем дереве, и
-     * подмена не скомпилируется. Полный список:
-     *   ai_chat, boosts, channel, mz_outline, menu_wallet, msg_bots
-     *   msg_channel_14, msg_channel_filled, msg_channel_hw, msg_channel_ny, msg_data, msg_info_filled
-     *   msg_photo_crop, msg_plugins, msg_rear_camera, msg_secret_14, msg_secret_hw, msg_to_beginning
-     *   pencil, plugins_filled, profile_newmsg_filled, select_between, stickers_filled
-     */
     static final int SKIPPED_PUTS = 23;
 
     private static volatile SparseIntArray solar;
@@ -55,9 +23,7 @@ public final class BaseIconPacks {
     private BaseIconPacks() {
     }
 
-    // ---- выбор набора ----
 
-    /** Текущий встроенный набор: {@link #BASE_DEFAULT} / {@link #BASE_SOLAR} / {@link #BASE_REMIX}. */
     public static int getSelected() {
         try {
             int value = ExtConfig.INSTANCE.getIconReplacements().Int();
@@ -74,7 +40,6 @@ public final class BaseIconPacks {
         ExtConfig.INSTANCE.getIconReplacements().setConfigInt(type);
     }
 
-    /** Название набора для экрана настроек. */
     public static String getName(int type) {
         if (type == BASE_SOLAR) {
             return org.telegram.messenger.LocaleController.getString(R.string.IconReplacementSolar);
@@ -85,7 +50,6 @@ public final class BaseIconPacks {
         return org.telegram.messenger.LocaleController.getString(R.string.Default);
     }
 
-    /** Автор набора ({@code BaseIconPacks.java:1192}). */
     public static String getAuthor(int type) {
         // MZGram names no authors: the line under the set says what it looks like.
         if (type == BASE_SOLAR) {
@@ -97,7 +61,6 @@ public final class BaseIconPacks {
         return "Telegram";
     }
 
-    /** Карта выбранного набора или null, если подмены нет. */
     public static SparseIntArray getMap(int type) {
         if (type == BASE_SOLAR) {
             return getSolar();
@@ -105,22 +68,14 @@ public final class BaseIconPacks {
         if (type == BASE_REMIX) {
             return getRemix();
         }
-        // Набор def применяется и при «Default»: popup_fixed_alert/2/3
-        // схлопываются в popup_fixed_alert4.
         return getDef();
     }
 
-    /**
-     * Порт {@code IconManager.getIcon(resId)} ({@code IconManager.java:1741}):
-     * id иконки выбранного набора или сам {@code resId}, если подмены нет.
-     * Дефолт (набор не выбран) обязан возвращать resId без изменений.
-     */
     public static int getIcon(int resId) {
         SparseIntArray map = getMap(getSelected());
         return map == null ? resId : map.get(resId, resId);
     }
 
-    // ---- карты ----
 
     public static SparseIntArray getSolar() {
         SparseIntArray value = solar;
@@ -161,7 +116,6 @@ public final class BaseIconPacks {
         return value;
     }
 
-    /** {@code BaseIconPacks.java:41} — применяется во всех трёх наборах. */
     private static SparseIntArray buildDef() {
         SparseIntArray map = new SparseIntArray(3);
         map.put(R.drawable.popup_fixed_alert,  R.drawable.popup_fixed_alert4);
@@ -170,7 +124,6 @@ public final class BaseIconPacks {
         return map;
     }
 
-    /** {@code BaseIconPacks.java:53} — 565 put в MZGram, 534 здесь. */
     private static SparseIntArray buildRemix() {
         SparseIntArray map = new SparseIntArray(590);
         map.put(R.drawable.arrow_more,                R.drawable.arrow_more_remix);
@@ -718,12 +671,6 @@ public final class BaseIconPacks {
         return map;
     }
 
-    /**
-     * {@code BaseIconPacks.java:624} — 563 put в MZGram, 532 из них здесь.
-     * Плюс 10 подмен, которых в MZGram нет: они пришли из MZGram/MZGram
-     * ({@code java/org/mzgram/core/ui/icons/SolarIcons.kt}) и сохранены, чтобы
-     * полный набор не оказался беднее прежнего.
-     */
     private static SparseIntArray buildSolar() {
         SparseIntArray map = new SparseIntArray(590);
         map.put(R.drawable.arrow_more,                R.drawable.arrow_more_solar);
@@ -1267,7 +1214,6 @@ public final class BaseIconPacks {
         map.put(R.drawable.ic_feed,                   R.drawable.ic_feed_solar);
         map.put(R.drawable.ic_feed_filled,            R.drawable.ic_feed_filled_solar);
 
-        // ---- наши подмены, которых нет в MZGram (наследие MZGram/MZGram) ----
         map.put(R.drawable.arc_ghost,           R.drawable.arc_ghost_solar);
         map.put(R.drawable.ic_select_between,   R.drawable.msg_select_between_solar);
         map.put(R.drawable.ic_translate,        R.drawable.msg_translate_solar);

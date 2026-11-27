@@ -6,13 +6,6 @@ import org.telegram.messenger.FileLog
 import org.mzgram.core.CoreConfig
 import org.mzgram.core.config.ConfigItem
 
-/**
- * Настройки подсистемы Pill Stack, перенесённой из MZGram.
- *
- * Схема повторяет [org.mzgram.MZGramConfig]: те же SharedPreferences, тот же [ConfigItem],
- * но отдельный список и собственный префикс ключей (MZPill), чтобы не пересекаться ни с
- * апстримом MZGram, ни с остальными настройками порта.
- */
 object PillStackConfig {
 
     private val sync = Any()
@@ -24,7 +17,6 @@ object PillStackConfig {
     @Volatile
     private var configLoaded = false
 
-    /** По умолчанию показываем пилюли, которым не нужна сеть: кэш и прокси. */
     private const val DEFAULT_ACTIVE = "5,6"
 
     const val CURRENCY_AUTO = "AUTO"
@@ -32,25 +24,19 @@ object PillStackConfig {
     @JvmStatic
     fun getPreferences(): SharedPreferences = CoreConfig.getPreferences()
 
-    // ---- Раскладка ----
 
-    /** Сериализованный список id активных пилюль, через запятую. */
     @JvmField
     val activePillsRaw = addConfig("MZPillActivePills", ConfigItem.configTypeString, DEFAULT_ACTIVE)
 
-    /** Сериализованный список id скрытых пилюль, через запятую. */
     @JvmField
     val hiddenPillsRaw = addConfig("MZPillHiddenPills", ConfigItem.configTypeString, "")
 
-    /** Зацикливать ли пролистывание пилюль. */
     @JvmField
     val infiniteScrolling = addConfig("MZPillInfiniteScrolling", ConfigItem.configTypeBool, true)
 
-    /** Какая пилюля была показана последней — чтобы восстановить её при следующем открытии. */
     @JvmField
     val lastActivePillId = addConfig("MZPillLastActiveId", ConfigItem.configTypeInt, -1)
 
-    // ---- Курсы ----
 
     @JvmField
     val gramTargetCurrency = addConfig("MZPillGramCurrency", ConfigItem.configTypeString, CURRENCY_AUTO)
@@ -76,40 +62,32 @@ object PillStackConfig {
     @JvmField
     val rateInstancesMigrated = addConfig("MZPillRateInstancesMigrated", ConfigItem.configTypeBool, false)
 
-    /** Кэш цены золота (USD за унцию), чтобы переживать перезапуск приложения. */
     @JvmField
     val goldPriceCache = addConfig("MZPillGoldPriceCache", ConfigItem.configTypeString, "")
 
     @JvmField
     val goldPriceCacheTime = addConfig("MZPillGoldPriceCacheTime", ConfigItem.configTypeLong, 0L)
 
-    /** Кэш ответа Coinbase: «CODE=rate,CODE=rate», курсы к USD. */
     @JvmField
     val ratesCache = addConfig("MZPillRatesCache", ConfigItem.configTypeString, "")
 
     @JvmField
     val ratesCacheTime = addConfig("MZPillRatesCacheTime", ConfigItem.configTypeLong, 0L)
 
-    // ---- Погода ----
 
-    /** true — брать текущую геопозицию, false — использовать точку, выбранную на карте. */
     @JvmField
     val weatherUseCurrentLocation = addConfig("MZPillWeatherCurrentLocation", ConfigItem.configTypeBool, true)
 
-    /** Широта выбранной точки (строкой, чтобы не терять точность на float). */
     @JvmField
     val weatherLatitude = addConfig("MZPillWeatherLat", ConfigItem.configTypeString, "")
 
     @JvmField
     val weatherLongitude = addConfig("MZPillWeatherLon", ConfigItem.configTypeString, "")
 
-    /** Человекочитаемый адрес выбранной точки — показывается в настройках. */
     @JvmField
     val weatherAddress = addConfig("MZPillWeatherAddress", ConfigItem.configTypeString, "")
 
-    // ---- Статические геттеры для Java ----
 
-    /** Прочитаны ли настройки из SharedPreferences. */
     @JvmStatic
     fun isConfigLoaded(): Boolean = configLoaded
 
@@ -132,7 +110,6 @@ object PillStackConfig {
         if (weatherUseCurrentLocation.Bool() != value) weatherUseCurrentLocation.setConfigBool(value)
     }
 
-    /** Человекочитаемый адрес выбранной точки, «» если точка не выбрана. */
     @JvmStatic
     fun customWeatherAddress(): String = weatherAddress.String() ?: ""
 
@@ -153,31 +130,21 @@ object PillStackConfig {
         weatherAddress.setConfigString(address ?: "")
     }
 
-    // ---- Раскладка: списки ----
 
     private val activePills = ArrayList<Int>()
     private val hiddenPills = ArrayList<Int>()
     private val dormantActive = LinkedHashMap<Int, Int>()
     private val dormantHidden = LinkedHashSet<Int>()
 
-    /**
-     * Живой список активных пилюль в порядке отображения.
-     *
-     * Возвращается сам список, а не копия: плагины каталога дописывают в него свой id
-     * и следом зовут [savePillsLayout] — так устроен эталон
-     * (`PillStackConfig.getActivePills()` в MZGram 12.9.0 отдаёт поле).
-     */
     @JvmStatic
     fun getActivePills(): ArrayList<Int> = activePills
 
-    /** Живой список скрытых пилюль, см. [getActivePills]. */
     @JvmStatic
     fun getHiddenPills(): ArrayList<Int> = hiddenPills
 
     @JvmStatic
     fun hasActivePills(): Boolean = synchronized(sync) { activePills.isNotEmpty() }
 
-    /** Сохраняет новую раскладку целиком (вызывается экраном настроек после drag&drop). */
     @JvmStatic
     fun saveLayout(active: List<Int>, hidden: List<Int>) {
         synchronized(sync) {
@@ -189,7 +156,6 @@ object PillStackConfig {
         persistLayout()
     }
 
-    /** Переносит пилюлю из скрытых в активные (или обратно). */
     @JvmStatic
     fun setPillActive(id: Int, active: Boolean) {
         synchronized(sync) {
@@ -200,7 +166,6 @@ object PillStackConfig {
         persistLayout()
     }
 
-    /** Возвращает раскладку к значению по умолчанию. */
     @JvmStatic
     fun resetLayout() {
         synchronized(sync) {
@@ -214,14 +179,12 @@ object PillStackConfig {
         persistLayout()
     }
 
-    /** Сохраняет текущую раскладку и пересобирает полосу. Точка входа для плагинов. */
     @JvmStatic
     fun savePillsLayout() {
         persistLayout()
         PillStackEvents.notifyLayoutChanged()
     }
 
-    /** Помечает пилюли изменившимися; пустой список — все. Точка входа для плагинов. */
     @JvmStatic
     fun notifySettingsChanged(vararg pillIds: Int) {
         PillStackEvents.notifySettingsChanged(*pillIds)
@@ -242,10 +205,6 @@ object PillStackConfig {
         }
     }
 
-    /**
-     * Выкидывает из раскладки id, которых нет в реестре, и добавляет в скрытые всё,
-     * что зарегистрировалось после прошлого запуска.
-     */
     @JvmStatic
     fun sanitizePills() {
         val known = PillRegistry.getRegisteredIds().map { it.toInt() }.toSet()
@@ -333,7 +292,6 @@ object PillStackConfig {
         sanitizePills()
     }
 
-    /** Сбрасывает все настройки Pill Stack к значениям по умолчанию. */
     @JvmStatic
     fun reset() {
         synchronized(sync) {

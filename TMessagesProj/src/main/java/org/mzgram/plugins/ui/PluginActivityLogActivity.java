@@ -42,38 +42,18 @@ import org.mzgram.plugins.PluginPermissions;
 import org.mzgram.plugins.PluginsController;
 import org.mzgram.plugins.PythonPluginsEngine;
 
-/**
- * Что плагин делал на самом деле: журнал наблюдений вместо обещаний манифеста.
- *
- * Смысл экрана в расхождении. Манифест — это то, что плагин попросил; здесь
- * видно, к чему он обращался и что ему запретили. Если плагин просил сеть, но
- * ни разу в неё не пошёл, разрешение можно отозвать; если лезет туда, чего не
- * просил, это видно строкой «отказано».
- *
- * Источников два: {@link PluginAuditJournal} (Java-стоки) и кольцевой буфер
- * Python-гейта; {@link PluginAuditJournal#merged} сливает их по времени.
- */
 public class PluginActivityLogActivity extends BaseFragment {
 
     private static final int ID_CLEAR = 1;
     private static final int MENU_SEARCH = 2;
     private static final int MENU_EXPORT = 3;
     private static final int MAX_SEARCH_ROWS = 500;
-    /** id строк журнала: база плюс порядковый номер записи. */
     private static final int ID_ENTRY_BASE = 100;
-    /** Больше на экране не нужно: журнал показывает поведение, а не аудит. */
     private static final int MAX_ROWS = 120;
 
     private final String pluginId;
     private UniversalRecyclerView listView;
     private String searchQuery;
-    /**
-     * Развёрнутые строки — по индексу записи в текущем списке.
-     *
-     * Подробность в строку не влезает: путь к файлу, адрес с портом, имя
-     * класса. Обрезать её насовсем — значит спрятать ровно то, ради чего
-     * журнал и открывают, поэтому строка раскрывается по нажатию.
-     */
     private final Set<Integer> expanded = new HashSet<>();
 
     public PluginActivityLogActivity(String pluginId) {
@@ -186,9 +166,6 @@ public class PluginActivityLogActivity extends BaseFragment {
             for (int i = entries.size() - 1; i >= from; i--) {
                 PluginAuditJournal.Entry entry = entries.get(i);
                 CharSequence title = describe(entry);
-                // Разные события могут читаться одной фразой (exec и compile —
-                // оба «собрал код на ходу»). Показывать их двумя одинаковыми
-                // строками незачем.
                 if (previousTitle != null && previousTitle.toString().equals(title.toString())
                         && !expanded.contains(i + 1)) {
                     repeats += Math.max(1, entry.count);
@@ -282,13 +259,6 @@ public class PluginActivityLogActivity extends BaseFragment {
         });
     }
 
-    /**
-     * Строка журнала человеческим языком.
-     *
-     * Раньше событие и его деталь шли двумя строками («import», а под ней
-     * «org.telegram»), и список из десятка импортов выглядел мусором. Здесь
-     * одно действие — одна строка, деталь внутри неё.
-     */
     private CharSequence describe(PluginAuditJournal.Entry entry) {
         String detail = entry.detail == null ? "" : entry.detail;
         String category = entry.category == null ? "misc" : entry.category;
@@ -317,11 +287,6 @@ public class PluginActivityLogActivity extends BaseFragment {
         }
     }
 
-    /**
-     * Путь в строку списка целиком не влезает и обрывается посередине, где
-     * ничего не видно. Показываем последние два сегмента — по ним понятно,
-     * куда полез плагин.
-     */
     private static String shortPath(String path) {
         String cleaned = path;
         int space = cleaned.indexOf(' ');
@@ -339,8 +304,6 @@ public class PluginActivityLogActivity extends BaseFragment {
         return "…" + tail + suffix;
     }
 
-    /** Время, а при повторах — сколько раз. */
-    /** Полный вид записи: событие, подробность целиком и точное время. */
     private CharSequence fullDetail(PluginAuditJournal.Entry entry) {
         StringBuilder sb = new StringBuilder();
         sb.append(entry.event);
@@ -366,11 +329,6 @@ public class PluginActivityLogActivity extends BaseFragment {
         return time;
     }
 
-    /**
-     * Счётчики считаем по показанным записям, а не по счётчикам движка: журнал
-     * кольцевой, и старые записи из него уже вытеснены — иначе цифра в шапке
-     * не сошлась бы со списком под ней.
-     */
     private Map<String, int[]> collectProfile(List<PluginAuditJournal.Entry> entries) {
         Map<String, int[]> profile = new TreeMap<>();
         for (PluginAuditJournal.Entry entry : entries) {

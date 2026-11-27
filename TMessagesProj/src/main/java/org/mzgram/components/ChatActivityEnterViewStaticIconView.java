@@ -24,13 +24,6 @@ import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.ChatActivityEnterViewAnimatedIconView;
 import org.telegram.ui.Components.LayoutHelper;
 
-/**
- * Статичные иконки поля ввода вместо анимаций RLottie.
- *
- * Анимацию иконпаком не подменишь — в паке лежат обычные картинки, поэтому при активном
- * наборе иконок кнопка эмодзи и кнопка голоса/видео собираются из этого класса: две
- * наложенные ImageView, между которыми состояние перетекает масштабом и прозрачностью.
- */
 @SuppressLint("ViewConstructor")
 public class ChatActivityEnterViewStaticIconView extends FrameLayout {
 
@@ -76,10 +69,6 @@ public class ChatActivityEnterViewStaticIconView extends FrameLayout {
         buttonViews[1].setScaleY(HIDDEN_SCALE);
     }
 
-    /**
-     * Нужны ли статичные иконки: порт {@code IconManager.isBasePackOnly(IconPackType.DEFAULT)}.
-     * Анимации остаются, только пока не выбран ни встроенный набор, ни пользовательский пак.
-     */
     public static boolean isStaticIconsEnabled() {
         try {
             return BaseIconPacks.getSelected() != BaseIconPacks.BASE_DEFAULT

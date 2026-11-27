@@ -375,8 +375,6 @@ public class ChatThemeController extends BaseController {
     }
 
     public TLRPC.WallPaper getDialogWallpaper(long dialogId) {
-        // Перенос MZGram 12.9.0:ChatThemeController:950 — «Индивидуальные
-        // темы в чатах». MZGram-условие рядом про своё: показ обоев премиума.
         if (!AppearanceConfig.customThemes()) {
             return null;
         }

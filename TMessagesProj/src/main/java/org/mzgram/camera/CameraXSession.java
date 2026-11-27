@@ -61,29 +61,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.mzgram.chats.ChatsConfig;
 
-/**
- * Камера круглых видеосообщений на CameraX.
- *
- * Порт {@code org/mzgram/sdk/camera/CameraXSession.java} из MZGram 12.9.0.
- * Третий движок рядом с Camera1 ({@link org.telegram.messenger.camera.CameraSession}) и
- * Camera2 ({@link org.telegram.messenger.camera.Camera2Session}); чем снимать, выбирает
- * {@link ChatsConfig#cameraType}.
- *
- * Что он умеет сверх Camera2:
- * <ul>
- *   <li>бесшовное переключение камер — обе линзы привязаны одновременно
- *       ({@link ConcurrentCamera}), и переключение не пересобирает сессию;</li>
- *   <li>старт на широкоугольной линзе ({@link ChatsConfig#startWithWideAngleCamera});</li>
- *   <li>отключение зеркала фронталки ({@link ChatsConfig#cameraMirrorMode});</li>
- *   <li>стабилизацию превью и 60 кадров, когда железо их тянет.</li>
- * </ul>
- *
- * Все методы, кроме явно помеченных, зовутся с UI-потока: CameraX привязывается к
- * жизненному циклу, а {@link LifecycleRegistry} требует главного потока.
- */
 public class CameraXSession {
 
-    /** Свой жизненный цикл: у нас нет Activity, к которой CameraX мог бы привязаться. */
     public static class CameraLifecycle implements LifecycleOwner {
 
         private final LifecycleRegistry lifecycleRegistry;
@@ -117,14 +96,12 @@ public class CameraXSession {
         }
     }
 
-    /** Размер картинки, который CameraX выдал в поверхность: он же размер превью. */
     public interface PreviewSizeListener {
         void onPreviewSize(int width, int height);
     }
 
     private static final Range<Integer> FPS_60_RANGE = new Range<>(60, 60);
     private static final Range<Integer> FPS_30_RANGE = new Range<>(30, 30);
-    /** Если характеристик сенсора нет, считаем его обычным 4:3. */
     private static final Size FALLBACK_SENSOR_ASPECT = new Size(4, 3);
 
     private static final Map<CameraSelector, Boolean> STABILIZATION_SUPPORT_CACHE = new ConcurrentHashMap<>();
@@ -157,7 +134,6 @@ public class CameraXSession {
         this.surfaceProviderPrimary = surfaceProvider;
     }
 
-    // ---- Создание и разбор ----
 
     public void initCamera(Context context, boolean frontface, boolean dual, Runnable onReady) {
         isFrontface = frontface;
@@ -188,7 +164,6 @@ public class CameraXSession {
         }, ContextCompat.getMainExecutor(context));
     }
 
-    /** Закрытие может прилететь с потока камеры — уводим на UI, там живёт жизненный цикл. */
     public void closeCamera() {
         if (Looper.myLooper() != Looper.getMainLooper()) {
             AndroidUtilities.runOnUIThread(this::closeCamera);
@@ -249,13 +224,7 @@ public class CameraXSession {
         previewUseCase = null;
     }
 
-    // ---- Привязка ----
 
-    /**
-     * Одна линза. Порядок попыток тот же, что у MZGram: сперва запрошенные 60 кадров,
-     * потом без стабилизации, потом 30, потом вообще без требований к частоте — на
-     * каждом шаге превью пересобирается, потому что частота задаётся при сборке.
-     */
     private void bindSingleUseCases() {
         try {
             cameraSelector = isFrontface ? CameraSelector.DEFAULT_FRONT_CAMERA : CameraSelector.DEFAULT_BACK_CAMERA;
@@ -312,10 +281,6 @@ public class CameraXSession {
         }
     }
 
-    /**
-     * Обе линзы сразу — ради переключения без паузы. Частота при двух камерах даётся
-     * тяжелее, поэтому 60 → 30 → как получится, и только потом откат на одну линзу.
-     */
     private void bindDualUseCases() {
         final boolean extendedFps = ChatsConfig.extendedFramesPerSecond.Bool();
         Range<Integer> range = extendedFps ? FPS_60_RANGE : FPS_30_RANGE;
@@ -428,10 +393,6 @@ public class CameraXSession {
         }
     }
 
-    /**
-     * Превью под круглое видео: 4:3, свой порядок разрешений и, если попросили,
-     * стабилизация и незеркальная фронталка.
-     */
     private Preview buildPreview(CameraSelector selector, boolean stabilization,
                                  Range<Integer> range, boolean prefer60) {
         final Size sensorAspect = getSensorAspect(selector);
@@ -447,7 +408,6 @@ public class CameraXSession {
         if (range != null) {
             builder.setTargetFrameRate(range);
         }
-        // При двух привязанных линзах стабилизация превью не даётся вовсе.
         builder.setPreviewStabilizationEnabled(!isDualMode && stabilization);
         if (!ChatsConfig.cameraMirrorMode.Bool()) {
             builder.setMirrorMode(MirrorMode.MIRROR_MODE_OFF);
@@ -455,13 +415,7 @@ public class CameraXSession {
         return builder.build();
     }
 
-    // ---- Выбор разрешения ----
 
-    /**
-     * Порядок предпочтений для круглого видео.
-     * Сначала то, что не меньше кружка; из них — умеющее 60 кадров; дальше меньше
-     * обрезки по краям, и лишь потом просто ближе к нужной стороне.
-     */
     private static List<Size> sortRoundPreviewSizes(List<Size> sizes, Size sensorAspect, Set<Size> capable60) {
         List<Size> sorted = new ArrayList<>(sizes);
         final int target = org.mzgram.sdk.utils.system.SystemUtils
@@ -490,9 +444,6 @@ public class CameraXSession {
                 return cmp;
             }
         }
-        // Угол обзора важнее 60 кадров: 16:9 у Pixel — это кроп 4:3 (3840×2160 из
-        // 3840×2736), и кружок из него теряет ~20 % ширины. 60 fps берём только
-        // среди размеров с тем же углом.
         int cmp = Long.compare(
                 calculateFieldOfViewPenalty(aShort, aLong, sensorShort, sensorLong) * bShort,
                 calculateFieldOfViewPenalty(bShort, bLong, sensorShort, sensorLong) * aShort);
@@ -520,7 +471,6 @@ public class CameraXSession {
         return Long.compare((long) b.getWidth() * b.getHeight(), (long) a.getWidth() * a.getHeight());
     }
 
-    /** Насколько кадр уже сенсора: чем шире — тем меньше штраф. */
     private static long calculateFieldOfViewPenalty(int shortSide, int longSide, int sensorShort, int sensorLong) {
         long frame = (long) shortSide * sensorLong;
         return Math.max(0L, (((long) longSide * sensorShort) - frame) * 100 - frame);
@@ -539,7 +489,6 @@ public class CameraXSession {
             if (sizes != null) {
                 for (Size size : sizes) {
                     long minDuration = map.getOutputMinFrameDuration(SurfaceTexture.class, size);
-                    // 16 666 667 нс на кадр — это ровно 60 кадров в секунду.
                     if (minDuration > 0 && minDuration <= 16666667L) {
                         result.add(size);
                     }
@@ -577,7 +526,7 @@ public class CameraXSession {
                 continue;
             }
             if (FPS_60_RANGE.equals(range)) {
-                return range;  // строго 60 — лучше плавающего диапазона
+                return range;
             }
             if (best == null || range.getLower() > best.getLower()) {
                 best = range;
@@ -608,9 +557,7 @@ public class CameraXSession {
         }
     }
 
-    // ---- Две камеры сразу ----
 
-    /** Доступно ли бесшовное переключение: нужна и поддержка кружка, и пара линз. */
     public static boolean isRoundDualAvailable(Context context) {
         return DualCameraView.roundDualAvailableStatic(context) && isSeamlessSwitchingAvailable(context);
     }
@@ -625,11 +572,6 @@ public class CameraXSession {
         return seamlessSwitchingAvailableCache;
     }
 
-    /**
-     * Система обещает пару «фронтальная + основная» одновременно. Спрашиваем camera2
-     * напрямую: {@link ProcessCameraProvider} на этот вопрос отвечает только после
-     * инициализации, а знать надо раньше — до создания сессии.
-     */
     private static boolean hasConcurrentFrontBackPair(Context context) {
         if (context == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             return false;
@@ -690,13 +632,7 @@ public class CameraXSession {
         return false;
     }
 
-    // ---- Зум, фокус, вспышка ----
 
-    /**
-     * Стартовый зум. Широкоугольная линза — это зум меньше единицы, и он приезжает не
-     * сразу: пока камера не открылась, {@link ZoomState} пуст, поэтому ждём его через
-     * наблюдателя и ставим минимум один раз.
-     */
     private void applyInitialZoom(final Camera camera, final CameraControl control) {
         if (control == null || camera == null) {
             return;
@@ -731,11 +667,6 @@ public class CameraXSession {
         control.setZoomRatio(state.getMinZoomRatio());
     }
 
-    /**
-     * Основная камера — по настройке. Фронталка — всегда: у неё зум меньше единицы
-     * означает не другую линзу, а полный сенсор вместо кропа (Pixel: 0.9× — это
-     * 3840×2736 против 3440×2448 на «1×»), и это её штатный угол.
-     */
     private boolean wantsWideAngleStart(Camera camera) {
         if (camera == null) {
             return false;
@@ -765,7 +696,6 @@ public class CameraXSession {
         updateTorchState();
     }
 
-    /** Подсветка есть только у основной камеры, поэтому фронтальную всегда гасим. */
     private void updateTorchState() {
         try {
             if (!isDualMode) {
@@ -820,12 +750,10 @@ public class CameraXSession {
         return camera == null ? null : camera.getCameraInfo().getZoomState().getValue();
     }
 
-    // ---- Переключение камер ----
 
     public void switchCamera() {
         isFrontface = !isFrontface;
         if (isDualMode && cameraFront != null && cameraBack != null) {
-            // Обе линзы уже привязаны — меняется только та, с которой снимаем.
             updateActiveControl(isFrontface);
             updateTorchState();
         } else {
@@ -845,7 +773,6 @@ public class CameraXSession {
         }
     }
 
-    // ---- Состояние ----
 
     public boolean isInitiated() {
         return isInitiated;
@@ -932,13 +859,7 @@ public class CameraXSession {
         return manager != null ? manager.getDisplay(Display.DEFAULT_DISPLAY) : null;
     }
 
-    // ---- Поверхность ----
 
-    /**
-     * Мост между CameraX и текстурой GL-потока: CameraX сам просит поверхность, мы
-     * отдаём ему {@link SurfaceTexture} кружка и сообщаем наверх итоговый размер —
-     * сперва запрошенный, потом уточнённый по кадрированию.
-     */
     public static Preview.SurfaceProvider createSurfaceProvider(final Context context,
                                                                 final SurfaceTexture surfaceTexture,
                                                                 final PreviewSizeListener listener) {

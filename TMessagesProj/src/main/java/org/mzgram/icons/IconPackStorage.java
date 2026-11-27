@@ -24,31 +24,17 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-/**
- * Хранение паков иконок на диске + установка из архива (порт IconPackStorage).
- *
- * Ограничения архива взяты из оригинала: не больше {@link #MAX_ENTRIES} файлов,
- * не больше {@link #MAX_TOTAL_UNCOMPRESSED_SIZE} суммарно после распаковки,
- * не больше {@link #MAX_SINGLE_FILE_SIZE} на один файл и степень сжатия одного файла
- * не выше {@link #MAX_COMPRESSION_RATIO} (защита от zip-бомб). Плюс защита от zip-slip.
- */
 public class IconPackStorage {
 
     public static final String PACK_EXTENSION = ".icons";
     private static final String METADATA_NAME = "metadata.json";
     private static final String PACKS_DIR = "oe_icon_packs";
 
-    /** Максимальное число файлов в архиве. */
     public static final int MAX_ENTRIES = 3000;
-    /** Максимальный суммарный размер после распаковки — 100 МБ. */
     public static final long MAX_TOTAL_UNCOMPRESSED_SIZE = 100L * 1024 * 1024;
-    /** Максимальный размер одного файла — 10 МБ. */
     public static final long MAX_SINGLE_FILE_SIZE = 10L * 1024 * 1024;
-    /** Максимальная степень сжатия одного файла. */
     public static final double MAX_COMPRESSION_RATIO = 250.0;
-    /** Максимальный размер metadata.json — 256 КБ. */
     public static final long MAX_METADATA_SIZE = 262144L;
-    /** Максимальный размер самого файла архива. */
     public static final long MAX_ARCHIVE_SIZE = MAX_TOTAL_UNCOMPRESSED_SIZE;
 
     private static final Object sync = new Object();
@@ -57,7 +43,6 @@ public class IconPackStorage {
     private IconPackStorage() {
     }
 
-    /** Исключение с кодом ошибки, понятным пользователю. */
     public static class IconPackStorageException extends Exception {
         private final IconPackStorageError error;
 
@@ -80,7 +65,6 @@ public class IconPackStorage {
         return dir;
     }
 
-    /** id пака используется как имя каталога, поэтому он должен быть безопасным. */
     public static boolean isValidPackId(String packId) {
         if (packId == null || TextUtils.isEmpty(packId.trim())) {
             return false;
@@ -91,7 +75,6 @@ public class IconPackStorage {
         return !".".equals(packId) && !"..".equals(packId);
     }
 
-    // ---- Чтение установленных паков ----
 
     public static List<IconPack> getInstalledPacks() {
         synchronized (sync) {
@@ -153,10 +136,6 @@ public class IconPackStorage {
         invalidateCache();
     }
 
-    /**
-     * Возвращает файл иконки внутри пака или null. Путь обязательно проверяется на выход
-     * за пределы каталога пака.
-     */
     public static File resolveIconFile(IconPack pack, String relativePath) {
         if (pack == null || TextUtils.isEmpty(relativePath)) {
             return null;
@@ -178,12 +157,7 @@ public class IconPackStorage {
         }
     }
 
-    // ---- Установка ----
 
-    /**
-     * Устанавливает пак из архива. Возвращает null при успехе или код ошибки.
-     * Блокирующий вызов, запускать не на UI-потоке.
-     */
     public static IconPackStorageError installPack(File archive) {
         File temp = null;
         try {
@@ -219,7 +193,6 @@ public class IconPackStorage {
         }
     }
 
-    /** Разбирает архив без установки — для предпросмотра. */
     public static IconPack parsePackFromArchive(File archive) {
         File temp = null;
         try {
@@ -236,7 +209,6 @@ public class IconPackStorage {
         }
     }
 
-    /** Упаковывает установленный пак обратно в архив (для «поделиться»). */
     public static File bundlePack(String packId) {
         if (!isValidPackId(packId)) {
             return null;
@@ -263,7 +235,6 @@ public class IconPackStorage {
         return out;
     }
 
-    /** Записывает metadata.json пака на диск. */
     public static boolean saveIconPackMetadata(IconPack pack) {
         if (pack == null || !isValidPackId(pack.getId())) {
             return false;
@@ -290,7 +261,6 @@ public class IconPackStorage {
         }
     }
 
-    // ---- Внутреннее ----
 
     private static IconPackStorageError errorFromException(Exception e) {
         if (e instanceof IconPackStorageException) {
@@ -317,9 +287,6 @@ public class IconPackStorage {
         return dir;
     }
 
-    /**
-     * Распаковывает архив в targetDir с полной валидацией и возвращает разобранный metadata.json.
-     */
     private static JSONObject extractPackArchive(File archive, File targetDir) throws Exception {
         long totalUncompressed = 0;
         int entryCount = 0;
@@ -374,7 +341,6 @@ public class IconPackStorage {
                     int read;
                     while ((read = is.read(buffer)) > 0) {
                         written += read;
-                        // размер в заголовке может врать — проверяем и по факту
                         if (written > MAX_SINGLE_FILE_SIZE) {
                             throw new IconPackStorageException(IconPackStorageError.FILE_TOO_LARGE);
                         }
@@ -398,7 +364,6 @@ public class IconPackStorage {
 
         File metadata = new File(targetDir, METADATA_NAME);
         if (!metadata.isFile()) {
-            // допускаем один вложенный каталог верхнего уровня
             File[] children = targetDir.listFiles();
             File nested = null;
             if (children != null && children.length == 1 && children[0].isDirectory()
@@ -454,10 +419,6 @@ public class IconPackStorage {
         }
     }
 
-    /**
-     * Разбирает metadata.json. Пути иконок нормализуются относительно packRoot,
-     * выход за его пределы отбрасывается.
-     */
     private static IconPack parseMetadata(JSONObject json, File packRoot, File location) throws Exception {
         String name = json.optString("packName", "");
         String id = json.optString("packId", "");

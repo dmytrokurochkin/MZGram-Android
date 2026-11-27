@@ -23,22 +23,10 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 
-/**
- * About-шапка корневого экрана mzgram.
- * Порт HeaderSettingsCell из MZGram 12.9.0: логотип 72dp,
- * название 20sp bold, версия 15sp bold с кодом сборки в скобках.
- *
- * Форма логотипа — маска лаунчера, а не жёсткий круг: на прошивке со сквирклом
- * или каплей иконка в настройках выглядит так же, как на рабочем столе
- *. Переключается долгим
- * нажатием по самому логотипу, отдельной строки нет и у MZGram.
- */
 public class AboutHeaderCell extends LinearLayout {
 
-    /** Цвет подложки иконки приложения, как R.color.ic_background в MZGram. */
     public static final int LOGO_BACKGROUND = 0xFFE83030;
 
-    /** Путь формы логотипа. Считается один раз, сбрасывается при смене режима. */
     private Path shapePath;
     private final ImageView logo;
 
@@ -103,7 +91,6 @@ public class AboutHeaderCell extends LinearLayout {
         logo.setOnClickListener(listener);
     }
 
-    /** "12.9.2 (1258)" — версия плюс versionCode из PackageInfo, как в оригинале. */
     public static String buildVersionString() {
         StringBuilder sb = new StringBuilder(BuildVars.BUILD_VERSION_STRING);
         try {

@@ -34,13 +34,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.mzgram.core.ui.icons.IconsResources;
 
-/**
- * Применение паков иконок (порт org.mzgram.sdk.icons.IconManager,
- * без корутин и без редактора паков).
- *
- * Точка подмены — {@link IconsResources}: она при каждом запросе drawable спрашивает
- * менеджер, есть ли замена для этого ресурса.
- */
 public class IconPackManager {
 
     private static final IconPackManager instance = new IconPackManager();
@@ -49,13 +42,9 @@ public class IconPackManager {
         return instance;
     }
 
-    /** Активные паки в порядке приоритета: индекс 0 — самый приоритетный. */
     private final CopyOnWriteArrayList<IconPack> activePacks = new CopyOnWriteArrayList<>();
-    /** Имя ресурса -> пак, который его заменяет. */
     private final ConcurrentHashMap<String, IconPack> iconOwnerMap = new ConcurrentHashMap<>();
-    /** Кэш имён ресурсов, чтобы не дёргать getResourceEntryName на каждый вызов. */
     private final ConcurrentHashMap<Integer, String> resourceNames = new ConcurrentHashMap<>();
-    /** Ресурсы, для которых замены точно нет — чтобы не искать повторно. */
     private final Set<Integer> missing = java.util.Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     private final LruCache<Long, Bitmap> resolvedCache;
@@ -73,9 +62,7 @@ public class IconPackManager {
         };
     }
 
-    // ---- Жизненный цикл ----
 
-    /** Ленивая инициализация: вызывается из точки подмены иконок. */
     public void ensureInitialized() {
         if (initialized) {
             return;
@@ -89,13 +76,11 @@ public class IconPackManager {
         reloadInternal();
     }
 
-    /** Перечитывает список активных паков (в фоне) и сбрасывает кэши. */
     public void reload() {
         initialized = true;
         Utilities.globalQueue.postRunnable(this::reloadInternal);
     }
 
-    /** Синхронная перезагрузка. */
     public void reloadInternal() {
         try {
             IconPacksConfig.loadConfig(false);
@@ -115,7 +100,6 @@ public class IconPackManager {
                 resolvedCache.evictAll();
                 missing.clear();
             }
-            // прогрев: декодируем иконки заранее, чтобы первый экран не тормозил
             launchPrewarm();
         } catch (Throwable t) {
             FileLog.e("mzGram: failed to load icon packs", t);
@@ -124,7 +108,6 @@ public class IconPackManager {
 
     private void rebuildOwnerMap() {
         iconOwnerMap.clear();
-        // идём с конца, чтобы паки с меньшим индексом перезаписали более поздние
         for (int i = activePacks.size() - 1; i >= 0; i--) {
             IconPack pack = activePacks.get(i);
             for (Map.Entry<String, String> entry : pack.getIcons().entrySet()) {
@@ -145,22 +128,13 @@ public class IconPackManager {
         return hasReplacements;
     }
 
-    // ---- Подмена ----
 
-    /**
-     * Возвращает drawable из активного пака или null, если замены нет.
-     * Вызывается из {@link IconsResources}; ресурсы передаются, чтобы получить оригинал
-     * без рекурсии.
-     */
     @Nullable
     public Drawable getDrawable(IconsResources resources, int resId, int density, @Nullable Resources.Theme theme) {
         if (!initialized) {
             ensureInitialized();
         }
-        // режим точечной замены: запоминаем, какие иконки реально просит текущий экран
         org.mzgram.icons.picker.IconObserver.log(resId);
-        // Порядок разбора: сначала пользовательский пак,
-        // потом встроенный набор (Solar/Remix), потом оригинал.
         Drawable fromPack = getUserPackDrawable(resources, resId, density, theme);
         if (fromPack != null) {
             return fromPack;
@@ -168,12 +142,6 @@ public class IconPackManager {
         return getBasePackDrawable(resources, resId, density, theme);
     }
 
-    /**
-     * Подмена из встроенного набора ({@link BaseIconPacks}) — порт
-     * {@code IconManager.getIcon(resId)} ({@code IconManager.java:1741}).
-     * Возвращает null, если набор не выбран или для ресурса подмены нет; тогда
-     * {@link IconsResources} отдаёт оригинал, как и раньше.
-     */
     @Nullable
     private Drawable getBasePackDrawable(@Nullable IconsResources resources, int resId,
                                          int density, @Nullable Resources.Theme theme) {
@@ -185,7 +153,6 @@ public class IconPackManager {
             return null;
         }
         try {
-            // getOriginalDrawableForDensity не рекурсивен: он идёт сразу в базовый Resources.
             return resources.getOriginalDrawableForDensity(mapped, density, theme);
         } catch (Throwable t) {
             FileLog.e("mzGram: base icon pack lookup failed", t);
@@ -193,7 +160,6 @@ public class IconPackManager {
         }
     }
 
-    /** Подмена из установленного пользователем пака или null. */
     @Nullable
     private Drawable getUserPackDrawable(IconsResources resources, int resId, int density,
                                          @Nullable Resources.Theme theme) {
@@ -251,7 +217,6 @@ public class IconPackManager {
         }
     }
 
-    /** Предпросмотр иконки конкретного пака (для экрана настроек). */
     @Nullable
     public Drawable getPackIconDrawable(IconPack pack, int resId) {
         try {
@@ -299,10 +264,6 @@ public class IconPackManager {
         return ((long) resId << 32) | (density & 0xffffffffL);
     }
 
-    /**
-     * Декодирует файл иконки и масштабирует его под размеры оригинального drawable,
-     * чтобы подменённая иконка не «прыгала» в вёрстке.
-     */
     @Nullable
     private Bitmap createBitmapFromFile(@Nullable IconsResources resources, String path, int originalResId,
                                         int density, @Nullable Resources.Theme theme) {
@@ -404,9 +365,7 @@ public class IconPackManager {
         }
     }
 
-    // ---- Операции с паками ----
 
-    /** Устанавливает пак из архива в фоне; колбэк вызывается на UI-потоке. */
     public void installPack(File archive, InstallCallback callback) {
         Utilities.globalQueue.postRunnable(() -> {
             IconPackStorageError error = IconPackStorage.installPack(archive);
@@ -430,31 +389,15 @@ public class IconPackManager {
     }
 
     public interface InstallCallback {
-        /** error == null означает успех. */
         void onResult(@Nullable IconPackStorageError error);
     }
 
-    // ---- Точечная замена иконок (редактирование пака) ----
 
-    /** Имя ресурса drawable по его id или null. */
     @Nullable
     public String getResourceName(int resId) {
         return getResourceName((IconsResources) null, resId);
     }
 
-    /** id ресурса drawable по имени или 0. */
-    /**
-     * Имена иконок MZGram, которых у нас нет под тем же именем.
-     *
-     * Паки собирают под MZGram, и часть иконок там называется иначе: у них
-     * `ic_ab_search`, у нас `outline_header_search`. Без сопоставления такая
-     * иконка молча остаётся стоковой — пак применён, а пара картинок нет.
-     *
-     * Соответствия выведены из BaseIconPacks: там уже записано, какой наш
-     * ресурс какому их варианту (`*_remix`, `*_solar`) соответствует. Проверено
-     * на 18 настоящих паках: с ними совпадает 92-100% имён, эти девять
-     * добирают самые ходовые из оставшихся.
-     */
     private static final java.util.Map<String, String> RESOURCE_ALIASES = new java.util.HashMap<>();
 
     static {
@@ -490,21 +433,8 @@ public class IconPackManager {
         }
     }
 
-    /** Кэш «имя ресурса → id» по всем drawable приложения; строится один раз за процесс. */
     private volatile java.util.LinkedHashMap<String, Integer> systemIcons;
 
-    /**
-     * Все иконки приложения, которые можно заменить: имя ресурса → id, по алфавиту.
-     * Порт {@code IconManager.systemIcons} ({@code IconManager.java:105}); тело корутины,
-     * которая наполняет карту в MZGram, в декомпиляте не читается, поэтому способ обхода —
-     * свой: перебор id внутри типа drawable нашего пакета.
-     *
-     * Рефлексия по {@code R.drawable} тут не годится: в релизе {@code minifyEnabled = true}
-     * ({@code TMessagesProj/build.gradle:156}), поля R инлайнятся и класс выкидывается.
-     * Идентификаторы же лежат в resources.arsc и доступны всегда: у типа они идут подряд
-     * с нуля, поэтому идём от {@code 0x7fXX0000} до первого длинного разрыва.
-     * Блокирующий вызов (~4 тысячи запросов в resources.arsc): звать не с UI-потока.
-     */
     public java.util.Map<String, Integer> getSystemIcons() {
         java.util.LinkedHashMap<String, Integer> cached = systemIcons;
         if (cached != null) {
@@ -513,7 +443,6 @@ public class IconPackManager {
         java.util.TreeMap<String, Integer> collected = new java.util.TreeMap<>();
         try {
             Resources res = ApplicationLoader.applicationContext.getResources();
-            // старший полуслово id — пакет и тип; берём с заведомо существующей иконки
             int typeMask = org.telegram.messenger.R.drawable.msg_edit & 0xffff0000;
             int misses = 0;
             for (int entry = 0; entry < 0x10000 && misses < 64; entry++) {
@@ -540,12 +469,6 @@ public class IconPackManager {
         return result;
     }
 
-    /**
-     * Кладёт файл {@code source} в каталог пака и прописывает его в metadata.json как замену
-     * для ресурса {@code resId}. Блокирующий вызов, запускать не на UI-потоке.
-     *
-     * @return true, если пак обновлён
-     */
     public boolean saveCustomIcon(String packId, int resId, File source) {
         IconPack pack = IconPackStorage.findPackById(packId);
         String resourceName = getResourceName(resId);
@@ -571,7 +494,6 @@ public class IconPackManager {
             if (!IconPackStorage.saveIconPackMetadata(updated)) {
                 return false;
             }
-            // старый файл замены больше не нужен, если сменилось расширение
             if (previous != null && !previous.equals(destination.getName())) {
                 File old = IconPackStorage.resolveIconFile(pack, previous);
                 if (old != null) {
@@ -588,7 +510,6 @@ public class IconPackManager {
         }
     }
 
-    /** Убирает замену иконки из пака вместе с файлом. Блокирующий вызов. */
     public boolean resetCustomIcon(String packId, int resId) {
         IconPack pack = IconPackStorage.findPackById(packId);
         String resourceName = getResourceName(resId);
@@ -620,16 +541,13 @@ public class IconPackManager {
         }
     }
 
-    /** Сбрасывает кэши, относящиеся к одному ресурсу (все плотности). */
     public void invalidateIconCaches(int resId) {
         missing.remove(resId);
         synchronized (this) {
-            // ключ кэша — (resId, density); плотностей единицы, дешевле почистить всё
             resolvedCache.evictAll();
         }
     }
 
-    /** Создаёт пустой пак и делает его редактируемым. Блокирующий вызов. */
     @Nullable
     public IconPack createPack(String packId, String name, String author, String version) {
         if (!IconPackStorage.isValidPackId(packId)) {
@@ -663,15 +581,9 @@ public class IconPackManager {
         }
     }
 
-    // ---- Прогрев кэша ----
 
     private volatile boolean prewarmScheduled;
 
-    /**
-     * Прогрев кэша: заранее декодирует иконки активных паков в фоне, чтобы первое открытие
-     * экрана не тормозило на синхронном декодировании десятков файлов.
-     * Порт {@code IconManager.launchPrewarm} / {@code prefetchCustomPacks}.
-     */
     public void launchPrewarm() {
         if (prewarmScheduled || !IconPacksConfig.enabled()) {
             return;
@@ -713,7 +625,6 @@ public class IconPackManager {
                     }
                     warmed++;
                     if (warmed % 32 == 0) {
-                        // не занимать очередь надолго
                         try {
                             Thread.sleep(4);
                         } catch (InterruptedException ignore) {
@@ -730,12 +641,7 @@ public class IconPackManager {
         });
     }
 
-    // ---- Иконка уведомлений ----
 
-    /**
-     * Растеризует файл иконки под размер {@code originalResId}. Нужен
-     * {@link IconPackProvider}: системе уведомлений отдаётся PNG, а не Drawable.
-     */
     @Nullable
     public Bitmap decodeForNotification(String path, int originalResId, int density) {
         Resources res = ApplicationLoader.applicationContext.getResources();
@@ -743,10 +649,6 @@ public class IconPackManager {
         return createBitmapFromFile(iconsResources, path, originalResId, density, null);
     }
 
-    /**
-     * Иконка уведомлений из активного пака или null (тогда используется стоковая).
-     * Порт {@code IconManager.getNotificationIcon}.
-     */
     @Nullable
     public androidx.core.graphics.drawable.IconCompat getNotificationIcon() {
         if (!IconPacksConfig.enabled() || !IconPacksConfig.customNotificationIcon()) {
@@ -770,9 +672,7 @@ public class IconPackManager {
         }
     }
 
-    // ---- Пак, пришедший файлом в чате ----
 
-    /** Похоже ли вложение сообщения на пак иконок (.icons). */
     public static boolean isIconPack(org.telegram.messenger.MessageObject messageObject) {
         if (messageObject == null || messageObject.getDocument() == null) {
             return false;
@@ -781,10 +681,6 @@ public class IconPackManager {
         return name != null && name.toLowerCase(java.util.Locale.ROOT).endsWith(IconPackStorage.PACK_EXTENSION);
     }
 
-    /**
-     * Нажатие на файл-пак в чате: разбор архива в фоне и лист с превью.
-     * Вызывать с UI-потока.
-     */
     public void handleIconPack(org.telegram.ui.ActionBar.BaseFragment fragment, File file) {
         if (fragment == null || fragment.getParentActivity() == null || file == null) {
             return;
@@ -802,14 +698,11 @@ public class IconPackManager {
                             .show();
                     return;
                 }
-                // Лист с превью вместо строки «имя, N иконок»: иконки меняют весь
-                // интерфейс, и до установки надо видеть, что именно ставишь
                 InstallIconPackBottomSheet.show(fragment, file, parsed);
             });
         });
     }
 
-    // ---- Чёрный список ----
 
     private static final Set<String> BLACKLIST = new HashSet<>(Arrays.asList(
             "bar_selector", "blockpanel", "circle", "circle_big", "dice", "dino_pic",
@@ -818,10 +711,6 @@ public class IconPackManager {
             "chats_widget_preview", "contacts_widget_preview", "fast_scroll_empty", "field_carret_empty"
     ));
 
-    /**
-     * Некоторые ресурсы нельзя подменять картинкой: это маски, градиенты, анимированные vector
-     * drawable и прочее, что ломается при замене на bitmap. Список — из оригинала.
-     */
     public static boolean isBlacklisted(String name) {
         if (name == null) {
             return true;

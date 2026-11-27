@@ -29,10 +29,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.mzgram.core.utils.HttpClient;
 
-/**
- * Курсы валют с Coinbase. Внутри всё хранится как «сколько USD стоит одна единица валюты»,
- * поэтому любую пару можно получить делением.
- */
 public class ExchangeRates {
 
     private static final String URL = "https://api.coinbase.com/v2/exchange-rates?currency=USD";
@@ -43,13 +39,8 @@ public class ExchangeRates {
             "JPY", "BYN", "ILS", "CZK", "INR", "TON", "BTC", "ETH", "SOL"
     };
 
-    /** Криптовалюты и «якорные» фиаты — используются пилюлями курсов как базовая валюта. */
     public static final String[] CRYPTO_CURRENCIES = {"BTC", "ETH", "SOL", "TON", "USD", "EUR"};
 
-    /**
-     * Смена целевой валюты в настройках должна приводить к пересчёту, а не к отдаче
-     * старого кэша: подписываемся один раз на события Pill Stack и сбрасываем TTL.
-     */
     private static final PillStackEvents.Listener settingsListener = new PillStackEvents.Listener() {
         @Override
         public void onPillStackSettingsChanged(int[] pillIds) {
@@ -76,7 +67,6 @@ public class ExchangeRates {
             return code == null ? null : usdRates.get(PillCurrencies.normalize(code));
         }
 
-        /** Сколько единиц {@code target} стоит одна единица {@code base}. */
         public BigDecimal getRate(String base, String target) {
             BigDecimal baseRate = getUsdRate(base);
             BigDecimal targetRate = getUsdRate(target);
@@ -205,7 +195,6 @@ public class ExchangeRates {
         }
     }
 
-    /** В ответе Coinbase «сколько единиц валюты за 1 USD», нам нужно обратное. */
     private static BigDecimal parseUsdRate(String code, JSONObject rates) {
         if ("USD".equals(code)) {
             return BigDecimal.ONE;
@@ -270,7 +259,6 @@ public class ExchangeRates {
         return false;
     }
 
-    /** AUTO → валюта страны номера телефона аккаунта, если она нам известна, иначе USD. */
     public static String resolveTargetCurrency(String selection) {
         String normalized = PillCurrencies.normalize(selection);
         if (!PillCurrencies.AUTO.equals(normalized)) {

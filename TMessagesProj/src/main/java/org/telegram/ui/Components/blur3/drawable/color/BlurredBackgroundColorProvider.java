@@ -11,10 +11,6 @@ public interface BlurredBackgroundColorProvider {
     @ColorInt int getStrokeColorTop();
     @ColorInt int getStrokeColorBottom();
 
-    /**
-     * Цвет сплошного контура (режим {@code GlassOutlineStyle.SOLID}).
-     * По умолчанию цвет разделителя.
-     */
     @ColorInt default int getStrokeColorFull() {
         return Theme.getDividerColor(null);
     }

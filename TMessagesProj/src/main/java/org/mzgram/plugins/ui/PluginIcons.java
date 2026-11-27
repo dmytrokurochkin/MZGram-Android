@@ -13,35 +13,11 @@ import org.telegram.ui.Components.BackupImageView;
 
 import org.mzgram.plugins.Plugin;
 
-/**
- * Иконка плагина: стикер из набора, который плагин назвал сам.
- *
- * Плагины пишут в метаданных {@code __icon__ = "mzPlugins/12"} — короткое
- * имя набора и номер стикера в нём. Своих картинок в файле плагина нет вовсе,
- * поэтому единственный способ показать иконку — сходить за набором.
- *
- * Загрузка асинхронная и может не приехать (набор удалён, сети нет): вызов
- * возвращает лишь «имя разобрано», а картинка появляется позже. Метка на вьюхе
- * защищает от переиспользования в списке — пока набор едет, ячейку могли
- * отдать другому плагину.
- */
 public final class PluginIcons {
 
     private PluginIcons() {
     }
 
-    /**
-     * Ставит картинку, когда она приедет, и только тогда показывает вьюху.
-     *
-     * Показывать её сразу нельзя: набор может не приехать вовсе (сети нет,
-     * набор удалён), и в карточке остаётся дыра 56dp над именем — ровно это и
-     * было видно у AdBlock без сети.
-     *
-     * @param onLoaded выполнится на UI-потоке, когда картинка встала: вызывающему
-     *                 обычно нужно пересчитать раскладку.
-     * @return true, если у плагина вообще есть чем показаться (набор и номер
-     *         разобраны); картинка приедет позже.
-     */
     public static boolean apply(BackupImageView imageView, Plugin plugin, Runnable onLoaded) {
         if (imageView == null || plugin == null || TextUtils.isEmpty(plugin.icon)) {
             return false;
@@ -74,7 +50,7 @@ public final class PluginIcons {
                         return;
                     }
                     if (!tag.equals(imageView.getTag())) {
-                        return;  // ячейку успели отдать другому плагину
+                        return;
                     }
                     TLRPC.Document document = set.documents.get(index);
                     Drawable thumb = DocumentObject.getSvgThumb(document,

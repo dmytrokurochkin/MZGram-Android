@@ -7,16 +7,6 @@ import org.mzgram.core.CoreConfig
 import org.mzgram.core.config.ConfigItem
 import org.mzgram.ext.ExtConfig
 
-/**
- * Настройки экрана «Chats», перенесённые из MZGram.
- *
- * Здесь только то, чего в MZGram нет: остальное экран берёт из [org.mzgram.core.CoreConfig]
- * и [org.mzgram.ext.ExtConfig], чтобы настройка не задваивалась.
- *
- * Схема повторяет [org.mzgram.MZGramConfig]: те же SharedPreferences, тот же [ConfigItem],
- * ключи с префиксом MZChats. Конфиг подгружается лениво (см. [ensureLoaded]), потому что
- * ApplicationLoader не трогаем.
- */
 object ChatsConfig {
 
     private val sync = Any()
@@ -31,9 +21,7 @@ object ChatsConfig {
     @JvmStatic
     fun getPreferences(): SharedPreferences = CoreConfig.getPreferences()
 
-    // ---- Стикеры ----
 
-    /** Форма стикеров: 0 — как есть, 1 — скруглённая, 2 — как сообщение. */
     @JvmField
     val stickerShape = addConfig("MZChatsStickerShape", ConfigItem.configTypeInt, 1)
 
@@ -61,17 +49,13 @@ object ChatsConfig {
         stickerTimeSide.setConfigBool(mode == STICKER_TIME_SIDE)
     }
 
-    // ---- Ответы ----
 
-    /** Цветной фон блока ответа. */
     @JvmField
     val replyColors = addConfig("MZChatsReplyColors", ConfigItem.configTypeBool, true)
 
-    /** Эмодзи-иконка в блоке ответа. */
     @JvmField
     val replyEmoji = addConfig("MZChatsReplyEmoji", ConfigItem.configTypeBool, true)
 
-    /** Подложка под блоком ответа. */
     @JvmField
     val replyBackground = addConfig("MZChatsReplyBackground", ConfigItem.configTypeBool, true)
 
@@ -89,54 +73,33 @@ object ChatsConfig {
         return if (value in BOTTOM_BUTTON_HIDE..BOTTOM_BUTTON_DISCUSS) value else BOTTOM_BUTTON_MUTE
     }
 
-    // ---- Камера ----
 
-    /**
-     * Чем снимать круглые видеосообщения: 0 — системная (Camera1/Camera2 по решению
-     * приложения), 1 — Camera2, 2 — CameraX ([org.mzgram.camera.CameraXSession]).
-     *
-     * MZGram держит здесь enum CameraType и по умолчанию ставит CameraX на быстрых
-     * устройствах. У нас по умолчанию 0: движок CameraX новый, и менять им камеру
-     * всем сразу — без спроса — неправильно.
-     */
     @JvmField
     val cameraType = addConfig("MZChatsCameraType", ConfigItem.configTypeInt, 0)
 
-    /** Зеркалить фронтальную камеру. Применяется только на CameraX. */
     @JvmField
     val cameraMirrorMode = addConfig("MZChatsCameraMirrorMode", ConfigItem.configTypeBool, true)
 
-    /** Начинать с широкоугольной линзы. Только CameraX. */
     @JvmField
     val startWithWideAngleCamera =
         addConfig("MZChatsStartWithWideAngleCamera", ConfigItem.configTypeBool, false)
 
-    /** Стабилизация видео. */
     @JvmField
     val cameraStabilization = addConfig("MZChatsCameraStabilization", ConfigItem.configTypeBool, false)
 
-    /** Расширенный диапазон FPS. */
     @JvmField
     val extendedFramesPerSecond = addConfig("MZChatsExtendedFps", ConfigItem.configTypeBool, false)
 
-    /** Показывать плашку зума под камерой кружков. */
     @JvmField
     val zoomSlider = addConfig("MZChatsZoomSlider", ConfigItem.configTypeBool, true)
 
-    /** Статичный зум: уровень не сбрасывается после отпускания пальца. */
     @JvmField
     val staticZoom = addConfig("MZChatsStaticZoom", ConfigItem.configTypeBool, false)
 
-    // ---- Фото ----
 
-    /**
-     * Тёплость вспышки при записи кружка, проценты (50 = 0.5, как FloatPref(0.5f) MZGram).
-     * ConfigItem не умеет float, поэтому целое.
-     */
     @JvmField
     val flashWarmth = addConfig("MZChatsFlashWarmth", ConfigItem.configTypeInt, 50)
 
-    /** Яркость вспышки при записи кружка, проценты (100 = 1.0, FloatPref(1.0f) MZGram). */
     @JvmField
     val flashIntensity = addConfig("MZChatsFlashIntensity", ConfigItem.configTypeInt, 100)
 
@@ -146,11 +109,9 @@ object ChatsConfig {
     @JvmStatic
     fun flashIntensity(): Float = flashIntensity.Int() / 100f
 
-    /** Скрепка при наборе остаётся скрепкой, а не «тремя точками» с меню. */
     @JvmField
     val keepAttachButton = addConfig("MZChatsKeepAttachButton", ConfigItem.configTypeBool, false)
 
-    /** Скрыть плитку камеры в шторке вложений. */
     @JvmField
     val hideCameraTile = addConfig("MZChatsHideCameraTile", ConfigItem.configTypeBool, false)
 
@@ -163,7 +124,6 @@ object ChatsConfig {
     @JvmField
     val inlineMathCalculator = addConfig("MZChatsInlineMathCalculator", ConfigItem.configTypeBool, true)
 
-    /** Валюты, которых нет в кэше курсов, спрашивать у @calcmulabot. */
     @JvmField
     val inlineMathCalcmula = addConfig("MZChatsInlineMathCalcmula", ConfigItem.configTypeBool, true)
 
@@ -179,28 +139,19 @@ object ChatsConfig {
     @JvmField
     val inlineMathDegrees = addConfig("MZChatsInlineMathDegrees", ConfigItem.configTypeBool, true)
 
-    /** 0 авто, 1 метрическая, 2 имперская, см. InlineResults. */
     @JvmField
     val inlineMathMeasureSystem = addConfig("MZChatsInlineMathMeasureSystem", ConfigItem.configTypeInt, 0)
 
-    /** Код валюты, пусто значит по номеру телефона. */
     @JvmField
     val inlineMathTargetCurrency = addConfig("MZChatsInlineMathTargetCurrency", ConfigItem.configTypeString, "")
 
-    /**
-     * Отправлять фото в высоком качестве по умолчанию. Дефолт true, как в MZGram.
-     * При включённом бейдж на превью инвертируется: помечается не «HD», а «SD» —
-     * то есть те кадры, которые уйдут в обычном качестве.
-     */
     @JvmField
     val alwaysSendInHD = addConfig("MZChatsAlwaysSendInHD", ConfigItem.configTypeBool, true)
 
     @JvmField
     val hdrPhotos = addConfig("MZChatsHdrPhotos", ConfigItem.configTypeBool, true)
 
-    // ---- Стикеры и эмодзи ----
 
-    /** Скрывать реакции — каналы / группы / личные (группа-мультивыбор, только UI). */
     @JvmField
     val hideReactionsInChannels = addConfig("MZChatsHideReactionsChannels", ConfigItem.configTypeBool, false)
     @JvmField
@@ -208,9 +159,7 @@ object ChatsConfig {
     @JvmField
     val hideReactionsInPrivate = addConfig("MZChatsHideReactionsPrivate", ConfigItem.configTypeBool, false)
 
-    // ---- Чаты ----
 
-    // ---- Сообщения ----
 
     @JvmField
     val wideChannelPosts = addConfig("MZChatsWideChannelPosts", ConfigItem.configTypeBool, false)
@@ -218,14 +167,12 @@ object ChatsConfig {
     @JvmField
     val wideFeedPosts = addConfig("MZChatsWideFeedPosts", ConfigItem.configTypeBool, false)
 
-    /** Убрать «хвостик» пузыря (только UI). */
     @JvmField
     val removeMessageTail = addConfig("MZChatsRemoveMessageTail", ConfigItem.configTypeBool, true)
 
     @JvmField
     val unreadCapsule = addConfig("MZChatsUnreadCapsule", ConfigItem.configTypeBool, false)
 
-    /** Показывать результаты опроса до голосования (только UI). */
     @JvmField
     val showResultsBeforeVoting = addConfig("MZChatsShowResultsBeforeVoting", ConfigItem.configTypeBool, false)
 
@@ -259,45 +206,32 @@ object ChatsConfig {
         return stripTrackingOnPaste.Bool()
     }
 
-    // ---- Камера (расширенные) ----
 
-    /** Запоминать последнюю использованную камеру (только UI). */
     @JvmField
     val rememberLastUsedCamera = addConfig("MZChatsRememberLastUsedCamera", ConfigItem.configTypeBool, false)
 
-    // ---- Воспроизведение ----
 
-    /** Предпочитать оригинальное качество (только UI). */
     @JvmField
     val preferOriginalQuality = addConfig("MZChatsPreferOriginalQuality", ConfigItem.configTypeBool, false)
 
-    /**
-     * Автопауза — голос / кружки (группа-мультивыбор, только UI).
-     * Видео берётся из рабочего [CoreConfig.autoPauseVideo].
-     */
     @JvmField
     val pauseOnMinimizeVoice = addConfig("MZChatsPauseVoice", ConfigItem.configTypeBool, false)
     @JvmField
     val pauseOnMinimizeRound = addConfig("MZChatsPauseRound", ConfigItem.configTypeBool, false)
 
-    // ---- Воспроизведение ----
 
-    /** Индекс в [SEEK_DURATIONS]: время перемотки двойным тапом. */
     @JvmField
     val doubleTapSeekDuration = addConfig("MZChatsDoubleTapSeekDuration", ConfigItem.configTypeInt, 1)
 
-    /** Свайп вниз по видео — в режим «картинка в картинке». */
     @JvmField
     val swipeToPip = addConfig("MZChatsSwipeToPip", ConfigItem.configTypeBool, false)
 
-    /** Кнопки громкости снимают звук с видео вместо изменения громкости. */
     @JvmField
     val unmuteWithVolumeButtons = addConfig("MZChatsUnmuteWithVolumeButtons", ConfigItem.configTypeBool, false)
 
     @JvmField
     val dontAutoplayWidgets = addConfig("MZChatsDontAutoplayWidgets", ConfigItem.configTypeBool, false)
 
-    /** Варианты времени перемотки двойным тапом, секунды. */
     @JvmField
     val SEEK_DURATIONS = intArrayOf(5, 10, 15, 30)
 
@@ -306,9 +240,7 @@ object ChatsConfig {
     const val CAMERA_TYPE_CAMERA_X = 2
     const val CAMERA_TYPE_TELEGRAM = 3
 
-    // ---- Статические геттеры для горячих мест в Java ----
 
-    /** Кнопки громкости снимают немоту с видео вместо изменения громкости. */
     @JvmStatic
     fun unmuteWithVolumeButtons(): Boolean {
         ensureLoaded()
@@ -321,21 +253,18 @@ object ChatsConfig {
         return dontAutoplayWidgets.Bool()
     }
 
-    /** Ставить голосовое на паузу при сворачивании приложения. */
     @JvmStatic
     fun pauseOnMinimizeVoice(): Boolean {
         ensureLoaded()
         return pauseOnMinimizeVoice.Bool()
     }
 
-    /** Ставить кружок на паузу при сворачивании приложения. */
     @JvmStatic
     fun pauseOnMinimizeRound(): Boolean {
         ensureLoaded()
         return pauseOnMinimizeRound.Bool()
     }
 
-    /** Тип камеры для кружков: 0 системная, 1 Camera2, 2 CameraX, 3 новый рекордер Telegram. */
     @JvmStatic
     fun cameraType(): Int {
         ensureLoaded()
@@ -374,7 +303,6 @@ object ChatsConfig {
         return item
     }
 
-    /** Ленивая инициализация: до готовности ApplicationLoader остаются значения по умолчанию. */
     @JvmStatic
     fun ensureLoaded() {
         if (configLoaded) return
@@ -442,7 +370,6 @@ object ChatsConfig {
         }
     }
 
-    /** Сбрасывает настройки экрана «Chats» к значениям по умолчанию. */
     @JvmStatic
     fun reset() {
         synchronized(sync) {

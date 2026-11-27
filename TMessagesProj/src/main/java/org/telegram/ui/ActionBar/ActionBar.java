@@ -3173,16 +3173,6 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         }
     }
 
-    /**
-     * Центрировать ли заголовок. Порт {@code ActionBar.shouldCenterTitle()} MZGram
-     * (12.9.0, строка 629): либо экран попросил явно ({@link #centerTitle()}), либо
-     * включена настройка MZGram.
-     *
-     * Чаты сюда не попадают: там заголовок рисует ChatAvatarContainer, а не
-     * titleTextView этого ActionBar. Отдельная центровка заголовка чата — фича
-     * MZGram ({@code ExtConfig.centerActionBarTitle}), она живёт своей жизнью и
-     * этой настройкой не управляется.
-     */
     private boolean isCentered() {
         if (forceDisableCenterTitle) {
             return false;
@@ -3192,11 +3182,6 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
 
     private boolean forceDisableCenterTitle;
 
-    /**
-     * Запретить центровку для конкретного ActionBar. У MZGram так делают
-     * AudioPlayerAlert и BottomSheetWithRecyclerListView: там заголовок прижат
-     * влево по макету, и центровка его ломает.
-     */
     public void setForceDisableCenterTitle(boolean value) {
         if (forceDisableCenterTitle == value) {
             return;

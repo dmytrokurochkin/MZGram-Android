@@ -55,13 +55,6 @@ import java.util.Locale;
 import org.mzgram.core.DatacenterActivity;
 import org.mzgram.core.helpers.MessageHelper;
 
-/**
- * Панель «детали сообщения» для выпадающего меню.
- *
- * Живёт в swipe back слое: сначала строит строки, которые известны сразу,
- * а разрешение, битрейт, координаты и платформу съёмки дочитывает из файла
- * в фоне и дописывает в готовые пункты.
- */
 public abstract class MessageDetailsPopupWrapper {
 
     private static final int ITEM_STICKER_OWNER = 0;

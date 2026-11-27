@@ -7,14 +7,6 @@ import org.mzgram.core.CoreConfig
 import org.mzgram.core.config.ConfigItem
 import org.mzgram.ext.ExtConfig
 
-/**
- * Настройки экранов «General» и «Other» раздела mzGram.
- *
- * Схема повторяет [org.mzgram.MZGramConfig]: те же SharedPreferences, тот же [ConfigItem].
- * Здесь живут ТОЛЬКО те настройки, которых нет ни в CoreConfig, ни в ExtConfig, ни в
- * MZGramConfig — всё остальное экраны берут из существующих ConfigItem, чтобы не плодить дубли.
- * Ключи с префиксом MZGeneral.
- */
 object GeneralConfig {
 
     private val sync = Any()
@@ -39,26 +31,12 @@ object GeneralConfig {
     @JvmField
     val botPrivacyUserId = addConfig("MZGeneralBotPrivacyUserId", ConfigItem.configTypeLong, 0L)
 
-    /**
-     * «Download Speed Boost» — трёхпозиционный выбор (0: обычный, 1: быстрый,
-     * 2: максимальный). Применяется в FileLoadOperation.updateParams: уровень 2
-     * берёт куски по мегабайту и двенадцать параллельных запросов, уровень 1 —
-     * по полмегабайта и восемь.
-     */
     @JvmField
     val downloadSpeedBoost = addConfig("MZGeneralDownloadSpeedBoost", ConfigItem.configTypeInt, 0)
 
     @JvmStatic
     fun downloadSpeedBoost(): Int = downloadSpeedBoost.Int()
 
-    /**
-     * Показывать ли вход в настройки MZGram («N-Settings») в общем списке настроек.
-     *
-     * По умолчанию выключено: форк ведёт свои экраны, а параллельный набор от
-     * апстрима сбивает — те же настройки лежат в двух местах и расходятся.
-     * Кому нужны редкие вещи, которых у нас нет (переводчик, экспериментальное),
-     * включают строку здесь.
-     */
     @JvmField
     val showMZGramSettings = addConfig("MZGeneralShowMZGramSettings", ConfigItem.configTypeBool, false)
 
@@ -150,7 +128,6 @@ object GeneralConfig {
         }
     }
 
-    /** Сбрасывает настройки этих экранов к значениям по умолчанию. */
     @JvmStatic
     fun reset() {
         synchronized(sync) {

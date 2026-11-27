@@ -14,17 +14,6 @@ import java.util.WeakHashMap;
 
 import org.mzgram.icons.IconPacksConfig;
 
-/**
- * Наблюдатель за иконками, которые реально запрашивал текущий экран
- * (порт {@code org.mzgram.sdk.icons.ui.picker.IconObserver}).
- *
- * Пока включён режим редактирования пака, каждый запрос drawable из
- * {@link org.mzgram.icons.IconPackManager#getDrawable} регистрируется здесь и
- * привязывается к фрагменту, который сейчас на экране. Пикер показывает ровно эти иконки,
- * поэтому пользователь заменяет то, что видит, а не ищет по общему списку из тысяч имён.
- *
- * Ссылки на фрагменты слабые — уничтоженный экран уходит из карты сам.
- */
 public class IconObserver {
 
     private static final WeakHashMap<BaseFragment, Set<Integer>> iconSources = new WeakHashMap<>();
@@ -34,20 +23,14 @@ public class IconObserver {
 
     private static volatile boolean suspended;
 
-    /**
-     * Временно отключает сбор: сам пикер тоже рисует иконки через те же Resources,
-     * и без этого он засорял бы список собственными кнопками.
-     */
     public static void setSuspended(boolean value) {
         suspended = value;
     }
 
-    /** Регистрирует запрос иконки; вызывается на любом потоке, дёшево при выключенном режиме. */
     public static void log(int resId) {
         if (suspended || resId == 0 || !IconPacksConfig.isEditing()) {
             return;
         }
-        // стек фрагментов читаем только с UI-потока; фоновые запросы drawable просто пропускаем
         if (Looper.myLooper() != Looper.getMainLooper()) {
             return;
         }
@@ -69,7 +52,6 @@ public class IconObserver {
         }
     }
 
-    /** Иконки, замеченные на текущем экране. */
     public static Set<Integer> getUsedIcons() {
         BaseFragment fragment = LaunchActivity.getSafeLastFragment();
         if (fragment == null) {
@@ -81,7 +63,6 @@ public class IconObserver {
         }
     }
 
-    /** Все иконки, замеченные за сессию редактирования. */
     public static Set<Integer> getAllIcons() {
         synchronized (iconSources) {
             Set<Integer> result = new LinkedHashSet<>();
@@ -104,7 +85,6 @@ public class IconObserver {
         }
     }
 
-    /** Копия множества — чтобы вызывающий не держал наш монитор. */
     static Set<Integer> snapshot(Set<Integer> source) {
         return new HashSet<>(source);
     }

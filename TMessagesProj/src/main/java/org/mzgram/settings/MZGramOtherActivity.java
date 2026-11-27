@@ -53,13 +53,8 @@ import org.mzgram.core.ui.cells.HeaderCell;
 import org.mzgram.core.utils.AlertUtil;
 import org.mzgram.core.utils.AndroidUtil;
 
-/**
- * Экран «Other» раздела mzGram — повторяет Other из MZGram
- * (секция Google + управление настройками).
- */
 public class MZGramOtherActivity extends BaseCoreSettingsActivity {
 
-    /** Кнопка удаления остаётся заблокированной 30 секунд. */
     private static final long DELETE_ACCOUNT_DELAY = 30_000L;
 
     private static final int BACKUP_IMPORT_REQUEST_CODE = 22;
@@ -120,11 +115,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
     protected void updateRows() {
         super.updateRows();
 
-        // Секции Google (Analytics + Crashlytics) здесь больше нет. Отправлять
-        // было нечего: shouldEnableCrashlytics требует applicationId
-        // «nu.gpu.mzgram», а у нас com.mzgram.app — переключатель стоял
-        // мёртвым. На его месте вход в настройки MZGram, выключенный по
-        // умолчанию.
         googleHeaderRow = addRow("googleHeader");
         // MZGram: no Firebase crash reports, see AndroidUtil.shouldEnableCrashlytics.
         crashReportsRow = -1;
@@ -203,10 +193,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(enabled);
             }
-            // Строка появляется и исчезает в общем списке настроек, а он уже
-            // построен и на свои уведомления её не пересобирает — поэтому
-            // пересобираем вьюхи стека целиком, как это делают остальные
-            // настройки, меняющие чужие экраны.
             if (getParentLayout() != null) {
                 getParentLayout().rebuildAllFragmentViews(false, false);
             }
@@ -307,10 +293,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /**
-     * Выбранный файл копируется в кэш под своим расширением: провайдер отдаёт content://,
-     * а читать бэкап удобнее обычным файлом.
-     */
     @Override
     public void onActivityResultFragment(int requestCode, int resultCode, Intent data) {
         if (requestCode != BACKUP_IMPORT_REQUEST_CODE) {
@@ -358,8 +340,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
                 () -> {
                     GeneralHelper.resetAllSettings();
                     LocaleController.getInstance().recreateFormatters();
-                    // Ресурсы темы надо перечитать: иначе не подхватятся радиусы и цвета,
-                    // сброшенные вместе с настройками.
                     Theme.reloadAllResources(activity);
                     if (getParentLayout() != null) {
                         getParentLayout().rebuildAllFragmentViews(false, false);
@@ -367,7 +347,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
                     getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
                     getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
                     getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload, true);
-                    // У MZGram бюллетень именно «ошибочный» (красный) — это предупреждение, а не успех.
                     BulletinFactory.of(MZGramOtherActivity.this)
                             .createErrorBulletin(getString(R.string.MZGeneralResetSettingsDone))
                             .show();
@@ -375,10 +354,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
                 });
     }
 
-    /**
-     * Удаление аккаунта: подтверждение с обратным отсчётом, затем
-     * TL_account.deleteAccount и локальный выход.
-     */
     private void showDeleteAccountDialog() {
         if (getParentActivity() == null) {
             return;
@@ -415,8 +390,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
             };
             deleteAccountTimer.start();
         });
-        // Слушателя ставим через showDialog: BaseFragment.showDialog (:834) затирает
-        // тот, что назначен диалогу напрямую.
         showDialog(dialog, d -> cancelDeleteAccountTimer());
     }
 
@@ -434,7 +407,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
         AlertDialog progressDialog = new AlertDialog(getParentActivity(), AlertDialog.ALERT_TYPE_SPINNER);
         progressDialog.setCanCancel(false);
         progressDialog.show();
-        // Пауза MZGram перед запросом: спиннер успевает появиться, а не мигнуть.
         AndroidUtilities.runOnUIThread(() -> {
             TL_account.deleteAccount req = new TL_account.deleteAccount();
             req.reason = "mzGram";
@@ -503,7 +475,6 @@ public class MZGramOtherActivity extends BaseCoreSettingsActivity {
                     } else if (position == mzgramSettingsRow) {
                         cell.setTextAndCheck(getString(R.string.MZGeneralMZGramSettings),
                                 GeneralConfig.showMZGramSettings(), true);
-                        // setIcon после setTextAndCheck — тот сбрасывает отступы текста.
                         cell.setIcon(R.drawable.msg_settings);
                     } else {
                         cell.setIcon(0);

@@ -43,13 +43,6 @@ import org.mzgram.icons.IconPackManager;
 import org.mzgram.icons.IconPackStorage;
 import org.mzgram.core.ui.icons.IconsResources;
 
-/**
- * Лист точечной замены одной иконки (порт
- * {@code org.mzgram.sdk.icons.ui.components.ReplaceIconBottomSheet}).
- *
- * Показывает, как иконка выглядит сейчас и как выглядела бы без пака, и даёт три действия:
- * выбрать картинку файлом, вставить из буфера обмена, сбросить замену.
- */
 public class ReplaceIconBottomSheet extends BottomSheet {
 
     private final String packId;
@@ -88,7 +81,6 @@ public class ReplaceIconBottomSheet extends BottomSheet {
         root.addView(subtitle, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
                 22, 4, 22, 0));
 
-        // ---- превью: слева оригинал, справа текущая иконка ----
         LinearLayout previews = new LinearLayout(context);
         previews.setOrientation(LinearLayout.HORIZONTAL);
         previews.setGravity(Gravity.CENTER);
@@ -174,7 +166,6 @@ public class ReplaceIconBottomSheet extends BottomSheet {
         }
     }
 
-    // ---- действия ----
 
     private void selectFromFiles() {
         BaseFragment fragment = LaunchActivity.getSafeLastFragment();

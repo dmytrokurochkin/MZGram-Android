@@ -38,11 +38,6 @@ import org.telegram.utils.glass.source.GlassSourceRenderNode;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.MainTabsActivity;
 
-/**
- * Экран ленты: синтетический чат из постов каналов.
- * Собственного списка не рисует — держит {@link ChatActivityContainer} со встроенным
- * {@link ChatActivity} в режиме ленты и управляет его заголовком, меню и жизненным циклом.
- */
 public class FeedActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, MainTabsActivity.TabFragmentDelegate {
 
     private static final String ARG_HAS_MAIN_TABS = "hasMainTabs";
@@ -81,10 +76,6 @@ public class FeedActivity extends BaseFragment implements NotificationCenter.Not
         };
     }
 
-    /**
-     * Открывает ленту: на планшете — в правой колонке поверх очищенного стека,
-     * на телефоне — обычным переходом из {@code fragment}.
-     */
     public static void presentFeed(BaseFragment fragment) {
         final LaunchActivity launchActivity = LaunchActivity.instance;
         if (!AndroidUtilities.isTablet() || launchActivity == null || launchActivity.getRightActionBarLayout() == null) {
@@ -238,11 +229,6 @@ public class FeedActivity extends BaseFragment implements NotificationCenter.Not
                 windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()), tabsHeight);
         final Insets navigationBars = extendBottom(
                 windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars()), tabsHeight);
-        // setInsets мало: WindowInsetsStateHolder — а через него и нижний отступ
-        // списка сообщений — читает getInsetsIgnoringVisibility(), и там на API 30+
-        // лежит отдельный массив. Builder копирует его из исходных инсетов, поэтому
-        // без второй пары вызовов чат считал, что снизу только системная полоса,
-        // и последнее сообщение уезжало под панель вкладок.
         return new WindowInsetsCompat.Builder(windowInsets)
                 .setInsets(WindowInsetsCompat.Type.systemBars(), systemBars)
                 .setInsets(WindowInsetsCompat.Type.navigationBars(), navigationBars)
@@ -527,14 +513,6 @@ public class FeedActivity extends BaseFragment implements NotificationCenter.Not
         chatContainer.chatActivity.reattachCurrentFeedVideoTexture();
     }
 
-    /**
-     * Пересобрать запись RenderNode у шапки встроенного чата.
-     *
-     * Пока лента вынута из окна, инвалидация детей экшн-бара до него самого не доходит:
-     * дети остаются грязными, а он — чистым, и при повторном подключении переиспользует
-     * старую запись, в которой детей ещё не было. Видно как пустые стеклянные пилюли
-     * без аватарки, заголовка и кнопок.
-     */
     private void invalidateEmbeddedActionBar() {
         if (chatContainer == null || chatContainer.chatActivity == null) {
             return;
@@ -730,12 +708,10 @@ public class FeedActivity extends BaseFragment implements NotificationCenter.Not
         return chatContainer.chatActivity.getGlassSource();
     }
 
-    /** Вызывается MainTabsActivity, когда вкладка стала полностью видимой. */
     public void onParentBecomeFullyVisible() {
         reattachCurrentFeedVideoTexture();
     }
 
-    /** Колбэк перерисовки стекла нижних вкладок; вызывается MainTabsActivity. */
     public void setParentTabsGlassInvalidationCallback(Runnable callback) {
         parentTabsGlassInvalidationCallback = callback;
     }

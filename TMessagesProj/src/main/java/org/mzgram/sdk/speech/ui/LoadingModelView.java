@@ -25,13 +25,6 @@ import org.telegram.ui.Components.StickerImageView;
 
 import java.util.Locale;
 
-/**
- * Экран загрузки языковой модели распознавания речи.
- *
- * Своей модели у форка нет, но плагины каталога создают эту вьюху сами
- * ({@code LoadingModelView(context)}) и двигают прогресс — им нужен ровно
- * этот класс под именем MZGram.
- */
 public class LoadingModelView extends FrameLayout {
 
     public static class ProgressView extends View {

@@ -25,10 +25,6 @@ import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 
-/**
- * Плитки выбора формы стикеров: Default / Rounded / Message.
- * Порт компонента MZGram, значение хранится в {@link ChatsConfig#stickerShape}.
- */
 public class StickerShapeCell extends LinearLayout {
 
     private static class StickerShape extends FrameLayout {
@@ -161,7 +157,6 @@ public class StickerShapeCell extends LinearLayout {
         }
     }
 
-    /** Вызывается после смены формы — чтобы обновить превью переписки. */
     protected void updateStickerPreview() {
     }
 

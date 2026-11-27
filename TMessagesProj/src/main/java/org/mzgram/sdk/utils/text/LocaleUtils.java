@@ -33,14 +33,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Шим {@code org.mzgram.sdk.utils.text.LocaleUtils}.
- *
- * dex-модули плагинов скомпилированы против него напрямую (MandreTweaks зовёт
- * {@code formatWithUsernames} и {@code fullyFormatText} в конструкторе строки
- * каталога), поэтому подстановка имён из class_aliases.py тут не работает —
- * класс должен существовать под настоящим именем.
- */
 public abstract class LocaleUtils {
 
     private static final Pattern MARKDOWN_LINK_PATTERN =

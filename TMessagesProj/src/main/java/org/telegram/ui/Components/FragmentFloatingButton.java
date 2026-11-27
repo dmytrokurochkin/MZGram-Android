@@ -71,7 +71,6 @@ public class FragmentFloatingButton extends FrameLayout implements FactorAnimato
 
         ScaleStateListAnimator.apply(this);
         if (!isSubButton) {
-            // MZGram 12.9.0, FragmentFloatingButton.java:67 — squircle вместо круга.
             setOutlineProvider(org.mzgram.appearance.AppearanceConfig.squareFab()
                     ? ViewOutlineProviderImpl.boundsWithPaddingRoundRect(0, dp(14))
                     : ViewOutlineProviderImpl.BOUNDS_OVAL);

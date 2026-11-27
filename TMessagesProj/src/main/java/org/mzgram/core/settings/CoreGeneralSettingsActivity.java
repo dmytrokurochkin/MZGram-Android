@@ -182,8 +182,6 @@ public class CoreGeneralSettingsActivity extends BaseCoreXSettingsActivity {
     private final AbstractConfigCell iconReplacements = cellGroup.appendCell(new ConfigCellSelectBox("IconReplacements", ExtConfig.INSTANCE.getIconReplacements(), new String[]{
             getString(R.string.Default),
             getString(R.string.IconReplacementSolar),
-            // Третий набор появился вместе с портом BaseIconPacks; без него выбор Remix
-            // давал индекс за границей массива.
             getString(R.string.IconReplacementRemix),
     }, null));
     private final AbstractConfigCell switchStyleRow = cellGroup.appendCell(new ConfigCellSelectBox("SwitchStyle", ExtConfig.INSTANCE.getSwitchStyle(), new String[]{

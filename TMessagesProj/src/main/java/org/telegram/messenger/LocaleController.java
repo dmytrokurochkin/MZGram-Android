@@ -1494,7 +1494,6 @@ public class LocaleController {
         return getStringInternal(key, null, 0, res);
     }
 
-    /** Имя форка. */
     public static String getAppName() {
         try {
             return ApplicationLoader.applicationContext.getString(R.string.MZGram);
@@ -1504,10 +1503,6 @@ public class LocaleController {
     }
 
     private String getStringInternal(String key, String fallback, int fallbackRes, int res) {
-        // MZGram 12.9.0, LocaleController.java:2301 — перехват ДО обращения к localeValues.
-        // Иначе на любом облачном языке (русский — облачный) ключ AppName подтягивается
-        // из языкового пакета телеграма и форк снова называется «Telegram» во всех диалогах,
-        // где заголовок берут как getString(R.string.AppName).
         if (key != null && key.contains("AppName")) {
             return getAppName();
         }

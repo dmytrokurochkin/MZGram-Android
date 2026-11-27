@@ -14,28 +14,17 @@ import androidx.annotation.NonNull;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 
-/**
- * Скруглённый фон пилюли курса: вертикальный градиент из двух цветов.
- *
- * Поверх градиента MZGram (crypto/utils/ColoredBackground) кладёт обводку в
- * толщину волоса — светлую сверху, гаснущую к середине и чуть заметную снизу.
- * Она рисуется только в тёмной теме и не в Monet: на светлом фоне и на обоях
- * системной палитры её попросту не видно, а пилюля от неё грязнится.
- */
 public class ColoredBackground extends Drawable {
 
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final RectF rectF = new RectF();
 
-    /** Цвета по умолчанию — BLUE_LIGHT MZGram: с ними идёт пилюля TON. */
     public ColoredBackground() {
         this(0xFF1BA4ED, 0xFF1488E1);
     }
 
     public ColoredBackground(int colorTop, int colorBottom) {
-        // Высота градиента у MZGram фиксированная — dp(28), высота самой пилюли,
-        // а не bounds: при загрузке пилюля короче, и градиент не должен ехать.
         paint.setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(28),
                 new int[]{colorTop, colorBottom}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
         strokePaint.setStyle(Paint.Style.STROKE);
@@ -59,7 +48,6 @@ public class ColoredBackground extends Drawable {
         canvas.drawRoundRect(rectF, radius, radius, strokePaint);
     }
 
-    /** Проверка вида Theme.isCurrentThemeMonet(): у нас она живёт в ThemeInfo. */
     private static boolean isMonetTheme() {
         Theme.ThemeInfo active = Theme.getActiveTheme();
         return active != null && active.isMonet();

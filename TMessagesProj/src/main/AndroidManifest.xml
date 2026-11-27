@@ -131,9 +131,9 @@
     >
         <!-- usesCleartextTraffic for browser supporting opening http:// links -->
 
-        <!-- Единственный включённый alias: именно он даёт запись в лаунчере.
-             У MZGram эту роль играл BlueIcon, из-за чего на свежей установке
-             на рабочем столе появлялась синяя иконка апстрима. -->
+        <!-- The only enabled alias: it is what gives the launcher entry.
+             Upstream gave this role to BlueIcon, so a fresh install showed
+             upstream's blue icon on the home screen. -->
         <activity-alias
             android:enabled="true"
             android:name="org.telegram.messenger.MZGramIcon"
@@ -447,9 +447,9 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="vnd.android.cursor.item/vnd.org.mzgram.messenger.android.profile"/>
             </intent-filter>
-            <!-- mzgram plugins: файл плагина, открытый из чата, файлового
-                 менеджера или «Поделиться». Без этого фильтра система показывает
-                 обычный выбор приложения, а установить плагин негде. -->
+            <!-- mzgram plugins: a plugin file opened from a chat, a file
+                 manager or Share. Without this filter the system shows
+                 the usual app chooser, and there is nowhere to install the plugin. -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

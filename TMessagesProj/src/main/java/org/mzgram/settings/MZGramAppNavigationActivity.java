@@ -44,20 +44,8 @@ import org.mzgram.core.config.ConfigItem;
 import org.mzgram.core.helpers.SettingsHelper;
 import org.mzgram.ext.ExtConfig;
 
-/**
- * Экран «App Navigation».
- *
- * Собран на {@link UniversalRecyclerView}, а не на {@code BaseCoreSettingsActivity}:
- * только здесь есть перетаскивание строк, без которого редактор порядка пунктов
- * бокового меню не собрать.
- *
- * Режим нижней панели трёхпозиционный, как в MZGram: «Показать», «Скрыть»,
- * «Плавающая». Хранит его {@link MainTabsLayout}.
- */
 public class MZGramAppNavigationActivity extends BaseFragment {
 
-    // id строк-настроек. Отрицательные, чтобы не пересечься с id пунктов меню,
-    // которые совпадают с id самих MainMenuItem.
     private static final int ID_TABLET_MODE = -101;
     private static final int ID_BACK_ANIMATION = -102;
     private static final int ID_BOTTOM_NAVIGATION_BAR = -106;
@@ -71,13 +59,8 @@ public class MZGramAppNavigationActivity extends BaseFragment {
     private static final int ID_ALWAYS_DOWNLOADS = -111;
     private static final int ID_ACCOUNTS_MENU = -112;
 
-    /** Кнопка «добавить разделитель». */
     private static final int ID_ADD_DIVIDER = -200;
 
-    /**
-     * Разделителей в списке может быть несколько, а id у них общий (-1), поэтому адаптеру
-     * нужны различимые: раздаём стабильные id от -2000 вниз.
-     */
     private static final int DIVIDER_ID_BASE = -2000;
 
     private UniversalRecyclerView listView;
@@ -107,15 +90,11 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         listView.setSections();
         listView.adapter.setApplyBackground(false);
         listView.allowReorder(true);
-        // Именно на списке, а не на адаптере: ItemTouchHelper создаётся и цепляется
-        // только здесь, у адаптера одноимённый метод лишь запоминает колбэк.
         listView.listenReorder(this::onReordered);
         listView.setReorderClampToSection(true);
         contentView.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         actionBar.setAdaptiveBackground(listView);
 
-        // Кнопка сброса раскладки меню: появляется, только когда раскладка отличается
-        // от дефолтной, и гаснет обратно после сброса.
         resetItem = actionBar.createMenu().addItem(0, R.drawable.msg_reset);
         resetItem.setContentDescription(getString(R.string.Reset));
         resetItem.setOnClickListener(v -> resetMenuLayout());
@@ -144,7 +123,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         }
     }
 
-    // ---- содержимое ----
 
     private void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         items.add(UItem.asHeader(getString(R.string.MZGeneral)));
@@ -152,8 +130,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
                 tabletModes()[clamp(CoreConfig.tabletMode.Int(), 3)]));
         items.add(UItem.asCheck(ID_ALWAYS_DOWNLOADS, getString(R.string.AlwaysShowDownloadIcon))
                 .setChecked(ExtConfig.INSTANCE.getAlwaysShowDownloadIcon().Bool()));
-        // Вместо переключателя Spring Animations здесь трёхпозиционный
-        // ExtConfig.backAnimationStyle: он покрывает и Spring, и Classic.
         items.add(UItem.asButton(ID_BACK_ANIMATION, getString(R.string.MZBackAnimation),
                 backAnimations()[clamp(ExtConfig.INSTANCE.getBackAnimationStyle().Int(), backAnimations().length)]));
         items.add(UItem.asShadow(getString(R.string.MZBackAnimationInfo)));
@@ -201,12 +177,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         }
     }
 
-    /**
-     * Секция пунктов меню.
-     *
-     * @param reorderable для видимых пунктов true — им раздаются стабильные id разделителей
-     *                    и добавляется кнопка «добавить разделитель»
-     */
     private void addMenuSection(ArrayList<UItem> items, UniversalAdapter adapter,
                                 String title, List<Integer> ids, boolean reorderable) {
         adapter.whiteSectionStart();
@@ -241,11 +211,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         adapter.whiteSectionEnd();
     }
 
-    /**
-     * Иконку-ремешок повесить некуда: {@code uItem.object2} у нашего UniversalAdapter
-     * занят под кнопку «открыть» у ботов. Перетаскивание при этом работает — его даёт
-     * allowReorder(true) по долгому нажатию, — поэтому строки оставлены без ремешка.
-     */
     private UItem createMenuItem(int id, MainMenuHelper.MenuItemInfo info) {
         if (info == null) {
             return UItem.asButton(id, R.drawable.msg_block, getString(R.string.MZMainMenuDivider));
@@ -265,7 +230,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         return slider;
     }
 
-    // ---- обработка ----
 
     private static final int[] LINK_IDS = {
             ID_TABLET_MODE, ID_BACK_ANIMATION, ID_PREDICTIVE_INTENSITY, ID_BOTTOM_NAVIGATION_BAR,
@@ -336,12 +300,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
             showChoice(getString(R.string.MZBottomNavigationBarMode), bottomNavigationModes(),
                     MainTabsLayout.getBottomNavigationMode(), which -> {
                         MainTabsLayout.setBottomNavigationMode(which);
-                        // MZGram: the floating bar no longer switches the Material 3 bar off. It only takes its place
-                        // while it is chosen (MainTabsUiHelper.isMaterial3NavigationBar), so "Show" brings the Material
-                        // bar back instead of leaving Telegram's.
-                        // Со скрытой панелью «Настройки» доступны только из меню; следить за этим
-                        // умеет сама раскладка (MainMenuLayout.ensureSettingsVisibility), поэтому
-                        // достаточно перечитать список и пересобрать вьюхи.
                         update();
                         if (getParentLayout() != null) {
                             getParentLayout().rebuildAllFragmentViews(false, false);
@@ -353,8 +311,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
             showChoice(getString(R.string.MZBackAnimation), backAnimations(),
                     ExtConfig.INSTANCE.getBackAnimationStyle().Int(), which -> {
                         ExtConfig.INSTANCE.getBackAnimationStyle().setConfigInt(which);
-                        // Пружинные переходы не работают с выключенными анимациями
-                        // интерфейса, поэтому их взводим принудительно.
                         if (which == BACK_ANIMATION_SPRING) {
                             MessagesController.getGlobalMainSettings().edit()
                                     .putBoolean("view_animations", true).apply();
@@ -366,8 +322,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         }
         if (id == ID_DRAWER) {
             AppearanceConfig.navigationDrawer.setConfigBool(!AppearanceConfig.navigationDrawer());
-            // Шторка создаётся один раз при старте активити, поэтому её надо пересобрать,
-            // иначе флаг применится только после перезапуска приложения.
             if (getParentActivity() instanceof LaunchActivity launchActivity) {
                 launchActivity.syncDrawerContainerEnabled();
             }
@@ -409,8 +363,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
             return;
         }
 
-        // Разделитель из видимой секции: у него стабильный отрицательный id, надо найти,
-        // какой по счёту разделитель в раскладке ему соответствует.
         if (id <= DIVIDER_ID_BASE) {
             final int index = stableDividerIds.indexOf(id);
             if (index < 0) {
@@ -436,7 +388,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         toggleMenuItem(id);
     }
 
-    /** Перенос пункта между «видимыми» и «скрытыми». */
     private void toggleMenuItem(int id) {
         final ArrayList<Integer> layout = MainMenuLayout.getLayoutMutable();
         final ArrayList<Integer> hidden = MainMenuLayout.getHiddenItemsMutable();
@@ -448,7 +399,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
             return;
         }
 
-        // «Настройки» нельзя убрать, если их неоткуда больше открыть.
         if (id == MainMenuItem.SETTINGS.getId() && layout.contains(id) && !hasBottomTabs()) {
             BulletinFactory.of(this)
                     .createErrorBulletin(getString(R.string.MZMainMenuRemoveSettingsInfo))
@@ -469,17 +419,12 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         update();
     }
 
-    /**
-     * Перетаскивание. Адаптер отдаёт номер секции и её строки в новом порядке
-     *. Секция 0 — видимые пункты, 1 — скрытые.
-     */
     private void onReordered(int section, ArrayList<UItem> reordered) {
         final ArrayList<Integer> ids = new ArrayList<>(reordered.size());
         for (UItem item : reordered) {
             ids.add(item.id <= DIVIDER_ID_BASE ? MainMenuItem.DIVIDER.getId() : item.id);
         }
         if (section == 0) {
-            // Стабильные id разделителей раздаются заново по новому порядку.
             stableDividerIds.clear();
             for (UItem item : reordered) {
                 if (item.id <= DIVIDER_ID_BASE) {
@@ -494,7 +439,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
     }
 
-    // ---- мелочи ----
 
     private void update() {
         if (listView != null && listView.adapter != null) {
@@ -533,8 +477,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
     }
 
     private boolean hasBottomTabs() {
-        // Со скрытой нижней панелью «Настройки» — единственный вход в настройки,
-        // и прятать их нельзя.
         return MainTabsLayout.isBottomNavigationVisible();
     }
 
@@ -546,10 +488,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         };
     }
 
-    /**
-     * Порядок совпадает с константами {@code MainTabsLayout.BOTTOM_NAVIGATION_MODE_*}:
-     * индекс выбранного пункта и есть режим.
-     */
     private CharSequence[] bottomNavigationModes() {
         return new CharSequence[]{
                 getString(R.string.MZBottomNavigationModeShow),
@@ -558,7 +496,6 @@ public class MZGramAppNavigationActivity extends BaseFragment {
         };
     }
 
-    /** Значение ExtConfig.backAnimationStyle, соответствующее пружинным переходам. */
     private static final int BACK_ANIMATION_SPRING = 1;
 
     private CharSequence[] backAnimations() {

@@ -20,14 +20,6 @@ import org.telegram.ui.Components.BulletinFactory;
 
 import java.util.function.Consumer;
 
-/**
- * Локальный аналог {@code org.mzgram.sdk.badges.BadgesController}.
- *
- * У MZGram значки приходят с их сервера; сюда это не переносится, поэтому
- * хранилище локальное — SharedPreferences. Плагины каталога подменяют
- * {@link #getBadge}, {@link #isMZ} и {@link #isDeveloper} через Xposed и
- * рисуют значки сами, им нужен именно этот набор имён.
- */
 public final class BadgesController {
 
     public static final BadgesController INSTANCE = new BadgesController();

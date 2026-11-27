@@ -265,7 +265,6 @@ public class AndroidUtilities {
     public static final String TYPEFACE_ROBOTO_REGULAR = "fonts/rregular.ttf";
     public static final String TYPEFACE_ROBOTO_ITALIC = TYPEFACE_RITALIC;
     public static final String TYPEFACE_ROBOTO_CONDENSED_BOLD = TYPEFACE_RCONDENSED_BOLD;
-    // Инициалы на аватарках. Перенос из MZGram 12.9.0, AndroidUtilities.java:247.
     public static final String TYPEFACE_NUNITO_EXTRABOLD = "fonts/nunito_extrabold.ttf";
 
     public static Typeface mediumTypeface;
@@ -3798,7 +3797,6 @@ public class AndroidUtilities {
         }
         File storageDir = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            // Имя форка вместо зашитого «MZGram»: каталог видно в галерее и файловом менеджере.
             storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                     LocaleController.getAppName());
             if (!storageDir.mkdirs()) {
@@ -4325,7 +4323,6 @@ public class AndroidUtilities {
             f = FileLoader.getInstance(UserConfig.selectedAccount).getPathToMessage(message.messageOwner);
         }
         if (f != null && f.exists()) {
-            // mzgram plugins: плагин может перехватить открытие файла по расширению.
             if (org.mzgram.plugins.files.FilesControllerJava.dispatchOpenFile(f, fileName, document.mime_type, message, activity, parentFragment, UserConfig.selectedAccount)) {
                 return;
             }
@@ -4404,7 +4401,6 @@ public class AndroidUtilities {
 
     public static boolean openForView(File f, String fileName, String mimeType, final Activity activity, Theme.ResourcesProvider resourcesProvider, boolean restrict) {
         if (f != null && f.exists()) {
-            // mzgram plugins: плагин может перехватить открытие файла по расширению.
             if (org.mzgram.plugins.files.FilesControllerJava.dispatchOpenFile(f, fileName, mimeType, null, activity, null, UserConfig.selectedAccount)) {
                 return true;
             }

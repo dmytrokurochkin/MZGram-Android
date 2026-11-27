@@ -372,7 +372,6 @@ public class BlurredBackgroundProviderImpl {
                 })
                 .setStrokeColorTop(0x28FFFFFF, 0x28FFFFFF)
                 .setStrokeColorBottom(0x14FFFFFF, 0x14FFFFFF)
-                // Цвет сплошного контура (режим SOLID)
                 .setStrokeColorFull(0x28FFFFFF, 0x28FFFFFF)
                 .setStrokeWidth(dpf2(2 / 3f), dpf2(2 / 3f))
                 .build();

@@ -21,10 +21,6 @@ import org.telegram.ui.Components.ScaleStateListAnimator;
 
 import org.mzgram.MZGramConfig;
 
-/**
- * Условия отключения прокси плашками в строку. Их три и они не влезают в ширину
- * на узких экранах, поэтому ряд прокручивается вбок.
- */
 public class ProxyDisableChipsView extends LinearLayout {
 
     private final Theme.ResourcesProvider resourcesProvider;

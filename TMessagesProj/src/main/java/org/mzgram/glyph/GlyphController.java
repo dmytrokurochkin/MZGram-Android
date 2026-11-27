@@ -29,14 +29,6 @@ import org.telegram.messenger.R;
 
 import java.util.List;
 
-/**
- * Управление Nothing Glyph: светодиодные зоны (Glyph Interface) и матрица Phone (3)
- * (Glyph Matrix) через единый AAR Nothing.
- *
- * SDK работает через системный прокси-сервис Nothing, поэтому весь жизненный цикл
- * сводится к init -> register -> openSession; на устройствах других вендоров
- * контроллер просто не инициализируется.
- */
 public final class GlyphController {
 
     private static volatile GlyphController instance;
@@ -54,22 +46,17 @@ public final class GlyphController {
         return local;
     }
 
-    /** Сколько логотип держится на Glyph Matrix. */
     private static final long LOGO_SHOW_MS = 3000L;
 
-    /** Верхняя граница циклов «дыхания» на записи — страховка, если стоп-ивент потеряется. */
     private static final int RECORDING_MAX_CYCLES = 600;
 
-    /** Шаг и диапазон яркости «дыхания» матрицы (0-255, как в SDK). */
     private static final long BREATH_STEP_MS = 120L;
     private static final int BREATH_STEP = 10;
     private static final int BREATH_MIN = 12;
     private static final int BREATH_MAX = 255;
 
-    /** Страховка от потерянного стоп-ивента записи: ~10 минут дыхания матрицы. */
     private static final int RECORDING_MAX_BREATH_STEPS = 5000;
 
-    /** Минимальный интервал между вспышками на сообщения — защита от стробоскопа в активном чате. */
     private static final long FLASH_COOLDOWN_MS = 2500L;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -85,12 +72,10 @@ public final class GlyphController {
 
     private final Runnable hideLogoRunnable = this::hideMatrixLogo;
 
-    /** Кэш белого битмапа логотипа — пересобирать вектор на каждый шаг дыхания дорого. */
     private Bitmap matrixLogoBitmap;
 
     private boolean recordingActive;
     private boolean callActive;
-    /** Глифы заняты длительной анимацией (запись или звонок) — вспышки сообщений пропускаем. */
     private boolean glyphBusy;
     private long lastFlashAt;
     private int breathBrightness = BREATH_MAX;
@@ -128,7 +113,6 @@ public final class GlyphController {
         return supported;
     }
 
-    /** Идемпотентный биндинг к системному сервису глифов. */
     public synchronized void init() {
         if (initialized || !supported || !GlyphConfig.enabled()) {
             return;
@@ -149,7 +133,6 @@ public final class GlyphController {
         }
     }
 
-    /** Отбиндить сервис — вызывается при выключении фичи в настройках. */
     public synchronized void shutdown() {
         initialized = false;
         stripSessionOpen = false;
@@ -183,8 +166,6 @@ public final class GlyphController {
         if (!GlyphConfig.enabled() || !GlyphConfig.onNewMessage() || messages == null) {
             return;
         }
-        // Хук сидит до фильтрации уведомлений, поэтому мьют проверяем сами:
-        // вспышка без уведомления на экране вводит в заблуждение.
         MessagesController messagesController = MessagesController.getInstance(account);
         boolean hasIncoming = false;
         for (int i = 0; i < messages.size(); i++) {
@@ -229,15 +210,12 @@ public final class GlyphController {
     }
 
     public void onRecordingStopped() {
-        // Стоп не проверяет конфиг: гасить подсветку нужно всегда, даже если
-        // тумблер выкрутили посреди записи.
         handler.post(() -> {
             recordingActive = false;
             updateGlyphActivity();
         });
     }
 
-    /** Входящий VoIP-звонок зазвонил — дышим, пока не ответят или не сбросят. */
     public void onIncomingCallStarted() {
         if (!GlyphConfig.enabled() || !GlyphConfig.onCall()) {
             return;
@@ -248,7 +226,6 @@ public final class GlyphController {
         });
     }
 
-    /** Звонок приняли, сбросили или сервис умер — идемпотентно. */
     public void onIncomingCallStopped() {
         handler.post(() -> {
             callActive = false;
@@ -256,10 +233,6 @@ public final class GlyphController {
         });
     }
 
-    /**
-     * Единая точка входа для длительных анимаций: дыхание живёт, пока активна
-     * хотя бы одна причина (запись голосового или входящий звонок).
-     */
     private void updateGlyphActivity() {
         boolean active = recordingActive || callActive;
         if (active == glyphBusy) {
@@ -297,14 +270,11 @@ public final class GlyphController {
         return powerManager == null || powerManager.isInteractive();
     }
 
-    /** Превью, отложенное до подключения сервиса глифов (бинд асинхронный). */
     private boolean previewPending;
 
-    /** Кнопка «Предпросмотр» в настройках: логотип на матрице и/или вспышка зон. */
     public void preview() {
         handler.post(() -> {
             if (!ensureReady()) {
-                // Сервис ещё биндится — покажем превью из колбэка подключения.
                 previewPending = supported && GlyphConfig.enabled();
                 return;
             }
@@ -398,7 +368,6 @@ public final class GlyphController {
         });
     }
 
-    /** Короткая вспышка всех зон — реакция на входящее сообщение. */
     private void pulseStrip() {
         if (stripManager == null || !stripSessionOpen) {
             return;
@@ -420,7 +389,6 @@ public final class GlyphController {
         }
     }
 
-    /** Медленное «дыхание» на время записи голосового; гасится через turnOff(). */
     private void breatheStrip() {
         try {
             GlyphFrame frame = stripManager.getGlyphFrameBuilder()
@@ -458,16 +426,12 @@ public final class GlyphController {
         try {
             GlyphMatrixObject object = new GlyphMatrixObject.Builder()
                     .setImageSource(bitmap)
-                    // Знак занимает центральные 2/3 канваса иконки; scale 150 кропает
-                    // ровно до него, иначе на матрице 25x25 лого выглядит крошечным.
                     .setScale(150)
                     .setBrightness(brightness)
                     .build();
             GlyphMatrixFrame frame = new GlyphMatrixFrame.Builder()
                     .addTop(object)
                     .build(context);
-            // setAppMatrixFrame, а не setMatrixFrame: у приложения приоритет ниже
-            // Glyph Toy, и системный глиф-сервис не должен с ним конфликтовать.
             matrixManager.setAppMatrixFrame(frame.render());
             handler.removeCallbacks(hideLogoRunnable);
             if (autoHide) {
@@ -486,8 +450,6 @@ public final class GlyphController {
         if (icon == null) {
             return null;
         }
-        // SDK мапит яркость пикселя (R+G+B)/3 на яркость LED, поэтому чёрный
-        // монохромный знак дал бы кадр из одних нулей — тонируем в белый.
         icon = icon.mutate();
         icon.setTint(Color.WHITE);
         matrixLogoBitmap = GlyphMatrixUtils.drawableToBitmap(icon);
@@ -498,7 +460,6 @@ public final class GlyphController {
         breathSteps = 0;
         breathBrightness = BREATH_MAX;
         breathDirection = -1;
-        // Таймер автогашения от превью/уведомления не должен рвать дыхание.
         handler.removeCallbacks(hideLogoRunnable);
         handler.post(breathRunnable);
     }

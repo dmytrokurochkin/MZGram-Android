@@ -1,11 +1,5 @@
 package org.mzgram.plugins.models;
 
-/**
- * Модель заголовка из SDK MZGram.
- *
- * Плагины помечают ею вставленный в чужой список {@code UItem}, чтобы экран
- * настроек отличал свою строку от чужой; текст рисует сам плагин.
- */
 public class HeaderSetting extends SettingItem {
 
     private String text;

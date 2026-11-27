@@ -14,13 +14,6 @@ import java.util.Locale;
 import org.mzgram.core.CoreConfig;
 import org.mzgram.core.translate.Translator;
 
-/**
- * Перевод текста под именем {@code org.mzgram.sdk.utils.text.TranslatorUtils}.
- *
- * Своего движка перевода форк не заводит: под капотом — переводчики MZGram
- * ({@link Translator}). Совпадают имя класса, имя вложенного интерфейса и формы
- * {@code translate(...)} — именно их зовут плагины каталога.
- */
 public final class TranslatorUtils {
 
     public interface TranslateCallback {

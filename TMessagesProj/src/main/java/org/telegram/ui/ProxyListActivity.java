@@ -667,8 +667,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     private void updateRows(boolean notify) {
         rowCount = 0;
         useProxyRow = rowCount++;
-        // Условия отключения показываем всегда: в MZGram они на виду, а у нас
-        // раньше лежали в настройках MZGram, спрятанных по умолчанию.
         disableConditionsRow = rowCount++;
         if (useProxySettings && SharedConfig.currentProxy != null && SharedConfig.proxyList.size() > 1 && IS_PROXY_ROTATION_AVAILABLE) {
             rotationRow = rowCount++;
@@ -1096,8 +1094,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 case VIEW_TYPE_DISABLE_CONDITIONS: {
                     org.mzgram.proxy.ProxyDisableChipsView chips =
                             new org.mzgram.proxy.ProxyDisableChipsView(mContext, getResourceProvider());
-                    // Колбэк сети поднимает LaunchActivity по hasProxyDisableConditions(),
-                    // поэтому первое включённое здесь условие надо зарегистрировать самим.
                     chips.setOnChanged(() -> {
                         if (org.mzgram.MZGramConfig.hasProxyDisableConditions()) {
                             org.mzgram.core.utils.ProxyUtil.registerNetworkCallback();

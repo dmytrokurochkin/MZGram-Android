@@ -16,34 +16,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import de.robv.android.xposed.XC_MethodHook;
 
-/**
- * Java-фильтр срабатывания хука. Парсится один раз при регистрации из filtersJson
- * ({"before":[&lt;filter&gt;...], "after":[&lt;filter&gt;...]}), вычисляется на каждый
- * вызов ДО входа в Python. Фильтры внутри списка AND-ятся; type="or" — любой подфильтр.
- *
- * Семантика типов — как в MZGram: result_* в before-фазе не проходят,
- * аргумент вне диапазона индексов проваливает любой argument_*-фильтр, ошибка
- * вычисления (в т.ч. MVEL) — fail closed (фильтр не пройден) + FileLog.
- */
 final class HookFilter {
 
     static {
         OptimizerFactory.setDefaultOptimizer(OptimizerFactory.SAFE_REFLECTIVE);
     }
 
-    /** Маркер «класс не найден» для кэша (ConcurrentHashMap не хранит null). */
     private static final class Unresolvable {
     }
 
-    /** fqcn -> Class (или Unresolvable.class). */
     private static final ConcurrentHashMap<String, Class<?>> CLASS_CACHE = new ConcurrentHashMap<>();
-    /** MVEL-выражение -> скомпилированная форма (CompiledExpression потокобезопасен). */
     private static final ConcurrentHashMap<String, Serializable> MVEL_CACHE = new ConcurrentHashMap<>();
 
-    /** Аргумент с запрошенным индексом отсутствует — отличается от null-аргумента. */
     private static final Object MISSING = new Object();
 
-    /** Распарсенные фильтры обеих фаз. */
     static final class Parsed {
         final List<HookFilter> before;
         final List<HookFilter> after;
@@ -56,19 +42,17 @@ final class HookFilter {
 
     private String type = "";
     private Integer index;
-    private Object value;                    // "value": JSON-литерал -> Java-объект
-    private String className;                // "class" для *_is_instance_of
-    private String expr;                     // "expression" (или "expr") для condition (MVEL)
-    private Map<String, Object> objectVars;  // "object" -> переменные для MVEL
-    private List<HookFilter> orFilters;      // "filters" для or
-    private boolean valid = true;            // false — фильтр заведомо сломан, никогда не проходит
+    private Object value;
+    private String className;
+    private String expr;
+    private Map<String, Object> objectVars;
+    private List<HookFilter> orFilters;
+    private boolean valid = true;
 
     private HookFilter() {
     }
 
-    // ---------- парсинг (один раз при регистрации хука) ----------
 
-    /** Никогда не бросает: битый JSON -> пустые списки + FileLog. */
     static Parsed parse(String filtersJson) {
         List<HookFilter> before = new ArrayList<>();
         List<HookFilter> after = new ArrayList<>();
@@ -136,7 +120,7 @@ final class HookFilter {
                 f.valid = false;
             } else {
                 try {
-                    compiled(f.expr); // компилируем сразу — синтаксические ошибки видны при регистрации
+                    compiled(f.expr);
                 } catch (Throwable t) {
                     FileLog.e("HookFilter: bad MVEL expression: " + f.expr, t);
                     f.valid = false;
@@ -171,9 +155,7 @@ final class HookFilter {
         }
     }
 
-    // ---------- вычисление (на каждый вызов захуканного метода) ----------
 
-    /** AND по списку; пустой список — проходит. Ошибка одного фильтра — fail closed. */
     static boolean evaluateAll(List<HookFilter> filters, XC_MethodHook.MethodHookParam param,
                                boolean afterPhase) {
         if (filters == null || filters.isEmpty()) {
@@ -243,7 +225,6 @@ final class HookFilter {
             case "result_equal":
             case "result_not_equal":
             case "result_is_instance_of":
-                // result_* — только after-фаза (как в MZGram)
                 return afterPhase && evalResult(param);
             default:
                 return false;
@@ -291,7 +272,6 @@ final class HookFilter {
             vars.put("thisObject", param.thisObject);
             vars.put("args", param.args);
             vars.put("result", afterPhase ? param.getResult() : null);
-            // thisObject — ещё и MVEL-контекст: поля объекта доступны по имени (как в MZGram).
             return truthy(MVEL.executeExpression(compiled(expr), param.thisObject, vars));
         } finally {
             vars.clear();
@@ -315,7 +295,6 @@ final class HookFilter {
         return cls != null && cls.isInstance(obj);
     }
 
-    // ---------- утилиты ----------
 
     private static Serializable compiled(String expression) {
         Serializable s = MVEL_CACHE.get(expression);
@@ -340,10 +319,6 @@ final class HookFilter {
         return !s.isEmpty() && !"false".equalsIgnoreCase(s) && !"0".equals(s);
     }
 
-    /**
-     * Ленивое сравнение JSON-литерала с рантайм-значением: equals, числа сравниваются
-     * кросс-типово (int/long/double), String с Number/Boolean — через String.valueOf.
-     */
     private static boolean valuesEqual(Object a, Object b) {
         if (a == b) {
             return true;

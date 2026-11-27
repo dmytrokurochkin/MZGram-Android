@@ -28,7 +28,6 @@ import org.mzgram.pillstack.PillType;
 import org.mzgram.core.CoreConfig;
 import org.mzgram.core.settings.GhostModeActivity;
 
-/** Режим призрака: нажатие переключает, долгое — открывает его экран. */
 @SuppressLint("ViewConstructor")
 public class GhostPill extends BasePill implements NotificationCenter.NotificationCenterDelegate {
 

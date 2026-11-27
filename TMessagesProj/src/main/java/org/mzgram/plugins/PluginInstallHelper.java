@@ -29,19 +29,8 @@ import org.mzgram.plugins.ui.PluginInstallBottomSheet;
 import org.mzgram.plugins.ui.PluginPermissionsActivity;
 import java.util.Map;
 
-/**
- * Установка плагина из файла, открытого снаружи: тап по .plugin в чате, файловый
- * менеджер, «Поделиться».
- *
- * Раньше такого пути не было вовсе — система показывала обычный выбор
- * приложения, и поставить плагин было неоткуда, кроме как через
- * «Установить из файла» в настройках. MZGram объявляет intent-filter на
- * {@code .plugin} и разбирает интент в IntentsController; здесь то же самое,
- * только точка входа — {@code LaunchActivity.handleIntent}.
- */
 public final class PluginInstallHelper {
 
-    /** Расширения, которые движок умеет ставить. */
     private static final String[] EXTENSIONS = {
             PluginsConstants.PLUGIN_EXT,       // .plugin
             PluginsConstants.PLUGIN_EXT_MZPACK,  // .mzpack
@@ -51,7 +40,6 @@ public final class PluginInstallHelper {
     private PluginInstallHelper() {
     }
 
-    /** Расширение файла из ссылки: сперва имя из ContentResolver, потом сам путь. */
     private static String extensionOf(Context context, Uri uri) {
         String name = null;
         try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
@@ -62,7 +50,6 @@ public final class PluginInstallHelper {
                 }
             }
         } catch (Throwable ignored) {
-            // content://-провайдер может не отдавать метаданные — упадём на путь.
         }
         if (TextUtils.isEmpty(name)) {
             name = uri.getLastPathSegment();
@@ -83,24 +70,10 @@ public final class PluginInstallHelper {
         return null;
     }
 
-    /** Похоже ли содержимое ссылки на файл плагина. */
     public static boolean isPluginUri(Context context, Uri uri) {
         return context != null && uri != null && extensionOf(context, uri) != null;
     }
 
-    /**
-     * Тап по документу в чате или в общих файлах.
-     *
-     * Обязан вызываться ДО встроенного просмотрщика: в этом форке
-     * {@code MarkdownUtils} регистрирует {@code .plugin} как исходник Python
-     * ({@code addLanguage("python", "py", "pyw", "plugin")}), поэтому файл
-     * плагина открывался в подсветке кода, и установить его было неоткуда.
-     * У MZGram порядок такой же — {@code isPlugin} проверяется раньше
-     * {@code canPreviewDocument} и {@code MarkdownParser.isMarkdown}
-     * (SharedMediaLayout.java:7999).
-     *
-     * @return true, если сообщение содержит плагин и показан диалог установки.
-     */
     public static boolean handleMessageTap(Activity activity, MessageObject message) {
         if (activity == null || message == null || pluginExtension(message.getDocumentName()) == null) {
             return false;
@@ -159,11 +132,6 @@ public final class PluginInstallHelper {
         return false;
     }
 
-    /**
-     * Обработать открытие файла плагина.
-     *
-     * @return true, если ссылка вела на плагин и обработка взята на себя.
-     */
     public static boolean handleViewIntent(Activity activity, Uri uri) {
         if (activity == null || uri == null) {
             return false;
@@ -185,9 +153,6 @@ public final class PluginInstallHelper {
 
     private static File copyToCache(Activity activity, Uri uri, String ext) {
         File target = new File(activity.getCacheDir(), "plugin_incoming" + ext);
-        // file:// ContentResolver не открывает — интент из файлового менеджера
-        // приходил именно так и упирался в «не удалось прочитать файл».
-        // Такой путь читаем напрямую, если он доступен процессу.
         if ("file".equals(uri.getScheme()) && uri.getPath() != null) {
             File direct = new File(uri.getPath());
             if (direct.canRead()) {
@@ -222,22 +187,6 @@ public final class PluginInstallHelper {
         }
     }
 
-    /**
-     * Спросить подтверждение, показав то, что удалось прочитать из метаданных
-     * (имя, версия, автор) и что плагин просит уметь. Метаданные читаются
-     * AST-разбором, без выполнения кода плагина, — до подтверждения ничего
-     * чужого не запускается.
-     *
-     * Нажатие «Установить» и есть согласие на перечисленное: оно пишется
-     * в prefs (PluginPermissions.setGranted) прежде установки. Отказ —
-     * установки нет, ничего не записывается.
-     */
-    /**
-     * Показать согласие и установить. Публичный, потому что через него обязаны
-     * идти ВСЕ пути установки: тап по файлу в чате, внешний интент и выбор
-     * файла на экране плагинов. Установка мимо этого метода означала бы выдачу
-     * разрешений без ведома пользователя.
-     */
     public static void confirmAndInstall(Activity activity, File file) {
         confirmAndInstall(activity, new org.mzgram.sdk.plugins.ui.components
                 .InstallPluginBottomSheet.PluginInstallParams(file.getAbsolutePath(), false));
@@ -252,8 +201,6 @@ public final class PluginInstallHelper {
         }
         PluginsController controller = PluginsController.getInstance();
         if (!controller.isEngineEnabled()) {
-            // Не отказываем молча: движок выключен по умолчанию, и пользователю
-            // иначе неоткуда узнать, где его включить.
             new AlertDialog.Builder(activity)
                     .setTitle(LocaleController.getString(R.string.PluginsInstallTitle))
                     .setMessage(LocaleController.getString(R.string.PluginsEngineDisabledHint))
@@ -267,7 +214,6 @@ public final class PluginInstallHelper {
             return;
         }
         controller.readMetadataAsync(file, plugin -> {
-            // Разбор исходника — на фоновом потоке: это чтение файла и AST.
             final Map<String, List<String>> capabilities = PluginCapabilityScan.scan(file);
             final Map<String, List<String>> offered = offeredPermissions(plugin, capabilities);
             AndroidUtilities.runOnUIThread(() -> {
@@ -279,14 +225,6 @@ public final class PluginInstallHelper {
         });
     }
 
-    /**
-     * Что показать галочками.
-     *
-     * Обычный плагин спрашивает по уликам разбора. У обфусцированного улик нет
-     * по построению — имена переписаны, ни один маркер не совпадает, — и
-     * короткий список читался бы как «плагин почти ничего не умеет». Поэтому
-     * для него перечисляем всё: разбор не смог сказать ничего, решает человек.
-     */
     private static Map<String, List<String>> offeredPermissions(
             Plugin plugin, Map<String, List<String>> capabilities) {
         final boolean obfuscated = PluginCapabilityScan.isObfuscated(capabilities);
@@ -326,17 +264,6 @@ public final class PluginInstallHelper {
         return offered;
     }
 
-    /**
-     * Лист установки: карточка плагина и галочки найденного.
-     *
-     * Разбор перечисляет не `__permissions__` (их объявляет меньшинство из 512
-     * плагинов двух каталогов), а то, что нашлось в исходнике; каждая находка —
-     * галочка, и у каждой раскрывашка с именами, по которым она нашлась.
-     *
-     * Галочки по умолчанию сняты. Плагин ставится ровно с тем, что отметили:
-     * ничего не отметили — уровень «Изоляция», отметили что-то — «Ограниченный»,
-     * отметили переписывание кода — «Доверенный».
-     */
     private static void showConsentSheet(Activity activity, File file,
                                          org.mzgram.sdk.plugins.ui.components
                                                  .InstallPluginBottomSheet.PluginInstallParams params,
@@ -347,22 +274,12 @@ public final class PluginInstallHelper {
                 (granted, enableAfterInstall) -> {
                     grantOnConsent(plugin, granted);
                     if (plugin != null && plugin.id != null) {
-                        // Разбор нужен и потом — на экране разрешений, где
-                        // спрашивают «почему приложение решило, что плагину
-                        // нужна сеть». Перечитывать файл ради этого нельзя.
                         PluginCapabilityScan.store(plugin.id, capabilities);
                     }
                     install(activity, file, plugin != null ? plugin.id : null, enableAfterInstall);
                 }).show();
     }
 
-    /**
-     * Зафиксировать выбор пользователя: отмеченные разрешения и уровень под них.
-     *
-     * Запись делается всегда, даже пустая: именно её наличие отличает плагин,
-     * поставленный при модели разрешений, от старого, которому иначе достался
-     * бы режим совместимости со всеми правами сразу.
-     */
     private static void grantOnConsent(Plugin plugin, List<String> granted) {
         if (plugin == null || TextUtils.isEmpty(plugin.id)) {
             return;
@@ -373,7 +290,6 @@ public final class PluginInstallHelper {
             level = PluginTrustLevel.ISOLATED;
         } else if (granted.contains(PluginPermissions.HOOKS)
                 || granted.contains(PluginPermissions.NATIVE)) {
-            // Хуки живут только на доверенном уровне: там про это и сказано.
             level = PluginTrustLevel.TRUSTED;
         } else {
             level = PluginTrustLevel.GATED;
@@ -381,11 +297,6 @@ public final class PluginInstallHelper {
         PluginTrustLevel.setLevel(plugin.id, level);
     }
 
-    /**
-     * @param enableAfterInstall галочка «включить после установки» из листа:
-     *                           плагин без включения молчит, и без неё после
-     *                           установки надо идти его искать и включать.
-     */
     private static void install(Activity activity, File file, String consentedId,
                                 boolean enableAfterInstall) {
         AlertDialog progress = new AlertDialog(activity, AlertDialog.ALERT_TYPE_SPINNER);
@@ -415,9 +326,6 @@ public final class PluginInstallHelper {
                                     plugin == null ? null : plugin.loadDebug);
                             return;
                         }
-                        // Установка сорвалась — согласие, записанное авансом, ни к чему
-                        // не относится. Стираем, но только если плагина и правда нет:
-                        // при перезаписи существующего файл мог уже подмениться.
                         if (consentedId != null
                                 && PluginsController.getInstance().getPlugin(consentedId) == null) {
                             PluginPermissions.clear(consentedId);
@@ -433,18 +341,6 @@ public final class PluginInstallHelper {
                 }));
     }
 
-    /**
-     * Ошибка установки человеческим языком.
-     *
-     * Плагин, которому не хватило разрешения, падал с текстом вида
-     * «PermissionError: plugin 'quotecreate' is not allowed to modify files
-     * (/storage/.../cache/quotecreate): missing the 'files' permission» — это
-     * сообщение для разработчика, а не для того, кто ставит плагин. Разбираем
-     * его обратно в понятное: чего не хватило и что с этим делать.
-     *
-     * Остальные ошибки оставляем как есть: там текст обычно и есть суть
-     * (битый архив, нет метаданных), а прятать её было бы хуже.
-     */
     private static boolean isPermissionDenial(CharSequence error) {
         if (error == null) {
             return false;
@@ -475,10 +371,6 @@ public final class PluginInstallHelper {
                 PluginPermissionsActivity.titleOf(permission));
     }
 
-    /**
-     * Итог установки — плашкой, а не диалогом: лист уже закрылся, и ещё одно
-     * окно поверх списка человек закрывает не читая.
-     */
     private static void showInstalled(Plugin plugin, boolean update) {
         org.telegram.ui.ActionBar.BaseFragment fragment =
                 org.telegram.ui.LaunchActivity.getSafeLastFragment();
@@ -496,13 +388,6 @@ public final class PluginInstallHelper {
         showError(activity, message, null);
     }
 
-    /**
-     * Ошибка установки с кнопкой «копировать».
-     *
-     * Текст в диалоге короткий и для человека, а разбираться с плагином будет
-     * его автор в другом чате — ему нужен traceback и версии. Поэтому полный
-     * отчёт не показывается, а кладётся в буфер по кнопке.
-     */
     private static void showError(Activity activity, CharSequence message, String debug) {
         if (activity == null || activity.isFinishing()) {
             return;

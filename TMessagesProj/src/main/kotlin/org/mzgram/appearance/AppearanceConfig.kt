@@ -11,19 +11,6 @@ import org.mzgram.core.CoreXConfig
 import org.mzgram.core.config.ConfigItem
 import org.mzgram.ext.ExtConfig
 
-/**
- * Настройки экрана «Appearance», перенесённые из MZGram.
- *
- * Здесь живут ТОЛЬКО те настройки, аналогов которых нет в MZGram
- * ([org.mzgram.ext.ExtConfig] / [org.mzgram.core.CoreConfig]).
- * Всё остальное экран берёт из существующих конфигов, чтобы не плодить дубли.
- *
- * Схема повторяет [org.mzgram.MZGramConfig]: те же SharedPreferences, тот же [ConfigItem],
- * собственный список. Ключи с префиксом MZAppearance.
- *
- * Загрузка ленивая: [ensureLoaded] вызывается из геттеров, потому что ApplicationLoader
- * трогать нельзя. После первой загрузки проверка стоит один volatile-read.
- */
 object AppearanceConfig {
 
     private val sync = Any()
@@ -35,57 +22,37 @@ object AppearanceConfig {
     @Volatile
     private var configLoaded = false
 
-    /** Максимум слайдера закругления аватарок: радиус = половина стороны, то есть круг. */
     const val AVATAR_CORNERS_MAX = 28
 
-    /** Темы Monet на ролях Telemone — то, чем набор стал 19.08.2026. */
     const val MONET_STYLE_TELEMONE = 0
 
-    /** Прежний набор Monet, пришедший вместе с базой форка (токены вида `a1_100`). */
     const val MONET_STYLE_CLASSIC = 1
 
     @JvmStatic
     fun getPreferences(): SharedPreferences = CoreConfig.getPreferences()
 
-    // ---- Аватары ----
 
-    /** Закругление аватарок: 0 — квадрат, [AVATAR_CORNERS_MAX] — круг. */
     @JvmField
     val avatarCorners =
         addConfig("MZAppearanceAvatarCorners", ConfigItem.configTypeInt, AVATAR_CORNERS_MAX)
 
-    /** Единое закругление: форумы получают ту же форму аватарки, что и обычные чаты. */
     @JvmField
     val singleCornerRadius =
         addConfig("MZAppearanceSingleCornerRadius", ConfigItem.configTypeBool, false)
 
-    // ---- Список чатов ----
 
-    /** Мини-аватарки отправителей в списке чатов. */
     @JvmField
     val senderMiniAvatars =
         addConfig("MZAppearanceSenderMiniAvatars", ConfigItem.configTypeBool, true)
 
-    /** Прятать эмодзи-статус рядом с заголовком шапки. Дефолт false, как в MZGram. */
     @JvmField
     val hideActionBarStatus =
         addConfig("MZAppearanceHideActionBarStatus", ConfigItem.configTypeBool, false)
 
-    /**
-     * Текст заголовка списка чатов: 0 — имя приложения, 1 — username, 2 — имя,
-     * 3 — «Чаты». Только UI.
-     */
     @JvmField
     val titleText =
         addConfig("MZAppearanceTitleText", ConfigItem.configTypeInt, 0)
 
-    /**
-     * Какой набор темы Monet берут «Monet Light/Dark/AMOLED».
-     *
-     * Наборы отличаются словарём токенов, а не механикой: [MONET_STYLE_TELEMONE] собран
-     * из ролей Material 3, [MONET_STYLE_CLASSIC] — из тональных палитр базы форка. На части
-     * прошивок роли M3 система отдаёт со своими поправками, и второй набор выглядит ровнее.
-     */
     @JvmField
     val monetStyle =
         addConfig("MZAppearanceMonetStyle", ConfigItem.configTypeInt, MONET_STYLE_TELEMONE)
@@ -98,20 +65,13 @@ object AppearanceConfig {
     @JvmField
     val monetSeed = addConfig("MZMonetSeed", ConfigItem.configTypeInt, 0)
 
-    /** Суффикс файла темы для выбранного набора: пустой для Telemone. */
     @JvmStatic
     fun monetAssetSuffix(): String = when (monetStyle.Int()) {
         MONET_STYLE_CLASSIC -> "_gram"
         else -> ""
     }
 
-    // ---- Только UI: аналогов в MZGram нет, визуальный эффект пока не подключён ----
 
-    /**
-     * Квадратная («squircle») плавающая кнопка вместо круглой. Дефолт true, как в MZGram —
-     * одно из самых заметных отличий экстеры из коробки.
-     * Радиус считается как ceil(size * 16 / 56) dp, то есть 16 dp при кнопке 56 dp.
-     */
     @JvmField
     val squareFab = addConfig("MZAppearanceSquareFab", ConfigItem.configTypeBool, true)
 
@@ -121,12 +81,10 @@ object AppearanceConfig {
         return squareFab.Bool()
     }
 
-    /** Радиус скругления кнопки со стороной [size] dp. */
     @JvmStatic
     fun fabCornerRadius(size: Int): Int =
         if (squareFab()) Math.ceil((size * 16) / 56.0).toInt() else size / 2
 
-    /** Заголовок ActionBar по центру. Дефолт false, как в MZGram (BooleanPref(0)). */
     private val centerTitle = addConfig("MZAppearanceCenterTitle", ConfigItem.configTypeBool, false)
 
     @JvmStatic
@@ -141,7 +99,6 @@ object AppearanceConfig {
         ExtConfig.centerActionBarTitleType.setConfigInt(if (value) 1 else 0)
     }
 
-    /** «Gooey»-анимация аватарки при оттягивании шапки профиля. Дефолт true, как в MZGram. */
     @JvmField
     val gooeyAvatarAnimation =
         addConfig("MZAppearanceGooeyAvatarAnimation", ConfigItem.configTypeBool, true)
@@ -152,17 +109,6 @@ object AppearanceConfig {
         return gooeyAvatarAnimation.Bool()
     }
 
-    /**
-     * Индивидуальные темы и обои в чатах.
-     *
-     * Выключено — приложение не применяет тему и обои, выставленные для
-     * конкретного диалога, и везде остаётся общая тема. MZGram гейтит этим
-     * ключом две точки: ChatActivity.setupChatTheme (12.9.0:12501) и
-     * ChatThemeController.getDialogWallpaper (12.9.0:950).
-     *
-     * По умолчанию включено — как в MZGram: иначе обновление приложения
-     * молча погасило бы у всех уже настроенные темы чатов.
-     */
     @JvmField
     val customThemes =
         addConfig("MZAppearanceCustomThemes", ConfigItem.configTypeBool, true)
@@ -173,22 +119,18 @@ object AppearanceConfig {
         return customThemes.Bool()
     }
 
-    /** Радиус карточек-секций, dp. Применяется ко всем спискам через RecyclerListView.setSections(). */
     @JvmField
     val sectionRadius =
         addConfig("MZAppearanceSectionRadius", ConfigItem.configTypeInt, 20)
 
-    /** Отдельные заголовки секций. Только UI. */
     @JvmField
     val separateHeaders =
         addConfig("MZAppearanceSeparateHeaders", ConfigItem.configTypeBool, true)
 
-    /** Стиль разделителя: 0 — скрыт, 1 — линия, 2 — сегменты. 0/1 привязаны к ExtConfig.hideDividers, 2 — только UI. */
     @JvmField
     val dividerStyle =
         addConfig("MZAppearanceDividerStyle", ConfigItem.configTypeInt, 1)
 
-    /** Стиль стеклянного контура: 0 — блик, 1 — сплошной, 2 — скрыт. Только UI. */
     @JvmField
     val glassOutlineStyle =
         addConfig(object : ConfigItem("MZAppearanceGlassOutlineStyle", ConfigItem.configTypeInt, 0) {
@@ -199,7 +141,6 @@ object AppearanceConfig {
             }
         })
 
-    /** Стеклянное меню сообщения. Дефолт true, как в MZGram (BooleanPref(1)). */
     @JvmField
     val glassMessageMenu =
         addConfig("MZAppearanceGlassMessageMenu", ConfigItem.configTypeBool, true)
@@ -216,10 +157,7 @@ object AppearanceConfig {
         return glassOutlineStyle.Int()
     }
 
-    // ---- Material Design 3 ----
-    // switchStyle и sliderStyle уже есть у MZGram (ExtConfig, дефолт 2 = MD3) — не дублируем.
 
-    /** M3-индикаторы загрузки. Дефолт true, как в MZGram. */
     @JvmField
     val newLoadingStyle =
         addConfig("MZAppearanceNewLoadingStyle", ConfigItem.configTypeBool, true)
@@ -498,7 +436,6 @@ object AppearanceConfig {
         )
     }
 
-    /** Широкая нижняя панель как в Telegram iOS. Уступает M3-панели, если включены обе. */
     @JvmField
     val iosNavigationBarStyle =
         addConfig("MZAppearanceIosNavigationBarStyle", ConfigItem.configTypeBool, false)
@@ -529,19 +466,15 @@ object AppearanceConfig {
         return iosChatHeader.Bool()
     }
 
-    // ---- AI-функции Telegram ----
 
-    /** Прячет кнопку AI-редактора в поле ввода, вложениях и подписи к медиа. */
     @JvmField
     val hideAiEditor =
         addConfig("MZAppearanceHideAiEditor", ConfigItem.configTypeBool, false)
 
-    /** Прячет кнопку «саммари» на сообщении. */
     @JvmField
     val hideMessageSummary =
         addConfig("MZAppearanceHideMessageSummary", ConfigItem.configTypeBool, false)
 
-    /** Прячет блок «Cocoon AI Summary» в Instant View. */
     @JvmField
     val hideIvSummary =
         addConfig("MZAppearanceHideIvSummary", ConfigItem.configTypeBool, false)
@@ -564,29 +497,20 @@ object AppearanceConfig {
         return hideIvSummary.Bool()
     }
 
-    // ---- Боковое меню ----
 
-    /** Своя шторка бокового меню вместо стоковой. Дефолт false, как в MZGram. */
     @JvmField
     val navigationDrawer =
         addConfig("MZAppearanceNavigationDrawer", ConfigItem.configTypeBool, false)
 
-    /** Иммерсивная анимация открытия шторки. Дефолт false, как в MZGram. */
     @JvmField
     val immersiveDrawerAnimation =
         addConfig("MZAppearanceImmersiveDrawer", ConfigItem.configTypeBool, false)
 
-    /** Порядок и видимость пунктов бокового меню, сериализованный список id. */
     @JvmField
     val mainMenuLayout =
         addConfig("MZAppearanceMainMenuLayout", ConfigItem.configTypeString, "")
 
-    // ---- Лента ----
 
-    /**
-     * Показывать ленту нижней вкладкой — на месте вкладки «Контакты».
-     * Дефолт false, как в MZGram (BooleanPref(0)).
-     */
     @JvmField
     val showFeedTab = addConfig("MZAppearanceShowFeedTab", ConfigItem.configTypeBool, false)
 
@@ -596,7 +520,6 @@ object AppearanceConfig {
         return showFeedTab.Bool()
     }
 
-    /** Счётчик непрочитанных постов на вкладке ленты. */
     @JvmField
     val showFeedUnreadCounter =
         addConfig("MZAppearanceFeedUnreadCounter", ConfigItem.configTypeBool, true)
@@ -619,7 +542,6 @@ object AppearanceConfig {
         return immersiveDrawerAnimation.Bool()
     }
 
-    // ---- Геттеры для Java (в том числе для горячих мест отрисовки) ----
 
     @JvmStatic
     fun avatarCorners(): Int {
@@ -639,7 +561,6 @@ object AppearanceConfig {
         return senderMiniAvatars.Bool()
     }
 
-    /** Текст заголовка списка чатов: 0 — имя приложения, 1 — username, 2 — имя, 3 — «Чаты». */
     @JvmStatic
     fun titleText(): Int {
         ensureLoaded()
@@ -659,60 +580,36 @@ object AppearanceConfig {
     @JvmStatic
     fun folderNameAsTitle(): Boolean = CoreConfig.tabsTitleType.Int() == CoreXConfig.TITLE_TYPE_ICON
 
-    /** Прятать ли эмодзи-статус в шапке списка чатов. */
     @JvmStatic
     fun hideActionBarStatus(): Boolean {
         ensureLoaded()
         return hideActionBarStatus.Bool()
     }
 
-    /** true, если аватарки должны остаться обычными кругами — быстрый выход из хот-пути. */
     @JvmStatic
     fun avatarCornersDefault(): Boolean = avatarCorners() >= AVATAR_CORNERS_MAX
 
-    /**
-     * Квадратность аватарки: 0 — круг, 1 — квадрат.
-     *
-     * Обратная величина к [avatarCorners] и ровно то, что MZGram зовёт
-     * `getAvatarSquareness()`. Нужна там, где геометрия зависит от формы —
-     * например, онлайн-точку на квадратной аватарке надо уводить в угол,
-     * иначе она наползает на картинку.
-     */
     @JvmStatic
     fun avatarSquareness(): Float =
         1f - (avatarCorners().coerceIn(0, AVATAR_CORNERS_MAX).toFloat() / AVATAR_CORNERS_MAX)
 
-    /**
-     * Смещение онлайн-точки от края аватарки.
-     * У круга — заданное значение, у квадрата — по диагонали от угла.
-     */
     @JvmStatic
     fun onlineDotOffset(base: Float, radius: Float): Float =
         base + ((radius / Math.sqrt(2.0)).toFloat() - base) * avatarSquareness()
 
-    // ---- Секции настроек ----
 
-    /** Радиус скругления карточек-секций, dp. 0 — острые углы (как сток). */
     @JvmStatic
     fun sectionRadius(): Int {
         ensureLoaded()
         return sectionRadius.Int()
     }
 
-    /** Отдельные заголовки секций (заголовок — своя карточка). */
     @JvmStatic
     fun separateHeaders(): Boolean {
         ensureLoaded()
         return separateHeaders.Bool()
     }
 
-    /**
-     * Выносить ли заголовки секций из карточки — с учётом стиля разделителя.
-     *
-     * В режиме «Сегменты» каждая строка сама по себе карточка, и заголовок
-     * внутри неё выглядел бы чужеродно, поэтому MZGram включает вынос
-     * принудительно (MZConfig.getSectionsSeparatedHeaders: SEGMENTS || pref).
-     */
     @JvmStatic
     fun sectionsSeparatedHeaders(): Boolean {
         return separateHeaders() || dividerStyle() == DIVIDER_SEGMENTS || m3ListItems()
@@ -723,7 +620,6 @@ object AppearanceConfig {
         return dividerStyle() == DIVIDER_SEGMENTS || m3ListItems()
     }
 
-    /** Стиль разделителя внутри карточки: 0 — скрыт, 1 — линия, 2 — сегменты. */
     @JvmStatic
     fun dividerStyle(): Int {
         ensureLoaded()
@@ -734,19 +630,9 @@ object AppearanceConfig {
     const val DIVIDER_LINE = 1
     const val DIVIDER_SEGMENTS = 2
 
-    /**
-     * Кэш для [dividerHidden]. `Theme.getColor` — самый горячий путь отрисовки,
-     * ходить туда через [ensureLoaded] на каждый вызов нельзя.
-     * Обновляется из [invalidateDividerStyle] при смене настройки.
-     */
     @Volatile
     private var dividerHiddenCache: Boolean? = null
 
-    /**
-     * Гасить ли `key_divider` целиком. У MZGram прозрачный цвет отдаётся во всех режимах,
-     * кроме [DIVIDER_LINE] — поэтому стоковые `drawLine(..., Theme.dividerPaint)`
-     * перестают рисовать без правки самих ячеек
-     */
     @JvmStatic
     fun dividerHidden(): Boolean {
         val cached = dividerHiddenCache
@@ -760,16 +646,11 @@ object AppearanceConfig {
         return value
     }
 
-    /** Звать при смене стиля разделителя. */
     @JvmStatic
     fun invalidateDividerStyle() {
         dividerHiddenCache = null
     }
 
-    /**
-     * Радиус закругления для аватарки со стороной [size] пикселей.
-     * При максимуме слайдера возвращает size / 2, то есть круг.
-     */
     @JvmStatic
     @JvmOverloads
     fun getAvatarCorners(size: Float, cornerType: Int = CORNER_TYPE_DEFAULT, hasStories: Boolean = false): Int {
@@ -938,7 +819,6 @@ object AppearanceConfig {
         preferences.edit().putBoolean(TITLE_TEXT_MIGRATED, true).apply()
     }
 
-    /** Сбрасывает настройки экрана Appearance к значениям по умолчанию. */
     @JvmStatic
     fun reset() {
         synchronized(sync) {

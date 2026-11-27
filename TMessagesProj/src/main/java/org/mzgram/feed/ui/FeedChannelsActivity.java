@@ -30,18 +30,6 @@ import org.mzgram.appearance.AppearanceConfig;
 import org.mzgram.feed.FeedConfig;
 import org.mzgram.feed.FeedController;
 
-/**
- * Экран настроек ленты: общие переключатели и состав каналов.
- *
- * Порт {@code org/mzgram/sdk/feed/ui/FeedChannelsActivity.java}. Сверху секция
- * General — «показывать ленту в нижних вкладках» и «включать каналы из архива», ниже два
- * списка с чекбоксами: показанные каналы и скрытые. В шапке поиск по названию и меню
- * «выбрать все» / «снять все».
- *
- * У эталона экран наследует BasePreferencesActivity; у нас такого базового класса нет,
- * поэтому список на UniversalRecyclerView собирается здесь же, а публичные методы
- * (fillItems, onClick, getTitle) оставлены с эталонными сигнатурами.
- */
 public class FeedChannelsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private static final int MENU_SEARCH = 0;
@@ -317,9 +305,6 @@ public class FeedChannelsActivity extends BaseFragment implements NotificationCe
         } else if (item.id == ID_UNREAD_COUNTER) {
             AppearanceConfig.showFeedUnreadCounter.toggleConfigBool();
             update();
-            // Своего события для счётчика нет, а перестроение вкладок заодно
-            // пересчитывает бейджи — берём его вместо новой константы в общем
-            // NotificationCenter.
             NotificationCenter.getInstance(currentAccount)
                     .postNotificationName(NotificationCenter.feedTabVisibleToggled);
         } else if (item.id == ID_ADD_NEW_CHANNELS) {
@@ -338,10 +323,6 @@ public class FeedChannelsActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /**
-     * Ставит галочку сразу на самой ячейке, а потом пересобирает список: без этого
-     * канал переезжает между секциями «показанные» и «скрытые» без анимации чекбокса.
-     */
     private void setCheckedAndRefresh(UItem item, boolean checked) {
         item.setChecked(checked);
         View cell = listView == null ? null : listView.findViewByItemId(item.id);

@@ -21,17 +21,9 @@ import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 
-/**
- * Выбор формы плавающей кнопки: две карточки-превью, круг и «squircle».
- * Порт {@code org.mzgram.sdk.preferences.appearance.components.FabShapeCell} (12.9.0).
- *
- * Значение живёт в {@link AppearanceConfig#squareFab} и реально применяется:
- * FragmentFloatingButton:74 берёт из него форму и радиус.
- */
 @SuppressLint("ViewConstructor")
 public class FabShapeCell extends LinearLayout {
 
-    /** Одна карточка: макет списка чатов с кнопкой нужной формы в правом нижнем углу. */
     private static class FabShape extends FrameLayout {
 
         private final PreviewBackgroundDrawable backgroundDrawable = new PreviewBackgroundDrawable(12f);
@@ -125,10 +117,6 @@ public class FabShapeCell extends LinearLayout {
         this(context, null);
     }
 
-    /**
-     * @param onChanged зовётся после сохранения настройки — экрану обычно нужно
-     *                  пересобрать фрагменты, чтобы кнопка сменила форму сразу
-     */
     public FabShapeCell(Context context, Runnable onChanged) {
         super(context);
         this.onChanged = onChanged;
@@ -166,7 +154,6 @@ public class FabShapeCell extends LinearLayout {
         }
     }
 
-    /** Перечитать настройку, если её поменяли снаружи (например сбросом настроек). */
     public void updateSelection(boolean animated) {
         for (int a = 0; a < 2; a++) {
             fabShape[a].setSelected((a == 1) == AppearanceConfig.squareFab(), animated);

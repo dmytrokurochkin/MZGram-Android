@@ -6,12 +6,6 @@ import org.telegram.tgnet.TLRPC;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Сопоставление сообщений ленты с оригиналами в каналах. В синтетическом чате идентификаторы
- * должны быть уникальными, поэтому каждому сообщению выдаётся свой сгенерированный id, а исходная
- * пара (диалог, id) запоминается для обратного разрешения. Здесь же выбирается «главное»
- * сообщение альбома, по которому рисуется группа.
- */
 final class FeedMessageIdentityMap {
 
     private static final int FIRST_GENERATED_ID = Integer.MAX_VALUE - 10;
@@ -108,10 +102,6 @@ final class FeedMessageIdentityMap {
         lastGeneratedId = FIRST_GENERATED_ID;
     }
 
-    /**
-     * Поиск сообщения по идентификатору любой природы: сначала как по настоящему id канала,
-     * затем — как по сгенерированному для ленты.
-     */
     public MessageObject getByAnyId(long dialogId, int id) {
         MessageObject byRealId = messagesByRealId.get(new MessageCompositeID(dialogId, id));
         if (byRealId != null) {
@@ -145,10 +135,6 @@ final class FeedMessageIdentityMap {
         }
     }
 
-    /**
-     * Регистрирует сообщение в ленте: выдаёт ему сгенерированный id, сохраняя настоящий в realId.
-     * Возвращает true, если сообщение попало в ленту впервые.
-     */
     public boolean register(MessageObject messageObject) {
         messageObject.reactionsLastCheckTime = Long.MAX_VALUE;
         MessageCompositeID compositeId = new MessageCompositeID(messageObject.messageOwner);
@@ -185,10 +171,6 @@ final class FeedMessageIdentityMap {
         }
     }
 
-    /**
-     * Подменяет уже зарегистрированное сообщение новым объектом, сохраняя выданный ранее id
-     * и роль главного в альбоме.
-     */
     public void replace(MessageObject messageObject) {
         messageObject.reactionsLastCheckTime = Long.MAX_VALUE;
         MessageCompositeID compositeId = new MessageCompositeID(messageObject.getDialogId(), messageObject.getRealId());

@@ -88,9 +88,6 @@ public class CoreConfig {
     public static ConfigItem ignoreBlocked = addConfig("IgnoreBlocked", configTypeBool, false);
     public static ConfigItem tabletMode = addConfig("TabletMode", configTypeInt, 0);
 
-    // Дефолт выровнен с MZGram: MZConfig.useSystemFonts = BooleanPref(true).
-    // Маппинг ассетов на системные семейства у TypefaceHelper.createTypeface практически
-    // совпадает с их FontUtils.getSystemTypeface, расходился только дефолт.
     public static ConfigItem typeface = addConfig("TypefaceUseDefault", configTypeBool, true);
     public static ConfigItem forceFontWeightFallback = addConfig("forceFontWeightFallback", configTypeBool, false);
     public static ConfigItem nameOrder = addConfig("NameOrder", configTypeInt, 1);
@@ -128,8 +125,6 @@ public class CoreConfig {
     public static ConfigItem showIdAndDc = addConfig("ShowIdAndDc", configTypeBool, true);
 
     public static ConfigItem cachePath = addConfig("cache_path", configTypeString, "");
-    // Имя форка, а не «MZGram»: значение видно в настройках («Save Path») и в пути
-    // Downloads/<папка>, куда уходят сохранённые файлы.
     public static ConfigItem customSavePath = addConfig("customSavePath", configTypeString, "MZGram");
 
     public static ConfigItem translationProvider = addConfig("translationProvider", configTypeInt, 1);
@@ -150,8 +145,6 @@ public class CoreConfig {
     public static ConfigItem mediaPreview = addConfig("MediaPreview", configTypeBool, true);
 
     public static ConfigItem disableVibration = addConfig("DisableVibration", configTypeBool, false);
-    // Дефолт выровнен с MZGram: MZConfig.pauseOnMinimizeVideo = BooleanPref(true).
-    // Механизм у MZGram рабочий, расходился только дефолт.
     public static ConfigItem autoPauseVideo = addConfig("AutoPauseVideo", configTypeBool, true);
     public static ConfigItem disableProximityEvents = addConfig("DisableProximityEvents", configTypeBool, false);
 

@@ -2327,12 +2327,6 @@ public class Theme {
     private static boolean isPatternWallpaper;
 
     public static Paint dividerPaint;
-    /**
-     * Кисть подшапочной линии. MZGram рисует ей ровно 1 px вместо градиентной тени
-     * (12.9.0: Theme.java:425, 6476-6481, ActionBarLayout.java:2603-2615).
-     * Цвет берётся из {@link #getDividerColor}, поэтому линия не гаснет в режиме «сегменты»,
-     * но исчезает вместе со всеми разделителями в режиме «скрыт».
-     */
     public static Paint forcedDividerPaint;
     public static Paint dividerExtraPaint;
     public static Paint linkSelectionPaint;
@@ -9353,10 +9347,6 @@ public class Theme {
         return getColor(key, null, true);
     }
 
-    /**
-     * Снимает подмену {@code key_divider} внутри {@link #getDividerColor}: иначе он вернул бы
-     * прозрачный сам себе.
-     */
     private static boolean resolvingDividerColor;
 
     /** Lets {@link #mzSubmenuSurface} read the theme's own menu colour without the Material adjustment. */
@@ -9432,11 +9422,6 @@ public class Theme {
         return Math.abs(Color.red(a) - Color.red(b)) + Math.abs(Color.green(a) - Color.green(b)) + Math.abs(Color.blue(a) - Color.blue(b));
     }
 
-    /**
-     * Настоящий цвет разделителя. Нужен там, где линию надо нарисовать несмотря на то,
-     * что общий {@code key_divider} погашен — сегментный режим и форсированный
-     * разделитель под ActionBar.
-     */
     public static int getDividerColor(ResourcesProvider provider) {
         if (org.mzgram.appearance.AppearanceConfig.dividerStyle()
                 == org.mzgram.appearance.AppearanceConfig.DIVIDER_HIDDEN) {
@@ -9460,8 +9445,6 @@ public class Theme {
     }
 
     public static int getColor(int key, ResourcesProvider provider) {
-        // Скрытие разделителей должно работать и при непустом ResourcesProvider
-        // (чат-темы, боттом-шиты, профиль): иначе линии остаются там, где цвет берёт провайдер.
         if (key_divider == key && !resolvingDividerColor && org.mzgram.appearance.AppearanceConfig.dividerHidden()) {
             return 0x00ffffff;
         }
@@ -9593,7 +9576,6 @@ public class Theme {
             currentColors.put(key, color);
         }
 
-        // Подшапочная кисть переезжает вслед за темой.
         if (key == key_divider && forcedDividerPaint != null) {
             forcedDividerPaint.setColor(getDividerColor(null));
         }

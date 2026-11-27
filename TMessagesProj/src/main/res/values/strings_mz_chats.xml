@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Строки экрана «Chats» раздела mzgram. -->
 <resources>
     <string name="MZChatsStickerTime">Time on Stickers</string>
     <string name="MZChatsStickerTimeSide">On the Side</string>

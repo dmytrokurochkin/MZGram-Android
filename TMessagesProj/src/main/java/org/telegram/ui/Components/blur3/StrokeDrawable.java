@@ -24,7 +24,6 @@ public class StrokeDrawable extends Drawable implements GlassOutlineStyle.Listen
 
     private BlurredBackgroundColorProvider colorProvider;
     protected int strokeColorTop, strokeColorBottom;
-    // Цвет сплошного контура (режим SOLID)
     protected int strokeColorFull;
 
     private float alpha = 1.0f;
@@ -63,7 +62,6 @@ public class StrokeDrawable extends Drawable implements GlassOutlineStyle.Listen
     // not a view: nothing dispatches updateColors() for every owner on theme switches, so draw() refreshes once per theme update
     private int themeGeneration = org.telegram.ui.ActionBar.ThemeBind.generation();
 
-    /** Как было; SOLID — сплошной контур; HIDDEN — без контура. */
     public void updateColors() {
         themeGeneration = org.telegram.ui.ActionBar.ThemeBind.generation();
         if (colorProvider == null) return;

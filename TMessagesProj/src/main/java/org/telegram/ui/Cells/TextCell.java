@@ -144,7 +144,6 @@ public class TextCell extends FrameLayout implements Theme.Colorable {
             addView(checkBox, LayoutHelper.createFrame(37, 20, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL, 22, 0, 22, 0));
         }
 
-        // капсула нового тумблера вылезает за границы Switch — иначе срезается
         setClipChildren(false);
         setFocusable(true);
     }

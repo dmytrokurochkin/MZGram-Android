@@ -241,9 +241,6 @@ public class ActionBarMenuItem extends FrameLayout {
 
     private boolean fixBackground;
     private boolean forceHidden;
-    /**
-     * Учитывать ли пункт в раскладке центрированного заголовка, пока его альфа между 0 и 1.
-     */
     private boolean centerTitleVisibleForPartialAlpha = true;
 
     public ActionBarMenuItem(Context context, ActionBarMenu menu, int backgroundColor, int iconColor) {
@@ -1479,11 +1476,6 @@ public class ActionBarMenuItem extends FrameLayout {
         return popupWindow != null && popupWindow.isShowing();
     }
 
-    /**
-     * Занимает ли пункт место при центрированном заголовке.
-     * Наполовину прозрачный пункт считается видимым, только если он проявляется,
-     * а не гаснет — иначе заголовок прыгает туда-обратно за время анимации.
-     */
     public boolean isVisibleForCenterTitle() {
         if (getVisibility() != View.VISIBLE) {
             return false;
@@ -1498,12 +1490,6 @@ public class ActionBarMenuItem extends FrameLayout {
         return centerTitleVisibleForPartialAlpha;
     }
 
-    /**
-     * Центрирование заголовка включается либо нашим ключом (порт MZGram), либо
-     * флагом MZGram, который читает ActionBar.isCentered(). Проверка нужна только чтобы
-     * не дёргать лишний requestLayout при выключенной фиче.
-     * (там ключ один — MZConfig.getCenterTitle()).
-     */
     private static boolean isCenterTitleEnabled() {
         return org.mzgram.appearance.AppearanceConfig.centerTitle()
                 || org.mzgram.ext.ExtConfig.INSTANCE.getCenterActionBarTitle().Bool();
@@ -1514,7 +1500,6 @@ public class ActionBarMenuItem extends FrameLayout {
         final boolean wasVisibleForCenterTitle = isVisibleForCenterTitle();
         final float oldAlpha = getAlpha();
         super.setAlpha(alpha);
-        // Направление изменения альфы решает, считать ли полупрозрачный пункт видимым.
         if (alpha > oldAlpha) {
             centerTitleVisibleForPartialAlpha = true;
         } else if (alpha < oldAlpha) {
@@ -1523,7 +1508,6 @@ public class ActionBarMenuItem extends FrameLayout {
         if (!isCenterTitleEnabled() || wasVisibleForCenterTitle == isVisibleForCenterTitle()) {
             return;
         }
-        // Состав меню для раскладки изменился — пусть ActionBar пересчитает центр заголовка.
         final ViewParent parent = getParent();
         if (parent instanceof ActionBarMenu) {
             final ViewParent grandParent = parent.getParent();

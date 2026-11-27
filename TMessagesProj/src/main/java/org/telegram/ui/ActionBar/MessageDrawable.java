@@ -907,7 +907,6 @@ public class MessageDrawable extends Drawable {
         this.resourcesProvider = resourcesProvider;
     }
 
-    /** mzGram: убрать «хвостик» пузыря сообщения (ChatsConfig.removeMessageTail). */
     private static boolean mzRemoveMessageTail() {
         try {
             org.mzgram.chats.ChatsConfig.ensureLoaded();
@@ -922,7 +921,6 @@ public class MessageDrawable extends Drawable {
         Rect lastRect = new Rect();
         boolean lastDrawFullTop;
         boolean lastDrawFullBottom;
-        /** mzGram: чтобы кэш пути сбрасывался при переключении «убрать хвостик». */
         boolean lastNoTail = mzRemoveMessageTail();
 
         public boolean invalidatePath(Rect bounds, boolean drawFullBottom, boolean drawFullTop) {

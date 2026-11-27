@@ -8,11 +8,6 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 
-/**
- * Дозагружает старые посты каналов, у которых кончилась локальная история.
- * Раунд запрашивает несколько каналов сразу и завершается, когда ответили все
- * либо истёк таймаут.
- */
 final class FeedBackfillCoordinator {
 
     private static final int MAX_CHANNELS_PER_ROUND = 4;
@@ -69,10 +64,6 @@ final class FeedBackfillCoordinator {
         return new HashSet<>(exhausted);
     }
 
-    /**
-     * Обработчик {@code NotificationCenter.loadingMessagesFailed}: канал, чей запрос
-     * не прошёл, помечается исчерпанным, чтобы раунд не ждал его вечно.
-     */
     public void onLoadingMessagesFailed(Object... args) {
         if ((Integer) args[0] != guid) {
             return;
@@ -92,10 +83,6 @@ final class FeedBackfillCoordinator {
         onResult(dialogId);
     }
 
-    /**
-     * Обработчик {@code NotificationCenter.messagesDidLoad}: неполная страница означает,
-     * что у канала больше нечего дозагружать.
-     */
     public void onMessagesDidLoad(Object... args) {
         if ((Integer) args[10] != guid) {
             return;
@@ -107,10 +94,6 @@ final class FeedBackfillCoordinator {
         onResult(dialogId);
     }
 
-    /**
-     * Запускает раунд дозагрузки. Каждый элемент списка — пара
-     * {@code {dialogId, maxId}}: канал и идентификатор, ниже которого просить историю.
-     */
     public void startRound(ArrayList<long[]> candidates) {
         running = true;
         final int startedRoundId = ++roundId;

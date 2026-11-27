@@ -32,20 +32,8 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-/**
- * Установка иконпака, присланного файлом: что внутри — видно до установки.
- *
- * Перенос {@code icons/ui/components/InstallIconPackBottomSheet}. Раньше на
- * месте этого листа стоял диалог с одной строкой «имя, N иконок» — по нему
- * нельзя понять, что за пак ставишь, а иконки меняют весь интерфейс.
- *
- * Превью читаются прямо из архива, ничего не распаковывая на диск: пак может
- * оказаться и не паком вовсе, а до нажатия «Установить» он должен оставаться
- * просто файлом.
- */
 public class InstallIconPackBottomSheet extends BottomSheet {
 
-    /** Сколько иконок показываем: две строки по пять — достаточно, чтобы узнать набор. */
     private static final int PREVIEW_COUNT = 10;
     private static final int PREVIEW_PER_ROW = 5;
 
@@ -107,7 +95,6 @@ public class InstallIconPackBottomSheet extends BottomSheet {
         return TextUtils.join(" • ", parts);
     }
 
-    // ---------- превью ----------
 
     private void loadPreviews() {
         Utilities.globalQueue.postRunnable(() -> {
@@ -116,12 +103,6 @@ public class InstallIconPackBottomSheet extends BottomSheet {
         });
     }
 
-    /**
-     * Первые несколько картинок пака прямо из zip.
-     *
-     * Имена берём из метаданных, а не перебором записей: в архиве лежит ещё и
-     * pack.json, а порядок записей ничем не гарантирован.
-     */
     private List<Bitmap> readPreviews() {
         List<Bitmap> result = new ArrayList<>();
         if (archive == null || !archive.exists()) {
@@ -146,7 +127,6 @@ public class InstallIconPackBottomSheet extends BottomSheet {
                         bitmap = IconPackManager.renderSvg(in, AndroidUtilities.dp(40), AndroidUtilities.dp(40));
                     } else {
                         BitmapFactory.Options options = new BitmapFactory.Options();
-                        // Иконки в паках бывают крупные; для превью 48dp хватает.
                         options.inSampleSize = 2;
                         bitmap = BitmapFactory.decodeStream(in, null, options);
                     }
@@ -154,7 +134,6 @@ public class InstallIconPackBottomSheet extends BottomSheet {
                         result.add(bitmap);
                     }
                 } catch (Exception ignored) {
-                    // Битая картинка не повод не показать остальные.
                 }
             }
         } catch (Exception e) {
@@ -163,13 +142,6 @@ public class InstallIconPackBottomSheet extends BottomSheet {
         return result;
     }
 
-    /**
-     * Запись архива по пути из метаданных.
-     *
-     * Пути в metadata.json относительны корня пака, а в архиве этот корень
-     * может быть завёрнут в папку — тогда прямого совпадения имени нет, и
-     * приходится искать по хвосту.
-     */
     private static ZipEntry findEntry(ZipFile zip, String path) {
         ZipEntry direct = zip.getEntry(path);
         if (direct != null) {
@@ -207,7 +179,6 @@ public class InstallIconPackBottomSheet extends BottomSheet {
         }
     }
 
-    // ---------- установка ----------
 
     private void install() {
         dismiss();
@@ -225,7 +196,6 @@ public class InstallIconPackBottomSheet extends BottomSheet {
         });
     }
 
-    /** Кнопка «Установить» в листе; отдельный метод, чтобы вызов был читаем в трассе. */
     public static void show(BaseFragment fragment, File archive, IconPack pack) {
         if (fragment == null || fragment.getParentActivity() == null || pack == null) {
             return;

@@ -129,10 +129,6 @@ public class TextSettingsCell extends FrameLayout {
         if (!wrapText) {
             return;
         }
-        // Название в core-ячейках переносится без ограничения по строкам,
-        // а высота оставалась фиксированной — со второй строки текст резало.
-        // Ширина названия уже посчитана выше, поэтому второй проход нужен
-        // только чтобы разложить ячейку на итоговой высоте.
         final int wanted = Math.max(fixed, wrappedTitleHeight() + AndroidUtilities.dp(30));
         if (wanted != fixed) {
             measureContent(widthMeasureSpec, wanted);
@@ -201,7 +197,6 @@ public class TextSettingsCell extends FrameLayout {
         return textView;
     }
 
-    /** Ячейку могли переиспользовать после core-привязки — она снимает лимит строк. */
     private void setTitleSingleLine() {
         wrapText = false;
         textView.setLines(1);

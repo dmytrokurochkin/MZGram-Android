@@ -18452,7 +18452,6 @@ public class MessagesController extends BaseController implements NotificationCe
 
     // must be run from Utilities.stageQueue
     public void processUpdates(final TLRPC.Updates originalUpdates, boolean fromQueue) {
-        // mzgram plugins: on_updates_hook (CANCEL = контейнер не обрабатывается)
         org.mzgram.plugins.HookResult hookResult = org.mzgram.plugins.PluginsController.getInstance().hasAnyUpdatesContainerHooks()
                 ? org.mzgram.plugins.PluginsController.getInstance()
                         .executeOnUpdatesHook(currentAccount, org.mzgram.plugins.PluginsController.hookName(originalUpdates), originalUpdates)
@@ -19033,10 +19032,6 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             return true;
         }
-        // mzgram plugins: on_update_hook (CANCEL = апдейт выкидывается из обработки).
-        // Список принадлежит вызывающему (res.other_updates, updates.updates) и в
-        // некоторых ветках обрабатывается повторно, поэтому фильтруем в копию,
-        // а не мутируем чужое.
         if (org.mzgram.plugins.PluginsController.getInstance().hasAnyUpdateHooks()) {
             ArrayList<TLRPC.Update> allowed = null;
             int updateIndex = 0;

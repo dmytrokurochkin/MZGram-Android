@@ -9,23 +9,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Модель пака иконок (порт org.mzgram.sdk.icons.IconPack).
- *
- * Пак — это каталог с файлом metadata.json и картинками. metadata.json:
- * <pre>
- * {
- *   "schemaVersion": 1,
- *   "packId": "my_pack",
- *   "packName": "My pack",
- *   "author": "Someone",
- *   "version": "1.0",
- *   "icons": { "msg_delete": "icons/delete.png", ... }
- * }
- * </pre>
- * Ключи в {@code icons} — имена ресурсов drawable в приложении, значения — относительные пути
- * внутри каталога пака.
- */
 public class IconPack {
 
     private final String id;
@@ -64,7 +47,6 @@ public class IconPack {
         return icons;
     }
 
-    /** Каталог, в котором лежит пак. */
     public File getLocation() {
         return location;
     }

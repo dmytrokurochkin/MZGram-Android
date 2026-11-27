@@ -10,29 +10,14 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.Utilities;
 
-/**
- * Эмуляция Material 3 CircularProgressIndicator: дуга-индикатор, дорожка (track) под ней
- * и зазор между ними; опционально — волнистая дуга (M3 Expressive).
- *
- * Обычно это делает com.google.android.material.progressindicator.CircularProgressIndicator;
- * здесь оно посчитано вручную теми же метриками: indicatorTrackGapSize = 2dp,
- * скруглённые торцы, волна 15/1.6/5 dp.
- */
 public class M3CircularProgress {
 
-    /** Стоковая отрисовка Telegram. */
     public static final int STYLE_LEGACY = 0;
-    /** LoadingIndicator из M3 Expressive; рисует его сам com.google.android.material. */
     public static final int STYLE_LOADING_INDICATOR = 1;
     /** CircularProgressIndicator. */
     public static final int STYLE_CIRCULAR = 2;
-    /** CircularProgressIndicator + волна. */
     public static final int STYLE_WAVY = 3;
 
-    /**
-     * Понижение стиля при выключённой настройке «MD3 Loaders»:
-     * {@code if (!getNewLoadingStyle() && i != 0 && i != 1) i = 0;}
-     */
     public static int degradeStyle(int style) {
         if (!AppearanceConfig.newLoadingStyle()
                 && style != STYLE_LEGACY && style != STYLE_LOADING_INDICATOR) {
@@ -54,7 +39,6 @@ public class M3CircularProgress {
         });
     }
 
-    /** Стиль, который считается здесь; стиль 1 рисует LoadingIndicator. */
     public static boolean isCircular(int style) {
         return style == STYLE_CIRCULAR || style == STYLE_WAVY;
     }
@@ -87,11 +71,6 @@ public class M3CircularProgress {
         gap = px;
     }
 
-    /**
-     * Волна. MZGram для RadialProgressView: setWavyValues(dp(15), dp(1.6f), dp(5), 0.05f)
-     * (RadialProgressView.java:288-296), для CircularProgressDrawable — wavelength dp(7),
-     * amplitude dp(0.75f), speed dp(6) (CircularProgressDrawable.java:355-360).
-     */
     public void setWavyValues(float wavelengthPx, float amplitudePx, float speedPx) {
         waveLength = wavelengthPx;
         waveAmplitude = amplitudePx;
@@ -110,12 +89,6 @@ public class M3CircularProgress {
         return waveAmplitude > 0 && waveLength > 0;
     }
 
-    /**
-     * @param oval        описанный прямоугольник дуги
-     * @param startAngle  начало дуги в градусах
-     * @param sweepAngle  длина дуги в градусах
-     * @param paint       кисть индикатора (цвет/альфа/толщина берутся из неё)
-     */
     public void draw(Canvas canvas, RectF oval, float startAngle, float sweepAngle, Paint paint) {
         final float radius = Math.min(oval.width(), oval.height()) / 2f;
         if (radius <= 0) {

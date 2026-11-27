@@ -11,10 +11,6 @@ import org.telegram.ui.ActionBar.Theme;
 
 import org.mzgram.pillstack.PillType;
 
-/**
- * Текущая скорость сети: дельта TrafficStats между замерами.
- * Показываем доминирующее направление: «↓1.2 MB/s» или «↑340 KB/s».
- */
 @SuppressLint("ViewConstructor")
 public class NetSpeedPill extends TelemetryPill {
 

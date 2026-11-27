@@ -26,10 +26,6 @@ import org.mzgram.pillstack.PillStackEvents;
 import org.mzgram.pillstack.PillType;
 import org.mzgram.pillstack.pills.weather.WeatherSettingsActivity;
 
-/**
- * Погода: эмодзи + температура. Локация — либо текущая (через {@link Weather#fetch}),
- * либо точка, выбранная в настройках.
- */
 @SuppressLint("ViewConstructor")
 public class WeatherPill extends BasePill implements PillStackEvents.Listener {
 
@@ -114,8 +110,6 @@ public class WeatherPill extends BasePill implements PillStackEvents.Listener {
     public void onUpdateData(boolean force) {
         boolean deviceLocation = usesDeviceLocation();
         if (deviceLocation) {
-            // без разрешения/со включёнными службами геолокации сеть дёргать бессмысленно —
-            // показываем состояние-подсказку, тап по которой запросит разрешение
             if (!WeatherSettingsActivity.isLocationPermissionGranted()) {
                 setLocationState(R.string.PillStackWeatherPermissionGrant, showingWeather);
                 return;
@@ -152,9 +146,6 @@ public class WeatherPill extends BasePill implements PillStackEvents.Listener {
         if (animated) {
             animateSizeChange();
         }
-        // Эмодзи погоды подменяется векторной иконкой, и тогда в тексте остаётся
-        // только температура. Если иконки для этого эмодзи нет — показываем
-        // «эмодзи + температура».
         final int iconRes = getWeatherIconRes(state.getEmoji());
         if (iconRes != 0) {
             iconView.setImageResource(iconRes);
@@ -170,13 +161,6 @@ public class WeatherPill extends BasePill implements PillStackEvents.Listener {
         showingWeather = true;
     }
 
-    /**
-     * Карта «эмодзи погоды → вектор». Восстановлена из smali MZGram: jadx не осилил
-     * {@code WeatherPill.getWeatherIconRes} (:66), тело осталось пустым switch'ом.
-     *
-     * Сравнение точное, без вариационного селектора U+FE0F — {@code Weather.State.getEmoji()}
-     * отдаёт базовый кодпоинт.
-     */
     private static int getWeatherIconRes(String emoji) {
         if (emoji == null) {
             return 0;
@@ -217,7 +201,6 @@ public class WeatherPill extends BasePill implements PillStackEvents.Listener {
         showingWeather = false;
     }
 
-    /** Состояние «нет геопозиции»: иконка пина и подсказка вместо температуры. */
     private void setLocationState(int textResId, boolean animated) {
         requestInFlight = false;
         stopLoading();
@@ -235,7 +218,6 @@ public class WeatherPill extends BasePill implements PillStackEvents.Listener {
     public void onPillClicked() {
         if (usesDeviceLocation() && !showingWeather
                 && (!WeatherSettingsActivity.isLocationPermissionGranted() || !WeatherSettingsActivity.isLocationEnabled())) {
-            // Weather.getUserLocation сам покажет системный запрос разрешения / диалог про GPS
             Weather.getUserLocation(true, location -> {
                 if (location != null) {
                     onUpdateData(true);

@@ -28,22 +28,11 @@ import java.util.Map;
 import org.mzgram.plugins.MenuItemRecord;
 import org.mzgram.plugins.PluginsController;
 
-/**
- * Подменю с пунктами плагинов внутри всплывающего меню «⋮» — swipe-back-слой,
- * как у MZGram ({@code org.mzgram.sdk.plugins.ui.components.PluginsMenuWrapper}).
- *
- * Используется там, где пунктов может быть много и они не должны раздувать
- * основное меню: CHAT_ACTION_MENU (ChatActivity) и PROFILE_ACTION_MENU
- * (ProfileActivity). Владелец создаёт обёртку один раз, вешает её
- * {@link #getSwipeBack()} на {@code lazilyAddSwipeBackItem} и зовёт
- * {@link #rebuildMenu(List)} на {@code NotificationCenter.pluginMenuItemsUpdated}.
- */
 public class PluginsMenuWrapper {
 
     private static final int GAP_ITEM_HEIGHT = 8;
     private static final int ITEM_HEIGHT = 48;
     private static final int SUBTITLE_ITEM_HEIGHT = 56;
-    /** Выше этого подменю скроллится, а не растёт. Значение MZGram. */
     private static final int MAX_HEIGHT_DP = 436;
 
     private final MenuItemRecord.MenuType menuType;
@@ -89,7 +78,6 @@ public class PluginsMenuWrapper {
         return swipeBack;
     }
 
-    /** Есть ли что показывать: владелец по этому признаку прячет сам пункт. */
     public boolean hasItems() {
         return !currentItems().isEmpty();
     }
@@ -98,14 +86,9 @@ public class PluginsMenuWrapper {
         return PluginsController.getInstance().getMenuItemsFor(menuType);
     }
 
-    /** Переопределяется владельцем, чтобы закрыть всплывающее меню после клика. */
     public void closeMenu() {
     }
 
-    /**
-     * Пересобрать содержимое. {@code items == null} — взять текущий реестр.
-     * Высота подменю подгоняется под содержимое до {@link #MAX_HEIGHT_DP}.
-     */
     public void rebuildMenu(List<MenuItemRecord> items) {
         menuItemsContainer.removeAllViews();
         if (items == null) {
@@ -145,10 +128,6 @@ public class PluginsMenuWrapper {
         applyHeight(totalHeight);
     }
 
-    /**
-     * Подменю растёт по содержимому, пока помещается; дальше фиксируется и
-     * скроллится. Запас в 112 dp — чтобы не включать скролл ради одного пункта.
-     */
     private void applyHeight(int totalHeight) {
         ViewGroup parent = menuItemsContainer.getParent() instanceof ViewGroup
                 ? (ViewGroup) menuItemsContainer.getParent() : null;
@@ -173,7 +152,6 @@ public class PluginsMenuWrapper {
         return gap;
     }
 
-    /** ScrollView с затенением верхней кромки, когда содержимое уехало вверх. */
     private ScrollView createScrollView(Context context) {
         return new ScrollView(context) {
             private final AnimatedFloat shadowAlpha =

@@ -51,17 +51,6 @@ import org.mzgram.plugins.ui.components.PluginCellDelegate;
 import org.mzgram.plugins.ui.components.PluginPermissionsDelegate;
 import org.mzgram.plugins.ui.components.PluginSettingsLinkDelegate;
 
-/**
- * Экран «Plugins». Порт
- * {@code org/mzgram/sdk/plugins/ui/PluginsActivity.java}.
- *
- * Устройство повторяет MZGram: в шапке — поиск и кнопка (i), ведущая на
- * {@link PluginsInfoActivity}; в списке — крупный переключатель движка
- * ({@code UItem.asRippleCheck}) и сами плагины, а при пустом списке —
- * подсказка со ссылкой на канал. Настройки движка (developer/safe/compatibility)
- * живут на втором экране, а не свалены сюда: раньше всё было одним списком, и
- * это ощутимо расходилось с оригиналом.
- */
 public class PluginsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private static final int MENU_SEARCH = 0;
@@ -159,12 +148,10 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
         return fragmentView;
     }
 
-    // ---------- список ----------
 
     private void refreshPlugins(boolean rescan) {
         PluginsController controller = PluginsController.getInstance();
         if (rescan && controller.isEngineEnabled()) {
-            // Движок стартует асинхронно; rescan сам выйдет, если он ещё не поднялся.
             controller.rescanPlugins();
         }
         plugins.clear();
@@ -176,8 +163,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
             }
         }
         plugins.sort((a, b) -> {
-            // Закреплённые — наверх: список плагинов растёт, и нужные иначе
-            // тонут среди остальных по алфавиту.
             boolean pinnedA = pinnedIds.contains(a.id);
             boolean pinnedB = pinnedIds.contains(b.id);
             if (pinnedA != pinnedB) {
@@ -349,12 +334,7 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
     }
 
 
-    // ---------- действия карточки ----------
 
-    /**
-     * Кнопки под описанием плагина. Раньше всё это жило в меню по долгому
-     * нажатию: пункт, о существовании которого нельзя догадаться.
-     */
     private final class PluginRowDelegate implements PluginCellDelegate, PluginPermissionsDelegate, PluginSettingsLinkDelegate {
 
         private final Plugin plugin;
@@ -421,13 +401,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /**
-     * Отдать файл плагина наружу.
-     *
-     * Копируем в кэш, а не отдаём из filesDir/plugins: FileProvider наружу
-     * этот каталог не публикует, а расширять ему видимость ради «поделиться»
-     * значит открыть чужим приложениям всю папку плагинов.
-     */
     private void sharePlugin(Plugin plugin) {
         Activity activity = getParentActivity();
         if (activity == null || plugin == null || plugin.path == null) {
@@ -468,13 +441,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /**
-     * Включить или выключить плагин.
-     *
-     * setPluginEnabled возвращает «получилось ли», а не новое состояние,
-     * поэтому спрашиваем сам плагин: при неудачной загрузке он останется
-     * выключенным, и тумблер должен показать именно это.
-     */
     private void togglePlugin(Plugin plugin) {
         PluginsController controller = PluginsController.getInstance();
         if (!controller.isEngineEnabled()) {
@@ -496,7 +462,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    // ---------- клики ----------
 
     private void onItemClick(UItem item, View view, int position, float x, float y) {
         PluginsController controller = PluginsController.getInstance();
@@ -505,10 +470,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
             controller.setEngineEnabled(enabling);
             updateRows();
             if (enabling) {
-                // Python поднимается асинхронно (около 240 мс на Pixel 7), а
-                // rescanPlugins до его старта выходит рано. Без обновления по
-                // готовности пользователь видит пустой список при уже лежащих
-                // плагинах, и помогает только выйти и вернуться.
                 PythonPluginsEngine.getInstance().ensureStarted(
                         org.telegram.messenger.ApplicationLoader.applicationContext,
                         ok -> AndroidUtilities.runOnUIThread(() -> {
@@ -524,10 +485,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
             openPluginPicker(this);
             return;
         }
-        // По карточке кликов не ждём: у неё свои кнопки и свой тумблер.
-        // Когда здесь стояло переключение, один тап по тумблеру доходил и до
-        // него, и до строки списка — плагин включался и тут же выключался
-        // обратно, а в prefs оставалось false при уже загруженном модуле.
     }
 
     private boolean onItemLongClick(UItem item, View view, int position, float x, float y) {
@@ -546,7 +503,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
         return PluginsController.getInstance().getPlugin(((Plugin) item.object).id);
     }
 
-    // ---------- диалоги ----------
 
     private void showPluginInfo(Plugin plugin) {
         Activity activity = getParentActivity();
@@ -571,8 +527,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
                 .setTitle(plugin.getDisplayName())
                 .setMessage(message)
                 .setPositiveButton(getString(R.string.OK), null);
-        // Разбираться с падением будет автор плагина в другом чате — отдаём
-        // ему traceback целиком, а на экране оставляем короткую строку.
         final String report = plugin.loadDebug != null ? plugin.loadDebug : plugin.loadError;
         if (report != null && !report.isEmpty()) {
             builder.setNeutralButton(getString(R.string.PluginsInstallCopyReport),
@@ -601,8 +555,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
             labels.add(getString(R.string.PluginsMenuReload));
             actions.add(1);
         }
-        // Разрешения — рядом с настройками плагина: это второе, что о плагине
-        // хотят узнать после того, что он умеет настраивать.
         labels.add(getString(R.string.PluginPermissions));
         actions.add(4);
         labels.add(getString(R.string.PluginsMenuInfo));
@@ -659,9 +611,7 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    // ---------- установка из файла ----------
 
-    /** Зовётся и отсюда, и с экрана движка: пункт «Установить из файла» живёт там. */
     static void openPluginPicker(BaseFragment fragment) {
         Activity activity = fragment.getParentActivity();
         if (activity == null) {
@@ -692,14 +642,11 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
         installFromUri(data.getData());
     }
 
-    /** content:// из системного пикера копируем в кэш — движку нужен обычный читаемый файл. */
     private void installFromUri(Uri uri) {
         Activity activity = getParentActivity();
         if (activity == null) {
             return;
         }
-        // Расширение обязано пережить копирование: движок по нему отличает
-        // .mzpack/.eaf (ZIP-архивы) от обычного .py-модуля.
         String name = resolveFileName(activity, uri);
         String ext = ".py";
         for (String candidate : new String[]{".mzpack", ".eaf", ".plugin", ".py"}) {
@@ -729,13 +676,9 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
                     .create());
             return;
         }
-        // Через диалог согласия, а не installPlugin напрямую: иначе выбор файла
-        // на этом экране выдавал бы плагину все объявленные разрешения молча,
-        // в обход единственного места, где пользователь их видит.
         PluginsController.getInstance().showInstallDialog(this, tmp.getAbsolutePath(), false);
     }
 
-    /** Имя файла за content://-ссылкой; нужно только ради расширения. */
     private static String resolveFileName(Activity activity, Uri uri) {
         try (android.database.Cursor cursor = activity.getContentResolver()
                 .query(uri, null, null, null, null)) {
@@ -774,7 +717,6 @@ public class PluginsActivity extends BaseFragment implements NotificationCenter.
     @Override
     public void onResume() {
         super.onResume();
-        // Однократное уведомление о плагине, отключённом watchdog'ом после падений.
         PluginsWatchdog watchdog = PluginsController.getInstance().getWatchdog();
         if (watchdog != null && getParentActivity() != null && watchdog.consumeAutoSafeMode()) {
             showDialog(new AlertDialog.Builder(getParentActivity())

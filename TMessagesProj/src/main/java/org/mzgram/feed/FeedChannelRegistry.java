@@ -12,10 +12,6 @@ import org.telegram.tgnet.TLRPC;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-/**
- * Реестр каналов, пригодных для ленты. Слушает обновления списка диалогов, пересобирает набор
- * с задержкой и сообщает слушателям разницу — какие каналы добавились, какие пропали.
- */
 public class FeedChannelRegistry implements NotificationCenter.NotificationCenterDelegate {
 
     private static final long REBUILD_DELAY = 500L;
@@ -126,10 +122,6 @@ public class FeedChannelRegistry implements NotificationCenter.NotificationCente
         }
     }
 
-    /**
-     * Подписка на изменения состава каналов. Первый вызов заодно строит набор,
-     * поэтому слушатель не получит фиктивную «разницу» из пустого состояния.
-     */
     public void addListener(Listener listener) {
         ensureBuilt();
         if (listeners.contains(listener)) {

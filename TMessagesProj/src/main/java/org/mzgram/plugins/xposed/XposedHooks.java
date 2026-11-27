@@ -21,24 +21,11 @@ import org.mzgram.plugins.PluginsWatchdog;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 
-/**
- * Фасад Xposed-хуков поверх Aliuhook (LSPlant). Сигнатуры финальны — их зовёт
- * {@link org.mzgram.plugins.PluginServices} и Python-SDK.
- *
- * Реестр unhook-объектов: id -> Unhook. При выгрузке плагина контроллер зовёт
- * {@link #unhookAllForPlugin(String)}.
- *
- * Инициализация Aliuhook ленивая ({@link #ensureInitialized()}): статик-блок
- * XposedBridge грузит libaliuhook.so; если нативная часть недоступна — хуки
- * молча выключены (null/"[]"), приложение продолжает работать.
- */
 public final class XposedHooks {
 
     /** unhook id -> Unhook. */
     private static final ConcurrentHashMap<String, XC_MethodHook.Unhook> UNHOOKS = new ConcurrentHashMap<>();
-    /** unhook id -> pluginId (обратная связь для чистки реестров в {@link #unhook}). */
     private static final ConcurrentHashMap<String, String> HOOK_OWNERS = new ConcurrentHashMap<>();
-    /** pluginId -> id всех его хуков. */
     private static final ConcurrentHashMap<String, Set<String>> PLUGIN_HOOKS = new ConcurrentHashMap<>();
 
     private static volatile boolean initAttempted;
@@ -49,12 +36,6 @@ public final class XposedHooks {
 
     // ---------- init Aliuhook ----------
 
-    /**
-     * Первое обращение к XposedBridge дёргает его статик-блок (System.loadLibrary
-     * ("aliuhook")) и заодно снимает hidden API restrictions. Вызывается лениво из
-     * hookMethod/hookAll*; ошибки — в FileLog, без падения приложения.
-     */
-    /** Поднять Aliuhook и сказать, доступны ли хуки. Для гейта стоков. */
     public static boolean ensureReady() {
         return ensureInitialized();
     }
@@ -145,13 +126,8 @@ public final class XposedHooks {
             }
             try {
                 if (!XposedBridge.disableHiddenApiRestrictions()) {
-                    // Не фатально: для методов самого приложения restrictions не мешают.
                     FileLog.e("XposedHooks: disableHiddenApiRestrictions() returned false");
                 }
-                // ART Profile Saver со временем перекомпилирует методы и сбивает
-                // уже поставленные хуки. Гасим всегда: сюда попадают только те
-                // запуски, где плагин действительно загружается, а хук, который
-                // отваливается через несколько минут, неотличим от сломанного.
                 boolean profileSaverOff = XposedBridge.disableProfileSaver();
                 FileLog.d("XposedHooks: disableProfileSaver() -> " + profileSaverOff);
                 initOk = true;
@@ -180,7 +156,6 @@ public final class XposedHooks {
         }
     }
 
-    // ---------- регистрация хуков ----------
 
     private static final String[] DENIED_HOOK_PREFIXES = {
             "org.telegram.ui.Wallet.",
@@ -303,11 +278,6 @@ public final class XposedHooks {
         }
     }
 
-    /**
-     * Протокол хендлера: есть атрибут replace_hooked_method -> замена метода,
-     * иначе before/after-хук (какой-то из колбэков может отсутствовать).
-     * В Chaquopy 17 у PyObject нет hasAttr — containsKey это hasattr.
-     */
     private static XC_MethodHook createHook(String pluginId, PyObject handler,
                                             int priority, String filtersJson) {
         HookFilter.Parsed filters = HookFilter.parse(filtersJson);
@@ -341,13 +311,6 @@ public final class XposedHooks {
         return ids.toString();
     }
 
-    /**
-     * Взять под учёт хук, поставленный плагином напрямую через XposedBridge.
-     *
-     * Плагины каталога (zwylib) цепляют метод сами и лишь отдают нам Unhook,
-     * чтобы он снялся при выгрузке плагина. Повторная регистрация того же
-     * объекта ничего не меняет.
-     */
     public static String addPluginUnhook(String pluginId, XC_MethodHook.Unhook unhook) {
         if (pluginId == null || unhook == null) {
             return null;
@@ -360,7 +323,6 @@ public final class XposedHooks {
         return register(pluginId, unhook);
     }
 
-    /** Снимает ранее учтённый хук по самому объекту Unhook. */
     public static void removePluginUnhook(String pluginId, XC_MethodHook.Unhook unhook) {
         if (unhook == null) {
             return;
@@ -378,14 +340,11 @@ public final class XposedHooks {
         }
     }
 
-    // ---------- снятие хуков ----------
 
-    /** Идемпотентно: повторный вызов/неизвестный id — no-op. Потокобезопасно. */
     public static void unhook(String unhookId) {
         if (unhookId == null) {
             return;
         }
-        // remove атомарен: unhook() зовёт ровно один поток-победитель.
         XC_MethodHook.Unhook unhook = UNHOOKS.remove(unhookId);
         if (unhook != null) {
             try {
@@ -416,7 +375,6 @@ public final class XposedHooks {
         }
     }
 
-    // ---------- утилиты для Python ----------
 
     public static Object invokeOriginalMethod(Object member, Object thisObject, Object[] args) throws Exception {
         return XposedBridge.invokeOriginalMethod((Member) member, thisObject, args);
@@ -445,9 +403,7 @@ public final class XposedHooks {
         }
     }
 
-    // ---------- общее для PyMethodHook / PyMethodReplacement ----------
 
-    /** Watchdog может отсутствовать, если PluginsController.init() ещё не вызывали. */
     static PluginsWatchdog watchdog() {
         try {
             return PluginsController.getInstance().getWatchdog();
@@ -456,7 +412,6 @@ public final class XposedHooks {
         }
     }
 
-    /** Ошибка плагина -> watchdog (плагин отключится); watchdog нет — просто лог. */
     static void reportError(String pluginId, Throwable t) {
         PluginsWatchdog watchdog = watchdog();
         if (watchdog != null) {
@@ -470,16 +425,9 @@ public final class XposedHooks {
         FileLog.e("XposedHooks: plugin " + pluginId + " error", t);
     }
 
-    /** Итог вызова Python-колбэка. ok=false — ошибка уже в watchdog, param не тронут. */
     private static volatile PyObject hookBridge;
     private static volatile boolean hookBridgeResolved;
 
-    /**
-     * base_plugin.bind_hook один раз связывает метод обработчика с обёрткой, которая
-     * отдаёт в Python MethodHookParam так, чтобы работали обе формы:
-     * param.getResult()/setResult() и param.result. Пустой метод MethodHook она не
-     * связывает вовсе. Если модуль почему-то недоступен, зовём метод обработчика напрямую.
-     */
     static PyObject bindHook(PyObject handler, String attr, int statId) {
         PyObject bridge = hookBridge();
         if (bridge == null) {
@@ -521,11 +469,6 @@ public final class XposedHooks {
         }
     }
 
-    /**
-     * Вызвать Python-метод хука так, чтобы исключение НИКОГДА не улетело в
-     * захуканный метод приложения. Обёрнуто в notePluginEnter/notePluginExit
-     * (атрибуция падений в watchdog).
-     */
     static PyResult callPython(String pluginId, PyObject callable,
                                XC_MethodHook.MethodHookParam param, HookStats stats) {
         if (org.telegram.ui.Wallet.WalletPluginFreeze.isFrozen()) {

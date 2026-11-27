@@ -86,7 +86,6 @@ public class BlurredBackgroundDrawable extends GlassDrawable implements Theme.Co
 
         boundProps.strokeWidthTop = dpf2(1);
         boundProps.strokeWidthBottom = dpf2(2 / 3f);
-        // Сплошной контур в пикселях, не в dp
         boundProps.strokeWidthFull = 1.0f;
 
         shadowLayerRadius = dpf2(1);
@@ -277,7 +276,6 @@ public class BlurredBackgroundDrawable extends GlassDrawable implements Theme.Co
         if (colorProvider instanceof BlurredBackgroundProvider) {
             BlurredBackgroundProvider provider = (BlurredBackgroundProvider) colorProvider;
             setStrokeWidth(provider.getStrokeWidthTop(), provider.getStrokeWidthBottom());
-            // параметры тени выставляет updateColors()
         }
         return this;
     }
@@ -322,10 +320,6 @@ public class BlurredBackgroundDrawable extends GlassDrawable implements Theme.Co
         }
     }
 
-    /**
-     * При GLARE (дефолт) — ровно прежнее поведение; SOLID гасит блик и тень и включает
-     * сплошную обводку, HIDDEN гасит и обводку, и тень.
-     */
     @Override
     public void updateColors() {
         themeGeneration = org.telegram.ui.ActionBar.ThemeBind.generation();

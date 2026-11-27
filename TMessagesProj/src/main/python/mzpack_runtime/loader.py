@@ -124,13 +124,6 @@ def _strings_declared(refmap: Dict[str, str]) -> Optional[str]:
 
 
 def _entry_dirs(refmap: Dict[str, str], extract_dir: str) -> List[str]:
-    """Каталог entry-модуля, если он лежит не в корне архива.
-
-    Документация обещает точке входа «привычные импорты» соседних модулей
-    (``from helpers import ...``). Для корневого main.py это даёт корень архива,
-    а для вложенного (``main: plugin/src/main.py``) — иначе не нашлось бы ничего,
-    кроме относительных импортов. Корень остаётся первым в списке.
-    """
     main = refmap.get("main")
     if not main:
         return []

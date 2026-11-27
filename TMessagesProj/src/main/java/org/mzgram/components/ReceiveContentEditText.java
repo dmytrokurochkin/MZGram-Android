@@ -27,14 +27,6 @@ import androidx.core.widget.TextViewOnReceiveContentListener;
 
 import org.mzgram.math.InlineMathController;
 
-/**
- *
- * Повторяет приёмник контента из AppCompatEditText, но без зависимости от appcompat:
- * поле само реализует {@link OnReceiveContentViewBehavior}, поэтому любой
- * {@code ViewCompat.setOnReceiveContentListener} на нём начинает работать сразу для трёх
- * источников — клавиатуры (commitContent), меню «Вставить» и drag&drop. Без этого класса
- * androidx-приёмник молчит: платформенный TextView умеет отдавать ему контент только с API 31.
- */
 @SuppressLint({"RestrictedApi", "AppCompatCustomView"})
 public abstract class ReceiveContentEditText extends EditText implements OnReceiveContentViewBehavior {
 
@@ -51,14 +43,12 @@ public abstract class ReceiveContentEditText extends EditText implements OnRecei
         defaultOnReceiveContentListener = new TextViewOnReceiveContentListener();
     }
 
-    /** Приём drop'а на API 24..30, где платформа этого не делает. */
     public static final class OnDropApi24Impl {
         public static boolean onDropForTextView(DragEvent dragEvent, ReceiveContentEditText view, Activity activity) {
             activity.requestDragAndDropPermissions(dragEvent);
             final int offset = view.getOffsetForPosition(dragEvent.getX(), dragEvent.getY());
             view.beginBatchEdit();
             try {
-                // курсор ставится туда, куда бросили, и уже в эту позицию вставляется содержимое
                 Selection.setSelection(view.getText(), offset);
                 ViewCompat.performReceiveContent(view, new ContentInfoCompat.Builder(dragEvent.getClipData(), ContentInfoCompat.SOURCE_DRAG_AND_DROP).build());
                 return true;
@@ -78,7 +68,6 @@ public abstract class ReceiveContentEditText extends EditText implements OnRecei
     }
 
     private boolean handleDragEventViaReceiveContent(DragEvent dragEvent) {
-        // С API 31 drop разбирает сама платформа
         if (Build.VERSION.SDK_INT >= 31 || dragEvent.getLocalState() != null || ViewCompat.getOnReceiveContentMimeTypes(this) == null) {
             return false;
         }
@@ -93,8 +82,6 @@ public abstract class ReceiveContentEditText extends EditText implements OnRecei
     }
 
     private boolean handleMenuActionViaReceiveContent(int id) {
-        // Paste и pasteAsPlainText уходят в приёмник целиком,
-        // включая ClipData с URI, которые обычный TextView просто проигнорировал бы
         if (ViewCompat.getOnReceiveContentMimeTypes(this) == null || (id != android.R.id.paste && id != android.R.id.pasteAsPlainText)) {
             return false;
         }
@@ -110,7 +97,6 @@ public abstract class ReceiveContentEditText extends EditText implements OnRecei
 
     @Override
     public Editable getText() {
-        // до API 28 EditText.getText() падает кастом, если setText ещё не звали (как в AppCompatEditText)
         if (Build.VERSION.SDK_INT >= 28) {
             return super.getText();
         }
@@ -227,7 +213,6 @@ public abstract class ReceiveContentEditText extends EditText implements OnRecei
 
     @Override
     public ContentInfoCompat onReceiveContent(ContentInfoCompat payload) {
-        // то, что приёмник не забрал (обычный текст), вставляет штатное поведение TextView
         return defaultOnReceiveContentListener.onReceiveContent(this, payload);
     }
 

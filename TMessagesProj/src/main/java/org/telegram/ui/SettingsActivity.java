@@ -756,8 +756,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
     private ArrayList<Integer> accountNumbers = new ArrayList<>();
 
-    // MZGram 12.9.0, SettingsActivity.java:984-987 — число активных сессий
-    // показывается значением справа от строки «Devices».
     private String getDevicesCount() {
         final int count = getMessagesController().lastKnownSessionsCount;
         return count > 0 ? String.format(LocaleController.getInstance().getCurrentLocale(), "%d", count) : "";
@@ -938,14 +936,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             items.add(UItem.asShadow(null));
         }
 
-        // Настройки MZGram по умолчанию спрятаны: у форка свои экраны, а второй
-        // набор тех же настроек рядом только путает. Строку включают на экране
-        // «Other» (GeneralConfig.showMZGramSettings).
         if (org.mzgram.general.GeneralConfig.showMZGramSettings()) {
             items.add(SettingCell.Factory.of(100, 0xFF3CCFFF, 0xFF007AFF, R.drawable.filled_profile_settings, getString(R.string.CoreSettings)));
         }
-        // Как в MZGram 12.9.0 (SettingsActivity.java:899): знак приложения вместо
-        // шестерёнки, акцент фирменного цвета на обе точки градиента.
         items.add(SettingCell.Factory.of(-1, 0xFF993C38, 0xFF993C38, R.drawable.mzgram_icon_tile, getString(R.string.MZGramPreferences), getString(R.string.MZGramInfo)));
         items.add(UItem.asShadow(null));
         final boolean walletAbove = getConnectionsManager().getCurrentTime() - 1791538462 < 4 * 7 * 24 * 60 * 60;
@@ -1728,10 +1721,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 if (org.mzgram.appearance.M3ListItems.enabled()) {
                     item.subtext = subtitle;
                 }
-                // Подпись намеренно отбрасывается — так же, как в MZGram 12.9.0
-                // (SettingsActivity.java:539-560: subtext не присваивается вовсе).
-                // Из-за этого twoLines остаётся false и строка меряется в dp(50), а не dp(60).
-                // Параметр оставлен в сигнатуре, чтобы не трогать 11 мест вызова.
                 item.textValue = value;
                 item.longValue = ((long) iconColorBottom << 32) | (iconColorTop & 0xFFFFFFFFL);
                 return item;

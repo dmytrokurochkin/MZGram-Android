@@ -312,11 +312,6 @@ public class ConnectionsManager extends BaseController {
     }
 
     public boolean isPushConnectionEnabled() {
-        // Переключатель в настройках уведомлений пишет в хранилище аккаунта
-        // (NotificationsSettingsActivity), а читалось глобальное — значение
-        // не находилось никогда, и постоянное подключение оставалось выключенным
-        // независимо от переключателя. Глобальное остаётся запасным: у ставивших
-        // сборку раньше значение лежит там.
         SharedPreferences preferences = MessagesController.getNotificationsSettings(currentAccount);
         if (preferences.contains("pushConnection")) {
             return preferences.getBoolean("pushConnection", true);
@@ -462,7 +457,6 @@ public class ConnectionsManager extends BaseController {
         final var onComplete = interceptResult.effectiveOnComplete();
         // --- Ghost Mode ---
 
-        // --- mzgram plugins: pre_request_hook (CANCEL = запрос не уходит) ---
         TLObject pluginRequest = object;
         if (org.mzgram.plugins.PluginsController.getInstance().hasAnyRequestHooks()) {
             org.mzgram.plugins.HookResult preHook = org.mzgram.plugins.PluginsController.getInstance()
@@ -747,16 +741,6 @@ public class ConnectionsManager extends BaseController {
         native_setNetworkAvailable(currentAccount, ApplicationLoader.isNetworkOnline(), ApplicationLoader.getCurrentNetworkType(), ApplicationLoader.isConnectionSlow());
     }
 
-    /**
-     * Состояние push-соединения на нативной стороне.
-     *
-     * Нужно, чтобы не дёргать её повторно тем же значением: обновление конфига
-     * с сервера (MessagesController.updateConfig) применяет флаг на каждом
-     * изменении keepAliveService, а экран уведомлений — на каждом нажатии.
-     * Каждый такой вызов пересобирает соединение, и резолв хоста прилетает в
-     * Java уже посреди разборки — на Pixel это кончалось SIGSEGV в
-     * getHostByName.
-     */
     private Boolean pushConnectionEnabled;
 
     public void setPushConnectionEnabled(boolean value) {

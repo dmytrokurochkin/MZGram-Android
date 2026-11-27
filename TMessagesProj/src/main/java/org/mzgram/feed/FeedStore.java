@@ -7,10 +7,6 @@ import java.util.Iterator;
 
 import org.telegram.messenger.MessageObject;
 
-/**
- * Хранилище загруженной ленты: упорядоченный список постов, карта синтетических
- * идентификаторов, набор скрытых каналов и курсоры пагинации.
- */
 public final class FeedStore {
 
     private static final int LOADING_PLACEHOLDER_ROWS = 3;
@@ -24,10 +20,6 @@ public final class FeedStore {
     private final FeedTimelineLoader.Cursor oldestCursor = new FeedTimelineLoader.Cursor();
     private final FeedTimelineLoader.Cursor newestCursor = new FeedTimelineLoader.Cursor();
 
-    /**
-     * Порядок постов в ленте: сначала по дате, затем по диалогу, затем по идентификатору.
-     * Возвращает положительное число, если первая тройка новее второй.
-     */
     public static int compareTimeline(int date, long uid, int mid, int otherDate, long otherUid, int otherMid) {
         if (date != otherDate) {
             return Integer.compare(date, otherDate);
@@ -135,10 +127,6 @@ public final class FeedStore {
         count = visibleCount;
     }
 
-    /**
-     * Добавляет страницу постов в начало или конец ленты без пересортировки.
-     * Возвращает только те объекты, которые действительно попали в ленту.
-     */
     public ArrayList<MessageObject> appendMessages(ArrayList<MessageObject> incoming, boolean toStart) {
         ArrayList<MessageObject> accepted = new ArrayList<>(incoming.size());
         for (MessageObject message : incoming) {
@@ -157,10 +145,6 @@ public final class FeedStore {
         return accepted;
     }
 
-    /**
-     * Приводит набор скрытых каналов в соответствие со списком включённых в ленту.
-     * Возвращает true, если состав скрытых изменился.
-     */
     public boolean applyIncludedDialogs(HashSet<Long> includedDialogIds) {
         HashSet<Long> loadedDialogIds = getLoadedDialogIds();
         boolean changed = false;
@@ -193,10 +177,6 @@ public final class FeedStore {
         newestCursor.set(0, 0L, 0);
     }
 
-    /**
-     * Удаляет из ленты историю канала до указанного идентификатора включительно.
-     * В {@code changed[0]} кладёт признак того, что лента изменилась.
-     */
     public ArrayList<Integer> deleteHistory(long dialogId, int maxId, boolean[] changed) {
         ArrayList<Integer> removedIds = new ArrayList<>();
         HashSet<Integer> seenIds = new HashSet<>();
@@ -219,10 +199,6 @@ public final class FeedStore {
         return removedIds;
     }
 
-    /**
-     * Удаляет конкретные посты канала. В {@code changed[0]} кладёт признак изменения ленты,
-     * возвращает синтетические идентификаторы удалённых строк.
-     */
     public ArrayList<Integer> deleteMessages(long dialogId, ArrayList<Integer> realIds, boolean[] changed) {
         ArrayList<Integer> removedIds = new ArrayList<>();
         if (realIds == null) {
@@ -338,10 +314,6 @@ public final class FeedStore {
         return endReached;
     }
 
-    /**
-     * Вставляет посты в уже загруженную ленту с сохранением порядка,
-     * не разрывая альбомы. Возвращает реально вставленные объекты.
-     */
     public ArrayList<MessageObject> mergeRows(ArrayList<MessageObject> incoming) {
         ArrayList<MessageObject> accepted = new ArrayList<>(incoming.size());
         for (MessageObject message : incoming) {
@@ -403,10 +375,6 @@ public final class FeedStore {
         return changed;
     }
 
-    /**
-     * Обрезает ленту до указанного количества строк, отбрасывая самые старые посты
-     * и сдвигая курсор дозагрузки. Возвращает true, если что-то удалено.
-     */
     public boolean trim(int limit) {
         if (messages.size() <= limit) {
             return false;

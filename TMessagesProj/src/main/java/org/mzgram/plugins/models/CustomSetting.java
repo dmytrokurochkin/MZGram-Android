@@ -8,13 +8,6 @@ import org.mzgram.plugins.Plugin;
 
 import org.telegram.ui.Components.UItem;
 
-/**
- * Произвольная строка настроек: либо готовый {@link UItem}, либо вью, либо фабрика.
- *
- * Фабрику плагины наследуют из Python через `@java_subclass(CustomSetting.Factory)`,
- * поэтому она обязана оставаться абстрактным джавовым классом поверх
- * {@link UItem.UItemFactory}.
- */
 public final class CustomSetting extends SettingItem {
 
     private PyObject onClickCallback;

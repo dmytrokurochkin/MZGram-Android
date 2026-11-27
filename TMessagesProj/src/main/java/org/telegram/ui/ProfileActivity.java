@@ -513,7 +513,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private ActionBarMenuItem videoCallItem;
     private ActionBarMenuItem editItem;
     private ActionBarMenuItem otherItem;
-    // mzgram plugins: подменю PROFILE_ACTION_MENU в меню «⋮».
     private org.mzgram.plugins.menus.MenuInjector.SwipeBackMenu pluginsMenu;
     private ActionBarMenuItem searchItem;
     private ActionBarMenuSubItem editColorItem;
@@ -2326,7 +2325,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().addWeakObserver(this, NotificationCenter.profileMusicUpdated);
         getNotificationCenter().addWeakObserver(this, NotificationCenter.updatedChatRanks);
         NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.emojiLoaded);
-        // mzgram plugins: реестр пунктов меняется, когда плагин включают/выключают.
         NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.pluginMenuItemsUpdated);
         updateRowsIds();
         if (listAdapter != null) {
@@ -6444,10 +6442,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateGooey() {
-        // Перенос из MZGram 12.9.0, ProfileActivity.java:13215-13236.
-        // Было три расхождения: настройка gooeyAvatarAnimation не проверялась вовсе
-        // (эффект работал всегда), кривая затухания была линейной за первые 25 %
-        // вместо pow(progress, 1.5), и giftsView не гас при отключённом эффекте.
         final float progress = pullUpProgress;
         final float fade = (float) Math.pow(progress, 1.5d);
         final boolean animateStory = storyView != null && playProfileAnimation != 2;
@@ -9716,7 +9710,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     @Override
     public void didReceivedNotification(int id, int account, final Object... args) {
         if (id == NotificationCenter.pluginMenuItemsUpdated) {
-            // mzgram plugins: пересобрать подменю PROFILE_ACTION_MENU.
             if (pluginsMenu != null) {
                 pluginsMenu.refresh();
             }
@@ -11481,8 +11474,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
                 settingsSectionRow = rowCount++;
 
-                // Строка настроек MZGram появляется только если её включили на
-                // экране «Other» — как и в общем списке настроек.
                 if (org.mzgram.general.GeneralConfig.showMZGramSettings()) {
                     coreRow = rowCount++;
                     coreSectionRow = rowCount++;
@@ -13266,7 +13257,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             actionsView.commitActions();
         }
 
-        // mzgram plugins: подменю PROFILE_ACTION_MENU в конце меню «⋮».
         if (otherItem != null) {
             java.util.Map<String, Object> pluginMenuContext = new java.util.HashMap<>();
             pluginMenuContext.put("account", currentAccount);

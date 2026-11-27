@@ -17,11 +17,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Настройки ленты для одного аккаунта: показывать ли каналы из архива и какие каналы исключены.
- * Хранится в отдельном SharedPreferences-файле на аккаунт, счётчик поколений растёт при любом
- * изменении и служит сигналом к пересборке ленты.
- */
 public final class FeedConfig {
 
     private static final String PREFERENCES_PREFIX = "feedconfig";
@@ -243,10 +238,6 @@ public final class FeedConfig {
         }
     }
 
-    /**
-     * Неизменяемый снимок исключённых каналов: можно читать с любого потока,
-     * пересборка ленты работает именно с ним, а не с живой коллекцией.
-     */
     public Set<Long> getExcludedSnapshot() {
         return excludedChannels;
     }
@@ -276,10 +267,6 @@ public final class FeedConfig {
         }
     }
 
-    /**
-     * Номер поколения настроек: меняется при каждой правке состава ленты.
-     * Потребители сравнивают его со своим сохранённым и пересобирают выборку при расхождении.
-     */
     public int getGeneration() {
         return generation.get();
     }

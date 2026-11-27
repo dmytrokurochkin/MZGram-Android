@@ -28,11 +28,6 @@ import org.mzgram.core.ui.icons.IconsResources;
 import org.mzgram.ext.ExtConfig;
 
 public class TimeStringHelper {
-    /**
-     * mzGram: «изменено» иконкой вместо слова.
-     * Источник один — ExtConfig.useEditedIcon: на него смотрят оба экрана,
-     * и MZGram-овский, и MZGram-овский.
-     */
     public static boolean useEditedIcon() {
         return ExtConfig.INSTANCE.getUseEditedIcon().Bool();
     }

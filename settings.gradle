@@ -20,7 +20,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // Aliuhook (Xposed-совместимые хуки поверх LSPlant) для движка плагинов
+        // Aliuhook (Xposed-compatible hooks on top of LSPlant) for the plugins engine
         maven { url "https://maven.aliucord.com/releases" }
     }
 }

@@ -20,28 +20,10 @@ import java.util.concurrent.Executors;
 
 import org.mzgram.debug.PluginToggleTrace;
 
-/**
- * Python-рантайм движка плагинов (Chaquopy, CPython 3.12).
- * Упрощённый аналог PythonPluginsEngine.java MZGram (3097 строк): без pip,
- * без dev-сервера, без Xposed — загрузка/выгрузка модулей, события, хуки.
- *
- * Вся Python-работа идёт через модуль-посредник {@code mz_utils.plugin_loader}
- * (лежит в src/main/python), который возвращает JSON-строки — так мост
- * не зависит от деталей конвертации Chaquopy.
- *
- * Потоки: старт интерпретатора и загрузка плагинов — на своём executor;
- * хуки зовутся синхронно из потока вызывающего (как у MZGram), GIL их
- * сериализует. Если движок ещё не поднялся, хук возвращает DEFAULT.
- */
 public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEngine {
 
     private static volatile PythonPluginsEngine instance;
 
-    /**
-     * Загруженные экземпляры BasePlugin по id — в форме MZGram.
-     * У нас они живут словарём на Python-стороне, но плагины каталога читают
-     * именно это поле: {@code engine.pluginInstances.get(plugin_id)}.
-     */
     public final ConcurrentHashMap<String, PyObject> pluginInstances = new ConcurrentHashMap<>();
 
     public ConcurrentHashMap<String, PyObject> getPluginInstances() {
@@ -80,13 +62,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         return started;
     }
 
-    /**
-     * Чей код лежит на питоновском стеке этого потока прямо сейчас.
-     *
-     * Нужно {@link PluginSinkGate}: колбэк, пришедший из Java, метки на потоке
-     * не имеет, а владелец определяется только по кадрам. Зовётся редко —
-     * лишь когда сработал сток и метки нет.
-     */
     public String pluginFromPythonStack() {
         if (!started || loader == null) {
             return null;
@@ -122,7 +97,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         void onStarted(boolean ok);
     }
 
-    /** Идемпотентный запуск интерпретатора. Колбэк придёт на потоке executor'а. */
     public void ensureStarted(Context appContext, StartCallback callback) {
         if (started || startFailed) {
             if (callback != null) {
@@ -141,7 +115,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
                 loader = Python.getInstance().getModule("mz_utils.plugin_loader");
                 started = true;
                 AndroidUtilities.runOnUIThread(PythonThreadState::pinCurrentThread);
-                // Dev-сервер (порт 42690) — только в developer mode; реализован в plugin_loader.
                 if (PluginsController.getInstance().isDeveloperMode()) {
                     try {
                         loader.callAttr("start_dev_server");
@@ -159,10 +132,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         });
     }
 
-    /**
-     * Что плагин может делать — статический разбор исходника перед установкой.
-     * @return JSON {"network":["requests"],...} или null, если движок не поднят.
-     */
     public String scanCapabilitiesJson(String path) {
         if (!started) {
             return null;
@@ -189,9 +158,7 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
     }
 
-    // ---------- журнал наблюдений ----------
 
-    /** Журнал Python-гейта по плагину (или по всем, если id == null). */
     public String getAuditJournalJson(String pluginId) {
         if (!started) {
             return null;
@@ -204,7 +171,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
     }
 
-    /** Счётчики по категориям: что плагин делал по факту. */
     public String getAuditProfileJson(String pluginId) {
         if (!started) {
             return null;
@@ -217,7 +183,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
     }
 
-    /** Забыть наблюдения плагина (удаление плагина, сброс профиля). */
     public void forgetAudit(String pluginId) {
         if (PluginSinkGate.refuseFromPlugin("forgetAudit", false)) {
             return;
@@ -233,12 +198,7 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
     }
 
-    // ---------- метаданные ----------
 
-    /**
-     * Прочитать метаданные .py-файла без его выполнения (AST на Python-стороне).
-     * @return JSON {"ok":true,"meta":{...}} или {"ok":false,"error":"..."}; null при сбое моста.
-     */
     public String readMetadataJson(String path) {
         if (!started) {
             return null;
@@ -251,9 +211,7 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
     }
 
-    // ---------- жизненный цикл ----------
 
-    /** Загрузить плагин (импорт модуля, инстанс BasePlugin, on_plugin_load). Синхронно. */
     public String loadPlugin(Plugin plugin) {
         if (PluginSinkGate.refuseFromPlugin("loadPlugin", true)) {
             return "{\"ok\":false,\"error\":\"not allowed\"}";
@@ -268,7 +226,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
             FileLog.e("PluginsEngine: sink gate install failed", t);
         }
         PluginsWatchdog watchdog = PluginsController.getInstance().getWatchdog();
-        // Загрузка — единственный заход, который пишется в маркер сразу.
         watchdog.notePluginEnter(plugin.id, true);
         final PluginToggleTrace trace = PluginToggleTrace.current();
         try {
@@ -301,11 +258,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
     }
 
-    /**
-     * Пересканировать каталог плагинов и выполнить колбэк. У MZGram менеджеры
-     * плагинов зовут это после установки или удаления файла:
-     * {@code controller.engines.get("python").loadPlugins(callback)}.
-     */
     public void loadPlugins(Object callback) {
         try {
             PluginsController.getInstance().rescanPlugins();
@@ -321,7 +273,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
     }
 
-    /** Выгрузить плагин (on_plugin_unload + очистка). Синхронно. */
     public void unload(Plugin plugin) {
         if (PluginSinkGate.refuseFromPlugin("unload", true)) {
             return;
@@ -375,12 +326,9 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
         plugin.loaded = false;
         pluginInstances.remove(plugin.id);
-        // Пункты меню плагина сняты вместе с ним — подменю надо пересобрать.
         PluginsController.getInstance().notifyMenuItemsUpdated();
     }
 
-    /** Полная деинсталляция на Python-стороне: pip-зависимости (refcount),
-     *  вычистка mzpack-экстракций. Звать ПОСЛЕ unloadPlugin. */
     public void uninstallPlugin(String pluginId) {
         if (PluginSinkGate.refuseFromPlugin("uninstallPlugin", true)) {
             return;
@@ -395,7 +343,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         }
     }
 
-    // ---------- события и хуки (синхронно, из потока вызывающего) ----------
 
     public void callAppEvent(String pluginId, String event) {
         callSimple(pluginId, "call_app_event", event);
@@ -426,9 +373,7 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         return resultOf(result);
     }
 
-    // ---------- экран настроек плагина ----------
 
-    /** @return JSON-список элементов настроек (ui.settings) с текущими значениями. */
     private static final long SETTINGS_JSON_TTL_MS = 500;
     private final java.util.concurrent.ConcurrentHashMap<String, Object[]> settingsJsonCache = new java.util.concurrent.ConcurrentHashMap<>();
 
@@ -575,7 +520,6 @@ public class PythonPluginsEngine extends org.mzgram.sdk.plugins.PythonPluginsEng
         callSimple(pluginId, "dispatch_setting_click", callbackId, view);
     }
 
-    // ---------- внутреннее ----------
 
     private void callSimple(String pluginId, String method, Object... args) {
         callHook(pluginId, method, args);

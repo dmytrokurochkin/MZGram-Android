@@ -6,12 +6,6 @@ import org.telegram.messenger.FileLog
 import org.mzgram.core.CoreConfig
 import org.mzgram.core.config.ConfigItem
 
-/**
- * Настройки подсистемы Icon Packs (порт из MZGram).
- *
- * Схема повторяет [org.mzgram.MZGramConfig]: те же SharedPreferences, тот же [ConfigItem],
- * собственный список конфигов. Ключи с префиксом MZIcon.
- */
 object IconPacksConfig {
 
     private val sync = Any()
@@ -26,35 +20,18 @@ object IconPacksConfig {
     @JvmStatic
     fun getPreferences(): SharedPreferences = CoreConfig.getPreferences()
 
-    /** Главный выключатель подсистемы: пока выключен — подмена иконок не выполняется вообще. */
     @JvmField
     val enabled = addConfig("MZIconPacksEnabled", ConfigItem.configTypeBool, false)
 
-    /**
-     * Упорядоченный список id включённых паков через запятую.
-     * Первый пак в списке имеет наивысший приоритет при конфликте имён иконок.
-     */
     @JvmField
     val activePacks = addConfig("MZIconPacksActive", ConfigItem.configTypeString, "")
 
-    /**
-     * Id пака, который сейчас редактируется точечной заменой иконок.
-     * Пустая строка — режим редактирования выключен.
-     */
     @JvmField
     val editingPackId = addConfig("MZIconPacksEditing", ConfigItem.configTypeString, "")
 
-    /** Подменять ли иконку уведомлений картинкой из активного пака. */
     @JvmField
     val customNotificationIcon = addConfig("MZIconPacksNotificationIcon", ConfigItem.configTypeBool, false)
 
-    /**
-     * Обрезать логотип в шапке настроек по форме иконок лаунчера.
-     *
-     * Перенос ключа `useSystemIconShape` MZGram (12.9.0). Переключается долгим
-     * нажатием на самом логотипе — своей строки в настройках у него нет и там
-     * (MainPreferencesActivity:211).
-     */
     @JvmField
     val useSystemIconShape = addConfig("MZIconPacksSystemShape", ConfigItem.configTypeBool, false)
 
@@ -71,7 +48,6 @@ object IconPacksConfig {
     @JvmStatic
     fun enabled(): Boolean = enabled.Bool()
 
-    /** Id редактируемого пака или null. */
     @JvmStatic
     fun currentEditingPackId(): String? {
         val value = editingPackId.String()
@@ -89,7 +65,6 @@ object IconPacksConfig {
     @JvmStatic
     fun customNotificationIcon(): Boolean = customNotificationIcon.Bool()
 
-    /** Разбирает [activePacks] в список id. */
     @JvmStatic
     fun getActivePackIds(): MutableList<String> {
         val raw = activePacks.String()
@@ -108,7 +83,6 @@ object IconPacksConfig {
     @JvmStatic
     fun isPackActive(packId: String): Boolean = getActivePackIds().contains(packId)
 
-    /** Включает/выключает пак, возвращает новое состояние. */
     @JvmStatic
     fun togglePack(packId: String): Boolean {
         val ids = getActivePackIds()
@@ -123,7 +97,6 @@ object IconPacksConfig {
         return nowActive
     }
 
-    /** Убирает пак из активных (например, после удаления с диска). */
     @JvmStatic
     fun forgetPack(packId: String) {
         val ids = getActivePackIds()

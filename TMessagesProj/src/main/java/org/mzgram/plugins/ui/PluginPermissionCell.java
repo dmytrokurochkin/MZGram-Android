@@ -23,24 +23,9 @@ import org.telegram.ui.Components.Switch;
 
 import java.util.List;
 
-/**
- * Строка разрешения: подпись, управляющий элемент и раскрывашка с уликами.
- *
- * Одна и та же строка нужна в двух местах — в листе установки (галочка) и на
- * экране разрешений (тумблер), — и в обоих человек спрашивает одно и то же:
- * «а почему приложение решило, что плагин это просит». Раньше улики были
- * свалены одной серой строкой над списком: по ней нельзя понять, какая находка
- * к какому разрешению относится. Здесь у каждой строки своя стрелка справа, а
- * под ней — те самые имена из исходника.
- *
- * Технические имена ({@code requests}, {@code SendMessagesHelper}) не
- * переводятся намеренно: их можно поискать в файле плагина и проверить руками.
- */
 public class PluginPermissionCell extends FrameLayout {
 
-    /** Галочка — лист установки: выбираем, что выдать. */
     public static final int TYPE_CHECKBOX = 0;
-    /** Тумблер — экран разрешений: меняем уже выданное. */
     public static final int TYPE_SWITCH = 1;
 
     private final LinearLayout root;
@@ -116,9 +101,6 @@ public class PluginPermissionCell extends FrameLayout {
                 4, 0, type == TYPE_SWITCH ? 6 : 12, 0));
 
         if (switchView != null) {
-            // 21dp — как у штатного TextCheckCell: тумблер стоит на одной
-            // вертикали с тумблерами остальных экранов, а не впритык к краю
-            // карточки секции.
             row.addView(switchView, LayoutHelper.createLinear(37, 40, Gravity.CENTER_VERTICAL,
                     0, 0, 21, 0));
         }
@@ -149,7 +131,6 @@ public class PluginPermissionCell extends FrameLayout {
         onExpandChanged = listener;
     }
 
-    /** Клик по строке: у галочки — переключение, у тумблера — то же самое. */
     public void setOnToggle(Runnable listener) {
         setOnClickListener(listener == null ? null : v -> listener.run());
         setBackground(listener == null ? null
@@ -188,10 +169,6 @@ public class PluginPermissionCell extends FrameLayout {
         }
     }
 
-    /**
-     * @param evidence имена из исходника, по которым разрешение вообще попало
-     *                 в список; пустой список — стрелки нет, раскрывать нечего.
-     */
     public void set(String permission, CharSequence title, CharSequence subtitle,
                     List<String> evidence, boolean divider) {
         this.permission = permission;

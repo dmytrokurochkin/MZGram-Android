@@ -16,21 +16,8 @@ import androidx.core.graphics.PathParser;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 
-/**
- * Форма иконки приложения — та же, что у лаунчера.
- *
- * Перенос MZGram 12.9.0:preferences/utils/IconShapeHelper.java. Логотип в
- * шапке настроек обрезается по маске системы: на Pixel он круг, на других
- * прошивках — сквиркл, капля или прямоугольник со скруглением. Смысл в том,
- * чтобы логотип в приложении выглядел так же, как на рабочем столе.
- *
- * Форма берётся из {@link AdaptiveIconDrawable#getIconMask()} (API 26+), а если
- * оттуда пусто — из системной строки {@code config_icon_mask}. Ничего не
- * нашлось — рисуем круг.
- */
 public final class IconShapeHelper {
 
-    /** Круг: запасной вариант, если форму системы получить не удалось. */
     private static final String DEFAULT_CIRCLE_PATH = "M50,0A50,50,0,0,1,50,100A50,50,0,0,1,50,0";
 
     private static Path cachedSystemPath;
@@ -43,14 +30,6 @@ public final class IconShapeHelper {
     private IconShapeHelper() {
     }
 
-    /**
-     * Путь формы под размер {@code width}×{@code height} (в dp).
-     *
-     * @param cornerRadius радиус для прямоугольных масок, dp. У прямоугольной
-     *                     маски системы углы острые, а логотипу это не идёт —
-     *                     MZGram в этом случае рисует скруглённый прямоугольник
-     *                     сам, а не тянет системный путь.
-     */
     public static Path getFinalIconShapePath(float width, float height, float cornerRadius) {
         boolean useSystem = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                 && IconPacksConfig.useSystemIconShape();
@@ -71,7 +50,6 @@ public final class IconShapeHelper {
         return path;
     }
 
-    /** Забыть форму системы: её меняют в настройках лаунчера без перезапуска приложения. */
     public static void invalidate() {
         cacheInitialized = false;
         cachedSystemPath = null;
@@ -136,7 +114,6 @@ public final class IconShapeHelper {
         return out;
     }
 
-    /** Прямоугольная ли маска — точно или с точностью до острых углов. */
     private static boolean calculateIfShouldUseRoundedRect(Path path, RectF bounds) {
         if (path.isEmpty()) {
             return false;
@@ -148,13 +125,6 @@ public final class IconShapeHelper {
         return region.isRect() || hasSharpCorners(path, bounds);
     }
 
-    /**
-     * Заполнены ли все четыре угла маски.
-     *
-     * Проба — квадрат в десятую часть меньшей стороны (но не меньше 3 px) в
-     * каждом углу: если маска накрывает все четыре, это прямоугольник, пусть
-     * и слегка скруглённый.
-     */
     private static boolean hasSharpCorners(Path path, RectF bounds) {
         if (bounds.width() <= 0f || bounds.height() <= 0f) {
             return false;

@@ -29,7 +29,6 @@ public final class AppIcons {
     private static final HashMap<LauncherIcon, Integer> accents = new HashMap<>();
     private static volatile LauncherIcon pending;
 
-    // пока все подписи пустые, строка под названием не показывается
     static {
         DESCRIPTIONS.put("MZGRAM", R.string.AppIconInfoMZGram);
         DESCRIPTIONS.put("BLUEPRINT", R.string.AppIconInfoBlueprint);
@@ -112,7 +111,6 @@ public final class AppIcons {
         });
     }
 
-    // слои 108dp, а видно только 72dp в центре
     static void draw(Canvas canvas, Drawable background, Drawable foreground, int size) {
         int bleed = size / 4;
         if (background != null) {

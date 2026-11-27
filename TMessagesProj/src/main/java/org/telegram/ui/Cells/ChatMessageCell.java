@@ -1428,21 +1428,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     int lastPollResultsVoters;
     TimerParticles timerParticles;
 
-    /**
-     * mzGram: «хвостик» пузыря убран (ChatsConfig.removeMessageTail).
-     * Сам пузырь рисует MessageDrawable.generatePath, патч стоит и там.
-     * Здесь только зависимые от хвостика геометрии в ячейке.
-     */
     static boolean mzRemoveMessageTail() {
         org.mzgram.chats.ChatsConfig.ensureLoaded();
         return org.mzgram.chats.ChatsConfig.removeMessageTail.Bool();
     }
 
-    /**
-     * mzGram: показывать результаты опроса до голосования
-     * (ChatsConfig.showResultsBeforeVoting). Перенесено из MZGram 12.9.0,
-     * ChatMessageCell.isPollResultsPreviewEnabled().
-     */
     static boolean isPollResultsPreviewEnabled(MessageObject messageObject, TLRPC.TL_messageMediaPoll media) {
         if (messageObject == null || media == null) {
             return false;
@@ -2034,7 +2024,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
     }
 
-    /** Кисть и путь онлайн-точки. Метод зовётся на каждую отрисовку списка сообщений. */
     private static Paint onlineStatusPaint;
     private static Path onlineStatusPath;
 
@@ -2047,10 +2036,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         float x = imageReceiver.getImageX2();
         float y = imageReceiver.getImageY2();
         float circleRadius = radius - AndroidUtilities.dp(2.25f);
-        // У круглой аватарки точка сидит на радиусе от угла картинки, у
-        // квадратной так она наползала бы на саму картинку — MZGram уводит её
-        // по диагонали (MZConfig.getOnlineDotOffset). При круглых
-        // аватарках (значение по умолчанию) выражение даёт прежний radius.
         float offset = org.mzgram.appearance.AppearanceConfig.onlineDotOffset(radius, radius);
 
         if (onlineStatusPaint == null) {
@@ -9296,7 +9281,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     availableTimeWidth = photoWidth - dp(14);
                     backgroundWidth = photoWidth + dp(12);
 
-                    // mzGram: форма стикеров (org.mzgram.chats.ChatsConfig)
                     int mzStickerShape = org.mzgram.chats.ChatsConfig.stickerShape();
                     if (mzStickerShape == 1) {
                         photoImage.setRoundRadius(dp(6));
@@ -12297,7 +12281,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     radii[a * 2] = radii[a * 2 + 1] = dp(pinnedBottom ? Math.min(5, SharedConfig.bubbleRadius) : SharedConfig.bubbleRadius);
                                     continue;
                                 }
-                                // mzGram: без хвостика скругляем и «хвостовой» угол
                                 if (mzRemoveMessageTail() && a == (out ? 2 : 3)) {
                                     radii[a * 2] = radii[a * 2 + 1] = dp(SharedConfig.bubbleRadius);
                                     continue;
@@ -22305,9 +22288,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 // The widget's bottom corner under the time follows the bubble's (RichWidgetBlock#cornerRadii).
                 r = Math.min(dp(8), SharedConfig.bubbleRadius > 2 ? dp(SharedConfig.bubbleRadius - 2) : dp(SharedConfig.bubbleRadius));
                 bigRadius = SharedConfig.bubbleRadius >= 10;
-            // Форма стикера «как сообщение»: плашка времени берёт радиус у самой
-            // картинки, иначе она остаётся круглой на скруглённом по-пузырю
-            // стикере.
             } else if ((documentAttachType != DOCUMENT_ATTACH_TYPE_ROUND && documentAttachType != DOCUMENT_ATTACH_TYPE_STICKER && currentMessageObject.type != MessageObject.TYPE_EMOJIS)
                     || (documentAttachType == DOCUMENT_ATTACH_TYPE_STICKER && org.mzgram.chats.ChatsConfig.stickerShape() == 2)) {
                 int[] rad = photoImage.getRoundRadius();

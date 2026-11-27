@@ -47,17 +47,6 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
         this.sizeDp = sizeDp;
     }
 
-    /**
-     * Иконка из пака вместо анимации Lottie.
-     *
-     * Кнопка эмодзи рисуется анимацией (улыбка перетекает в клавиатуру), а
-     * анимацию иконпаком не подменишь: в паке лежат обычные картинки. MZGram
-     * ради этого держит отдельный ChatActivityEnterViewStaticIconView и
-     * подставляет его, когда активен не только встроенный набор
-     * (ChatActivityEnterView:5335). У нас то же самое сделано режимом внутри
-     * этого же класса: setImageResource проходит через IconsResources, и
-     * картинка берётся из пака сама.
-     */
     private boolean useStaticIcons() {
         try {
             return org.mzgram.icons.IconPackManager.getInstance().hasReplacements();

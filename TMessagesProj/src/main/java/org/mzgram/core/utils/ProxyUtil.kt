@@ -62,12 +62,6 @@ object ProxyUtil {
         set(value) = MessagesController.getGlobalMainSettings().edit()
             .putBoolean(PROXY_AUTO_DISABLED_KEY, value).apply()
 
-    /**
-     * Подходит ли текущая сеть под условия автоотключения прокси.
-     *
-     * У MZGram условие было одно — VPN; MZGram 12.9.2 держит маску из VPN,
-     * мобильного интернета и Wi-Fi, см. [MZGramConfig.proxyDisableConditions].
-     */
     private fun shouldDisableProxyOn(capabilities: NetworkCapabilities): Boolean {
         if (MZGramConfig.isProxyDisabledOn(ProxyDisableCondition.VPN) &&
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN)

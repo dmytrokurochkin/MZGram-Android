@@ -28,12 +28,6 @@ import java.util.Locale;
 import org.mzgram.core.settings.BaseCoreSettingsActivity;
 import org.mzgram.core.ui.cells.HeaderCell;
 
-/**
- * Экран настроек Pill Stack: какие пилюли показывать, в каком порядке,
- * плюс параметры курсов и погоды.
- *
- * Полное имя класса — часть контракта с общим экраном настроек, не переименовывать.
- */
 public class PillStackSettingsActivity extends BaseCoreSettingsActivity {
 
     private final ArrayList<Integer> activePills = new ArrayList<>();
@@ -130,7 +124,6 @@ public class PillStackSettingsActivity extends BaseCoreSettingsActivity {
         hiddenInfoRow = addRow();
 
         if (activePills.contains(PillType.WEATHER.id)) {
-            // сами настройки погоды живут на отдельном экране (как в MZGram)
             weatherRow = addRow("weather");
             weatherDividerRow = addRow();
         } else {
@@ -277,7 +270,6 @@ public class PillStackSettingsActivity extends BaseCoreSettingsActivity {
         return getString(R.string.PillStackWeatherLocationNotSet);
     }
 
-    /** Перетаскивание внутри секции активных пилюль. */
     private class ReorderCallback extends ItemTouchHelper.Callback {
 
         @Override

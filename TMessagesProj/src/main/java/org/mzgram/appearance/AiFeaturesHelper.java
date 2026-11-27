@@ -5,13 +5,8 @@ import android.text.TextUtils;
 import org.telegram.tgnet.tl.TL_iv;
 import org.telegram.ui.ArticleViewer;
 
-/**
- * Гейты апстримных AI-функций Telegram: кнопка редактора, саммари сообщения
- * и врезка саммари в Instant View.
- */
 public final class AiFeaturesHelper {
 
-    /** Заголовок врезки, которой Telegram помечает саммари страницы. */
     private static final String IV_SUMMARY_CAPTION = "Cocoon AI Summary";
 
     private AiFeaturesHelper() {

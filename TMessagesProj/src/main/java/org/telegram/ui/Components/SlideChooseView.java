@@ -224,8 +224,6 @@ public class SlideChooseView extends View {
         gapSize = AndroidUtilities.dp(2);
         sideSide = AndroidUtilities.dp(22);
         lineSize = (getMeasuredWidth() - circleSize * optionsStr.length - gapSize * 2 * (optionsStr.length - 1) - sideSide * 2) / Math.max(1, optionsStr.length - 1);
-        // См. SeekBarView.onMeasure: у краёв экрана системный жест «назад»
-        // забирает касание себе, и ползунок вместо перетаскивания закрывает экран.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             gestureExclusionRects.clear();
             gestureExclusionRects.add(new Rect(0, 0, AndroidUtilities.dp(80), getMeasuredHeight()));
@@ -236,11 +234,6 @@ public class SlideChooseView extends View {
 
     private final java.util.ArrayList<android.graphics.Rect> gestureExclusionRects = new java.util.ArrayList<>();
 
-    /**
-     * Material-слайдер включается только для
-     * непрерывной шкалы без пунктира и без ограничения снизу.
-     * У MZGram вместо булева флага три стиля (ExtConfig.sliderStyle), MD3 — второй.
-     */
     private boolean canUseMaterialSlider() {
         return ExtConfig.INSTANCE.getSliderStyle().Int() == SeekBarView.SLIDER_STYLE_MD3
                 && optionsStr != null && optionsStr.length > 1
@@ -329,16 +322,6 @@ public class SlideChooseView extends View {
         canvas.drawCircle(cx, cy, AndroidUtilities.dp(6), paint);
     }
 
-    /**
-     * MD3-слайдер с засечками. MZGram встраивает com.google.android.material.slider.Slider
-     * (MaterialSliderUiHelper.java:45-69): trackHeight 8dp, thumb 3x24dp, засечки радиусом 2dp,
-     * haloRadius 0; зазор 6dp и внутренний угол 2dp — из темы Widget.Material3.Slider
-     * (res/values/styles.xml:8902). Зависимости material в дереве нет, рисуем теми же числами.
-     * Цвета — SlideChooseView.java:168-171: активная дорожка key_switchTrackChecked,
-     * неактивная key_switchTrack, засечки key_windowBackgroundWhite.
-     * Метод drawContent MZGram не декомпилирован (831 инструкция), поэтому подписи
-     * оставлены на прежних местах.
-     */
     private void drawMaterialSlider(Canvas canvas, float thumbCx, int cy) {
         final float trackHeight = AndroidUtilities.dp(8);
         final float thumbWidth = AndroidUtilities.dp(3);

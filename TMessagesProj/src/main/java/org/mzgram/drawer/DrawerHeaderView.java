@@ -44,17 +44,6 @@ import org.telegram.ui.DialogsActivity;
 
 import org.mzgram.core.CoreConfig;
 
-/**
- * Шапка бокового меню: аватар 72dp, переключатель темы, пилюля прокси, имя и подпись.
- *
- * Отличия от MZGram:
- * — нет «бейджа MZGram» ({@code BadgesController}/{@code BadgeDTO}): это его сервер,
- *   поэтому убраны {@code mzBadgeDrawable}, {@code onBadgeClick} и второй правый drawable;
- * — иконки прокси взяты из MZGram ({@code proxy_on_solar}/{@code proxy_off_solar}) —
- *   {@code drawer_proxy_on/off} из MZGram в ресурсах форка нет;
- * — подпись пинга собирается вручную: строки {@code NavigationDrawerProxyPingShort}
- *   («%1$d ms») в форке пока нет.
- */
 public class DrawerHeaderView extends FrameLayout {
 
     private static final int COLOR_KEY_TEXT = Theme.key_windowBackgroundWhiteBlackText;
@@ -215,7 +204,6 @@ public class DrawerHeaderView extends FrameLayout {
         return themeToggleView;
     }
 
-    /** Центр кнопки в координатах окна. */
     public int[] getThemeTogglePosition() {
         final int[] pos = new int[2];
         themeToggleBg.getLocationInWindow(pos);
@@ -298,7 +286,6 @@ public class DrawerHeaderView extends FrameLayout {
         } else if (user.phone == null || user.phone.isEmpty()) {
             subtitleView.setText(LocaleController.getString(R.string.NumberUnknown));
         } else if (CoreConfig.hidePhone.Bool()) {
-            // Аналог MZConfig.getHidePhoneNumber() — у нас CoreConfig.hidePhone.
             subtitleView.setText(LocaleController.getString(R.string.MobileHidden));
         } else {
             subtitleView.setText(PhoneFormat.getInstance().format("+" + user.phone));
@@ -321,7 +308,6 @@ public class DrawerHeaderView extends FrameLayout {
         updateProxyStatus();
     }
 
-    /** Три состояния пилюли. */
     public void updateProxyStatus() {
         final boolean proxyEnabled = SharedConfig.isProxyEnabled();
         final int connectionState = ConnectionsManager.getInstance(UserConfig.selectedAccount).getConnectionState();
@@ -383,7 +369,6 @@ public class DrawerHeaderView extends FrameLayout {
         premiumStatusDrawable.detach();
     }
 
-    // ---- переключатель темы ----
 
     private void resetThemeTogglePressAnimation() {
         themeToggleBg.setPressed(false);
@@ -437,7 +422,6 @@ public class DrawerHeaderView extends FrameLayout {
         themeToggleView.invalidate();
     }
 
-    /** Перекраска слоёв sun.json. */
     private void applyThemeToggleColors(RLottieDrawable drawable, int color) {
         drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
         drawable.beginApplyLayerColors();

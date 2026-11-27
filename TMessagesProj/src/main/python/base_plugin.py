@@ -540,9 +540,6 @@ class BasePlugin:
     MenuType = MenuItemType
     _mzgram_send_message_registered = False
 
-    #: Идентификатор плагина. Плагины читают именно `self.id` — так называется
-    #: это поле у MZGram, и без него у них падает всё, что обращается к
-    #: контроллеру по id (обновление экрана настроек, поиск себя в реестре).
     id: Optional[str] = None
     enabled: bool = True
 
@@ -716,7 +713,6 @@ class BasePlugin:
             self.log(f"add_hook({entry[0]!r}) failed: {e}")
 
     def remove_hook(self, name: str):
-        """Снять хук, поставленный add_hook()/add_on_send_message_hook()."""
         key = str(name)
         if key == "on_send_message_hook":
             self.__dict__["_mzgram_send_message_registered"] = False

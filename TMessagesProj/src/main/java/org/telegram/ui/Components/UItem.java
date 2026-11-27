@@ -46,12 +46,10 @@ public class UItem extends AdapterWithDiffUtils.Item implements Cloneable {
     public CharSequence animatedText;
     public String[] texts;
     public boolean accent, red, transparent, locked;
-    /** Подпись строки переносится на несколько строк, а не обрезается. */
     public boolean multiline;
     public int spanCount = MAX_SPAN_COUNT;
     public int parentSpanCount;
 
-    /** Модель строки настроек плагина, если строку собрал плагин через SDK MZGram. */
     public org.mzgram.plugins.models.SettingItem settingItem;
 
     public boolean include;
@@ -346,7 +344,6 @@ public class UItem extends AdapterWithDiffUtils.Item implements Cloneable {
         return i;
     }
 
-    /** Переключатель с иконкой слева. */
     public static UItem asCheck(int id, CharSequence text, int iconResId) {
         UItem i = new UItem(UniversalAdapter.VIEW_TYPE_CHECK, false);
         i.id = id;
@@ -355,7 +352,6 @@ public class UItem extends AdapterWithDiffUtils.Item implements Cloneable {
         return i;
     }
 
-    /** Переключатель с подписью под заголовком. */
     public static UItem asCheck(int id, CharSequence text, CharSequence value, boolean multiline) {
         UItem i = new UItem(UniversalAdapter.VIEW_TYPE_CHECK, false);
         i.id = id;

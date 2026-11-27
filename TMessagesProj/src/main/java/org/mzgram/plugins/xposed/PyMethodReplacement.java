@@ -10,16 +10,6 @@ import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
 
-/**
- * Замена метода: Python-метод {@code replace_hooked_method(param)} вызывается ВМЕСТО
- * оригинала, его возвращаемое значение становится результатом (None -> null для
- * ссылочных типов). Гейтится только "before"-фильтрами.
- *
- * Наследуемся от XC_MethodHook, а не от XC_MethodReplacement, намеренно: у
- * XC_MethodReplacement.beforeHookedMethod (final) любой вылет из replaceHookedMethod
- * превращается в param.setThrowable — исключение улетит в вызывающий код приложения.
- * Нам это нельзя: при ошибке Python param не трогаем, и выполняется оригинальный метод.
- */
 public class PyMethodReplacement extends XC_MethodHook {
 
     private final String pluginId;
@@ -60,50 +50,41 @@ public class PyMethodReplacement extends XC_MethodHook {
         XposedHooks.PyResult result =
                 XposedHooks.callPython(pluginId, replaceCall, param, stats);
         if (!result.ok) {
-            return; // ошибка уже ушла в watchdog; param не тронут — выполнится оригинал
+            return;
         }
         try {
             applyResult(param, result.value);
         } catch (Throwable t) {
-            // Результат не сконвертировался в returnType — param не трогаем.
             XposedHooks.reportError(pluginId, t);
         }
     }
 
-    /**
-     * Поставить результат замены в param. Конвертация — через Chaquopy toJava под
-     * точный returnType метода (Python int -> правильный примитив и т.п.).
-     */
     private void applyResult(MethodHookParam param, PyObject pyResult) {
         if (!(param.method instanceof Method)) {
-            // Конструктор: объект уже аллоцирован, setResult бессмысленен — Xposed
-            // не умеет подменять результат конструктора.
             return;
         }
         Class<?> returnType = ((Method) param.method).getReturnType();
         if (returnType == void.class || returnType == Void.class) {
-            param.setResult(null); // просто подавляем вызов оригинала
+            param.setResult(null);
             return;
         }
-        if (pyResult == null) { // Chaquopy может вернуть Java null для Python None
+        if (pyResult == null) {
             setNullResult(param, returnType);
             return;
         }
         if (returnType.isPrimitive()) {
-            if (pyResult.toJava(Object.class) == null) { // Python вернул None
+            if (pyResult.toJava(Object.class) == null) {
                 setNullResult(param, returnType);
                 return;
             }
-            // toJava(primitive.class) возвращает точный boxed-тип для unbox в бридже.
             param.setResult(pyResult.toJava(returnType));
             return;
         }
-        param.setResult(pyResult.toJava(returnType)); // None -> null для ссылочных типов
+        param.setResult(pyResult.toJava(returnType));
     }
 
     private void setNullResult(MethodHookParam param, Class<?> returnType) {
         if (returnType.isPrimitive()) {
-            // null в примитив не распакуется (NPE в бридже) — оставляем оригинал.
             FileLog.e("XposedHooks: replacement for " + param.method
                     + " returned None for primitive " + returnType + ", running original");
             return;

@@ -11,26 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Распознавание текстовых и кодовых файлов, которые стоит открывать не «скачать и отдать
- * стороннему приложению», а внутренним Instant View с подсветкой синтаксиса.
- *
- * MZGram: {@code org/mzgram/sdk/utils/MarkdownUtils.java} (12.9.0), перенесён целиком.
- * Потребитель — {@code org.telegram.ui.Components.MarkdownParser}: {@code isMarkdown} получает
- * третий дизъюнкт, а {@code fromMarkdown} — развилку «markdown или преформат».
- */
 public final class MarkdownUtils {
 
     private MarkdownUtils() {
     }
 
-    /**
-     * Расширения, которые считаем markdown-подобными, хотя языка у них нет:
-     * такой файл уйдёт в обычный markdown-парсер.
-     */
     private static final String[] MARKDOWN_TEXT_EXTENSIONS = {"txt", "text"};
 
-    /** MIME-префиксы, по которым файл открывается во вьюере даже без узнаваемого расширения. */
     private static final String[] MARKDOWN_MIME_PREFIXES = {
             "text/plain", "text/x-diff", "text/x-patch", "text/csv", "text/xml", "text/yaml",
             "text/x-yaml", "text/css", "text/javascript", "application/json", "application/ld+json",
@@ -38,13 +25,10 @@ public final class MarkdownUtils {
             "application/javascript", "application/x-javascript", "application/x-sh"
     };
 
-    /** расширение (без точки, в нижнем регистре) → имя языка для {@code CodeHighlighting}. */
     private static final HashMap<String, String> PREFORMATTED_EXTENSION_LANGUAGES = new HashMap<>();
-    /** имя файла целиком (в нижнем регистре) → язык: Dockerfile, Makefile, .gitignore и т.п. */
     private static final HashMap<String, String> PREFORMATTED_FILENAMES = new HashMap<>();
 
     static {
-        // Таблица один в один, порядок сохранён
         addLanguage("plain", "log");
         addLanguage("diff", "diff", "patch");
         addLanguage("json", "json", "webmanifest");
@@ -113,20 +97,11 @@ public final class MarkdownUtils {
     }
 
     private static void addLanguage(String language, String... extensions) {
-        // ключи кладём как есть: сюда попадают только литералы из статического блока,
-        // а на чтении расширение всегда прогоняется через normalizeExtension.
         for (String extension : extensions) {
             PREFORMATTED_EXTENSION_LANGUAGES.put(extension, language);
         }
     }
 
-    /**
-     * Режет текст на блоки {@code pageBlockPreformatted} по {@code chunkSize} символов.
-     *
-     * Разрез идёт по последнему переводу строки перед границей — иначе подсветка ломается
-     * посреди токена, а строка визуально рвётся между блоками.
-     * Пустой файл всё равно даёт один блок, чтобы вьюер не показал пустую статью.
-     */
     public static void appendPreformattedBlocks(List<TL_iv.PageBlock> blocks, String text, String language, int chunkSize) {
         final int size = Math.max(1, chunkSize);
         if (TextUtils.isEmpty(text)) {
@@ -153,13 +128,11 @@ public final class MarkdownUtils {
         }
     }
 
-    /** Имя файла без пути — учитываются оба разделителя, файл мог приехать с Windows. */
     private static String getBaseName(String path) {
         final int index = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'));
         return index >= 0 ? path.substring(index + 1) : path;
     }
 
-    /** Первый {@code TL_documentAttributeFilename} документа. */
     public static String getDocumentFileName(TLRPC.Document document) {
         if (document != null && document.attributes != null) {
             final ArrayList<TLRPC.DocumentAttribute> attributes = document.attributes;
@@ -173,10 +146,6 @@ public final class MarkdownUtils {
         return null;
     }
 
-    /**
-     * Расширение из имени файла. Точка на нулевой позиции не считается расширением
-     * (иначе {@code .gitignore} стал бы расширением {@code gitignore})
-     */
     private static String getExtensionFromFileName(String fileName) {
         if (TextUtils.isEmpty(fileName)) {
             return "";
@@ -189,10 +158,6 @@ public final class MarkdownUtils {
         return "";
     }
 
-    /**
-     * Язык подсветки: сначала по имени файла, потом по расширению, потом по MIME.
-     * Пустая строка означает «это не код» — вызывающий уходит в обычный markdown.
-     */
     public static String getPreformattedLanguage(String fileName, String extension, String mimeType) {
         final String byFileName = getPreformattedLanguageByFileName(fileName);
         if (!TextUtils.isEmpty(byFileName)) {
@@ -201,7 +166,6 @@ public final class MarkdownUtils {
 
         String ext = normalizeExtension(extension);
         if (TextUtils.isEmpty(ext)) {
-            // у документа расширения может не быть вовсе — достаём из имени
             ext = getExtensionFromFileName(fileName);
         }
         final String byExtension = PREFORMATTED_EXTENSION_LANGUAGES.get(ext);
@@ -222,7 +186,6 @@ public final class MarkdownUtils {
         if (mime.startsWith("text/xml") || mime.startsWith("application/xml")) {
             return "xml";
         }
-        // json5 проверяется раньше json: "application/json5" начинается с "application/json"
         if (mime.startsWith("application/json5")) {
             return "json5";
         }
@@ -246,9 +209,6 @@ public final class MarkdownUtils {
         return "";
     }
 
-    /**
-     * Файлы без расширения и с суффиксами вида {@code Dockerfile.dev}, {@code .env.local}
-     */
     private static String getPreformattedLanguageByFileName(String fileName) {
         if (TextUtils.isEmpty(fileName)) {
             return "";
@@ -270,7 +230,6 @@ public final class MarkdownUtils {
         return "";
     }
 
-    /** Стоит ли открывать это сообщение внутренним вьюером. */
     public static boolean isMZMarkdown(MessageObject messageObject) {
         if (messageObject == null) {
             return false;
@@ -313,7 +272,6 @@ public final class MarkdownUtils {
         return false;
     }
 
-    /** Срезает ведущие точки и приводит к нижнему регистру: «.KT» → «kt». */
     private static String normalizeExtension(String extension) {
         if (TextUtils.isEmpty(extension)) {
             return "";

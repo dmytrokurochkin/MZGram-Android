@@ -7785,7 +7785,6 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
                             }
                             return;
                         }
-                        // mzgram plugins: установить плагин, а не открывать его в просмотрщике.
                         if (org.mzgram.plugins.PluginInstallHelper.handleMessageTap(profileActivity.getParentActivity(), message)) {
                             return;
                         }

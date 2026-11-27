@@ -2063,7 +2063,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             addView(percentsTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 32, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 16 + 150 + 16 - 6, 0, 0));
 
             if (AppearanceConfig.newLoadingStyle()) {
-                // официальный волнистый M3 Expressive индикатор (material 1.14)
                 m3Progress = new LinearProgressIndicator(new ContextThemeWrapper(context,
                         com.google.android.material.R.style.Theme_Material3_DayNight_NoActionBar));
                 final int color = Theme.getColor(Theme.key_switchTrackChecked);

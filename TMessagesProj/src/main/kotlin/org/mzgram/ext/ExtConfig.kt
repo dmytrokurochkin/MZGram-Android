@@ -174,9 +174,6 @@ object ExtConfig {
             ConfigItem.configTypeBool,
             true
         )
-    // Заголовок списка чатов. Значение по умолчанию видно на самом видном месте —
-    // в шапке главного экрана и в превью на экране «Внешний вид», — поэтому это
-    // имя форка, а не апстрима.
     val customTitle =
         addConfig(
             "CustomTitle",
@@ -1377,7 +1374,7 @@ object ExtConfig {
         addConfig(
             "SliderStyle",
             ConfigItem.configTypeInt,
-            2 // 0: default; 1: Modern; 2: MD3 — mzGram: MD3 по умолчанию
+            2
         )
     val ignoreUnreadCount =
         addConfig(
@@ -1630,14 +1627,6 @@ object ExtConfig {
             ""
         )
 
-    /**
-     * Тон перевода DeepL: 0 — как есть, 1 — неформальный, 2 — формальный.
-     *
-     * Перенос единственной части переводчиков MZGram, которой у MZGram нет
-     * (12.9.0: TranslationFormality + DeepLTranslator.getFormality). Работает
-     * только по своему ключу API: бесключевой путь у нас уходит в стороннюю
-     * библиотеку app.nekogram.translator, в которую параметр не пробросить.
-     */
     val deepLFormality =
         addConfig(
             "DeepLFormality",

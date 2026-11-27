@@ -675,10 +675,6 @@ public class StoriesUtilities {
 
     private static final RectF forumRect = new RectF();
 
-    /**
-     * Радиус кольца сторис. MZGram рисует кольцо по форме аватарки, а не всегда кругом
-     * (StoriesUtilities.java:805-819). Форумы с дефолтным слайдером сохраняют прежний dp(18).
-     */
     private static float storyRingCorners(RectF outlineRect, AvatarStoryParams params, boolean isForum) {
         if (isForum && org.mzgram.appearance.AppearanceConfig.avatarCornersDefault()) {
             return dp(18);
@@ -717,7 +713,6 @@ public class StoriesUtilities {
 
     private static void drawSegment(Canvas canvas, RectF rectTmp, Paint paint, float startAngle, float endAngle, AvatarStoryParams params, boolean isForum) {
         if (isForum || !org.mzgram.appearance.AppearanceConfig.avatarCornersDefault()) {
-            // Сегментированное кольцо тоже идёт по форме аватарки.
             float r = isForum && org.mzgram.appearance.AppearanceConfig.avatarCornersDefault()
                     ? rectTmp.height() * 0.32f
                     : storyRingCorners(rectTmp, params, isForum);

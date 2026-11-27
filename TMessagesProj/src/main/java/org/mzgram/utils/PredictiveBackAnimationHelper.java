@@ -21,13 +21,6 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.ViewPagerActivity;
 
-/**
- * Material 3 predictive back: геометрия «уезжающей карточки» и уменьшенного экрана под ней.
- *
- * Построчный порт {@code org/mzgram/sdk/utils/ui/PredictiveBackAnimationHelper.java}
- * из MZGram 12.9.0. Класс только считает прямоугольники/радиусы/альфы —
- * рисует их {@code ActionBarLayout.drawChild}.
- */
 public final class PredictiveBackAnimationHelper {
 
     private float currentCornerRadius;
@@ -48,9 +41,7 @@ public final class PredictiveBackAnimationHelper {
     private final RectF commitStartEnteringRect = new RectF();
     private final RectF commitTargetEnteringRect = new RectF();
 
-    /** Интерполятор самого жеста. */
     private final Interpolator gestureInterpolator = new PathInterpolator(0.1f, 0.1f, 0.0f, 1.0f);
-    /** Докатывание после отпускания — M3 «emphasized». */
     private final Interpolator postCommitInterpolator = createEmphasizedInterpolator();
     private final Interpolator verticalMoveInterpolator = new DecelerateInterpolator();
 
@@ -75,7 +66,6 @@ public final class PredictiveBackAnimationHelper {
         drawable.setBounds(tmp);
     }
 
-    /** Фон нижележащего фрагмента — чтобы между разъехавшимися экранами не было дырки. */
     public static Drawable getTransitionBackground(List<BaseFragment> stack, BaseFragment fragment) {
         if (stack != null && stack.size() > 1) {
             fragment = stack.get(stack.size() - 2);
@@ -203,10 +193,6 @@ public final class PredictiveBackAnimationHelper {
         scrimAlphaMultiplier = Utilities.clamp01(value);
     }
 
-    /**
-     * @param toRight жест от левого края — карточка прижимается к правому краю
-     * @param cornerRadius стартовый радиус (физические углы экрана)
-     */
     public void start(int width, int height, float touchY, boolean toRight, float cornerRadius) {
         initialTouchY = touchY;
         progress = 0.0f;

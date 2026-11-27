@@ -7,13 +7,6 @@ import org.mzgram.core.CoreConfig
 import org.mzgram.proxy.ProxyDisableCondition
 import org.mzgram.core.config.ConfigItem
 
-/**
- * Настройки фич, перенесённых из MZGram.
- *
- * Повторяет схему [org.mzgram.ext.ExtConfig]: те же SharedPreferences, тот же [ConfigItem],
- * но собственный список — чтобы порт не конфликтовал с апстримом MZGram при мерджах.
- * Ключи с префиксом OE, чтобы не столкнуться с существующими.
- */
 object MZGramConfig {
 
     private const val LEGACY_PROXY_VPN_KEY = "DisableProxyWhenVpnEnabled"
@@ -30,30 +23,18 @@ object MZGramConfig {
     @JvmStatic
     fun getPreferences(): SharedPreferences = CoreConfig.getPreferences()
 
-    // ---- Форматирование ----
 
-    /** Относительное «был(а) в сети»: «5 минут назад» вместо времени. */
     @JvmField
     val relativeLastSeen = addConfig("MZRelativeLastSeen", ConfigItem.configTypeBool, false)
 
-    // ---- Чаты ----
 
-    /** Запятая после упоминания: «@user, » вместо «@user ». */
     @JvmField
     val addCommaAfterMention = addConfig("MZAddCommaAfterMention", ConfigItem.configTypeBool, true)
 
-    // ---- Эмодзи ----
 
-    /**
-     * Загружать список эмодзи-паков из канала метаданных MZGram.
-     *
-     * Свой канал метаданных у нас не заведён, а паки живут в чужом, поэтому
-     * по умолчанию выключено: без спроса клиент в чужой канал не ходит.
-     */
     @JvmField
     val downloadEmojiPacks = addConfig("MZDownloadEmojiPacks", ConfigItem.configTypeBool, false)
 
-    // ---- Статические геттеры для вызова из Java в горячих местах ----
 
     @JvmStatic
     fun downloadEmojiPacks(): Boolean = downloadEmojiPacks.Bool()
@@ -64,14 +45,7 @@ object MZGramConfig {
     @JvmStatic
     fun addCommaAfterMention(): Boolean = addCommaAfterMention.Bool()
 
-    // ---- Прокси ----
 
-    /**
-     * Маска условий, при которых прокси выключается сам: [ProxyDisableCondition.flag].
-     *
-     * У MZGram на этом месте был булев `DisableProxyWhenVpnEnabled`; его значение
-     * переносится в бит VPN в [migrateProxyConditions].
-     */
     @JvmField
     val proxyDisableConditions = addConfig("MZProxyDisableConditions", ConfigItem.configTypeInt, 0)
 
@@ -145,7 +119,6 @@ object MZGramConfig {
         }
     }
 
-    /** Сбрасывает все настройки mzGram к значениям по умолчанию. */
     @JvmStatic
     fun reset() {
         synchronized(sync) {

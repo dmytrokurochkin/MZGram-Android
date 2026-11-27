@@ -26,14 +26,6 @@ import org.mzgram.pillstack.pills.ProxyPill;
 import org.mzgram.pillstack.pills.RamPill;
 import org.mzgram.pillstack.pills.WeatherPill;
 
-/**
- * Реестр доступных пилюль: имя, иконка, цвета и фабрика вью.
- *
- * Реестр открытый: {@link #register(PillInfo)} / {@link #unregister(int)} можно звать в рантайме,
- * раскладка при этом чинится ({@link PillStackConfig#sanitizePills()}) и полоса пересобирается.
- * Пакетную регистрацию оборачивать в {@link #beginTransaction()} / {@link #endTransaction()},
- * чтобы не дёргать перестроение на каждый вызов.
- */
 public class PillRegistry {
 
     public interface PillCreator {
@@ -102,7 +94,6 @@ public class PillRegistry {
         endTransaction();
     }
 
-    /** Цвета берутся из общей палитры {@link IconBackgroundColors}, а не подбираются на глаз. */
     private static void registerDefaultPills() {
         register(new PillInfo(PillType.WEATHER.id, R.string.PillStackWeather,
                 R.drawable.weather_cloudy,
@@ -138,15 +129,12 @@ public class PillRegistry {
                 DcPingPill::new));
     }
 
-    // ---- Пакетная регистрация ----
 
-    /** Отключает перестроение полосы до {@link #endTransaction()}. */
     @Keep
     public static void beginTransaction() {
         batchRegistration = true;
     }
 
-    /** Включает перестроение обратно и один раз чинит + оповещает раскладку. */
     @Keep
     public static void endTransaction() {
         batchRegistration = false;
@@ -156,7 +144,6 @@ public class PillRegistry {
         }
     }
 
-    // ---- Реестр ----
 
     public static void register(PillInfo info) {
         if (info == null) {
@@ -168,7 +155,6 @@ public class PillRegistry {
         invalidate();
     }
 
-    /** Убирает пилюлю из реестра; из раскладки её вычистит sanitizePills. */
     @Keep
     public static void unregister(int id) {
         boolean removed;
@@ -180,7 +166,6 @@ public class PillRegistry {
         }
     }
 
-    /** Переносит пилюлю в активные, если она зарегистрирована и ещё не активна. */
     @Keep
     public static void activatePill(int id) {
         if (!isRegistered(id) || PillStackConfig.getActivePills().contains(id)) {

@@ -243,8 +243,6 @@ public class ReplyMessageLine {
         return nameColorAnimated.set(nameColor);
     }
 
-    // ---- mzGram: оформление блока ответа (ChatsConfig.replyColors / replyEmoji / replyBackground) ----
-    // Перенесено из MZGram 12.9.0, ReplyMessageLine.check()/resolveCollectionColor().
 
     private static boolean mzReplyColors() {
         org.mzgram.chats.ChatsConfig.ensureLoaded();
@@ -261,7 +259,6 @@ public class ReplyMessageLine {
         return org.mzgram.chats.ChatsConfig.replyBackground.Bool();
     }
 
-    /** mzGram: сброс цветов линии/имени к стоковым «серым», когда replyColors выключен. */
     private void mzResetReplyColors(Theme.ResourcesProvider resourcesProvider) {
         hasColor2 = false;
         hasColor3 = false;

@@ -59,26 +59,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Экран «Оформление» раздела mzGram — визуальный порт AppearancePreferencesActivity
- * из MZGram. Живые превью (аватарки, список чатов, папки) портированы 1:1 из
- * MZGram 10.10.1 в пакет {@link org.mzgram.appearance}.
- *
- * Настройки, у которых в MZGram уже есть аналог, привязаны к существующим ConfigItem
- * (ExtConfig / CoreConfig). Чисто визуальные настройки, которых в MZGram нет,
- * хранятся в {@link AppearanceConfig} и помечены в отчёте как «только UI».
- */
 public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
 
     private static final int TYPE_AVATAR_CORNERS = 100;
     private static final int TYPE_CHAT_LIST = 101;
     private static final int TYPE_FOLDERS = 102;
     private static final int TYPE_SECTION_SLIDER = 103;
-    /** Сворачиваемая группа со счётчиком и шевроном. */
     private static final int TYPE_EXPANDABLE_SWITCH = 104;
-    /** Круглая галочка внутри группы. */
     private static final int TYPE_ROUND_CHECK = 105;
-    /** Две карточки-превью формы плавающей кнопки. */
     private static final int TYPE_FAB_SHAPE = 106;
 
     // Appearance
@@ -114,7 +102,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
     private int chatListPreviewRow;
     private int forceSnowRow;
     private int centerTitleRow;
-    // Material Design 3: сворачиваемая группа и пять вложенных стилей.
     private int md3GroupRow;
     private int md3LoadingRow;
     private int md3SliderRow;
@@ -165,12 +152,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
     private FoldersPreviewCell foldersPreviewCell;
     private FabShapeCell fabShapeCell;
 
-    /**
-     * Отложенный rebuild после слайдера радиуса секций. MZGram
-     * (handleSectionRadiusChange :335-343) зовёт rebuildFragments на каждое изменение,
-     * но у него слайдер — Material-виджет с редкими колбэками; наш SeekBarView отдаёт
-     * значение на каждый dp, и пересборка всех фрагментов на каждом шаге даёт рывки.
-     */
     private final Runnable sectionRadiusRebuild = this::rebuildAll;
 
     public MZGramAppearanceActivity() {
@@ -215,8 +196,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         tabCounterRow = addRow("tabCounter");
         foldersDividerRow = addRow();
 
-        // Порядок как в 12.9.0: строки-переходы идут сразу после «Chat Folders»,
-        // до секции общего вида.
         linksHeaderRow = addRow("linksHeader");
         appNavigationRow = addRow("appNavigation");
         iconPacksRow = addRow("iconPacks");
@@ -229,10 +208,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         appearanceHeaderRow = addRow("appearanceHeader");
         fabShapeRow = addRow("fabShape");
         useSystemFontsRow = addRow("useSystemFonts");
-        // Material Design 3 — сворачиваемая группа, как у MZGram
-        // (AppearancePreferencesActivity: asMZExpandableSwitch + пять asRoundCheckbox).
-        // Прежние отдельные селекторы «стиль переключателей» и «стиль слайдеров»
-        // стали двумя галочками внутри неё.
         md3GroupRow = addRow("md3Styles");
         if (md3Expanded) {
             md3SurfacesRow = addRow("MZMaterialSurfaces");
@@ -380,11 +355,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         return new ListAdapter(context);
     }
 
-    /**
-     * Пересобрать список строк. Нужен там, где меняется их состав: базовый класс
-     * зовёт updateRows() только в onFragmentCreate, поэтому одного
-     * notifyDataSetChanged недостаточно.
-     */
     private void rebuildRowsAndNotify() {
         updateRows();
         if (listAdapter != null) {
@@ -410,14 +380,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
                 .show();
     }
 
-    /**
-     * Пересобрать чужие экраны и обновить этот.
-     *
-     * rebuildAllFragmentViews(false, ...) намеренно пропускает последний фрагмент
-     * стека — то есть ровно тот, который открыт. Свои строки поэтому обновляем
-     * сами: галочки внутри группы и счётчик «N/8» ставятся при привязке, а стиль
-     * переключателей и слайдеров читается при отрисовке.
-     */
     private void notifyRow(int row) {
         if (listAdapter != null && row >= 0) {
             listAdapter.notifyItemChanged(row);
@@ -600,11 +562,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         showDialog(dialog, d -> AndroidUtilities.hideKeyboard(editText));
     }
 
-    /**
-     * Порядок пунктов «Folder Title» — «Names with Icons», «Names only», «Icons only»;
-     * у CoreConfig.tabsTitleType значения 0 TEXT, 1 ICON, 2 MIX.
-     * Массив переводит индекс диалога в значение конфига.
-     */
     private static final int[] TAB_TITLE_ORDER = {2, 0, 1};
 
     private CharSequence startupFolderName(MessagesController.DialogFilter filter) {
@@ -672,7 +629,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         };
     }
 
-    /** Значение конфига -> индекс в {@link #tabTitleOptions()}. */
     private static int tabTitleIndex(int configValue) {
         for (int i = 0; i < TAB_TITLE_ORDER.length; i++) {
             if (TAB_TITLE_ORDER[i] == configValue) {
@@ -683,13 +639,8 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
     }
 
     private void onDividerStyleChanged() {
-        // 0 — скрыт, 1 — линия, 2 — сегменты. Скрытый привязываем к реальному ExtConfig.hideDividers,
-        // чтобы не разъезжался экран CoreGeneralSettingsActivity.
         ExtConfig.INSTANCE.getHideDividers().setConfigBool(AppearanceConfig.dividerStyle.Int() == 0);
-        // Theme.getColor читает закешированное значение — сбросить кэш обязательно.
         AppearanceConfig.invalidateDividerStyle();
-        // «Сегменты» рисуются раздельными карточками, и заголовок обязан быть своей карточкой,
-        // иначе секция склеивается — настройка дожимается принудительно.
         if (AppearanceConfig.dividerStyle.Int() == AppearanceConfig.DIVIDER_SEGMENTS
                 && !AppearanceConfig.separateHeaders.Bool()) {
             AppearanceConfig.separateHeaders.setConfigBool(true);
@@ -697,8 +648,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         if (listAdapter != null) {
             listAdapter.notifyItemChanged(separateHeadersRow);
         }
-        // Цвет разделителя лежит в общей теме,
-        // без applyCommonTheme новые значения не подхватят уже созданные ячейки.
         Theme.applyCommonTheme();
         if (listView != null) {
             listView.invalidate();
@@ -708,10 +657,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         rebuildAll();
     }
 
-    /**
-     * Новый радиус надо занести в декоратор
-     * списка и перерисовать его, иначе на текущем экране ничего не меняется.
-     */
     private void onSectionRadiusChanged(int value) {
         AppearanceConfig.sectionRadius.setConfigInt(value);
         if (listView != null) {
@@ -723,7 +668,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         AndroidUtilities.runOnUIThread(sectionRadiusRebuild, 350);
     }
 
-    /** Все живые превью экрана — их надо дёргать на смене темы и стиля разделителя. */
     private void invalidatePreviews() {
         if (avatarCornersPreviewCell != null) avatarCornersPreviewCell.invalidate();
         if (chatListPreviewCell != null) chatListPreviewCell.invalidate();
@@ -807,9 +751,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
             rebuildAllAndSelf(view, AppearanceConfig.newLoadingStyle.Bool());
             return;
         } else if (position == md3SliderRow) {
-            // Стиль слайдера читается в SeekBarView.getEffectiveSliderStyle() на каждой отрисовке,
-            // стиль переключателя — в Switch на каждой; перезапуск не нужен, хватает пересборки
-            // вьюх — так же делает CoreGeneralSettingsActivity.
             ExtConfig.INSTANCE.getSliderStyle().setConfigInt(
                     isMd3(ExtConfig.INSTANCE.getSliderStyle().Int()) ? 0 : STYLE_MD3);
             if (avatarCornersPreviewCell != null) {
@@ -887,9 +828,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
             if (getParentActivity() == null) {
                 return;
             }
-            // Порядок пунктов диалога свой, значения CoreConfig.tabsTitleType тоже
-            // (0 TEXT, 1 ICON, 2 MIX),
-            // поэтому индекс диалога отображается через TAB_TITLE_ORDER.
             int currentTabTitle = -1;
             for (int i = 0; i < TAB_TITLE_ORDER.length; i++) {
                 if (TAB_TITLE_ORDER[i] == CoreConfig.tabsTitleType.Int()) {
@@ -921,8 +859,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
             });
             return;
         } else if (position == centerTitleRow) {
-            // Обычный переключатель, а не селектор из четырёх пунктов:
-            // центровка либо есть, либо нет.
             AppearanceConfig.setCenterTitle(!AppearanceConfig.centerTitle());
             if (view instanceof org.telegram.ui.Cells.TextCheckCell) {
                 ((org.telegram.ui.Cells.TextCheckCell) view)
@@ -937,14 +873,10 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
             Runnable onTitleTextChanged = () -> {
                 if (chatListPreviewCell != null) {
                     chatListPreviewCell.updateTitle(true);
-                    // Эмодзи-статус стоит вплотную к заголовку, и его позиция зависит от длины
-                    // текста.
                     chatListPreviewCell.updateStatus(true);
                 }
                 getNotificationCenter().postNotificationName(
                         NotificationCenter.currentUserPremiumStatusChanged);
-                // Сам заголовок списка чатов ставится один раз в DialogsActivity.createView
-                // (:3645), по уведомлению он не переустанавливается — нужна пересборка вьюх.
                 rebuildAll();
             };
             showTitleTextSelector(onTitleTextChanged);
@@ -977,8 +909,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(enabled);
             }
-            // Стеклянное меню рисуется поверх
-            // блюра, и без него настройка не даёт ничего видимого, поэтому предлагаем включить.
             if (enabled && !LiteMode.isEnabledSetting(LiteMode.FLAG_CHAT_BLUR) && getParentActivity() != null) {
                 BulletinFactory.of(this)
                         .createSimpleBulletin(R.raw.info,
@@ -997,8 +927,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
             return;
         } else if (position == separateHeadersRow
                 && AppearanceConfig.sectionsSeparatedHeadersForced()) {
-            // При «Сегментах» строка нарисована выключенной,
-            // клик по ней ничего не меняет.
             return;
         }
 
@@ -1062,8 +990,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_ROUND_CHECK: {
-                    // Тип 4 — круглая галочка с отступом под вложенный пункт,
-                    // ровно как у MZGram в UniversalAdapter (view type 35).
                     org.telegram.ui.Cells.CheckBoxCell checkBoxCell =
                             new org.telegram.ui.Cells.CheckBoxCell(mContext, 4, 21, resourcesProvider);
                     checkBoxCell.getCheckBoxRound().setColor(Theme.key_switch2TrackChecked,
@@ -1093,8 +1019,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
                     view = fabShapeCell;
                     break;
                 case TYPE_DETAIL_SETTINGS: {
-                    // Базовый класс делает такую же ячейку, но многострочной; MZGram
-                    // (asButtonWithSubtext(..., 64, 60) :456-458) держит ровно 64 dp.
                     TextDetailSettingsCell detailCell = new TextDetailSettingsCell(mContext);
                     detailCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     detailCell.setMultilineDetail(false);
@@ -1145,8 +1069,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
                 }
                 case TYPE_CHECK: {
                     TextCheckCell cell = (TextCheckCell) holder.itemView;
-                    // Ячейки переиспользуются, поэтому «включённость» надо возвращать явно:
-                    // иначе строка, побывавшая заблокированной, останется полупрозрачной.
                     cell.setEnabled(position != separateHeadersRow
                             || !AppearanceConfig.sectionsSeparatedHeadersForced(), null);
                     if (position == centerTitleRow) {
@@ -1181,8 +1103,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
                 case TYPE_EXPANDABLE_SWITCH: {
                     org.telegram.ui.Cells.TextCheckCell2 cell =
                             (org.telegram.ui.Cells.TextCheckCell2) holder.itemView;
-                    // Иначе выключенная группа горит красным: Switch по умолчанию
-                    // идёт в «разрешительных» цветах экрана прав участника.
                     cell.useStandardSwitchColors();
                     if (position == iosGroupRow) {
                         cell.setTextAndCheck(getString(R.string.MZAppearanceIosDesign),
@@ -1193,8 +1113,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
                     }
                     cell.setTextAndCheck(getString(R.string.MZAppearanceMaterialDesign3),
                             md3SelectedCount() > 0, true);
-                    // Правая зона (76 dp за разделителем) — сам переключатель, как у MZGram:
-                    // туда уходит клик по мастер-тумблеру. Тело строки сворачивает группу.
                     cell.setCollapseArrow(md3SelectedCount() + "/" + MD3_STYLE_COUNT, !md3Expanded,
                             MZGramAppearanceActivity.this::toggleAllMd3StylesFromCell);
                     break;
@@ -1246,8 +1164,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
                                 AppearanceConfig.iosChatHeader.Bool(), false, true);
                     }
                     cell.setPad(1);
-                    // По умолчанию ячейка этого типа красит текст серым; у MZGram
-                    // вложенные пункты того же цвета, что и обычные строки.
                     cell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                     break;
                 }
@@ -1313,8 +1229,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
                 }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    // Скруглённый «хвост» списка положен последней тени, а она у нас после блока
-                    // Blur, а не после строк-переходов.
                     boolean bottom = position == blurDividerRow;
                     if (position == appearanceDividerRow) {
                         cell.setText(getString(R.string.MZAppearanceCustomThemesInfo));
@@ -1339,14 +1253,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
             }
         }
 
-        /**
-         * Свои типы ячеек базовый адаптер считает некликабельными.
-         *
-         * Для превью это верно, а группа Material Design 3 и галочки внутри неё
-         * обработчики имеют: RecyclerListView не только не доводил до них клик,
-         * но и звал setEnabled(false) на строке (onChildAttachedToWindow) — из-за
-         * чего вся группа выглядела погашенной.
-         */
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             final int type = holder.getItemViewType();
@@ -1406,9 +1312,7 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /** Сколько стилей MD3 включено. Счётчик «N/8» рядом с шевроном. */
     private static final int MD3_STYLE_COUNT = 12;
-    /** Значение селектора MZGram, соответствующее Material Design 3. */
     private static final int STYLE_MD3 = 2;
 
     private static final int SWITCH_STYLE_M3 = org.telegram.ui.Components.Switch.SWITCH_STYLE_M3;
@@ -1449,10 +1353,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    /**
-     * Клик по мастер-переключателю группы: если включено хоть что-то — гасим всё,
-     * иначе включаем всё. Так же ведёт себя handleMD3StylesSwitchClick MZGram.
-     */
     private void toggleAllMd3StylesFromCell() {
         toggleAllMd3Styles();
     }
@@ -1540,7 +1440,6 @@ public class MZGramAppearanceActivity extends BaseCoreSettingsActivity {
 
     @Override
     public void onFragmentDestroy() {
-        // Отложенная пересборка после слайдера радиуса переживёт закрытие экрана, если её не снять.
         AndroidUtilities.cancelRunOnUIThread(sectionRadiusRebuild);
         super.onFragmentDestroy();
     }

@@ -436,7 +436,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
         setUseRoundForThumbDrawable(true);
         if (!mzIsAvatar) {
-            // mzGram: это аватарка — пересчитываем радиус под настройку закругления.
             mzIsAvatar = true;
             if (imageW > 0) {
                 mzRadiusWidth = imageW;
@@ -2564,13 +2563,9 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         setRoundRadius(new int[]{tl, tr, br, bl});
     }
 
-    // mzGram: закругление аватарок. Храним запрошенный радиус, чтобы пересчитать его,
-    // когда ресивер уже после setRoundRadius узнает, что рисует аватарку.
     private final int[] mzRequestedRoundRadius = new int[4];
     private boolean mzIsAvatar;
     private float mzRadiusWidth;
-    // mzGram: радиус посчитан вызывающим через AppearanceConfig.getAvatarCorners(сторона) —
-    // масштабировать его второй раз нельзя. См. setAvatarCornersApplied.
     private boolean mzAvatarCornersApplied;
 
     public void setRoundRadius(int[] value) {
@@ -2578,16 +2573,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         applyRoundRadiusInternal();
     }
 
-    /**
-     * mzGram: отключает глобальное масштабирование радиуса для этого ресивера.
-     * <p>
-     * Хук ниже умножает <b>запрошенный</b> радиус на corners/28 и совпадает с MZGram только
-     * там, где сток просит ровно половину стороны. Где сток просит больше (радиус во всю сторону
-     * ради гарантированного круга), масштабирование даёт круг и на середине слайдера — MZGram
-     * в таких местах зовёт {@code MZConfig.getAvatarCorners(сторона)} напрямую
-     *. Вызывающий, сделавший так же,
-     * обязан взвести этот флаг.
-     */
     public void setAvatarCornersApplied(boolean applied) {
         if (mzAvatarCornersApplied != applied) {
             mzAvatarCornersApplied = applied;
@@ -2595,11 +2580,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /**
-     * mzGram: радиус для аватарки со стороной {@code sizePx} пикселей — ровно контракт MZGram
-     * {@code MZConfig.getAvatarCorners(f, true)}. Порядок вызовов не важен: флаг взводится до
-     * записи радиуса.
-     */
     public void setRoundRadiusForAvatar(float sizePx) {
         mzAvatarCornersApplied = true;
         setRoundRadius(org.mzgram.appearance.AppearanceConfig.getAvatarCorners(sizePx));

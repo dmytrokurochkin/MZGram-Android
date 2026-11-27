@@ -137,7 +137,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private int filePathRow;
     private int fileSizeRow;
     private int fileMimeTypeRow;
-    /** «Снято на» — платформа по сигнатуре JPEG. */
     private int photoPlatformRow;
     private String photoPlatform;
     private int mediaRow;
@@ -215,9 +214,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
             return;
         }
 
-        // Платформа снимка по сигнатуре JPEG. Догадка по первым байтам, а не
-        // метаданные: пересохранённый файл покажет последний редактор, а не
-        // камеру.
         photoPlatform = MediaUtils.getPhotoPlatform(filePath);
 
         frameRate = 0;

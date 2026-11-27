@@ -145,7 +145,6 @@ public class CameraSessionWrapper {
 
     public void setZoom(float zoom) {
         if (camera2Session != null) {
-            // Сторис живут в 1×..max, как раньше: ниже единицы — только кружки.
             camera2Session.setZoom(AndroidUtilities.lerp(Math.max(1f, camera2Session.getMinZoom()), camera2Session.getMaxZoom(), zoom));
         } else if (camera1Session != null) {
             camera1Session.setZoom(zoom);

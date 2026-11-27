@@ -487,7 +487,6 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                 }
             };
             ThemeBind.backgroundColor(actionBar, Theme.key_dialogBackground, resourcesProvider);
-            // MZGram: здесь заголовок прижат влево по макету, центровка его ломает.
             actionBar.setForceDisableCenterTitle(true);
             ThemeBind.actionBarTitleColor(actionBar, Theme.key_windowBackgroundWhiteBlackText, resourcesProvider);
             ThemeBind.actionBarItemsBackgroundColor(actionBar, Theme.key_actionBarActionModeDefaultSelector, resourcesProvider, false);

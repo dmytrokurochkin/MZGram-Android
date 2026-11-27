@@ -199,10 +199,6 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         }
     }
 
-    /**
-     * Вынесенный заголовок не входит в карточку, поэтому секция начинается
-     * со строки под ним.
-     */
     private int skipLeadingHeaders(int start, int end) {
         if (!org.mzgram.appearance.AppearanceConfig.sectionsSeparatedHeaders()) return start;
         int position = start;
@@ -778,8 +774,6 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     checkCell.setChecked(item.checked);
                 }
                 checkCell.setEnabled(item.enabled, null);
-                // Иконка и подпись — как у MZGram: setIcon(0) обязателен, иначе
-                // переиспользованная ячейка сохранит иконку соседней строки.
                 checkCell.setIcon(item.iconResId);
                 if (TextUtils.isEmpty(item.textValue)) {
                     checkCell.setTextAndCheck(item.text, item.checked, divider);

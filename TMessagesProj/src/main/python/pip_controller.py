@@ -72,8 +72,6 @@ def _invalid_version():
 _PYPI_JSON = "https://pypi.org/pypi/{}/json"
 _PURE_WHEEL_SUFFIXES = ("py3-none-any.whl", "py2.py3-none-any.whl")
 _HTTP_TIMEOUT = 30
-#: Потолок размера колеса, MAX_WHEEL_BYTES = 262144000: без него опечатка в имени зависимости может
-#: утянуть на телефон гигабайты, а места на нём и так немного.
 _MAX_WHEEL_BYTES = 250 * 1024 * 1024
 
 _lock = threading.RLock()
@@ -188,7 +186,6 @@ def _fetch_pypi_json(normalized_name: str) -> dict:
     return data
 
 
-#: Имя пакета не совпадает с именем модуля чаще, чем кажется.
 _IMPORT_ALIASES = {
     "pillow": "PIL",
     "beautifulsoup4": "bs4",
@@ -208,12 +205,6 @@ _provided = set()
 
 
 def bundled_version(name: str):
-    """Версия пакета, вшитого в сборку приложения, или None.
-
-    Chaquopy ставит часть колёс во время сборки — там же собираются нативные,
-    которых на PyPI под Android нет вовсе. Ставить такое в рантайме не нужно
-    и невозможно.
-    """
     cached = _bundled_versions.get(name)
     if cached is not None:
         return cached
@@ -229,11 +220,6 @@ def bundled_version(name: str):
 
 
 def is_provided(name: str) -> bool:
-    """Есть ли пакет в сборке, даже если метаданные до него не достают.
-
-    Chaquopy держит зависимости в своих архивах, и importlib.metadata видит
-    их не всегда, — поэтому вторая попытка идёт по имени модуля.
-    """
     if name in _provided:
         return True
     if bundled_version(name) is not None:
@@ -256,7 +242,6 @@ def is_provided(name: str) -> bool:
 
 
 def _bundled_names() -> str:
-    """Имена вшитых пакетов — для сообщения об ошибке."""
     try:
         from importlib.metadata import distributions
         names = sorted({d.metadata["Name"] for d in distributions()
@@ -316,11 +301,6 @@ def _safe_extract(archive_bytes: bytes, target_dir: str) -> None:
 
 def _verify_digest(normalized_name: str, version: Version, file_info: dict,
                    payload: bytes) -> None:
-    """Сверить sha256 с тем, что отдал индекс PyPI.
-
-    Цифры нет — не повод отказывать (её нет у части старых релизов), но если
-    она есть и не сходится, файл не наш и разворачивать его нельзя.
-    """
     expected = (file_info.get("digests") or {}).get("sha256")
     if not expected:
         return
@@ -350,8 +330,6 @@ def _download_and_install(normalized_name: str, version: Version, file_info: dic
             if not chunk:
                 continue
             received += len(chunk)
-            # Проверяем по мере скачивания: заявленный размер PyPI может и
-            # соврать, а память телефона кончится по-настоящему.
             if received > _MAX_WHEEL_BYTES:
                 raise RuntimeError(
                     f"{normalized_name!r} {version} exceeds the "

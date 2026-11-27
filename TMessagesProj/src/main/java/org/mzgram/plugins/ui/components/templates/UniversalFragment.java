@@ -10,18 +10,6 @@ import org.telegram.ui.Components.UniversalAdapter;
 
 import java.util.ArrayList;
 
-/**
- * Шим экрана-шаблона MZGram: плагин отдаёт делегата и получает готовый
- * фрагмент со списком {@link UItem}.
- *
- * Абстрактный {@code org.telegram.ui.Components.UniversalFragment} наследовать
- * из Python нельзя — Chaquopy умеет только {@code dynamic_proxy} по интерфейсу.
- * Отсюда и форма: конкретный класс здесь, интерфейс — плагину.
- *
- * Все методы делегата со значением по умолчанию: {@code dynamic_proxy}
- * реализует интерфейс целиком, и без default-реализаций плагин был бы обязан
- * описывать все девять, даже если рисует один список.
- */
 public class UniversalFragment extends org.telegram.ui.Components.UniversalFragment {
 
     public interface UniversalFragmentDelegate {

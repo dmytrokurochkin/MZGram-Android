@@ -1,10 +1,5 @@
 package org.mzgram.sdk.plugins;
 
-/**
- * Шим строковых констант MZGram. Значения — те же, что в
- * {@code org.mzgram.sdk.plugins.PluginsConstants} 12.9.0, а не наши
- * внутренние: плагин сравнивает их с тем, что приходит из SDK.
- */
 public final class PluginsConstants {
 
     public static final String PYTHON = org.mzgram.plugins.PluginsConstants.PYTHON;

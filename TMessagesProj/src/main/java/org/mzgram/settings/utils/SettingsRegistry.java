@@ -25,18 +25,6 @@ import org.mzgram.settings.MZGramGeneralActivity;
 import org.mzgram.settings.MZGramOtherActivity;
 import org.mzgram.settings.MZGramSettingsActivity;
 
-/**
- * Реестр пунктов настроек под именем {@code org.mzgram.sdk.preferences.utils.SettingsRegistry}.
- *
- * Плагины каталога дёргают его рефлексией: зовут {@code createEntriesIfNeeded},
- * читают приватное поле {@code entriesStringAlias}, вешают хук на {@code createEntries}
- * и открывают экран по алиасу через {@link #handleLink}. Имена и форма хранилища
- * повторяют эталон именно поэтому.
- *
- * Наши экраны настроек построены на строках MZGram, а не на UItem, поэтому сами
- * себя в реестр не добавляют — заполняют его плагины через {@link #addSearchEntry}
- * и {@link #addLinkAliasForOption}.
- */
 public class SettingsRegistry {
 
     public static final class Entry {

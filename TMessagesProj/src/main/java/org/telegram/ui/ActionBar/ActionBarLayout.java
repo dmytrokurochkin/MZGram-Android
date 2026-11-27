@@ -1071,8 +1071,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (!SharedConfig.drawActionBarShadow) {
             return;
         }
-        // MZGram 12.9.0, ActionBarLayout.java:2603-2615 — вместо градиентной тени
-        // ровно одна линия в 1 px цветом разделителя.
         final Paint forced = Theme.forcedDividerPaint;
         if (forced != null) {
             final int prevAlpha = forced.getAlpha();
@@ -1254,8 +1252,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             withShadow = false;
         }
 
-        // Material 3 predictive back: закрывающийся фрагмент — карточка, за ним уменьшенный предыдущий,
-        // между ними scrim. Ветка самодостаточна: рисует ребёнка и выходит.
         if (m3BackTransition() && (child == containerView || child == containerViewBack)) {
             final float m3Scale;
             if (child == containerView) {
@@ -1278,9 +1274,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             canvas.restoreToCount(restoreCount2);
             return m3Result;
         }
-        // MZGram 12.9.0, drawChild: на «пружинном маршруте» (открытие/закрытие фрагмента
-        // без жеста предиктивного назад) уезжающий экран дополнительно притемняется.
-        // Множитель гаснет по мере ухода фрагмента вправо. Заметно в тёмной теме.
         if (springRouteBackgroundDrawable != null && child == containerView) {
             final float k = MathUtils.clamp((width - translationX) / (float) width, 0.0f, 0.8f);
             scrimPaint.setColor(Color.argb(
@@ -1383,9 +1376,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 }
             } else if (child == containerViewBack) {
                 float opacity = MathUtils.clamp(widthOffset / (float) width, 0, 0.8f);
-                // MZGram 12.9.0, drawChild: (springAnimations ? 102 : 120) * opacity.
-                // У нас при пружинах было 0x7a=122 — нижний экран затемнялся заметно сильнее.
-                // Режим crossfade — специфика MZGram, у MZGram его нет, значение оставлено.
                 scrimPaint.setColor(Color.argb((int) ((USE_SPRING_ANIMATION ? USE_ACTIONBAR_CROSSFADE ? 0x29 : 102 : 120) * opacity), 0x00, 0x00, 0x00));
                 if (overrideWidthOffset != -1) {
                     canvas.drawRect(0, top, getWidth(), getHeight() * 1.5f, scrimPaint);
@@ -1472,7 +1462,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     }
 
     private void onSlideAnimationEnd(final boolean backAnimation) {
-        // mzGram: контейнеры ниже меняются местами — масштаб карточки надо снять до этого
         springRouteYRatio = 0f;
         springRouteBackgroundDrawable = null;
         containerView.setScaleX(1f);
@@ -1682,7 +1671,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                     swipeProgress = MathUtils.clamp((float) dx / containerView.getMeasuredWidth(), 0f, 1f);
                                 }
                                 if (containerView.getMeasuredWidth() > 0) {
-                                    // mzGram: карточка сжимается и следует за пальцем по вертикали
                                     final float m3s = AndroidUtilities.lerp(1.0f, 0.85f,
                                             MathUtils.clamp((float) dx / containerView.getMeasuredWidth(), 0f, 1f));
                                     containerView.setScaleX(m3s);
@@ -1708,8 +1696,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     if (!inPreviewMode && !transitionAnimationPreviewMode && !startedTracking && currentFragment.isSwipeBackEnabled(ev)) {
                         float velX = velocityTracker.getXVelocity();
                         float velY = velocityTracker.getYVelocity();
-                        // Флик засчитывается только после реального сдвига пальца:
-                        // без этого резкий рывок на месте стартовал жест
                         if (containerView.getX() > AndroidUtilities.getPixelsInCM(0.15f, true)
                                 && velX >= AppUtils.getSwipeVelocity() && velX > Math.abs(velY)
                                 && currentFragment.canBeginSlide()) {
@@ -1765,24 +1751,15 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private float predictiveBackY;
     private boolean predictiveBackLeft;
 
-    // ---- Material 3 predictive back (порт MZGram) ----
     private final org.mzgram.utils.PredictiveBackAnimationHelper predictiveBackAnimation = new org.mzgram.utils.PredictiveBackAnimationHelper();
     private final RectF predictiveBackRect = new RectF();
     private final Rect predictiveBackTmpRect = new Rect();
     private Drawable predictiveBackBackgroundDrawable;
-    /** M3-режим включён для текущего жеста (решается один раз в onBackStarted). */
     private boolean m3PredictiveBack;
 
-    /**
-     * Подложка нижележащего фрагмента на время обычного (не жестового) пружинного перехода.
-     * Без неё уменьшенный экран открывает щель в цвет окна. Порт MZGram:
-     * ActionBarLayout.springRouteBackgroundDrawable.
-     */
     private Drawable springRouteBackgroundDrawable;
-    /** Вертикальное следование карточки за пальцем при ручном свайпе, -1..1. */
     private float springRouteYRatio;
 
-    /** Стартовый радиус карточки — физические углы экрана. */
     private float getPredictiveBackStartCornerRadius() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             return 0;
@@ -1807,7 +1784,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         return r;
     }
 
-    /** Рисуем ли сейчас M3-карточку. */
     private boolean m3BackTransition() {
         return m3PredictiveBack && predictiveBackInProgress && predictiveBackHasProgress;
     }
@@ -1825,7 +1801,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         invalidate();
     }
 
-    /** Докатывание/откат M3-жеста. */
     private void animatePredictiveBackEndAnimation(final boolean backAnimation) {
         final float startProgress = predictiveBackAnimation.getProgress();
         final float startAlpha = containerView.getAlpha();
@@ -1961,8 +1936,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     public void onBackProgress(float t, float touchY) {
         if (!predictiveInput) return;
-        // Чувствительность применяется только к живому жесту; докат и откат зовут
-        // applyPredictiveBackProgress напрямую, иначе множитель наложился бы дважды
         t = org.mzgram.utils.UtilsConfig.adjustPredictiveBackProgress(t);
         if (ExtConfig.INSTANCE.getBackAnimationStyle().Int() == BACK_ANIMATION_SLIDE) {
             final float dx = dp(180) * CubicBezierInterpolator.StandardDecelerate.getInterpolation(t);
@@ -2011,7 +1984,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 animatePredictiveBackEndAnimation(backAnimation);
                 return;
             }
-            // жест закончился, не начавшись — просто выходим из M3-режима
             m3PredictiveBack = false;
             predictiveBackBackgroundDrawable = null;
             predictiveBackAnimation.reset();
@@ -2029,10 +2001,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                             .setStiffness(SPRING_STIFFNESS)
                             .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY));
             if (velX != 0) {
-                // MZGram 12.9.0, onTouchEvent/ACTION_UP: скорость переводится в ту же
-                // нормированную шкалу 0..1000, в которой живёт пружина. У нас было velX/15 —
-                // на экране 1080 px это в ~14 раз слабее, флик почти не докидывал экран.
-                // MZGram задаёт стартовую скорость и в ветке отката тоже.
                 currentSpringAnimation.setStartVelocity((velX / containerView.getMeasuredWidth()) * SPRING_MULTIPLIER);
             }
             currentSpringAnimation.addUpdateListener((animation, value, velocity) -> {
@@ -2044,7 +2012,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     swipeProgress = progress;
                 }
                 if (!m3PredictiveBack && !predictiveBackInProgress) {
-                    // mzGram: доводим масштаб и вертикальный сдвиг карточки после отпускания
                     final float m3s = AndroidUtilities.lerp(1.0f, 0.85f, MathUtils.clamp(progress, 0f, 1f));
                     containerView.setScaleX(m3s);
                     containerView.setScaleY(m3s);
@@ -2198,7 +2165,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             }
             currentSpringAnimation = null;
         }
-        // mzGram: подложка и масштаб карточки живут только на время перехода
         springRouteBackgroundDrawable = null;
         springRouteYRatio = 0f;
         if (containerView != null) {
@@ -2322,8 +2288,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 invalidateActionBars();
             }
             if (!preview && !predictiveBackInProgress) {
-                // mzGram: фон нижележащего фрагмента, чтобы за уменьшенной карточкой
-                // не зияла щель в цвет окна (MZGram: springRouteBackgroundDrawable)
                 springRouteYRatio = 0f;
                 springRouteBackgroundDrawable =
                         org.mzgram.utils.PredictiveBackAnimationHelper.getTransitionBackground(
@@ -2380,7 +2344,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         containerView.setTranslationX((1.0f - interpolated) * widthNoPaddings);
                         containerViewBack.setTranslationX(-interpolated * 0.35f * widthNoPaddings);
                         setInnerTranslationX((1.0f - interpolated) * widthNoPaddings);
-                        // mzGram: открывающийся экран разжимается карточкой (MZGram)
                         final float m3s = AndroidUtilities.lerp(0.85f, 1.0f, interpolated);
                         containerView.setScaleX(m3s);
                         containerView.setScaleY(m3s);
@@ -2405,7 +2368,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         containerViewBack.setTranslationX(interpolated * widthNoPaddings);
                         containerView.setTranslationX(-(1f - interpolated) * 0.35f * widthNoPaddings);
                         setInnerTranslationX(interpolated * widthNoPaddings);
-                        // mzGram: закрывающийся экран сжимается карточкой (MZGram)
                         final float m3s = AndroidUtilities.lerp(1.0f, 0.85f, interpolated);
                         containerViewBack.setScaleX(m3s);
                         containerViewBack.setScaleY(m3s);
@@ -4288,10 +4250,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (!USE_ACTIONBAR_CROSSFADE) {
             return false;
         }
-        // Во время M3-жеста заголовок обязан ехать вместе с карточкой.
-        // Кроссфейд MZGram рисует общий ActionBar поверх всего в draw(), а сами
-        // фрагменты свой при этом не рисуют — и получалось, что экран уменьшался,
-        // а шапка оставалась висеть на месте во всю ширину.
         if (m3BackTransition() || newBackTransitions()) {
             return false;
         }

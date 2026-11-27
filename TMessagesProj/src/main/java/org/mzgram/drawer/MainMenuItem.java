@@ -1,18 +1,10 @@
 package org.mzgram.drawer;
 
-/**
- * Реестр пунктов главного меню: один и тот же список используется меню «⋮»
- * в {@code DialogsActivity} и боковой шторкой {@link DrawerContainer}.
- *
- * Значения id хранятся в настройках, поэтому менять их нельзя.
- */
 public enum MainMenuItem {
 
-    /** Разделитель между группами пунктов, а не сам пункт. */
     DIVIDER(-1),
     PROFILE(18),
     ARCHIVE(14),
-    /** Разворачивается в список attach-menu-ботов, у которых {@code show_in_side_menu}. */
     BOTS(105),
     NEW_GROUP(2),
     CONTACTS(6),
@@ -24,7 +16,6 @@ public enum MainMenuItem {
     PLUGINS(102),
     QR(17),
     FEED(106),
-    /** Пункт наш, а не из MZGram, поэтому id взят выше их диапазона. */
     GHOST_MODE(107),
     RECENT_CHATS(108),
     WALLET(109),
@@ -41,7 +32,6 @@ public enum MainMenuItem {
         return id;
     }
 
-    /** Линейный поиск по значениям. */
     public static MainMenuItem getById(int id) {
         for (MainMenuItem item : values()) {
             if (item.id == id) {

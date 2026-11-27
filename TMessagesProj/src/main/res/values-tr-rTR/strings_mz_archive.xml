@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">Kaydedilen ekler</string>
     <string name="SaveProtectedContent">Korumalı içeriği ilet ve kaydet</string>
     <string name="SaveProtectedContentInfo">Sahibinin içerik kaydetmeyi kısıtladığı sohbet ve kanallarda, mesajları ve medyayı her yerde olduğu gibi iletebilir, kaydedebilir, kopyalayabilir ve ekran görüntüsü alabilirsiniz. Telegram bu mesajları iletmez, bu yüzden asıl gönderen olmadan yeni mesajlar olarak gönderilirler; henüz indirilmemiş medya önce indirilir.</string>
+    <string name="MZArcKeepPrivateChats">Özel sohbetlerde</string>
+    <string name="MZArcKeepPrivateGroups">Özel gruplarda</string>
+    <string name="MZArcKeepPublicGroups">Herkese açık gruplarda</string>
+    <string name="MZArcKeepPrivateChannels">Özel kanallarda</string>
+    <string name="MZArcKeepPublicChannels">Herkese açık kanallarda</string>
+    <string name="MZArcKeepInInfo">Bir botun mesajları her sohbette \"Botlardan\" ayarına, diğer mesajlar sohbet türüne uyar. Herkese açık grup veya kanal, herkese açık bağlantısı olandır. Bu, silinen ve düzenlenen mesajlar için geçerlidir; kapatmak yeni kaydı durdurur, kaydedilmiş olanlar kalır.</string>
 </resources>

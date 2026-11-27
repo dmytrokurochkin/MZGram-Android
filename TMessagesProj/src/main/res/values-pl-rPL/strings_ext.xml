@@ -101,4 +101,5 @@
     <string name="VideoPlayerDecoderPreferSW">Preferuj SW</string>
     <string name="VideoPlayerDecoderHardware">Tylko HW</string>
     <string name="VideoPlayerDecoderPreferHW">Preferuj HW</string>
+    <string name="NeedChangeCoreSettings">Musisz zmienić ustawienia zaawansowane</string>
 </resources>

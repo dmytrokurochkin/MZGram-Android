@@ -325,4 +325,7 @@
     <string name="TabletModeOn">Açık</string>
     <string name="TabletModeOff">Kapalı</string>
     <string name="HideDialogsSearchField">Arama Kutusunu Gizle</string>
+    <string name="ExportArcDB">Veritabanını dışa aktar</string>
+    <string name="ImportArcDB">Veritabanını içe aktar</string>
+    <string name="ImportArcDBAlert">Mevcut mesaj veritabanı değiştirilecek. İçe aktarmanın ardından uygulama yeniden başlayacak.</string>
 </resources>

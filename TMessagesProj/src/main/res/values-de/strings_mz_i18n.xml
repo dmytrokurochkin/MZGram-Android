@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="CoreSettings">Erweiterte Einstellungen</string>
+    <string name="UnknownCoreSettingsOption">Diese Option gibt es in den erweiterten Einstellungen nicht.</string>
+    <string name="PasscodeCore">Code-Sperre</string>
+    <string name="MZGramPushService">Push-Dienst</string>
+    <string name="coreXPaymentRemovedToast">Zahlungsfunktionen wurden entfernt.</string>
+    <string name="NeedChangeCoreSettings">Du musst die erweiterten Einstellungen ändern</string>
+    <string name="ForwardsRestrictedInfoArcDeleted">Weiterleiten ist nicht erlaubt.</string>
+    <string name="MZUpdateLatest">Deine Version ist aktuell.</string>
+    <string name="ExportArcDB">Datenbank exportieren</string>
+    <string name="ImportArcDB">Datenbank importieren</string>
+    <string name="ImportArcDBAlert">Die aktuelle Nachrichtendatenbank wird ersetzt. Nach dem Import startet die App neu.</string>
+</resources>

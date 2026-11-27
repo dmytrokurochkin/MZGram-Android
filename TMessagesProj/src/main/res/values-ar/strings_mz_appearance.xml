@@ -134,4 +134,5 @@
     <string name="MZStartupFolderReset">سيتم فتح المجلد الأول عند البدء</string>
     <string name="MZAppearancePowerSaverActive">يعمل توفير الطاقة عندما تقل البطارية عن %1$d%%، لذا توقّف التمويه والحركات مؤقتًا. الإعداد محفوظ ويعود عند الشحن.</string>
     <string name="MZAppearancePowerSaverSettings">توفير الطاقة</string>
+    <string name="MZAppearanceIosDesign">تصميم iOS</string>
 </resources>

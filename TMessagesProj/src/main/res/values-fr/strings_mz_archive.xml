@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">Pièces jointes enregistrées</string>
     <string name="SaveProtectedContent">Transférer et enregistrer le contenu protégé</string>
     <string name="SaveProtectedContentInfo">Dans les discussions et canaux dont le propriétaire a restreint l’enregistrement du contenu, vous pouvez transférer, enregistrer et copier les messages et médias et faire des captures d’écran comme ailleurs. Telegram ne transfère pas ces messages, ils sont donc envoyés comme de nouveaux messages sans l’expéditeur d’origine ; les médias pas encore téléchargés le sont d’abord.</string>
+    <string name="MZArcKeepPrivateChats">Dans les discussions privées</string>
+    <string name="MZArcKeepPrivateGroups">Dans les groupes privés</string>
+    <string name="MZArcKeepPublicGroups">Dans les groupes publics</string>
+    <string name="MZArcKeepPrivateChannels">Dans les canaux privés</string>
+    <string name="MZArcKeepPublicChannels">Dans les canaux publics</string>
+    <string name="MZArcKeepInInfo">Les messages d\'un bot suivent « Des bots » dans toute discussion ; les autres suivent le type de discussion. Un groupe ou un canal public a un lien public. Cela concerne les messages supprimés et modifiés ; désactiver arrête les nouvelles sauvegardes, ce qui est déjà conservé reste.</string>
 </resources>

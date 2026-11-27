@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">Adjuntos guardados</string>
     <string name="SaveProtectedContent">Reenviar y guardar contenido protegido</string>
     <string name="SaveProtectedContentInfo">En los chats y canales cuyo propietario restringió guardar contenido, puedes reenviar, guardar y copiar mensajes y multimedia y hacer capturas de pantalla como en cualquier otro sitio. Telegram no reenvía esos mensajes, así que se envían como mensajes nuevos sin el remitente original; la multimedia que aún no se descargó se descarga primero.</string>
+    <string name="MZArcKeepPrivateChats">En chats privados</string>
+    <string name="MZArcKeepPrivateGroups">En grupos privados</string>
+    <string name="MZArcKeepPublicGroups">En grupos públicos</string>
+    <string name="MZArcKeepPrivateChannels">En canales privados</string>
+    <string name="MZArcKeepPublicChannels">En canales públicos</string>
+    <string name="MZArcKeepInInfo">Los mensajes de un bot siguen «De bots» en cualquier chat; los demás siguen el tipo de chat. Un grupo o canal público es el que tiene un enlace público. Se aplica a los mensajes eliminados y editados; al desactivar una opción se dejan de guardar mensajes nuevos, y lo ya guardado se conserva.</string>
 </resources>

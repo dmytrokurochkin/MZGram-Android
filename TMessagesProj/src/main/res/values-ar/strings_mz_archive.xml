@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">المرفقات المحفوظة</string>
     <string name="SaveProtectedContent">إعادة توجيه المحتوى المحمي وحفظه</string>
     <string name="SaveProtectedContentInfo">في المحادثات والقنوات التي قيّد مالكها حفظ المحتوى، يمكنك إعادة توجيه الرسائل والوسائط وحفظها ونسخها وأخذ لقطات للشاشة كما في أي مكان آخر. لا يعيد تيليجرام توجيه هذه الرسائل، لذا تُرسل كرسائل جديدة دون المرسل الأصلي؛ وتُنزَّل الوسائط غير المنزّلة أولًا.</string>
+    <string name="MZArcKeepPrivateChats">في المحادثات الخاصة</string>
+    <string name="MZArcKeepPrivateGroups">في المجموعات الخاصة</string>
+    <string name="MZArcKeepPublicGroups">في المجموعات العامة</string>
+    <string name="MZArcKeepPrivateChannels">في القنوات الخاصة</string>
+    <string name="MZArcKeepPublicChannels">في القنوات العامة</string>
+    <string name="MZArcKeepInInfo">تتبع رسائل البوت في أي محادثة خيار «من البوتات»، وتتبع الرسائل الأخرى نوع المحادثة. المجموعة أو القناة العامة هي التي لها رابط عام. ينطبق هذا على الرسائل المحذوفة والمعدّلة؛ الإيقاف يوقف الحفظ الجديد، ويبقى ما حُفظ.</string>
 </resources>

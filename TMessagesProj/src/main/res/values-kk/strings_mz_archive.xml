@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">Сақталған тіркемелер</string>
     <string name="SaveProtectedContent">Қорғалған мазмұнды қайта жіберу және сақтау</string>
     <string name="SaveProtectedContentInfo">Иесі мазмұнды сақтауды шектеген чаттар мен арналарда хабарламалар мен медианы басқа жердегідей қайта жіберуге, сақтауға және көшіруге, скриншот жасауға болады. Telegram мұндай хабарламаларды қайта жібермейді, сондықтан олар бастапқы жіберушісіз жаңа хабарлама ретінде жіберіледі; әлі жүктеп алынбаған медиа алдымен жүктеледі.</string>
+    <string name="MZArcKeepPrivateChats">Жеке чаттарда</string>
+    <string name="MZArcKeepPrivateGroups">Жабық топтарда</string>
+    <string name="MZArcKeepPublicGroups">Ашық топтарда</string>
+    <string name="MZArcKeepPrivateChannels">Жабық арналарда</string>
+    <string name="MZArcKeepPublicChannels">Ашық арналарда</string>
+    <string name="MZArcKeepInInfo">Боттың хабарламалары кез келген чатта «Боттардан» баптауына, қалғандары чат түріне бағынады. Ашық топ не арнаның ашық сілтемесі бар. Бұл жойылған және өзгертілген хабарламаларға қатысты; өшіру жаңа сақтауды тоқтатады, сақталғаны қалады.</string>
 </resources>

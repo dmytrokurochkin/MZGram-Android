@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">Захаваныя ўкладанні</string>
     <string name="SaveProtectedContent">Перасылаць і захоўваць абаронены змест</string>
     <string name="SaveProtectedContentInfo">У чатах і каналах, уладальнік якіх забараніў захоўваць змест, можна перасылаць, захоўваць і капіраваць паведамленні і медыя і рабіць здымкі экрана, як паўсюль. Telegram не перасылае такія паведамленні, таму яны адпраўляюцца як новыя, без першапачатковага адпраўніка; яшчэ не спампаваныя медыя спачатку спампоўваюцца.</string>
+    <string name="MZArcKeepPrivateChats">У асабістых чатах</string>
+    <string name="MZArcKeepPrivateGroups">У прыватных групах</string>
+    <string name="MZArcKeepPublicGroups">У публічных групах</string>
+    <string name="MZArcKeepPrivateChannels">У прыватных каналах</string>
+    <string name="MZArcKeepPublicChannels">У публічных каналах</string>
+    <string name="MZArcKeepInInfo">Паведамленні бота ў любым чаце ідуць за «Ад ботаў»; астатнія — за тыпам чата. Публічная група ці канал мае публічную спасылку. Гэта датычыць выдаленых і змененых паведамленняў; выключэнне спыняе новае захаванне, ужо захаванае застаецца.</string>
 </resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="CoreSettings">Пашыраныя налады</string>
+    <string name="UnknownCoreSettingsOption">У пашыраных наладах няма такога параметра.</string>
+    <string name="PasscodeCore">Код-пароль</string>
+    <string name="MZGramPushService">Служба push-апавяшчэнняў</string>
+    <string name="coreXPaymentRemovedToast">Функцыі аплаты прыбраныя.</string>
+    <string name="NeedChangeCoreSettings">Трэба змяніць пашыраныя налады</string>
+    <string name="ForwardsRestrictedInfoArcDeleted">Перасылка забаронена.</string>
+    <string name="MZUpdateLatest">У вас апошняя версія.</string>
+    <string name="ExportArcDB">Экспартаваць базу даных</string>
+    <string name="ImportArcDB">Імпартаваць базу даных</string>
+    <string name="ImportArcDBAlert">Цяперашняя база паведамленняў будзе заменена. Пасля імпарту праграма перазапусціцца.</string>
+</resources>

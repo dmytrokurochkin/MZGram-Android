@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="CoreSettings">الإعدادات المتقدمة</string>
+    <string name="UnknownCoreSettingsOption">لا يوجد هذا الخيار في الإعدادات المتقدمة.</string>
+    <string name="PasscodeCore">رمز القفل</string>
+    <string name="MZGramPushService">خدمة الإشعارات الفورية</string>
+    <string name="coreXPaymentRemovedToast">تمت إزالة ميزات الدفع.</string>
+    <string name="NeedChangeCoreSettings">يجب تغيير الإعدادات المتقدمة</string>
+    <string name="ForwardsRestrictedInfoArcDeleted">إعادة التوجيه غير مسموحة.</string>
+    <string name="MZUpdateLatest">إصدارك هو الأحدث.</string>
+    <string name="ExportArcDB">تصدير قاعدة البيانات</string>
+    <string name="ImportArcDB">استيراد قاعدة البيانات</string>
+    <string name="ImportArcDBAlert">سيتم استبدال قاعدة بيانات الرسائل الحالية. سيُعاد تشغيل التطبيق بعد الاستيراد.</string>
+</resources>

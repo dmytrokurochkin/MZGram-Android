@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="CoreSettings">Кеңейтілген баптаулар</string>
+    <string name="UnknownCoreSettingsOption">Кеңейтілген баптауларда мұндай параметр жоқ.</string>
+    <string name="PasscodeCore">Құпия код</string>
+    <string name="MZGramPushService">Push-хабарландыру қызметі</string>
+    <string name="coreXPaymentRemovedToast">Төлем мүмкіндіктері алынып тасталды.</string>
+    <string name="NeedChangeCoreSettings">Кеңейтілген баптауларды өзгерту керек</string>
+    <string name="ForwardsRestrictedInfoArcDeleted">Қайта жіберуге рұқсат жоқ.</string>
+    <string name="MZUpdateLatest">Сізде ең соңғы нұсқа.</string>
+    <string name="ExportArcDB">Дерекқорды экспорттау</string>
+    <string name="ImportArcDB">Дерекқорды импорттау</string>
+    <string name="ImportArcDBAlert">Ағымдағы хабарламалар дерекқоры ауыстырылады. Импорттан кейін қолданба қайта іске қосылады.</string>
+</resources>

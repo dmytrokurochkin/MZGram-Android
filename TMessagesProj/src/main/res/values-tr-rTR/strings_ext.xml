@@ -101,4 +101,5 @@
     <string name="VideoPlayerDecoderPreferSW">Yazılım (SW) Tercih Et</string>
     <string name="VideoPlayerDecoderHardware">Sadece Donanım (HW)</string>
     <string name="VideoPlayerDecoderPreferHW">Donanım (HW) Tercih Et</string>
+    <string name="NeedChangeCoreSettings">Gelişmiş ayarları değiştirmeniz gerekiyor</string>
 </resources>

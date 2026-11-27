@@ -133,4 +133,5 @@
     <string name="MZStartupFolderDontOpen">Başlangıçta açma</string>
     <string name="MZStartupFolderSet">**%1$s** başlangıçta açılacak</string>
     <string name="MZStartupFolderReset">Başlangıçta ilk klasör açılacak</string>
+    <string name="MZAppearanceIosDesign">iOS tasarımı</string>
 </resources>

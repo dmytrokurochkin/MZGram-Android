@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">Zapisane załączniki</string>
     <string name="SaveProtectedContent">Przekazuj i zapisuj chronione treści</string>
     <string name="SaveProtectedContentInfo">Na czatach i kanałach, których właściciel ograniczył zapisywanie treści, możesz przekazywać, zapisywać i kopiować wiadomości i multimedia oraz robić zrzuty ekranu jak wszędzie indziej. Telegram nie przekazuje takich wiadomości, więc są wysyłane jako nowe, bez pierwotnego nadawcy; niepobrane jeszcze multimedia są najpierw pobierane.</string>
+    <string name="MZArcKeepPrivateChats">Na czatach prywatnych</string>
+    <string name="MZArcKeepPrivateGroups">W grupach prywatnych</string>
+    <string name="MZArcKeepPublicGroups">W grupach publicznych</string>
+    <string name="MZArcKeepPrivateChannels">Na kanałach prywatnych</string>
+    <string name="MZArcKeepPublicChannels">Na kanałach publicznych</string>
+    <string name="MZArcKeepInInfo">Wiadomości bota na każdym czacie podlegają opcji „Od botów”, pozostałe — rodzajowi czatu. Grupa lub kanał publiczny ma publiczny link. Dotyczy to usuniętych i edytowanych wiadomości; wyłączenie wstrzymuje nowe zapisy, a to, co już zachowane, zostaje.</string>
 </resources>

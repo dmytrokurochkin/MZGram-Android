@@ -133,4 +133,5 @@
     <string name="MZStartupFolderDontOpen">Não abrir ao iniciar</string>
     <string name="MZStartupFolderSet">**%1$s** abrirá ao iniciar</string>
     <string name="MZStartupFolderReset">A primeira pasta abrirá ao iniciar</string>
+    <string name="MZAppearanceIosDesign">Design do iOS</string>
 </resources>

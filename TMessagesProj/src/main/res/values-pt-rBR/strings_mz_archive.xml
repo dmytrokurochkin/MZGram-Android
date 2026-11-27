@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">Anexos salvos</string>
     <string name="SaveProtectedContent">Encaminhar e salvar conteúdo protegido</string>
     <string name="SaveProtectedContentInfo">Em conversas e canais cujo dono restringiu salvar conteúdo, você pode encaminhar, salvar e copiar mensagens e mídia e tirar capturas de tela como em qualquer lugar. O Telegram não encaminha essas mensagens, então elas são enviadas como mensagens novas sem o remetente original; a mídia ainda não baixada é baixada primeiro.</string>
+    <string name="MZArcKeepPrivateChats">Em conversas privadas</string>
+    <string name="MZArcKeepPrivateGroups">Em grupos privados</string>
+    <string name="MZArcKeepPublicGroups">Em grupos públicos</string>
+    <string name="MZArcKeepPrivateChannels">Em canais privados</string>
+    <string name="MZArcKeepPublicChannels">Em canais públicos</string>
+    <string name="MZArcKeepInInfo">Mensagens de bots seguem \"De bots\" em qualquer conversa; as outras seguem o tipo de conversa. Um grupo ou canal público é aquele com link público. Vale para mensagens apagadas e editadas; desativar interrompe novos salvamentos, e o que já foi guardado continua.</string>
 </resources>

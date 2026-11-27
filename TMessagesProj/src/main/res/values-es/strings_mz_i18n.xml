@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="CoreSettings">Ajustes avanzados</string>
+    <string name="UnknownCoreSettingsOption">Esta opción no existe en los ajustes avanzados.</string>
+    <string name="PasscodeCore">Código de acceso</string>
+    <string name="MZGramPushService">Servicio de notificaciones push</string>
+    <string name="coreXPaymentRemovedToast">Se han quitado las funciones de pago.</string>
+    <string name="NeedChangeCoreSettings">Tienes que cambiar los ajustes avanzados</string>
+    <string name="ForwardsRestrictedInfoArcDeleted">No se permite reenviar.</string>
+    <string name="MZUpdateLatest">Tienes la versión más reciente.</string>
+    <string name="ExportArcDB">Exportar base de datos</string>
+    <string name="ImportArcDB">Importar base de datos</string>
+    <string name="ImportArcDBAlert">Se reemplazará la base de datos de mensajes actual. La app se reiniciará tras la importación.</string>
+</resources>

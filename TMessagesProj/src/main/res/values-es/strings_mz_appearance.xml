@@ -135,4 +135,5 @@
     <string name="MZStartupFolderReset">Al iniciar se abrirá la primera carpeta</string>
     <string name="MZAppearancePowerSaverActive">El ahorro de energía se activa por debajo del %1$d%% de batería, así que el desenfoque y las animaciones están en pausa. El ajuste se guarda y vuelve al cargar.</string>
     <string name="MZAppearancePowerSaverSettings">Ahorro de energía</string>
+    <string name="MZAppearanceIosDesign">Diseño de iOS</string>
 </resources>

@@ -262,4 +262,5 @@
     <string name="EmojiUseDefault">Usar emoji do sistema</string>
     <string name="Chat">Chats</string>
     <string name="Appearance">Aparência</string>
+    <string name="UnknownCoreSettingsOption">Essa opção não existe nas configurações avançadas.</string>
 </resources>

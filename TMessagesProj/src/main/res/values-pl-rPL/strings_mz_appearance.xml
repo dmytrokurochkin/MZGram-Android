@@ -135,4 +135,5 @@
     <string name="MZStartupFolderReset">Przy starcie otworzy się pierwszy folder</string>
     <string name="MZAppearancePowerSaverActive">Oszczędzanie energii włącza się poniżej %1$d%% baterii, więc rozmycie i animacje są wstrzymane. Ustawienie jest zapisane i wróci po naładowaniu.</string>
     <string name="MZAppearancePowerSaverSettings">Oszczędzanie energii</string>
+    <string name="MZAppearanceIosDesign">Wygląd iOS</string>
 </resources>

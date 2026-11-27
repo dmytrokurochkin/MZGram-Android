@@ -22,4 +22,10 @@
     <string name="MZArcSizeAttachments">Сохранённые вложения</string>
     <string name="SaveProtectedContent">Пересылать и сохранять защищённый контент</string>
     <string name="SaveProtectedContentInfo">В чатах и каналах, владелец которых запретил сохранять контент, можно пересылать, сохранять и копировать сообщения и медиа и делать скриншоты, как везде. Telegram не пересылает такие сообщения, поэтому они отправляются как новые, без исходного отправителя; ещё не загруженные медиа сначала загружаются.</string>
+    <string name="MZArcKeepPrivateChats">В личных чатах</string>
+    <string name="MZArcKeepPrivateGroups">В частных группах</string>
+    <string name="MZArcKeepPublicGroups">В публичных группах</string>
+    <string name="MZArcKeepPrivateChannels">В частных каналах</string>
+    <string name="MZArcKeepPublicChannels">В публичных каналах</string>
+    <string name="MZArcKeepInInfo">Сообщения бота в любом чате следуют «От ботов»; остальные — типу чата. Публичная группа или канал — это группа или канал с публичной ссылкой. Это касается удалённых и изменённых сообщений; выключение останавливает новое сохранение, уже сохранённое остаётся.</string>
 </resources>

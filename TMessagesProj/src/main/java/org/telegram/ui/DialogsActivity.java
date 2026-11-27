@@ -14086,6 +14086,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             });
         }
         // MZGram: the signed-in accounts, a tap switches (only while the drawer is off).
+        // MZGram: a button for each AI site switched on in MZGram settings > AI > AI sites.
+        org.mzgram.ai.web.AiSiteActivity.addMenuButtons(io, this);
         org.mzgram.chats.AccountsMenu.addTo(io, this);
 
         if (proxyMenuSubItem != null) {

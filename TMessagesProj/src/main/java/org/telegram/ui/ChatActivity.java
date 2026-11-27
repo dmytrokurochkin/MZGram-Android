@@ -503,6 +503,9 @@ public class ChatActivity extends BaseFragment implements
     // chat click menu buttons
     private final static int nkbtn_detail = 2012;
     private final static int oebtn_ask_ai = 2040;
+    // MZGram: "Ask AI on a site" (org.mzgram.ai.web), next to the API one above
+    private final static int oebtn_ask_ai_site = 2110;
+    private final static int mzgram_ask_ai_site = 1100;
 
     private static String getMessageContent(MessageObject message) {
         if (message == null) {
@@ -4248,6 +4251,40 @@ public class ChatActivity extends BaseFragment implements
                         getMessagesController().getTopicsController().toggleViewForumAsMessages(-dialog_id, false);
                         TopicsFragment.prepareToSwitchAnimation(ChatActivity.this);
                     }
+                } else if (id == mzgram_ask_ai_site) {
+                    // MZGram: the text as Copy gives it, with the photos and
+                    // files of all the selected messages
+                    SpannableStringBuilder str = new SpannableStringBuilder();
+                    ArrayList<MessageObject> askMessages = new ArrayList<>();
+                    long askPreviousUid = 0;
+                    for (int a = 1; a >= 0; a--) {
+                        ArrayList<Integer> ids = new ArrayList<>();
+                        for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                            ids.add(selectedMessagesIds[a].keyAt(b));
+                        }
+                        if (currentEncryptedChat == null) {
+                            Collections.sort(ids);
+                        } else {
+                            Collections.sort(ids, Collections.reverseOrder());
+                        }
+                        for (int b = 0; b < ids.size(); b++) {
+                            MessageObject messageObject = selectedMessagesIds[a].get(ids.get(b));
+                            if (messageObject == null || org.mzgram.ext.ProtectedContent.noforwards(messageObject.messageOwner)) {
+                                continue;
+                            }
+                            askMessages.add(messageObject);
+                            if (selectedMessagesCanCopyIds[a].indexOfKey(ids.get(b)) < 0) {
+                                continue;
+                            }
+                            if (str.length() != 0) {
+                                str.append("\n\n");
+                            }
+                            str.append(getMessageContent(messageObject, askPreviousUid, ids.size() != 1 && (currentUser == null || !currentUser.self)));
+                            askPreviousUid = messageObject.getFromChatId();
+                        }
+                    }
+                    clearSelectionMode();
+                    org.mzgram.ai.web.AiSiteActivity.ask(ChatActivity.this, str.toString(), askMessages);
                 } else if (id == copy) {
                     SpannableStringBuilder str = new SpannableStringBuilder();
                     long previousUid = 0;
@@ -11738,6 +11775,7 @@ public class ChatActivity extends BaseFragment implements
         actionModeViews.add(actionMode.addItemWithWidth(nkactionbarbtn_selectBetween, R.drawable.ic_select_between, dp(54), LocaleController.getString(R.string.SelectBetween)));
         actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.msg_fave, dp(54), LocaleController.getString(R.string.AddToFavorites)));
         actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.msg_copy, dp(54), LocaleController.getString(R.string.Copy)));
+        actionModeViews.add(actionMode.addItemWithWidth(mzgram_ask_ai_site, R.drawable.msg_bot, dp(54), LocaleController.getString(R.string.MZAiAskSite)));
         actionModeViews.add(actionMode.addItemWithWidth(combine_message, R.drawable.msg_replace, dp(54), LocaleController.getString(R.string.CombineMessage)));
         if (currentEncryptedChat == null && getDialogId() != UserObject.VERIFY && ExtConfig.INSTANCE.getActionBarButtonForward().Bool()) {
             actionModeViews.add(actionMode.addItemWithWidth(forward, R.drawable.msg_forward_noquote, dp(54), LocaleController.getString(R.string.Forward)));
@@ -11779,6 +11817,7 @@ public class ChatActivity extends BaseFragment implements
         actionMode.setItemVisibility(nkactionbarbtn_selectBetween, ExtConfig.INSTANCE.getActionBarButtonSelectBetween().Bool() ? View.VISIBLE : View.GONE);
         actionMode.setItemVisibility(copy, /*!isPeerNoForwards() &&*/ (selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0) && ExtConfig.INSTANCE.getActionBarButtonCopy().Bool() ? View.VISIBLE : View.GONE);
         actionMode.setItemVisibility(star, selectedMessagesCanStarIds[0].size() + selectedMessagesCanStarIds[1].size() != 0 ? View.VISIBLE : View.GONE);
+        actionMode.setItemVisibility(mzgram_ask_ai_site, View.GONE);
         actionMode.setItemVisibility(combine_message, selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0 ? View.VISIBLE : View.GONE);
         actionMode.setItemVisibility(forward, ExtConfig.INSTANCE.getActionBarButtonForward().Bool() ? View.VISIBLE : View.GONE);
         actionMode.setItemVisibility(delete, cantDeleteMessagesCount == 0 ? View.VISIBLE : View.GONE);
@@ -21459,6 +21498,20 @@ public class ChatActivity extends BaseFragment implements
                     copyVisible = copyItem.getVisibility();
                     copyItem.setVisibility((selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0) && ExtConfig.INSTANCE.getActionBarButtonCopy().Bool() ? View.VISIBLE : View.GONE);
                     newCopyVisible = copyItem.getVisibility();
+                }
+                // MZGram: "Ask AI on a site" for text, photos and files, where copying is allowed
+                ActionBarMenuItem askAiSiteItem = actionBar.createActionMode().getItem(mzgram_ask_ai_site);
+                if (askAiSiteItem != null) {
+                    boolean askAi = false;
+                    if (org.mzgram.ai.web.AiSites.showAskAi() && !isPeerNoForwards()) {
+                        askAi = selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0;
+                        for (int a = 0; a < 2 && !askAi; a++) {
+                            for (int b = 0; b < selectedMessagesIds[a].size() && !askAi; b++) {
+                                askAi = org.mzgram.ai.web.AiSiteActivity.hasAttachment(selectedMessagesIds[a].valueAt(b));
+                            }
+                        }
+                    }
+                    askAiSiteItem.setVisibility(askAi ? View.VISIBLE : View.GONE);
                 }
                 if (starItem != null) {
                     starVisible = starItem.getVisibility();
@@ -36603,6 +36656,20 @@ public class ChatActivity extends BaseFragment implements
                         });
             }
             closeMenu();
+            return;
+        }
+        if (option == oebtn_ask_ai_site) {
+            // The caption or the text, with the message or all of its album
+            CharSequence askCaption = getMessageCaption(selectedObject, selectedObjectGroup);
+            CharSequence askText = askCaption != null ? askCaption : (selectedObject.type == MessageObject.TYPE_TEXT || selectedObject.type == MessageObject.TYPE_ARTICLE ? getMessageContent(selectedObject, 0, false) : null);
+            ArrayList<MessageObject> askMessages = new ArrayList<>();
+            if (selectedObjectGroup != null && !selectedObjectGroup.messages.isEmpty()) {
+                askMessages.addAll(selectedObjectGroup.messages);
+            } else {
+                askMessages.add(selectedObject);
+            }
+            closeMenu();
+            org.mzgram.ai.web.AiSiteActivity.ask(this, askText == null ? "" : askText.toString(), askMessages);
             return;
         }
         if (org.mzgram.plugins.menus.MenuInjector.handleMessageMenuOption(option)) {
@@ -51816,6 +51883,17 @@ public class ChatActivity extends BaseFragment implements
             items.add(LocaleController.getString(R.string.MZAiAsk));
             options.add(oebtn_ask_ai);
             icons.add(R.drawable.msg_discussion);
+        }
+        // MZGram: the same message in an AI site's chat (org.mzgram.ai.web), where copying is allowed
+        if (org.mzgram.ai.web.AiSites.showAskAi()
+                && !message.isSponsored() && !message.sponsoredCanReport
+                && !(isPeerNoForwards() || org.mzgram.ext.ProtectedContent.noforwards(message.messageOwner) || message.type == MessageObject.TYPE_PAID_MEDIA)
+                && (message.type == MessageObject.TYPE_TEXT || message.type == MessageObject.TYPE_ARTICLE
+                        || getMessageCaption(message, selectedObjectGroup) != null
+                        || org.mzgram.ai.web.AiSiteActivity.hasAttachment(message))) {
+            items.add(LocaleController.getString(R.string.MZAiAskSite));
+            options.add(oebtn_ask_ai_site);
+            icons.add(R.drawable.msg_bot);
         }
         // mzgram plugins: пункты плагинов в конце контекстного меню сообщения.
         org.mzgram.plugins.menus.MenuInjector.fillMessageMenu(this, message, currentChat, currentUser, currentEncryptedChat, dialog_id, currentAccount, icons, items, options);

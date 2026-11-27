@@ -40,6 +40,9 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
 
+import org.mzgram.ai.web.AiSiteActivity;
+import org.mzgram.ai.web.AiSites;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -89,6 +92,15 @@ public class AiSettingsActivity extends BaseCoreSettingsActivity {
     private int replaceEditorRow;
     private int replaceSummariesRow;
     private int telegramDividerRow;
+
+    private int sitesHeaderRow;
+    private int sitesShowRow;
+    private int sitesDefaultRow;
+    private int sitesSignOutRow;
+    private int sitesDividerRow;
+    private int sitesButtonsHeaderRow;
+    private int[] sitesButtonRows;
+    private int sitesButtonsDividerRow;
 
     private TemperatureCell temperatureCell;
     private Client testClient;
@@ -149,6 +161,20 @@ public class AiSettingsActivity extends BaseCoreSettingsActivity {
         replaceEditorRow = addRow("replaceEditor");
         replaceSummariesRow = addRow("replaceSummaries");
         telegramDividerRow = addRow();
+
+        sitesHeaderRow = addRow("sitesHeader");
+        sitesShowRow = addRow("sitesShow");
+        sitesDefaultRow = addRow("sitesDefault");
+        sitesSignOutRow = AiSiteActivity.profileSupported() ? addRow("sitesSignOut") : -1;
+        sitesDividerRow = addRow();
+
+        sitesButtonsHeaderRow = addRow("sitesButtonsHeader");
+        List<AiSites.Provider> sites = AiSites.providers();
+        sitesButtonRows = new int[sites.size()];
+        for (int i = 0; i < sites.size(); i++) {
+            sitesButtonRows[i] = addRow("sitesButton_" + sites.get(i).key);
+        }
+        sitesButtonsDividerRow = addRow();
     }
 
     @Override
@@ -190,6 +216,9 @@ public class AiSettingsActivity extends BaseCoreSettingsActivity {
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
+        if (onSitesClick(view, position)) {
+            return;
+        }
         if (position == providerRow) {
             showProviderSelector();
         } else if (position == urlRow) {
@@ -311,6 +340,93 @@ public class AiSettingsActivity extends BaseCoreSettingsActivity {
             testClient.cancel(testRequestId);
         }
         super.onFragmentDestroy();
+    }
+
+    // ---- AI sites (org.mzgram.ai.web) ----
+
+    private int sitesButtonIndex(int position) {
+        if (sitesButtonRows == null || position < 0) {
+            return -1;
+        }
+        for (int i = 0; i < sitesButtonRows.length; i++) {
+            if (sitesButtonRows[i] == position) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean onSitesClick(View view, int position) {
+        if (position < 0) {
+            return false;
+        }
+        if (position == sitesShowRow) {
+            AiSites.setShowAskAi(!AiSites.showAskAi());
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(AiSites.showAskAi());
+            }
+            return true;
+        }
+        if (position == sitesDefaultRow) {
+            showSiteSelector();
+            return true;
+        }
+        if (position == sitesSignOutRow) {
+            if (getParentActivity() == null) {
+                return true;
+            }
+            AlertDialog dialog = new AlertDialog.Builder(getParentActivity(), resourcesProvider)
+                    .setTitle(getString(R.string.MZAiSiteSignOut))
+                    .setMessage(getString(R.string.MZAiSiteSignOutConfirm))
+                    .setPositiveButton(getString(R.string.MZAiSiteSignOut), (d, which) -> {
+                        AiSiteActivity.signOut();
+                        BulletinFactory.of(this).createSimpleBulletin(R.raw.done, getString(R.string.MZAiSiteSignedOut)).show();
+                    })
+                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .create();
+            showDialog(dialog);
+            View button = dialog.getButton(android.content.DialogInterface.BUTTON_POSITIVE);
+            if (button instanceof TextView) {
+                ((TextView) button).setTextColor(getThemedColor(Theme.key_text_RedBold));
+            }
+            return true;
+        }
+        int index = sitesButtonIndex(position);
+        if (index >= 0) {
+            AiSites.Provider site = AiSites.providers().get(index);
+            boolean shown = !AiSites.menuButton(site);
+            AiSites.setMenuButton(site, shown);
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(shown);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void showSiteSelector() {
+        Context context = getParentActivity();
+        if (context == null) {
+            return;
+        }
+        LinearLayout list = new LinearLayout(context);
+        list.setOrientation(LinearLayout.VERTICAL);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
+        builder.setTitle(getString(R.string.MZAiSiteDefaultProvider));
+        builder.setView(list);
+        builder.setNegativeButton(getString(R.string.Cancel), null);
+        AlertDialog dialog = builder.create();
+
+        String current = AiSites.defaultProvider().key;
+        for (AiSites.Provider site : AiSites.providers()) {
+            list.addView(providerRow(context, site.name, null, site.key.equals(current), v -> {
+                dialog.dismiss();
+                AiSites.setDefaultProvider(site.key);
+                rebuildRowsAndNotify();
+            }), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 50));
+        }
+        showDialog(dialog);
     }
 
     private void showProviderSelector() {
@@ -840,12 +956,22 @@ public class AiSettingsActivity extends BaseCoreSettingsActivity {
                         cell.setText(getString(R.string.MZAiGenerationHeader));
                     } else if (position == telegramHeaderRow) {
                         cell.setText(getString(R.string.MZAiTelegramHeader));
+                    } else if (position == sitesHeaderRow) {
+                        cell.setText(getString(R.string.MZAiSitesHeader));
+                    } else if (position == sitesButtonsHeaderRow) {
+                        cell.setText(getString(R.string.MZAiSiteMenuButtons));
                     }
                     break;
                 }
                 case TYPE_CHECK: {
                     TextCheckCell cell = (TextCheckCell) holder.itemView;
-                    if (position == streamingRow) {
+                    int siteIndex = sitesButtonIndex(position);
+                    if (position == sitesShowRow) {
+                        cell.setTextAndCheck(getString(R.string.MZAiSiteShowAsk), AiSites.showAskAi(), true);
+                    } else if (siteIndex >= 0) {
+                        AiSites.Provider site = AiSites.providers().get(siteIndex);
+                        cell.setTextAndCheck(site.name, AiSites.menuButton(site), siteIndex < sitesButtonRows.length - 1);
+                    } else if (position == streamingRow) {
                         cell.setTextAndCheck(getString(R.string.MZAiStreaming),
                                 AiConfig.getResponseStreaming(), true);
                     } else if (position == saveHistoryRow) {
@@ -901,18 +1027,28 @@ public class AiSettingsActivity extends BaseCoreSettingsActivity {
                     } else if (position == clearHistoryRow) {
                         cell.setText(getString(R.string.MZAiClearHistory), false);
                         cell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
+                    } else if (position == sitesDefaultRow) {
+                        cell.setTextAndValue(getString(R.string.MZAiSiteDefaultProvider),
+                                AiSites.defaultProvider().name, sitesSignOutRow != -1);
+                    } else if (position == sitesSignOutRow) {
+                        cell.setText(getString(R.string.MZAiSiteSignOut), false);
+                        cell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                     }
                     break;
                 }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    boolean bottom = position == telegramDividerRow;
+                    boolean bottom = position == sitesButtonsDividerRow;
                     if (position == serviceDividerRow) {
                         cell.setText(getString(R.string.MZAiServiceInfo));
                     } else if (position == generationDividerRow) {
                         cell.setText(getString(R.string.MZAiGenerationInfo));
                     } else if (position == telegramDividerRow) {
                         cell.setText(getString(R.string.MZAiTelegramInfo));
+                    } else if (position == sitesDividerRow) {
+                        cell.setText(getString(R.string.MZAiSiteInfo));
+                    } else if (position == sitesButtonsDividerRow) {
+                        cell.setText(getString(R.string.MZAiSiteMenuButtonsInfo));
                     }
                     cell.setBackground(Theme.getThemedDrawable(mContext,
                             bottom ? R.drawable.greydivider_bottom : R.drawable.greydivider,
@@ -924,17 +1060,20 @@ public class AiSettingsActivity extends BaseCoreSettingsActivity {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == serviceHeaderRow || position == generationHeaderRow || position == telegramHeaderRow) {
+            if (position == serviceHeaderRow || position == generationHeaderRow || position == telegramHeaderRow
+                    || position == sitesHeaderRow || position == sitesButtonsHeaderRow) {
                 return TYPE_HEADER;
             }
-            if (position == serviceDividerRow || position == generationDividerRow || position == telegramDividerRow) {
+            if (position == serviceDividerRow || position == generationDividerRow || position == telegramDividerRow
+                    || position == sitesDividerRow || position == sitesButtonsDividerRow) {
                 return TYPE_INFO_PRIVACY;
             }
             if (position == temperatureRow) {
                 return TYPE_TEMPERATURE;
             }
             if (position == streamingRow || position == saveHistoryRow || position == disableToolsRow
-                    || position == replaceEditorRow || position == replaceSummariesRow) {
+                    || position == replaceEditorRow || position == replaceSummariesRow
+                    || position == sitesShowRow || sitesButtonIndex(position) >= 0) {
                 return TYPE_CHECK;
             }
             return TYPE_SETTINGS;

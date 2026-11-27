@@ -16767,6 +16767,9 @@ public class MessagesController extends BaseController implements NotificationCe
                     return;
                 }
                 boolean currentToken = pushType == SharedConfig.pushType && regid.equals(SharedConfig.pushString);
+                if (currentToken) {
+                    org.mzgram.notifications.PushDiagnostics.onRegisterAnswer(currentAccount, pushType, response instanceof TLRPC.TL_boolTrue, error != null ? error.text : null);
+                }
                 if (response instanceof TLRPC.TL_boolTrue && currentToken) {
                     FileLog.d("account " + currentAccount + " registered for push, push type: " + pushType);
                     getUserConfig().registeredForPush = true;

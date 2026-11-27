@@ -11,6 +11,7 @@ package org.telegram.messenger;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +52,7 @@ public class NotificationsService extends Service {
                 .setPriority(visible ? NotificationCompat.PRIORITY_DEFAULT : NotificationCompat.PRIORITY_MIN)
                 .setSmallIcon(R.drawable.mzgram_notification)
                 .setContentText(LocaleController.getString(R.string.MZGramPushService))
+                .setContentIntent(openAppIntent())
                 .build();
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -59,7 +61,22 @@ public class NotificationsService extends Service {
                 startForeground(9999, notification);
             }
         } catch (Throwable e) {
-            Log.e("TFOSS", "Failed to start push service");
+            FileLog.e("Failed to start push service", e);
+            org.mzgram.notifications.PushDiagnostics.event("In-app push service could not start: " + e.getClass().getSimpleName());
+        }
+    }
+
+    // A tap on the notification opens the app.
+    private PendingIntent openAppIntent() {
+        try {
+            final Intent launch = getPackageManager().getLaunchIntentForPackage(getPackageName());
+            if (launch == null) {
+                return null;
+            }
+            launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            return PendingIntent.getActivity(this, 0, launch, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        } catch (Throwable e) {
+            return null;
         }
     }
 
@@ -100,7 +117,7 @@ public class NotificationsService extends Service {
             try {
                 sendBroadcast(intent);
             } catch (Exception ex) {
-                // 辣鷄miui 就你事最多.jpg
+                // Some systems refuse it; the 10-minute alarm starts the service again.
             }
         }
     }

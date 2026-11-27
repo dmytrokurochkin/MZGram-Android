@@ -59,6 +59,9 @@ import org.mzgram.core.settings.BaseCoreSettingsActivity;
 import org.mzgram.core.ui.cells.HeaderCell;
 import org.mzgram.core.utils.AndroidUtil;
 import org.mzgram.ext.ExtConfig;
+import org.mzgram.notifications.DeviceCheckActivity;
+import org.mzgram.notifications.PushDiagnostics;
+import org.mzgram.notifications.PushTest;
 
 /**
  * Экран «General» раздела mzGram — визуально 1:1 повторяет General из MZGram.
@@ -144,6 +147,7 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
     private int notificationBubblesRow;
     private int pushStatusRow;
     private int batteryOptimizationRow;
+    private int deviceCheckRow;
     private int glyphRow;
     private int notificationsDividerRow;
 
@@ -228,6 +232,7 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
         notificationBubblesRow = addRow("disableNotificationBubbles");
         pushStatusRow = addRow("pushStatus");
         batteryOptimizationRow = addRow("batteryOptimization");
+        deviceCheckRow = addRow("deviceCheck");
         glyphRow = Build.MANUFACTURER.equalsIgnoreCase("Nothing") ? addRow("glyph") : -1;
         notificationsDividerRow = addRow();
     }
@@ -424,7 +429,12 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
         }
 
         if (position == pushStatusRow) {
-            copyPushStatus();
+            showPushStatus();
+            return;
+        }
+
+        if (position == deviceCheckRow) {
+            presentFragment(new DeviceCheckActivity());
             return;
         }
 
@@ -852,43 +862,12 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
         }
     }
 
-    private String gmsVersion() {
-        try {
-            return ApplicationLoader.applicationContext.getPackageManager()
-                    .getPackageInfo("com.google.android.gms", 0).versionName;
-        } catch (Exception e) {
-            return "none";
-        }
-    }
-
     private boolean batteryUnrestricted() {
         try {
             PowerManager pm = (PowerManager) ApplicationLoader.applicationContext.getSystemService(Context.POWER_SERVICE);
             return pm == null || pm.isIgnoringBatteryOptimizations(ApplicationLoader.applicationContext.getPackageName());
         } catch (Exception e) {
             return true;
-        }
-    }
-
-    private String standbyBucket() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            return "n/a";
-        }
-        try {
-            android.app.usage.UsageStatsManager usm = (android.app.usage.UsageStatsManager)
-                    ApplicationLoader.applicationContext.getSystemService(Context.USAGE_STATS_SERVICE);
-            if (usm == null) {
-                return "n/a";
-            }
-            int bucket = usm.getAppStandbyBucket();
-            if (bucket <= 10) return "exempted";
-            if (bucket <= 20) return "active";
-            if (bucket <= 30) return "working_set";
-            if (bucket <= 40) return "frequent";
-            if (bucket <= 45) return "rare";
-            return "restricted";
-        } catch (Exception e) {
-            return "n/a";
         }
     }
 
@@ -911,42 +890,60 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
                 SharedConfig.pushLastReceivedTime / 1000L, true);
     }
 
-    private void copyPushStatus() {
-        final StringBuilder text = new StringBuilder();
-        final boolean hasToken = !TextUtils.isEmpty(SharedConfig.pushString);
-        text.append("push type: ").append(ExtConfig.INSTANCE.getPushServiceType().Int()).append('\n');
-        text.append("token: ").append(hasToken
-                ? SharedConfig.pushString.length() + " chars" : "none").append('\n');
-        if (!hasToken) {
-            text.append("token status: ").append(SharedConfig.pushStringStatus).append('\n');
-            if (GooglePushListenerServiceProvider.lastError != null) {
-                text.append("token error: ").append(GooglePushListenerServiceProvider.lastError).append('\n');
-            }
+    // Push status: the report, Copy, and Test push while UnifiedPush has an endpoint.
+    private void showPushStatus() {
+        if (getParentActivity() == null) {
+            return;
         }
-        text.append("token fetch ms: ").append(
-                SharedConfig.pushStringGetTimeEnd - SharedConfig.pushStringGetTimeStart).append('\n');
-        for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-            UserConfig config = UserConfig.getInstance(a);
-            if (config.getClientUserId() != 0) {
-                text.append("account ").append(a).append(" registered: ")
-                        .append(config.registeredForPush).append('\n');
-            }
+        final String report = PushDiagnostics.report();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
+        builder.setTitle(getString(R.string.MZGeneralPushStatus));
+        builder.setMessage(report);
+        builder.setPositiveButton(getString(R.string.Copy), (dialog, which) -> {
+            AndroidUtilities.addToClipboard(report);
+            BulletinFactory.of(this).createCopyBulletin(getString(R.string.TextCopied)).show();
+        });
+        if (PushTest.available()) {
+            builder.setNeutralButton(getString(R.string.PushTest), (dialog, which) -> runPushTest());
         }
-        text.append("last push: ").append(SharedConfig.pushLastReceivedTime <= 0 ? "never"
-                : LocaleController.formatDateTime(SharedConfig.pushLastReceivedTime / 1000L, true)).append('\n');
-        text.append("play services: ")
-                .append(PushListenerController.getProvider().hasServices()).append('\n');
-        text.append("gms version: ").append(gmsVersion()).append('\n');
-        text.append("keep alive: ").append(MessagesController
-                .getNotificationsSettings(UserConfig.selectedAccount)
-                .getBoolean("pushService", false)).append('\n');
-        text.append("push connection: ").append(ConnectionsManager
-                .getInstance(UserConfig.selectedAccount).isPushConnectionEnabled()).append('\n');
-        text.append("os notifications: ").append(osNotificationsEnabled()).append('\n');
-        text.append("battery unrestricted: ").append(batteryUnrestricted()).append('\n');
-        text.append("standby bucket: ").append(standbyBucket());
-        AndroidUtilities.addToClipboard(text.toString());
-        BulletinFactory.of(this).createCopyBulletin(getString(R.string.TextCopied)).show();
+        builder.setNegativeButton(getString(R.string.Close), null);
+        showDialog(builder.create());
+    }
+
+    private void runPushTest() {
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.info, getString(R.string.PushTestSending)).show();
+        PushTest.send((outcome, detail) -> {
+            if (getParentActivity() == null) {
+                return;
+            }
+            final String text;
+            switch (outcome) {
+                case ARRIVED:
+                    text = LocaleController.formatString(R.string.PushTestArrived, detail);
+                    break;
+                case LOST:
+                    text = LocaleController.formatString(R.string.PushTestLost, detail, PushTest.WAIT_SECONDS);
+                    break;
+                case REFUSED:
+                    text = "403".equals(detail) ? getString(R.string.PushTestForbidden)
+                            : LocaleController.formatString(R.string.PushTestRefused, detail);
+                    break;
+                case NO_ENDPOINT:
+                    text = getString(R.string.PushTestNoEndpoint);
+                    break;
+                default:
+                    text = LocaleController.formatString(R.string.PushTestFailed, detail);
+                    break;
+            }
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
+            builder.setTitle(getString(R.string.PushTest));
+            builder.setMessage(text);
+            builder.setPositiveButton(getString(R.string.OK), null);
+            showDialog(builder.create());
+            if (listAdapter != null) {
+                listAdapter.notifyItemChanged(pushStatusRow);
+            }
+        });
     }
 
     private void openBatteryOptimizationSettings() {
@@ -1104,7 +1101,9 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
                         cell.setTextAndValue(getString(R.string.MZGeneralBatteryOptimization),
                                 getString(batteryUnrestricted()
                                         ? R.string.MZGeneralBatteryOptimizationOff
-                                        : R.string.MZGeneralBatteryOptimizationOn), glyphRow != -1);
+                                        : R.string.MZGeneralBatteryOptimizationOn), true);
+                    } else if (position == deviceCheckRow) {
+                        cell.setText(getString(R.string.DeviceCheck), glyphRow != -1);
                     } else if (position == savePathRow) {
                         String path = CoreConfig.customSavePath.String();
                         cell.setTextAndValue(getString(R.string.MZGeneralSavePath),
@@ -1203,7 +1202,7 @@ public class MZGramGeneralActivity extends BaseCoreSettingsActivity {
                     || position == pushServiceTypeRow || position == pushGatewayRow) {
                 return TYPE_SETTINGS;
             } else if (position == mapProviderRow || position == mapPreviewRow
-                    || position == pushStatusRow || position == batteryOptimizationRow
+                    || position == pushStatusRow || position == batteryOptimizationRow || position == deviceCheckRow
                     || position == savePathRow
                     || position == showIdAndDcRow
                     || position == translatorRow || position == glyphRow) {

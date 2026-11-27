@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AccountsInMenu">Аккаунты в меню списка чатов</string>
+    <string name="PushTest">Тестовое уведомление</string>
+    <string name="PushTestSending">Отправка тестового уведомления через шлюз…</string>
+    <string name="PushTestArrived">Тестовое уведомление вернулось через %1$s с: путь от шлюза через дистрибьютор к этому приложению работает.</string>
+    <string name="PushTestLost">Шлюз принял тестовое уведомление (HTTP %1$s), но оно не вернулось за %2$s с: оно потерялось между шлюзом, дистрибьютором и этим приложением.</string>
+    <string name="PushTestForbidden">Шлюз отклонил тестовое уведомление (HTTP 403). Шлюз по умолчанию принимает уведомления только от серверов Telegram, поэтому тест с телефона через него не пройдёт; что сделал Telegram, видно в «Регистрации в Telegram» и событиях выше.</string>
+    <string name="PushTestRefused">Шлюз отклонил тестовое уведомление: HTTP %1$s.</string>
+    <string name="PushTestFailed">Не удалось отправить тестовое уведомление: %1$s</string>
+    <string name="PushTestNoEndpoint">Пока некуда отправлять: дистрибьютор не дал адрес доставки или шлюз выключен.</string>
+    <string name="DeviceCheck">Проверка устройства</string>
+    <string name="DeviceCheckInfo">MZGram только читает эти настройки и никогда их не меняет. Нажмите на строку, чтобы открыть экран, где вы можете изменить её сами.</string>
+    <string name="DeviceCheckYes">Да</string>
+    <string name="DeviceCheckNo">Нет</string>
+    <string name="DeviceCheckUnknown">Неизвестно</string>
+    <string name="DeviceCheckNotifications">Уведомления разрешены</string>
+    <string name="DeviceCheckCalls">Звонки появляются на экране</string>
+    <string name="DeviceCheckBattery">Без ограничений батареи</string>
+    <string name="DeviceCheckAutostart">Автозапуск</string>
+    <string name="DeviceCheckPopups">Всплывающие окна в фоне</string>
+    <string name="DeviceCheckLockScreen">Показ на экране блокировки</string>
+    <string name="DeviceCheckMiuiInfo">По данным MIUI. Без автозапуска пуш не может разбудить MZGram, а без всплывающих окон не открывается экран звонка. Также выберите «Нет ограничений» в экономии батареи и закрепите MZGram в недавних приложениях.</string>
+    <string name="DeviceCheckShare">Поделиться журналом пушей</string>
+    <string name="DeviceCheckShareInfo">В журнале модель устройства, эти проверки и последние события пушей, на английском. Токена пушей и ключей в нём нет.</string>
+    <string name="DeviceCheckCannotOpen">Этот экран не открывается на этом устройстве.</string>
 </resources>

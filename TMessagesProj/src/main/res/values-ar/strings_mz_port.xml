@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AccountsInMenu">الحسابات في قائمة قائمة المحادثات</string>
+    <string name="PushTest">إشعار تجريبي</string>
+    <string name="PushTestSending">جارٍ إرسال إشعار تجريبي عبر البوابة…</string>
+    <string name="PushTestArrived">عاد الإشعار التجريبي بعد %1$s ث: الطريق من البوابة عبر الموزّع إلى هذا التطبيق يعمل.</string>
+    <string name="PushTestLost">قبلت البوابة الإشعار التجريبي (HTTP %1$s)، لكنه لم يعد خلال %2$s ث: ضاع بين البوابة والموزّع وهذا التطبيق.</string>
+    <string name="PushTestForbidden">رفضت البوابة الإشعار التجريبي (HTTP 403). لا تقبل البوابة الافتراضية الإشعارات إلا من خوادم تيليجرام، لذا لا يمكن لاختبار من الهاتف أن يمر عبرها؛ ما فعله تيليجرام يظهر في «التسجيل لدى تيليجرام» والأحداث أعلاه.</string>
+    <string name="PushTestRefused">رفضت البوابة الإشعار التجريبي: HTTP %1$s.</string>
+    <string name="PushTestFailed">تعذّر إرسال الإشعار التجريبي: %1$s</string>
+    <string name="PushTestNoEndpoint">لا يوجد بعد مكان للإرسال إليه: لم يقدّم الموزّع عنوان تسليم، أو البوابة متوقفة.</string>
+    <string name="DeviceCheck">فحص الجهاز</string>
+    <string name="DeviceCheckInfo">يقرأ MZGram هذه الإعدادات فقط ولا يغيّرها أبدًا. اضغط على سطر لفتح الشاشة التي يمكنك تغييره منها بنفسك.</string>
+    <string name="DeviceCheckYes">نعم</string>
+    <string name="DeviceCheckNo">لا</string>
+    <string name="DeviceCheckUnknown">غير معروف</string>
+    <string name="DeviceCheckNotifications">الإشعارات مسموح بها</string>
+    <string name="DeviceCheckCalls">تظهر المكالمات على الشاشة</string>
+    <string name="DeviceCheckBattery">بلا قيود على البطارية</string>
+    <string name="DeviceCheckAutostart">التشغيل التلقائي</string>
+    <string name="DeviceCheckPopups">النوافذ المنبثقة في الخلفية</string>
+    <string name="DeviceCheckLockScreen">الإظهار على شاشة القفل</string>
+    <string name="DeviceCheckMiuiInfo">كما يُبلغ عنها MIUI. بدون التشغيل التلقائي لا يستطيع الإشعار إيقاظ MZGram، وبدون النوافذ المنبثقة لا تُفتح شاشة المكالمة. اضبط أيضًا توفير البطارية على «بلا قيود» وثبّت MZGram في التطبيقات الأخيرة.</string>
+    <string name="DeviceCheckShare">مشاركة سجل الإشعارات</string>
+    <string name="DeviceCheckShareInfo">يحتوي السجل على طراز الجهاز وهذه الفحوصات وآخر أحداث الإشعارات، بالإنجليزية. ولا يحتوي على رمز الإشعارات ولا على مفاتيح.</string>
+    <string name="DeviceCheckCannotOpen">لا يمكن فتح هذه الشاشة على هذا الجهاز.</string>
 </resources>

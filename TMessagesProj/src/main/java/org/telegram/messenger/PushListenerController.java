@@ -100,6 +100,7 @@ public class PushListenerController {
         String tag = pushType == PUSH_TYPE_FIREBASE ? "FCM" : (pushType == PUSH_TYPE_HUAWEI ? "HCM" : "UP");
         CountDownLatch countDownLatch = new CountDownLatch(1);
         FileLog.d(tag + " PRE START PROCESSING");
+        org.mzgram.notifications.PushDiagnostics.onPush(pushType);
         SharedConfig.pushLastReceivedTime = System.currentTimeMillis();
         SharedConfig.saveConfig();
         long receiveTime = SystemClock.elapsedRealtime();

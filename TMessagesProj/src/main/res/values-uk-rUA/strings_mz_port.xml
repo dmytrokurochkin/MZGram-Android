@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AccountsInMenu">Акаунти в меню списку чатів</string>
+    <string name="PushTest">Тестовий пуш</string>
+    <string name="PushTestSending">Надсилаю тестовий пуш через шлюз…</string>
+    <string name="PushTestArrived">Тестовий пуш повернувся за %1$s с: шлях від шлюзу через розподільник до застосунку працює.</string>
+    <string name="PushTestLost">Шлюз прийняв тестовий пуш (HTTP %1$s), але за %2$s с він не повернувся: загубився між шлюзом, розподільником і застосунком.</string>
+    <string name="PushTestForbidden">Шлюз відхилив тестовий пуш (HTTP 403). Типовий шлюз приймає пуші лише від серверів Telegram, тож тест із телефона через нього не пройде; що зробив Telegram, видно в рядку «Реєстрація в Telegram» і в подіях вище.</string>
+    <string name="PushTestRefused">Шлюз відхилив тестовий пуш: HTTP %1$s.</string>
+    <string name="PushTestFailed">Не вдалося надіслати тестовий пуш: %1$s</string>
+    <string name="PushTestNoEndpoint">Поки нема куди надсилати: розподільник ще не дав адресу або шлюз вимкнено.</string>
+    <string name="DeviceCheck">Перевірка пристрою</string>
+    <string name="DeviceCheckInfo">MZGram лише читає ці налаштування і ніколи їх не змінює. Торкніться рядка, щоб відкрити екран, де ви можете змінити його самі.</string>
+    <string name="DeviceCheckYes">Так</string>
+    <string name="DeviceCheckNo">Ні</string>
+    <string name="DeviceCheckUnknown">Невідомо</string>
+    <string name="DeviceCheckNotifications">Сповіщення дозволено</string>
+    <string name="DeviceCheckCalls">Дзвінки з\'являються на екрані</string>
+    <string name="DeviceCheckBattery">Без обмежень батареї</string>
+    <string name="DeviceCheckAutostart">Автозапуск</string>
+    <string name="DeviceCheckPopups">Спливаючі вікна у фоні</string>
+    <string name="DeviceCheckLockScreen">Показ на заблокованому екрані</string>
+    <string name="DeviceCheckMiuiInfo">За даними MIUI. Без автозапуску пуш не може розбудити MZGram, а без спливаючих вікон не відкривається екран дзвінка. Також поставте «Без обмежень» в економії батареї і закріпіть MZGram у недавніх застосунках.</string>
+    <string name="DeviceCheckShare">Поділитися журналом пушів</string>
+    <string name="DeviceCheckShareInfo">У журналі модель пристрою, ці перевірки й останні події пушів, англійською. Токена пушів і ключів у ньому немає.</string>
+    <string name="DeviceCheckCannotOpen">Цей екран не відкривається на цьому пристрої.</string>
 </resources>

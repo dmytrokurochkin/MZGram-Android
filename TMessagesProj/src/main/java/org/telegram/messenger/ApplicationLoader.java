@@ -483,11 +483,10 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
         if (enabled) {
             AndroidUtilities.runOnUIThread(() -> {
                 try {
-                    Log.d("TFOSS", "Starting push service...");
+                    FileLog.d("Starting push service");
                     applicationContext.startForegroundService(new Intent(applicationContext, NotificationsService.class));
 
-                    Log.d("TFOSS", "Trying to start push service every 10 minutes");
-                    // Telegram-FOSS: unconditionally enable push service
+                    // Started again every 10 minutes in case the system stopped it.
                     AlarmManager am = (AlarmManager) applicationContext.getSystemService(Context.ALARM_SERVICE);
                     Intent i = new Intent(applicationContext, NotificationsService.class);
                     pendingIntent = PendingIntent.getForegroundService(applicationContext, 0, i, PendingIntent.FLAG_IMMUTABLE);
@@ -495,7 +494,8 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
                     am.cancel(pendingIntent);
                     am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10 * 60 * 1000, pendingIntent);
                 } catch (Throwable e) {
-                    Log.e("TFOSS", "Failed to start push service");
+                    FileLog.e("Failed to start push service", e);
+                    org.mzgram.notifications.PushDiagnostics.event("In-app push service could not start: " + e.getClass().getSimpleName());
                 }
             });
 

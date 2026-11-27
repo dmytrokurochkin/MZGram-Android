@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AccountsInMenu">Чаттар тізімінің мәзіріндегі аккаунттар</string>
+    <string name="PushTest">Сынақ хабарландыру</string>
+    <string name="PushTestSending">Шлюз арқылы сынақ хабарландыру жіберілуде…</string>
+    <string name="PushTestArrived">Сынақ хабарландыру %1$s с кейін қайтып келді: шлюзден таратушы арқылы осы қолданбаға дейінгі жол жұмыс істейді.</string>
+    <string name="PushTestLost">Шлюз сынақ хабарландыруды қабылдады (HTTP %1$s), бірақ ол %2$s с ішінде қайтып келмеді: ол шлюз, таратушы және осы қолданба арасында жоғалды.</string>
+    <string name="PushTestForbidden">Шлюз сынақ хабарландыруды қабылдамады (HTTP 403). Әдепкі шлюз хабарландыруларды тек Telegram серверлерінен қабылдайды, сондықтан телефоннан жасалған сынақ ол арқылы өтпейді; Telegram не істегенін «Telegram-да тіркелу» мен жоғарыдағы оқиғалар көрсетеді.</string>
+    <string name="PushTestRefused">Шлюз сынақ хабарландыруды қабылдамады: HTTP %1$s.</string>
+    <string name="PushTestFailed">Сынақ хабарландыруды жіберу мүмкін болмады: %1$s</string>
+    <string name="PushTestNoEndpoint">Әзірге жіберетін жер жоқ: таратушы жеткізу мекенжайын бермеді немесе шлюз өшірулі.</string>
+    <string name="DeviceCheck">Құрылғыны тексеру</string>
+    <string name="DeviceCheckInfo">MZGram бұл баптауларды тек оқиды және ешқашан өзгертпейді. Өзіңіз өзгерте алатын экранды ашу үшін жолды түртіңіз.</string>
+    <string name="DeviceCheckYes">Иә</string>
+    <string name="DeviceCheckNo">Жоқ</string>
+    <string name="DeviceCheckUnknown">Белгісіз</string>
+    <string name="DeviceCheckNotifications">Хабарландыруларға рұқсат бар</string>
+    <string name="DeviceCheckCalls">Қоңыраулар экранда шығады</string>
+    <string name="DeviceCheckBattery">Батарея шектеулерінсіз</string>
+    <string name="DeviceCheckAutostart">Автоіске қосу</string>
+    <string name="DeviceCheckPopups">Фондағы қалқымалы терезелер</string>
+    <string name="DeviceCheckLockScreen">Құлып экранында көрсету</string>
+    <string name="DeviceCheckMiuiInfo">MIUI деректері бойынша. Автоіске қосусыз push MZGram-ды оята алмайды, ал қалқымалы терезелерсіз қоңырау экраны ашылмайды. Сондай-ақ батареяны үнемдеуде «Шектеусіз» таңдап, MZGram-ды соңғы қолданбаларда бекітіңіз.</string>
+    <string name="DeviceCheckShare">Push журналымен бөлісу</string>
+    <string name="DeviceCheckShareInfo">Журналда құрылғы моделі, осы тексерулер және соңғы push оқиғалары ағылшынша бар. Онда push токені мен кілттер жоқ.</string>
+    <string name="DeviceCheckCannotOpen">Бұл экран осы құрылғыда ашылмайды.</string>
 </resources>

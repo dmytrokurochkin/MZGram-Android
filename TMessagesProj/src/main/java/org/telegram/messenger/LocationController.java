@@ -841,7 +841,7 @@ public class LocationController extends BaseController implements NotificationCe
         setLastKnownLocation(location);
     }
 
-    // TFOSS it asks properly anyway
+    // The permission is asked for before this is called.
     @SuppressLint("MissingPermission")
     private void start() {
         if (started) {

@@ -25,7 +25,8 @@ public class AppStartReceiver extends BroadcastReceiver {
                 }
                 ApplicationLoader.startPushService();
             });
-        } else if ("org.telegram.start".equals(action)) {
+        } else if ("org.telegram.start".equals(action) || Intent.ACTION_MY_PACKAGE_REPLACED.equals(action)) {
+            // MZGram: also right after an update, so the in-app push service does not wait for the next app start.
             AndroidUtilities.runOnUIThread(ApplicationLoader::startPushService);
         }
     }

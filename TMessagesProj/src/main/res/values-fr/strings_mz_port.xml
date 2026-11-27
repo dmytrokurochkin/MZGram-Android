@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AccountsInMenu">Comptes dans le menu de la liste des discussions</string>
+    <string name="PushTest">Notification de test</string>
+    <string name="PushTestSending">Envoi d’une notification de test via la passerelle…</string>
+    <string name="PushTestArrived">La notification de test est revenue après %1$s s : le trajet de la passerelle jusqu’à cette appli en passant par le distributeur fonctionne.</string>
+    <string name="PushTestLost">La passerelle a accepté la notification de test (HTTP %1$s), mais elle n’est pas revenue en %2$s s : elle s’est perdue entre la passerelle, le distributeur et cette appli.</string>
+    <string name="PushTestForbidden">La passerelle a refusé la notification de test (HTTP 403). La passerelle par défaut n’accepte les notifications que des serveurs de Telegram, donc un test depuis le téléphone ne peut pas passer ; ce qu’a fait Telegram se voit dans « Enregistrement auprès de Telegram » et dans les événements ci-dessus.</string>
+    <string name="PushTestRefused">La passerelle a refusé la notification de test : HTTP %1$s.</string>
+    <string name="PushTestFailed">Impossible d’envoyer la notification de test : %1$s</string>
+    <string name="PushTestNoEndpoint">Rien où envoyer pour l’instant : le distributeur n’a pas fourni d’adresse de livraison, ou la passerelle est désactivée.</string>
+    <string name="DeviceCheck">Vérifier l\'appareil</string>
+    <string name="DeviceCheckInfo">MZGram lit seulement ces réglages et ne les modifie jamais. Touchez une ligne pour ouvrir l\'écran où vous pouvez la modifier vous-même.</string>
+    <string name="DeviceCheckYes">Oui</string>
+    <string name="DeviceCheckNo">Non</string>
+    <string name="DeviceCheckUnknown">Inconnu</string>
+    <string name="DeviceCheckNotifications">Notifications autorisées</string>
+    <string name="DeviceCheckCalls">Les appels s\'affichent à l\'écran</string>
+    <string name="DeviceCheckBattery">Sans limite de batterie</string>
+    <string name="DeviceCheckAutostart">Démarrage automatique</string>
+    <string name="DeviceCheckPopups">Fenêtres pop-up en arrière-plan</string>
+    <string name="DeviceCheckLockScreen">Afficher sur l\'écran verrouillé</string>
+    <string name="DeviceCheckMiuiInfo">Selon MIUI. Sans démarrage automatique, un push ne peut pas réveiller MZGram, et sans fenêtres pop-up l\'écran d\'appel ne s\'ouvre pas. Réglez aussi l\'économiseur de batterie sur « Aucune restriction » et verrouillez MZGram dans les applis récentes.</string>
+    <string name="DeviceCheckShare">Partager le journal des push</string>
+    <string name="DeviceCheckShareInfo">Le journal contient le modèle de l\'appareil, ces vérifications et les derniers événements push, en anglais. Il ne contient ni jeton push ni clés.</string>
+    <string name="DeviceCheckCannotOpen">Cet écran ne peut pas être ouvert sur cet appareil.</string>
 </resources>

@@ -103,10 +103,16 @@ public class UnifiedPushService extends PushService {
 
         loadWebPushKeys();
 
+        String decryptError = null;
         if (webPushPrivateKey != null && webPushPublicKey != null && webPushAuthSecret != null) {
             try {
                 byte[] plaintext = WebPushDecryptor.decrypt(message.getContent(), webPushPrivateKey, webPushPublicKey, webPushAuthSecret);
                 String encoded = new JSONObject(new String(plaintext, StandardCharsets.UTF_8)).getString("p");
+                org.mzgram.notifications.PushDiagnostics.onWebPush(true, null);
+                if (org.mzgram.notifications.PushTest.onPayload(encoded)) {
+                    releaseWakeLock(wakeLock);
+                    return;
+                }
                 FileLog.d("WP START PROCESSING (decrypted)");
                 Utilities.globalQueue.postRunnable(() -> {
                     try {
@@ -118,8 +124,10 @@ public class UnifiedPushService extends PushService {
                 return;
             } catch (Exception e) {
                 FileLog.e("WP DECRYPT ERROR, falling back to wake-up: " + e.getMessage());
+                decryptError = e.getClass().getSimpleName();
             }
         }
+        org.mzgram.notifications.PushDiagnostics.onWebPush(false, decryptError);
 
         AndroidUtilities.runOnUIThread(() -> {
             ApplicationLoader.postInitApplication();
@@ -216,6 +224,14 @@ public class UnifiedPushService extends PushService {
             ExtConfig.INSTANCE.getPushServiceTypeUnifiedWebPushAuthSecret().setConfigString("");
             FileLog.e(e);
         }
+    }
+
+    /** MZGram push test: the public key and the auth secret Telegram encrypts for, or null. */
+    public static byte[][] webPushPublicKeys() {
+        loadWebPushKeys();
+        final byte[] publicKey = webPushPublicKey;
+        final byte[] authSecret = webPushAuthSecret;
+        return publicKey != null && authSecret != null ? new byte[][]{publicKey, authSecret} : null;
     }
 
     private static synchronized void ensureWebPushKeys() {

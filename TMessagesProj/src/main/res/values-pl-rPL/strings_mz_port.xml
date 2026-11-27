@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AccountsInMenu">Konta w menu listy czatów</string>
+    <string name="PushTest">Testowe powiadomienie</string>
+    <string name="PushTestSending">Wysyłanie testowego powiadomienia przez bramę…</string>
+    <string name="PushTestArrived">Testowe powiadomienie wróciło po %1$s s: droga od bramy przez dystrybutor do tej aplikacji działa.</string>
+    <string name="PushTestLost">Brama przyjęła testowe powiadomienie (HTTP %1$s), ale nie wróciło ono w ciągu %2$s s: zgubiło się między bramą, dystrybutorem a tą aplikacją.</string>
+    <string name="PushTestForbidden">Brama odrzuciła testowe powiadomienie (HTTP 403). Domyślna brama przyjmuje powiadomienia tylko od serwerów Telegrama, więc test z telefonu przez nią nie przejdzie; co zrobił Telegram, pokazują „Rejestracja w Telegramie” i zdarzenia powyżej.</string>
+    <string name="PushTestRefused">Brama odrzuciła testowe powiadomienie: HTTP %1$s.</string>
+    <string name="PushTestFailed">Nie udało się wysłać testowego powiadomienia: %1$s</string>
+    <string name="PushTestNoEndpoint">Na razie nie ma dokąd wysłać: dystrybutor nie podał adresu doręczania albo brama jest wyłączona.</string>
+    <string name="DeviceCheck">Sprawdzenie urządzenia</string>
+    <string name="DeviceCheckInfo">MZGram tylko odczytuje te ustawienia i nigdy ich nie zmienia. Dotknij wiersza, aby otworzyć ekran, na którym możesz zmienić je samodzielnie.</string>
+    <string name="DeviceCheckYes">Tak</string>
+    <string name="DeviceCheckNo">Nie</string>
+    <string name="DeviceCheckUnknown">Nieznane</string>
+    <string name="DeviceCheckNotifications">Powiadomienia dozwolone</string>
+    <string name="DeviceCheckCalls">Połączenia pojawiają się na ekranie</string>
+    <string name="DeviceCheckBattery">Bez ograniczeń baterii</string>
+    <string name="DeviceCheckAutostart">Autostart</string>
+    <string name="DeviceCheckPopups">Wyskakujące okna w tle</string>
+    <string name="DeviceCheckLockScreen">Pokazywanie na ekranie blokady</string>
+    <string name="DeviceCheckMiuiInfo">Według MIUI. Bez autostartu push nie może obudzić MZGram, a bez wyskakujących okien nie otworzy się ekran połączenia. Ustaw też „Bez ograniczeń” w oszczędzaniu baterii i przypnij MZGram w ostatnich aplikacjach.</string>
+    <string name="DeviceCheckShare">Udostępnij dziennik pushów</string>
+    <string name="DeviceCheckShareInfo">Dziennik zawiera model urządzenia, te sprawdzenia i ostatnie zdarzenia pushów, po angielsku. Nie ma w nim tokenu push ani kluczy.</string>
+    <string name="DeviceCheckCannotOpen">Tego ekranu nie można otworzyć na tym urządzeniu.</string>
 </resources>

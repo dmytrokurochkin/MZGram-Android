@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AccountsInMenu">Sohbet listesi menüsünde hesaplar</string>
+    <string name="PushTest">Test bildirimi</string>
+    <string name="PushTestSending">Ağ geçidi üzerinden test bildirimi gönderiliyor…</string>
+    <string name="PushTestArrived">Test bildirimi %1$s sn sonra geri geldi: ağ geçidinden dağıtıcı üzerinden bu uygulamaya giden yol çalışıyor.</string>
+    <string name="PushTestLost">Ağ geçidi test bildirimini kabul etti (HTTP %1$s), ancak %2$s sn içinde geri gelmedi: ağ geçidi, dağıtıcı ve bu uygulama arasında kayboldu.</string>
+    <string name="PushTestForbidden">Ağ geçidi test bildirimini reddetti (HTTP 403). Varsayılan ağ geçidi yalnızca Telegram sunucularından gelen bildirimleri kabul eder, bu yüzden telefondan yapılan bir test oradan geçemez; Telegram\'ın ne yaptığını “Telegram\'a kayıt” ve yukarıdaki olaylar gösterir.</string>
+    <string name="PushTestRefused">Ağ geçidi test bildirimini reddetti: HTTP %1$s.</string>
+    <string name="PushTestFailed">Test bildirimi gönderilemedi: %1$s</string>
+    <string name="PushTestNoEndpoint">Henüz gönderilecek bir yer yok: dağıtıcı bir teslim adresi vermedi veya ağ geçidi kapalı.</string>
+    <string name="DeviceCheck">Cihaz kontrolü</string>
+    <string name="DeviceCheckInfo">MZGram bu ayarları yalnızca okur ve asla değiştirmez. Kendiniz değiştirebileceğiniz ekranı açmak için bir satıra dokunun.</string>
+    <string name="DeviceCheckYes">Evet</string>
+    <string name="DeviceCheckNo">Hayır</string>
+    <string name="DeviceCheckUnknown">Bilinmiyor</string>
+    <string name="DeviceCheckNotifications">Bildirimlere izin verildi</string>
+    <string name="DeviceCheckCalls">Aramalar ekranda görünür</string>
+    <string name="DeviceCheckBattery">Pil sınırı yok</string>
+    <string name="DeviceCheckAutostart">Otomatik başlatma</string>
+    <string name="DeviceCheckPopups">Arka planda açılır pencereler</string>
+    <string name="DeviceCheckLockScreen">Kilit ekranında göster</string>
+    <string name="DeviceCheckMiuiInfo">MIUI\'nin bildirdiği gibi. Otomatik başlatma olmadan bir push MZGram\'ı uyandıramaz, açılır pencereler olmadan arama ekranı açılmaz. Ayrıca pil tasarrufunu \"Kısıtlama yok\" yapın ve MZGram\'ı son uygulamalarda kilitleyin.</string>
+    <string name="DeviceCheckShare">Push günlüğünü paylaş</string>
+    <string name="DeviceCheckShareInfo">Günlükte cihaz modeli, bu kontroller ve son push olayları İngilizce olarak yer alır. Push belirteci ve anahtar içermez.</string>
+    <string name="DeviceCheckCannotOpen">Bu ekran bu cihazda açılamıyor.</string>
 </resources>

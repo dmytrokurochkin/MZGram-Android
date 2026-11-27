@@ -210,7 +210,7 @@
     <string name="AutoCheckUpdateSwitch">Güncelleme Kanalı</string>
     <string name="AutoCheckUpdateRelease">Kararlı (Release)</string>
     <string name="AutoCheckUpdateBeta">Beta</string>
-    <string name="YourVersionIsLatestNax">Sürümünüz güncel.</string>
+    <string name="MZUpdateLatest">Sürümünüz güncel.</string>
     <string name="PremiumElements">Premium Öğeler</string>
     <string name="PremiumItemBoosts">Takviye Sayacı</string>
     <string name="PremiumItemStickerEffects">Çıkartma Efektleri</string>

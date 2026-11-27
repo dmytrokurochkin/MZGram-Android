@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.core.graphics.ColorUtils;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
@@ -68,40 +70,38 @@ public class UpdateSheet extends BottomSheet {
         container.setOrientation(LinearLayout.VERTICAL);
         container.setPadding(dp(18), dp(10), dp(18), dp(14));
 
+        // Material 3 dialog: the icon in a tonal circle, the headline under it, centred
         LinearLayout header = new LinearLayout(context);
-        header.setOrientation(LinearLayout.HORIZONTAL);
-        header.setGravity(Gravity.CENTER_VERTICAL);
+        header.setOrientation(LinearLayout.VERTICAL);
+        header.setGravity(Gravity.CENTER_HORIZONTAL);
 
         ImageView icon = new ImageView(context);
         icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         icon.setImageResource(R.drawable.msg_download);
-        icon.setColorFilter(new PorterDuffColorFilter(
-                getThemedColor(Theme.key_featuredStickers_buttonText), PorterDuff.Mode.SRC_IN));
-        icon.setBackground(Theme.createRoundRectDrawable(dp(20), accent));
-        icon.setPadding(dp(8), dp(8), dp(8), dp(8));
-        header.addView(icon, LayoutHelper.createLinear(40, 40, Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
-
-        LinearLayout titles = new LinearLayout(context);
-        titles.setOrientation(LinearLayout.VERTICAL);
+        icon.setColorFilter(new PorterDuffColorFilter(accent, PorterDuff.Mode.SRC_IN));
+        icon.setBackground(Theme.createCircleDrawable(dp(56), ColorUtils.setAlphaComponent(accent, 0x26)));
+        icon.setPadding(dp(14), dp(14), dp(14), dp(14));
+        header.addView(icon, LayoutHelper.createLinear(56, 56, Gravity.CENTER_HORIZONTAL, 0, 6, 0, 14));
 
         TextView titleView = new TextView(context);
-        titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
+        titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         titleView.setTypeface(AndroidUtilities.bold());
         titleView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
-        titleView.setSingleLine(true);
+        titleView.setGravity(Gravity.CENTER);
+        titleView.setMaxLines(2);
         titleView.setEllipsize(TextUtils.TruncateAt.END);
         titleView.setText(title);
-        titles.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        header.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         TextView subtitleView = new TextView(context);
-        subtitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+        subtitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         subtitleView.setTextColor(getThemedColor(Theme.key_dialogTextGray2));
+        subtitleView.setGravity(Gravity.CENTER);
         subtitleView.setSingleLine(true);
         subtitleView.setEllipsize(TextUtils.TruncateAt.END);
         subtitleView.setText(subtitle);
-        titles.addView(subtitleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 1, 0, 0));
+        header.addView(subtitleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 4, 0, 0));
 
-        header.addView(titles, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         container.addView(header, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         TextView notesView = new TextView(context);
@@ -123,10 +123,10 @@ public class UpdateSheet extends BottomSheet {
         scrollView.addView(notesView, new FrameLayout.LayoutParams(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         FrameLayout card = new FrameLayout(context);
-        card.setBackground(Theme.createRoundRectDrawable(dp(18), getThemedColor(Theme.key_graySection)));
-        card.setPadding(dp(15), dp(13), dp(15), dp(13));
+        card.setBackground(Theme.createRoundRectDrawable(dp(16), getThemedColor(Theme.key_graySection)));
+        card.setPadding(dp(16), dp(14), dp(16), dp(14));
         card.addView(scrollView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        container.addView(card, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 12, 0, 12));
+        container.addView(card, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 18, 0, 14));
 
         progressView = new LineProgressView(context);
         progressView.setProgressColor(accent);
@@ -140,18 +140,19 @@ public class UpdateSheet extends BottomSheet {
         secondaryButton = new TextView(context);
         secondaryButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         secondaryButton.setTypeface(AndroidUtilities.bold());
-        secondaryButton.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
-        secondaryButton.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(Theme.key_graySection), 10));
+        // Material 3 buttons: a tonal pill and a filled pill
+        secondaryButton.setTextColor(accent);
+        secondaryButton.setBackground(Theme.AdaptiveRipple.filledRect(ColorUtils.setAlphaComponent(accent, 0x22), 24));
         secondaryButton.setGravity(Gravity.CENTER);
         secondaryButton.setText(getString(R.string.MZUpdateLater));
         secondaryButton.setOnClickListener(v -> dismiss());
-        buttons.addView(secondaryButton, LayoutHelper.createLinear(0, 46, 1f, Gravity.NO_GRAVITY, 0, 0, 8, 0));
+        buttons.addView(secondaryButton, LayoutHelper.createLinear(0, 48, 1f, Gravity.NO_GRAVITY, 0, 0, 10, 0));
 
         primaryButton = new TextView(context);
         primaryButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         primaryButton.setTypeface(AndroidUtilities.bold());
         primaryButton.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
-        primaryButton.setBackground(Theme.AdaptiveRipple.filledRect(accent, 10));
+        primaryButton.setBackground(Theme.AdaptiveRipple.filledRect(accent, 24));
         primaryButton.setGravity(Gravity.CENTER);
         primaryButton.setSingleLine(true);
         primaryButton.setEllipsize(TextUtils.TruncateAt.END);
@@ -162,23 +163,25 @@ public class UpdateSheet extends BottomSheet {
                 delegate.onUpdate(this);
             }
         });
-        buttons.addView(primaryButton, LayoutHelper.createLinear(0, 46, 1.4f, Gravity.NO_GRAVITY));
+        buttons.addView(primaryButton, LayoutHelper.createLinear(0, 48, 1.4f, Gravity.NO_GRAVITY));
 
         container.addView(buttons, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         skipButton = new TextView(context);
         skipButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        skipButton.setTextColor(getThemedColor(Theme.key_dialogTextGray2));
+        skipButton.setTextColor(accent);
+        skipButton.setTypeface(AndroidUtilities.bold());
         skipButton.setGravity(Gravity.CENTER);
+        skipButton.setPadding(dp(16), 0, dp(16), 0);
         skipButton.setText(getString(R.string.MZUpdateSkip));
-        skipButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), Theme.RIPPLE_MASK_ROUNDRECT_6DP));
+        skipButton.setBackground(Theme.AdaptiveRipple.rect(getThemedColor(Theme.key_dialogBackgroundWhite), 20));
         skipButton.setOnClickListener(v -> {
             if (delegate != null) {
                 delegate.onSkip();
             }
             dismiss();
         });
-        container.addView(skipButton, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 36, Gravity.CENTER_HORIZONTAL, 0, 8, 0, 0));
+        container.addView(skipButton, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 40, Gravity.CENTER_HORIZONTAL, 0, 8, 0, 0));
 
         setCustomView(container);
     }
@@ -198,6 +201,11 @@ public class UpdateSheet extends BottomSheet {
             primaryButton.setText(LocaleController.formatString(R.string.MZUpdateDownloadProgress,
                     AndroidUtilities.formatFileSize(done), AndroidUtilities.formatFileSize(total)));
         }
+    }
+
+    public void setVerifying(CharSequence text) {
+        progressView.setProgress(1f, true);
+        primaryButton.setText(text);
     }
 
     public boolean isDownloading() {

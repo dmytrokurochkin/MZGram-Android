@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Падзяліцца журналам пушаў</string>
     <string name="DeviceCheckShareInfo">У журнале мадэль прылады, гэтыя праверкі і апошнія падзеі пушаў, на англійскай. Токена пушаў і ключоў у ім няма.</string>
     <string name="DeviceCheckCannotOpen">Гэты экран не адкрываецца на гэтай прыладзе.</string>
+    <string name="MZUpdateVerifying">Праверка SHA-256 MZGram %1$s…</string>
+    <string name="MZUpdateChecksumFailed">Файл MZGram %1$s не прайшоў праверку SHA-256 і выдалены. Нічога не ўсталявана.</string>
 </resources>

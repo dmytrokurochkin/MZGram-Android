@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Push-Protokoll teilen</string>
     <string name="DeviceCheckShareInfo">Das Protokoll enthält das Gerätemodell, diese Prüfungen und die letzten Push-Ereignisse, auf Englisch. Es enthält kein Push-Token und keine Schlüssel.</string>
     <string name="DeviceCheckCannotOpen">Dieser Bildschirm lässt sich auf diesem Gerät nicht öffnen.</string>
+    <string name="MZUpdateVerifying">SHA-256 von MZGram %1$s wird geprüft…</string>
+    <string name="MZUpdateChecksumFailed">Die Datei von MZGram %1$s hat die SHA-256-Prüfung nicht bestanden und wurde gelöscht. Es wurde nichts installiert.</string>
 </resources>

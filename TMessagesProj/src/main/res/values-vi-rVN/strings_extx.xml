@@ -199,7 +199,7 @@
     <string name="AutoCheckUpdateSwitch">Kênh cập nhật</string>
     <string name="AutoCheckUpdateRelease">Bản chính thức</string>
     <string name="AutoCheckUpdateBeta">Bản Beta</string>
-    <string name="YourVersionIsLatestNax">Phiên bản của bạn là mới nhất.</string>
+    <string name="MZUpdateLatest">Phiên bản của bạn là mới nhất.</string>
     <string name="PremiumElements">Các phần Premium</string>
     <string name="PremiumItemBoosts">Bộ đếm Tăng tốc</string>
     <string name="PremiumItemStickerEffects">Hiệu ứng Sticker</string>

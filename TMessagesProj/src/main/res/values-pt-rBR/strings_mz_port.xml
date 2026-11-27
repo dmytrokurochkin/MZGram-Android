@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Compartilhar o registro de push</string>
     <string name="DeviceCheckShareInfo">O registro tem o modelo do aparelho, estas verificações e os últimos eventos de push, em inglês. Não tem o token de push nem chaves.</string>
     <string name="DeviceCheckCannotOpen">Esta tela não pode ser aberta neste aparelho.</string>
+    <string name="MZUpdateVerifying">Conferindo o SHA-256 do MZGram %1$s…</string>
+    <string name="MZUpdateChecksumFailed">O arquivo do MZGram %1$s não passou na verificação SHA-256 e foi apagado. Nada foi instalado.</string>
 </resources>

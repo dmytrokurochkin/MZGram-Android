@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Push günlüğünü paylaş</string>
     <string name="DeviceCheckShareInfo">Günlükte cihaz modeli, bu kontroller ve son push olayları İngilizce olarak yer alır. Push belirteci ve anahtar içermez.</string>
     <string name="DeviceCheckCannotOpen">Bu ekran bu cihazda açılamıyor.</string>
+    <string name="MZUpdateVerifying">MZGram %1$s SHA-256 denetleniyor…</string>
+    <string name="MZUpdateChecksumFailed">MZGram %1$s dosyası SHA-256 denetimini geçemedi ve silindi. Hiçbir şey yüklenmedi.</string>
 </resources>

@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">مشاركة سجل الإشعارات</string>
     <string name="DeviceCheckShareInfo">يحتوي السجل على طراز الجهاز وهذه الفحوصات وآخر أحداث الإشعارات، بالإنجليزية. ولا يحتوي على رمز الإشعارات ولا على مفاتيح.</string>
     <string name="DeviceCheckCannotOpen">لا يمكن فتح هذه الشاشة على هذا الجهاز.</string>
+    <string name="MZUpdateVerifying">جارٍ التحقق من SHA-256 لـ MZGram %1$s…</string>
+    <string name="MZUpdateChecksumFailed">لم يجتز ملف MZGram %1$s التحقق من SHA-256 فحُذف. لم يُثبَّت شيء.</string>
 </resources>

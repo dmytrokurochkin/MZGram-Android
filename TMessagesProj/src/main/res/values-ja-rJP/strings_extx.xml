@@ -211,7 +211,7 @@
     <string name="AutoCheckUpdateSwitch">更新チャネル</string>
     <string name="AutoCheckUpdateRelease">リリース</string>
     <string name="AutoCheckUpdateBeta">ベータ</string>
-    <string name="YourVersionIsLatestNax">お使いのバージョンは最新です。</string>
+    <string name="MZUpdateLatest">お使いのバージョンは最新です。</string>
     <string name="PremiumElements">プレミアム要素</string>
     <string name="PremiumItemBoosts">後押し者標示</string>
     <string name="PremiumItemStickerEffects">ステッカーエフェクト</string>

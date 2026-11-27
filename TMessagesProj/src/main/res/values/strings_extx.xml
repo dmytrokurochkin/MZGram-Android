@@ -228,7 +228,7 @@
     <string name="AutoCheckUpdateSwitch">Update Channel</string>
     <string name="AutoCheckUpdateRelease">Release</string>
     <string name="AutoCheckUpdateBeta">Beta</string>
-    <string name="YourVersionIsLatestNax">Your version is up to date.</string>
+    <string name="MZUpdateLatest">Your version is up to date.</string>
     <string name="PremiumElements">Premium Elements</string>
     <string name="PremiumItemBoosts">Boost Counter</string>
     <string name="PremiumItemStickerEffects">Sticker Effects</string>

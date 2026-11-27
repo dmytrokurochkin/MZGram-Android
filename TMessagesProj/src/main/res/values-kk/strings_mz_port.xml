@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Push журналымен бөлісу</string>
     <string name="DeviceCheckShareInfo">Журналда құрылғы моделі, осы тексерулер және соңғы push оқиғалары ағылшынша бар. Онда push токені мен кілттер жоқ.</string>
     <string name="DeviceCheckCannotOpen">Бұл экран осы құрылғыда ашылмайды.</string>
+    <string name="MZUpdateVerifying">MZGram %1$s SHA-256 тексерілуде…</string>
+    <string name="MZUpdateChecksumFailed">MZGram %1$s файлы SHA-256 тексеруінен өтпей, жойылды. Ештеңе орнатылмады.</string>
 </resources>

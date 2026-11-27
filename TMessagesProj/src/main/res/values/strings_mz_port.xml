@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Share push log</string>
     <string name="DeviceCheckShareInfo">The log has the device model, these checks and the recent push events, in English. It has no push token and no keys.</string>
     <string name="DeviceCheckCannotOpen">This screen cannot be opened on this device.</string>
+    <string name="MZUpdateVerifying">Checking the SHA-256 of MZGram %1$s…</string>
+    <string name="MZUpdateChecksumFailed">The MZGram %1$s file did not pass the SHA-256 check and was deleted. Nothing was installed.</string>
 </resources>

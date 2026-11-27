@@ -215,7 +215,7 @@
     <string name="AutoCheckUpdateSwitch">Канал обновлений</string>
     <string name="AutoCheckUpdateRelease">Релиз</string>
     <string name="AutoCheckUpdateBeta">Бета</string>
-    <string name="YourVersionIsLatestNax">Ваша версия актуальна.</string>
+    <string name="MZUpdateLatest">Ваша версия актуальна.</string>
     <string name="PremiumElements">Premium-элементы</string>
     <string name="PremiumItemBoosts">Счётчик голосов</string>
     <string name="PremiumItemStickerEffects">Эффекты стикеров</string>

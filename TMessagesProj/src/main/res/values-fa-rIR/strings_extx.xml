@@ -211,7 +211,7 @@
     <string name="AutoCheckUpdateSwitch">کانال به‌روزرسانی</string>
     <string name="AutoCheckUpdateRelease">نسخه نهایی</string>
     <string name="AutoCheckUpdateBeta">نسخه بتا</string>
-    <string name="YourVersionIsLatestNax">نسخه شما به‌روز است.</string>
+    <string name="MZUpdateLatest">نسخه شما به‌روز است.</string>
     <string name="PremiumElements">عناصر پریمیوم</string>
     <string name="PremiumItemBoosts">شمارنده بوست</string>
     <string name="PremiumItemStickerEffects">جلوه‌های استیکر</string>

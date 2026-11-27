@@ -6419,7 +6419,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     if (pendingUpdate == null) {
                         BaseFragment fragment = getLastFragment();
                         if (fragment != null) {
-                            BulletinFactory.of(fragment).createSimpleBulletin(R.raw.done, LocaleController.getString(R.string.YourVersionIsLatestNax)).show();
+                            BulletinFactory.of(fragment).createSimpleBulletin(R.raw.done, LocaleController.getString(R.string.MZUpdateLatest)).show();
                         }
                     }
                 }
@@ -6460,7 +6460,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         BaseFragment fragment = getLastFragment();
                         if (fragment != null) {
                             if (error == null) {
-                                BulletinFactory.of(fragment).createSimpleBulletin(R.raw.done, LocaleController.getString(R.string.YourVersionIsLatestNax)).show();
+                                BulletinFactory.of(fragment).createSimpleBulletin(R.raw.done, LocaleController.getString(R.string.MZUpdateLatest)).show();
                             } else {
                                 AlertsCreator.createSimpleAlert(this, getString(R.string.ErrorOccurred) + "\n" + error).show();
                             }

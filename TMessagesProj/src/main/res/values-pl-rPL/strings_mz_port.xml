@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Udostępnij dziennik pushów</string>
     <string name="DeviceCheckShareInfo">Dziennik zawiera model urządzenia, te sprawdzenia i ostatnie zdarzenia pushów, po angielsku. Nie ma w nim tokenu push ani kluczy.</string>
     <string name="DeviceCheckCannotOpen">Tego ekranu nie można otworzyć na tym urządzeniu.</string>
+    <string name="MZUpdateVerifying">Sprawdzanie SHA-256 MZGram %1$s…</string>
+    <string name="MZUpdateChecksumFailed">Plik MZGram %1$s nie przeszedł weryfikacji SHA-256 i został usunięty. Nic nie zostało zainstalowane.</string>
 </resources>

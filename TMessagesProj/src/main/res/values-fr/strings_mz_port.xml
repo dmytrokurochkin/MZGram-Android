@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Partager le journal des push</string>
     <string name="DeviceCheckShareInfo">Le journal contient le modèle de l\'appareil, ces vérifications et les derniers événements push, en anglais. Il ne contient ni jeton push ni clés.</string>
     <string name="DeviceCheckCannotOpen">Cet écran ne peut pas être ouvert sur cet appareil.</string>
+    <string name="MZUpdateVerifying">Vérification du SHA-256 de MZGram %1$s…</string>
+    <string name="MZUpdateChecksumFailed">Le fichier de MZGram %1$s n’a pas passé la vérification SHA-256 et a été supprimé. Rien n’a été installé.</string>
 </resources>

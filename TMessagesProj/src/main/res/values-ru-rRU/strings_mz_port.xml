@@ -24,4 +24,6 @@
     <string name="DeviceCheckShare">Поделиться журналом пушей</string>
     <string name="DeviceCheckShareInfo">В журнале модель устройства, эти проверки и последние события пушей, на английском. Токена пушей и ключей в нём нет.</string>
     <string name="DeviceCheckCannotOpen">Этот экран не открывается на этом устройстве.</string>
+    <string name="MZUpdateVerifying">Проверка SHA-256 MZGram %1$s…</string>
+    <string name="MZUpdateChecksumFailed">Файл MZGram %1$s не прошёл проверку SHA-256 и удалён. Ничего не установлено.</string>
 </resources>

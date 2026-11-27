@@ -465,6 +465,14 @@ public class UpdaterSheet extends BottomSheet {
             }
 
             @Override
+            public void onVerifying() {
+                if (!dismissed) {
+                    progressView.setProgress(1f, true);
+                    statusSubtitle.setText(LocaleController.formatString(R.string.MZUpdateVerifying, release.displayVersion()));
+                }
+            }
+
+            @Override
             public void onFinished(boolean success, boolean canceled) {
                 downloading = false;
                 if (dismissed) {

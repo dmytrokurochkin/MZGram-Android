@@ -211,7 +211,7 @@
     <string name="AutoCheckUpdateSwitch">Canale degli aggiornamenti</string>
     <string name="AutoCheckUpdateRelease">Release</string>
     <string name="AutoCheckUpdateBeta">Beta</string>
-    <string name="YourVersionIsLatestNax">La tua versione è aggiornata.</string>
+    <string name="MZUpdateLatest">La tua versione è aggiornata.</string>
     <string name="PremiumElements">Elementi Premium</string>
     <string name="PremiumItemBoosts">Contatore potenziamenti</string>
     <string name="PremiumItemStickerEffects">Effetti Sticker</string>

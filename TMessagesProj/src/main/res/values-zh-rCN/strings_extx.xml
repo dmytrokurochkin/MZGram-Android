@@ -211,7 +211,7 @@
     <string name="AutoCheckUpdateSwitch">更新通道</string>
     <string name="AutoCheckUpdateRelease">稳定版</string>
     <string name="AutoCheckUpdateBeta">测试版</string>
-    <string name="YourVersionIsLatestNax">已是最新版本。</string>
+    <string name="MZUpdateLatest">已是最新版本。</string>
     <string name="PremiumElements">Premium 元素</string>
     <string name="PremiumItemBoosts">助推者标识</string>
     <string name="PremiumItemStickerEffects">贴纸特效</string>

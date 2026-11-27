@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
@@ -24,11 +25,15 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.LaunchActivity;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -52,6 +57,10 @@ public final class GitHubUpdater {
     private static final String KEY_LAST_CHECK = "last_check";
     private static final String KEY_SKIPPED = "skipped_tag";
     private static final Pattern VERSION = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)");
+    // An MZGram release tag: v1.0.11 or v1.0.11-beta.2
+    private static final Pattern TAG = Pattern.compile("^v(0|[1-9]\\d*)\\.(0|[1-9]\\d?)\\.(0|[1-9]\\d?)(-beta\\.([1-9]\\d?))?$");
+    private static final String SUMS_NAME = "SHA256SUMS";
+    private static final String DOWNLOAD_PREFIX = "https://github.com/" + REPO + "/releases/download/";
 
     private static volatile OkHttpClient client;
     private static volatile boolean checking;
@@ -67,6 +76,9 @@ public final class GitHubUpdater {
         public String apkUrl;
         public String apkName;
         public long apkSize;
+        // GitHub's "sha256:<hex>" of the APK, and the release's SHA256SUMS file
+        public String apkDigest;
+        public String sumsUrl;
         public long published;
 
         public String displayVersion() {
@@ -81,6 +93,10 @@ public final class GitHubUpdater {
 
     public interface DownloadListener {
         void onProgress(long done, long total);
+
+        // Downloaded; the SHA-256 is being checked
+        default void onVerifying() {
+        }
 
         void onFinished(boolean success, boolean canceled);
     }
@@ -125,7 +141,7 @@ public final class GitHubUpdater {
             } else if (force) {
                 bulletin(failed
                         ? LocaleController.getString(R.string.MZUpdateCheckFailed)
-                        : LocaleController.getString(R.string.YourVersionIsLatestNax), failed);
+                        : LocaleController.getString(R.string.MZUpdateLatest), failed);
             }
         });
     }
@@ -220,6 +236,9 @@ public final class GitHubUpdater {
             release.apkUrl = asset.optString("browser_download_url");
             release.apkName = asset.optString("name");
             release.apkSize = asset.optLong("size");
+            release.apkDigest = asset.isNull("digest") ? null : asset.optString("digest", null);
+            JSONObject sums = findAsset(item.optJSONArray("assets"), SUMS_NAME);
+            release.sumsUrl = sums == null ? null : sums.optString("browser_download_url", null);
             release.published = parseDate(item.optString("published_at"));
             return release;
         }
@@ -265,23 +284,56 @@ public final class GitHubUpdater {
         return null;
     }
 
-    private static Integer compareVersion(Release release) {
-        int[] remote = version(release.tag, release.name, release.apkName);
-        int[] local = version(BuildVars.BUILD_VERSION_STRING);
-        if (remote == null || local == null) {
+    private static JSONObject findAsset(JSONArray assets, String name) {
+        if (assets == null) {
             return null;
         }
-        for (int i = 0; i < 3; i++) {
-            if (remote[i] != local[i]) {
-                return Integer.compare(remote[i], local[i]);
+        for (int i = 0; i < assets.length(); i++) {
+            JSONObject asset = assets.optJSONObject(i);
+            if (asset != null && name.equals(asset.optString("name"))) {
+                return asset;
             }
         }
-        return 0;
+        return null;
+    }
+
+    // The versionCode base of a release tag, the scheme of the MZGram builds
+    // (TMessagesProj/build.gradle): MAJOR * 1000000 + MINOR * 10000 + PATCH * 100,
+    // plus 99 for a stable release or N for beta.N; -1 when the tag is not an MZGram one.
+    static long releaseCode(String tag) {
+        Matcher m = tag == null ? null : TAG.matcher(tag);
+        if (m == null || !m.matches()) {
+            return -1;
+        }
+        long code = Long.parseLong(m.group(1)) * 1000000L + Long.parseLong(m.group(2)) * 10000L + Long.parseLong(m.group(3)) * 100L;
+        return code + (m.group(5) != null ? Long.parseLong(m.group(5)) : 99L);
+    }
+
+    // The same number for this build: versionCode without its last (ABI) digit
+    static long installedCode() {
+        try {
+            Context context = ApplicationLoader.applicationContext;
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return info.versionCode / 10;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    // Telegram's version (BuildVars.BUILD_VERSION_STRING) says nothing about MZGram's,
+    // so only the version codes are compared; null sends isNewer to the commits.
+    private static Integer compareVersion(Release release) {
+        long remote = releaseCode(release.tag);
+        long local = installedCode();
+        if (remote < 0 || local < 0) {
+            return null;
+        }
+        return Long.compare(remote, local);
     }
 
     private static Boolean isNewer(Release release) throws Exception {
         Integer versionOrder = compareVersion(release);
-        if (versionOrder != null && versionOrder != 0) {
+        if (versionOrder != null) {
             return versionOrder > 0;
         }
         String commit = BuildConfig.BUILD_COMMIT_ID;
@@ -336,6 +388,11 @@ public final class GitHubUpdater {
                     @Override
                     public void onProgress(long done, long total) {
                         sheet.setProgress(done, total);
+                    }
+
+                    @Override
+                    public void onVerifying() {
+                        sheet.setVerifying(LocaleController.formatString(R.string.MZUpdateVerifying, release.displayVersion()));
                     }
 
                     @Override
@@ -413,7 +470,13 @@ public final class GitHubUpdater {
                     FileLog.e("GitHubUpdater: download failed", e);
                 }
             }
-            final boolean success = ok;
+            boolean verified = false;
+            if (ok && !call.isCanceled()) {
+                AndroidUtilities.runOnUIThread(listener::onVerifying);
+                verified = verify(activity, release, target);
+            }
+            final boolean success = ok && verified;
+            final boolean badFile = ok && !verified && !call.isCanceled();
             AndroidUtilities.runOnUIThread(() -> {
                 download = null;
                 if (success) {
@@ -422,12 +485,91 @@ public final class GitHubUpdater {
                 } else {
                     target.delete();
                     listener.onFinished(false, call.isCanceled());
-                    if (!call.isCanceled()) {
+                    if (badFile) {
+                        bulletin(LocaleController.formatString(R.string.MZUpdateChecksumFailed, release.displayVersion()), true);
+                    } else if (!call.isCanceled()) {
                         bulletin(LocaleController.getString(R.string.MZUpdateDownloadFailed), true);
                     }
                 }
             });
         }, "gh-updater-download").start();
+    }
+
+    // Before anything is installed: the file must come from this repository's releases,
+    // match the release's SHA256SUMS and GitHub's digest of the asset (each one the
+    // release gives, at least one of them), and be this app's own package. Android then
+    // checks that it is signed with the installed app's key.
+    private static boolean verify(Context context, Release release, File file) {
+        try {
+            if (release.apkUrl == null || !release.apkUrl.startsWith(DOWNLOAD_PREFIX)) {
+                FileLog.e("GitHubUpdater: the APK is not from " + REPO);
+                return false;
+            }
+            String expected = null;
+            if (release.sumsUrl != null && release.sumsUrl.startsWith(DOWNLOAD_PREFIX)) {
+                expected = parseSums(getText(release.sumsUrl)).get(release.apkName);
+            }
+            String digest = release.apkDigest != null && release.apkDigest.startsWith("sha256:")
+                    ? release.apkDigest.substring(7).toLowerCase(Locale.US) : null;
+            if (expected == null && digest == null) {
+                FileLog.e("GitHubUpdater: the release gives no SHA-256 for " + release.apkName);
+                return false;
+            }
+            String actual = sha256(file);
+            if (expected != null && !expected.equals(actual) || digest != null && !digest.equals(actual)) {
+                FileLog.e("GitHubUpdater: SHA-256 mismatch for " + release.apkName);
+                return false;
+            }
+            PackageInfo info = context.getPackageManager().getPackageArchiveInfo(file.getPath(), 0);
+            if (info == null || !context.getPackageName().equals(info.packageName)) {
+                FileLog.e("GitHubUpdater: the APK is not " + context.getPackageName());
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            FileLog.e("GitHubUpdater: check failed", e);
+            return false;
+        }
+    }
+
+    private static String getText(String url) throws Exception {
+        Request request = new Request.Builder().url(url).header("User-Agent", "MZGram").build();
+        try (Response response = client().newCall(request).execute()) {
+            ResponseBody body = response.body();
+            if (!response.isSuccessful() || body == null) {
+                throw new IllegalStateException("HTTP " + response.code());
+            }
+            return body.string();
+        }
+    }
+
+    // "<sha256>  <name>" lines, as sha256sum writes them ("*<name>" in binary mode)
+    static Map<String, String> parseSums(String text) {
+        Map<String, String> sums = new HashMap<>();
+        for (String line : text.split("\n")) {
+            String[] parts = line.trim().split("\\s+", 2);
+            if (parts.length == 2 && parts[0].matches("[0-9a-fA-F]{64}")) {
+                String name = parts[1].startsWith("*") ? parts[1].substring(1) : parts[1];
+                sums.put(name.trim(), parts[0].toLowerCase(Locale.US));
+            }
+        }
+        return sums;
+    }
+
+    private static String sha256(File file) throws Exception {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        try (InputStream input = new FileInputStream(file)) {
+            byte[] buffer = new byte[64 * 1024];
+            int read;
+            while ((read = input.read(buffer)) > 0) {
+                digest.update(buffer, 0, read);
+            }
+        }
+        StringBuilder hex = new StringBuilder();
+        for (byte b : digest.digest()) {
+            hex.append(String.format(Locale.US, "%02x", b));
+        }
+        return hex.toString();
     }
 
     private static void install(Activity activity, File file) {

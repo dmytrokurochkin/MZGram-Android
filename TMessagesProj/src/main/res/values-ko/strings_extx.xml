@@ -211,7 +211,7 @@
     <string name="AutoCheckUpdateSwitch">업데이트 채널</string>
     <string name="AutoCheckUpdateRelease">릴리즈</string>
     <string name="AutoCheckUpdateBeta">베타</string>
-    <string name="YourVersionIsLatestNax">최신 버전입니다.</string>
+    <string name="MZUpdateLatest">최신 버전입니다.</string>
     <string name="PremiumElements">Premium 요소</string>
     <string name="PremiumItemBoosts">부스트 카운터</string>
     <string name="PremiumItemStickerEffects">스티커 효과</string>

@@ -174,7 +174,7 @@ public class UpdateSheet extends BottomSheet {
         skipButton.setGravity(Gravity.CENTER);
         skipButton.setPadding(dp(16), 0, dp(16), 0);
         skipButton.setText(getString(R.string.MZUpdateSkip));
-        skipButton.setBackground(Theme.AdaptiveRipple.rect(getThemedColor(Theme.key_dialogBackgroundWhite), 20));
+        skipButton.setBackground(Theme.AdaptiveRipple.rect(getThemedColor(Theme.key_dialogBackground), 20));
         skipButton.setOnClickListener(v -> {
             if (delegate != null) {
                 delegate.onSkip();

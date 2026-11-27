@@ -124,17 +124,17 @@ def test_own_plugin_dir_is_offered_nothing(scanner, tmp_path):
 
 _STUB_DEX = """\
 # __DEX_BEGIN__
-# eNpVk89rE0EUx9/sbtKmaht7EQLisujJJJsfuzFJRSxUpBDpIaV4EONkd5Jsu9lds5t0QSx6Vrzo
-# QfAq9CL05smjF/+AHoQKIl68ePAu+CY7gTXhk5l57/vem2S/sVm8UqmbcPJm92Xx4+1mZfzbDE5/
-# nBzmj5XLf749fCsDBAAQ7xnrIF7fJYA1SOJZ5AOCIfiMEOQMUZCf4qzgR4SCq7gGSIy8QF4hr5Fj
-# 5BT5hfxFllFbQK4gGnINuS4lM3jfjJi7hJxDZHGvEUnOGXGWUL0i7nB+fiYiTuDCvG5xTjSLPsti
-# /YKJrxLPkXn+AUnmB3muXJ3XcR6RpKYAOSgQAo9VgDzmM0gOVuPFDAXf2ZuO50S34OLWnfvq2Len
-# LlNdn9rMBrIN8nanA+sd6tkT37H1aeS4escfbkCxY/ljncURm9DAnQ4dL9RD5tm9MHKsAzbp0bDn
-# H3r6Pep4G9hhn86o7lJvqO/095kV/R/rRhPHw645Li/zOOS72K2bNNsMdw49kHc37wLZA2KDwm8I
-# 78jR0VbzidanKPJsra3ZLNaKGt4scFwaOb5Xwm/E5on+dIipEQ1L1ohZB+F0HGrtAXVDVtTGjlei
-# gaO1q0UtHNFSFSsqTYM2W9Vag7KK2WpYZqtVNer2wLxBG6bRMBp0UGvWq3VsOmOTEGdhUatcKxsl
-# m820p/iAuGvI82fKe4nkPknkUo7/7mviWZLUuvCulPKvnPKwkvJxJuXlbMrPRE303NOy2HN/kHyi
-# 4V6UVDGLB9Qkzj2VEXvuLVnoz3gDsef/r3/qWpi1
+# eNpVk89rE0EUx9/sJrGp2sYiCLm4LOrFJJsfmzRJRShUpBLpIVJUhDjZnSTb7i+zmzQoFj0LRfBS
+# 8OBFqAf/AvEiiOgfoKD0oNCDXrx4FnyTncCa8MnMvPd9702y35hsMl+sVIHtn3567eOrow97736/
+# Wb7w58uPg9u3vr34uS8D+AAw2dSXQLy+SwCLEMVTyGsEQ/AeIcghkkCOxDmBHyEKzuHqIxPkCbKH
+# PEMOkM/IL+QvMofaLHIWUZHzyEUpmsH7JsXcY8hxRBb3GpDonBRnCdXz4g4npmci4gROTutm50gz
+# 6zMn1k+Y+CrxHJnm75Bovp/hyoVpHecuiWqykIYsIXBPAchgPomkYWEym5HAd+qS5VrhZTi1duWm
+# 4njmyGaK7VGTmUDWQV5vtWCpRV1z6FmmNgotW2t5/RXItQzP0Zz7/SF1fHvUt9xAC5hrdoLQMrbZ
+# sEODjrfjatep5a5ghy06pppN3b620d1iRvh/rB0OLRe7prm8wOOQaWO3dtRsNdjYcUG+sXoVyCYQ
+# ExL8hvCc7O6u1R+oXYoi11Sbqskmak7Fm/mWTUPLc/P4jdg00R31MTWgQd4YMGM7GDmB2uxRO2A5
+# 1bHcPPUttVnKqcGA5ktYUazrtN4olWuUFauNmlFtNEp6xexVl2mtqtf0Gu2V65VSBZuO2TDAWVjU
+# KJQLet5kY/UhPiDuGvL4UeKlRNJvJXImzX/3RfEsSWydeVeK+VeOeTgR83Ey5uVUzM9EifTc07LY
+# c3+QTKThXpQUMYsHlCjOPZUUe+4tWegPeQOx5/+vfx9bm+k=
 # __DEX_END__
 """
 
@@ -142,7 +142,7 @@ _STUB_DEX = """\
 def test_unused_embedded_dex_is_reported_without_permissions(scanner, tmp_path):
     found = _scan(scanner, tmp_path, "print('hi')\r\n" + _STUB_DEX.replace("\n", "\r\n"))
     assert found["dex"] == ["size:920", "loaded:no",
-                            "class:com.mzplugins.send_sticker_as_own.Main"]
+                            "class:com.mzgramplugins.send_sticker_as_own.Main"]
     assert set(found) == {"dex"}
 
 

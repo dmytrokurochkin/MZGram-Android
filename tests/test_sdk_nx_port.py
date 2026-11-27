@@ -668,7 +668,7 @@ def test_alt_seekbar_resolves_to_our_appearance_component(sdk, monkeypatch):
     assert aliases.resolve(name) == 'org.mzgram.appearance.AltSeekbar'
     assert aliases.resolve(name + '$OnDrag') == 'org.mzgram.appearance.AltSeekbar$OnDrag'
     assert Path(corpus.PYTHON_ROOT).parent.joinpath(
-        'java', 'app', 'mzgram', 'appearance', 'AltSeekbar.java').is_file()
+        'java', 'org', 'mzgram', 'appearance', 'AltSeekbar.java').is_file()
 
 
 def test_hooks_unwrap_field_shaped_class_wrappers(sdk, monkeypatch):

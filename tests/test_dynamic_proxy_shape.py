@@ -24,7 +24,7 @@ OBJECT_METHODS = frozenset((
 
 ALIASES_PATH = os.path.join(corpus.PYTHON_ROOT, "mz_utils", "class_aliases.py")
 ARCHIVE_DIR = os.environ.get(
-    "MZGRAM_PLUGIN_ARCHIVES", "/home/coral/mzGram/plugin-corpus/archives")
+    "MZGRAM_PLUGIN_ARCHIVES", os.path.expanduser("~/mzgram-plugin-corpus/archives"))
 
 DELEGATE_FQCN = "org.mzgram.plugins.ui.components.PluginCellDelegate"
 DELEGATE_METHODS = frozenset((

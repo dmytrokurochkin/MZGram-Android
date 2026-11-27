@@ -10,7 +10,7 @@ import pytest
 import corpus
 
 ARCHIVE_DIR = os.environ.get(
-    "MZGRAM_PLUGIN_ARCHIVES", "/home/coral/mzGram/plugin-corpus/archives")
+    "MZGRAM_PLUGIN_ARCHIVES", os.path.expanduser("~/mzgram-plugin-corpus/archives"))
 
 
 @pytest.fixture(scope="module")

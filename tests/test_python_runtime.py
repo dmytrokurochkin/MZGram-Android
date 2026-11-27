@@ -16,7 +16,7 @@ MAGIC_BY_VERSION = {
 }
 
 ARCHIVE_DIR = os.environ.get(
-    "MZGRAM_PLUGIN_ARCHIVES", "/home/coral/mzGram/plugin-corpus/archives")
+    "MZGRAM_PLUGIN_ARCHIVES", os.path.expanduser("~/mzgram-plugin-corpus/archives"))
 
 BUILD_GRADLE = os.path.join(corpus.REPO, "TMessagesProj", "build.gradle")
 

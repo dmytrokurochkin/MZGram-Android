@@ -13,7 +13,7 @@ POSITIONAL_BASELINE = "sdk_signature_positional.json"
 REQUIRED_BASELINE = "sdk_signature_required.json"
 
 ARCHIVE_DIR = os.environ.get(
-    "MZGRAM_PLUGIN_ARCHIVES", "/home/coral/mzGram/plugin-corpus/archives")
+    "MZGRAM_PLUGIN_ARCHIVES", os.path.expanduser("~/mzgram-plugin-corpus/archives"))
 
 WIDGET_MODULE = "ui.settings"
 WIDGET_MIN_PLUGINS = 3

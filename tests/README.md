@@ -1,41 +1,40 @@
-# Тесты каталога плагинов
+# Plugin tests
 
-Статические проверки поверх корпуса плагинов MZGram. Джавы и устройства не требуют,
-гоняются обычным CPython.
+Static checks of the MZGram plugin runtime and of a plugin corpus. They need neither Java
+nor a device and run on plain CPython.
 
 ```
 python3 -m pytest tests/ -q
 ```
 
-Полный проход — около пяти минут, почти всё время уходит на разбор `mapping.txt` R8
-и на AST восьмисот плагинов.
+A full run takes about five minutes; most of it is parsing the R8 `mapping.txt` and the
+AST of every plugin in the corpus.
 
-## Корпус
+## Corpus
 
-Корпус в репозиторий не входит (77 МБ). По умолчанию тесты ищут его в
-`/home/coral/mzGram/plugin-corpus`, путь переопределяется переменными окружения:
+The corpus is not part of the repository. By default the tests look for it in
+`~/mzgram-plugin-corpus`; environment variables override the paths:
 
-| переменная | что содержит |
+| variable | contents |
 |---|---|
-| `MZGRAM_PLUGIN_CORPUS` | каталог с `*.plugin` — по одному Python-файлу на плагин |
-| `MZGRAM_PLUGIN_ARCHIVES` | каталог с `*.eaf` — ZIP-архивы многофайловых плагинов |
+| `MZGRAM_PLUGIN_CORPUS` | folder with `*.plugin` files, one Python file per plugin |
+| `MZGRAM_PLUGIN_ARCHIVES` | folder with `*.eaf` files, ZIP archives of multi-file plugins |
 
-Если каталога нет, тесты скипаются, а не падают.
+If the folder is missing, the tests are skipped instead of failing.
 
-Собрать корпус заново: выгрузки каталогов плагинов из Telegram (папки `ChatExport_*`)
-плюс `git clone https://github.com/KangelPlugins/Plugins-Store`, дедупликация по sha256
-содержимого. ZIP-архивы (`.eaf`) кладутся отдельно от исходников — это не Python.
+To build a corpus, collect `.plugin` files (for example from Telegram chat exports,
+`ChatExport_*` folders) and deduplicate them by the sha256 of their content. ZIP archives
+(`.eaf`) go to a separate folder, since they are not Python.
 
-## Базовые списки
+## Baselines
 
-`tests/baselines/*.json` — известные дыры на момент записи. Тест падает только на том,
-чего в списке нет, иначе на 104 непортированных Java-классах он был бы красным всегда.
-Когда дыру закрывают, запись из списка убирают: тест показывает такие остатки в тексте
-ошибки, но из-за них не падает.
+`tests/baselines/*.json` lists known gaps at the time of writing. A test fails only on a gap
+that is not in the list; otherwise the 104 unported Java classes would keep it red forever.
+When a gap is closed, its entry is removed from the list: the test shows such leftovers in
+its error text but does not fail because of them.
 
 ## R8
 
-Проверки шринкинга читают `TMessagesProj/build/outputs/mapping/release/`. Если этих
-артефактов нет или они старше `proguard-rules.pro`, проверки скипаются с указанием
-правила, которого не было в том билде, — зелёный результат на протухшем маппинге ничего
-не значит.
+The shrinking checks read `TMessagesProj/build/outputs/mapping/release/`. If those outputs
+are missing or older than `proguard-rules.pro`, the checks are skipped and name the rule
+that was not in that build: a green result on a stale mapping means nothing.

@@ -494,7 +494,7 @@ void ConnectionSocket::openConnection(std::string address, uint16_t port, std::s
         proxyPort = ConnectionsManager::getInstance(instanceNum).proxyPort;
         proxySecret = &ConnectionsManager::getInstance(instanceNum).proxySecret;
 
-        // NekoX: Check whether proxyAddress is an ipv6 addr
+        // Check whether proxyAddress is an IPv6 address
         struct sockaddr_in6 addr;
         isProxyIpv6 = inet_pton(AF_INET6, proxyAddress->c_str(), &(addr.sin6_addr)) != 0;
     }
@@ -1168,7 +1168,7 @@ void ConnectionSocket::onHostNameResolved(std::string host, std::string ip, bool
                 return;
             }
             if (LOGS_ENABLED) DEBUG_D("connection(%p) resolved host %s address %s via delegate ipv6:%d", this, host.c_str(), ip.c_str(), ipv6);
-            // NekoX: ipv6 Proxy with domain resolved, fix socket
+            // IPv6 proxy whose domain was resolved: recreate the socket
             // Since default socket type is IPv4 (isProxyIPv6 == false)
             if (!ConnectionsManager::getInstance(instanceNum).proxyAddress.empty() && ipv6) {
                 if (LOGS_ENABLED) DEBUG_D("connection(%p) recreate proxy socket when use resolved ipv6 address, host:%s, ip:%s, port:%d isIPv6: %d", this, host.c_str(), ip.c_str(), ConnectionsManager::getInstance(instanceNum).proxyPort, ipv6);

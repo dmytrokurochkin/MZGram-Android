@@ -67,6 +67,6 @@
     <string name="MZAiSiteMenuButtons">Boutons dans le menu de la liste des discussions</string>
     <string name="MZAiSiteMenuButtonsInfo">Un bouton ouvre ce site d\'IA dans la fenêtre de MZGram, sans message.</string>
     <string name="MZAiSiteShowAsk">Afficher « Demander à l\'IA » dans le menu du message</string>
-    <string name="MZAiAskSite">Demander à l'IA sur son site</string>
-    <string name="MZAiSitesHeader">Sites d'IA</string>
+    <string name="MZAiAskSite">Demander à l\'IA sur son site</string>
+    <string name="MZAiSitesHeader">Sites d\'IA</string>
 </resources>

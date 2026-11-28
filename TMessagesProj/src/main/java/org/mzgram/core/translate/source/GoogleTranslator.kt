@@ -42,7 +42,7 @@ object GoogleTranslator : Translator {
             translate(textToTranslate, from, to)
         } catch (e: RuntimeException) {
             try {
-                FileLog.e("Cloud Translation API request failed, trying Google Translate's other address", e)
+                FileLog.e("Google Translate request failed, trying its other address", e)
                 GoogleAppTranslator.translateText(textToTranslate, to)
             } catch (e: Exception) {
                 error("Cloud Translation API request failed: ${e.message}")

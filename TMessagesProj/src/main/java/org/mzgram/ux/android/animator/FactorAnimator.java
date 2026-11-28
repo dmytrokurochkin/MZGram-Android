@@ -256,7 +256,7 @@ public class FactorAnimator {
         animator.start();
       }
     } catch (Throwable t) {
-      Log.e("tgx", "Cannot start animation", t);
+      Log.e("MZGram", "Cannot start animation", t);
       forceFactor(toFactor);
     }
   }

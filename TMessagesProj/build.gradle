@@ -296,37 +296,40 @@ androidComponents {
     }
 }
 
-def chaquopyPythonVersion = '3.11'
-def chaquopySourceDir = file('chaquopy')
-def chaquopyRuntimeDir = layout.buildDirectory.dir('chaquopy/runtime').get().asFile
-def chaquopyTarget = com.chaquo.python.internal.Common.PYTHON_VERSIONS.find { it.key.startsWith("${chaquopyPythonVersion}.") }
-def chaquopyAbis = android.defaultConfig.ndk.abiFilters.sort(false)
+// MZGram Python runtime: the native bridge libraries of the plugin engine are built from
+// TMessagesProj/mzgram-python on every build and replace the stock ones from the Python plugin.
+def mzPythonVersion = '3.11'
+def mzPythonSourceDir = file('mzgram-python')
+def mzPythonRuntimeDir = layout.buildDirectory.dir('mzgram-python/runtime').get().asFile
+def mzPythonTarget = com.chaquo.python.internal.Common.PYTHON_VERSIONS.find { it.key.startsWith("${mzPythonVersion}.") }
+def mzPythonAbis = android.defaultConfig.ndk.abiFilters.sort(false)
 
-def chaquopyRuntimeTasks = chaquopyAbis.collect { String abi ->
-    tasks.register("buildChaquopyRuntime${abi.split(/[-_]/)*.capitalize().join()}", Exec) {
+def mzPythonRuntimeTasks = mzPythonAbis.collect { String abi ->
+    tasks.register("buildMzgramPythonRuntime${abi.split(/[-_]/)*.capitalize().join()}", Exec) {
         def targetZip = configurations.detachedConfiguration(dependencies.create(
-                "com.chaquo.python:target:${chaquopyTarget.key}-${chaquopyTarget.value}:${abi}@zip"))
-        def outputDir = new File(chaquopyRuntimeDir, abi)
-        inputs.files(fileTree(chaquopySourceDir) {
-            include 'exteraless/build.sh'
-            include 'product/runtime/CMakeLists.txt'
-            include 'product/runtime/src/main/c/**'
-            include 'product/runtime/src/main/python/**/*.pyx'
-            include 'product/runtime/src/main/python/**/*.pxi'
-            include 'product/runtime/src/main/python/**/*.pxd'
+                "com.chaquo.python:target:${mzPythonTarget.key}-${mzPythonTarget.value}:${abi}@zip"))
+        def outputDir = new File(mzPythonRuntimeDir, abi)
+        inputs.files(fileTree(mzPythonSourceDir) {
+            include 'build.sh'
+            include 'runtime/CMakeLists.txt'
+            include 'runtime/src/main/c/**'
+            include 'runtime/src/main/python/**/__init__.py'
+            include 'runtime/src/main/python/**/*.pyx'
+            include 'runtime/src/main/python/**/*.pxi'
+            include 'runtime/src/main/python/**/*.pxd'
         }).withPathSensitivity(PathSensitivity.RELATIVE)
         inputs.files(targetZip).withPathSensitivity(PathSensitivity.NAME_ONLY)
         outputs.dir(outputDir)
-        commandLine 'bash', new File(chaquopySourceDir, 'exteraless/build.sh').path
+        commandLine 'bash', new File(mzPythonSourceDir, 'build.sh').path
         environment('ABI', abi)
         environment('OUT', outputDir.path)
-        environment('WORKSPACE', layout.buildDirectory.dir('chaquopy/work').get().asFile.path)
+        environment('WORKSPACE', layout.buildDirectory.dir('mzgram-python/work').get().asFile.path)
         environment('PYTHON', chaquopyBuildPython ?: 'python3')
-        environment('PYTHON_VERSION', chaquopyPythonVersion)
+        environment('PYTHON_VERSION', mzPythonVersion)
         environment('CMAKE_POLICY_VERSION_MINIMUM', '3.5')
         doFirst {
-            if (!new File(chaquopySourceDir, 'product/runtime').isDirectory()) {
-                throw new GradleException('Chaquopy sources are missing, run: git submodule update --init TMessagesProj/chaquopy')
+            if (!new File(mzPythonSourceDir, 'runtime').isDirectory()) {
+                throw new GradleException('MZGram Python runtime sources are missing: TMessagesProj/mzgram-python')
             }
             environment('NDK', androidComponents.sdkComponents.ndkDirectory.get().asFile.path)
             environment('PYTHON_TARGET_ZIP', targetZip.singleFile.path)
@@ -334,13 +337,13 @@ def chaquopyRuntimeTasks = chaquopyAbis.collect { String abi ->
     }
 }
 
-def overrideChaquopyRuntime = { task, String fileName, Closure<File> targetFor ->
+def overrideMzPythonRuntime = { task, String fileName, Closure<File> targetFor ->
     task.doLast {
-        chaquopyAbis.each { String abi ->
+        mzPythonAbis.each { String abi ->
             def target = targetFor(task.outputDir.get().asFile, abi)
             if (target.isDirectory()) {
                 copy {
-                    from new File(chaquopyRuntimeDir, "$abi/$fileName")
+                    from new File(mzPythonRuntimeDir, "$abi/$fileName")
                     into target
                 }
             }
@@ -350,18 +353,18 @@ def overrideChaquopyRuntime = { task, String fileName, Closure<File> targetFor -
 
 tasks.configureEach { task ->
     if (task.name ==~ /generate\w+PythonMiscAssets|generate\w+PythonJniLibs/) {
-        task.inputs.files(chaquopyRuntimeTasks)
+        task.inputs.files(mzPythonRuntimeTasks)
     }
 }
 
 gradle.taskGraph.whenReady { graph ->
     graph.allTasks.each { task ->
         if (task.name ==~ /generate\w+PythonMiscAssets/) {
-            overrideChaquopyRuntime(task, 'chaquopy.so') { File out, String abi ->
+            overrideMzPythonRuntime(task, 'chaquopy.so') { File out, String abi ->
                 new File(out, "chaquopy/bootstrap-native/$abi/java")
             }
         } else if (task.name ==~ /generate\w+PythonJniLibs/) {
-            overrideChaquopyRuntime(task, 'libchaquopy_java.so') { File out, String abi ->
+            overrideMzPythonRuntime(task, 'libchaquopy_java.so') { File out, String abi ->
                 new File(out, abi)
             }
         }

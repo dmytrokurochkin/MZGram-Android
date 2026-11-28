@@ -47,9 +47,10 @@
     <string name="MZGeneralResetSettingsInfo">Усе налады вернуцца да прадвызначаных, а праграма перазапусціцца.</string>
     <string name="MZGeneralResetSettingsDone">Налады MZGram скінуты.</string>
     <string name="MZGeneralDeleteAccount">Выдаліць акаўнт</string>
-    <string name="DeepLFormalityDefault">Тон: як ёсць</string>
-    <string name="DeepLFormalityInformal">Тон: нефармальны</string>
-    <string name="DeepLFormalityFormal">Тон: фармальны</string>
+    <string name="DeepLFormality">Тон</string>
+    <string name="DeepLFormalityDefault">Як ёсць</string>
+    <string name="DeepLFormalityInformal">Нефармальны</string>
+    <string name="DeepLFormalityFormal">Фармальны</string>
     <string name="MZGeneralMZGramHeader">Дадаткова</string>
     <string name="MZGeneralMZGramSettings">Пашыраныя налады</string>
     <string name="MZGeneralArcMoments">Архіў паведамленняў</string>

@@ -49,9 +49,10 @@
     <string name="MZGeneralResetSettingsInfo">Усі налаштування повернуться до типових значень, а застосунок перезапуститься.</string>
     <string name="MZGeneralResetSettingsDone">Налаштування MZGram скинуто.</string>
     <string name="MZGeneralDeleteAccount">Видалити акаунт</string>
-    <string name="DeepLFormalityDefault">Тон: як є</string>
-    <string name="DeepLFormalityInformal">Тон: неформальний</string>
-    <string name="DeepLFormalityFormal">Тон: формальний</string>
+    <string name="DeepLFormality">Тон</string>
+    <string name="DeepLFormalityDefault">Як є</string>
+    <string name="DeepLFormalityInformal">Неформальний</string>
+    <string name="DeepLFormalityFormal">Формальний</string>
     <string name="MZGeneralMZGramHeader">Додатково</string>
     <string name="MZGeneralMZGramSettings">Розширені налаштування</string>
     <string name="MZGeneralArcMomentsInfo">Збереження видалених і змінених повідомлень, режим привида та фільтри regex. Функції працюють, поки увімкнені, незалежно від того, чи відкриваєте ви цей екран.</string>

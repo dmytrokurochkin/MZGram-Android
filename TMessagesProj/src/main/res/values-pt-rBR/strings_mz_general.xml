@@ -47,9 +47,10 @@
     <string name="MZGeneralResetSettingsInfo">Todas as configurações voltarão ao padrão e o app será reiniciado.</string>
     <string name="MZGeneralResetSettingsDone">As preferências do MZGram foram redefinidas.</string>
     <string name="MZGeneralDeleteAccount">Excluir conta</string>
-    <string name="DeepLFormalityDefault">Tom: como vier</string>
-    <string name="DeepLFormalityInformal">Tom: informal</string>
-    <string name="DeepLFormalityFormal">Tom: formal</string>
+    <string name="DeepLFormality">Tom</string>
+    <string name="DeepLFormalityDefault">Como vier</string>
+    <string name="DeepLFormalityInformal">Informal</string>
+    <string name="DeepLFormalityFormal">Formal</string>
     <string name="MZGeneralMZGramHeader">Extras</string>
     <string name="MZGeneralMZGramSettings">Configurações avançadas</string>
     <string name="MZGeneralArcMoments">Arquivo de mensagens</string>

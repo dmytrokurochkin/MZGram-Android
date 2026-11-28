@@ -47,9 +47,10 @@
     <string name="MZGeneralResetSettingsInfo">Tous les réglages reviendront aux valeurs par défaut et l’app redémarrera.</string>
     <string name="MZGeneralResetSettingsDone">Les préférences MZGram ont été réinitialisées.</string>
     <string name="MZGeneralDeleteAccount">Supprimer le compte</string>
-    <string name="DeepLFormalityDefault">Ton : tel quel</string>
-    <string name="DeepLFormalityInformal">Ton : informel</string>
-    <string name="DeepLFormalityFormal">Ton : formel</string>
+    <string name="DeepLFormality">Ton</string>
+    <string name="DeepLFormalityDefault">Tel quel</string>
+    <string name="DeepLFormalityInformal">Informel</string>
+    <string name="DeepLFormalityFormal">Formel</string>
     <string name="MZGeneralMZGramHeader">Extras</string>
     <string name="MZGeneralMZGramSettings">Réglages avancés</string>
     <string name="MZGeneralArcMoments">Archive des messages</string>

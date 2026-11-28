@@ -47,9 +47,10 @@
     <string name="MZGeneralResetSettingsInfo">Alle Einstellungen werden auf die Standardwerte zurückgesetzt und die App startet neu.</string>
     <string name="MZGeneralResetSettingsDone">MZGram-Einstellungen wurden zurückgesetzt.</string>
     <string name="MZGeneralDeleteAccount">Konto löschen</string>
-    <string name="DeepLFormalityDefault">Ton: wie er kommt</string>
-    <string name="DeepLFormalityInformal">Ton: locker</string>
-    <string name="DeepLFormalityFormal">Ton: förmlich</string>
+    <string name="DeepLFormality">Ton</string>
+    <string name="DeepLFormalityDefault">Wie er kommt</string>
+    <string name="DeepLFormalityInformal">Locker</string>
+    <string name="DeepLFormalityFormal">Förmlich</string>
     <string name="MZGeneralMZGramHeader">Extras</string>
     <string name="MZGeneralMZGramSettings">Erweiterte Einstellungen</string>
     <string name="MZGeneralArcMoments">Nachrichtenarchiv</string>

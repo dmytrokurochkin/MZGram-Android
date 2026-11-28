@@ -49,9 +49,10 @@
     <string name="MZGeneralResetSettingsInfo">ستُعاد جميع الإعدادات إلى قيمها الافتراضية وسيُعاد تشغيل التطبيق.</string>
     <string name="MZGeneralResetSettingsDone">تمت إعادة تعيين تفضيلات MZGram.</string>
     <string name="MZGeneralDeleteAccount">حذف الحساب</string>
-    <string name="DeepLFormalityDefault">النبرة: كما هي</string>
-    <string name="DeepLFormalityInformal">النبرة: غير رسمية</string>
-    <string name="DeepLFormalityFormal">النبرة: رسمية</string>
+    <string name="DeepLFormality">النبرة</string>
+    <string name="DeepLFormalityDefault">كما هي</string>
+    <string name="DeepLFormalityInformal">غير رسمية</string>
+    <string name="DeepLFormalityFormal">رسمية</string>
     <string name="MZGeneralMZGramHeader">إضافات</string>
     <string name="MZGeneralArcMoments">أرشيف الرسائل</string>
     <string name="MZGeneralArcMomentsInfo">حفظ الرسائل المحذوفة والمعدّلة، ووضع الشبح، وفلاتر التعابير النمطية. تستمر الميزات في العمل ما دامت مفعّلة، سواء فتحت هذه الشاشة أم لا.</string>

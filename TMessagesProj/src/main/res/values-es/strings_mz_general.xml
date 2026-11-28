@@ -49,9 +49,10 @@
     <string name="MZGeneralResetSettingsInfo">Todos los ajustes volverán a sus valores predeterminados y la app se reiniciará.</string>
     <string name="MZGeneralResetSettingsDone">Se restablecieron los ajustes de MZGram.</string>
     <string name="MZGeneralDeleteAccount">Eliminar cuenta</string>
-    <string name="DeepLFormalityDefault">Tono: como venga</string>
-    <string name="DeepLFormalityInformal">Tono: informal</string>
-    <string name="DeepLFormalityFormal">Tono: formal</string>
+    <string name="DeepLFormality">Tono</string>
+    <string name="DeepLFormalityDefault">Como venga</string>
+    <string name="DeepLFormalityInformal">Informal</string>
+    <string name="DeepLFormalityFormal">Formal</string>
     <string name="MZGeneralMZGramHeader">Extras</string>
     <string name="MZGeneralArcMoments">Archivo de mensajes</string>
     <string name="MZGeneralArcMomentsInfo">Guardado de mensajes eliminados y editados, modo fantasma y filtros regex. Las funciones siguen activas aunque no abras esta pantalla.</string>

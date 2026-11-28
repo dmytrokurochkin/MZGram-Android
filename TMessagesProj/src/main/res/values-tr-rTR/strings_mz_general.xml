@@ -47,9 +47,10 @@
     <string name="MZGeneralResetSettingsInfo">Tüm ayarlar varsayılana döner ve uygulama yeniden başlar.</string>
     <string name="MZGeneralResetSettingsDone">MZGram tercihleri sıfırlandı.</string>
     <string name="MZGeneralDeleteAccount">Hesabı sil</string>
-    <string name="DeepLFormalityDefault">Ton: olduğu gibi</string>
-    <string name="DeepLFormalityInformal">Ton: samimi</string>
-    <string name="DeepLFormalityFormal">Ton: resmi</string>
+    <string name="DeepLFormality">Ton</string>
+    <string name="DeepLFormalityDefault">Olduğu gibi</string>
+    <string name="DeepLFormalityInformal">Samimi</string>
+    <string name="DeepLFormalityFormal">Resmi</string>
     <string name="MZGeneralMZGramHeader">Ekstralar</string>
     <string name="MZGeneralMZGramSettings">Gelişmiş ayarlar</string>
     <string name="MZGeneralArcMoments">Mesaj arşivi</string>

@@ -49,9 +49,10 @@
     <string name="MZGeneralResetSettingsInfo">Wszystkie ustawienia zostaną przywrócone do wartości domyślnych, a aplikacja uruchomi się ponownie.</string>
     <string name="MZGeneralResetSettingsDone">Ustawienia MZGram zostały zresetowane.</string>
     <string name="MZGeneralDeleteAccount">Usuń konto</string>
-    <string name="DeepLFormalityDefault">Ton: jak w oryginale</string>
-    <string name="DeepLFormalityInformal">Ton: nieformalny</string>
-    <string name="DeepLFormalityFormal">Ton: formalny</string>
+    <string name="DeepLFormality">Ton</string>
+    <string name="DeepLFormalityDefault">Jak w oryginale</string>
+    <string name="DeepLFormalityInformal">Nieformalny</string>
+    <string name="DeepLFormalityFormal">Formalny</string>
     <string name="MZGeneralMZGramHeader">Dodatki</string>
     <string name="MZGeneralArcMoments">Archiwum wiadomości</string>
     <string name="MZGeneralArcMomentsInfo">Zapisywanie usuniętych i edytowanych wiadomości, tryb ducha i filtry regex. Funkcje działają dalej, nawet gdy nie otwierasz tego ekranu.</string>

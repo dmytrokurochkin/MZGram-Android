@@ -64,9 +64,10 @@
     <string name="MZGeneralResetSettingsInfo">Все настройки вернутся к значениям по умолчанию, приложение перезапустится.</string>
     <string name="MZGeneralResetSettingsDone">Настройки MZGram сброшены.</string>
     <string name="MZGeneralDeleteAccount">Удалить аккаунт</string>
-    <string name="DeepLFormalityDefault">Тон: как есть</string>
-    <string name="DeepLFormalityInformal">Тон: неформальный</string>
-    <string name="DeepLFormalityFormal">Тон: формальный</string>
+    <string name="DeepLFormality">Тон</string>
+    <string name="DeepLFormalityDefault">Как есть</string>
+    <string name="DeepLFormalityInformal">Неформальный</string>
+    <string name="DeepLFormalityFormal">Формальный</string>
     <string name="MZGeneralSavePathInfoFolder">Файлы сохраняются в Downloads/%1$s. Только буквы, цифры, пробел, точка, дефис и подчёркивание.</string>
     <string name="MZGeneralMZGramHeader">Дополнительно</string>
     <string name="MZGeneralArcMoments">Архив сообщений</string>

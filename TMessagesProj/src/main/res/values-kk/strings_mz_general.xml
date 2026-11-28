@@ -47,9 +47,10 @@
     <string name="MZGeneralResetSettingsInfo">Барлық параметрлер әдепкіге қайтып, қолданба қайта іске қосылады.</string>
     <string name="MZGeneralResetSettingsDone">MZGram параметрлері қалпына келтірілді.</string>
     <string name="MZGeneralDeleteAccount">Аккаунтты жою</string>
-    <string name="DeepLFormalityDefault">Тон: қалай болса солай</string>
-    <string name="DeepLFormalityInformal">Тон: бейресми</string>
-    <string name="DeepLFormalityFormal">Тон: ресми</string>
+    <string name="DeepLFormality">Тон</string>
+    <string name="DeepLFormalityDefault">Қалай болса солай</string>
+    <string name="DeepLFormalityInformal">Бейресми</string>
+    <string name="DeepLFormalityFormal">Ресми</string>
     <string name="MZGeneralMZGramHeader">Қосымша</string>
     <string name="MZGeneralMZGramSettings">Кеңейтілген параметрлер</string>
     <string name="MZGeneralArcMoments">Хабарлар мұрағаты</string>

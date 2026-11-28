@@ -83,7 +83,6 @@
     <string name="MessageSavingSaveMediaInPrivateGroups">私有群組</string>
     <string name="TelegramUIAutoTranslate">自動翻譯</string>
     <string name="Translated">已翻譯</string>
-    <string name="ProviderRealMicrosoftTranslator">微軟翻譯</string>
     <string name="TranslatorSettings">翻譯</string>
     <string name="SettingsOnly">僅設定</string>
     <string name="ChatsOnly">僅聊天</string>
@@ -327,7 +326,7 @@
     <string name="TabletModeOff">關閉</string>
     <string name="HideDialogsSearchField">隱藏搜尋欄</string>
     <string name="DeepLTranslateKey">DeepL API 金鑰</string>
-    <string name="DeepLTranslateKeyNotice">設定 DeepL API 金鑰，留空則使用內建金鑰。</string>
+    <string name="DeepLTranslateKeyNotice">設定 DeepL API 金鑰。未填寫金鑰時使用 Google 翻譯。</string>
     <string name="DefaultScheduleDelay">預設延遲</string>
     <string name="ExportArcDB">匯出資料庫</string>
     <string name="ImportArcDB">匯入資料庫</string>

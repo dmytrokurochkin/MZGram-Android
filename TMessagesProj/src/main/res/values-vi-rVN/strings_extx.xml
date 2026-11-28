@@ -75,7 +75,6 @@
     <string name="MessageSavingSaveMediaInPrivateGroups">… trong Nhóm riêng tư</string>
     <string name="TelegramUIAutoTranslate">Dịch toàn bộ đoạn chat</string>
     <string name="Translated">đã dịch</string>
-    <string name="ProviderRealMicrosoftTranslator">Trình dịch Microsoft</string>
     <string name="TranslatorSettings">Trình dịch</string>
     <string name="SettingsOnly">Chỉ trong cài đặt</string>
     <string name="ChatsOnly">Chỉ trong cuộc trò chuyện</string>

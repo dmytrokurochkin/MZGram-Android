@@ -10,7 +10,6 @@ import org.telegram.tgnet.TLRPC
 import org.telegram.ui.Components.TranslateAlert2
 import org.mzgram.core.translate.HTMLKeeper
 import org.mzgram.core.translate.Translator
-import org.mzgram.core.translate.source.fallback.DeepLTranslatorCore
 import org.mzgram.core.utils.HttpClient
 import org.mzgram.ext.ExtConfig
 import java.io.IOException
@@ -42,19 +41,16 @@ object DeepLTranslator : Translator {
 
         val apiKey = ExtConfig.deepLTranslateKey.String().trim()
         val translatedText = if (apiKey.isEmpty()) {
-            try {
-                DeepLTranslatorCore.translate(
-                    textToTranslate,
-                    from,
-                    when (to.lowercase(Locale.ROOT)) {
-                        "zh", "zh-cn", "zh-hans" -> "zh-CN"
-                        "zh-tw", "zh-hk", "zh-hant" -> "zh-TW"
-                        else -> to
-                    }
-                )
-            } catch (e: Exception) {
-                error("DeepL API request failed: ${e.message}")
-            }
+            // DeepL works only with the user's own API key (a free one is enough);
+            // without it the text goes to Google Translate, as the key setting says
+            GoogleAppTranslator.translateText(
+                textToTranslate,
+                when (to.lowercase(Locale.ROOT)) {
+                    "zh", "zh-cn", "zh-hans" -> "zh-CN"
+                    "zh-tw", "zh-hk", "zh-hant" -> "zh-TW"
+                    else -> to
+                }
+            )
         } else {
             translateWithApiKey(apiKey, textToTranslate, from, to, entities.isNotEmpty())
         }

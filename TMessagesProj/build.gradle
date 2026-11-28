@@ -461,9 +461,6 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.8.4'
     // add for keep formatting in translations
     implementation 'org.apache.commons:commons-text:1.15.0'
-    // translator library
-    implementation 'app.nekogram.translator:translator:1.6.1'
-
     // plugins engine: Xposed-compatible hooks (LSPlant), MVEL filters, class generation
     implementation 'com.aliucord:Aliuhook:1.1.4'
     implementation 'org.mvel:mvel2:2.5.2.Final'

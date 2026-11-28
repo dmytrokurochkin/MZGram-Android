@@ -13,7 +13,6 @@ import org.telegram.tgnet.TLRPC
 import org.telegram.ui.Components.TranslateAlert2
 import org.mzgram.core.translate.HTMLKeeper
 import org.mzgram.core.translate.Translator
-import org.mzgram.core.translate.source.fallback.GoogleTranslatorCore
 import org.mzgram.core.utils.HttpClient
 import java.io.IOException
 
@@ -43,8 +42,8 @@ object GoogleTranslator : Translator {
             translate(textToTranslate, from, to)
         } catch (e: RuntimeException) {
             try {
-                FileLog.e("Cloud Translation API request failed, trying to use MZGram's translation API...", e)
-                GoogleTranslatorCore.translate(textToTranslate, from, to)
+                FileLog.e("Cloud Translation API request failed, trying Google Translate's other address", e)
+                GoogleAppTranslator.translateText(textToTranslate, to)
             } catch (e: Exception) {
                 error("Cloud Translation API request failed: ${e.message}")
             }

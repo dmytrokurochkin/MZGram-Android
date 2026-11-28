@@ -83,7 +83,6 @@
     <string name="MessageSavingSaveMediaInPrivateGroups">… Gizli Gruplarda</string>
     <string name="TelegramUIAutoTranslate">Tüm Sohbetleri Çevir</string>
     <string name="Translated">çevrildi</string>
-    <string name="ProviderRealMicrosoftTranslator">Microsoft Translator</string>
     <string name="TranslatorSettings">Çevirmen</string>
     <string name="SettingsOnly">Sadece ayarlarda</string>
     <string name="ChatsOnly">Sadece sohbetlerde</string>

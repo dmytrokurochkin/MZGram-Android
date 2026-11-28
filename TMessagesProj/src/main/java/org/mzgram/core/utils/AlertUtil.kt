@@ -153,7 +153,6 @@ object AlertUtil {
                 ProviderInfo(Translator.providerGoogle, R.string.ProviderGoogleTranslate),
                 ProviderInfo(Translator.providerLingo, R.string.ProviderLingocloud),
                 ProviderInfo(Translator.providerMicrosoft, R.string.ProviderMicrosoftTranslator),
-                ProviderInfo(Translator.providerRealMicrosoft, R.string.ProviderRealMicrosoftTranslator),
                 ProviderInfo(Translator.providerDeepL, R.string.ProviderDeepLTranslate),
                 ProviderInfo(Translator.providerTelegram, R.string.ProviderTelegramAPI),
                 ProviderInfo(Translator.providerTranSmart, R.string.ProviderTranSmartTranslate),

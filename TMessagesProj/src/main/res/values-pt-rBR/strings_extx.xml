@@ -82,7 +82,6 @@
     <string name="MessageSavingSaveMediaInPrivateGroups">... em grupos privados</string>
     <string name="TelegramUIAutoTranslate">Traduzir Chats Inteiros</string>
     <string name="Translated">traduzido</string>
-    <string name="ProviderRealMicrosoftTranslator">Microsoft Tradutor</string>
     <string name="TranslatorSettings">Tradutor</string>
     <string name="SettingsOnly">Apenas nas configurações</string>
     <string name="ChatsOnly">Apenas no chat</string>
@@ -326,7 +325,7 @@
     <string name="TabletModeOff">Desativado</string>
     <string name="HideDialogsSearchField">Ocultar barra de pesquisa</string>
     <string name="DeepLTranslateKey">Chave da API do DeepL</string>
-    <string name="DeepLTranslateKeyNotice">Configure sua chave da API do DeepL; deixe em branco para usar as credenciais integradas.</string>
+    <string name="DeepLTranslateKeyNotice">Configure sua chave da API do DeepL; sem chave, é usado o Google Tradutor.</string>
     <string name="DefaultScheduleDelay">Atraso padrão</string>
     <string name="ExportArcDB">Exportar banco de dados</string>
     <string name="ImportArcDB">Importar banco de dados</string>

@@ -83,7 +83,6 @@
     <string name="MessageSavingSaveMediaInPrivateGroups">… di Grup Pribadi</string>
     <string name="TelegramUIAutoTranslate">Terjemahkan Seluruh Obrolan</string>
     <string name="Translated">diterjemahkan</string>
-    <string name="ProviderRealMicrosoftTranslator">Microsoft Terjemahan</string>
     <string name="TranslatorSettings">Penerjemah</string>
     <string name="SettingsOnly">Hanya di pengaturan</string>
     <string name="ChatsOnly">Hanya di obrolan</string>
@@ -327,7 +326,7 @@
     <string name="TabletModeOff">Mati</string>
     <string name="HideDialogsSearchField">Sembunyikan Kotak Pencarian</string>
     <string name="DeepLTranslateKey">Kunci API DeepL</string>
-    <string name="DeepLTranslateKeyNotice">Konfigurasikan Kunci API DeepL, biarkan kosong untuk menggunakan kredensial bawaan.</string>
+    <string name="DeepLTranslateKeyNotice">Konfigurasikan Kunci API DeepL. Tanpa kunci, Google Translate yang digunakan.</string>
     <string name="DefaultScheduleDelay">Penundaan bawaan</string>
     <string name="ExportArcDB">Ekspor Basis Data</string>
     <string name="ImportArcDB">Impor Basis Data</string>

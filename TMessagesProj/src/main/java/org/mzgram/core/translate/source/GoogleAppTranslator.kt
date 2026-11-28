@@ -45,16 +45,35 @@ object GoogleAppTranslator : Translator {
             this.entities = entities
         }
 
-        val finalString = StringBuilder()
-
         val textToTranslate = if (entities.isNotEmpty()) HTMLKeeper.entitiesToHtml(
             query,
             entities,
             false
         ) else query
 
+        val finalString = StringBuilder(translateText(textToTranslate, to))
+
+        var finalText = TLRPC.TL_textWithEntities()
+        if (entities.isNotEmpty()) {
+            val resultPair = HTMLKeeper.htmlToEntities(finalString.toString(), entities, false)
+            finalText.text = resultPair.first
+            finalText.entities = resultPair.second
+            finalText = TranslateAlert2.preprocess(originalText, finalText)
+        } else {
+            finalText.text = finalString.toString()
+        }
+
+        return finalText
+    }
+
+    /**
+     * Translates plain text or text with entities already turned into HTML, with the source
+     * language detected by Google. Also the fallback of the other Google translator and of DeepL
+     * without a key.
+     */
+    suspend fun translateText(text: String, to: String): String {
         val url = "https://translate.google.com" + "/translate_a/single?dj=1" +
-                "&q=" + TransUtils.encodeURIComponent(textToTranslate) +
+                "&q=" + TransUtils.encodeURIComponent(text) +
                 "&sl=auto" +
                 "&tl=" + to +
                 "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2"
@@ -79,26 +98,16 @@ object GoogleAppTranslator : Translator {
             error("An unexpected error occurred during Google Translate API call: ${e.message}")
         }
 
+        val result = StringBuilder()
         try {
             val array = JSONObject(responseBodyString).getJSONArray("sentences")
             for (index in 0 until array.length()) {
-                finalString.append(array.getJSONObject(index).getString("trans"))
+                result.append(array.getJSONObject(index).getString("trans"))
             }
         } catch (e: JSONException) {
             error("Google Translate API response parsing failed: ${e.message}")
         }
-
-        var finalText = TLRPC.TL_textWithEntities()
-        if (entities.isNotEmpty()) {
-            val resultPair = HTMLKeeper.htmlToEntities(finalString.toString(), entities, false)
-            finalText.text = resultPair.first
-            finalText.entities = resultPair.second
-            finalText = TranslateAlert2.preprocess(originalText, finalText)
-        } else {
-            finalText.text = finalString.toString()
-        }
-
-        return finalText
+        return result.toString()
     }
 
     private val targetLanguages = listOf(

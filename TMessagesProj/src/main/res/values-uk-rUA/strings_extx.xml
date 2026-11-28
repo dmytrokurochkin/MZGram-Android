@@ -83,7 +83,6 @@
     <string name="MessageSavingSaveMediaInPrivateGroups">… у приватних групах</string>
     <string name="TelegramUIAutoTranslate">Перекласти весь чат</string>
     <string name="Translated">перекладено</string>
-    <string name="ProviderRealMicrosoftTranslator">Microsoft</string>
     <string name="TranslatorSettings">Перекладач</string>
     <string name="SettingsOnly">Лише в налаштуваннях</string>
     <string name="ChatsOnly">Лише в чатах</string>
@@ -329,7 +328,7 @@
     <string name="TabletModeOff">Вимкнено</string>
     <string name="HideDialogsSearchField">Сховати поле пошуку</string>
     <string name="DeepLTranslateKey">DeepL API ключ</string>
-    <string name="DeepLTranslateKeyNotice">Налаштуйте ключ DeepL API, залиште поле порожнім, щоб використовувати вбудовані облікові дані.</string>
+    <string name="DeepLTranslateKeyNotice">Налаштуйте ключ DeepL API. Без ключа використовується Google Перекладач.</string>
     <string name="DefaultScheduleDelay">Затримка за замовчуванням</string>
     <string name="ExportArcDB">Експорт бази даних</string>
     <string name="ImportArcDB">Імпорт бази даних</string>

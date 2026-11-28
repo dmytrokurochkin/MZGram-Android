@@ -282,6 +282,10 @@ public class CoreConfig {
             if (translationProvider.Int() == 3) {
                 translationProvider.setConfigInt(1);
             }
+            // MZGram: the second Microsoft entry is gone, a saved choice moves to the Microsoft (Bing) translator
+            if (translationProvider.Int() == 6) {
+                translationProvider.setConfigInt(5);
+            }
             if (mapPreviewProvider.Int() == 1) {
                 mapPreviewProvider.setConfigInt(0);
             }

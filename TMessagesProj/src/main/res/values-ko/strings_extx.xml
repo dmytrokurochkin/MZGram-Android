@@ -83,7 +83,6 @@
     <string name="MessageSavingSaveMediaInPrivateGroups">… 비공개 그룹에서</string>
     <string name="TelegramUIAutoTranslate">전체 채팅 번역</string>
     <string name="Translated">번역됨</string>
-    <string name="ProviderRealMicrosoftTranslator">Microsoft 번역기</string>
     <string name="TranslatorSettings">번역기</string>
     <string name="SettingsOnly">설정에서만</string>
     <string name="ChatsOnly">채팅에서만</string>
@@ -327,6 +326,6 @@
     <string name="TabletModeOff">꺼짐</string>
     <string name="HideDialogsSearchField">검색 상자 숨기기</string>
     <string name="DeepLTranslateKey">DeepL API 키</string>
-    <string name="DeepLTranslateKeyNotice">DeepL API 키를 구성하세요. 비워 두면 내장 자격 증명을 사용합니다.</string>
+    <string name="DeepLTranslateKeyNotice">DeepL API 키를 구성하세요. 키가 없으면 Google 번역을 사용합니다.</string>
     <string name="DefaultScheduleDelay">기본 지연</string>
 </resources>

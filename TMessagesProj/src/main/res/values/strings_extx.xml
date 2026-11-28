@@ -97,7 +97,6 @@
     <string name="MessageSavingSaveMediaInPrivateGroups">… in Private Groups</string>
     <string name="TelegramUIAutoTranslate">Translate Entire Chats</string>
     <string name="Translated">translated</string>
-    <string name="ProviderRealMicrosoftTranslator">Microsoft Translator</string>
     <string name="TranslatorSettings">Translator</string>
     <string name="SettingsOnly">Just in settings</string>
     <string name="ChatsOnly">Just in chats</string>
@@ -353,7 +352,7 @@
     <string name="TabletModeOff">Off</string>
     <string name="HideDialogsSearchField">Hide Search Box</string>
     <string name="DeepLTranslateKey">DeepL API Key</string>
-    <string name="DeepLTranslateKeyNotice">Configure DeepL API Key, leave blank to use built-in credentials.</string>
+    <string name="DeepLTranslateKeyNotice">Configure DeepL API Key. Without a key, Google Translate is used.</string>
     <string name="DefaultScheduleDelay">Default delay</string>
     <string name="ExportArcDB">Export Database</string>
     <string name="ImportArcDB">Import Database</string>
